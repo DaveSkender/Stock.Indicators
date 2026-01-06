@@ -20,8 +20,8 @@ IReadOnlyList<AroonResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<AroonResult>
 
 ### `AroonResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `AroonUp` | double | Based on last High price |

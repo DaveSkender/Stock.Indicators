@@ -20,8 +20,8 @@ IReadOnlyList<RocWbResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20. |
 | `emaPeriods` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3. |
 | `stdDevPeriods` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`. |
@@ -40,7 +40,7 @@ IReadOnlyList<RocWbResult>
 
 ### `RocWbResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal) |

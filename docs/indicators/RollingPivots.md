@@ -20,8 +20,8 @@ IReadOnlyList<RollingPivotsResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `windowPeriods` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range. |
 | `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
@@ -59,7 +59,7 @@ IReadOnlyList<RollingPivotsResult>
 
 ### `RollingPivotsResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `R3` | decimal | Resistance level 3 |

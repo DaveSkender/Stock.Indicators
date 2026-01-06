@@ -20,8 +20,8 @@ IReadOnlyList<KvoResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `fastPeriods` | int | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34. |
 | `slowPeriods` | int | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55. |
 | `signalPeriods` | int | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13. |
@@ -49,7 +49,7 @@ The first `L+150` periods will have decreasing magnitude, convergence-related pr
 
 ### `KvoResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Oscillator` | double | Klinger Oscillator |

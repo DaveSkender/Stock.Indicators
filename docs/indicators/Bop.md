@@ -20,8 +20,8 @@ IReadOnlyList<BopResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `smoothPeriods` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<BopResult>
 
 ### `BopResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Bop` | double | Balance of Power |

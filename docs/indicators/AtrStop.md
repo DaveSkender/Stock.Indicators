@@ -20,8 +20,8 @@ IReadOnlyList<AtrStopResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1.  Default is 21. |
 | `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
 | `endType` | EndType | Determines whether `Close` or `High/Low` is used as basis for stop offset.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`. |
@@ -55,7 +55,7 @@ the line segment before the first reversal and the first `N+100` periods are unr
 
 ### `AtrStopResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `AtrStop` | double | ATR Trailing Stop line contains both Upper and Lower segments |

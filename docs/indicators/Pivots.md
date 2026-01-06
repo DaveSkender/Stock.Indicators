@@ -20,8 +20,8 @@ IReadOnlyList<PivotsResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `leftSpan` | int | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
 | `rightSpan` | int | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
 | `maxTrendPeriods` | int | Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20. |
@@ -56,7 +56,7 @@ IReadOnlyList<PivotsResult>
 
 ### `PivotsResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `HighPoint` | decimal | Value indicates a **high** point; otherwise `null` is returned. |

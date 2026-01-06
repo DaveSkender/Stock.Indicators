@@ -20,8 +20,8 @@ IReadOnlyList<SmaResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window. Must be greater than 0. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<SmaResult>
 
 ### `SmaResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Sma` | double | Simple moving average |
@@ -69,7 +69,7 @@ IReadOnlyList<SmaAnalysisResult> analysis =
 
 ### `SmaAnalysisResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Sma` | double | Simple moving average |

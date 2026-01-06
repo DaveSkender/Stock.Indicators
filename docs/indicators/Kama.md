@@ -20,8 +20,8 @@ IReadOnlyList<KamaResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `erPeriods` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10. |
 | `fastPeriods` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2. |
 | `slowPeriods` | int | Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30. |
@@ -49,7 +49,7 @@ The first `10×E` periods will have decreasing magnitude, convergence-related pr
 
 ### `KamaResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `ER` | double | Efficiency Ratio is the fractal efficiency of price changes |

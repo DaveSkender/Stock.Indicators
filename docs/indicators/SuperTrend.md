@@ -20,8 +20,8 @@ IReadOnlyList<SuperTrendResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10. |
 | `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
 
@@ -48,7 +48,7 @@ the line segment before the first reversal and the first `N+100` periods are unr
 
 ### `SuperTrendResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `SuperTrend` | decimal | SuperTrend line contains both Upper and Lower segments |

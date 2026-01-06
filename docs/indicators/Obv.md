@@ -37,7 +37,7 @@ IReadOnlyList<ObvResult>
 
 ### `ObvResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Obv` | double | On-balance Volume |

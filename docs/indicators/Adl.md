@@ -36,7 +36,7 @@ IReadOnlyList<AdlResult>
 
 ### `AdlResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `MoneyFlowMultiplier` | double | Money Flow Multiplier |

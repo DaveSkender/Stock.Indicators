@@ -24,8 +24,8 @@ StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical quotes requirements
@@ -47,7 +47,7 @@ IReadOnlyList<StdDevResult>
 
 ### `StdDevResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `StdDev` | double | Standard Deviation of price |

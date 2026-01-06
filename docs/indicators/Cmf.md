@@ -20,8 +20,8 @@ IReadOnlyList<CmfResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<CmfResult>
 
 ### `CmfResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `MoneyFlowMultiplier` | double | Money Flow Multiplier |

@@ -33,7 +33,7 @@ IReadOnlyList<HeikinAshiResult>
 
 ### `HeikinAshiResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Open` | decimal | Modified open price |

@@ -21,8 +21,8 @@ IReadOnlyList<SmiResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Lookback period (`N`) for the stochastic.  Must be greater than 0.  Default is 13. |
 | `firstSmoothPeriods` | int | First smoothing factor lookback.  Must be greater than 0.  Default is 25. |
 | `secondSmoothPeriods` | int | Second smoothing factor lookback.  Must be greater than 0.  Default is 2. |
@@ -51,7 +51,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `SmiResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Smi` | double | Stochastic Momentum Index (SMI) |

@@ -20,8 +20,8 @@ IReadOnlyList<AdxResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14. |
 
 ### Historical quotes requirements
@@ -47,7 +47,7 @@ The first `2×N+100` periods will have decreasing magnitude, convergence-related
 
 ### `AdxResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Pdi` | double | Plus Directional Index (+DI) |

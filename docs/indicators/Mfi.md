@@ -20,8 +20,8 @@ IReadOnlyList<MfiResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<MfiResult>
 
 ### `MfiResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Mfi` | double | Money Flow Index |

@@ -32,6 +32,7 @@
     // not otherwise ignored
     "**/*.json": true,
     "**/*.csv": true,
-    "docs/**/dist": true
+    "**/.vitepress/cache": true,
+    "**/.vitepress/dist": true,
   }
 }

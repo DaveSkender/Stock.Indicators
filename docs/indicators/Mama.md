@@ -20,8 +20,8 @@ IReadOnlyList<MamaResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5. |
 | `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05. |
 
@@ -48,7 +48,7 @@ The first `50` periods will have decreasing magnitude, convergence-related preci
 
 ### `MamaResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Mama` | double | MESA adaptive moving average (MAMA) |

@@ -20,8 +20,8 @@ IReadOnlyList<PrsResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `quotesBase` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`. |
 | `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`. |
 
@@ -44,7 +44,7 @@ IReadOnlyList<PrsResult>
 
 ### `PrsResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Prs` | double | Price Relative Strength compares `Eval` to `Base` histories |

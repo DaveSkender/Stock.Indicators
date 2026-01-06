@@ -16,8 +16,8 @@ IReadOnlyList<RenkoResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `brickSize` | decimal | Brick size.  Must be greater than 0. |
 | `endType` | EndType | See options below.  Default is `EndType.Close` |
 

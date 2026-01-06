@@ -20,8 +20,8 @@ IReadOnlyList<CorrResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `quotesB` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide#historical-quotes) (B) must have at least the same matching date elements of `quotesA`. |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
@@ -44,7 +44,7 @@ IReadOnlyList<CorrResult>
 
 ### `CorrResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `VarianceA` | double | Variance of A |

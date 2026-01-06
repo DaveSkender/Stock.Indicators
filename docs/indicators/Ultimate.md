@@ -20,8 +20,8 @@ IReadOnlyList<UltimateResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `shortPeriods` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7. |
 | `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
 | `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
@@ -45,7 +45,7 @@ IReadOnlyList<UltimateResult>
 
 ### `UltimateResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Ultimate` | double | Ultimate Oscillator |

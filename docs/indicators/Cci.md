@@ -20,8 +20,8 @@ IReadOnlyList<CciResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<CciResult>
 
 ### `CciResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Cci` | double | Commodity Channel Index |

@@ -20,8 +20,8 @@ IReadOnlyList<ChandelierResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
 | `multiplier` | double | Multiplier number must be a positive value.  Default is 3. |
 | `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`. |
@@ -51,7 +51,7 @@ IReadOnlyList<ChandelierResult>
 
 ### `ChandelierResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `ChandelierExit` | double | Exit line |

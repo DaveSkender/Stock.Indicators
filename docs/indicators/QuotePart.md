@@ -22,8 +22,8 @@ IReadOnlyList<QuotePart> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `candlePart` | CandlePart | The [OHLCV](/guide#historical-quotes) element or simple price transform. |
 
 ### Historical quotes requirements

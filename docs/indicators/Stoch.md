@@ -25,8 +25,8 @@ IReadOnlyList<StochResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14. |
 | `signalPeriods` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3. |
 | `smoothPeriods` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3. |
@@ -65,7 +65,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `StochResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 

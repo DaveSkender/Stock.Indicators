@@ -20,8 +20,8 @@ IReadOnlyList<PmoResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `timePeriods` | int | Number of periods (`T`) for first ROC smoothing.  Must be greater than 1.  Default is 35. |
 | `smoothPeriods` | int | Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20. |
 | `signalPeriods` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10. |
@@ -49,7 +49,7 @@ The first `T+S+250` periods will have decreasing magnitude, convergence-related 
 
 ### `PmoResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Pmo` | double | Price Momentum Oscillator |

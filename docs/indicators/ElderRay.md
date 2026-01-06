@@ -20,8 +20,8 @@ IReadOnlyList<ElderRayResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13. |
 
 ### Historical quotes requirements
@@ -47,7 +47,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `ElderRayResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Ema` | double | Exponential moving average |

@@ -20,8 +20,8 @@ IReadOnlyList<RocResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<RocResult>
 
 ### `RocResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Momentum` | double | Raw change in price over `N` periods |

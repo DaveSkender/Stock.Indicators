@@ -20,8 +20,8 @@ IReadOnlyList<SmmaResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical quotes requirements
@@ -47,7 +47,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `SmmaResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Smma` | double | Smoothed moving average |

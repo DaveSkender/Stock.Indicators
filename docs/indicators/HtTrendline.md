@@ -42,7 +42,7 @@ The first `100` periods will have decreasing magnitude, convergence-related prec
 
 ### `HtlResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `DcPeriods` | int | Dominant cycle periods (smoothed) |

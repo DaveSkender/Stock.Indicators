@@ -20,8 +20,8 @@ IReadOnlyList<ForceIndexResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
 
 ### Historical quotes requirements
@@ -47,7 +47,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `ForceIndexResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `ForceIndex` | double | Force Index |

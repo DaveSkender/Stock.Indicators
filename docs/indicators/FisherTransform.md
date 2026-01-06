@@ -20,8 +20,8 @@ IReadOnlyList<FisherTransformResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10. |
 
 ### Historical quotes requirements
@@ -46,7 +46,7 @@ The first `N+15` warmup periods will have unusable decreasing magnitude, converg
 
 ### `FisherTransformResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Fisher` | double | Fisher Transform |

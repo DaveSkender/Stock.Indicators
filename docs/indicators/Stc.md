@@ -20,8 +20,8 @@ IReadOnlyList<StcResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `cyclePeriods` | int | Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10. |
 | `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
@@ -49,7 +49,7 @@ The first `S+C+250` periods will have decreasing magnitude, convergence-related 
 
 ### `StcResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Stc` | double | Schaff Trend Cycle |

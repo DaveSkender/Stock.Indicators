@@ -28,8 +28,8 @@ IReadOnlyList<TrResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1. |
 
 ### Historical quotes requirements
@@ -55,7 +55,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `AtrResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Tr` | double | True Range for current period |

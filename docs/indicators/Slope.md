@@ -23,8 +23,8 @@ IReadOnlyList<SlopeResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
 
 ### Historical quotes requirements
@@ -49,7 +49,7 @@ IReadOnlyList<SlopeResult>
 
 ### `SlopeResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Slope` | double | Slope `m` of the best-fit line of price |

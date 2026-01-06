@@ -17,8 +17,8 @@ IReadOnlyList<PivotPointsResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `windowSize` | PeriodSize | Size of the lookback window |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
@@ -69,7 +69,7 @@ The second window may be inaccurate if the first window contains incomplete data
 
 ### `PivotPointsResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `R3` | decimal | Resistance level 3 |

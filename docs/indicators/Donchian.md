@@ -20,8 +20,8 @@ IReadOnlyList<DonchianResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20. |
 
 ### Historical quotes requirements
@@ -43,7 +43,7 @@ IReadOnlyList<DonchianResult>
 
 ### `DonchianResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `UpperBand` | decimal | Upper line is the highest High over `N` periods |

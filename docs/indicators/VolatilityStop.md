@@ -24,8 +24,8 @@ VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multi
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7. |
 | `multiplier` | double | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0. |
 
@@ -52,7 +52,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `VolatilityStopResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Sar` | double | Stop and Reverse value contains both Upper and Lower segments |

@@ -16,8 +16,8 @@ import {
 } from 'lightweight-charts'
 
 // Maximum number of bars to display (tail view)
-const MAX_BARS_WIDE = 120
-const MAX_BARS_MOBILE = 100
+const MAX_BARS_WIDE = 100
+const MAX_BARS_MOBILE = 80
 
 // Container width initialization polling settings
 const INIT_POLL_MAX_ATTEMPTS = 10

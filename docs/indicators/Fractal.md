@@ -20,8 +20,8 @@ IReadOnlyList<FractalResult> results =
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| param | type | description |
+| ----- | ---- | ----------- |
 | `windowSpan` | int | Evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
 | `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
 
@@ -54,7 +54,7 @@ IReadOnlyList<FractalResult>
 
 ### `FractalResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `FractalBear` | decimal | Value indicates a **high** point; otherwise `null` is returned. |

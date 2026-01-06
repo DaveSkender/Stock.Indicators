@@ -46,7 +46,7 @@ The first 150 periods will have decreasing magnitude, convergence-related precis
 
 ### `GatorResult`
 
-| Property | Type | Description |
+| property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Upper` | double | Absolute value of Alligator `Jaw-Teeth` |
