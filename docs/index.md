@@ -9,10 +9,13 @@ hero:
   tagline: Transform price quotes into trade indicators and market insights.
   actions:
     - theme: brand
-      text: Get started
+      text: get started
       link: /guide/
     - theme: alt
-      text: Indicators
+      text: features
+      link: /features/
+    - theme: alt
+      text: indicators
       link: /indicators/
 features:
   - title: Indicators and overlays
