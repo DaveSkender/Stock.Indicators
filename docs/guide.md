@@ -234,7 +234,7 @@ using Skender.Stock.Indicators;
 
 [..]
 
-public class MyCustomQuote : IQuote
+public record MyCustomQuote : IQuote
 {
     // required base properties
     public DateTime Timestamp { get; set; }
@@ -256,6 +256,10 @@ IReadOnlyList<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
 // example: get 20-period simple moving average
 IReadOnlyList<SmaResult> results = myQuotes.ToSma(20);
 ```
+
+::: important Custom quotes must have value based equality
+When implementin your custom indicator, it must be either `record` class or implement `IEquality` to be compatible with streaming hubs
+:::
 
 #### Using custom quote property names
 
