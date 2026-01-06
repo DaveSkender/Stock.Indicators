@@ -20,7 +20,7 @@ features:
     linkText: Learn more
   - title: Chaining
     details: Build sophisticated analysis by chaining indicators together, creating indicators of indicators
-    link: /guide#generating-indicator-of-indicators
+    link: /guide#chaining-indicator-of-indicators
     linkText: Learn more
   - title: Customization
     details: Create your own indicators that integrate seamlessly with the library    

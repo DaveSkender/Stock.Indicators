@@ -24,37 +24,33 @@ features:
   - title: Price trends
     icon:
       src: /assets/thumbs/price-trend.png
-    link: /indicators#price-trends
+    link: /indicators/Adx
     details: Trend identification
   - title: Stop and reverse
     icon:
       src: /assets/thumbs/stop-and-reverse.png
-    link: /indicators/Adx
+    link: /indicators/Chandelier
     details: Pivots and redirection
   - title: Volume based
     icon:
       src: /assets/thumbs/volume-based.png
-    link: /indicators/ConnorsRsi
+    link: /indicators/Cmf
     details: Volume weighted measures
   - title: Price characteristics
     icon:
       src: /assets/thumbs/price-characteristic.png
-    link: /indicators/Cmf
+    link: /indicators/Beta
     details: Traits and numerical analysis
   - title: Candlestick patterns
     icon:
       src: /assets/thumbs/candlestick-pattern.png
-    link: /indicators/Slope
+    link: /indicators/Marubozu
     details: Price shapes and forms
   - title: Price transforms
     icon:
       src: /assets/thumbs/price-transform.png
-    link: /indicators/Marubozu
+    link: /indicators/ZigZag
     details: Conversions of form
 ---
 
-## Categories
-
-The Stock Indicators for .NET library contains financial market technical analysis methods to view price patterns or to develop your own trading strategies in Microsoft .NET programming languages and developer platforms.
-
-Categories include price trends, price channels, oscillators, stop and reverse, candlestick patterns, volume and momentum, moving averages, price transforms, price characteristics, and many classic numerical methods.
+{{ $frontmatter.description }}

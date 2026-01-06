@@ -51,23 +51,34 @@ export default defineConfig({
     sidebar: {
       '/features': [
         {
-          text: 'Features',
-          items: [
-            { text: 'Overview', link: '/features/' },
-            { text: 'Batch (Series)', link: '/features/batch' },
-            { text: 'Buffer lists', link: '/features/buffer' },
-            { text: 'Stream hubs', link: '/features/stream' },
+          items:[
+            { text: 'Getting started', link: '/guide' },
+            {
+              text: 'Features',
+              items: [
+                { text: 'Overview', link: '/features/' },
+                { text: 'Batch (Series)', link: '/features/batch' },
+                { text: 'Buffer lists', link: '/features/buffer' },
+                { text: 'Stream hubs', link: '/features/stream' },
+                { text: 'Utilities', link: '/utilities' },
+              ]
+            },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
-          ]
+            { text: 'Examples', link: '/examples/' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
+           ]
         }
       ],
       '/guide': [
         {
           text: 'Documentation',
           items: [
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Getting Started', link: '/guide' },
+            { text: 'Getting started', link: '/guide' },
             { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
@@ -80,9 +91,9 @@ export default defineConfig({
         {
           text: 'Documentation',
           items: [
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Getting Started', link: '/guide' },
+            { text: 'Getting started', link: '/guide' },
             { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
@@ -95,9 +106,9 @@ export default defineConfig({
         {
           text: 'Documentation',
           items: [
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Getting Started', link: '/guide' },
+            { text: 'Getting started', link: '/guide' },
             { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
@@ -108,7 +119,7 @@ export default defineConfig({
         {
           text: 'Examples',
           items: [
-            { text: 'Getting Started', link: '/examples/' },
+            { text: 'Getting started', link: '/examples/' },
           ]
         }
       ],
@@ -116,9 +127,9 @@ export default defineConfig({
         {
           text: 'Documentation',
           items: [
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Getting Started', link: '/guide' },
+            { text: 'Getting started', link: '/guide' },
             { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
@@ -130,9 +141,9 @@ export default defineConfig({
         {
           text: 'Documentation',
           items: [
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Getting Started', link: '/guide' },
+            { text: 'Getting started', link: '/guide' },
             { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
@@ -144,9 +155,9 @@ export default defineConfig({
         {
           text: 'Documentation',
           items: [
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Getting Started', link: '/guide' },
+            { text: 'Getting started', link: '/guide' },
             { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
@@ -158,19 +169,13 @@ export default defineConfig({
         {
           text: 'Documentation',
           items: [
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Getting Started', link: '/guide' },
+            { text: 'Getting started', link: '/guide' },
             { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
-          ]
-        },
-        {
-          text: 'Indicators',
-          items: [
-            { text: 'Overview', link: '/indicators' },
           ]
         },
         {
