@@ -20,11 +20,11 @@ IReadOnlyList<KeltnerResult> results =
 
 ## Parameters
 
-**`emaPeriods`** _`int`_ - Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
-
-**`multiplier`** _`double`_ - ATR Multiplier. Must be greater than 0.  Default is 2.
-
-**`atrPeriods`** _`int`_ - Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `emaPeriods` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20. |
+| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
+| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10. |
 
 ### Historical quotes requirements
 
@@ -47,17 +47,15 @@ IReadOnlyList<KeltnerResult>
 The first `N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### KeltnerResult
+### `KeltnerResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`UpperBand`** _`double`_ - Upper band of Keltner Channel
-
-**`Centerline`** _`double`_ - EMA of price
-
-**`LowerBand`** _`double`_ - Lower band of Keltner Channel
-
-**`Width`** _`double`_ - Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `UpperBand` | double | Upper band of Keltner Channel |
+| `Centerline` | double | EMA of price |
+| `LowerBand` | double | Lower band of Keltner Channel |
+| `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 
@@ -70,7 +68,7 @@ See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more
 
 ## Chaining
 
-Results can be further processed on `Centerline` with other [chained indicators](/guide#generating-indicator-of-indicators).
+Results can be further processed on `Centerline` with other [chained indicators](/guide#chaining-indicator-of-indicators).
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
@@ -102,7 +100,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 KeltnerHub observer = quoteHub.ToKeltnerHub(emaPeriods, multiplier, atrPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

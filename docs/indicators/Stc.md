@@ -20,11 +20,11 @@ IReadOnlyList<StcResult> results =
 
 ## Parameters
 
-**`cyclePeriods`** _`int`_ - Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10.
-
-**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23.
-
-**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `cyclePeriods` | int | Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10. |
+| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
+| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
 
 ### Historical quotes requirements
 
@@ -47,11 +47,12 @@ IReadOnlyList<StcResult>
 The first `S+C+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### StcResult
+### `StcResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Stc`** _`double`_ - Schaff Trend Cycle
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Stc` | double | Schaff Trend Cycle |
 
 ### Utilities
 

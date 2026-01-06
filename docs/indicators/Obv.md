@@ -35,11 +35,12 @@ IReadOnlyList<ObvResult>
 - It does not return a single incremental indicator value.
 - The first period OBV will have a `0` value since there's not enough data to calculate.
 
-### ObvResult
+### `ObvResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Obv`** _`double`_ - On-balance Volume
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Obv` | double | On-balance Volume |
 
 ::: warning
 absolute values in OBV are somewhat meaningless. Use with caution.

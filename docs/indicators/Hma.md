@@ -20,7 +20,9 @@ IReadOnlyList<HmaResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 1.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<HmaResult>
 - It does not return a single incremental indicator value.
 - The first `N+(integer of SQRT(N))-1` periods will have `null` values since there's not enough data to calculate.
 
-### HmaResult
+### `HmaResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Hma`** _`double`_ - Hull moving average
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Hma` | double | Hull moving average |
 
 ### Utilities
 

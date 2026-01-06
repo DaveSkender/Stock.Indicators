@@ -37,17 +37,14 @@ IReadOnlyList<IchimokuResult> results = observer.Results;
 
 ## Parameters
 
-**`tenkanPeriods`** _`int`_ - Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9.
-
-**`kijunPeriods`** _`int`_ - Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26.
-
-**`senkouBPeriods`** _`int`_ - Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52.
-
-**`offsetPeriods`** _`int`_ - Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`.
-
-**`senkouOffset`** _`int`_ - Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`.
-
-**`chikouOffset`** _`int`_ - Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `tenkanPeriods` | int | Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9. |
+| `kijunPeriods` | int | Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26. |
+| `senkouBPeriods` | int | Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52. |
+| `offsetPeriods` | int | Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`. |
+| `senkouOffset` | int | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`. |
+| `chikouOffset` | int | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`. |
 
 See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
 
@@ -68,19 +65,16 @@ IReadOnlyList<IchimokuResult>
 - It does not return a single incremental indicator value.
 - The first `T-1`, `K-1`, and `S-1` periods will have various `null` values since there's not enough data to calculate.  Custom offset periods may also increase `null` results for warmup periods.
 
-### IchimokuResult
+### `IchimokuResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`TenkanSen`** _`decimal`_ - Conversion / signal line
-
-**`KijunSen`** _`decimal`_ - Base line
-
-**`SenkouSpanA`** _`decimal`_ - Leading span A
-
-**`SenkouSpanB`** _`decimal`_ - Leading span B
-
-**`ChikouSpan`** _`decimal`_ - Lagging span
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `TenkanSen` | decimal | Conversion / signal line |
+| `KijunSen` | decimal | Base line |
+| `SenkouSpanA` | decimal | Leading span A |
+| `SenkouSpanB` | decimal | Leading span B |
+| `ChikouSpan` | decimal | Lagging span |
 
 ### Utilities
 
@@ -124,8 +118,8 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 ```csharp
 QuoteHub quoteHub = new();
 IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
 foreach (IQuote quote in quotes)  // simulating stream
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
 {
   quoteHub.Add(quote);
 }

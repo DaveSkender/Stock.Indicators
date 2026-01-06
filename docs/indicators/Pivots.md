@@ -20,13 +20,12 @@ IReadOnlyList<PivotsResult> results =
 
 ## Parameters
 
-**`leftSpan`** _`int`_ - Left evaluation window span width (`L`).  Must be at least 2.  Default is 2.
-
-**`rightSpan`** _`int`_ - Right evaluation window span width (`R`).  Must be at least 2.  Default is 2.
-
-**`maxTrendPeriods`** _`int`_ - Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20.
-
-**`endType`** _`EndType`_ - Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `leftSpan` | int | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
+| `rightSpan` | int | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
+| `maxTrendPeriods` | int | Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20. |
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `L+R+1`.
 
@@ -53,23 +52,21 @@ IReadOnlyList<PivotsResult>
 - It does not return a single incremental indicator value.
 - The first `L` and last `R` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
-> &#128073; **Repaint warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Fractals are retroactively identified.
+::: warning 🖌️ Repaint warning
+This price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Pivots are retroactively identified.
+:::
 
-### PivotsResult
+### `PivotsResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`HighPoint`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
-
-**`LowPoint`** _`decimal`_ - Value indicates a **low** point; otherwise `null` is returned.
-
-**`HighLine`** _`decimal`_ - Drawn line between two high points in the `maxTrendPeriods`
-
-**`LowLine`** _`decimal`_ - Drawn line between two low points in the `maxTrendPeriods`
-
-**`HighTrend`** _`PivotTrend`_ - Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below.
-
-**`LowTrend`** _`PivotTrend`_ - Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below.
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `HighPoint` | decimal | Value indicates a **high** point; otherwise `null` is returned. |
+| `LowPoint` | decimal | Value indicates a **low** point; otherwise `null` is returned. |
+| `HighLine` | decimal | Drawn line between two high points in the `maxTrendPeriods` |
+| `LowLine` | decimal | Drawn line between two low points in the `maxTrendPeriods` |
+| `HighTrend` | PivotTrend | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below. |
+| `LowTrend` | PivotTrend | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below. |
 
 #### PivotTrend values
 

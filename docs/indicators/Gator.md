@@ -44,17 +44,15 @@ IReadOnlyList<GatorResult>
 The first 150 periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### GatorResult
+### `GatorResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Upper`** _`double`_ - Absolute value of Alligator `Jaw-Teeth`
-
-**`Lower`** _`double`_ - Absolute value of Alligator `Lips-Teeth`
-
-**`UpperIsExpanding`** _`bool`_ - Upper value is growing
-
-**`LowerIsExpanding`** _`bool`_ - Lower value is growing
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Upper` | double | Absolute value of Alligator `Jaw-Teeth` |
+| `Lower` | double | Absolute value of Alligator `Lips-Teeth` |
+| `UpperIsExpanding` | bool | Upper value is growing |
+| `LowerIsExpanding` | bool | Lower value is growing |
 
 ### Utilities
 

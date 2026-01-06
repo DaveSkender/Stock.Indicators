@@ -24,7 +24,9 @@ IReadOnlyList<VwapResult> results =
 
 ## Parameters
 
-**`startDate`** _`DateTime`_ - Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `quotes` is used when not provided.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `quotes` is used when not provided. |
 
 ### Historical quotes requirements
 
@@ -44,11 +46,12 @@ IReadOnlyList<VwapResult>
 - The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.
 - `Vwap` values before `startDate`, if specified, will be `null`.
 
-### VwapResult
+### `VwapResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Vwap`** _`double`_ - Volume Weighted Average Price
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Vwap` | double | Volume Weighted Average Price |
 
 ### Utilities
 

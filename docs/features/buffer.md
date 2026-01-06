@@ -3,7 +3,7 @@ title: Buffer list style
 description: Learn how to use Buffer list style indicators for efficient incremental quote-by-quote processing
 ---
 
-# {{ $frontmatter.title }}
+# Buffer style indicators for incremental processing
 
 Buffer list style provides efficient incremental processing for growing datasets. Use this when quotes arrive sequentially and you need to add them one at a time without the overhead of a full hub infrastructure.
 

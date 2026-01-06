@@ -20,11 +20,11 @@ IReadOnlyList<ChandelierResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the lookback evaluation.  Default is 22.
-
-**`multiplier`** _`double`_ - Multiplier number must be a positive value.  Default is 3.
-
-**`type`** _`ChandelierType`_ - Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
+| `multiplier` | double | Multiplier number must be a positive value.  Default is 3. |
+| `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`. |
 
 ### Historical quotes requirements
 
@@ -49,11 +49,12 @@ IReadOnlyList<ChandelierResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` Chandelier values since there's not enough data to calculate.
 
-### ChandelierResult
+### `ChandelierResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`ChandelierExit`** _`double`_ - Exit line
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `ChandelierExit` | double | Exit line |
 
 ### Utilities
 

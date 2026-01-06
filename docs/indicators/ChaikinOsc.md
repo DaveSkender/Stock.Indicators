@@ -20,9 +20,10 @@ IReadOnlyList<ChaikinOscResult> results =
 
 ## Parameters
 
-**`fastPeriods`** _`int`_ - Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3.
-
-**`slowPeriods`** _`int`_ - Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `fastPeriods` | int | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3. |
+| `slowPeriods` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater than `F`.  Default is 10. |
 
 ### Historical quotes requirements
 
@@ -45,17 +46,15 @@ IReadOnlyList<ChaikinOscResult>
 The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### ChaikinOscResult
+### `ChaikinOscResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
-
-**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
-
-**`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
-
-**`Oscillator`** _`double`_ - Chaikin Oscillator
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `MoneyFlowMultiplier` | double | Money Flow Multiplier |
+| `MoneyFlowVolume` | double | Money Flow Volume |
+| `Adl` | double | Accumulation Distribution Line (ADL) |
+| `Oscillator` | double | Chaikin Oscillator |
 
 ::: warning
 absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.

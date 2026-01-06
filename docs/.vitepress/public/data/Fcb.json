@@ -4027,6 +4027,7 @@
     {
       "name": "Upper",
       "type": "line",
+      "color": "#2E7D32",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6036,12 +6037,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 262.47
         }
-      ],
-      "color": "#2E7D32"
+      ]
     },
     {
       "name": "Lower",
       "type": "line",
+      "color": "#DD2C00",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8051,8 +8052,7 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 229.42
         }
-      ],
-      "color": "#DD2C00"
+      ]
     }
   ]
 }

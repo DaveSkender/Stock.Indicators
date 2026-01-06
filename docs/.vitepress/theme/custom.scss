@@ -156,6 +156,7 @@ html:not(.dark) {
 
 /* Custom styles for better readability */
 .vp-doc {
+
   h1,
   h2,
   h3 {
@@ -182,6 +183,7 @@ html:not(.dark) {
 
 /* Light theme specific overrides */
 html:not(.dark) .vp-doc {
+
   code,
   pre code {
     color: var(--vp-c-text-1);
@@ -236,8 +238,17 @@ html:not(.dark) .vp-doc {
     font-size: 1.2em !important;
     line-height: 1.1 !important;
   }
+}
 
+.VPFeatures {
 
+  .VPImage {
+    aspect-ratio: 16/9;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 5px;
+  }
 }
 
 /* Navbar site title - grid layout with icon left, text stacked right */
@@ -254,7 +265,7 @@ html:not(.dark) .vp-doc {
     align-self: center;
   }
 
-  > span:first-of-type {
+  >span:first-of-type {
     grid-row: 1;
     grid-column: 2;
     align-self: end;
@@ -281,7 +292,7 @@ html:not(.dark) .vp-doc {
 .home-charts-stack {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 1rem;
   margin: 0 auto;
   padding: 8px 0;
   max-width: 1024px;

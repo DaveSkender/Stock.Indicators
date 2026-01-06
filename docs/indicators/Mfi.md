@@ -20,7 +20,9 @@ IReadOnlyList<MfiResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<MfiResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` MFI values since they cannot be calculated.
 
-### MfiResult
+### `MfiResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Mfi`** _`double`_ - Money Flow Index
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Mfi` | double | Money Flow Index |
 
 ### Utilities
 

@@ -20,7 +20,9 @@ IReadOnlyList<ElderRayResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13. |
 
 ### Historical quotes requirements
 
@@ -43,15 +45,14 @@ IReadOnlyList<ElderRayResult>
 The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### ElderRayResult
+### `ElderRayResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Ema`** _`double`_ - Exponential moving average
-
-**`BullPower`** _`double`_ - Bull Power
-
-**`BearPower`** _`double`_ - Bear Power
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Ema` | double | Exponential moving average |
+| `BullPower` | double | Bull Power |
+| `BearPower` | double | Bear Power |
 
 ### Utilities
 
@@ -97,7 +98,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 ElderRayHub observer = quoteHub.ToElderRayHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

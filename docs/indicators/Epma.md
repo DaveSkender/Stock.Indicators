@@ -20,7 +20,9 @@ IReadOnlyList<EpmaResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<EpmaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### EpmaResult
+### `EpmaResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Epma`** _`double`_ - Endpoint moving average
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Epma` | double | Endpoint moving average |
 
 ### Utilities
 

@@ -3,7 +3,7 @@ title: Stream hub style
 description: Learn how to use Stream hub style for real-time indicator processing with observable patterns and coordinated updates
 ---
 
-# {{ $frontmatter.title }}
+# Hub style indicators for advanced streaming
 
 Stream hub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a central `QuoteHub` for coordinated updates, making it ideal for live data feeds and complex event-driven architectures.
 

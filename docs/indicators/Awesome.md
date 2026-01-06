@@ -20,9 +20,10 @@ IReadOnlyList<AwesomeResult> results =
 
 ## Parameters
 
-**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
-
-**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5. |
+| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34. |
 
 ### Historical quotes requirements
 
@@ -41,13 +42,13 @@ IReadOnlyList<AwesomeResult>
 - It does not return a single incremental indicator value.
 - The first period `S-1` periods will have `null` values since there's not enough data to calculate.
 
-### AwesomeResult
+### `AwesomeResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Oscillator`** _`double`_ - Awesome Oscillator
-
-**`Normalized`** _`double`_ - `100 × Oscillator ÷ (median price)`
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Oscillator` | double | Awesome Oscillator |
+| `Normalized` | double | `100 × Oscillator ÷ (median price)` |
 
 ### Utilities
 

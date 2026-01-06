@@ -20,7 +20,9 @@ IReadOnlyList<WmaResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<WmaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### WmaResult
+### `WmaResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Wma`** _`double`_ - Weighted moving average
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Wma` | double | Weighted moving average |
 
 ### Utilities
 

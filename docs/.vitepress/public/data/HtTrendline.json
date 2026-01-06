@@ -4027,6 +4027,7 @@
     {
       "name": "Trendline",
       "type": "line",
+      "color": "#1E88E5",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6036,12 +6037,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 252.21717916666663
         }
-      ],
-      "color": "#1E88E5"
+      ]
     },
     {
       "name": "SmoothPrice",
       "type": "line",
+      "color": "#EF6C00",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8051,8 +8052,7 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 242.3435
         }
-      ],
-      "color": "#EF6C00"
+      ]
     }
   ]
 }

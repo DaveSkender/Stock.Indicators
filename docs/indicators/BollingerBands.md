@@ -1,11 +1,11 @@
 ---
-title: Bollinger Bands&#174;
+title: Bollinger Bands®
 description: Created by John Bollinger, the Bollinger Bands price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
 ---
 
-# Bollinger Bands&#174;
+# Bollinger Bands®
 
-Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
+Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands® is a registered trademark of John A. Bollinger.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
 <ClientOnly>
@@ -20,9 +20,10 @@ IReadOnlyList<BollingerBandsResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
-
-**`standardDeviations`** _`double`_ - Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20. |
+| `standardDeviations` | double | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2. |
 
 ### Historical quotes requirements
 
@@ -41,21 +42,17 @@ IReadOnlyList<BollingerBandsResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### BollingerBandsResult
+### `BollingerBandsResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Sma`** _`double`_ - Simple moving average (SMA) of price (center line)
-
-**`UpperBand`** _`double`_ - Upper line is `D` standard deviations above the SMA
-
-**`LowerBand`** _`double`_ - Lower line is `D` standard deviations below the SMA
-
-**`PercentB`** _`double`_ - `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)`
-
-**`ZScore`** _`double`_ - Z-Score of current price (number of standard deviations from mean)
-
-**`Width`** _`double`_ - Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Sma` | double | Simple moving average (SMA) of price (center line) |
+| `UpperBand` | double | Upper line is `D` standard deviations above the SMA |
+| `LowerBand` | double | Lower line is `D` standard deviations below the SMA |
+| `PercentB` | double | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)` |
+| `ZScore` | double | Z-Score of current price (number of standard deviations from mean) |
+| `Width` | double | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma` |
 
 ### Utilities
 

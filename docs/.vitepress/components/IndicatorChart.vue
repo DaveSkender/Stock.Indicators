@@ -16,8 +16,8 @@ import {
 } from 'lightweight-charts'
 
 // Maximum number of bars to display (tail view)
-const MAX_BARS_WIDE = 120
-const MAX_BARS_MOBILE = 100
+const MAX_BARS_WIDE = 100
+const MAX_BARS_MOBILE = 80
 
 // Container width initialization polling settings
 const INIT_POLL_MAX_ATTEMPTS = 10
@@ -30,7 +30,7 @@ interface ThresholdLine {
   value: number
   color: string
   style?: 'solid' | 'dash'
-  fill?: 'above' | 'below'  // Fill area above or below the threshold
+  fill?: 'above' | 'below'
   fillColor?: string
 }
 
@@ -380,7 +380,7 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         break
       case 'histogram':
         series = chart.addSeries(HistogramSeries, {
-          color: ChartColors.DarkGray,
+          color: color,
           priceLineVisible: false,
           lastValueVisible: false
         })
@@ -526,6 +526,7 @@ async function initChart() {
 
     // Add threshold zone fills using baseline series with indicator data
     // This creates colored fills when indicator exceeds threshold values
+    // Supports bidirectional fills (fillAbove/fillBelow) for richer visualizations
     if (data.series.length > 0) {
       const indicatorData = data.series[0].data
         .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
@@ -539,8 +540,6 @@ async function initChart() {
         if (threshold.fill && threshold.fillColor) {
           const baselineSeries = oscillatorChart.addSeries(BaselineSeries, {
             baseValue: { type: 'price', price: threshold.value },
-            // For 'above' fill: show fill above threshold (top fill), hide below
-            // For 'below' fill: show fill below threshold (bottom fill), hide above
             topLineColor: 'transparent',
             topFillColor1: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
             topFillColor2: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
@@ -680,7 +679,7 @@ watch(isMobileViewport, () => {
 // See: docs/.vitepress/public/assets/css/style.scss
 $large-breakpoint: 1024px;
 $medium-breakpoint: 768px;
-$small-breakpoint: 480px;   // Mobile breakpoint
+$small-breakpoint: 480px; // Mobile breakpoint
 $landscape-height-sm: 400px;
 $landscape-height-md: 600px;
 
@@ -691,6 +690,7 @@ $landscape-height-md: 600px;
     display: flex;
     flex-direction: column;
     gap: 0;
+    text-align: center;
   }
 
   .chart-container {
@@ -724,11 +724,11 @@ $landscape-height-md: 600px;
   }
 
   .oscillator-chart {
-    aspect-ratio: 10;
+    aspect-ratio: 7;
 
     /* Medium breakpoint (768px-1024px) */
     @media (max-width: $large-breakpoint) {
-      aspect-ratio: 8;
+      aspect-ratio: 7;
     }
 
     /* Landscape optimizations */
@@ -790,6 +790,7 @@ $landscape-height-md: 600px;
 
 /* Chart library overrides (unset VitePress table styles) */
 :deep(.tv-lightweight-charts) {
+
   table,
   tr,
   td,

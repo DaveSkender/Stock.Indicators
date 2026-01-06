@@ -20,15 +20,15 @@ IReadOnlyList<PmoResult> results =
 
 ## Parameters
 
-**`timePeriods`** _`int`_ - Number of periods (`T`) for first ROC smoothing.  Must be greater than 1.  Default is 35.
-
-**`smoothPeriods`** _`int`_ - Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20.
-
-**`signalPeriods`** _`int`_ - Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `timePeriods` | int | Number of periods (`T`) for first ROC smoothing.  Must be greater than 1.  Default is 35. |
+| `smoothPeriods` | int | Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20. |
+| `signalPeriods` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10. |
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S`,`2×T`, or `T+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S`, `2×T`, or `T+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
@@ -47,13 +47,13 @@ IReadOnlyList<PmoResult>
 The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### PmoResult
+### `PmoResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Pmo`** _`double`_ - Price Momentum Oscillator
-
-**`Signal`** _`double`_ - Signal line is EMA of PMO
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Pmo` | double | Price Momentum Oscillator |
+| `Signal` | double | Signal line is EMA of PMO |
 
 ### Utilities
 

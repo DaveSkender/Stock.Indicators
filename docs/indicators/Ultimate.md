@@ -1,11 +1,11 @@
 ---
 title: Ultimate Oscillator
-description: Created by Larry Williams, the Ultimate Oscillator uses several moving averages to weigh buying power against true range price to produce on oversold / overbought oscillator.
+description: Created by Larry Williams, the Ultimate Oscillator uses several moving averages to weigh buying power against true range price to produce an oversold / overbought oscillator.
 ---
 
 # Ultimate Oscillator
 
-Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several moving averages to weigh buying power against true range price to produce on oversold / overbought oscillator.
+Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several moving averages to weigh buying power against true range price to produce an oversold / overbought oscillator.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/231 "Community discussion about this indicator")
 
 <ClientOnly>
@@ -20,11 +20,11 @@ IReadOnlyList<UltimateResult> results =
 
 ## Parameters
 
-**`shortPeriods`** _`int`_ - Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
-
-**`middlePeriods`** _`int`_ - Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
-
-**`longPeriods`** _`int`_ - Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `shortPeriods` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7. |
+| `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
+| `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
 
 ### Historical quotes requirements
 
@@ -43,11 +43,12 @@ IReadOnlyList<UltimateResult>
 - It does not return a single incremental indicator value.
 - The first `L-1` periods will have `null` Ultimate values since there's not enough data to calculate.
 
-### UltimateResult
+### `UltimateResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Ultimate`** _`double`_ - Ultimate Oscillator
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Ultimate` | double | Ultimate Oscillator |
 
 ### Utilities
 

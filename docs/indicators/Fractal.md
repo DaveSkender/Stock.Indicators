@@ -20,9 +20,10 @@ IReadOnlyList<FractalResult> results =
 
 ## Parameters
 
-**`windowSpan`** _`int`_ - Evaluation window span width (`S`).  Must be at least 2.  Default is 2.
-
-**`endType`** _`EndType`_ - Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `windowSpan` | int | Evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
@@ -49,15 +50,17 @@ IReadOnlyList<FractalResult>
 - It does not return a single incremental indicator value.
 - The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
-> &#128073; **Repaint warning**: this price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
+::: warning 🖌️ Repaint warning
+This price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
+:::
 
-### FractalResult
+### `FractalResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`FractalBear`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
-
-**`FractalBull`** _`decimal`_ - Value indicates a **low** point; otherwise `null` is returned.
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `FractalBear` | decimal | Value indicates a **high** point; otherwise `null` is returned. |
+| `FractalBull` | decimal | Value indicates a **low** point; otherwise `null` is returned. |
 
 ### Utilities
 

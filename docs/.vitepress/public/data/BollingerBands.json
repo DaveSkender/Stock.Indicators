@@ -4027,6 +4027,8 @@
     {
       "name": "Upper",
       "type": "line",
+      "color": "#616161CC",
+      "lineWidth": 1,
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6036,13 +6038,14 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 273.7004230728253
         }
-      ],
-      "color": "#616161CC",
-      "lineWidth": 1
+      ]
     },
     {
       "name": "Middle",
       "type": "line",
+      "color": "#616161CC",
+      "lineWidth": 1,
+      "lineStyle": "dash",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8052,14 +8055,13 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 251.85999999999996
         }
-      ],
-      "color": "#616161CC",
-      "lineWidth": 1,
-      "lineStyle": "dash"
+      ]
     },
     {
       "name": "Lower",
       "type": "line",
+      "color": "#616161CC",
+      "lineWidth": 1,
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -10069,9 +10071,7 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 230.01957692717465
         }
-      ],
-      "color": "#616161CC",
-      "lineWidth": 1
+      ]
     }
   ]
 }

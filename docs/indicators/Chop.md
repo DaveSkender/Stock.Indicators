@@ -19,7 +19,9 @@ IReadOnlyList<ChopResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -38,11 +40,12 @@ IReadOnlyList<ChopResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values since there's not enough data to calculate.
 
-### ChopResult
+### `ChopResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Chop`** _`double`_ - Choppiness Index
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Chop` | double | Choppiness Index |
 
 ### Utilities
 

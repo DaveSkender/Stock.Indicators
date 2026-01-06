@@ -20,7 +20,9 @@ IReadOnlyList<AroonResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25. |
 
 ### Historical quotes requirements
 
@@ -39,15 +41,14 @@ IReadOnlyList<AroonResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Aroon` since there's not enough data to calculate.
 
-### AroonResult
+### `AroonResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`AroonUp`** _`double`_ - Based on last High price
-
-**`AroonDown`** _`double`_ - Based on last Low price
-
-**`Oscillator`** _`double`_ - AroonUp - AroonDown
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `AroonUp` | double | Based on last High price |
+| `AroonDown` | double | Based on last Low price |
+| `Oscillator` | double | AroonUp - AroonDown |
 
 ### Utilities
 

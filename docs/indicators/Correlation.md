@@ -20,15 +20,16 @@ IReadOnlyList<CorrResult> results =
 
 ## Parameters
 
-**`quotesB`** _`IReadOnlyList<TQuote>`_ - [Historical quotes](/guide#historical-quotes) (B) must have at least the same matching date elements of `quotesA`.
-
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `quotesB` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide#historical-quotes) (B) must have at least the same matching date elements of `quotesA`. |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical quotes requirements
 
 You must have at least `N` periods for both versions of `quotes` to cover the warmup periods.  Mismatch histories will produce a `InvalidQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesA` is an `IReadOnlyList<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotesA` is an `IReadOnlyList\<TQuote\>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ## Response
 
@@ -41,19 +42,16 @@ IReadOnlyList<CorrResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### CorrResult
+### `CorrResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`VarianceA`** _`double`_ - Variance of A
-
-**`VarianceB`** _`double`_ - Variance of B
-
-**`Covariance`** _`double`_ - Covariance of A+B
-
-**`Correlation`** _`double`_ - Correlation `R`
-
-**`RSquared`** _`double`_ - R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation).
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `VarianceA` | double | Variance of A |
+| `VarianceB` | double | Variance of B |
+| `Covariance` | double | Covariance of A+B |
+| `Correlation` | double | Correlation `R` |
+| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation). |
 
 ### Utilities
 

@@ -20,7 +20,9 @@ IReadOnlyList<AdxResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -43,19 +45,16 @@ IReadOnlyList<AdxResult>
 The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### AdxResult
+### `AdxResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Pdi`** _`double`_ - Plus Directional Index (+DI)
-
-**`Mdi`** _`double`_ - Minus Directional Index (-DI)
-
-**`Dx`** _`double`_ - Directional Index (DX)
-
-**`Adx`** _`double`_ - Average Directional Index (ADX)
-
-**`Adxr`** _`double`_ - Average Directional Index Rating (ADXR)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Pdi` | double | Plus Directional Index (+DI) |
+| `Mdi` | double | Minus Directional Index (-DI) |
+| `Dx` | double | Directional Index (DX) |
+| `Adx` | double | Average Directional Index (ADX) |
+| `Adxr` | double | Average Directional Index Rating (ADXR) |
 
 ### Utilities
 

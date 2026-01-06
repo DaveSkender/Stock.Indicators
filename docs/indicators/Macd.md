@@ -20,11 +20,11 @@ IReadOnlyList<MacdResult> results =
 
 ## Parameters
 
-**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
-
-**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
-
-**`signalPeriods`** _`int`_ - Number of periods (`P`) for the moving average of MACD.  Must be greater than or equal to 0.  Default is 9.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `fastPeriods` | int | Number of periods (`F`) for the faster moving average. Must be greater than 0. Default is 12. |
+| `slowPeriods` | int | Number of periods (`S`) for the slower moving average. Must be greater than `fastPeriods`. Default is 26. |
+| `signalPeriods` | int | Number of periods (`P`) for the moving average of MACD. Must be greater than or equal to 0. Default is 9. |
 
 ### Historical quotes requirements
 
@@ -47,19 +47,16 @@ IReadOnlyList<MacdResult>
 The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### MacdResult
+### `MacdResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Macd`** _`double`_ - The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
-
-**`Signal`** _`double`_ - Moving average of the `MACD` line
-
-**`Histogram`** _`double`_ - Gap between of the `MACD` and `Signal` line
-
-**`FastEma`** _`double`_ - Fast Exponential Moving Average
-
-**`SlowEma`** _`double`_ - Slow Exponential Moving Average
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Macd` | double | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`) |
+| `Signal` | double | Moving average of the `MACD` line |
+| `Histogram` | double | Gap between the `MACD` and `Signal` line |
+| `FastEma` | double | Fast Exponential Moving Average |
+| `SlowEma` | double | Slow Exponential Moving Average |
 
 ### Utilities
 

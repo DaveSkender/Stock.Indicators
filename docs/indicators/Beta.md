@@ -20,11 +20,11 @@ IReadOnlyList<BetaResult> results = quotesEval
 
 ## Parameters
 
-**`quotesMarket`** _`IReadOnlyList<TQuote>`_ - [Historical quotes](/guide#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
-
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
-
-**`type`** _`BetaType`_ -  Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `quotesMarket` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline. |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
+| `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below. |
 
 ### Historical quotes requirements
 
@@ -57,23 +57,18 @@ IReadOnlyList<BetaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### BetaResult
+### `BetaResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Beta`** _`double`_ - Beta coefficient based
-
-**`BetaUp`** _`double`_ - Beta+ (Up Beta)
-
-**`BetaDown`** _`double`_ - Beta- (Down Beta)
-
-**`Ratio`** _`double`_ - Beta ratio is `BetaUp/BetaDown`
-
-**`Convexity`** _`double`_ - Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
-
-**`ReturnsEval`** _`double`_ - Returns of evaluated quotes (`R`)
-
-**`ReturnsMrkt`** _`double`_ - Returns of market quotes (`Rm`)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Beta` | double | Beta coefficient based |
+| `BetaUp` | double | Beta+ (Up Beta) |
+| `BetaDown` | double | Beta- (Down Beta) |
+| `Ratio` | double | Beta ratio is `BetaUp/BetaDown` |
+| `Convexity` | double | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code> |
+| `ReturnsEval` | double | Returns of evaluated quotes (`R`) |
+| `ReturnsMrkt` | double | Returns of market quotes (`Rm`) |
 
 ### Utilities
 

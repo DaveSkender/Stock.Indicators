@@ -20,7 +20,9 @@ IReadOnlyList<SmaResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window. Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<SmaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### SmaResult
+### `SmaResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Sma`** _`double`_ - Simple moving average
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Sma` | double | Simple moving average |
 
 ### Utilities
 
@@ -64,17 +67,15 @@ IReadOnlyList<SmaAnalysisResult> analysis =
   quotes.ToSmaAnalysis(lookbackPeriods);
 ```
 
-### SmaAnalysisResult
+### `SmaAnalysisResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Sma`** _`double`_ - Simple moving average
-
-**`Mad`** _`double`_ - Mean absolute deviation
-
-**`Mse`** _`double`_ - Mean square error
-
-**`Mape`** _`double`_ - Mean absolute percentage error
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Sma` | double | Simple moving average |
+| `Mad` | double | Mean absolute deviation |
+| `Mse` | double | Mean square error |
+| `Mape` | double | Mean absolute percentage error |
 
 ## Chaining
 

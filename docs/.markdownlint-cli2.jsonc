@@ -29,10 +29,12 @@
         "ul",
         "li",
         "nav",
+        "script",
         "Badge",
         "ClientOnly",
         "IndicatorChart",
         "Contributors",
+        "TQuote",
         "clientonly",
         "indicatorchart",
         "contributors"

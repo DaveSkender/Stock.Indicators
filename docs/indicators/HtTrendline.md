@@ -40,15 +40,14 @@ IReadOnlyList<HtlResult>
 The first `100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### HtlResult
+### `HtlResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`DcPeriods`** _`int`_ - Dominant cycle periods (smoothed)
-
-**`Trendline`** _`double`_ - HT Trendline
-
-**`SmoothPrice`** _`double`_ - Weighted moving average of `(H+L)/2` price
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `DcPeriods` | int | Dominant cycle periods (smoothed) |
+| `Trendline` | double | HT Trendline |
+| `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price |
 
 ### Utilities
 
@@ -69,7 +68,7 @@ Use the streaming hub for real-time incremental calculations:
 QuoteHub quoteHub = new();
 HtTrendlineHub observer = quoteHub.ToHtTrendlineHub();
 
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

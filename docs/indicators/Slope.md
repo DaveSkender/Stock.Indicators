@@ -23,7 +23,9 @@ IReadOnlyList<SlopeResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the linear regression.  Must be greater than 1.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
 
 ### Historical quotes requirements
 
@@ -45,19 +47,16 @@ IReadOnlyList<SlopeResult>
 
 > &#128073; **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
 
-### SlopeResult
+### `SlopeResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Slope`** _`double`_ - Slope `m` of the best-fit line of price
-
-**`Intercept`** _`double`_ - Y-Intercept `b` of the best-fit line
-
-**`StdDev`** _`double`_ - Standard Deviation of price over `N` lookback periods
-
-**`RSquared`** _`double`_ - R-Squared (R&sup2;), aka Coefficient of Determination
-
-**`Line`** _`decimal`_ - Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Slope` | double | Slope `m` of the best-fit line of price |
+| `Intercept` | double | Y-Intercept `b` of the best-fit line |
+| `StdDev` | double | Standard Deviation of price over `N` lookback periods |
+| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination |
+| `Line` | decimal | Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values) |
 
 ### Utilities
 
@@ -118,4 +117,6 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<SlopeResult> results = observer.Results;
 ```
 
-> &#128073; **Repaint note**: The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.
+::: warning 🖌️ Repaint warning
+The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.
+:::

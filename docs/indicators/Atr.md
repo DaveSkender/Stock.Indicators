@@ -28,7 +28,9 @@ IReadOnlyList<TrResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1. |
 
 ### Historical quotes requirements
 
@@ -51,15 +53,14 @@ IReadOnlyList<AtrResult>
 The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### AtrResult
+### `AtrResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Tr`** _`double`_ - True Range for current period
-
-**`Atr`** _`double`_ - Average True Range
-
-**`Atrp`** _`double`_ - Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks.
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Tr` | double | True Range for current period |
+| `Atr` | double | Average True Range |
+| `Atrp` | double | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
 
 ### Utilities
 

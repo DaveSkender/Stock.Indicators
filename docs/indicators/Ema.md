@@ -20,7 +20,9 @@ IReadOnlyList<EmaResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -43,11 +45,12 @@ IReadOnlyList<EmaResult>
 The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### EmaResult
+### `EmaResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Ema`** _`double`_ - Exponential moving average
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Ema` | double | Exponential moving average |
 
 ### Utilities
 

@@ -23,12 +23,15 @@ export default {
         per_page: 100
       })
 
-      return data.map(contributor => ({
-        login: contributor.login || 'unknown',
-        avatar: `${contributor.avatar_url}&s=75`,
-        url: contributor.html_url || '#',
-        contributions: contributor.contributions || 0
-      }))
+      // Filter out bot accounts (usernames containing '[bot]')
+      return data
+        .filter(contributor => !contributor.login?.includes('[bot]'))
+        .map(contributor => ({
+          login: contributor.login || 'unknown',
+          avatar: `${contributor.avatar_url}&s=75`,
+          url: contributor.html_url || '#',
+          contributions: contributor.contributions || 0
+        }))
     } catch (error) {
       console.error('Error fetching contributors:', error)
       return []

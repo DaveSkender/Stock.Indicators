@@ -20,7 +20,9 @@ IReadOnlyList<WilliamsResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<WilliamsResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` Oscillator values since there's not enough data to calculate.
 
-### WilliamsResult
+### `WilliamsResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`WilliamsR`** _`double`_ - Oscillator over prior `N` lookback periods
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `WilliamsR` | double | Oscillator over prior `N` lookback periods |
 
 ### Utilities
 

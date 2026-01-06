@@ -20,7 +20,9 @@ IReadOnlyList<DpoResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -39,13 +41,13 @@ IReadOnlyList<DpoResult>
 - It does not return a single incremental indicator value.
 - The first `N/2-2` and last `N/2+1` periods will be `null` since they cannot be calculated.
 
-### DpoResult
+### `DpoResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Sma`** _`double`_ - Simple moving average offset by `N/2+1` periods
-
-**`Dpo`** _`double`_ - Detrended Price Oscillator (DPO)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Sma` | double | Simple moving average offset by `N/2+1` periods |
+| `Dpo` | double | Detrended Price Oscillator (DPO) |
 
 ### Utilities
 
@@ -97,7 +99,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 DpoHub observer = quoteHub.ToDpoHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

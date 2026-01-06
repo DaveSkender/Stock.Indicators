@@ -20,7 +20,9 @@ IReadOnlyList<CmoResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<CmoResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for CMO since there's not enough data to calculate.
 
-### CmoResult
+### `CmoResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Cmo`** _`double`_ - Chande Momentum Oscillator
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Cmo` | double | Chande Momentum Oscillator |
 
 ### Utilities
 
@@ -96,7 +99,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 CmoHub observer = quoteHub.ToCmoHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

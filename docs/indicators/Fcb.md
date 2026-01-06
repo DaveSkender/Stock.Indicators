@@ -20,7 +20,9 @@ IReadOnlyList<FcbResult> results =
 
 ## Parameters
 
-**`windowSpan`** _`int`_ - Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/Fractal) for more information about Fractals and `windowSpan`.
 
@@ -41,13 +43,17 @@ IReadOnlyList<FcbResult>
 - It does not return a single incremental indicator value.
 - The periods before the first fractal are `null` since they cannot be calculated.
 
-### FcbResult
+::: warning 🖌️ Repaint warning
+Fractal Chaos Bands are based on [Williams Fractal](/indicators/Fractal), which uses future bars.  This indicator will never identify bands in the last `S` periods of `quotes` since fractals are retroactively identified.
+:::
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
+### `FcbResult`
 
-**`UpperBand`** _`decimal`_ - FCB upper band
-
-**`LowerBand`** _`decimal`_ - FCB lower band
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `UpperBand` | decimal | FCB upper band |
+| `LowerBand` | decimal | FCB lower band |
 
 ### Utilities
 
@@ -84,7 +90,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 FcbHub observer = quoteHub.ToFcbHub(windowSpan);
 
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

@@ -20,7 +20,9 @@ IReadOnlyList<UlcerIndexResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<UlcerIndexResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### UlcerIndexResult
+### `UlcerIndexResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`UI`** _`double`_ - Ulcer Index
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `UI` | double | Ulcer Index |
 
 ### Utilities
 
@@ -62,7 +65,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .ToAlma(..);
+    .ToUlcerIndex(..);
 ```
 
 Results can be further processed on `UI` with additional chain-enabled indicators.
@@ -70,7 +73,7 @@ Results can be further processed on `UI` with additional chain-enabled indicator
 ```csharp
 // example
 var results = quotes
-    .ToAlma(..)
+    .ToUlcerIndex(..)
     .ToRsi(..);
 ```
 

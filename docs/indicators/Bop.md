@@ -20,7 +20,9 @@ IReadOnlyList<BopResult> results =
 
 ## Parameters
 
-**`smoothPeriods`** _`int`_ - Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `smoothPeriods` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<BopResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### BopResult
+### `BopResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Bop`** _`double`_ - Balance of Power
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Bop` | double | Balance of Power |
 
 ### Utilities
 

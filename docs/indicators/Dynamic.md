@@ -20,9 +20,10 @@ IReadOnlyList<DynamicResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
-
-**`kFactor`** _`double`_ - Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| `kFactor` | double | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6 |
 
 ### Historical quotes requirements
 
@@ -51,11 +52,12 @@ IReadOnlyList<DynamicResult>
 The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### DynamicResult
+### `DynamicResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Dynamic`** _`double`_ - McGinley Dynamic
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Dynamic` | double | McGinley Dynamic |
 
 ### Utilities
 

@@ -25,17 +25,14 @@ IReadOnlyList<StochResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
-
-**`signalPeriods`** _`int`_ - Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
-
-**`smoothPeriods`** _`int`_ - Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
-
-**`kFactor`** _`double`_ - Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
-
-**`dFactor`** _`double`_ - Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
-
-**`movingAverageType`** _`MaType`_ - Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14. |
+| `signalPeriods` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3. |
+| `smoothPeriods` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3. |
+| `kFactor` | double | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3. |
+| `dFactor` | double | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2. |
+| `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
 
 ### Historical quotes requirements
 
@@ -66,15 +63,14 @@ IReadOnlyList<StochResult>
 The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
 :::
 
-### StochResult
+### `StochResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Oscillator` or `K`** _`double`_ - %K Oscillator
-
-**`Signal` or `D`** _`double`_ - %D Simple moving average of Oscillator
-
-**`PercentJ` or `J`** _`double`_ - %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D`
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Oscillator` or `K` | double | %K Oscillator |
+| `Signal` or `D` | double | %D Simple moving average of Oscillator |
+| `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D` |
 
 Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangeably with the standard outputs.
 

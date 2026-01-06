@@ -20,7 +20,9 @@ IReadOnlyList<RsiResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -43,11 +45,12 @@ IReadOnlyList<RsiResult>
 The first `10×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### RsiResult
+### `RsiResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Rsi`** _`double`_ - Relative Strength Index
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Rsi` | double | Relative Strength Index |
 
 ### Utilities
 

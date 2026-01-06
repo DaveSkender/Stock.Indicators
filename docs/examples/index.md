@@ -3,7 +3,7 @@ title: Example usage code
 description: The Stock Indicators for .NET library is a simple yet flexible tool to help you build your financial market systems.  Here's a few complete working examples that you can download and try yourself.
 ---
 
-# {{ $frontmatter.title }}
+# Example usage code
 
 To help you get started, here are a few minimalist [.NET](https://dotnet.microsoft.com/download) C# projects that you can review.  They are complete working examples.
 

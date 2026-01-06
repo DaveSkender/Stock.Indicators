@@ -4034,6 +4034,7 @@
     {
       "name": "MACD",
       "type": "line",
+      "color": "#1E88E5",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6043,12 +6044,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -6.2197702562027075
         }
-      ],
-      "color": "#1E88E5"
+      ]
     },
     {
       "name": "Signal",
       "type": "line",
+      "color": "#DD2C00",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8058,12 +8059,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -5.856891653610954
         }
-      ],
-      "color": "#DD2C00"
+      ]
     },
     {
       "name": "Histogram",
       "type": "histogram",
+      "color": "#9E9E9E50",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -10073,8 +10074,7 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -0.36287860259175364
         }
-      ],
-      "color": "#9E9E9E50"
+      ]
     }
   ]
 }

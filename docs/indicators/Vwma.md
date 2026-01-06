@@ -20,7 +20,9 @@ IReadOnlyList<VwmaResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<VwmaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Vwma` since there's not enough data to calculate.
 
-### VwmaResult
+### `VwmaResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Vwma`** _`double`_ - Volume Weighted Moving Average
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Vwma` | double | Volume Weighted Moving Average |
 
 ### Utilities
 

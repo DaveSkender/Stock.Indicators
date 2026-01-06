@@ -31,6 +31,8 @@
   "search.exclude": {
     // not otherwise ignored
     "**/*.json": true,
-    "**/*.csv": true
-  },
+    "**/*.csv": true,
+    "**/.vitepress/cache": true,
+    "**/.vitepress/dist": true,
+  }
 }

@@ -20,7 +20,9 @@ IReadOnlyList<RocResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to go back.  Must be greater than 0.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -39,13 +41,13 @@ IReadOnlyList<RocResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for ROC since there's not enough data to calculate.
 
-### RocResult
+### `RocResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Momentum`** _`double`_ - Raw change in price over `N` periods
-
-**`Roc`** _`double`_ - Percent change in price (%, not decimal)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Momentum` | double | Raw change in price over `N` periods |
+| `Roc` | double | Percent change in price (%, not decimal) |
 
 ### Utilities
 

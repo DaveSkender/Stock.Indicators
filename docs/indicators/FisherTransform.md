@@ -20,7 +20,9 @@ IReadOnlyList<FisherTransformResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10. |
 
 ### Historical quotes requirements
 
@@ -42,13 +44,13 @@ IReadOnlyList<FisherTransformResult>
 The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
 :::
 
-### FisherTransformResult
+### `FisherTransformResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Fisher`** _`double`_ - Fisher Transform
-
-**`Trigger`** _`double`_ - FT offset by one period
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Fisher` | double | Fisher Transform |
+| `Trigger` | double | FT offset by one period |
 
 ### Utilities
 

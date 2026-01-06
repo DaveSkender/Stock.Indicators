@@ -17,9 +17,10 @@ IReadOnlyList<PivotPointsResult> results =
 
 ## Parameters
 
-**`windowSize`** _`PeriodSize`_ - Size of the lookback window
-
-**`pointType`** _`PivotPointType`_ - Type of Pivot Point.  Default is `PivotPointType.Standard`
+| param | type | description |
+| ----- | ---- | ----------- |
+| `windowSize` | PeriodSize | Size of the lookback window |
+| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
 ### Historical quotes requirements
 
@@ -63,26 +64,23 @@ IReadOnlyList<PivotPointsResult>
 ::: warning
 The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 :::
->
-> &#128073; **Repaint warning**: the last window will be repainted if it does not contain a full window of data.
 
-### PivotPointsResult
+::: warning 🖌️ Repaint warning
+The last window will be repainted if it does not contain a full window of data.
+:::
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
+### `PivotPointsResult`
 
-**`R3`** _`decimal`_ - Resistance level 3
-
-**`R2`** _`decimal`_ - Resistance level 2
-
-**`R1`** _`decimal`_ - Resistance level 1
-
-**`PP`** _`decimal`_ - Pivot Point
-
-**`S1`** _`decimal`_ - Support level 1
-
-**`S2`** _`decimal`_ - Support level 2
-
-**`S3`** _`decimal`_ - Support level 3
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `R3` | decimal | Resistance level 3 |
+| `R2` | decimal | Resistance level 2 |
+| `R1` | decimal | Resistance level 1 |
+| `PP` | decimal | Pivot Point |
+| `S1` | decimal | Support level 1 |
+| `S2` | decimal | Support level 2 |
+| `S3` | decimal | Support level 3 |
 
 ### Utilities
 

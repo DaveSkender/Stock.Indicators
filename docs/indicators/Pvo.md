@@ -20,11 +20,11 @@ IReadOnlyList<PvoResult> results =
 
 ## Parameters
 
-**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
-
-**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
-
-**`signalPeriods`** _`int`_ - Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12. |
+| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26. |
+| `signalPeriods` | int | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9. |
 
 ### Historical quotes requirements
 
@@ -47,15 +47,14 @@ IReadOnlyList<PvoResult>
 The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### PvoResult
+### `PvoResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Pvo`** _`double`_ - Normalized difference between two Volume moving averages
-
-**`Signal`** _`double`_ - Moving average of the `Pvo` line
-
-**`Histogram`** _`double`_ - Gap between of the `Pvo` and `Signal` line
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Pvo` | double | Normalized difference between two Volume moving averages |
+| `Signal` | double | Moving average of the `Pvo` line |
+| `Histogram` | double | Gap between the `Pvo` and `Signal` line |
 
 ### Utilities
 

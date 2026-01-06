@@ -34,15 +34,14 @@ IReadOnlyList<AdlResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-### AdlResult
+### `AdlResult`
 
-**`Timestamp`** _`DateTime`_ - Date from evaluated `TQuote`
-
-**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
-
-**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
-
-**`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `MoneyFlowMultiplier` | double | Money Flow Multiplier |
+| `MoneyFlowVolume` | double | Money Flow Volume |
+| `Adl` | double | Accumulation Distribution Line (ADL) |
 
 ::: warning
 absolute values in ADL and MFV are somewhat meaningless.  Use with caution.

@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # required for proper Last Updated page dates
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4

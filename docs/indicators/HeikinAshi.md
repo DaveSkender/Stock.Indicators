@@ -5,7 +5,7 @@ description: Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/w
 
 # Heikin-Ashi
 
-Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern based on prior period prices for smoothing.
+Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that transforms prices based on prior period prices for smoothing.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/254 "Community discussion about this indicator")
 
 ```csharp
@@ -31,19 +31,16 @@ IReadOnlyList<HeikinAshiResult>
 - It does not return a single incremental indicator value.
 - `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
 
-### HeikinAshiResult
+### `HeikinAshiResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Open`** _`decimal`_ - Modified open price
-
-**`High`** _`decimal`_ - Modified high price
-
-**`Low`** _`decimal`_ - Modified low price
-
-**`Close`** _`decimal`_ - Modified close price
-
-**`Volume`** _`decimal`_ - Volume (same as `quotes`)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Open` | decimal | Modified open price |
+| `High` | decimal | Modified high price |
+| `Low` | decimal | Modified low price |
+| `Close` | decimal | Modified close price |
+| `Volume` | decimal | Volume (same as `quotes`) |
 
 ### Utilities
 

@@ -20,7 +20,9 @@ IReadOnlyList<CmfResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
 
 ### Historical quotes requirements
 
@@ -39,15 +41,14 @@ IReadOnlyList<CmfResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### CmfResult
+### `CmfResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
-
-**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
-
-**`Cmf`** _`double`_ - Chaikin Money Flow = SMA of MFV
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `MoneyFlowMultiplier` | double | Money Flow Multiplier |
+| `MoneyFlowVolume` | double | Money Flow Volume |
+| `Cmf` | double | Chaikin Money Flow = SMA of MFV |
 
 ::: warning
 absolute values in MFV and CMF are somewhat meaningless.  Use with caution.

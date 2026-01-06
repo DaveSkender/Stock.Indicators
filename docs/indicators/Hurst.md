@@ -20,7 +20,9 @@ IReadOnlyList<HurstResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100.
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100. |
 
 ### Historical quotes requirements
 
@@ -39,11 +41,12 @@ IReadOnlyList<HurstResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values since there's not enough data to calculate.
 
-### HurstResult
+### `HurstResult`
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`HurstExponent`** _`double`_ - Hurst Exponent (`H`)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `HurstExponent` | double | Hurst Exponent (`H`) |
 
 ### Utilities
 
