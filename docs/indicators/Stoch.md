@@ -63,7 +63,7 @@ IReadOnlyList<StochResult>
 The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
 :::
 
-### StochResult
+### `StochResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

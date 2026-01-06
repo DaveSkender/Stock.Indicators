@@ -34,7 +34,7 @@ IReadOnlyList<AdlResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-### AdlResult
+### `AdlResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

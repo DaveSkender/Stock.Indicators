@@ -41,7 +41,7 @@ IReadOnlyList<RocResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for ROC since there's not enough data to calculate.
 
-### RocResult
+### `RocResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

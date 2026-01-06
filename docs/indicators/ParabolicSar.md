@@ -47,7 +47,7 @@ IReadOnlyList<ParabolicSarResult>
 - It does not return a single incremental indicator value.
 - The first trend will have `null` values since it is not accurate and based on an initial guess.
 
-### ParabolicSarResult
+### `ParabolicSarResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

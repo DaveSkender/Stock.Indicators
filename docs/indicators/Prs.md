@@ -42,7 +42,7 @@ IReadOnlyList<PrsResult>
 - It does not return a single incremental indicator value.
 - The `N` periods will have `null` values for `PrsPercent` since there's not enough data to calculate.
 
-### PrsResult
+### `PrsResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

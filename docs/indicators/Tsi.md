@@ -48,7 +48,7 @@ IReadOnlyList<TsiResult>
 The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### TsiResult
+### `TsiResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

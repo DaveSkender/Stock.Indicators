@@ -45,7 +45,7 @@ IReadOnlyList<TrixResult>
 The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### TrixResult
+### `TrixResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

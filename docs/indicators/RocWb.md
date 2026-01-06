@@ -38,7 +38,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<RocWbResult>
 ```
 
-### RocWbResult
+### `RocWbResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

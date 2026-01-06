@@ -57,7 +57,7 @@ Period 160+:  fully converged, reliable values
 The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  Use the `.RemoveWarmupPeriods()` method to remove these potentially unreliable values.
 :::
 
-### TemaResult
+### `TemaResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

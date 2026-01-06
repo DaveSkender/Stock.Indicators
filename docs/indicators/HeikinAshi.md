@@ -31,7 +31,7 @@ IReadOnlyList<HeikinAshiResult>
 - It does not return a single incremental indicator value.
 - `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
 
-### HeikinAshiResult
+### `HeikinAshiResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

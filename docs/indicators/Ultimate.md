@@ -43,7 +43,7 @@ IReadOnlyList<UltimateResult>
 - It does not return a single incremental indicator value.
 - The first `L-1` periods will have `null` Ultimate values since there's not enough data to calculate.
 
-### UltimateResult
+### `UltimateResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

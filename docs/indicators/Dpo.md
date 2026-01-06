@@ -41,7 +41,7 @@ IReadOnlyList<DpoResult>
 - It does not return a single incremental indicator value.
 - The first `N/2-2` and last `N/2+1` periods will be `null` since they cannot be calculated.
 
-### DpoResult
+### `DpoResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

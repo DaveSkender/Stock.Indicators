@@ -35,7 +35,7 @@ IReadOnlyList<ObvResult>
 - It does not return a single incremental indicator value.
 - The first period OBV will have a `0` value since there's not enough data to calculate.
 
-### ObvResult
+### `ObvResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

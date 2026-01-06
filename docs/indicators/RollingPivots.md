@@ -57,7 +57,7 @@ IReadOnlyList<RollingPivotsResult>
 - It does not return a single incremental indicator value.
 - The first `W+F-1` periods will have `null` values since there's not enough data to calculate.
 
-### RollingPivotsResult
+### `RollingPivotsResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

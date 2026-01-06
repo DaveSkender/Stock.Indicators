@@ -50,7 +50,7 @@ IReadOnlyList<AlligatorResult>
 The first `JP+JO+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### AlligatorResult
+### `AlligatorResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

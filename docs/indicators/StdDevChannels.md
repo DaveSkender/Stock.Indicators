@@ -44,7 +44,7 @@ IReadOnlyList<StdDevChannelsResult>
 
 > &#128073; **Repaint warning**: Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
 
-### StdDevChannelsResult
+### `StdDevChannelsResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

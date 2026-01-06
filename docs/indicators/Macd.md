@@ -47,7 +47,7 @@ IReadOnlyList<MacdResult>
 The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### MacdResult
+### `MacdResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

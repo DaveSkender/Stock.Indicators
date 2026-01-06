@@ -41,7 +41,7 @@ IReadOnlyList<VortexResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for VI since there's not enough data to calculate.
 
-### VortexResult
+### `VortexResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

@@ -41,7 +41,7 @@ IReadOnlyList<CmfResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-### CmfResult
+### `CmfResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

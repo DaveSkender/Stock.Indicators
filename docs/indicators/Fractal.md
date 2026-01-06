@@ -52,7 +52,7 @@ IReadOnlyList<FractalResult>
 
 > &#128073; **Repaint warning**: this price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
 
-### FractalResult
+### `FractalResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

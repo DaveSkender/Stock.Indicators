@@ -43,7 +43,7 @@ IReadOnlyList<FcbResult>
 - It does not return a single incremental indicator value.
 - The periods before the first fractal are `null` since they cannot be calculated.
 
-### FcbResult
+### `FcbResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

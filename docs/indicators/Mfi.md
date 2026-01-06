@@ -41,7 +41,7 @@ IReadOnlyList<MfiResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` MFI values since they cannot be calculated.
 
-### MfiResult
+### `MfiResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

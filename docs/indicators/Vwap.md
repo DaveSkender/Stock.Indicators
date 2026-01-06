@@ -46,7 +46,7 @@ IReadOnlyList<VwapResult>
 - The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.
 - `Vwap` values before `startDate`, if specified, will be `null`.
 
-### VwapResult
+### `VwapResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

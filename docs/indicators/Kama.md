@@ -47,7 +47,7 @@ IReadOnlyList<KamaResult>
 The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### KamaResult
+### `KamaResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

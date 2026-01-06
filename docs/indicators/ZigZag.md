@@ -56,7 +56,7 @@ depending on the specified `endType`, the indicator cannot be initialized if the
 >
 > &#128073; **Repaint warning**: the last line segment will always be redrawn back to the last known pivot.  Do not attempt to calculate incremental values since previous values may change based on newer quotes.
 
-### ZigZagResult
+### `ZigZagResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

@@ -41,7 +41,7 @@ IReadOnlyList<HmaResult>
 - It does not return a single incremental indicator value.
 - The first `N+(integer of SQRT(N))-1` periods will have `null` values since there's not enough data to calculate.
 
-### HmaResult
+### `HmaResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

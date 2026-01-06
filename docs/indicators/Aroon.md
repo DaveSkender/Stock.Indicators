@@ -41,7 +41,7 @@ IReadOnlyList<AroonResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Aroon` since there's not enough data to calculate.
 
-### AroonResult
+### `AroonResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

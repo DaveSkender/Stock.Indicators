@@ -47,7 +47,7 @@ IReadOnlyList<SlopeResult>
 
 > &#128073; **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
 
-### SlopeResult
+### `SlopeResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

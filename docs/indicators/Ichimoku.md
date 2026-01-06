@@ -65,7 +65,7 @@ IReadOnlyList<IchimokuResult>
 - It does not return a single incremental indicator value.
 - The first `T-1`, `K-1`, and `S-1` periods will have various `null` values since there's not enough data to calculate.  Custom offset periods may also increase `null` results for warmup periods.
 
-### IchimokuResult
+### `IchimokuResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

@@ -53,7 +53,7 @@ IReadOnlyList<AtrStopResult>
 the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 :::
 
-### AtrStopResult
+### `AtrStopResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

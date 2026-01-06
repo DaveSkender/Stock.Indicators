@@ -41,7 +41,7 @@ IReadOnlyList<DonchianResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values since there's not enough data to calculate.
 
-### DonchianResult
+### `DonchianResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

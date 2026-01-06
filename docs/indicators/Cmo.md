@@ -41,7 +41,7 @@ IReadOnlyList<CmoResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for CMO since there's not enough data to calculate.
 
-### CmoResult
+### `CmoResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

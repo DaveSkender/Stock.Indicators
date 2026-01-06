@@ -73,7 +73,7 @@ IReadOnlyList<MaEnvelopeResult>
 Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 :::
 
-### MaEnvelopeResult
+### `MaEnvelopeResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

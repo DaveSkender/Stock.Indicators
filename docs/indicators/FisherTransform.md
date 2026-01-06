@@ -44,7 +44,7 @@ IReadOnlyList<FisherTransformResult>
 The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
 :::
 
-### FisherTransformResult
+### `FisherTransformResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

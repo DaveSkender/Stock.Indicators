@@ -49,7 +49,7 @@ IReadOnlyList<ChandelierResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` Chandelier values since there's not enough data to calculate.
 
-### ChandelierResult
+### `ChandelierResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

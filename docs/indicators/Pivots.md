@@ -54,7 +54,7 @@ IReadOnlyList<PivotsResult>
 
 > &#128073; **Repaint warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Fractals are retroactively identified.
 
-### PivotsResult
+### `PivotsResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |

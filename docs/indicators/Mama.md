@@ -46,7 +46,7 @@ IReadOnlyList<MamaResult>
 The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
-### MamaResult
+### `MamaResult`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |
