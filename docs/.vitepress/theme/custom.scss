@@ -155,48 +155,59 @@ html:not(.dark) {
 }
 
 /* Custom styles for better readability */
-.vp-doc h1,
-.vp-doc h2,
-.vp-doc h3 {
-  color: var(--vp-c-text-1);
+.vp-doc {
+  h1,
+  h2,
+  h3 {
+    color: var(--vp-c-text-1);
+  }
+
+  a {
+    color: var(--vp-c-brand-1);
+
+    &:hover {
+      color: var(--vp-c-brand-2);
+    }
+  }
+
+  code,
+  pre code {
+    background-color: var(--vp-code-bg);
+  }
+
+  pre {
+    background-color: var(--vp-code-block-bg);
+  }
 }
 
-.vp-doc a {
-  color: var(--vp-c-brand-1);
+/* Light theme specific overrides */
+html:not(.dark) .vp-doc {
+  code,
+  pre code {
+    color: var(--vp-c-text-1);
+  }
 }
 
-.vp-doc a:hover {
-  color: var(--vp-c-brand-2);
-}
+/* Dark theme specific overrides */
+.dark .vp-doc {
+  table a {
+    color: #8cc4ff;
 
-/* Table link contrast in dark mode */
-.dark .vp-doc table a {
-  color: #8cc4ff;
-}
+    &:hover {
+      color: #a7d4ff;
+    }
+  }
 
-.dark .vp-doc table a:hover {
-  color: #a7d4ff;
+  code,
+  pre code {
+    color: var(--vp-c-text-1);
+  }
 }
 
 /* Code blocks */
 .vp-code {
   background-color: var(--vp-code-block-bg);
   color: var(--vp-c-text-1);
-}
-
-/* Inline code and fenced code contrast */
-.vp-doc code,
-.vp-doc pre code {
-  background-color: var(--vp-code-bg);
-}
-
-.dark .vp-doc code,
-.dark .vp-doc pre code {
-  color: #cdd9e5;
-}
-
-.vp-doc pre {
-  background-color: var(--vp-code-block-bg);
 }
 
 /* Home page hero */
@@ -211,7 +222,7 @@ html:not(.dark) {
   }
 
   small {
-    font-size: 60% !important;
+    font-size: 75% !important;
   }
 
   .text {
@@ -221,8 +232,9 @@ html:not(.dark) {
 
   .tagline {
     color: var(--vp-c-text-2);
+    max-width: 100% !important;
     font-size: 1.2em !important;
-    line-height: 1.0 !important;
+    line-height: 1.1 !important;
   }
 
 
@@ -233,21 +245,21 @@ html:not(.dark) {
   display: inline-grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
-  gap: 0 8px;
+  gap: 0 4px;
   align-items: start;
-}
 
-.VPNavBarTitle .title .logo {
-  grid-row: 1 / 3;
-  grid-column: 1;
-  align-self: center;
-}
+  .logo {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    align-self: center;
+  }
 
-.VPNavBarTitle .title > span:first-of-type {
-  grid-row: 1;
-  grid-column: 2;
-  align-self: end;
-  line-height: 1;
+  > span:first-of-type {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: end;
+    line-height: 1;
+  }
 }
 
 .nav-title-below {
@@ -277,29 +289,12 @@ html:not(.dark) {
 
 /* Optimize chart sizing for medium viewports (768px-1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
-
-  .home-charts-stack,
-  .tv-lightweight-charts {
-    max-width: 90%;
+  .home-charts-stack {
     height: auto;
   }
 
   /* Ensure indicator charts scale appropriately */
   .vp-doc img {
-    max-width: 90%;
     height: auto;
-  }
-}
-
-/* Chart overrides (unset VitePress styles) */
-.tv-lightweight-charts {
-
-  table,
-  tr,
-  td,
-  th {
-    border: none;
-    margin: 0;
-    overflow: unset;
   }
 }

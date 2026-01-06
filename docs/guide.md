@@ -61,24 +61,26 @@ See [usage examples](#example-usage) for additional details.
 
 This library has three indicator styles available to support different uses cases.
 
-| style        | use case                                     | best for                       |
+| Style        | Use case                                     | Best for                       |
 | ------------ | -------------------------------------------- | ------------------------------ |
-| Series batch | convert full quote collections to indicators | once-and-done bulk conversions |
-| Buffer lists | standalone incrementing `ICollection` lists  | self-managed incrementing data |
-| Stream hub   | subscription based hub-observer pattern      | streaming or live data sources |
+| Series batch | Convert full quote collections to indicators | Once-and-done bulk conversions |
+| Buffer lists | Standalone incrementing `ICollection` lists  | Self-managed incrementing data |
+| Stream hub   | Subscription based hub-observer pattern      | Streaming or live data sources |
 
 ### Feature comparison
 
-| feature        | Series batch    | Buffer lists  | Stream hub   |
+| Feature        | Series batch    | Buffer lists  | Stream hub   |
 | -------------- | --------------- | ------------- | ------------ |
-| incrementing   | no              | yes           | yes          |
-| batch speed    | fastest         | faster        | fast         |
-| scaling        | low             | moderate      | high         |
-| class type     | static          | instance      | instance     |
-| base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
-| complexity     | lowest          | moderate      | highest      |
-| chainable      | yes             | yes           | yes          |
-| pruning        | with utility    | auto-preset   | auto-preset  |
+| Incrementing   | no              | yes           | yes          |
+| Batch speed    | fastest         | faster        | fast         |
+| Scaling        | low             | moderate      | high         |
+| Class type     | static          | instance      | instance     |
+| Base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
+| Complexity     | lowest          | moderate      | highest      |
+| Chainable      | yes             | yes           | yes          |
+| Pruning        | with utility    | auto-preset   | auto-preset  |
+
+<!-- TODO: deduplicate from Features page -->
 
 ### Example usage
 
@@ -215,12 +217,13 @@ There are many places to get financial market data.  Check with your brokerage o
 
 Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).
 
-> [!IMPORTANT]
-> Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system. Some indicators use a smoothing technique that converges to better precision over time. While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
->
-> For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results. Occasionally, even more is required for optimal precision.
->
-> See [discussion on warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) for more information.
+::: warning 🚩 IMPORTANT
+Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system. Some indicators use a smoothing technique that converges to better precision over time. While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
+
+For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results. Occasionally, even more is required for optimal precision.
+
+See [discussion on warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) for more information.
+:::
 
 ### Using custom quote classes
 

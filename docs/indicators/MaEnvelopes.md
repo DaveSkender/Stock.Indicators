@@ -54,8 +54,9 @@ These are the supported moving average types:
 
 **`MaType.WMA`** - [Weighted Moving Average](/indicators/Wma)
 
-> [!WARNING]
-> For ALMA, default values are used for `offset` and `sigma`.
+::: warning
+For ALMA, default values are used for `offset` and `sigma`.
+:::
 
 ## Response
 
@@ -68,7 +69,7 @@ IReadOnlyList<MaEnvelopeResult>
 - It does not return a single incremental indicator value.
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
-::: warning Convergence warning
+::: warning ⚞ Convergence warning
 Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 :::
 

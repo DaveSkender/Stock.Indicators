@@ -61,8 +61,9 @@ IReadOnlyList<Quote> dayBarQuotes =
 - `PeriodSize.TwoMinutes`
 - `PeriodSize.OneMinute`
 
-> [!WARNING]
-> Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated. For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
+::: warning
+Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated. For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
+:::
 
 ### Extended candle properties
 
@@ -103,8 +104,9 @@ IReadOnlyList<CandleResult> results
   = quotes.ToMarubozu(..).Condense();
 ```
 
-> [!WARNING]
-> **Warning** In all cases, `.Condense()` removes non-essential results and will produce fewer records than are in `quotes`.
+::: warning
+In all cases, `.Condense()` removes non-essential results and less than the input `quotes`.
+:::
 
 ### Find indicator result by date
 
@@ -138,11 +140,13 @@ IReadOnlyList<AdxResult> results =
 
 See [individual indicator pages](/indicators) for information on recommended pruning quantities.
 
-> [!NOTE]
-> **Note** `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
->
-> [!WARNING]
-> **Warning** Without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount. When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning. If you want more certainty, use a specific number for `removePeriods`. Using this method on chained indicators without `removePeriods` is strongly discouraged.
+::: info Limited availability
+`.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
+:::
+
+::: warning Auto-pruning is unstable
+Without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount. When there are unusual results or when chaining indicators, there will be an erroneous increase in the amount of pruning. If you want more certainty, use a specific number for `removePeriods`. Using this method on chained indicators without `removePeriods` is strongly discouraged.
+:::
 
 ### Sort results
 
@@ -182,8 +186,9 @@ Use the indicator catalog to discover indicators, build simple pickers, or expor
 - Build configuration UIs or export to JSON
 - Optionally execute an indicator by ID (no compile-time generics required)
 
-> [!IMPORTANT]
-> _The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide) for normal syntax examples.
+::: info Non-idiomatic
+_The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide) for normal syntax examples.
+:::
 
 ### Browse or export the catalog
 

@@ -686,92 +686,100 @@ $landscape-height-md: 600px;
 
 .indicator-chart-wrapper {
   width: 100%;
-}
 
-.charts-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.chart-container {
-  width: 100%;
-  overflow: hidden;
-}
-
-.overlay-chart {
-  aspect-ratio: 2.5;
-
-  /* Medium breakpoint (768px-1024px) */
-  @media (max-width: $large-breakpoint) {
-    aspect-ratio: 2;
+  .charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
-  /* Mobile breakpoint (<480px) - matches JavaScript isMobileViewport */
-  @media (max-width: $small-breakpoint) {
-    aspect-ratio: 5/4;
+  .chart-container {
+    width: 100%;
+    overflow: hidden;
+
+    /* Hide the TradingView attribution link via CSS as backup */
+    :deep(a[href*="tradingview"]) {
+      display: none !important;
+    }
   }
 
-  /* Landscape optimizations */
-  @media (max-height: $landscape-height-sm) and (orientation: landscape) {
-    aspect-ratio: unset;
-    height: 100vh;
-  }
-}
+  .overlay-chart {
+    aspect-ratio: 2.5;
 
-.oscillator-chart {
-  aspect-ratio: 10;
+    /* Medium breakpoint (768px-1024px) */
+    @media (max-width: $large-breakpoint) {
+      aspect-ratio: 2.5;
+    }
 
-  /* Medium breakpoint (768px-1024px) */
-  @media (max-width: $large-breakpoint) {
-    aspect-ratio: 8;
-  }
+    /* Mobile breakpoint (<480px) - matches JavaScript isMobileViewport */
+    @media (max-width: $small-breakpoint) {
+      aspect-ratio: 5/4;
+    }
 
-  /* Landscape optimizations */
-  @media (max-width: $large-breakpoint) and (orientation: landscape) {
-    aspect-ratio: unset;
-    height: 25vh;
-  }
-
-  @media (max-height: $landscape-height-md) and (orientation: landscape) {
-    aspect-ratio: unset;
-    height: 33.33vh;
+    /* Landscape optimizations */
+    @media (max-height: $landscape-height-sm) and (orientation: landscape) {
+      aspect-ratio: unset;
+      height: 100vh;
+    }
   }
 
-  @media (max-height: $landscape-height-sm) {
-    aspect-ratio: unset;
-    height: 50vh;
+  .oscillator-chart {
+    aspect-ratio: 10;
+
+    /* Medium breakpoint (768px-1024px) */
+    @media (max-width: $large-breakpoint) {
+      aspect-ratio: 8;
+    }
+
+    /* Landscape optimizations */
+    @media (max-width: $large-breakpoint) and (orientation: landscape) {
+      aspect-ratio: unset;
+      height: 25vh;
+    }
+
+    @media (max-height: $landscape-height-md) and (orientation: landscape) {
+      aspect-ratio: unset;
+      height: 33.33vh;
+    }
+
+    @media (max-height: $landscape-height-sm) {
+      aspect-ratio: unset;
+      height: 50vh;
+    }
   }
-}
 
-/* Hide the TradingView attribution link via CSS as backup */
-.chart-container :deep(a[href*="tradingview"]) {
-  display: none !important;
-}
+  .chart-loading,
+  .chart-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--vp-c-bg);
+    border: none;
+    color: var(--vp-c-text-2);
+  }
 
-.chart-loading,
-.chart-error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background-color: var(--vp-c-bg);
-  border: none;
-  color: var(--vp-c-text-2);
-}
+  .chart-error {
+    color: var(--vp-c-danger-1);
+  }
 
-.chart-error {
-  color: var(--vp-c-danger-1);
-}
+  .loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--vp-c-divider);
+    border-top-color: var(--vp-c-brand-1);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
 
-.loading-spinner {
-  width: 24px;
-  height: 24px;
-  border: 2px solid var(--vp-c-divider);
-  border-top-color: var(--vp-c-brand-1);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  .chart-noscript {
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--vp-c-bg);
+    border: none;
+    color: var(--vp-c-text-2);
+  }
 }
 
 @keyframes spin {
@@ -780,11 +788,15 @@ $landscape-height-md: 600px;
   }
 }
 
-.chart-noscript {
-  padding: 2rem;
-  text-align: center;
-  background-color: var(--vp-c-bg);
-  border: none;
-  color: var(--vp-c-text-2);
+/* Chart library overrides (unset VitePress table styles) */
+:deep(.tv-lightweight-charts) {
+  table,
+  tr,
+  td,
+  th {
+    border: none;
+    margin: 0;
+    overflow: unset;
+  }
 }
 </style>

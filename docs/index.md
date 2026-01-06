@@ -1,15 +1,15 @@
 ---
-layout: home
-isHome: true
 title: Stock Indicators for .NET
 titleTemplate: Transform price quotes into trading insights
+layout: home
+isHome: true
 
 hero:
-  name: Stock Indicators <small>for .NET</small> <Badge type="warning" text="PREVIEW" />
-  tagline: Transform price quotes into trading insights
+  name: stock indicators <small>for .NET</small>
+  tagline: Transform price quotes into trade indicators and market insights.
   actions:
     - theme: brand
-      text: Get Started
+      text: Get started
       link: /guide/
     - theme: alt
       text: Indicators
@@ -20,7 +20,7 @@ features:
     details: Reference documentation
   - title: Guide and Pro tips
     link: /guide
-    details: Getting stated usage guide
+    details: Getting started usage guide
   - title: Utilities
     link: /utilities
     details: and helper functions
@@ -36,9 +36,9 @@ features:
   - title: Discussions
     link: https://github.com/DaveSkender/Stock.Indicators/discussions
     details: Community conversations
-  - title: Contributing guidelines
+  - title: Contributing guide
     link: /contributing
-    details: Developer guide for this repo
+    details: Repo developer guide
 ---
 
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
@@ -89,7 +89,7 @@ IReadOnlyList<EmaResult> results
     .ToEma(20);
 ```
 
-## Incrementally add data with buffer lists
+## Incrementally add data with buffer lists <Badge type="warning" text="preview" />
 
 For scenarios where quotes arrive one at a time, buffer lists provide efficient incremental processing without recalculating the entire history.
 
@@ -103,7 +103,7 @@ smaList.Add(newQuote);
 
 Buffer lists maintain internal state and automatically manage the warmup period, making them ideal for basic live data feeds and incremental updates.
 
-## Streaming hubs with observer patterns
+## Streaming hubs with observer patterns <Badge type="warning" text="preview" />
 
 Hubs provides a reactive, subscription-based pattern for streaming market data with automatic cascading calculations for advances scenarios.
 

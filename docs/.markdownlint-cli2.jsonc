@@ -29,6 +29,7 @@
         "ul",
         "li",
         "nav",
+        "Badge",
         "ClientOnly",
         "IndicatorChart",
         "Contributors",
@@ -37,6 +38,7 @@
         "contributors"
       ]
     },
-    "MD041": false  // accomodate Jekyll markdown
+    "MD041": false,  // accomodate Jekyll markdown
+    "MD060": false
   }
 }

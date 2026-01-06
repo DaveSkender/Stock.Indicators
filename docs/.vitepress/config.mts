@@ -7,7 +7,7 @@ const distDirPath = path.resolve(__dirname, 'dist')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Stock Indicators",
+  title: "stock indicators",
   description: "Transform price quotes into trading insights.",
 
   // Default to dark theme (toggle still available)
@@ -42,23 +42,35 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/guide' },
       { text: 'Indicators', link: '/indicators' },
-      { text: 'Utilities', link: '/utilities' },
-      { text: 'Examples', link: '/examples/' },
+      { text: 'Guide', link: '/guide' },
     ],
 
     sidebar: {
+      '/features': [
+        {
+          text: 'Features',
+          items: [
+            { text: 'Overview', link: '/features/' },
+            { text: 'Batch (Series)', link: '/features/batch' },
+            { text: 'Buffer lists', link: '/features/buffer' },
+            { text: 'Stream hubs', link: '/features/stream' },
+            { text: 'Utilities', link: '/utilities' },
+          ]
+        }
+      ],
       '/guide': [
         {
           text: 'Documentation',
           items: [
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
           ]
         }
       ],
@@ -68,10 +80,12 @@ export default defineConfig({
           items: [
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
           ]
         }
       ],
@@ -81,10 +95,12 @@ export default defineConfig({
           items: [
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
           ]
         },
         {
@@ -100,9 +116,11 @@ export default defineConfig({
           items: [
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
           ]
         }
       ],
@@ -112,9 +130,25 @@ export default defineConfig({
           items: [
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
+          ]
+        }
+      ],
+      '/about': [
+        {
+          text: 'Documentation',
+          items: [
+            { text: 'Indicators', link: '/indicators' },
+            { text: 'Getting Started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
+            { text: 'Utilities', link: '/utilities' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
           ]
         }
       ],
@@ -124,9 +158,11 @@ export default defineConfig({
           items: [
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
           ]
         },
         {
@@ -323,6 +359,9 @@ export default defineConfig({
 
   // Redirect old URLs to new locations (including aliases from legacy Jekyll site)
   rewrites: {
+    // Legacy routes
+    'customization': 'custom-indicators',
+
     // Legacy BasicQuote redirect
     'indicators/BasicQuote': 'indicators/QuotePart',
 
