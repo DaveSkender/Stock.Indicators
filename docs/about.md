@@ -1,23 +1,25 @@
 ---
 title: About
 description: Information about Stock Indicators for .NET, sources, and attributions
+head:
+  - - meta
+    - name: robots
+      content: noindex, nofollow
 ---
 
-# {{ $frontmatter.title }}
-
-## About this library
+# About this library
 
 **Stock Indicators for .NET** is an open-source C# library that transforms historical price quotes into technical indicators. The library provides industry-standard technical analysis indicators with a focus on accuracy, performance, and developer ergonomics.
 
-### Project information
+## Project information
 
 - **License:** [Apache 2.0](https://opensource.org/licenses/Apache-2.0)
 - **Source code:** [GitHub repository](https://github.com/DaveSkender/Stock.Indicators)
-- **Package:** [NuGet package](https://www.nuget.org/packages/Skender.Stock.Indicators)
+- **Package:** [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) (NuGet)
 - **Documentation:** [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev)
-- **Demo:** [Interactive charts](https://charts.stockindicators.dev)
+- **Demo site:** [Interactive stock charts](https://charts.stockindicators.dev)
 
-### Python version
+## Python version
 
 An alternate Python variant of this library is available at [python.stockindicators.dev](https://python.stockindicators.dev).
 
@@ -91,7 +93,6 @@ Specific references are documented in individual indicator pages where applicabl
 
 - [Stock Indicators for Python](https://python.stockindicators.dev) - Python port
 - [Demo chart site](https://charts.stockindicators.dev) - Interactive visualization
-- [NuGet package](https://www.nuget.org/packages/Skender.Stock.Indicators) - .NET package
 
 ---
 Last updated: January 5, 2026

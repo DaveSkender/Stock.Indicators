@@ -3,7 +3,7 @@ title: Creating custom indicators
 description: Learn how to create your own custom technical indicators using the Stock Indicators for .NET library as a foundation. This guide shows you how to build custom indicators that integrate seamlessly with the library's existing features.
 ---
 
-# {{ $frontmatter.title }}
+# Creating custom indicators
 
 At some point in your journey, you may want to create your own custom indicators. The following guide shows you how to create custom indicators that work seamlessly with this library.
 

@@ -3,7 +3,7 @@ title: Batch (Series) style
 description: Learn how to use Series batch style indicators for one-time bulk conversions of historical quote data
 ---
 
-# {{ $frontmatter.title }}
+# Series style indicators for batch processing
 
 Series batch style is the fastest and simplest way to calculate indicators from complete historical datasets. Use this when you have all your historical quotes available and need to convert them to indicators in one operation.
 

@@ -31,6 +31,7 @@
   "search.exclude": {
     // not otherwise ignored
     "**/*.json": true,
-    "**/*.csv": true
-  },
+    "**/*.csv": true,
+    "docs/**/dist": true
+  }
 }
