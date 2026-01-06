@@ -157,12 +157,7 @@ This NuGet package is an open-source project [on GitHub](https://github.com/Dave
 
 Special thanks to all of our community code contributors!
 
-<script setup>
-import { VPTeamMembers } from 'vitepress/theme'
-import { data as contributors } from './.vitepress/contributors.data'
-</script>
-
-<VPTeamMembers size="small" :members="contributors" />
+<Contributors />
 
 Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to see the full list.
 

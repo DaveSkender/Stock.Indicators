@@ -1,10 +1,10 @@
 import { Octokit } from '@octokit/rest'
 
 export interface Contributor {
+  login: string
   avatar: string
-  name: string
-  title?: string
-  links?: Array<{ icon: string; link: string }>
+  url: string
+  contributions: number
 }
 
 declare const data: Contributor[]
@@ -23,14 +23,15 @@ export default {
         per_page: 100
       })
 
-      return data.map(contributor => ({
-        avatar: `${contributor.avatar_url}&s=128`,
-        name: contributor.login || 'unknown',
-        title: `${contributor.contributions || 0} contributions`,
-        links: [
-          { icon: 'github', link: contributor.html_url || '#' }
-        ]
-      }))
+      // Filter out bot accounts (usernames containing '[bot]')
+      return data
+        .filter(contributor => !contributor.login?.includes('[bot]'))
+        .map(contributor => ({
+          login: contributor.login || 'unknown',
+          avatar: `${contributor.avatar_url}&s=75`,
+          url: contributor.html_url || '#',
+          contributions: contributor.contributions || 0
+        }))
     } catch (error) {
       console.error('Error fetching contributors:', error)
       return []
