@@ -31,12 +31,12 @@ Create a quote hub and subscribe indicators as observers:
 using Skender.Stock.Indicators;
 
 // create quote hub
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // subscribe indicators (observers)
-SmaHub<Quote> smaHub = quoteHub.ToSmaHub(20);
-RsiHub<Quote> rsiHub = quoteHub.ToRsiHub(14);
-MacdHub<Quote> macdHub = quoteHub.ToMacdHub();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
+RsiHub rsiHub = quoteHub.ToRsiHub(14);
+MacdHub macdHub = quoteHub.ToMacdHub();
 
 // stream quotes as they arrive
 foreach (Quote quote in liveQuotes)
@@ -69,14 +69,14 @@ The hub-observer architecture ensures coordinated updates:
 Create sophisticated derived indicators:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // chain RSI from EMA
-EmaHub<Quote> emaHub = quoteHub.ToEmaHub(20);
-RsiHub<Quote> rsiHub = emaHub.ToRsiHub(14);  // RSI of EMA
+EmaHub emaHub = quoteHub.ToEmaHub(20);
+RsiHub rsiHub = emaHub.ToRsiHub(14);  // RSI of EMA
 
 // or chain directly
-RsiHub<Quote> rsiOfEma = quoteHub
+RsiHub rsiOfEma = quoteHub
     .ToEmaHub(20)
     .ToRsiHub(14);
 
@@ -89,8 +89,8 @@ quoteHub.Add(newQuote);
 Handle late-arriving data and corrections:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSmaHub(20);
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
 
 // add quotes normally
 quoteHub.Add(quote1);
@@ -119,13 +119,13 @@ The hub automatically handles state rollback and recalculation when data arrives
 
 ```csharp
 // track multiple symbols with separate hubs
-Dictionary<string, QuoteHub<Quote>> hubs = new();
+Dictionary<string, QuoteHub> hubs = new();
 
 void ProcessQuote(string symbol, Quote quote)
 {
     if (!hubs.ContainsKey(symbol))
     {
-        hubs[symbol] = new QuoteHub<Quote>();
+        hubs[symbol] = new QuoteHub();
     }
     
     hubs[symbol].Add(quote);
@@ -135,7 +135,7 @@ void ProcessQuote(string symbol, Quote quote)
 ### Coordinated indicator updates
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // create multiple indicator hubs
 var sma20 = quoteHub.ToSmaHub(20);
@@ -147,15 +147,15 @@ var macd = quoteHub.ToMacdHub();
 quoteHub.Add(newQuote);
 
 // all indicators now have synchronized timestamps
-bool goldenCross = 
-    sma20.Results.Last().Sma > sma50.Results.Last().Sma;
+bool aboveGoldenCross = 
+    sma20.Results.[^1].Sma > sma50.Results.[^1].Sma;
 ```
 
 ### Event-driven alerts
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-RsiHub<Quote> rsiHub = quoteHub.ToRsiHub(14);
+QuoteHub quoteHub = new();
+RsiHub rsiHub = quoteHub.ToRsiHub(14);
 
 void ProcessLiveData(Quote quote)
 {
@@ -178,8 +178,8 @@ void ProcessLiveData(Quote quote)
 
 ```csharp
 // setup hubs
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSmaHub(20);
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
 
 // WebSocket message handler
 async Task OnQuoteReceived(WebSocketQuote wsQuote)
@@ -205,19 +205,26 @@ async Task OnQuoteReceived(WebSocketQuote wsQuote)
 
 ## Memory management
 
-Stream hubs maintain internal state and can grow unbounded. Manage memory with pruning:
+Stream hubs automatically prune old results when the cache exceeds the configured maximum size:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSmaHub(20);
+// default max cache size (~1.9 billion items)
+QuoteHub quoteHub = new();
 
-// periodically prune old results
-if (smaHub.Results.Count > 1000)
+// or configure custom max cache size
+QuoteHub limitedHub = new(maxCacheSize: 10000);
+
+// automatic FIFO pruning when limit reached
+SmaHub smaHub = limitedHub.ToSmaHub(20);
+
+// as new quotes arrive, oldest results are removed automatically
+foreach (Quote quote in liveQuotes)
 {
-    // keep only last 500 results
-    // (pruning not built-in, implement as needed)
+    limitedHub.Add(quote);  // oldest pruned if over limit
 }
 ```
+
+The default cache size is very large (90% of `int.MaxValue`) to accommodate long-running streams. For applications with memory constraints, specify a smaller `maxCacheSize` when creating the QuoteHub.
 
 ## See also
 
@@ -225,6 +232,3 @@ if (smaHub.Results.Count > 1000)
 - [Buffer lists](/features/buffer) for simple incremental processing
 - [Guide](/guide#streaming-hub-style-indicators) for detailed examples
 - [Indicators](/indicators) for available stream hub indicators
-
----
-Last updated: January 5, 2026

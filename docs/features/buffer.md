@@ -165,6 +165,3 @@ while (newQuote = GetNextQuote())
 - [Stream hubs](/features/stream) for coordinated real-time updates
 - [Guide](/guide#incremental-buffer-style-indicators) for detailed patterns
 - [Indicators](/indicators) for available buffer list indicators
-
----
-Last updated: January 5, 2026

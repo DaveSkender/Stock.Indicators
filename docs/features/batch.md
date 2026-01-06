@@ -107,6 +107,3 @@ IReadOnlyList<CandleResult> signals = quotes
 - [Stream hubs](/features/stream) for real-time data
 - [Guide](/guide) for detailed examples
 - [Indicators](/indicators) for available indicators
-
----
-Last updated: January 5, 2026
