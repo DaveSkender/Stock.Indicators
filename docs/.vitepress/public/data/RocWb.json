@@ -4034,6 +4034,7 @@
     {
       "name": "ROC",
       "type": "line",
+      "color": "#1E88E5",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6043,12 +6044,13 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -8.248232521602507
         }
-      ],
-      "color": "#1E88E5"
+      ]
     },
     {
       "name": "Upper",
       "type": "line",
+      "color": "#DD2C00",
+      "lineStyle": "dash",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8058,13 +8060,13 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 8.57371876027053
         }
-      ],
-      "color": "#DD2C00",
-      "lineStyle": "dash"
+      ]
     },
     {
       "name": "Lower",
       "type": "line",
+      "color": "#2E7D32",
+      "lineStyle": "dash",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -10074,9 +10076,7 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -8.57371876027053
         }
-      ],
-      "color": "#2E7D32",
-      "lineStyle": "dash"
+      ]
     }
   ]
 }

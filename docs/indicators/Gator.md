@@ -9,7 +9,7 @@ Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
 <ClientOnly>
-  <IndicatorChart src="/data/Gator.json" :height="360" />
+  <IndicatorChart src="/data/Gator.json" />
 </ClientOnly>
 
 ```csharp

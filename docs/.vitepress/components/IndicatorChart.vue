@@ -423,10 +423,17 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
 
     const filteredData = seriesConfig.data
       .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
-      .map(d => ({
-        time: parseTimestamp(d.timestamp),
-        value: d.value as number
-      }))
+      .map(d => {
+        const point = {
+          time: parseTimestamp(d.timestamp),
+          value: d.value as number
+        }
+        // Preserve per-bar color if present (for conditional coloring like Elder-Ray)
+        if (d.color) {
+          point.color = d.color
+        }
+        return point
+      })
 
     series.setData(filteredData)
     targetArray.push(series)
@@ -696,6 +703,7 @@ $landscape-height-md: 600px;
   .chart-container {
     width: 100%;
     overflow: hidden;
+    padding-left: 5px;
 
     /* Hide the TradingView attribution link via CSS as backup */
     :deep(a[href*="tradingview"]) {

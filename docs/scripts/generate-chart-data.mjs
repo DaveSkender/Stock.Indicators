@@ -220,8 +220,8 @@ const INDICATOR_CONFIG = {
     displayName: 'ElderRay',
     chartType: 'oscillator',
     fields: [
-      { name: 'Bull Power', jsonKey: 'bullPower', type: 'histogram', color: ChartColors.StandardGreen },
-      { name: 'Bear Power', jsonKey: 'bearPower', type: 'histogram', color: ChartColors.StandardRed }
+      { name: 'Bull Power', jsonKey: 'bullPower', type: 'histogram', colorConditional: true },
+      { name: 'Bear Power', jsonKey: 'bearPower', type: 'histogram', colorConditional: true }
     ]
   },
   'ema.standard.json': {
@@ -256,7 +256,7 @@ const INDICATOR_CONFIG = {
     thresholds: [
       { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
     ],
-    fields: [{ name: 'Force', jsonKey: 'forceIndex', type: 'line', color: ChartColors.StandardBlue }]
+    fields: [{ name: 'Force', jsonKey: 'forceIndex', type: 'area', color: ChartColors.StandardBlue }]
   },
   'fractal.standard.json': {
     displayName: 'Fractal',
@@ -270,8 +270,8 @@ const INDICATOR_CONFIG = {
     displayName: 'Gator',
     chartType: 'oscillator',
     fields: [
-      { name: 'Upper', jsonKey: 'upper', type: 'histogram', color: ChartColors.StandardGreen },
-      { name: 'Lower', jsonKey: 'lower', type: 'histogram', color: ChartColors.StandardRed }
+      { name: 'Upper', jsonKey: 'upper', type: 'histogram', colorConditional: true },
+      { name: 'Lower', jsonKey: 'lower', type: 'histogram', colorConditional: true }
     ]
   },
   'heikinashi.standard.json': {
@@ -288,8 +288,15 @@ const INDICATOR_CONFIG = {
     chartType: 'overlay',
     fields: [
       { name: 'Trendline', jsonKey: 'trendline', type: 'line', color: ChartColors.StandardBlue },
-      { name: 'SmoothPrice', jsonKey: 'smoothPrice', type: 'line', color: ChartColors.StandardOrange },
-      { name: 'DC Periods', jsonKey: 'dcPeriods', type: 'line', color: ChartColors.StandardPurple }
+      { name: 'SmoothPrice', jsonKey: 'smoothPrice', type: 'line', color: ChartColors.StandardOrange }
+    ]
+  },
+  'htl-dcperiods.custom.json': {
+    displayName: 'DcPeriods',
+    chartType: 'oscillator',
+    sourceFile: 'htl.standard.json',
+    fields: [
+      { name: 'DC Periods', jsonKey: 'dcPeriods', type: 'histogram', color: ChartColors.StandardPurple }
     ]
   },
   'hurst.standard.json': {
@@ -688,17 +695,34 @@ function generateChartData(quotes, results, config) {
   const series = config.fields.map(field => {
     const seriesData = {
       name: field.name,
-      type: field.type || 'line',
-      data: results.map(r => ({
+      type: field.type || 'line'
+    }
+
+    // Add color after type
+    if (field.color) seriesData.color = field.color
+    if (field.lineWidth) seriesData.lineWidth = field.lineWidth
+    if (field.lineStyle) seriesData.lineStyle = field.lineStyle
+    
+    // Add data last - with conditional coloring for histograms if needed
+    if (field.colorConditional && field.type === 'histogram') {
+      seriesData.data = results.map(r => {
+        const value = r[field.jsonKey] ?? null
+        const dataPoint = {
+          timestamp: r.timestamp,
+          value: value
+        }
+        // Add color based on value (green above zero, red below)
+        if (value !== null) {
+          dataPoint.color = value >= 0 ? ChartColors.StandardGreen : ChartColors.StandardRed
+        }
+        return dataPoint
+      })
+    } else {
+      seriesData.data = results.map(r => ({
         timestamp: r.timestamp,
         value: r[field.jsonKey] ?? null
       }))
     }
-
-    // Add optional styling properties
-    if (field.color) seriesData.color = field.color
-    if (field.lineWidth) seriesData.lineWidth = field.lineWidth
-    if (field.lineStyle) seriesData.lineStyle = field.lineStyle
 
     return seriesData
   })
@@ -749,7 +773,9 @@ function main() {
   let skipped = 0
 
   for (const [resultFile, config] of Object.entries(INDICATOR_CONFIG)) {
-    const resultPath = join(RESULTS_DIR, resultFile)
+    // Use sourceFile if specified, otherwise use resultFile
+    const sourceFile = config.sourceFile || resultFile
+    const resultPath = join(RESULTS_DIR, sourceFile)
 
     // Skip if result file doesn't exist
     if (!existsSync(resultPath)) {
@@ -773,9 +799,9 @@ function main() {
       // Generate chart data
       const chartData = generateChartData(quotes, results, config)
 
-      // Write output file
+      // Write output file with trailing newline
       const outputFile = join(OUTPUT_DIR, `${config.displayName}.json`)
-      writeFileSync(outputFile, JSON.stringify(chartData, null, 2))
+      writeFileSync(outputFile, JSON.stringify(chartData, null, 2) + '\n')
       console.log(`✓ Generated: ${config.displayName}.json (${chartData.candles.length} candles, ${chartData.series.length} series)`)
       generated++
     } catch (error) {

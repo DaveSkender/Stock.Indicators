@@ -9,7 +9,11 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/363 "Community discussion about this indicator")
 
 <ClientOnly>
-  <IndicatorChart src="/data/HtTrendline.json" :height="360" />
+  <IndicatorChart src="/data/HtTrendline.json" />
+</ClientOnly>
+
+<ClientOnly>
+  <IndicatorChart src="/data/DcPeriods.json" />
 </ClientOnly>
 
 ```csharp
