@@ -193,6 +193,7 @@
       "type": "shell",
       "command": "pnpm run docs:build",
       "dependsOn": "Install: NPM (pnpm) packages",
+      "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       }
@@ -416,6 +417,28 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "Test: Website links (htmlproofer)",
+      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
+      "type": "shell",
+      "command": "bash .vitepress/run-htmlproofer.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "dependsOn": "Start: Docker Desktop",
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Test: Website a11y (pa11y)",
+      "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
+      "type": "shell",
+      "command": "bash .vitepress/run-pa11y.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "dependsOn": "Install: Chrome for Puppeteer",
+      "dependsOrder": "sequence"
+    },
+    {
       "label": "Verify: Quick checks (build + lint + unit test)",
       "detail": "Complete CI verification: build, lint, and test",
       "group": "test",
@@ -455,6 +478,7 @@
       "type": "shell",
       "command": "pnpm run docs:dev -- --port 5174",
       "dependsOn": "Install: NPM (pnpm) packages",
+      "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
         "instanceLimit": 1
@@ -491,26 +515,6 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Test: Website links (htmlproofer)",
-      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
-      "type": "shell",
-      "command": "bash .vitepress/run-htmlproofer.sh",
-      "options": {
-        "cwd": "${workspaceFolder}/docs"
-      },
-      "dependsOn": "Start: Docker Desktop",
-      "dependsOrder": "sequence"
-    },
-    {
-      "label": "Test: Website a11y (pa11y)",
-      "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
-      "type": "shell",
-      "command": "bash .vitepress/run-pa11y.sh",
-      "options": {
-        "cwd": "${workspaceFolder}/docs"
-      }
-    },
-    {
       "label": "Stop: All hosted servers",
       "detail": "Stop VitePress dev/preview servers on default ports (5173/5174) across platforms",
       "type": "shell",
@@ -523,6 +527,17 @@
       },
       "presentation": {
         "reveal": "silent",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Install: Chrome for Puppeteer",
+      "detail": "Ensure Docker Desktop is running (waits for daemon to be ready)",
+      "type": "shell",
+      "command": "pnpm dlx puppeteer browsers install chrome",
+      "presentation": {
+        "echo": false,
+        "clear": true,
         "panel": "shared"
       }
     },
@@ -563,7 +578,8 @@
       },
       "presentation": {
         "echo": false,
-        "clear": true
+        "clear": true,
+        "panel": "shared"
       }
     }
   ]
