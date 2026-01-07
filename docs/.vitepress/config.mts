@@ -325,7 +325,6 @@ export default defineConfig({
             { text: 'Balance of Power', link: '/indicators/Bop' },
             { text: 'Bull and Bear Power', link: '/indicators/ElderRay' },
             { text: 'Choppiness Index', link: '/indicators/Chop' },
-            { text: 'Dominant Cycle Period', link: '/indicators/HtTrendline' },
             { text: 'Dominant Cycle Periods', link: '/indicators/HtTrendline' },
             { text: 'Historical Volatility (HV)', link: '/indicators/StdDev' },
             { text: 'Hurst Exponent', link: '/indicators/Hurst' },
