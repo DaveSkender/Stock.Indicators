@@ -215,7 +215,7 @@ function createOverlayChart(container: HTMLDivElement): IChartApi {
     rightPriceScale: {
       visible: !isMobileViewport.value,
       borderVisible: false,
-      scaleMargins: { top: 0.05, bottom: 0.05 },
+      scaleMargins: { top: 0.1, bottom: 0.1 },
       autoScale: true,
       minimumWidth: isMobileViewport.value ? 0 : PRICE_SCALE_WIDTH
     },
@@ -261,7 +261,7 @@ function createOscillatorChart(container: HTMLDivElement): IChartApi {
     rightPriceScale: {
       visible: !isMobileViewport.value,
       borderVisible: false,
-      scaleMargins: { top: 0.075, bottom: 0.075 },
+      scaleMargins: { top: 0.12, bottom: 0.12 },
       autoScale: true,
       minimumWidth: isMobileViewport.value ? 0 : PRICE_SCALE_WIDTH
     },
