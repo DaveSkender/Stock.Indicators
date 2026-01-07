@@ -97,33 +97,33 @@ on:
           - WILLR
           - WMA
           - ZIGZAG
+      series:
+        description: for Series
+        type: boolean
+        required: true
+        default: true
+      buffer:
+        description: for Buffer
+        type: boolean
+        required: true
+        default: true
+      streamhub:
+        description: for StreamHub
+        type: boolean
+        required: true
+        default: true
       periods:
         description: Number of randomly generated quote periods
         type: number
         required: true
         default: 500000
-      series:
-        description: for Series style
-        type: boolean
-        required: true
-        default: true
-      buffer:
-        description: for Buffer style
-        type: boolean
-        required: true
-        default: true
-      streamhub:
-        description: for StreamHub style
-        type: boolean
-        required: true
-        default: true
 
 permissions:
   contents: read
 
 jobs:
   analyze:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 120
 
     steps:
@@ -194,7 +194,7 @@ jobs:
           PERF_TEST_STREAMHUB: ${{ inputs.streamhub }}
 
       - name: Save test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: manual-test-results
@@ -208,8 +208,13 @@ jobs:
           INDICATOR_SERIES: ${{ inputs.series }}
           INDICATOR_BUFFER: ${{ inputs.buffer }}
           INDICATOR_STREAMHUB: ${{ inputs.streamhub }}
+          VERSION: ${{ steps.gitversion.outputs.FullSemVer }}
         run: |
-          echo "## Manual Performance Test Results" >> $GITHUB_STEP_SUMMARY
+          TITLE="## Manual Performance Test Results"
+          if [ -n "$VERSION" ]; then
+            TITLE="$TITLE for $VERSION"
+          fi
+          echo "$TITLE" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Indicator:** $INDICATOR_KEYWORD" >> $GITHUB_STEP_SUMMARY
           echo "**Periods:** $INDICATOR_PERIODS" >> $GITHUB_STEP_SUMMARY
