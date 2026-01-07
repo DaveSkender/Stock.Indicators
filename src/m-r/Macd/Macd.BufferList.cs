@@ -148,8 +148,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         }
 
         // Snapshot current state BEFORE any modifications (for potential rollback on next call)
-        _lastSnapshot = new StateSnapshot
-        {
+        _lastSnapshot = new StateSnapshot {
             FastBufferSum = _fastBufferSum,
             SlowBufferSum = _slowBufferSum,
             MacdBufferSum = _macdBufferSum,

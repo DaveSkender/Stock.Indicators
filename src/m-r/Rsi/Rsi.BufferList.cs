@@ -77,8 +77,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
         }
 
         // Snapshot current state BEFORE any modifications (for potential rollback on next call)
-        _lastSnapshot = new StateSnapshot
-        {
+        _lastSnapshot = new StateSnapshot {
             AvgGain = _avgGain,
             AvgLoss = _avgLoss,
             PrevValue = _prevValue,
