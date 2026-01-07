@@ -128,4 +128,63 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
         sut.Should().HaveCount(maxListSize);
         sut.IsExactly(expected);
     }
+
+    [TestMethod]
+    public void DuplicateTimestamp_UpdatesLastResult()
+    {
+        // Arrange: Add first 50 quotes
+        RsiList sut = new(lookbackPeriods);
+        for (int i = 0; i < 50; i++)
+        {
+            sut.Add(Quotes[i]);
+        }
+
+        // Verify initial state
+        sut.Should().HaveCount(50);
+        RsiResult? originalLast = sut[49];
+
+        // Act: Add duplicate timestamp with different value
+        DateTime lastTimestamp = Quotes[49].Timestamp;
+        double newValue = (double)Quotes[49].Close + 5.0;  // Different close price
+        sut.Add(lastTimestamp, newValue);
+
+        // Assert: Should still have 50 results (update, not add)
+        sut.Should().HaveCount(50);
+
+        // Last result should be updated based on new value
+        RsiResult? updatedLast = sut[49];
+        updatedLast.Timestamp.Should().Be(lastTimestamp);
+        updatedLast.Rsi.Should().NotBe(originalLast.Rsi);  // Value should have changed
+
+        // Verify mathematical correctness by rebuilding from scratch
+        List<IReusable> recomputedData = Quotes.Take(49).Cast<IReusable>().ToList();
+        recomputedData.Add(new Quote(lastTimestamp, 0, 0, 0, (decimal)newValue, 0));
+        IReadOnlyList<RsiResult> expected = recomputedData.ToRsi(lookbackPeriods);
+
+        sut[49].Rsi.Should().BeApproximately(expected[49].Rsi, 0.00001);
+    }
+
+    [TestMethod]
+    public void QuoteCorrection_MaintainsMathematicalPrecision()
+    {
+        // Arrange: Build full list
+        RsiList sut = Quotes.ToRsiList(lookbackPeriods);
+        int lastIndex = Quotes.Count - 1;
+
+        // Act: Correct the last quote with new values
+        DateTime lastTimestamp = Quotes[lastIndex].Timestamp;
+        double correctedValue = (double)Quotes[lastIndex].Close * 1.1;  // 10% correction
+        sut.Add(lastTimestamp, correctedValue);
+
+        // Assert: Count unchanged
+        sut.Should().HaveCount(Quotes.Count);
+
+        // Verify correctness by comparing to Series with corrected data
+        List<IReusable> correctedData = Quotes.Take(lastIndex).Cast<IReusable>().ToList();
+        correctedData.Add(new Quote(lastTimestamp, 0, 0, 0, (decimal)correctedValue, 0));
+        IReadOnlyList<RsiResult> expected = correctedData.ToRsi(lookbackPeriods);
+
+        // Verify the corrected value matches exactly
+        sut[lastIndex].Rsi.Should().BeApproximately(expected[lastIndex].Rsi, 0.00001);
+    }
 }

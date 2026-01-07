@@ -74,6 +74,32 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     }
 
     /// <summary>
+    /// Checks if the given timestamp would be a duplicate of the last result.
+    /// </summary>
+    /// <param name="timestamp">The timestamp to check.</param>
+    /// <returns>True if this timestamp matches the last result's timestamp.</returns>
+    protected bool IsDuplicateTimestamp(DateTime timestamp)
+        => _internalList.Count > 0 && timestamp == _internalList[^1].Timestamp;
+
+    /// <summary>
+    /// Rolls back internal state to the position before the last result was added.
+    /// Called when a duplicate timestamp is detected to maintain mathematical precision.
+    /// </summary>
+    /// <remarks>
+    /// Derived classes must implement this to restore their internal state
+    /// (buffers, running sums, EMA values, etc.) to the state before the last
+    /// <see cref="AddInternal"/> call. This enables last-point healing when
+    /// duplicate timestamps or quote corrections arrive.
+    /// </remarks>
+    /// <exception cref="NotImplementedException">Thrown when the derived class has not implemented rollback logic.</exception>
+    protected virtual void RollbackLastState()
+    {
+        throw new NotImplementedException(
+            $"{GetType().Name} does not support duplicate timestamp handling. " +
+            "Implement RollbackLastState() to enable last-point healing.");
+    }
+
+    /// <summary>
     /// Updates an existing item in the list at the specified index.
     /// Used for indicators that need to revise historical values (repaint).
     /// </summary>

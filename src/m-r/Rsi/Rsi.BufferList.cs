@@ -11,6 +11,17 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     private double _prevValue = double.NaN;
     private bool _isInitialized;
 
+    // State before last Add() call for rollback
+    private struct StateSnapshot
+    {
+        public double AvgGain;
+        public double AvgLoss;
+        public double PrevValue;
+        public int BufferCount;
+    }
+
+    private StateSnapshot _lastSnapshot;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="RsiList"/> class.
     /// </summary>
@@ -41,6 +52,39 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
+        // Check for duplicate timestamp BEFORE any processing
+        bool isDuplicate = Count > 0 && timestamp == this[Count - 1].Timestamp;
+
+        if (isDuplicate)
+        {
+            // Rollback state to before last Add() call
+            _avgGain = _lastSnapshot.AvgGain;
+            _avgLoss = _lastSnapshot.AvgLoss;
+            _prevValue = _lastSnapshot.PrevValue;
+
+            // Remove last item from buffer if it was added (buffer grew)
+            if (_buffer.Count > _lastSnapshot.BufferCount)
+            {
+                // Recreate buffer without last item
+                var tempList = new List<(double, double)>(_buffer);
+                tempList.RemoveAt(tempList.Count - 1);
+                _buffer.Clear();
+                foreach (var item in tempList)
+                {
+                    _buffer.Enqueue(item);
+                }
+            }
+        }
+
+        // Snapshot current state BEFORE any modifications (for potential rollback on next call)
+        _lastSnapshot = new StateSnapshot
+        {
+            AvgGain = _avgGain,
+            AvgLoss = _avgLoss,
+            PrevValue = _prevValue,
+            BufferCount = _buffer.Count
+        };
+
         double gain = 0;
         double loss = 0;
 
@@ -106,7 +150,42 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
             }
         }
 
-        AddInternal(new RsiResult(timestamp, rsi));
+        RsiResult result = new(timestamp, rsi);
+
+        // Handle duplicate: update instead of add
+        if (isDuplicate)
+        {
+            UpdateInternal(Count - 1, result);
+        }
+        else
+        {
+            AddInternal(result);
+        }
+    }
+
+    /// <summary>
+    /// Rolls back internal state to before the last result was added.
+    /// </summary>
+    protected override void RollbackLastState()
+    {
+        // This method is now unused for RSI as we handle rollback directly in Add()
+        // but we keep it for interface compliance
+        _avgGain = _lastSnapshot.AvgGain;
+        _avgLoss = _lastSnapshot.AvgLoss;
+        _prevValue = _lastSnapshot.PrevValue;
+
+        // Remove last item from buffer if it was added (buffer grew)
+        if (_buffer.Count > _lastSnapshot.BufferCount)
+        {
+            // Recreate buffer without last item
+            var tempList = new List<(double, double)>(_buffer);
+            tempList.RemoveAt(tempList.Count - 1);
+            _buffer.Clear();
+            foreach (var item in tempList)
+            {
+                _buffer.Enqueue(item);
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -136,6 +215,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
         _avgLoss = double.NaN;
         _prevValue = double.NaN;
         _isInitialized = false;
+        _lastSnapshot = default;
     }
 }
 

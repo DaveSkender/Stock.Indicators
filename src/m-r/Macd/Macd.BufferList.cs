@@ -16,6 +16,22 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     private double? _lastSlowEma;
     private double? _lastSignalEma;
 
+    // State before last Add() call for rollback
+    private struct StateSnapshot
+    {
+        public double FastBufferSum;
+        public double SlowBufferSum;
+        public double MacdBufferSum;
+        public double? LastFastEma;
+        public double? LastSlowEma;
+        public double? LastSignalEma;
+        public int FastBufferCount;
+        public int SlowBufferCount;
+        public int MacdBufferCount;
+    }
+
+    private StateSnapshot _lastSnapshot;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MacdList"/> class.
     /// </summary>
@@ -83,6 +99,68 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
+        // Check for duplicate timestamp BEFORE any processing
+        bool isDuplicate = IsDuplicateTimestamp(timestamp);
+
+        if (isDuplicate)
+        {
+            // Rollback state to before last Add() call
+            _fastBufferSum = _lastSnapshot.FastBufferSum;
+            _slowBufferSum = _lastSnapshot.SlowBufferSum;
+            _macdBufferSum = _lastSnapshot.MacdBufferSum;
+            _lastFastEma = _lastSnapshot.LastFastEma;
+            _lastSlowEma = _lastSnapshot.LastSlowEma;
+            _lastSignalEma = _lastSnapshot.LastSignalEma;
+
+            // Restore buffers
+            if (_fastBuffer.Count > _lastSnapshot.FastBufferCount)
+            {
+                var tempList = new List<double>(_fastBuffer);
+                tempList.RemoveAt(tempList.Count - 1);
+                _fastBuffer.Clear();
+                foreach (var item in tempList)
+                {
+                    _fastBuffer.Enqueue(item);
+                }
+            }
+
+            if (_slowBuffer.Count > _lastSnapshot.SlowBufferCount)
+            {
+                var tempList = new List<double>(_slowBuffer);
+                tempList.RemoveAt(tempList.Count - 1);
+                _slowBuffer.Clear();
+                foreach (var item in tempList)
+                {
+                    _slowBuffer.Enqueue(item);
+                }
+            }
+
+            if (_macdBuffer.Count > _lastSnapshot.MacdBufferCount)
+            {
+                var tempList = new List<double>(_macdBuffer);
+                tempList.RemoveAt(tempList.Count - 1);
+                _macdBuffer.Clear();
+                foreach (var item in tempList)
+                {
+                    _macdBuffer.Enqueue(item);
+                }
+            }
+        }
+
+        // Snapshot current state BEFORE any modifications (for potential rollback on next call)
+        _lastSnapshot = new StateSnapshot
+        {
+            FastBufferSum = _fastBufferSum,
+            SlowBufferSum = _slowBufferSum,
+            MacdBufferSum = _macdBufferSum,
+            LastFastEma = _lastFastEma,
+            LastSlowEma = _lastSlowEma,
+            LastSignalEma = _lastSignalEma,
+            FastBufferCount = _fastBuffer.Count,
+            SlowBufferCount = _slowBuffer.Count,
+            MacdBufferCount = _macdBuffer.Count
+        };
+
         // Update fast EMA buffer using BufferListUtilities
         double? dequeuedFast = _fastBuffer.UpdateWithDequeue(FastPeriods, value);
         if (dequeuedFast.HasValue)
@@ -197,7 +275,64 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
             FastEma: fastEma,
             SlowEma: slowEma);
 
-        AddInternal(result);
+        // Handle duplicate: update instead of add
+        if (isDuplicate)
+        {
+            UpdateInternal(Count - 1, result);
+        }
+        else
+        {
+            AddInternal(result);
+        }
+    }
+
+    /// <summary>
+    /// Rolls back internal state to before the last result was added.
+    /// </summary>
+    protected override void RollbackLastState()
+    {
+        // This method is now unused for MACD as we handle rollback directly in Add()
+        // but we keep it for interface compliance
+        _fastBufferSum = _lastSnapshot.FastBufferSum;
+        _slowBufferSum = _lastSnapshot.SlowBufferSum;
+        _macdBufferSum = _lastSnapshot.MacdBufferSum;
+        _lastFastEma = _lastSnapshot.LastFastEma;
+        _lastSlowEma = _lastSnapshot.LastSlowEma;
+        _lastSignalEma = _lastSnapshot.LastSignalEma;
+
+        // Restore buffers (simplified for base class call)
+        if (_fastBuffer.Count > _lastSnapshot.FastBufferCount)
+        {
+            var tempList = new List<double>(_fastBuffer);
+            tempList.RemoveAt(tempList.Count - 1);
+            _fastBuffer.Clear();
+            foreach (var item in tempList)
+            {
+                _fastBuffer.Enqueue(item);
+            }
+        }
+
+        if (_slowBuffer.Count > _lastSnapshot.SlowBufferCount)
+        {
+            var tempList = new List<double>(_slowBuffer);
+            tempList.RemoveAt(tempList.Count - 1);
+            _slowBuffer.Clear();
+            foreach (var item in tempList)
+            {
+                _slowBuffer.Enqueue(item);
+            }
+        }
+
+        if (_macdBuffer.Count > _lastSnapshot.MacdBufferCount)
+        {
+            var tempList = new List<double>(_macdBuffer);
+            tempList.RemoveAt(tempList.Count - 1);
+            _macdBuffer.Clear();
+            foreach (var item in tempList)
+            {
+                _macdBuffer.Enqueue(item);
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -231,6 +366,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         _lastFastEma = null;
         _lastSlowEma = null;
         _lastSignalEma = null;
+        _lastSnapshot = default;
     }
 }
 
