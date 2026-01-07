@@ -12,12 +12,16 @@ namespace Skender.Stock.Indicators;
 /// <param name="Volume">
 /// Tick volume (quantity traded)
 /// </param>
+/// <param name="ExecutionId">
+/// Optional unique execution ID for duplicate detection
+/// </param>
 [Serializable]
 public record Tick
 (
     DateTime Timestamp,
     decimal Price,
-    decimal Volume
+    decimal Volume,
+    string? ExecutionId = null
 ) : ITick
 {
     /// <inheritdoc/>
@@ -28,5 +32,5 @@ public record Tick
     /// Initializes a new instance of the <see cref="Tick"/> class.
     /// </summary>
     public Tick()
-        : this(default, default, default) { }
+        : this(default, default, default, null) { }
 }

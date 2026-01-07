@@ -442,4 +442,37 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         aggregator.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void SameTimestampQuotes_ReplacesPriorBar()
+    {
+        QuoteHub provider = new();
+        QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+
+        // Add initial quote at 10:00
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:00", invariantCulture),
+            100m, 110m, 99m, 105m, 1000m));
+
+        // Add another quote also at 10:00 (within same 5-min period)
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:01", invariantCulture),
+            105m, 115m, 104m, 108m, 1100m));
+
+        IReadOnlyList<IQuote> results = aggregator.Results;
+
+        results.Should().HaveCount(1);
+
+        // Bar should incorporate both quotes
+        IQuote bar = results[0];
+        bar.Open.Should().Be(100m);  // First quote's open
+        bar.High.Should().Be(115m);  // Max of both highs
+        bar.Low.Should().Be(99m);    // Min of both lows
+        bar.Close.Should().Be(108m); // Last quote's close
+        bar.Volume.Should().Be(2100m); // Sum of volumes
+
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
 }
+

@@ -15,4 +15,10 @@ public interface ITick : IReusable
     /// Tick volume (quantity traded)
     /// </summary>
     decimal Volume { get; }
+
+    /// <summary>
+    /// Optional unique execution ID for duplicate detection.
+    /// When null, duplicates are assessed by timestamp only.
+    /// </summary>
+    string? ExecutionId { get; }
 }

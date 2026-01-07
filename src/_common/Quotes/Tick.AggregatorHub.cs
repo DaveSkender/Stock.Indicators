@@ -8,6 +8,7 @@ public class TickAggregatorHub
 {
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
+    private readonly HashSet<string> _processedExecutionIds = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TickAggregatorHub"/> class.
@@ -76,10 +77,54 @@ public class TickAggregatorHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
+        // Check for duplicate execution IDs
+        if (!string.IsNullOrEmpty(item.ExecutionId))
+        {
+            if (_processedExecutionIds.Contains(item.ExecutionId))
+            {
+                return; // Skip duplicate tick
+            }
+
+            _processedExecutionIds.Add(item.ExecutionId);
+        }
+
         DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
-        // Handle gap filling if enabled
-        if (FillGaps && _currentBar != null)
+        // Determine if this is for current bar, future bar, or past bar
+        bool isCurrentBar = _currentBar != null && barTimestamp == _currentBarTimestamp;
+        bool isFutureBar = _currentBar == null || barTimestamp > _currentBarTimestamp;
+        bool isPastBar = _currentBar != null && barTimestamp < _currentBarTimestamp;
+
+        // Handle late arrival for past bar
+        if (isPastBar)
+        {
+            // Find the existing bar in cache
+            int existingIndex = Cache.IndexGte(barTimestamp);
+            if (existingIndex >= 0 && existingIndex < Cache.Count && Cache[existingIndex].Timestamp == barTimestamp)
+            {
+                // Update existing past bar
+                IQuote existingBar = Cache[existingIndex];
+                Quote updatedBar = new(
+                    Timestamp: barTimestamp,
+                    Open: existingBar.Open,  // Keep original open
+                    High: Math.Max(existingBar.High, item.Price),
+                    Low: Math.Min(existingBar.Low, item.Price),
+                    Close: item.Price,  // Update close
+                    Volume: existingBar.Volume + item.Volume);
+
+                Cache[existingIndex] = updatedBar;
+
+                // Trigger rebuild from this timestamp
+                if (notify)
+                {
+                    NotifyObserversOnRebuild(barTimestamp);
+                }
+            }
+            return;
+        }
+
+        // Handle gap filling if enabled and moving to future bar
+        if (FillGaps && isFutureBar && _currentBar != null)
         {
             DateTime lastBarTimestamp = _currentBarTimestamp;
             DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(AggregationPeriod);
@@ -107,33 +152,20 @@ public class TickAggregatorHub
             }
         }
 
-        // Check if this is a new bar or continuation of current bar
-        if (_currentBar == null || barTimestamp != _currentBarTimestamp)
+        // Handle new bar or update to current bar
+        if (isFutureBar)
         {
             // Start a new bar from the tick
-            _currentBar = new Quote(
-                Timestamp: barTimestamp,
-                Open: item.Price,
-                High: item.Price,
-                Low: item.Price,
-                Close: item.Price,
-                Volume: item.Volume);
-
+            _currentBar = CreateOrUpdateBar(null, barTimestamp, item);
             _currentBarTimestamp = barTimestamp;
 
             // Add the new bar directly to cache
             AppendCache(_currentBar, notify);
         }
-        else
+        else // isCurrentBar
         {
             // Update existing bar with new tick data
-            _currentBar = new Quote(
-                Timestamp: barTimestamp,
-                Open: _currentBar.Open,  // Keep original open
-                High: Math.Max(_currentBar.High, item.Price),
-                Low: Math.Min(_currentBar.Low, item.Price),
-                Close: item.Price,  // Always use latest price
-                Volume: _currentBar.Volume + item.Volume);
+            _currentBar = CreateOrUpdateBar(_currentBar, barTimestamp, item);
 
             // Replace the last item in cache with updated bar
             int index = Cache.Count - 1;
@@ -147,6 +179,39 @@ public class TickAggregatorHub
                     NotifyObserversOnRebuild(_currentBar.Timestamp);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Creates a new bar or updates an existing bar with tick data.
+    /// </summary>
+    /// <param name="existingBar">Existing bar to update, or null to create new.</param>
+    /// <param name="barTimestamp">Timestamp for the bar.</param>
+    /// <param name="tick">Tick data to incorporate.</param>
+    /// <returns>Updated or new Quote bar.</returns>
+    private static Quote CreateOrUpdateBar(Quote? existingBar, DateTime barTimestamp, ITick tick)
+    {
+        if (existingBar == null)
+        {
+            // Create new bar from tick
+            return new Quote(
+                Timestamp: barTimestamp,
+                Open: tick.Price,
+                High: tick.Price,
+                Low: tick.Price,
+                Close: tick.Price,
+                Volume: tick.Volume);
+        }
+        else
+        {
+            // Update existing bar
+            return new Quote(
+                Timestamp: barTimestamp,
+                Open: existingBar.Open,  // Keep original open
+                High: Math.Max(existingBar.High, tick.Price),
+                Low: Math.Min(existingBar.Low, tick.Price),
+                Close: tick.Price,  // Always use latest price
+                Volume: existingBar.Volume + tick.Volume);
         }
     }
 

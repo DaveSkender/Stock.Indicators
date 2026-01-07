@@ -78,8 +78,41 @@ public class QuoteAggregatorHub
 
         DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
-        // Handle gap filling if enabled
-        if (FillGaps && _currentBar != null)
+        // Determine if this is for current bar, future bar, or past bar
+        bool isCurrentBar = _currentBar != null && barTimestamp == _currentBarTimestamp;
+        bool isFutureBar = _currentBar == null || barTimestamp > _currentBarTimestamp;
+        bool isPastBar = _currentBar != null && barTimestamp < _currentBarTimestamp;
+
+        // Handle late arrival for past bar
+        if (isPastBar)
+        {
+            // Find the existing bar in cache
+            int existingIndex = Cache.IndexGte(barTimestamp);
+            if (existingIndex >= 0 && existingIndex < Cache.Count && Cache[existingIndex].Timestamp == barTimestamp)
+            {
+                // Update existing past bar
+                IQuote existingBar = Cache[existingIndex];
+                Quote updatedBar = new(
+                    Timestamp: barTimestamp,
+                    Open: existingBar.Open,  // Keep original open
+                    High: Math.Max(existingBar.High, item.High),
+                    Low: Math.Min(existingBar.Low, item.Low),
+                    Close: item.Close,  // Update close
+                    Volume: existingBar.Volume + item.Volume);
+
+                Cache[existingIndex] = updatedBar;
+
+                // Trigger rebuild from this timestamp
+                if (notify)
+                {
+                    NotifyObserversOnRebuild(barTimestamp);
+                }
+            }
+            return;
+        }
+
+        // Handle gap filling if enabled and moving to future bar
+        if (FillGaps && isFutureBar && _currentBar != null)
         {
             DateTime lastBarTimestamp = _currentBarTimestamp;
             DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(AggregationPeriod);
@@ -108,34 +141,21 @@ public class QuoteAggregatorHub
             }
         }
 
-        // Check if this is a new bar or continuation of current bar
-        if (_currentBar == null || barTimestamp != _currentBarTimestamp)
+        // Handle new bar or update to current bar
+        if (isFutureBar)
         {
             // Start a new bar
-            _currentBar = new Quote(
-                Timestamp: barTimestamp,
-                Open: item.Open,
-                High: item.High,
-                Low: item.Low,
-                Close: item.Close,
-                Volume: item.Volume);
-
+            _currentBar = CreateOrUpdateBar(null, barTimestamp, item);
             _currentBarTimestamp = barTimestamp;
 
             // Use base class to add the new bar
             (IQuote result, int index) = ToIndicator(_currentBar, indexHint);
             AppendCache(result, notify);
         }
-        else
+        else // isCurrentBar
         {
-            // Update existing bar
-            _currentBar = new Quote(
-                Timestamp: barTimestamp,
-                Open: _currentBar.Open,  // Keep original open
-                High: Math.Max(_currentBar.High, item.High),
-                Low: Math.Min(_currentBar.Low, item.Low),
-                Close: item.Close,  // Always use latest close
-                Volume: _currentBar.Volume + item.Volume);
+            // Update existing bar - for quotes with same timestamp, replace
+            _currentBar = CreateOrUpdateBar(_currentBar, barTimestamp, item);
 
             // Replace the last item in cache with updated bar
             int index = Cache.Count - 1;
@@ -149,6 +169,39 @@ public class QuoteAggregatorHub
                     NotifyObserversOnRebuild(_currentBar.Timestamp);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Creates a new bar or updates an existing bar with quote data.
+    /// </summary>
+    /// <param name="existingBar">Existing bar to update, or null to create new.</param>
+    /// <param name="barTimestamp">Timestamp for the bar.</param>
+    /// <param name="quote">Quote data to incorporate.</param>
+    /// <returns>Updated or new Quote bar.</returns>
+    private static Quote CreateOrUpdateBar(Quote? existingBar, DateTime barTimestamp, IQuote quote)
+    {
+        if (existingBar == null)
+        {
+            // Create new bar from quote
+            return new Quote(
+                Timestamp: barTimestamp,
+                Open: quote.Open,
+                High: quote.High,
+                Low: quote.Low,
+                Close: quote.Close,
+                Volume: quote.Volume);
+        }
+        else
+        {
+            // Update existing bar
+            return new Quote(
+                Timestamp: barTimestamp,
+                Open: existingBar.Open,  // Keep original open
+                High: Math.Max(existingBar.High, quote.High),
+                Low: Math.Min(existingBar.Low, quote.Low),
+                Close: quote.Close,  // Always use latest close
+                Volume: existingBar.Volume + quote.Volume);
         }
     }
 

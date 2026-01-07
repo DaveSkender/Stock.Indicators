@@ -274,4 +274,66 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         aggregator.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void DuplicateExecutionId_IsIgnored()
+    {
+        TickHub provider = new();
+        TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
+
+        // Add tick with execution ID
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:00", invariantCulture),
+            100m, 10m, "EXEC-001"));
+
+        // Add duplicate with same execution ID
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:10", invariantCulture),
+            200m, 20m, "EXEC-001"));
+
+        // Add different tick with unique execution ID
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:20", invariantCulture),
+            101m, 11m, "EXEC-002"));
+
+        IReadOnlyList<IQuote> results = aggregator.Results;
+
+        results.Should().HaveCount(1);
+
+        // Should only incorporate first and third ticks (not the duplicate)
+        IQuote bar = results[0];
+        bar.High.Should().Be(101m); // Max of 100 and 101, not 200
+        bar.Volume.Should().Be(21m); // Sum of 10 and 11, not 30
+
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void TicksWithoutExecutionId_DuplicatesAllowed()
+    {
+        TickHub provider = new();
+        TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
+
+        // Add ticks without execution IDs (same timestamp is allowed)
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:00", invariantCulture),
+            100m, 10m, null));
+
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:00", invariantCulture),
+            105m, 15m, null));
+
+        IReadOnlyList<IQuote> results = aggregator.Results;
+
+        results.Should().HaveCount(1);
+
+        // Both ticks should be incorporated
+        IQuote bar = results[0];
+        bar.High.Should().Be(105m);
+        bar.Volume.Should().Be(25m); // Sum of both volumes
+
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
 }
