@@ -256,7 +256,7 @@ const INDICATOR_CONFIG = {
     thresholds: [
       { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
     ],
-    fields: [{ name: 'Force', jsonKey: 'forceIndex', type: 'baseline', color: ChartColors.StandardBlue }]
+    fields: [{ name: 'Force', jsonKey: 'forceIndex', type: 'line', color: ChartColors.StandardBlue }]
   },
   'fractal.standard.json': {
     displayName: 'Fractal',
@@ -288,7 +288,8 @@ const INDICATOR_CONFIG = {
     chartType: 'overlay',
     fields: [
       { name: 'Trendline', jsonKey: 'trendline', type: 'line', color: ChartColors.StandardBlue },
-      { name: 'SmoothPrice', jsonKey: 'smoothPrice', type: 'line', color: ChartColors.StandardOrange }
+      { name: 'SmoothPrice', jsonKey: 'smoothPrice', type: 'line', color: ChartColors.StandardOrange },
+      { name: 'DC Periods', jsonKey: 'dcPeriods', type: 'line', color: ChartColors.StandardPurple }
     ]
   },
   'hurst.standard.json': {
@@ -352,7 +353,7 @@ const INDICATOR_CONFIG = {
     fields: [
       { name: 'MACD', jsonKey: 'macd', type: 'line', color: ChartColors.StandardBlue },
       { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed },
-      { name: 'Histogram', jsonKey: 'histogram', type: 'baseline', color: ChartColors.StandardGrayTransparent }
+      { name: 'Histogram', jsonKey: 'histogram', type: 'histogram', color: ChartColors.StandardGrayTransparent }
     ]
   },
   'mama.standard.json': {
@@ -415,7 +416,7 @@ const INDICATOR_CONFIG = {
     fields: [
       { name: 'PVO', jsonKey: 'pvo', type: 'line', color: ChartColors.StandardBlue },
       { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed },
-      { name: 'Histogram', jsonKey: 'histogram', type: 'baseline', color: ChartColors.StandardGrayTransparent }
+      { name: 'Histogram', jsonKey: 'histogram', type: 'histogram', color: ChartColors.StandardGrayTransparent }
     ]
   },
   'renko.standard.json': {

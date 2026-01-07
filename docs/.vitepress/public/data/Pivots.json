@@ -4027,8 +4027,6 @@
     {
       "name": "High Point",
       "type": "dots",
-      "color": "#DD2C00",
-      "lineWidth": 3,
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6038,13 +6036,13 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "color": "#DD2C00",
+      "lineWidth": 3
     },
     {
       "name": "Low Point",
       "type": "dots",
-      "color": "#2E7D32",
-      "lineWidth": 3,
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8054,7 +8052,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "color": "#2E7D32",
+      "lineWidth": 3
     }
   ]
 }

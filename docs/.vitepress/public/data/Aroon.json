@@ -4044,7 +4044,6 @@
     {
       "name": "Aroon Up",
       "type": "line",
-      "color": "#2E7D32",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6054,12 +6053,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 28
         }
-      ]
+      ],
+      "color": "#2E7D32"
     },
     {
       "name": "Aroon Down",
       "type": "line",
-      "color": "#DD2C00",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8069,7 +8068,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 88
         }
-      ]
+      ],
+      "color": "#DD2C00"
     }
   ]
 }

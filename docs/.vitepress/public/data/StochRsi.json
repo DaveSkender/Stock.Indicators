@@ -4043,7 +4043,6 @@
     {
       "name": "StochRSI",
       "type": "line",
-      "color": "#1E88E5",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6053,12 +6052,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 97.5243512695025
         }
-      ]
+      ],
+      "color": "#1E88E5"
     },
     {
       "name": "Signal",
       "type": "line",
-      "color": "#DD2C00",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8068,7 +8067,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 89.83846321740634
         }
-      ]
+      ],
+      "color": "#DD2C00"
     }
   ]
 }

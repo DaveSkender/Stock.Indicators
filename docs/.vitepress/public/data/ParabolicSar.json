@@ -4027,8 +4027,6 @@
     {
       "name": "SAR",
       "type": "dots",
-      "color": "#8E24AA",
-      "lineWidth": 2,
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6038,7 +6036,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 229.7662
         }
-      ]
+      ],
+      "color": "#8E24AA",
+      "lineWidth": 2
     }
   ]
 }
