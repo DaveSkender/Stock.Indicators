@@ -401,7 +401,6 @@ export default defineConfig({
   // Redirect old URLs to new locations
   rewrites: {
     // Legacy routes
-    'custom-indicators': 'customization',
     'indicators/BasicQuote': 'indicators/QuotePart',
   },
 
