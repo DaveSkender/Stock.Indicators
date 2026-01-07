@@ -1,7 +1,7 @@
 name: Test performance (manual)
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.indicator }}
   cancel-in-progress: true
 
 on:
@@ -102,16 +102,21 @@ on:
         type: number
         required: true
         default: 500000
-      style:
-        description: Indicator style to benchmark
-        type: choice
+      series:
+        description: for Series style
+        type: boolean
         required: true
-        default: All
-        options:
-          - All
-          - Series
-          - Buffer
-          - StreamHub
+        default: true
+      buffer:
+        description: for Buffer style
+        type: boolean
+        required: true
+        default: true
+      streamhub:
+        description: for StreamHub style
+        type: boolean
+        required: true
+        default: true
 
 permissions:
   contents: read
@@ -154,16 +159,39 @@ jobs:
       - name: Run manual performance test
         working-directory: tools/performance
         run: |
-          FILTER="Performance.ManualTestDirect*"
-          
-          if [ "${{ inputs.style }}" != "All" ]; then
-            FILTER="Performance.ManualTestDirect.${{ inputs.style }}"
+          # Build list of selected types based on boolean inputs
+          TYPES=()
+          if [ "${{ inputs.series }}" = "true" ]; then
+            TYPES+=("Series")
           fi
-          
+          if [ "${{ inputs.buffer }}" = "true" ]; then
+            TYPES+=("Buffer")
+          fi
+          if [ "${{ inputs.streamhub }}" = "true" ]; then
+            TYPES+=("StreamHub")
+          fi
+
+          if [ ${#TYPES[@]} -eq 0 ]; then
+            echo "No style selected; exiting."
+            exit 1
+          fi
+
+          # If all three selected, run the broad wildcard; otherwise build a regex group
+          if [ ${#TYPES[@]} -eq 3 ]; then
+            FILTER="Performance.ManualTestDirect*"
+          else
+            PATTERN=$(IFS='|'; echo "${TYPES[*]}")
+            FILTER="Performance.ManualTestDirect.(${PATTERN})"
+          fi
+
+          echo "Using filter: $FILTER"
           dotnet run -c Release -- --filter "$FILTER" --job short --exporters json markdown
         env:
           PERF_TEST_KEYWORD: ${{ inputs.indicator }}
           PERF_TEST_PERIODS: ${{ inputs.periods }}
+          PERF_TEST_SERIES: ${{ inputs.series }}
+          PERF_TEST_BUFFER: ${{ inputs.buffer }}
+          PERF_TEST_STREAMHUB: ${{ inputs.streamhub }}
 
       - name: Save test results
         uses: actions/upload-artifact@v4
@@ -177,13 +205,21 @@ jobs:
         env:
           INDICATOR_KEYWORD: ${{ inputs.indicator }}
           INDICATOR_PERIODS: ${{ inputs.periods }}
-          INDICATOR_STYLE: ${{ inputs.style }}
+          INDICATOR_SERIES: ${{ inputs.series }}
+          INDICATOR_BUFFER: ${{ inputs.buffer }}
+          INDICATOR_STREAMHUB: ${{ inputs.streamhub }}
         run: |
           echo "## Manual Performance Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Indicator:** $INDICATOR_KEYWORD" >> $GITHUB_STEP_SUMMARY
           echo "**Periods:** $INDICATOR_PERIODS" >> $GITHUB_STEP_SUMMARY
-          echo "**Style:** $INDICATOR_STYLE" >> $GITHUB_STEP_SUMMARY
+
+          STYLE_SELECTED=""
+          if [ "$INDICATOR_SERIES" = "true" ]; then STYLE_SELECTED="${STYLE_SELECTED}Series "; fi
+          if [ "$INDICATOR_BUFFER" = "true" ]; then STYLE_SELECTED="${STYLE_SELECTED}Buffer "; fi
+          if [ "$INDICATOR_STREAMHUB" = "true" ]; then STYLE_SELECTED="${STYLE_SELECTED}StreamHub "; fi
+          if [ -z "$STYLE_SELECTED" ]; then STYLE_SELECTED="(none selected)"; fi
+          echo "**Style:** $STYLE_SELECTED" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           RESULTS_FILE="tools/performance/BenchmarkDotNet.Artifacts/results/Performance.ManualTestDirect-report-github.md"
