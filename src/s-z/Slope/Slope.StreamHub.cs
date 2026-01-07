@@ -16,6 +16,10 @@ public class SlopeHub
     // Pre-calculated constant for X variance (sequential integers)
     private readonly double sumSqXConstant;
 
+    // Cache latest slope/intercept to avoid cache lookups in OnAdd
+    private double? currentSlope;
+    private double? currentIntercept;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeHub"/> class.
     /// </summary>
@@ -53,8 +57,7 @@ public class SlopeHub
         int currentIndex = Cache.Count - 1;
         if (currentIndex >= LookbackPeriods - 1)
         {
-            SlopeResult latest = Cache[currentIndex];
-            UpdateLineValues(currentIndex, latest.Slope, latest.Intercept);
+            UpdateLineValues(currentIndex, currentSlope, currentIntercept);
         }
     }
 
@@ -79,6 +82,10 @@ public class SlopeHub
         (double? slope, double? intercept, double? stdDev, double? rSquared)
             = CalculateStatistics(i);
 
+        // Cache slope and intercept for use in OnAdd
+        currentSlope = slope;
+        currentIntercept = intercept;
+
         // Create result (Line will be updated in OnAdd after this is added to Cache)
         SlopeResult r = new(
             Timestamp: item.Timestamp,
@@ -98,6 +105,10 @@ public class SlopeHub
 
         // Clear buffer
         buffer.Clear();
+
+        // Clear cached slope/intercept
+        currentSlope = null;
+        currentIntercept = null;
 
         if (targetIndex <= LookbackPeriods - 1)
         {
@@ -178,20 +189,15 @@ public class SlopeHub
     /// <param name="intercept">The calculated intercept value.</param>
     private void UpdateLineValues(int currentIndex, double? slope, double? intercept)
     {
-        // Only update if we have enough results
-        if (currentIndex < LookbackPeriods - 1)
-        {
-            return;
-        }
-
         // Calculate the range of indices that should have Line values
         int startIndex = currentIndex - LookbackPeriods + 1;
 
         // Nullify the SINGLE Line value that just exited the window (if any)
         int exitedIndex = startIndex - 1;
-        if (exitedIndex >= 0 && exitedIndex < Cache.Count)
+        if (exitedIndex >= 0)
         {
             SlopeResult exited = Cache[exitedIndex];
+            // Only update if Line was previously set (optimization)
             if (exited.Line is not null)
             {
                 Cache[exitedIndex] = exited with { Line = null };
@@ -202,15 +208,12 @@ public class SlopeHub
         // Using global indices (p + 1) like the series implementation
         for (int p = startIndex; p <= currentIndex; p++)
         {
-            if (p >= 0 && p < Cache.Count)
-            {
-                SlopeResult existing = Cache[p];
+            SlopeResult existing = Cache[p];
 
-                // Calculate Line: y = mx + b, using global index (p + 1)
-                decimal? line = (decimal?)((slope * (p + 1)) + intercept).NaN2Null();
+            // Calculate Line: y = mx + b, using global index (p + 1)
+            decimal? line = (decimal?)((slope * (p + 1)) + intercept).NaN2Null();
 
-                Cache[p] = existing with { Line = line };
-            }
+            Cache[p] = existing with { Line = line };
         }
     }
 }
