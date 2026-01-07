@@ -206,7 +206,7 @@ export default defineConfig({
             { text: 'Fractal Chaos Bands', link: '/indicators/Fcb' },
             { text: 'Keltner Channels', link: '/indicators/Keltner' },
             { text: 'Moving Average Envelopes', link: '/indicators/MaEnvelopes' },
-            { text: 'Pivots Points', link: '/indicators/PivotPoints' },
+            { text: 'Pivot Points', link: '/indicators/PivotPoints' },
             { text: 'Price Channels', link: '/indicators/Donchian' },
             { text: 'Rolling Pivot Points', link: '/indicators/RollingPivots' },
             { text: 'STARC Bands', link: '/indicators/StarcBands' },
