@@ -282,7 +282,7 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
 
         // Third should be average of first three closes
         smaResults[2].Sma.Should().NotBeNull();
-        double expectedSma = (102 + 104 + 106) / 3.0;
+        const double expectedSma = (102 + 104 + 106) / 3.0;
         smaResults[2].Sma.Should().BeApproximately(expectedSma, 0.0001);
 
         sma.Unsubscribe();

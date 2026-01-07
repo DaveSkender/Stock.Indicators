@@ -6,8 +6,6 @@ namespace Skender.Stock.Indicators;
 public class QuoteAggregatorHub
     : QuoteProvider<IQuote, IQuote>
 {
-    private readonly TimeSpan _aggregationPeriod;
-    private readonly bool _fillGaps;
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
 
@@ -30,8 +28,8 @@ public class QuoteAggregatorHub
                 nameof(periodSize));
         }
 
-        _aggregationPeriod = periodSize.ToTimeSpan();
-        _fillGaps = fillGaps;
+        AggregationPeriod = periodSize.ToTimeSpan();
+        FillGaps = fillGaps;
         Name = $"QUOTE-AGG({periodSize})";
 
         Reinitialize();
@@ -56,8 +54,8 @@ public class QuoteAggregatorHub
                 "Aggregation period must be greater than zero.");
         }
 
-        _aggregationPeriod = timeSpan;
-        _fillGaps = fillGaps;
+        AggregationPeriod = timeSpan;
+        FillGaps = fillGaps;
         Name = $"QUOTE-AGG({timeSpan})";
 
         Reinitialize();
@@ -66,25 +64,25 @@ public class QuoteAggregatorHub
     /// <summary>
     /// Gets a value indicating whether gap filling is enabled.
     /// </summary>
-    public bool FillGaps => _fillGaps;
+    public bool FillGaps { get; }
 
     /// <summary>
     /// Gets the aggregation period.
     /// </summary>
-    public TimeSpan AggregationPeriod => _aggregationPeriod;
+    public TimeSpan AggregationPeriod { get; }
 
     /// <inheritdoc/>
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        DateTime barTimestamp = item.Timestamp.RoundDown(_aggregationPeriod);
+        DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
         // Handle gap filling if enabled
-        if (_fillGaps && _currentBar != null)
+        if (FillGaps && _currentBar != null)
         {
             DateTime lastBarTimestamp = _currentBarTimestamp;
-            DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(_aggregationPeriod);
+            DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(AggregationPeriod);
 
             // Fill gaps between last bar and current bar
             while (nextExpectedBarTimestamp < barTimestamp)
@@ -106,7 +104,7 @@ public class QuoteAggregatorHub
                 _currentBar = gapBar;
                 _currentBarTimestamp = nextExpectedBarTimestamp;
 
-                nextExpectedBarTimestamp = nextExpectedBarTimestamp.Add(_aggregationPeriod);
+                nextExpectedBarTimestamp = nextExpectedBarTimestamp.Add(AggregationPeriod);
             }
         }
 
@@ -160,7 +158,7 @@ public class QuoteAggregatorHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        DateTime barTimestamp = item.Timestamp.RoundDown(_aggregationPeriod);
+        DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
         int index = indexHint ?? Cache.IndexGte(barTimestamp);
 
@@ -174,7 +172,7 @@ public class QuoteAggregatorHub
 
     /// <inheritdoc/>
     public override string ToString()
-        => $"QUOTE-AGG<{_aggregationPeriod}>: {Cache.Count} items";
+        => $"QUOTE-AGG<{AggregationPeriod}>: {Cache.Count} items";
 }
 
 public static partial class Quotes
