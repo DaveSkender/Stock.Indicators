@@ -92,6 +92,19 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 
 See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.HLC3)
+    .ToMaEnvelopes(..);
+```
+
+Results **cannot** be further chained with additional transforms.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -122,19 +135,6 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<MaEnvelopeResult> results = observer.Results;
 ```
 
-:::Note
+::: note
 In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
 :::
-
-## Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotes
-    .Use(CandlePart.HLC3)
-    .ToMaEnvelopes(..);
-```
-
-Results **cannot** be further chained with additional transforms.
