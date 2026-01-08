@@ -37,6 +37,11 @@ public record RollingPivotsResult : ISeries, IPivotPoint
     public decimal? S4 { get; init; }
 
     /// <summary>
+    /// Gets the fifth support level (S5).
+    /// </summary>
+    public decimal? S5 { get; init; }
+
+    /// <summary>
     /// Gets the first resistance level (R1).
     /// </summary>
     public decimal? R1 { get; init; }
@@ -55,4 +60,9 @@ public record RollingPivotsResult : ISeries, IPivotPoint
     /// Gets the fourth resistance level (R4).
     /// </summary>
     public decimal? R4 { get; init; }
+
+    /// <summary>
+    /// Gets the fifth resistance level (R5).
+    /// </summary>
+    public decimal? R5 { get; init; }
 }

@@ -103,10 +103,12 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
                 S2 = wp.S2,
                 S3 = wp.S3,
                 S4 = wp.S4,
+                S5 = wp.S5,
                 R1 = wp.R1,
                 R2 = wp.R2,
                 R3 = wp.R3,
-                R4 = wp.R4
+                R4 = wp.R4,
+                R5 = wp.R5,
             };
         }
         else
