@@ -16,8 +16,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<EmaResult> results =
-  quotes.GetEma(lookbackPeriods);
+IReadOnlyList<EmaResult> results =
+  quotes.ToEma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<EmaResult>
+IReadOnlyList<EmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<EmaResult>
 
 ### EmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ema`** _`double`_ - Exponential moving average
 
@@ -66,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetEma(..);
+    .ToEma(..);
 ```
 
 Results can be further processed on `Ema` with additional chain-enabled indicators.
@@ -74,6 +74,36 @@ Results can be further processed on `Ema` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetEma(..)
-    .GetRsi(..);
+    .ToEma(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+EmaList emaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  emaList.Add(quote);
+}
+
+// based on `ICollection<EmaResult>`
+IReadOnlyList<EmaResult> results = emaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+EmaHub observer = quoteHub.ToEmaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<EmaResult> results = observer.Results;
 ```

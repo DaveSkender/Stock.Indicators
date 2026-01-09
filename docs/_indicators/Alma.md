@@ -16,8 +16,8 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA]({{site.github.repos
 
 ```csharp
 // C# usage syntax
-IEnumerable<AlmaResult> results =
-  quotes.GetAlma(lookbackPeriods, offset, sigma);
+IReadOnlyList<AlmaResult> results =
+  quotes.ToAlma(lookbackPeriods, offset, sigma);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<AlmaResult>
+IReadOnlyList<AlmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<AlmaResult>
 
 ### AlmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Alma`** _`double`_ - Arnaud Legoux Moving Average
 
@@ -68,7 +68,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetAlma(..);
+    .ToAlma(..);
 ```
 
 Results can be further processed on `Alma` with additional chain-enabled indicators.
@@ -76,6 +76,36 @@ Results can be further processed on `Alma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetAlma(..)
-    .GetRsi(..);
+    .ToAlma(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AlmaList almaList = new(lookbackPeriods, offset, sigma);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  almaList.Add(quote);
+}
+
+// based on `ICollection<AlmaResult>`
+IReadOnlyList<AlmaResult> results = almaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AlmaHub observer = quoteHub.ToAlmaHub(lookbackPeriods, offset, sigma);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AlmaResult> results = observer.Results;
 ```

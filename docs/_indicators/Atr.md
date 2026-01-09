@@ -16,16 +16,16 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 
 ```csharp
 // C# usage syntax
-IEnumerable<AtrResult> results =
-  quotes.GetAtr(lookbackPeriods);
+IReadOnlyList<AtrResult> results =
+  quotes.ToAtr(lookbackPeriods);
 
 // ATR with custom moving average
-IEnumerable<SmmaResult> results =
-  quotes.GetTr().GetSmma(lookbackPeriods);
+IReadOnlyList<SmmaResult> results =
+  quotes.ToTr().ToSmma(lookbackPeriods);
 
 // raw True Range (TR) only
-IEnumerable<TrResult> results =
-  quote.GetTr();
+IReadOnlyList<TrResult> results =
+  quote.ToTr();
 ```
 
 ## Parameters
@@ -41,7 +41,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<AtrResult>
+IReadOnlyList<AtrResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -53,7 +53,7 @@ IEnumerable<AtrResult>
 
 ### AtrResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Tr`** _`double`_ - True Range for current period
 
@@ -77,8 +77,38 @@ Results can be further processed on `Atrp` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetAtr(..)
-    .GetSlope(..);
+    .ToAtr(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AtrList atrList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  atrList.Add(quote);
+}
+
+// based on `ICollection<AtrResult>`
+IReadOnlyList<AtrResult> results = atrList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AtrHub observer = quoteHub.ToAtrHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AtrResult> results = observer.Results;
+```

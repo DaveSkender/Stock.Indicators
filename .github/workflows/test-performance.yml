@@ -4,14 +4,16 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   analyze:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
 
     steps:
       - name: Checkout source
@@ -43,12 +45,90 @@ jobs:
           --configuration Release
           --property:ContinuousIntegrationBuild=true
 
-      - name: Benchmark indicators
-        working-directory: tests/performance
-        run: dotnet run -c Release
+      - name: Test performance (full suite)
+        working-directory: tools/performance
+        run: |
+          echo "Running full benchmark suite..."
+          dotnet run -c Release
+
+      - name: Save test results
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-summaries
+          path: tools/performance/BenchmarkDotNet.Artifacts/results
 
       - name: Publish summary
-        working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
+        working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
+        shell: bash
+        env:
+          VERSION: ${{ steps.gitversion.outputs.FullSemVer }}
         run: |
-          echo "### Package version ${{ env.FullSemVer }}" >> $GITHUB_STEP_SUMMARY
-          cat Tests.Performance.IndicatorPerformance-report-github.md >> $GITHUB_STEP_SUMMARY
+          TITLE="## Performance test results"
+          if [ -n "$VERSION" ]; then
+            TITLE="$TITLE for $VERSION"
+          fi
+          echo "$TITLE" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Dynamically discover and publish all available report files
+          FOUND_REPORTS=false
+
+          # Define report order and display names
+          declare -A REPORT_NAMES=(
+            ["Performance.SeriesIndicators"]="Series Indicators"
+            ["Performance.StreamIndicators"]="Stream Indicators"
+            ["Performance.BufferIndicators"]="Buffer Indicators"
+            ["Performance.StyleComparison"]="Style Comparison"
+            ["Performance.StreamExternal"]="Stream External"
+            ["Performance.Utility"]="Utilities"
+            ["Performance.UtilityStdDev"]="Utility StdDev"
+            ["Performance.UtilityNullMath"]="Utility NullMath"
+          )
+
+          # Track processed reports using associative array for O(1) lookup
+          declare -A PROCESSED_REPORTS
+
+          # Order of reports to display
+          REPORT_ORDER=(
+            "Performance.SeriesIndicators"
+            "Performance.StreamIndicators"
+            "Performance.BufferIndicators"
+            "Performance.StyleComparison"
+            "Performance.StreamExternal"
+            "Performance.Utility"
+            "Performance.UtilityStdDev"
+            "Performance.UtilityNullMath"
+          )
+
+          for REPORT_KEY in "${REPORT_ORDER[@]}"; do
+            REPORT_FILE="${REPORT_KEY}-report-github.md"
+            if [ -f "$REPORT_FILE" ]; then
+              FOUND_REPORTS=true
+              PROCESSED_REPORTS["$REPORT_KEY"]=1
+              DISPLAY_NAME="${REPORT_NAMES[$REPORT_KEY]:-$REPORT_KEY}"
+              echo "### $DISPLAY_NAME" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+          # Also check for any other reports not in the predefined list (O(1) lookup)
+          for REPORT_FILE in *-report-github.md; do
+            if [ -f "$REPORT_FILE" ]; then
+              # Extract base name using parameter expansion
+              BASE_NAME="${REPORT_FILE%-report-github.md}"
+              # Skip if already processed (O(1) associative array lookup)
+              if [ -z "${PROCESSED_REPORTS[$BASE_NAME]}" ]; then
+                FOUND_REPORTS=true
+                echo "### $BASE_NAME" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+          done
+
+          if [ "$FOUND_REPORTS" = "false" ]; then
+            echo "⚠️ No benchmark reports were generated." >> $GITHUB_STEP_SUMMARY
+          fi

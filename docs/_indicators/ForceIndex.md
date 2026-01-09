@@ -16,8 +16,8 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 
 ```csharp
 // C# usage syntax
-IEnumerable<ForceIndexResult> results =
-  quotes.GetForceIndex(lookbackPeriods);
+IReadOnlyList<ForceIndexResult> results =
+  quotes.ToForceIndex(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more
 ## Response
 
 ```csharp
-IEnumerable<ForceIndexResult>
+IReadOnlyList<ForceIndexResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<ForceIndexResult>
 
 ### ForceIndexResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`ForceIndex`** _`double`_ - Force Index
 
@@ -65,8 +65,38 @@ Results can be further processed on `ForceIndex` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetForceIndex(..)
-    .GetEma(..);
+    .ToForceIndex(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ForceIndexList forceIndexList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  forceIndexList.Add(quote);
+}
+
+// based on `ICollection<ForceIndexResult>`
+IReadOnlyList<ForceIndexResult> results = forceIndexList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ForceIndexResult> results = observer.Results;
+```

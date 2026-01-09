@@ -16,19 +16,13 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 
 ```csharp
 // C# usage syntax for Trix
-IEnumerable<TrixResult> results =
-  quotes.GetTrix(lookbackPeriods);
-
-// usage for Trix with Signal Line (shown above)
-IEnumerable<TrixResult> results =
-  quotes.GetTrix(lookbackPeriods, signalPeriods);
+IReadOnlyList<TrixResult> results =
+  quotes.ToTrix(lookbackPeriods);
 ```
 
 ## Parameters
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
-
-**`signalPeriods`** _`int`_ - Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -39,7 +33,7 @@ You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is mo
 ## Response
 
 ```csharp
-IEnumerable<TrixResult>
+IReadOnlyList<TrixResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -51,13 +45,11 @@ IEnumerable<TrixResult>
 
 ### TrixResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ema3`** _`decimal`_ - 3 EMAs of the price
 
 **`Trix`** _`decimal`_ - Rate of Change of 3 EMAs
-
-**`Signal`** _`decimal`_ - SMA of `Trix` based on `signalPeriods` periods, if specified
 
 ### Utilities
 
@@ -76,7 +68,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetTrix(..);
+    .ToTrix(..);
 ```
 
 Results can be further processed on `Trix` with additional chain-enabled indicators.
@@ -84,6 +76,36 @@ Results can be further processed on `Trix` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetTrix(..)
-    .GetRsi(..);
+    .ToTrix(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+TrixList trixList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  trixList.Add(quote);
+}
+
+// based on `ICollection<TrixResult>`
+IReadOnlyList<TrixResult> results = trixList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+TrixHub observer = quoteHub.ToTrixHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<TrixResult> results = observer.Results;
 ```

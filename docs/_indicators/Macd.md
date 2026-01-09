@@ -16,8 +16,8 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<MacdResult> results =
-  quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
+IReadOnlyList<MacdResult> results =
+  quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 ## Response
 
 ```csharp
-IEnumerable<MacdResult>
+IReadOnlyList<MacdResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<MacdResult>
 
 ### MacdResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Macd`** _`double`_ - The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
 
@@ -78,7 +78,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetMacd(..);
+    .ToMacd(..);
 ```
 
 Results can be further processed on `Macd` with additional chain-enabled indicators.
@@ -86,6 +86,36 @@ Results can be further processed on `Macd` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetMacd(..)
-    .GetSlope(..);
+    .ToMacd(..)
+    .ToSlope(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MacdList macdList = new(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  macdList.Add(quote);
+}
+
+// based on `ICollection<MacdResult>`
+IReadOnlyList<MacdResult> results = macdList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+MacdHub observer = quoteHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MacdResult> results = observer.Results;
 ```

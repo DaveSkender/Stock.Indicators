@@ -8,7 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Alpaca.Markets" Version="7.2.0" />
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <!-- FluentAssertions pinned to v7.x to avoid licensing changes in v8+ -->
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />

@@ -16,8 +16,8 @@ Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](ht
 
 ```csharp
 // C# usage syntax
-IEnumerable<StarcBandsResult> results =
-  quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods);
+IReadOnlyList<StarcBandsResult> results =
+  quotes.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `S` or `A+100` periods of `quotes`, whichever is more, to
 ## Response
 
 ```csharp
-IEnumerable<StarcBandsResult>
+IReadOnlyList<StarcBandsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<StarcBandsResult>
 
 ### StarcBandsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - Upper STARC band
 
@@ -69,3 +69,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+StarcBandsList starcBandsList = new(smaPeriods, multiplier, atrPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  starcBandsList.Add(quote);
+}
+
+// based on `ICollection<StarcBandsResult>`
+IReadOnlyList<StarcBandsResult> results = starcBandsList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+StarcBandsHub observer = quoteHub.ToStarcBandsHub(smaPeriods, multiplier, atrPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<StarcBandsResult> results = observer.Results;
+```

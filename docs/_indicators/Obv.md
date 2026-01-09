@@ -16,19 +16,11 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 
 ```csharp
 // C# usage syntax
-IEnumerable<ObvResult> results =
-  quotes.GetObv();
-
-// usage with optional overlay SMA of OBV (shown above)
-IEnumerable<ObvResult> results =
-  quotes.GetObv(smaPeriods);
+IReadOnlyList<ObvResult> results =
+  quotes.ToObv();
 ```
 
-## Parameters
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
-
-### Historical quotes requirements
+## Historical quotes requirements
 
 You must have at least two historical quotes to cover the warmup periods; however, since this is a trendline, more is recommended.
 
@@ -37,21 +29,19 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 ## Response
 
 ```csharp
-IEnumerable<ObvResult>
+IReadOnlyList<ObvResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first period OBV will have `0` value since there's not enough data to calculate.
+- The first period OBV will have a `0` value since there's not enough data to calculate.
 
 ### ObvResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Obv`** _`double`_ - On-balance Volume
-
-**`ObvSma`** _`double`_ - Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
 
 > &#128681; **Warning**: absolute values in OBV are somewhat meaningless. Use with caution.
 
@@ -70,8 +60,38 @@ Results can be further processed on `Obv` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetObv(..)
-    .GetRsi(..);
+    .ToObv(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ObvList obvList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  obvList.Add(quote);
+}
+
+// based on `ICollection<ObvResult>`
+IReadOnlyList<ObvResult> results = obvList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ObvHub observer = quoteHub.ToObvHub();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ObvResult> results = observer.Results;
+```

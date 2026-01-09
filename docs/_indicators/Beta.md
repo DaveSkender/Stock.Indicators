@@ -16,13 +16,13 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<BetaResult> results = quotesEval
-  .GetBeta(quotesMarket, lookbackPeriods, type);
+IReadOnlyList<BetaResult> results = quotesEval
+  .ToBeta(quotesMarket, lookbackPeriods, type);
 ```
 
 ## Parameters
 
-**`quotesMarket`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
+**`quotesMarket`** _`IReadOnlyList<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
 
@@ -51,7 +51,7 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 ## Response
 
 ```csharp
-IEnumerable<BetaResult>
+IReadOnlyList<BetaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -61,7 +61,7 @@ IEnumerable<BetaResult>
 
 ### BetaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Beta`** _`double`_ - Beta coefficient based
 
@@ -94,7 +94,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotesEval
     .Use(CandlePart.HL2)
-    .GetBeta(quotesMarket.Use(CandlePart.HL2), ..);
+    .ToBeta(quotesMarket.Use(CandlePart.HL2), ..);
 ```
 
 > &#128681; **Warning!** Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
@@ -104,6 +104,6 @@ Results can be further processed on `Beta` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotesEval
-    .GetBeta(quotesMarket, ..)
-    .GetSlope(..);
+    .ToBeta(quotesMarket, ..)
+    .ToSlope(..);
 ```

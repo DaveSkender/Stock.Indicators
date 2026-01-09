@@ -2,8 +2,15 @@
 
   <PropertyGroup>
 
-    <TargetFrameworks>net10.0;net9.0;net8.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+
+    <!-- TODO: remove preview features
+         after Roslynator/.NET Roslyn agree
+         on BufferList.cs syntax -->
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <GenerateRequiresPreviewFeaturesAttribute>false</GenerateRequiresPreviewFeaturesAttribute>
+    <!-- end preview features -->
 
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
     <RootNamespace>Skender.Stock.Indicators</RootNamespace>
@@ -23,16 +30,7 @@
     <PackageProjectUrl>https://dotnet.stockindicators.dev</PackageProjectUrl>
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageTags>
-       Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;Algo;
-       AlgoTrading;Financial;Strategy;Chart;Charting;Oscillator;Overlay;Equity;Bitcoin;Crypto;Cryptocurrency;Forex;
-       Quantitative;Historical;Quotes;Accumulation;Distribution;ADL;Aroon;True;Range;ATR;Bollinger;Bands;Commodity;
-       CCI;Chandelier;Exit;Chaikin;Money;Flow;CMF;MFI;Kaufman;Adaptive;Simple;Weighted;Exponential;Moving;Average;
-       Convergence;Divergence;MACD;SMA;EMA;DEMA;TEMA;TRIX;Smoothed;Elder-ray;Bull;Bear;Power;Force;Hurst;Exponent;
-       Relative;Strength;Index;RSI;ConnorsRSI;Stochastic;Directional;Movement;ADX;Donchian;Keltner;Channel;
-       Heikin-Ashi;Hilbert;Transform;Instantaneous;Trendline;Hull;HMA;Ichimoku;Cloud;On-balance;Volume;OBV;
-       Price;PMO;PRS;Parabolic;SAR;Stop;Reverse;PSAR;Pivot;Points;Rate;Change;ROC;Linear;Regression;R-Squared;Renko;
-       Schaff;Cycle;Slope;Standard;Deviation;Beta;Convexity;Correlation;SuperTrend;Ulcer;Ultimate;Vortex;Williams;%R;
-       Alligator;Gator;Fractal;Chaos;Choppiness;Endpoint;WMA;ZigZag;.NET;C#;Library;Package;
+     Stock;Market;Indicators;Technical;Analysis;Algorithmic;Trading;Trade;Finance;
     </PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -53,30 +51,31 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <SignAssembly>True</SignAssembly>
+
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\README.md">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
     <None Include="..\LICENSE">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
     <None Include="..\NOTICE">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
     <None Include="icon.png">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

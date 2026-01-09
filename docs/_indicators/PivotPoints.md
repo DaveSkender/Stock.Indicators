@@ -17,8 +17,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<PivotPointsResult> results =
-  quotes.GetPivotPoints(windowSize, pointType);
+IReadOnlyList<PivotPointsResult> results =
+  quotes.ToPivotPoints(windowSize, pointType);
 ```
 
 ## Parameters
@@ -58,7 +58,7 @@ You must have at least `2` windows of `quotes` to cover the warmup periods.  For
 ## Response
 
 ```csharp
-IEnumerable<PivotPointsResult>
+IReadOnlyList<PivotPointsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -72,7 +72,7 @@ IEnumerable<PivotPointsResult>
 
 ### PivotPointsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`R3`** _`decimal`_ - Resistance level 3
 
@@ -99,3 +99,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+PivotPointsList pivotPointsList = new(windowSize, pointType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  pivotPointsList.Add(quote);
+}
+
+// based on `ICollection<PivotPointsResult>`
+IReadOnlyList<PivotPointsResult> results = pivotPointsList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+PivotPointsHub observer = quoteHub.ToPivotPointsHub(windowSize, pointType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<PivotPointsResult> results = observer.Results;
+```

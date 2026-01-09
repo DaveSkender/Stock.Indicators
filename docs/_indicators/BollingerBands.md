@@ -16,8 +16,8 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 
 ```csharp
 // C# usage syntax
-IEnumerable<BollingerBandsResult> results =
-  quotes.GetBollingerBands(lookbackPeriods, standardDeviations);
+IReadOnlyList<BollingerBandsResult> results =
+  quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<BollingerBandsResult>
+IReadOnlyList<BollingerBandsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<BollingerBandsResult>
 
 ### BollingerBandsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average (SMA) of price (center line)
 
@@ -76,7 +76,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetBollingerBands(..);
+    .ToBollingerBands(..);
 ```
 
 Results can be further processed on `PercentB` with additional chain-enabled indicators.
@@ -84,6 +84,36 @@ Results can be further processed on `PercentB` with additional chain-enabled ind
 ```csharp
 // example
 var results = quotes
-    .GetBollingerBands(..)
-    .GetRsi(..);
+    .ToBollingerBands(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+BollingerBandsList bbList = new(lookbackPeriods, standardDeviations);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  bbList.Add(quote);
+}
+
+// based on `ICollection<BollingerBandsResult>`
+IReadOnlyList<BollingerBandsResult> results = bbList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(lookbackPeriods, standardDeviations);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<BollingerBandsResult> results = observer.Results;
 ```

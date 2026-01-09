@@ -16,8 +16,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<MaEnvelopeResult> results =
-  quotes.GetMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
+IReadOnlyList<MaEnvelopeResult> results =
+  quotes.ToMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 ```
 
 ## Parameters
@@ -61,7 +61,7 @@ These are the supported moving average types:
 ## Response
 
 ```csharp
-IEnumerable<MaEnvelopeResult>
+IReadOnlyList<MaEnvelopeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -73,7 +73,7 @@ IEnumerable<MaEnvelopeResult>
 
 ### MaEnvelopeResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Centerline`** _`double`_ - Moving average
 
@@ -91,6 +91,38 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MaEnvelopesList maEnvList = new(lookbackPeriods, percentOffset, movingAverageType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  maEnvList.Add(quote);
+}
+
+// based on `ICollection<MaEnvelopeResult>`
+IReadOnlyList<MaEnvelopeResult> results = maEnvList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+MaEnvelopesHub observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, movingAverageType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MaEnvelopeResult> results = observer.Results;
+```
+
+> &#128681; **Note**: In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -99,7 +131,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetMaEnvelopes(..);
+    .ToMaEnvelopes(..);
 ```
 
 Results **cannot** be further chained with additional transforms.

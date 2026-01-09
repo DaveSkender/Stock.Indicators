@@ -16,8 +16,8 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 
 ```csharp
 // C# usage syntax
-IEnumerable<CmfResult> results =
-  quotes.GetCmf(lookbackPeriods);
+IReadOnlyList<CmfResult> results =
+  quotes.ToCmf(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<CmfResult>
+IReadOnlyList<CmfResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<CmfResult>
 
 ### CmfResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
 
@@ -69,8 +69,38 @@ Results can be further processed on `Cmf` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetCmf(..)
-    .GetSlope(..);
+    .ToCmf(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+CmfList cmfList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  cmfList.Add(quote);
+}
+
+// based on `ICollection<CmfResult>`
+IReadOnlyList<CmfResult> results = cmfList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+CmfHub observer = quoteHub.ToCmfHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<CmfResult> results = observer.Results;
+```

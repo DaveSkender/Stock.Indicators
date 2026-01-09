@@ -16,8 +16,8 @@ Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price
 
 ```csharp
 // C# usage syntax
-IEnumerable<FcbResult> results =
-  quotes.GetFcb(windowSpan);
+IReadOnlyList<FcbResult> results =
+  quotes.ToFcb(windowSpan);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `2×S+1` periods of `quotes` to cover the warmup periods;
 ## Response
 
 ```csharp
-IEnumerable<FcbResult>
+IReadOnlyList<FcbResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<FcbResult>
 
 ### FcbResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - FCB upper band
 
@@ -63,3 +63,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+FcbList fcbList = new(windowSpan);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  fcbList.Add(quote);
+}
+
+// based on `ICollection<FcbResult>`
+IReadOnlyList<FcbResult> results = fcbList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+FcbHub observer = quoteHub.ToFcbHub(windowSpan);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<FcbResult> results = observer.Results;
+```

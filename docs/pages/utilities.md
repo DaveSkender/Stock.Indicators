@@ -11,6 +11,7 @@ layout: page
 - [for historical quotes](#utilities-for-historical-quotes)
 - [for indicator results](#utilities-for-indicator-results)
 - [for numerical analysis](#utilities-for-numerical-analysis)
+- [indicator metadata catalog](#indicator-catalog-metadata)
 
 ## Utilities for historical quotes
 
@@ -23,18 +24,14 @@ layout: page
 // the standard Close price for RSI
 var results = quotes
   .Use(CandlePart.HL2)
-  .GetRsi(14);
+  .ToRsi(14);
 ```
 
 {% include candlepart-options.md %}
 
-### Using tuple quotes
-
-`quotes.ToTupleCollection()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `Collection`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
-
 ### Sort quotes
 
-`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
+`quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  You **do need to sort quotes** before using library indicators.
 
 ### Resize quote history
 
@@ -42,7 +39,7 @@ var results = quotes
 
 ```csharp
 // aggregate into larger bars
-IEnumerable<Quote> dayBarQuotes =
+IReadOnlyList<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(PeriodSize.Day);
 ```
 
@@ -50,7 +47,7 @@ An alternate version of this utility is provided where you can use any native `T
 
 ```csharp
 // alternate usage with TimeSpan
-IEnumerable<Quote> dayBarQuotes =
+IReadOnlyList<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(TimeSpan timeSpan);
 ```
 
@@ -80,24 +77,24 @@ IEnumerable<Quote> dayBarQuotes =
 CandleProperties candle = quote.ToCandle();
 
 // collection of quotes
-IEnumerable<CandleProperties> candles = quotes.ToCandles();
+IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 ```
 
 {% include candle-properties.md %}
 
 ### Validate quote history
 
-`quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
+`quotes.Validate()` is an advanced check of your `IReadOnlyList<IQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
 
 ```csharp
 // advanced validation
-IEnumerable<Quote> validatedQuotes = quotes.Validate();
+IReadOnlyList<Quote> validatedQuotes = quotes.Validate();
 
 // and can be used inline with chaining
 var results = quotes
   .Validate()
   .Use(CandlePart.HL2)
-  .GetRsi(14);
+  .ToRsi(14);
 ```
 
 ## Utilities for indicator results
@@ -108,8 +105,8 @@ var results = quotes
 
 ```csharp
 // example: only show Marubozu signals
-IEnumerable<CandleResult> results
-  = quotes.GetMarubozu(..).Condense();
+IReadOnlyList<CandleResult> results
+  = quotes.ToMarubozu(..).Condense();
 ```
 
 > &#128681; **Warning**: In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
@@ -120,11 +117,13 @@ IEnumerable<CandleResult> results
 
 ```csharp
 // calculate indicator series
-IEnumerable<SmaResult> results = quotes.GetSma(20);
+IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 
 // find result on a specific date
 DateTime lookupDate = [..] // the date you want to find
 SmaResult result = results.Find(lookupDate);
+
+// throws 'InvalidOperationException' when not found
 ```
 
 ### Remove warmup periods
@@ -133,13 +132,13 @@ SmaResult result = results.Find(lookupDate);
 
 ```csharp
 // auto remove recommended warmup periods
-IEnumerable<AdxResult> results =
-  quotes.GetAdx(14).RemoveWarmupPeriods();
+IReadOnlyList<AdxResult> results =
+  quotes.ToAdx(14).RemoveWarmupPeriods();
 
 // remove a specific quantity of periods
 int n = 14;
-IEnumerable<AdxResult> results =
-  quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
+IReadOnlyList<AdxResult> results =
+  quotes.ToAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
 See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
@@ -148,19 +147,9 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 >
 > &#128681; **Warning**: without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
 
-### Using tuple results
-
-`results.ToTupleCollection()` converts results to a simpler `(DateTime Date, double? Value)` [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
-
-`results.ToTupleNaN()` converts results to simpler `(DateTime Date, double Value)` tuple `Collection` with `null` values converted to `double.NaN`.
-
-`results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
-
-> &#128681; **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
-
 ### Sort results
 
-`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 
@@ -187,3 +176,81 @@ Most `NullMath` methods work exactly like the `System.Math` library in C#, excep
 | Null2NaN | `var val = null;`<br>`var n2n = val.Null2NaN()` » `[NaN]` |
 | NaN2Null | `var val = double.NaN;`<br>`var n2n = val.NaN2Null()` » `null` |
 <!-- markdownlint-enable MD060 -->
+
+## Indicator catalog (metadata)
+
+Use the indicator catalog to discover indicators, build simple pickers, or export metadata for a UI.
+
+- Discover indicators and parameters at runtime
+- Build configuration UIs or export to JSON
+- Optionally execute an indicator by ID (no compile-time generics required)
+
+> [!IMPORTANT]
+> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](guide.md) for normal sytax examples.
+
+### Browse or export the catalog
+
+```csharp
+using Skender.Stock.Indicators;
+using System.Text.Json;
+
+// all listings (name, id, style, category, parameters, results)
+IReadOnlyCollection<IndicatorListing> indicatorListings
+    = CatalogRegistry.Get();
+
+// optional: filter helpers
+IndicatorListing? emaSeriesListing 
+    = CatalogRegistry.Get("EMA", Style.Series);
+
+IReadOnlyCollection<IndicatorListing> seriesListings
+    = CatalogRegistry.Get(Style.Series);
+
+// convert to JSON
+string catalogJson = myListings.ToJson();
+```
+
+### Execute by ID (dynamic)
+
+```csharp
+// run an indicator using just ID + Style
+IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
+    id: "EMA",
+    style: Style.Series,
+    parameters: new() {
+        { "lookbackPeriods", lookback }
+    });
+```
+
+### Execute by config (JSON)
+
+```csharp
+string string json = """
+    {
+        "id" : "EMA",
+        "style" : "Series",
+        "parameters" : { "lookbackPeriods" : 20 }
+    }
+    """;
+
+IReadOnlyList<EmaResult> emaResultsFromJson
+    = quotes.ExecuteFromJson<EmaResult>(json);
+```
+
+### Execute with strong typing
+
+```csharp
+// prefer typed results when you know the indicator
+IndicatorListing indicatorListing = IndicatorRegistry
+  .GetByIdAndStyle("EMA", Style.Series)
+  ?? throw new InvalidOperationException("Indicator 'EMA' (Series) not found.");
+
+// Call the quotes overload directly
+IReadOnlyList<EmaResult> emaResultsWithDefaults = indicatorListing
+  .Execute<EmaResult>(quotes);
+
+// Or with specified parameters
+IReadOnlyList<EmaResult> emaResultsWithParams = indicatorListing
+  .FromSource(quotes)
+  .WithParamValue("lookbackPeriods", 10)
+  .Execute<EmaResult>();
+```

@@ -16,8 +16,8 @@ Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/
 
 ```csharp
 // C# usage syntax
-IEnumerable<ChaikinOscResult> results =
-  quotes.GetChaikinOsc(fastPeriods, slowPeriods);
+IReadOnlyList<ChaikinOscResult> results =
+  quotes.ToChaikinOsc(fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `2×S` or `S+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<ChaikinOscResult>
+IReadOnlyList<ChaikinOscResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<ChaikinOscResult>
 
 ### ChaikinOscResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
 
@@ -75,8 +75,38 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetChaikinOsc(..)
-    .GetSlope(..);
+    .ToChaikinOsc(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ChaikinOscList chaikinOscList = new(fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  chaikinOscList.Add(quote);
+}
+
+// based on `ICollection<ChaikinOscResult>`
+IReadOnlyList<ChaikinOscResult> results = chaikinOscList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ChaikinOscHub observer = quoteHub.ToChaikinOscHub(fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ChaikinOscResult> results = observer.Results;
+```

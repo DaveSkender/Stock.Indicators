@@ -16,8 +16,8 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 
 ```csharp
 // C# usage syntax
-IEnumerable<UlcerIndexResult> results =
-  quotes.GetUlcerIndex(lookbackPeriods);
+IReadOnlyList<UlcerIndexResult> results =
+  quotes.ToUlcerIndex(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<UlcerIndexResult>
+IReadOnlyList<UlcerIndexResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<UlcerIndexResult>
 
 ### UlcerIndexResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UI`** _`double`_ - Ulcer Index
 
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetAlma(..);
+    .ToAlma(..);
 ```
 
 Results can be further processed on `UI` with additional chain-enabled indicators.
@@ -72,6 +72,36 @@ Results can be further processed on `UI` with additional chain-enabled indicator
 ```csharp
 // example
 var results = quotes
-    .GetAlma(..)
-    .GetRsi(..);
+    .ToAlma(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+UlcerIndexList ulcerIndexList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  ulcerIndexList.Add(quote);
+}
+
+// based on `ICollection<UlcerIndexResult>`
+IReadOnlyList<UlcerIndexResult> results = ulcerIndexList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+UlcerIndexHub observer = quoteHub.ToUlcerIndexHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<UlcerIndexResult> results = observer.Results;
 ```

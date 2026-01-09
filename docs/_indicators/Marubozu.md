@@ -16,8 +16,8 @@ type: candlestick-pattern
 
 ```csharp
 // C# usage syntax
-IEnumerable<CandleResult> results =
-  quotes.GetMarubozu(minBodyPercent);
+IReadOnlyList<CandleResult> results =
+  quotes.ToMarubozu(minBodyPercent);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least one historical quote; however, more is typically provided
 ## Response
 
 ```csharp
-IEnumerable<CandleResult>
+IReadOnlyList<CandleResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -52,3 +52,33 @@ IEnumerable<CandleResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MarubozuList marubozuList = new(minBodyPercent);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  marubozuList.Add(quote);
+}
+
+// based on `ICollection<MarubozuResult>`
+IReadOnlyList<MarubozuResult> results = marubozuList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+MarubozuHub observer = quoteHub.ToMarubozuHub(minBodyPercent);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MarubozuResult> results = observer.Results;
+```

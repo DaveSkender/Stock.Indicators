@@ -1,17 +1,23 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Ulcer Index indicator.
+/// </summary>
+public static partial class UlcerIndex
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<UlcerIndexResult> RemoveWarmupPeriods(
-        this IEnumerable<UlcerIndexResult> results)
+    /// <summary>
+    /// Validates the parameters for the Ulcer Index calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
+    internal static void Validate(
+        int lookbackPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.UI != null);
-
-        return results.Remove(removePeriods);
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Ulcer Index.");
+        }
     }
 }

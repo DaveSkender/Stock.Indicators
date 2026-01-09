@@ -16,8 +16,8 @@ The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese pri
 
 ```csharp
 // C# usage syntax
-IEnumerable<RenkoResult> results =
-  quotes.GetRenko(brickSize, endType);
+IReadOnlyList<RenkoResult> results =
+  quotes.ToRenko(brickSize, endType);
 ```
 
 ## Parameters
@@ -38,36 +38,23 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 
 **`EndType.HighLow`** - Brick change threshold measured from `High` and `Low` price
 
-## Chaining
-
-Results are based in `IQuote` and can be further used in any indicator.
-
-```csharp
-// example
-var results = quotes
-    .GetRenko(..)
-    .GetRsi(..);
-```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
-
 ## Response
 
 ```csharp
-IEnumerable<RenkoResult>
+IReadOnlyList<RenkoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
 - `RenkoResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
 
-> &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Date`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
+> &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Timestamp`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
 
 ### RenkoResult
 
 Each result record represents one Renko brick.
 
-**`Date`** _`DateTime`_ - Formation date of brick(s)
+**`Timestamp`** _`DateTime`_ - Formation date of brick(s)
 
 **`Open`** _`decimal`_ - Brick open price
 
@@ -90,12 +77,56 @@ Each result record represents one Renko brick.
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Chaining
+
+Results are based in `IQuote` and can be further used in any indicator.
+
+```csharp
+// example
+var results = quotes
+    .ToRenko(..)
+    .ToRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+**Fixed brick size only** - Streaming implementations are only available for fixed brick size Renko. The [ATR variant](#atr-variant) requires full dataset processing and does not support incremental streaming.
+
+Subscribe to a `QuoteHub` for streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RenkoHub observer = quoteHub.ToRenkoHub(brickSize);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RenkoResult> results = observer.Results;
+```
+
+Use a `BufferList` for incremental processing:
+
+```csharp
+RenkoList buffer = new(brickSize, endType);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating incremental data
+{
+  buffer.Add(quote);
+}
+
+IReadOnlyList<RenkoResult> results = buffer;
+```
+
 ## ATR Variant
 
 ```csharp
 // C# usage syntax
-IEnumerable<RenkoResult> results =
-  quotes.GetRenkoAtr(atrPeriods, endType);
+IReadOnlyList<RenkoResult> results =
+  quotes.ToRenkoAtr(atrPeriods, endType);
 ```
 
 ### Parameters for ATR
@@ -110,15 +141,20 @@ You must have at least `A+100` periods of `quotes`.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-## Response for ATR
+### Response for ATR
 
 ```csharp
-IEnumerable<RenkoResult>
+IReadOnlyList<RenkoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
+- See [RenkoResult](#renkoresult) above for detailed response structure.
 
-> &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Date`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
->
-> &#128073; **Repaint warning**: When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+> &#128073; **Repaint warning**: When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+
+### Streaming limitations for ATR
+
+**ATR variant does not support streaming**: The `ToRenkoAtr()` method requires calculating ATR across the full dataset to determine the final brick size. Incremental streaming would require buffering all historical quotes and recalculating the entire Renko series on each new data point, which defeats the purpose of incremental processing.
+
+**Recommendation**: Use the Series implementation (`ToRenkoAtr()`) with periodic batch recalculation. For real-time scenarios, consider recalculating at appropriate intervals rather than on every tick.

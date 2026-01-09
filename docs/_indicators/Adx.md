@@ -16,8 +16,8 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 
 ```csharp
 // C# usage syntax
-IEnumerable<AdxResult> results =
-  quotes.GetAdx(lookbackPeriods);
+IReadOnlyList<AdxResult> results =
+  quotes.ToAdx(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `2×N+100` periods of `quotes` to cover the [warmup and c
 ## Response
 
 ```csharp
-IEnumerable<AdxResult>
+IReadOnlyList<AdxResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<AdxResult>
 
 ### AdxResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Pdi`** _`double`_ - Plus Directional Index (+DI)
 
@@ -73,8 +73,38 @@ Results can be further processed on `Adx` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetAdx(..)
-    .GetRsi(..);
+    .ToAdx(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations:
+
+```csharp
+AdxList adxList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  adxList.Add(quote);
+}
+
+// based on `ICollection<AdxResult>`
+IReadOnlyList<AdxResult> results = adxList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AdxHub observer = quoteHub.ToAdxHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AdxResult> results = observer.Results;
+```

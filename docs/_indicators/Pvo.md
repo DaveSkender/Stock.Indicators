@@ -16,8 +16,8 @@ The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=te
 
 ```csharp
 // C# usage syntax
-IEnumerable<PvoResult> results =
-  quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods);
+IReadOnlyList<PvoResult> results =
+  quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 ## Response
 
 ```csharp
-IEnumerable<PvoResult>
+IReadOnlyList<PvoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<PvoResult>
 
 ### PvoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Pvo`** _`double`_ - Normalized difference between two Volume moving averages
 
@@ -73,8 +73,38 @@ Results can be further processed on `Pvo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetPvo(..)
-    .GetSlope(..);
+    .ToPvo(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+PvoList pvoList = new(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  pvoList.Add(quote);
+}
+
+// based on `ICollection<PvoResult>`
+IReadOnlyList<PvoResult> results = pvoList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+PvoHub observer = quoteHub.ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<PvoResult> results = observer.Results;
+```

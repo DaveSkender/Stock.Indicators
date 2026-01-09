@@ -17,8 +17,8 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 
 ```csharp
 // C# usage syntax
-IEnumerable<DonchianResult> results =
-  quotes.GetDonchian(lookbackPeriods);
+IReadOnlyList<DonchianResult> results =
+  quotes.ToDonchian(lookbackPeriods);
 ```
 
 ## Parameters
@@ -34,7 +34,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<DonchianResult>
+IReadOnlyList<DonchianResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -44,7 +44,7 @@ IEnumerable<DonchianResult>
 
 ### DonchianResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - Upper line is the highest High over `N` periods
 
@@ -66,3 +66,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+DonchianList donchianList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  donchianList.Add(quote);
+}
+
+// based on `ICollection<DonchianResult>`
+IReadOnlyList<DonchianResult> results = donchianList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+DonchianHub observer = quoteHub.ToDonchianHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<DonchianResult> results = observer.Results;
+```

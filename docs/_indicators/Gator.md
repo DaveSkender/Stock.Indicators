@@ -16,13 +16,13 @@ Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of
 
 ```csharp
 // C# usage syntax
-IEnumerable<GatorResult> results =
-  quotes.GetGator();
+IReadOnlyList<GatorResult> results =
+  quotes.ToGator();
 
 // with custom Alligator configuration
-IEnumerable<GatorResult> results = quotes
-  .GetAlligator([see Alligator docs])
-  .GetGator();
+IReadOnlyList<GatorResult> results = quotes
+  .ToAlligator([see Alligator docs])
+  .ToGator();
 ```
 
 ## Historical quotes requirements
@@ -34,7 +34,7 @@ If using default settings, you must have at least 121 periods of `quotes` to cov
 ## Response
 
 ```csharp
-IEnumerable<GatorResult>
+IReadOnlyList<GatorResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -46,7 +46,7 @@ IEnumerable<GatorResult>
 
 ### GatorResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Upper`** _`double`_ - Absolute value of Alligator `Jaw-Teeth`
 
@@ -73,7 +73,37 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetGator();
+    .ToGator();
 ```
 
 Results **cannot** be further chained with additional transforms.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+GatorList gatorList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  gatorList.Add(quote);
+}
+
+// based on `ICollection<GatorResult>`
+IReadOnlyList<GatorResult> results = gatorList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+GatorHub observer = quoteHub.ToGatorHub();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<GatorResult> results = observer.Results;
+```

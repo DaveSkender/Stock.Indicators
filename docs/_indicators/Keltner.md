@@ -16,8 +16,8 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 
 ```csharp
 // C# usage syntax
-IEnumerable<KeltnerResult> results =
-  quotes.GetKeltner(emaPeriods, multiplier, atrPeriods);
+IReadOnlyList<KeltnerResult> results =
+  quotes.ToKeltner(emaPeriods, multiplier, atrPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<KeltnerResult>
+IReadOnlyList<KeltnerResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<KeltnerResult>
 
 ### KeltnerResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`double`_ - Upper band of Keltner Channel
 
@@ -70,4 +70,42 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+Results can be further processed on `Centerline` with other [chained indicators]({{site.baseurl}}/guide/#generating-indicator-of-indicators).
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .ToKeltner(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+KeltnerList keltnerList = new(emaPeriods, multiplier, atrPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  keltnerList.Add(quote);
+}
+
+// based on `ICollection<KeltnerResult>`
+IReadOnlyList<KeltnerResult> results = keltnerList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+KeltnerHub observer = quoteHub.ToKeltnerHub(emaPeriods, multiplier, atrPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<KeltnerResult> results = observer.Results;
+```

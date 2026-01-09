@@ -16,8 +16,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<WmaResult> results =
-  quotes.GetWma(lookbackPeriods);
+IReadOnlyList<WmaResult> results =
+  quotes.ToWma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<WmaResult>
+IReadOnlyList<WmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<WmaResult>
 
 ### WmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Wma`** _`double`_ - Weighted moving average
 
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetWma(..);
+    .ToWma(..);
 ```
 
 Results can be further processed on `Wma` with additional chain-enabled indicators.
@@ -72,6 +72,36 @@ Results can be further processed on `Wma` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetWma(..)
-    .GetRsi(..);
+    .ToWma(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+WmaList wmaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  wmaList.Add(quote);
+}
+
+// based on `ICollection<WmaResult>`
+IReadOnlyList<WmaResult> results = wmaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+WmaHub observer = quoteHub.ToWmaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<WmaResult> results = observer.Results;
 ```

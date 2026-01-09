@@ -16,8 +16,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<SmmaResult> results =
-  quotes.GetSmma(lookbackPeriods);
+IReadOnlyList<SmmaResult> results =
+  quotes.ToSmma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<SmmaResult>
+IReadOnlyList<SmmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<SmmaResult>
 
 ### SmmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Smma`** _`double`_ - Smoothed moving average
 
@@ -66,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetSmma(..);
+    .ToSmma(..);
 ```
 
 Results can be further processed on `Smma` with additional chain-enabled indicators.
@@ -74,6 +74,36 @@ Results can be further processed on `Smma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetSmma(..)
-    .GetRsi(..);
+    .ToSmma(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SmmaList smmaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  smmaList.Add(quote);
+}
+
+// based on `ICollection<SmmaResult>`
+IReadOnlyList<SmmaResult> results = smmaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+SmmaHub observer = quoteHub.ToSmmaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<SmmaResult> results = observer.Results;
 ```

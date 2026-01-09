@@ -16,8 +16,8 @@ Created by Doug Schaff, the [Schaff Trend Cycle](https://www.investopedia.com/ar
 
 ```csharp
 // C# usage syntax
-IEnumerable<StcResult> results =
-  quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods);
+IReadOnlyList<StcResult> results =
+  quotes.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `2×(S+C)` or `S+C+100` worth of `quotes`, whichever is m
 ## Response
 
 ```csharp
-IEnumerable<StcResult>
+IReadOnlyList<StcResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<StcResult>
 
 ### StcResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Stc`** _`double`_ - Schaff Trend Cycle
 
@@ -70,7 +70,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetStc(..);
+    .ToStc(..);
 ```
 
 Results can be further processed on `Stc` with additional chain-enabled indicators.
@@ -78,6 +78,36 @@ Results can be further processed on `Stc` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetStc(..)
-    .GetRsi(..);
+    .ToStc(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+StcList stcList = new(cyclePeriods, fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  stcList.Add(quote);
+}
+
+// based on `ICollection<StcResult>`
+IReadOnlyList<StcResult> results = stcList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+StcHub observer = quoteHub.ToStcHub(cyclePeriods, fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<StcResult> results = observer.Results;
 ```

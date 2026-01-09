@@ -16,12 +16,12 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 
 ```csharp
 // C# usage syntax
-IEnumerable<VwapResult> results =
-  quotes.GetVwap();
+IReadOnlyList<VwapResult> results =
+  quotes.ToVwap();
 
 // usage with optional anchored start date
-IEnumerable<VwapResult> results =
-  quotes.GetVwap(startDate);
+IReadOnlyList<VwapResult> results =
+  quotes.ToVwap(startDate);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least one historical quote to calculate; however, more is often
 ## Response
 
 ```csharp
-IEnumerable<VwapResult>
+IReadOnlyList<VwapResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -48,7 +48,7 @@ IEnumerable<VwapResult>
 
 ### VwapResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Vwap`** _`double`_ - Volume Weighted Average Price
 
@@ -68,8 +68,38 @@ Results can be further processed on `Vwap` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetVwap(..)
-    .GetRsi(..);
+    .ToVwap(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+VwapList vwapList = new(startDate);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  vwapList.Add(quote);
+}
+
+// based on `ICollection<VwapResult>`
+IReadOnlyList<VwapResult> results = vwapList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+VwapHub observer = quoteHub.ToVwapHub(startDate);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<VwapResult> results = observer.Results;
+```

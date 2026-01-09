@@ -16,8 +16,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<DpoResult> results =
-  quotes.GetDpo(lookbackPeriods);
+IReadOnlyList<DpoResult> results =
+  quotes.ToDpo(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` historical quotes to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<DpoResult>
+IReadOnlyList<DpoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<DpoResult>
 
 ### DpoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average offset by `N/2+1` periods
 
@@ -65,7 +65,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetDpo(..);
+    .ToDpo(..);
 ```
 
 Results can be further processed on `Dpo` with additional chain-enabled indicators.
@@ -73,6 +73,38 @@ Results can be further processed on `Dpo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetDpo(..)
-    .GetRsi(..);
+    .ToDpo(..)
+    .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+DpoList dpoList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  dpoList.Add(quote);
+}
+
+// based on `ICollection<DpoResult>`
+IReadOnlyList<DpoResult> results = dpoList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+DpoHub observer = quoteHub.ToDpoHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<DpoResult> results = observer.Results;
+```
+
+**Note**: DPO has a lookahead requirement (offset = N/2+1 periods), which means results are calculated when sufficient future data becomes available. This introduces a delay in real-time scenarios but maintains mathematical accuracy with the series implementation.

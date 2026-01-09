@@ -16,8 +16,8 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 
 ```csharp
 // C# usage syntax
-IEnumerable<HmaResult> results =
-  quotes.GetHma(lookbackPeriods);
+IReadOnlyList<HmaResult> results =
+  quotes.ToHma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+(integer of SQRT(N))-1` periods of `quotes` to cover t
 ## Response
 
 ```csharp
-IEnumerable<HmaResult>
+IReadOnlyList<HmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<HmaResult>
 
 ### HmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Hma`** _`double`_ - Hull moving average
 
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetHma(..);
+    .ToHma(..);
 ```
 
 Results can be further processed on `Hma` with additional chain-enabled indicators.
@@ -72,6 +72,36 @@ Results can be further processed on `Hma` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetHma(..)
-    .GetRsi(..);
+    .ToHma(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+HmaList hmaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  hmaList.Add(quote);
+}
+
+// based on `ICollection<HmaResult>`
+IReadOnlyList<HmaResult> results = hmaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+HmaHub observer = quoteHub.ToHmaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<HmaResult> results = observer.Results;
 ```

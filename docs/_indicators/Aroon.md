@@ -16,8 +16,8 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 
 ```csharp
 // C# usage syntax
-IEnumerable<AroonResult> results =
-  quotes.GetAroon(lookbackPeriods);
+IReadOnlyList<AroonResult> results =
+  quotes.ToAroon(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<AroonResult>
+IReadOnlyList<AroonResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<AroonResult>
 
 ### AroonResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`AroonUp`** _`double`_ - Based on last High price
 
@@ -67,8 +67,38 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetAroon(..)
-    .GetSlope(..);
+    .ToAroon(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AroonList aroonList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  aroonList.Add(quote);
+}
+
+// based on `ICollection<AroonResult>`
+IReadOnlyList<AroonResult> results = aroonList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AroonHub observer = quoteHub.ToAroonHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AroonResult> results = observer.Results;
+```

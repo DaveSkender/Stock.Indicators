@@ -16,8 +16,8 @@ Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investope
 
 ```csharp
 // C# usage syntax
-IEnumerable<CmoResult> results =
-  quotes.GetCmo(lookbackPeriods);
+IReadOnlyList<CmoResult> results =
+  quotes.ToCmo(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<CmoResult>
+IReadOnlyList<CmoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<CmoResult>
 
 ### CmoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Cmo`** _`double`_ - Chande Momentum Oscillator
 
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetCmo(..);
+    .ToCmo(..);
 ```
 
 Results can be further processed on `Cmo` with additional chain-enabled indicators.
@@ -72,6 +72,38 @@ Results can be further processed on `Cmo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetCmo(..)
-    .GetEma(..);
+    .ToCmo(..)
+    .ToEma(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+CmoList cmoList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  cmoList.Add(quote);
+}
+
+// based on `ICollection<CmoResult>`
+IReadOnlyList<CmoResult> results = cmoList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+CmoHub observer = quoteHub.ToCmoHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<CmoResult> results = observer.Results;
+```
+
+See the [guide]({{site.baseurl}}/guide/) for more information.

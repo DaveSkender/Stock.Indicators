@@ -16,8 +16,8 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 
 ```csharp
 // C# usage syntax
-IEnumerable<ConnorsRsiResult> results =
-  quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+IReadOnlyList<ConnorsRsiResult> results =
+  quotes.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ IEnumerable<ConnorsRsiResult> results =
 ## Response
 
 ```csharp
-IEnumerable<ConnorsRsiResult>
+IReadOnlyList<ConnorsRsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<ConnorsRsiResult>
 
 ### ConnorsRsiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Rsi`** _`double`_ - `RSI(R)` of the price.
 
@@ -76,7 +76,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetConnorsRsi(..);
+    .ToConnorsRsi(..);
 ```
 
 Results can be further processed on `ConnorsRsi` with additional chain-enabled indicators.
@@ -84,6 +84,36 @@ Results can be further processed on `ConnorsRsi` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetConnorsRsi(..)
-    .GetSma(..);
+    .ToConnorsRsi(..)
+    .ToSma(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ConnorsRsiList connorsRsiList = new(rsiPeriods, streakPeriods, rankPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  connorsRsiList.Add(quote);
+}
+
+// based on `ICollection<ConnorsRsiResult>`
+IReadOnlyList<ConnorsRsiResult> results = connorsRsiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ConnorsRsiHub observer = quoteHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ConnorsRsiResult> results = observer.Results;
 ```

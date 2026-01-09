@@ -16,8 +16,8 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 
 ```csharp
 // C# usage syntax
-IEnumerable<CciResult> results =
-  quotes.GetCci(lookbackPeriods);
+IReadOnlyList<CciResult> results =
+  quotes.ToCci(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<CciResult>
+IReadOnlyList<CciResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<CciResult>
 
 ### CciResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Cci`** _`double`_ - Commodity Channel Index
 
@@ -63,8 +63,38 @@ Results can be further processed on `Cci` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetCci(..)
-    .GetSlope(..);
+    .ToCci(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+CciList cciList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  cciList.Add(quote);
+}
+
+// based on `ICollection<CciResult>`
+IReadOnlyList<CciResult> results = cciList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+CciHub observer = quoteHub.ToCciHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<CciResult> results = observer.Results;
+```

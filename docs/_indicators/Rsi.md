@@ -16,8 +16,8 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 
 ```csharp
 // C# usage syntax
-IEnumerable<RsiResult> results =
-  quotes.GetRsi(lookbackPeriods);
+IReadOnlyList<RsiResult> results =
+  quotes.ToRsi(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<RsiResult>
+IReadOnlyList<RsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<RsiResult>
 
 ### RsiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Rsi`** _`double`_ - Relative Strength Index
 
@@ -66,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetRsi(..);
+    .ToRsi(..);
 ```
 
 Results can be further processed on `Rsi` with additional chain-enabled indicators.
@@ -74,6 +74,36 @@ Results can be further processed on `Rsi` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetRsi(..)
-    .GetSlope(..);
+    .ToRsi(..)
+    .ToSlope(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+RsiList rsiList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  rsiList.Add(quote);
+}
+
+// based on `ICollection<RsiResult>`
+IReadOnlyList<RsiResult> results = rsiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RsiHub observer = quoteHub.ToRsiHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RsiResult> results = observer.Results;
 ```

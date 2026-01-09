@@ -16,8 +16,8 @@ Created by Oliver Seban, the SuperTrend indicator attempts to determine the prim
 
 ```csharp
 // C# usage syntax
-IEnumerable<SuperTrendResult> results =
-  quotes.GetSuperTrend(lookbackPeriods, multiplier);
+IReadOnlyList<SuperTrendResult> results =
+  quotes.ToSuperTrend(lookbackPeriods, multiplier);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<SuperTrendResult>
+IReadOnlyList<SuperTrendResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<SuperTrendResult>
 
 ### SuperTrendResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`SuperTrend`** _`decimal`_ - SuperTrend line contains both Upper and Lower segments
 
@@ -69,3 +69,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SuperTrendList superTrendList = new(lookbackPeriods, multiplier);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  superTrendList.Add(quote);
+}
+
+// based on `ICollection<SuperTrendResult>`
+IReadOnlyList<SuperTrendResult> results = superTrendList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+SuperTrendHub observer = quoteHub.ToSuperTrendHub(lookbackPeriods, multiplier);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<SuperTrendResult> results = observer.Results;
+```

@@ -16,19 +16,11 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 
 ```csharp
 // C# usage syntax
-IEnumerable<AdlResult> results =
-  quotes.GetAdl();
-
-// usage with optional overlay SMA of ADL (shown above)
-IEnumerable<AdlResult> results =
-  quotes.GetAdl(smaPeriods);
+IReadOnlyList<AdlResult> results =
+  quotes.ToAdl();
 ```
 
-## Parameters
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
-
-### Historical quotes requirements
+## Historical quotes requirements
 
 You must have at least two historical quotes to cover the warmup periods; however, since this is a trendline, more is recommended.
 
@@ -37,7 +29,7 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 ## Response
 
 ```csharp
-IEnumerable<AdlResult>
+IReadOnlyList<AdlResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -46,15 +38,13 @@ IEnumerable<AdlResult>
 
 ### AdlResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - Date from evaluated `TQuote`
 
 **`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
 
 **`MoneyFlowVolume`** _`double`_ - Money Flow Volume
 
 **`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
-
-**`AdlSma`** _`double`_ - Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
 
 > &#128681; **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 
@@ -73,8 +63,38 @@ Results can be further processed on `Adl` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetAdl()
-    .GetRsi(..);
+    .ToAdl()
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AdlList adlList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  adlList.Add(quote);
+}
+
+// based on `ICollection<AdlResult>`
+IReadOnlyList<AdlResult> results = adlList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AdlHub observer = quoteHub.ToAdlHub();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AdlResult> results = observer.Results;
+```

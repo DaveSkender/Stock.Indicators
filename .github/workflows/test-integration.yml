@@ -1,0 +1,59 @@
+name: Test Integration
+
+on:
+  push:
+    branches:
+      - "main"
+      - "v[0-9]*"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        id: dotnet-new
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Test integrations
+        env:
+          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
+          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
+        run: >
+          dotnet test
+          --configuration Release
+          --settings tests/tests.integration.runsettings
+          --results-directory ./test-results
+          --no-build
+          --verbosity normal
+          --logger trx
+
+      - name: Post test summary
+        uses: dorny/test-reporter@v2.1.1
+        if: always()
+        with:
+          name: Test results
+          path: ./test-results/**/*.trx
+          reporter: dotnet-trx

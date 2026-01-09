@@ -17,8 +17,8 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 
 ```csharp
 // C# usage syntax
-IEnumerable<StochRsiResult> results =
-  quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+IReadOnlyList<StochRsiResult> results =
+  quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```
 
 ## Parameters
@@ -31,7 +31,7 @@ IEnumerable<StochRsiResult> results =
 
 **`smoothPeriods`** _`int`_ - Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
 
-The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.GetStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
+The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.ToStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
 
 ### Historical quotes requirements
 
@@ -42,7 +42,7 @@ You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S
 ## Response
 
 ```csharp
-IEnumerable<StochRsiResult>
+IReadOnlyList<StochRsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -54,7 +54,7 @@ IEnumerable<StochRsiResult>
 
 ### StochRsiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`StochRsi`** _`double`_ - %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price
 
@@ -77,7 +77,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetStochRsi(..);
+    .ToStochRsi(..);
 ```
 
 Results can be further processed on `StochRsi` with additional chain-enabled indicators.
@@ -85,6 +85,36 @@ Results can be further processed on `StochRsi` with additional chain-enabled ind
 ```csharp
 // example
 var results = quotes
-    .GetStochRsi(..)
-    .GetSlope(..);
+    .ToStochRsi(..)
+    .ToSlope(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+StochRsiList stochRsiList = new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  stochRsiList.Add(quote);
+}
+
+// based on `ICollection<StochRsiResult>`
+IReadOnlyList<StochRsiResult> results = stochRsiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+StochRsiHub observer = quoteHub.ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<StochRsiResult> results = observer.Results;
 ```

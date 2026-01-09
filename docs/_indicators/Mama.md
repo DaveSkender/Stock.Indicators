@@ -16,8 +16,8 @@ Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) ind
 
 ```csharp
 // C# usage syntax
-IEnumerable<MamaResult> results =
-  quotes.GetMama(fastLimit, slowLimit);
+IReadOnlyList<MamaResult> results =
+  quotes.ToMama(fastLimit, slowLimit);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `50` periods of `quotes` to cover the [warmup and converg
 ## Response
 
 ```csharp
-IEnumerable<MamaResult>
+IReadOnlyList<MamaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<MamaResult>
 
 ### MamaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Mama`** _`decimal`_ - MESA adaptive moving average (MAMA)
 
@@ -70,7 +70,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetMama(..);
+    .ToMama(..);
 ```
 
 Results can be further processed on `Mama` with additional chain-enabled indicators.
@@ -78,6 +78,36 @@ Results can be further processed on `Mama` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetMama(..)
-    .GetRsi(..);
+    .ToMama(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MamaList mamaList = new(fastLimit, slowLimit);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  mamaList.Add(quote);
+}
+
+// based on `ICollection<MamaResult>`
+IReadOnlyList<MamaResult> results = mamaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+MamaHub observer = quoteHub.ToMamaHub(fastLimit, slowLimit);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MamaResult> results = observer.Results;
 ```

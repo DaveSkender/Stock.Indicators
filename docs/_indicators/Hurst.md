@@ -16,8 +16,8 @@ The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) (`H`) is part
 
 ```csharp
 // C# usage syntax
-IEnumerable<HurstResult> results =
-  quotes.GetHurst(lookbackPeriods);
+IReadOnlyList<HurstResult> results =
+  quotes.ToHurst(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<HurstResult>
+IReadOnlyList<HurstResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<HurstResult>
 
 ### HurstResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`HurstExponent`** _`double`_ - Hurst Exponent (`H`)
 
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetHurst(..);
+    .ToHurst(..);
 ```
 
 Results can be further processed on `HurstExponent` with additional chain-enabled indicators.
@@ -72,6 +72,36 @@ Results can be further processed on `HurstExponent` with additional chain-enable
 ```csharp
 // example
 var results = quotes
-    .GetHurst(..)
-    .GetSlope(..);
+    .ToHurst(..)
+    .ToSlope(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+HurstList hurstList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  hurstList.Add(quote);
+}
+
+// based on `ICollection<HurstResult>`
+IReadOnlyList<HurstResult> results = hurstList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+HurstHub observer = quoteHub.ToHurstHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<HurstResult> results = observer.Results;
 ```

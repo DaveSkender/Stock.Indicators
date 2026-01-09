@@ -16,8 +16,8 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 
 ```csharp
 // C# usage syntax
-IEnumerable<KvoResult> results =
-  quotes.GetKvo(shortPeriods, longPeriods, signalPeriods);
+IReadOnlyList<KvoResult> results =
+  quotes.ToKvo(shortPeriods, longPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `L+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<KvoResult>
+IReadOnlyList<KvoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<KvoResult>
 
 ### KvoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Oscillator`** _`double`_ - Klinger Oscillator
 
@@ -71,8 +71,38 @@ Results can be further processed on `Kvo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetKvo(..)
-    .GetSlope(..);
+    .ToKvo(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+KvoList kvoList = new(34, 55, 13);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  kvoList.Add(quote);
+}
+
+// based on `ICollection<KvoResult>`
+IReadOnlyList<KvoResult> results = kvoList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+KvoHub observer = quoteHub.ToKvoHub(34, 55, 13);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<KvoResult> results = observer.Results;
+```

@@ -16,8 +16,8 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 
 ```csharp
 // C# usage syntax
-IEnumerable<ElderRayResult> results =
-  quotes.GetElderRay(lookbackPeriods);
+IReadOnlyList<ElderRayResult> results =
+  quotes.ToElderRay(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<ElderRayResult>
+IReadOnlyList<ElderRayResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<ElderRayResult>
 
 ### ElderRayResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ema`** _`double`_ - Exponential moving average
 
@@ -69,8 +69,38 @@ Results can be further processed on `(BullPower+BearPower)` with additional chai
 ```csharp
 // example
 var results = quotes
-    .GetElderRay(..)
-    .GetEma(..);
+    .ToElderRay(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ElderRayList elderRayList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  elderRayList.Add(quote);
+}
+
+// based on `ICollection<ElderRayResult>`
+IReadOnlyList<ElderRayResult> results = elderRayList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ElderRayHub observer = quoteHub.ToElderRayHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ElderRayResult> results = observer.Results;
+```

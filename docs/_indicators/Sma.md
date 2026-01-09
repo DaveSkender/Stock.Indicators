@@ -16,8 +16,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<SmaResult> results =
-  quotes.GetSma(lookbackPeriods);
+IReadOnlyList<SmaResult> results =
+  quotes.ToSma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<SmaResult>
+IReadOnlyList<SmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<SmaResult>
 
 ### SmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average
 
@@ -63,12 +63,12 @@ This indicator has an extended version with more analysis.
 ```csharp
 // C# usage syntax
 IEnumberable<SmaAnalysis> analysis =
-  results.GetSmaAnalysis();
+  results.ToSmaAnalysis();
 ```
 
 ### SmaAnalysis
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`decimal`_ - Simple moving average
 
@@ -86,7 +86,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.Volume)
-    .GetSma(..);
+    .ToSma(..);
 ```
 
 Results can be further processed on `Sma` with additional chain-enabled indicators.
@@ -94,6 +94,36 @@ Results can be further processed on `Sma` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetSma(..)
-    .GetRsi(..);
+    .ToSma(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SmaList smaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  smaList.Add(quote);
+}
+
+// based on `ICollection<SmaResult>`
+IReadOnlyList<SmaResult> results = smaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+SmaHub observer = quoteHub.ToSmaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<SmaResult> results = observer.Results;
 ```

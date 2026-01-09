@@ -18,8 +18,8 @@ Created by Patrick G. Mulloy, the [Double exponential moving average](https://en
 
 ```csharp
 // C# usage syntax
-IEnumerable<DemaResult> results =
-  quotes.GetDema(lookbackPeriods);
+IReadOnlyList<DemaResult> results =
+  quotes.ToDema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is mo
 ## Response
 
 ```csharp
-IEnumerable<DemaResult>
+IReadOnlyList<DemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<DemaResult>
 
 ### DemaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Dema`** _`double`_ - Double exponential moving average
 
@@ -68,7 +68,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetDema(..);
+    .ToDema(..);
 ```
 
 Results can be further processed on `Dema` with additional chain-enabled indicators.
@@ -76,6 +76,36 @@ Results can be further processed on `Dema` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetDema(..)
-    .GetRsi(..);
+    .ToDema(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+DemaList demaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  demaList.Add(quote);
+}
+
+// based on `ICollection<DemaResult>`
+IReadOnlyList<DemaResult> results = demaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+DemaHub observer = quoteHub.ToDemaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<DemaResult> results = observer.Results;
 ```

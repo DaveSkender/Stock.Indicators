@@ -16,8 +16,8 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 
 ```csharp
 // C# usage syntax
-IEnumerable<KamaResult> results =
-  quotes.GetKama(erPeriods, fastPeriods, slowPeriods);
+IReadOnlyList<KamaResult> results =
+  quotes.ToKama(erPeriods, fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<KamaResult>
+IReadOnlyList<KamaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<KamaResult>
 
 ### KamaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`ER`** _`double`_ - Efficiency Ratio is the fractal efficiency of price changes
 
@@ -74,7 +74,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetKama(..);
+    .ToKama(..);
 ```
 
 Results can be further processed on `Kama` with additional chain-enabled indicators.
@@ -82,6 +82,36 @@ Results can be further processed on `Kama` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetKama(..)
-    .GetRsi(..);
+    .ToKama(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+KamaList kamaList = new(erPeriods, fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  kamaList.Add(quote);
+}
+
+// based on `ICollection<KamaResult>`
+IReadOnlyList<KamaResult> results = kamaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+KamaHub observer = quoteHub.ToKamaHub(erPeriods, fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<KamaResult> results = observer.Results;
 ```

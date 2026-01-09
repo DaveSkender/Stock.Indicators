@@ -16,8 +16,8 @@ Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine 
 
 ```csharp
 // C# usage syntax
-IEnumerable<AtrStopResult> results =
-  quotes.GetAtrStop(lookbackPeriods, multiplier, endType);
+IReadOnlyList<AtrStopResult> results =
+  quotes.ToAtrStop(lookbackPeriods, multiplier, endType);
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<AtrStopResult>
+IReadOnlyList<AtrStopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -55,13 +55,15 @@ IEnumerable<AtrStopResult>
 
 ### AtrStopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`AtrStop`** _`decimal`_ - ATR Trailing Stop line contains both Upper and Lower segments
+**`AtrStop`** _`double`_ - ATR Trailing Stop line contains both Upper and Lower segments
 
-**`BuyStop`** _`decimal`_ - Upper band only (green)
+**`BuyStop`** _`double`_ - Upper band only (green)
 
-**`SellStop`** _`decimal`_ - Lower band only (red)
+**`SellStop`** _`double`_ - Lower band only (red)
+
+**`Atr`** _`double`_ - Average True Range
 
 `BuyStop` and `SellStop` values are provided to differentiate buy vs sell stop lines and to clearly demark trend reversal.  `AtrStop` is the contiguous combination of both upper and lower line data.
 
@@ -77,3 +79,19 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Subscribe to a `QuoteHub` for streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AtrStopResult> results = observer.Results;
+```

@@ -51,6 +51,7 @@ exclude:
   - "examples/Backtest/"
   - "examples/ConsoleApp/"
   - "node_modules"
+  - "plans"
   - "vendor"
   - "*.cs"
   - "*.csproj"
@@ -61,6 +62,7 @@ exclude:
   - "*.pptx"
   - "*.sln"
   - "AGENTS.md"
+  - "PRINCIPLES.md"
   - "README.md"
   - "Gemfile"
 

@@ -1,12 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for STARC Bands calculations.
+/// </summary>
+public static partial class StarcBands
 {
-    // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<StarcBandsResult> Condense(
-        this IEnumerable<StarcBandsResult> results)
+    /// <summary>
+    /// Removes empty (null) periods from the results.
+    /// </summary>
+    /// <param name="results">The list of STARC Bands results.</param>
+    /// <returns>A condensed list of STARC Bands results.</returns>
+    public static IReadOnlyList<StarcBandsResult> Condense(
+        this IReadOnlyList<StarcBandsResult> results)
     {
         List<StarcBandsResult> resultsList = results
             .ToList();
@@ -18,16 +23,51 @@ public static partial class Indicator
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<StarcBandsResult> RemoveWarmupPeriods(
-        this IEnumerable<StarcBandsResult> results)
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of STARC Bands results.</param>
+    /// <returns>A list of STARC Bands results with warmup periods removed.</returns>
+    public static IReadOnlyList<StarcBandsResult> RemoveWarmupPeriods(
+        this IReadOnlyList<StarcBandsResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(static x => x.UpperBand != null || x.LowerBand != null) + 1;
 
         return results.Remove(n + 150);
+    }
+
+    /// <summary>
+    /// Validates the parameters for STARC Bands calculation.
+    /// </summary>
+    /// <param name="smaPeriods">The number of periods for the simple moving average.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="atrPeriods">The number of periods for the average true range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
+    internal static void Validate(
+        int smaPeriods,
+        double multiplier,
+        int atrPeriods)
+    {
+        // check parameter arguments
+        if (smaPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                "EMA periods must be greater than 1 for STARC Bands.");
+        }
+
+        if (atrPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(atrPeriods), atrPeriods,
+                "ATR periods must be greater than 1 for STARC Bands.");
+        }
+
+        if (multiplier <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
+                "Multiplier must be greater than 0 for STARC Bands.");
+        }
     }
 }

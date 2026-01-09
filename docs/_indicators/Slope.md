@@ -17,8 +17,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<SlopeResult> results =
-  quotes.GetSlope(lookbackPeriods);
+IReadOnlyList<SlopeResult> results =
+  quotes.ToSlope(lookbackPeriods);
 ```
 
 ## Parameters
@@ -34,7 +34,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<SlopeResult>
+IReadOnlyList<SlopeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<SlopeResult>
 
 ### SlopeResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Slope`** _`double`_ - Slope `m` of the best-fit line of price
 
@@ -75,8 +75,8 @@ This indicator may be generated from any chain-enabled indicator or method.
 ```csharp
 // example
 var results = quotes
-    .GetEma(..)
-    .GetSlope(..);
+    .ToEma(..)
+    .ToSlope(..);
 ```
 
 Results can be further processed on `Slope` with additional chain-enabled indicators.
@@ -84,6 +84,38 @@ Results can be further processed on `Slope` with additional chain-enabled indica
 ```csharp
 // example
 var results = quotes
-    .GetSlope(..)
-    .GetRsi(..);
+    .ToSlope(..)
+    .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SlopeList slopeList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  slopeList.Add(quote);
+}
+
+// based on `ICollection<SlopeResult>`
+IReadOnlyList<SlopeResult> results = slopeList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+SlopeHub observer = quoteHub.ToSlopeHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<SlopeResult> results = observer.Results;
+```
+
+> &#128073; **Repaint note**: The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.

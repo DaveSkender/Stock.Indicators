@@ -16,8 +16,8 @@ Volume Weighted Moving Average is the volume adjusted average price over a lookb
 
 ```csharp
 // C# usage syntax
-IEnumerable<VwmaResult> results =
-  quotes.GetVwma(lookbackPeriods);
+IReadOnlyList<VwmaResult> results =
+  quotes.ToVwma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<VwmaResult>
+IReadOnlyList<VwmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<VwmaResult>
 
 ### VwmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Vwma`** _`double`_ - Volume Weighted Moving Average
 
@@ -63,8 +63,51 @@ Results can be further processed on `Vwma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetVwma(..)
-    .GetRsi(..);
+    .ToVwma(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+VwmaList vwmaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  vwmaList.Add(quote);
+}
+
+// based on `ICollection<VwmaResult>`
+IReadOnlyList<VwmaResult> results = vwmaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<VwmaResult> results = observer.Results;
+```
+
+### Additional buffering methods
+
+For volume-weighted calculations, VWMA also supports direct price and volume input:
+
+```csharp
+VwmaList vwmaList = new(lookbackPeriods);
+
+// Add individual price and volume data
+vwmaList.Add(DateTime.Now, price: 100.50, volume: 1000);
+```
+
+**Note**: VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.

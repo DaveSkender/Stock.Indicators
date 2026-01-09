@@ -16,8 +16,8 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 
 ```csharp
 // C# usage syntax
-IEnumerable<AlligatorResult> results =
-  quotes.GetAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
+IReadOnlyList<AlligatorResult> results =
+  quotes.ToAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ You must have at least `JP+JO+100` periods of `quotes` to cover the [warmup and 
 ## Response
 
 ```csharp
-IEnumerable<AlligatorResult>
+IReadOnlyList<AlligatorResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -55,7 +55,7 @@ IEnumerable<AlligatorResult>
 
 ### AlligatorResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Jaw`** _`double`_ - Alligator's Jaw
 
@@ -80,7 +80,23 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetAlligator();
+    .ToAlligator();
 ```
 
 Results **cannot** be further chained with additional transforms.
+
+## Streaming
+
+Subscribe to a `QuoteHub` for streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AlligatorHub observer = quoteHub.ToAlligatorHub();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AlligatorResult> results = observer.Results;
+```

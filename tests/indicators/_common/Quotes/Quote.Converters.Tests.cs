@@ -1,265 +1,90 @@
-using System.Collections.ObjectModel;
+// quote list converters
 
-namespace Tests.Common;
+namespace Utilities;
 
 [TestClass]
-public class QuoteUtility : TestBase
+public partial class Quotes : TestBase
 {
-    [TestMethod]
-    public void QuoteToSortedCollection()
-    {
-        IEnumerable<Quote> quotes = TestData.GetMismatch();
-
-        Collection<Quote> h = quotes.ToSortedCollection();
-
-        // proper quantities
-        Assert.HasCount(502, h);
-
-        // check first date
-        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, h[0].Date);
-
-        // check last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().Date);
-
-        // spot check an out of sequence date
-        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[50].Date);
-    }
-
-    [TestMethod]
-    public void QuoteToSortedList()
-    {
-        IEnumerable<Quote> quotes = TestData.GetMismatch();
-
-        List<Quote> h = quotes.ToSortedList();
-
-        // proper quantities
-        Assert.HasCount(502, h);
-
-        // check first date
-        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, h[0].Date);
-
-        // check last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().Date);
-
-        // spot check an out of sequence date
-        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[50].Date);
-    }
-
-    [TestMethod]
-    public void QuoteToTuple()
-    {
-        DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
-
-        decimal l = 111111111111111m;
-        decimal o = 222222222222222m;
-        decimal c = 333333333333333m;
-        decimal h = 444444444444444m;
-        decimal v = 555555555555555m;
-        decimal hl2 = (h + l) / 2m;
-        decimal hlc3 = (h + l + c) / 3m;
-        decimal oc2 = (o + c) / 2m;
-        decimal ohl3 = (o + h + l) / 3m;
-        decimal ohlc4 = (o + h + l + c) / 4m;
-
-        Quote q = new() {
-            Date = d,
-            Open = o,
-            High = h,
-            Low = l,
-            Close = c,
-            Volume = v
-        };
-
-        Assert.AreEqual(
-            NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Open).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToTuple(CandlePart.High).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Low).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Close).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Volume).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HL2).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HLC3).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OC2).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHL3).value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHLC4).value, 10));
-
-        // bad argument
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => q.ToTuple((CandlePart)999));
-
-        // bad argument
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => q.ToBasicData((CandlePart)999));
-    }
-
-    [TestMethod]
-    public void ToTupleCollection()
-    {
-        Collection<(DateTime, double)> collection = quotes
-            .OrderBy(static x => x.Date)
-            .ToTupleCollection(CandlePart.Close);
-
-        Assert.IsNotNull(collection);
-        Assert.HasCount(502, collection);
-        Assert.AreEqual(245.28d, collection.LastOrDefault().Item2);
-    }
-
     [TestMethod]
     public void ToSortedList()
     {
-        Collection<(DateTime, double)> collection = quotes
-            .OrderBy(static x => x.Date)
-            .ToTuple(CandlePart.Close)
-            .ToSortedCollection();
+        IReadOnlyList<Quote> quotes = Data.GetMismatch();
 
-        Assert.IsNotNull(collection);
-        Assert.HasCount(502, collection);
-        Assert.AreEqual(245.28d, collection.LastOrDefault().Item2);
+        IReadOnlyList<Quote> h = quotes.ToSortedList();
+
+        // proper quantities
+        h.Should().HaveCount(502);
+
+        // check first date
+        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", invariantCulture);
+        h[0].Timestamp.Should().Be(firstDate);
+
+        // check last date
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
+        h[^1].Timestamp.Should().Be(lastDate);
+
+        // spot check an out of sequence date
+        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", invariantCulture);
+        h[50].Timestamp.Should().Be(spotDate);
     }
 
     [TestMethod]
-    public void QuoteToBasicData()
+    public void ToQuoteList()
     {
-        DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
+        // setup
+        IReadOnlyList<Quote> quotes
+            = Quotes.Take(5).ToList();
 
-        decimal l = 111111111111111m;
-        decimal o = 222222222222222m;
-        decimal c = 333333333333333m;
-        decimal h = 444444444444444m;
-        decimal v = 555555555555555m;
-        decimal hl2 = (h + l) / 2m;
-        decimal hlc3 = (h + l + c) / 3m;
-        decimal oc2 = (o + c) / 2m;
-        decimal ohl3 = (o + h + l) / 3m;
-        decimal ohlc4 = (o + h + l + c) / 4m;
+        IReadOnlyList<MyQuote> myQuotes = quotes
+            .Select(static x => new MyQuote {
+                Timestamp = x.Timestamp,
+                Open = x.Open,
+                High = x.High,
+                Low = x.Low,
+                Close = x.Close,
+                Volume = x.Volume
+            }).ToList();
 
-        Quote q = new() {
-            Date = d,
-            Open = o,
-            High = h,
-            Low = l,
-            Close = c,
-            Volume = v
-        };
+        // sut
+        IReadOnlyList<Quote> sut
+            = myQuotes.ToQuoteList();
 
-        Assert.AreEqual(
-            NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Open).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.High).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Low).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Close).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Volume).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.HL2).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.HLC3).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.OC2).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.OHL3).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.OHLC4).Value, 10));
-
-        // bad argument
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => q.ToBasicData((CandlePart)999));
+        // assert is same as original
+        sut.IsExactly(quotes);
     }
 
     [TestMethod]
-    public void QuoteDToTuple()
+    public void ToQuote()
     {
-        DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
+        // setup
+        Quote q = Quotes[0];
 
-        double l = 111111111111111;
-        double o = 222222222222222;
-        double c = 333333333333333;
-        double h = 444444444444444;
-        double v = 555555555555555;
-        double hl2 = (h + l) / 2;
-        double hlc3 = (h + l + c) / 3;
-        double oc2 = (o + c) / 2;
-        double ohl3 = (o + h + l) / 3;
-        double ohlc4 = (o + h + l + c) / 4;
-
-        QuoteD q = new() {
-            Date = d,
-            Open = o,
-            High = h,
-            Low = l,
-            Close = c,
-            Volume = v
+        MyQuote myQuote = new() {
+            Timestamp = q.Timestamp,
+            Open = q.Open,
+            High = q.High,
+            Low = q.Low,
+            Close = q.Close,
+            Volume = q.Volume
         };
 
-        Assert.AreEqual(
-            NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Open).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToTuple(CandlePart.High).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Low).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Close).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Volume).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HL2).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HLC3).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OC2).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHL3).Item2, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHLC4).Item2, 10));
+        // sut
+        Quote sut = myQuote.ToQuote();
 
-        // bad argument
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => q.ToTuple((CandlePart)999));
+        // assert value based equality
+        sut.Should().Be(q);
+        sut.Value.Should().Be(q.Value);
+    }
+
+    private class MyQuote : IQuote
+    {
+        public DateTime Timestamp { get; set; }
+        public decimal Open { get; set; }
+        public decimal High { get; set; }
+        public decimal Low { get; set; }
+        public decimal Close { get; set; }
+        public decimal Volume { get; set; }
+
+        public double Value => (double)Close;
     }
 }

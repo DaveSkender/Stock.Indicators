@@ -17,8 +17,8 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 
 ```csharp
 // C# usage syntax
-IEnumerable<TsiResult> results =
-  quotes.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);
+IReadOnlyList<TsiResult> results =
+  quotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -38,7 +38,7 @@ You must have at least `N+M+100` periods of `quotes` to cover the [warmup and co
 ## Response
 
 ```csharp
-IEnumerable<TsiResult>
+IReadOnlyList<TsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -51,7 +51,7 @@ IEnumerable<TsiResult>
 
 ### TsiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Tsi`** _`double`_ - True Strength Index
 
@@ -66,6 +66,24 @@ IEnumerable<TsiResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide]({{site.baseurl}}/guide) for more information.
+
+```csharp
+// buffer-style streaming
+TsiList buffer = new(lookbackPeriods, smoothPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+    buffer.Add(quote);
+    TsiResult result = buffer[^1];
+}
+
+// or initialize with historical quotes
+TsiList buffer = quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -74,7 +92,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetTsi(..);
+    .ToTsi(..);
 ```
 
 Results can be further processed on `Tsi` with additional chain-enabled indicators.
@@ -82,6 +100,6 @@ Results can be further processed on `Tsi` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetTsi(..)
-    .GetSlope(..);
+    .ToTsi(..)
+    .ToSlope(..);
 ```

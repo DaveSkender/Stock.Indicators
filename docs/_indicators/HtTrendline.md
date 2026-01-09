@@ -16,8 +16,8 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 
 ```csharp
 // C# usage syntax
-IEnumerable<HtlResult> results =
-  quotes.GetHtTrendline();
+IReadOnlyList<HtlResult> results =
+  quotes.ToHtTrendline();
 ```
 
 ## Historical quotes requirements
@@ -29,7 +29,7 @@ You must have at least `100` periods of `quotes` to cover the [warmup and conver
 ## Response
 
 ```csharp
-IEnumerable<HtlResult>
+IReadOnlyList<HtlResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -42,7 +42,7 @@ IEnumerable<HtlResult>
 
 ### HtlResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`DcPeriods`** _`int`_ - Dominant cycle periods (smoothed)
 
@@ -59,6 +59,40 @@ IEnumerable<HtlResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+### Real-time streaming
+
+Use the streaming hub for real-time incremental calculations:
+
+```csharp
+QuoteHub quoteHub = new();
+HtTrendlineHub observer = quoteHub.ToHtTrendlineHub();
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<HtlResult> results = observer.Results;
+```
+
+### Buffer-style streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations:
+
+```csharp
+HtlList htlList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  htlList.Add(quote);
+}
+
+// based on `ICollection<HtlResult>`
+IReadOnlyList<HtlResult> results = htlList;
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -67,7 +101,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetHtTrendline(..);
+    .ToHtTrendline(..);
 ```
 
 Results can be further processed on `Trendline` with additional chain-enabled indicators.
@@ -75,6 +109,6 @@ Results can be further processed on `Trendline` with additional chain-enabled in
 ```csharp
 // example
 var results = quotes
-    .GetHtTrendline(..)
-    .GetRsi(..);
+    .ToHtTrendline(..)
+    .ToRsi(..);
 ```

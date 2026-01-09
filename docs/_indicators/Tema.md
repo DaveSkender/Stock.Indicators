@@ -18,8 +18,8 @@ Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en
 
 ```csharp
 // C# usage syntax
-IEnumerable<TemaResult> results =
-  quotes.GetTema(lookbackPeriods);
+IReadOnlyList<TemaResult> results =
+  quotes.ToTema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `N` periods of `quotes` to produce any TEMA values.  Howe
 ## Response
 
 ```csharp
-IEnumerable<TemaResult>
+IReadOnlyList<TemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -57,7 +57,7 @@ Period 160+:  fully converged, reliable values
 
 ### TemaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Tema`** _`double`_ - Triple exponential moving average
 
@@ -78,7 +78,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetTema(..);
+    .ToTema(..);
 ```
 
 Results can be further processed on `Tema` with additional chain-enabled indicators.
@@ -86,6 +86,36 @@ Results can be further processed on `Tema` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetTema(..)
-    .GetRsi(..);
+    .ToTema(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+TemaList temaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  temaList.Add(quote);
+}
+
+// based on `ICollection<TemaResult>`
+IReadOnlyList<TemaResult> results = temaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+TemaHub observer = quoteHub.ToTemaHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<TemaResult> results = observer.Results;
 ```

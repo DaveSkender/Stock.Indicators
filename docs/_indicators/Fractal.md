@@ -16,8 +16,8 @@ Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fracta
 
 ```csharp
 // C# usage syntax
-IEnumerable<FractalResult> results =
-  quotes.GetFractal(windowSpan);
+IReadOnlyList<FractalResult> results =
+  quotes.ToFractal(windowSpan);
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ You must have at least `2×S+1` periods of `quotes` to cover the warmup periods;
 ## Response
 
 ```csharp
-IEnumerable<FractalResult>
+IReadOnlyList<FractalResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -55,7 +55,7 @@ IEnumerable<FractalResult>
 
 ### FractalResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`FractalBear`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
 
@@ -72,3 +72,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+FractalList fractalList = new(windowSpan);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  fractalList.Add(quote);
+}
+
+// based on `ICollection<FractalResult>`
+IReadOnlyList<FractalResult> results = fractalList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+FractalHub observer = quoteHub.ToFractalHub(windowSpan);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<FractalResult> results = observer.Results;
+```

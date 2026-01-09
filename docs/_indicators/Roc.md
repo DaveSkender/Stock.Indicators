@@ -16,19 +16,13 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<RocResult> results =
-  quotes.GetRoc(lookbackPeriods);
-
-// usage with optional SMA of ROC (shown above)
-IEnumerable<RocResult> results =
-  quotes.GetRoc(lookbackPeriods, smaPeriods);
+IReadOnlyList<RocResult> results =
+  quotes.ToRoc(lookbackPeriods);
 ```
 
 ## Parameters
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) to go back.  Must be greater than 0.
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -39,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<RocResult>
+IReadOnlyList<RocResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,13 +43,11 @@ IEnumerable<RocResult>
 
 ### RocResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Momentum`** _`double`_ - Raw change in price over `N` periods
 
 **`Roc`** _`double`_ - Percent change in price (%, not decimal)
-
-**`RocSma`** _`double`_ - Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
 
 ### Utilities
 
@@ -74,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetRoc(..);
+    .ToRoc(..);
 ```
 
 Results can be further processed on `Roc` with additional chain-enabled indicators.
@@ -82,6 +74,36 @@ Results can be further processed on `Roc` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetRoc(..)
-    .GetEma(..);
+    .ToRoc(..)
+    .ToEma(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+RocList rocList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  rocList.Add(quote);
+}
+
+// based on `ICollection<RocResult>`
+IReadOnlyList<RocResult> results = rocList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RocHub observer = quoteHub.ToRocHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RocResult> results = observer.Results;
 ```

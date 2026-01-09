@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
 
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
+    <IsPublishable>False</IsPublishable>
+
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
@@ -17,42 +21,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" PrivateAssets="All" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
-    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Indicators.csproj" />
+    <ProjectReference Include="../../src/Indicators.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="_common\data\*.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+
+    <None Update="_testdata/quotes/*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="a-d\Adx\issue859quotes.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="_testdata/results/*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="a-d\Dpo\Dpo.Data.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\WilliamsR\issue1127quotes.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\data.ethusdt.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\data.issue632.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\data.schrodinger.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\zigzag.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+
   </ItemGroup>
 
 </Project>

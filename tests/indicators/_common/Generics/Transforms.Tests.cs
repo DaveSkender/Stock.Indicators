@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace Tests.Common;
+namespace Utilities;
 
 [TestClass]
 public class Transforms : TestBase
@@ -8,20 +8,22 @@ public class Transforms : TestBase
     [TestMethod]
     public void ToCollection()
     {
-        Collection<Quote> collection = quotes
+        Collection<Quote> collection = Quotes
             .ToSortedList()
             .ToCollection();
 
-        Assert.IsNotNull(collection);
-        Assert.HasCount(502, collection);
+        collection.Should().NotBeNull();
+        collection.Should().HaveCount(502);
         Assert.AreEqual(245.28m, collection.LastOrDefault().Close);
     }
 
-    // null ToCollection
+    /// <summary>
+    /// null ToCollection
+    /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void ToCollectionNullExceptions()
     {
-        List<Quote> nullQuotes = null;
+        IReadOnlyList<Quote> nullQuotes = null;
 
         Assert.ThrowsExactly<ArgumentNullException>(
             () => nullQuotes.ToCollection());

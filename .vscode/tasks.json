@@ -5,6 +5,12 @@
   "version": "2.0.0",
   "inputs": [
     {
+      "id": "perfFilter",
+      "description": "Performance benchmark wildcard filter (e.g., *Sma* or *ToEma*)",
+      "default": "*Sma*",
+      "type": "promptString"
+    },
+    {
       "id": "roslynatorCommand",
       "description": "Select command type for Roslynator",
       "options": [
@@ -426,6 +432,16 @@
       "type": "shell",
       "command": "dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *StreamIndicators*",
       "group": "test",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Test: Performance (spot check)",
+      "detail": "Quick indicator performance benchmark using filter pattern (e.g., *Sma* matches ToSma, SmaHub, SmaList)",
+      "type": "shell",
+      "command": "dotnet run --project Tests.Performance.csproj -c Release -- --filter \"${input:perfFilter}\" --job short --warmupCount 3 --iterationCount 5 --exporters json markdown",
+      "options": {
+        "cwd": "${workspaceFolder}/tools/performance"
+      },
       "problemMatcher": "$msCompile"
     },
     {

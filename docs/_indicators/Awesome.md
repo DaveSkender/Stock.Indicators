@@ -16,8 +16,8 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 
 ```csharp
 // C# usage syntax
-IEnumerable<AwesomeResult> results =
-  quotes.GetAwesome(fastPeriods, slowPeriods);
+IReadOnlyList<AwesomeResult> results =
+  quotes.ToAwesome(fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `S` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<AwesomeResult>
+IReadOnlyList<AwesomeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<AwesomeResult>
 
 ### AwesomeResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Oscillator`** _`double`_ - Awesome Oscillator
 
@@ -68,7 +68,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetAwesome(..);
+    .ToAwesome(..);
 ```
 
 Results can be further processed on `Oscillator` with additional chain-enabled indicators.
@@ -76,6 +76,36 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetAwesome(..)
-    .GetRsi(..);
+    .ToAwesome(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AwesomeList awesomeList = new(fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  awesomeList.Add(quote);
+}
+
+// based on `ICollection<AwesomeResult>`
+IReadOnlyList<AwesomeResult> results = awesomeList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+AwesomeHub observer = quoteHub.ToAwesomeHub(fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AwesomeResult> results = observer.Results;
 ```

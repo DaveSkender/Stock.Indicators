@@ -1,12 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods Standard Deviation Channels calculations.
+/// </summary>
+public static partial class StdDevChannels
 {
-    // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<StdDevChannelsResult> Condense(
-        this IEnumerable<StdDevChannelsResult> results)
+    /// <summary>
+    /// Removes empty (null) periods from the results.
+    /// </summary>
+    /// <param name="results">The list of results to condense.</param>
+    /// <returns>A condensed list of results.</returns>
+    public static IReadOnlyList<StdDevChannelsResult> Condense(
+        this IReadOnlyList<StdDevChannelsResult> results)
     {
         List<StdDevChannelsResult> resultsList = results
             .ToList();
@@ -21,16 +26,43 @@ public static partial class Indicator
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<StdDevChannelsResult> RemoveWarmupPeriods(
-        this IEnumerable<StdDevChannelsResult> results)
+    /// <summary>
+    /// Removes recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of results to process.</param>
+    /// <returns>A list of results with warmup periods removed.</returns>
+    public static IReadOnlyList<StdDevChannelsResult> RemoveWarmupPeriods(
+        this IReadOnlyList<StdDevChannelsResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
-            .ToList()
             .FindIndex(static x => x.UpperChannel != null || x.LowerChannel != null);
 
         return results.Remove(removePeriods);
+    }
+
+    /// <summary>
+    /// Validates the parameters for Standard Deviation Channels.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="stdDeviations">The number of standard deviations.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are out of range.</exception>
+    internal static void Validate(
+        int? lookbackPeriods,
+        double stdDeviations)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for Standard Deviation Channels.");
+        }
+
+        if (stdDeviations <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stdDeviations), stdDeviations,
+                "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
+        }
     }
 }

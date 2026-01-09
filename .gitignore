@@ -55,6 +55,7 @@ _ReSharper*/
 
 # OS artifacts
 .DS_Store
+~*.xlsx
 
 # Misc. other
 .bundle/
@@ -66,3 +67,4 @@ _ReSharper*/
 .vitepress/dist/
 _site/
 vendor/
+coverage/

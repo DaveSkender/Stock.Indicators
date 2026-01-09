@@ -1,6 +1,7 @@
 # https://gitversion.net/docs/reference/configuration
 
 mode: ContinuousDelivery
+next-version: 3.0.0
 
 commit-message-incrementing: Enabled
 major-version-bump-message: '\+semver:\s?(breaking|major)'
@@ -19,7 +20,7 @@ branches:
     regex: ^v[0-9]+\.*
     increment: Patch
     source-branches: [main]
-    label: ''
+    label: preview
 
   feature:
     regex: ^feature/.*

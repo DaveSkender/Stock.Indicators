@@ -16,12 +16,12 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 
 ```csharp
 // C# usage syntax (standard)
-IEnumerable<StochResult> results =
-  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+IReadOnlyList<StochResult> results =
+  quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
 // advanced customization
-IEnumerable<StochResult> results =
-  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods,
+IReadOnlyList<StochResult> results =
+  quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods,
                   kFactor, dFactor, movingAverageType);
 ```
 
@@ -56,7 +56,7 @@ These are the supported moving average types:
 ## Response
 
 ```csharp
-IEnumerable<StochResult>
+IReadOnlyList<StochResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -68,7 +68,7 @@ IEnumerable<StochResult>
 
 ### StochResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Oscillator` or `K`** _`double`_ - %K Oscillator
 
@@ -94,8 +94,38 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetStoch(..)
-    .GetSlope(..);
+    .ToStoch(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+StochList stochList = new(lookbackPeriods, signalPeriods, smoothPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  stochList.Add(quote);
+}
+
+// based on `ICollection<StochResult>`
+IReadOnlyList<StochResult> results = stochList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+StochHub observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<StochResult> results = observer.Results;
+```

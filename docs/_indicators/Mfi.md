@@ -16,8 +16,8 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 
 ```csharp
 // C# usage syntax
-IEnumerable<MfiResult> results =
-  quotes.GetMfi(lookbackPeriods);
+IReadOnlyList<MfiResult> results =
+  quotes.ToMfi(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N+1` historical quotes to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<MfiResult>
+IReadOnlyList<MfiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<MfiResult>
 
 ### MfiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Mfi`** _`decimal`_ - Money Flow Index
 
@@ -56,6 +56,36 @@ IEnumerable<MfiResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MfiList mfiList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  mfiList.Add(quote);
+}
+
+// based on `ICollection<MfiResult>`
+IReadOnlyList<MfiResult> results = mfiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MfiResult> results = observer.Results;
+```
+
 ## Chaining
 
 Results can be further processed on `Mfi` with additional chain-enabled indicators.
@@ -63,8 +93,8 @@ Results can be further processed on `Mfi` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetMfi(..)
-    .GetRsi(..);
+    .ToMfi(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

@@ -16,8 +16,8 @@ Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlesti
 
 ```csharp
 // C# usage syntax
-IEnumerable<HeikinAshiResult> results =
-  quotes.GetHeikinAshi();
+IReadOnlyList<HeikinAshiResult> results =
+  quotes.ToHeikinAshi();
 ```
 
 ## Historical quotes requirements
@@ -29,7 +29,7 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 ## Response
 
 ```csharp
-IEnumerable<HeikinAshiResult>
+IReadOnlyList<HeikinAshiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -39,7 +39,7 @@ IEnumerable<HeikinAshiResult>
 
 ### HeikinAshiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Open`** _`decimal`_ - Modified open price
 
@@ -58,8 +58,8 @@ IEnumerable<HeikinAshiResult>
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp
-  IEnumerable<Quote> results = quotes
-    .GetHeikinAshi()
+  IReadOnlyList<Quote> results = quotes
+    .ToHeikinAshi()
     .ToQuotes();
   ```
 
@@ -72,8 +72,38 @@ Results are based in `IQuote` and can be further used in any indicator.
 ```csharp
 // example
 var results = quotes
-    .GetHeikinAshi(..)
-    .GetRsi(..);
+    .ToHeikinAshi(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+HeikinAshiList heikinAshiList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  heikinAshiList.Add(quote);
+}
+
+// based on `ICollection<HeikinAshiResult>`
+IReadOnlyList<HeikinAshiResult> results = heikinAshiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+HeikinAshiHub observer = quoteHub.ToHeikinAshiHub();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<HeikinAshiResult> results = observer.Results;
+```

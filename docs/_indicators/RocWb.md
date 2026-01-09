@@ -17,8 +17,8 @@ Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility band
 
 ```csharp
 // C# usage syntax
-IEnumerable<RocWbResult> results =
-  quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
+IReadOnlyList<RocWbResult> results =
+  quotes.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```
 
 ## Parameters
@@ -38,7 +38,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<RocWbResult>
+IReadOnlyList<RocWbResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -48,7 +48,7 @@ IEnumerable<RocWbResult>
 
 ### RocWbResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Roc`** _`double`_ - Rate of Change over `N` lookback periods (%, not decimal)
 
@@ -67,6 +67,36 @@ IEnumerable<RocWbResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+RocWbList rocWbList = new(lookbackPeriods, emaPeriods, stdDevPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  rocWbList.Add(quote);
+}
+
+// based on `ICollection<RocWbResult>`
+IReadOnlyList<RocWbResult> results = rocWbList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RocWbHub observer = quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RocWbResult> results = observer.Results;
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -75,7 +105,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetRocWb(..);
+    .ToRocWb(..);
 ```
 
 Results can be further processed on `Roc` with additional chain-enabled indicators.
@@ -83,6 +113,6 @@ Results can be further processed on `Roc` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetRocWb(..)
-    .GetEma(..);
+    .ToRocWb(..)
+    .ToEma(..);
 ```

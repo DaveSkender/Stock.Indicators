@@ -1,0 +1,74 @@
+name: Regenerate baselines
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for baseline regeneration"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  regenerate:
+    name: Regenerate regression baselines
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Regenerate all baselines
+        run: dotnet run --project tools/baselining -- --all
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: Regenerate regression baselines"
+          title: "chore: Regenerate regression baselines"
+          body: |
+            ## Baseline Regeneration
+
+            **Reason**: ${{ github.event.inputs.reason }}
+
+            This PR regenerates all regression baseline files using the current indicator implementations.
+
+            ### Review Checklist
+
+            - [ ] Verify the reason for baseline regeneration is documented
+            - [ ] Review baseline changes for expected numeric differences
+            - [ ] Confirm no unexpected indicators were affected
+            - [ ] Validate regression tests pass with new baselines
+            - [ ] Document any breaking changes in release notes
+
+            ### When to Regenerate Baselines
+
+            Baselines should be regenerated when:
+            1. Intentional algorithm changes modify indicator outputs
+            2. .NET version upgrades affect floating-point calculations
+            3. Test data changes require baseline updates
+            4. New indicators need initial baselines
+
+            **Note**: Any baseline change must be intentional and documented. Unexpected changes indicate potential bugs that should be investigated before merging.
+
+            ---
+            Triggered by: @${{ github.actor }}
+            Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          branch: regenerate-baselines-${{ github.run_number }}
+          delete-branch: true

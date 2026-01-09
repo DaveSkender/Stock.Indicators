@@ -16,8 +16,8 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 
 ```csharp
 // C# usage syntax
-IEnumerable<UltimateResult> results =
-  quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);
+IReadOnlyList<UltimateResult> results =
+  quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ You must have at least `L+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<UltimateResult>
+IReadOnlyList<UltimateResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<UltimateResult>
 
 ### UltimateResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ultimate`** _`double`_ - Ultimate Oscillator
 
@@ -67,8 +67,38 @@ Results can be further processed on `Ultimate` with additional chain-enabled ind
 ```csharp
 // example
 var results = quotes
-    .GetUltimate(..)
-    .GetSlope(..);
+    .ToUltimate(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+UltimateList ultimateList = new(shortPeriods, middlePeriods, longPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  ultimateList.Add(quote);
+}
+
+// based on `ICollection<UltimateResult>`
+IReadOnlyList<UltimateResult> results = ultimateList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+UltimateHub observer = quoteHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<UltimateResult> results = observer.Results;
+```

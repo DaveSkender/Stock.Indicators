@@ -16,8 +16,8 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 
 ```csharp
 // C# usage syntax
-IEnumerable<FisherTransformResult> results =
-  quotes.GetFisherTransform(lookbackPeriods);
+IReadOnlyList<FisherTransformResult> results =
+  quotes.ToFisherTransform(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the [warmup and converge
 ## Response
 
 ```csharp
-IEnumerable<FisherTransformResult>
+IReadOnlyList<FisherTransformResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -44,7 +44,7 @@ IEnumerable<FisherTransformResult>
 
 ### FisherTransformResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Fisher`** _`double`_ - Fisher Transform
 
@@ -59,7 +59,7 @@ IEnumerable<FisherTransformResult>
 For pruning of warmup periods, we recommend using the following guidelines:
 
 ```csharp
-quotes.GetFisherTransform(lookbackPeriods)
+quotes.ToFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetFisherTransform(..);
+    .ToFisherTransform(..);
 ```
 
 Results can be further processed on `Alma` with additional chain-enabled indicators.
@@ -81,6 +81,36 @@ Results can be further processed on `Alma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetFisherTransform(..)
-    .GetRsi(..);
+    .ToFisherTransform(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+FisherTransformList fisherList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  fisherList.Add(quote);
+}
+
+// based on `ICollection<FisherTransformResult>`
+IReadOnlyList<FisherTransformResult> results = fisherList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+FisherTransformHub observer = quoteHub.ToFisherTransformHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<FisherTransformResult> results = observer.Results;
 ```
