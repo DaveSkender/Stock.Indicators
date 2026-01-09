@@ -184,6 +184,20 @@ Add semver tags to PR merge commit messages to control version bumps:
 
 Example merge commit: `feat: Add new indicator (+semver: minor)`
 
+### Creating preview releases from stable branches
+
+To publish a preview/pre-release version from `main` or `v2` (normally stable branches), create a Git tag with the desired suffix before triggering deployment:
+
+```bash
+# Create preview tag
+git tag v2.8.0-preview.1
+git push origin v2.8.0-preview.1
+
+# Then trigger manual workflow deployment with preview=true
+```
+
+GitVersion will honor the tag's pre-release suffix. This approach works for any pre-release label (preview, rc, beta, alpha).
+
 ### Package deployment and tagging
 
 Packages are deployed via GitHub Actions workflow:
