@@ -698,8 +698,10 @@ function generateChartData(quotes, results, config) {
       type: field.type || 'line'
     }
 
-    // Add color after type
-    if (field.color) seriesData.color = field.color
+    // Add color after type (but NOT for conditional coloring histograms)
+    if (field.color && !field.colorConditional) {
+      seriesData.color = field.color
+    }
     if (field.lineWidth) seriesData.lineWidth = field.lineWidth
     if (field.lineStyle) seriesData.lineStyle = field.lineStyle
     
@@ -712,7 +714,7 @@ function generateChartData(quotes, results, config) {
           value: value
         }
         // Add color based on value (green above zero, red below)
-        if (value !== null) {
+        if (value !== null && !isNaN(value)) {
           dataPoint.color = value >= 0 ? ChartColors.StandardGreen : ChartColors.StandardRed
         }
         return dataPoint
