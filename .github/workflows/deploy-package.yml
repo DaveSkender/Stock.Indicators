@@ -4,7 +4,7 @@ name: Deploy package
 # Version format: major.minor.patch[-preview.N|-dev.X]
 # - Versioning managed by GitVersion
 # - Suffixes:
-#   - Push to main/v* branches (pkg.github.com): `-dev.X` (X = CI build number)
+#   - Push to main/v* branches (pkg.github.com): `-dev.X` (X = commits from last stable tag)
 #   - Manual dispatch (preview true, any env): `-preview.N` (N = preview number)
 #   - Manual dispatch (preview false, nuget.org, main, dry_run false): (none)
 # - Non-preview versions on nuget.org restricted to main branch;
@@ -12,6 +12,7 @@ name: Deploy package
 # - Default: patch increment unless "+semver:" message found
 #   or will use "next-version" if set in config
 # - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
+# - Dev numbers count from last stable (non-prerelease) tag to prevent reset
 # - Branches are only tagged with the version after deployments to nuget.org
 # - Only production deployments (non-preview to nuget.org) get "latest" tag
 # - Old CI packages (with -dev.X suffix) auto-cleanup after 3 days (keep 5 most recent)
