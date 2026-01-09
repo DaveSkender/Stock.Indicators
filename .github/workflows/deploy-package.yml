@@ -1,21 +1,33 @@
 name: Deploy package
 
 ## Version marker and suffix taxonomy
-# Version format: major.minor.patch[-preview.N|-dev.X]
-# - Versioning managed by GitVersion
-# - Suffixes:
-#   - Push to main/v* branches (pkg.github.com): `-dev.X` (X = commits from last stable tag)
-#   - Manual dispatch (preview true, any env): `-preview.N` (N = preview number)
-#   - Manual dispatch (preview false, nuget.org, main, dry_run false): (none)
-# - Non-preview versions on nuget.org restricted to main branch;
-#   runs targeting nuget.org from non-"main" branches will fail early.
-# - Default: patch increment unless "+semver:" message found
-#   or will use "next-version" if set in config
-# - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
-# - Dev numbers count from last stable (non-prerelease) tag to prevent reset
-# - Branches are only tagged with the version after deployments to nuget.org
-# - Only production deployments (non-preview to nuget.org) get "latest" tag
-# - Old CI packages (with -dev.X suffix) auto-cleanup after 3 days (keep 5 most recent)
+# Version format: major.minor.patch[-label.N]
+# Versioning managed by GitVersion (see src/gitversion.yml)
+#
+# Automatic versioning by branch:
+#   main branch: 2.x.x-ci.N (CI) or 2.x.x (production)
+#   v3 branch: 3.0.0-preview.N (always preview)
+#   feature branches: x.x.x-{branch-name}.N
+#
+# Manual dispatch controls:
+#   - environment: pkg.github.com or nuget.org
+#   - preview: true (keep pre-release suffix) or false (production version)
+#   - dry_run: true (test only) or false (actually publish)
+#
+# Version suffix behavior:
+#   - CI push events: Use GitVersion FullSemVer (includes +metadata)
+#   - Manual with preview=true: Use GitVersion NuGetVersionV2 (pre-release)
+#   - Manual with preview=false: Use GitVersion MajorMinorPatch (stable)
+#
+# Deployment restrictions:
+#   - Production versions (no suffix) to nuget.org: main branch only
+#   - Preview versions: any branch
+#   - Tags created: only for production deployments to nuget.org
+#   - 'latest' tag: only for production deployments from main to nuget.org
+#
+# Package cleanup:
+#   - All packages in GitHub Packages are CI/preview builds (stable → NuGet.org)
+#   - Auto-cleanup after {retentionDays} days (always keep {keepCount} most recent)
 
 on:
   push:
@@ -63,17 +75,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Debug GitVersion config presence
-        run: cat src/gitversion.yml
-
       - name: Setup GitVersion Tool
         run: dotnet tool install --global GitVersion.Tool
-
-      - name: Show GitVersion config
-        run: dotnet gitversion -config src/gitversion.yml -showconfig
-
-      - name: Show GitVersion output
-        run: dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
 
       - name: Validate deployment settings
         env:
@@ -84,7 +87,7 @@ jobs:
         run: |
           # For push events (CI builds): always publish to GitHub Packages only
           if [[ "$EVENT_NAME" == "push" ]]; then
-            echo "✅ CI build detected - will publish to GitHub Packages with -dev suffix"
+            echo "✅ CI build detected - will publish to GitHub Packages"
             exit 0
           fi
 
@@ -92,11 +95,19 @@ jobs:
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             # Check if deploying to nuget.org
             if [[ "$INPUT_ENVIRONMENT" == "nuget.org" ]]; then
-              # Only main or v* branches can deploy to nuget.org
+              # Only main or v* branches can deploy production versions to nuget.org
               if [[ "$GITHUB_REF" != "refs/heads/main" ]] && [[ ! "$GITHUB_REF" =~ ^refs/heads/v[0-9] ]]; then
-                echo "::error::Deployments to nuget.org are only allowed from main or v* branches"
+                echo "::error::Production deployments to nuget.org require main or v* branch"
                 echo "::error::Current branch: $GITHUB_REF"
-                echo "::error::To deploy from this branch, use pkg.github.com"
+                echo "::error::Options: 1) Use pkg.github.com, or 2) Set preview=true"
+                exit 1
+              fi
+
+              # Non-preview versions to nuget.org must be from main or release branches
+              if [[ "$INPUT_PREVIEW" == "false" ]] && [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+                echo "::error::Stable versions (preview=false) can only be deployed from main branch"
+                echo "::error::Current branch: $GITHUB_REF"
+                echo "::error::Options: 1) Switch to main, or 2) Set preview=true for pre-release"
                 exit 1
               fi
 
@@ -172,48 +183,28 @@ jobs:
       - name: Compose version
         id: version_info
         run: |
-          # base version
-          base="${{ env.MajorMinorPatch }}"
+          # Select appropriate GitVersion variable based on deployment scenario
+          # See: https://gitversion.net/docs/reference/variables
 
-          # conditional suffix based on workflow inputs only
-          if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
-            # CI pushes use -dev.X suffix
-            if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
-              # For CI builds, count commits from last stable (non-prerelease) version tag
-              # This prevents reset when preview/dev tags are added during development
-              
-              # Find last stable tag by looking for tags without prerelease identifiers
-              # matching current or previous major version
-              last_stable=$(git tag -l --sort=-version:refname | \
-                grep -E "^[0-9]+\.[0-9]+\.[0-9]+(\+[0-9]+)?$" | \
-                head -1)
-              
-              if [[ -n "$last_stable" ]]; then
-                dev_num=$(git rev-list --count ${last_stable}..HEAD)
-                echo "Using stable tag ${last_stable} as base, commits since: ${dev_num}"
-              else
-                # Fallback to GitVersion's count if no stable tags found
-                dev_num="${{ env.CommitsSinceVersionSource }}"
-                echo "No stable tag found, using CommitsSinceVersionSource: ${dev_num}"
-              fi
-              
-              suffix="-dev.${dev_num}"
-            else
-              # Manual dispatch with preview=true uses -preview.X suffix
-              # Use PreReleaseNumber if available (auto-increments), otherwise default to 1
-              if [[ -n "${{ env.PreReleaseNumber }}" ]] && [[ "${{ env.PreReleaseNumber }}" != "0" ]]; then
-                preview_num="${{ env.PreReleaseNumber }}"
-              else
-                preview_num="1"
-              fi
-              suffix="-preview.${preview_num}"
-            fi
+          if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
+            # CI push events: use FullSemVer (includes build metadata)
+            # Examples: 3.0.0-preview.2+5, 2.7.1-ci.3+2
+            ver="${{ env.FullSemVer }}"
+            echo "Using FullSemVer for CI push: $ver"
+
+          elif [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
+            # Manual preview: use NuGetVersionV2 (pre-release without metadata)
+            # Examples: 3.0.0-preview.2, 2.7.1-ci.3
+            ver="${{ env.NuGetVersionV2 }}"
+            echo "Using NuGetVersionV2 for preview release: $ver"
+
           else
-            # No suffix for production versions (preview=false)
-            suffix=""
+            # Production release: use MajorMinorPatch (no suffix)
+            # Examples: 3.0.0, 2.7.1
+            ver="${{ env.MajorMinorPatch }}"
+            echo "Using MajorMinorPatch for production release: $ver"
           fi
 
-          ver="${base}${suffix}"
           echo "version=$ver" >> $GITHUB_OUTPUT
           echo "Generated version: $ver"
 
@@ -376,7 +367,6 @@ jobs:
   cleanup:
     needs: [package, deploy]
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     if: success() && needs.package.outputs.is_ci_push == 'true' && needs.package.outputs.dry_run != 'true'
 
     permissions:
@@ -387,115 +377,96 @@ jobs:
       REPO_OWNER: ${{ github.repository_owner }}
 
     steps:
-      - name: Cleanup old dev packages
+      - name: Cleanup old packages
+        uses: actions/github-script@v8
         continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const packageName = '${{ needs.package.outputs.name }}';
+            const owner = context.repo.owner;
+            const retentionDays = 90;
+            const keepCount = 10;
 
-        # TODO: If moving to an organization, consider using GitHub Actions variable
-        #       ${{ github.repository_owner_type }} (available in org contexts) or
-        #       hardcode API_PATH="/orgs/${REPO_OWNER}" if always org-based going forward
-        run: |
-          echo "🔍 Cleaning up old dev packages for ${PACKAGE_NAME}"
+            console.log(`🔍 Cleaning up old packages for ${packageName}`);
+            console.log(`📦 Owner: ${owner}`);
+            console.log(`⏰ Retention: ${retentionDays} days, keeping ${keepCount} most recent`);
 
-          # Determine if this is an org or user repo
+            try {
+              // Get all package versions
+              const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageOwnedByUser({
+                package_type: 'nuget',
+                package_name: packageName,
+                username: owner,
+              });
 
-          OWNER_TYPE=$(gh api "/users/${REPO_OWNER}" --jq '.type' 2>/dev/null || echo "User")
-          if [[ "$OWNER_TYPE" == "Organization" ]]; then
-            API_PATH="/orgs/${REPO_OWNER}"
-          else
-            API_PATH="/users/${REPO_OWNER}"
-          fi
-          echo "📍 Using API path: ${API_PATH} (type: ${OWNER_TYPE})"
+              console.log(`📦 Found ${versions.length} total package versions`);
 
-          # Get all package versions with pagination (gh cli handles this automatically)
-          echo "📡 Fetching package versions..."
-          set +e
-          all_versions=$(gh api \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "${API_PATH}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100" \
-            --paginate \
-            --jq '.' 2>&1)
-          exit_code=$?
-          set -e
+              if (versions.length === 0) {
+                console.log('✅ No packages to clean up');
+                return;
+              }
 
-          # Check if command succeeded
-          if [[ $exit_code -ne 0 ]]; then
-            echo "⚠️  GitHub API call failed (exit code: ${exit_code})"
-            echo "⚠️  Response: $all_versions"
-            echo "✅ No packages found to clean up (package may not exist yet)"
-            exit 0
-          fi
+              // Sort by creation date (newest first)
+              const sortedVersions = versions.sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+              );
 
-          # Validate response is valid JSON array
-          if ! echo "$all_versions" | jq -e 'type == "array"' >/dev/null 2>&1; then
-            echo "⚠️  GitHub API returned non-array response"
-            echo "✅ No packages found to clean up"
-            exit 0
-          fi
+              // Calculate cutoff date
+              const cutoffDate = new Date();
+              cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
+              console.log(`📅 Cutoff date: ${cutoffDate.toISOString()}`);
 
-          total_count=$(echo "$all_versions" | jq 'length')
-          echo "📦 Found ${total_count} total package versions"
+              let deletedCount = 0;
+              let keptCount = 0;
 
-          # Filter to dev packages only (containing -dev. suffix) and sort by created_at descending
-          dev_versions=$(echo "$all_versions" | jq '[.[] | select(.name | contains("-dev."))] | sort_by(.created_at) | reverse')
-          dev_count=$(echo "$dev_versions" | jq 'length')
-          echo "🔧 Found ${dev_count} dev package versions"
+              for (let i = 0; i < sortedVersions.length; i++) {
+                const version = sortedVersions[i];
+                const createdAt = new Date(version.created_at);
 
-          if [[ $dev_count -eq 0 ]]; then
-            echo "✅ No dev packages to clean up"
-            exit 0
-          fi
+                // Keep the N most recent versions
+                if (i < keepCount) {
+                  console.log(`⏭️  Keeping recent version: ${version.name} (created: ${version.created_at})`);
+                  keptCount++;
+                  continue;
+                }
 
-          # Calculate cutoff date (3 days ago)
-          cutoff_date=$(date -u -d '3 days ago' +%Y-%m-%dT%H:%M:%SZ)
-          echo "📅 Cutoff date: ${cutoff_date}"
+                // Delete if older than retention period
+                if (createdAt < cutoffDate) {
+                  console.log(`🗑️  Deleting old version: ${version.name} (created: ${version.created_at})`);
+                  try {
+                    await github.rest.packages.deletePackageVersionForUser({
+                      package_type: 'nuget',
+                      package_name: packageName,
+                      username: owner,
+                      package_version_id: version.id,
+                    });
+                    deletedCount++;
+                  } catch (error) {
+                    console.log(`⚠️  Failed to delete version ${version.name}: ${error.message}`);
+                    keptCount++;
+                  }
+                } else {
+                  console.log(`⏭️  Keeping recent version: ${version.name} (created: ${version.created_at}, within ${retentionDays} days)`);
+                  keptCount++;
+                }
+              }
 
-          # Keep the 5 most recent, delete older ones that are past cutoff
-          deleted_count=0
-          kept_count=0
-          index=0
+              console.log(`✅ Cleanup complete. Deleted ${deletedCount}, kept ${keptCount}`);
 
-          # Process each version
-          while IFS= read -r version; do
-            version_id=$(echo "$version" | jq -r '.id')
-            version_name=$(echo "$version" | jq -r '.name')
-            created_at=$(echo "$version" | jq -r '.created_at')
+              // Add summary
+              await core.summary
+                .addHeading('🧹 Package Cleanup Summary', 3)
+                .addTable([
+                  [{data: 'Metric', header: true}, {data: 'Value', header: true}],
+                  ['Total Packages', versions.length.toString()],
+                  ['Packages Deleted', deletedCount.toString()],
+                  ['Packages Retained', keptCount.toString()],
+                  ['Retention Period', `${retentionDays} days`],
+                  ['Keep Most Recent', keepCount.toString()]
+                ])
+                .write();
 
-            # Keep the first 5 (most recent)
-            if [[ $index -lt 5 ]]; then
-              echo "⏭️  Keeping recent version: ${version_name} (created: ${created_at})"
-              ((kept_count++))
-            # Delete if older than 3 days
-            elif [[ "$created_at" < "$cutoff_date" ]]; then
-              echo "🗑️  Deleting old version: ${version_name} (created: ${created_at})"
-              if gh api \
-                --method DELETE \
-                -H "Accept: application/vnd.github+json" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                "${API_PATH}/packages/nuget/${PACKAGE_NAME}/versions/${version_id}" 2>/dev/null; then
-                ((deleted_count++))
-              else
-                echo "⚠️  Failed to delete version: ${version_name}"
-                ((kept_count++))
-              fi
-            else
-              echo "⏭️  Keeping recent version: ${version_name} (created: ${created_at}, within 3 days)"
-              ((kept_count++))
-            fi
-
-            ((index++))
-          done < <(echo "$dev_versions" | jq -c '.[]')
-
-          echo "✅ Cleanup complete. Deleted ${deleted_count} old dev package versions"
-
-          {
-            echo "### 🧹 Package Cleanup Summary"
-            echo "| Metric | Value |"
-            echo "| :----- | :---- |"
-            echo "| Total Packages | ${total_count} |"
-            echo "| Dev Packages | ${dev_count} |"
-            echo "| Packages Deleted | ${deleted_count} |"
-            echo "| Packages Retained | ${kept_count} |"
-          } >> $GITHUB_STEP_SUMMARY
+            } catch (error) {
+              console.log(`⚠️  Cleanup failed: ${error.message}`);
+              console.log('This may be because the package does not exist yet or permission issues.');
+            }
