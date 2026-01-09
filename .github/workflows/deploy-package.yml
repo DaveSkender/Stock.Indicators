@@ -178,7 +178,25 @@ jobs:
           if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
             # CI pushes use -dev.X suffix
             if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
-              suffix="-dev.${{ env.CommitsSinceVersionSource }}"
+              # For CI builds, count commits from last stable (non-prerelease) version tag
+              # This prevents reset when preview/dev tags are added during development
+              
+              # Find last stable tag by looking for tags without prerelease identifiers
+              # matching current or previous major version
+              last_stable=$(git tag -l --sort=-version:refname | \
+                grep -E "^[0-9]+\.[0-9]+\.[0-9]+(\+[0-9]+)?$" | \
+                head -1)
+              
+              if [[ -n "$last_stable" ]]; then
+                dev_num=$(git rev-list --count ${last_stable}..HEAD)
+                echo "Using stable tag ${last_stable} as base, commits since: ${dev_num}"
+              else
+                # Fallback to GitVersion's count if no stable tags found
+                dev_num="${{ env.CommitsSinceVersionSource }}"
+                echo "No stable tag found, using CommitsSinceVersionSource: ${dev_num}"
+              fi
+              
+              suffix="-dev.${dev_num}"
             else
               # Manual dispatch with preview=true uses -preview.X suffix
               # Use PreReleaseNumber if available (auto-increments), otherwise default to 1
