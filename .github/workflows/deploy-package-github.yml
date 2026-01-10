@@ -102,14 +102,12 @@ jobs:
           # This ensures every CI build has a unique, incrementing version
           # Examples: 2.7.2-ci-1234, 3.0.0-ci-567
 
-          base="$MAJORMINORPATCH"
+          base="$MajorMinorPatch"
           run="${{ github.run_number }}"
           ver="${base}-ci-${run}"
 
           echo "version=$ver" >> $GITHUB_OUTPUT
           echo "Generated CI version: $ver"
-        env:
-          MAJORMINORPATCH: ${{ steps.gitversion.outputs.majorMinorPatch }}
 
       - name: Replace "dumb" version markers
         uses: jacobtomlinson/gha-find-replace@v3
