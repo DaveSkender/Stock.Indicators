@@ -1,0 +1,117 @@
+---
+title: Rolling Pivot Points
+description: Rolling Pivot Points is a modern update to traditional fixed calendar window Pivot Points.  It depicts support and resistance levels, based on a defined rolling window and offset.
+---
+
+# Rolling Pivot Points
+
+Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window <a href="/indicators/PivotPoints/" rel="nofollow">Pivot Points</a>.  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
+
+<ClientOnly>
+  <IndicatorChart src="/data/RollingPivots.json" :height="360" />
+</ClientOnly>
+
+```csharp
+// C# usage syntax
+IReadOnlyList<RollingPivotsResult> results =
+  quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
+```
+
+## Parameters
+
+| param | type | description |
+| ----- | ---- | ----------- |
+| `windowPeriods` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range. |
+| `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
+| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
+
+For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](/indicators/PivotPoints) indicator.
+
+### Historical quotes requirements
+
+You must have at least `W+F` periods of `quotes` to cover the warmup periods.
+
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+
+### PivotPointType options
+
+**`PivotPointType.Standard`** - Floor Trading (default)
+
+**`PivotPointType.Camarilla`** - Camarilla
+
+**`PivotPointType.Demark`** - Demark
+
+**`PivotPointType.Fibonacci`** - Fibonacci
+
+**`PivotPointType.Woodie`** - Woodie
+
+## Response
+
+```csharp
+IReadOnlyList<RollingPivotsResult>
+```
+
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `W+F-1` periods will have `null` values since there's not enough data to calculate.
+
+::: warning 🖌️ Repaint warning
+Historical results are a function of the rolling window position and will shift as new quotes are added.  Each new period causes the window to move forward, recalculating pivot points based on the new window data.
+:::
+
+### `RollingPivotsResult`
+
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `R3` | decimal | Resistance level 3 |
+| `R2` | decimal | Resistance level 2 |
+| `R1` | decimal | Resistance level 1 |
+| `PP` | decimal | Pivot Point |
+| `S1` | decimal | Support level 1 |
+| `S2` | decimal | Support level 2 |
+| `S3` | decimal | Support level 3 |
+
+### Utilities
+
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
+
+See [Utilities and helpers](/utilities/results) for more information.
+
+## Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+RollingPivotsList rollingPivotsList = new(windowPeriods, offsetPeriods, pointType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  rollingPivotsList.Add(quote);
+}
+
+// based on `ICollection<RollingPivotsResult>`
+IReadOnlyList<RollingPivotsResult> results = rollingPivotsList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RollingPivotsHub observer = quoteHub.ToRollingPivotsHub(windowPeriods, offsetPeriods, pointType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RollingPivotsResult> results = observer.Results;
+```

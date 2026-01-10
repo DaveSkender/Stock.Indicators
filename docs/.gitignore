@@ -1,4 +1,12 @@
-# Jekyll site
+# VitePress site
+node_modules/
+--open/
+.vitepress/dist/
+.vitepress/cache/
+.vitepress/.temp/
+package-lock.json
+
+# Legacy Jekyll (can be removed after migration)
 _site/
 vendor/
 .bundle/

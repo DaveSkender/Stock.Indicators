@@ -68,7 +68,8 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 ├── tests/                 # Unit, integration, performance, and simulation suites
 └── Stock.Indicators.sln   # Primary solution for src + tests
 .
-└── docs/                  # Public documentation site (Jekyll)
+├── docs/                  # Public documentation site (VitePress)
+└── .specify/              # Spec Kit configuration and active specifications
 ```
 
 ## Build and verification

@@ -1,15 +1,18 @@
 name: Deploy website
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  pull_request:
 
 concurrency:
   group: docs-website
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 permissions:
   contents: read
+
+env:
+  NODE_VERSION: "24.12.0"
+  PNPM_VERSION: "10.27.0"
 
 jobs:
   deploy:
@@ -19,9 +22,6 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     environment:
       name: stockindicators.dev
@@ -30,35 +30,38 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.276.0
         with:
-          ruby-version: 3.3
-          bundler-cache: true
+          fetch-depth: 0 # required for proper Last Updated page dates
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: docs/pnpm-lock.yaml
+
+      - name: Install pnpm packages
+        run: pnpm install --frozen-lockfile
 
       - name: Define tag
         id: tag
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
-      - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "YYYY.MM.DD"
-          replace: "${{ steps.tag.outputs.version }}"
-          regex: false
-
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
+        run: pnpm run docs:build
         env:
-          JEKYLL_ENV: production
-        run: bundle exec jekyll build
+          NODE_ENV: production
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
-        env:
-          JEKYLL_ENV: preview
-        run: bundle exec jekyll build
+        run: pnpm run docs:build
 
       - name: Publish to Cloudflare Pages
         id: deploy
@@ -68,5 +71,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "latest"
           command: >
-            pages deploy docs/_site
+            pages deploy docs/.vitepress/dist
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
