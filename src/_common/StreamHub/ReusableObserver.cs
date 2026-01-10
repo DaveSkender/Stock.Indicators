@@ -33,7 +33,7 @@ public class ReusableObserver<TResult> : IStreamObserver<TResult>
     public bool IsSubscribed => _isSubscribed();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReusableObserver"/> class
+    /// Initializes a new instance of the <see cref="ReusableObserver{TResult}"/> class
     /// with customizable callbacks for all lifecycle methods.
     /// </summary>
     /// <param name="isSubscribed">
