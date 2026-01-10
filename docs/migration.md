@@ -91,6 +91,9 @@ Change custom quote types to `record` or implement value based equality:
 public class MyQuote : IQuote
 {
     // properties...
+
+    [JsonIgnore]
+    public double Value => (double)Close;
 }
 
 // v3 - option 1: use record
@@ -232,17 +235,19 @@ The StreamHub style provides real-time processing with observable patterns and s
 
 ```csharp
 // v3 StreamHub style
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSma(20);
-RsiHub<Quote> rsiHub = quoteHub.ToRsi(14);
+QuoteHub quoteHub = new();
 
-foreach (Quote quote in liveQuotes)  // streaming data
+EmaHub emaFast = quoteHub.ToEmaHub(50);
+EmaHub emaSlow = quoteHub.ToEmaHub(200);
+
+// add quotes to quoteHub (from stream)
+quoteHub.Add(newQuote);
+// and the 2 EmaHub will be in sync
+
+if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
+&& emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
 {
-    quoteHub.Add(quote);
-    
-    // Access real-time results
-    SmaResult smaResult = smaHub.Results.LastOrDefault();
-    RsiResult rsiResult = rsiHub.Results.LastOrDefault();
+    // cross over occurred
 }
 ```
 
