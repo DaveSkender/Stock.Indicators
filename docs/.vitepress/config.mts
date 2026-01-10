@@ -44,9 +44,10 @@ export default defineConfig({
       { text: 'Indicators', link: '/indicators' },
       { text: 'Guide', link: '/guide' },
       {
-        text: 'v3',
+        text: 'More',
         items: [
-          { text: 'v2', link: 'https://dotnet.stockindicators.dev' }
+          { text: 'Migration (v2→v3)', link: '/migration' },
+          { text: 'v2 Docs', link: 'https://dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -70,6 +71,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
            ]
@@ -85,6 +87,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -100,6 +103,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -125,6 +129,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
