@@ -199,7 +199,7 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Download package
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: packages
           path: NuGet
