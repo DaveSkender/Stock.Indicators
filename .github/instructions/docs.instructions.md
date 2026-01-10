@@ -99,7 +99,7 @@ You can add custom titles
 :::
 ```
 
-**Note:** GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`, etc.) work in GitHub but not in VitePress. Use VitePress custom containers for docs site content.
+**Note:** Avoid using GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`, etc.) in VitePress pages. However, they are still preferred in non-website pages.
 
 ### Asset management
 
