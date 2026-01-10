@@ -59,4 +59,15 @@ public class StreamObservers : TestBase
         observer.Cache[1000].Value.Should().NotBe(12345);
         observer.Cache[1000].Value.Should().Be((double)quotesList[1000].Close);
     }
+
+    [TestMethod]
+    public void ReusableObserver_ThrowsArgumentNullException_WhenIsSubscribedIsNull()
+    {
+        // arrange & act
+        Action act = () => _ = new ReusableObserver(isSubscribed: null!);
+
+        // assert
+        act.Should().Throw<ArgumentNullException>()
+            .WithParameterName("isSubscribed");
+    }
 }
