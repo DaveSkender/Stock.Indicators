@@ -1,33 +1,17 @@
-name: Deploy package
+name: Deploy package (CI)
 
-## Version marker and suffix taxonomy
-# Version format: major.minor.patch[-label.N]
-# Versioning managed by GitVersion (see src/gitversion.yml)
-#
-# Automatic versioning by branch:
-#   main branch: 2.x.x-ci.N (CI) or 2.x.x (production)
-#   v3 branch: 3.0.0-preview.N (always preview)
-#   feature branches: x.x.x-{branch-name}.N
-#
-# Manual dispatch controls:
-#   - environment: pkg.github.com or nuget.org
-#   - preview: true (keep pre-release suffix) or false (production version)
-#   - dry_run: true (test only) or false (actually publish)
-#
-# Version suffix behavior:
-#   - CI push events: Use GitVersion FullSemVer (includes +metadata)
-#   - Manual with preview=true: Use GitVersion NuGetVersionV2 (pre-release)
-#   - Manual with preview=false: Use GitVersion MajorMinorPatch (stable)
-#
-# Deployment restrictions:
-#   - Production versions (no suffix) to nuget.org: main branch only
-#   - Preview versions: any branch
-#   - Tags created: only for production deployments to nuget.org
-#   - 'latest' tag: only for production deployments from main to nuget.org
+## CI Package Deployment
+# Automatically builds and publishes packages to GitHub Packages on every push to main or v* branches.
+# Version format: {MajorMinorPatch}-ci-{run_number}
+# Examples:
+#   - main branch: 2.7.2-ci-1234, 2.7.2-ci-1235
+#   - v3 branch: 3.0.0-ci-567, 3.0.0-ci-568
 #
 # Package cleanup:
-#   - All packages in GitHub Packages are CI/preview builds (stable → NuGet.org)
-#   - Auto-cleanup after {retentionDays} days (always keep {keepCount} most recent)
+#   - Auto-cleanup after retention days (and minimum to keep)
+#
+# For production releases to nuget.org, use the separate "Production Package Deploy" workflow
+# which is triggered by creating a GitHub Release.
 
 on:
   push:
@@ -37,19 +21,6 @@ on:
 
   workflow_dispatch:
     inputs:
-      environment:
-        description: Deployment environment
-        type: choice
-        options:
-          - pkg.github.com
-          - nuget.org
-        default: pkg.github.com
-        required: true
-      preview:
-        description: Append preview suffix
-        type: boolean
-        default: true
-        required: true
       dry_run:
         description: "Dry-run only (no deploy)"
         type: boolean
@@ -78,36 +49,11 @@ jobs:
       - name: Setup GitVersion Tool
         run: dotnet tool install --global GitVersion.Tool
 
-      - name: Validate deployment settings
-        env:
-          INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
-          GITHUB_REF: ${{ github.ref }}
-          INPUT_PREVIEW: ${{ github.event.inputs.preview }}
-          EVENT_NAME: ${{ github.event_name }}
+      - name: Validate CI deployment
         run: |
-          # For push events (CI builds): always publish to GitHub Packages only
-          if [[ "$EVENT_NAME" == "push" ]]; then
-            echo "✅ CI build detected - will publish to GitHub Packages"
-            exit 0
-          fi
-
-          # For manual dispatch: validate deployment settings
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            # Check if deploying to nuget.org
-            if [[ "$INPUT_ENVIRONMENT" == "nuget.org" ]]; then
-              # Only main or v* branches can deploy production versions to nuget.org
-              if [[ "$GITHUB_REF" != "refs/heads/main" ]] && [[ ! "$GITHUB_REF" =~ ^refs/heads/v[0-9] ]]; then
-                echo "::error::Production deployments to nuget.org require main or v* branch"
-                echo "::error::Current branch: $GITHUB_REF"
-                echo "::error::Options: 1) Use pkg.github.com, or 2) Set preview=true"
-                exit 1
-              fi
-
-              # Non-preview versions to nuget.org must be from main or release branches
-              if [[ "$INPUT_PREVIEW" == "false" ]] && [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
-                echo "::error::Stable versions (preview=false) can only be deployed from main branch"
-                echo "::error::Current branch: $GITHUB_REF"
-                echo "::error::Options: 1) Switch to main, or 2) Set preview=true for pre-release"
+          echo "✅ CI deployment to GitHub Packages"
+          echo "   Branch: ${{ github.ref }}"
+          echo "   Run: ${{ github.run_number }}"
                 exit 1
               fi
 
@@ -130,26 +76,16 @@ jobs:
       version: ${{ steps.version_info.outputs.version }}
       url: ${{ steps.package_info.outputs.url }}
       name: ${{ steps.package_info.outputs.name }}
-      environ: ${{ steps.settings.outputs.environ }}
-      preview: ${{ steps.settings.outputs.preview }}
       dry_run: ${{ steps.settings.outputs.dry_run }}
-      is_ci_push: ${{ steps.settings.outputs.is_ci_push }}
 
     steps:
-      - name: Set default inputs for dispatch
+      - name: Set workflow mode
         id: settings
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "environ=${{ inputs.environment }}" >> $GITHUB_OUTPUT
-            echo "preview=${{ inputs.preview }}" >> $GITHUB_OUTPUT
             echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
-            echo "is_ci_push=false" >> $GITHUB_OUTPUT
           else
-            # Push to main/v* branches: publish to GitHub Packages with CI suffix
-            echo "environ=pkg.github.com" >> $GITHUB_OUTPUT
-            echo "preview=true" >> $GITHUB_OUTPUT
             echo "dry_run=false" >> $GITHUB_OUTPUT
-            echo "is_ci_push=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Checkout source
@@ -180,33 +116,21 @@ jobs:
           # Export GitVersion variables to environment
           dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
-      - name: Compose version
+      - name: Compose CI version
         id: version_info
         run: |
-          # Select appropriate GitVersion variable based on deployment scenario
-          # See: https://gitversion.net/docs/reference/variables
+          # CI version format: {MajorMinorPatch}-ci-{run_number}
+          # This ensures every CI build has a unique, incrementing version
+          # Examples: 2.7.2-ci-1234, 3.0.0-ci-567
 
-          if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
-            # CI push events: use FullSemVer (includes build metadata)
-            # Examples: 3.0.0-preview.2+5, 2.7.1-ci.3+2
-            ver="${{ env.FullSemVer }}"
-            echo "Using FullSemVer for CI push: $ver"
-
-          elif [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
-            # Manual preview: use NuGetVersionV2 (pre-release without metadata)
-            # Examples: 3.0.0-preview.2, 2.7.1-ci.3
-            ver="${{ env.NuGetVersionV2 }}"
-            echo "Using NuGetVersionV2 for preview release: $ver"
-
-          else
-            # Production release: use MajorMinorPatch (no suffix)
-            # Examples: 3.0.0, 2.7.1
-            ver="${{ env.MajorMinorPatch }}"
-            echo "Using MajorMinorPatch for production release: $ver"
-          fi
+          base="$MAJORMINORPATCH"
+          run="${{ github.run_number }}"
+          ver="${base}-ci-${run}"
 
           echo "version=$ver" >> $GITHUB_OUTPUT
-          echo "Generated version: $ver"
+          echo "Generated CI version: $ver"
+        env:
+          MAJORMINORPATCH: ${{ steps.gitversion.outputs.majorMinorPatch }}
 
       - name: Replace "dumb" version markers
         uses: jacobtomlinson/gha-find-replace@v3
@@ -220,11 +144,7 @@ jobs:
         run: |
           PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
           echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-          if [[ "${{ steps.settings.outputs.environ }}" == "nuget.org" ]]; then
-            echo "url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
-          else
-            echo "url=https://github.com/${{ github.repository }}/pkgs/nuget/${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-          fi
+          echo "url=https://github.com/${{ github.repository }}/packages" >> $GITHUB_OUTPUT
 
       - name: Build library
         run: >
@@ -282,21 +202,14 @@ jobs:
     permissions:
       contents: write
       packages: write
-      id-token: write # Required for OIDC authentication to nuget.org
-
-    environment:
-      name: ${{ needs.package.outputs.environ != '' && needs.package.outputs.environ || null }}
-      url: ${{ needs.package.outputs.url }}
 
     env:
       version: ${{ needs.package.outputs.version }}
-      preview: ${{ needs.package.outputs.preview }}
       dry_run: ${{ needs.package.outputs.dry_run }}
-      environ: ${{ needs.package.outputs.environ }}
       url: ${{ needs.package.outputs.url }}
       name: ${{ needs.package.outputs.name }}
-      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org' && 'https://api.nuget.org/v3/index.json' || format('https://nuget.pkg.github.com/{0}/index.json', github.repository_owner) }}
-      NUGET_API_KEY: ${{ needs.package.outputs.environ == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
+      NUGET_PUBLISH_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Setup .NET SDK
@@ -311,63 +224,31 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: NuGet login (OIDC → temp API key)
-        if: ${{ env.dry_run != 'true' && env.environ == 'nuget.org' }}
-        uses: NuGet/login@v1
-        id: nuget_login
-        with:
-          user: ${{ secrets.NUGET_USER }}
-
-      - name: Publish package
+      - name: Publish package to GitHub Packages to GitHub Packages
         if: ${{ env.dry_run != 'true' }}
         run: >
           dotnet nuget push NuGet/*.nupkg
           --source "${{ env.NUGET_PUBLISH_URL }}"
-          --api-key "${{ env.environ == 'nuget.org' && steps.nuget_login.outputs.NUGET_API_KEY || env.NUGET_API_KEY }}"
+          --api-key "${{ env.NUGET_API_KEY }}"
           --skip-duplicate
 
-      - name: Manage GitHub Packages latest tag
-        if: ${{ !env.dry_run && env.environ == 'pkg.github.com' }}
-        env:
-          GH_TOKEN: ${{ env.NUGET_API_KEY }}
+      - name: CI package published
+        if: ${{ !env.dry_run }}
         run: |
-          # Only production (non-preview) deployments from main branch should become 'latest'
-          # GitHub Packages automatically marks the highest semantic version without pre-release identifiers as 'latest'
-          if [[ "${{ env.preview }}" == "false" ]] && [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "🏷️ This is a production deployment from main - will be marked as latest by GitHub Packages"
-            echo "   (no pre-release suffix, so it will automatically become latest if it's the highest version)"
-          else
-            echo "🏷️ This is a preview/CI deployment or not from main - will NOT be marked as latest"
-            echo "   (has pre-release suffix: ${{ env.version }})"
-          fi
-
-          echo "📦 Published ${{ env.name }} version ${{ env.version }} to GitHub Packages"
-
-      - name: Tag and draft release note
-        uses: ncipollo/release-action@v1
-        if: ${{ !env.dry_run && env.environ == 'nuget.org' }}
-        with:
-          body: |
-            - **Preview**: ${{ env.preview && 'Yes' || 'No' }}
-          generateReleaseNotes: true
-          draft: true
-          makeLatest: ${{ !env.preview && env.environ == 'nuget.org' && github.ref == 'refs/heads/main' }}
-          prerelease: ${{ env.preview }}
-          tag: v${{ env.version }}
-          commit: ${{ github.sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          echo "📦 Published CI package ${{ env.name }} version ${{ env.version }} to GitHub Packages"
+          echo "   All CI packages have -ci- suffix and will be auto-cleaned after 90 days"
 
       - name: Deployment summary
         if: always()
         run: |
           {
-            echo "| Preview     | ${{ env.preview && '✓' || '✗' }} |"
+            echo "| Version | ${{ env.version }} |"
           } >> $GITHUB_STEP_SUMMARY
 
   cleanup:
     needs: [package, deploy]
     runs-on: ubuntu-latest
-    if: success() && needs.package.outputs.is_ci_push == 'true' && needs.package.outputs.dry_run != 'true'
+    if: success() && needs.package.outputs.dry_run != 'true'
 
     permissions:
       packages: write

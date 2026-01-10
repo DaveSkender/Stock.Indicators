@@ -242,37 +242,60 @@ GitVersion will honor the tag's pre-release suffix. This approach works for any 
 
 ### Package deployment and tagging
 
-Packages are deployed via GitHub Actions workflow:
+Packages are deployed via two separate GitHub Actions workflows:
 
-**Automatic CI builds** (push to main or v3):
+#### CI Package Deploy (Automatic)
 
-- Published to GitHub Packages
-- Version includes build metadata (e.g., `2.7.1-ci.3+5`)
-- Old CI packages auto-cleanup after 3 days (keeps 5 most recent)
+**Trigger:** Push to main or v* branches
 
-**Manual production releases**:
+- Published to GitHub Packages only
+- Version format: `{Major}.{Minor}.{Patch}-ci-{run_number}`
+- Examples: `2.7.2-ci-1234`, `3.0.0-ci-567`
+- Idempotent: Each commit gets unique incrementing run number
+- Auto-cleanup after 90 days (keeps 5 most recent)
+- No Git tags created
 
-- Published to nuget.org (main branch only for stable versions)
-- Creates Git tag (e.g., `v2.7.1`)
-- Creates GitHub Release
-- Version determined by `preview` parameter:
-  - `preview: false` → stable version (e.g., `2.7.1`)
-  - `preview: true` → preview version (e.g., `3.0.0-preview.2`)
+**Workflow:** `.github/workflows/deploy-package.yml`
+
+#### Production Package Deploy (Manual)
+
+**Trigger:** Creating a GitHub Release
+
+- Published to nuget.org only
+- Version comes directly from release tag (strips 'v' prefix)
+- Examples:
+  - Tag `v2.8.0` → deploys `2.8.0` (stable)
+  - Tag `v3.0.0-preview.2` → deploys `3.0.0-preview.2` (preview)
+- Draft releases: Dry-run mode (build only, no deploy)
+- Published releases: Full deployment to nuget.org
+- Git tag already exists (from release creation)
+
+**Workflow:** `.github/workflows/deploy-production.yml`
+
+**Benefits of separation:**
+
+- ✅ No version collisions between CI and production
+- ✅ CI builds naturally increment with run numbers
+- ✅ Production versions match release tags exactly
+- ✅ Dry-run testing via draft releases
+- ✅ Clear distinction between temporary CI builds and permanent releases
 
 ### Version examples
 
-| Scenario | Branch | Version | Notes |
-| :------- | :----- | :------ | :---- |
-| CI build | main | `2.7.1-ci.3+5` | Auto-published to GitHub Packages |
-| CI build | v3 | `3.0.0-preview.2+12` | Auto-published to GitHub Packages |
-| Feature branch | feature/rsi | `2.8.0-rsi.1+3` | Feature branch build |
-| Manual preview | v3 | `3.0.0-preview.2` | Manual deploy with preview=true |
-| Manual production | main | `2.7.1` | Manual deploy with preview=false |
+| Scenario | Trigger | Version | Registry | Notes |
+| :------- | :------ | :------ | :------- | :---- |
+| CI build | Push to main | `2.7.2-ci-1234` | GitHub Packages | Run 1234 |
+| CI build | Push to main | `2.7.2-ci-1235` | GitHub Packages | Run 1235 (next commit) |
+| CI build | Push to v3 | `3.0.0-ci-567` | GitHub Packages | Run 567 |
+| Production | Release tag `v2.8.0` | `2.8.0` | nuget.org | Stable version |
+| Production | Release tag `v3.0.0-preview.2` | `3.0.0-preview.2` | nuget.org | Preview version |
+| Draft release | Release tag `v2.8.1` (draft) | `2.8.1` | None (dry-run) | Build only, no deploy |
 
 For technical details, see:
 
 - GitVersion configuration: [`src/gitversion.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/gitversion.yml)
-- Deployment workflow: [`.github/workflows/deploy-package.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package.yml)
+- CI workflow: [`.github/workflows/deploy-package.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package.yml)
+- Production workflow: [`.github/workflows/deploy-production.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-production.yml)
 
 ## License
 
