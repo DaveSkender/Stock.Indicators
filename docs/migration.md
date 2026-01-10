@@ -61,15 +61,8 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 Replace all `GetX()` method calls with `ToX()`:
 
 ```csharp
-// v2
-var smaResults = quotes.GetSma(20);
-var rsiResults = quotes.GetRsi(14);
-var macdResults = quotes.GetMacd();
-
-// v3
-var smaResults = quotes.ToSma(20);
-var rsiResults = quotes.ToRsi(14);
-var macdResults = quotes.ToMacd();
+var smaResults = quotes.GetSma(20); // [!code --]
+var smaResults = quotes.ToSma(20);  // [!code ++]
 ```
 
 ### Step 2: Update `IQuote` property names
@@ -77,21 +70,10 @@ var macdResults = quotes.ToMacd();
 Rename `Date` to `Timestamp` in all custom quote classes:
 
 ```csharp
-// v2
 public class MyQuote : IQuote
 {
-    public DateTime Date { get; set; }
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
-}
-
-// v3
-public record MyQuote : IQuote
-{
-    public DateTime Timestamp { get; set; }
+    public DateTime Date { get; set; }.     // [!code --]
+    public DateTime Timestamp { get; set; } // [!code ++]
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
@@ -102,7 +84,7 @@ public record MyQuote : IQuote
 
 ### Step 3: Update custom quote types
 
-Change custom quote types to `record` or implement value equality:
+Change custom quote types to `record` or implement value based equality:
 
 ```csharp
 // v2
@@ -117,8 +99,8 @@ public record MyQuote : IQuote
     // properties...
 }
 
-// v3 - option 2: implement IReusable
-public class MyQuote : IQuote, IReusable
+// v3 - option 2: implement value-based equality
+public class MyQuote : IQuote, IEquality
 {
     // properties...
     
