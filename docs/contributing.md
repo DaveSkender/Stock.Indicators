@@ -269,7 +269,7 @@ Packages are deployed via two separate GitHub Actions workflows:
 - Published releases: Full deployment to nuget.org
 - Git tag already exists (from release creation)
 
-**Workflow:** `.github/workflows/deploy-production.yml`
+**Workflow:** `.github/workflows/deploy-package-nuget.yml`
 
 **Benefits of separation:**
 
