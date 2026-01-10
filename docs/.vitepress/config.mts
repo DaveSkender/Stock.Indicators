@@ -150,6 +150,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -164,6 +165,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -178,6 +180,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -192,6 +195,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
