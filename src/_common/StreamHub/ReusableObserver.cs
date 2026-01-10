@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Flexible IStreamObserver implementation with customizable callbacks for all lifecycle methods.
-/// Most callbacks are optional (nullable) except onNext which is required.
+/// All callbacks are optional (nullable).
 /// </summary>
 public class ReusableObserver : IStreamObserver<IReusable>
 {
