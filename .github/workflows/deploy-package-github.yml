@@ -91,7 +91,7 @@ jobs:
       - name: Compose CI version
         id: version_info
         run: |
-          # CI version format: {MajorMinorPatch}-ci-{run_number}
+          # CI version format: {MajorMinorPatch}-ci.{run_number}
           # This ensures every CI build has a unique, incrementing version
           # Examples: 2.7.2-ci.1234, 3.0.0-ci.567
 
@@ -203,7 +203,7 @@ jobs:
         if: ${{ env.dry_run != 'true' }}
         run: |
           echo "📦 Published CI package ${{ env.name }} version ${{ env.version }} to GitHub Packages"
-          echo "   All CI packages have -ci- suffix and will be auto-cleaned after 90 days"
+          echo "   All CI packages have -ci.N suffix and will be auto-cleaned after 90 days"
 
       - name: Deployment summary
         if: always()
