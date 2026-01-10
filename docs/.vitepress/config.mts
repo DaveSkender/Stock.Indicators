@@ -1,5 +1,8 @@
 import path from 'path'
+import { fileURLToPath } from 'url'
 import { defineConfig } from 'vitepress'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -422,7 +425,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['**']
+      noExternal: true
     },
     build: {
       rollupOptions: {

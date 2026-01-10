@@ -77,6 +77,30 @@ npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 - Leverage VitePress built-in components when possible
 - Use custom components sparingly
 
+### Alert blocks
+
+VitePress supports native custom container syntax for alert blocks. Use these instead of GitHub alert syntax in VitePress documentation:
+
+- `::: tip` — Helpful suggestions and tips
+- `::: warning` — Important warnings and caution messages
+- `::: danger` — Critical warnings about dangerous operations
+- `::: details` — Collapsible details sections
+- `::: info` — Informational highlights (default, can omit type)
+
+**Syntax:**
+
+```markdown
+::: warning
+This is a warning message
+:::
+
+::: tip 💡 Pro tip
+You can add custom titles
+:::
+```
+
+**Note:** GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`, etc.) work in GitHub but not in VitePress. Use VitePress custom containers for docs site content.
+
 ### Asset management
 
 - Place static assets in `.vitepress/public/` directory
