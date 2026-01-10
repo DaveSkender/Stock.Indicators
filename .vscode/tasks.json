@@ -459,7 +459,7 @@
     },
     {
       "label": "Run: Website (dev server)",
-      "detail": "Serve VitePress website with hot reload (port 5173, opens browser)",
+      "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
       "command": "pnpm run docs:dev",
       "dependsOn": "Install: NPM (pnpm) packages",
@@ -545,7 +545,7 @@
       "label": "Start: Docker Desktop",
       "detail": "Ensure Docker Desktop is running (waits for daemon to be ready)",
       "type": "shell",
-      "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && until docker info > /dev/null 2>&1; do sleep 2; done && echo '✅ Docker is ready'))",
+      "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))",
       "windows": {
         "command": "Write-Host 'Checking Docker...'; if (docker info 2>$null) { Write-Host '✅ Docker is ready' } else { Write-Host 'Waiting for Docker...'; $timeout = 60; $elapsed = 0; while (-not (docker info 2>$null)) { if ($elapsed -ge $timeout) { Write-Host '❌ Docker failed to start'; exit 1 }; Start-Sleep -Seconds 2; $elapsed += 2 }; Write-Host '✅ Docker is ready' }",
         "options": {
@@ -558,10 +558,10 @@
         }
       },
       "linux": {
-        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && until docker info > /dev/null 2>&1; do sleep 2; done && echo '✅ Docker is ready'))"
+        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))"
       },
       "osx": {
-        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 || (echo 'Starting Docker Desktop...' && open -a Docker)) && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && until docker info > /dev/null 2>&1; do sleep 2; done && echo '✅ Docker is ready'))"
+        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 || (echo 'Starting Docker Desktop...' && open -a Docker)) && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))"
       },
       "isBackground": true,
       "problemMatcher": {

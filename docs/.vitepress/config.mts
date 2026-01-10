@@ -1,5 +1,8 @@
 import path from 'path'
+import { fileURLToPath } from 'url'
 import { defineConfig } from 'vitepress'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -41,9 +44,10 @@ export default defineConfig({
       { text: 'Indicators', link: '/indicators' },
       { text: 'Guide', link: '/guide' },
       {
-        text: 'v3',
+        text: 'More',
         items: [
-          { text: 'v2', link: 'https://dotnet.stockindicators.dev' }
+          { text: 'Migration (v2→v3)', link: '/migration' },
+          { text: 'v2 Docs', link: 'https://dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -67,6 +71,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
            ]
@@ -82,6 +87,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -97,6 +103,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -122,6 +129,7 @@ export default defineConfig({
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -142,6 +150,22 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
+            { text: 'Contributing', link: '/contributing' },
+            { text: 'About', link: '/about' },
+          ]
+        }
+      ],
+      '/migration': [
+        {
+          text: 'Documentation',
+          items: [
+            { text: 'Getting started', link: '/guide' },
+            { text: 'Features', link: '/features/' },
+            { text: 'Indicators', link: '/indicators' },
+            { text: 'Utilities', link: '/utilities/' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -156,6 +180,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -170,6 +195,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -184,6 +210,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Utilities', link: '/utilities/' },
             { text: 'Performance', link: '/performance' },
+            { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
           ]
@@ -422,7 +449,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['**']
+      noExternal: true
     },
     build: {
       rollupOptions: {
