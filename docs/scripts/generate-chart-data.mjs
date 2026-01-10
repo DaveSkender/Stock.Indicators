@@ -759,14 +759,34 @@ function generateChartData(quotes, results, config) {
  */
 function generateCandleData(results, config) {
   // Convert result data directly to candle format
-  const candles = results.map(r => ({
-    timestamp: r.timestamp,
-    open: r.open,
-    high: r.high,
-    low: r.low,
-    close: r.close,
-    volume: r.volume || 0
-  }))
+  // Handle duplicate timestamps by adding milliseconds increment
+  const timestampCounts = new Map()
+  
+  const candles = results.map(r => {
+    let timestamp = r.timestamp
+    
+    // Check if this timestamp has been seen before
+    const baseTimestamp = timestamp.split('.')[0]  // Remove any existing milliseconds
+    const count = timestampCounts.get(baseTimestamp) || 0
+    
+    // If duplicate, add milliseconds to make it unique
+    if (count > 0) {
+      // Add milliseconds: .001, .002, .003, etc.
+      const ms = String(count).padStart(3, '0')
+      timestamp = `${baseTimestamp}.${ms}Z`
+    }
+    
+    timestampCounts.set(baseTimestamp, count + 1)
+    
+    return {
+      timestamp: timestamp,
+      open: r.open,
+      high: r.high,
+      low: r.low,
+      close: r.close,
+      volume: r.volume || 0
+    }
+  })
 
   // Build metadata
   const metadata = {
