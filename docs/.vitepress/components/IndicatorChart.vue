@@ -43,6 +43,7 @@ interface SeriesStyle {
   data: Array<{
     timestamp: string
     value: number | null
+    color?: string
   }>
 }
 
