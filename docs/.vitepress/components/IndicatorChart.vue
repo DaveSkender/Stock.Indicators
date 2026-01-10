@@ -51,7 +51,7 @@ interface ChartData {
     symbol?: string
     timeframe?: string
     indicator?: string
-    chartType?: 'overlay' | 'oscillator'
+    chartType?: 'overlay' | 'oscillator' | 'candles'
     thresholds?: ThresholdLine[]
   }
   candles: Array<{
@@ -77,7 +77,7 @@ const oscillatorChartContainer = ref<HTMLDivElement | null>(null)
 const isLoading = ref(true)
 const hasError = ref(false)
 const errorMessage = ref('')
-const chartType = ref<'overlay' | 'oscillator'>('overlay')
+const chartType = ref<'overlay' | 'oscillator' | 'candles'>('overlay')
 
 let overlayChart: IChartApi | null = null
 let oscillatorChart: IChartApi | null = null
@@ -468,12 +468,13 @@ async function initChart() {
 
   // Determine chart type from data
   const isOscillatorType = data.metadata?.chartType === 'oscillator'
+  const isCandlesType = data.metadata?.chartType === 'candles'
 
   // Hide loading BEFORE creating chart so container becomes visible.
   // This is critical because v-show hides the container while loading,
   // and clientWidth is 0 when the container is hidden.
   isLoading.value = false
-  chartType.value = isOscillatorType ? 'oscillator' : 'overlay'
+  chartType.value = isOscillatorType ? 'oscillator' : (isCandlesType ? 'candles' : 'overlay')
 
   // Wait for Vue to update the DOM after state changes.
   // Two requestAnimationFrame calls ensure: (1) Vue processes the reactive update,
@@ -664,9 +665,9 @@ watch(isMobileViewport, () => {
     </div>
 
     <div v-show="!isLoading && !hasError" class="charts-container">
-      <!-- Overlay Chart (shown for overlay type indicators) -->
-      <div v-if="chartType === 'overlay'" ref="overlayChartContainer" class="chart-container overlay-chart" role="img"
-        aria-label="Price chart with indicator overlay"></div>
+      <!-- Overlay Chart (shown for overlay and candles type indicators) -->
+      <div v-if="chartType === 'overlay' || chartType === 'candles'" ref="overlayChartContainer" class="chart-container overlay-chart" role="img"
+        :aria-label="chartType === 'candles' ? 'Candlestick chart' : 'Price chart with indicator overlay'"></div>
 
       <!-- Oscillator Chart (shown only for oscillator type) -->
       <div v-if="chartType === 'oscillator'" ref="oscillatorChartContainer" class="chart-container oscillator-chart"
