@@ -36,13 +36,13 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
 
-        IReadOnlyList<QuotePart> expectedOriginal = Quotes.Use(candlePart);
+        IReadOnlyList<QuotePart> expectedOriginal = (IReadOnlyList<QuotePart>)Quotes.Use(candlePart);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
 
-        IReadOnlyList<QuotePart> expectedRevised = RevisedQuotes.Use(candlePart);
+        IReadOnlyList<QuotePart> expectedRevised = (IReadOnlyList<QuotePart>)RevisedQuotes.Use(candlePart);
 
         // assert, should equal series
         sut.Should().HaveCount(quotesCount - 1);

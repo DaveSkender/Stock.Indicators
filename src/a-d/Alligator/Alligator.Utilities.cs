@@ -6,6 +6,37 @@ namespace Skender.Stock.Indicators;
 public static partial class Alligator
 {
     /// <summary>
+    /// Converts Alligator results to a chainable list using the specified line.
+    /// </summary>
+    /// <param name="results">The list of Alligator results.</param>
+    /// <param name="line">The Alligator line to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<AlligatorResult> results,
+        AlligatorLine line = AlligatorLine.Jaw)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            AlligatorResult r = results[i];
+
+            double value = line switch {
+                AlligatorLine.Jaw => r.Jaw.Null2NaN(),
+                AlligatorLine.Teeth => r.Teeth.Null2NaN(),
+                AlligatorLine.Lips => r.Lips.Null2NaN(),
+                _ => throw new ArgumentOutOfRangeException(nameof(line), line, "Invalid line provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes non-essential records containing null values for Jaw, Teeth, and Lips.
     /// </summary>
     /// <param name="results">The Alligator results to evaluate.</param>

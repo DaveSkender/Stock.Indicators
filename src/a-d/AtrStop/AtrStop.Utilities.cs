@@ -6,6 +6,38 @@ namespace Skender.Stock.Indicators;
 public static partial class AtrStop
 {
     /// <summary>
+    /// Converts ATR Trailing Stop results to a chainable list using the specified field.
+    /// </summary>
+    /// <param name="results">The list of ATR Trailing Stop results.</param>
+    /// <param name="field">The field to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<AtrStopResult> results,
+        AtrStopField field = AtrStopField.AtrStop)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            AtrStopResult r = results[i];
+
+            double value = field switch {
+                AtrStopField.AtrStop => r.AtrStop.Null2NaN(),
+                AtrStopField.BuyStop => r.BuyStop.Null2NaN(),
+                AtrStopField.SellStop => r.SellStop.Null2NaN(),
+                AtrStopField.Atr => r.Atr.Null2NaN(),
+                _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Invalid field provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the ATR Trailing Stop results.
     /// </summary>
     /// <param name="results">The list of ATR Trailing Stop results.</param>

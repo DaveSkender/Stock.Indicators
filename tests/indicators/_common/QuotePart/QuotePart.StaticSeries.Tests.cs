@@ -7,16 +7,16 @@ public class QuoteParts : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         // compose data
-        IReadOnlyList<QuotePart> o = Quotes.Use(CandlePart.Open);
-        IReadOnlyList<QuotePart> h = Quotes.Use(CandlePart.High);
-        IReadOnlyList<QuotePart> l = Quotes.Use(CandlePart.Low);
-        IReadOnlyList<QuotePart> c = Quotes.Use(CandlePart.Close);
-        IReadOnlyList<QuotePart> v = Quotes.Use(CandlePart.Volume);
-        IReadOnlyList<QuotePart> hl = Quotes.Use(CandlePart.HL2);
-        IReadOnlyList<QuotePart> hlc = Quotes.Use(CandlePart.HLC3);
-        IReadOnlyList<QuotePart> oc = Quotes.Use(CandlePart.OC2);
-        IReadOnlyList<QuotePart> ohl = Quotes.Use(CandlePart.OHL3);
-        IReadOnlyList<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4);
+        IReadOnlyList<QuotePart> o = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.Open);
+        IReadOnlyList<QuotePart> h = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.High);
+        IReadOnlyList<QuotePart> l = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.Low);
+        IReadOnlyList<QuotePart> c = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.Close);
+        IReadOnlyList<QuotePart> v = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.Volume);
+        IReadOnlyList<QuotePart> hl = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.HL2);
+        IReadOnlyList<QuotePart> hlc = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.HLC3);
+        IReadOnlyList<QuotePart> oc = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.OC2);
+        IReadOnlyList<QuotePart> ohl = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.OHL3);
+        IReadOnlyList<QuotePart> ohlc = (IReadOnlyList<QuotePart>)Quotes.Use(CandlePart.OHLC4);
 
         // proper quantities
         c.Should().HaveCount(502);
@@ -65,7 +65,7 @@ public class QuoteParts : StaticSeriesTestBase
     [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
-        IReadOnlyList<QuotePart> r = BadQuotes
+        IReadOnlyList<QuotePart> r = (IReadOnlyList<QuotePart>)BadQuotes
             .Use(CandlePart.Close);
 
         r.Should().HaveCount(502);
@@ -75,12 +75,12 @@ public class QuoteParts : StaticSeriesTestBase
     [TestMethod]
     public override void NoQuotes_ReturnsEmpty()
     {
-        IReadOnlyList<QuotePart> r0 = Noquotes
+        IReadOnlyList<QuotePart> r0 = (IReadOnlyList<QuotePart>)Noquotes
             .Use(CandlePart.Close);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<QuotePart> r1 = Onequote
+        IReadOnlyList<QuotePart> r1 = (IReadOnlyList<QuotePart>)Onequote
             .Use(CandlePart.Close);
 
         r1.Should().HaveCount(1);

@@ -6,6 +6,37 @@ namespace Skender.Stock.Indicators;
 public static partial class StarcBands
 {
     /// <summary>
+    /// Converts STARC Bands results to a chainable list using the specified field.
+    /// </summary>
+    /// <param name="results">The list of STARC Bands results.</param>
+    /// <param name="field">The field to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<StarcBandsResult> results,
+        StarcBandsField field = StarcBandsField.Centerline)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            StarcBandsResult r = results[i];
+
+            double value = field switch {
+                StarcBandsField.UpperBand => r.UpperBand.Null2NaN(),
+                StarcBandsField.Centerline => r.Centerline.Null2NaN(),
+                StarcBandsField.LowerBand => r.LowerBand.Null2NaN(),
+                _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Invalid field provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the results.
     /// </summary>
     /// <param name="results">The list of STARC Bands results.</param>
