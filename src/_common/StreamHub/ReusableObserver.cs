@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ReusableObserver : IStreamObserver<IReusable>
 {
+    private readonly Func<bool> _isSubscribed;
     private readonly Action<Exception>? _onError;
     private readonly Action? _onCompleted;
     private readonly Action? _onUnsubscribe;
@@ -16,11 +17,11 @@ public class ReusableObserver : IStreamObserver<IReusable>
     private readonly Action? _rebuild;
     private readonly Action<DateTime>? _rebuildTimestamp;
     private readonly Action<int>? _rebuildIndex;
-    private bool _isSubscribed;
 
-    public bool IsSubscribed => _isSubscribed;
+    public bool IsSubscribed => _isSubscribed();
 
     public ReusableObserver(
+        Func<bool> isSubscribed,
         Action<Exception>? onError = null,
         Action? onCompleted = null,
         Action? onUnsubscribe = null,
@@ -32,6 +33,7 @@ public class ReusableObserver : IStreamObserver<IReusable>
         Action<DateTime>? rebuildTimestamp = null,
         Action<int>? rebuildIndex = null)
     {
+        _isSubscribed = isSubscribed;
         _onError = onError;
         _onCompleted = onCompleted;
         _onUnsubscribe = onUnsubscribe;
@@ -48,7 +50,7 @@ public class ReusableObserver : IStreamObserver<IReusable>
 
     public void OnCompleted() => _onCompleted?.Invoke();
 
-    public void Unsubscribe() { _isSubscribed = false; _onUnsubscribe?.Invoke(); }
+    public void Unsubscribe() { _onUnsubscribe?.Invoke(); }
 
     // OnAdd is called when a new item is added to the hub's cache
     public void OnAdd(IReusable item, bool notify, int? indexHint) => _onAdd?.Invoke(item, notify, indexHint);
@@ -60,7 +62,7 @@ public class ReusableObserver : IStreamObserver<IReusable>
     public void OnPrune(DateTime toTimestamp) => _onPrune?.Invoke(toTimestamp);
 
     // Reinitialize is called to reset the observer state
-    public void Reinitialize() { _isSubscribed = true; _onReinitialize?.Invoke(); }
+    public void Reinitialize() { _onReinitialize?.Invoke(); }
 
     // Rebuild methods trigger recalculation
     public void Rebuild() => _rebuild?.Invoke();
