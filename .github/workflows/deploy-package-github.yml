@@ -158,13 +158,12 @@ jobs:
           fi
 
           {
-            echo "| Version No.       | Component                                        |"
+            echo "| Component         | Value                                            |"
             echo "| :---------------- | :----------------------------------------------- |"
-            echo "| Version           | ${{ steps.version_info.outputs.version }}        |"
-            echo "| Environment       | ${{ steps.settings.outputs.environ }}            |"
-            echo "| Mode              | ${MODE}                                          |"
-            echo "| Status            | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
+            echo "| **Version**       | ${{ steps.version_info.outputs.version }}        |"
+            echo "| **Mode**          | ${MODE}                                          |"
+            echo "| **Status**        | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
+            echo "| **Package URL**   | ${{ steps.package_info.outputs.url }}            |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
