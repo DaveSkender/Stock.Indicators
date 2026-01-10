@@ -1,0 +1,194 @@
+name: Deploy package (NuGet.org)
+
+## Production Package Deployment
+# Deploys packages to nuget.org when a GitHub Release is published or created.
+# Version comes directly from the release tag (strips 'v' prefix).
+#
+# Trigger behavior:
+#   - Release published: Full deployment to nuget.org
+#   - Release created as draft: Dry-run mode (build only, no deploy)
+#
+# Version examples:
+#   - Tag v2.8.0 → deploys 2.8.0 (stable)
+#   - Tag v3.0.0-preview.2 → deploys 3.0.0-preview.2 (preview)
+#   - Tag v2.8.0-alpha.1 → deploys 2.8.0-alpha.1 (pre-release)
+#
+# For CI builds to GitHub Packages, see the separate "CI Package Deploy" workflow.
+
+on:
+  release:
+    types: [published, created]
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+
+      - name: Extract version from release tag
+        id: version_info
+        run: |
+          # Extract version from release tag (strip 'v' prefix)
+          TAG="${{ github.event.release.tag_name }}"
+          VERSION="${TAG#v}"
+
+          if [[ -z "$VERSION" ]]; then
+            echo "::error::Could not extract version from tag: $TAG"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Production version from tag: $VERSION"
+
+      - name: Determine deployment mode
+        id: settings
+        run: |
+          # Draft releases = dry-run mode
+          # Published releases = full deployment
+          IS_DRAFT="${{ github.event.release.draft }}"
+
+          if [[ "$IS_DRAFT" == "true" ]]; then
+            echo "dry_run=true" >> $GITHUB_OUTPUT
+            echo "🔍 DRY RUN mode (draft release)"
+          else
+            echo "dry_run=false" >> $GITHUB_OUTPUT
+            echo "🚀 DEPLOY mode (published release)"
+          fi
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+      - name: Compose package info
+        id: package_info
+        run: |
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj 2>/dev/null)
+          if [[ -z "$PACKAGE_NAME" ]]; then
+            echo "::error::Could not extract PackageId from src/Indicators.csproj"
+            exit 1
+          fi
+          echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          echo "url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+
+      - name: Replace version markers
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "#{PACKAGE_VERSION}#"
+          replace: "${{ steps.version_info.outputs.version }}"
+          regex: false
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Create NuGet package
+        run: |
+          dotnet pack src/Indicators.csproj \
+            --no-build \
+            --configuration Release \
+            --output NuGet \
+            -p:PackageVersion=${{ steps.version_info.outputs.version }}
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: packages
+          path: NuGet/*.nupkg
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Summary output
+        if: always()
+        run: |
+          MODE="🚀 PRODUCTION DEPLOY"
+          if [[ "${{ steps.settings.outputs.dry_run }}" == "true" ]]; then
+            MODE="🔍 DRY RUN (Draft Release)"
+          fi
+
+          {
+            echo "| Component         | Value                                            |"
+            echo "| ----------------- | ------------------------------------------------ |"
+            echo "| **Mode**          | $MODE                                            |"
+            echo "| Package Version   | ${{ steps.version_info.outputs.version }}        |"
+            echo "| Release Tag       | ${{ github.event.release.tag_name }}             |"
+            echo "| Target            | nuget.org                                        |"
+            echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
+          } >> $GITHUB_STEP_SUMMARY
+
+    outputs:
+      version: ${{ steps.version_info.outputs.version }}
+      url: ${{ steps.package_info.outputs.url }}
+      name: ${{ steps.package_info.outputs.name }}
+      dry_run: ${{ steps.settings.outputs.dry_run }}
+
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    if: success()
+
+    permissions:
+      packages: write
+      id-token: write # Required for OIDC authentication to nuget.org
+
+    env:
+      version: ${{ needs.package.outputs.version }}
+      dry_run: ${{ needs.package.outputs.dry_run }}
+      url: ${{ needs.package.outputs.url }}
+      name: ${{ needs.package.outputs.name }}
+      NUGET_PUBLISH_URL: https://api.nuget.org/v3/index.json
+
+    steps:
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+
+      - name: Download package
+        uses: actions/download-artifact@v7
+        with:
+          name: packages
+          path: NuGet
+
+      - name: NuGet login (OIDC → temp API key)
+        if: ${{ env.dry_run != 'true' }}
+        uses: NuGet/login@v1
+        id: nuget_login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Publish package to nuget.org
+        if: ${{ env.dry_run != 'true' }}
+        run: >
+          dotnet nuget push NuGet/*.nupkg
+          --source "${{ env.NUGET_PUBLISH_URL }}"
+          --api-key "${{ steps.nuget_login.outputs.NUGET_API_KEY }}"
+          --skip-duplicate
+
+      - name: Production package published
+        if: ${{ env.dry_run != 'true' }}
+        run: |
+          echo "📦 Published production package ${{ env.name }} version ${{ env.version }} to nuget.org"
+          echo "   Release: ${{ github.event.release.html_url }}"
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          {
+            echo "| Version | ${{ env.version }} |"
+          } >> $GITHUB_STEP_SUMMARY
