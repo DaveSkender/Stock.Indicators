@@ -2,7 +2,7 @@ name: Deploy package (CI)
 
 ## CI Package Deployment
 # Automatically builds and publishes packages to GitHub Packages on every push to main or v* branches.
-# Version format: {MajorMinorPatch}-ci-{run_number}
+# Version format: {MajorMinorPatch}-ci.{run_number}
 # Examples:
 #   - main branch: 2.7.2-ci.1234, 2.7.2-ci.1235
 #   - v3 branch: 3.0.0-ci.567, 3.0.0-ci.568
