@@ -210,7 +210,7 @@ jobs:
           --skip-duplicate
 
       - name: CI package published
-        if: ${{ !env.dry_run }}
+        if: ${{ env.dry_run != 'true' }}
         run: |
           echo "📦 Published CI package ${{ env.name }} version ${{ env.version }} to GitHub Packages"
           echo "   All CI packages have -ci- suffix and will be auto-cleaned after 90 days"
