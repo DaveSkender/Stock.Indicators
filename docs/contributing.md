@@ -182,59 +182,112 @@ This repository is optimized for GitHub Copilot and coding agents with:
 
 When using GitHub Copilot:
 
-- Follow the established patterns documented in the AGENTS.md files and skills
-- Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in AGENTS.md)
+- Follow the established patterns documented in the `AGENTS.md` files and skills
+- Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in `AGENTS.md`)
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 
 ## Versioning
 
-We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the build.
+We use [GitVersion](https://gitversion.net) for automated [semantic versioning](https://semver.org). Version numbers are automatically generated based on branch names, commit messages, and Git history.
 
-<!-- markdownlint-disable MD060 -->
-| Type      | Format    | Description |
+| Component | Format    | Description |
 | --------- | --------- | ----------- |
-| Major     | `x.-.-`   | A significant deviation with major breaking changes. |
-| Minor     | `-.x.-`   | A new feature, usually new non-breaking change, such as adding an indicator.  Minor breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases). |
-| Patch     | `-.-.x`   | A small bug fix, chore, or documentation change. |
-| Increment | `-.-.-+x` | Intermediate commits between releases. |
-<!-- markdownlint-enable MD060 -->
+| Major     | `x.-.-`   | Breaking changes. Use `+semver: major` in commit message. |
+| Minor     | `-.x.-`   | New features, backward compatible. Use `+semver: minor` in commit message. |
+| Patch     | `-.-.x`   | Bug fixes, documentation. Use `+semver: patch` (or default auto-increment). |
+| Suffix    | `-label.N` | Pre-release identifier. Automatically set based on branch and build type. |
 
-Using these merge commit messages only needs to be done on the merge to `main` when the Pull Request is committed and need to reflect a minor or major version update.  Incremental feature branch commits do not need to include this as it will get squashed anyway.
+### Branch-based versioning
 
-- Adding `+semver: major` as a PR merge commit message will increment the major x.-.- element
-- Adding `+semver: minor` as a PR merge commit message will increment the minor -.x.- element
-- Adding `+semver: patch` as a PR merge commit message will increment the minor -.-.x element (default).  Patch element auto-increments, so you'd only need to do this to override the next value.
+GitVersion automatically determines version suffixes based on the branch:
 
-A Git `tag`, in accordance with the above schema, is introduced automatically after deploying to the public NuGet package manager and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
+- **main branch**: Produces `2.x.x` versions
+  - CI builds: `2.7.1-ci.345` (includes build metadata)
+  - Production: `2.7.1` (no suffix)
+- **v3 branch**: Produces `3.x.x-preview.N` versions (always has preview suffix)
+- **Feature branches**: `x.x.x-{branch-name}.N` (branch name becomes suffix)
 
-### Version marker and suffix taxonomy
+### Controlling version increments
 
-When the packager deployer runs, it will produce versions and naming follow these rules:
+Add semver tags to PR merge commit messages to control version bumps:
 
-| Trigger | Branch | Environment    | Preview | Dry-run | Suffix       | Example           |
-| :------ | :----- | :------------- | :-----: | :-----: | :----------- | :---------------- |
-| Push    | main   | pkg.github.com | Yes     | No      | `-ci.X`      | `2.6.2-ci.45`     |
-| Push    | v*     | pkg.github.com | Yes     | No      | `-ci.X`      | `3.0.0-ci.16`     |
-| Manual  | any    | pkg.github.com | Yes     | Yes     | `-preview.N` | `3.0.0-preview.2` |
-| Manual  | any    | nuget.org      | Yes     | Yes     | `-preview.N` | `3.0.0-preview.2` |
-| Manual  | main   | nuget.org      | No      | Yes     |  _(none)_    | `2.6.2`           |
-| Manual  | main   | nuget.org      | No      | No      |  _(none)_    | `2.6.2`           |
+- `+semver: major` → increments major version (breaking changes)
+- `+semver: minor` → increments minor version (new features)
+- `+semver: patch` → increments patch version (bug fixes, default behavior)
+- `+semver: none` → no version increment
 
-**Legend:**
+Example merge commit: `feat: Add new indicator (+semver: minor)`
 
-- _Preview_: If true, version gets a preview or CI suffix
-- _Dry-run_: If true, package is not published (for testing only)
-- _Suffix_: Shows how the version string is modified
-- _Example_: Illustrative version number for each scenario.
+### Creating preview releases from stable branches
 
-> Additional info:
->
-> - `X` is a sequential number based on the last CI publish.
-> - `R` is a sequential number based on the last tagged production deployment.
-> - Only a `main` non-dry-run trigger will tag the branch with an official release marker.
+To publish a preview/pre-release version from `main` or `v2` (normally stable branches), create a Git tag with the desired suffix before triggering deployment:
 
-For more details, see the [`deploy-package.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package.yml) workflow.
+```bash
+# Create preview tag
+git tag 2.8.0-preview.1
+git push origin 2.8.0-preview.1
+
+# Then trigger manual workflow deployment with preview=true
+```
+
+GitVersion will honor the tag's pre-release suffix. This approach works for any pre-release label (preview, rc, beta, alpha).
+
+### Package deployment and tagging
+
+Packages are deployed via two separate GitHub Actions workflows:
+
+#### CI Package deploy (automatic)
+
+**Trigger:** Push to main or `v*` branches
+
+- Published to GitHub Packages only
+- Version format: `{Major}.{Minor}.{Patch}-ci.{run_number}`
+- Examples: `2.7.2-ci.1234`, `3.0.0-ci.567`
+- Idempotent: Each commit gets unique incrementing run number
+- No Git tags created
+
+**Workflow:** `.github/workflows/deploy-package-github.yml`
+
+#### Production package deploy (manual)
+
+**Trigger:** Creating a GitHub Release
+
+- Published to `nuget.org` only
+- Version comes directly from release tag (strips 'v' prefix)
+- Examples:
+  - Tag `2.8.0` → deploys `2.8.0` (stable)
+  - Tag `3.0.0-preview.2` → deploys `3.0.0-preview.2` (preview)
+- Draft releases: Dry-run mode (build only, no deploy)
+- Published releases: Full deployment to nuget.org
+- Git tag already exists (from release creation)
+
+**Workflow:** `.github/workflows/deploy-package-nuget.yml`
+
+**Benefits of separation:**
+
+- ✅ No version collisions between CI and production
+- ✅ CI builds naturally increment with run numbers
+- ✅ Production versions match release tags exactly
+- ✅ Dry-run testing via draft releases
+- ✅ Clear distinction between temporary CI builds and permanent releases
+
+### Version examples
+
+| Scenario | Trigger | Version | Registry | Notes |
+| :------- | :------ | :------ | :------- | :---- |
+| CI build | Push to main | `2.7.2-ci.1234` | GitHub Packages | Run 1234 |
+| CI build | Push to main | `2.7.2-ci.1235` | GitHub Packages | Run 1235 (next commit) |
+| CI build | Push to v3 | `3.0.0-ci.567` | GitHub Packages | Run 567 |
+| Production | Release tag `2.8.0` | `2.8.0` | nuget.org | Stable version |
+| Production | Release tag `3.0.0-preview.2` | `3.0.0-preview.2` | nuget.org | Preview version |
+| Draft release | Release tag `2.8.1` (draft) | `2.8.1` | None (dry-run) | Build only, no deploy |
+
+For technical details, see:
+
+- GitVersion configuration: [`src/gitversion.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/gitversion.yml)
+- CI workflow: [`deploy-package-github.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package-github.yml)
+- Production workflow: [`deploy-package-nuget.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package-nuget.yml)
 
 ## License
 

@@ -14,29 +14,52 @@ branches:
     increment: Patch
     source-branches: []
     is-main-branch: true
+    # Empty label = stable versions in production
+    # For preview releases from main (e.g., 2.8.0-preview.1):
+    #   Create a Git tag with the desired suffix before publishing:
+    #   git tag v2.8.0-preview.1 && git push origin v2.8.0-preview.1
+    #   Then trigger manual deployment with preview=true
     label: ''
 
-  release:
-    regex: ^v[0-9]+\.*
+  # Support branches for maintaining old major versions (v2, etc.)
+  # These produce stable maintenance releases without preview suffix
+  support:
+    regex: ^v2$
     increment: Patch
     source-branches: [main]
-    label: preview
+    is-release-branch: false
+    is-main-branch: true
+    # Empty label = stable maintenance versions (2.7.2, 2.8.0)
+    label: ''
+    track-merge-target: false
 
+  # Release branches for next major version development (v3, v4, etc.)
+  # These produce preview releases during development
+  release:
+    regex: ^v([3-9]|[1-9]\d+)$
+    increment: Patch
+    source-branches: [main]
+    is-release-branch: true
+    is-main-branch: false
+    # Preview label for pre-GA versions (3.0.0-preview.1)
+    label: 'preview'
+
+  # Feature branches get branch name as suffix
   feature:
     regex: ^feature/.*
     increment: Minor
-    source-branches: [main]
-    label: preview
+    source-branches: [main, release, support]
+    label: '{BranchName}'
 
+  # Pull request branches
   pull-request:
     increment: Inherit
-    label: preview
+    label: 'pr'
 
+  # Unknown/other branches
   unknown:
     increment: Inherit
-    label: preview
-
-label: preview
+    label: '{BranchName}'
 
 ignore:
   sha: []

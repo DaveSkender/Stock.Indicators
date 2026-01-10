@@ -1,0 +1,320 @@
+name: Deploy package (CI)
+
+## CI Package Deployment
+# Automatically builds and publishes packages to GitHub Packages on every push to main or v* branches.
+# Version format: {MajorMinorPatch}-ci.{run_number}
+# Examples:
+#   - main branch: 2.7.2-ci.1234, 2.7.2-ci.1235
+#   - v3 branch: 3.0.0-ci.567, 3.0.0-ci.568
+#
+# Package cleanup:
+#   - Auto-cleanup after retention days (and minimum to keep)
+#
+# For production releases to nuget.org, use the separate "Production Package Deploy" workflow
+# which is triggered by creating a GitHub Release.
+
+on:
+  push:
+    branches:
+      - "main"
+      - "v[0-9]*"
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run only (no deploy)"
+        type: boolean
+        default: true
+        required: true
+
+concurrency:
+  group: ${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    outputs:
+      version: ${{ steps.version_info.outputs.version }}
+      url: ${{ steps.package_info.outputs.url }}
+      name: ${{ steps.package_info.outputs.name }}
+      dry_run: ${{ steps.settings.outputs.dry_run }}
+
+    steps:
+
+      - name: Validate CI deployment
+        run: |
+          echo "✅ CI deployment to GitHub Packages"
+          echo "   Branch: ${{ github.ref }}"
+          echo "   Run: ${{ github.run_number }}"
+
+      - name: Set workflow mode
+        id: settings
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
+          else
+            echo "dry_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y libxml2-utils
+          dotnet tool install --global GitVersion.Tool
+
+      - name: Generate version info
+        id: gitversion
+        run: |
+          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+          # Export GitVersion variables to environment
+          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Compose CI version
+        id: version_info
+        run: |
+          # CI version format: {MajorMinorPatch}-ci-{run_number}
+          # This ensures every CI build has a unique, incrementing version
+          # Examples: 2.7.2-ci.1234, 3.0.0-ci.567
+
+          base="$MajorMinorPatch"
+          run="${{ github.run_number }}"
+          ver="${base}-ci.${run}"
+
+          echo "version=$ver" >> $GITHUB_OUTPUT
+          echo "Generated CI version: $ver"
+
+      - name: Compose package info
+        id: package_info
+        run: |
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
+          echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          echo "url=https://github.com/${{ github.repository }}/packages" >> $GITHUB_OUTPUT
+
+      - name: Build library
+        run: >
+          dotnet build src/Indicators.csproj
+          --configuration Release
+          --property:Version=${{ steps.version_info.outputs.version }}
+          --property:DefineConstants=VERSIONED_BUILD
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Pack for NuGet
+        run: >
+          dotnet pack src/Indicators.csproj
+          --configuration Release
+          --no-build
+          --include-symbols
+          --output NuGet
+          -p:PackageVersion=${{ steps.version_info.outputs.version }}
+
+      - name: Save package
+        uses: actions/upload-artifact@v6
+        with:
+          name: packages
+          path: NuGet
+          include-hidden-files: true
+  
+      - name: Summary output
+        if: always()
+        run: |
+          # Determine mode label
+          if [[ "${{ steps.settings.outputs.dry_run }}" == "true" ]]; then
+            MODE="🔍 DRY RUN"
+          else
+            MODE="🔧 CI BUILD"
+          fi
+
+          {
+            echo "| Component         | Value                                            |"
+            echo "| :---------------- | :----------------------------------------------- |"
+            echo "| **Version**       | ${{ steps.version_info.outputs.version }}        |"
+            echo "| **Mode**          | ${MODE}                                          |"
+            echo "| **Status**        | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
+            echo "| **Package URL**   | ${{ steps.package_info.outputs.url }}            |"
+          } >> $GITHUB_STEP_SUMMARY
+
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: success()
+
+    permissions:
+      packages: write
+
+    env:
+      version: ${{ needs.package.outputs.version }}
+      dry_run: ${{ needs.package.outputs.dry_run }}
+      url: ${{ needs.package.outputs.url }}
+      name: ${{ needs.package.outputs.name }}
+      NUGET_PUBLISH_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+
+    environment:
+      name: pkg.github.com
+      url: ${{ needs.package.outputs.url }}
+    
+    steps:
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+
+      - name: Download package
+        uses: actions/download-artifact@v7
+        with:
+          name: packages
+          path: NuGet
+
+      - name: Publish package to GitHub Packages
+        if: ${{ env.dry_run != 'true' }}
+        run: >
+          dotnet nuget push NuGet/*.nupkg
+          --source "${{ env.NUGET_PUBLISH_URL }}"
+          --api-key "${{ env.NUGET_API_KEY }}"
+          --skip-duplicate
+
+      - name: CI package published
+        if: ${{ env.dry_run != 'true' }}
+        run: |
+          echo "📦 Published CI package ${{ env.name }} version ${{ env.version }} to GitHub Packages"
+          echo "   All CI packages have -ci- suffix and will be auto-cleaned after 90 days"
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          {
+            echo "| Version | ${{ env.version }} |"
+          } >> $GITHUB_STEP_SUMMARY
+
+  cleanup:
+    needs: [package, deploy]
+    runs-on: ubuntu-latest
+    if: success() && needs.package.outputs.dry_run != 'true'
+
+    permissions:
+      packages: write
+
+    env:
+      PACKAGE_NAME: ${{ needs.package.outputs.name }}
+      REPO_OWNER: ${{ github.repository_owner }}
+
+    steps:
+      - name: Cleanup old packages
+        uses: actions/github-script@v8
+        continue-on-error: true
+        with:
+          script: |
+            const packageName = '${{ needs.package.outputs.name }}';
+            const owner = context.repo.owner;
+            const retentionDays = 90;
+            const keepCount = 10;
+
+            console.log(`🔍 Cleaning up old packages for ${packageName}`);
+            console.log(`📦 Owner: ${owner}`);
+            console.log(`⏰ Retention: ${retentionDays} days, keeping ${keepCount} most recent`);
+
+            try {
+              // Get all package versions
+              const versions = await github.paginate(
+                github.rest.packages.getAllPackageVersionsForPackageOwnedByUser,
+                {
+                  package_type: 'nuget',
+                  package_name: packageName,
+                  username: owner,
+                  per_page: 100,
+                }
+              );
+              
+              console.log(`📦 Found ${versions.length} total package versions`);
+
+              if (versions.length === 0) {
+                console.log('✅ No packages to clean up');
+                return;
+              }
+
+              // Sort by creation date (newest first)
+              const sortedVersions = versions.sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+              );
+
+              // Calculate cutoff date
+              const cutoffDate = new Date();
+              cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
+              console.log(`📅 Cutoff date: ${cutoffDate.toISOString()}`);
+
+              let deletedCount = 0;
+              let keptCount = 0;
+
+              for (let i = 0; i < sortedVersions.length; i++) {
+                const version = sortedVersions[i];
+                const createdAt = new Date(version.created_at);
+
+                // Keep the N most recent versions
+                if (i < keepCount) {
+                  console.log(`⏭️  Keeping recent version: ${version.name} (created: ${version.created_at})`);
+                  keptCount++;
+                  continue;
+                }
+
+                // Delete if older than retention period
+                if (createdAt < cutoffDate) {
+                  console.log(`🗑️  Deleting old version: ${version.name} (created: ${version.created_at})`);
+                  try {
+                    await github.rest.packages.deletePackageVersionForUser({
+                      package_type: 'nuget',
+                      package_name: packageName,
+                      username: owner,
+                      package_version_id: version.id,
+                    });
+                    deletedCount++;
+                  } catch (error) {
+                    console.log(`⚠️  Failed to delete version ${version.name}: ${error.message}`);
+                    keptCount++;
+                  }
+                } else {
+                  console.log(`⏭️  Keeping recent version: ${version.name} (created: ${version.created_at}, within ${retentionDays} days)`);
+                  keptCount++;
+                }
+              }
+
+              console.log(`✅ Cleanup complete. Deleted ${deletedCount}, kept ${keptCount}`);
+
+              // Add summary
+              await core.summary
+                .addHeading('🧹 Package Cleanup Summary', 3)
+                .addTable([
+                  [{data: 'Metric', header: true}, {data: 'Value', header: true}],
+                  ['Total Packages', versions.length.toString()],
+                  ['Packages Deleted', deletedCount.toString()],
+                  ['Packages Retained', keptCount.toString()],
+                  ['Retention Period', `${retentionDays} days`],
+                  ['Keep Most Recent', keepCount.toString()]
+                ])
+                .write();
+
+            } catch (error) {
+              console.log(`⚠️  Cleanup failed: ${error.message}`);
+              console.log('This may be because the package does not exist yet or permission issues.');
+            }

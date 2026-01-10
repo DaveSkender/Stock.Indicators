@@ -1,4 +1,4 @@
-name: Test performance comparison
+name: Test performance (comparison)
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   analyze:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 90
 
     steps:
@@ -52,7 +52,7 @@ jobs:
           dotnet run -c Release -- --filter 'Performance.StyleComparison*'
 
       - name: Save test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-summaries
           path: tools/performance/BenchmarkDotNet.Artifacts/results
@@ -60,8 +60,14 @@ jobs:
       - name: Publish summary
         working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
         shell: bash
+        env:
+          VERSION: ${{ steps.gitversion.outputs.FullSemVer }}
         run: |
-          echo "## Style Comparison Performance Results" >> $GITHUB_STEP_SUMMARY
+          TITLE="## Style comparison performance"
+          if [ -n "$VERSION" ]; then
+            TITLE="$TITLE for $VERSION"
+          fi
+          echo "$TITLE" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           REPORT_FILE="Performance.StyleComparison-report-github.md"
