@@ -32,14 +32,16 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write
-  packages: write
+  contents: read
 
 jobs:
   
   package:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
+    permissions:
+      contents: write
 
     outputs:
       version: ${{ steps.version_info.outputs.version }}
@@ -48,9 +50,6 @@ jobs:
       dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
-
-      - name: Setup GitVersion Tool
-        run: dotnet tool install --global GitVersion.Tool
 
       - name: Validate CI deployment
         run: |
@@ -84,9 +83,6 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y libxml2-utils
           dotnet tool install --global GitVersion.Tool
-
-      - name: Show GitVersion config
-        run: dotnet gitversion -config src/gitversion.yml -showconfig
 
       - name: Generate version info
         id: gitversion
@@ -147,6 +143,7 @@ jobs:
           name: packages
           path: NuGet
           include-hidden-files: true
+  
       - name: Summary output
         if: always()
         run: |
