@@ -105,7 +105,11 @@ jobs:
       - name: Compose package info
         id: package_info
         run: |
-          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj 2>/dev/null)
+          if [[ -z "$PACKAGE_NAME" ]]; then
+            echo "::error::Could not extract PackageId from src/Indicators.csproj"
+            exit 1
+          fi
           echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
           echo "url=https://github.com/${{ github.repository }}/packages" >> $GITHUB_OUTPUT
 
