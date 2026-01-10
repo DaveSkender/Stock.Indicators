@@ -6,50 +6,50 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ReusableObserver : IStreamObserver<IReusable>
 {
-    private readonly Action<IReusable> _onNext;
+    private readonly Action<IReusable>? _onNext;
     private readonly Action<Exception>? _onError;
     private readonly Action? _onCompleted;
     private readonly Action? _onUnsubscribe;
     private readonly Action<IReusable, bool, int?>? _onAdd;
-    private readonly Action<DateTime>? _onRebuildFromTimestamp;
+    private readonly Action<DateTime>? _onRebuild;
     private readonly Action<DateTime>? _onPrune;
     private readonly Action? _onReinitialize;
-    private readonly Action? _onRebuild;
-    private readonly Action<DateTime>? _onRebuildTimestamp;
-    private readonly Action<int>? _onRebuildIndex;
-    private bool _isSubscribed = false;
+    private readonly Action? _rebuild;
+    private readonly Action<DateTime>? _rebuildTimestamp;
+    private readonly Action<int>? _rebuildIndex;
+    private bool _isSubscribed;
 
     public bool IsSubscribed => _isSubscribed;
 
     public ReusableObserver(
-        Action<IReusable> onNext,
+        Action<IReusable>? onNext,
         Action<Exception>? onError = null,
         Action? onCompleted = null,
         Action? onUnsubscribe = null,
         Action<IReusable, bool, int?>? onAdd = null,
-        Action<DateTime>? onRebuildFromTimestamp = null,
+        Action<DateTime>? onRebuild = null,
         Action<DateTime>? onPrune = null,
         Action? onReinitialize = null,
-        Action? onRebuild = null,
-        Action<DateTime>? onRebuildTimestamp = null,
-        Action<int>? onRebuildIndex = null)
+        Action? rebuild = null,
+        Action<DateTime>? rebuildTimestamp = null,
+        Action<int>? rebuildIndex = null)
     {
-        _onNext = onNext ?? throw new ArgumentNullException(nameof(onNext));
+        _onNext = onNext;
         _onError = onError;
         _onCompleted = onCompleted;
         _onUnsubscribe = onUnsubscribe;
         _onAdd = onAdd;
-        _onRebuildFromTimestamp = onRebuildFromTimestamp;
+        _onRebuild = onRebuild;
         _onPrune = onPrune;
         _onReinitialize = onReinitialize;
-        _onRebuild = onRebuild;
-        _onRebuildTimestamp = onRebuildTimestamp;
-        _onRebuildIndex = onRebuildIndex;
+        _rebuild = rebuild;
+        _rebuildTimestamp = rebuildTimestamp;
+        _rebuildIndex = rebuildIndex;
     }
 
-    public void OnNext(IReusable value) { _onNext(value); }
+    public void OnNext(IReusable value) { _onNext?.Invoke(value); }
 
-    public void OnError(Exception error) => _onError?.Invoke(error);
+    public void OnError(Exception exception) => _onError?.Invoke(exception);
 
     public void OnCompleted() => _onCompleted?.Invoke();
 
@@ -59,7 +59,7 @@ public class ReusableObserver : IStreamObserver<IReusable>
     public void OnAdd(IReusable item, bool notify, int? indexHint) => _onAdd?.Invoke(item, notify, indexHint);
 
     // OnRebuild is called when the hub recalculates from a specific timestamp
-    public void OnRebuild(DateTime fromTimestamp) => _onRebuildFromTimestamp?.Invoke(fromTimestamp);
+    public void OnRebuild(DateTime fromTimestamp) => _onRebuild?.Invoke(fromTimestamp);
 
     // OnPrune is called when old items are removed from the hub's cache
     public void OnPrune(DateTime toTimestamp) => _onPrune?.Invoke(toTimestamp);
@@ -68,9 +68,9 @@ public class ReusableObserver : IStreamObserver<IReusable>
     public void Reinitialize() { _isSubscribed = true; _onReinitialize?.Invoke(); }
 
     // Rebuild methods trigger recalculation
-    public void Rebuild() => _onRebuild?.Invoke();
+    public void Rebuild() => _rebuild?.Invoke();
 
-    public void Rebuild(DateTime fromTimestamp) => _onRebuildTimestamp?.Invoke(fromTimestamp);
+    public void Rebuild(DateTime fromTimestamp) => _rebuildTimestamp?.Invoke(fromTimestamp);
 
-    public void Rebuild(int fromIndex) => _onRebuildIndex?.Invoke(fromIndex);
+    public void Rebuild(int fromIndex) => _rebuildIndex?.Invoke(fromIndex);
 }
