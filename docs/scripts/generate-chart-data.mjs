@@ -276,7 +276,8 @@ const INDICATOR_CONFIG = {
   },
   'heikinashi.standard.json': {
     displayName: 'HeikinAshi',
-    fields: [] // This is a candle type, not overlay
+    chartType: 'candles',
+    fields: []
   },
   'hma.standard.json': {
     displayName: 'Hma',
@@ -428,7 +429,8 @@ const INDICATOR_CONFIG = {
   },
   'renko.standard.json': {
     displayName: 'Renko',
-    fields: [] // This is a candle type, not overlay
+    chartType: 'candles',
+    fields: []
   },
   'roc.standard.json': {
     displayName: 'Roc',
@@ -752,6 +754,56 @@ function generateChartData(quotes, results, config) {
 }
 
 /**
+ * Generate chart data for candle-type indicators (like Renko, Heikin-Ashi)
+ * These indicators replace the quotes entirely with their own candle data
+ */
+function generateCandleData(results, config) {
+  // Convert result data directly to candle format
+  // Handle duplicate timestamps by adding milliseconds increment
+  const timestampCounts = new Map()
+  
+  const candles = results.map(r => {
+    let timestamp = r.timestamp
+    
+    // Check if this timestamp has been seen before
+    const baseTimestamp = timestamp.split('.')[0]  // Remove any existing milliseconds
+    const count = timestampCounts.get(baseTimestamp) || 0
+    
+    // If duplicate, add milliseconds to make it unique
+    if (count > 0) {
+      // Add milliseconds: .001, .002, .003, etc.
+      const ms = String(count).padStart(3, '0')
+      timestamp = `${baseTimestamp}.${ms}Z`
+    }
+    
+    timestampCounts.set(baseTimestamp, count + 1)
+    
+    return {
+      timestamp: timestamp,
+      open: r.open,
+      high: r.high,
+      low: r.low,
+      close: r.close,
+      volume: r.volume || 0
+    }
+  })
+
+  // Build metadata
+  const metadata = {
+    symbol: 'S&P 500',
+    timeframe: 'Daily',
+    indicator: config.displayName,
+    chartType: config.chartType || 'candles'
+  }
+
+  return {
+    metadata: metadata,
+    candles: candles,
+    series: []
+  }
+}
+
+/**
  * Main entry point
  */
 function main() {
@@ -786,25 +838,32 @@ function main() {
       continue
     }
 
-    // Skip indicators without fields (candle types)
-    if (config.fields.length === 0) {
-      console.log(`⚠ Skipping ${config.displayName}: no overlay fields defined`)
-      skipped++
-      continue
-    }
-
     try {
       // Load results
       const resultsContent = readFileSync(resultPath, 'utf-8')
       const results = JSON.parse(resultsContent)
 
-      // Generate chart data
-      const chartData = generateChartData(quotes, results, config)
+      let chartData
+
+      // Check if this is a candle-type indicator (chartType === 'candles' and no overlay fields)
+      if (config.chartType === 'candles' && config.fields.length === 0) {
+        // Generate candle-only data (replaces quotes entirely)
+        chartData = generateCandleData(results, config)
+        console.log(`✓ Generated: ${config.displayName}.json (${chartData.candles.length} candles, candle-type indicator)`)
+      } else if (config.fields.length === 0) {
+        // Skip indicators without fields and no candle type
+        console.log(`⚠ Skipping ${config.displayName}: no overlay fields defined`)
+        skipped++
+        continue
+      } else {
+        // Generate standard overlay/oscillator data
+        chartData = generateChartData(quotes, results, config)
+        console.log(`✓ Generated: ${config.displayName}.json (${chartData.candles.length} candles, ${chartData.series.length} series)`)
+      }
 
       // Write output file with trailing newline
       const outputFile = join(OUTPUT_DIR, `${config.displayName}.json`)
       writeFileSync(outputFile, JSON.stringify(chartData, null, 2) + '\n')
-      console.log(`✓ Generated: ${config.displayName}.json (${chartData.candles.length} candles, ${chartData.series.length} series)`)
       generated++
     } catch (error) {
       console.error(`✗ Error processing ${config.displayName}:`, error.message)
