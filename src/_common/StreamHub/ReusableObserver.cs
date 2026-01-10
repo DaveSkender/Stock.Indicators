@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ReusableObserver : IStreamObserver<IReusable>
 {
-    private readonly Action<IReusable>? _onNext;
     private readonly Action<Exception>? _onError;
     private readonly Action? _onCompleted;
     private readonly Action? _onUnsubscribe;
@@ -22,7 +21,6 @@ public class ReusableObserver : IStreamObserver<IReusable>
     public bool IsSubscribed => _isSubscribed;
 
     public ReusableObserver(
-        Action<IReusable>? onNext,
         Action<Exception>? onError = null,
         Action? onCompleted = null,
         Action? onUnsubscribe = null,
@@ -34,7 +32,6 @@ public class ReusableObserver : IStreamObserver<IReusable>
         Action<DateTime>? rebuildTimestamp = null,
         Action<int>? rebuildIndex = null)
     {
-        _onNext = onNext;
         _onError = onError;
         _onCompleted = onCompleted;
         _onUnsubscribe = onUnsubscribe;
@@ -46,8 +43,6 @@ public class ReusableObserver : IStreamObserver<IReusable>
         _rebuildTimestamp = rebuildTimestamp;
         _rebuildIndex = rebuildIndex;
     }
-
-    public void OnNext(IReusable value) { _onNext?.Invoke(value); }
 
     public void OnError(Exception exception) => _onError?.Invoke(exception);
 
