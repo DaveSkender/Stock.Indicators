@@ -71,6 +71,9 @@ jobs:
             echo "🚀 DEPLOY mode (published release)"
           fi
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
       - name: Compose package info
         id: package_info
         run: |
@@ -181,7 +184,7 @@ jobs:
           --skip-duplicate
 
       - name: Production package published
-        if: ${{ !env.dry_run }}
+        if: ${{ env.dry_run != 'true' }}
         run: |
           echo "📦 Published production package ${{ env.name }} version ${{ env.version }} to nuget.org"
           echo "   Release: ${{ github.event.release.html_url }}"
