@@ -20,9 +20,7 @@ on:
     types: [published, created]
 
 permissions:
-  contents: write
-  packages: write
-  id-token: write # Required for OIDC authentication to nuget.org
+  contents: read
 
 jobs:
   package:
@@ -144,9 +142,8 @@ jobs:
     if: success()
 
     permissions:
-      contents: write
       packages: write
-      id-token: write
+      id-token: write # Required for OIDC authentication to nuget.org
 
     env:
       version: ${{ needs.package.outputs.version }}
