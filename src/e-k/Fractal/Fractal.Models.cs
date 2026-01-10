@@ -12,4 +12,7 @@ public record FractalResult
     DateTime Timestamp,
     decimal? FractalBear,
     decimal? FractalBull
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

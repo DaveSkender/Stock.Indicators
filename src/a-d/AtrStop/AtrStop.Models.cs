@@ -25,4 +25,7 @@ public record AtrStopResult(
     double? BuyStop = null,
     double? SellStop = null,
     double? Atr = null
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

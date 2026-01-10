@@ -14,4 +14,7 @@ public record StarcBandsResult
     double? UpperBand,
     double? Centerline,
     double? LowerBand
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

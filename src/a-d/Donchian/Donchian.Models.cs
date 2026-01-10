@@ -16,4 +16,7 @@ public record DonchianResult
     decimal? Centerline = null,
     decimal? LowerBand = null,
     decimal? Width = null
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

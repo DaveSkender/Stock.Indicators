@@ -14,4 +14,7 @@ public record MaEnvelopeResult
     double? Centerline,
     double? UpperEnvelope,
     double? LowerEnvelope
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

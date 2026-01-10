@@ -5,8 +5,8 @@ namespace Skender.Stock.Indicators;
 
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
 public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
-    where TIn : ISeries
-    where TOut : ISeries
+    where TIn : IReusable
+    where TOut : IReusable
 {
     private protected StreamHub(IStreamObservable<TIn> provider)
     {
@@ -140,7 +140,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <param name="result">Item to cache.</param>
     /// <param name="notify">Notify subscribers of change (send to observers). This is disabled for bulk operations like rebuild.</param>
     /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
-    protected void AppendCache(TOut result, bool notify)
+    protected virtual void AppendCache(TOut result, bool notify)
     {
         // check overflow/duplicates
         if (IsOverflowing(result))
@@ -276,7 +276,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Removes a range of cached items from a specific timestamp.
     /// </summary>
     /// <inheritdoc/>
-    public void RemoveRange(DateTime fromTimestamp, bool notify)
+    public virtual void RemoveRange(DateTime fromTimestamp, bool notify)
     {
         // rollback internal state
         RollbackState(fromTimestamp);
@@ -314,7 +314,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Prunes the cache to the maximum size.
     /// </summary>
-    protected void PruneCache()
+    protected virtual void PruneCache()
     {
         if (Cache.Count < MaxCacheSize)
         {

@@ -16,4 +16,7 @@ public record GatorResult
     double? Lower = null,
     bool? UpperIsExpanding = null,
     bool? LowerIsExpanding = null
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

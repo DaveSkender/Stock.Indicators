@@ -99,6 +99,10 @@ public class StreamIndicators
     [Benchmark] public object RocWbHub() => quoteHub.ToRocWbHub(20, 5, 5).Results;
     [Benchmark] public object RollingPivotsHub() => quoteHub.ToRollingPivotsHub(20, 0, PivotPointType.Standard).Results;
     [Benchmark] public object RsiHub() => quoteHub.ToRsiHub(n).Results;
+    [Benchmark] public object RsiHubState() => quoteHub.ToRsiHubState(n).Results;
+    [Benchmark] public object SlopeHub() => quoteHub.ToSlopeHub(20).Results;
+    [Benchmark] public object SmaHub() => quoteHub.ToSmaHub(10).Results;
+    [Benchmark] public object SmaHubState() => quoteHub.ToSmaHubState(10).Results;
     [Benchmark] public object SlopeHub() => quoteHub.ToSlopeHub(n).Results;
     [Benchmark] public object SmaHub() => quoteHub.ToSmaHub(n).Results;
     [Benchmark] public object SmiHub() => quoteHub.ToSmiHub(13, 25, 2, 3).Results;
@@ -107,6 +111,7 @@ public class StreamIndicators
     [Benchmark] public object StarcBandsHub() => quoteHub.ToStarcBandsHub(5, 2, 10).Results;
     [Benchmark] public object StcHub() => quoteHub.ToStcHub(10, 23, 50).Results;
     [Benchmark] public object StdDevHub() => quoteHub.ToStdDevHub(n).Results;
+    [Benchmark] public object StdDevHubState() => quoteHub.ToStdDevHubState(n).Results;
     [Benchmark] public object StochHub() => quoteHub.ToStochHub(n, 3, 3).Results;
     [Benchmark] public object StochRsiHub() => quoteHub.ToStochRsiHub(n, n, 3, 1).Results;
     [Benchmark] public object SuperTrendHub() => quoteHub.ToSuperTrendHub(10, 3).Results;

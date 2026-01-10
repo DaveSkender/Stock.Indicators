@@ -20,7 +20,10 @@ public record PivotsResult
    decimal? LowLine,
    PivotTrend? HighTrend,
    PivotTrend? LowTrend
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}
 
 /// <summary>
 /// Represents the trend direction of a pivot point.

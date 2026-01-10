@@ -14,4 +14,7 @@ public record AlligatorResult
     double? Jaw,
     double? Teeth,
     double? Lips
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}
