@@ -219,9 +219,12 @@ const INDICATOR_CONFIG = {
   'elder-ray.standard.json': {
     displayName: 'ElderRay',
     chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'Bull Power', jsonKey: 'bullPower', type: 'histogram', colorConditional: true },
-      { name: 'Bear Power', jsonKey: 'bearPower', type: 'histogram', colorConditional: true }
+      { name: 'Bull Power', jsonKey: 'bullPower', type: 'line', color: ChartColors.StandardGreen },
+      { name: 'Bear Power', jsonKey: 'bearPower', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'ema.standard.json': {
@@ -269,10 +272,7 @@ const INDICATOR_CONFIG = {
   'gator.standard.json': {
     displayName: 'Gator',
     chartType: 'oscillator',
-    fields: [
-      { name: 'Upper', jsonKey: 'upper', type: 'histogram', colorConditional: true },
-      { name: 'Lower', jsonKey: 'lower', type: 'histogram', colorConditional: true }
-    ]
+    fields: []  // Disabled: multiple histogram series not supported with proper stacking
   },
   'heikinashi.standard.json': {
     displayName: 'HeikinAshi',
