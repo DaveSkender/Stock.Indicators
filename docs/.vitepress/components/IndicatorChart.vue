@@ -150,6 +150,14 @@ function parseTimestamp(timestamp: string): string {
     if (isNaN(date.getTime())) {
       return '1970-01-01'
     }
+    // For timestamps with milliseconds (e.g., Renko charts with duplicate dates),
+    // return the full ISO timestamp to preserve uniqueness
+    // For regular timestamps, return just the date
+    if (timestamp.includes('.')) {
+      // Has milliseconds - return full timestamp for uniqueness
+      return date.toISOString()
+    }
+    // No milliseconds - return just the date
     return date.toISOString().split('T')[0]
   } catch {
     return '1970-01-01'
