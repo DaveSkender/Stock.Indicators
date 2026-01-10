@@ -4,13 +4,14 @@ namespace Skender.Stock.Indicators;
 /// Flexible IStreamObserver implementation with customizable callbacks for all lifecycle methods.
 /// All callbacks are optional (nullable).
 /// </summary>
-public class ReusableObserver : IStreamObserver<ISeries>
+public class ReusableObserver<TResult> : IStreamObserver<TResult>
+    where TResult : ISeries
 {
     private readonly Func<bool> _isSubscribed;
     private readonly Action<Exception>? _onError;
     private readonly Action? _onCompleted;
     private readonly Action? _onUnsubscribe;
-    private readonly Action<ISeries, bool, int?>? _onAdd;
+    private readonly Action<TResult, bool, int?>? _onAdd;
     private readonly Action<DateTime>? _onRebuild;
     private readonly Action<DateTime>? _onPrune;
     private readonly Action? _onReinitialize;
@@ -81,7 +82,7 @@ public class ReusableObserver : IStreamObserver<ISeries>
         Action<Exception>? onError = null,
         Action? onCompleted = null,
         Action? onUnsubscribe = null,
-        Action<ISeries, bool, int?>? onAdd = null,
+        Action<TResult, bool, int?>? onAdd = null,
         Action<DateTime>? onRebuild = null,
         Action<DateTime>? onPrune = null,
         Action? onReinitialize = null,
@@ -149,7 +150,7 @@ public class ReusableObserver : IStreamObserver<ISeries>
     /// <remarks>
     /// Invokes the optional <c>_onAdd</c> callback if provided during construction.
     /// </remarks>
-    public void OnAdd(ISeries item, bool notify, int? indexHint) => _onAdd?.Invoke(item, notify, indexHint);
+    public void OnAdd(TResult item, bool notify, int? indexHint) => _onAdd?.Invoke(item, notify, indexHint);
 
     /// <summary>
     /// Provides the observer with starting point in timeline to rebuild
@@ -228,33 +229,4 @@ public class ReusableObserver : IStreamObserver<ISeries>
     /// Invokes the optional <c>_rebuildIndex</c> callback if provided during construction.
     /// </remarks>
     public void Rebuild(int fromIndex) => _rebuildIndex?.Invoke(fromIndex);
-}
-
-public class ReusableObserver<TResult> : ReusableObserver, IStreamObserver<TResult>
-    where TResult : IReusable
-{
-    public ReusableObserver(
-        Func<bool> isSubscribed,
-        Action<Exception>? onError = null,
-        Action? onCompleted = null,
-        Action? onUnsubscribe = null,
-        Action<TResult, bool, int?>? onAdd = null,
-        Action<DateTime>? onRebuild = null,
-        Action<DateTime>? onPrune = null,
-        Action? onReinitialize = null,
-        Action? rebuild = null,
-        Action<DateTime>? rebuildTimestamp = null,
-        Action<int>? rebuildIndex = null)
-        : base(isSubscribed, onError, onCompleted, onUnsubscribe, null, onRebuild, onPrune, onReinitialize, rebuild, rebuildTimestamp, rebuildIndex)
-    {
-        _onAdd = onAdd;
-    }
-
-    private readonly Action<TResult, bool, int?>? _onAdd;
-
-    public void OnAdd(TResult item, bool notify, int? indexHint)
-    {
-        //Don't invoke base.OnAdd to avoid boxing
-        _onAdd?.Invoke(item, notify, indexHint);
-    }
 }
