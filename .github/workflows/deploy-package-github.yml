@@ -36,39 +36,8 @@ permissions:
   packages: write
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Setup GitVersion Tool
-        run: dotnet tool install --global GitVersion.Tool
-
-      - name: Validate CI deployment
-        run: |
-          echo "✅ CI deployment to GitHub Packages"
-          echo "   Branch: ${{ github.ref }}"
-          echo "   Run: ${{ github.run_number }}"
-                exit 1
-              fi
-
-              # Non-preview (production) versions are only allowed from main branch
-              if [[ "$GITHUB_REF" != "refs/heads/main" ]] && [[ "$INPUT_PREVIEW" != "true" ]]; then
-                echo "::error::Non-preview (production) versions to nuget.org are only allowed from main branch"
-                echo "::error::Current branch: $GITHUB_REF"
-                echo "::error::From v* branches, you must set preview=true"
-                exit 1
-              fi
-            fi
-          fi
-
+  
   package:
-    needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -79,6 +48,16 @@ jobs:
       dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
+
+      - name: Setup GitVersion Tool
+        run: dotnet tool install --global GitVersion.Tool
+
+      - name: Validate CI deployment
+        run: |
+          echo "✅ CI deployment to GitHub Packages"
+          echo "   Branch: ${{ github.ref }}"
+          echo "   Run: ${{ github.run_number }}"
+
       - name: Set workflow mode
         id: settings
         run: |
@@ -184,13 +163,12 @@ jobs:
           fi
 
           {
-            echo "| Version No.       | Component                                        |"
-            echo "| :---------------- | :----------------------------------------------- |"
-            echo "| Version           | ${{ steps.version_info.outputs.version }}        |"
-            echo "| Environment       | ${{ steps.settings.outputs.environ }}            |"
-            echo "| Mode              | ${MODE}                                          |"
-            echo "| Status            | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
+            echo "| Version No. | Component                                        |"
+            echo "| :-------- - | :----------------------------------------------- |"
+            echo "| Version     | ${{ steps.version_info.outputs.version }}        |"
+            echo "| Mode        | ${MODE}                                          |"
+            echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
+            echo "| Package URL | ${{ steps.package_info.outputs.url }}            |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -211,6 +189,10 @@ jobs:
       NUGET_PUBLISH_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
 
+    environment:
+      name: pkg.github.com
+      url: ${{ needs.package.outputs.url }}
+    
     steps:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
