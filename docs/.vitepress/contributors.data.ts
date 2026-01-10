@@ -13,8 +13,6 @@ export { data }
 export default {
   async load(): Promise<Contributor[]> {
     try {
-  async load(): Promise<Contributor[]> {
-    try {
       const token = process.env.GITHUB_TOKEN
       if (!token) {
         console.warn('GITHUB_TOKEN not found. Contributors list will not be populated. Set GITHUB_TOKEN environment variable for local development.')
