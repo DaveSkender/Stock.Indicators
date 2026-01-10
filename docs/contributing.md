@@ -252,7 +252,6 @@ Packages are deployed via two separate GitHub Actions workflows:
 - Version format: `{Major}.{Minor}.{Patch}-ci-{run_number}`
 - Examples: `2.7.2-ci-1234`, `3.0.0-ci-567`
 - Idempotent: Each commit gets unique incrementing run number
-- Auto-cleanup after 90 days (keeps 5 most recent)
 - No Git tags created
 
 **Workflow:** `.github/workflows/deploy-package.yml`
