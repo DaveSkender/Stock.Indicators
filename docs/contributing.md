@@ -187,8 +187,8 @@ This repository is optimized for GitHub Copilot and coding agents with:
 
 When using GitHub Copilot:
 
-- Follow the established patterns documented in the AGENTS.md files and skills
-- Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in AGENTS.md)
+- Follow the established patterns documented in the `AGENTS.md` files and skills
+- Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in `AGENTS.md`)
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 
@@ -196,21 +196,19 @@ When using GitHub Copilot:
 
 We use [GitVersion](https://gitversion.net) for automated [semantic versioning](https://semver.org). Version numbers are automatically generated based on branch names, commit messages, and Git history.
 
-<!-- markdownlint-disable MD060 -->
 | Component | Format    | Description |
 | --------- | --------- | ----------- |
 | Major     | `x.-.-`   | Breaking changes. Use `+semver: major` in commit message. |
 | Minor     | `-.x.-`   | New features, backward compatible. Use `+semver: minor` in commit message. |
 | Patch     | `-.-.x`   | Bug fixes, documentation. Use `+semver: patch` (or default auto-increment). |
 | Suffix    | `-label.N` | Pre-release identifier. Automatically set based on branch and build type. |
-<!-- markdownlint-enable MD060 -->
 
 ### Branch-based versioning
 
 GitVersion automatically determines version suffixes based on the branch:
 
 - **main branch**: Produces `2.x.x` versions
-  - CI builds: `2.7.1-ci.3+5` (includes build metadata)
+  - CI builds: `2.7.1-ci.345` (includes build metadata)
   - Production: `2.7.1` (no suffix)
 - **v3 branch**: Produces `3.x.x-preview.N` versions (always has preview suffix)
 - **Feature branches**: `x.x.x-{branch-name}.N` (branch name becomes suffix)
@@ -232,8 +230,8 @@ To publish a preview/pre-release version from `main` or `v2` (normally stable br
 
 ```bash
 # Create preview tag
-git tag v2.8.0-preview.1
-git push origin v2.8.0-preview.1
+git tag 2.8.0-preview.1
+git push origin 2.8.0-preview.1
 
 # Then trigger manual workflow deployment with preview=true
 ```
@@ -244,27 +242,27 @@ GitVersion will honor the tag's pre-release suffix. This approach works for any 
 
 Packages are deployed via two separate GitHub Actions workflows:
 
-#### CI Package Deploy (Automatic)
+#### CI Package deploy (automatic)
 
-**Trigger:** Push to main or v* branches
+**Trigger:** Push to main or `v*` branches
 
 - Published to GitHub Packages only
-- Version format: `{Major}.{Minor}.{Patch}-ci-{run_number}`
-- Examples: `2.7.2-ci-1234`, `3.0.0-ci-567`
+- Version format: `{Major}.{Minor}.{Patch}-ci.{run_number}`
+- Examples: `2.7.2-ci.1234`, `3.0.0-ci.567`
 - Idempotent: Each commit gets unique incrementing run number
 - No Git tags created
 
-**Workflow:** `.github/workflows/deploy-package.yml`
+**Workflow:** `.github/workflows/deploy-package-github.yml`
 
-#### Production Package Deploy (Manual)
+#### Production package deploy (manual)
 
 **Trigger:** Creating a GitHub Release
 
-- Published to nuget.org only
+- Published to `nuget.org` only
 - Version comes directly from release tag (strips 'v' prefix)
 - Examples:
-  - Tag `v2.8.0` → deploys `2.8.0` (stable)
-  - Tag `v3.0.0-preview.2` → deploys `3.0.0-preview.2` (preview)
+  - Tag `2.8.0` → deploys `2.8.0` (stable)
+  - Tag `3.0.0-preview.2` → deploys `3.0.0-preview.2` (preview)
 - Draft releases: Dry-run mode (build only, no deploy)
 - Published releases: Full deployment to nuget.org
 - Git tag already exists (from release creation)
@@ -283,18 +281,18 @@ Packages are deployed via two separate GitHub Actions workflows:
 
 | Scenario | Trigger | Version | Registry | Notes |
 | :------- | :------ | :------ | :------- | :---- |
-| CI build | Push to main | `2.7.2-ci-1234` | GitHub Packages | Run 1234 |
-| CI build | Push to main | `2.7.2-ci-1235` | GitHub Packages | Run 1235 (next commit) |
-| CI build | Push to v3 | `3.0.0-ci-567` | GitHub Packages | Run 567 |
-| Production | Release tag `v2.8.0` | `2.8.0` | nuget.org | Stable version |
-| Production | Release tag `v3.0.0-preview.2` | `3.0.0-preview.2` | nuget.org | Preview version |
-| Draft release | Release tag `v2.8.1` (draft) | `2.8.1` | None (dry-run) | Build only, no deploy |
+| CI build | Push to main | `2.7.2-ci.1234` | GitHub Packages | Run 1234 |
+| CI build | Push to main | `2.7.2-ci.1235` | GitHub Packages | Run 1235 (next commit) |
+| CI build | Push to v3 | `3.0.0-ci.567` | GitHub Packages | Run 567 |
+| Production | Release tag `2.8.0` | `2.8.0` | nuget.org | Stable version |
+| Production | Release tag `3.0.0-preview.2` | `3.0.0-preview.2` | nuget.org | Preview version |
+| Draft release | Release tag `2.8.1` (draft) | `2.8.1` | None (dry-run) | Build only, no deploy |
 
 For technical details, see:
 
 - GitVersion configuration: [`src/gitversion.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/gitversion.yml)
-- CI workflow: [`.github/workflows/deploy-package.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package.yml)
-- Production workflow: [`.github/workflows/deploy-production.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-production.yml)
+- CI workflow: [`deploy-package-github.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package-github.yml)
+- Production workflow: [`deploy-package-nuget.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package-nuget.yml)
 
 ## License
 
