@@ -102,13 +102,6 @@ jobs:
           echo "version=$ver" >> $GITHUB_OUTPUT
           echo "Generated CI version: $ver"
 
-      - name: Replace "dumb" version markers
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "#{PACKAGE_VERSION}#"
-          replace: "${{ steps.version_info.outputs.version }}"
-          regex: false
-
       - name: Compose package info
         id: package_info
         run: |
