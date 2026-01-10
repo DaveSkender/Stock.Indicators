@@ -72,7 +72,7 @@ Rename `Date` to `Timestamp` in all custom quote classes:
 ```csharp
 public class MyQuote : IQuote
 {
-    public DateTime Date { get; set; }.     // [!code --]
+    public DateTime Date { get; set; }      // [!code --]
     public DateTime Timestamp { get; set; } // [!code ++]
     public decimal Open { get; set; }
     public decimal High { get; set; }
@@ -103,7 +103,7 @@ public record MyQuote : IQuote
 }
 
 // v3 - option 2: implement value-based equality
-public class MyQuote : IQuote, IEquality
+public class MyQuote : IQuote, IEquatable<MyQuote>
 {
     // properties...
     
@@ -301,14 +301,14 @@ foreach (Quote newQuote in stream)
 }
 
 // v3 StreamHub (coordinated real-time updates)
-QuoteHub<Quote> hub = new();
-var smaHub = hub.ToSma(20);
-var rsiHub = hub.ToRsi(14);
-var macdHub = hub.ToMacd();
+QuoteHub quoteHub = new();
+var smaHub = quoteHub.ToSma(20);
+var rsiHub = quoteHub.ToRsi(14);
+var macdHub = quoteHub.ToMacd();
 
 foreach (Quote newQuote in stream)
 {
-    hub.Add(newQuote);  // Single update propagates to all observers
+    quoteHub.Add(newQuote);  // Single update propagates to all observers
     // Access latest results from each hub
 }
 ```
