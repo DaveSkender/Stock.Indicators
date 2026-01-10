@@ -315,7 +315,7 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities#extended-candle-properties), and further used as the basis for calculating indicators.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities/quotes#extended-candle-properties), and further used as the basis for calculating indicators.
 
 ## Incremental buffer style indicators
 
@@ -464,4 +464,4 @@ See individual indicator documentation for specific streaming examples.
 
 ## Utilities
 
-See [Utilities and helper functions](/utilities) for additional tools.
+See [Utilities and helper functions](/utilities/) for additional tools.

@@ -50,12 +50,12 @@ IReadOnlyList<CciResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/results#condense)
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/results) for more information.
 
 ## Chaining
 

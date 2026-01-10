@@ -9,7 +9,11 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/363 "Community discussion about this indicator")
 
 <ClientOnly>
-  <IndicatorChart src="/data/HtTrendline.json" :height="360" />
+  <IndicatorChart src="/data/HtTrendline.json" />
+</ClientOnly>
+
+<ClientOnly>
+  <IndicatorChart src="/data/DcPeriods.json" />
 </ClientOnly>
 
 ```csharp
@@ -51,12 +55,12 @@ The first `100` periods will have decreasing magnitude, convergence-related prec
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/results#condense)
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/results) for more information.
 
 ## Streaming
 

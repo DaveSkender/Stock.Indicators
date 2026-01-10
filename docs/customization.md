@@ -185,6 +185,6 @@ For complete working examples, see:
 
 ## See also
 
-- [Utilities and helpers](/utilities) - Tools for working with quotes and results
+- [Utilities and helpers](/utilities/) - Tools for working with quotes and results
 - [Guide](/guide) - General usage patterns and indicator styles
 - [Contributing guidelines](/contributing) - How to contribute indicators to the library

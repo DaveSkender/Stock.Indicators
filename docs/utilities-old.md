@@ -150,11 +150,11 @@ Without a specified `removePeriods` value, this utility will reverse-engineer th
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/customization).
 
 ## Utilities for numerical analysis
 
-This library also includes several tools that we use internally to calculate indicator algorithms. These can be useful if you are creating your own [custom indicators](/custom-indicators).
+This library also includes several tools that we use internally to calculate indicator algorithms. These can be useful if you are creating your own [custom indicators](/customization).
 
 ### Numerical methods
 

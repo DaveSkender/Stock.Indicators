@@ -8,6 +8,10 @@ description: Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/w
 Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that transforms prices based on prior period prices for smoothing.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/254 "Community discussion about this indicator")
 
+<ClientOnly>
+  <IndicatorChart src="/data/HeikinAshi.json" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<HeikinAshiResult> results =
@@ -44,8 +48,8 @@ IReadOnlyList<HeikinAshiResult>
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp
@@ -54,7 +58,7 @@ IReadOnlyList<HeikinAshiResult>
     .ToQuotes();
   ```
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/results) for more information.
 
 ## Chaining
 

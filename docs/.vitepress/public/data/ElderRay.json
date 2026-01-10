@@ -3,7 +3,14 @@
     "symbol": "S&P 500",
     "timeframe": "Daily",
     "indicator": "ElderRay",
-    "chartType": "oscillator"
+    "chartType": "oscillator",
+    "thresholds": [
+      {
+        "value": 0,
+        "color": "#42424280",
+        "style": "dash"
+      }
+    ]
   },
   "candles": [
     {
@@ -4026,7 +4033,7 @@
   "series": [
     {
       "name": "Bull Power",
-      "type": "histogram",
+      "type": "line",
       "color": "#2E7D32",
       "data": [
         {
@@ -6041,7 +6048,7 @@
     },
     {
       "name": "Bear Power",
-      "type": "histogram",
+      "type": "line",
       "color": "#DD2C00",
       "data": [
         {

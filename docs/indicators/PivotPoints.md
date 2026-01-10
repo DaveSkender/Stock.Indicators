@@ -84,11 +84,11 @@ The last window will be repainted if it does not contain a full window of data.
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/results) for more information.
 
 ## Chaining
 

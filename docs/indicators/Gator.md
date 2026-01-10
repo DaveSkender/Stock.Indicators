@@ -8,10 +8,6 @@ description: Created by Bill Williams, the Gator Oscillator is an expanded oscil
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](/indicators/Alligator)'s three moving averages.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Gator.json" :height="360" />
-</ClientOnly>
-
 ```csharp
 // C# usage syntax
 IReadOnlyList<GatorResult> results =
@@ -56,12 +52,12 @@ The first 150 periods will have decreasing magnitude, convergence-related precis
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/results#condense)
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/results) for more information.
 
 ## Chaining
 

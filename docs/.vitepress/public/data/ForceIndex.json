@@ -4033,7 +4033,7 @@
   "series": [
     {
       "name": "Force",
-      "type": "baseline",
+      "type": "area",
       "color": "#1E88E5",
       "data": [
         {

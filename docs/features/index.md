@@ -24,7 +24,7 @@ features:
     linkText: Learn more
   - title: Customization
     details: Create your own indicators that integrate seamlessly with the library    
-    link: /custom-indicators
+    link: /customization
     linkText: Learn more
   - title: Utilities
     details: Helper functions for quote manipulation, result processing, and numerical analysis    

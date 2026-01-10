@@ -55,13 +55,13 @@ Build trading algorithms, charting applications, machine learning models, or mar
 
 ## Industry-standard indicators with extensibility
 
-Access a comprehensive library of battle-tested technical indicators used by traders worldwide. Extend functionality by creating your own [custom indicators](/custom-indicators) that integrate seamlessly with the library.
+Access a comprehensive library of battle-tested technical indicators used by traders worldwide. Extend functionality by creating your own [custom indicators](/customization) that integrate seamlessly with the library.
 
 <ClientOnly>
   <div class="home-charts-stack">
-    <IndicatorChart src="/data/BollingerBands.json" />
-    <IndicatorChart src="/data/Stoch.json" />
-    <IndicatorChart src="/data/Macd.json" />
+    <IndicatorChart src="/data/Alma.json" />
+    <IndicatorChart src="/data/AtrStop.json" />
+    <IndicatorChart src="/data/Aroon.json" />
   </div>
 </ClientOnly>
 
