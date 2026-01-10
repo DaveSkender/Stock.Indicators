@@ -147,26 +147,24 @@ jobs:
           name: packages
           path: NuGet
           include-hidden-files: true
-
       - name: Summary output
         if: always()
         run: |
           # Determine mode label
           if [[ "${{ steps.settings.outputs.dry_run }}" == "true" ]]; then
             MODE="🔍 DRY RUN"
-          elif [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
-            MODE="🔧 CI BUILD"
           else
-            MODE="🚀 DEPLOY"
+            MODE="🔧 CI BUILD"
           fi
 
           {
-            echo "| Version No. | Component                                        |"
-            echo "| :-------- - | :----------------------------------------------- |"
-            echo "| Version     | ${{ steps.version_info.outputs.version }}        |"
-            echo "| Mode        | ${MODE}                                          |"
-            echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Package URL | ${{ steps.package_info.outputs.url }}            |"
+            echo "| Version No.       | Component                                        |"
+            echo "| :---------------- | :----------------------------------------------- |"
+            echo "| Version           | ${{ steps.version_info.outputs.version }}        |"
+            echo "| Environment       | ${{ steps.settings.outputs.environ }}            |"
+            echo "| Mode              | ${MODE}                                          |"
+            echo "| Status            | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
+            echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
