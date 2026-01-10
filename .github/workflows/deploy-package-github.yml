@@ -4,8 +4,8 @@ name: Deploy package (CI)
 # Automatically builds and publishes packages to GitHub Packages on every push to main or v* branches.
 # Version format: {MajorMinorPatch}-ci-{run_number}
 # Examples:
-#   - main branch: 2.7.2-ci-1234, 2.7.2-ci-1235
-#   - v3 branch: 3.0.0-ci-567, 3.0.0-ci-568
+#   - main branch: 2.7.2-ci.1234, 2.7.2-ci.1235
+#   - v3 branch: 3.0.0-ci.567, 3.0.0-ci.568
 #
 # Package cleanup:
 #   - Auto-cleanup after retention days (and minimum to keep)
@@ -96,11 +96,11 @@ jobs:
         run: |
           # CI version format: {MajorMinorPatch}-ci-{run_number}
           # This ensures every CI build has a unique, incrementing version
-          # Examples: 2.7.2-ci-1234, 3.0.0-ci-567
+          # Examples: 2.7.2-ci.1234, 3.0.0-ci.567
 
           base="$MajorMinorPatch"
           run="${{ github.run_number }}"
-          ver="${base}-ci-${run}"
+          ver="${base}-ci.${run}"
 
           echo "version=$ver" >> $GITHUB_OUTPUT
           echo "Generated CI version: $ver"
@@ -193,7 +193,7 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Download package
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: packages
           path: NuGet
@@ -248,12 +248,16 @@ jobs:
 
             try {
               // Get all package versions
-              const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageOwnedByUser({
-                package_type: 'nuget',
-                package_name: packageName,
-                username: owner,
-              });
-
+              const versions = await github.paginate(
+                github.rest.packages.getAllPackageVersionsForPackageOwnedByUser,
+                {
+                  package_type: 'nuget',
+                  package_name: packageName,
+                  username: owner,
+                  per_page: 100,
+                }
+              );
+              
               console.log(`📦 Found ${versions.length} total package versions`);
 
               if (versions.length === 0) {
