@@ -133,6 +133,7 @@ public class QuoteHub
 
 /// <summary>
 /// Inert provider for base Hub initialization.
+/// It has no upstream data and cannot be observed.
 /// </summary>
 /// <typeparam name="T">Type of record</typeparam>
 public class BaseProvider<T>
@@ -140,64 +141,41 @@ public class BaseProvider<T>
     where T : IReusable
 {
     /// <summary>
-    /// Inert quote provider is parent-less Hub.
-    /// It does not transfer its setting to its children.
+    /// Hub properties with non-standard defaults:
+    /// bit 0 = 1 (disable observer) and mask = 0b11111110 (do not pass bit 0 to child hubs).
     /// </summary>
+    /// <remarks>
+    /// <see cref="BaseProvider{T}"/> is an inert provider that cannot observe.
+    /// Bit 0 is set to 1 (disable observer) and masked to prevent child hubs from inheriting this restriction,
+    /// allowing downstream hubs to be proper observers even though the base provider is not.
+    /// <para>See <see cref="BinarySettings"/> for more information on bit settings and masks.</para>
+    /// </remarks>
     public BinarySettings Properties { get; } = new(0b00000001, 0b11111110);
 
     /// <inheritdoc/>
     public int MaxCacheSize => 0;
 
-    /// <summary>
-    /// Gets the number of observers.
-    /// </summary>
+    /// <inheritdoc />
     public int ObserverCount => 0;
 
-    /// <summary>
-    /// Gets a value indicating whether there are any observers.
-    /// </summary>
+    /// <inheritdoc />
     public bool HasObservers => false;
 
-    /// <summary>
-    /// Gets the list of quotes.
-    /// </summary>
-    public IReadOnlyList<T> Quotes { get; } = Array.Empty<T>();
+    /// <inheritdoc />
+    public IReadOnlyList<T> GetCacheRef() => Array.Empty<T>().AsReadOnly();
 
-    /// <summary>
-    /// Gets a reference to the cache.
-    /// </summary>
-    /// <returns>A read-only list of quotes.</returns>
-    public IReadOnlyList<T> GetCacheRef() => Array.Empty<T>();
-
-    /// <summary>
-    /// Determines whether the specified observer is a subscriber.
-    /// </summary>
-    /// <param name="observer">The observer to check.</param>
-    /// <returns><c>true</c> if the observer is a subscriber; otherwise, <c>false</c>.</returns>
+    /// <inheritdoc />
     public bool HasSubscriber(IStreamObserver<T> observer) => false;
 
-    /// <summary>
-    /// Subscribes the specified observer.
-    /// </summary>
-    /// <param name="observer">The observer to subscribe.</param>
-    /// <returns>A disposable object that can be used to unsubscribe.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
+    /// <inheritdoc />
     public IDisposable Subscribe(IStreamObserver<T> observer)
         => throw new InvalidOperationException();
 
-    /// <summary>
-    /// Unsubscribes the specified observer.
-    /// </summary>
-    /// <param name="observer">The observer to unsubscribe.</param>
-    /// <returns><c>true</c> if the observer was unsubscribed; otherwise, <c>false</c>.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
+    /// <inheritdoc />
     public bool Unsubscribe(IStreamObserver<T> observer)
         => throw new InvalidOperationException();
 
-    /// <summary>
-    /// Ends the transmission.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
+    /// <inheritdoc />
     public void EndTransmission()
         => throw new InvalidOperationException();
 }
