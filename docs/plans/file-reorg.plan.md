@@ -350,7 +350,7 @@ Follow these conventions for all file naming:
   - **Decision point for each indicator**: Evaluate utilities/catalog files:
     1. **Are they partial class fragments?** → Use `{Indicator}Series.{Purpose}.cs` pattern (e.g., `EmaSeries.Utilities.cs`)
     2. **Are they separate extension classes?** → Use `{Indicator}Extensions.cs` pattern per Phase 2 (e.g., `EmaExtensions.cs`)
-  - **Note**: Files remain grouped in same directory (e.g., `e-k/Ema/`), only file names change to match class names
+  - **Note:** Files remain grouped in same directory (e.g., `e-k/Ema/`), only file names change to match class names
 
 - [ ] Task 4.10: Standardize indicator partial class names for file alignment
   - Audit all indicators for file/class name alignment (Dynamic vs ConnorsRsi examples show current problems)
