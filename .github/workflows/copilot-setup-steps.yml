@@ -6,6 +6,10 @@ on:
 permissions:
   contents: read
 
+env:
+  NODE_VERSION: "24.12.0"
+  PNPM_VERSION: "10.27.0"
+
 jobs:
   copilot-setup-steps:
     runs-on: ubuntu-latest
@@ -14,12 +18,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.276.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          ruby-version: 3.3
-          bundler-cache: true
-          working-directory: docs
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: docs/pnpm-lock.yaml
+
+      - name: Install pnpm packages
+        working-directory: docs
+        run: pnpm install --frozen-lockfile
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -29,20 +43,19 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
-      - name: Install .NET & NPM global tools
-        run: |
-          dotnet tool install --global dotnet-format
-          dotnet tool install --global roslynator.dotnet.cli
-          dotnet tool install --global dotnet-outdated-tool
-          dotnet tool install --global dotnet-reportgenerator-globaltool
-          npm install --global @angular/cli
-        continue-on-error: true
-
       - name: Restore packages
         run: |
           dotnet restore
         continue-on-error: true
         timeout-minutes: 5
+
+      - name: Install .NET global tools
+        run: |
+          dotnet tool install --global dotnet-format
+          dotnet tool install --global roslynator.dotnet.cli
+          dotnet tool install --global dotnet-outdated-tool
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+        continue-on-error: true
 
       - name: Environment summary
         run: |

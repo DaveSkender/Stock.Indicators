@@ -1,0 +1,113 @@
+---
+title: Triple EMA Oscillator (TRIX)
+description: Created by Jack Hutson, TRIX is a rolling rate of change for a 3 EMA smoothing of the price over a lookback window.  TRIX is often confused with Triple EMA (TEMA).
+---
+
+# Triple EMA Oscillator (TRIX)
+
+Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the price over a lookback window.  TRIX is often confused with [TEMA](/indicators/Tema).
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/234 "Community discussion about this indicator")
+
+<ClientOnly>
+  <IndicatorChart src="/data/Trix.json" :height="360" />
+</ClientOnly>
+
+```csharp
+// C# usage syntax for Trix
+IReadOnlyList<TrixResult> results =
+  quotes.ToTrix(lookbackPeriods);
+```
+
+## Parameters
+
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0. |
+
+### Historical quotes requirements
+
+You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+
+## Response
+
+```csharp
+IReadOnlyList<TrixResult>
+```
+
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `3×N-3` periods will have `null` values since there's not enough data to calculate.
+
+::: warning ⚞ Convergence warning
+The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
+
+### `TrixResult`
+
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Ema3` | double | 3 EMAs of the price |
+| `Trix` | double | Rate of Change of 3 EMAs |
+
+### Utilities
+
+- [.Condense()](/utilities/results#condense)
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
+
+See [Utilities and helpers](/utilities/results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .ToTrix(..);
+```
+
+Results can be further processed on `Trix` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .ToTrix(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+TrixList trixList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  trixList.Add(quote);
+}
+
+// based on `ICollection<TrixResult>`
+IReadOnlyList<TrixResult> results = trixList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+TrixHub observer = quoteHub.ToTrixHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<TrixResult> results = observer.Results;
+```

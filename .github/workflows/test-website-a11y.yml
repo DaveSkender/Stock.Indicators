@@ -15,6 +15,10 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  NODE_VERSION: "24.12.0"
+  PNPM_VERSION: "10.27.0"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -22,45 +26,44 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.276.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          ruby-version: 3.3
-          bundler-cache: true
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
 
-      - name: Install dependencies
-        run: npm install -g pa11y-ci
-
-      - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
-          regex: false
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: docs/pnpm-lock.yaml
+
+      - name: Install pnpm packages
+        run: pnpm install --frozen-lockfile
 
       - name: Build site
-        run: bundle exec jekyll build
+        run: pnpm run docs:build
 
       - name: Serve site
-        run: bundle exec jekyll serve --port 4000 --detach
+        run: pnpm run docs:preview &
+
+      - name: Wait for server
+        run: sleep 5
 
       - name: Show environment
-        run: npx pa11y --environment
+        run: pnpm dlx pa11y --environment
 
       - name: Test accessibility
         run: >
-          npx pa11y-ci
-          --sitemap http://127.0.0.1:4000/sitemap.xml
-          --config ./.pa11yci
+          pnpm dlx pa11y-ci
+          --sitemap http://localhost:4173/sitemap.xml
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: pkill -f vitepress
