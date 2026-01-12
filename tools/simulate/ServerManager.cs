@@ -8,26 +8,37 @@ internal static class ServerManager
     {
         try
         {
-            string serverPath = Path.Combine(
-                "..",
-                "..",
-                "..",
-                "..",
-                "server",
-                "bin",
-                "Debug",
-                "net10.0",
-                "Test.SseServer.dll");
+            // Find the server DLL - try multiple locations
+            string[] possiblePaths = [
+                // Running from bin directory
+                Path.Combine("..", "..", "..", "..", "..", "..", "server", "bin", "Debug", "net10.0", "Test.SseServer.dll"),
+                // Running from project root
+                Path.Combine("tools", "server", "bin", "Debug", "net10.0", "Test.SseServer.dll"),
+                // Absolute path based on current directory
+                Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..", "..", "..", "server", "bin", "Debug", "net10.0", "Test.SseServer.dll"))
+            ];
 
-            if (!File.Exists(serverPath))
+            string? serverPath = null;
+            foreach (string path in possiblePaths)
             {
-                Console.WriteLine($"Server not found at {serverPath}. Building server...");
-                BuildServer();
+                if (File.Exists(path))
+                {
+                    serverPath = Path.GetFullPath(path);
+                    break;
+                }
             }
 
-            ProcessStartInfo startInfo = new() {
+            if (serverPath is null)
+            {
+                Console.WriteLine($"[ServerManager] Server not found. Skipping server start.");
+                Console.WriteLine($"[ServerManager] Current directory: {Directory.GetCurrentDirectory()}");
+                return null;
+            }
+
+            ProcessStartInfo startInfo = new()
+            {
                 FileName = "dotnet",
-                Arguments = $"{serverPath} --urls http://localhost:{port}",
+                Arguments = $"\"{serverPath}\" --urls http://localhost:{port}",
                 UseShellExecute = false,
                 CreateNoWindow = false,
                 RedirectStandardOutput = false,
@@ -65,35 +76,5 @@ internal static class ServerManager
                 Console.WriteLine($"[ServerManager] Error stopping server: {ex.Message}");
             }
         }
-    }
-
-    private static void BuildServer()
-    {
-        string serverProjectPath = Path.Combine(
-            "..",
-            "..",
-            "..",
-            "..",
-            "server");
-
-        ProcessStartInfo buildInfo = new() {
-            FileName = "dotnet",
-            Arguments = "build --no-restore",
-            WorkingDirectory = serverProjectPath,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true
-        };
-
-        using Process? buildProcess = Process.Start(buildInfo);
-        buildProcess?.WaitForExit();
-
-        if (buildProcess?.ExitCode != 0)
-        {
-            throw new InvalidOperationException("Failed to build SSE server");
-        }
-
-        Console.WriteLine("[ServerManager] SSE server built successfully");
     }
 }

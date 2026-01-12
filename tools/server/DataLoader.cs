@@ -11,11 +11,25 @@ internal static class DataLoader
 
     internal static IReadOnlyList<Quote> GetLongest()
     {
-        string filepath = Path.Combine("_testdata", "quotes", "longest.csv");
+        string[] possiblePaths = [
+            Path.Combine("_testdata", "quotes", "longest.csv"),
+            Path.Combine("bin", "Debug", "net10.0", "_testdata", "quotes", "longest.csv"),
+            Path.Combine("..", "..", "tests", "indicators", "_testdata", "quotes", "longest.csv")
+        ];
 
-        if (!File.Exists(filepath))
+        string? filepath = null;
+        foreach (string path in possiblePaths)
         {
-            throw new FileNotFoundException("Test data file not found.", filepath);
+            if (File.Exists(path))
+            {
+                filepath = path;
+                break;
+            }
+        }
+
+        if (filepath is null)
+        {
+            throw new FileNotFoundException("Test data file not found: longest.csv");
         }
 
         return File.ReadAllLines(filepath)
