@@ -16,8 +16,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
     private readonly EmaHub _fastEma;
     private readonly EmaHub _slowEma;
 
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
+    private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNameCaseInsensitive = true
     };
 

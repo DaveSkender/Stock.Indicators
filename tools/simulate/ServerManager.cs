@@ -25,8 +25,7 @@ internal static class ServerManager
                 BuildServer();
             }
 
-            ProcessStartInfo startInfo = new()
-            {
+            ProcessStartInfo startInfo = new() {
                 FileName = "dotnet",
                 Arguments = $"{serverPath} --urls http://localhost:{port}",
                 UseShellExecute = false,
@@ -77,8 +76,7 @@ internal static class ServerManager
             "..",
             "server");
 
-        ProcessStartInfo buildInfo = new()
-        {
+        ProcessStartInfo buildInfo = new() {
             FileName = "dotnet",
             Arguments = "build --no-restore",
             WorkingDirectory = serverProjectPath,
