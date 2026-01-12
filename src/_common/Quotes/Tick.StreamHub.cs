@@ -39,9 +39,11 @@ public class TickHub
     /// Initializes a new instance of the <see cref="TickHub"/> class with a specified provider.
     /// </summary>
     /// <param name="provider">The tick provider.</param>
+#pragma warning disable CA1062 // Base constructor will handle null appropriately
     public TickHub(
         IStreamObservable<ITick> provider)
         : base(provider)
+#pragma warning restore CA1062
     {
         ArgumentNullException.ThrowIfNull(provider);
 
@@ -65,6 +67,38 @@ public class TickHub
     /// <inheritdoc/>
     public override string ToString()
         => $"TICKS: {Cache.Count} items";
+
+    /// <summary>
+    /// Subscribes an observer to this TickHub.
+    /// </summary>
+    /// <param name="observer">The observer to subscribe.</param>
+    /// <returns>A disposable subscription token.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when attempting to subscribe a standalone TickHub as an observer.
+    /// </exception>
+    /// <remarks>
+    /// Standalone TickHubs cannot be subscribed to other providers after construction
+    /// because they manage their own data without an external provider.
+    /// To create a TickHub that observes another provider, use the constructor
+    /// <c>new TickHub(provider)</c>.
+    /// </remarks>
+    public override IDisposable Subscribe(IStreamObserver<ITick> observer)
+    {
+        // Check if the observer being added is a standalone TickHub
+        if (observer is TickHub tickHub && tickHub._isStandalone)
+        {
+            const string msg = """
+                Cannot subscribe a standalone TickHub to another provider.
+                Standalone TickHubs are created without a provider using 'new TickHub()' and manage their own data.
+                To create a TickHub that subscribes to a provider, use:
+                  - Constructor: new TickHub(provider)
+                """;
+
+            throw new InvalidOperationException(msg);
+        }
+
+        return base.Subscribe(observer);
+    }
 
     /// <summary>
     /// Handles adding a new tick with special handling for same-timestamp updates

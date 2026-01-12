@@ -27,7 +27,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         => _observers.Contains(observer);
 
     /// <inheritdoc/>
-    public IDisposable Subscribe(IStreamObserver<TOut> observer)
+    public virtual IDisposable Subscribe(IStreamObserver<TOut> observer)
     {
         _observers.Add(observer);
         return new Unsubscriber(_observers, observer);

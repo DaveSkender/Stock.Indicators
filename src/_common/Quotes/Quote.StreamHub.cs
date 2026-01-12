@@ -63,6 +63,39 @@ public class QuoteHub
         => $"QUOTES<{nameof(IQuote)}>: {Quotes.Count} items";
 
     /// <summary>
+    /// Subscribes an observer to this QuoteHub.
+    /// </summary>
+    /// <param name="observer">The observer to subscribe.</param>
+    /// <returns>A disposable subscription token.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when attempting to subscribe a standalone QuoteHub as an observer.
+    /// </exception>
+    /// <remarks>
+    /// Standalone QuoteHubs cannot be subscribed to other providers after construction
+    /// because they manage their own data without an external provider.
+    /// To create a QuoteHub that observes another provider, use the constructor
+    /// <c>new QuoteHub(provider)</c> or the extension method <c>provider.ToQuoteHub()</c>.
+    /// </remarks>
+    public override IDisposable Subscribe(IStreamObserver<IQuote> observer)
+    {
+        // Check if the observer being added is a standalone QuoteHub
+        if (observer is QuoteHub quoteHub && quoteHub._isStandalone)
+        {
+            const string msg = """
+                Cannot subscribe a standalone QuoteHub to another provider.
+                Standalone QuoteHubs are created without a provider using 'new QuoteHub()' and manage their own data.
+                To create a QuoteHub that subscribes to a provider, use one of these approaches:
+                  - Constructor: new QuoteHub(provider)
+                  - Extension method: provider.ToQuoteHub()
+                """;
+
+            throw new InvalidOperationException(msg);
+        }
+
+        return base.Subscribe(observer);
+    }
+
+    /// <summary>
     /// Handles adding a new quote with special handling for same-timestamp updates
     /// when QuoteHub is standalone (no external provider).
     /// </summary>
