@@ -42,6 +42,11 @@ public interface IStreamObservable<out T>
     BinarySettings Properties { get; }
 
     /// <summary>
+    /// Read-only list of the stored cache values.
+    /// </summary>
+    IReadOnlyList<T> ReadCache { get; }
+
+    /// <summary>
     /// Gets the maximum size of the Cache list.
     /// </summary>
     int MaxCacheSize { get; }
@@ -88,10 +93,4 @@ public interface IStreamObservable<out T>
     /// Unsubscribe all observers (subscribers).
     /// </summary>
     void EndTransmission();
-
-    /// <summary>
-    /// Get a readonly reference of the observable cache.
-    /// </summary>
-    /// <returns>Read-only list of cached items.</returns>
-    IReadOnlyList<T> GetCacheRef();
 }

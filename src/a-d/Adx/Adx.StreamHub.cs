@@ -60,8 +60,8 @@ public class AdxHub
 
 
     /// <inheritdoc/>
-    public override string ToString() => Results.Count > 0
-        ? $"{Name}({Results[0].Timestamp:d})"
+    public override string ToString() => Cache.Count > 0
+        ? $"{Name}({Cache[0].Timestamp:d})"
         : Name;
 
     /// <inheritdoc/>
@@ -169,9 +169,9 @@ public class AdxHub
                     // First valid ADXR when: i - lookbackPeriods >= (2 * lookbackPeriods) - 1
                     // Which simplifies to: i >= (3 * lookbackPeriods) - 1
                     int priorAdxIndex = i - LookbackPeriods;
-                    if (priorAdxIndex >= (2 * LookbackPeriods) - 1 && priorAdxIndex >= 0 && priorAdxIndex < Results.Count)
+                    if (priorAdxIndex >= (2 * LookbackPeriods) - 1 && priorAdxIndex >= 0 && priorAdxIndex < Cache.Count)
                     {
-                        double? priorAdx = Results[priorAdxIndex].Adx;
+                        double? priorAdx = Cache[priorAdxIndex].Adx;
                         if (priorAdx.HasValue && adx.HasValue)
                         {
                             adxr = (adx.Value + priorAdx.Value) / 2d;
