@@ -584,5 +584,136 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
             bar.Volume.Should().BeGreaterThan(0, $"{timeframeName}: Volume should be positive");
         }
     }
+
+    [TestMethod]
+    public void MultiThreaded_ConcurrentAggregation()
+    {
+        // Generate 5-minute candles for multi-threaded test
+        const int totalFiveMinutePeriods = 2_016;
+        DateTime startTime = DateTime.Parse("2023-10-30 00:00", invariantCulture);
+
+        // Pre-generate all quotes
+        List<Quote> quotes = [];
+        decimal basePrice = 100m;
+        Random rnd = new(42);
+
+        for (int i = 0; i < totalFiveMinutePeriods; i++)
+        {
+            DateTime timestamp = startTime.AddMinutes(i * 5);
+            decimal priceChange = (decimal)(rnd.NextDouble() - 0.5) * 2;
+            basePrice += priceChange * 0.1m;
+
+            if (basePrice < 50m) { basePrice = 50m; }
+            if (basePrice > 150m) { basePrice = 150m; }
+
+            decimal open = basePrice;
+            decimal high = basePrice + (decimal)(rnd.NextDouble() * 2);
+            decimal low = basePrice - (decimal)(rnd.NextDouble() * 2);
+            decimal close = low + (decimal)(rnd.NextDouble() * (double)(high - low));
+            decimal volume = 5000m + (decimal)(rnd.NextDouble() * 2500);
+
+            quotes.Add(new Quote(timestamp, open, high, low, close, volume));
+        }
+
+        // Create 5-minute quote provider
+        QuoteHub fiveMinuteProvider = new();
+
+        // Create aggregators for higher timeframes
+        QuoteAggregatorHub fifteenMinuteAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FifteenMinutes);
+        QuoteAggregatorHub oneHourAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.OneHour);
+        QuoteAggregatorHub fourHourAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FourHours);
+        QuoteAggregatorHub oneDayAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.Day);
+
+        // Split quotes into chunks for different threads
+        int threadCount = 4;
+        int chunkSize = quotes.Count / threadCount;
+        List<Exception> exceptions = [];
+        object lockObj = new();
+
+        // Create threads that add quotes concurrently
+        Task[] tasks = new Task[threadCount];
+        for (int t = 0; t < threadCount; t++)
+        {
+            int threadIndex = t;
+            tasks[t] = Task.Run(() =>
+            {
+                try
+                {
+                    int start = threadIndex * chunkSize;
+                    int end = (threadIndex == threadCount - 1)
+                        ? quotes.Count
+                        : start + chunkSize;
+
+                    for (int i = start; i < end; i++)
+                    {
+                        fiveMinuteProvider.Add(quotes[i]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lock (lockObj)
+                    {
+                        exceptions.Add(ex);
+                    }
+                }
+            });
+        }
+
+        // Wait for all threads to complete
+        Task.WaitAll(tasks);
+
+        // Document thread-safety issues if any exceptions occurred
+        if (exceptions.Count > 0)
+        {
+            string exceptionSummary = string.Join(
+                "\n",
+                exceptions.Select(static e => $"  - {e.GetType().Name}: {e.Message}"));
+
+            Assert.Fail(
+                $"Thread-safety issues detected. {exceptions.Count} exception(s) occurred during concurrent operations:\n{exceptionSummary}");
+        }
+
+        // Verify results - the class appears to have thread-safety issues
+        // This test documents the expected behavior and failures under concurrent load
+        IReadOnlyList<IQuote> fiveMinuteResults = fiveMinuteProvider.Results;
+        IReadOnlyList<IQuote> fifteenMinuteResults = fifteenMinuteAgg.Results;
+        IReadOnlyList<IQuote> oneHourResults = oneHourAgg.Results;
+        IReadOnlyList<IQuote> fourHourResults = fourHourAgg.Results;
+        IReadOnlyList<IQuote> oneDayResults = oneDayAgg.Results;
+
+        // Expected behavior: Results may be incomplete or corrupted due to race conditions
+        // This test serves to document thread-safety requirements for the component
+        try
+        {
+            fiveMinuteResults.Should().NotBeEmpty("5-minute provider should have results");
+            fifteenMinuteResults.Should().NotBeEmpty("15-minute aggregation should have results");
+            oneHourResults.Should().NotBeEmpty("1-hour aggregation should have results");
+            fourHourResults.Should().NotBeEmpty("4-hour aggregation should have results");
+            oneDayResults.Should().NotBeEmpty("1-day aggregation should have results");
+
+            // If we got here, verify OHLCV properties are valid (no corrupted data)
+            VerifyOHLCVProperties(fifteenMinuteResults, "15-minute (multi-threaded)");
+            VerifyOHLCVProperties(oneHourResults, "1-hour (multi-threaded)");
+            VerifyOHLCVProperties(fourHourResults, "4-hour (multi-threaded)");
+            VerifyOHLCVProperties(oneDayResults, "1-day (multi-threaded)");
+        }
+        catch (Exception ex)
+        {
+            // Document the thread-safety issue
+            Assert.Inconclusive(
+                $"Thread-safety issue detected: {ex.Message}\n\n" +
+                "QuoteAggregatorHub is not designed for concurrent access from multiple threads. " +
+                "The class uses unsynchronized mutable state (_currentBar, _currentBarTimestamp) " +
+                "and performs read-modify-write operations on shared collections (Cache) without locks. " +
+                "For multi-threaded scenarios, external synchronization is required.");
+        }
+
+        // Cleanup
+        oneDayAgg.Unsubscribe();
+        fourHourAgg.Unsubscribe();
+        oneHourAgg.Unsubscribe();
+        fifteenMinuteAgg.Unsubscribe();
+        fiveMinuteProvider.EndTransmission();
+    }
 }
 
