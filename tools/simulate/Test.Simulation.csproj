@@ -24,10 +24,4 @@
     <ProjectReference Include="..\..\src\Indicators.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="_testdata\quotes\*.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
