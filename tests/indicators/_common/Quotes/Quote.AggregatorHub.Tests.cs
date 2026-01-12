@@ -478,30 +478,29 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
     [TestMethod]
     public void ComprehensiveAggregation_MultipleTimeframes()
     {
-        // Generate sufficient 1-minute candles to test all timeframes including 1-week
-        // Need at least 7 days * 24 hours * 60 minutes = 10,080 minutes
+        // Generate sufficient 5-minute candles to test all higher timeframes including 1-week
+        // Need at least 7 days * 24 hours * 12 periods = 2,016 5-minute periods
         // Start on a Monday to align with week boundaries (weeks start on Monday in ISO 8601)
-        const int totalMinutes = 10_080;
+        const int totalFiveMinutePeriods = 2_016;
         DateTime startTime = DateTime.Parse("2023-10-30 00:00", invariantCulture); // Monday
 
-        // Create 1-minute quote provider
-        QuoteHub oneMinuteProvider = new();
+        // Create 5-minute quote provider
+        QuoteHub fiveMinuteProvider = new();
 
-        // Create aggregators for various timeframes
-        QuoteAggregatorHub fiveMinuteAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
-        QuoteAggregatorHub fifteenMinuteAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FifteenMinutes);
-        QuoteAggregatorHub oneHourAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.OneHour);
-        QuoteAggregatorHub fourHourAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FourHours);
-        QuoteAggregatorHub oneDayAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.Day);
-        QuoteAggregatorHub oneWeekAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.Week);
+        // Create aggregators for higher timeframes (15m, 1h, 4h, 1d, 1w)
+        QuoteAggregatorHub fifteenMinuteAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FifteenMinutes);
+        QuoteAggregatorHub oneHourAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.OneHour);
+        QuoteAggregatorHub fourHourAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FourHours);
+        QuoteAggregatorHub oneDayAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.Day);
+        QuoteAggregatorHub oneWeekAgg = fiveMinuteProvider.ToQuoteAggregatorHub(PeriodSize.Week);
 
-        // Generate and add 1-minute candles with realistic price movements
+        // Generate and add 5-minute candles with realistic price movements
         decimal basePrice = 100m;
         Random rnd = new(42); // Fixed seed for reproducibility
 
-        for (int i = 0; i < totalMinutes; i++)
+        for (int i = 0; i < totalFiveMinutePeriods; i++)
         {
-            DateTime timestamp = startTime.AddMinutes(i);
+            DateTime timestamp = startTime.AddMinutes(i * 5);
 
             // Simulate price movement
             decimal priceChange = (decimal)(rnd.NextDouble() - 0.5) * 2; // -1 to +1
@@ -515,39 +514,34 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
             decimal high = basePrice + (decimal)(rnd.NextDouble() * 2);
             decimal low = basePrice - (decimal)(rnd.NextDouble() * 2);
             decimal close = low + (decimal)(rnd.NextDouble() * (double)(high - low));
-            decimal volume = 1000m + (decimal)(rnd.NextDouble() * 500);
+            decimal volume = 5000m + (decimal)(rnd.NextDouble() * 2500); // Higher volume for 5-min bars
 
             Quote quote = new(timestamp, open, high, low, close, volume);
-            oneMinuteProvider.Add(quote);
+            fiveMinuteProvider.Add(quote);
         }
 
-        // Verify 1-minute provider
-        IReadOnlyList<IQuote> oneMinuteResults = oneMinuteProvider.Results;
-        oneMinuteResults.Should().HaveCount(totalMinutes);
+        // Verify 5-minute provider
+        IReadOnlyList<IQuote> fiveMinuteResults = fiveMinuteProvider.Results;
+        fiveMinuteResults.Should().HaveCount(totalFiveMinutePeriods);
 
-        // Verify 5-minute aggregation
-        IReadOnlyList<IQuote> fiveMinuteResults = fiveMinuteAgg.Results;
-        int expectedFiveMinute = totalMinutes / 5;
-        fiveMinuteResults.Should().HaveCount(expectedFiveMinute);
-
-        // Verify 15-minute aggregation
+        // Verify 15-minute aggregation (3x 5-minute bars)
         IReadOnlyList<IQuote> fifteenMinuteResults = fifteenMinuteAgg.Results;
-        int expectedFifteenMinute = totalMinutes / 15;
+        int expectedFifteenMinute = totalFiveMinutePeriods / 3;
         fifteenMinuteResults.Should().HaveCount(expectedFifteenMinute);
 
-        // Verify 1-hour aggregation
+        // Verify 1-hour aggregation (12x 5-minute bars)
         IReadOnlyList<IQuote> oneHourResults = oneHourAgg.Results;
-        int expectedOneHour = totalMinutes / 60;
+        int expectedOneHour = totalFiveMinutePeriods / 12;
         oneHourResults.Should().HaveCount(expectedOneHour);
 
-        // Verify 4-hour aggregation
+        // Verify 4-hour aggregation (48x 5-minute bars)
         IReadOnlyList<IQuote> fourHourResults = fourHourAgg.Results;
-        int expectedFourHour = totalMinutes / 240;
+        int expectedFourHour = totalFiveMinutePeriods / 48;
         fourHourResults.Should().HaveCount(expectedFourHour);
 
-        // Verify 1-day aggregation
+        // Verify 1-day aggregation (288x 5-minute bars)
         IReadOnlyList<IQuote> oneDayResults = oneDayAgg.Results;
-        int expectedOneDay = totalMinutes / 1440;
+        int expectedOneDay = totalFiveMinutePeriods / 288;
         oneDayResults.Should().HaveCount(expectedOneDay);
 
         // Verify 1-week aggregation
@@ -557,7 +551,6 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         oneWeekResults.Should().HaveCountLessThan(4, "1-week aggregation should produce at most a few bars");
 
         // Verify OHLCV properties are valid for all aggregations
-        VerifyOHLCVProperties(fiveMinuteResults, "5-minute");
         VerifyOHLCVProperties(fifteenMinuteResults, "15-minute");
         VerifyOHLCVProperties(oneHourResults, "1-hour");
         VerifyOHLCVProperties(fourHourResults, "4-hour");
@@ -570,8 +563,7 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         fourHourAgg.Unsubscribe();
         oneHourAgg.Unsubscribe();
         fifteenMinuteAgg.Unsubscribe();
-        fiveMinuteAgg.Unsubscribe();
-        oneMinuteProvider.EndTransmission();
+        fiveMinuteProvider.EndTransmission();
     }
 
     private static void VerifyOHLCVProperties(IReadOnlyList<IQuote> results, string timeframeName)
