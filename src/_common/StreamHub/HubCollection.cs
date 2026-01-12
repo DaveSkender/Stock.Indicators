@@ -24,8 +24,13 @@ namespace Skender.Stock.Indicators;
 ///     quoteHub.ToRsiHub(14)
 /// ];
 ///
-/// var results = hubs.GetResults();
-/// var latestEma12 = results[0][^1];
+/// // Access results from all hubs
+/// IEnumerable&lt;IReadOnlyList&lt;ISeries&gt;&gt; results = hubs.Results;
+/// var latestEma12 = results.ElementAt(0)[^1];
+///
+/// // Get last values from all hubs
+/// IEnumerable&lt;double&gt; lastValues = hubs.LastValues;
+/// double ema12Value = lastValues.ElementAt(0);
 /// </code>
 /// </example>
 public class HubCollection : Collection<IStreamObservable<ISeries>>
@@ -40,8 +45,12 @@ public class HubCollection : Collection<IStreamObservable<ISeries>>
     /// that contains elements copied from the specified collection.
     /// </summary>
     /// <param name="collection">The collection whose elements are copied to the new collection.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="collection"/> is null.</exception>
     public HubCollection(IEnumerable<IStreamObservable<ISeries>> collection)
-        : base(new List<IStreamObservable<ISeries>>(collection)) { }
+        : base(new List<IStreamObservable<ISeries>>(
+            collection
+                ?? throw new ArgumentNullException(nameof(collection))))
+    { }
 
     /// <summary>
     /// Gets the collection of result sets produced by each hub in the sequence.
