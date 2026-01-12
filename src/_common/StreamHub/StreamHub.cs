@@ -13,9 +13,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // store provider reference
         Provider = provider;
 
-        // set provider cache reference
-        ProviderCache = provider.GetCacheRef();
-
         // inherit settings (reinstantiate struct on heap)
         Properties = Properties.Combine(provider.Properties);
 
@@ -23,14 +20,16 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         MaxCacheSize = provider.MaxCacheSize;
     }
 
+    // PROPERTIES
+
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> Results => Cache.AsReadOnly();
+    public string Name { get; private protected init; } = string.Empty;
+
+    /// <inheritdoc/>
+    public IReadOnlyList<TOut> Results => ReadCache;
 
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
-
-    /// <inheritdoc/>
-    public string Name { get; private protected init; } = null!;
 
     /// <summary>
     /// Gets the cache of stored values (base).
@@ -44,14 +43,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     internal byte OverflowCount { get; private set; }
 
     /// <summary>
-    /// Gets the reference to this hub's provider's cache.
-    /// </summary>
-    protected IReadOnlyList<TIn> ProviderCache { get; }
-
-    /// <summary>
     /// Gets or sets the most recent item saved to cache.
     /// </summary>
     private TOut? LastItem { get; set; }
+
+    // METHODS
 
     /// <summary>
     /// Resets the fault flag and condition.
@@ -62,26 +58,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         OverflowCount = 0;
         IsFaulted = false;
     }
-
-    /// <summary>
-    /// Fetches the cache reference as a read-only wrapper.
-    /// </summary>
-    /// <remarks>
-    /// This method returns an immutable read-only wrapper that prevents modification.
-    /// </remarks>
-    /// <returns>The read-only cache reference.</returns>
-    public IReadOnlyList<TOut> GetCacheRef() => Cache.AsReadOnly();
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
-    /// <summary>
-    /// Converts incremental value into an indicator candidate and cache position.
-    /// </summary>
-    /// <param name="item">New item from provider.</param>
-    /// <param name="indexHint">Provider index hint.</param>
-    /// <returns>Cacheable item candidate and index hint.</returns>
-    protected abstract (TOut result, int index) ToIndicator(TIn item, int? indexHint);
 
     /// <summary>
     /// Adds a new item to the stream.
@@ -105,11 +81,12 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Inserts a new item into the stream.
     /// </summary>
     /// <param name="newIn">The new item to insert.</param>
+    /// <remarks>
+    /// This should only be used when newer timestamps
+    /// are not impacted by the insertion of an older item
+    /// </remarks>
     public void Insert(TIn newIn)
     {
-        // note: should only be used when newer timestamps
-        // are not impacted by the insertion of an older item
-
         // generate candidate result
         (TOut result, int index) = ToIndicator(newIn, null);
 
@@ -132,6 +109,142 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             AppendCache(result, notify: true);
         }
     }
+
+
+    /// <summary>
+    /// Removes a cached item.
+    /// </summary>
+    /// <inheritdoc/>
+    public void Remove(TOut cachedItem)
+    {
+        Cache.Remove(cachedItem);
+        NotifyObserversOnRebuild(cachedItem.Timestamp);
+    }
+
+    /// <summary>
+    /// Removes a cached item at a specific index position.
+    /// </summary>
+    /// <inheritdoc/>
+    public void RemoveAt(int cacheIndex)
+    {
+        TOut cachedItem = Cache[cacheIndex];
+        Cache.RemoveAt(cacheIndex);
+        NotifyObserversOnRebuild(cachedItem.Timestamp);
+    }
+
+    /// <summary>
+    /// Removes a range of cached items from a specific timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    public void RemoveRange(DateTime fromTimestamp, bool notify)
+    {
+        // rollback internal state
+        RollbackState(fromTimestamp);
+
+        // remove cache entries
+        Cache.RemoveAll(c => c.Timestamp >= fromTimestamp);
+
+        // notify observers
+        if (notify)
+        {
+            NotifyObserversOnRebuild(fromTimestamp);
+        }
+    }
+
+    /// <summary>
+    /// Removes a range of cached items from a specific index.
+    /// </summary>
+    /// <inheritdoc/>
+    public void RemoveRange(int fromIndex, bool notify)
+    {
+        // nothing to do
+        if (Cache.Count == 0 || fromIndex >= Cache.Count)
+        {
+            return;
+        }
+
+        // remove cache entries
+        DateTime fromTimestamp = fromIndex <= 0
+            ? DateTime.MinValue
+            : Cache[fromIndex].Timestamp;
+
+        RemoveRange(fromTimestamp, notify);
+    }
+
+    /// <summary>
+    /// Fully resets the stream hub.
+    /// </summary>
+    /// <inheritdoc/>
+    public void Reinitialize()
+    {
+        Unsubscribe();
+        ResetFault();
+        Rebuild();
+        Subscription = Provider.Subscribe(this);
+
+        // TODO: make reinitialization abstract,
+        // and build initial Cache from faster static method
+
+        // TODO: evaluate race condition between rebuild
+        // and subscribe; will it miss any high frequency data?
+    }
+
+    /// <summary>
+    /// Rebuilds the cache.
+    /// </summary>
+    /// <inheritdoc/>
+    public void Rebuild() => Rebuild(DateTime.MinValue);
+
+    /// <summary>
+    /// Rebuilds the cache from a specific timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    public virtual void Rebuild(DateTime fromTimestamp)
+    {
+        // clear cache
+        RemoveRange(fromTimestamp, notify: false);
+
+        // get provider position
+        int provIndex = ProviderCache.IndexGte(fromTimestamp);
+
+        // rebuild
+        if (provIndex >= 0)
+        {
+            for (int i = provIndex; i < ProviderCache.Count; i++)
+            {
+                OnAdd(ProviderCache[i], notify: false, i);
+            }
+        }
+
+        // notify observers
+        NotifyObserversOnRebuild(fromTimestamp);
+    }
+
+    /// <summary>
+    /// Rebuilds the cache from a specific index.
+    /// </summary>
+    /// <inheritdoc/>
+    public void Rebuild(int fromIndex)
+    {
+        // find timestamp
+        DateTime fromTimestamp = fromIndex <= 0 || Cache.Count == 0
+            ? DateTime.MinValue
+            : Cache[fromIndex].Timestamp;
+
+        // rebuild & notify
+        Rebuild(fromTimestamp);
+    }
+
+    /// <inheritdoc/>
+    public override string ToString() => Name;
+
+    /// <summary>
+    /// Converts incremental value into an indicator candidate and cache position.
+    /// </summary>
+    /// <param name="item">New item from provider.</param>
+    /// <param name="indexHint">Provider index hint.</param>
+    /// <returns>Cacheable item candidate and index hint.</returns>
+    protected abstract (TOut result, int index) ToIndicator(TIn item, int? indexHint);
 
     /// <summary>
     /// Performs appropriate caching action after analysis.
@@ -172,6 +285,42 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             default:
                 throw new InvalidOperationException();
         }
+    }
+
+    /// <summary>
+    /// Rollbacks internal state to a point in time.
+    /// Behavior varies by indicator.
+    /// </summary>
+    /// <remarks>
+    /// Override when indicator needs to rollback state to a
+    /// point in time (e.g. when rebuilding cache). Example:
+    /// <see cref="AtrStopHub.RollbackState(DateTime)"/>
+    /// </remarks>
+    /// <param name="timestamp">Point in time to restore.</param>
+    protected virtual void RollbackState(DateTime timestamp)
+    {
+        // default: do nothing
+    }
+
+    /// <summary>
+    /// Prunes the cache to the maximum size.
+    /// </summary>
+    private void PruneCache()
+    {
+        if (Cache.Count < MaxCacheSize)
+        {
+            return;
+        }
+
+        DateTime toTimestamp = DateTime.MinValue;
+
+        while (Cache.Count >= MaxCacheSize)
+        {
+            toTimestamp = Cache[0].Timestamp;
+            Cache.RemoveAt(0);
+        }
+
+        NotifyObserversOnPrune(toTimestamp);
     }
 
     /// <summary>
@@ -249,168 +398,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         OverflowCount = 0;
         LastItem = item;
         return false;
-    }
-
-    /// <summary>
-    /// Removes a cached item.
-    /// </summary>
-    /// <inheritdoc/>
-    public void Remove(TOut cachedItem)
-    {
-        Cache.Remove(cachedItem);
-        NotifyObserversOnRebuild(cachedItem.Timestamp);
-    }
-
-    /// <summary>
-    /// Removes a cached item at a specific index position.
-    /// </summary>
-    /// <inheritdoc/>
-    public void RemoveAt(int cacheIndex)
-    {
-        TOut cachedItem = Cache[cacheIndex];
-        Cache.RemoveAt(cacheIndex);
-        NotifyObserversOnRebuild(cachedItem.Timestamp);
-    }
-
-    /// <summary>
-    /// Removes a range of cached items from a specific timestamp.
-    /// </summary>
-    /// <inheritdoc/>
-    public void RemoveRange(DateTime fromTimestamp, bool notify)
-    {
-        // rollback internal state
-        RollbackState(fromTimestamp);
-
-        // remove cache entries
-        Cache.RemoveAll(c => c.Timestamp >= fromTimestamp);
-
-        // notify observers
-        if (notify)
-        {
-            NotifyObserversOnRebuild(fromTimestamp);
-        }
-    }
-
-    /// <summary>
-    /// Removes a range of cached items from a specific index.
-    /// </summary>
-    /// <inheritdoc/>
-    public void RemoveRange(int fromIndex, bool notify)
-    {
-        // nothing to do
-        if (Cache.Count == 0 || fromIndex >= Cache.Count)
-        {
-            return;
-        }
-
-        // remove cache entries
-        DateTime fromTimestamp = fromIndex <= 0
-            ? DateTime.MinValue
-            : Cache[fromIndex].Timestamp;
-
-        RemoveRange(fromTimestamp, notify);
-    }
-
-    /// <summary>
-    /// Prunes the cache to the maximum size.
-    /// </summary>
-    protected void PruneCache()
-    {
-        if (Cache.Count < MaxCacheSize)
-        {
-            return;
-        }
-
-        DateTime toTimestamp = DateTime.MinValue;
-
-        while (Cache.Count >= MaxCacheSize)
-        {
-            toTimestamp = Cache[0].Timestamp;
-            Cache.RemoveAt(0);
-        }
-
-        NotifyObserversOnPrune(toTimestamp);
-    }
-
-    /// <summary>
-    /// Fully resets the stream hub.
-    /// </summary>
-    /// <inheritdoc/>
-    public void Reinitialize()
-    {
-        Unsubscribe();
-        ResetFault();
-        Rebuild();
-        Subscription = Provider.Subscribe(this);
-
-        // TODO: make reinitialization abstract,
-        // and build initial Cache from faster static method
-
-        // TODO: evaluate race condition between rebuild
-        // and subscribe; will it miss any high frequency data?
-    }
-
-    /// <summary>
-    /// Rebuilds the cache.
-    /// </summary>
-    /// <inheritdoc/>
-    public void Rebuild() => Rebuild(DateTime.MinValue);
-
-    /// <summary>
-    /// Rebuilds the cache from a specific timestamp.
-    /// </summary>
-    /// <inheritdoc/>
-    public virtual void Rebuild(DateTime fromTimestamp)
-    {
-        // clear cache
-        RemoveRange(fromTimestamp, notify: false);
-
-        // get provider position
-        int provIndex = ProviderCache.IndexGte(fromTimestamp);
-
-        // rebuild
-        if (provIndex >= 0)
-        {
-            for (int i = provIndex; i < ProviderCache.Count; i++)
-            {
-                OnAdd(ProviderCache[i], notify: false, i);
-            }
-        }
-
-        // notify observers
-        NotifyObserversOnRebuild(fromTimestamp);
-    }
-
-    /// <summary>
-    /// Rebuilds the cache from a specific index.
-    /// </summary>
-    /// <inheritdoc/>
-    public void Rebuild(int fromIndex)
-    {
-        // find timestamp
-        DateTime fromTimestamp = fromIndex <= 0 || Cache.Count == 0
-            ? DateTime.MinValue
-            : Cache[fromIndex].Timestamp;
-
-        // rebuild & notify
-        Rebuild(fromTimestamp);
-    }
-
-    /// <summary>
-    /// Rollbacks internal state to a point in time.
-    /// Behavior varies by indicator.
-    /// </summary>
-    /// <remarks>
-    /// Override when indicator needs to rollback state to a
-    /// point in time (e.g. when rebuilding cache). Example:
-    /// <see cref="AtrStopHub.RollbackState(DateTime)"/>
-    /// </remarks>
-    /// <param name="timestamp">Point in time to restore.</param>
-    protected virtual void RollbackState(DateTime timestamp)
-    {
-        // note: override when rollback is needed
-        // default: do nothing
-        // see AtrStopHub() for example
     }
 
 }

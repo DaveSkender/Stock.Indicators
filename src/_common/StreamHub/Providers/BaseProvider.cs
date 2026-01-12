@@ -1,5 +1,9 @@
 namespace Skender.Stock.Indicators;
 
+// TODO: rename to BaseObservable
+// or determine if this can/should be entirely removed.
+// It is only used as a workaround for initializing QuoteHub base class without a provider.
+
 /// <summary>
 /// Inert provider for base Hub initialization.
 /// It has no upstream data and cannot be observed.
@@ -24,6 +28,12 @@ public class BaseProvider<T>
     /// </remarks>
     public BinarySettings Properties { get; } = new(0b00000001, 0b11111110);
 
+    /// <inheritdoc />
+    /// <remarks>
+    /// <see cref="BaseProvider{T}"/> does not have cached values."/>
+    /// </remarks>
+    public IReadOnlyList<T> ReadCache => Array.Empty<T>().AsReadOnly();
+
     /// <inheritdoc/>
     public int MaxCacheSize => 0;
 
@@ -34,20 +44,17 @@ public class BaseProvider<T>
     public bool HasObservers => false;
 
     /// <inheritdoc />
-    public IReadOnlyList<T> GetCacheRef() => Array.Empty<T>().AsReadOnly();
-
-    /// <inheritdoc />
     public bool HasSubscriber(IStreamObserver<T> observer) => false;
 
     /// <inheritdoc />
     public IDisposable Subscribe(IStreamObserver<T> observer)
-        => throw new InvalidOperationException();
+        => throw new InvalidOperationException("Subscriptions not allowed on base provider.");
 
     /// <inheritdoc />
     public bool Unsubscribe(IStreamObserver<T> observer)
-        => throw new InvalidOperationException();
+        => throw new InvalidOperationException("Unsubscribe has no affect on base provider.");
 
     /// <inheritdoc />
     public void EndTransmission()
-        => throw new InvalidOperationException();
+        => throw new InvalidOperationException("Base provider does not transmit to subscribers.");
 }
