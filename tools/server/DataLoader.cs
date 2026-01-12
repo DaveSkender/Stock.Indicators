@@ -1,0 +1,78 @@
+#pragma warning disable CA5394 // Do not use insecure randomness
+
+using System.Globalization;
+using Skender.Stock.Indicators;
+
+namespace Test.SseServer;
+
+internal static class DataLoader
+{
+    private static readonly CultureInfo EnglishCulture = new("en-US", false);
+
+    internal static IReadOnlyList<Quote> GetLongest()
+    {
+        string filepath = Path.Combine("_testdata", "quotes", "longest.csv");
+
+        if (!File.Exists(filepath))
+        {
+            throw new FileNotFoundException("Test data file not found.", filepath);
+        }
+
+        return File.ReadAllLines(filepath)
+            .Skip(1)
+            .Select(QuoteFromCsv)
+            .OrderByDescending(static x => x.Timestamp)
+            .Take(int.MaxValue)
+            .ToSortedList();
+    }
+
+    internal static Quote GenerateRandomQuote(DateTime timestamp, double seed)
+    {
+        Random random = new((int)DateTime.UtcNow.Ticks);
+        double volatility = 0.01;
+        double drift = 0.001 * 0.01;
+
+        double open = Price(seed, volatility * volatility, drift, random);
+        double close = Price(open, volatility, drift, random);
+
+        double ocMax = Math.Max(open, close);
+        double high = Price(seed, volatility * 0.5, 0, random);
+        high = high < ocMax ? (2 * ocMax) - high : high;
+
+        double ocMin = Math.Min(open, close);
+        double low = Price(seed, volatility * 0.5, 0, random);
+        low = low > ocMin ? (2 * ocMin) - low : low;
+
+        double volume = Price(seed * 1000, volatility * 2, drift: 0, random);
+
+        return new Quote(
+            Timestamp: timestamp,
+            Open: (decimal)open,
+            High: (decimal)high,
+            Low: (decimal)low,
+            Close: (decimal)close,
+            Volume: (decimal)volume);
+    }
+
+    private static double Price(double seed, double volatility, double drift, Random random)
+    {
+        double u1 = 1.0 - random.NextDouble();
+        double u2 = 1.0 - random.NextDouble();
+        double z = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
+        return seed * Math.Exp(drift - (volatility * volatility * 0.5) + (volatility * z));
+    }
+
+    private static Quote QuoteFromCsv(string csvLine)
+    {
+        string[] values = csvLine.Split(',');
+
+        return new Quote(
+            Timestamp: DateTime.Parse(values[0], EnglishCulture),
+            Open: decimal.Parse(values[1], EnglishCulture),
+            High: decimal.Parse(values[2], EnglishCulture),
+            Low: decimal.Parse(values[3], EnglishCulture),
+            Close: decimal.Parse(values[4], EnglishCulture),
+            Volume: decimal.Parse(values[5], EnglishCulture));
+    }
+}
+
