@@ -18,6 +18,8 @@ on:
     branches:
       - "main"
       - "v[0-9]*"
+    paths:
+      - src/**
 
   workflow_dispatch:
     inputs:
@@ -35,7 +37,7 @@ permissions:
   contents: read
 
 jobs:
-  
+
   package:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -137,7 +139,7 @@ jobs:
           name: packages
           path: NuGet
           include-hidden-files: true
-  
+
       - name: Summary output
         if: always()
         run: |
@@ -177,7 +179,7 @@ jobs:
     environment:
       name: pkg.github.com
       url: ${{ needs.package.outputs.url }}
-    
+
     steps:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -250,7 +252,7 @@ jobs:
                   per_page: 100,
                 }
               );
-              
+
               console.log(`📦 Found ${versions.length} total package versions`);
 
               if (versions.length === 0) {
