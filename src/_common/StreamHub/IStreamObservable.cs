@@ -47,6 +47,12 @@ public interface IStreamObservable<out T>
     IReadOnlyList<T> ReadCache { get; }
 
     /// <summary>
+    /// Read-only list of the stored cache values.
+    /// </summary>
+    /// <remarks>This is an alias for <see cref="ReadCache"/></remarks>
+    IReadOnlyList<T> Results { get; }
+
+    /// <summary>
     /// Gets the maximum size of the Cache list.
     /// </summary>
     int MaxCacheSize { get; }

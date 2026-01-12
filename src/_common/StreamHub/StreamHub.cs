@@ -122,17 +122,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
     }
 
-
-    /// <summary>
-    /// Removes a cached item.
-    /// </summary>
-    /// <inheritdoc/>
-    public void Remove(TOut cachedItem)
-    {
-        Cache.Remove(cachedItem);
-        NotifyObserversOnRebuild(cachedItem.Timestamp);
-    }
-
     /// <summary>
     /// Removes a cached item at a specific index position.
     /// </summary>

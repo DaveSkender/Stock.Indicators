@@ -36,6 +36,12 @@ public class BaseProvider<T>
     /// </remarks>
     public IReadOnlyList<T> ReadCache => _providerCache;
 
+    /// <inheritdoc />
+    /// <remarks>
+    /// <see cref="BaseProvider{T}"/> does not have cached values."
+    /// </remarks>
+    public IReadOnlyList<T> Results => _providerCache;
+
     /// <inheritdoc/>
     public int MaxCacheSize => 0;
 
