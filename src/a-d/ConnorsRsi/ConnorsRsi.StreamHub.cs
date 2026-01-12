@@ -58,7 +58,7 @@ public class ConnorsRsiHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Get RSI from embedded hub
-        double? rsi = rsiHub.Results[i].Rsi;
+        double? rsi = rsiHub.Cache[i].Rsi;
 
         // Calculate streak
         double currentValue = item.Value;
