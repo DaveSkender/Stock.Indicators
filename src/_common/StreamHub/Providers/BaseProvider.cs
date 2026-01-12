@@ -1,0 +1,53 @@
+namespace Skender.Stock.Indicators;
+
+/// <summary>
+/// Inert provider for base Hub initialization.
+/// It has no upstream data and cannot be observed.
+/// </summary>
+/// <typeparam name="T">Type of record</typeparam>
+/// <remarks>
+/// Only used to initialize a <see cref="QuoteHub"/> base that does not have its own provider.
+/// </remarks>
+public class BaseProvider<T>
+    : IStreamObservable<T>
+    where T : IReusable
+{
+    /// <summary>
+    /// Hub properties with non-standard defaults:
+    /// bit 0 = 1 (disable observer) and mask = 0b11111110 (do not pass bit 0 to child hubs).
+    /// </summary>
+    /// <remarks>
+    /// <see cref="BaseProvider{T}"/> is an inert provider that cannot observe.
+    /// Bit 0 is set to 1 (disable observer) and masked to prevent child hubs from inheriting this restriction,
+    /// allowing downstream hubs to be proper observers even though the base provider is not.
+    /// <para>See <see cref="BinarySettings"/> for more information on bit settings and masks.</para>
+    /// </remarks>
+    public BinarySettings Properties { get; } = new(0b00000001, 0b11111110);
+
+    /// <inheritdoc/>
+    public int MaxCacheSize => 0;
+
+    /// <inheritdoc />
+    public int ObserverCount => 0;
+
+    /// <inheritdoc />
+    public bool HasObservers => false;
+
+    /// <inheritdoc />
+    public IReadOnlyList<T> GetCacheRef() => Array.Empty<T>().AsReadOnly();
+
+    /// <inheritdoc />
+    public bool HasSubscriber(IStreamObserver<T> observer) => false;
+
+    /// <inheritdoc />
+    public IDisposable Subscribe(IStreamObserver<T> observer)
+        => throw new InvalidOperationException();
+
+    /// <inheritdoc />
+    public bool Unsubscribe(IStreamObserver<T> observer)
+        => throw new InvalidOperationException();
+
+    /// <inheritdoc />
+    public void EndTransmission()
+        => throw new InvalidOperationException();
+}
