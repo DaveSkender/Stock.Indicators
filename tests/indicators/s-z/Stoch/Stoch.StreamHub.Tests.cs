@@ -44,7 +44,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.IsExactly(expected);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<StochResult> expectedRevised = RevisedQuotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 

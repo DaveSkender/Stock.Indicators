@@ -44,7 +44,8 @@ public interface IStreamObservable<out T>
     /// <summary>
     /// Read-only list of the stored cache values.
     /// </summary>
-    IReadOnlyList<T> ReadCache { get; }
+    /// <remarks>This is read-only access to internal <see cref="StreamHub{TIn, TOut}.Cache"/></remarks>
+    IReadOnlyList<T> Results { get; }
 
     /// <summary>
     /// Gets the maximum size of the Cache list.

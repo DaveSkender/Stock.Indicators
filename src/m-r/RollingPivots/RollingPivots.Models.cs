@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents the result of a Rolling Pivots calculation.
 /// </summary>
 [Serializable]
-public record RollingPivotsResult : ISeries, IPivotPoint
+public record RollingPivotsResult : IPivotPoint, IReusable
 {
     /// <summary>
     /// Gets the timestamp of the Rolling Pivots result.
@@ -55,4 +55,8 @@ public record RollingPivotsResult : ISeries, IPivotPoint
     /// Gets the fourth resistance level (R4).
     /// </summary>
     public decimal? R4 { get; init; }
+
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => PP.Null2NaN();
 }

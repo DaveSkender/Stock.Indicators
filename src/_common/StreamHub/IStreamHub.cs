@@ -10,19 +10,13 @@ namespace Skender.Stock.Indicators;
 /// <typeparam name="TOut">
 /// Type of outbound indicator data.
 /// </typeparam>
-public interface IStreamHub<in TIn, TOut> : IStreamObserver<TIn>, IStreamObservable<TOut>
+public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObservable<TOut>
     where TIn : ISeries
 {
     /// <summary>
     /// Name of this hub instance.
     /// </summary>
     string Name { get; }
-
-    /// <summary>
-    /// Read-only list of the stored cache values.
-    /// </summary>
-    /// <remarks>This is an alias for <see cref="IStreamObservable{T}.ReadCache"/></remarks>
-    IReadOnlyList<TOut> Results { get; }
 
     /// <summary>
     /// The cache and provider failed and is no longer operational.
@@ -78,13 +72,6 @@ public interface IStreamHub<in TIn, TOut> : IStreamObserver<TIn>, IStreamObserva
     /// Item to insert
     /// </param>
     void Insert(TIn newIn);
-
-    /// <summary>
-    /// Delete an item from the cache.
-    /// </summary>
-    /// <param name="cachedItem">Cached item to delete</param>
-    /// <exception cref="ArgumentOutOfRangeException"/>
-    void Remove(TOut cachedItem);
 
     /// <summary>
     /// Delete an item from the cache, from a specific position.

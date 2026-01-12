@@ -50,7 +50,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<WilliamsResult> expectedRevised = RevisedQuotes.ToWilliamsR(lookbackPeriods);
 

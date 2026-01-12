@@ -25,4 +25,9 @@ public record AtrStopResult(
     double? BuyStop = null,
     double? SellStop = null,
     double? Atr = null
-) : ISeries;
+) : IReusable
+{
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => AtrStop.Null2NaN();
+}
