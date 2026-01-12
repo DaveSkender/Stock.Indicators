@@ -13,8 +13,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // store provider reference
         Provider = provider;
 
-        // cache provider's ReadCache reference (wrapped for safety)
-        ProviderCache = provider.ReadCache;
+        // provider's Cache reference (wrapped for safety)
+        ProviderCache = provider.Results;
 
         // inherit settings (reinstantiate struct on heap)
         Properties = Properties.Combine(provider.Properties);
@@ -29,7 +29,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
 
         // build read-only cache reference
-        ReadCache = Cache.AsReadOnly();
+        Results = Cache.AsReadOnly();
     }
 
     // PROPERTIES
@@ -38,7 +38,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public string Name { get; private protected init; } = string.Empty;
 
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> Results => ReadCache;
+    public IReadOnlyList<TOut> Results { get; }
 
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }

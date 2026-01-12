@@ -44,12 +44,7 @@ public interface IStreamObservable<out T>
     /// <summary>
     /// Read-only list of the stored cache values.
     /// </summary>
-    IReadOnlyList<T> ReadCache { get; }
-
-    /// <summary>
-    /// Read-only list of the stored cache values.
-    /// </summary>
-    /// <remarks>This is an alias for <see cref="ReadCache"/></remarks>
+    /// <remarks>This is read-only access to internal <see cref="StreamHub{TIn, TOut}.Cache"/></remarks>
     IReadOnlyList<T> Results { get; }
 
     /// <summary>

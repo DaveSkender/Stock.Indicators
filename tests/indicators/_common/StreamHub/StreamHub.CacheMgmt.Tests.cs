@@ -268,8 +268,8 @@ public class CacheManagement : TestBase
         bool canCastResults = results is List<SmaResult>;
         canCastResults.Should().BeFalse("Results should not be castable to List<T>");
 
-        // verify ReadCache cannot be cast to mutable list
-        IReadOnlyList<SmaResult> readCache = observer.ReadCache;
+        // verify Cache cannot be cast to mutable list
+        IReadOnlyList<SmaResult> readCache = observer.Cache;
         bool canCastCacheRef = readCache is List<SmaResult>;
         canCastCacheRef.Should().BeFalse("ReadCache should not be castable to List<T>");
 
