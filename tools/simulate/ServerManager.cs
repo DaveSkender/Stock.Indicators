@@ -8,45 +8,44 @@ internal static class ServerManager
     {
         try
         {
-            // Find the server DLL - try multiple locations
-            string[] possiblePaths = [
-                // Running from bin directory
-                Path.Combine("..", "..", "..", "..", "..", "..", "server", "bin", "Debug", "net10.0", "Test.SseServer.dll"),
-                // Running from project root
-                Path.Combine("tools", "server", "bin", "Debug", "net10.0", "Test.SseServer.dll"),
-                // Absolute path based on current directory
-                Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..", "..", "..", "server", "bin", "Debug", "net10.0", "Test.SseServer.dll"))
-            ];
-
-            string? serverPath = null;
-            foreach (string path in possiblePaths)
+            // Find the repository root by looking for Stock.Indicators.sln
+            string? repoRoot = FindRepositoryRoot();
+            if (repoRoot is null)
             {
-                if (File.Exists(path))
-                {
-                    serverPath = Path.GetFullPath(path);
-                    break;
-                }
-            }
-
-            if (serverPath is null)
-            {
-                Console.WriteLine($"[ServerManager] Server not found. Skipping server start.");
-                Console.WriteLine($"[ServerManager] Current directory: {Directory.GetCurrentDirectory()}");
+                Console.WriteLine("[ServerManager] Cannot find repository root. Server not started.");
                 return null;
             }
 
-            ProcessStartInfo startInfo = new()
+            string serverProjectPath = Path.Combine(repoRoot, "tools", "server");
+            string serverExePath = Path.Combine(
+                serverProjectPath,
+                "bin",
+                "Debug",
+                "net10.0",
+                "Test.SseServer.exe");
+
+            // If exe doesn't exist, try running with dotnet run
+            if (!File.Exists(serverExePath))
             {
-                FileName = "dotnet",
-                Arguments = $"\"{serverPath}\" --urls http://localhost:{port}",
+                Console.WriteLine($"[ServerManager] Server executable not found at {serverExePath}. Attempting dotnet run...");
+                return StartServerWithDotNetRun(serverProjectPath, port);
+            }
+
+            ProcessStartInfo startInfo = new() {
+                FileName = serverExePath,
+                Arguments = $"--urls http://localhost:{port}",
                 UseShellExecute = false,
-                CreateNoWindow = false,
-                RedirectStandardOutput = false,
-                RedirectStandardError = false
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
             };
 
             Process? process = Process.Start(startInfo);
-            Console.WriteLine($"[ServerManager] SSE server started on port {port} (PID: {process?.Id})");
+            if (process is not null)
+            {
+                Console.WriteLine($"[ServerManager] SSE server started on port {port} (PID: {process.Id})");
+            }
+
             return process;
         }
         catch (IOException ex)
@@ -61,9 +60,64 @@ internal static class ServerManager
         }
     }
 
+    private static Process? StartServerWithDotNetRun(string projectPath, int port)
+    {
+        try
+        {
+            ProcessStartInfo startInfo = new() {
+                FileName = "dotnet",
+                Arguments = $"run --project \"{projectPath}\" -- --urls http://localhost:{port}",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+
+            Process? process = Process.Start(startInfo);
+            if (process is not null)
+            {
+                Console.WriteLine($"[ServerManager] SSE server started with 'dotnet run' on port {port} (PID: {process.Id})");
+            }
+
+            return process;
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($"[ServerManager] I/O error starting server with dotnet run: {ex.Message}");
+            return null;
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"[ServerManager] Invalid operation starting server: {ex.Message}");
+            return null;
+        }
+    }
+
+    private static string? FindRepositoryRoot()
+    {
+        string currentDir = Directory.GetCurrentDirectory();
+        while (!string.IsNullOrEmpty(currentDir))
+        {
+            if (File.Exists(Path.Combine(currentDir, "Stock.Indicators.sln")))
+            {
+                return currentDir;
+            }
+
+            DirectoryInfo? parent = Directory.GetParent(currentDir);
+            if (parent is null)
+            {
+                break;
+            }
+
+            currentDir = parent.FullName;
+        }
+
+        return null;
+    }
+
     internal static void StopServer(Process? process)
     {
-        if (process is not null && !process.HasExited)
+        if (process?.HasExited == false)
         {
             try
             {

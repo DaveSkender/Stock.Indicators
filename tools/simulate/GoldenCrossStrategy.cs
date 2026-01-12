@@ -1,4 +1,4 @@
-using System.Globalization;
+using System.Text;
 using System.Text.Json;
 using Skender.Stock.Indicators;
 
@@ -22,6 +22,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
     private double _balance = 10000.0;
     private double _units;
+    private double _entryValue; // Track the cost basis when entering a position
     private int _totalTrades;
     private int _winningTrades;
     private int _losingTrades;
@@ -61,9 +62,8 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
             response.EnsureSuccessStatusCode();
 
-            await using Stream stream = await response.Content
-                .ReadAsStreamAsync()
-                .ConfigureAwait(false);
+            Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+
             using StreamReader reader = new(stream);
 
             int quotesProcessed = 0;
@@ -146,19 +146,20 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
         if (goldenCross && _units == 0)
         {
-            // Buy
+            // Buy: spend full balance on units at current price
+            _entryValue = _balance;
             _units = _balance / currentPrice;
-            double cost = _units * currentPrice;
             Console.WriteLine(
                 $"{quote.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2} @ ${currentPrice,8:N2}  " +
-                $"Cost: ${cost,10:N2}  Balance: ${_balance,10:N2}");
+                $"Cost: ${_entryValue,10:N2}  Balance: $0.00");
+            _balance = 0;
             _totalTrades++;
         }
         else if (deathCross && _units > 0)
         {
-            // Sell
+            // Sell: convert units to cash at current price
             double proceeds = _units * currentPrice;
-            double profit = proceeds - _balance;
+            double profit = proceeds - _entryValue;
             _balance = proceeds;
             _units = 0;
 

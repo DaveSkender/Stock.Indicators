@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Net.ServerSentEvents;
 using System.Text.Json;
 using Skender.Stock.Indicators;
 using Test.SseServer;
@@ -133,4 +132,3 @@ Console.WriteLine("  - /quotes/random?interval=100&batchSize=1000");
 Console.WriteLine("  - /quotes/longest?interval=100&batchSize=1000");
 
 await app.RunAsync().ConfigureAwait(false);
-

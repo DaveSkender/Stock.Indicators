@@ -35,16 +35,15 @@ internal static class DataLoader
         return File.ReadAllLines(filepath)
             .Skip(1)
             .Select(QuoteFromCsv)
-            .OrderByDescending(static x => x.Timestamp)
-            .Take(int.MaxValue)
+            .OrderBy(static x => x.Timestamp)
             .ToSortedList();
     }
 
     internal static Quote GenerateRandomQuote(DateTime timestamp, double seed)
     {
-        Random random = new((int)DateTime.UtcNow.Ticks);
-        double volatility = 0.01;
-        double drift = 0.001 * 0.01;
+        Random random = new(Guid.NewGuid().GetHashCode());
+        const double volatility = 0.01;
+        const double drift = 0.001 * 0.01;
 
         double open = Price(seed, volatility * volatility, drift, random);
         double close = Price(open, volatility, drift, random);
@@ -89,4 +88,3 @@ internal static class DataLoader
             Volume: decimal.Parse(values[5], EnglishCulture));
     }
 }
-
