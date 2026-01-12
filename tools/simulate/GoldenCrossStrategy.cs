@@ -1,4 +1,3 @@
-using System.Text;
 using System.Text.Json;
 using Skender.Stock.Indicators;
 
@@ -62,8 +61,9 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
             response.EnsureSuccessStatusCode();
 
-            Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-
+#pragma warning disable CA2007 // ConfigureAwait cannot be applied to await using disposal
+            await using Stream stream = await response.Content.ReadAsStreamAsync();
+#pragma warning restore CA2007
             using StreamReader reader = new(stream);
 
             int quotesProcessed = 0;
