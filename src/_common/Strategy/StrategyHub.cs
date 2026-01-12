@@ -3,15 +3,15 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Lightweight container to coordinate streaming hubs when composing strategies.
 /// </summary>
-/// <typeparam name="TProvider">Type of the provider source.</typeparam>
-public sealed class StrategyHub<TProvider>
-    where TProvider : ISeries
+/// <typeparam name="TIn">Type of the provider source.</typeparam>
+public sealed class StrategyHub<TIn>
+    where TIn : IReusable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="StrategyHub{TProvider}"/> class.
     /// </summary>
     /// <param name="provider">Base streaming provider used by the strategy.</param>
-    public StrategyHub(IStreamObservable<TProvider> provider)
+    public StrategyHub(IChainProvider<TIn> provider)
     {
         ArgumentNullException.ThrowIfNull(provider);
         Provider = provider;
@@ -20,7 +20,7 @@ public sealed class StrategyHub<TProvider>
     /// <summary>
     /// Gets the base provider for the strategy.
     /// </summary>
-    public IStreamObservable<TProvider> Provider { get; }
+    public IChainProvider<TIn> Provider { get; }
 
     /// <summary>
     /// Tracks a hub as part of the strategy and returns the same instance for chaining.
@@ -74,7 +74,7 @@ public sealed class StrategyHub<TProvider>
         out (TResult previous, TResult current) pair)
         where TResult : ISeries
     {
-        IReadOnlyList<TResult> cache = hub.ReadCache;
+        IReadOnlyList<TResult> cache = hub.Results;
 
         if (cache.Count < 2)
         {
