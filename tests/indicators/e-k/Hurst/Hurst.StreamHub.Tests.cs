@@ -41,7 +41,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<HurstResult> expectedRevised = RevisedQuotes.ToHurst(lookbackPeriods);
 
@@ -120,7 +120,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals

@@ -46,7 +46,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<HeikinAshiResult> expected = RevisedQuotes.ToHeikinAshi();
@@ -84,7 +84,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

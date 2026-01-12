@@ -43,7 +43,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<StcResult> expectedRevised = RevisedQuotes.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
@@ -120,7 +120,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals = observer.Results;

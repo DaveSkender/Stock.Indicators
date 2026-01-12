@@ -46,7 +46,7 @@ public class FractalHubTests : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);  // rebuilds from insertion point
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // Ensure all fractals are calculated with full context
         observer.Rebuild(0);

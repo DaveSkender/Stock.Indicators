@@ -38,7 +38,7 @@ public class SmmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<SmmaResult> expectedRevised = RevisedQuotes.ToSmma(20);
         sut.IsExactly(expectedRevised);
@@ -98,9 +98,9 @@ public class SmmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int smmaPeriods = 20;
         const int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Quote> quotes = Quotes.ToList();
 
-        int length = quotesList.Count;
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -119,7 +119,7 @@ public class SmmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -130,24 +130,24 @@ public class SmmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
         // final results
-        IReadOnlyList<SmaResult> streamList
+        IReadOnlyList<SmaResult> sut
             = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList.ToSmma(smmaPeriods)
+        IReadOnlyList<SmaResult> expected
+           = quotes.ToSmma(smmaPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(length - 1);
+        sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();

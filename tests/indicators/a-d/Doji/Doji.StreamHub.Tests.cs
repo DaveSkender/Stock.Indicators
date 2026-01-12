@@ -46,7 +46,7 @@ public class DojiHubTests : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<CandleResult> expected = RevisedQuotes.ToDoji(0.1);

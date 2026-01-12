@@ -40,7 +40,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
         IReadOnlyList<TemaResult> expectedRevised = RevisedQuotes.ToTema(lookbackPeriods);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
@@ -115,7 +115,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

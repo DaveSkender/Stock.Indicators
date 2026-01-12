@@ -46,7 +46,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<StochRsiResult> expectedRevised = RevisedQuotes.ToStochRsi(14, 14, 3, 1);
         sut.IsExactly(expectedRevised);
@@ -130,7 +130,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
