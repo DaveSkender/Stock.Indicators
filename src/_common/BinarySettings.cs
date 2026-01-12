@@ -24,6 +24,13 @@ namespace Skender.Stock.Indicators;
 /// settings = settings with { [0] = true  }; // set bit 0 to true
 /// settings = settings with { [1] = false }; // set bit 1 to false
 /// </code>
+///
+/// As a reminder, bit positions are zero-based:
+/// <code>
+/// 0b00000000 8-bit binary literal (byte)
+///   ↑↑↑↑↑↑↑↑
+///   76543210 bit positions
+/// </code>
 /// </remarks>
 /// <param name="settings">
 /// Binary settings.

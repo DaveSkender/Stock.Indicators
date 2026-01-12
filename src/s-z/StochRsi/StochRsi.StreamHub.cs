@@ -77,8 +77,8 @@ public sealed class StochRsiHub
         double? stochRsi = null;
         double? signal = null;
 
-        // Get RSI value from the internal hub (leveraging the fixed RSI StreamHub from Phase 3)
-        RsiResult? rsiResult = rsiHub.Results.ElementAtOrDefault(i);
+        // Get RSI value from the internal hub
+        RsiResult? rsiResult = rsiHub.Cache[i];
         double? rsiValue = rsiResult?.Rsi;
 
         // Only process if we have a valid RSI value
@@ -125,7 +125,7 @@ public sealed class StochRsiHub
             return;
         }
 
-        IReadOnlyList<RsiResult> rsiResults = rsiHub.Results;
+        IReadOnlyList<RsiResult> rsiResults = rsiHub.ReadCache;
         int replayLimit = Math.Min(providerIndex, rsiResults.Count);
 
         for (int i = 0; i < replayLimit; i++)

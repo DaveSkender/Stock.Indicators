@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
 {
-    private readonly Queue<Quote> _quoteBuffer;
+    private readonly Queue<IQuote> _quoteBuffer;
     private readonly int _windowSpan;
     private decimal? _upperLine;
     private decimal? _lowerLine;
@@ -23,7 +23,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         WindowSpan = windowSpan;
 
         _windowSpan = windowSpan;
-        _quoteBuffer = new Queue<Quote>((2 * windowSpan) + 1);
+        _quoteBuffer = new Queue<IQuote>((2 * windowSpan) + 1);
         _upperLine = null;
         _lowerLine = null;
 
@@ -49,25 +49,16 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        Quote q = new() {
-            Timestamp = quote.Timestamp,
-            Open = quote.Open,
-            High = quote.High,
-            Low = quote.Low,
-            Close = quote.Close,
-            Volume = quote.Volume
-        };
-
         // maintain buffer of quotes needed for fractal calculation
-        _quoteBuffer.Update((2 * _windowSpan) + 1, q);
+        _quoteBuffer.Update((2 * _windowSpan) + 1, quote);
 
         // check if we can identify fractals
         if (_quoteBuffer.Count >= (2 * _windowSpan) + 1)
         {
             // get quotes as list for fractal detection
-            List<Quote> bufferList = _quoteBuffer.ToList();
+            List<IQuote> bufferList = _quoteBuffer.ToList();
             int midIndex = _windowSpan;
-            Quote midQuote = bufferList[midIndex];
+            IQuote midQuote = bufferList[midIndex];
 
             // check for bearish fractal (high point)
             bool isBearishFractal = true;

@@ -62,18 +62,18 @@ public class ChandelierHub
         }
 
         // use cached ATR result from internal hub (O(1) lookup)
-        // System invariant: atrHub.Results[i] must exist because atrHub subscribes
+        // System invariant: atrHub.Cache[i] must exist because atrHub subscribes
         // to the same provider and processes updates synchronously before this hub.
         // This bounds check defends against edge cases during initialization/rebuild.
-        if (i >= atrHub.Results.Count)
+        if (i >= atrHub.Cache.Count)
         {
             throw new InvalidOperationException(
                 $"ATR hub synchronization error: expected ATR result at index {i}, "
-                + $"but atrHub.Results.Count is {atrHub.Results.Count}. "
+                + $"but atrHub.Cache.Count is {atrHub.Cache.Count}. "
                 + "This indicates a state synchronization issue between chained hubs.");
         }
 
-        double? atr = atrHub.Results[i].Atr;
+        double? atr = atrHub.Cache[i].Atr;
 
         if (atr is null)
         {
