@@ -109,4 +109,65 @@ public class StreamObservables : TestBase, ITestChainProvider
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
+
+    [TestMethod]
+    public void StandaloneQuoteHub_CannotBeSubscribedToProvider()
+    {
+        // create two standalone quote hubs
+        QuoteHub standaloneObserver = new();
+        QuoteHub provider = new();
+
+        // attempting to subscribe a standalone hub to another provider should throw
+        Action act = () => provider.Subscribe(standaloneObserver);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("*standalone QuoteHub*");
+
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void StandaloneTickHub_CannotBeSubscribedToProvider()
+    {
+        // create two standalone tick hubs
+        TickHub standaloneObserver = new();
+        TickHub provider = new();
+
+        // attempting to subscribe a standalone hub to another provider should throw
+        Action act = () => provider.Subscribe(standaloneObserver);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("*standalone TickHub*");
+
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void NonStandaloneQuoteHub_CanBeSubscribedAsObserver()
+    {
+        // create a standalone provider
+        QuoteHub provider = new();
+
+        // create a non-standalone observer using the constructor
+        QuoteHub observer = new(provider);
+
+        // assert: subscribed to provider
+        provider.ObserverCount.Should().Be(1);
+        observer.IsSubscribed.Should().BeTrue();
+
+        // unsubscribe
+        observer.Unsubscribe();
+        provider.ObserverCount.Should().Be(0);
+        observer.IsSubscribed.Should().BeFalse();
+
+        // can manually resubscribe to the same provider
+        provider.Subscribe(observer);
+
+        // assert: subscribed again
+        provider.ObserverCount.Should().Be(1);
+        observer.IsSubscribed.Should().BeTrue();
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
 }

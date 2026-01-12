@@ -22,7 +22,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
 
     /// <inheritdoc/>
-    public IDisposable Subscribe(IStreamObserver<TOut> observer)
+    public virtual IDisposable Subscribe(IStreamObserver<TOut> observer)
     {
         _observers.Add(observer);
         return new Unsubscriber(_observers, observer);
