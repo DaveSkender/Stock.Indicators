@@ -30,7 +30,7 @@ public class BaseProvider<T>
 
     /// <inheritdoc />
     /// <remarks>
-    /// <see cref="BaseProvider{T}"/> does not have cached values."/>
+    /// <see cref="BaseProvider{T}"/> does not have cached values."
     /// </remarks>
     public IReadOnlyList<T> ReadCache => Array.Empty<T>().AsReadOnly();
 
@@ -52,7 +52,7 @@ public class BaseProvider<T>
 
     /// <inheritdoc />
     public bool Unsubscribe(IStreamObserver<T> observer)
-        => throw new InvalidOperationException("Unsubscribe has no affect on base provider.");
+        => throw new InvalidOperationException("Unsubscribe has no effect on base provider.");
 
     /// <inheritdoc />
     public void EndTransmission()
