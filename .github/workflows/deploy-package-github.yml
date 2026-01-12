@@ -29,12 +29,12 @@ on:
         default: true
         required: true
 
-concurrency:
-  group: ${{ github.ref_name }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   package:
@@ -48,7 +48,6 @@ jobs:
       dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
-
       - name: Validate CI deployment
         run: |
           echo "✅ CI deployment to GitHub Packages"
