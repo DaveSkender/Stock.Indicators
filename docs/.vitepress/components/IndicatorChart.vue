@@ -43,6 +43,7 @@ interface SeriesStyle {
   data: Array<{
     timestamp: string
     value: number | null
+    color?: string
   }>
 }
 
@@ -525,7 +526,7 @@ async function initChart() {
       // Add threshold line
       const series = oscillatorChart.addSeries(LineSeries, {
         color: threshold.color,
-        lineWidth: 1,
+        lineWidth: 2 as LineWidth,
         lineStyle: threshold.style === 'dash' ? LineStyle.Dashed : LineStyle.Solid,
         priceLineVisible: false,
         lastValueVisible: false,
@@ -562,7 +563,6 @@ async function initChart() {
             bottomLineColor: 'transparent',
             bottomFillColor1: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
             bottomFillColor2: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
-            lineWidth: 0 as LineWidth,
             priceLineVisible: false,
             lastValueVisible: false,
             crosshairMarkerVisible: false

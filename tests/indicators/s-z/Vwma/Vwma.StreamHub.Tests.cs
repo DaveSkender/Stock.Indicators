@@ -148,14 +148,14 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
         // Create quotes with zero volume
-        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(static q => new Quote {
-            Timestamp = q.Timestamp,
-            Open = q.Open,
-            High = q.High,
-            Low = q.Low,
-            Close = q.Close,
-            Volume = 0
-        }).ToList();
+        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(static q => new Quote(
+            Timestamp: q.Timestamp,
+            Open: q.Open,
+            High: q.High,
+            Low: q.Low,
+            Close: q.Close,
+            Volume: 0
+        )).ToList();
 
         foreach (Quote quote in zeroVolumeQuotes)
         {

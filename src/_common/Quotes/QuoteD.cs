@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Double-point precision Quote, for internal use only.
 /// </summary>
-/// <inheritdoc cref="Quote" />
+/// <inheritdoc cref="IQuote" />
 [Serializable]
 internal record QuoteD
 (

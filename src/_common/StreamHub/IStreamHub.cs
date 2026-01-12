@@ -10,12 +10,18 @@ namespace Skender.Stock.Indicators;
 /// <typeparam name="TOut">
 /// Type of outbound indicator data.
 /// </typeparam>
-public interface IStreamHub<in TIn, TOut>
+public interface IStreamHub<in TIn, TOut> : IStreamObserver<TIn>, IStreamObservable<TOut>
     where TIn : ISeries
 {
     /// <summary>
+    /// Name of this hub instance.
+    /// </summary>
+    string Name { get; }
+
+    /// <summary>
     /// Read-only list of the stored cache values.
     /// </summary>
+    /// <remarks>This is an alias for <see cref="IStreamObservable{T}.ReadCache"/></remarks>
     IReadOnlyList<TOut> Results { get; }
 
     /// <summary>
@@ -26,21 +32,19 @@ public interface IStreamHub<in TIn, TOut>
     /// from a circular chain or
     /// when there were too many sequential duplicates.
     /// <para>
-    /// Use <see cref="ResetFault()"/>
-    /// to remove this flag.
+    /// Use <see cref="ResetFault()"/> to remove this flag.
     /// </para>
     /// </remarks>
     bool IsFaulted { get; }
 
     /// <summary>
-    /// Resets the <see cref="IsFaulted"/> flag and
-    /// overflow counter.  Use this after recovering
-    /// from an error.
+    /// Resets the <see cref="IsFaulted"/> flag and overflow counter.
+    /// Use this after recovering from an error.
     /// </summary>
     /// <remarks>
     /// You may also need to
-    /// <see cref="IStreamObserver{T}.Reinitialize()"/>, or
-    /// <see cref="IStreamObserver{T}.Rebuild()"/>.
+    /// <see cref="Reinitialize()"/>, or
+    /// <see cref="Rebuild()"/>.
     /// </remarks>
     void ResetFault();
 
@@ -94,7 +98,7 @@ public interface IStreamHub<in TIn, TOut>
     /// </summary>
     /// <remarks>
     /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamObserver{T}.Rebuild(DateTime)"/>.
+    /// use alternate <see cref="Rebuild(DateTime)"/>.
     /// </remarks>
     /// <param name="fromTimestamp">
     /// All periods (inclusive) after this DateTime will be removed.
@@ -109,13 +113,65 @@ public interface IStreamHub<in TIn, TOut>
     /// </summary>
     /// <remarks>
     /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamObserver{T}.Rebuild(int)"/>.
+    /// use alternate <see cref="Rebuild(int)"/>.
     /// </remarks>
     /// <param name="fromIndex">From index, inclusive</param>
     /// <param name="notify">
     /// Notify subscribers of the delete position.
     /// </param>
     void RemoveRange(int fromIndex, bool notify);
+
+    /// <summary>
+    /// Full reset of the provider subscription.
+    /// </summary>
+    /// <remarks>
+    /// This unsubscribes from the provider,
+    /// rebuilds the cache, resets faulted states,
+    /// and then re-subscribes to the provider.
+    /// <para>
+    /// This is done automatically on hub
+    /// instantiation, so it's only needed if you
+    /// want to manually reset the hub.
+    /// </para>
+    /// <para>
+    /// If you only need to rebuild the cache,
+    /// use <see cref="Rebuild()"/> instead.
+    /// </para>
+    /// </remarks>
+    void Reinitialize();
+
+    /// <summary>
+    /// Resets the entire results cache
+    /// and rebuilds it from provider sources,
+    /// with cascading updates to subscribers.
+    /// </summary>
+    /// <remarks>
+    /// This is different from <see cref="Reinitialize()"/>.
+    /// It does not reset the provider subscription.
+    /// </remarks>
+    void Rebuild();
+
+    /// <summary>
+    /// Resets the results cache from a point in time
+    /// and rebuilds it from provider sources,
+    /// with cascading updates to subscribers.
+    /// </summary>
+    /// <param name="fromTimestamp">
+    /// All periods (inclusive) after this date/time
+    /// will be removed and recalculated.
+    /// </param>
+    void Rebuild(DateTime fromTimestamp);
+
+    /// <summary>
+    /// Resets the results cache from an index position
+    /// and rebuilds it from provider sources,
+    /// with cascading updates to subscribers.
+    /// </summary>
+    /// <param name="fromIndex">
+    /// All periods (inclusive) after this index position
+    /// will be removed and recalculated.
+    /// </param>
+    void Rebuild(int fromIndex);
 
     /// <summary>
     /// Returns a short text label for the hub

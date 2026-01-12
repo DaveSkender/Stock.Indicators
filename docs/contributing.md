@@ -264,14 +264,6 @@ Packages are deployed via two separate GitHub Actions workflows:
 
 **Workflow:** `.github/workflows/deploy-package-nuget.yml`
 
-**Benefits of separation:**
-
-- ✅ No version collisions between CI and production
-- ✅ CI builds naturally increment with run numbers
-- ✅ Production versions match release tags exactly
-- ✅ Dry-run testing via draft releases
-- ✅ Clear distinction between temporary CI builds and permanent releases
-
 ### Version examples
 
 | Scenario | Trigger | Version | Registry | Notes |

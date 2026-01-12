@@ -532,7 +532,7 @@
     },
     {
       "label": "Install: Chrome for Puppeteer",
-      "detail": "Ensure Docker Desktop is running (waits for daemon to be ready)",
+      "detail": "Install Chrome browser for Puppeteer-based accessibility testing",
       "type": "shell",
       "command": "pnpm dlx puppeteer browsers install chrome",
       "presentation": {
