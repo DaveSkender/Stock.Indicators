@@ -474,5 +474,123 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         aggregator.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void ComprehensiveAggregation_MultipleTimeframes()
+    {
+        // Generate sufficient 1-minute candles to test all timeframes including 1-week
+        // Need at least 7 days * 24 hours * 60 minutes = 10,080 minutes
+        // Start on a Monday to align with week boundaries (weeks start on Monday in ISO 8601)
+        const int totalMinutes = 10_080;
+        DateTime startTime = DateTime.Parse("2023-10-30 00:00", invariantCulture); // Monday
+
+        // Create 1-minute quote provider
+        QuoteHub oneMinuteProvider = new();
+
+        // Create aggregators for various timeframes
+        QuoteAggregatorHub fiveMinuteAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+        QuoteAggregatorHub fifteenMinuteAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FifteenMinutes);
+        QuoteAggregatorHub oneHourAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.OneHour);
+        QuoteAggregatorHub fourHourAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.FourHours);
+        QuoteAggregatorHub oneDayAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.Day);
+        QuoteAggregatorHub oneWeekAgg = oneMinuteProvider.ToQuoteAggregatorHub(PeriodSize.Week);
+
+        // Generate and add 1-minute candles with realistic price movements
+        decimal basePrice = 100m;
+        Random rnd = new(42); // Fixed seed for reproducibility
+
+        for (int i = 0; i < totalMinutes; i++)
+        {
+            DateTime timestamp = startTime.AddMinutes(i);
+
+            // Simulate price movement
+            decimal priceChange = (decimal)(rnd.NextDouble() - 0.5) * 2; // -1 to +1
+            basePrice += priceChange * 0.1m; // Small incremental changes
+
+            // Ensure positive prices
+            if (basePrice < 50m) { basePrice = 50m; }
+            if (basePrice > 150m) { basePrice = 150m; }
+
+            decimal open = basePrice;
+            decimal high = basePrice + (decimal)(rnd.NextDouble() * 2);
+            decimal low = basePrice - (decimal)(rnd.NextDouble() * 2);
+            decimal close = low + (decimal)(rnd.NextDouble() * (double)(high - low));
+            decimal volume = 1000m + (decimal)(rnd.NextDouble() * 500);
+
+            Quote quote = new(timestamp, open, high, low, close, volume);
+            oneMinuteProvider.Add(quote);
+        }
+
+        // Verify 1-minute provider
+        IReadOnlyList<IQuote> oneMinuteResults = oneMinuteProvider.Results;
+        oneMinuteResults.Should().HaveCount(totalMinutes);
+
+        // Verify 5-minute aggregation
+        IReadOnlyList<IQuote> fiveMinuteResults = fiveMinuteAgg.Results;
+        int expectedFiveMinute = totalMinutes / 5;
+        fiveMinuteResults.Should().HaveCount(expectedFiveMinute);
+
+        // Verify 15-minute aggregation
+        IReadOnlyList<IQuote> fifteenMinuteResults = fifteenMinuteAgg.Results;
+        int expectedFifteenMinute = totalMinutes / 15;
+        fifteenMinuteResults.Should().HaveCount(expectedFifteenMinute);
+
+        // Verify 1-hour aggregation
+        IReadOnlyList<IQuote> oneHourResults = oneHourAgg.Results;
+        int expectedOneHour = totalMinutes / 60;
+        oneHourResults.Should().HaveCount(expectedOneHour);
+
+        // Verify 4-hour aggregation
+        IReadOnlyList<IQuote> fourHourResults = fourHourAgg.Results;
+        int expectedFourHour = totalMinutes / 240;
+        fourHourResults.Should().HaveCount(expectedFourHour);
+
+        // Verify 1-day aggregation
+        IReadOnlyList<IQuote> oneDayResults = oneDayAgg.Results;
+        int expectedOneDay = totalMinutes / 1440;
+        oneDayResults.Should().HaveCount(expectedOneDay);
+
+        // Verify 1-week aggregation
+        // Week aggregation may span 2 weeks depending on start day, so check it exists and has bars
+        IReadOnlyList<IQuote> oneWeekResults = oneWeekAgg.Results;
+        oneWeekResults.Should().NotBeEmpty("1-week aggregation should produce at least one bar");
+        oneWeekResults.Should().HaveCountLessThan(4, "1-week aggregation should produce at most a few bars");
+
+        // Verify OHLCV properties are valid for all aggregations
+        VerifyOHLCVProperties(fiveMinuteResults, "5-minute");
+        VerifyOHLCVProperties(fifteenMinuteResults, "15-minute");
+        VerifyOHLCVProperties(oneHourResults, "1-hour");
+        VerifyOHLCVProperties(fourHourResults, "4-hour");
+        VerifyOHLCVProperties(oneDayResults, "1-day");
+        VerifyOHLCVProperties(oneWeekResults, "1-week");
+
+        // Cleanup
+        oneWeekAgg.Unsubscribe();
+        oneDayAgg.Unsubscribe();
+        fourHourAgg.Unsubscribe();
+        oneHourAgg.Unsubscribe();
+        fifteenMinuteAgg.Unsubscribe();
+        fiveMinuteAgg.Unsubscribe();
+        oneMinuteProvider.EndTransmission();
+    }
+
+    private static void VerifyOHLCVProperties(IReadOnlyList<IQuote> results, string timeframeName)
+    {
+        results.Should().NotBeEmpty($"{timeframeName} aggregation should produce results");
+
+        foreach (IQuote bar in results)
+        {
+            bar.Timestamp.Should().NotBe(default, $"{timeframeName}: Timestamp should be set");
+            bar.Open.Should().BeGreaterThan(0, $"{timeframeName}: Open should be positive");
+            bar.High.Should().BeGreaterThanOrEqualTo(bar.Open, $"{timeframeName}: High should be >= Open");
+            bar.High.Should().BeGreaterThanOrEqualTo(bar.Close, $"{timeframeName}: High should be >= Close");
+            bar.High.Should().BeGreaterThanOrEqualTo(bar.Low, $"{timeframeName}: High should be >= Low");
+            bar.Low.Should().BeLessThanOrEqualTo(bar.Open, $"{timeframeName}: Low should be <= Open");
+            bar.Low.Should().BeLessThanOrEqualTo(bar.Close, $"{timeframeName}: Low should be <= Close");
+            bar.Low.Should().BeGreaterThan(0, $"{timeframeName}: Low should be positive");
+            bar.Close.Should().BeGreaterThan(0, $"{timeframeName}: Close should be positive");
+            bar.Volume.Should().BeGreaterThan(0, $"{timeframeName}: Volume should be positive");
+        }
+    }
 }
 
