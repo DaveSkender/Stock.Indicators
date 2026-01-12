@@ -23,7 +23,7 @@ public class CacheManagement : TestBase
         List<Quote> quotesAfterRemove = [.. quotes];
         quotesAfterRemove.RemoveAt(14);
 
-        quoteHub.Remove(Quotes[14]);
+        quoteHub.RemoveAt(14);
         quoteHub.EndTransmission();
 
         Console.WriteLine(observer.Results.ToStringOut());

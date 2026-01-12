@@ -62,7 +62,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<PvoResult> expected = RevisedQuotes.ToPvo(12, 26, 9);
@@ -128,8 +128,8 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int emaPeriods = 10;
 
         // setup chain quoteHub
-        QuoteHub quoteProvider = new();
-        PvoHub pvoHub = quoteProvider.ToPvoHub(pvoFast, pvoSlow, pvoSignal);
+        QuoteHub quoteHub = new();
+        PvoHub pvoHub = quoteHub.ToPvoHub(pvoFast, pvoSlow, pvoSignal);
 
         // initialize observer (EMA of PVO)
         EmaHub observer = pvoHub
@@ -141,13 +141,13 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             if (i == 80) { continue; }  // Skip for late arrival
 
             Quote q = Quotes[i];
-            quoteProvider.Add(q);
+            quoteHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteProvider.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteProvider.Insert(Quotes[80]);  // Late arrival
-        quoteProvider.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
@@ -164,7 +164,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // cleanup
         observer.Unsubscribe();
         pvoHub.EndTransmission();
-        quoteProvider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

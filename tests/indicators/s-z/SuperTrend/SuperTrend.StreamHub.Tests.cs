@@ -43,7 +43,7 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<SuperTrendResult> expectedRevised = RevisedQuotes.ToSuperTrend(lookbackPeriods, multiplier);
 

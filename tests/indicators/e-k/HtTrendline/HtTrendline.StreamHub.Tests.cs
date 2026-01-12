@@ -40,7 +40,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<HtlResult> expectedRevised = RevisedQuotes.ToHtTrendline();
 
@@ -117,7 +117,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals

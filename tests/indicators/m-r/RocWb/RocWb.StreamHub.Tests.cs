@@ -42,7 +42,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         sut.Should().HaveCount(quotesCount);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<RocWbResult> expectedRevised = RevisedQuotes.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
         sut.IsExactly(expectedRevised);
@@ -119,7 +119,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;

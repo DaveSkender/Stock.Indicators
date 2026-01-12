@@ -42,7 +42,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<MaEnvelopeResult> expectedRevised = RevisedQuotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
 

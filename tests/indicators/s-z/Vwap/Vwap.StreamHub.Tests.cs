@@ -38,7 +38,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<VwapResult> expectedRevised = RevisedQuotes.ToVwap();
         sut.IsExactly(expectedRevised);
@@ -52,11 +52,11 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithStartDate()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        List<Quote> quotes = Quotes.ToList();
+        int length = quotes.Count;
 
         // Use a start date somewhere in the middle
-        DateTime startDate = quotesList[100].Timestamp;
+        DateTime startDate = quotes[100].Timestamp;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -64,7 +64,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(quotes[i]);
         }
 
         // initialize observer with start date
@@ -79,7 +79,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -90,14 +90,14 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // removal
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
         // final results
-        IReadOnlyList<VwapResult> seriesList = quotesList.ToVwap(startDate);
+        IReadOnlyList<VwapResult> seriesList = quotes.ToVwap(startDate);
 
         observer.Results.Should().HaveCount(length - 1);
         observer.Results.IsExactly(seriesList);
@@ -133,7 +133,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

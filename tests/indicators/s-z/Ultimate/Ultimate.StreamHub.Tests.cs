@@ -45,7 +45,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<UltimateResult> expectedRevised = RevisedQuotes.ToUltimate(7, 14, 28);
         sut.IsExactly(expectedRevised);
@@ -83,7 +83,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
