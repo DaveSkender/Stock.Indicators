@@ -82,10 +82,10 @@
     },
     {
       "label": "Install: All code dependencies",
-      "detail": "Restore .NET packages and Ruby gems",
+      "detail": "Restore .NET and NPM packages",
       "dependsOn": [
         "Install: .NET packages",
-        "Install: Website Ruby packages"
+        "Install: NPM (pnpm) packages"
       ],
       "dependsOrder": "parallel"
     },
@@ -109,52 +109,31 @@
       "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples"
     },
     {
-      "label": "Install: Website Ruby packages",
-      "detail": "Install Ruby gems for docs site (Jekyll)",
+      "label": "Install: NPM (pnpm) packages",
+      "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
+      "command": "pnpm install",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "bundle",
-        "fileLocation": "relative",
-        "pattern": {
-          "regexp": "^(.*):(\\d+):\\s+(.*)$",
-          "file": 1,
-          "line": 2,
-          "message": 3
-        }
+      "problemMatcher": []
+    },
+    {
+      "label": "Update: NPM (pnpm) packages",
+      "detail": "Update pnpm packages for website",
+      "type": "shell",
+      "command": "pnpm update",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
-      "label": "Update: Website Ruby packages",
-      "detail": "Install then update Ruby gems conservatively and clean",
+      "label": "Clean: Website build cache",
+      "detail": "Delete the dist build outputs cache.",
       "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle install && bundle update --conservative && bundle clean --force && echo '✓ Update complete!'",
+      "command": "rm -rf dist",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      }
-    },
-    {
-      "label": "Clean: Website Jekyll build cache",
-      "detail": "Delete the _site build outputs cache.",
-      "type": "shell",
-      "command": "bundle exec jekyll clean",
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
@@ -210,18 +189,13 @@
     },
     {
       "label": "Build: Website",
-      "detail": "Build the Jekyll website dist package in docs/_site folder",
+      "detail": "Build VitePress website for production",
       "type": "shell",
-      "command": "bundle exec jekyll build && echo '✓ Build complete!'",
-      "group": "build",
-      "dependsOn": "Install: Website Ruby packages",
+      "command": "pnpm run docs:build",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "dependsOrder": "sequence",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
@@ -322,7 +296,6 @@
         "Lint: Markdown (fix)"
       ],
       "dependsOrder": "sequence",
-      "group": "none",
       "problemMatcher": [
         "$msCompile",
         "$markdownlint"
@@ -353,7 +326,6 @@
         "Lint: Markdown (fix)"
       ],
       "dependsOrder": "sequence",
-      "group": "none",
       "problemMatcher": [
         "$msCompile",
         "$markdownlint"
@@ -445,6 +417,28 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "Test: Website links (htmlproofer)",
+      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
+      "type": "shell",
+      "command": "bash .vitepress/run-htmlproofer.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "dependsOn": "Start: Docker Desktop",
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Test: Website a11y (pa11y)",
+      "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
+      "type": "shell",
+      "command": "bash .vitepress/run-pa11y.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "dependsOn": "Install: Chrome for Puppeteer",
+      "dependsOrder": "sequence"
+    },
+    {
       "label": "Verify: Quick checks (build + lint + unit test)",
       "detail": "Complete CI verification: build, lint, and test",
       "group": "test",
@@ -464,57 +458,44 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Website (and open)",
-      "detail": "Serve Jekyll docs website with LiveReload and open browser",
+      "label": "Run: Website (dev server)",
+      "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Website Ruby packages",
+      "command": "pnpm run docs:dev",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "dependsOrder": "sequence",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+      "runOptions": {
+        "instanceLimit": 1
       },
-      "problemMatcher": {
-        "owner": "website",
-        "pattern": {
-          "regexp": "^$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
-        }
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
-      "label": "Run: Website",
-      "detail": "Serve Jekyll docs website with LiveReload",
+      "label": "Run: Website (Simple Browser)",
+      "detail": "Serve VitePress website with hot reload on port 5174 (VS Code Simple Browser)",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Install: Website Ruby packages",
+      "command": "pnpm run docs:dev -- --port 5174",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "dependsOrder": "sequence",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+      "runOptions": {
+        "instanceLimit": 1
       },
-      "problemMatcher": {
-        "owner": "website",
-        "pattern": {
-          "regexp": "^$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
-        }
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      }
+    },
+    {
+      "label": "Run: Website (prod preview)",
+      "detail": "Preview production build of VitePress website",
+      "type": "shell",
+      "command": "pnpm run docs:preview -- --open",
+      "dependsOn": "Build: Website",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
@@ -532,6 +513,74 @@
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
       "group": "none",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Stop: All hosted servers",
+      "detail": "Stop VitePress dev/preview servers on default ports (5173/5174) across platforms",
+      "type": "shell",
+      "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true",
+      "windows": {
+        "command": "powershell -NoLogo -NoProfile -Command \"Get-CimInstance Win32_Process -Filter \\\"Name='node.exe'\\\" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -match 'vitepress|docs:dev|docs:preview|5173|5174' } | ForEach-Object { Write-Host \\\"Stopping VitePress process $($_.ProcessId)\\\"; Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }\""
+      },
+      "osx": {
+        "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Install: Chrome for Puppeteer",
+      "detail": "Install Chrome browser for Puppeteer-based accessibility testing",
+      "type": "shell",
+      "command": "pnpm dlx puppeteer browsers install chrome",
+      "presentation": {
+        "echo": false,
+        "clear": true,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Start: Docker Desktop",
+      "detail": "Ensure Docker Desktop is running (waits for daemon to be ready)",
+      "type": "shell",
+      "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))",
+      "windows": {
+        "command": "Write-Host 'Checking Docker...'; if (docker info 2>$null) { Write-Host '✅ Docker is ready' } else { Write-Host 'Waiting for Docker...'; $timeout = 60; $elapsed = 0; while (-not (docker info 2>$null)) { if ($elapsed -ge $timeout) { Write-Host '❌ Docker failed to start'; exit 1 }; Start-Sleep -Seconds 2; $elapsed += 2 }; Write-Host '✅ Docker is ready' }",
+        "options": {
+          "shell": {
+            "executable": "powershell.exe",
+            "args": [
+              "-Command"
+            ]
+          }
+        }
+      },
+      "linux": {
+        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))"
+      },
+      "osx": {
+        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 || (echo 'Starting Docker Desktop...' && open -a Docker)) && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "docker",
+        "pattern": {
+          "regexp": "^$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Checking Docker...$",
+          "endsPattern": "^✅ Docker is ready$"
+        }
+      },
+      "presentation": {
+        "echo": false,
+        "clear": true,
+        "panel": "shared"
+      }
     }
   ]
 }

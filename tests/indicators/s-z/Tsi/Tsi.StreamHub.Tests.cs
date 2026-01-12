@@ -66,7 +66,7 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<TsiResult> expectedRevised = RevisedQuotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
         sut.IsExactly(expectedRevised);
@@ -120,8 +120,8 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        List<Quote> quotes = Quotes.ToList();
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -140,7 +140,7 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -151,17 +151,17 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[removeAtIndex]);
-        quotesList.RemoveAt(removeAtIndex);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> streamList = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList = quotesList
+        IReadOnlyList<SmaResult> seriesList = quotes
             .ToTsi(lookbackPeriods, smoothPeriods, signalPeriods)
             .ToSma(smaPeriods);
 

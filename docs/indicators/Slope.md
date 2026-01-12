@@ -1,0 +1,122 @@
+---
+title: Slope and Linear Regression
+description: Slope of the best fit line is determined by an ordinary least-squares simple linear regression on price.  It can be used to help identify trend strength and direction.  This indicator can be used to produce both a rolling slope value and a straight line through a specified lookback window.
+---
+
+# Slope and Linear Regression
+
+[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on price.  It can be used to help identify trend strength and direction.
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
+
+<ClientOnly>
+  <IndicatorChart src="/data/Slope.json" :height="360" />
+</ClientOnly>
+<ClientOnly>
+  <IndicatorChart src="/data/Slope.json" :height="360" />
+</ClientOnly>
+
+```csharp
+// C# usage syntax
+IReadOnlyList<SlopeResult> results =
+  quotes.ToSlope(lookbackPeriods);
+```
+
+## Parameters
+
+| param | type | description |
+| ----- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
+
+### Historical quotes requirements
+
+You must have at least `N` periods of `quotes` to cover the warmup periods.
+
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+
+## Response
+
+```csharp
+IReadOnlyList<SlopeResult>
+```
+
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
+- `Line` values are only provided for the last `N` periods of your quote history
+
+> &#128073; **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
+
+### `SlopeResult`
+
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Slope` | double | Slope `m` of the best-fit line of price |
+| `Intercept` | double | Y-Intercept `b` of the best-fit line |
+| `StdDev` | double | Standard Deviation of price over `N` lookback periods |
+| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination |
+| `Line` | decimal | Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values) |
+
+### Utilities
+
+- [.Condense()](/utilities/results#condense)
+- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
+
+See [Utilities and helpers](/utilities/results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .ToEma(..)
+    .ToSlope(..);
+```
+
+Results can be further processed on `Slope` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .ToSlope(..)
+    .ToRsi(..);
+```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SlopeList slopeList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  slopeList.Add(quote);
+}
+
+// based on `ICollection<SlopeResult>`
+IReadOnlyList<SlopeResult> results = slopeList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+SlopeHub observer = quoteHub.ToSlopeHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<SlopeResult> results = observer.Results;
+```
+
+::: warning 🖌️ Repaint warning
+The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.
+:::

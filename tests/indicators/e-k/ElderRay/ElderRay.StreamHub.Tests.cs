@@ -9,14 +9,14 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        List<Quote> quotes = Quotes.ToList();
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        quoteHub.Add(quotesList.Take(20));
+        quoteHub.Add(quotes.Take(20));
 
         // initialize observer
         ElderRayHub observer = quoteHub.ToElderRayHub(lookbackPeriods);
@@ -30,7 +30,7 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -38,14 +38,14 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(quotesList[removeAtIndex]);
-        quotesList.RemoveAt(removeAtIndex);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<ElderRayResult> expectedRevised = quotesList.ToElderRay(lookbackPeriods);
+        IReadOnlyList<ElderRayResult> expectedRevised = quotes.ToElderRay(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);

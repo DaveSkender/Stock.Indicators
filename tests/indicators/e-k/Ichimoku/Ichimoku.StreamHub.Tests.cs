@@ -48,7 +48,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<IchimokuResult> expectedRevised
             = RevisedQuotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);

@@ -42,7 +42,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<DynamicResult> expectedRevised = RevisedQuotes.ToDynamic(lookbackPeriods, kFactor);
 
@@ -121,7 +121,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals

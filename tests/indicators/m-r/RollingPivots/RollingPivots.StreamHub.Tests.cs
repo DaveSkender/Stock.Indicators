@@ -45,7 +45,7 @@ public class RollingPivots : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<RollingPivotsResult> expected = RevisedQuotes.ToRollingPivots(20, 0, PivotPointType.Standard);

@@ -1,29 +1,35 @@
 ---
 applyTo: "docs/**"
-description: "Documentation website development, Jekyll builds, and content guidelines"
+description: "Documentation website development, VitePress builds, accessibility testing, and content guidelines"
 ---
 
 # Documentation website instructions
 
-These instructions apply to all files in the `docs/` folder and cover Jekyll site development and content creation.
+These instructions apply to all files in the `docs/` folder and cover VitePress site development, content creation, accessibility testing, and documentation maintenance.
 
 ## Build and development workflow
 
 ### Local development setup
 
 ```bash
-bundle install
-bundle exec jekyll serve --livereload
+# from /docs folder
+pnpm install
+pnpm run docs:dev
 
+# the site will open at http://localhost:5173/
 ```
-
-The site will be available at `http://127.0.0.1:4000`.
 
 ### Code cleanup and formatting
 
-- **Markdown linting**: Follow markdown linting rules in the `.github/instructions/markdown.instructions.md` file
-- **Jekyll configuration**: Follow Jekyll best practices in `_config.yml`
+- **Markdown linting**: Use repository-wide markdown linting rules
+- **VitePress configuration**: Follow VitePress best practices in `.vitepress/config.mts`
 - **Front matter validation**: Ensure YAML front matter follows documented schema
+- **Asset optimization**: Optimize images to `webp` format using ImageMagick or cwebp
+
+  ```bash
+  # optimize images to webp
+  cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp
+  ```
 
 ## Content guidelines
 
@@ -31,10 +37,22 @@ The site will be available at `http://127.0.0.1:4000`.
 
 When adding or updating indicators:
 
-- Add or update files in the `_indicators/` directory
-- Place image assets in the `assets/` folder
+- Add or update files in `/docs/indicators/` directory
+- Place image assets in `/docs/.vitepress/public/assets/` folder
 - Follow consistent naming conventions for asset files
 - Include comprehensive examples with sample data
+- Use HTML `<img>` tags instead of markdown syntax for images to avoid SSR import issues
+
+### Accessibility requirements
+
+- **Lighthouse testing**: Use Chrome Lighthouse for accessibility audits
+- **Automated accessibility testing**: Run pa11y-ci against local build
+
+```bash
+# accessibility testing after production build
+pnpm run docs:build
+npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
+```
 
 ### Content structure
 
@@ -43,7 +61,7 @@ When adding or updating indicators:
 - Ensure proper heading hierarchy (no skipping levels)
 - Include descriptive link text (avoid "click here")
 
-## Jekyll-specific guidelines
+## VitePress-specific guidelines
 
 ### Front matter requirements
 
@@ -52,19 +70,44 @@ When adding or updating indicators:
 - Set appropriate page titles and descriptions
 - Include navigation metadata when applicable
 
-### Template and includes
+### Components and layouts
 
-- Follow established patterns in `_layouts/` and `_includes/`
-- Maintain consistency in template structure
-- Use Jekyll's data files in `_data/` for structured content
-- Leverage Jekyll plugins appropriately
+- Use Vue components for interactive elements
+- Follow VitePress default theme conventions
+- Leverage VitePress built-in components when possible
+- Use custom components sparingly
+
+### Alert blocks
+
+VitePress supports native custom container syntax for alert blocks. Use these instead of GitHub alert syntax in VitePress documentation:
+
+- `::: tip` — Helpful suggestions and tips
+- `::: warning` — Important warnings and caution messages
+- `::: danger` — Critical warnings about dangerous operations
+- `::: details` — Collapsible details sections
+- `::: info` — Informational highlights (default, can omit type)
+
+**Syntax:**
+
+```markdown
+::: warning
+This is a warning message
+:::
+
+::: tip 💡 Pro tip
+You can add custom titles
+:::
+```
+
+**Note:** Avoid using GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`, etc.) in VitePress pages. However, they are still preferred in non-website pages.
 
 ### Asset management
 
-- Place static assets in appropriate subdirectories under `/assets/`
-- Use Jekyll's asset pipeline for CSS and JavaScript
-- Optimize images for web delivery
+- Place static assets in `.vitepress/public/` directory
+- Assets in public directory are served from root path
+- Use absolute paths starting with `/` for assets
 - Follow naming conventions for asset files
+- For images in markdown content, use HTML `<img>` tags with absolute paths
 
 ## Testing and validation
 
@@ -72,13 +115,32 @@ When adding or updating indicators:
 
 Before committing documentation changes:
 
-1. Build verification: Ensure Jekyll builds without errors
-2. Link checking: Verify all internal and external links work
-3. Content review: Check for typos and formatting consistency
+1. **Build verification**: Ensure VitePress builds without errors
+2. **Link checking**: Verify all internal and external links work
+3. **Accessibility audit**: Run accessibility tests
+4. **Content review**: Check for typos and formatting consistency
+
+### Build commands
+
+```bash
+# Development server
+pnpm run docs:dev
+
+# Production build
+pnpm run docs:build
+
+# Preview production build
+pnpm run docs:preview
+```
 
 ### Continuous integration
 
-The documentation site should build successfully in the CI/CD pipeline.
+The documentation site should:
+
+- Build successfully in the CI/CD pipeline
+- Pass all accessibility tests
+- Have no broken links
+- Meet performance benchmarks
 
 ## Content maintenance
 
@@ -97,4 +159,4 @@ The documentation site should build successfully in the CI/CD pipeline.
 - Provide migration guidance for breaking changes
 
 ---
-Last updated: December 7, 2025
+Last updated: December 14, 2025

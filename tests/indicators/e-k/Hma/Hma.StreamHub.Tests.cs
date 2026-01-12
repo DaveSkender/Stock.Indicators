@@ -40,7 +40,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
         IReadOnlyList<HmaResult> expectedRevised = RevisedQuotes.ToHma(LookbackPeriods);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
@@ -114,7 +114,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
@@ -161,7 +161,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             Close = original.Close + delta
         };
 
-        quoteHub.Remove(original);
+        quoteHub.RemoveAt(targetIndex);
         quoteHub.Insert(mutated);
         quotesList[targetIndex] = mutated;
 

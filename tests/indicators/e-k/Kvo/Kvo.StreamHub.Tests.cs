@@ -44,7 +44,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // removal
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<KvoResult> expected = RevisedQuotes.ToKvo(34, 55, 13);
@@ -154,7 +154,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

@@ -49,7 +49,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<MamaResult> expected = RevisedQuotes.ToMama(fastLimit, slowLimit);
@@ -110,9 +110,9 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     {
         const int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Quote> quotes = Quotes.ToList();
 
-        int length = quotesList.Count;
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -131,7 +131,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -142,11 +142,11 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> streamList
@@ -154,7 +154,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
-           = quotesList.ToMama(fastLimit, slowLimit)
+           = quotes.ToMama(fastLimit, slowLimit)
             .ToSma(smaPeriods);
 
         // assert, should equal series

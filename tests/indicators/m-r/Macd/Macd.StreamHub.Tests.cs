@@ -70,7 +70,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<MacdResult> expected = RevisedQuotes.ToMacd(12, 26, 9);
@@ -138,11 +138,11 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int macdSignal = 3;
 
         // setup chain quoteHub
-        QuoteHub quoteProvider = new();
-        SmaHub quoteHub = quoteProvider.ToSmaHub(smaPeriods);
+        QuoteHub quoteHub = new();
+        SmaHub smaHub = quoteHub.ToSmaHub(smaPeriods);
 
         // initialize observer
-        MacdHub observer = quoteHub
+        MacdHub observer = smaHub
             .ToMacdHub(macdFast, macdSlow, macdSignal);
 
         // emulate live quotes
@@ -151,13 +151,13 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             if (i == 80) { continue; }  // Skip for late arrival
 
             Quote q = Quotes[i];
-            quoteProvider.Add(q);
+            quoteHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteProvider.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteProvider.Insert(Quotes[80]);  // Late arrival
-        quoteProvider.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<MacdResult> sut = observer.Results;
@@ -173,8 +173,8 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
+        smaHub.EndTransmission();
         quoteHub.EndTransmission();
-        quoteProvider.EndTransmission();
     }
 
     [TestMethod]
