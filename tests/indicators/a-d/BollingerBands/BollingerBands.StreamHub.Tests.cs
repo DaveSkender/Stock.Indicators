@@ -44,7 +44,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<BollingerBandsResult> expected = RevisedQuotes.ToBollingerBands(20, 2);
@@ -96,7 +96,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

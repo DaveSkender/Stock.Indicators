@@ -45,7 +45,7 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<DonchianResult> expected = RevisedQuotes.ToDonchian(20);

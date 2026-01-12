@@ -41,7 +41,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<ForceIndexResult> expectedRevised = RevisedQuotes.ToForceIndex(lookbackPeriods);
 
@@ -85,7 +85,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals

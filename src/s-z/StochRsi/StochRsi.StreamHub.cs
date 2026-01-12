@@ -125,7 +125,7 @@ public sealed class StochRsiHub
             return;
         }
 
-        IReadOnlyList<RsiResult> rsiResults = rsiHub.ReadCache;
+        List<RsiResult> rsiResults = rsiHub.Cache;
         int replayLimit = Math.Min(providerIndex, rsiResults.Count);
 
         for (int i = 0; i < replayLimit; i++)

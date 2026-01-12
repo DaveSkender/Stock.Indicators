@@ -46,7 +46,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<BopResult> expected = RevisedQuotes.ToBop(14);
@@ -133,7 +133,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = emaHub.Results;

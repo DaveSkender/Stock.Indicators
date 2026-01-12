@@ -38,7 +38,7 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<StarcBandsResult> expectedRevised = RevisedQuotes.ToStarcBands(5, 2, 10);
         sut.IsExactly(expectedRevised);

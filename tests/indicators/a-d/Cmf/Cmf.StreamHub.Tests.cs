@@ -43,7 +43,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<CmfResult> expectedRevised = RevisedQuotes.ToCmf(lookbackPeriods);
 
@@ -84,7 +84,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // results from stream
         IReadOnlyList<EmaResult> sut = observer.Results;
@@ -136,7 +136,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         observer.Results.IsExactly(expectedOriginal);
 
         // Act: Remove a single historical value
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // Assert: Observer should have 501 results and match revised series
         IReadOnlyList<CmfResult> expectedRevised = RevisedQuotes.ToCmf(lookbackPeriods);

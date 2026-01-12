@@ -44,7 +44,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // removal
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<ObvResult> expected = RevisedQuotes.ToObv();
@@ -82,7 +82,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

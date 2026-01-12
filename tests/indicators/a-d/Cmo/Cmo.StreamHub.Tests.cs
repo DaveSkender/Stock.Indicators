@@ -53,7 +53,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<CmoResult> expected = RevisedQuotes.ToCmo(14);
@@ -136,7 +136,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;

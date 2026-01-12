@@ -46,7 +46,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<KamaResult> expected = RevisedQuotes.ToKama(10, 2, 30);
@@ -113,9 +113,9 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int slowPeriods = 30;
         const int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Quote> quotes = Quotes.ToList();
 
-        int length = quotesList.Count;
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -145,11 +145,11 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> streamList
@@ -157,7 +157,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
-           = quotesList.ToKama(erPeriods, fastPeriods, slowPeriods)
+           = quotes.ToKama(erPeriods, fastPeriods, slowPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series

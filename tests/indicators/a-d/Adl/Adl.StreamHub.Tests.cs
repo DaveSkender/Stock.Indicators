@@ -38,7 +38,7 @@ public class AdlHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<AdlResult> expectedRevised = RevisedQuotes.ToAdl();
         sut.IsExactly(expectedRevised);
@@ -75,7 +75,7 @@ public class AdlHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

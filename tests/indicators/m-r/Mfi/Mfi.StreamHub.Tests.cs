@@ -48,7 +48,7 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<MfiResult> expectedRevised = RevisedQuotes.ToMfi(lookbackPeriods);
 
@@ -89,7 +89,7 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // results from stream
         IReadOnlyList<EmaResult> sut = observer.Results;

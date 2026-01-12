@@ -55,7 +55,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<AroonResult> expected = RevisedQuotes.ToAroon(25);
@@ -98,7 +98,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // Final results
         IReadOnlyList<EmaResult> sut = emaHub.Results;

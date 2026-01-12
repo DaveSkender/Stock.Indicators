@@ -14,9 +14,9 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Quote> quotes = Quotes.ToList();
 
-        int length = quotesList.Count;
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -24,7 +24,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         // prefill quotes at provider
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(quotes[i]);
         }
 
         // initialize observer
@@ -44,7 +44,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -55,14 +55,14 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.RemoveAt(350);
+        quotes.RemoveAt(350);
 
         // time-series, for comparison
-        IReadOnlyList<RenkoResult> seriesList = quotesList
+        IReadOnlyList<RenkoResult> seriesList = quotes
             .ToRenko(brickSize, endType);
 
         // assert, should equal series
