@@ -9,7 +9,7 @@ public class QuoteHub
     /// <summary>
     /// Indicates whether this QuoteHub is standalone (no external provider).
     /// </summary>
-    private bool _isStandalone;
+    private readonly bool _isStandalone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="QuoteHub"/> base, without its own provider.

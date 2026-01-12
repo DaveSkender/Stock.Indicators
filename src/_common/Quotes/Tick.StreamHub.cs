@@ -9,7 +9,7 @@ public class TickHub
     /// <summary>
     /// Indicates whether this TickHub is standalone (no external provider).
     /// </summary>
-    private bool _isStandalone;
+    private readonly bool _isStandalone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TickHub"/> class without its own provider.
@@ -39,7 +39,7 @@ public class TickHub
     /// Initializes a new instance of the <see cref="TickHub"/> class with a specified provider.
     /// </summary>
     /// <param name="provider">The tick provider.</param>
-#pragma warning disable CA1062 // Validate arguments of public methods - provider validated after base() call
+#pragma warning disable CA1062 // Base constructor will handle null appropriately
     public TickHub(
         IStreamObservable<ITick> provider)
         : base(provider)
