@@ -22,10 +22,10 @@ public class QuoteHub
 
         const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
 
-        if (maxCacheSize is not null and > maxCacheSizeDefault)
+        if (maxCacheSize is (not null and <= 0) or > maxCacheSizeDefault)
         {
             string message
-                = $"'{nameof(maxCacheSize)}' must be less than {maxCacheSizeDefault}.";
+                = $"'{nameof(maxCacheSize)}' must be greater than 0 and less than {maxCacheSizeDefault}.";
 
             throw new ArgumentOutOfRangeException(
                 nameof(maxCacheSize), maxCacheSize, message);

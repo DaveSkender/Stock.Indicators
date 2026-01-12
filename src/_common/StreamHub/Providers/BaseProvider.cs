@@ -43,10 +43,12 @@ public class BaseProvider<T>
     public int ObserverCount => 0;
 
     /// <inheritdoc />
-    public bool HasObservers => false;
+    public bool HasObservers
+        => false; // No-op: base provider has no subscribers
 
     /// <inheritdoc />
-    public bool HasSubscriber(IStreamObserver<T> observer) => false;
+    public bool HasSubscriber(IStreamObserver<T> observer)
+        => false; // No-op: base provider has no subscribers
 
     /// <inheritdoc />
     public IDisposable Subscribe(IStreamObserver<T> observer)
@@ -54,7 +56,7 @@ public class BaseProvider<T>
 
     /// <inheritdoc />
     public bool Unsubscribe(IStreamObserver<T> observer)
-        => throw new InvalidOperationException("Unsubscribe has no effect on base provider.");
+        => false; // No-op: base provider has no subscribers
 
     /// <inheritdoc />
     public void EndTransmission()

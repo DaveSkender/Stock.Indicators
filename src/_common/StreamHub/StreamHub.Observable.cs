@@ -43,14 +43,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <inheritdoc/>
     public void EndTransmission()
     {
-        foreach (IStreamObserver<TOut> observer
-            in _observers.ToArray())
+        if (ObserverCount == 0)
         {
-            if (_observers.Contains(observer))
-            {
-                // subscriber removes itself
-                observer.OnCompleted();
-            }
+            return;
+        }
+
+        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        {
+            o.OnCompleted();  // subscriber removes itself
         }
 
         _observers.Clear();
@@ -86,7 +86,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="indexHint">Provider index hint.</param>
     private void NotifyObserversOnAdd(TOut item, int? indexHint)
     {
-        // send to subscribers
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnAdd(item, notify: true, indexHint);
@@ -99,6 +103,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="fromTimestamp">Rebuild starting date.</param>
     protected void NotifyObserversOnRebuild(DateTime fromTimestamp)
     {
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnRebuild(fromTimestamp);
@@ -111,6 +120,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="toTimestamp">Prune ending date.</param>
     private void NotifyObserversOnPrune(DateTime toTimestamp)
     {
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnPrune(toTimestamp);
@@ -123,7 +137,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="exception">The exception to send.</param>
     private void NotifyObserversOnError(Exception exception)
     {
-        // send to subscribers
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnError(exception);

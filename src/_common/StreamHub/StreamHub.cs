@@ -13,7 +13,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // store provider reference
         Provider = provider;
 
-        // cache provider's ReadCache reference
+        // cache provider's ReadCache reference (wrapped for safety)
         ProviderCache = provider.ReadCache;
 
         // inherit settings (reinstantiate struct on heap)
@@ -22,8 +22,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // inherit max cache size
         MaxCacheSize = provider.MaxCacheSize;
 
+        // pre-allocate cache if reasonable size
+        if (MaxCacheSize is > 0 and < 10_000)
+        {
+            Cache = new List<TOut>(MaxCacheSize);
+        }
+
         // build read-only cache reference
-        Results = ReadCache = Cache.AsReadOnly();
+        ReadCache = Cache.AsReadOnly();
     }
 
     // PROPERTIES
@@ -32,7 +38,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public string Name { get; private protected init; } = string.Empty;
 
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> Results { get; }
+    public IReadOnlyList<TOut> Results => ReadCache;
 
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
@@ -40,7 +46,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets the cache of stored values (base).
     /// </summary>
-    internal List<TOut> Cache { get; } = [];
+    internal List<TOut> Cache { get; } = new List<TOut>(800);
 
     /// <summary>
     /// Gets the current count of repeated caching attempts.
@@ -216,7 +222,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // rebuild
         if (provIndex >= 0)
         {
-            for (int i = provIndex; i < ProviderCache.Count; i++)
+            int cacheSize = ProviderCache.Count;
+            for (int i = provIndex; i < cacheSize; i++)
             {
                 OnAdd(ProviderCache[i], notify: false, i);
             }
@@ -318,13 +325,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             return;
         }
 
-        DateTime toTimestamp = DateTime.MinValue;
+        // calculate how many items to remove
+        int count = Cache.Count - MaxCacheSize + 1;
 
-        while (Cache.Count >= MaxCacheSize)
-        {
-            toTimestamp = Cache[0].Timestamp;
-            Cache.RemoveAt(0);
-        }
+        // store timestamp of last item being removed
+        DateTime toTimestamp = Cache[count - 1].Timestamp;
+
+        // remove all items in one operation
+        Cache.RemoveRange(0, count);
 
         NotifyObserversOnPrune(toTimestamp);
     }
@@ -405,5 +413,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         LastItem = item;
         return false;
     }
+
+
 
 }
