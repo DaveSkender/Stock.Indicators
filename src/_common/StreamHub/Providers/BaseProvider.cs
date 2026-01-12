@@ -16,6 +16,8 @@ public class BaseProvider<T>
     : IStreamObservable<T>
     where T : IReusable
 {
+    private static readonly IReadOnlyList<T> _providerCache = Array.Empty<T>().AsReadOnly();
+
     /// <summary>
     /// Hub properties with non-standard defaults:
     /// bit 0 = 1 (disable observer) and mask = 0b11111110 (do not pass bit 0 to child hubs).
@@ -32,7 +34,7 @@ public class BaseProvider<T>
     /// <remarks>
     /// <see cref="BaseProvider{T}"/> does not have cached values."
     /// </remarks>
-    public IReadOnlyList<T> ReadCache => Array.Empty<T>().AsReadOnly();
+    public IReadOnlyList<T> ReadCache => _providerCache;
 
     /// <inheritdoc/>
     public int MaxCacheSize => 0;

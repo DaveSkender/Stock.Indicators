@@ -12,13 +12,12 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// <summary>
     /// Data provider that this observer subscribes to.
     /// </summary>
-    protected IStreamObservable<TIn> Provider { get; private protected init; }
+    protected IStreamObservable<TIn> Provider { get; }
 
     /// <summary>
     /// Data provider's internal cache (read-only).
     /// </summary>
-    /// <remarks>This is an alias for <see cref="Provider"/>.ReadCache</remarks>
-    protected IReadOnlyList<TIn> ProviderCache => Provider.ReadCache;
+    protected IReadOnlyList<TIn> ProviderCache { get; }
 
     /// <summary>
     /// Subscription token for managing the subscription lifecycle.

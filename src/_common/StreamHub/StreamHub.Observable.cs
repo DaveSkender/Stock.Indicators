@@ -12,7 +12,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
 
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> ReadCache => Cache.AsReadOnly();
+    public IReadOnlyList<TOut> ReadCache { get; }
 
     /// <inheritdoc/>
     public int MaxCacheSize { get; init; }
