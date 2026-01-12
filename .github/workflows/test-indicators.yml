@@ -16,6 +16,10 @@ permissions:
   contents: read # Required for checkout
   checks: write # Required for test results
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quick-check:
     name: quick check

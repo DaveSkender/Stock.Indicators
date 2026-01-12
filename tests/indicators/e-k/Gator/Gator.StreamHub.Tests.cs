@@ -46,7 +46,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<GatorResult> expected = RevisedQuotes.ToGator();
@@ -99,7 +99,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.Insert(quotesList[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<GatorResult> sut

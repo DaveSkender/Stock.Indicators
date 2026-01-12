@@ -23,7 +23,7 @@ public class CacheManagement : TestBase
         List<Quote> quotesAfterRemove = [.. quotes];
         quotesAfterRemove.RemoveAt(14);
 
-        quoteHub.Remove(Quotes[14]);
+        quoteHub.RemoveAt(14);
         quoteHub.EndTransmission();
 
         Console.WriteLine(observer.Results.ToStringOut());
@@ -263,15 +263,10 @@ public class CacheManagement : TestBase
         List<Quote> quotes = Quotes.Take(25).ToList();
         quoteHub.Add(quotes);
 
-        // verify Results cannot be cast to mutable list
+        // verify StreamHub.Results cannot be cast to mutable list
         IReadOnlyList<SmaResult> results = observer.Results;
         bool canCastResults = results is List<SmaResult>;
         canCastResults.Should().BeFalse("Results should not be castable to List<T>");
-
-        // verify GetCacheRef cannot be cast to mutable list
-        IReadOnlyList<SmaResult> cacheRef = observer.GetCacheRef();
-        bool canCastCacheRef = cacheRef is List<SmaResult>;
-        canCastCacheRef.Should().BeFalse("GetCacheRef() should not be castable to List<T>");
 
         // verify QuoteHub.Quotes cannot be cast to mutable list
         IReadOnlyList<IQuote> quotesRef = quoteHub.Quotes;

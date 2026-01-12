@@ -45,7 +45,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         actuals.IsExactly(series);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<EpmaResult> expectedRevised = RevisedQuotes.ToEpma(lookbackPeriods);
 
@@ -166,7 +166,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         IReadOnlyList<SmaResult> sut = smaHub.Results;
         IReadOnlyList<SmaResult> expected = RevisedQuotes

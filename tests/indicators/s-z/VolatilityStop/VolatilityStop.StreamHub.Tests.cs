@@ -41,7 +41,7 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
         sut.IsExactly(expectedOriginal);
 
         // delete (test Remove functionality), should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<VolatilityStopResult> expectedRevised = RevisedQuotes.ToVolatilityStop();
         sut.IsExactly(expectedRevised);

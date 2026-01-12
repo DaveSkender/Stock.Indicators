@@ -6,20 +6,25 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 {
     private readonly HashSet<IStreamObserver<TOut>> _observers = [];
 
-    /// <inheritdoc/>
-    public bool HasObservers => _observers.Count > 0;
+    // PROPERTIES
 
     /// <inheritdoc/>
-    public int ObserverCount => _observers.Count;
-
-    /// <inheritdoc/>
-    public IReadOnlyList<TOut> ReadCache => Cache.AsReadOnly();
+    public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
 
     /// <inheritdoc/>
     public int MaxCacheSize { get; init; }
 
     /// <inheritdoc/>
-    public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
+    public int ObserverCount => _observers.Count;
+
+    /// <inheritdoc/>
+    public bool HasObservers => _observers.Count > 0;
+
+    // METHODS
+
+    /// <inheritdoc/>
+    public bool HasSubscriber(IStreamObserver<TOut> observer)
+        => _observers.Contains(observer);
 
     /// <inheritdoc/>
     public IDisposable Subscribe(IStreamObserver<TOut> observer)
@@ -33,8 +38,20 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         => _observers.Remove(observer);
 
     /// <inheritdoc/>
-    public bool HasSubscriber(IStreamObserver<TOut> observer)
-        => _observers.Contains(observer);
+    public void EndTransmission()
+    {
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
+        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        {
+            o.OnCompleted();  // subscriber removes itself
+        }
+
+        _observers.Clear();
+    }
 
     /// <summary>
     /// A disposable subscription to the stream provider.
@@ -59,22 +76,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         public void Dispose() => _observers.Remove(_observer);
     }
 
-    /// <inheritdoc/>
-    public void EndTransmission()
-    {
-        foreach (IStreamObserver<TOut> observer
-            in _observers.ToArray())
-        {
-            if (_observers.Contains(observer))
-            {
-                // subscriber removes itself
-                observer.OnCompleted();
-            }
-        }
-
-        _observers.Clear();
-    }
-
     /// <summary>
     /// Sends new <c>TSeries</c> item to subscribers.
     /// </summary>
@@ -82,7 +83,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="indexHint">Provider index hint.</param>
     private void NotifyObserversOnAdd(TOut item, int? indexHint)
     {
-        // send to subscribers
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnAdd(item, notify: true, indexHint);
@@ -95,6 +100,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="fromTimestamp">Rebuild starting date.</param>
     protected void NotifyObserversOnRebuild(DateTime fromTimestamp)
     {
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnRebuild(fromTimestamp);
@@ -107,6 +117,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="toTimestamp">Prune ending date.</param>
     private void NotifyObserversOnPrune(DateTime toTimestamp)
     {
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnPrune(toTimestamp);
@@ -119,7 +134,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="exception">The exception to send.</param>
     private void NotifyObserversOnError(Exception exception)
     {
-        // send to subscribers
+        if (ObserverCount == 0)
+        {
+            return;
+        }
+
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
             o.OnError(exception);

@@ -45,7 +45,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<ChandelierResult> expected = RevisedQuotes.ToChandelier(22, 3);

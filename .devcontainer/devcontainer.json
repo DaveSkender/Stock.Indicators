@@ -7,16 +7,14 @@
   "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
+      "version": "24.12.0",
+      "pnpmVersion": "10.26.2"
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
       "version": "10.0",
       "additionalVersions": "9.0,8.0"
     },
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/ruby:1": {
-      "version": "3.3"
-    }
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "customizations": {
     "vscode": {
@@ -40,11 +38,12 @@
     }
   },
   "forwardPorts": [
-    4000
+    5173,
+    5174
   ],
   "portsAttributes": {
-    "4000": {
-      "label": "Jekyll Doc Site",
+    "5173": {
+      "label": "VitePress Doc Site",
       "onAutoForward": "notify"
     }
   },
