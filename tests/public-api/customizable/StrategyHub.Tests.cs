@@ -86,7 +86,7 @@ public class StrategyHubTests : TestBase
         bool crossunder = fastPair.Previous.Sma >= slowPair.Previous.Sma
             && fastPair.Current.Sma < slowPair.Current.Sma;
 
-        double price = quoteHub.Results[^1].Value;
+        double price = (double)quoteHub.Results[^1].Close;
 
         if (crossover)
         {
