@@ -11,7 +11,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
     private readonly HttpClient _httpClient;
 
     private readonly QuoteHub _quoteHub;
-    private readonly StrategyHub<IQuote> _strategyHub;
+    private readonly StrategyGroup<EmaResult, EmaResult> _strategyGroup;
     private readonly EmaHub _fastEma;
     private readonly EmaHub _slowEma;
 
@@ -40,9 +40,11 @@ internal sealed class GoldenCrossStrategy : IDisposable
         _httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(30) };
 
         _quoteHub = new QuoteHub();
-        _strategyHub = new StrategyHub<IQuote>(_quoteHub);
-        _fastEma = _strategyHub.Use<EmaHub, EmaResult>(_quoteHub.ToEmaHub(FastPeriod));
-        _slowEma = _strategyHub.Use<EmaHub, EmaResult>(_quoteHub.ToEmaHub(SlowPeriod));
+        _strategyGroup = new StrategyGroup<EmaResult, EmaResult>(
+            _quoteHub.ToEmaHub(FastPeriod),
+            _quoteHub.ToEmaHub(SlowPeriod));
+        _fastEma = (EmaHub)_strategyGroup.Hub1;
+        _slowEma = (EmaHub)_strategyGroup.Hub2;
     }
 
     public async Task RunAsync()
@@ -122,14 +124,12 @@ internal sealed class GoldenCrossStrategy : IDisposable
             return;
         }
 
-        bool hasPairs = _strategyHub.TryGetLatest(
-            _fastEma,
-            _slowEma,
-            out (EmaResult previous, EmaResult current) fastPair,
-            out (EmaResult previous, EmaResult current) slowPair);
+        bool hasPairs = _strategyGroup.TryGetBackPair(
+            out BackPair<EmaResult> fastPair,
+            out BackPair<EmaResult> slowPair);
 
-        if (!hasPairs || fastPair.current.Ema is null || slowPair.current.Ema is null
-            || fastPair.previous.Ema is null || slowPair.previous.Ema is null)
+        if (!hasPairs || fastPair.Current.Ema is null || slowPair.Current.Ema is null
+            || fastPair.Previous.Ema is null || slowPair.Previous.Ema is null)
         {
             return;
         }
@@ -137,12 +137,12 @@ internal sealed class GoldenCrossStrategy : IDisposable
         double currentPrice = (double)quote.Close;
 
         // Golden Cross: Fast EMA crosses above Slow EMA (Buy signal)
-        bool goldenCross = fastPair.previous.Ema <= slowPair.previous.Ema
-            && fastPair.current.Ema > slowPair.current.Ema;
+        bool goldenCross = fastPair.Previous.Ema <= slowPair.Previous.Ema
+            && fastPair.Current.Ema > slowPair.Current.Ema;
 
         // Death Cross: Fast EMA crosses below Slow EMA (Sell signal)
-        bool deathCross = fastPair.previous.Ema >= slowPair.previous.Ema
-            && fastPair.current.Ema < slowPair.current.Ema;
+        bool deathCross = fastPair.Previous.Ema >= slowPair.Previous.Ema
+            && fastPair.Current.Ema < slowPair.Current.Ema;
 
         if (goldenCross && _units == 0)
         {

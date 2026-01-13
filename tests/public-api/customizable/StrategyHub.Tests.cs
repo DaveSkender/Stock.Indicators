@@ -24,9 +24,9 @@ public class StrategyHubTests : TestBase
             quoteHub.Add(Quotes[i]);
         }
 
-        bool hasPairs = group.TryGetAligned(
-            out AlignedPair<EmaResult> fastPair,
-            out AlignedPair<EmaResult> slowPair);
+        bool hasPairs = group.TryGetBackPair(
+            out BackPair<EmaResult> fastPair,
+            out BackPair<EmaResult> slowPair);
 
         hasPairs.Should().BeTrue();
 
@@ -69,9 +69,9 @@ public class StrategyHubTests : TestBase
             quoteHub.Add(LongestQuotes[i]);
         }
 
-        bool hasPairs = group.TryGetAligned(
-            out AlignedPair<SmaResult> fastPair,
-            out AlignedPair<SmaResult> slowPair);
+        bool hasPairs = group.TryGetBackPair(
+            out BackPair<SmaResult> fastPair,
+            out BackPair<SmaResult> slowPair);
 
         hasPairs.Should().BeTrue();
 
