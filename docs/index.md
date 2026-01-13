@@ -133,7 +133,7 @@ EmaHub emaSlow = quoteHub.ToEmaHub(200);
 quoteHub.Add(newQuote);
 // and the 2 EmaHub will be in sync
 
-if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
+if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 && emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
 {
     // cross over occurred
