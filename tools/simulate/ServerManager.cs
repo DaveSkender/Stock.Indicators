@@ -129,6 +129,10 @@ internal static class ServerManager
             {
                 Console.WriteLine($"[ServerManager] Error stopping server: {ex.Message}");
             }
+            catch (Win32Exception ex)
+            {
+                Console.WriteLine($"[ServerManager] Error stopping server: {ex.Message}");
+            }
         }
     }
 }
