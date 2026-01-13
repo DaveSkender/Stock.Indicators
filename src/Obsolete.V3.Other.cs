@@ -157,7 +157,7 @@ public static partial class Indicator
 public interface IReusableResult : IReusable;
 
 [ExcludeFromCodeCoverage]
-[Obsolete("Rename `BasicData` to `QuotePart`", true)]
+[Obsolete("Rename `BasicData` to `TimeValue`", true)]
 public sealed class BasicData : IReusable
 {
     public DateTime Timestamp { get; set; }

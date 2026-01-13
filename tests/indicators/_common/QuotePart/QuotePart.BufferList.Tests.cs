@@ -5,7 +5,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
 {
     private const CandlePart candlePart = CandlePart.Close;
 
-    private static readonly IReadOnlyList<QuotePart> series
+    private static readonly IReadOnlyList<TimeValue> series
        = Quotes.ToQuotePart(candlePart);
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<QuotePart> expected = subset.ToQuotePart(candlePart);
+        IReadOnlyList<TimeValue> expected = subset.ToQuotePart(candlePart);
 
         QuotePartList sut = new(candlePart, subset);
 
@@ -72,7 +72,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
 
         sut.Add(Quotes);
 
-        IReadOnlyList<QuotePart> expected = series
+        IReadOnlyList<TimeValue> expected = series
             .Skip(series.Count - maxListSize)
             .ToList();
 
@@ -84,15 +84,15 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
     public void MultipleCandleParts()
     {
         // Test different candle parts
-        IReadOnlyList<QuotePart> openSeries = Quotes.ToQuotePart(CandlePart.Open);
+        IReadOnlyList<TimeValue> openSeries = Quotes.ToQuotePart(CandlePart.Open);
         QuotePartList openList = new(CandlePart.Open, Quotes);
         openList.IsExactly(openSeries);
 
-        IReadOnlyList<QuotePart> highSeries = Quotes.ToQuotePart(CandlePart.High);
+        IReadOnlyList<TimeValue> highSeries = Quotes.ToQuotePart(CandlePart.High);
         QuotePartList highList = new(CandlePart.High, Quotes);
         highList.IsExactly(highSeries);
 
-        IReadOnlyList<QuotePart> hl2Series = Quotes.ToQuotePart(CandlePart.HL2);
+        IReadOnlyList<TimeValue> hl2Series = Quotes.ToQuotePart(CandlePart.HL2);
         QuotePartList hl2List = new(CandlePart.HL2, Quotes);
         hl2List.IsExactly(hl2Series);
     }

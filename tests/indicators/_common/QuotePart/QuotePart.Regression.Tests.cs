@@ -1,7 +1,7 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class QuotePartTests : RegressionTestBase<QuotePart>
+public class QuotePartTests : RegressionTestBase<TimeValue>
 {
     public QuotePartTests() : base("quotepart.standard.json") { }
 
