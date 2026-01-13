@@ -586,6 +586,82 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
     }
 
     [TestMethod]
+    public void CascadedAggregation_FiveMinToFifteenMinToOneHour()
+    {
+        // This test demonstrates the bug where QuoteAggregatorHub notifies observers
+        // with the SOURCE timestamp instead of the AGGREGATED timestamp.
+        //
+        // Expected behavior:
+        // - 5-min candle at 01:20:00 → updates 15-min bar at 01:15:00
+        // - 15-min aggregator should notify with 01:15:00 (not 01:20:00)
+        // - 1-hour aggregator should rebuild from 01:00:00 (not 01:20:00)
+
+        // Create cascaded aggregators: 5-min → 15-min → 1-hour
+        QuoteHub fiveMinProvider = new();
+        QuoteAggregatorHub fifteenMinAgg = fiveMinProvider.ToQuoteAggregatorHub(PeriodSize.FifteenMinutes);
+        QuoteAggregatorHub oneHourAgg = fifteenMinAgg.ToQuoteAggregatorHub(PeriodSize.OneHour);
+
+        // Add 5-minute candles
+        // First, add some candles to establish the baseline
+        fiveMinProvider.Add(new Quote(
+            DateTime.Parse("2023-11-09 01:00", invariantCulture), 100, 105, 99, 102, 1000));
+        fiveMinProvider.Add(new Quote(
+            DateTime.Parse("2023-11-09 01:05", invariantCulture), 102, 106, 101, 104, 1100));
+        fiveMinProvider.Add(new Quote(
+            DateTime.Parse("2023-11-09 01:10", invariantCulture), 104, 107, 103, 105, 1200));
+        fiveMinProvider.Add(new Quote(
+            DateTime.Parse("2023-11-09 01:15", invariantCulture), 105, 108, 104, 106, 1300));
+
+        // Verify initial state
+        IReadOnlyList<IQuote> fiveMinResults = fiveMinProvider.Results;
+        IReadOnlyList<IQuote> fifteenMinResults = fifteenMinAgg.Results;
+        IReadOnlyList<IQuote> oneHourResults = oneHourAgg.Results;
+
+        fiveMinResults.Should().HaveCount(4, "should have 4 five-minute candles");
+        fifteenMinResults.Should().HaveCount(2, "should have 2 fifteen-minute bars");
+        oneHourResults.Should().HaveCount(1, "should have 1 one-hour bar");
+
+        // Now add a candle at 01:20:00 (which should update the 01:15:00 fifteen-minute bar)
+        fiveMinProvider.Add(new Quote(
+            DateTime.Parse("2023-11-09 01:20", invariantCulture), 106, 109, 105, 107, 1400));
+
+        // Verify results after update
+        fiveMinResults = fiveMinProvider.Results;
+        fifteenMinResults = fifteenMinAgg.Results;
+        oneHourResults = oneHourAgg.Results;
+
+        // Five-minute provider should have 5 candles
+        fiveMinResults.Should().HaveCount(5, "should have 5 five-minute candles after adding 01:20");
+
+        // Fifteen-minute aggregator should still have 2 bars (01:00 and 01:15)
+        // The 01:15 bar should be updated with the new 01:20 data
+        fifteenMinResults.Should().HaveCount(2, "should have 2 fifteen-minute bars");
+
+        if (fifteenMinResults.Count == 2)
+        {
+            IQuote fifteenMinBar = fifteenMinResults[1];
+            fifteenMinBar.Timestamp.Should().Be(DateTime.Parse("2023-11-09 01:15", invariantCulture));
+            fifteenMinBar.Close.Should().Be(107, "should include the 01:20 candle's close");
+        }
+
+        // One-hour aggregator should still have 1 bar at 01:00
+        // It should be updated with the latest data from the 01:15 fifteen-minute bar
+        oneHourResults.Should().HaveCount(1, "should have 1 one-hour bar");
+
+        if (oneHourResults.Count == 1)
+        {
+            IQuote oneHourBar = oneHourResults[0];
+            oneHourBar.Timestamp.Should().Be(DateTime.Parse("2023-11-09 01:00", invariantCulture));
+            oneHourBar.Close.Should().Be(107, "should include the 01:20 candle's close (cascaded from 15-min bar)");
+        }
+
+        // Cleanup
+        oneHourAgg.Unsubscribe();
+        fifteenMinAgg.Unsubscribe();
+        fiveMinProvider.EndTransmission();
+    }
+
+    [TestMethod]
     public void MultiThreaded_ConcurrentAggregation()
     {
         // Generate 5-minute candles for multi-threaded test
