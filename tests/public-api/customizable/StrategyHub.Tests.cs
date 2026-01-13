@@ -9,13 +9,13 @@ public class StrategyHubTests : TestBase
     public void AlignsLatestPairs()
     {
         QuoteHub quoteHub = new();
-        StrategyHub<IQuote> strategy = new(quoteHub);
 
         const int fastLookback = 10;
         const int slowLookback = 20;
 
-        EmaHub fastHub = strategy.Use<EmaHub, EmaResult>(quoteHub.ToEmaHub(fastLookback));
-        EmaHub slowHub = strategy.Use<EmaHub, EmaResult>(quoteHub.ToEmaHub(slowLookback));
+        EmaHub fastHub = quoteHub.ToEmaHub(fastLookback);
+        EmaHub slowHub = quoteHub.ToEmaHub(slowLookback);
+        StrategyGroup<EmaResult, EmaResult> group = new(fastHub, slowHub);
 
         const int sampleSize = 60;
 
@@ -24,21 +24,19 @@ public class StrategyHubTests : TestBase
             quoteHub.Add(Quotes[i]);
         }
 
-        bool hasPairs = strategy.TryGetLatest(
-            fastHub,
-            slowHub,
-            out (EmaResult previous, EmaResult current) fastPair,
-            out (EmaResult previous, EmaResult current) slowPair);
+        bool hasPairs = group.TryGetAligned(
+            out AlignedPair<EmaResult> fastPair,
+            out AlignedPair<EmaResult> slowPair);
 
         hasPairs.Should().BeTrue();
 
-        fastPair.previous.Should().Be(fastHub.Results[^2]);
-        fastPair.current.Should().Be(fastHub.Results[^1]);
-        slowPair.previous.Should().Be(slowHub.Results[^2]);
-        slowPair.current.Should().Be(slowHub.Results[^1]);
+        fastPair.Previous.Should().Be(fastHub.Results[^2]);
+        fastPair.Current.Should().Be(fastHub.Results[^1]);
+        slowPair.Previous.Should().Be(slowHub.Results[^2]);
+        slowPair.Current.Should().Be(slowHub.Results[^1]);
 
-        bool strategyCross = fastPair.previous.Ema < slowPair.previous.Ema
-            && fastPair.current.Ema > slowPair.current.Ema;
+        bool strategyCross = fastPair.Previous.Ema < slowPair.Previous.Ema
+            && fastPair.Current.Ema > slowPair.Current.Ema;
 
         bool manualCross = fastHub.Results[^2].Ema < slowHub.Results[^2].Ema
             && fastHub.Results[^1].Ema > slowHub.Results[^1].Ema;
@@ -56,13 +54,13 @@ public class StrategyHubTests : TestBase
         double units = 0.0;
 
         QuoteHub quoteHub = new();
-        StrategyHub<IQuote> strategy = new(quoteHub);
 
         const int fastLookback = 50;
         const int slowLookback = 200;
 
-        SmaHub fastHub = strategy.Use<SmaHub, SmaResult>(quoteHub.ToSmaHub(fastLookback));
-        SmaHub slowHub = strategy.Use<SmaHub, SmaResult>(quoteHub.ToSmaHub(slowLookback));
+        SmaHub fastHub = quoteHub.ToSmaHub(fastLookback);
+        SmaHub slowHub = quoteHub.ToSmaHub(slowLookback);
+        StrategyGroup<SmaResult, SmaResult> group = new(fastHub, slowHub);
 
         int length = LongestQuotes.Count;
 
@@ -71,26 +69,24 @@ public class StrategyHubTests : TestBase
             quoteHub.Add(LongestQuotes[i]);
         }
 
-        bool hasPairs = strategy.TryGetLatest(
-            fastHub,
-            slowHub,
-            out (SmaResult previous, SmaResult current) fastPair,
-            out (SmaResult previous, SmaResult current) slowPair);
+        bool hasPairs = group.TryGetAligned(
+            out AlignedPair<SmaResult> fastPair,
+            out AlignedPair<SmaResult> slowPair);
 
         hasPairs.Should().BeTrue();
 
-        fastPair.previous.Should().Be(fastHub.Results[^2]);
-        fastPair.current.Should().Be(fastHub.Results[^1]);
-        slowPair.previous.Should().Be(slowHub.Results[^2]);
-        slowPair.current.Should().Be(slowHub.Results[^1]);
+        fastPair.Previous.Should().Be(fastHub.Results[^2]);
+        fastPair.Current.Should().Be(fastHub.Results[^1]);
+        slowPair.Previous.Should().Be(slowHub.Results[^2]);
+        slowPair.Current.Should().Be(slowHub.Results[^1]);
 
-        bool crossover = fastPair.previous.Sma <= slowPair.previous.Sma
-            && fastPair.current.Sma > slowPair.current.Sma;
+        bool crossover = fastPair.Previous.Sma <= slowPair.Previous.Sma
+            && fastPair.Current.Sma > slowPair.Current.Sma;
 
-        bool crossunder = fastPair.previous.Sma >= slowPair.previous.Sma
-            && fastPair.current.Sma < slowPair.current.Sma;
+        bool crossunder = fastPair.Previous.Sma >= slowPair.Previous.Sma
+            && fastPair.Current.Sma < slowPair.Current.Sma;
 
-        double price = strategy.Provider.Results[^1].Value;
+        double price = quoteHub.Results[^1].Value;
 
         if (crossover)
         {

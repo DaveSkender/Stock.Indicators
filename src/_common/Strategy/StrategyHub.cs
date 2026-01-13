@@ -1,88 +1,157 @@
+using System;
+using System.Collections.Generic;
+
 namespace Skender.Stock.Indicators;
 
+public readonly record struct AlignedPair<T>(T Previous, T Current)
+    where T : ISeries;
+
 /// <summary>
-/// Lightweight container to coordinate streaming hubs when composing strategies.
+/// Aligns latest pairs across two hubs.
 /// </summary>
-/// <typeparam name="TIn">Type of the provider source.</typeparam>
-public sealed class StrategyHub<TIn>
-    where TIn : IReusable
+public sealed class StrategyGroup<T1, T2>
+    where T1 : ISeries
+    where T2 : ISeries
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StrategyHub{TProvider}"/> class.
-    /// </summary>
-    /// <param name="provider">Base streaming provider used by the strategy.</param>
-    public StrategyHub(IChainProvider<TIn> provider)
+    public StrategyGroup(IStreamObservable<T1> hub1, IStreamObservable<T2> hub2)
     {
-        ArgumentNullException.ThrowIfNull(provider);
-        Provider = provider;
+        Hub1 = hub1 ?? throw new ArgumentNullException(nameof(hub1));
+        Hub2 = hub2 ?? throw new ArgumentNullException(nameof(hub2));
     }
 
-    /// <summary>
-    /// Gets the base provider for the strategy.
-    /// </summary>
-    public IChainProvider<TIn> Provider { get; }
+    public IStreamObservable<T1> Hub1 { get; }
 
-    /// <summary>
-    /// Tracks a hub as part of the strategy and returns the same instance for chaining.
-    /// </summary>
-    /// <typeparam name="THub">Type of the hub.</typeparam>
-    /// <typeparam name="TResult">Result type emitted by the hub.</typeparam>
-    /// <param name="hub">Hub to register.</param>
-    /// <returns>Same hub instance for fluent usage.</returns>
-    public THub Use<THub, TResult>(THub hub)
-        where THub : IStreamObservable<TResult>
-        where TResult : ISeries
+    public IStreamObservable<T2> Hub2 { get; }
+
+    public bool TryGetAligned(out AlignedPair<T1> pair1, out AlignedPair<T2> pair2)
     {
-        ArgumentNullException.ThrowIfNull(hub);
-        return hub;
-    }
-
-    /// <summary>
-    /// Attempts to retrieve the most recent and prior results for two hubs at the latest aligned timestamp.
-    /// </summary>
-    /// <typeparam name="THub1">Result type for hub1.</typeparam>
-    /// <typeparam name="THub2">Result type for hub2.</typeparam>
-    /// <param name="hub1">First hub to evaluate.</param>
-    /// <param name="hub2">Second hub to evaluate.</param>
-    /// <param name="hub1Results">Previous and current results for hub1.</param>
-    /// <param name="hub2Results">Previous and current results for hub2.</param>
-    /// <returns>True when both hubs have at least two results and the most recent timestamps align.</returns>
-    public bool TryGetLatest<THub1, THub2>(
-        IStreamObservable<THub1> hub1,
-        IStreamObservable<THub2> hub2,
-        out (THub1 previous, THub1 current) hub1Results,
-        out (THub2 previous, THub2 current) hub2Results)
-        where THub1 : ISeries
-        where THub2 : ISeries
-    {
-        ArgumentNullException.ThrowIfNull(hub1);
-        ArgumentNullException.ThrowIfNull(hub2);
-
-        if (!TryGetLatestPair(hub1, out hub1Results)
-            || !TryGetLatestPair(hub2, out hub2Results))
+        if (!StrategyGroupUtilities.TryGetLatestPair(Hub1, out pair1)
+            || !StrategyGroupUtilities.TryGetLatestPair(Hub2, out pair2))
         {
-            hub1Results = default!;
-            hub2Results = default!;
+            pair1 = default;
+            pair2 = default;
             return false;
         }
 
-        return hub1Results.current.Timestamp == hub2Results.current.Timestamp;
+        return pair1.Current.Timestamp == pair2.Current.Timestamp;
+    }
+}
+
+/// <summary>
+/// Aligns latest pairs across three hubs.
+/// </summary>
+public sealed class StrategyGroup<T1, T2, T3>
+    where T1 : ISeries
+    where T2 : ISeries
+    where T3 : ISeries
+{
+    public StrategyGroup(
+        IStreamObservable<T1> hub1,
+        IStreamObservable<T2> hub2,
+        IStreamObservable<T3> hub3)
+    {
+        Hub1 = hub1 ?? throw new ArgumentNullException(nameof(hub1));
+        Hub2 = hub2 ?? throw new ArgumentNullException(nameof(hub2));
+        Hub3 = hub3 ?? throw new ArgumentNullException(nameof(hub3));
     }
 
-    private static bool TryGetLatestPair<TResult>(
+    public IStreamObservable<T1> Hub1 { get; }
+
+    public IStreamObservable<T2> Hub2 { get; }
+
+    public IStreamObservable<T3> Hub3 { get; }
+
+    public bool TryGetAligned(
+        out AlignedPair<T1> pair1,
+        out AlignedPair<T2> pair2,
+        out AlignedPair<T3> pair3)
+    {
+        if (!StrategyGroupUtilities.TryGetLatestPair(Hub1, out pair1)
+            || !StrategyGroupUtilities.TryGetLatestPair(Hub2, out pair2)
+            || !StrategyGroupUtilities.TryGetLatestPair(Hub3, out pair3))
+        {
+            pair1 = default;
+            pair2 = default;
+            pair3 = default;
+            return false;
+        }
+
+        DateTime timestamp = pair1.Current.Timestamp;
+        return timestamp == pair2.Current.Timestamp
+            && timestamp == pair3.Current.Timestamp;
+    }
+}
+
+/// <summary>
+/// Aligns latest pairs across four hubs.
+/// </summary>
+public sealed class StrategyGroup<T1, T2, T3, T4>
+    where T1 : ISeries
+    where T2 : ISeries
+    where T3 : ISeries
+    where T4 : ISeries
+{
+    public StrategyGroup(
+        IStreamObservable<T1> hub1,
+        IStreamObservable<T2> hub2,
+        IStreamObservable<T3> hub3,
+        IStreamObservable<T4> hub4)
+    {
+        Hub1 = hub1 ?? throw new ArgumentNullException(nameof(hub1));
+        Hub2 = hub2 ?? throw new ArgumentNullException(nameof(hub2));
+        Hub3 = hub3 ?? throw new ArgumentNullException(nameof(hub3));
+        Hub4 = hub4 ?? throw new ArgumentNullException(nameof(hub4));
+    }
+
+    public IStreamObservable<T1> Hub1 { get; }
+
+    public IStreamObservable<T2> Hub2 { get; }
+
+    public IStreamObservable<T3> Hub3 { get; }
+
+    public IStreamObservable<T4> Hub4 { get; }
+
+    public bool TryGetAligned(
+        out AlignedPair<T1> pair1,
+        out AlignedPair<T2> pair2,
+        out AlignedPair<T3> pair3,
+        out AlignedPair<T4> pair4)
+    {
+        if (!StrategyGroupUtilities.TryGetLatestPair(Hub1, out pair1)
+            || !StrategyGroupUtilities.TryGetLatestPair(Hub2, out pair2)
+            || !StrategyGroupUtilities.TryGetLatestPair(Hub3, out pair3)
+            || !StrategyGroupUtilities.TryGetLatestPair(Hub4, out pair4))
+        {
+            pair1 = default;
+            pair2 = default;
+            pair3 = default;
+            pair4 = default;
+            return false;
+        }
+
+        DateTime timestamp = pair1.Current.Timestamp;
+        return timestamp == pair2.Current.Timestamp
+            && timestamp == pair3.Current.Timestamp
+            && timestamp == pair4.Current.Timestamp;
+    }
+}
+
+internal static class StrategyGroupUtilities
+{
+    internal static bool TryGetLatestPair<TResult>(
         IStreamObservable<TResult> hub,
-        out (TResult previous, TResult current) pair)
+        out AlignedPair<TResult> pair)
         where TResult : ISeries
     {
         IReadOnlyList<TResult> cache = hub.Results;
 
         if (cache.Count < 2)
         {
-            pair = default!;
+            pair = default;
             return false;
         }
 
-        pair = (cache[^2], cache[^1]);
+        pair = new(cache[^2], cache[^1]);
         return true;
     }
 }
