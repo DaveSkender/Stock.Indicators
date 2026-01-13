@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for managing quote parts.
 /// </summary>
 public class QuotePartHub
-    : ChainHub<IQuote, QuotePart>, IQuotePart
+    : ChainHub<IQuote, TimeValue>, IQuotePart
 {
     internal QuotePartHub(
         IQuoteProvider<IQuote> provider,
@@ -21,13 +21,13 @@ public class QuotePartHub
 
 
     /// <inheritdoc/>
-    protected override (QuotePart result, int index)
+    protected override (TimeValue result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         // candidate result
-        QuotePart r
+        TimeValue r
             = item.ToQuotePart(CandlePartSelection);
 
         return (r, indexHint ?? Cache.Count);

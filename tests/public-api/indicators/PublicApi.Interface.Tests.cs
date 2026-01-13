@@ -109,7 +109,7 @@ public class UserInterface
         IReadOnlyList<AtrStopResult> staticAtrStop = quotes.ToAtrStop();
         IReadOnlyList<AlligatorResult> staticAlligator = quotes.ToAlligator();
         IReadOnlyList<EmaResult> staticEma = quotes.ToEma(20);
-        IReadOnlyList<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
+        IReadOnlyList<TimeValue> staticQuotePart = quotes.Use(CandlePart.OHL3);
         IReadOnlyList<SmaResult> staticSma = quotes.ToSma(20);
         IReadOnlyList<TrResult> staticTr = quotes.ToTr();
 
@@ -119,7 +119,7 @@ public class UserInterface
         IReadOnlyList<AtrStopResult> streamAtrStop = atrStopHub.Results;
         IReadOnlyList<AlligatorResult> streamAlligator = alligatorHub.Results;
         IReadOnlyList<EmaResult> streamEma = emaHub.Results;
-        IReadOnlyList<QuotePart> streamQuotePart = quotePartHub.Results;
+        IReadOnlyList<TimeValue> streamQuotePart = quotePartHub.Results;
         IReadOnlyList<SmaResult> streamSma = smaHub.Results;
         IReadOnlyList<TrResult> streamTr = trHub.Results;
 
