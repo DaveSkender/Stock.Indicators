@@ -112,8 +112,7 @@ The hub automatically handles state rollback and recalculation when data arrives
 - **Memory:** Maintains cache and state for all subscribed indicators
 - **Latency:** Optimized for real-time updates, typically <1ms per quote
 - **Scalability:** Supports multiple concurrent observers with single propagation
-
-<!-- **Thread safety:** Not thread-safe by default; synchronize external access -->
+- **Thread safety:** Not thread-safe by default; synchronize external access - _designed for single-threaded inputs like WebSocket/SSE_
 
 ## Advanced patterns
 
