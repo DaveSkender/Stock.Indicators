@@ -200,7 +200,9 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
     private void PrintSummary()
     {
-        double finalValue = _units > 0 ? _units * (double)_quoteHub.Results[^1].Close : _balance;
+        double finalValue = _units > 0 && _quoteHub.Results.Count > 0
+            ? _units * (double)_quoteHub.Results[^1].Close
+            : _balance;
         double totalPnL = finalValue - 10000.0;
 
         Console.WriteLine("==========================================");
