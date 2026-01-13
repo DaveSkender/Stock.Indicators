@@ -114,31 +114,7 @@ public class QuoteAggregatorHub
         // Handle gap filling if enabled and moving to future bar
         if (FillGaps && isFutureBar && _currentBar != null)
         {
-            DateTime lastBarTimestamp = _currentBarTimestamp;
-            DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(AggregationPeriod);
-
-            // Fill gaps between last bar and current bar
-            while (nextExpectedBarTimestamp < barTimestamp)
-            {
-                // Create a gap-fill bar with carried-forward prices
-                Quote gapBar = new(
-                    Timestamp: nextExpectedBarTimestamp,
-                    Open: _currentBar.Close,
-                    High: _currentBar.Close,
-                    Low: _currentBar.Close,
-                    Close: _currentBar.Close,
-                    Volume: 0m);
-
-                // Add gap bar using base class logic
-                (IQuote gapResult, int gapIndex) = ToIndicator(gapBar, null);
-                AppendCache(gapResult, notify);
-
-                // Update current bar to the gap bar
-                _currentBar = gapBar;
-                _currentBarTimestamp = nextExpectedBarTimestamp;
-
-                nextExpectedBarTimestamp = nextExpectedBarTimestamp.Add(AggregationPeriod);
-            }
+            FillGapsBetween(_currentBarTimestamp, barTimestamp, notify);
         }
 
         // Handle new bar or update to current bar
@@ -169,6 +145,54 @@ public class QuoteAggregatorHub
                     NotifyObserversOnRebuild(_currentBar.Timestamp);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Fills gaps between two timestamps by creating gap-fill bars with carried-forward prices.
+    /// Only fills gaps when FillGaps is enabled and _currentBar is not null.
+    /// </summary>
+    /// <param name="fromTimestamp">Start timestamp (exclusive).</param>
+    /// <param name="toTimestamp">End timestamp (exclusive).</param>
+    /// <param name="notify">Whether to notify observers when adding gap bars.</param>
+    private void FillGapsBetween(DateTime fromTimestamp, DateTime toTimestamp, bool notify)
+    {
+        if (!FillGaps || _currentBar == null)
+        {
+            return;
+        }
+
+        DateTime nextExpectedBarTimestamp = fromTimestamp.Add(AggregationPeriod);
+
+        // Fill gaps between fromTimestamp and toTimestamp
+        while (nextExpectedBarTimestamp < toTimestamp)
+        {
+            // Create a gap-fill bar with carried-forward prices
+            Quote gapBar = new(
+                Timestamp: nextExpectedBarTimestamp,
+                Open: _currentBar.Close,
+                High: _currentBar.Close,
+                Low: _currentBar.Close,
+                Close: _currentBar.Close,
+                Volume: 0m);
+
+            if (notify)
+            {
+                // Add gap bar using base class logic with notifications
+                (IQuote gapResult, int gapIndex) = ToIndicator(gapBar, null);
+                AppendCache(gapResult, notify);
+            }
+            else
+            {
+                // Add to cache directly (we're in rebuild context, no notifications)
+                Cache.Add(gapBar);
+            }
+
+            // Update current bar to the gap bar
+            _currentBar = gapBar;
+            _currentBarTimestamp = nextExpectedBarTimestamp;
+
+            nextExpectedBarTimestamp = nextExpectedBarTimestamp.Add(AggregationPeriod);
         }
     }
 
@@ -219,6 +243,10 @@ public class QuoteAggregatorHub
         // Clear cache from the aggregated timestamp onwards
         RemoveRange(aggregatedTimestamp, notify: false);
 
+        // Explicitly reset state after RemoveRange to ensure consistency
+        // This ensures _currentBar/_currentBarTimestamp reflect what remains in cache
+        RollbackState(aggregatedTimestamp);
+
         // Get provider position for the aggregated timestamp
         int provIndex = ProviderCache.IndexGte(aggregatedTimestamp);
 
@@ -242,6 +270,12 @@ public class QuoteAggregatorHub
                 // to avoid duplicate detection issues
                 bool isCurrentBar = _currentBar != null && barTimestamp == _currentBarTimestamp;
                 bool isFutureBar = _currentBar == null || barTimestamp > _currentBarTimestamp;
+
+                // Apply gap-filling if transitioning to future bar
+                if (isFutureBar && _currentBar != null)
+                {
+                    FillGapsBetween(_currentBarTimestamp, barTimestamp, notify: false);
+                }
 
                 if (isFutureBar)
                 {

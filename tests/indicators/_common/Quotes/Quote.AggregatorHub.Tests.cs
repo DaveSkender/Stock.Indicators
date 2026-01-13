@@ -790,5 +790,122 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         fifteenMinuteAgg.Unsubscribe();
         fiveMinuteProvider.EndTransmission();
     }
+
+    [TestMethod]
+    public void Rebuild_WithGapFilling_FillsGapsConsistently()
+    {
+        // This test validates that Rebuild applies gap-filling logic
+        // consistently with streaming behavior when FillGaps=true
+
+        List<Quote> minuteQuotes =
+        [
+            new(DateTime.Parse("2023-11-09 10:00", invariantCulture), 100, 105, 99, 102, 1000),
+            new(DateTime.Parse("2023-11-09 10:01", invariantCulture), 102, 106, 101, 104, 1100),
+            // Gap: 10:02, 10:03 missing
+            new(DateTime.Parse("2023-11-09 10:04", invariantCulture), 105, 108, 104, 106, 1300),
+            new(DateTime.Parse("2023-11-09 10:05", invariantCulture), 107, 110, 106, 108, 1500),
+        ];
+
+        QuoteHub provider = new();
+        QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(
+            PeriodSize.OneMinute,
+            fillGaps: true);
+
+        // Add initial quotes
+        provider.Add(minuteQuotes[0]);
+        provider.Add(minuteQuotes[1]);
+        provider.Add(minuteQuotes[2]);
+
+        // Verify streaming behavior fills gaps
+        IReadOnlyList<IQuote> resultsBeforeRebuild = aggregator.Results;
+        resultsBeforeRebuild.Should().HaveCount(5); // 10:00, 10:01, 10:02 (gap), 10:03 (gap), 10:04
+
+        // Trigger rebuild from 10:02
+        aggregator.Rebuild(DateTime.Parse("2023-11-09 10:02", invariantCulture));
+
+        // Verify Rebuild also fills gaps
+        IReadOnlyList<IQuote> resultsAfterRebuild = aggregator.Results;
+        resultsAfterRebuild.Should().HaveCount(5); // Should still have the same structure
+
+        // Verify gap-filled bars at 10:02 and 10:03
+        IQuote gapBar1 = resultsAfterRebuild[2];
+        gapBar1.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:02", invariantCulture));
+        gapBar1.Open.Should().Be(104);  // Carried forward from 10:01 close
+        gapBar1.High.Should().Be(104);
+        gapBar1.Low.Should().Be(104);
+        gapBar1.Close.Should().Be(104);
+        gapBar1.Volume.Should().Be(0);
+
+        IQuote gapBar2 = resultsAfterRebuild[3];
+        gapBar2.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:03", invariantCulture));
+        gapBar2.Open.Should().Be(104);  // Carried forward from 10:02 close (gap bar)
+        gapBar2.High.Should().Be(104);
+        gapBar2.Low.Should().Be(104);
+        gapBar2.Close.Should().Be(104);
+        gapBar2.Volume.Should().Be(0);
+
+        // Add remaining quotes to verify continued streaming works
+        provider.Add(minuteQuotes[3]);
+
+        IReadOnlyList<IQuote> finalResults = aggregator.Results;
+        finalResults.Should().HaveCount(6); // All 6 bars including gaps
+
+        // Cleanup
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void Rebuild_WithLateArrival_TriggersConsistentState()
+    {
+        // This test validates that Rebuild properly resets state
+        // after RemoveRange to ensure isCurrentBar/isFutureBar checks are correct
+
+        List<Quote> minuteQuotes =
+        [
+            new(DateTime.Parse("2023-11-09 10:00", invariantCulture), 100, 105, 99, 102, 1000),
+            new(DateTime.Parse("2023-11-09 10:01", invariantCulture), 102, 106, 101, 104, 1100),
+            new(DateTime.Parse("2023-11-09 10:02", invariantCulture), 104, 107, 103, 105, 1200),
+            new(DateTime.Parse("2023-11-09 10:03", invariantCulture), 105, 108, 104, 106, 1300),
+        ];
+
+        QuoteHub provider = new();
+        QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(PeriodSize.TwoMinutes);
+
+        // Add first 3 quotes (creating bars at 10:00 and 10:02)
+        provider.Add(minuteQuotes[0]);
+        provider.Add(minuteQuotes[1]);
+        provider.Add(minuteQuotes[2]);
+
+        // Verify we have 2 bars
+        IReadOnlyList<IQuote> resultsBeforeLateArrival = aggregator.Results;
+        resultsBeforeLateArrival.Should().HaveCount(2);
+
+        // Insert a late arrival for 10:01 (should update the 10:00 bar)
+        provider.Insert(new Quote(
+            DateTime.Parse("2023-11-09 10:00:30", invariantCulture), 101, 106, 100, 103, 1050));
+
+        // Verify late arrival triggered rebuild and updated the 10:00 bar correctly
+        IReadOnlyList<IQuote> resultsAfterLateArrival = aggregator.Results;
+        resultsAfterLateArrival.Should().HaveCount(2);
+
+        IQuote bar1 = resultsAfterLateArrival[0];
+        bar1.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:00", invariantCulture));
+        bar1.High.Should().BeGreaterOrEqualTo(106); // Should include late arrival's high
+
+        // Add another quote to verify state is still consistent
+        provider.Add(minuteQuotes[3]);
+
+        IReadOnlyList<IQuote> finalResults = aggregator.Results;
+        finalResults.Should().HaveCount(2); // Still 2 bars (10:00-10:01 and 10:02-10:03)
+
+        IQuote bar2 = finalResults[1];
+        bar2.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:02", invariantCulture));
+        bar2.Close.Should().Be(106); // Should include the last quote's close
+
+        // Cleanup
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
 }
 
