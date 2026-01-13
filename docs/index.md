@@ -123,6 +123,23 @@ provider.Add(newQuote);
 IReadOnlyList<RsiResult> = rsiHub.Results;
 ```
 
+```csharp
+QuoteHub quoteHub = new();
+
+EmaHub emaFast = quoteHub.ToEmaHub(50);
+EmaHub emaSlow = quoteHub.ToEmaHub(200);
+
+// add quotes to quoteHub (from stream)
+quoteHub.Add(newQuote);
+// and the 2 EmaHub will be in sync
+
+if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
+&& emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
+{
+    // cross over occurred
+}
+```
+
 The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.
 
 See the [guide](/guide) and the [full list of indicators and overlays](/indicators) for more information.
