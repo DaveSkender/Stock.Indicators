@@ -131,7 +131,7 @@ EmaHub emaSlow = quoteHub.ToEmaHub(200);
 
 // add quotes to quoteHub (from stream)
 quoteHub.Add(newQuote);
-// and the 2 EmaHub will be in sync
+// and the 2 EmaHubs will be in sync
 
 if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 && emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
