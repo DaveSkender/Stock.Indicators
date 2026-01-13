@@ -45,9 +45,9 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);
     
     // access latest results from each indicator
-    SmaResult sma = smaHub.Results.[^1];
-    RsiResult rsi = rsiHub.Results.[^1];
-    MacdResult macd = macdHub.Results.[^1];
+    SmaResult sma = smaHub.Results[^1];
+    RsiResult rsi = rsiHub.Results[^1];
+    MacdResult macd = macdHub.Results[^1];
     
     // use results for trading logic, alerts, etc.
     // or subscribe your strategy
@@ -129,7 +129,7 @@ EmaHub emaSlow = quoteHub.ToEmaHub(200);
 quoteHub.Add(newQuote);
 // and the 2 EmaHub will be in sync
 
-if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
+if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 && emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
 {
     // cross over occurred
