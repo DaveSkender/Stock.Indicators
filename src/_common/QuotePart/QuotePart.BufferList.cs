@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Quote part selection from incremental quotes.
 /// </summary>
 /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-public class QuotePartList(CandlePart candlePart) : BufferList<QuotePart>, IIncrementFromQuote, IQuotePart
+public class QuotePartList(CandlePart candlePart) : BufferList<TimeValue>, IIncrementFromQuote, IQuotePart
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="QuotePartList"/> class with initial quotes.
@@ -22,7 +22,7 @@ public class QuotePartList(CandlePart candlePart) : BufferList<QuotePart>, IIncr
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        QuotePart result = quote.ToQuotePart(CandlePartSelection);
+        TimeValue result = quote.ToQuotePart(CandlePartSelection);
         AddInternal(result);
     }
 

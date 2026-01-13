@@ -68,7 +68,7 @@ public class CacheManagement : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = Quotes[i];
-            QuotePart r = observer.Cache[i];
+            TimeValue r = observer.Cache[i];
 
             // compare quote to result cache
             r.Timestamp.Should().Be(q.Timestamp);

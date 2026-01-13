@@ -7,16 +7,16 @@ public class QuoteParts : TestBaseWithPrecision
     public void ConvertQuote()
     {
         // compose basic data
-        QuotePart o = Quotes[501].ToQuotePart(CandlePart.Open);
-        QuotePart h = Quotes[501].ToQuotePart(CandlePart.High);
-        QuotePart l = Quotes[501].ToQuotePart(CandlePart.Low);
-        QuotePart c = Quotes[501].ToQuotePart(CandlePart.Close);
-        QuotePart v = Quotes[501].ToQuotePart(CandlePart.Volume);
-        QuotePart hl = Quotes[501].ToQuotePart(CandlePart.HL2);
-        QuotePart hlc = Quotes[501].ToQuotePart(CandlePart.HLC3);
-        QuotePart oc = Quotes[501].ToQuotePart(CandlePart.OC2);
-        QuotePart ohl = Quotes[501].ToQuotePart(CandlePart.OHL3);
-        QuotePart ohlc = Quotes[501].ToQuotePart(CandlePart.OHLC4);
+        TimeValue o = Quotes[501].ToQuotePart(CandlePart.Open);
+        TimeValue h = Quotes[501].ToQuotePart(CandlePart.High);
+        TimeValue l = Quotes[501].ToQuotePart(CandlePart.Low);
+        TimeValue c = Quotes[501].ToQuotePart(CandlePart.Close);
+        TimeValue v = Quotes[501].ToQuotePart(CandlePart.Volume);
+        TimeValue hl = Quotes[501].ToQuotePart(CandlePart.HL2);
+        TimeValue hlc = Quotes[501].ToQuotePart(CandlePart.HLC3);
+        TimeValue oc = Quotes[501].ToQuotePart(CandlePart.OC2);
+        TimeValue ohl = Quotes[501].ToQuotePart(CandlePart.OHL3);
+        TimeValue ohlc = Quotes[501].ToQuotePart(CandlePart.OHLC4);
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
@@ -40,31 +40,31 @@ public class QuoteParts : TestBaseWithPrecision
     public void ConvertList()
     {
         // compose data
-        IReadOnlyList<QuotePart> o = Quotes.ToQuotePart(CandlePart.Open);
-        IReadOnlyList<QuotePart> h = Quotes.ToQuotePart(CandlePart.High);
-        IReadOnlyList<QuotePart> l = Quotes.ToQuotePart(CandlePart.Low);
-        IReadOnlyList<QuotePart> c = Quotes.ToQuotePart(CandlePart.Close);
-        IReadOnlyList<QuotePart> v = Quotes.ToQuotePart(CandlePart.Volume);
-        IReadOnlyList<QuotePart> hl = Quotes.ToQuotePart(CandlePart.HL2);
-        IReadOnlyList<QuotePart> hlc = Quotes.ToQuotePart(CandlePart.HLC3);
-        IReadOnlyList<QuotePart> oc = Quotes.ToQuotePart(CandlePart.OC2);
-        IReadOnlyList<QuotePart> ohl = Quotes.ToQuotePart(CandlePart.OHL3);
-        IReadOnlyList<QuotePart> ohlc = Quotes.ToQuotePart(CandlePart.OHLC4);
+        IReadOnlyList<TimeValue> o = Quotes.ToQuotePart(CandlePart.Open);
+        IReadOnlyList<TimeValue> h = Quotes.ToQuotePart(CandlePart.High);
+        IReadOnlyList<TimeValue> l = Quotes.ToQuotePart(CandlePart.Low);
+        IReadOnlyList<TimeValue> c = Quotes.ToQuotePart(CandlePart.Close);
+        IReadOnlyList<TimeValue> v = Quotes.ToQuotePart(CandlePart.Volume);
+        IReadOnlyList<TimeValue> hl = Quotes.ToQuotePart(CandlePart.HL2);
+        IReadOnlyList<TimeValue> hlc = Quotes.ToQuotePart(CandlePart.HLC3);
+        IReadOnlyList<TimeValue> oc = Quotes.ToQuotePart(CandlePart.OC2);
+        IReadOnlyList<TimeValue> ohl = Quotes.ToQuotePart(CandlePart.OHL3);
+        IReadOnlyList<TimeValue> ohlc = Quotes.ToQuotePart(CandlePart.OHLC4);
 
         // proper quantities
         c.Should().HaveCount(502);
 
         // samples
-        QuotePart ro = o[501];
-        QuotePart rh = h[501];
-        QuotePart rl = l[501];
-        QuotePart rc = c[501];
-        QuotePart rv = v[501];
-        QuotePart rhl = hl[501];
-        QuotePart rhlc = hlc[501];
-        QuotePart roc = oc[501];
-        QuotePart rohl = ohl[501];
-        QuotePart rohlc = ohlc[501];
+        TimeValue ro = o[501];
+        TimeValue rh = h[501];
+        TimeValue rl = l[501];
+        TimeValue rc = c[501];
+        TimeValue rv = v[501];
+        TimeValue rhl = hl[501];
+        TimeValue rhlc = hlc[501];
+        TimeValue roc = oc[501];
+        TimeValue rohl = ohl[501];
+        TimeValue rohlc = ohlc[501];
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);

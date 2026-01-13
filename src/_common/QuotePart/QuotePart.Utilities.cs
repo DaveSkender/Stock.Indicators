@@ -5,12 +5,12 @@ namespace Skender.Stock.Indicators;
 public static partial class QuoteParts
 {
     /// <summary>
-    /// convert TQuote element to a basic QuotePart class
+    /// convert TQuote element to a basic <see cref="TimeValue"/> class
     /// </summary>
     /// <param name="q">Quote to convert</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>Date and value pair</returns>
-    internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
+    internal static TimeValue ToQuotePart(this IQuote q, CandlePart candlePart)
         => new(q.Timestamp, q.ToQuotePartValue(candlePart));
 
     /// <summary>
