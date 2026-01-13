@@ -158,6 +158,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
         else if (deathCross && _units > 0)
         {
             // Sell: convert units to cash at current price
+            double unitsSold = _units;
             double proceeds = _units * currentPrice;
             double profit = proceeds - _entryValue;
             _balance = proceeds;
@@ -177,7 +178,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             }
 
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm} UNITS  {_units,10:N2} @ ${currentPrice,8:N2}  " +
+                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  SELL  {unitsSold,10:N2} @ ${currentPrice,8:N2}  " +
                 $"P&L: ${profit,10:N2}  Balance: ${_balance,10:N2}");
         }
     }
