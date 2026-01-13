@@ -64,42 +64,6 @@ public class TickHub
         return (item, index == -1 ? Cache.Count : index);
     }
 
-    /// <inheritdoc/>
-    public override string ToString()
-        => $"TICKS: {Cache.Count} items";
-
-    /// <summary>
-    /// Subscribes an observer to this TickHub.
-    /// </summary>
-    /// <param name="observer">The observer to subscribe.</param>
-    /// <returns>A disposable subscription token.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown when attempting to subscribe a standalone TickHub as an observer.
-    /// </exception>
-    /// <remarks>
-    /// Standalone TickHubs cannot be subscribed to other providers after construction
-    /// because they manage their own data without an external provider.
-    /// To create a TickHub that observes another provider, use the constructor
-    /// <c>new TickHub(provider)</c>.
-    /// </remarks>
-    public override IDisposable Subscribe(IStreamObserver<ITick> observer)
-    {
-        // Check if the observer being added is a standalone TickHub
-        if (observer is TickHub tickHub && tickHub._isStandalone)
-        {
-            const string msg = """
-                Cannot subscribe a standalone TickHub to another provider.
-                Standalone TickHubs are created without a provider using 'new TickHub()' and manage their own data.
-                To create a TickHub that subscribes to a provider, use:
-                  - Constructor: new TickHub(provider)
-                """;
-
-            throw new InvalidOperationException(msg);
-        }
-
-        return base.Subscribe(observer);
-    }
-
     /// <summary>
     /// Handles adding a new tick with special handling for same-timestamp updates
     /// when TickHub is standalone (no external provider).
@@ -125,6 +89,24 @@ public class TickHub
             if (Cache[index].Equals(result))
             {
                 AppendCache(result, notify);
+                return;
+            }
+
+            // for ticks with same timestamp but different values:
+            // if both have null ExecutionId, add the new tick after existing one (allow duplicates)
+            // otherwise, replace existing item at this position
+            if (string.IsNullOrEmpty(Cache[index].ExecutionId) && string.IsNullOrEmpty(result.ExecutionId))
+            {
+                // insert the new tick after the existing one
+                Cache.Insert(index + 1, result);
+
+                // notify observers to rebuild from this timestamp
+                // (they need to re-process all ticks with this timestamp)
+                if (notify)
+                {
+                    NotifyObserversOnRebuild(result.Timestamp);
+                }
+
                 return;
             }
 
@@ -166,6 +148,42 @@ public class TickHub
 
         // standard rebuild for TickHub with external provider
         base.Rebuild(fromTimestamp);
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => $"TICKS: {Cache.Count} items";
+
+    /// <summary>
+    /// Subscribes an observer to this TickHub.
+    /// </summary>
+    /// <param name="observer">The observer to subscribe.</param>
+    /// <returns>A disposable subscription token.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when attempting to subscribe a standalone TickHub as an observer.
+    /// </exception>
+    /// <remarks>
+    /// Standalone TickHubs cannot be subscribed to other providers after construction
+    /// because they manage their own data without an external provider.
+    /// To create a TickHub that observes another provider, use the constructor
+    /// <c>new TickHub(provider)</c>.
+    /// </remarks>
+    public override IDisposable Subscribe(IStreamObserver<ITick> observer)
+    {
+        // Check if the observer being added is a standalone TickHub
+        if (observer is TickHub tickHub && tickHub._isStandalone)
+        {
+            const string msg = """
+                Cannot subscribe a standalone TickHub to another provider.
+                Standalone TickHubs are created without a provider using 'new TickHub()' and manage their own data.
+                To create a TickHub that subscribes to a provider, use:
+                  - Constructor: new TickHub(provider)
+                """;
+
+            throw new InvalidOperationException(msg);
+        }
+
+        return base.Subscribe(observer);
     }
 }
 
