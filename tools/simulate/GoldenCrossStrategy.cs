@@ -177,7 +177,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             }
 
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  SELL  {_units,10:N2} @ ${currentPrice,8:N2}  " +
+                $"{quote.Timestamp:yyyy-MM-dd HH:mm} UNITS  {_units,10:N2} @ ${currentPrice,8:N2}  " +
                 $"P&L: ${profit,10:N2}  Balance: ${_balance,10:N2}");
         }
     }
