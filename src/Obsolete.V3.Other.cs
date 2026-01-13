@@ -24,6 +24,9 @@ public static partial class Indicator
             .Select(static x => (x.Timestamp, x.Value));
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Use 'Collection<T> Foo = [..myEnumerable];' instead.")]
+    internal static Collection<T> ToCollection<T>(this IEnumerable<T> source) => [.. source];
+
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
     public static IEnumerable<(DateTime Timestamp, double Value)> Use(
         this IReadOnlyList<IQuote> quotes)

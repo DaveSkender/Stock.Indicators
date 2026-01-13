@@ -37,6 +37,7 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 - **`SyncSeries()` utility**: Removed along with `SyncType` enum
 - **`Find()` and `FindIndex()` utilities**: Removed
 - **`ToTupleCollection()` utility**: Deprecated
+- **`ToCollection()` utility**: Deprecated
 
 ### Other changes
 
