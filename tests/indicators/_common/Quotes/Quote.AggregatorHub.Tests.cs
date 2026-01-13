@@ -711,8 +711,7 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         for (int t = 0; t < threadCount; t++)
         {
             int threadIndex = t;
-            tasks[t] = Task.Run(() =>
-            {
+            tasks[t] = Task.Run(() => {
                 try
                 {
                     int start = threadIndex * chunkSize;
