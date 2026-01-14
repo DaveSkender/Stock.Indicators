@@ -59,9 +59,9 @@ Access a comprehensive library of battle-tested technical indicators used by tra
 
 <ClientOnly>
   <div class="home-charts-stack">
-    <IndicatorChart src="/data/Alma.json" />
-    <IndicatorChart src="/data/AtrStop.json" />
-    <IndicatorChart src="/data/Aroon.json" />
+    <IndicatorChart src="/data/HomeOverlay.json" />
+    <IndicatorChart src="/data/Macd.json" />
+    <IndicatorChart src="/data/Stc.json" />
   </div>
 </ClientOnly>
 
