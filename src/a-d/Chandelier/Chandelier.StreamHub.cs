@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class ChandelierHub
     : ChainHub<AtrResult, ChandelierResult>, IChandelier
 {
-    private readonly AtrHub atrHub;
     private readonly IReadOnlyList<IQuote> quoteCache;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
@@ -27,9 +26,6 @@ public class ChandelierHub
         string typeName = type.ToString().ToUpperInvariant();
         Name = FormattableString.Invariant(
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
-
-        // Store reference to ATR hub (which is now our provider)
-        atrHub = (AtrHub)Provider;
 
         // Store reference to the underlying quote cache for High/Low access
         quoteCache = quoteProvider.Quotes;
