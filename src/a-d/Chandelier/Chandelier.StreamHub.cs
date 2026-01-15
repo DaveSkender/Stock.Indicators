@@ -4,17 +4,19 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Chandelier Exit.
 /// </summary>
 public class ChandelierHub
-    : StreamHub<IQuote, ChandelierResult>, IChandelier
+    : ChainHub<AtrResult, ChandelierResult>, IChandelier
 {
     private readonly AtrHub atrHub;
+    private readonly IReadOnlyList<IQuote> quoteCache;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
 
     internal ChandelierHub(
-        IQuoteProvider<IQuote> provider,
+        IChainProvider<AtrResult> provider,
+        IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods,
         double multiplier,
-        Direction type) : base(provider.ToAtrHub(lookbackPeriods))
+        Direction type) : base(provider)
     {
         Chandelier.Validate(lookbackPeriods, multiplier);
 
@@ -26,8 +28,11 @@ public class ChandelierHub
         Name = FormattableString.Invariant(
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
 
-        // Initialize internal ATR hub to maintain streaming state
+        // Store reference to ATR hub (which is now our provider)
         atrHub = (AtrHub)Provider;
+
+        // Store reference to the underlying quote cache for High/Low access
+        quoteCache = quoteProvider.Quotes;
 
         // Initialize rolling windows for O(1) amortized max/min tracking
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
@@ -47,13 +52,13 @@ public class ChandelierHub
 
     /// <inheritdoc/>
     protected override (ChandelierResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(AtrResult item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current quote to rolling windows
-        AddCurrentQuoteToWindows(item);
+        // Add current quote to rolling windows using the index
+        AddCurrentQuoteToWindows(i);
 
         // handle warmup periods
         if (i < LookbackPeriods)
@@ -61,19 +66,9 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // use cached ATR result from internal hub (O(1) lookup)
-        // System invariant: atrHub.Cache[i] must exist because atrHub subscribes
-        // to the same provider and processes updates synchronously before this hub.
-        // This bounds check defends against edge cases during initialization/rebuild.
-        if (i >= atrHub.Cache.Count)
-        {
-            throw new InvalidOperationException(
-                $"ATR hub synchronization error: expected ATR result at index {i}, "
-                + $"but atrHub.Cache.Count is {atrHub.Cache.Count}. "
-                + "This indicates a state synchronization issue between chained hubs.");
-        }
-
-        double? atr = atrHub.Cache[i].Atr;
+        // Get ATR value from the provider item (which is an AtrResult)
+        // Since we're now subscribed to AtrHub, items are AtrResults
+        double? atr = item.Atr;
 
         if (atr is null)
         {
@@ -94,10 +89,12 @@ public class ChandelierHub
         return (r, i);
     }
 
-    private void AddCurrentQuoteToWindows(IQuote item)
+    private void AddCurrentQuoteToWindows(int index)
     {
-        double high = (double)item.High;
-        double low = (double)item.Low;
+        // Access the quote from the underlying quote cache using the index
+        IQuote quote = quoteCache[index];
+        double high = (double)quote.High;
+        double low = (double)quote.Low;
 
         // Normal incremental update - O(1) amortized operation
         // Using monotonic deque pattern eliminates O(n) linear scans on every quote
@@ -116,7 +113,7 @@ public class ChandelierHub
         _highWindow.Clear();
         _lowWindow.Clear();
 
-        // Rebuild windows from ProviderCache up to the rollback point
+        // Rebuild windows from ProviderCache (AtrResults) up to the rollback point
         int index = ProviderCache.IndexGte(timestamp);
         if (index <= 0)
         {
@@ -129,7 +126,8 @@ public class ChandelierHub
 
         for (int p = startIdx; p <= targetIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
+            // Access the quote from the underlying quote cache
+            IQuote quote = quoteCache[p];
             double cachedHigh = (double)quote.High;
             double cachedLow = (double)quote.Low;
 
@@ -157,5 +155,8 @@ public static partial class Chandelier
         int lookbackPeriods = 22,
         double multiplier = 3,
         Direction type = Direction.Long)
-             => new(quoteProvider, lookbackPeriods, multiplier, type);
+    {
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider.ToAtrHub(lookbackPeriods), quoteProvider, lookbackPeriods, multiplier, type);
+    }
 }
