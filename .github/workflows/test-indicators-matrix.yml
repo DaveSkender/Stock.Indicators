@@ -12,7 +12,6 @@ on:
       - "main"
       - "v[0-9]*"
     paths:
-      - src/**
       - .github/workflows/test-indicators-matrix.yml
   workflow_dispatch:
 
