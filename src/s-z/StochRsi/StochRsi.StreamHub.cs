@@ -42,6 +42,27 @@ public sealed class StochRsiHub
 
         Name = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
 
+        // ARCHITECTURAL ISSUE (v3 - BROKEN):
+        // This implementation has both StochRsiHub and rsiHub subscribing to the same provider,
+        // creating a race condition during rebuild operations (late arrival, removal).
+        //
+        // FAILURE MODE:
+        //   During rebuild, ToIndicator() accesses rsiHub.Cache[i] at line 81, but if
+        //   StochRsiHub processes the update before rsiHub does, Cache[i] doesn't exist yet
+        //   → IndexOutOfRangeException
+        //
+        // ROOT CAUSE:
+        //   : base(provider)  // Line 34: StochRsiHub subscribes to provider
+        //   rsiHub = provider.ToRsiHub(rsiPeriods);  // Line 46: rsiHub ALSO subscribes to provider
+        //   
+        //   Both hubs receive notifications from the same provider with no ordering guarantee.
+        //
+        // CORRECT FIX (implemented in later version):
+        //   : base(provider.ToRsiHub(rsiPeriods))  // StochRsiHub subscribes to RsiHub
+        //   rsiHub = (RsiHub)ProviderCache;  // Reference to our provider
+        //
+        //   Data flow: provider → RsiHub → StochRsiHub (proper chaining, no race condition)
+        //
         // Create internal RSI hub for incremental RSI calculation
         rsiHub = provider.ToRsiHub(rsiPeriods);
 
@@ -78,6 +99,8 @@ public sealed class StochRsiHub
         double? signal = null;
 
         // Get RSI value from the internal hub
+        // FAILURE POINT: This line throws IndexOutOfRangeException in v3 broken implementation
+        // when rsiHub hasn't processed the update yet (Cache.Count <= i)
         RsiResult? rsiResult = rsiHub.Cache[i];
         double? rsiValue = rsiResult?.Rsi;
 
