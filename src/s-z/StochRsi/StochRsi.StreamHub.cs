@@ -31,7 +31,7 @@ public sealed class StochRsiHub
         int rsiPeriods = 14,
         int stochPeriods = 14,
         int signalPeriods = 3,
-        int smoothPeriods = 1) : base(provider.ToRsiHub(rsiPeriods))
+        int smoothPeriods = 1) : base(provider)
     {
         StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
@@ -236,5 +236,5 @@ public static partial class StochRsi
         int stochPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 1)
-        => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        => new(chainProvider.ToRsiHub(rsiPeriods), rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 }

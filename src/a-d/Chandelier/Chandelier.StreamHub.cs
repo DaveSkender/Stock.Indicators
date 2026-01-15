@@ -14,7 +14,7 @@ public class ChandelierHub
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
         double multiplier,
-        Direction type) : base(provider)
+        Direction type) : base(provider.ToAtrHub(lookbackPeriods))
     {
         Chandelier.Validate(lookbackPeriods, multiplier);
 
@@ -27,7 +27,7 @@ public class ChandelierHub
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
 
         // Initialize internal ATR hub to maintain streaming state
-        atrHub = provider.ToAtrHub(lookbackPeriods);
+        atrHub = (AtrHub)Provider;
 
         // Initialize rolling windows for O(1) amortized max/min tracking
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);

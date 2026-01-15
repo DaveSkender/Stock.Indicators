@@ -28,7 +28,7 @@ public class ConnorsRsiHub
         Name = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
 
         // Create internal hub for price RSI
-        rsiHub = provider.ToRsiHub(rsiPeriods);
+        rsiHub = (RsiHub)Provider;
 
         // Initialize state
         streakBuffer = [];
@@ -390,5 +390,5 @@ public static partial class ConnorsRsi
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100)
-        => new(chainProvider, rsiPeriods, streakPeriods, rankPeriods);
+        => new(chainProvider.ToRsiHub(rsiPeriods), rsiPeriods, streakPeriods, rankPeriods);
 }
