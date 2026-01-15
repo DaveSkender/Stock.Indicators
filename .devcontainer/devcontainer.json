@@ -3,7 +3,7 @@
   // https://code.visualstudio.com/docs/devcontainers/create-dev-container
   // https://github.com/devcontainers/features
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
-  "name": "Stock Indicators Dev Container",
+  "name": "stock.indicators",
   "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
