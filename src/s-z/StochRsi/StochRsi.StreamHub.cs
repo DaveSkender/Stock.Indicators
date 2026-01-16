@@ -28,14 +28,10 @@ public sealed class StochRsiHub
         int signalPeriods = 3,
         int smoothPeriods = 1)
         : this(
-            provider is RsiHub rsiHub
-                ? rsiHub
-                : provider.ToRsiHub(rsiPeriods),
+            provider.ToRsiHub(rsiPeriods),
             stochPeriods,
             signalPeriods,
-            smoothPeriods)
-    {
-    }
+            smoothPeriods) { }
 
     internal StochRsiHub(
         RsiHub rsiHub,
