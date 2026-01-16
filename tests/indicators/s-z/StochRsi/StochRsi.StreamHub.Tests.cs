@@ -107,8 +107,12 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         QuoteHub quoteHub = new();
         StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
 
-        System.Reflection.PropertyInfo property = typeof(StreamHub<IReusable, StochRsiResult>)
-            .GetProperty("Provider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+        System.Reflection.PropertyInfo property = typeof(StochRsiHub)
+            .GetProperty(
+                "Provider",
+                System.Reflection.BindingFlags.NonPublic
+                | System.Reflection.BindingFlags.Instance
+                | System.Reflection.BindingFlags.FlattenHierarchy)!;
 
         object provider = property.GetValue(observer)!;
         provider.Should().BeOfType<RsiHub>();

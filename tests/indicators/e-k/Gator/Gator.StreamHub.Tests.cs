@@ -194,7 +194,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
 
         // test null alligatorHub parameter (throws NullReferenceException from base constructor)
-        Action act1 = () => _ = new GatorHub((AlligatorHub)null!);
+        Action act1 = () => _ = new GatorHub(alligatorHub: null!);
         act1.Should().Throw<NullReferenceException>("AlligatorHub cannot be null");
 
         // test null item in ToIndicator (via reflection to access protected method)
