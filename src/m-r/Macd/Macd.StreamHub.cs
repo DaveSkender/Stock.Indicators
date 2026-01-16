@@ -75,7 +75,7 @@ public class MacdHub
 
         // Calculate Signal
         double signal;
-        if (i >= SignalPeriods + SlowPeriods - 2 && (i == 0 || (Cache.Count > i && Cache[i - 1].Signal is null)))
+        if (i >= SignalPeriods + SlowPeriods - 2 && (i == 0 || (Cache.Count >= i && Cache[i - 1].Signal is null)))
         {
             // Initialize signal as SMA of MACD values
             double sum = macd;
@@ -89,7 +89,7 @@ public class MacdHub
         else
         {
             // Calculate signal EMA normally
-            signal = Ema.Increment(SignalK, i > 0 && Cache.Count > i ? Cache[i - 1].Signal ?? double.NaN : double.NaN, macd);
+            signal = Ema.Increment(SignalK, i > 0 && Cache.Count >= i ? Cache[i - 1].Signal ?? double.NaN : double.NaN, macd);
         }
 
         // Candidate result
