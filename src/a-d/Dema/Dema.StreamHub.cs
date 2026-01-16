@@ -42,7 +42,7 @@ public class DemaHub
         }
 
         double dema = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Dema is not null
+            ? i > 0 && Cache.Count >= i && Cache[i - 1].Dema is not null
 
                 // normal
                 ? CalculateIncrement(item.Value)
