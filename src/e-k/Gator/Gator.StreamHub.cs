@@ -7,9 +7,7 @@ public class GatorHub
    : StreamHub<AlligatorResult, GatorResult>
 {
     internal GatorHub(IChainProvider<IReusable> chainProvider)
-        : this(chainProvider.ToAlligatorHub())
-    {
-    }
+        : this(chainProvider.ToAlligatorHub()) { }
 
     internal GatorHub(AlligatorHub alligatorHub)
         : base(alligatorHub)
