@@ -31,7 +31,8 @@ public sealed class StochRsiHub
             provider.ToRsiHub(rsiPeriods),
             stochPeriods,
             signalPeriods,
-            smoothPeriods) { }
+            smoothPeriods)
+    { }
 
     internal StochRsiHub(
         RsiHub rsiHub,
