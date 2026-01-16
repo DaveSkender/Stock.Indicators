@@ -7,11 +7,6 @@ public sealed class StochRsiHub
     : ChainHub<IReusable, StochRsiResult>
 {
     /// <summary>
-    /// Internal RSI hub for incremental RSI calculation
-    /// </summary>
-    private readonly RsiHub rsiHub;
-
-    /// <summary>
     /// Rolling windows for O(1) RSI max/min tracking
     /// </summary>
     private readonly RollingWindowMax<double> _rsiMaxWindow;
@@ -41,9 +36,6 @@ public sealed class StochRsiHub
         SmoothPeriods = smoothPeriods;
 
         Name = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
-
-        // Create internal RSI hub for incremental RSI calculation
-        rsiHub = provider.ToRsiHub(rsiPeriods);
 
         // Rolling windows for O(1) RSI max/min tracking
         _rsiMaxWindow = new RollingWindowMax<double>(stochPeriods);
@@ -77,9 +69,10 @@ public sealed class StochRsiHub
         double? stochRsi = null;
         double? signal = null;
 
-        // Get RSI value from the internal hub
-        RsiResult? rsiResult = rsiHub.Cache[i];
-        double? rsiValue = rsiResult?.Rsi;
+        // Get RSI value from the provider item (which is an RsiResult)
+        // Since we're now subscribed to RsiHub, items are RsiResults
+        RsiResult rsiResult = (RsiResult)item;
+        double? rsiValue = rsiResult.Rsi;
 
         // Only process if we have a valid RSI value
         if (rsiValue.HasValue)
@@ -111,10 +104,8 @@ public sealed class StochRsiHub
             providerIndex = ProviderCache.Count;
         }
 
-        // Rebuild underlying RSI hub so replay uses fresh RSI values
-        rsiHub.Rebuild(timestamp);
-
         // Reset state and replay historical RSI values up to the rebuild index
+        // Note: rsiHub (our provider) will handle its own rebuild, we just need to replay our state
         _rsiMaxWindow.Clear();
         _rsiMinWindow.Clear();
         kBuffer.Clear();
@@ -125,12 +116,12 @@ public sealed class StochRsiHub
             return;
         }
 
-        List<RsiResult> rsiResults = rsiHub.Cache;
-        int replayLimit = Math.Min(providerIndex, rsiResults.Count);
+        // Replay historical RSI values from ProviderCache (which contains RsiResults)
+        int replayLimit = Math.Min(providerIndex, ProviderCache.Count);
 
         for (int i = 0; i < replayLimit; i++)
         {
-            RsiResult historical = rsiResults[i];
+            RsiResult historical = (RsiResult)ProviderCache[i];
             if (historical.Rsi.HasValue)
             {
                 _ = UpdateOscillatorState(historical.Rsi.Value);
@@ -237,5 +228,5 @@ public static partial class StochRsi
         int stochPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 1)
-        => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        => new(chainProvider.ToRsiHub(rsiPeriods), rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 }

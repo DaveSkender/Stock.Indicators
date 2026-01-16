@@ -29,7 +29,7 @@ public class SmmaHub
         double smma = i >= LookbackPeriods - 1
 
             // normal SMMA calculation when we have previous value
-            ? Cache[i - 1].Smma is not null
+            ? i > 0 && Cache.Count >= i && Cache[i - 1].Smma is not null
                 ? ((Cache[i - 1].Value * (LookbackPeriods - 1)) + item.Value) / LookbackPeriods
 
                 // re/initialize as SMA when no previous SMMA

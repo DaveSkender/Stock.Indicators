@@ -32,7 +32,7 @@ public class EmaHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double ema = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Ema is not null
+            ? i > 0 && Cache.Count >= i && Cache[i - 1].Ema is not null
 
                 // normal
                 ? Ema.Increment(K, Cache[i - 1].Value, item.Value)

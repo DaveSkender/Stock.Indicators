@@ -4,9 +4,8 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Connors RSI indicator in a streaming context.
 /// </summary>
 public class ConnorsRsiHub
-    : ChainHub<IReusable, ConnorsRsiResult>, IConnorsRsi
+    : ChainHub<RsiResult, ConnorsRsiResult>, IConnorsRsi
 {
-    private readonly RsiHub rsiHub;
     private readonly List<double> streakBuffer;
     private readonly Queue<double> gainBuffer;
     private double streak;
@@ -15,7 +14,7 @@ public class ConnorsRsiHub
     private double streakAvgLoss;
 
     internal ConnorsRsiHub(
-        IChainProvider<IReusable> provider,
+        IChainProvider<RsiResult> provider,
         int rsiPeriods,
         int streakPeriods,
         int rankPeriods) : base(provider)
@@ -26,9 +25,6 @@ public class ConnorsRsiHub
         RankPeriods = rankPeriods;
 
         Name = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
-
-        // Create internal hub for price RSI
-        rsiHub = provider.ToRsiHub(rsiPeriods);
 
         // Initialize state
         streakBuffer = [];
@@ -51,14 +47,14 @@ public class ConnorsRsiHub
     public int RankPeriods { get; init; }
     /// <inheritdoc/>
     protected override (ConnorsRsiResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+        ToIndicator(RsiResult item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Get RSI from embedded hub
-        double? rsi = rsiHub.Cache[i].Rsi;
+        double? rsi = item.Rsi;
 
         // Calculate streak
         double currentValue = item.Value;
@@ -263,7 +259,7 @@ public class ConnorsRsiHub
         // Replay values to restore state
         for (int i = 0; i <= targetIndex; i++)
         {
-            IReusable item = ProviderCache[i];
+            RsiResult item = ProviderCache[i];
             double value = item.Value;
 
             // Restore streak
@@ -390,5 +386,5 @@ public static partial class ConnorsRsi
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100)
-        => new(chainProvider, rsiPeriods, streakPeriods, rankPeriods);
+        => new(chainProvider.ToRsiHub(rsiPeriods), rsiPeriods, streakPeriods, rankPeriods);
 }

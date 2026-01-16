@@ -69,7 +69,7 @@ public class KeltnerHub
 
         // Calculate EMA of Close
         double ema;
-        if (i >= EmaPeriods - 1 && Cache[i - 1].Centerline is not null)
+        if (i >= EmaPeriods - 1 && i > 0 && Cache.Count >= i && Cache[i - 1].Centerline is not null)
         {
             // Calculate EMA normally
             ema = Ema.Increment(EmaK, Cache[i - 1].Centerline!.Value, (double)item.Close);
@@ -92,7 +92,7 @@ public class KeltnerHub
         {
             atr = double.NaN;
         }
-        else if (Cache[i - 1].Atr is not null)
+        else if (i > 0 && Cache.Count >= i && Cache[i - 1].Atr is not null)
         {
             // Calculate ATR normally using previous ATR
             AtrResult atrResult = Atr.Increment(AtrPeriods, item, (double)ProviderCache[i - 1].Close, Cache[i - 1].Atr);
