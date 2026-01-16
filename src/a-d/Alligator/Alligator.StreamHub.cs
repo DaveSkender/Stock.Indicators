@@ -64,7 +64,7 @@ public class AlligatorHub
         if (i >= JawPeriods + JawOffset - 1)
         {
             // first/reset value: calculate SMA
-            if (!(i > 0 && Cache.Count >= i) || Cache[i - 1].Jaw is null)
+            if (i == 0 || Cache.Count < i || Cache[i - 1].Jaw is null)
             {
                 double sum = 0;
                 for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
@@ -89,7 +89,7 @@ public class AlligatorHub
         if (i >= TeethPeriods + TeethOffset - 1)
         {
             // first/reset value: calculate SMA
-            if (!(i > 0 && Cache.Count >= i) || Cache[i - 1].Teeth is null)
+            if (i == 0 || Cache.Count < i || Cache[i - 1].Teeth is null)
             {
                 double sum = 0;
                 for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
@@ -114,7 +114,7 @@ public class AlligatorHub
         if (i >= LipsPeriods + LipsOffset - 1)
         {
             // first/reset value: calculate SMA
-            if (!(i > 0 && Cache.Count >= i) || Cache[i - 1].Lips is null)
+            if (i == 0 || Cache.Count < i || Cache[i - 1].Lips is null)
             {
                 double sum = 0;
                 for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
