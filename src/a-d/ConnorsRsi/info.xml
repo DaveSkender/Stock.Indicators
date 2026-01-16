@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<info>
+  <summary>
+    ConnorsRSI is a composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.
+    <para>
+      See
+      <see href="https://dotnet.StockIndicators.dev/indicators/ConnorsRsi/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+      for more information.
+    </para>
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="rsiPeriods">Number of periods in the RSI.</param>
+  <param name="streakPeriods">Number of periods for streak RSI.</param>
+  <param name="rankPeriods">Number of periods for the percentile ranking.</param>
+  <returns>Time series of ConnorsRSI, RSI, Streak RSI, and Percent Rank values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+</info>
