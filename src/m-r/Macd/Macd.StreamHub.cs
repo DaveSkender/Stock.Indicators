@@ -52,7 +52,7 @@ public class MacdHub
 
         // Calculate Fast EMA
         double fastEma = i >= FastPeriods - 1
-            ? i > 0 && Cache[i - 1].FastEma is not null
+            ? i > 0 && Cache.Count >= i && Cache[i - 1].FastEma is not null
                 // Calculate EMA normally
                 ? Ema.Increment(FastK, Cache[i - 1].FastEma!.Value, item.Value)
                 // Initialize as SMA
@@ -62,7 +62,7 @@ public class MacdHub
 
         // Calculate Slow EMA
         double slowEma = i >= SlowPeriods - 1
-            ? i > 0 && Cache[i - 1].SlowEma is not null
+            ? i > 0 && Cache.Count >= i && Cache[i - 1].SlowEma is not null
                 // Calculate EMA normally
                 ? Ema.Increment(SlowK, Cache[i - 1].SlowEma!.Value, item.Value)
                 // Initialize as SMA
@@ -75,7 +75,7 @@ public class MacdHub
 
         // Calculate Signal
         double signal;
-        if (i >= SignalPeriods + SlowPeriods - 2 && (i == 0 || Cache[i - 1].Signal is null))
+        if (i >= SignalPeriods + SlowPeriods - 2 && (i == 0 || (Cache.Count > i && Cache[i - 1].Signal is null)))
         {
             // Initialize signal as SMA of MACD values
             double sum = macd;
@@ -89,7 +89,7 @@ public class MacdHub
         else
         {
             // Calculate signal EMA normally
-            signal = Ema.Increment(SignalK, i > 0 ? Cache[i - 1].Signal ?? double.NaN : double.NaN, macd);
+            signal = Ema.Increment(SignalK, i > 0 && Cache.Count > i ? Cache[i - 1].Signal ?? double.NaN : double.NaN, macd);
         }
 
         // Candidate result
