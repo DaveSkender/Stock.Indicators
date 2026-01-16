@@ -53,7 +53,7 @@ public class KamaHub
         double er;
         double kama;
 
-        if (i > ErPeriods - 1 && Cache.Count >= i && Cache[i - 1].Kama is not null)
+        if (i > ErPeriods - 1 && i > 0 && Cache.Count >= i && Cache[i - 1].Kama is not null)
         {
             double newVal = item.Value;
 
