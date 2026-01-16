@@ -102,6 +102,22 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
+    public void Provider_IsRsiHub()
+    {
+        QuoteHub quoteHub = new();
+        StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
+
+        System.Reflection.PropertyInfo property = typeof(StreamHub<IReusable, StochRsiResult>)
+            .GetProperty("Provider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+
+        object provider = property.GetValue(observer)!;
+        provider.Should().BeOfType<RsiHub>();
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
         const int rsiPeriods = 14;

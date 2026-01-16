@@ -121,6 +121,22 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
+    public void Provider_IsAlligatorHub()
+    {
+        QuoteHub quoteHub = new();
+        GatorHub observer = quoteHub.ToGatorHub();
+
+        System.Reflection.PropertyInfo property = typeof(StreamHub<AlligatorResult, GatorResult>)
+            .GetProperty("Provider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+
+        object provider = property.GetValue(observer)!;
+        provider.Should().BeOfType<AlligatorHub>();
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public void Reset()
     {
         List<Quote> quotesList = Quotes.ToList();
@@ -178,7 +194,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
 
         // test null alligatorHub parameter (throws NullReferenceException from base constructor)
-        Action act1 = () => _ = new GatorHub(null!);
+        Action act1 = () => _ = new GatorHub((AlligatorHub)null!);
         act1.Should().Throw<NullReferenceException>("AlligatorHub cannot be null");
 
         // test null item in ToIndicator (via reflection to access protected method)

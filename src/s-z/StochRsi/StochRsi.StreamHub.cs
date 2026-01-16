@@ -7,11 +7,6 @@ public sealed class StochRsiHub
     : ChainHub<IReusable, StochRsiResult>
 {
     /// <summary>
-    /// Internal RSI hub for incremental RSI calculation
-    /// </summary>
-    private readonly RsiHub rsiHub;
-
-    /// <summary>
     /// Rolling windows for O(1) RSI max/min tracking
     /// </summary>
     private readonly RollingWindowMax<double> _rsiMaxWindow;
@@ -31,19 +26,20 @@ public sealed class StochRsiHub
         int rsiPeriods = 14,
         int stochPeriods = 14,
         int signalPeriods = 3,
-        int smoothPeriods = 1) : base(provider)
+        int smoothPeriods = 1)
+        : base(CreateProvider(
+            provider,
+            rsiPeriods,
+            stochPeriods,
+            signalPeriods,
+            smoothPeriods))
     {
-        StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
-
         RsiPeriods = rsiPeriods;
         StochPeriods = stochPeriods;
         SignalPeriods = signalPeriods;
         SmoothPeriods = smoothPeriods;
 
         Name = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
-
-        // Create internal RSI hub for incremental RSI calculation
-        rsiHub = provider.ToRsiHub(rsiPeriods);
 
         // Rolling windows for O(1) RSI max/min tracking
         _rsiMaxWindow = new RollingWindowMax<double>(stochPeriods);
@@ -77,14 +73,12 @@ public sealed class StochRsiHub
         double? stochRsi = null;
         double? signal = null;
 
-        // Get RSI value from the internal hub
-        RsiResult? rsiResult = rsiHub.Cache[i];
-        double? rsiValue = rsiResult?.Rsi;
+        double rsiValue = item.Value;
 
         // Only process if we have a valid RSI value
-        if (rsiValue.HasValue)
+        if (!double.IsNaN(rsiValue))
         {
-            (double? oscillator, double? oscillatorSignal) = UpdateOscillatorState(rsiValue.Value);
+            (double? oscillator, double? oscillatorSignal) = UpdateOscillatorState(rsiValue);
 
             if (oscillator.HasValue)
             {
@@ -111,9 +105,6 @@ public sealed class StochRsiHub
             providerIndex = ProviderCache.Count;
         }
 
-        // Rebuild underlying RSI hub so replay uses fresh RSI values
-        rsiHub.Rebuild(timestamp);
-
         // Reset state and replay historical RSI values up to the rebuild index
         _rsiMaxWindow.Clear();
         _rsiMinWindow.Clear();
@@ -125,17 +116,27 @@ public sealed class StochRsiHub
             return;
         }
 
-        List<RsiResult> rsiResults = rsiHub.Cache;
-        int replayLimit = Math.Min(providerIndex, rsiResults.Count);
+        int replayLimit = Math.Min(providerIndex, ProviderCache.Count);
 
         for (int i = 0; i < replayLimit; i++)
         {
-            RsiResult historical = rsiResults[i];
-            if (historical.Rsi.HasValue)
+            double rsiValue = ProviderCache[i].Value;
+            if (!double.IsNaN(rsiValue))
             {
-                _ = UpdateOscillatorState(historical.Rsi.Value);
+                _ = UpdateOscillatorState(rsiValue);
             }
         }
+    }
+
+    private static RsiHub CreateProvider(
+        IChainProvider<IReusable> provider,
+        int rsiPeriods,
+        int stochPeriods,
+        int signalPeriods,
+        int smoothPeriods)
+    {
+        StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        return provider.ToRsiHub(rsiPeriods);
     }
 
     private (double? stochRsi, double? signal) UpdateOscillatorState(double rsiValue)

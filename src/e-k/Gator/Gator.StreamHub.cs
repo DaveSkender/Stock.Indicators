@@ -6,6 +6,11 @@ namespace Skender.Stock.Indicators;
 public class GatorHub
    : StreamHub<AlligatorResult, GatorResult>
 {
+    internal GatorHub(IChainProvider<IReusable> chainProvider)
+        : this(chainProvider.ToAlligatorHub())
+    {
+    }
+
     internal GatorHub(AlligatorHub alligatorHub)
         : base(alligatorHub)
     {
@@ -63,8 +68,5 @@ public static partial class Gator
     /// <returns>A Gator hub.</returns>
     public static GatorHub ToGatorHub(
         this IChainProvider<IReusable> chainProvider)
-    {
-        AlligatorHub alligatorHub = chainProvider.ToAlligatorHub();
-        return new GatorHub(alligatorHub);
-    }
+        => new(chainProvider);
 }
