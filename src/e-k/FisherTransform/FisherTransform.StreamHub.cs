@@ -80,7 +80,7 @@ public class FisherTransformHub
         double fisher;
         double? trigger = null;
 
-        if (i > 0)
+        if (i > 0 && Cache.Count >= i)
         {
             // calculate current xv
             xv[i] = maxPrice - minPrice != 0
