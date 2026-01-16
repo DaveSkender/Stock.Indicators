@@ -53,6 +53,12 @@ public class ChandelierHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Validate index against quoteCache bounds before proceeding
+        if (i < 0 || i >= quoteCache.Count)
+        {
+            return (new ChandelierResult(item.Timestamp, null), i);
+        }
+
         // Add current quote to rolling windows using the index
         AddCurrentQuoteToWindows(i);
 
@@ -87,6 +93,12 @@ public class ChandelierHub
 
     private void AddCurrentQuoteToWindows(int index)
     {
+        // Guard against out-of-bounds access to quoteCache
+        if (index < 0 || index >= quoteCache.Count)
+        {
+            return;
+        }
+
         // Access the quote from the underlying quote cache using the index
         IQuote quote = quoteCache[index];
         double high = (double)quote.High;
@@ -120,8 +132,24 @@ public class ChandelierHub
         int targetIndex = index - 1;
         int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
 
-        for (int p = startIdx; p <= targetIndex; p++)
+        // Clamp loop bounds to valid quoteCache range to prevent out-of-bounds access
+        int quoteCacheMax = quoteCache.Count - 1;
+        if (quoteCacheMax < 0)
         {
+            return;
+        }
+
+        int clampedStart = Math.Max(0, Math.Min(startIdx, quoteCacheMax));
+        int clampedEnd = Math.Min(targetIndex, quoteCacheMax);
+
+        for (int p = clampedStart; p <= clampedEnd; p++)
+        {
+            // Guard access to quoteCache - should not be needed due to clamping but defensive
+            if (p < 0 || p >= quoteCache.Count)
+            {
+                break;
+            }
+
             // Access the quote from the underlying quote cache
             IQuote quote = quoteCache[p];
             double cachedHigh = (double)quote.High;
