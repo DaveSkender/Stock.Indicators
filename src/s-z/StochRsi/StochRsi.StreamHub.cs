@@ -27,19 +27,32 @@ public sealed class StochRsiHub
         int stochPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 1)
-        : base(CreateProvider(
-            provider,
-            rsiPeriods,
+        : this(
+            provider is RsiHub rsiHub
+                ? rsiHub
+                : provider.ToRsiHub(rsiPeriods),
             stochPeriods,
             signalPeriods,
-            smoothPeriods))
+            smoothPeriods)
     {
-        RsiPeriods = rsiPeriods;
+    }
+
+    internal StochRsiHub(
+        RsiHub rsiHub,
+        int stochPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 1)
+        : base(rsiHub)
+    {
+        ArgumentNullException.ThrowIfNull(rsiHub);
+        StochRsi.Validate(rsiHub.LookbackPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+        RsiPeriods = rsiHub.LookbackPeriods;
         StochPeriods = stochPeriods;
         SignalPeriods = signalPeriods;
         SmoothPeriods = smoothPeriods;
 
-        Name = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
+        Name = $"STOCH-RSI({RsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
 
         // Rolling windows for O(1) RSI max/min tracking
         _rsiMaxWindow = new RollingWindowMax<double>(stochPeriods);
@@ -126,17 +139,6 @@ public sealed class StochRsiHub
                 _ = UpdateOscillatorState(rsiValue);
             }
         }
-    }
-
-    private static RsiHub CreateProvider(
-        IChainProvider<IReusable> provider,
-        int rsiPeriods,
-        int stochPeriods,
-        int signalPeriods,
-        int smoothPeriods)
-    {
-        StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
-        return provider.ToRsiHub(rsiPeriods);
     }
 
     private (double? stochRsi, double? signal) UpdateOscillatorState(double rsiValue)
