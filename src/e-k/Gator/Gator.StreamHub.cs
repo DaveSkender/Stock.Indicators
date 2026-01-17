@@ -51,15 +51,6 @@ public class GatorHub
 public static partial class Gator
 {
     /// <summary>
-    /// Converts an Alligator hub to a Gator hub.
-    /// </summary>
-    /// <param name="alligatorHub">The Alligator hub.</param>
-    /// <returns>A Gator hub.</returns>
-    public static GatorHub ToGatorHub(
-        this AlligatorHub alligatorHub)
-        => new(alligatorHub);
-
-    /// <summary>
     /// Creates a Gator hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
@@ -67,4 +58,13 @@ public static partial class Gator
     public static GatorHub ToGatorHub(
         this IChainProvider<IReusable> chainProvider)
         => new(chainProvider);
+
+    /// <summary>
+    /// Converts an Alligator hub to a Gator hub.
+    /// </summary>
+    /// <param name="alligatorHub">The Alligator hub.</param>
+    /// <returns>A Gator hub.</returns>
+    public static GatorHub ToGatorHub(
+        this AlligatorHub alligatorHub)
+        => new(alligatorHub);
 }
