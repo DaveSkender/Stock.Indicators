@@ -27,6 +27,10 @@ public class KeltnerHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<KeltnerResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToKeltner(EmaPeriods, Multiplier, AtrPeriods);
     /// <inheritdoc/>
     public int EmaPeriods { get; init; }
 

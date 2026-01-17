@@ -20,6 +20,10 @@ public class UltimateHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<UltimateResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => ((IReadOnlyList<IQuote>)input).ToUltimate(ShortPeriods, MiddlePeriods, LongPeriods);
     /// <inheritdoc/>
     public int ShortPeriods { get; init; }
 

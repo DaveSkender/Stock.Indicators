@@ -17,6 +17,10 @@ public class UlcerIndexHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<UlcerIndexResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToUlcerIndex(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

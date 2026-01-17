@@ -17,6 +17,10 @@ public class AroonHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<AroonResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToAroon(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

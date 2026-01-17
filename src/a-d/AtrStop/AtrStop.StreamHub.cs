@@ -22,6 +22,10 @@ public class AtrStopHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<AtrStopResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToAtrStop(LookbackPeriods, Multiplier, EndType);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

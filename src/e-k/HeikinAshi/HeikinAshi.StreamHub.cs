@@ -15,6 +15,11 @@ public class HeikinAshiHub
         Name = "HEIKINASHI";
         Reinitialize();
     }
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<HeikinAshiResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToHeikinAshi();
+
     /// <inheritdoc/>
     protected override (HeikinAshiResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

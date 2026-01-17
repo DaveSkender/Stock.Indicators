@@ -40,6 +40,10 @@ public class DonchianHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<DonchianResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToDonchian(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

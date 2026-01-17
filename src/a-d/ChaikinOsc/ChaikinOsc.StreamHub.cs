@@ -23,6 +23,10 @@ public class ChaikinOscHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<ChaikinOscResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToChaikinOsc(FastPeriods, SlowPeriods);
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
 

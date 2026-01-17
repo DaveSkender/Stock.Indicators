@@ -240,6 +240,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public override string ToString() => Name;
 
+    /// <inheritdoc/>
+    public abstract IReadOnlyList<TOut> AsStaticSeries(IReadOnlyList<TIn> input);
+
     /// <summary>
     /// Converts incremental value into an indicator candidate and cache position.
     /// </summary>

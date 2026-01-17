@@ -30,6 +30,10 @@ public class AdxHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<AdxResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToAdx(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

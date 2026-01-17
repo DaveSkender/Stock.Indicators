@@ -44,6 +44,10 @@ public class SlopeHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<SlopeResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToSlope(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

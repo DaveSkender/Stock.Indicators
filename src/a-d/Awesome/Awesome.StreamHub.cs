@@ -19,6 +19,10 @@ public class AwesomeHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<AwesomeResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToAwesome(FastPeriods, SlowPeriods);
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
 

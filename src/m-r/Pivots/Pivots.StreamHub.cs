@@ -24,6 +24,10 @@ public class PivotsHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<PivotsResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToPivots(LeftSpan, RightSpan, MaxTrendPeriods, EndType);
     /// <inheritdoc/>
     public int LeftSpan { get; init; }
 

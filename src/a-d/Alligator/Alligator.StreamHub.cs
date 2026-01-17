@@ -30,6 +30,10 @@ public class AlligatorHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<AlligatorResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToAlligator(JawPeriods, JawOffset, TeethPeriods, TeethOffset, LipsPeriods, LipsOffset);
     /// <inheritdoc/>
     public int JawPeriods { get; init; }
 

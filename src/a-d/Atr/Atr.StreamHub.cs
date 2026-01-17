@@ -17,6 +17,10 @@ public class AtrHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<AtrResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToAtr(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

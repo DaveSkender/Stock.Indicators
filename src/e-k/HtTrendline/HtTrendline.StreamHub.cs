@@ -30,6 +30,11 @@ public class HtTrendlineHub
         Name = "HTL()";
         Reinitialize();
     }
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<HtlResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToHtTrendline();
+
     /// <inheritdoc/>
     protected override (HtlResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

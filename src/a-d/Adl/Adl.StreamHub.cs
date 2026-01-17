@@ -13,6 +13,10 @@ public class AdlHub : ChainHub<IQuote, AdlResult>
     }
 
     /// <inheritdoc/>
+    public override IReadOnlyList<AdlResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToAdl();
+
+    /// <inheritdoc/>
     protected override (AdlResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {

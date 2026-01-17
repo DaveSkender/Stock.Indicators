@@ -25,6 +25,10 @@ public class DpoHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<DpoResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToDpo(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

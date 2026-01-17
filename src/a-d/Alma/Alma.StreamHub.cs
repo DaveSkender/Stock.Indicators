@@ -40,6 +40,10 @@ public class AlmaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<AlmaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToAlma(LookbackPeriods, Offset, Sigma);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

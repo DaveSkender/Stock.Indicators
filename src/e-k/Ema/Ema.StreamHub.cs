@@ -23,6 +23,11 @@ public class EmaHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<EmaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToEma(LookbackPeriods);
+
     /// <inheritdoc/>
     protected override (EmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

@@ -20,6 +20,10 @@ public class CmoHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<CmoResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToCmo(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

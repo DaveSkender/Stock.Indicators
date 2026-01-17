@@ -18,6 +18,10 @@ public class SmaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<SmaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToSma(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

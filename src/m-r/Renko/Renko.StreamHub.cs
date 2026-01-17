@@ -31,6 +31,10 @@ public class RenkoHub
     /// </summary>
     public override BinarySettings Properties { get; init; } = new(0b00000010);  // custom
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<RenkoResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToRenko(BrickSize, EndType);
     /// <inheritdoc/>
     public decimal BrickSize { get; }
 

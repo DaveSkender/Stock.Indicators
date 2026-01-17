@@ -19,6 +19,10 @@ public class BollingerBandsHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<BollingerBandsResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToBollingerBands(LookbackPeriods, StandardDeviations);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -20,6 +20,10 @@ public class VolatilityStopHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<VolatilityStopResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToVolatilityStop(LookbackPeriods, Multiplier);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -12,6 +12,10 @@ public class TrHub
     }
 
     /// <inheritdoc/>
+    public override IReadOnlyList<TrResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToTr();
+
+    /// <inheritdoc/>
     protected override (TrResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {

@@ -17,6 +17,10 @@ public class WmaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<WmaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToWma(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -30,6 +30,10 @@ public class WilliamsRHub
 
     #region properties
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<WilliamsResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToWilliamsR(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -161,6 +161,13 @@ public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObs
     void Rebuild(int fromIndex);
 
     /// <summary>
+    /// Converts input to results using the static series algorithm.
+    /// </summary>
+    /// <param name="input">Input data</param>
+    /// <returns>List of output results</returns>
+    IReadOnlyList<TOut> AsStaticSeries(IReadOnlyList<TIn> input);
+
+    /// <summary>
     /// Returns a short text label for the hub
     /// with parameter values, e.g. "EMA(10)"
     /// </summary>

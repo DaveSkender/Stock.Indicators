@@ -16,6 +16,10 @@ public class QuotePartHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<TimeValue> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToQuotePart(CandlePartSelection);
     /// <inheritdoc/>
     public CandlePart CandlePartSelection { get; init; }
 

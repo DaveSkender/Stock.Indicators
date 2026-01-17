@@ -65,6 +65,11 @@ public sealed class SmiHub
 
     /// <inheritdoc/>
     public double KS { get; private init; }
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<SmiResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToSmi(LookbackPeriods, FirstSmoothPeriods, SecondSmoothPeriods, SignalPeriods);
+
     /// <inheritdoc/>
     protected override (SmiResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

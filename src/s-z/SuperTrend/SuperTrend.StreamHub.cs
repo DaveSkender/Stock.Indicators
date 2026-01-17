@@ -20,6 +20,10 @@ public class SuperTrendHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<SuperTrendResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToSuperTrend(LookbackPeriods, Multiplier);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

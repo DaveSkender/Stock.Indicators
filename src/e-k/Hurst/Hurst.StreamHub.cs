@@ -20,6 +20,10 @@ public class HurstHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<HurstResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToHurst(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

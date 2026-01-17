@@ -29,6 +29,10 @@ public class PvoHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<PvoResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => ((IReadOnlyList<IQuote>)input).ToPvo(FastPeriods, SlowPeriods, SignalPeriods);
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
 

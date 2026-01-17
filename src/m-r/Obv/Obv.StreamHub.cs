@@ -13,6 +13,10 @@ public class ObvHub : ChainHub<IQuote, ObvResult>
     }
 
     /// <inheritdoc/>
+    public override IReadOnlyList<ObvResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToObv();
+
+    /// <inheritdoc/>
     protected override (ObvResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {

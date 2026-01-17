@@ -71,6 +71,10 @@ public class KvoHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<KvoResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToKvo(FastPeriods, SlowPeriods, SignalPeriods);
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
 

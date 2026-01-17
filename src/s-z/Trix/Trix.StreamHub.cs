@@ -22,6 +22,10 @@ public class TrixHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<TrixResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToTrix(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -21,6 +21,10 @@ public class ForceIndexHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<ForceIndexResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => ((IReadOnlyList<IQuote>)input).ToForceIndex(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

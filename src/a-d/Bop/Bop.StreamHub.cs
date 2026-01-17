@@ -17,6 +17,10 @@ public class BopHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<BopResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToBop(SmoothPeriods);
     /// <inheritdoc/>
     public int SmoothPeriods { get; init; }
     /// <inheritdoc/>

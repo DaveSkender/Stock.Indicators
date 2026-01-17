@@ -25,6 +25,10 @@ public class StarcBandsHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<StarcBandsResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToStarcBands(SmaPeriods, Multiplier, AtrPeriods);
     /// <inheritdoc/>
     public int SmaPeriods { get; init; }
 

@@ -76,6 +76,10 @@ public class StochHub
 
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<StochResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToStoch(LookbackPeriods, SignalPeriods, SmoothPeriods, KFactor, DFactor, MovingAverageType);
     /// <inheritdoc/>
     protected override (StochResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -17,6 +17,10 @@ public class StdDevHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<StdDevResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToStdDev(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

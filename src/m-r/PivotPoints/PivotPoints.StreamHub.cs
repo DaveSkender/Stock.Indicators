@@ -36,6 +36,10 @@ public class PivotPointsHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<PivotPointsResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToPivotPoints(WindowSize, PointType);
     /// <inheritdoc/>
     public PeriodSize WindowSize { get; init; }
 

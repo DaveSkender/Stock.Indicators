@@ -54,6 +54,10 @@ public class TsiHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<TsiResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToTsi(LookbackPeriods, SmoothPeriods, SignalPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -28,6 +28,10 @@ public class KamaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<KamaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToKama(ErPeriods, FastPeriods, SlowPeriods);
     /// <inheritdoc/>
     public int ErPeriods { get; init; }
 

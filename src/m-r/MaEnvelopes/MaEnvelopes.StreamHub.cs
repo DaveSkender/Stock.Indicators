@@ -128,6 +128,10 @@ public class MaEnvelopesHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<MaEnvelopeResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToMaEnvelopes(LookbackPeriods, PercentOffset, MovingAverageType);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

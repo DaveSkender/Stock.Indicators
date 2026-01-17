@@ -19,6 +19,10 @@ public class ElderRayHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<ElderRayResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToElderRay(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

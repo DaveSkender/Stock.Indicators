@@ -47,6 +47,10 @@ public class QuoteHub
     }
 
     /// <inheritdoc/>
+    public override IReadOnlyList<IQuote> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input;
+
+    /// <inheritdoc/>
     protected override (IQuote result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {

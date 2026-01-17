@@ -19,6 +19,10 @@ public class DynamicHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<DynamicResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToDynamic(LookbackPeriods, KFactor);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

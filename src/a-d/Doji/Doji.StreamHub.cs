@@ -20,6 +20,10 @@ public class DojiHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<CandleResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToDoji(MaxPriceChangePercent);
     /// <inheritdoc/>
     public double MaxPriceChangePercent { get; init; }
     /// <inheritdoc/>

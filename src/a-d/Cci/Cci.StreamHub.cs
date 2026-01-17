@@ -20,6 +20,10 @@ public class CciHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<CciResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToCci(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

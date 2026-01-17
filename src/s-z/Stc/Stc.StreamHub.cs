@@ -52,6 +52,10 @@ public class StcHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<StcResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToStc(CyclePeriods, FastPeriods, SlowPeriods);
     /// <inheritdoc/>
     public int CyclePeriods { get; init; }
 

@@ -41,6 +41,10 @@ public class ConnorsRsiHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<ConnorsRsiResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToConnorsRsi(RsiPeriods, StreakPeriods, RankPeriods);
     /// <inheritdoc/>
     public int RsiPeriods { get; init; }
 

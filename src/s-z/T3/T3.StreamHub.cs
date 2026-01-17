@@ -34,6 +34,10 @@ public class T3Hub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<T3Result> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToT3(LookbackPeriods, VolumeFactor);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

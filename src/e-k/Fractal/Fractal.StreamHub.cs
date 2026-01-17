@@ -38,6 +38,10 @@ public class FractalHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<FractalResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToFractal(LeftSpan, RightSpan, EndType);
     /// <inheritdoc/>
     public int LeftSpan { get; init; }
 

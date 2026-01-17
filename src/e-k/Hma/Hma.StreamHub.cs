@@ -37,6 +37,10 @@ public class HmaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<HmaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToHma(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

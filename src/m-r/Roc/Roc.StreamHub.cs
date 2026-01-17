@@ -17,6 +17,10 @@ public class RocHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<RocResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToRoc(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

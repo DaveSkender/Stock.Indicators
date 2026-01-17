@@ -17,6 +17,10 @@ public class SmmaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<SmmaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToSmma(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

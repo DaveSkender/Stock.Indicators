@@ -20,6 +20,10 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<VwapResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToVwap();
     /// <inheritdoc/>
     public DateTime? StartDate { get; private set; }
 

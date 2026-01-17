@@ -38,6 +38,10 @@ public class MamaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<MamaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToMama(FastLimit, SlowLimit);
     /// <inheritdoc/>
     public double FastLimit { get; init; }
 

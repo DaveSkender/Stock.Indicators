@@ -15,6 +15,10 @@ public class GatorHub
     }
 
     /// <inheritdoc/>
+    public override IReadOnlyList<GatorResult> AsStaticSeries(IReadOnlyList<AlligatorResult> input)
+        => input.ToGator();
+
+    /// <inheritdoc/>
     protected override (GatorResult result, int index)
         ToIndicator(AlligatorResult item, int? indexHint)
     {

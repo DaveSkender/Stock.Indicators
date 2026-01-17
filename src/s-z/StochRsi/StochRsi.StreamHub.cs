@@ -67,6 +67,11 @@ public sealed class StochRsiHub
 
     /// <inheritdoc/>
     public int SmoothPeriods { get; init; }
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<StochRsiResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToStochRsi(RsiPeriods, StochPeriods, SignalPeriods, SmoothPeriods);
+
     /// <inheritdoc/>
     protected override (StochRsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

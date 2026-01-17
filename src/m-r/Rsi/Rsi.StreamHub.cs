@@ -29,6 +29,10 @@ public class RsiHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
+    public override IReadOnlyList<RsiResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToRsi(LookbackPeriods);
+
+    /// <inheritdoc/>
     /// <remarks>
     /// O(1) complexity per quote using Wilder's smoothing for incremental updates.
     /// The initial SMA calculation at lookback period is O(k) where k = lookbackPeriods.

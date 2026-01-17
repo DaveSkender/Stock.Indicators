@@ -22,6 +22,10 @@ public class TemaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<TemaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToTema(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -26,6 +26,10 @@ public class ChopHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<ChopResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToChop(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

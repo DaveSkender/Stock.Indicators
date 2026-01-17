@@ -17,6 +17,10 @@ public class VwmaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<VwmaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => ((IReadOnlyList<IQuote>)input).ToVwma(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

@@ -20,6 +20,10 @@ public class MarubozuHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<CandleResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToMarubozu(MinBodyPercent);
     /// <inheritdoc/>
     public double MinBodyPercent { get; init; }
     /// <inheritdoc/>

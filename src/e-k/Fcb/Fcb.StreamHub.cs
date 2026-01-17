@@ -17,6 +17,10 @@ public class FcbHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<FcbResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToFcb(WindowSpan);
     /// <inheritdoc/>
     public int WindowSpan { get; init; }
 

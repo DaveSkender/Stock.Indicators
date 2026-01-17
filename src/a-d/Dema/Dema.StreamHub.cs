@@ -21,6 +21,10 @@ public class DemaHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<DemaResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToDema(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

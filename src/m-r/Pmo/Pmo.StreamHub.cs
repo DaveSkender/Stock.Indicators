@@ -33,6 +33,10 @@ public class PmoHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<PmoResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToPmo(TimePeriods, SmoothPeriods, SignalPeriods);
     /// <inheritdoc/>
     public int TimePeriods { get; init; }
 

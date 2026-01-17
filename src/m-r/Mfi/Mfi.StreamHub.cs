@@ -22,6 +22,10 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<MfiResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToMfi(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

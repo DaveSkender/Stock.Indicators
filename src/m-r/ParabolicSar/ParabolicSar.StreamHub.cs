@@ -43,6 +43,10 @@ public class ParabolicSarHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<ParabolicSarResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToParabolicSar(AccelerationStep, MaxAccelerationFactor, InitialFactor);
     /// <inheritdoc/>
     public double AccelerationStep { get; init; }
 

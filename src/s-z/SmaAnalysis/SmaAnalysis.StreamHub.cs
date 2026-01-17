@@ -17,6 +17,10 @@ public class SmaAnalysisHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<SmaAnalysisResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToSmaAnalysis(LookbackPeriods);
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>

@@ -50,6 +50,10 @@ public class RollingPivotsHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<RollingPivotsResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToRollingPivots(WindowPeriods, OffsetPeriods, PointType);
     /// <inheritdoc/>
     public int WindowPeriods { get; init; }
 

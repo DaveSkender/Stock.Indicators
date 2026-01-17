@@ -26,6 +26,10 @@ public class MacdHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<MacdResult> AsStaticSeries(IReadOnlyList<IReusable> input)
+        => input.ToMacd(FastPeriods, SlowPeriods, SignalPeriods);
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
 

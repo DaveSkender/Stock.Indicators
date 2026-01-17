@@ -44,6 +44,10 @@ public class IchimokuHub
         Reinitialize();
     }
 
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<IchimokuResult> AsStaticSeries(IReadOnlyList<IQuote> input)
+        => input.ToIchimoku(TenkanPeriods, KijunPeriods, SenkouBPeriods, SenkouOffset, ChikouOffset);
     /// <inheritdoc/>
     public int TenkanPeriods { get; init; }
 
