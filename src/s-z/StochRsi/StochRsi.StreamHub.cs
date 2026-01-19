@@ -238,4 +238,37 @@ public static partial class StochRsi
         int signalPeriods = 3,
         int smoothPeriods = 1)
         => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+    // TODO: Consider whether this overload (below) is necessary or if it could lead to confusion.
+    // If we keep it, it opens possibility of not redudnantly creating the internal RSI hub.
+    // If we lose it, it opens possibility of chaining to do an Stoch RSI of an RSI hub.
+    // Catch 22.  See below.
+
+    // Note: for most other indicators this extension overload,
+    // even if available as an internal contructor, may not be
+    // appropriate since it will prevent normal chaining.
+    // For example, if someone truly wanted an RSI of a Stoch
+    // and we applied this overload to StochRSI, it wouldn't work.
+
+    /// <summary>
+    /// Creates a new Stochastic RSI hub, using RSI values from an existing RSI hub.
+    /// </summary>
+    /// <remarks>
+    /// This extension overrides and enables a chain that specifically
+    /// resuses the existing <see cref="RsiHub"/> as its internal construction.
+    /// /// <para>IMPORTANT: This is not a normal chaining approach.</para>
+    /// Do not use this interface if you want to instead want a StochRSI of an RSI hub.</remarks>
+    /// <param name="rsiHub">The existing RSI hub provider.</param>
+    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <returns>A Stochastic RSI hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
+    public static StochRsiHub ToStochRsiHub(
+        this RsiHub rsiHub,
+        int stochPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 1)
+        => new(rsiHub, stochPeriods, signalPeriods, smoothPeriods);
 }

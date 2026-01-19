@@ -60,10 +60,15 @@ public static partial class Gator
         => new(chainProvider);
 
     /// <summary>
-    /// Converts an Alligator hub to a Gator hub.
+    /// Creates a new Gator hub, using values from an existing Alligator hub.
     /// </summary>
     /// <param name="alligatorHub">The Alligator hub.</param>
     /// <returns>A Gator hub.</returns>
+    /// <remarks>
+    /// <para>IMPORTANT: This is not a normal chaining approach.</para>
+    /// This extension overrides and enables a chain that specifically
+    /// resuses the existing <see cref="AlligatorHub"/> in its internal construction.
+    ///</remarks>
     public static GatorHub ToGatorHub(
         this AlligatorHub alligatorHub)
         => new(alligatorHub);
