@@ -240,7 +240,7 @@ public static partial class StochRsi
         => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
     // TODO: Consider whether this overload (below) is necessary or if it could lead to confusion.
-    // If we keep it, it opens possibility of not redudnantly creating the internal RSI hub.
+    // If we keep it, it opens possibility of not redundantly creating the internal RSI hub.
     // If we lose it, it opens possibility of chaining to do an Stoch RSI of an RSI hub.
     // Catch 22.  See below.
 
@@ -255,8 +255,8 @@ public static partial class StochRsi
     /// </summary>
     /// <remarks>
     /// This extension overrides and enables a chain that specifically
-    /// resuses the existing <see cref="RsiHub"/> as its internal construction.
-    /// /// <para>IMPORTANT: This is not a normal chaining approach.</para>
+    /// reuses the existing <see cref="RsiHub"/> as its internal construction.
+    /// <para>IMPORTANT: This is not a normal chaining approach.</para>
     /// Do not use this interface if you want to instead want a StochRSI of an RSI hub.</remarks>
     /// <param name="rsiHub">The existing RSI hub provider.</param>
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>

@@ -67,7 +67,7 @@ public static partial class Gator
     /// <remarks>
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>
     /// This extension overrides and enables a chain that specifically
-    /// resuses the existing <see cref="AlligatorHub"/> in its internal construction.
+    /// reuses the existing <see cref="AlligatorHub"/> in its internal construction.
     ///</remarks>
     public static GatorHub ToGatorHub(
         this AlligatorHub alligatorHub)
