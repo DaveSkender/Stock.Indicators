@@ -127,15 +127,15 @@ When the StochRSI hub is chained from an existing `RsiHub` instance it will reus
 var stochRsiHub = quotes
   .ToStochRsiHub();
 
-// this is helpful in cases where you have an indedpendent 
+// this is helpful in cases where you have an independent 
 // RSI hub and do not want to create duplicate copies
 
 var rsiHub = quotes
   .ToRsiHub();
 
-// does not create a separate internal RSI hub
+// does not create 2nd internal huba separate internal RSI hub
 var stochRsiHub = rsiHub
-  .ToStochRsi();  // does not create 
+  .ToStochRsi();  // does not create 2nd internal hub
 
 // ❌ RSI → [ RSI ] → StochRSI
 // ✅ RSI → StochRSI

@@ -112,15 +112,15 @@ When the Gator hub is chained from an existing `AlligatorHub` instance it will r
 var gatorHub = quotes
   .ToGatorHub();
 
-// this is helpful in cases where you have an indedpendent 
+// this is helpful in cases where you have an independent 
 // Alligator hub and do not want to create duplicate copies
 
 var alligatorHub = quotes
   .ToAlligatorHub();
 
-// does not create a separate internal Alligator hub
+// does not create 2nd internal huba separate internal Alligator hub
 var gatorHub = alligatorHub
-  .ToGatorHub();  // does not create 
+  .ToGatorHub();  // does not create 2nd internal hub
 
 // ❌ Alligator → [ Alligator ] → Gator
 // ✅ Alligator → Gator
