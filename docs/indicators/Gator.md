@@ -101,3 +101,29 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<GatorResult> results = observer.Results;
 ```
+
+::: info Compound hub
+The Gator hub is based on the Alligator indicator.
+When the Gator hub is chained from an existing `AlligatorHub` instance it will reuse the existing Alligator hub values rather than creating its own internal Alligator calculations.
+**This is not a normal chaining model.**
+
+```csharp
+// creates an internal Alligator hub
+var gatorHub = quotes
+  .ToGatorHub();
+
+// this is helpful in cases where you have an indedpendent 
+// Alligator hub and do not want to create duplicate copies
+
+var alligatorHub = quotes
+  .ToAlligatorHub();
+
+// does not create a separate internal Alligator hub
+var gatorHub = alligatorHub
+  .ToGatorHub();  // does not create 
+
+// ❌ Alligator → [ Alligator ] → Gator
+// ✅ Alligator → Gator
+```
+
+:::

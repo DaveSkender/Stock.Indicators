@@ -6,6 +6,9 @@ namespace Skender.Stock.Indicators;
 public class GatorHub
    : StreamHub<AlligatorResult, GatorResult>
 {
+    internal GatorHub(IChainProvider<IReusable> chainProvider)
+        : this(chainProvider.ToAlligatorHub()) { }
+
     internal GatorHub(AlligatorHub alligatorHub)
         : base(alligatorHub)
     {
@@ -48,23 +51,25 @@ public class GatorHub
 public static partial class Gator
 {
     /// <summary>
-    /// Converts an Alligator hub to a Gator hub.
-    /// </summary>
-    /// <param name="alligatorHub">The Alligator hub.</param>
-    /// <returns>A Gator hub.</returns>
-    public static GatorHub ToGatorHub(
-        this AlligatorHub alligatorHub)
-        => new(alligatorHub);
-
-    /// <summary>
     /// Creates a Gator hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
     /// <returns>A Gator hub.</returns>
     public static GatorHub ToGatorHub(
         this IChainProvider<IReusable> chainProvider)
-    {
-        AlligatorHub alligatorHub = chainProvider.ToAlligatorHub();
-        return new GatorHub(alligatorHub);
-    }
+        => new(chainProvider);
+
+    /// <summary>
+    /// Creates a new Gator hub, using values from an existing Alligator hub.
+    /// </summary>
+    /// <param name="alligatorHub">The Alligator hub.</param>
+    /// <returns>A Gator hub.</returns>
+    /// <remarks>
+    /// <para>IMPORTANT: This is not a normal chaining approach.</para>
+    /// This extension overrides and enables a chain that specifically
+    /// resuses the existing <see cref="AlligatorHub"/> in its internal construction.
+    ///</remarks>
+    public static GatorHub ToGatorHub(
+        this AlligatorHub alligatorHub)
+        => new(alligatorHub);
 }
