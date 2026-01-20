@@ -12,6 +12,7 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 | `ChainHub<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
 | `ChainHub<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
 | `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
+| `StreamHub<TProviderResult, TResult>` | Any hub result | Any result | Compound hubs (internal hub dependency) |
 
 ## Performance requirements
 
@@ -43,14 +44,21 @@ Override when maintaining stateful fields:
 ```csharp
 protected override void RollbackState(DateTime timestamp)
 {
-    _window.Clear();
-    int targetIndex = ProviderCache.IndexGte(timestamp) - 1;
-    int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+    int targetIndex = ProviderCache.IndexGte(timestamp);
 
-    for (int p = startIdx; p <= targetIndex; p++)
+    _window.Clear();
+
+    if (targetIndex <= 0) return;
+
+    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
+    int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+
+    for (int p = startIdx; p <= restoreIndex; p++)
         _window.Add(ProviderCache[p].Value);
 }
 ```
+
+**Critical**: Replay up to `targetIndex - 1` (exclusive of rollback timestamp). The quote at the rollback timestamp will be recalculated when it arrives via normal processing.
 
 ## Testing requirements
 
@@ -84,12 +92,14 @@ protected override void RollbackState(DateTime timestamp)
 - Chain: `src/e-k/Ema/Ema.StreamHub.cs`
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
 - Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
+- Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`, `src/e-k/Gator/Gator.StreamHub.cs`
 
 See `references/` for detailed patterns:
 
 - `provider-selection.md` - Choosing the right provider base
 - `rollback-patterns.md` - RollbackState implementation examples
 - `performance-patterns.md` - O(1) optimization techniques
+- `compound-hubs.md` - Internal hub dependencies and construction patterns
 
 ---
-Last updated: December 31, 2025
+Last updated: January 19, 2026

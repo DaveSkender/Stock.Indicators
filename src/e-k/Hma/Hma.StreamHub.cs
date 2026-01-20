@@ -116,13 +116,9 @@ public static partial class Hma
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An HMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static HmaHub ToHmaHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
-    {
-        ArgumentNullException.ThrowIfNull(chainProvider);
-        return new(chainProvider, lookbackPeriods);
-    }
+        => new(chainProvider, lookbackPeriods);
 }

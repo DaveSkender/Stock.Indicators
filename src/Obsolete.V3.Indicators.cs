@@ -51,7 +51,7 @@ public static partial class Indicator
         int lipsPeriods = 5,
         int lipsOffset = 3)
         => priceTuples
-           .Select(static t => new QuotePart(t.d, t.v))
+           .Select(static t => new TimeValue(t.d, t.v))
            .ToSortedList()
            .ToAlligator(
             jawPeriods, jawOffset,
@@ -74,7 +74,7 @@ public static partial class Indicator
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6) => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToAlma(lookbackPeriods, offset, sigma);
 
@@ -112,7 +112,7 @@ public static partial class Indicator
         int fastPeriods = 5,
         int slowPeriods = 34)
         => priceTuples
-           .Select(static t => new QuotePart(t.d, t.v))
+           .Select(static t => new TimeValue(t.d, t.v))
            .ToSortedList()
            .ToAwesome(fastPeriods, slowPeriods);
 
@@ -135,11 +135,11 @@ public static partial class Indicator
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         => evalTuple
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToBeta(
                 mrktTuple
-                    .Select(static t => new QuotePart(t.d, t.v))
+                    .Select(static t => new TimeValue(t.d, t.v))
                     .ToSortedList(),
                 lookbackPeriods,
                 type);
@@ -162,7 +162,7 @@ public static partial class Indicator
         int lookbackPeriods = 20,
         double standardDeviations = 2)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToBollingerBands(lookbackPeriods, standardDeviations);
 
@@ -218,7 +218,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToCmo(lookbackPeriods);
 
@@ -238,7 +238,7 @@ public static partial class Indicator
         int streakPeriods = 2,
         int rankPeriods = 100)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
@@ -256,11 +256,11 @@ public static partial class Indicator
         IEnumerable<(DateTime d, double v)> tuplesB,
         int lookbackPeriods)
         => tuplesA
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToCorrelation(
                 tuplesB
-                    .Select(static t => new QuotePart(t.d, t.v))
+                    .Select(static t => new TimeValue(t.d, t.v))
                     .ToSortedList(),
                 lookbackPeriods);
 
@@ -276,7 +276,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToDema(lookbackPeriods);
 
@@ -304,7 +304,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToDpo(lookbackPeriods);
 
@@ -321,7 +321,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double kFactor = 0.6)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToDynamic(lookbackPeriods, kFactor);
 
@@ -343,7 +343,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToEma(lookbackPeriods);
 
@@ -359,7 +359,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToEpma(lookbackPeriods);
 
@@ -381,7 +381,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods = 10)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToFisherTransform(lookbackPeriods);
 
@@ -414,7 +414,7 @@ public static partial class Indicator
     public static IEnumerable<GatorResult> GetGator(
         this IEnumerable<(DateTime d, double v)> priceTuples)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToGator();
 
@@ -436,7 +436,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToHma(lookbackPeriods);
 
@@ -451,7 +451,7 @@ public static partial class Indicator
     public static IEnumerable<HtlResult> GetHtTrendline(
         this IEnumerable<(DateTime d, double v)> priceTuples)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToHtTrendline();
 
@@ -468,7 +468,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods = 100)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToHurst(lookbackPeriods);
 
@@ -499,7 +499,7 @@ public static partial class Indicator
         int fastPeriods = 2,
         int slowPeriods = 30)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToKama(erPeriods, fastPeriods, slowPeriods);
 
@@ -539,7 +539,7 @@ public static partial class Indicator
         int slowPeriods = 26,
         int signalPeriods = 9)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
@@ -561,7 +561,7 @@ public static partial class Indicator
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 
@@ -580,7 +580,7 @@ public static partial class Indicator
         double fastLimit = 0.5,
         double slowLimit = 0.05)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToMama(fastLimit, slowLimit);
 
@@ -663,7 +663,7 @@ public static partial class Indicator
         int smoothPeriods = 20,
         int signalPeriods = 10)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToPmo(timePeriods, smoothPeriods, signalPeriods);
 
@@ -693,9 +693,9 @@ public static partial class Indicator
         int lookbackPeriods = 0,
         int smaPeriods = 0)
         => tupleEval
-            .Select(static t => new QuotePart(t.d, t.v)).ToSortedList()
+            .Select(static t => new TimeValue(t.d, t.v)).ToSortedList()
             .ToPrs(tupleBase
-                .Select(static t => new QuotePart(t.d, t.v)).ToSortedList(),
+                .Select(static t => new TimeValue(t.d, t.v)).ToSortedList(),
             lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
@@ -736,7 +736,7 @@ public static partial class Indicator
         int lookbackPeriods,
         int? smaPeriods = null)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToRoc(lookbackPeriods);
 
@@ -756,7 +756,7 @@ public static partial class Indicator
         int emaPeriods,
         int stdDevPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 
@@ -782,7 +782,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToRsi(lookbackPeriods);
 
@@ -798,7 +798,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToSlope(lookbackPeriods);
 
@@ -814,7 +814,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToSma(lookbackPeriods);
 
@@ -830,7 +830,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToSmaAnalysis(lookbackPeriods);
 
@@ -857,7 +857,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToSmma(lookbackPeriods);
 
@@ -887,7 +887,7 @@ public static partial class Indicator
         int fastPeriods = 23,
         int slowPeriods = 50)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
@@ -909,7 +909,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToStdDev(lookbackPeriods);
 
@@ -927,7 +927,7 @@ public static partial class Indicator
         int lookbackPeriods = 20,
         double stdDeviations = 2)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToStdDevChannels(lookbackPeriods, stdDeviations);
 
@@ -949,7 +949,7 @@ public static partial class Indicator
         int signalPeriods = 3,
         int smoothPeriods = 1)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
@@ -1004,7 +1004,7 @@ public static partial class Indicator
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToT3(lookbackPeriods, volumeFactor);
 
@@ -1020,7 +1020,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToTema(lookbackPeriods);
 
@@ -1042,7 +1042,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToTrix(lookbackPeriods);
 
@@ -1070,7 +1070,7 @@ public static partial class Indicator
         int smoothPeriods = 13,
         int signalPeriods = 7)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
@@ -1086,7 +1086,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods = 14)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToUlcerIndex(lookbackPeriods);
 
@@ -1149,7 +1149,7 @@ public static partial class Indicator
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
-            .Select(static t => new QuotePart(t.d, t.v))
+            .Select(static t => new TimeValue(t.d, t.v))
             .ToSortedList()
             .ToWma(lookbackPeriods);
 
