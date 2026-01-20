@@ -109,11 +109,7 @@ public sealed class StochRsiHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        int providerIndex = ProviderCache.IndexGte(timestamp);
-        if (providerIndex == -1)
-        {
-            providerIndex = ProviderCache.Count;
-        }
+        int targetIndex = ProviderCache.IndexGte(timestamp);
 
         // Reset state and replay historical RSI values up to the rebuild index
         _rsiMaxWindow.Clear();
@@ -121,14 +117,15 @@ public sealed class StochRsiHub
         kBuffer.Clear();
         signalBuffer.Clear();
 
-        if (providerIndex <= 0)
+        if (targetIndex <= 0)
         {
             return;
         }
 
-        int replayLimit = Math.Min(providerIndex, ProviderCache.Count);
+        // Rebuild state up to targetIndex - 1 (exclusive of rollback timestamp)
+        int restoreIndex = targetIndex - 1;
 
-        for (int i = 0; i < replayLimit; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
             double rsiValue = ProviderCache[i].Value;
             if (!double.IsNaN(rsiValue))
