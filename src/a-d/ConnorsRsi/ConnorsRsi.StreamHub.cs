@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public class ConnorsRsiHub
     : ChainHub<IReusable, ConnorsRsiResult>, IConnorsRsi
 {
-    private readonly RsiHub rsiHub;
+    private readonly IReadOnlyList<IReusable> _quoteCache;  // Original quote provider's cache
     private readonly List<double> streakBuffer;
     private readonly Queue<double> gainBuffer;
     private double streak;
@@ -18,17 +18,18 @@ public class ConnorsRsiHub
         IChainProvider<IReusable> provider,
         int rsiPeriods,
         int streakPeriods,
-        int rankPeriods) : base(provider)
+        int rankPeriods)
+        : base(provider.ToRsiHub(rsiPeriods))
     {
+        ArgumentNullException.ThrowIfNull(provider);
         ConnorsRsi.Validate(rsiPeriods, streakPeriods, rankPeriods);
+
+        _quoteCache = provider.Results;  // Keep reference to original quotes
         RsiPeriods = rsiPeriods;
         StreakPeriods = streakPeriods;
         RankPeriods = rankPeriods;
 
-        Name = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
-
-        // Create internal hub for price RSI
-        rsiHub = provider.ToRsiHub(rsiPeriods);
+        Name = $"CRSI({RsiPeriods},{streakPeriods},{rankPeriods})";
 
         // Initialize state
         streakBuffer = [];
@@ -57,11 +58,11 @@ public class ConnorsRsiHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Get RSI from embedded hub
-        double? rsi = rsiHub.Cache[i].Rsi;
+        // Get RSI from the item (RsiResult)
+        double? rsi = (item as RsiResult)?.Rsi;
 
-        // Calculate streak
-        double currentValue = item.Value;
+        // Get original quote value from the cached quote provider results
+        double currentValue = _quoteCache[i].Value;
         double currentStreak;
 
         if (i == 0)
@@ -263,8 +264,8 @@ public class ConnorsRsiHub
         // Replay values to restore state
         for (int i = 0; i <= targetIndex; i++)
         {
-            IReusable item = ProviderCache[i];
-            double value = item.Value;
+            // Get original quote value from the cached quote provider results
+            double value = _quoteCache[i].Value;
 
             // Restore streak
             if (i == 0)

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating VWMA hubs.
 /// </summary>
 public class VwmaHub
-    : ChainHub<IReusable, VwmaResult>, IVwma
+    : ChainHub<IQuote, VwmaResult>, IVwma
 {
     internal VwmaHub(
         IQuoteProvider<IQuote> provider,
@@ -26,7 +26,7 @@ public class VwmaHub
 
     /// <inheritdoc />
     protected override (VwmaResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -43,7 +43,7 @@ public class VwmaHub
 
             for (int p = index - LookbackPeriods + 1; p <= index; p++)
             {
-                IQuote quote = (IQuote)ProviderCache[p];
+                IQuote quote = ProviderCache[p];
                 double price = (double)quote.Close;
                 double volume = (double)quote.Volume;
 

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides streaming hub for Force Index calculations.
 /// </summary>
 public class ForceIndexHub
-    : ChainHub<IReusable, ForceIndexResult>, IForceIndex
+    : ChainHub<IQuote, ForceIndexResult>, IForceIndex
 {
     private readonly double _k;
     private double _sumRawFi;
@@ -29,7 +29,7 @@ public class ForceIndexHub
 
     /// <inheritdoc />
     protected override (ForceIndexResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -40,8 +40,8 @@ public class ForceIndexHub
         if (i > 0)
         {
             // get current and previous quotes
-            IQuote currentQuote = (IQuote)ProviderCache[i];
-            IQuote previousQuote = (IQuote)ProviderCache[i - 1];
+            IQuote currentQuote = ProviderCache[i];
+            IQuote previousQuote = ProviderCache[i - 1];
 
             // calculate raw Force Index
             double rawFi = (double)currentQuote.Volume
@@ -94,8 +94,8 @@ public class ForceIndexHub
 
         for (int i = 1; i <= endWarmup; i++)
         {
-            IQuote curr = (IQuote)ProviderCache[i];
-            IQuote prev = (IQuote)ProviderCache[i - 1];
+            IQuote curr = ProviderCache[i];
+            IQuote prev = ProviderCache[i - 1];
             _sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
         }
     }
