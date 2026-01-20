@@ -521,29 +521,62 @@ using Skender.Stock.Indicators;
 QuoteHub<Quote> quoteHub = new();
 SmaHub<Quote> smaHub = quoteHub.ToSma(20);
 
-async Task ProcessWebSocketStream(ClientWebSocket ws, string uri)
+async Task ProcessWebSocketStream(ClientWebSocket ws, string uri, CancellationToken cancellationToken)
 {
-    await ws.ConnectAsync(new Uri(uri), CancellationToken.None);
-    
-    byte[] buffer = new byte[4096];
-    
-    while (ws.State == WebSocketState.Open)
+    try
     {
-        var result = await ws.ReceiveAsync(
-            new ArraySegment<byte>(buffer), 
-            CancellationToken.None);
+        await ws.ConnectAsync(new Uri(uri), cancellationToken);
         
-        if (result.MessageType == WebSocketMessageType.Text)
+        byte[] buffer = new byte[4096];
+        
+        while (ws.State == WebSocketState.Open && !cancellationToken.IsCancellationRequested)
         {
-            // parse quote from JSON message (your method)
-            Quote quote = ParseQuoteFromJson(buffer, result.Count);
+            WebSocketReceiveResult result = await ws.ReceiveAsync(
+                new ArraySegment<byte>(buffer), 
+                cancellationToken);
             
-            // process serially - no locks needed
-            quoteHub.Add(quote);
+            // check for close messages
+            if (result.MessageType == WebSocketMessageType.Close)
+            {
+                await ws.CloseOutputAsync(
+                    WebSocketCloseStatus.NormalClosure, 
+                    "Closing", 
+                    cancellationToken);
+                break;
+            }
             
-            var latest = smaHub.Results.LastOrDefault();
-            // use results
+            if (result.MessageType == WebSocketMessageType.Text)
+            {
+                // parse quote from JSON message (your method)
+                Quote quote = ParseQuoteFromJson(buffer, result.Count);
+                
+                // process serially - no locks needed
+                quoteHub.Add(quote);
+                
+                var latest = smaHub.Results.LastOrDefault();
+                // use results
+            }
         }
+    }
+    catch (WebSocketException ex)
+    {
+        // handle connection errors
+        Console.WriteLine($"WebSocket error: {ex.Message}");
+    }
+    catch (OperationCanceledException)
+    {
+        // cancellation requested - clean shutdown
+    }
+    finally
+    {
+        if (ws.State == WebSocketState.Open || ws.State == WebSocketState.CloseReceived)
+        {
+            await ws.CloseAsync(
+                WebSocketCloseStatus.NormalClosure, 
+                "Closing", 
+                CancellationToken.None);
+        }
+        ws.Dispose();
     }
 }
 ```
