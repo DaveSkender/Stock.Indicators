@@ -68,7 +68,10 @@ public class ChandelierHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Get the quote from the underlying quote provider's cache
-        // to access High/Low values for rolling windows
+        // to access High/Low values for rolling windows.
+        // System invariant: _quoteProvider.Results[i] must exist because the ATR hub
+        // is chained to this quote provider and processes quotes synchronously.
+        // The index i from ProviderCache (ATR results) maps 1:1 to quote provider indices.
         IQuote quote = _quoteProvider.Results[i];
 
         // Add current quote to rolling windows
