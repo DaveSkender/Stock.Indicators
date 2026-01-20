@@ -114,7 +114,7 @@ public static StochRsiHub ToStochRsiHub(
 2. **Delegate constructors** - Constructor 1 calls constructor 2 with created hub
 3. **Base receives hub** - Pass the internal hub to base class (not original provider)
 4. **Document overrides** - Clearly mark the hub-accepting extension as non-standard chaining
-5. **No RollbackState override** - Compound hubs rely on internal hub's state; only override if maintaining additional state beyond the internal hub's results
+5. **Avoid RollbackState override** - Compound hubs typically rely on their internal hub's state management; only override when maintaining additional derived state beyond what the internal hub exposes. Example: `StochRsiHub` overrides `RollbackState` to rebuild oscillator state (`_rsiMaxWindow`, `_rsiMinWindow`, `kBuffer`, `signalBuffer`) from cached RSI results. See "Compound hub state" pattern in `rollback-patterns.md` for the accepted exception and implementation pattern
 
 ## Test interface mapping
 
