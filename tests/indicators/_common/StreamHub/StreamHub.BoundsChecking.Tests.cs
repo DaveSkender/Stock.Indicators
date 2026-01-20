@@ -99,7 +99,11 @@ public class BoundsCheckingTests : TestBase
         // Add quotes but skip one in the middle
         for (int i = 0; i < 50; i++)
         {
-            if (i == 30) continue;  // Skip index 30
+            if (i == 30)
+            {
+                continue;  // Skip index 30
+            }
+
             quoteHub.Add(Quotes[i]);
         }
 
@@ -308,7 +312,7 @@ public class BoundsCheckingTests : TestBase
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Act - remove a quote and trigger rebuild
-        int removeIndex = 30;
+        const int removeIndex = 30;
         quoteHub.RemoveAt(removeIndex);
 
         // Assert - should not throw
@@ -355,10 +359,14 @@ public class BoundsCheckingTests : TestBase
         QuoteHub quoteHub = new();
 
         // Add quotes but skip several in the middle
-        int[] skipIndices = { 25, 30, 35 };
+        int[] skipIndices = [25, 30, 35];
         for (int i = 0; i < 50; i++)
         {
-            if (skipIndices.Contains(i)) continue;
+            if (skipIndices.Contains(i))
+            {
+                continue;
+            }
+
             quoteHub.Add(Quotes[i]);
         }
 
