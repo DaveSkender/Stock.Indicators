@@ -494,6 +494,22 @@ Thread-safety limitations in streaming contexts are normal and expected througho
 - **Performance**: Serial processing eliminates lock contention and coordination overhead for the common case
 - **Simplicity**: Most streaming data sources are inherently sequential; the library matches this natural flow
 
+::: details read more: How common is thread safety in .NET asynchronous environments?
+
+Common real‑time technologies in .NET are built around asynchronous I/O, but most of them are **not inherently thread‑safe**.  Each framework has its own rules for how concurrent access is allowed:
+
+- **SignalR:** A SignalR server processes many requests concurrently.  The Microsoft Q&A documentation notes that if you have shared state in your hub, **you must make access to that state thread‑safe** by locking around the shared resource.  Splitting code across multiple hubs doesn’t change this, because the underlying threads can still access the same objects.  Also, `HubConnection` objects on the client are not thread‑safe; instance members should not be called from multiple threads at once.  For safe broadcasting, queue messages and use a single sending loop for each connection rather than firing `SendAsync` from several tasks concurrently.
+
+- **WebSockets:** The underlying `ClientWebSocket` class allows **only one send and one receive** to be in progress at a time.  The official API docs say that one send and one receive may run in parallel, but issuing multiple sends or multiple receives concurrently “is not supported and will result in undefined behaviour”.  If you need to send messages from multiple producers, serialize calls to `SendAsync` (for example, via a `ConcurrentQueue` and a dedicated sender task).
+
+- **Server‑Sent Events (SSE):** SSE streams are unidirectional and typically implemented by returning an `IAsyncEnumerable<T>` or reading from a `StreamReader`.  A `StreamReader` is **not thread‑safe by default**.  If multiple threads need to read from the same stream, wrap it using `TextReader.Synchronized` or provide each consumer with its own reader.  In most SSE patterns, only one enumeration reads the stream, so events are delivered serially and no additional locking is needed.  If you share a single event source among multiple clients, protect shared buffers with thread‑safe collections such as `BlockingCollection<T>`.
+
+- **Popular market‑data providers:** Many third‑party libraries use WebSocket connections under the hood.  Some, like JKorf’s `Binance.Net`/`CryptoExchange.Net`, document that only one subscriber should read a given WebSocket stream at a time, and their classes are not guaranteed to be thread‑safe.  Use separate client instances per subscription or consult the library’s documentation for concurrency guidelines.  When consuming data from these libraries, apply the same WebSocket rules above—queue outbound messages and avoid simultaneous sends or receives on the same socket.
+
+**Summary:** Real‑time components in .NET are designed for asynchronous I/O but not for free‑form multithreaded access.  Treat hubs, WebSocket clients and SSE stream readers as single‑consumer objects.  Protect shared state with locks or concurrent collections, and queue messages so that only one send or receive call is active at a time.  If you need to broadcast to multiple consumers, create separate connections or use thread‑safe collections to manage shared data.
+
+:::
+
 ### Idiomatic usage patterns (no locks needed)
 
 #### WebSocket example with serial processing
