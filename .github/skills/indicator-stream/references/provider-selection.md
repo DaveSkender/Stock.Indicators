@@ -53,6 +53,69 @@ public class HeikinAshiHub : QuoteProvider<IQuote, HeikinAshiResult>
 }
 ```
 
+## StreamHub<TProviderResult, TResult>
+
+**Compound hubs** (~2 indicators): Indicators that require an internal hub dependency
+
+**Examples**: StochRSI (requires RSI), Gator (requires Alligator)
+
+**Pattern**: Two constructors - one that creates the internal hub, one that accepts an existing hub:
+
+```csharp
+public class StochRsiHub : ChainHub<IReusable, StochRsiResult>
+{
+    // Constructor 1: Creates internal RSI hub from provider
+    internal StochRsiHub(
+        IChainProvider<IReusable> provider,
+        int rsiPeriods = 14,
+        int stochPeriods = 14)
+        : this(provider.ToRsiHub(rsiPeriods), stochPeriods)  // Delegates to constructor 2
+    { }
+
+    // Constructor 2: Accepts existing RSI hub (used internally, avoids duplicate hubs)
+    internal StochRsiHub(RsiHub rsiHub, int stochPeriods = 14)
+        : base(rsiHub)  // Base receives the hub as provider
+    {
+        ArgumentNullException.ThrowIfNull(rsiHub);
+        StochRsi.Validate(rsiHub.LookbackPeriods, stochPeriods);
+        RsiPeriods = rsiHub.LookbackPeriods;
+        StochPeriods = stochPeriods;
+        Reinitialize();
+    }
+}
+```
+
+**Extension methods**: Provide both overloads with clear documentation:
+
+```csharp
+public static StochRsiHub ToStochRsiHub(
+    this IChainProvider<IReusable> chainProvider,
+    int rsiPeriods = 14,
+    int stochPeriods = 14)
+    => new(chainProvider, rsiPeriods, stochPeriods);
+
+/// <summary>
+/// Creates a new Stochastic RSI hub, using RSI values from an existing RSI hub.
+/// </summary>
+/// <remarks>
+/// This extension overrides normal chaining and enables reuse of the existing
+/// <see cref="RsiHub"/> in its internal construction.
+/// <para>IMPORTANT: This is not a normal chaining approach.</para>
+/// Do not use this if you want a StochRSI of an RSI hub.</remarks>
+public static StochRsiHub ToStochRsiHub(
+    this RsiHub rsiHub,
+    int stochPeriods = 14)
+    => new(rsiHub, stochPeriods);
+```
+
+**Key principles**:
+
+1. **Avoid duplicate hubs** - Internal hub construction prevents redundant calculations
+2. **Delegate constructors** - Constructor 1 calls constructor 2 with created hub
+3. **Base receives hub** - Pass the internal hub to base class (not original provider)
+4. **Document overrides** - Clearly mark the hub-accepting extension as non-standard chaining
+5. **No RollbackState override** - Compound hubs rely on internal hub's state; only override if maintaining additional state beyond the internal hub's results
+
 ## Test interface mapping
 
 | Provider Base | Observer Interface | Provider Interface |
@@ -62,4 +125,4 @@ public class HeikinAshiHub : QuoteProvider<IQuote, HeikinAshiResult>
 | `QuoteProvider<IQuote, T>` | `ITestQuoteObserver` | `ITestChainProvider` |
 
 ---
-Last updated: December 31, 2025
+Last updated: January 19, 2026
