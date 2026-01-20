@@ -113,6 +113,9 @@ internal sealed class CoinbaseStrategy : IDisposable
         {
             foreach (CoinbaseTrade trade in trades)
             {
+                // NOTE: Using individual trade prices for all OHLC fields.
+                // This is intentional for simplicity and to maximize the rate
+                // of hub updates, which helps expose thread-safety issues.
                 Quote quote = new(
                     Timestamp: trade.Timestamp,
                     Open: trade.Price,
@@ -226,9 +229,19 @@ internal sealed class CoinbaseStrategy : IDisposable
 
     private void PrintSummary()
     {
-        double finalValue = _units > 0 && _quoteHub.Results.Count > 0
-            ? _units * (double)_quoteHub.Results[^1].Close
-            : _balance;
+        double finalValue;
+        int resultCount = _quoteHub.Results.Count;
+
+        if (_units > 0 && resultCount > 0)
+        {
+            decimal lastClose = _quoteHub.Results[resultCount - 1].Close;
+            finalValue = _units * (double)lastClose;
+        }
+        else
+        {
+            finalValue = _balance;
+        }
+
         double totalPnL = finalValue - 10000.0;
 
         Console.WriteLine("==========================================");
