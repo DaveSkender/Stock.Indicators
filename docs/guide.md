@@ -462,6 +462,253 @@ quoteHub.Remove(badQuote);   // Triggers recalculation
 
 See individual indicator documentation for specific streaming examples.
 
+## Thread safety and concurrency
+
+Understanding thread-safety is critical when working with streaming indicators and live data feeds. This section clarifies the library's threading model and provides guidance on safely integrating with real-time data sources.
+
+### Library threading model
+
+**Stock.Indicators processes stream events serially** - one event at a time. The library is designed for single-threaded sequential processing and is **not thread-safe by default**.
+
+- **Series style**: Results are immutable and thread-safe; calculations themselves are not thread-safe
+- **Buffer lists**: Not thread-safe; synchronize external access if sharing across threads
+- **Stream hubs**: Not thread-safe; designed for single-threaded inputs like WebSocket/SSE
+
+A `StreamHub`, `QuoteHub`, or `BufferList` instance reads one quote at a time and is **not meant to be shared across threads** without external synchronization.
+
+### Why streaming is often single-threaded
+
+Thread-safety limitations in streaming contexts are normal and expected throughout the .NET ecosystem and common data feed technologies:
+
+**Common streaming technologies:**
+
+- **WebSocket connections**: Typically maintain a single connection with sequential message delivery. The underlying TCP stream is inherently sequential.
+- **Server-Sent Events (SSE)**: HTTP-based event streams deliver events one at a time over a single connection.
+- **Stock quote feeds** (IEX, Alpaca, Interactive Brokers, etc.): Most real-time market data APIs deliver quotes sequentially over WebSocket or similar connections.
+- **SignalR hubs**: .NET's real-time framework delivers messages to hub methods serially by default.
+- **gRPC streams**: Bidirectional streaming maintains message order within a single stream.
+
+**Why this design is optimal:**
+
+- **Order preservation**: Financial calculations require chronological processing; parallel processing would require complex synchronization to maintain order
+- **Performance**: Serial processing eliminates lock contention and coordination overhead for the common case
+- **Simplicity**: Most streaming data sources are inherently sequential; the library matches this natural flow
+
+### Idiomatic usage patterns (no locks needed)
+
+#### WebSocket example with serial processing
+
+```csharp
+using System.Net.WebSockets;
+using Skender.Stock.Indicators;
+
+QuoteHub<Quote> quoteHub = new();
+SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+
+async Task ProcessWebSocketStream(ClientWebSocket ws, string uri)
+{
+    await ws.ConnectAsync(new Uri(uri), CancellationToken.None);
+    
+    byte[] buffer = new byte[4096];
+    
+    while (ws.State == WebSocketState.Open)
+    {
+        var result = await ws.ReceiveAsync(
+            new ArraySegment<byte>(buffer), 
+            CancellationToken.None);
+        
+        if (result.MessageType == WebSocketMessageType.Text)
+        {
+            // parse quote from JSON message (your method)
+            Quote quote = ParseQuoteFromJson(buffer, result.Count);
+            
+            // process serially - no locks needed
+            quoteHub.Add(quote);
+            
+            var latest = smaHub.Results.LastOrDefault();
+            // use results
+        }
+    }
+}
+```
+
+#### Server-Sent Events (SSE) example
+
+```csharp
+using Skender.Stock.Indicators;
+
+QuoteHub<Quote> quoteHub = new();
+RsiHub<Quote> rsiHub = quoteHub.ToRsi(14);
+
+async Task ProcessSSEStream(string sseEndpoint)
+{
+    using var client = new HttpClient();
+    using var stream = await client.GetStreamAsync(sseEndpoint);
+    using var reader = new StreamReader(stream);
+    
+    while (!reader.EndOfStream)
+    {
+        string? line = await reader.ReadLineAsync();
+        
+        if (line?.StartsWith("data:") == true)
+        {
+            // parse quote from SSE data line (your method)
+            Quote quote = ParseQuoteFromSSE(line);
+            
+            // process serially
+            quoteHub.Add(quote);
+            
+            var latest = rsiHub.Results.LastOrDefault();
+            // use results
+        }
+    }
+}
+```
+
+#### Multiple independent streams
+
+If you have multiple indicators that **don't need synchronization**, create separate instances per thread:
+
+```csharp
+// thread 1: processes MSFT
+Task.Run(() => {
+    QuoteHub<Quote> msftHub = new();
+    SmaHub<Quote> msftSma = msftHub.ToSma(20);
+    
+    foreach (var quote in msftStream)
+    {
+        msftHub.Add(quote);  // no locks needed
+    }
+});
+
+// thread 2: processes AAPL
+Task.Run(() => {
+    QuoteHub<Quote> aaplHub = new();
+    SmaHub<Quote> aaplSma = aaplHub.ToSma(20);
+    
+    foreach (var quote in aaplStream)
+    {
+        aaplHub.Add(quote);  // no locks needed
+    }
+});
+```
+
+### Troubleshooting concurrent access
+
+If your application architecture requires sharing a hub instance across threads or processing quotes from multiple concurrent sources, you'll need to add external synchronization. This section shows how to diagnose and fix concurrency issues.
+
+**Common symptoms:**
+
+- Inconsistent or corrupted results
+- `InvalidOperationException` from collection modification
+- Race conditions or unexpected behavior
+- Debugging shows multiple threads accessing the same hub
+
+#### Using locks for shared access
+
+If you must share a hub across threads, use a dedicated lock object:
+
+```csharp
+using Skender.Stock.Indicators;
+
+QuoteHub<Quote> quoteHub = new();
+SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+
+// dedicated lock object (never lock on quoteHub directly)
+private readonly object _hubLock = new();
+
+// thread 1: processing quotes
+void ProcessQuotes(Quote quote)
+{
+    lock (_hubLock)
+    {
+        quoteHub.Add(quote);
+    }
+}
+
+// thread 2: reading results
+void ReadResults()
+{
+    lock (_hubLock)
+    {
+        var latest = smaHub.Results.LastOrDefault();
+        // use latest result
+    }
+}
+```
+
+::: warning Never lock on the hub instance directly
+Do NOT use `lock (quoteHub)` - always create a dedicated `private readonly object` for locking. Locking on public instances can cause deadlocks and violates encapsulation.
+:::
+
+#### Using Channel for producer-consumer coordination
+
+For high-throughput scenarios where you need to decouple quote reception from processing, use `System.Threading.Channels`:
+
+```csharp
+using System.Threading.Channels;
+using Skender.Stock.Indicators;
+
+Channel<Quote> quoteChannel = Channel.CreateUnbounded<Quote>();
+
+// producer thread: receives quotes from WebSocket
+async Task ProduceQuotes(WebSocket ws)
+{
+    while (ws.State == WebSocketState.Open)
+    {
+        Quote quote = await ReceiveQuoteFromWebSocket(ws);
+        await quoteChannel.Writer.WriteAsync(quote);
+    }
+    
+    quoteChannel.Writer.Complete();
+}
+
+// consumer thread: processes quotes through indicators
+async Task ConsumeQuotes()
+{
+    QuoteHub<Quote> quoteHub = new();
+    SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+    
+    await foreach (Quote quote in quoteChannel.Reader.ReadAllAsync())
+    {
+        quoteHub.Add(quote);  // serial processing
+        
+        var latest = smaHub.Results.LastOrDefault();
+        // use results
+    }
+}
+
+// start both tasks
+await Task.WhenAll(
+    ProduceQuotes(websocket),
+    ConsumeQuotes()
+);
+```
+
+### When to use external synchronization
+
+**You need locks or channels when:**
+
+- Sharing a single hub instance across multiple threads
+- Multiple threads call `.Add()`, `.Insert()`, or `.Remove()` on the same hub
+- Reading results from one thread while another thread updates the hub
+- Processing quotes from multiple concurrent sources into one hub
+
+**You DON'T need locks when:**
+
+- Processing a single sequential stream (WebSocket, SSE, file reading)
+- Each thread has its own independent hub instances
+- Using Series style for batch calculations (results are immutable)
+- Reading from BufferList or StreamHub from the same thread that updates it
+
+### Performance considerations
+
+- **Locking overhead**: For high-frequency updates (>10k quotes/sec), channel-based coordination typically outperforms simple locks
+- **Lock contention**: Minimize lock hold time; read results outside the lock if possible
+- **False sharing**: If running multiple independent hubs, ensure they don't share cache lines
+
+See [Performance](/performance) for detailed benchmarks and optimization guidance.
+
 ## Utilities
 
 See [Utilities and helper functions](/utilities/) for additional tools.
