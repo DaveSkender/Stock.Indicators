@@ -178,9 +178,12 @@ public static partial class Chandelier
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     /// <remarks>
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>
-    /// This extension overrides and enables a chain that specifically
-    /// reuses the existing <see cref="AtrHub"/> in its internal construction.
-    ///</remarks>
+    /// This extension overrides the standard chaining pattern to specifically
+    /// reuse an existing <see cref="AtrHub"/> internally, avoiding duplicate ATR calculations
+    /// when multiple indicators need the same ATR values.
+    /// The quote provider must be the same provider used to create the ATR hub;
+    /// providing a different provider may result in index misalignment and incorrect calculations.
+    /// </remarks>
     public static ChandelierHub ToChandelierHub(
         this AtrHub atrHub,
         IQuoteProvider<IQuote> quoteProvider,
