@@ -54,15 +54,16 @@ internal sealed class CoinbaseStrategy : IDisposable
         try
         {
             Console.WriteLine($"[CoinbaseStrategy] Connecting to Coinbase WebSocket for {_symbol}");
+            Console.WriteLine("[CoinbaseStrategy] Subscribing to 5-minute klines (candles) feed");
             Console.WriteLine();
 
             TaskCompletionSource<bool> completionSource = new();
 
             CryptoExchange.Net.Objects.CallResult<UpdateSubscription> subscription =
                 await _socketClient.AdvancedTradeApi
-                    .SubscribeToTradeUpdatesAsync(
+                    .SubscribeToKlineUpdatesAsync(
                         _symbol,
-                        onData => ProcessTradeUpdate(onData.Data, completionSource),
+                        onData => ProcessKlineUpdate(onData.Data, completionSource),
                         ct: default)
                     .ConfigureAwait(false);
 
@@ -75,7 +76,8 @@ internal sealed class CoinbaseStrategy : IDisposable
                 return;
             }
 
-            Console.WriteLine($"[CoinbaseStrategy] Successfully subscribed to {_symbol} trades");
+            Console.WriteLine($"[CoinbaseStrategy] Successfully subscribed to {_symbol} klines");
+            Console.WriteLine("[CoinbaseStrategy] Waiting for kline updates (approximately every 5 seconds)...");
 
             await completionSource.Task.ConfigureAwait(false);
 
@@ -107,22 +109,20 @@ internal sealed class CoinbaseStrategy : IDisposable
         _socketClient.Dispose();
     }
 
-    private void ProcessTradeUpdate(CoinbaseTrade[] trades, TaskCompletionSource<bool> completionSource)
+    private void ProcessKlineUpdate(CoinbaseStreamKline[] klines, TaskCompletionSource<bool> completionSource)
     {
         try
         {
-            foreach (CoinbaseTrade trade in trades)
+            foreach (CoinbaseStreamKline kline in klines)
             {
-                // NOTE: Using individual trade prices for all OHLC fields.
-                // This is intentional for simplicity and to maximize the rate
-                // of hub updates, which helps expose thread-safety issues.
+                // Convert kline (candle) data to Quote
                 Quote quote = new(
-                    Timestamp: trade.Timestamp,
-                    Open: trade.Price,
-                    High: trade.Price,
-                    Low: trade.Price,
-                    Close: trade.Price,
-                    Volume: trade.Quantity);
+                    Timestamp: kline.OpenTime,
+                    Open: kline.OpenPrice,
+                    High: kline.HighPrice,
+                    Low: kline.LowPrice,
+                    Close: kline.ClosePrice,
+                    Volume: kline.Volume);
 
                 ProcessQuote(quote);
                 _quotesProcessed++;
@@ -136,12 +136,12 @@ internal sealed class CoinbaseStrategy : IDisposable
         }
         catch (InvalidOperationException ex)
         {
-            Console.WriteLine($"[CoinbaseStrategy] Invalid operation processing trade: {ex.Message}");
+            Console.WriteLine($"[CoinbaseStrategy] Invalid operation processing kline: {ex.Message}");
             completionSource.TrySetException(ex);
         }
         catch (ArgumentException ex)
         {
-            Console.WriteLine($"[CoinbaseStrategy] Argument error processing trade: {ex.Message}");
+            Console.WriteLine($"[CoinbaseStrategy] Argument error processing kline: {ex.Message}");
             completionSource.TrySetException(ex);
         }
     }

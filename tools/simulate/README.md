@@ -9,6 +9,13 @@ This tool simulates live trading strategies using two different approaches for s
 
 This tool was created to test and reproduce thread-safety issues in StreamHubs when used with async/real-world WebSocket feeds (see [#1925](https://github.com/DaveSkender/Stock.Indicators/issues/1925)).
 
+The Coinbase mode specifically replicates the reported scenario:
+
+- Uses 5-minute kline (candle) WebSocket feed
+- Receives updates approximately every 5 seconds
+- Single symbol subscription feeding a single QuoteHub
+- Processes data through multiple indicator hubs asynchronously
+
 ## Usage
 
 ### SSE Mode (Default)
@@ -50,9 +57,10 @@ Both modes implement a Golden Cross trading strategy:
 
 The Coinbase WebSocket mode is designed to reproduce the thread-safety issues reported in issue #1925:
 
-- WebSocket events arrive asynchronously from Coinbase
-- Multiple trades can arrive in quick succession
-- Each trade is processed through QuoteHub and multiple indicator hubs
+- Subscribes to 5-minute kline (candle) updates via WebSocket
+- Klines arrive approximately every 5 seconds (matching reported scenario)
+- Single symbol subscription feeds a single QuoteHub
+- Each kline is processed through QuoteHub and multiple indicator hubs
 - This can expose race conditions in hub implementations
 
 To test for thread-safety issues:
@@ -60,6 +68,7 @@ To test for thread-safety issues:
 1. Run the Coinbase mode with a high target count
 2. Monitor for exceptions (especially ArgumentOutOfRangeException)
 3. Try with different symbols and counts to vary the data rate
+4. Let it run for 30-60 seconds to match the failure window reported
 
 ## Dependencies
 
