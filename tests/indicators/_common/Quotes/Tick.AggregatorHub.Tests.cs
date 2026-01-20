@@ -300,6 +300,8 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         results.Should().HaveCount(1);
 
+        // TODO: is this right? What if the second "EXEC-001" is a correction (likely)?
+
         // Should only incorporate first and third ticks (not the duplicate)
         IQuote bar = results[0];
         bar.High.Should().Be(101m); // Max of 100 and 101, not 200
@@ -330,7 +332,10 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         // Both ticks should be incorporated
         IQuote bar = results[0];
+        bar.Open.Should().Be(100m); // First tick price
         bar.High.Should().Be(105m);
+        bar.Low.Should().Be(100m);
+        bar.Close.Should().Be(105m); // Last tick price
         bar.Volume.Should().Be(25m); // Sum of both volumes
 
         aggregator.Unsubscribe();

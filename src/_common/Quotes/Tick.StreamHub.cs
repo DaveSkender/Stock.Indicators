@@ -94,16 +94,42 @@ public class TickHub
                 return;
             }
 
-            // replace existing item at this position (different values, same timestamp)
-            Cache[index] = result;
+            // For ticks without execution IDs, replace in cache but notify as addition
+            // This allows aggregators to process multiple ticks at the same timestamp
+            bool hasExecutionId = !string.IsNullOrEmpty(result.ExecutionId);
 
-            // notify observers to rebuild from this timestamp
-            if (notify)
+            if (!hasExecutionId)
             {
-                NotifyObserversOnRebuild(result.Timestamp);
+                // Replace existing tick in cache (keep only latest)
+                Cache[index] = result;
+
+                // Notify observers as if it's a new addition
+                // This allows aggregators to incorporate the tick's data
+                if (notify)
+                {
+                    NotifyObserversOnAdd(result, index);
+                }
+
+                return;
             }
 
-            return;
+            // For ticks with execution IDs, replace and trigger rebuild
+            if (Cache[index].ExecutionId == result.ExecutionId)
+            {
+                // replace existing item at this position (same execution ID)
+                Cache[index] = result;
+
+                // notify observers to rebuild from this timestamp
+                if (notify)
+                {
+                    NotifyObserversOnRebuild(result.Timestamp);
+                }
+
+                return;
+            }
+
+            // Different execution IDs - this shouldn't happen often,
+            // but treat as late arrival and trigger rebuild
         }
 
         // standard add behavior for new items
