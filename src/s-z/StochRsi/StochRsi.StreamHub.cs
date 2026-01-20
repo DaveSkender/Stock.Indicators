@@ -236,17 +236,6 @@ public static partial class StochRsi
         int smoothPeriods = 1)
         => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
-    // TODO: Consider whether this overload (below) is necessary or if it could lead to confusion.
-    // If we keep it, it opens possibility of not redundantly creating the internal RSI hub.
-    // If we lose it, it opens possibility of chaining to do an Stoch RSI of an RSI hub.
-    // Catch 22.  See below.
-
-    // Note: for most other indicators this extension overload,
-    // even if available as an internal contructor, may not be
-    // appropriate since it will prevent normal chaining.
-    // For example, if someone truly wanted an RSI of a Stoch
-    // and we applied this overload to StochRSI, it wouldn't work.
-
     /// <summary>
     /// Creates a new Stochastic RSI hub, using RSI values from an existing RSI hub.
     /// </summary>
