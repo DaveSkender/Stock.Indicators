@@ -120,6 +120,7 @@ public class TickAggregatorHub
                     NotifyObserversOnRebuild(barTimestamp);
                 }
             }
+
             return;
         }
 

@@ -175,7 +175,7 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         // Third should be average of first three closes
         smaResults[2].Sma.Should().NotBeNull();
-        double expectedSma = (100 + 101 + 102) / 3.0;
+        const double expectedSma = (100 + 101 + 102) / 3.0;
         smaResults[2].Sma.Should().BeApproximately(expectedSma, 0.0001);
 
         sma.Unsubscribe();

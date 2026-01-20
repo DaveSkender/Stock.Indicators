@@ -41,7 +41,7 @@ public class TickHub
     /// <param name="provider">The tick provider.</param>
     public TickHub(
         IStreamObservable<ITick> provider)
-        : base(provider)
+        : base(provider ?? throw new ArgumentNullException(nameof(provider)))
     {
         ArgumentNullException.ThrowIfNull(provider);
 
@@ -135,7 +135,16 @@ public class TickHub
     }
 }
 
-public static partial class Ticks
+/// <summary>
+/// Provides extension methods for aggregating tick data streams into OHLCV quote bars using a <see cref="TickAggregatorHub"/>.
+/// </summary>
+/// <remarks>
+/// The Ticks class offers static methods to facilitate the transformation of tick data into aggregated
+/// quote bars, supporting both fixed period sizes and custom time spans. These methods enable seamless integration with
+/// tick data providers and allow optional gap filling to maintain continuity in price data. All members are static and
+/// intended for use as extension methods on <see cref="IStreamObservable{ITick}"/> instances.
+/// </remarks>
+public static class Ticks
 {
     /// <summary>
     /// Creates a TickAggregatorHub that aggregates ticks from the provider into OHLCV quote bars.
