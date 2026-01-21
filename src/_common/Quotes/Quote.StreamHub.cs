@@ -20,7 +20,7 @@ public class QuoteHub
     {
         _isStandalone = true;
 
-        const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
+        const int maxCacheSizeDefault = 100_000;
 
         if (maxCacheSize is (not null and <= 0) or > maxCacheSizeDefault)
         {

@@ -208,11 +208,11 @@ async Task OnQuoteReceived(WebSocketQuote wsQuote)
 Stream hubs automatically prune old results when the cache exceeds the configured maximum size:
 
 ```csharp
-// default max cache size (~1.9 billion items)
+// default max cache size (100,000 items)
 QuoteHub quoteHub = new();
 
 // or configure custom max cache size
-QuoteHub limitedHub = new(maxCacheSize: 10000);
+QuoteHub limitedHub = new(maxCacheSize: 500);
 
 // automatic FIFO pruning when limit reached
 SmaHub smaHub = limitedHub.ToSmaHub(20);
@@ -224,7 +224,7 @@ foreach (Quote quote in liveQuotes)
 }
 ```
 
-The default cache size is very large (90% of `int.MaxValue`) to accommodate long-running streams. For applications with memory constraints, specify a smaller `maxCacheSize` when creating the QuoteHub.
+The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the QuoteHub.
 
 ## See also
 

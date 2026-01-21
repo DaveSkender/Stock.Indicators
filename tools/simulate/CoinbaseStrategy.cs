@@ -49,8 +49,8 @@ internal sealed class CoinbaseStrategy : IDisposable
         _mode = mode;
         _socketClient = new CoinbaseSocketClient();
 
-        // Use a reasonable cache size to test pruning (500 items will trigger pruning)
-        _quoteHub = new QuoteHub(maxCacheSize: 500);
+        // Use default cache size (100,000 items)
+        _quoteHub = new QuoteHub();
         _fastEma = _quoteHub.ToEmaHub(FastPeriod);
         _slowEma = _quoteHub.ToEmaHub(SlowPeriod);
     }

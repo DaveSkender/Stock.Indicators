@@ -88,7 +88,7 @@ SmaList smaList = new(20)
 };
 ```
 
-When the list exceeds `MaxListSize`, older results are automatically pruned. Default is approximately 1.9 billion elements.
+When the list exceeds `MaxListSize`, older results are automatically pruned. Default is 100,000 elements.
 
 ## Chaining indicators
 

@@ -132,7 +132,7 @@ SmaResult latest = smaList.LastOrDefault();
 - Implements `ICollection<TResult>` for standard collection operations
 - Automatically manages internal buffers for efficient calculations
 - Supports `.Add()` for individual quotes or `.Add(IReadOnlyList)` for batches
-- Auto-prunes results when exceeding `MaxListSize` (default ~1.9B elements)
+- Auto-prunes results when exceeding `MaxListSize` (default 100,000 elements)
 - Can be cleared and reused with `.Clear()`
 
 ### Stream hub style usage example
@@ -361,7 +361,7 @@ indicatorList.Clear();
 
 ### Memory management
 
-Buffer lists automatically manage memory with the `MaxListSize` property (default ~1.9B elements). When the list exceeds this size, older results are automatically pruned. You can customize this behavior:
+Buffer lists automatically manage memory with the `MaxListSize` property (default 100,000 elements). When the list exceeds this size, older results are automatically pruned. You can customize this behavior:
 
 ```csharp
 SmaList smaList = new(20)

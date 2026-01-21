@@ -38,8 +38,8 @@ internal sealed class GoldenCrossStrategy : IDisposable
         _targetCount = targetCount;
         _httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(30) };
 
-        // Use a reasonable cache size to test pruning (500 items will trigger pruning)
-        _quoteHub = new QuoteHub(maxCacheSize: 500);
+        // Use default cache size (100,000 items)
+        _quoteHub = new QuoteHub();
         _fastEma = _quoteHub.ToEmaHub(FastPeriod);
         _slowEma = _quoteHub.ToEmaHub(SlowPeriod);
     }
