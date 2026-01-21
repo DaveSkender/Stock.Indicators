@@ -275,7 +275,7 @@ foreach (Quote quote in liveQuotes)
 
 The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the QuoteHub.
 
-::: info Cache size inheritence
+::: info Cache size inheritance
 Hubs will inherit the `maxCacheSize` of its provider.  For example, if you set a size of 1,000 for your `QuoteHub`, then a chained `SmaHub` will also have a maximum cache size of 1,000.
 :::
 
