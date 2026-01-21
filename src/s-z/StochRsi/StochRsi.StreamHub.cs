@@ -7,11 +7,6 @@ public sealed class StochRsiHub
     : ChainHub<IReusable, StochRsiResult>
 {
     /// <summary>
-    /// Internal RSI hub for incremental RSI calculation
-    /// </summary>
-    private readonly RsiHub rsiHub;
-
-    /// <summary>
     /// Rolling windows for O(1) RSI max/min tracking
     /// </summary>
     private readonly RollingWindowMax<double> _rsiMaxWindow;
@@ -31,19 +26,30 @@ public sealed class StochRsiHub
         int rsiPeriods = 14,
         int stochPeriods = 14,
         int signalPeriods = 3,
-        int smoothPeriods = 1) : base(provider)
-    {
-        StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        int smoothPeriods = 1)
+        : this(
+            provider.ToRsiHub(rsiPeriods),
+            stochPeriods,
+            signalPeriods,
+            smoothPeriods)
+    { }
 
-        RsiPeriods = rsiPeriods;
+    internal StochRsiHub(
+        RsiHub rsiHub,
+        int stochPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 1)
+        : base(rsiHub)
+    {
+        ArgumentNullException.ThrowIfNull(rsiHub);
+        StochRsi.Validate(rsiHub.LookbackPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+        RsiPeriods = rsiHub.LookbackPeriods;
         StochPeriods = stochPeriods;
         SignalPeriods = signalPeriods;
         SmoothPeriods = smoothPeriods;
 
-        Name = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
-
-        // Create internal RSI hub for incremental RSI calculation
-        rsiHub = provider.ToRsiHub(rsiPeriods);
+        Name = $"STOCH-RSI({RsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
 
         // Rolling windows for O(1) RSI max/min tracking
         _rsiMaxWindow = new RollingWindowMax<double>(stochPeriods);
@@ -77,14 +83,12 @@ public sealed class StochRsiHub
         double? stochRsi = null;
         double? signal = null;
 
-        // Get RSI value from the internal hub
-        RsiResult? rsiResult = rsiHub.Cache[i];
-        double? rsiValue = rsiResult?.Rsi;
+        double rsiValue = item.Value;
 
         // Only process if we have a valid RSI value
-        if (rsiValue.HasValue)
+        if (!double.IsNaN(rsiValue))
         {
-            (double? oscillator, double? oscillatorSignal) = UpdateOscillatorState(rsiValue.Value);
+            (double? oscillator, double? oscillatorSignal) = UpdateOscillatorState(rsiValue);
 
             if (oscillator.HasValue)
             {
@@ -105,14 +109,7 @@ public sealed class StochRsiHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        int providerIndex = ProviderCache.IndexGte(timestamp);
-        if (providerIndex == -1)
-        {
-            providerIndex = ProviderCache.Count;
-        }
-
-        // Rebuild underlying RSI hub so replay uses fresh RSI values
-        rsiHub.Rebuild(timestamp);
+        int targetIndex = ProviderCache.IndexGte(timestamp);
 
         // Reset state and replay historical RSI values up to the rebuild index
         _rsiMaxWindow.Clear();
@@ -120,20 +117,20 @@ public sealed class StochRsiHub
         kBuffer.Clear();
         signalBuffer.Clear();
 
-        if (providerIndex <= 0)
+        if (targetIndex <= 0)
         {
             return;
         }
 
-        List<RsiResult> rsiResults = rsiHub.Cache;
-        int replayLimit = Math.Min(providerIndex, rsiResults.Count);
+        // Rebuild state up to targetIndex - 1 (exclusive of rollback timestamp)
+        int restoreIndex = targetIndex - 1;
 
-        for (int i = 0; i < replayLimit; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
-            RsiResult historical = rsiResults[i];
-            if (historical.Rsi.HasValue)
+            double rsiValue = ProviderCache[i].Value;
+            if (!double.IsNaN(rsiValue))
             {
-                _ = UpdateOscillatorState(historical.Rsi.Value);
+                _ = UpdateOscillatorState(rsiValue);
             }
         }
     }
@@ -238,4 +235,26 @@ public static partial class StochRsi
         int signalPeriods = 3,
         int smoothPeriods = 1)
         => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+    /// <summary>
+    /// Creates a new Stochastic RSI hub, using RSI values from an existing RSI hub.
+    /// </summary>
+    /// <remarks>
+    /// This extension overrides and enables a chain that specifically
+    /// reuses the existing <see cref="RsiHub"/> as its internal construction.
+    /// <para>IMPORTANT: This is not a normal chaining approach.</para>
+    /// Do not use this interface if you want to instead want a StochRSI of an RSI hub.</remarks>
+    /// <param name="rsiHub">The existing RSI hub provider.</param>
+    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <returns>A Stochastic RSI hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
+    public static StochRsiHub ToStochRsiHub(
+        this RsiHub rsiHub,
+        int stochPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 1)
+        => new(rsiHub, stochPeriods, signalPeriods, smoothPeriods);
 }
