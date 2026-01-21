@@ -37,15 +37,16 @@ internal static class StrategyGroupUtilities
         where TResult : ISeries
     {
         IReadOnlyList<TResult> cache = hub.Results;
-        int n = 1 - offset;
 
-        if (cache.Count < n)
+        // Need at least offset+1 elements to get previous and current
+        if (cache.Count <= offset)
         {
             pair = default;
             return false;
         }
 
-        pair = new(cache[^n], cache[^1]);
+        // Previous is at ^(offset+1), Current is at ^1
+        pair = new(cache[^(offset + 1)], cache[^1]);
         return true;
     }
 
@@ -114,4 +115,3 @@ internal static class StrategyGroupUtilities
             && pair1.Current.Timestamp == pair4.Current.Timestamp
             && pair1.Previous.Timestamp == pair4.Previous.Timestamp;
 }
-

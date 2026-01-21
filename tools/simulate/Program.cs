@@ -7,17 +7,18 @@ using Test.Simulation;
 // Parse command line arguments
 string mode = args.Length > 0 ? args[0].ToUpperInvariant() : "SSE";
 
-if (mode == "COINBASE")
+if (mode == "COINBASE" || mode == "COINBASE-TICKER" || mode == "COINBASE-KLINES")
 {
     // Coinbase WebSocket mode
+    CoinbaseMode coinbaseMode = mode == "COINBASE-TICKER" ? CoinbaseMode.Ticker : CoinbaseMode.Klines;
     string symbol = args.Length > 1 ? args[1] : "BTC-USD";
     int count = args.Length > 2 && int.TryParse(args[2], out int c) ? c : 1000;
 
-    Console.WriteLine("Starting Coinbase WebSocket simulation...");
+    Console.WriteLine($"Starting Coinbase WebSocket simulation ({coinbaseMode})...");
     Console.WriteLine($"Symbol: {symbol}, Target count: {count}");
     Console.WriteLine();
 
-    using CoinbaseStrategy strategy = new(symbol, count);
+    using CoinbaseStrategy strategy = new(symbol, count, coinbaseMode);
     await strategy.RunAsync().ConfigureAwait(false);
 }
 else

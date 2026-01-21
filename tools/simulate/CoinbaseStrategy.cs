@@ -7,14 +7,20 @@ using Skender.Stock.Indicators;
 
 namespace Test.Simulation;
 
+internal enum CoinbaseMode
+{
+    Ticker,
+    Klines
+}
+
 internal sealed class CoinbaseStrategy : IDisposable
 {
     private readonly string _symbol;
     private readonly int _targetCount;
+    private readonly CoinbaseMode _mode;
     private readonly CoinbaseSocketClient _socketClient;
 
     private readonly QuoteHub _quoteHub;
-    private readonly StrategyGroup<EmaResult, EmaResult> _strategyGroup;
     private readonly EmaHub _fastEma;
     private readonly EmaHub _slowEma;
 
@@ -33,39 +39,54 @@ internal sealed class CoinbaseStrategy : IDisposable
     private const int FastPeriod = 50;
     private const int SlowPeriod = 200;
 
-    public CoinbaseStrategy(string symbol, int targetCount)
+    public CoinbaseStrategy(string symbol, int targetCount, CoinbaseMode mode = CoinbaseMode.Klines)
     {
         _symbol = symbol;
         _targetCount = targetCount;
+        _mode = mode;
         _socketClient = new CoinbaseSocketClient();
 
         _quoteHub = new QuoteHub();
-        _strategyGroup = new StrategyGroup<EmaResult, EmaResult>(
-            _quoteHub.ToEmaHub(FastPeriod),
-            _quoteHub.ToEmaHub(SlowPeriod));
-        _fastEma = (EmaHub)_strategyGroup.Hub1;
-        _slowEma = (EmaHub)_strategyGroup.Hub2;
+        _fastEma = _quoteHub.ToEmaHub(FastPeriod);
+        _slowEma = _quoteHub.ToEmaHub(SlowPeriod);
     }
 
     public async Task RunAsync()
     {
-        PrintHeader();
-
         try
         {
             Console.WriteLine($"[CoinbaseStrategy] Connecting to Coinbase WebSocket for {_symbol}");
-            Console.WriteLine("[CoinbaseStrategy] Subscribing to 5-minute klines (candles) feed");
-            Console.WriteLine();
 
             TaskCompletionSource<bool> completionSource = new();
+            CryptoExchange.Net.Objects.CallResult<UpdateSubscription> subscription;
 
-            CryptoExchange.Net.Objects.CallResult<UpdateSubscription> subscription =
-                await _socketClient.AdvancedTradeApi
+            if (_mode == CoinbaseMode.Ticker)
+            {
+                Console.WriteLine("[CoinbaseStrategy] Subscribing to trade feed (individual trades in real-time)");
+                Console.WriteLine("[CoinbaseStrategy] ℹ️  Trade updates arrive every few seconds with actual market trades");
+                Console.WriteLine();
+
+                subscription = await _socketClient.AdvancedTradeApi
+                    .SubscribeToTradeUpdatesAsync(
+                        _symbol,
+                        onData => ProcessTradeUpdate(onData.Data, completionSource),
+                        ct: default)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                Console.WriteLine("[CoinbaseStrategy] Subscribing to 5-minute klines (candles) feed");
+                Console.WriteLine("[CoinbaseStrategy] ⚠️  NOTE: Kline updates arrive every ~5 minutes when candles close");
+                Console.WriteLine($"[CoinbaseStrategy] ⚠️  Receiving {_targetCount} updates will take approximately {_targetCount * 5} minutes ({_targetCount * 5 / 60.0:F1} hours)");
+                Console.WriteLine();
+
+                subscription = await _socketClient.AdvancedTradeApi
                     .SubscribeToKlineUpdatesAsync(
                         _symbol,
                         onData => ProcessKlineUpdate(onData.Data, completionSource),
                         ct: default)
                     .ConfigureAwait(false);
+            }
 
             if (!subscription.Success || subscription.Data is null)
             {
@@ -77,8 +98,10 @@ internal sealed class CoinbaseStrategy : IDisposable
             }
 
             Console.WriteLine($"[CoinbaseStrategy] Successfully subscribed to {_symbol} klines");
-            Console.WriteLine("[CoinbaseStrategy] Waiting for kline updates (approximately every 5 seconds)...");
+            Console.WriteLine("[CoinbaseStrategy] Processing quotes...");
+            Console.WriteLine();
 
+            PrintHeader();
             await completionSource.Task.ConfigureAwait(false);
 
             await subscription.Data.CloseAsync().ConfigureAwait(false);
@@ -109,6 +132,49 @@ internal sealed class CoinbaseStrategy : IDisposable
         _socketClient.Dispose();
     }
 
+    private void ProcessTradeUpdate(CoinbaseTrade[] trades, TaskCompletionSource<bool> completionSource)
+    {
+        try
+        {
+            foreach (CoinbaseTrade trade in trades)
+            {
+                // Convert trade to Quote - use trade price for all OHLC values
+                Quote quote = new(
+                    Timestamp: trade.Timestamp,
+                    Open: trade.Price,
+                    High: trade.Price,
+                    Low: trade.Price,
+                    Close: trade.Price,
+                    Volume: trade.Quantity);
+
+                ProcessQuote(quote);
+                _quotesProcessed++;
+
+                // Show progress every 10 quotes or at target
+                if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                {
+                    Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {trade.Timestamp:yyyy-MM-dd HH:mm:ss} UTC @ ${trade.Price:N2})");
+                }
+
+                if (_quotesProcessed >= _targetCount)
+                {
+                    completionSource.TrySetResult(true);
+                    return;
+                }
+            }
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"[CoinbaseStrategy] Invalid operation processing trade: {ex.Message}");
+            completionSource.TrySetException(ex);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($"[CoinbaseStrategy] Argument error processing trade: {ex.Message}");
+            completionSource.TrySetException(ex);
+        }
+    }
+
     private void ProcessKlineUpdate(CoinbaseStreamKline[] klines, TaskCompletionSource<bool> completionSource)
     {
         try
@@ -126,6 +192,12 @@ internal sealed class CoinbaseStrategy : IDisposable
 
                 ProcessQuote(quote);
                 _quotesProcessed++;
+
+                // Show progress every 10 quotes or at target
+                if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                {
+                    Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {kline.OpenTime:yyyy-MM-dd HH:mm} UTC @ ${kline.ClosePrice:N2})");
+                }
 
                 if (_quotesProcessed >= _targetCount)
                 {
@@ -150,28 +222,41 @@ internal sealed class CoinbaseStrategy : IDisposable
     {
         _quoteHub.Add(quote);
 
+        // Need at least 2 results from each EMA to compare current vs previous
         if (_fastEma.Results.Count < 2 || _slowEma.Results.Count < 2)
         {
             return;
         }
 
-        bool hasPairs = _strategyGroup.TryGetBackPair(
-            out BackPair<EmaResult> fastPair,
-            out BackPair<EmaResult> slowPair);
+        // Get current and previous results directly from each hub
+        EmaResult fastCurrent = _fastEma.Results[^1];
+        EmaResult fastPrevious = _fastEma.Results[^2];
+        EmaResult slowCurrent = _slowEma.Results[^1];
+        EmaResult slowPrevious = _slowEma.Results[^2];
 
-        if (!hasPairs || fastPair.Current.Ema is null || slowPair.Current.Ema is null
-            || fastPair.Previous.Ema is null || slowPair.Previous.Ema is null)
+        // Check if we have valid EMA values
+        if (fastCurrent.Ema is null || fastPrevious.Ema is null
+            || slowCurrent.Ema is null || slowPrevious.Ema is null)
+        {
+            return;
+        }
+
+        // Verify timestamps are aligned (should always be true with coordinated hub)
+        if (fastCurrent.Timestamp != slowCurrent.Timestamp
+            || fastPrevious.Timestamp != slowPrevious.Timestamp)
         {
             return;
         }
 
         double currentPrice = (double)quote.Close;
 
-        bool goldenCross = fastPair.Previous.Ema <= slowPair.Previous.Ema
-            && fastPair.Current.Ema > slowPair.Current.Ema;
+        // Golden Cross: fast EMA crosses above slow EMA
+        bool goldenCross = fastPrevious.Ema <= slowPrevious.Ema
+            && fastCurrent.Ema > slowCurrent.Ema;
 
-        bool deathCross = fastPair.Previous.Ema >= slowPair.Previous.Ema
-            && fastPair.Current.Ema < slowPair.Current.Ema;
+        // Death Cross: fast EMA crosses below slow EMA
+        bool deathCross = fastPrevious.Ema >= slowPrevious.Ema
+            && fastCurrent.Ema < slowCurrent.Ema;
 
         if (goldenCross && _units == 0)
         {
