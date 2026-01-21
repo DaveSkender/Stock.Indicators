@@ -1,6 +1,5 @@
-#pragma warning disable CA5394 // Do not use insecure randomness
-
 using System.Globalization;
+using System.Security.Cryptography;
 using Skender.Stock.Indicators;
 
 namespace Test.SseServer;
@@ -41,22 +40,21 @@ internal static class DataLoader
 
     internal static Quote GenerateRandomQuote(DateTime timestamp, double seed)
     {
-        Random random = new(Guid.NewGuid().GetHashCode());
         const double volatility = 0.01;
         const double drift = 0.001 * 0.01;
 
-        double open = Price(seed, volatility * volatility, drift, random);
-        double close = Price(open, volatility, drift, random);
+        double open = Price(seed, volatility * volatility, drift);
+        double close = Price(open, volatility, drift);
 
         double ocMax = Math.Max(open, close);
-        double high = Price(seed, volatility * 0.5, 0, random);
+        double high = Price(seed, volatility * 0.5, 0);
         high = high < ocMax ? (2 * ocMax) - high : high;
 
         double ocMin = Math.Min(open, close);
-        double low = Price(seed, volatility * 0.5, 0, random);
+        double low = Price(seed, volatility * 0.5, 0);
         low = low > ocMin ? (2 * ocMin) - low : low;
 
-        double volume = Price(seed * 1000, volatility * 2, drift: 0, random);
+        double volume = Price(seed * 1000, volatility * 2, drift: 0);
 
         return new Quote(
             Timestamp: timestamp,
@@ -67,13 +65,17 @@ internal static class DataLoader
             Volume: (decimal)volume);
     }
 
-    private static double Price(double seed, double volatility, double drift, Random random)
+    private static double Price(double seed, double volatility, double drift)
     {
-        double u1 = 1.0 - random.NextDouble();
-        double u2 = 1.0 - random.NextDouble();
+        double u1 = 1.0 - NextDouble();
+        double u2 = 1.0 - NextDouble();
         double z = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
         return seed * Math.Exp(drift - (volatility * volatility * 0.5) + (volatility * z));
     }
+
+    private static double NextDouble()
+        => RandomNumberGenerator.GetInt32(int.MaxValue) / (double)int.MaxValue;
+}
 
     private static Quote QuoteFromCsv(string csvLine)
     {
