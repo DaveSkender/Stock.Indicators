@@ -92,15 +92,20 @@ public class IchimokuHub
                     if (backfillCacheIndex >= 0 && backfillCacheIndex < Cache.Count)
                     {
                         IchimokuResult pastResult = Cache[backfillCacheIndex];
+                        decimal chikouClose = ProviderCache[providerIndex].Close;
 
-                        // During normal streaming (notify=true), only update if ChikouSpan is null
+                        // Update if ChikouSpan is null or value has changed (forward bar revision)
                         // During rebuilds (notify=false), always update to ensure correctness
-                        if (!notify || pastResult.ChikouSpan is null)
+                        if (!notify || pastResult.ChikouSpan is null || pastResult.ChikouSpan != chikouClose)
                         {
-                            decimal chikouClose = ProviderCache[providerIndex].Close;
-
                             // Update the past result
                             Cache[backfillCacheIndex] = pastResult with { ChikouSpan = chikouClose };
+
+                            // Notify observers when value changes during normal streaming
+                            if (notify && pastResult.ChikouSpan.HasValue && pastResult.ChikouSpan != chikouClose)
+                            {
+                                NotifyObserversOnRebuild(backfillTimestamp);
+                            }
                         }
                     }
                 }

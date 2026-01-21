@@ -111,7 +111,54 @@ The hub automatically handles state rollback and recalculation when data arrives
 - **Memory:** Maintains cache and state for all subscribed indicators
 - **Latency:** Optimized for real-time updates, typically <1ms per quote
 - **Scalability:** Supports multiple concurrent observers with single propagation
-- **Thread safety:** Not thread-safe by default; synchronize external access
+
+## Thread safety
+
+Stream hubs use internal locking to protect cache operations during rebuild and rollback scenarios:
+
+- **Internal cache operations** are thread-safe (Insert, RemoveAt, Rebuild)
+- **External access requires synchronization** when multiple threads call Add, Insert, or Remove
+- **Single-threaded usage** requires no additional synchronization
+- **Multi-threaded usage** should synchronize external calls to hub methods
+
+### Thread-safe external access example
+
+```csharp
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
+
+// Use lock for coordinated multi-threaded access
+object hubLock = new();
+
+// Thread 1: Adding quotes
+Task producer = Task.Run(() =>
+{
+    foreach (Quote quote in liveQuotes)
+    {
+        lock (hubLock)
+        {
+            quoteHub.Add(quote);
+        }
+    }
+});
+
+// Thread 2: Reading results
+Task consumer = Task.Run(() =>
+{
+    while (running)
+    {
+        lock (hubLock)
+        {
+            SmaResult latest = smaHub.Results.LastOrDefault();
+            ProcessResult(latest);
+        }
+    }
+});
+```
+
+::: warning
+Internal thread safety protects cache integrity during rebuild operations (triggered by out-of-order data). However, external synchronization is still required when multiple threads access the same hub instance concurrently.
+:::
 
 ## Advanced patterns
 
