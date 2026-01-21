@@ -65,33 +65,39 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
             response.EnsureSuccessStatusCode();
 
-#pragma warning disable CA2007 // ConfigureAwait cannot be applied to await using disposal
-            await using Stream stream = await response.Content.ReadAsStreamAsync();
-#pragma warning restore CA2007
-            using StreamReader reader = new(stream);
-
-            int quotesProcessed = 0;
-            string? line;
-
-            while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
+            Stream stream = await response.Content.ReadAsStreamAsync()
+                .ConfigureAwait(false);
+            try
             {
-                // SSE format: "event: quote", "data: {...}", blank line
-                if (line.StartsWith("data:", StringComparison.Ordinal))
+                using StreamReader reader = new(stream);
+
+                int quotesProcessed = 0;
+                string? line;
+
+                while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
                 {
-                    string json = line[5..].Trim();
-                    Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
-
-                    if (quote is not null)
+                    // SSE format: "event: quote", "data: {...}", blank line
+                    if (line.StartsWith("data:", StringComparison.Ordinal))
                     {
-                        ProcessQuote(quote);
-                        quotesProcessed++;
+                        string json = line[5..].Trim();
+                        Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
 
-                        if (quotesProcessed >= _targetCount)
+                        if (quote is not null)
                         {
-                            break;
+                            ProcessQuote(quote);
+                            quotesProcessed++;
+
+                            if (quotesProcessed >= _targetCount)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
+            }
+            finally
+            {
+                await stream.DisposeAsync().ConfigureAwait(false);
             }
 
             Console.WriteLine();

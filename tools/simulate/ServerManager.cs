@@ -57,6 +57,7 @@ internal static class ServerManager
                     {
                         Console.WriteLine($"[ServerManager] STDOUT: {stdout}");
                     }
+
                     if (!string.IsNullOrWhiteSpace(stderr))
                     {
                         Console.WriteLine($"[ServerManager] STDERR: {stderr}");

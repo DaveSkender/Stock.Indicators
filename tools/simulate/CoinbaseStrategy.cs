@@ -90,6 +90,7 @@ internal sealed class CoinbaseStrategy : IDisposable
                 {
                     Console.WriteLine("[CoinbaseStrategy] ⚠️  Running indefinitely (no count limit)");
                 }
+
                 Console.WriteLine();
 
                 subscription = await _socketClient.AdvancedTradeApi
