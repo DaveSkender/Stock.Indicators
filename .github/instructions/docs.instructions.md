@@ -94,7 +94,7 @@ VitePress supports native custom container syntax for alert blocks. Use these in
 This is a warning message
 :::
 
-::: tip 💡 Pro tip
+::: tip ✨ ✨ Pro tip
 You can add custom titles
 :::
 ```

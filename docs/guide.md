@@ -124,7 +124,7 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<SmaResult> results = smaList;
 
 // or get the latest result
-SmaResult latest = smaList.LastOrDefault();
+SmaResult latest = smaList[^1];
 ```
 
 **Key features:**
@@ -145,10 +145,10 @@ using Skender.Stock.Indicators;
 [..]
 
 // create quote hub and subscribe indicators
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSma(20);
-RsiHub<Quote> rsiHub = quoteHub.ToRsi(14);
-MacdHub<Quote> macdHub = quoteHub.ToMacd();
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
+RsiHub rsiHub = quoteHub.ToRsi(14);
+MacdHub macdHub = quoteHub.ToMacd();
 
 // stream quotes as they arrive
 foreach (Quote quote in liveQuotes)
@@ -157,9 +157,9 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);
     
     // access latest results from each indicator
-    SmaResult sma = smaHub.Results.LastOrDefault();
-    RsiResult rsi = rsiHub.Results.LastOrDefault();
-    MacdResult macd = macdHub.Results.LastOrDefault();
+    SmaResult sma = smaHub.Results[^1];
+    RsiResult rsi = rsiHub.Results[^1];
+    MacdResult macd = macdHub.Results[^1];
     
     // use results for trading logic, alerts, etc.
 }
@@ -353,7 +353,7 @@ foreach (IQuote quote in quotes)
 IReadOnlyList<{IndicatorName}Result> results = indicatorList;
 
 // Or get latest value
-{IndicatorName}Result latest = indicatorList.LastOrDefault();
+{IndicatorName}Result latest = indicatorList[^1];
 
 // Clear and reuse if needed
 indicatorList.Clear();
@@ -402,11 +402,11 @@ Stream hub style provides real-time processing with observable patterns and stat
 
 ```csharp
 // Create quote hub
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // Subscribe indicators (observers)
-{IndicatorName}Hub<Quote> hub1 = quoteHub.To{IndicatorName}(params);
-{IndicatorName}Hub<Quote> hub2 = quoteHub.To{IndicatorName}(params);
+{IndicatorName}Hub hub1 = quoteHub.To{IndicatorName}(params);
+{IndicatorName}Hub hub2 = quoteHub.To{IndicatorName}(params);
 
 // Stream quotes
 foreach (Quote quote in liveQuotes)
@@ -414,8 +414,8 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);  // Propagates to all observers
     
     // Access results
-    var result1 = hub1.Results.LastOrDefault();
-    var result2 = hub2.Results.LastOrDefault();
+    var result1 = hub1.Results[^1];
+    var result2 = hub2.Results[^1];
 }
 ```
 
@@ -424,14 +424,17 @@ foreach (Quote quote in liveQuotes)
 Stream hubs support indicator chaining for derived indicators:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // Chain RSI from EMA
-EmaHub<Quote> emaHub = quoteHub.ToEma(20);
-RsiHub<Quote> rsiHub = emaHub.ToRsi(14);  // RSI of EMA
+EmaHub emaHub = quoteHub.ToEmaHub(20);
+RsiHub rsiHub = emaHub.ToRsiHub(14);  // RSI of EMA
 
 // Or chain directly
-RsiHub<Quote> rsiOfEma = quoteHub.ToEma(20).ToRsi(14);
+RsiHub rsiOfEma
+  = quoteHub
+    .ToEmaHub(20)
+    .ToRsiHub(14);
 ```
 
 ### State management and rollback
@@ -439,8 +442,8 @@ RsiHub<Quote> rsiOfEma = quoteHub.ToEma(20).ToRsi(14);
 Stream hubs support late-arriving data and corrections:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
 
 // Add quotes
 quoteHub.Add(quote1);

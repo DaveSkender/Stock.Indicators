@@ -45,9 +45,9 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);
     
     // access latest results from each indicator
-    SmaResult sma = smaHub.Results.LastOrDefault();
-    RsiResult rsi = rsiHub.Results.LastOrDefault();
-    MacdResult macd = macdHub.Results.LastOrDefault();
+    SmaResult sma = smaHub.Results[^1];
+    RsiResult rsi = rsiHub.Results[^1];
+    MacdResult macd = macdHub.Results[^1];
     
     // use results for trading logic, alerts, etc.
 }
@@ -148,7 +148,7 @@ quoteHub.Add(newQuote);
 
 // all indicators now have synchronized timestamps
 bool aboveGoldenCross = 
-    sma20.Results.[^1].Sma > sma50.Results.[^1].Sma;
+    sma20.Results[^1].Sma > sma50.Results[^1].Sma;
 ```
 
 ### Event-driven alerts
@@ -161,7 +161,7 @@ void ProcessLiveData(Quote quote)
 {
     quoteHub.Add(quote);
     
-    RsiResult latest = rsiHub.Results.LastOrDefault();
+    RsiResult latest = rsiHub.Results[^1];
     
     if (latest?.Rsi > 70)
     {
@@ -175,6 +175,8 @@ void ProcessLiveData(Quote quote)
 ```
 
 ## WebSocket integration example
+
+<!-- TODO: move this to advanced topics, but change this to consuming WebSocket / SSE -->
 
 ```csharp
 // setup hubs
@@ -225,6 +227,24 @@ foreach (Quote quote in liveQuotes)
 ```
 
 The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the QuoteHub.
+
+::: info Cache size inheritence
+Hubs will inherit the `maxCacheSize` of its provider.  For example, if you set a size of 1,000 for your `QuoteHub`, then a chained `SmaHub` will also have a maximum cache size of 1,000.
+:::
+
+::: tip ✨ ✨ Optimize cache size for your use case
+
+Set your `maxCacheSize` according to how you use the data produced in the hub cache.  For example, if you are only interested in the latest indicator values and don't use history, use a minimal cache size that aligns to the indicator minimum.
+
+```csharp
+// or configure custom max cache size
+QuoteHub limitedHub = new(maxCacheSize: 500);
+
+// automatic FIFO pruning when limit reached
+SmaHub smaHub = limitedHub.ToSmaHub(20);
+```
+
+:::
 
 ## See also
 

@@ -280,7 +280,7 @@ SmaList smaList = new(20);
 foreach (Quote newQuote in stream)
 {
     smaList.Add(newQuote);
-    SmaResult latest = smaList.LastOrDefault();
+    SmaResult latest = smaList[^1];
     // Use latest...
 }
 ```

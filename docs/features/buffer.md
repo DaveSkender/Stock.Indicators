@@ -43,7 +43,7 @@ foreach (IQuote quote in quotes)
 IReadOnlyList<SmaResult> results = smaList;
 
 // or get the latest result
-SmaResult latest = smaList.LastOrDefault();
+SmaResult latest = smaList[^1];
 
 // clear and reuse if needed
 smaList.Clear();
@@ -112,7 +112,7 @@ foreach (var obvResult in obvList)
 }
 
 // get latest RSI of OBV
-RsiResult latest = rsiList.LastOrDefault();
+RsiResult latest = rsiList[^1];
 ```
 
 ## Performance characteristics
@@ -135,7 +135,7 @@ foreach (IQuote quote in historicalQuotes)
     smaList.Add(quote);
     
     // process latest result
-    SmaResult latest = smaList.LastOrDefault();
+    SmaResult latest = smaList[^1];
     if (latest?.Sma != null)
     {
         Console.WriteLine($"{latest.Timestamp:d}: SMA = {latest.Sma:N2}");
@@ -155,7 +155,7 @@ smaList.Add(historicalQuotes);
 while (newQuote = GetNextQuote())
 {
     smaList.Add(newQuote);
-    ProcessLatestResult(smaList.LastOrDefault());
+    ProcessLatestResult(smaList[^1]);
 }
 ```
 
