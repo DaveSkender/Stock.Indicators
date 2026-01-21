@@ -49,15 +49,18 @@ public class SlopeHub
     /// <inheritdoc/>
     public override void OnAdd(IReusable item, bool notify, int? indexHint)
     {
-        // Call base to add the result to cache
-        base.OnAdd(item, notify, indexHint);
-
-        // Update Line values for the last lookbackPeriods results
-        // This is done after the result is in the cache
-        int currentIndex = Cache.Count - 1;
-        if (currentIndex >= LookbackPeriods - 1)
+        lock (CacheLock)
         {
-            UpdateLineValues(currentIndex, currentSlope, currentIntercept);
+            // Call base to add the result to cache
+            base.OnAdd(item, notify, indexHint);
+
+            // Update Line values for the last lookbackPeriods results
+            // This is done after the result is in the cache
+            int currentIndex = Cache.Count - 1;
+            if (currentIndex >= LookbackPeriods - 1)
+            {
+                UpdateLineValues(currentIndex, currentSlope, currentIntercept);
+            }
         }
     }
 

@@ -8,6 +8,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
+    /// <summary>
+    /// Gets the lock object for thread-safe cache operations during rebuild/rollback.
+    /// This protects against concurrent cache modifications when out-of-order
+    /// data triggers rebuild operations.
+    /// </summary>
+    protected object CacheLock { get; } = new();
+
     private protected StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
@@ -99,26 +106,32 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </remarks>
     public void Insert(TIn newIn)
     {
-        // generate candidate result
-        (TOut result, int index) = ToIndicator(newIn, null);
-
-        // insert, then rebuild observers (no self-rebuild)
-        if (index > 0)
+        lock (CacheLock)
         {
-            // check overflow/duplicates
-            if (IsOverflowing(result))
+            // generate candidate result
+            (TOut result, int index) = ToIndicator(newIn, null);
+
+            // insert, then rebuild observers (no self-rebuild)
+            if (index > 0)
             {
-                return; // duplicate found
+                // check overflow/duplicates
+                if (IsOverflowing(result))
+                {
+                    return; // duplicate found
+                }
+
+                Cache.Insert(index, result);
+
+                // notify observers (inside lock to ensure cache consistency)
+                NotifyObserversOnRebuild(newIn.Timestamp);
             }
 
-            Cache.Insert(index, result);
-            NotifyObserversOnRebuild(result.Timestamp);
-        }
-
-        // normal add
-        else
-        {
-            AppendCache(result, notify: true);
+            // normal add
+            else
+            {
+                AppendCache(result, notify: true);
+                // AppendCache handles notification
+            }
         }
     }
 
@@ -128,9 +141,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public void RemoveAt(int cacheIndex)
     {
-        TOut cachedItem = Cache[cacheIndex];
-        Cache.RemoveAt(cacheIndex);
-        NotifyObserversOnRebuild(cachedItem.Timestamp);
+        lock (CacheLock)
+        {
+            TOut cachedItem = Cache[cacheIndex];
+            DateTime timestamp = cachedItem.Timestamp;
+            Cache.RemoveAt(cacheIndex);
+
+            // notify observers (inside lock to ensure cache consistency)
+            NotifyObserversOnRebuild(timestamp);
+        }
     }
 
     /// <summary>
@@ -144,6 +163,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         // remove cache entries
         Cache.RemoveAll(c => c.Timestamp >= fromTimestamp);
+
+        // reset LastItem to prevent IsOverflowing from incorrectly detecting
+        // duplicates when rebuilding (the new items may have same timestamp
+        // and equal values as the old LastItem, especially during warmup periods)
+        LastItem = Cache.Count > 0 ? Cache[^1] : default;
 
         // notify observers
         if (notify)
@@ -202,24 +226,35 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public virtual void Rebuild(DateTime fromTimestamp)
     {
-        // clear cache
-        RemoveRange(fromTimestamp, notify: false);
-
-        // get provider position
-        int provIndex = ProviderCache.IndexGte(fromTimestamp);
-
-        // rebuild
-        if (provIndex >= 0)
+        // Lock to prevent concurrent cache access during rebuild.
+        // Out-of-order data triggers rebuild, which clears and repopulates
+        // the cache. Without locking, ToIndicator may access Cache[i-1]
+        // while the cache is in an inconsistent state.
+        // NOTE: Observer notification must happen INSIDE the lock to prevent
+        // race conditions where new items are added before rebuild notification
+        // reaches observers, causing cache desynchronization.
+        lock (CacheLock)
         {
-            int cacheSize = ProviderCache.Count;
-            for (int i = provIndex; i < cacheSize; i++)
-            {
-                OnAdd(ProviderCache[i], notify: false, i);
-            }
-        }
+            // clear cache
+            RemoveRange(fromTimestamp, notify: false);
 
-        // notify observers
-        NotifyObserversOnRebuild(fromTimestamp);
+            // get provider position
+            int provIndex = ProviderCache.IndexGte(fromTimestamp);
+
+            // rebuild
+            if (provIndex >= 0)
+            {
+                int cacheSize = ProviderCache.Count;
+                for (int i = provIndex; i < cacheSize; i++)
+                {
+                    OnAdd(ProviderCache[i], notify: false, i);
+                }
+            }
+
+            // notify observers (inside lock to ensure cache consistency
+            // before any new items can be added)
+            NotifyObserversOnRebuild(fromTimestamp);
+        }
     }
 
     /// <summary>

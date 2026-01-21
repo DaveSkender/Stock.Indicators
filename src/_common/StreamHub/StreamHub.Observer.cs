@@ -55,8 +55,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// </remarks>
     public virtual void OnAdd(TIn item, bool notify, int? indexHint)
     {
-        (TOut result, int _) = ToIndicator(item, indexHint);
-        AppendCache(result, notify);
+        // Lock to prevent concurrent cache access.
+        // ToIndicator and AppendCache access Cache, which may be modified
+        // by concurrent Rebuild operations on other threads.
+        // .NET locks are reentrant, so this works when called from within Rebuild.
+        lock (CacheLock)
+        {
+            (TOut result, int _) = ToIndicator(item, indexHint);
+            AppendCache(result, notify);
+        }
     }
 
     /// <inheritdoc/>
@@ -69,13 +76,16 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// <inheritdoc/>
     public void OnPrune(DateTime toTimestamp)
     {
-        while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+        lock (CacheLock)
         {
-            Cache.RemoveAt(0);
-        }
+            while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+            {
+                Cache.RemoveAt(0);
+            }
 
-        // notify observers
-        NotifyObserversOnPrune(toTimestamp);
+            // notify observers (inside lock to ensure cache consistency)
+            NotifyObserversOnPrune(toTimestamp);
+        }
     }
 
     /// <inheritdoc/>

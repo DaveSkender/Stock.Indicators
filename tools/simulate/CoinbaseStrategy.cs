@@ -24,6 +24,9 @@ internal sealed class CoinbaseStrategy : IDisposable
     private readonly EmaHub _fastEma;
     private readonly EmaHub _slowEma;
 
+    // Lock object for thread-safe access to indicators
+    private readonly object _hubLock = new();
+
     private double _balance = 10000.0;
     private double _units;
     private double _entryValue;
@@ -46,7 +49,8 @@ internal sealed class CoinbaseStrategy : IDisposable
         _mode = mode;
         _socketClient = new CoinbaseSocketClient();
 
-        _quoteHub = new QuoteHub();
+        // Use a reasonable cache size to test pruning (500 items will trigger pruning)
+        _quoteHub = new QuoteHub(maxCacheSize: 500);
         _fastEma = _quoteHub.ToEmaHub(FastPeriod);
         _slowEma = _quoteHub.ToEmaHub(SlowPeriod);
     }
@@ -97,7 +101,8 @@ internal sealed class CoinbaseStrategy : IDisposable
                 return;
             }
 
-            Console.WriteLine($"[CoinbaseStrategy] Successfully subscribed to {_symbol} klines");
+            string feedType = _mode == CoinbaseMode.Ticker ? "trades" : "klines";
+            Console.WriteLine($"[CoinbaseStrategy] Successfully subscribed to {_symbol} {feedType}");
             Console.WriteLine("[CoinbaseStrategy] Processing quotes...");
             Console.WriteLine();
 
@@ -134,87 +139,99 @@ internal sealed class CoinbaseStrategy : IDisposable
 
     private void ProcessTradeUpdate(CoinbaseTrade[] trades, TaskCompletionSource<bool> completionSource)
     {
-        try
+        // Lock the entire callback - WebSocket library may invoke this concurrently
+        lock (_hubLock)
         {
-            foreach (CoinbaseTrade trade in trades)
+            try
             {
-                // Convert trade to Quote - use trade price for all OHLC values
-                Quote quote = new(
-                    Timestamp: trade.Timestamp,
-                    Open: trade.Price,
-                    High: trade.Price,
-                    Low: trade.Price,
-                    Close: trade.Price,
-                    Volume: trade.Quantity);
+                // Sort trades by timestamp to ensure chronological order
+                // Coinbase may deliver trades in reverse chronological order
+                CoinbaseTrade[] sortedTrades = [.. trades.OrderBy(t => t.Timestamp)];
 
-                ProcessQuote(quote);
-                _quotesProcessed++;
-
-                // Show progress every 10 quotes or at target
-                if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                foreach (CoinbaseTrade trade in sortedTrades)
                 {
-                    Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {trade.Timestamp:yyyy-MM-dd HH:mm:ss} UTC @ ${trade.Price:N2})");
-                }
+                    // Convert trade to Quote - use trade price for all OHLC values
+                    Quote quote = new(
+                        Timestamp: trade.Timestamp,
+                        Open: trade.Price,
+                        High: trade.Price,
+                        Low: trade.Price,
+                        Close: trade.Price,
+                        Volume: trade.Quantity);
 
-                if (_quotesProcessed >= _targetCount)
-                {
-                    completionSource.TrySetResult(true);
-                    return;
+                    ProcessQuote(quote);
+                    _quotesProcessed++;
+
+                    // Show progress every 10 quotes or at target
+                    if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                    {
+                        Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {trade.Timestamp:yyyy-MM-dd HH:mm:ss} UTC @ ${trade.Price:N2})");
+                    }
+
+                    if (_quotesProcessed >= _targetCount)
+                    {
+                        completionSource.TrySetResult(true);
+                        return;
+                    }
                 }
             }
-        }
-        catch (InvalidOperationException ex)
-        {
-            Console.WriteLine($"[CoinbaseStrategy] Invalid operation processing trade: {ex.Message}");
-            completionSource.TrySetException(ex);
-        }
-        catch (ArgumentException ex)
-        {
-            Console.WriteLine($"[CoinbaseStrategy] Argument error processing trade: {ex.Message}");
-            completionSource.TrySetException(ex);
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"[CoinbaseStrategy] Invalid operation processing trade: {ex.Message}");
+                completionSource.TrySetException(ex);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"[CoinbaseStrategy] Argument error processing trade: {ex.Message}");
+                completionSource.TrySetException(ex);
+            }
         }
     }
 
     private void ProcessKlineUpdate(CoinbaseStreamKline[] klines, TaskCompletionSource<bool> completionSource)
     {
-        try
+        // Lock the entire callback - WebSocket library may invoke this concurrently
+        lock (_hubLock)
         {
-            foreach (CoinbaseStreamKline kline in klines)
+            try
             {
-                // Convert kline (candle) data to Quote
-                Quote quote = new(
-                    Timestamp: kline.OpenTime,
-                    Open: kline.OpenPrice,
-                    High: kline.HighPrice,
-                    Low: kline.LowPrice,
-                    Close: kline.ClosePrice,
-                    Volume: kline.Volume);
-
-                ProcessQuote(quote);
-                _quotesProcessed++;
-
-                // Show progress every 10 quotes or at target
-                if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                foreach (CoinbaseStreamKline kline in klines)
                 {
-                    Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {kline.OpenTime:yyyy-MM-dd HH:mm} UTC @ ${kline.ClosePrice:N2})");
-                }
+                    // Convert kline (candle) data to Quote
+                    Quote quote = new(
+                        Timestamp: kline.OpenTime,
+                        Open: kline.OpenPrice,
+                        High: kline.HighPrice,
+                        Low: kline.LowPrice,
+                        Close: kline.ClosePrice,
+                        Volume: kline.Volume);
 
-                if (_quotesProcessed >= _targetCount)
-                {
-                    completionSource.TrySetResult(true);
-                    return;
+                    ProcessQuote(quote);
+                    _quotesProcessed++;
+
+                    // Show progress every 10 quotes or at target
+                    if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                    {
+                        Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {kline.OpenTime:yyyy-MM-dd HH:mm} UTC @ ${kline.ClosePrice:N2})");
+                    }
+
+                    if (_quotesProcessed >= _targetCount)
+                    {
+                        completionSource.TrySetResult(true);
+                        return;
+                    }
                 }
             }
-        }
-        catch (InvalidOperationException ex)
-        {
-            Console.WriteLine($"[CoinbaseStrategy] Invalid operation processing kline: {ex.Message}");
-            completionSource.TrySetException(ex);
-        }
-        catch (ArgumentException ex)
-        {
-            Console.WriteLine($"[CoinbaseStrategy] Argument error processing kline: {ex.Message}");
-            completionSource.TrySetException(ex);
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"[CoinbaseStrategy] Invalid operation processing kline: {ex.Message}");
+                completionSource.TrySetException(ex);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"[CoinbaseStrategy] Argument error processing kline: {ex.Message}");
+                completionSource.TrySetException(ex);
+            }
         }
     }
 

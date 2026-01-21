@@ -40,7 +40,10 @@ public class RenkoHub
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
-        ToIndicator(item, notify, indexHint);
+        lock (CacheLock)
+        {
+            ToIndicator(item, notify, indexHint);
+        }
     }
 
     /// <inheritdoc />
