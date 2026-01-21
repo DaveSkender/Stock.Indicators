@@ -11,7 +11,6 @@ internal sealed class GoldenCrossStrategy : IDisposable
     private readonly HttpClient _httpClient;
 
     private readonly QuoteHub _quoteHub;
-    private readonly StrategyGroup<EmaResult, EmaResult> _strategyGroup;
     private readonly EmaHub _fastEma;
     private readonly EmaHub _slowEma;
 
@@ -41,11 +40,8 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
         // Use a reasonable cache size to test pruning (500 items will trigger pruning)
         _quoteHub = new QuoteHub(maxCacheSize: 500);
-        _strategyGroup = new StrategyGroup<EmaResult, EmaResult>(
-            _quoteHub.ToEmaHub(FastPeriod),
-            _quoteHub.ToEmaHub(SlowPeriod));
-        _fastEma = (EmaHub)_strategyGroup.Hub1;
-        _slowEma = (EmaHub)_strategyGroup.Hub2;
+        _fastEma = _quoteHub.ToEmaHub(FastPeriod);
+        _slowEma = _quoteHub.ToEmaHub(SlowPeriod);
     }
 
     public async Task RunAsync()
@@ -119,18 +115,28 @@ internal sealed class GoldenCrossStrategy : IDisposable
     {
         _quoteHub.Add(quote);
 
-        // Need at least 2 results to detect crossovers
+        // Need at least 2 results from each EMA to compare current vs previous
         if (_fastEma.Results.Count < 2 || _slowEma.Results.Count < 2)
         {
             return;
         }
 
-        bool hasPairs = _strategyGroup.TryGetBackPair(
-            out BackPair<EmaResult> fastPair,
-            out BackPair<EmaResult> slowPair);
+        // Get current and previous results directly from each hub
+        EmaResult fastCurrent = _fastEma.Results[^1];
+        EmaResult fastPrevious = _fastEma.Results[^2];
+        EmaResult slowCurrent = _slowEma.Results[^1];
+        EmaResult slowPrevious = _slowEma.Results[^2];
 
-        if (!hasPairs || fastPair.Current.Ema is null || slowPair.Current.Ema is null
-            || fastPair.Previous.Ema is null || slowPair.Previous.Ema is null)
+        // Check if we have valid EMA values
+        if (fastCurrent.Ema is null || fastPrevious.Ema is null
+            || slowCurrent.Ema is null || slowPrevious.Ema is null)
+        {
+            return;
+        }
+
+        // Verify timestamps are aligned
+        if (fastCurrent.Timestamp != slowCurrent.Timestamp
+            || fastPrevious.Timestamp != slowPrevious.Timestamp)
         {
             return;
         }
@@ -138,12 +144,12 @@ internal sealed class GoldenCrossStrategy : IDisposable
         double currentPrice = (double)quote.Close;
 
         // Golden Cross: Fast EMA crosses above Slow EMA (Buy signal)
-        bool goldenCross = fastPair.Previous.Ema <= slowPair.Previous.Ema
-            && fastPair.Current.Ema > slowPair.Current.Ema;
+        bool goldenCross = fastPrevious.Ema <= slowPrevious.Ema
+            && fastCurrent.Ema > slowCurrent.Ema;
 
         // Death Cross: Fast EMA crosses below Slow EMA (Sell signal)
-        bool deathCross = fastPair.Previous.Ema >= slowPair.Previous.Ema
-            && fastPair.Current.Ema < slowPair.Current.Ema;
+        bool deathCross = fastPrevious.Ema >= slowPrevious.Ema
+            && fastCurrent.Ema < slowCurrent.Ema;
 
         if (goldenCross && _units == 0)
         {

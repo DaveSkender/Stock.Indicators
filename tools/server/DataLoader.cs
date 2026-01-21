@@ -75,7 +75,6 @@ internal static class DataLoader
 
     private static double NextDouble()
         => RandomNumberGenerator.GetInt32(int.MaxValue) / (double)int.MaxValue;
-}
 
     private static Quote QuoteFromCsv(string csvLine)
     {

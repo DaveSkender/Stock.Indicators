@@ -144,11 +144,9 @@ internal sealed class CoinbaseStrategy : IDisposable
         {
             try
             {
-                // Sort trades by timestamp to ensure chronological order
-                // Coinbase may deliver trades in reverse chronological order
-                CoinbaseTrade[] sortedTrades = [.. trades.OrderBy(t => t.Timestamp)];
-
-                foreach (CoinbaseTrade trade in sortedTrades)
+                // Process trades in order received - no sorting!
+                // Out-of-order quotes are handled by the hub's healing/rebuild feature
+                foreach (CoinbaseTrade trade in trades)
                 {
                     // Convert trade to Quote - use trade price for all OHLC values
                     Quote quote = new(
