@@ -22,7 +22,7 @@ public static partial class RenkoAtr
             .ToQuoteDList()
             .CalcAtr(atrPeriods);
 
-        AtrResult? last = atrResults[^1];
+        AtrResult? last = atrResults.Count > 0 ? atrResults[^1] : null;
         decimal brickSize = (decimal?)last?.Atr ?? 0;
 
         return brickSize == 0
