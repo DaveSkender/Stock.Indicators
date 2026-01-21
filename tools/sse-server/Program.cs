@@ -16,22 +16,23 @@ JsonSerializerOptions jsonOptions = new() {
 // SSE endpoint: Random quotes
 app.MapGet(
     "/quotes/random",
-    async (HttpContext context, int interval = 100, int? batchSize = null) => {
+    async (HttpContext context, int interval = 100, int? batchSize = null, string quoteInterval = "1m") => {
         context.Response.ContentType = "text/event-stream";
         context.Response.Headers.CacheControl = "no-cache";
 
         int delivered = 0;
         double seed = 1000.0;
+        TimeSpan timestampIncrement = ParseInterval(quoteInterval);
 
         Console.WriteLine(
-            $"[Random] Starting stream - interval: {interval}ms, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
+            $"[Random] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
 
         try
         {
             while (!context.RequestAborted.IsCancellationRequested)
             {
-                // Generate a random quote
-                DateTime timestamp = DateTime.UtcNow.AddMinutes(delivered - 1000);
+                // Generate a random quote with time-warped timestamp
+                DateTime timestamp = DateTime.UtcNow.AddMinutes(-1000) + (timestampIncrement * delivered);
                 Quote quote = DataLoader.GenerateRandomQuote(timestamp, seed);
                 seed = (double)quote.Close;
 
@@ -76,22 +77,33 @@ app.MapGet(
 // SSE endpoint: Longest quotes (deterministic)
 app.MapGet(
     "/quotes/longest",
-    async (HttpContext context, int interval = 100, int? batchSize = null) => {
+    async (HttpContext context, int interval = 100, int? batchSize = null, string quoteInterval = "1m") => {
         context.Response.ContentType = "text/event-stream";
         context.Response.Headers.CacheControl = "no-cache";
 
         IReadOnlyList<Quote> longestQuotes = DataLoader.GetLongest();
         int totalQuotes = batchSize ?? longestQuotes.Count;
         int delivered = 0;
+        TimeSpan timestampIncrement = ParseInterval(quoteInterval);
+        DateTime baseTimestamp = longestQuotes[0].Timestamp;
 
         Console.WriteLine(
-            $"[Longest] Starting stream - interval: {interval}ms, total: {totalQuotes} quotes");
+            $"[Longest] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, total: {totalQuotes} quotes");
 
         try
         {
             for (int i = 0; i < totalQuotes && i < longestQuotes.Count; i++)
             {
-                Quote quote = longestQuotes[i];
+                Quote originalQuote = longestQuotes[i];
+
+                // Create quote with time-warped timestamp
+                Quote quote = new(
+                    Timestamp: baseTimestamp + (timestampIncrement * i),
+                    Open: originalQuote.Open,
+                    High: originalQuote.High,
+                    Low: originalQuote.Low,
+                    Close: originalQuote.Close,
+                    Volume: originalQuote.Volume);
 
                 // Serialize quote as JSON
                 string json = JsonSerializer.Serialize(quote, jsonOptions);
@@ -128,7 +140,42 @@ app.MapGet(
 
 Console.WriteLine("SSE Server starting...");
 Console.WriteLine("Endpoints:");
-Console.WriteLine("  - /quotes/random?interval=100&batchSize=1000");
-Console.WriteLine("  - /quotes/longest?interval=100&batchSize=1000");
+Console.WriteLine("  - /quotes/random?interval=100&batchSize=1000&quoteInterval=1h");
+Console.WriteLine("  - /quotes/longest?interval=100&batchSize=1000&quoteInterval=5m");
 
 await app.RunAsync().ConfigureAwait(false);
+
+// Parse interval string (e.g., "1h", "5m", "30s") to TimeSpan
+static TimeSpan ParseInterval(string interval)
+{
+    if (string.IsNullOrWhiteSpace(interval))
+    {
+        return TimeSpan.FromMinutes(1);
+    }
+
+#pragma warning disable CA1308 // ToLowerInvariant is intentional for case-insensitive parsing
+    string trimmed = interval.Trim().ToLowerInvariant();
+#pragma warning restore CA1308
+
+    // Extract numeric part and unit
+    int i = 0;
+    while (i < trimmed.Length && (char.IsDigit(trimmed[i]) || trimmed[i] == '.'))
+    {
+        i++;
+    }
+
+    if (i == 0 || !double.TryParse(trimmed[..i], out double value))
+    {
+        return TimeSpan.FromMinutes(1);
+    }
+
+    string unit = trimmed[i..].Trim();
+
+    return unit switch {
+        "s" or "sec" or "second" or "seconds" => TimeSpan.FromSeconds(value),
+        "m" or "min" or "minute" or "minutes" => TimeSpan.FromMinutes(value),
+        "h" or "hr" or "hour" or "hours" => TimeSpan.FromHours(value),
+        "d" or "day" or "days" => TimeSpan.FromDays(value),
+        _ => TimeSpan.FromMinutes(1)
+    };
+}

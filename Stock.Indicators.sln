@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests (other)", "Tests (oth
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4DC4349-B08A-4557-BAD9-EB3A8111C98A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.SseServer", "tools\server\Test.SseServer.csproj", "{01CC3E53-1AC1-71D3-1076-C3420B6A2DF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.SseServer", "tools\sse-server\Test.SseServer.csproj", "{01CC3E53-1AC1-71D3-1076-C3420B6A2DF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

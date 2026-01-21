@@ -223,7 +223,7 @@ void ProcessLiveData(Quote quote)
 
 ## WebSocket integration example
 
-<!-- TODO: move this to advanced topics, but change this to consuming WebSocket / SSE -->
+<!-- TODO: add more contextual descriptions to these sections -->
 
 ```csharp
 // setup hubs
@@ -246,9 +246,9 @@ async Task OnQuoteReceived(WebSocketQuote wsQuote)
     
     // update hub - all observers cascade automatically
     quoteHub.Add(quote);
-    
-    // broadcast updated indicators to clients
-    await BroadcastIndicators(smaHub.Results.Last());
+
+    // in this example, the subscribing SmaHub will
+    // auto-generate the next corresponding SMA value
 }
 ```
 

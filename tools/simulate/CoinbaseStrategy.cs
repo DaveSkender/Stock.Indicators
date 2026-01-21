@@ -1,3 +1,4 @@
+using System.Globalization;
 using Coinbase.Net;
 using Coinbase.Net.Clients;
 using Coinbase.Net.Objects.Models;
@@ -81,7 +82,14 @@ internal sealed class CoinbaseStrategy : IDisposable
             {
                 Console.WriteLine("[CoinbaseStrategy] Subscribing to 5-minute klines (candles) feed");
                 Console.WriteLine("[CoinbaseStrategy] ⚠️  NOTE: Kline updates arrive every ~5 minutes when candles close");
-                Console.WriteLine($"[CoinbaseStrategy] ⚠️  Receiving {_targetCount} updates will take approximately {_targetCount * 5} minutes ({_targetCount * 5 / 60.0:F1} hours)");
+                if (_targetCount != int.MaxValue)
+                {
+                    Console.WriteLine($"[CoinbaseStrategy] ⚠️  Receiving {_targetCount} updates will take approximately {_targetCount * 5} minutes ({_targetCount * 5 / 60.0:F1} hours)");
+                }
+                else
+                {
+                    Console.WriteLine("[CoinbaseStrategy] ⚠️  Running indefinitely (no count limit)");
+                }
                 Console.WriteLine();
 
                 subscription = await _socketClient.AdvancedTradeApi
@@ -163,7 +171,8 @@ internal sealed class CoinbaseStrategy : IDisposable
                     // Show progress every 10 quotes or at target
                     if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
                     {
-                        Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {trade.Timestamp:yyyy-MM-dd HH:mm:ss} UTC @ ${trade.Price:N2})");
+                        string countDisplay = _targetCount == int.MaxValue ? "∞" : _targetCount.ToString(CultureInfo.InvariantCulture);
+                        Console.WriteLine($"... processed {_quotesProcessed}/{countDisplay} quotes (latest: {trade.Timestamp:yyyy-MM-dd HH:mm:ss} UTC @ ${trade.Price:N2})");
                     }
 
                     if (_quotesProcessed >= _targetCount)
@@ -210,7 +219,8 @@ internal sealed class CoinbaseStrategy : IDisposable
                     // Show progress every 10 quotes or at target
                     if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
                     {
-                        Console.WriteLine($"... processed {_quotesProcessed}/{_targetCount} quotes (latest: {kline.OpenTime:yyyy-MM-dd HH:mm} UTC @ ${kline.ClosePrice:N2})");
+                        string countDisplay = _targetCount == int.MaxValue ? "∞" : _targetCount.ToString(CultureInfo.InvariantCulture);
+                        Console.WriteLine($"... processed {_quotesProcessed}/{countDisplay} quotes (latest: {kline.OpenTime:yyyy-MM-dd HH:mm} UTC @ ${kline.ClosePrice:N2})");
                     }
 
                     if (_quotesProcessed >= _targetCount)

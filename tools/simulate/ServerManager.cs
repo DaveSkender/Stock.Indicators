@@ -17,7 +17,7 @@ internal static class ServerManager
                 return null;
             }
 
-            string serverProjectPath = Path.Combine(repoRoot, "tools", "server");
+            string serverProjectPath = Path.Combine(repoRoot, "tools", "sse-server");
             string serverExePath = Path.Combine(
                 serverProjectPath,
                 "bin",
@@ -45,6 +45,23 @@ internal static class ServerManager
             if (process is not null)
             {
                 Console.WriteLine($"[ServerManager] SSE server started on port {port} (PID: {process.Id})");
+
+                // Give the process a moment and check if it's still running
+                System.Threading.Thread.Sleep(500);
+                if (process.HasExited)
+                {
+                    Console.WriteLine($"[ServerManager] WARNING: Server process exited immediately with code {process.ExitCode}");
+                    string stdout = process.StandardOutput.ReadToEnd();
+                    string stderr = process.StandardError.ReadToEnd();
+                    if (!string.IsNullOrWhiteSpace(stdout))
+                    {
+                        Console.WriteLine($"[ServerManager] STDOUT: {stdout}");
+                    }
+                    if (!string.IsNullOrWhiteSpace(stderr))
+                    {
+                        Console.WriteLine($"[ServerManager] STDERR: {stderr}");
+                    }
+                }
             }
 
             return process;

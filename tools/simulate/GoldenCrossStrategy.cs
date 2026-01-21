@@ -8,6 +8,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
     private readonly string _endpoint;
     private readonly int _interval;
     private readonly int _targetCount;
+    private readonly string _quoteInterval;
     private readonly HttpClient _httpClient;
 
     private readonly QuoteHub _quoteHub;
@@ -31,11 +32,12 @@ internal sealed class GoldenCrossStrategy : IDisposable
     private const int FastPeriod = 50;
     private const int SlowPeriod = 200;
 
-    public GoldenCrossStrategy(string endpoint, int interval, int targetCount)
+    public GoldenCrossStrategy(string endpoint, int interval, int targetCount, string quoteInterval)
     {
         _endpoint = endpoint;
         _interval = interval;
         _targetCount = targetCount;
+        _quoteInterval = quoteInterval;
         _httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(30) };
 
         // Use default cache size (100,000 items)
@@ -50,7 +52,10 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
         try
         {
-            Uri uri = new($"{_endpoint}?interval={_interval}&batchSize={_targetCount}");
+            string batchSizeParam = _targetCount == int.MaxValue
+                ? string.Empty
+                : $"&batchSize={_targetCount}";
+            Uri uri = new($"{_endpoint}?interval={_interval}&quoteInterval={_quoteInterval}{batchSizeParam}");
             Console.WriteLine($"[Strategy] Connecting to {uri}");
             Console.WriteLine();
 
