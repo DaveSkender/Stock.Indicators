@@ -35,7 +35,7 @@ The `Skender.Stock.Indicators` NuGet library itself does not contain work produc
 
 ### Chart libraries
 
-- **[Lightweight Charts™](https://tradingview.github.io/lightweight-charts)** - Financial charting library used throughout this documentation. Developed by [TradingView](https://tradinview.com) and licensed under the Apache License 2.0.
+- **[Lightweight Charts™](https://tradingview.github.io/lightweight-charts)** - Financial charting library used throughout this documentation. Developed by [TradingView](https://tradingview.com) and licensed under the Apache License 2.0.
 - **[Chart.js](https://www.chartjs.org)** - Charting library used in our [demo site](https://charts.stockindicators.dev) is licensed under the MIT License.
 
 ### Data providers and SDK libraries
