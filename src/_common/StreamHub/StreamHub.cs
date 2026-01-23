@@ -16,11 +16,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     protected object CacheLock { get; } = new();
 
     /// <summary>
-    /// Gets or sets a value indicating whether a rebuild is currently in progress.
-    /// Prevents cascade rebuilds: when Hub A rebuilds and notifies observers,
-    /// Observer B receives OnRebuild and would normally rebuild itself, then notify
-    /// its observers, creating a chain reaction. This flag breaks the cascade by
-    /// having observers skip rebuild if they're already rebuilding.
+    /// Prevents self-recursion: during rebuild, OnAdd calls AppendCache,
+    /// which must not trigger another rebuild on the same hub.
+    /// Cascading to observers is still allowed and desired.
     /// </summary>
     private bool _isRebuilding;
 
@@ -244,7 +242,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // reaches observers, causing cache desynchronization.
         lock (CacheLock)
         {
-            // Set rebuild flag to prevent infinite recursion
+            // Set flag to prevent self-recursion in AppendCache
             _isRebuilding = true;
 
             try
@@ -271,7 +269,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             }
             finally
             {
-                // Clear rebuild flag
+                // Clear flag
                 _isRebuilding = false;
             }
         }
@@ -320,10 +318,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         bool bypassRebuild = Properties[1]; // forced add/caching w/o rebuild
 
-        // During rebuild, force add to prevent nested rebuild calls.
-        // Rebuild calls OnAdd for each provider item, and if those items
-        // would normally trigger another rebuild (via AppendCache), we get
-        // nested Rebuild calls which cause issues.
+        // Prevent self-recursion: during rebuild, OnAdd processes provider items
+        // and AppendCache must not trigger another rebuild on this same hub.
+        // Observer cascading (NotifyObserversOnRebuild) is separate and still occurs.
         if (_isRebuilding)
         {
             bypassRebuild = true;
