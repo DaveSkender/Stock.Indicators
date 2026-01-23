@@ -8,23 +8,41 @@ public class AllStreamHubsIntegrationTests : TestBase
 {
     private const int TotalPeriods = 2000;
     private const int MaxCacheSize = 1500;
+    private const int LateNonReplacementPeriod = 10;
+    private const int LateNonReplacementInsertAt = 49;
+    private const int RebuildAfterPeriod = 100;
+    private const int LateReplacementPeriod = 1600;
+    private const int LateReplacementInsertAt = 1650;
 
     [TestMethod]
     public void AllHubs_WithComplexScenario_MatchSeriesExactly()
     {
-        // NOTE: This test is designed to test all 80+ hubs subscribed to a single
-        // QuoteHub under realistic load conditions. However, the full test requirements
-        // expose a critical bug: Insert() and RemoveAt() operations trigger cascade
-        // rebuilds that cause stack overflow when many hubs are subscribed.
-        //
-        // Root cause: OnRebuild() -> Rebuild() -> NotifyObserversOnRebuild() -> OnRebuild()
-        // creates infinite recursion through hub chains.
-        //
-        // This is a known architectural limitation that should be addressed separately.
-        // For now, we test with a simpler scenario that avoids late insertions.
-
         // Get test data (need at least 2000 periods)
         List<Quote> sourceQuotes = LoadLongestQuotes().Take(TotalPeriods).ToList();
+
+        // Create modified quote list for the test scenario
+        List<Quote> testQuotes = [];
+        Quote? lateNonReplacementQuote = null;
+        Quote? lateReplacementQuote = null;
+
+        for (int i = 0; i < sourceQuotes.Count; i++)
+        {
+            // Store the late arrival quote (period 10) and skip it initially
+            if (i == LateNonReplacementPeriod)
+            {
+                lateNonReplacementQuote = sourceQuotes[i];
+                continue;
+            }
+
+            // Store the late replacement quote (period 1600) and skip it initially
+            if (i == LateReplacementPeriod)
+            {
+                lateReplacementQuote = sourceQuotes[i];
+                continue;
+            }
+
+            testQuotes.Add(sourceQuotes[i]);
+        }
 
         // Setup: Create one primary QuoteHub
         QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
@@ -111,10 +129,53 @@ public class AllStreamHubsIntegrationTests : TestBase
         WilliamsRHub williamsRHub = quoteHub.ToWilliamsRHub(14);
         WmaHub wmaHub = quoteHub.ToWmaHub(20);
 
-        // Rapidly consume quotes in order (no late insertions to avoid stack overflow bug)
-        foreach (Quote quote in sourceQuotes)
+        // Rapidly consume quotes with complex scenario
+        int processedCount = 0;
+
+        foreach (Quote quote in testQuotes)
         {
+            processedCount++;
+
+            // Insert late non-replacement quote at position 49
+            if (processedCount == LateNonReplacementInsertAt && lateNonReplacementQuote is not null)
+            {
+                quoteHub.Insert(lateNonReplacementQuote);
+            }
+
+            // Trigger full rebuild signal after 100 periods (via RemoveAt operation)
+            if (processedCount == RebuildAfterPeriod)
+            {
+                // Remove an element to trigger rebuild across all subscribed hubs
+                if (quoteHub.Results.Count > 50)
+                {
+                    quoteHub.RemoveAt(50);
+                }
+            }
+
+            // Insert late replacement quote at position 1650
+            if (processedCount == LateReplacementInsertAt && lateReplacementQuote is not null)
+            {
+                quoteHub.Insert(lateReplacementQuote);
+            }
+
+            // Add the current quote
             quoteHub.Add(quote);
+
+            // Simulate several last period updates (repeat timestamp with new values)
+            // This happens near the end of the data stream
+            if (processedCount >= TotalPeriods - 5)
+            {
+                // Create a modified version of the same quote (same timestamp, different values)
+                Quote updatedQuote = new(
+                    Timestamp: quote.Timestamp,
+                    Open: quote.Open * 1.001m,
+                    High: quote.High * 1.001m,
+                    Low: quote.Low * 0.999m,
+                    Close: quote.Close * 1.001m,
+                    Volume: quote.Volume * 1.1m);
+
+                quoteHub.Add(updatedQuote);
+            }
         }
 
         // Get final results from QuoteHub
@@ -147,85 +208,7 @@ public class AllStreamHubsIntegrationTests : TestBase
         // Verify cache size constraints are respected
         quoteHub.Results.Should().HaveCountLessOrEqualTo(MaxCacheSize);
 
-        // Cleanup
-        adlHub.Unsubscribe();
-        adxHub.Unsubscribe();
-        alligatorHub.Unsubscribe();
-        almaHub.Unsubscribe();
-        aroonHub.Unsubscribe();
-        atrHub.Unsubscribe();
-        atrStopHub.Unsubscribe();
-        awesomeHub.Unsubscribe();
-        bollingerBandsHub.Unsubscribe();
-        bopHub.Unsubscribe();
-        cciHub.Unsubscribe();
-        chaikinOscHub.Unsubscribe();
-        chandelierHub.Unsubscribe();
-        chopHub.Unsubscribe();
-        cmfHub.Unsubscribe();
-        cmoHub.Unsubscribe();
-        connorsRsiHub.Unsubscribe();
-        demaHub.Unsubscribe();
-        dojiHub.Unsubscribe();
-        donchianHub.Unsubscribe();
-        dpoHub.Unsubscribe();
-        dynamicHub.Unsubscribe();
-        elderRayHub.Unsubscribe();
-        emaHub.Unsubscribe();
-        epmaHub.Unsubscribe();
-        fcbHub.Unsubscribe();
-        fisherTransformHub.Unsubscribe();
-        forceIndexHub.Unsubscribe();
-        fractalHub.Unsubscribe();
-        gatorHub.Unsubscribe();
-        heikinAshiHub.Unsubscribe();
-        hmaHub.Unsubscribe();
-        htTrendlineHub.Unsubscribe();
-        hurstHub.Unsubscribe();
-        ichimokuHub.Unsubscribe();
-        kamaHub.Unsubscribe();
-        keltnerHub.Unsubscribe();
-        kvoHub.Unsubscribe();
-        maEnvelopesHub.Unsubscribe();
-        macdHub.Unsubscribe();
-        mamaHub.Unsubscribe();
-        marubozuHub.Unsubscribe();
-        mfiHub.Unsubscribe();
-        obvHub.Unsubscribe();
-        parabolicSarHub.Unsubscribe();
-        pivotPointsHub.Unsubscribe();
-        pivotsHub.Unsubscribe();
-        pmoHub.Unsubscribe();
-        pvoHub.Unsubscribe();
-        renkoHub.Unsubscribe();
-        rocHub.Unsubscribe();
-        rocWbHub.Unsubscribe();
-        rollingPivotsHub.Unsubscribe();
-        rsiHub.Unsubscribe();
-        slopeHub.Unsubscribe();
-        smaHub.Unsubscribe();
-        smaAnalysisHub.Unsubscribe();
-        smiHub.Unsubscribe();
-        smmaHub.Unsubscribe();
-        starcBandsHub.Unsubscribe();
-        stcHub.Unsubscribe();
-        stdDevHub.Unsubscribe();
-        stochHub.Unsubscribe();
-        stochRsiHub.Unsubscribe();
-        superTrendHub.Unsubscribe();
-        t3Hub.Unsubscribe();
-        temaHub.Unsubscribe();
-        trHub.Unsubscribe();
-        trixHub.Unsubscribe();
-        tsiHub.Unsubscribe();
-        ulcerIndexHub.Unsubscribe();
-        ultimateHub.Unsubscribe();
-        volatilityStopHub.Unsubscribe();
-        vortexHub.Unsubscribe();
-        vwapHub.Unsubscribe();
-        vwmaHub.Unsubscribe();
-        williamsRHub.Unsubscribe();
-        wmaHub.Unsubscribe();
+        // Cleanup - EndTransmission unsubscribes all observers
         quoteHub.EndTransmission();
     }
 

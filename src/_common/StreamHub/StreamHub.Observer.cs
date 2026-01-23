@@ -71,7 +71,16 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// Override this method if complex state rollback or rebuild logic is required.
     /// </remarks>
     public virtual void OnRebuild(DateTime fromTimestamp)
-        => Rebuild(fromTimestamp);
+    {
+        // Prevent infinite recursion when rebuild cascades through observer chains.
+        // If this hub is already rebuilding, ignore the rebuild request from observers.
+        if (_isRebuilding)
+        {
+            return;
+        }
+
+        Rebuild(fromTimestamp);
+    }
 
     /// <inheritdoc/>
     public void OnPrune(DateTime toTimestamp)
