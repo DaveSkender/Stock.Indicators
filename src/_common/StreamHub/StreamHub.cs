@@ -17,7 +17,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
     /// <summary>
     /// Gets or sets a value indicating whether a rebuild is currently in progress.
-    /// Used to prevent infinite recursion when rebuild cascades through observer chains.
+    /// Prevents cascade rebuilds: when Hub A rebuilds and notifies observers,
+    /// Observer B receives OnRebuild and would normally rebuild itself, then notify
+    /// its observers, creating a chain reaction. This flag breaks the cascade by
+    /// having observers skip rebuild if they're already rebuilding.
     /// </summary>
     private bool _isRebuilding;
 
@@ -317,8 +320,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         bool bypassRebuild = Properties[1]; // forced add/caching w/o rebuild
 
-        // If already rebuilding, force add to avoid infinite recursion
-        // This can happen when rebuilding with out-of-order provider data
+        // During rebuild, force add to prevent nested rebuild calls.
+        // Rebuild calls OnAdd for each provider item, and if those items
+        // would normally trigger another rebuild (via AppendCache), we get
+        // nested Rebuild calls which cause issues.
         if (_isRebuilding)
         {
             bypassRebuild = true;

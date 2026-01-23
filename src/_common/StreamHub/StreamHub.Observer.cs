@@ -72,8 +72,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// </remarks>
     public virtual void OnRebuild(DateTime fromTimestamp)
     {
-        // Prevent infinite recursion when rebuild cascades through observer chains.
-        // If this hub is already rebuilding, ignore the rebuild request from observers.
+        // Prevent cascade rebuilds through observer chains.
+        // When a provider hub rebuilds, it notifies all observers via OnRebuild.
+        // Without this guard, each observer would rebuild and notify their observers,
+        // creating an exponential cascade that causes stack overflow with many hubs.
         if (_isRebuilding)
         {
             return;
