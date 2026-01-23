@@ -1,6 +1,6 @@
 using Alpaca.Markets;
 
-namespace Tests.Indicators;
+namespace Tests.Data;
 
 internal static class FeedData
 {

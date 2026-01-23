@@ -1,13 +1,11 @@
 using System.Diagnostics;
-using System.Globalization;
 using System.Text.Json;
-using Test.Base;
 using Test.Tools;
 
-namespace Tests.Integration;
+namespace StreamHubs;
 
 [TestClass, TestCategory("Integration")]
-public class AllStreamHubsSseIntegrationTests : TestBase
+public class ThreadSafetyTests : TestBase
 {
     private const int SseServerPort = 5099;
     private const int TargetQuoteCount = 2000;
@@ -19,9 +17,13 @@ public class AllStreamHubsSseIntegrationTests : TestBase
         PropertyNameCaseInsensitive = true
     };
 
+    public TestContext? TestContext { get; set; }
+
     [TestMethod]
     public async Task AllHubs_WithSseStream_MatchSeriesExactly()
     {
+        CancellationToken cts = TestContext?.CancellationToken ?? default;
+
         // Start SSE server
         Process? serverProcess = StartSseServer();
         if (serverProcess is null)
@@ -33,7 +35,7 @@ public class AllStreamHubsSseIntegrationTests : TestBase
         try
         {
             // Give server time to start
-            await Task.Delay(2000);
+            await Task.Delay(2000, cts).ConfigureAwait(true);
 
             // Setup: Create one primary QuoteHub
             QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
@@ -119,7 +121,7 @@ public class AllStreamHubsSseIntegrationTests : TestBase
             WmaHub wmaHub = quoteHub.ToWmaHub(20);
 
             // Consume quotes from SSE stream
-            await ConsumeQuotesFromSse(quoteHub);
+            await ConsumeQuotesFromSse(quoteHub).ConfigureAwait(true);
 
             // Get final results from QuoteHub as IQuote (compatible with all Series methods)
             IReadOnlyList<IQuote> quoteHubResults = quoteHub.Results;
@@ -214,10 +216,10 @@ public class AllStreamHubsSseIntegrationTests : TestBase
         finally
         {
             // Stop SSE server
-            if (serverProcess is not null && !serverProcess.HasExited)
+            if (!serverProcess.HasExited)
             {
                 serverProcess.Kill();
-                serverProcess.WaitForExit(5000);
+                await serverProcess.WaitForExitAsync(cts).ConfigureAwait(true);
                 serverProcess.Dispose();
             }
         }
@@ -253,9 +255,14 @@ public class AllStreamHubsSseIntegrationTests : TestBase
 
             return process;
         }
-        catch (Exception ex)
+        catch (IOException ex)
         {
-            Console.WriteLine($"[Test] Error starting server: {ex.Message}");
+            Console.WriteLine($"[Test] IO error starting server: {ex.Message}");
+            return null;
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"[Test] Invalid operation starting server: {ex.Message}");
             return null;
         }
     }
@@ -282,7 +289,7 @@ public class AllStreamHubsSseIntegrationTests : TestBase
         return null;
     }
 
-    private async Task ConsumeQuotesFromSse(QuoteHub quoteHub)
+    private static async Task ConsumeQuotesFromSse(QuoteHub quoteHub)
     {
         using HttpClient httpClient = new() { Timeout = TimeSpan.FromMinutes(5) };
 
@@ -290,17 +297,17 @@ public class AllStreamHubsSseIntegrationTests : TestBase
         Uri uri = new($"http://localhost:{SseServerPort}?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}");
 
         using HttpResponseMessage response = await httpClient
-            .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+            .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
         response.EnsureSuccessStatusCode();
 
-        Stream stream = await response.Content.ReadAsStreamAsync();
+        Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         using StreamReader reader = new(stream);
 
         int quotesProcessed = 0;
         string? line;
 
-        while ((line = await reader.ReadLineAsync()) is not null)
+        while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
         {
             // SSE format: "event: quote", "data: {...}", blank line
             if (line.StartsWith("data:", StringComparison.Ordinal))
