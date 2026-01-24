@@ -184,6 +184,29 @@ public class HtTrendlineHub
             _ = ToIndicator(reusable, p);
         }
     }
+
+    /// <inheritdoc/>
+    protected override void PruneState(int count)
+    {
+        if (count <= 0 || pr.Count == 0)
+        {
+            return;
+        }
+
+        int removeCount = Math.Min(count, pr.Count);
+        pr.RemoveRange(0, removeCount);
+        sp.RemoveRange(0, removeCount);
+        dt.RemoveRange(0, removeCount);
+        q1.RemoveRange(0, removeCount);
+        i1.RemoveRange(0, removeCount);
+        q2.RemoveRange(0, removeCount);
+        i2.RemoveRange(0, removeCount);
+        re.RemoveRange(0, removeCount);
+        im.RemoveRange(0, removeCount);
+        pd.RemoveRange(0, removeCount);
+        sd.RemoveRange(0, removeCount);
+        it.RemoveRange(0, removeCount);
+    }
 }
 
 public static partial class HtTrendline

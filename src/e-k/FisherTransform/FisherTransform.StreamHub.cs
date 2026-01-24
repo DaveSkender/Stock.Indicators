@@ -154,6 +154,19 @@ public class FisherTransformHub
             }
         }
     }
+
+    /// <inheritdoc/>
+    protected override void PruneState(int count)
+    {
+        // Remove pruned items from xv to keep indices aligned with Cache
+        for (int i = 0; i < count && xv.Count > 0; i++)
+        {
+            xv.RemoveAt(0);
+        }
+
+        // Rolling windows are self-pruning and maintain only LookbackPeriods items,
+        // so they don't need explicit pruning
+    }
 }
 
 public static partial class FisherTransform
