@@ -65,18 +65,9 @@ public class ThreadSafetyTests : TestBase
             DynamicHub dynamicHub = quoteHub.ToDynamicHub(14);
             ElderRayHub elderRayHub = quoteHub.ToElderRayHub(13);
             EmaHub emaHub = quoteHub.ToEmaHub(20);
-
-            // EPMA excluded: uses position-based linear regression where EPMA = slope*(i+1)+intercept.
-            // After pruning, cache indices no longer match global positions, causing value mismatch.
-            _ = quoteHub.ToEpmaHub(20);
-
-            // Fractal excluded: forward-looking indicator requires left/right context.
-            // After pruning, first few positions lose left-side context causing null values.
-            _ = quoteHub.ToFractalHub(2);
-
-            // FCB excluded: derives from Fractal's forward-looking logic with stateful bands.
-            // After pruning, band state would need to preserve history from pruned region.
-            _ = quoteHub.ToFcbHub(2);
+            EpmaHub epmaHub = quoteHub.ToEpmaHub(20);
+            FractalHub fractalHub = quoteHub.ToFractalHub(2);
+            FcbHub fcbHub = quoteHub.ToFcbHub(2);
 
             FisherTransformHub fisherTransformHub = quoteHub.ToFisherTransformHub(10);
             ForceIndexHub forceIndexHub = quoteHub.ToForceIndexHub(13);
@@ -98,39 +89,28 @@ public class ThreadSafetyTests : TestBase
             ParabolicSarHub parabolicSarHub = quoteHub.ToParabolicSarHub();
             PivotPointsHub pivotPointsHub = quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard);
 
-            // Pivots excluded: forward-looking indicator requires left/right span context.
-            // After pruning, first few positions lose left-side context causing null values.
-            _ = quoteHub.ToPivotsHub(11, 14);
+            PivotsHub pivotsHub = quoteHub.ToPivotsHub(11, 14);
             PmoHub pmoHub = quoteHub.ToPmoHub();
             PvoHub pvoHub = quoteHub.ToPvoHub();
 
-            // Renko excluded from comparison: produces variable-length output and has special
-            // pruning requirements because its cache is independent from parent's ProviderCache.
+            // Renko excluded from comparison: produces variable-length output.
+            // Each input quote can produce 0 to N bricks, making 1:1 cache alignment impossible.
+            // This is a fundamental characteristic of Renko, not a bug.
             _ = quoteHub.ToRenkoHub(2.5m);
 
             RocHub rocHub = quoteHub.ToRocHub(20);
             RocWbHub rocWbHub = quoteHub.ToRocWbHub(14);
-
-            // RollingPivots excluded: forward-looking indicator requires lookback/forward period context.
-            // After pruning, first few positions lose left-side context causing value mismatch.
-            _ = quoteHub.ToRollingPivotsHub(11, 9);
+            RollingPivotsHub rollingPivotsHub = quoteHub.ToRollingPivotsHub(20, 0);
 
             RsiHub rsiHub = quoteHub.ToRsiHub(14);
-
-            // Slope excluded: uses position-based X values for linear regression.
-            // Intercept = avgY - (slope * avgX) and Line = slope*(i+1)+intercept both depend on global position.
-            // After pruning, cache indices no longer match global positions.
-            _ = quoteHub.ToSlopeHub(20);
+            SlopeHub slopeHub = quoteHub.ToSlopeHub(20);
 
             SmaHub smaHub = quoteHub.ToSmaHub(20);
             SmaAnalysisHub smaAnalysisHub = quoteHub.ToSmaAnalysisHub(10);
             SmiHub smiHub = quoteHub.ToSmiHub();
             SmmaHub smmaHub = quoteHub.ToSmmaHub(20);
             StarcBandsHub starcBandsHub = quoteHub.ToStarcBandsHub();
-
-            // STC excluded: complex MACD → Stochastic chain with internal state arrays
-            // that become misaligned after pruning.
-            _ = quoteHub.ToStcHub();
+            StcHub stcHub = quoteHub.ToStcHub();
 
             StdDevHub stdDevHub = quoteHub.ToStdDevHub(10);
             StochHub stochHub = quoteHub.ToStochHub();
@@ -196,7 +176,9 @@ public class ThreadSafetyTests : TestBase
             elderRayHub.Results.IsExactly(allQuotes.ToElderRay(13).TakeLast(takeCount));
             emaHub.Results.IsExactly(allQuotes.ToEma(20).TakeLast(takeCount));
 
-            // EPMA, Fractal, FCB excluded: comparisons removed (see hub declarations)
+            epmaHub.Results.IsExactly(allQuotes.ToEpma(20).TakeLast(takeCount));
+            fractalHub.Results.IsExactly(allQuotes.ToFractal(2).TakeLast(takeCount));
+            fcbHub.Results.IsExactly(allQuotes.ToFcb(2).TakeLast(takeCount));
 
             fisherTransformHub.Results.IsExactly(allQuotes.ToFisherTransform(10).TakeLast(takeCount));
             forceIndexHub.Results.IsExactly(allQuotes.ToForceIndex(13).TakeLast(takeCount));
@@ -217,32 +199,24 @@ public class ThreadSafetyTests : TestBase
             obvHub.Results.IsExactly(allQuotes.ToObv().TakeLast(takeCount));
             parabolicSarHub.Results.IsExactly(allQuotes.ToParabolicSar().TakeLast(takeCount));
             pivotPointsHub.Results.IsExactly(allQuotes.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard).TakeLast(takeCount));
-
-            // Pivots excluded: comparison removed (see hub declaration)
+            pivotsHub.Results.IsExactly(allQuotes.ToPivots(11, 14).TakeLast(takeCount));
 
             pmoHub.Results.IsExactly(allQuotes.ToPmo().TakeLast(takeCount));
             pvoHub.Results.IsExactly(allQuotes.ToPvo().TakeLast(takeCount));
 
-            // Renko excluded: produces variable-length output and has special pruning requirements
-            // because its cache is independent from parent QuoteHub's pruned ProviderCache.
-            // renkoHub.Results.IsExactly(allQuotes.ToRenko(2.5m));
-
             rocHub.Results.IsExactly(allQuotes.ToRoc(20).TakeLast(takeCount));
             rocWbHub.Results.IsExactly(allQuotes.ToRocWb(14).TakeLast(takeCount));
-
-            // RollingPivots excluded: comparison removed (see hub declaration)
+            rollingPivotsHub.Results.IsExactly(allQuotes.ToRollingPivots(20, 0).TakeLast(takeCount));
 
             rsiHub.Results.IsExactly(allQuotes.ToRsi(14).TakeLast(takeCount));
-
-            // Slope excluded: comparison removed (see hub declaration)
+            slopeHub.Results.IsExactly(allQuotes.ToSlope(20).TakeLast(takeCount));
 
             smaHub.Results.IsExactly(allQuotes.ToSma(20).TakeLast(takeCount));
             smaAnalysisHub.Results.IsExactly(allQuotes.ToSmaAnalysis(10).TakeLast(takeCount));
             smiHub.Results.IsExactly(allQuotes.ToSmi().TakeLast(takeCount));
             smmaHub.Results.IsExactly(allQuotes.ToSmma(20).TakeLast(takeCount));
             starcBandsHub.Results.IsExactly(allQuotes.ToStarcBands().TakeLast(takeCount));
-
-            // STC excluded: comparison removed (see hub declaration)
+            stcHub.Results.IsExactly(allQuotes.ToStc().TakeLast(takeCount));
 
             stdDevHub.Results.IsExactly(allQuotes.ToStdDev(10).TakeLast(takeCount));
             stochHub.Results.IsExactly(allQuotes.ToStoch().TakeLast(takeCount));
