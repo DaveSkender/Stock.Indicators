@@ -34,8 +34,13 @@ public class ThreadSafetyTests : TestBase
 
         try
         {
-            // Give server time to start
-            await Task.Delay(2000, cts).ConfigureAwait(true);
+            // Wait for server to be ready (poll until it responds or timeout)
+            bool serverReady = await WaitForServerReady(SseServerPort, cts).ConfigureAwait(true);
+            if (!serverReady)
+            {
+                Assert.Fail("SSE server did not become ready within timeout period");
+                return;
+            }
 
             // Setup: Create one primary QuoteHub
             QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
@@ -313,6 +318,45 @@ public class ThreadSafetyTests : TestBase
         }
 
         return null;
+    }
+
+    private static async Task<bool> WaitForServerReady(int port, CancellationToken cancellationToken)
+    {
+        using HttpClient httpClient = new() { Timeout = TimeSpan.FromSeconds(2) };
+        Uri healthUri = new($"http://localhost:{port}/quotes/longest?batchSize=1");
+
+        // Try for up to 30 seconds (15 attempts * 2 second intervals)
+        for (int attempt = 0; attempt < 15; attempt++)
+        {
+            try
+            {
+                using HttpResponseMessage response = await httpClient
+                    .GetAsync(healthUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"[Test] SSE server ready after {attempt + 1} attempts");
+                    return true;
+                }
+            }
+            catch (HttpRequestException)
+            {
+                // Server not ready yet, continue polling
+            }
+            catch (TaskCanceledException)
+            {
+                // Timeout on this attempt, continue polling
+            }
+
+            if (attempt < 14) // Don't delay after the last attempt
+            {
+                await Task.Delay(2000, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        Console.WriteLine("[Test] SSE server did not become ready within timeout");
+        return false;
     }
 
     private static async Task<List<Quote>> ConsumeQuotesFromSse(QuoteHub quoteHub)
