@@ -281,6 +281,10 @@ public class ThreadSafetyTests : TestBase
             Process? process = Process.Start(startInfo);
             if (process is not null)
             {
+                process.OutputDataReceived += (_, __) => { };
+                process.ErrorDataReceived += (_, __) => { };
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
                 Console.WriteLine($"[Test] SSE server started on port {SseServerPort} (PID: {process.Id})");
             }
 
