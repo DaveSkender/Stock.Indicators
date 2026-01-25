@@ -34,22 +34,22 @@
     },
     {
       "id": "simulationMode",
-      "description": "Select simulation mode",
+      "description": "Select simulation mode (data source)",
       "options": [
         "sse",
-        "coinbase",
-        "coinbase-klines",
-        "coinbase-ticker"
+        "coinbase"
       ],
       "default": "sse",
       "type": "pickString"
     },
     {
       "id": "dataType",
-      "description": "Data type (SSE mode only)",
+      "description": "Data type: quote/trade for SSE, klines/ticker for Coinbase",
       "options": [
         "quote",
-        "trade"
+        "trade",
+        "klines",
+        "ticker"
       ],
       "default": "quote",
       "type": "pickString"
@@ -567,7 +567,7 @@
       "label": "Run: Simulation with inputs",
       "detail": "Run simulation with configurable mode, data type, intervals, and count",
       "type": "shell",
-      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} ${input:count} ${input:quoteInterval}",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} ${input:count} ${input:quoteInterval} ${input:coinbaseSymbol}",
       "group": "none",
       "isBackground": true,
       "problemMatcher": {
