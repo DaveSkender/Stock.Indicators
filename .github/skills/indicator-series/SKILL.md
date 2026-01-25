@@ -35,17 +35,17 @@ return new List<TResult>(results);  // NOT results.ToList()
 
 ## Required implementation
 
-Beyond the .StaticSeries.cs file, ensure:
+Beyond the `.StaticSeries.cs` file, ensure:
 
-- [ ] **Catalog registration**: Create `src/**/{IndicatorName}.Catalog.cs` and register in `src/_common/Catalog/Catalog.Listings.cs`
-- [ ] **Unit tests**: Create `tests/indicators/**/{IndicatorName}.StaticSeries.Tests.cs`
+- [ ] **Catalog registration**: Create `src/**/{Indicator}.Catalog.cs` and register in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
+- [ ] **Unit tests**: Create `tests/indicators/**/{Indicator}.StaticSeries.Tests.cs`
   - Inherit from `StaticSeriesTestBase`
   - Include `[TestCategory("Regression")]` for baseline validation
   - Verify against manually calculated reference values
-- [ ] **Performance benchmark**: Add to `tools/performance/SeriesIndicators.cs`
-- [ ] **Public documentation**: Update `docs/_indicators/{IndicatorName}.md`
-- [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
-- [ ] **Migration bridges**: Update `MigrationGuide.V3.md` and bridge files if behavior changes
+- [ ] **Performance benchmark**: Add to #file../../../tools/performance/Perf.Series.cs
+- [ ] **Public documentation**: Update `docs/indicators/{Indicator}.md`
+- [ ] **Regression tests**: Add to `tests/indicators/**/{Indicator}.Regression.Tests.cs`
+- [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
 
 ## Precision testing patterns
 

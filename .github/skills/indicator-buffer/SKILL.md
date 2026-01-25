@@ -77,10 +77,11 @@ public override void Clear()
   - [ ] Inherits `BufferListTestBase` and implements correct test interface
   - [ ] All 5 required tests from base class pass
   - [ ] Verifies equivalence with Series results
-- [ ] **Catalog registration**: Registered in `src/_common/Catalog/Catalog.Listings.cs`
-- [ ] **Performance benchmark**: Add to `tools/performance/BufferIndicators.cs`
-- [ ] **Public documentation**: Update `docs/_indicators/{IndicatorName}.md`
+- [ ] **Catalog registration**: Registered in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
+- [ ] **Performance benchmark**: Add to #file../../../tools/performance/Perf.Buffer.cs
+- [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
+- [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
 
 ## Common pitfalls
 

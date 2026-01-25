@@ -86,10 +86,11 @@ protected override void RollbackState(DateTime timestamp)
   - [ ] Inherits StreamHubTestBase with correct test interfaces
   - [ ] Comprehensive rollback validation present
   - [ ] Verifies Series parity
-- [ ] **Catalog registration**: Registered in `src/_common/Catalog/Catalog.Listings.cs`
-- [ ] **Performance benchmark**: Add to `tools/performance/StreamIndicators.cs`
-- [ ] **Public documentation**: Update `docs/_indicators/{IndicatorName}.md`
+- [ ] **Catalog registration**: Registered in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
+- [ ] **Performance benchmark**: Add to #file../../../tools/performance/Perf.Stream.cs
+- [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
+- [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
 
 ## Common pitfalls
 

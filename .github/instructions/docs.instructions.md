@@ -47,7 +47,7 @@ pnpm run docs:build
 pnpm run docs:preview
 
 # Accessibility testing after build
-npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
+npx pa11y-ci --sitemap http://localhost:4173/sitemap.xml
 ```
 
 ## Content guidelines
