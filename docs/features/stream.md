@@ -45,11 +45,12 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);
     
     // access latest results from each indicator
-    SmaResult sma = smaHub.Results.LastOrDefault();
-    RsiResult rsi = rsiHub.Results.LastOrDefault();
-    MacdResult macd = macdHub.Results.LastOrDefault();
+    SmaResult sma = smaHub.Results[^1];
+    RsiResult rsi = rsiHub.Results[^1];
+    MacdResult macd = macdHub.Results[^1];
     
     // use results for trading logic, alerts, etc.
+    // or subscribe your strategy
 }
 ```
 
@@ -111,44 +112,27 @@ The hub automatically handles state rollback and recalculation when data arrives
 - **Memory:** Maintains cache and state for all subscribed indicators
 - **Latency:** Optimized for real-time updates, typically <1ms per quote
 - **Scalability:** Supports multiple concurrent observers with single propagation
-- **Thread safety:** Not thread-safe by default; synchronize external access
+- **Thread safety:** Not thread-safe by default; synchronize external access - _designed for single-threaded inputs like WebSocket/SSE_
 
 ## Advanced patterns
 
-### Multiple symbol tracking
-
-```csharp
-// track multiple symbols with separate hubs
-Dictionary<string, QuoteHub> hubs = new();
-
-void ProcessQuote(string symbol, Quote quote)
-{
-    if (!hubs.ContainsKey(symbol))
-    {
-        hubs[symbol] = new QuoteHub();
-    }
-    
-    hubs[symbol].Add(quote);
-}
-```
-
-### Coordinated indicator updates
+### Reactive strategies
 
 ```csharp
 QuoteHub quoteHub = new();
 
-// create multiple indicator hubs
-var sma20 = quoteHub.ToSmaHub(20);
-var sma50 = quoteHub.ToSmaHub(50);
-var rsi = quoteHub.ToRsiHub(14);
-var macd = quoteHub.ToMacdHub();
+EmaHub emaFast = quoteHub.ToEmaHub(50);
+EmaHub emaSlow = quoteHub.ToEmaHub(200);
 
-// single update cascades to all
+// add quotes to quoteHub (from stream)
 quoteHub.Add(newQuote);
+// and the 2 EmaHub will be in sync
 
-// all indicators now have synchronized timestamps
-bool aboveGoldenCross = 
-    sma20.Results.[^1].Sma > sma50.Results.[^1].Sma;
+if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
+&& emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
+{
+    // cross over occurred
+}
 ```
 
 ### Event-driven alerts
