@@ -25,7 +25,7 @@ An alternate Python variant of this library is available at [python.stockindicat
 
 ## Attributions
 
-This NuGet library project is developed with support from [community contributors](/#contributors).
+This NuGet library project is developed with support from [community contributors](/#contribute-to-help-others).
 
 Our documentation, examples, and testing is additionally built upon the work of several excellent open-source projects and data providers.
 
@@ -113,6 +113,3 @@ Specific references are documented in individual indicator pages where applicabl
 
 - [Stock Indicators for Python](https://python.stockindicators.dev) - Python port
 - [Demo chart site](https://charts.stockindicators.dev) - Interactive visualization
-
----
-Last updated: January 21, 2026

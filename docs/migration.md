@@ -352,6 +352,3 @@ Popular indicators with complete streaming documentation:
 - [Indicators](/indicators) - Indicator-specific documentation
 - [GitHub Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) - Ask questions and share ideas
 - [GitHub Issues](https://github.com/DaveSkender/Stock.Indicators/issues) - Report bugs or request features
-
----
-Last updated: January 10, 2026

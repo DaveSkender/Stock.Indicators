@@ -28,6 +28,3 @@ Most `NullMath` methods work exactly like the `System.Math` library in C#, excep
 | Null2NaN | `var val = null;`<br>`var n2n = val.Null2NaN()` » `[NaN]` |
 | NaN2Null | `var val = double.NaN;`<br>`var n2n = val.NaN2Null()` » `null` |
 <!-- markdownlint-enable MD060 -->
-
----
-Last updated: January 7, 2026
