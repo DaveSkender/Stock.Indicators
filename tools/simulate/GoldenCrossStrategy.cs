@@ -168,8 +168,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             _entryValue = _balance;
             _units = _balance / currentPrice;
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2} @ ${currentPrice,8:N2}  " +
-                $"Cost: ${_entryValue,10:N2}  Balance: $0.00");
+                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2}   ${currentPrice,10:N2}   ${_entryValue,12:N2}   ${0.00,12:N2}");
             _balance = 0;
             _totalTrades++;
         }
@@ -196,8 +195,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             }
 
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  SELL  {unitsSold,10:N2} @ ${currentPrice,8:N2}  " +
-                $"P&L: ${profit,10:N2}  Balance: ${_balance,10:N2}");
+                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  SELL  {unitsSold,10:N2}   ${currentPrice,10:N2}   ${profit,12:N2}   ${_balance,12:N2}");
         }
     }
 
@@ -212,7 +210,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
         Console.WriteLine("==========================================");
         Console.WriteLine();
         Console.WriteLine(
-            "Date/Time           Action  Quantity      Price        P&L/Cost        Balance");
+            "Date/Time           Action    Quantity       Price        P&L/Cost         Balance");
         Console.WriteLine(
             "-------------------------------------------------------------------------------------");
     }

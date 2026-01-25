@@ -32,14 +32,14 @@ Arguments (in order):
 Examples:
 
 ```bash
-dotnet run -- sse                                                    # Quote data, 100ms delivery, 1m timestamps, runs indefinitely
-dotnet run -- sse quote                                              # Quote data, 100ms delivery, 1m timestamps, runs indefinitely
-dotnet run -- sse quote 50                                           # Quote data, 50ms delivery, 1m timestamps, runs indefinitely
-dotnet run -- sse quote 50 500                                       # Quote data, 50ms delivery, 1m timestamps, stops after 500 quotes
-dotnet run -- sse quote 100 1000 1h                                  # Hourly quotes delivered every 100ms, stops after 1000 quotes
-dotnet run -- sse quote 50 500 5m                                    # 5-minute quotes delivered every 50ms, stops after 500 quotes
-dotnet run -- sse quote 100 0 1d                                     # Daily quotes delivered every 100ms, runs indefinitely
-dotnet run -- sse trade 100 1000                                     # Trade data, 100ms delivery, stops after 1000 ticks
+dotnet run -- sse                     # Quote data, 100ms delivery, 1m timestamps, runs indefinitely
+dotnet run -- sse quote               # Quote data, 100ms delivery, 1m timestamps, runs indefinitely
+dotnet run -- sse quote 50            # Quote data, 50ms delivery, 1m timestamps, runs indefinitely
+dotnet run -- sse quote 50 500        # Quote data, 50ms delivery, 1m timestamps, stops after 500 quotes
+dotnet run -- sse quote 100 1000 1h   # Hourly quotes delivered every 100ms, stops after 1000 quotes
+dotnet run -- sse quote 50 500 5m     # 5-minute quotes delivered every 50ms, stops after 500 quotes
+dotnet run -- sse quote 100 0 1d      # Daily quotes delivered every 100ms, runs indefinitely
+dotnet run -- sse trade 100 1000      # Trade data, 100ms delivery, stops after 1000 ticks
 ```
 
 **Time warp feature**: The `quoteInterval` parameter allows fast testing of longer-term strategies without waiting real time. For example, `quoteInterval=1h` with `interval=100` delivers hourly-spaced quotes every 100ms, letting you test 24 hours of data in 2.4 seconds.

@@ -640,6 +640,12 @@
       "detail": "Display all running VitePress, Simulation, and SSE Server processes",
       "type": "shell",
       "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node.exe):' && (tasklist //fi \"imagename eq node.exe\" 2>/dev/null | grep -E 'node|PID' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet.exe):' && (tasklist //fi \"imagename eq dotnet.exe\" 2>/dev/null | grep -E 'dotnet|PID' || echo '   No processes found')",
+      "linux": {
+        "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node):' && (ps aux | grep -E '[n]ode.*vitepress|PID.*CMD' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet):' && (ps aux | grep -E '[d]otnet.*(simulate|sse-server)|PID.*CMD' || echo '   No processes found')"
+      },
+      "osx": {
+        "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node):' && (ps aux | grep -E '[n]ode.*vitepress|PID.*CMD' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet):' && (ps aux | grep -E '[d]otnet.*(simulate|sse-server)|PID.*CMD' || echo '   No processes found')"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -652,6 +658,12 @@
       "detail": "Stop VitePress dev/preview servers on default ports (5173/5174)",
       "type": "shell",
       "command": "netstat -ano 2>/dev/null | grep -E ':(5173|5174)\\\\s' | awk '{print $5}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null && echo '[OK] VitePress servers successfully stopped' || echo '[INFO] No VitePress server processes found'",
+      "linux": {
+        "command": "(lsof -ti:5173,5174 2>/dev/null | xargs -r kill -9 2>/dev/null && echo '[OK] VitePress servers successfully stopped') || echo '[INFO] No VitePress server processes found'"
+      },
+      "osx": {
+        "command": "(lsof -ti:5173,5174 2>/dev/null | xargs kill -9 2>/dev/null && echo '[OK] VitePress servers successfully stopped') || echo '[INFO] No VitePress server processes found'"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -679,6 +691,12 @@
       "detail": "Stop dotnet processes running tools/simulate or Test.Simulation",
       "type": "shell",
       "command": "wmic process where \"name='dotnet.exe' and (commandline like '%Test.Simulation%' or commandline like '%tools/simulate%' or commandline like '%tools\\\\\\\\simulate%')\" get processid 2>/dev/null | grep -E '^[0-9]+' | xargs -I {} taskkill //PID {} //F 2>/dev/null && echo '[OK] Simulation hosts successfully stopped' || echo '[INFO] No Simulation server processes found'",
+      "linux": {
+        "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
+      },
+      "osx": {
+        "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -691,6 +709,12 @@
       "detail": "Stop dotnet/Test.SseServer processes running tools/sse-server or Test.SseServer.exe",
       "type": "shell",
       "command": "(netstat -ano 2>/dev/null | grep ':5001\\\\s' | awk '{print $5}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null; wmic process where \"name='dotnet.exe' and (commandline like '%Test.SseServer%' or commandline like '%tools/sse-server%' or commandline like '%tools\\\\\\\\sse-server%')\" get processid 2>/dev/null | grep -E '^[0-9]+' | xargs -I {} taskkill //PID {} //F 2>/dev/null) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'",
+      "linux": {
+        "command": "((lsof -ti:5001 2>/dev/null | xargs -r kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
+      },
+      "osx": {
+        "command": "((lsof -ti:5001 2>/dev/null | xargs kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",

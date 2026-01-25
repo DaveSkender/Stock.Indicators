@@ -53,6 +53,7 @@ public static class TestAssert
     /// <remarks>
     /// Collections are compared using strict ordering and by comparing all members of <typeparamref name="T"/>.
     /// </remarks>
+    [StackTraceHidden]
     public static void IsExactly<T>(
         this IEnumerable<T> actuals,
         IEnumerable<T> expected,

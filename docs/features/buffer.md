@@ -129,17 +129,12 @@ RsiResult latest = rsiList[^1];
 ```csharp
 SmaList smaList = new(20);
 
-// simulate quotes arriving one at a time
-foreach (IQuote quote in historicalQuotes)
-{
-    smaList.Add(quote);
+// add new quote
+smaList.Add(quote);
     
-    // process latest result
-    SmaResult latest = smaList[^1];
-    if (latest?.Sma != null)
-    {
-        Console.WriteLine($"{latest.Timestamp:d}: SMA = {latest.Sma:N2}");
-    }
+// list auto-adds incremental SMA value
+SmaResult latest = smaList[^1];
+Console.WriteLine($"{latest.Timestamp:d}: SMA = {latest.Sma:N2}");
 }
 ```
 

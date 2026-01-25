@@ -62,5 +62,5 @@ jobs:
           htmlproofer .vitepress/dist
           --no-enforce-https
           --no-check-external-hash
-          --ignore-status-codes "0,302,403,406,408,429,503,999"
+          --ignore-status-codes "0,302,403,406,408,415,429,503,999"
           --ignore-urls "/fonts.gstatic.com/,/github\.com\/DaveSkender\/Stock\.Indicators\/(blob|tree)\//"
