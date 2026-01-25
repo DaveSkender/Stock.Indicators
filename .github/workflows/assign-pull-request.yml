@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   assign:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     steps:
       - name: Assign PR author
