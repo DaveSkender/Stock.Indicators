@@ -17,6 +17,14 @@ JsonSerializerOptions jsonOptions = new() {
 app.MapGet(
     "/quotes/random",
     async (HttpContext context, int interval = 100, int? batchSize = null, string quoteInterval = "1m") => {
+        // Validate interval parameter
+        if (interval <= 0)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsync("Interval must be greater than 0").ConfigureAwait(false);
+            return;
+        }
+
         context.Response.ContentType = "text/event-stream";
         context.Response.Headers.CacheControl = "no-cache";
 
@@ -78,6 +86,14 @@ app.MapGet(
 app.MapGet(
     "/quotes/longest",
     async (HttpContext context, int interval = 100, int? batchSize = null, string quoteInterval = "1m") => {
+        // Validate interval parameter
+        if (interval <= 0)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsync("Interval must be greater than 0").ConfigureAwait(false);
+            return;
+        }
+
         context.Response.ContentType = "text/event-stream";
         context.Response.Headers.CacheControl = "no-cache";
 
