@@ -251,8 +251,9 @@ public class ThreadSafetyTests : TestBase
             {
                 serverProcess.Kill();
                 await serverProcess.WaitForExitAsync(cts).ConfigureAwait(true);
-                serverProcess.Dispose();
             }
+
+            serverProcess.Dispose();
         }
     }
 
