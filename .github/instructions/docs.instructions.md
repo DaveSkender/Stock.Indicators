@@ -43,12 +43,21 @@ VitePress supports native custom container syntax. Use these instead of GitHub a
 # Production build
 pnpm run docs:build
 
-# Preview production build
+# Preview production build (starts server on port 4173)
 pnpm run docs:preview
-
-# Accessibility testing after build
-npx pa11y-ci --sitemap http://localhost:4173/sitemap.xml
 ```
+
+### Accessibility testing
+
+**Option 1**: Use VS Code task: **Tasks: Run Task** → `Test: Website a11y (pa11y)`
+
+**Option 2**: Run script manually (from docs/ folder):
+
+```bash
+bash .vitepress/test-a11y.sh
+```
+
+The script builds the site, starts a local preview server, and runs pa11y-ci against localhost URLs (not production).
 
 ## Content guidelines
 
