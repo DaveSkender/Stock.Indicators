@@ -5,26 +5,35 @@ namespace Test.SseServer;
 internal static class Utilities
 {
     /// <summary>
-    /// Convert TimeSpan to PeriodSize for RandomGbm constructor
+    /// Parse quote interval string directly to PeriodSize for RandomGbm constructor.
+    /// Supports formats: "1m", "2m", "5m", "15m", "30m", "1h", "2h", "4h", "1d"/"1day", "1w"/"1week".
     /// </summary>
-    /// <param name="timeSpan">Time span to convert</param>
-    /// <returns>Closest matching PeriodSize</returns>
-    internal static PeriodSize ConvertTimeSpanToPeriodSize(this TimeSpan timeSpan)
+    /// <param name="intervalString">Interval string (e.g., "1h", "5m", "1day")</param>
+    /// <returns>Matching PeriodSize</returns>
+    /// <exception cref="ArgumentException">Thrown when interval format is invalid or unsupported</exception>
+    internal static PeriodSize ParseQuoteIntervalToPeriodSize(string intervalString)
     {
-        double totalMinutes = timeSpan.TotalMinutes;
+        if (string.IsNullOrWhiteSpace(intervalString))
+        {
+            throw new ArgumentException("Interval string cannot be null or empty", nameof(intervalString));
+        }
 
-        return totalMinutes switch {
-            < 2 => PeriodSize.OneMinute,
-            < 5 => PeriodSize.TwoMinutes,
-            < 8 => PeriodSize.FiveMinutes,
-            < 20 => PeriodSize.FifteenMinutes,
-            < 45 => PeriodSize.ThirtyMinutes,
-            < 90 => PeriodSize.OneHour,
-            < 180 => PeriodSize.TwoHours,
-            < 360 => PeriodSize.FourHours,
-            < 1440 => PeriodSize.Day,
-            < 10080 => PeriodSize.Week,
-            _ => PeriodSize.Month
+        string normalized = intervalString.Trim().ToLowerInvariant();
+
+        return normalized switch {
+            "1m" or "1min" or "1minute" => PeriodSize.OneMinute,
+            "2m" or "2min" or "2minutes" => PeriodSize.TwoMinutes,
+            "5m" or "5min" or "5minutes" => PeriodSize.FiveMinutes,
+            "15m" or "15min" or "15minutes" => PeriodSize.FifteenMinutes,
+            "30m" or "30min" or "30minutes" => PeriodSize.ThirtyMinutes,
+            "1h" or "1hr" or "1hour" => PeriodSize.OneHour,
+            "2h" or "2hr" or "2hours" => PeriodSize.TwoHours,
+            "4h" or "4hr" or "4hours" => PeriodSize.FourHours,
+            "1d" or "1day" or "day" => PeriodSize.Day,
+            "1w" or "1week" or "week" => PeriodSize.Week,
+            _ => throw new ArgumentException(
+                $"Unsupported interval '{intervalString}'. Valid values: 1m, 2m, 5m, 15m, 30m, 1h, 2h, 4h, 1d, 1w",
+                nameof(intervalString))
         };
     }
 }

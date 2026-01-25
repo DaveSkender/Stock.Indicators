@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Text.Json;
 using Skender.Stock.Indicators;
 using Test.Data;
-using Test.SseServer;
 using TestData = Test.Data.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -48,7 +47,7 @@ app.MapGet("/quotes/random", async (
 
     int delivered = 0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
-    PeriodSize periodSize = timestampIncrement.ConvertTimeSpanToPeriodSize();
+    PeriodSize periodSize = Test.SseServer.Utilities.ParseQuoteIntervalToPeriodSize(quoteInterval);
 
     Console.WriteLine(
         $"[Random] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
@@ -139,7 +138,7 @@ app.MapGet("/quotes/longest", async (
     // Guard against empty data
     if (longestQuotes == null || longestQuotes.Count == 0)
     {
-        Console.WriteLine("[Longest] ERROR: No quote data available from DataLoader.GetLongest()");
+        Console.WriteLine("[Longest] ERROR: No quote data available from TestData.GetLongest()");
         context.Response.StatusCode = 500;
         await context.Response.WriteAsync("Server error: No quote data available").ConfigureAwait(false);
         return;
@@ -148,6 +147,7 @@ app.MapGet("/quotes/longest", async (
     int totalQuotes = batchSize ?? longestQuotes.Count;
     int delivered = 0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
+    PeriodSize periodSize = Test.SseServer.Utilities.ParseQuoteIntervalToPeriodSize(quoteInterval);
     DateTime baseTimestamp = longestQuotes[0].Timestamp;
 
     Console.WriteLine(

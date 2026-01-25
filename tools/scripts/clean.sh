@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Delete specific folders (supports globs and subfolder paths) and files, skipping protected ones
-# then does a clean restore of packages.
+# Delete specific folders (supports globs and subfolder paths) and files, skipping protected ones.
 
 DELETE_FOLDERS=(
   ".codacy"

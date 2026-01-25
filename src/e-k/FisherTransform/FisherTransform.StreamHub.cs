@@ -156,12 +156,16 @@ public class FisherTransformHub
     }
 
     /// <inheritdoc/>
-    protected override void PruneState(int count)
+    protected override void PruneState(DateTime toTimestamp)
     {
-        // Remove pruned items from xv to keep indices aligned with Cache
-        for (int i = 0; i < count && xv.Count > 0; i++)
+        // Keep xv aligned with Cache by ensuring same count.
+        // Use Cache.Count directly rather than relying on timestamps since
+        // xv doesn't store timestamps.
+        int targetSize = Cache.Count;
+        if (xv.Count > targetSize)
         {
-            xv.RemoveAt(0);
+            int excessCount = xv.Count - targetSize;
+            xv.RemoveRange(0, excessCount);
         }
 
         // Rolling windows are self-pruning and maintain only LookbackPeriods items,

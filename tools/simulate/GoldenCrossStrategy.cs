@@ -167,9 +167,9 @@ internal sealed class GoldenCrossStrategy : IDisposable
             // Buy: spend full balance on units at current price
             _entryValue = _balance;
             _units = _balance / currentPrice;
-            Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2}   ${currentPrice,10:N2}   ${_entryValue,12:N2}   ${0.00,12:N2}");
             _balance = 0;
+            Console.WriteLine(
+                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2}   ${currentPrice,10:N2}   ${_entryValue,12:N2}   ${_balance,12:N2}");
             _totalTrades++;
         }
         else if (deathCross && _units > 0)

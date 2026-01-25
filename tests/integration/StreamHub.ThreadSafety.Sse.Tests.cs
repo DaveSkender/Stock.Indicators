@@ -33,6 +33,10 @@ public class ThreadSafetyTests : TestBase
             return;
         }
 
+        // Setup: QuoteHub with StcHub
+        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+        StcHub stcHub = quoteHub.ToStcHub();
+
         try
         {
             // Wait for server to be ready
@@ -42,10 +46,6 @@ public class ThreadSafetyTests : TestBase
                 Assert.Fail("SSE server did not become ready within timeout period");
                 return;
             }
-
-            // Setup: QuoteHub with StcHub
-            QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
-            StcHub stcHub = quoteHub.ToStcHub();
 
             // Consume quotes from SSE stream
             List<Quote> allQuotes = await ConsumeQuotesFromSse(quoteHub, StcTestPort).ConfigureAwait(true);
@@ -80,15 +80,22 @@ public class ThreadSafetyTests : TestBase
 
             // Compare: StcHub results should match series on final cache
             stcHub.Results.IsExactly(finalQuotes.ToStc());
-
-            quoteHub.EndTransmission();
         }
         finally
         {
+            quoteHub.EndTransmission();
+
             if (!serverProcess.HasExited)
             {
                 serverProcess.Kill();
-                await serverProcess.WaitForExitAsync(cts).ConfigureAwait(true);
+                try
+                {
+                    await serverProcess.WaitForExitAsync(CancellationToken.None).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    // Ignore cancellation - process is already killed
+                }
             }
 
             serverProcess.Dispose();
@@ -108,6 +115,9 @@ public class ThreadSafetyTests : TestBase
             return;
         }
 
+        // Setup: Create one primary QuoteHub
+        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+
         try
         {
             // Wait for server to be ready (poll until it responds or timeout)
@@ -117,9 +127,6 @@ public class ThreadSafetyTests : TestBase
                 Assert.Fail("SSE server did not become ready within timeout period");
                 return;
             }
-
-            // Setup: Create one primary QuoteHub
-            QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
 
             // Subscribe all 80+ indicator hubs to the primary QuoteHub
             AdlHub adlHub = quoteHub.ToAdlHub();
@@ -300,10 +307,7 @@ public class ThreadSafetyTests : TestBase
             dynamicHub.Results.IsExactly(finalQuotes.ToDynamic(14));
             elderRayHub.Results.IsExactly(finalQuotes.ToElderRay(13));
             emaHub.Results.IsExactly(finalQuotes.ToEma(20));
-
-            // TODO: EPMA has floating-point precision differences after rollbacks (~1e-14)
-            // epmaHub.Results.IsExactly(finalQuotes.ToEpma(20));
-
+            epmaHub.Results.IsExactly(finalQuotes.ToEpma(20));
             fractalHub.Results.IsExactly(finalQuotes.ToFractal(2));
             fcbHub.Results.IsExactly(finalQuotes.ToFcb(2));
             fisherTransformHub.Results.IsExactly(finalQuotes.ToFisherTransform(10));
@@ -339,10 +343,7 @@ public class ThreadSafetyTests : TestBase
             rocWbHub.Results.IsExactly(finalQuotes.ToRocWb(14));
             rollingPivotsHub.Results.IsExactly(finalQuotes.ToRollingPivots(20, 0));
             rsiHub.Results.IsExactly(finalQuotes.ToRsi(14));
-
-            // TODO: Slope rollback bug - incorrect Intercept values after rollback
-            // slopeHub.Results.IsExactly(finalQuotes.ToSlope(20));
-
+            slopeHub.Results.IsExactly(finalQuotes.ToSlope(20));
             smaHub.Results.IsExactly(finalQuotes.ToSma(20));
             smaAnalysisHub.Results.IsExactly(finalQuotes.ToSmaAnalysis(10));
             smiHub.Results.IsExactly(finalQuotes.ToSmi());
@@ -366,16 +367,24 @@ public class ThreadSafetyTests : TestBase
             vwmaHub.Results.IsExactly(finalQuotes.ToVwma(10));
             williamsRHub.Results.IsExactly(finalQuotes.ToWilliamsR(14));
             wmaHub.Results.IsExactly(finalQuotes.ToWma(20));
-            // Cleanup
-            quoteHub.EndTransmission();
         }
         finally
         {
+            // Cleanup
+            quoteHub.EndTransmission();
+
             // Stop SSE server
             if (!serverProcess.HasExited)
             {
                 serverProcess.Kill();
-                await serverProcess.WaitForExitAsync(cts).ConfigureAwait(true);
+                try
+                {
+                    await serverProcess.WaitForExitAsync(CancellationToken.None).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    // Ignore cancellation - process is already killed
+                }
             }
 
             serverProcess.Dispose();
@@ -393,17 +402,53 @@ public class ThreadSafetyTests : TestBase
                 return null;
             }
 
+            // Try DOTNET_CONFIGURATION env var, then check for Release build, fallback to Debug
+            string configuration = Environment.GetEnvironmentVariable("DOTNET_CONFIGURATION") ?? "Debug";
             string serverExePath = Path.Combine(
-                repoRoot, "tools", "sse-server", "bin", "Debug", "net10.0", "Test.SseServer.exe");
+                repoRoot, "tools", "sse-server", "bin", configuration, "net10.0", "Test.SseServer.exe");
+            string serverDllPath = Path.Combine(
+                repoRoot, "tools", "sse-server", "bin", configuration, "net10.0", "Test.SseServer.dll");
+
+            // Auto-detect configuration if default doesn't exist
+            if (!File.Exists(serverExePath) && !File.Exists(serverDllPath))
+            {
+                string alternateConfig = configuration == "Debug" ? "Release" : "Debug";
+                string alternateExePath = Path.Combine(
+                    repoRoot, "tools", "sse-server", "bin", alternateConfig, "net10.0", "Test.SseServer.exe");
+                string alternateDllPath = Path.Combine(
+                    repoRoot, "tools", "sse-server", "bin", alternateConfig, "net10.0", "Test.SseServer.dll");
+
+                if (File.Exists(alternateExePath) || File.Exists(alternateDllPath))
+                {
+                    configuration = alternateConfig;
+                    serverExePath = alternateExePath;
+                    serverDllPath = alternateDllPath;
+                }
+            }
 
             ProcessStartInfo startInfo = new() {
-                FileName = serverExePath,
-                Arguments = $"--urls http://localhost:{port}",
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
+
+            // Use .exe if it exists (Windows), otherwise use dotnet with .dll (Linux/macOS)
+            if (File.Exists(serverExePath))
+            {
+                startInfo.FileName = serverExePath;
+                startInfo.Arguments = $"--urls http://localhost:{port}";
+            }
+            else if (File.Exists(serverDllPath))
+            {
+                startInfo.FileName = "dotnet";
+                startInfo.Arguments = $"\"{serverDllPath}\" --urls http://localhost:{port}";
+            }
+            else
+            {
+                Console.WriteLine($"[Test] SSE server executable not found at {serverExePath} or {serverDllPath}");
+                return null;
+            }
 
             Process? process = Process.Start(startInfo);
             if (process is not null)

@@ -20,9 +20,6 @@ public class SlopeHub
     private double? currentSlope;
     private double? currentIntercept;
 
-    // Tracks how many items have been pruned for global index calculation
-    private int _globalIndexOffset;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeHub"/> class.
     /// </summary>
@@ -52,18 +49,15 @@ public class SlopeHub
     /// <inheritdoc/>
     public override void OnAdd(IReusable item, bool notify, int? indexHint)
     {
-        lock (CacheLock)
-        {
-            // Call base to add the result to cache
-            base.OnAdd(item, notify, indexHint);
+        // Call base to add the result to cache
+        base.OnAdd(item, notify, indexHint);
 
-            // Update Line values for the last lookbackPeriods results
-            // This is done after the result is in the cache
-            int currentIndex = Cache.Count - 1;
-            if (currentIndex >= LookbackPeriods - 1)
-            {
-                UpdateLineValues(currentIndex, currentSlope, currentIntercept);
-            }
+        // Update Line values for the last lookbackPeriods results
+        // This is done after the result is in the cache
+        int currentIndex = Cache.Count - 1;
+        if (currentIndex >= LookbackPeriods - 1)
+        {
+            UpdateLineValues(currentIndex, currentSlope, currentIntercept);
         }
     }
 
@@ -138,15 +132,12 @@ public class SlopeHub
     private (double? slope, double? intercept, double? stdDev, double? rSquared)
         CalculateStatistics(int currentIndex)
     {
-        // Calculate global index accounting for pruned items
-        int globalIndex = _globalIndexOffset + currentIndex;
-
         // Calculate X values mathematically (sequential integers)
-        // X values are: (globalIndex - lookbackPeriods + 2) to (globalIndex + 1)
+        // X values are: (currentIndex - lookbackPeriods + 2) to (currentIndex + 1)
         // For sequential X = [a, a+1, ..., a+n-1]:
         // - sumX = n*a + n*(n-1)/2
         // - avgX = a + (n-1)/2
-        double firstX = globalIndex - LookbackPeriods + 2d;
+        double firstX = currentIndex - LookbackPeriods + 2d;
         double sumX = (LookbackPeriods * firstX) + (LookbackPeriods * (LookbackPeriods - 1) / 2.0);
         double avgX = sumX / LookbackPeriods;
 
@@ -214,24 +205,16 @@ public class SlopeHub
         }
 
         // Update Line values for the last lookbackPeriods results
-        // Using global indices (globalIndex + 1) like the series implementation
+        // Using global indices (p + 1) like the series implementation
         for (int p = startIndex; p <= currentIndex; p++)
         {
             SlopeResult existing = Cache[p];
 
-            // Calculate Line: y = mx + b, using global index
-            int globalIndex = _globalIndexOffset + p;
-            decimal? line = (decimal?)((slope * (globalIndex + 1)) + intercept).NaN2Null();
+            // Calculate Line: y = mx + b, using global index (p + 1)
+            decimal? line = (decimal?)((slope * (p + 1)) + intercept).NaN2Null();
 
             Cache[p] = existing with { Line = line };
         }
-    }
-
-    /// <inheritdoc/>
-    protected override void PruneState(int count)
-    {
-        // Track the global index offset for correct calculations after pruning
-        _globalIndexOffset += count;
     }
 }
 

@@ -374,12 +374,16 @@ public class ConnorsRsiHub
     }
 
     /// <inheritdoc/>
-    protected override void PruneState(int count)
+    protected override void PruneState(DateTime toTimestamp)
     {
-        // Remove pruned items from streakBuffer to keep indices aligned with Cache
-        for (int i = 0; i < count && streakBuffer.Count > 0; i++)
+        // Keep streakBuffer aligned with Cache by ensuring same count.
+        // Use Cache.Count directly rather than relying on timestamps since
+        // streakBuffer doesn't store timestamps.
+        int targetSize = Cache.Count;
+        if (streakBuffer.Count > targetSize)
         {
-            streakBuffer.RemoveAt(0);
+            int excessCount = streakBuffer.Count - targetSize;
+            streakBuffer.RemoveRange(0, excessCount);
         }
 
         // gainBuffer is a sliding window, it doesn't need explicit pruning

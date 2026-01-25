@@ -88,7 +88,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
             // Allow derived classes to prune their internal state arrays
             if (removedCount > 0)
             {
-                PruneState(removedCount);
+                PruneState(toTimestamp);
             }
 
             // notify observers (inside lock to ensure cache consistency)
@@ -99,9 +99,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// <summary>
     /// Called when items are pruned from the beginning of the cache.
     /// Override this method to prune internal state arrays in sync with the cache.
+    /// Prune all state items with timestamps &lt;= toTimestamp.
     /// </summary>
-    /// <param name="count">The number of items removed from the beginning of the cache.</param>
-    protected virtual void PruneState(int count)
+    /// <param name="toTimestamp">Prune all state items with timestamps less than or equal to this timestamp.</param>
+    protected virtual void PruneState(DateTime toTimestamp)
     {
         // No-op by default. Override in derived classes with internal state arrays.
     }

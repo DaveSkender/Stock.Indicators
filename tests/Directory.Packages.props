@@ -11,7 +11,7 @@
     <PackageReference>
       <!--
         Disable transitive packages flow
-        since test projects are leave nodes
+        since test projects are leaf nodes
       -->
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
