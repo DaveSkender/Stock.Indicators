@@ -42,7 +42,7 @@ Beyond the `.StaticSeries.cs` file, ensure:
   - Inherit from `StaticSeriesTestBase`
   - Include `[TestCategory("Regression")]` for baseline validation
   - Verify against manually calculated reference values
-- [ ] **Performance benchmark**: Add to #file../../../tools/performance/Perf.Series.cs
+- [ ] **Performance benchmark**: Add to #file:../../../tools/performance/Perf.Series.cs
 - [ ] **Public documentation**: Update `docs/indicators/{Indicator}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{Indicator}.Regression.Tests.cs`
 - [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2

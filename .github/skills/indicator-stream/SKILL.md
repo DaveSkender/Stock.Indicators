@@ -87,7 +87,7 @@ protected override void RollbackState(DateTime timestamp)
   - [ ] Comprehensive rollback validation present
   - [ ] Verifies Series parity
 - [ ] **Catalog registration**: Registered in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
-- [ ] **Performance benchmark**: Add to #file../../../tools/performance/Perf.Stream.cs
+- [ ] **Performance benchmark**: Add to #file:../../../tools/performance/Perf.Stream.cs
 - [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
 - [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
