@@ -473,9 +473,9 @@
     },
     {
       "label": "Test: Website links (htmlproofer)",
-      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
+      "detail": "Build website and check for broken links with htmlproofer (uses Docker)",
       "type": "shell",
-      "command": "bash .vitepress/run-htmlproofer.sh",
+      "command": "bash .vitepress/test-links.sh",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -486,7 +486,7 @@
       "label": "Test: Website a11y (pa11y)",
       "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
       "type": "shell",
-      "command": "bash .vitepress/run-pa11y.sh",
+      "command": "bash .vitepress/test-a11y.sh",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },

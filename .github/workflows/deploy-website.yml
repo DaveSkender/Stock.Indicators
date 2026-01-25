@@ -14,13 +14,13 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: "24.12.0"
-  PNPM_VERSION: "10.28.0"
+  NODE_VERSION: "24.13.0"
+  PNPM_VERSION: "10.28.1"
 
 jobs:
   deploy:
     name: Cloudflare Pages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 30
     defaults:
       run:

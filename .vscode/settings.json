@@ -30,8 +30,8 @@
   "search.useIgnoreFiles": true, // default: true
   "search.exclude": {
     // not otherwise ignored
-    "**/*.json": true,
-    "**/*.csv": true,
+    "tests/**/*.json": true,
+    "tests/**/*.csv": true,
     "**/.vitepress/cache": true,
     "**/.vitepress/dist": true,
   }
