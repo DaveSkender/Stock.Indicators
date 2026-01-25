@@ -44,12 +44,10 @@
     },
     {
       "id": "dataType",
-      "description": "Data type: quote/trade for SSE, klines/ticker for Coinbase",
+      "description": "Data type: quote (candles/klines) or trade (ticker/transactions)",
       "options": [
         "quote",
-        "trade",
-        "klines",
-        "ticker"
+        "trade"
       ],
       "default": "quote",
       "type": "pickString"

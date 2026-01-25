@@ -11,7 +11,8 @@ string dataType = args.Length > 1 ? args[1].ToUpperInvariant() : "QUOTE";
 if (mode == "COINBASE")
 {
     // Coinbase WebSocket mode
-    CoinbaseMode coinbaseMode = dataType == "TICKER" ? CoinbaseMode.Ticker : CoinbaseMode.Klines;
+    // Map unified dataType to Coinbase modes: quote->Klines, trade->Ticker
+    CoinbaseMode coinbaseMode = dataType == "TRADE" ? CoinbaseMode.Ticker : CoinbaseMode.Klines;
     string symbol = args.Length > 5 && !string.IsNullOrWhiteSpace(args[5]) ? args[5] : "BTC-USD";
     int count = args.Length > 3 && int.TryParse(args[3], out int c) ? c : int.MaxValue;
 
