@@ -93,7 +93,6 @@ public class ThreadSafetyTests : TestBase
             ObvHub obvHub = quoteHub.ToObvHub();
             ParabolicSarHub parabolicSarHub = quoteHub.ToParabolicSarHub();
             PivotPointsHub pivotPointsHub = quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard);
-
             PivotsHub pivotsHub = quoteHub.ToPivotsHub(11, 14);
             PmoHub pmoHub = quoteHub.ToPmoHub();
             PvoHub pvoHub = quoteHub.ToPvoHub();
@@ -106,17 +105,14 @@ public class ThreadSafetyTests : TestBase
             RocHub rocHub = quoteHub.ToRocHub(20);
             RocWbHub rocWbHub = quoteHub.ToRocWbHub(14);
             RollingPivotsHub rollingPivotsHub = quoteHub.ToRollingPivotsHub(20, 0);
-
             RsiHub rsiHub = quoteHub.ToRsiHub(14);
             SlopeHub slopeHub = quoteHub.ToSlopeHub(20);
-
             SmaHub smaHub = quoteHub.ToSmaHub(20);
             SmaAnalysisHub smaAnalysisHub = quoteHub.ToSmaAnalysisHub(10);
             SmiHub smiHub = quoteHub.ToSmiHub();
             SmmaHub smmaHub = quoteHub.ToSmmaHub(20);
             StarcBandsHub starcBandsHub = quoteHub.ToStarcBandsHub();
             StcHub stcHub = quoteHub.ToStcHub();
-
             StdDevHub stdDevHub = quoteHub.ToStdDevHub(10);
             StochHub stochHub = quoteHub.ToStochHub();
             StochRsiHub stochRsiHub = quoteHub.ToStochRsiHub(14);
@@ -180,11 +176,9 @@ public class ThreadSafetyTests : TestBase
             dynamicHub.Results.IsExactly(allQuotes.ToDynamic(14).TakeLast(takeCount));
             elderRayHub.Results.IsExactly(allQuotes.ToElderRay(13).TakeLast(takeCount));
             emaHub.Results.IsExactly(allQuotes.ToEma(20).TakeLast(takeCount));
-
             epmaHub.Results.IsExactly(allQuotes.ToEpma(20).TakeLast(takeCount));
             fractalHub.Results.IsExactly(allQuotes.ToFractal(2).TakeLast(takeCount));
             fcbHub.Results.IsExactly(allQuotes.ToFcb(2).TakeLast(takeCount));
-
             fisherTransformHub.Results.IsExactly(allQuotes.ToFisherTransform(10).TakeLast(takeCount));
             forceIndexHub.Results.IsExactly(allQuotes.ToForceIndex(13).TakeLast(takeCount));
             gatorHub.Results.IsExactly(allQuotes.ToGator().TakeLast(takeCount));
@@ -205,24 +199,19 @@ public class ThreadSafetyTests : TestBase
             parabolicSarHub.Results.IsExactly(allQuotes.ToParabolicSar().TakeLast(takeCount));
             pivotPointsHub.Results.IsExactly(allQuotes.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard).TakeLast(takeCount));
             pivotsHub.Results.IsExactly(allQuotes.ToPivots(11, 14).TakeLast(takeCount));
-
             pmoHub.Results.IsExactly(allQuotes.ToPmo().TakeLast(takeCount));
             pvoHub.Results.IsExactly(allQuotes.ToPvo().TakeLast(takeCount));
-
             rocHub.Results.IsExactly(allQuotes.ToRoc(20).TakeLast(takeCount));
             rocWbHub.Results.IsExactly(allQuotes.ToRocWb(14).TakeLast(takeCount));
             rollingPivotsHub.Results.IsExactly(allQuotes.ToRollingPivots(20, 0).TakeLast(takeCount));
-
             rsiHub.Results.IsExactly(allQuotes.ToRsi(14).TakeLast(takeCount));
             slopeHub.Results.IsExactly(allQuotes.ToSlope(20).TakeLast(takeCount));
-
             smaHub.Results.IsExactly(allQuotes.ToSma(20).TakeLast(takeCount));
             smaAnalysisHub.Results.IsExactly(allQuotes.ToSmaAnalysis(10).TakeLast(takeCount));
             smiHub.Results.IsExactly(allQuotes.ToSmi().TakeLast(takeCount));
             smmaHub.Results.IsExactly(allQuotes.ToSmma(20).TakeLast(takeCount));
             starcBandsHub.Results.IsExactly(allQuotes.ToStarcBands().TakeLast(takeCount));
             stcHub.Results.IsExactly(allQuotes.ToStc().TakeLast(takeCount));
-
             stdDevHub.Results.IsExactly(allQuotes.ToStdDev(10).TakeLast(takeCount));
             stochHub.Results.IsExactly(allQuotes.ToStoch().TakeLast(takeCount));
             stochRsiHub.Results.IsExactly(allQuotes.ToStochRsi(14).TakeLast(takeCount));
@@ -240,7 +229,6 @@ public class ThreadSafetyTests : TestBase
             vwmaHub.Results.IsExactly(allQuotes.ToVwma(10).TakeLast(takeCount));
             williamsRHub.Results.IsExactly(allQuotes.ToWilliamsR(14).TakeLast(takeCount));
             wmaHub.Results.IsExactly(allQuotes.ToWma(20).TakeLast(takeCount));
-
             // Cleanup
             quoteHub.EndTransmission();
         }
