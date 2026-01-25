@@ -77,29 +77,16 @@ public override void Clear()
   - [ ] Inherits `BufferListTestBase` and implements correct test interface
   - [ ] All 5 required tests from base class pass
   - [ ] Verifies equivalence with Series results
+- [ ] **Catalog registration**: Registered in `src/_common/Catalog/Catalog.Listings.cs`
+- [ ] **Performance benchmark**: Add to `tools/performance/BufferIndicators.cs`
+- [ ] **Public documentation**: Update `docs/_indicators/{IndicatorName}.md`
+- [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
 
-## Anti-patterns to avoid
+## Common pitfalls
 
-**Manual buffer management** (WRONG):
-
-```csharp
-if (_buffer.Count == capacity) _buffer.Dequeue();
-_buffer.Enqueue(value);
-```
-
-**Use extension methods** (CORRECT):
-
-```csharp
-_buffer.Update(capacity, value);
-```
-
-## Examples
-
-- Chain: `src/e-k/Ema/Ema.BufferList.cs`
-- Quote: `src/s-z/Stoch/Stoch.BufferList.cs`
-- Complex: `src/a-d/Adx/Adx.BufferList.cs`
-
-See `references/interface-selection.md` for interface decision guidance.
+- Manual buffer management instead of using BufferListUtilities extension methods
+- Not implementing Clear() to reset all internal state properly
+- Using Should().Be() instead of IsExactly() for Series parity verification
 
 ---
-Last updated: December 31, 2025
+Last updated: January 25, 2026

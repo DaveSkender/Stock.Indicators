@@ -44,6 +44,8 @@ Beyond the .StaticSeries.cs file, ensure:
   - Verify against manually calculated reference values
 - [ ] **Performance benchmark**: Add to `tools/performance/SeriesIndicators.cs`
 - [ ] **Public documentation**: Update `docs/_indicators/{IndicatorName}.md`
+- [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
+- [ ] **Migration bridges**: Update `MigrationGuide.V3.md` and bridge files if behavior changes
 
 ## Precision testing patterns
 
@@ -71,7 +73,15 @@ See `references/decision-tree.md` for result interface selection guidance.
 - **Real-world testing**: Synthetic boundary data may miss precision edge cases
 - **Fix formulas, not symptoms**: When all styles fail identically, fix the core algorithm
 
-NEVER modify formulas without verification against authoritative mathematical references. See `src/AGENTS.md` for formula protection rules.
+NEVER modify formulas without verification against authoritative mathematical references. See src/AGENTS.md for formula protection rules.
+
+## Common pitfalls
+
+- Off-by-one windows when calculating lookback or warmup periods
+- Precision loss in chained calculations (favor double for performance)
+- Performance regressions from unnecessary allocations or LINQ
+- Documentation drift between code comments, XML docs, and published docs site
+- Improper NaN handling (do not reject NaN inputs; guard against division by zero)
 
 ---
-Last updated: December 31, 2025
+Last updated: January 25, 2026
