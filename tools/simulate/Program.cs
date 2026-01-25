@@ -39,8 +39,9 @@ else
     };
 #pragma warning restore CA1308
 
-    string endpoint = args.Length > 5 && !string.IsNullOrWhiteSpace(args[5]) && args[5].StartsWith("http", StringComparison.Ordinal)
-        ? args[5]
+    // Custom endpoint can be passed as 6th argument for SSE mode
+    string endpoint = args.Length > 6 && !string.IsNullOrWhiteSpace(args[6]) && args[6].StartsWith("http", StringComparison.Ordinal)
+        ? args[6]
         : defaultEndpoint;
 
     // Start SSE server
