@@ -50,8 +50,7 @@ jobs:
         continue-on-error: true
 
       - name: Restore packages
-        run: |
-          dotnet restore
+        run: dotnet restore
         continue-on-error: true
         timeout-minutes: 5
 
