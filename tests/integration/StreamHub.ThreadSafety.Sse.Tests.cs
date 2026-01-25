@@ -393,11 +393,12 @@ public class ThreadSafetyTests : TestBase
                 return null;
             }
 
-            string serverProjectPath = Path.Combine(repoRoot, "tools", "sse-server");
+            string serverExePath = Path.Combine(
+                repoRoot, "tools", "sse-server", "bin", "Debug", "net10.0", "Test.SseServer.exe");
 
             ProcessStartInfo startInfo = new() {
-                FileName = "dotnet",
-                Arguments = $"run --project \"{serverProjectPath}\" -- --urls http://localhost:{port}",
+                FileName = serverExePath,
+                Arguments = $"--urls http://localhost:{port}",
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
@@ -407,8 +408,18 @@ public class ThreadSafetyTests : TestBase
             Process? process = Process.Start(startInfo);
             if (process is not null)
             {
-                process.OutputDataReceived += (_, __) => { };
-                process.ErrorDataReceived += (_, __) => { };
+                process.OutputDataReceived += (_, e) => {
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        Console.WriteLine($"[SSE Server] {e.Data}");
+                    }
+                };
+                process.ErrorDataReceived += (_, e) => {
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        Console.WriteLine($"[SSE Server ERROR] {e.Data}");
+                    }
+                };
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
                 Console.WriteLine($"[Test] SSE server started on port {port} (PID: {process.Id})");

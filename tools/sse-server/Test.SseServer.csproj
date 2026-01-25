@@ -15,9 +15,11 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
+    <!-- Suppress MSTest parallel execution warning (not applicable for SSE server) -->
+    <NoWarn>$(NoWarn);CA1591;MSTEST0001</NoWarn>
+
     <!-- Enable XML documentation for OpenAPI -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn>
 
     <!-- Build-time OpenAPI generation without launching server -->
     <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
@@ -28,19 +30,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" PrivateAssets="All" />
-    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" />
+    <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
+    <ProjectReference Include="..\..\tests\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="..\..\tests\indicators\_testdata\quotes\longest.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>_testdata\quotes\longest.csv</Link>
-    </None>
     <None Update="Test.SseServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

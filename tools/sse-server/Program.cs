@@ -1,7 +1,9 @@
 using System.Globalization;
 using System.Text.Json;
 using Skender.Stock.Indicators;
+using Test.Data;
 using Test.SseServer;
+using TestData = Test.Data.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -45,20 +47,23 @@ app.MapGet("/quotes/random", async (
     context.Response.Headers.CacheControl = "no-cache";
 
     int delivered = 0;
-    double seed = 1000.0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
+    PeriodSize periodSize = timestampIncrement.ConvertTimeSpanToPeriodSize();
 
     Console.WriteLine(
         $"[Random] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
+
+    // Use Test.Data.RandomGbm for random quote generation
+    RandomGbm generator = new(bars: 0, seed: 1000.0, periodSize: periodSize);
+    DateTime currentTimestamp = DateTime.UtcNow.AddMinutes(-1000);
 
     try
     {
         while (!context.RequestAborted.IsCancellationRequested)
         {
-            // Generate a random quote with time-warped timestamp
-            DateTime timestamp = DateTime.UtcNow.AddMinutes(-1000) + (timestampIncrement * delivered);
-            Quote quote = DataLoader.GenerateRandomQuote(timestamp, seed);
-            seed = (double)quote.Close;
+            // Generate next random quote
+            generator.Add(currentTimestamp);
+            Quote quote = generator[^1];
 
             // Serialize quote as JSON
             string json = JsonSerializer.Serialize(quote, jsonOptions);
@@ -71,6 +76,7 @@ app.MapGet("/quotes/random", async (
             await context.Response.Body.FlushAsync(context.RequestAborted).ConfigureAwait(false);
 
             delivered++;
+            currentTimestamp = currentTimestamp.Add(timestampIncrement);
 
             if (delivered % 100 == 0)
             {
@@ -128,7 +134,7 @@ app.MapGet("/quotes/longest", async (
     context.Response.ContentType = "text/event-stream";
     context.Response.Headers.CacheControl = "no-cache";
 
-    IReadOnlyList<Quote> longestQuotes = DataLoader.GetLongest();
+    IReadOnlyList<Quote> longestQuotes = TestData.GetLongest();
 
     // Guard against empty data
     if (longestQuotes == null || longestQuotes.Count == 0)

@@ -6,6 +6,17 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <PackageReference>
+      <!--
+        Disable transitive packages flow
+        since test projects are leave nodes
+      -->
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemDefinitionGroup>
+
   <ItemGroup>
     <PackageVersion Include="Alpaca.Markets" Version="7.2.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />

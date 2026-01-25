@@ -135,7 +135,6 @@ smaList.Add(quote);
 // list auto-adds incremental SMA value
 SmaResult latest = smaList[^1];
 Console.WriteLine($"{latest.Timestamp:d}: SMA = {latest.Sma:N2}");
-}
 ```
 
 ### Batch addition with incremental updates

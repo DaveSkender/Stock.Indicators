@@ -30,6 +30,12 @@
       },
       "Skender.Stock.Indicators": {
         "type": "Project"
+      },
+      "tests.indicators": {
+        "type": "Project",
+        "dependencies": {
+          "Skender.Stock.Indicators": "[1.0.0, )"
+        }
       }
     }
   }

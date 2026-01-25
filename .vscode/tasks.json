@@ -565,7 +565,7 @@
       "label": "Run: Simulation with inputs",
       "detail": "Run simulation with configurable mode, data type, intervals, and count",
       "type": "shell",
-      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} ${input:count} ${input:quoteInterval} ${input:coinbaseSymbol}",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} \"${input:count}\" ${input:quoteInterval} ${input:coinbaseSymbol}",
       "group": "none",
       "isBackground": true,
       "problemMatcher": {
@@ -591,6 +591,9 @@
       "detail": "Run SSE simulation with defaults: quote data, 50ms delivery, 1m intervals, unlimited count",
       "type": "shell",
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse quote 50 '' 1m",
+      "windows": {
+        "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse quote 50 \"\" 1m"
+      },
       "group": "none",
       "isBackground": true,
       "problemMatcher": {

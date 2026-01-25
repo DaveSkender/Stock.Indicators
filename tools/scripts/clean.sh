@@ -17,6 +17,7 @@ DELETE_FOLDERS=(
 DELETE_FILES=(
   "*.tmp"
   "*.bak"
+  "packages.lock.json"
 )
 
 SKIPPED_FOLDERS=(

@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="JKorf.Coinbase.Net" />
-    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>
