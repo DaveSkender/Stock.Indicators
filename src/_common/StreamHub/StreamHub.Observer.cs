@@ -78,14 +78,32 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     {
         lock (CacheLock)
         {
+            int removedCount = 0;
             while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
             {
                 Cache.RemoveAt(0);
+                removedCount++;
+            }
+
+            // Allow derived classes to prune their internal state arrays
+            if (removedCount > 0)
+            {
+                PruneState(removedCount);
             }
 
             // notify observers (inside lock to ensure cache consistency)
             NotifyObserversOnPrune(toTimestamp);
         }
+    }
+
+    /// <summary>
+    /// Called when items are pruned from the beginning of the cache.
+    /// Override this method to prune internal state arrays in sync with the cache.
+    /// </summary>
+    /// <param name="count">The number of items removed from the beginning of the cache.</param>
+    protected virtual void PruneState(int count)
+    {
+        // No-op by default. Override in derived classes with internal state arrays.
     }
 
     /// <inheritdoc/>

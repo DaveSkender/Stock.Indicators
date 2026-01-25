@@ -5,6 +5,13 @@ on:
     branches:
       - "main"
       - "v[0-9]*"
+    paths:
+      - "tests/integration/**"
+      - ".github/workflows/test-integration.yml"
+  pull_request:
+    paths:
+      - "tests/integration/**"
+      - ".github/workflows/test-integration.yml"
   workflow_dispatch:
 
 concurrency:

@@ -49,20 +49,15 @@ public class ChaikinOscHub
         double close = (double)quote.Close;
         double volume = (double)quote.Volume;
 
-        double? mfm = null;
-        double? mfv = null;
-        double range = high - low;
-
-        if (range > 0)
-        {
-            mfm = (close - low - (high - close)) / range;
-            mfv = mfm * volume;
-        }
+        double mfm = high == low
+            ? 0
+            : (close - low - (high - close)) / (high - low);
+        double mfv = mfm * volume;
 
         // Calculate ADL (cumulative)
         double adl = i > 0 && Cache[i - 1].Adl.HasValue
-            ? Cache[i - 1].Adl!.Value + (mfv ?? 0)
-            : mfv ?? 0;
+            ? Cache[i - 1].Adl!.Value + mfv
+            : mfv;
 
         // Calculate Fast EMA of ADL
         double fastEma = i >= FastPeriods - 1

@@ -241,6 +241,17 @@ public class StcHub
         }
     }
 
+    /// <inheritdoc/>
+    protected override void PruneState(int count)
+    {
+        // Remove pruned items from the MACD cache to keep indices aligned with Cache
+        if (count > 0 && _macdCache.Count > 0)
+        {
+            int removeCount = Math.Min(count, _macdCache.Count);
+            _macdCache.RemoveRange(0, removeCount);
+        }
+    }
+
 }
 
 public static partial class Stc

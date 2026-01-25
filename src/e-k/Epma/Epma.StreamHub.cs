@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators;
 public class EpmaHub
     : ChainHub<IReusable, EpmaResult>, IEpma
 {
+    private int _globalIndexOffset;
+
     internal EpmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -27,12 +29,22 @@ public class EpmaHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Calculate global index accounting for pruned items
+        int globalIndex = _globalIndexOffset + i;
+
         // candidate result
         EpmaResult r = new(
             Timestamp: item.Timestamp,
-            Epma: Epma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
+            Epma: Epma.Increment(ProviderCache, LookbackPeriods, i, globalIndex).NaN2Null());
 
         return (r, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void PruneState(int count)
+    {
+        // Track the global index offset for correct EPMA calculations after pruning
+        _globalIndexOffset += count;
     }
 }
 

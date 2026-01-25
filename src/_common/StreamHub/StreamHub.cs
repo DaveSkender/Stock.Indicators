@@ -15,6 +15,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </summary>
     protected object CacheLock { get; } = new();
 
+    /// <summary>
+    /// Prevents self-recursion: during rebuild, OnAdd calls AppendCache,
+    /// which must not trigger another rebuild on the same hub.
+    /// Cascading to observers is still allowed and desired.
+    /// </summary>
+    private bool _isRebuilding;
+
     private protected StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
@@ -235,25 +242,36 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // reaches observers, causing cache desynchronization.
         lock (CacheLock)
         {
-            // clear cache
-            RemoveRange(fromTimestamp, notify: false);
+            // Set flag to prevent self-recursion in AppendCache
+            _isRebuilding = true;
 
-            // get provider position
-            int provIndex = ProviderCache.IndexGte(fromTimestamp);
-
-            // rebuild
-            if (provIndex >= 0)
+            try
             {
-                int cacheSize = ProviderCache.Count;
-                for (int i = provIndex; i < cacheSize; i++)
-                {
-                    OnAdd(ProviderCache[i], notify: false, i);
-                }
-            }
+                // clear cache
+                RemoveRange(fromTimestamp, notify: false);
 
-            // notify observers (inside lock to ensure cache consistency
-            // before any new items can be added)
-            NotifyObserversOnRebuild(fromTimestamp);
+                // get provider position
+                int provIndex = ProviderCache.IndexGte(fromTimestamp);
+
+                // rebuild
+                if (provIndex >= 0)
+                {
+                    int cacheSize = ProviderCache.Count;
+                    for (int i = provIndex; i < cacheSize; i++)
+                    {
+                        OnAdd(ProviderCache[i], notify: false, i);
+                    }
+                }
+
+                // notify observers (inside lock to ensure cache consistency
+                // before any new items can be added)
+                NotifyObserversOnRebuild(fromTimestamp);
+            }
+            finally
+            {
+                // Clear flag
+                _isRebuilding = false;
+            }
         }
     }
 
@@ -299,6 +317,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
 
         bool bypassRebuild = Properties[1]; // forced add/caching w/o rebuild
+
+        // Prevent self-recursion: during rebuild, OnAdd processes provider items
+        // and AppendCache must not trigger another rebuild on this same hub.
+        // Observer cascading (NotifyObserversOnRebuild) is separate and still occurs.
+        if (_isRebuilding)
+        {
+            bypassRebuild = true;
+        }
 
         // consider timeline
         Act act = bypassRebuild || Cache.Count == 0 || result.Timestamp > Cache[^1].Timestamp

@@ -372,6 +372,19 @@ public class ConnorsRsiHub
             }
         }
     }
+
+    /// <inheritdoc/>
+    protected override void PruneState(int count)
+    {
+        // Remove pruned items from streakBuffer to keep indices aligned with Cache
+        for (int i = 0; i < count && streakBuffer.Count > 0; i++)
+        {
+            streakBuffer.RemoveAt(0);
+        }
+
+        // gainBuffer is a sliding window, it doesn't need explicit pruning
+        // as it naturally maintains only the most recent RankPeriods+1 items
+    }
 }
 
 public static partial class ConnorsRsi

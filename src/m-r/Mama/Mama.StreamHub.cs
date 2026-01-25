@@ -231,6 +231,28 @@ public class MamaHub
             ph.RemoveRange(index, removeCount);
         }
     }
+
+    /// <inheritdoc/>
+    protected override void PruneState(int count)
+    {
+        if (count <= 0 || pr.Count == 0)
+        {
+            return;
+        }
+
+        int removeCount = Math.Min(count, pr.Count);
+        pr.RemoveRange(0, removeCount);
+        sm.RemoveRange(0, removeCount);
+        dt.RemoveRange(0, removeCount);
+        pd.RemoveRange(0, removeCount);
+        q1.RemoveRange(0, removeCount);
+        i1.RemoveRange(0, removeCount);
+        q2.RemoveRange(0, removeCount);
+        i2.RemoveRange(0, removeCount);
+        re.RemoveRange(0, removeCount);
+        im.RemoveRange(0, removeCount);
+        ph.RemoveRange(0, removeCount);
+    }
 }
 
 public static partial class Mama
