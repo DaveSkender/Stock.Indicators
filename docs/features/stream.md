@@ -116,7 +116,7 @@ The hub automatically handles state rollback and recalculation when data arrives
 
 Stream hubs use internal locking to protect cache operations during rebuild and rollback scenarios:
 
-- **Internal cache operations** are thread-safe (Insert, RemoveAt, Rebuild)
+- **Internal cache operations** are thread-safe (Insert, RemoveAt, RemoveRange, Rebuild)
 - **External access requires synchronization** when multiple threads call Add, Insert, or Remove
 - **Single-threaded usage** requires no additional synchronization
 - **Multi-threaded usage** should synchronize external calls to hub methods
@@ -147,11 +147,12 @@ Task consumer = Task.Run(() =>
 {
     while (running)
     {
+        SmaResult? latest;
         lock (hubLock)
         {
-            SmaResult latest = smaHub.Results.Count > 0 ? smaHub.Results[^1] : null;
-            ProcessResult(latest);
+            latest = smaHub.Results.Count > 0 ? smaHub.Results[^1] : null;
         }
+        ProcessResult(latest);
     }
 });
 ```
@@ -223,7 +224,7 @@ void ProcessLiveData(Quote quote)
 
 ## WebSocket integration example
 
-<!-- TODO: add more contextual descriptions to these sections -->
+This example demonstrates how to connect stream hubs to a live WebSocket feed. The pattern applies to any real-time data source (WebSocket, SSE, message queue, etc.) where quotes arrive asynchronously. The hub's `Add` method integrates each incoming quote, automatically propagating updates to all subscribed indicators.
 
 ```csharp
 // setup hubs

@@ -134,6 +134,9 @@ public class ThreadSafetyTests : TestBase
             // Consume quotes from SSE stream (returns all quotes for Series comparison)
             List<Quote> allQuotes = await ConsumeQuotesFromSse(quoteHub).ConfigureAwait(true);
 
+            // Verify SSE stream delivered the full batch
+            allQuotes.Should().HaveCount(TargetQuoteCount, "SSE stream should deliver the full batch");
+
             // Get final results from QuoteHub as IQuote (compatible with all Series methods)
             IReadOnlyList<IQuote> quoteHubResults = quoteHub.Results;
 
@@ -142,7 +145,7 @@ public class ThreadSafetyTests : TestBase
             quoteHubResults.Should().HaveCountLessOrEqualTo(MaxCacheSize, "cache size constraint should be respected");
 
             // Verify pruning actually occurred (we sent more quotes than cache size)
-            int prunedCount = TargetQuoteCount - quoteHubResults.Count;
+            int prunedCount = allQuotes.Count - quoteHubResults.Count;
             prunedCount.Should().BeGreaterThan(0, "pruning should have occurred");
 
             // For cumulative/stateful indicators, hub results include accumulated state from ALL quotes.
