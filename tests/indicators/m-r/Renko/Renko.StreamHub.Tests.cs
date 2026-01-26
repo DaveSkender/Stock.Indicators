@@ -9,7 +9,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     // TODO: Revisit to explore alternative testing approach for quote transformations.
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;

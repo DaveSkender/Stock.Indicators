@@ -7,7 +7,7 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     private readonly IReadOnlyList<VortexResult> expectedOriginal = Quotes.ToVortex(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

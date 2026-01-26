@@ -11,6 +11,18 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
         = Quotes.Where(static (_, idx) => idx != removeAtIndex).ToList();
 
     /// <summary>
+    /// Verifies that the quote observer produces a series that matches the expected values
+    /// exactly when handling warmup, late arrivals (rebuild), and removals.
+    /// </summary>
+    /// <remarks>Output series should identical to the reference series.</remarks>
+    public abstract void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly();
+
+    /// <summary>
+    /// Tests cache pruning functionality
+    /// </summary>
+    public abstract void WithCachePruning_MatchesSeriesExactly();
+
+    /// <summary>
     /// Tests hub-unique name string
     /// </summary>
     public abstract void ToStringOverride_ReturnsExpectedName();

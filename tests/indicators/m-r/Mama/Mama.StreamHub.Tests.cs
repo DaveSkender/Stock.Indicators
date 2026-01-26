@@ -7,7 +7,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     private const double slowLimit = 0.05;
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();

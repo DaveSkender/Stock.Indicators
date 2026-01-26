@@ -11,7 +11,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
         = Quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

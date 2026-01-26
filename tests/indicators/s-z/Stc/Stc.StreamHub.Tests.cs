@@ -9,7 +9,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private readonly IReadOnlyList<StcResult> expectedOriginal = Quotes.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -56,7 +56,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void WithCachePruning_MatchesSeriesExactly()
+    public override void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
         const int totalQuotes = 100;

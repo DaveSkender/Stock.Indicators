@@ -8,7 +8,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
     private readonly IReadOnlyList<MaEnvelopeResult> expectedOriginal = Quotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
