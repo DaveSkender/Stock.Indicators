@@ -55,7 +55,7 @@ export default defineConfig({
     sidebar: {
       '/features': [
         {
-          items:[
+          items: [
             { text: 'Getting started', link: '/guide' },
             {
               text: 'Features',
@@ -74,7 +74,7 @@ export default defineConfig({
             { text: 'Migration (v2→v3)', link: '/migration' },
             { text: 'Contributing', link: '/contributing' },
             { text: 'About', link: '/about' },
-           ]
+          ]
         }
       ],
       '/guide': [
@@ -112,9 +112,38 @@ export default defineConfig({
           text: 'Utilities',
           items: [
             { text: 'Overview', link: '/utilities/' },
-            { text: 'Quote utilities', link: '/utilities/quotes' },
-            { text: 'Result utilities', link: '/utilities/results' },
-            { text: 'Helper utilities', link: '/utilities/helpers' },
+            {
+              text: 'Quote utilities',
+              collapsed: false,
+              items: [
+                { text: 'Overview', link: '/utilities/quotes/' },
+                { text: 'Use alternate price', link: '/utilities/quotes/use-alternate-price' },
+                { text: 'Sort quotes', link: '/utilities/quotes/sort-quotes' },
+                { text: 'Resize quote history', link: '/utilities/quotes/resize-quote-history' },
+                { text: 'Extended candle properties', link: '/utilities/quotes/extended-candle-properties' },
+                { text: 'Validate quote history', link: '/utilities/quotes/validate-quote-history' },
+              ]
+            },
+            {
+              text: 'Result utilities',
+              collapsed: false,
+              items: [
+                { text: 'Overview', link: '/utilities/results/' },
+                { text: 'Condense', link: '/utilities/results/condense' },
+                { text: 'Find by date', link: '/utilities/results/find-by-date' },
+                { text: 'Remove warmup periods', link: '/utilities/results/remove-warmup-periods' },
+                { text: 'Sort results', link: '/utilities/results/sort-results' },
+              ]
+            },
+            {
+              text: 'Helper utilities',
+              collapsed: false,
+              items: [
+                { text: 'Overview', link: '/utilities/helpers/' },
+                { text: 'Numerical methods', link: '/utilities/helpers/numerical-methods' },
+                { text: 'NullMath', link: '/utilities/helpers/nullmath' },
+              ]
+            },
             { text: 'Indicator catalog', link: '/utilities/catalog' },
           ]
         }
@@ -299,24 +328,24 @@ export default defineConfig({
               ]
             }
           ],
-      },
-      {
-        text: 'Volume based',
-        collapsed: true,
-        items: [
-          { text: 'Accumulation Distribution Line', link: '/indicators/Adl' },
-          { text: 'Chaikin Money Flow', link: '/indicators/Cmf' },
-          { text: 'Chaikin Oscillator', link: '/indicators/ChaikinOsc' },
-          { text: 'Force Index', link: '/indicators/ForceIndex' },
-          { text: 'Klinger Volume Oscillator', link: '/indicators/Kvo' },
-          { text: 'Money Flow Index', link: '/indicators/Mfi' },
-          { text: 'On-Balance Volume', link: '/indicators/Obv' },
-          { text: 'Price Volume Oscillator', link: '/indicators/Pvo' },
-          { text: 'Volume Weighted Average Price', link: '/indicators/Vwap' },
-          { text: 'Volume Weighted Moving Average', link: '/indicators/Vwma' },
+        },
+        {
+          text: 'Volume based',
+          collapsed: true,
+          items: [
+            { text: 'Accumulation Distribution Line', link: '/indicators/Adl' },
+            { text: 'Chaikin Money Flow', link: '/indicators/Cmf' },
+            { text: 'Chaikin Oscillator', link: '/indicators/ChaikinOsc' },
+            { text: 'Force Index', link: '/indicators/ForceIndex' },
+            { text: 'Klinger Volume Oscillator', link: '/indicators/Kvo' },
+            { text: 'Money Flow Index', link: '/indicators/Mfi' },
+            { text: 'On-Balance Volume', link: '/indicators/Obv' },
+            { text: 'Price Volume Oscillator', link: '/indicators/Pvo' },
+            { text: 'Volume Weighted Average Price', link: '/indicators/Vwap' },
+            { text: 'Volume Weighted Moving Average', link: '/indicators/Vwma' },
 
-        ]
-      },
+          ]
+        },
         {
           text: 'Moving averages',
           collapsed: true,
@@ -464,6 +493,7 @@ export default defineConfig({
   srcExclude: [
     'vendor/**',
     '.bundle/**',
+    '.temp/**',
     '_site/**',
     '_layouts/**',
     '_includes/**',
@@ -483,5 +513,5 @@ export default defineConfig({
     'README.md',
     'AGENTS.md',
     'PRINCIPLES.md'
-   ]
+  ]
 })

@@ -315,7 +315,7 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities/quotes#extended-candle-properties), and further used as the basis for calculating indicators.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities/quotes/extended-candle-properties), and further used as the basis for calculating indicators.
 
 ## Incremental buffer style indicators
 
@@ -521,8 +521,8 @@ Common real‑time technologies in .NET are built around asynchronous I/O, but m
 using System.Net.WebSockets;
 using Skender.Stock.Indicators;
 
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
 
 async Task ProcessWebSocketStream(ClientWebSocket ws, string uri, CancellationToken cancellationToken)
 {
@@ -589,8 +589,8 @@ async Task ProcessWebSocketStream(ClientWebSocket ws, string uri, CancellationTo
 ```csharp
 using Skender.Stock.Indicators;
 
-QuoteHub<Quote> quoteHub = new();
-RsiHub<Quote> rsiHub = quoteHub.ToRsi(14);
+QuoteHub quoteHub = new();
+RsiHub rsiHub = quoteHub.ToRsi(14);
 
 async Task ProcessSSEStream(string sseEndpoint)
 {
@@ -624,8 +624,8 @@ If you have multiple indicators that **don't need synchronization**, create sepa
 ```csharp
 // thread 1: processes MSFT
 Task.Run(() => {
-    QuoteHub<Quote> msftHub = new();
-    SmaHub<Quote> msftSma = msftHub.ToSma(20);
+    QuoteHub msftHub = new();
+    SmaHub msftSma = msftHub.ToSma(20);
     
     foreach (var quote in msftStream)
     {
@@ -635,8 +635,8 @@ Task.Run(() => {
 
 // thread 2: processes AAPL
 Task.Run(() => {
-    QuoteHub<Quote> aaplHub = new();
-    SmaHub<Quote> aaplSma = aaplHub.ToSma(20);
+    QuoteHub aaplHub = new();
+    SmaHub aaplSma = aaplHub.ToSma(20);
     
     foreach (var quote in aaplStream)
     {
@@ -663,8 +663,8 @@ If you must share a hub across threads, use a dedicated lock object:
 ```csharp
 using Skender.Stock.Indicators;
 
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
 
 // dedicated lock object (never lock on quoteHub directly)
 private readonly object _hubLock = new();
@@ -718,8 +718,8 @@ async Task ProduceQuotes(WebSocket ws)
 // consumer thread: processes quotes through indicators
 async Task ConsumeQuotes()
 {
-    QuoteHub<Quote> quoteHub = new();
-    SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+    QuoteHub quoteHub = new();
+    SmaHub smaHub = quoteHub.ToSma(20);
     
     await foreach (Quote quote in quoteChannel.Reader.ReadAllAsync())
     {
