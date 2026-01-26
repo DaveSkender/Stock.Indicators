@@ -71,7 +71,7 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         KeltnerHub observer = quoteHub.ToKeltnerHub(20, 2, 10);
 
         // Stream more quotes than cache can hold

@@ -64,7 +64,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         RsiHub observer = quoteHub.ToRsiHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

@@ -60,8 +60,8 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 45;  // 20 (lookback) + 25 extra for EPMA calculation warmup
-        const int totalQuotes = 90;  // ~2x cache size
+        const int maxCacheSize = 100;  // 20 (lookback) + 80 extra for full EPMA calculation warmup
+        const int totalQuotes = 200;  // ~2x cache size
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
         IReadOnlyList<EpmaResult> expected = quotes
@@ -70,7 +70,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         EpmaHub observer = quoteHub.ToEpmaHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

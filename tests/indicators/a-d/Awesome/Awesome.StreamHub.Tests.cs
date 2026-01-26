@@ -72,7 +72,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         AwesomeHub observer = quoteHub.ToAwesomeHub(5, 34);
 
         // Stream more quotes than cache can hold

@@ -69,7 +69,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
 
         // Stream more quotes than cache can hold

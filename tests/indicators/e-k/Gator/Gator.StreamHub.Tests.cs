@@ -73,7 +73,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         GatorHub observer = quoteHub.ToGatorHub();
 
         // Stream more quotes than cache can hold

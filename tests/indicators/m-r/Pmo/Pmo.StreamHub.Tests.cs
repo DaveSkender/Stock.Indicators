@@ -83,8 +83,8 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 60;  // 35 (longest PMO period) + 25 extra for double smoothing
-        const int totalQuotes = 120;  // ~2x cache size
+        const int maxCacheSize = 100;  // 35 (longest PMO period) + 65 extra for double smoothing warmup
+        const int totalQuotes = 200;  // ~2x cache size
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
         IReadOnlyList<PmoResult> expected = quotes
@@ -93,7 +93,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         PmoHub observer = quoteHub.ToPmoHub(35, 20, 10);
 
         // Stream more quotes than cache can hold

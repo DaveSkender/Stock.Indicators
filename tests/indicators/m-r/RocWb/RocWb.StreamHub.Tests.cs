@@ -66,7 +66,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         RocWbHub observer = quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         // Stream more quotes than cache can hold

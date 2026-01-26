@@ -81,7 +81,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         AroonHub observer = quoteHub.ToAroonHub(25);
 
         // Stream more quotes than cache can hold

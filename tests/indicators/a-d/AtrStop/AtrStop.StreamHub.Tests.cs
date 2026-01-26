@@ -73,7 +73,7 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         AtrStopHub observer = quoteHub.ToAtrStopHub();
 
         // Stream more quotes than cache can hold

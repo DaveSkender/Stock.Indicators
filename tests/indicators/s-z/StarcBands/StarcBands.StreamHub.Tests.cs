@@ -62,7 +62,7 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         StarcBandsHub observer = quoteHub.ToStarcBandsHub(5, 2, 10);
 
         // Stream more quotes than cache can hold

@@ -93,7 +93,7 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         ConnorsRsiHub observer = quoteHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
 
         // Stream more quotes than cache can hold

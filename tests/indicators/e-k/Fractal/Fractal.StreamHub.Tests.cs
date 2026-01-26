@@ -76,7 +76,7 @@ public class FractalHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         FractalHub observer = quoteHub.ToFractalHub();
 
         // Stream more quotes than cache can hold

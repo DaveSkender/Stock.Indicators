@@ -62,7 +62,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         TrixHub observer = quoteHub.ToTrixHub(14);
 
         // Stream more quotes than cache can hold

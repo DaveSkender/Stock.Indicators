@@ -69,7 +69,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         UltimateHub observer = quoteHub.ToUltimateHub(7, 14, 28);
 
         // Stream more quotes than cache can hold

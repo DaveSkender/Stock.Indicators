@@ -62,7 +62,7 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         AlligatorHub observer = quoteHub.ToAlligatorHub();
 
         // Stream more quotes than cache can hold

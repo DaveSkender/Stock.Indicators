@@ -76,7 +76,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

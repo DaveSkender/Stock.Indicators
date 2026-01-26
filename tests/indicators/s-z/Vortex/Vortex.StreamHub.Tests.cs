@@ -66,7 +66,7 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         VortexHub observer = quoteHub.ToVortexHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

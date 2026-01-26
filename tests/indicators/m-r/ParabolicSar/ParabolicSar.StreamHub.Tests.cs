@@ -86,7 +86,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         ParabolicSarHub observer = quoteHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
 
         // Stream more quotes than cache can hold

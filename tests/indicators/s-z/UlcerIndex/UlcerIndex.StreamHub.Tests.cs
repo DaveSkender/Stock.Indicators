@@ -66,7 +66,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         UlcerIndexHub observer = quoteHub.ToUlcerIndexHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

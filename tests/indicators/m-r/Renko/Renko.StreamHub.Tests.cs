@@ -88,14 +88,14 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         const EndType endType = EndType.HighLow;
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        
+
         // Get full series results
         IReadOnlyList<RenkoResult> fullSeries = quotes
             .ToRenko(brickSize, endType)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         RenkoHub observer = quoteHub.ToRenkoHub(brickSize, endType);
 
         // Stream more quotes than cache can hold

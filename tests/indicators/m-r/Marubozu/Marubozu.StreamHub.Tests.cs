@@ -72,7 +72,7 @@ public class MarubozuHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         MarubozuHub observer = quoteHub.ToMarubozuHub(95);
 
         // Stream more quotes than cache can hold

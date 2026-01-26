@@ -73,7 +73,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         CciHub observer = quoteHub.ToCciHub(20);
 
         // Stream more quotes than cache can hold

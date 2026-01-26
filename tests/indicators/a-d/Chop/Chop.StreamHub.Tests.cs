@@ -80,7 +80,7 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         ChopHub observer = quoteHub.ToChopHub(14);
 
         // Stream more quotes than cache can hold

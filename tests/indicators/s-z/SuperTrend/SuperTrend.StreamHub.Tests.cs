@@ -68,7 +68,7 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         SuperTrendHub observer = quoteHub.ToSuperTrendHub(lookbackPeriods, multiplier);
 
         // Stream more quotes than cache can hold

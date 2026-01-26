@@ -72,7 +72,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         HeikinAshiHub observer = quoteHub.ToHeikinAshiHub();
 
         // Stream more quotes than cache can hold

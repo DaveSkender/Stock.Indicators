@@ -63,7 +63,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         WmaHub observer = quoteHub.ToWmaHub(LookbackPeriods);
 
         // Stream more quotes than cache can hold

@@ -65,7 +65,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         HtTrendlineHub observer = quoteHub.ToHtTrendlineHub();
 
         // Stream more quotes than cache can hold

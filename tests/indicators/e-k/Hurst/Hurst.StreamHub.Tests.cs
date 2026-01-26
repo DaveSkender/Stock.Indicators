@@ -56,8 +56,8 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int maxCacheSize = 120;  // 100 (lookback period) + 20 extra
+        const int totalQuotes = 240;  // ~2x cache size
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
         IReadOnlyList<HurstResult> expected = quotes
@@ -66,7 +66,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         HurstHub observer = quoteHub.ToHurstHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

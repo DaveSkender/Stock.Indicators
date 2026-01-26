@@ -66,7 +66,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         FisherTransformHub observer = quoteHub.ToFisherTransformHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

@@ -68,7 +68,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         CmfHub observer = quoteHub.ToCmfHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

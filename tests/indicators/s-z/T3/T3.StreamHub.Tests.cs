@@ -66,7 +66,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         T3Hub observer = quoteHub.ToT3Hub(lookbackPeriods, volumeFactor);
 
         // Stream more quotes than cache can hold

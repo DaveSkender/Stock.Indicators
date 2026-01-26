@@ -73,7 +73,7 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         MfiHub observer = quoteHub.ToMfiHub(14);
 
         // Stream more quotes than cache can hold

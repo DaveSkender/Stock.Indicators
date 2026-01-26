@@ -76,7 +76,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         MamaHub observer = quoteHub.ToMamaHub(fastLimit, slowLimit);
 
         // Stream more quotes than cache can hold

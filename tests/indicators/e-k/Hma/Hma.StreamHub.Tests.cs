@@ -63,7 +63,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
 
         // Stream more quotes than cache can hold

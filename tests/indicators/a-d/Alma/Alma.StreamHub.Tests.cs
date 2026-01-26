@@ -62,7 +62,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         AlmaHub observer = quoteHub.ToAlmaHub(10, 0.85, 6);
 
         // Stream more quotes than cache can hold

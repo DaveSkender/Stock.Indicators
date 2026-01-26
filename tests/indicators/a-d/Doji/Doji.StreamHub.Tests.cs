@@ -72,7 +72,7 @@ public class DojiHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         DojiHub observer = quoteHub.ToDojiHub(0.1);
 
         // Stream more quotes than cache can hold

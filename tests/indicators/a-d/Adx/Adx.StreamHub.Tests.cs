@@ -68,7 +68,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         AdxHub observer = quoteHub.ToAdxHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

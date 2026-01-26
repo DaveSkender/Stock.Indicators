@@ -97,7 +97,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         MacdHub observer = quoteHub.ToMacdHub(12, 26, 9);
 
         // Stream more quotes than cache can hold

@@ -72,7 +72,7 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         DonchianHub observer = quoteHub.ToDonchianHub(20);
 
         // Stream more quotes than cache can hold

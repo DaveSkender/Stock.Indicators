@@ -61,7 +61,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         DemaHub observer = quoteHub.ToDemaHub(5);
 
         // Stream more quotes than cache can hold

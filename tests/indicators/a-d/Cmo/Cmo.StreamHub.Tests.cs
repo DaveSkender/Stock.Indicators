@@ -80,7 +80,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         CmoHub observer = quoteHub.ToCmoHub(14);
 
         // Stream more quotes than cache can hold

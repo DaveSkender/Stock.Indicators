@@ -67,7 +67,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         MaEnvelopesHub observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset);
 
         // Stream more quotes than cache can hold

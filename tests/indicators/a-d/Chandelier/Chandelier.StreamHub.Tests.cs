@@ -72,7 +72,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         ChandelierHub observer = quoteHub.ToChandelierHub(22, 3);
 
         // Stream more quotes than cache can hold

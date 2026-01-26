@@ -62,7 +62,7 @@ public class SmmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         SmmaHub observer = quoteHub.ToSmmaHub(20);
 
         // Stream more quotes than cache can hold

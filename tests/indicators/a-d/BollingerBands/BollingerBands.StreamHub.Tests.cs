@@ -71,7 +71,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(20, 2);
 
         // Stream more quotes than cache can hold

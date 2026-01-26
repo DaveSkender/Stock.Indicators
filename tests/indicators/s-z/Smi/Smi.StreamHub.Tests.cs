@@ -74,7 +74,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         SmiHub observer = quoteHub.ToSmiHub(
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 

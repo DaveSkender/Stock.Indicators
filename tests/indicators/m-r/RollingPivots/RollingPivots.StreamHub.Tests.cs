@@ -72,7 +72,7 @@ public class RollingPivots : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         RollingPivotsHub observer = quoteHub.ToRollingPivotsHub(20, 0, PivotPointType.Standard);
 
         // Stream more quotes than cache can hold

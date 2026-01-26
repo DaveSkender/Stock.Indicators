@@ -72,7 +72,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         ChaikinOscHub observer = quoteHub.ToChaikinOscHub(3, 10);
 
         // Stream more quotes than cache can hold

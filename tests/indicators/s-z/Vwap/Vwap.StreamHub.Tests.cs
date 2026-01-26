@@ -62,7 +62,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         VwapHub observer = quoteHub.ToVwapHub();
 
         // Stream more quotes than cache can hold

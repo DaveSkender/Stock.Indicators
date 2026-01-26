@@ -66,7 +66,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
 
         // Stream more quotes than cache can hold

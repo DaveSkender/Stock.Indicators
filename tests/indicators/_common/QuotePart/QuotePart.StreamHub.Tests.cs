@@ -67,7 +67,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         QuotePartHub observer = quoteHub.ToQuotePartHub(candlePart);
 
         // Stream more quotes than cache can hold

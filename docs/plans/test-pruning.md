@@ -5,8 +5,8 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 ## Test summary
 
 - **Total tests**: 80
-- **Passed**: 76 (95%)
-- **Failed**: 4 (5%)
+- **Passed**: 77 (96.25%)
+- **Failed**: 3 (3.75%)
 
 ## Failed tests and hypotheses
 
@@ -14,39 +14,35 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 
 **File**: `tests/indicators/e-k/Epma/Epma.StreamHub.Tests.cs`
 
-**Hypothesis**: EPMA (Endpoint Moving Average) exhibits floating-point precision differences between streaming and batch calculations. The errors show minute differences in the last decimal places (e.g., expected 226.15542857142856 but found 226.15542857142853). This appears to be a systematic accumulation of floating-point rounding errors in EPMA's linear regression endpoint calculation when processed incrementally versus as a complete batch. The differences are within floating-point tolerance but fail exact equality checks.
+**Current cache**: 100 quotes (20-period + 80 extra)
 
-**Next steps**: This may require tolerance-based comparison rather than exact matching, or investigation into whether the streaming implementation can match the batch calculation's precision exactly.
+**Hypothesis**: EPMA (Endpoint Moving Average) exhibits floating-point precision differences between streaming and batch calculations even with large cache (100 quotes for 20-period indicator). The errors show minute differences in the last decimal places (e.g., expected 225.54157142857142 but found 225.54157142857144). This suggests a fundamental difference in the calculation path between incremental streaming and batch processing, rather than insufficient warmup. The EPMA algorithm uses linear regression endpoints which may accumulate rounding errors differently when computed incrementally versus in one pass.
 
----
-
-### 2. PmoHubTests.WithCachePruning_MatchesSeriesExactly
-
-**File**: `tests/indicators/m-r/Pmo/Pmo.StreamHub.Tests.cs`
-
-**Hypothesis**: PMO (Price Momentum Oscillator) produces null values for PMO and Signal properties even with increased cache size (60 quotes for 35-period indicator). The double exponential smoothing may require significantly more warmup data than the simple period count suggests, or there may be an issue with state initialization when the cache is pruned during the warmup phase.
-
-**Next steps**: Investigate PMO's warmup requirements more deeply, potentially needing cache size of 100+ to ensure all EMA chains are fully initialized, or verify if there's a bug in the StreamHub implementation's state management.
+**Evidence needed**: Investigation into EPMA streaming vs batch algorithm to identify where calculation paths diverge. Not a tolerance/approximation issue per guidance - must be mathematical equivalence problem.
 
 ---
 
-### 3. RenkoHubTests.WithCachePruning_MatchesSeriesExactly
+### 2. RenkoHubTests.WithCachePruning_MatchesSeriesExactly
 
 **File**: `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs`
 
-**Hypothesis**: Renko charts transform quotes into bricks (non-1:1 mapping). The streaming implementation with cache pruning does not produce the same brick sequence as the full series calculation. This suggests that Renko's brick formation logic may depend on historical quotes beyond the visible cache window, or that the cache pruning disrupts the state machine that tracks partial brick formation.
+**Current cache**: 100 quotes (sufficient for transformation)
 
-**Next steps**: Renko may be fundamentally incompatible with cache pruning due to its stateful transformation logic. Consider documenting this as a known limitation or implementing special handling for transformation indicators.
+**Hypothesis**: Renko charts transform quotes into bricks (non-1:1 mapping). The streaming implementation with cache pruning does not produce the same brick sequence as the full series calculation. Renko's brick formation logic depends on price movement patterns, and cache pruning may be removing quotes needed to maintain proper brick state. The algorithm may need timestamp-based pruning strategy rather than count-based pruning to preserve brick formation integrity.
+
+**Evidence needed**: Investigation into whether Renko pruning needs timestamp-based approach as suggested in review comments, or if there's a state preservation issue in the StreamHub implementation.
 
 ---
 
-### 4. SlopeHubTests.WithCachePruning_MatchesSeriesExactly
+### 3. SlopeHubTests.WithCachePruning_MatchesSeriesExactly
 
 **File**: `tests/indicators/s-z/Slope/Slope.StreamHub.Tests.cs`
 
-**Hypothesis**: Slope (Linear Regression Slope) exhibits floating-point precision differences between streaming and batch calculations. The test shows numerical differences in `Intercept` values (e.g., expected 209.1143296703297 but found 209.90668131868134). Even with increased cache size (40 quotes for 14-period indicator), the streaming version accumulates slightly different floating-point rounding errors compared to the batch calculation. This is characteristic of linear regression's sum-of-squares calculations when processed incrementally.
+**Current cache**: 100 quotes (14-period + 86 extra)
 
-**Next steps**: Similar to EPMA, this may require tolerance-based comparison rather than exact matching, or investigation into whether the incremental calculation can be made to exactly match the batch version.
+**Hypothesis**: Slope (Linear Regression Slope) exhibits floating-point precision differences between streaming and batch calculations even with large cache (100 quotes for 14-period indicator). The test shows numerical differences in `Intercept` values (e.g., expected 209.1143296703297 but found 209.90668131868134). These are not tiny last-decimal-place differences like EPMA, but larger variations suggesting the streaming algorithm follows a different calculation path. Linear regression's sum-of-squares calculations may be computed differently in incremental vs batch mode.
+
+**Evidence needed**: Investigation into Slope/linear regression streaming vs batch algorithm to identify where calculation paths diverge. Not a tolerance/approximation issue per guidance - must be mathematical equivalence problem.
 
 ---
 
@@ -54,8 +50,10 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 
 The following tests were fixed by increasing cache sizes to accommodate initialization requirements:
 
-- **KvoHub**: Resolved by increasing cache to 70 (55 + 15 extra) from 50
-- **IchimokuHub**: Resolved by increasing cache to 90 (52 + 26 displacement + 12 extra) from 65
+- **KvoHub**: Resolved by increasing cache to 70 (55-period + 15 extra) from 50
+- **IchimokuHub**: Resolved by increasing cache to 90 (52-period + 26 displacement + 12 extra) from 65
+- **PmoHub**: Resolved by increasing cache to 100 (35-period + 65 extra) from 60
+- **HurstHub**: Resolved by increasing cache to 120 (100-period + 20 extra) from 50
 
 ---
 
@@ -65,13 +63,14 @@ The following tests were fixed by increasing cache sizes to accommodate initiali
 - [x] Tests added to all 80 StreamHub test classes
 - [x] Build verification completed (no syntax errors)
 - [x] Initial test run completed
-- [x] Fixed 2 tests by adjusting cache sizes (KvoHub, IchimokuHub)
-- [ ] Investigate and fix remaining 4 tests:
-  - [ ] EpmaHub (floating-point precision)
-  - [ ] PmoHub (insufficient warmup or state bug)
-  - [ ] RenkoHub (transformation indicator incompatibility)
-  - [ ] SlopeHub (floating-point precision)
-- [ ] Add validation on max cache size at construction to enforce minimum initialization requirements
+- [x] Fixed 4 tests by adjusting cache sizes (KvoHub, IchimokuHub, PmoHub, HurstHub)
+- [x] Fixed build errors from base branch PR #1939 (MaxCacheSize now constructor parameter)
+- [x] Format checks passed
+- [ ] Investigate and resolve remaining 3 tests (require algorithm investigation, not cache adjustments):
+  - [ ] EpmaHub (floating-point precision - algorithm divergence)
+  - [ ] RenkoHub (timestamp-based pruning strategy needed)
+  - [ ] SlopeHub (floating-point precision - algorithm divergence)
+- [ ] Implement validation on max cache size at construction to enforce minimum initialization requirements for all StreamHub indicators
 
 ---
 Last updated: January 26, 2026

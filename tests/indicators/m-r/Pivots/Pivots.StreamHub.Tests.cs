@@ -76,7 +76,7 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         PivotsHub observer = quoteHub.ToPivotsHub();
 
         // Stream more quotes than cache can hold

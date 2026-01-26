@@ -67,7 +67,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         DynamicHub observer = quoteHub.ToDynamicHub(lookbackPeriods, kFactor);
 
         // Stream more quotes than cache can hold

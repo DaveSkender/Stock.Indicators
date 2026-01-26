@@ -89,7 +89,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         PvoHub observer = quoteHub.ToPvoHub(12, 26, 9);
 
         // Stream more quotes than cache can hold

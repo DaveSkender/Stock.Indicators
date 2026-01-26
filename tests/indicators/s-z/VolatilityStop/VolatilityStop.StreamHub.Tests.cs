@@ -65,7 +65,7 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         VolatilityStopHub observer = quoteHub.ToVolatilityStopHub();
 
         // Stream more quotes than cache can hold
