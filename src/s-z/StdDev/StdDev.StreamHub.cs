@@ -14,6 +14,9 @@ public class StdDevHub
         LookbackPeriods = lookbackPeriods;
         Name = $"STDDEV({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

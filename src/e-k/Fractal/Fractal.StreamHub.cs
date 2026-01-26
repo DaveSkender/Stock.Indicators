@@ -35,6 +35,10 @@ public class FractalHub
         EndType = endType;
         Name = $"FRACTAL({leftSpan},{rightSpan},{endType.ToString().ToUpperInvariant()})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = leftSpan + rightSpan + 1;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

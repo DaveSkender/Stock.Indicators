@@ -22,6 +22,9 @@ public class RsiHub
         LookbackPeriods = lookbackPeriods;
         Name = $"RSI({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 

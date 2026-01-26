@@ -35,6 +35,9 @@ public class MamaHub
         SlowLimit = slowLimit;
         Name = $"MAMA({fastLimit},{slowLimit})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(50, Name);  // MAMA adaptive algorithm needs minimum history
+
         Reinitialize();
     }
 

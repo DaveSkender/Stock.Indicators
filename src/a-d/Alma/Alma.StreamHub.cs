@@ -37,6 +37,9 @@ public class AlmaHub
 
         normalizationFactor = norm;
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

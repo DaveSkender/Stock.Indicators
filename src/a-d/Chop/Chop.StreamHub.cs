@@ -23,6 +23,9 @@ public class ChopHub
         _sumTrueRange = 0;
         Name = $"CHOP({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

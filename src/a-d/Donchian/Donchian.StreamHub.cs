@@ -37,6 +37,9 @@ public class DonchianHub
         _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

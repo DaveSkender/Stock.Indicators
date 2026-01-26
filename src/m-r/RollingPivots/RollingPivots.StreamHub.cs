@@ -47,6 +47,9 @@ public class RollingPivotsHub
         _lowWindow = new RollingWindowMin<decimal>(windowPeriods);
         _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(windowPeriods, Name);
+
         Reinitialize();
     }
 

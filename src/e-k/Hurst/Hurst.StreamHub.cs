@@ -17,6 +17,9 @@ public class HurstHub
         Name = $"HURST({lookbackPeriods})";
         _buffer = new Queue<double>(lookbackPeriods + 1);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

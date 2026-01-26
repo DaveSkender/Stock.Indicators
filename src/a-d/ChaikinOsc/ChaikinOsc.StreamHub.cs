@@ -20,6 +20,10 @@ public class ChaikinOscHub
 
         Name = $"CHAIKIN_OSC({fastPeriods},{slowPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(fastPeriods, slowPeriods);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

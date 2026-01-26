@@ -13,6 +13,9 @@ public class HeikinAshiHub
         IQuoteProvider<IQuote> provider) : base(provider)
     {
         Name = "HEIKINASHI";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Pattern detection requires at least 1 period
+
         Reinitialize();
     }
     /// <inheritdoc/>

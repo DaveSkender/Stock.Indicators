@@ -26,6 +26,10 @@ public class PvoHub
 
         Name = $"PVO({fastPeriods},{slowPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
