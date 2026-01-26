@@ -68,7 +68,7 @@ The following tests were fixed by increasing cache sizes to accommodate initiali
 - [x] Format checks passed
 - [x] **Implemented cache size validation framework** - Added `ValidateCacheSize()` method to StreamHub base class
 - [x] **Implemented validation for 5 key indicators** (SMA, Ichimoku, PMO, Hurst, KVO) as working examples
-- [ ] **Extend validation to remaining 75 indicators** - Follow the pattern established in the 5 examples
+- [x] **Extend validation to remaining 75 indicators** - Follow the pattern established in the 5 examples
 - [ ] Investigate and resolve remaining 3 tests (require algorithm investigation, not cache adjustments):
   - [ ] EpmaHub (floating-point precision - algorithm divergence)
   - [ ] RenkoHub (timestamp-based pruning strategy needed)
