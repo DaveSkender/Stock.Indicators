@@ -13,7 +13,7 @@ public class SlopeHub
 {
     private readonly Queue<double> buffer;
 
-    // Track total number of items processed to calculate global positions after pruning
+    // Track total items processed through this hub
     private int totalProcessed;
 
     // Cache latest slope/intercept to avoid cache lookups in OnAdd
@@ -38,6 +38,9 @@ public class SlopeHub
 
         // Validate cache size for warmup requirements
         ValidateCacheSize(lookbackPeriods, Name);
+
+        // Initialize tracking
+        totalProcessed = 0;
 
         Reinitialize();
     }
@@ -67,7 +70,7 @@ public class SlopeHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Increment total processed count
+        // Increment total processed
         totalProcessed++;
 
         // Update buffer
@@ -79,8 +82,7 @@ public class SlopeHub
             return (new SlopeResult(item.Timestamp), i);
         }
 
-        // Calculate cache offset: totalProcessed - current cache size
-        // This allows reconstruction of global positions after pruning
+        // Calculate cache offset
         int cacheOffset = totalProcessed - ProviderCache.Count;
 
         // Calculate slope, intercept, and statistics
@@ -115,9 +117,8 @@ public class SlopeHub
         currentSlope = null;
         currentIntercept = null;
 
-        // Reset totalProcessed to match the target state
-        // Count items in provider cache up to (but not including) targetIndex
-        totalProcessed = targetIndex;
+        // Reset tracking
+        totalProcessed = 0;
 
         if (targetIndex <= LookbackPeriods - 1)
         {
@@ -205,7 +206,7 @@ public class SlopeHub
     /// <param name="intercept">The calculated intercept value.</param>
     private void UpdateLineValues(int currentIndex, double? slope, double? intercept)
     {
-        // Calculate cache offset: totalProcessed - current cache size
+        // Calculate cache offset
         int cacheOffset = totalProcessed - Cache.Count;
 
         // Calculate the range of indices that should have Line values
