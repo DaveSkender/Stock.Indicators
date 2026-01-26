@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
 
@@ -22,6 +22,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="..\..\tests\indicators\_testdata\quotes\longest.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>_testdata\quotes\longest.csv</Link>
+    </None>
   </ItemGroup>
 
 </Project>

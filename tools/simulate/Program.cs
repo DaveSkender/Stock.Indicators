@@ -1,37 +1,30 @@
+using System.Diagnostics;
+using System.Globalization;
+using System.Text.Json;
 using Skender.Stock.Indicators;
-using Utilities;
+using Test.Simulation;
 
-// define simulated quotes, arrival rate
-int quotesPerMinute = 600;
-int quantityToStream = 75;
+// Parse command line arguments
+string endpoint = args.Length > 0 && args[0].StartsWith("http", StringComparison.Ordinal)
+    ? args[0]
+    : "http://localhost:5001/quotes/random";
+int interval = args.Length > 1 && int.TryParse(args[1], out int i) ? i : 100;
+int count = args.Length > 2 && int.TryParse(args[2], out int c) ? c : 1000;
 
-List<Quote> quotes
-    = Util.Setup(quantityToStream, quotesPerMinute);
+// Start SSE server
+Process? serverProcess = ServerManager.StartServer(5001);
 
-// initialize quote provider
-
-QuoteHub quoteHub = new();
-
-// subscribe indicator hubs (SMA, EMA, etc.)
-
-SmaHub smaHub = quoteHub.ToSmaHub(3);
-EmaHub emaHub = quoteHub.ToEmaHub(5);
-EmaHub useChain = quoteHub.ToQuotePartHub(CandlePart.HL2).ToEmaHub(7);
-EmaHub emaChain = quoteHub.ToSmaHub(4).ToEmaHub(4);  // chainable
-
-/* normally, you'd plugin your WebSocket here
- * and use `quoteHub.Add(q);` to connect the streams */
-
-// simulate streaming quotes
-
-for (int i = 0; i < quantityToStream; i++)
+try
 {
-    Quote quote = quotes[i];
-    quoteHub.Add(quote);  // on arrival from external WebSocket
+    // Wait for server to start
+    await Task.Delay(2000).ConfigureAwait(false);
 
-    // govern simulation rate
-    Thread.Sleep(60000 / quotesPerMinute);
-
-    // send output to console
-    Util.PrintData(quote, smaHub, emaHub, useChain, emaChain);
+    // Run Golden Cross strategy
+    using GoldenCrossStrategy strategy = new(endpoint, interval, count);
+    await strategy.RunAsync().ConfigureAwait(false);
+}
+finally
+{
+    // Stop server
+    ServerManager.StopServer(serverProcess);
 }
