@@ -70,9 +70,9 @@ The following tests were fixed by increasing cache sizes to accommodate initiali
 - [x] **Implemented validation for 5 key indicators** (SMA, Ichimoku, PMO, Hurst, KVO) as working examples
 - [x] **Extend validation to remaining 75 indicators** - Follow the pattern established in the 5 examples
 - [ ] Investigate and resolve remaining 3 tests (require algorithm investigation, not cache adjustments):
-  - [ ] EpmaHub (floating-point precision - algorithm divergence)
-  - [ ] RenkoHub (timestamp-based pruning strategy needed)
-  - [ ] SlopeHub (floating-point precision - algorithm divergence)
+  - [ ] RenkoHub (timestamp-based pruning strategy needed, non-linear
+  - [ ] EpmaHub (due to dependency on `SlopeHub` complexity)
+  - [ ] SlopeHub (`y=mx+b` tracking w.r.t. series matching)
 
 ## Cache size validation implementation
 
