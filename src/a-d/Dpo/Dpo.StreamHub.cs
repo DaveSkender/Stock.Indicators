@@ -65,7 +65,7 @@ public class DpoHub
                     checkIndex <= Math.Min(maxCalculableIndex, startIndex - 1);
                     checkIndex++)
                 {
-                    if (checkIndex >= 0 && checkIndex < Cache.Count)
+                    if (checkIndex >= 0 && checkIndex < Cache.Count && checkIndex < ProviderCache.Count)
                     {
                         DpoResult existingResult = Cache[checkIndex];
                         if (!existingResult.Dpo.HasValue)

@@ -31,23 +31,30 @@ Buffer lists maintain incremental state as you add new quotes:
 using Skender.Stock.Indicators;
 
 // create buffer list with lookback period
-SmaList smaList = new(20);
+SmaList smaList = new(lookbackPeriods: 20);
 
-// add quotes incrementally
-foreach (IQuote quote in quotes)
+// add quotes incrementally (e.g., from a data feed)
+foreach (Quote quote in quotes)
 {
     smaList.Add(quote);
+
+    // safely get latest result
+    if (smaList.Count > 0)
+    {
+        SmaResult r = smaList[^1];
+
+        // use result (SMA is null during warmup period)
+        if (r.Sma is not null)
+        {
+            Console.WriteLine($"{r.Timestamp:d}: SMA = {r.Sma:N2}");
+        }
+    }
 }
-
-// access results as ICollection
-IReadOnlyList<SmaResult> results = smaList;
-
-// or get the latest result
-SmaResult latest = smaList[^1];
-
-// clear and reuse if needed
-smaList.Clear();
 ```
+
+::: tip
+Using `smaList[^1]` on an empty list throws `IndexOutOfRangeException`. Always check `Count > 0` first, or use `smaList.LastOrDefault()` which returns `null` when empty.
+:::
 
 ## Key features
 

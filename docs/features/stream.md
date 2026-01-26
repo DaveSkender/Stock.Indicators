@@ -30,28 +30,37 @@ Create a quote hub and subscribe indicators as observers:
 ```csharp
 using Skender.Stock.Indicators;
 
-// create quote hub
+// create quote hub (the data source)
 QuoteHub quoteHub = new();
 
-// subscribe indicators (observers)
+// subscribe indicators to the hub
 SmaHub smaHub = quoteHub.ToSmaHub(20);
 RsiHub rsiHub = quoteHub.ToRsiHub(14);
-MacdHub macdHub = quoteHub.ToMacdHub();
 
 // stream quotes as they arrive
 foreach (Quote quote in liveQuotes)
 {
-    // single update propagates to all observers
+    // adding to quoteHub automatically updates all subscribers
     quoteHub.Add(quote);
-    
-    // access latest results from each indicator
-    SmaResult sma = smaHub.Results[^1];
-    RsiResult rsi = rsiHub.Results[^1];
-    MacdResult macd = macdHub.Results[^1];
-    
-    // use results for trading logic, alerts, etc.
+
+    // safely get latest results
+    if (smaHub.Results.Count > 0)
+    {
+        SmaResult sma = smaHub.Results[^1];
+        RsiResult rsi = rsiHub.Results[^1];
+
+        // use results for trading logic, alerts, etc.
+        if (sma.Sma is not null && rsi.Rsi > 70)
+        {
+            Console.WriteLine($"{quote.Timestamp:d}: Overbought at {quote.Close:C2}");
+        }
+    }
 }
 ```
+
+::: tip
+Using `Results[^1]` on an empty collection throws `IndexOutOfRangeException`. Always check `Results.Count > 0` first.
+:::
 
 ## Key features
 

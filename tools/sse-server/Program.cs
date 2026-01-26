@@ -47,12 +47,12 @@ app.MapGet("/quotes/random", async (
 
     int delivered = 0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
-    PeriodSize periodSize = Test.SseServer.Utilities.ParseQuoteIntervalToPeriodSize(quoteInterval);
 
     Console.WriteLine(
         $"[Random] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
 
     // Use Test.Data.RandomGbm for random quote generation
+    PeriodSize periodSize = Test.SseServer.Utilities.ParseQuoteIntervalToPeriodSize(quoteInterval);
     RandomGbm generator = new(bars: 0, seed: 1000.0, periodSize: periodSize);
     DateTime currentTimestamp = DateTime.UtcNow.AddMinutes(-1000);
 
@@ -147,7 +147,6 @@ app.MapGet("/quotes/longest", async (
     int totalQuotes = batchSize ?? longestQuotes.Count;
     int delivered = 0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
-    PeriodSize periodSize = Test.SseServer.Utilities.ParseQuoteIntervalToPeriodSize(quoteInterval);
     DateTime baseTimestamp = longestQuotes[0].Timestamp;
 
     Console.WriteLine(

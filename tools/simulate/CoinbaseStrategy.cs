@@ -121,10 +121,6 @@ internal sealed class CoinbaseStrategy : IDisposable
             Console.WriteLine();
             PrintSummary();
         }
-        catch (TaskCanceledException)
-        {
-            Console.WriteLine("[CoinbaseStrategy] Operation was cancelled");
-        }
         catch (OperationCanceledException)
         {
             Console.WriteLine("[CoinbaseStrategy] Operation was cancelled");

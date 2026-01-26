@@ -280,8 +280,13 @@ SmaList smaList = new(20);
 foreach (Quote newQuote in stream)
 {
     smaList.Add(newQuote);
-    SmaResult latest = smaList[^1];
-    // Use latest...
+    
+    // Note: smaList[^1] throws IndexOutOfRangeException if empty
+    if (smaList.Count > 0)
+    {
+        SmaResult latest = smaList[^1];
+        // Use latest...
+    }
 }
 ```
 

@@ -61,11 +61,17 @@ public class PivotsHub
                 {
                     (PivotsResult updated, int _) = ToIndicator(ProviderCache[targetIndex], targetIndex);
                     Cache[targetIndex] = updated;
+
+                    // Notify observers if a pivot was actually found and notify is enabled
+                    if (notify && (updated.HighPoint is not null || updated.LowPoint is not null))
+                    {
+                        NotifyObserversOnRebuild(updated.Timestamp);
+                    }
                 }
             }
 
-            // Recalculate trend lines after each new pivot point is detected
-            // This matches the Series behavior where trend lines are calculated in a final pass
+            // Recalculate trend lines after each new quote to extend lines to current position
+            // TODO: Future optimization could incrementally update only the latest trend line values
             CalculateTrendLines();
         }
     }

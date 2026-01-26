@@ -72,6 +72,12 @@ public class FractalHub
                 {
                     (FractalResult updated, int _) = ToIndicator(ProviderCache[targetIndex], targetIndex);
                     Cache[targetIndex] = updated;
+
+                    // Notify observers if a fractal was actually found and notify is enabled
+                    if (notify && (updated.FractalBear is not null || updated.FractalBull is not null))
+                    {
+                        NotifyObserversOnRebuild(updated.Timestamp);
+                    }
                 }
             }
         }
