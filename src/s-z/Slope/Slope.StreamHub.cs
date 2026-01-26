@@ -16,7 +16,7 @@ public class SlopeHub
     // Track how many unique items have been processed (including pruned items)
     private int itemsProcessed;
     private DateTime? lastSeenTimestamp;
-    
+
     // Track cache size to detect pruning
     private int lastCacheSize;
 
@@ -58,7 +58,7 @@ public class SlopeHub
     {
         // Call base to add the result to cache
         base.OnAdd(item, notify, indexHint);
-        
+
         // Track cache size for pruning detection
         lastCacheSize = Cache.Count;
 
@@ -160,14 +160,14 @@ public class SlopeHub
         // This is called AFTER items are removed from Cache
         int currentCacheSize = Cache.Count;
         int removedCount = lastCacheSize - currentCacheSize;
-        
+
         if (removedCount > 0)
         {
             // Increment itemsProcessed by the number of removed items
             // This maintains the invariant: itemsProcessed = (items removed) + (items in cache)
             itemsProcessed += removedCount;
         }
-        
+
         // Update lastCacheSize for next pruning event
         lastCacheSize = currentCacheSize;
     }
@@ -181,7 +181,7 @@ public class SlopeHub
         // Use local sequential X values: 1, 2, 3, ..., lookbackPeriods
         // Slope is invariant to X-axis translation, so this produces the same slope
         // as using global positions, while avoiding complex state tracking
-        
+
         // Calculate averages using local X values (1 to n)
         double sumX = 0;
         double sumY = 0;
@@ -217,7 +217,7 @@ public class SlopeHub
 
         // Calculate slope (same as Series because slope is translation-invariant)
         double? slope = (sumSqXy / sumSqX).NaN2Null();
-        
+
         // Calculate local intercept
         double? interceptLocal = (avgY - (slope * avgX)).NaN2Null();
 
@@ -268,7 +268,7 @@ public class SlopeHub
 
         // Calculate firstX for this window
         int firstX = itemsProcessed - LookbackPeriods + 1;
-        
+
         // Convert global intercept back to local for Line calculation
         // Local intercept = global intercept - slope × (1 - firstX)
         double? interceptLocal = intercept - (slope * (1 - firstX));

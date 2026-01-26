@@ -41,7 +41,7 @@ public class EpmaHub
     {
         // Call base to add the result to cache
         base.OnAdd(item, notify, indexHint);
-        
+
         // Track cache size for pruning detection
         lastCacheSize = Cache.Count;
     }
@@ -95,13 +95,13 @@ public class EpmaHub
         // Calculate how many items were removed by comparing cache sizes
         int currentCacheSize = Cache.Count;
         int removedCount = lastCacheSize - currentCacheSize;
-        
+
         if (removedCount > 0)
         {
             // Increment itemsProcessed by the number of removed items
             itemsProcessed += removedCount;
         }
-        
+
         // Update lastCacheSize for next pruning event
         lastCacheSize = currentCacheSize;
     }
