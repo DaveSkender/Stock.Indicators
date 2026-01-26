@@ -48,8 +48,8 @@ IReadOnlyList<HeikinAshiResult>
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities/results/remove-warmup-periods)
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp
@@ -58,7 +58,7 @@ IReadOnlyList<HeikinAshiResult>
     .ToQuotes();
   ```
 
-See [Utilities and helpers](/utilities/results) for more information.
+See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
