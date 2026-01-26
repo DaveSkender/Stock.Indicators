@@ -99,12 +99,12 @@ protected override void RollbackState(DateTime timestamp)
 - Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`, `src/e-k/Gator/Gator.StreamHub.cs`
 
-See `references/` for detailed patterns:
+See #folder:references for detailed patterns:
 
-- `provider-selection.md` - Choosing the right provider base
-- `rollback-patterns.md` - RollbackState implementation examples
-- `performance-patterns.md` - O(1) optimization techniques
-- `compound-hubs.md` - Internal hub dependencies and construction patterns
+- #file:references/provider-selection.md - Choosing the right provider base
+- #file:references/rollback-patterns.md - RollbackState implementation examples
+- #file:references/performance-patterns.md - O(1) optimization techniques
+- #file:references/compound-hubs.md - Internal hub dependencies and construction patterns
 
 ## Common pitfalls
 
