@@ -92,6 +92,20 @@ protected override void RollbackState(DateTime timestamp)
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
 - [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
 
+## Examples
+
+- Chain: `src/e-k/Ema/Ema.StreamHub.cs`
+- Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
+- Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
+- Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`, `src/e-k/Gator/Gator.StreamHub.cs`
+
+See #folder:references for detailed patterns:
+
+- #file:references/provider-selection.md - Choosing the right provider base
+- #file:references/rollback-patterns.md - RollbackState implementation examples
+- #file:references/performance-patterns.md - O(1) optimization techniques
+- #file:references/compound-hubs.md - Internal hub dependencies and construction patterns
+
 ## Common pitfalls
 
 - Null or empty quotes causing stateful streaming regressions (always validate input sequences)
