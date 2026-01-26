@@ -64,13 +64,61 @@ The following tests were fixed by increasing cache sizes to accommodate initiali
 - [x] Build verification completed (no syntax errors)
 - [x] Initial test run completed
 - [x] Fixed 4 tests by adjusting cache sizes (KvoHub, IchimokuHub, PmoHub, HurstHub)
-- [x] Fixed build errors from base branch PR #1939 (MaxCacheSize now constructor parameter)
+- [x] Fixed build errors from base PR #1939 (MaxCacheSize now constructor parameter)
 - [x] Format checks passed
+- [x] **Implemented cache size validation framework** - Added `ValidateCacheSize()` method to StreamHub base class
+- [x] **Implemented validation for 5 key indicators** (SMA, Ichimoku, PMO, Hurst, KVO) as working examples
+- [ ] **Extend validation to remaining 75 indicators** - Follow the pattern established in the 5 examples
 - [ ] Investigate and resolve remaining 3 tests (require algorithm investigation, not cache adjustments):
   - [ ] EpmaHub (floating-point precision - algorithm divergence)
   - [ ] RenkoHub (timestamp-based pruning strategy needed)
   - [ ] SlopeHub (floating-point precision - algorithm divergence)
-- [ ] Implement validation on max cache size at construction to enforce minimum initialization requirements for all StreamHub indicators
+
+## Cache size validation implementation
+
+### Framework added
+
+Added `ValidateCacheSize(int requiredWarmupPeriods, string indicatorName)` protected method to `StreamHub<TIn, TOut>` base class. This method:
+- Validates inherited `MaxCacheSize` from provider
+- Throws `ArgumentOutOfRangeException` if cache is insufficient for warmup
+- Provides clear error message indicating required size
+
+### Validation examples implemented
+
+**1. Simple lookback period (SMA, Hurst)**
+```csharp
+ValidateCacheSize(lookbackPeriods, Name);
+```
+
+**2. Complex multi-period (Ichimoku)**
+```csharp
+int requiredWarmup = senkouBPeriods + senkouOffset;
+ValidateCacheSize(requiredWarmup, Name);
+```
+
+**3. Additive periods (PMO)**
+```csharp
+int requiredWarmup = timePeriods + smoothPeriods + signalPeriods;
+ValidateCacheSize(requiredWarmup, Name);
+```
+
+**4. Maximum of periods (KVO)**
+```csharp
+int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
+ValidateCacheSize(requiredWarmup, Name);
+```
+
+### Pattern for remaining indicators
+
+For the remaining 75 indicators, add validation following these patterns:
+
+- **Single lookback**: `ValidateCacheSize(lookbackPeriods, Name);`
+- **Double smoothing (DEMA)**: `ValidateCacheSize(lookbackPeriods * 2, Name);`
+- **Triple smoothing (TEMA)**: `ValidateCacheSize(lookbackPeriods * 3, Name);`
+- **T3**: `ValidateCacheSize(lookbackPeriods * 6, Name);`
+- **Multi-parameter**: Calculate `requiredWarmup` based on indicator-specific logic, then call `ValidateCacheSize(requiredWarmup, Name);`
+
+Insert validation call immediately before `Reinitialize()` in each indicator's constructor.
 
 ---
 Last updated: January 26, 2026

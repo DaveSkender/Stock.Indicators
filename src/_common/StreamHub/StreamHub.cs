@@ -46,6 +46,26 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         Results = Cache.AsReadOnly();
     }
 
+    /// <summary>
+    /// Validates that the inherited MaxCacheSize is sufficient for the indicator's warmup requirements.
+    /// </summary>
+    /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
+    /// <param name="indicatorName">The name of the indicator (for error messaging).</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when MaxCacheSize is less than required warmup periods.</exception>
+    protected void ValidateCacheSize(int requiredWarmupPeriods, string indicatorName)
+    {
+        if (MaxCacheSize < requiredWarmupPeriods)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(MaxCacheSize),
+                MaxCacheSize,
+                $"Insufficient cache size for {indicatorName}. " +
+                $"Requires at least {requiredWarmupPeriods} periods for proper initialization, " +
+                $"but inherited MaxCacheSize is {MaxCacheSize}. " +
+                $"Increase the provider's MaxCacheSize to at least {requiredWarmupPeriods}.");
+        }
+    }
+
     // PROPERTIES
 
     /// <inheritdoc/>
