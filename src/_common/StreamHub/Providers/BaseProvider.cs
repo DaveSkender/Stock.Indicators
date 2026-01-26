@@ -12,20 +12,15 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// Only used to initialize a <see cref="QuoteHub"/> base that does not have its own provider.
 /// </remarks>
-public class BaseProvider<T>
+/// <remarks>
+/// Initializes a new instance of the <see cref="BaseProvider{T}"/> class.
+/// </remarks>
+/// <param name="maxCacheSize">Maximum cache size for the provider.</param>
+public class BaseProvider<T>(int maxCacheSize = 0)
     : IStreamObservable<T>
     where T : IReusable
 {
     private static readonly IReadOnlyList<T> _providerCache = Array.Empty<T>().AsReadOnly();
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BaseProvider{T}"/> class.
-    /// </summary>
-    /// <param name="maxCacheSize">Maximum cache size for the provider.</param>
-    public BaseProvider(int maxCacheSize = 0)
-    {
-        MaxCacheSize = maxCacheSize;
-    }
 
     /// <summary>
     /// Hub properties with non-standard defaults:
@@ -46,7 +41,7 @@ public class BaseProvider<T>
     public IReadOnlyList<T> Results => _providerCache;
 
     /// <inheritdoc/>
-    public int MaxCacheSize { get; }
+    public int MaxCacheSize { get; } = maxCacheSize;
 
     /// <inheritdoc />
     public int ObserverCount => 0;
