@@ -1,6 +1,7 @@
 using Test.Tools;
+using Tests.Data;
 
-namespace Tests.Indicators;
+namespace StaticSeries;
 
 [TestClass, TestCategory("Integration")]
 public class WilliamsRTests

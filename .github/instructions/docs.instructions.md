@@ -28,7 +28,17 @@ VitePress supports native custom container syntax. Use these instead of GitHub a
 - `::: details` — Collapsible details sections
 - `::: info` — Informational highlights (default)
 
-**Note:** Avoid using GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`, etc.) in VitePress pages.
+```markdown
+::: warning
+This is a warning message
+:::
+
+::: tip ✨ Pro tip
+You can add custom titles
+:::
+```
+
+**Note:** Avoid using GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`, etc.) in VitePress pages. However, they are still preferred in non-website pages.
 
 ### Asset management
 

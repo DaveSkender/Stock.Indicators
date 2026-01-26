@@ -1,41 +1,36 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Internal record for storing MACD intermediate values in STC calculation.
-/// </summary>
-/// <param name="FastEma">Fast EMA value.</param>
-/// <param name="SlowEma">Slow EMA value.</param>
-/// <param name="Macd">MACD value (FastEma - SlowEma).</param>
-internal record StcMacdState(double FastEma, double SlowEma, double Macd);
-
-/// <summary>
 /// Provides methods for creating Schaff Trend Cycle (STC) streaming hubs.
 /// </summary>
 public class StcHub
-    : ChainHub<IReusable, StcResult>, IStc
+    : ChainHub<MacdResult, StcResult>, IStc
 {
-
     private readonly RollingWindowMax<double> _macdHighWindow;
     private readonly RollingWindowMin<double> _macdLowWindow;
     private readonly Queue<double> _rawKBuffer;
-    private readonly List<StcMacdState> _macdCache;
-    private readonly double _fastK;
-    private readonly double _slowK;
 
     internal StcHub(
         IChainProvider<IReusable> provider,
         int cyclePeriods,
         int fastPeriods,
-        int slowPeriods) : base(provider)
-    {
-        Stc.Validate(cyclePeriods, fastPeriods, slowPeriods);
-        CyclePeriods = cyclePeriods;
-        FastPeriods = fastPeriods;
-        SlowPeriods = slowPeriods;
+        int slowPeriods)
+        : this(
+            provider.ToMacdHub(fastPeriods, slowPeriods, 0),
+            cyclePeriods)
+    { }
 
-        // MACD smoothing factors
-        _fastK = 2d / (fastPeriods + 1);
-        _slowK = 2d / (slowPeriods + 1);
+    internal StcHub(
+        MacdHub macdHub,
+        int cyclePeriods)
+        : base(macdHub)
+    {
+        ArgumentNullException.ThrowIfNull(macdHub);
+        Stc.Validate(cyclePeriods, macdHub.FastPeriods, macdHub.SlowPeriods);
+
+        CyclePeriods = cyclePeriods;
+        FastPeriods = macdHub.FastPeriods;
+        SlowPeriods = macdHub.SlowPeriods;
 
         // Stochastic rolling windows for MACD values
         _macdHighWindow = new RollingWindowMax<double>(cyclePeriods);
@@ -44,10 +39,7 @@ public class StcHub
         // Buffer for raw %K smoothing (smoothPeriods = 3)
         _rawKBuffer = new Queue<double>(3);
 
-        // Cache for MACD intermediate values
-        _macdCache = [];
-
-        Name = $"STC({cyclePeriods},{fastPeriods},{slowPeriods})";
+        Name = $"STC({cyclePeriods},{FastPeriods},{SlowPeriods})";
 
         Reinitialize();
     }
@@ -60,46 +52,16 @@ public class StcHub
 
     /// <inheritdoc/>
     public int SlowPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (StcResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+        ToIndicator(MacdResult item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate MACD Fast EMA
-        double fastEma = i >= FastPeriods - 1
-            ? i > 0 && _macdCache.Count > i - 1 && !double.IsNaN(_macdCache[i - 1].FastEma)
-                ? Ema.Increment(_fastK, _macdCache[i - 1].FastEma, item.Value)
-                : Sma.Increment(ProviderCache, FastPeriods, i)
-            : double.NaN;
-
-        // Calculate MACD Slow EMA
-        double slowEma = i >= SlowPeriods - 1
-            ? i > 0 && _macdCache.Count > i - 1 && !double.IsNaN(_macdCache[i - 1].SlowEma)
-                ? Ema.Increment(_slowK, _macdCache[i - 1].SlowEma, item.Value)
-                : Sma.Increment(ProviderCache, SlowPeriods, i)
-            : double.NaN;
-
-        // Calculate MACD value
-        double macd = fastEma - slowEma;
-
-        // Store MACD state in cache
-        if (_macdCache.Count == i)
-        {
-            _macdCache.Add(new StcMacdState(fastEma, slowEma, macd));
-        }
-        else if (_macdCache.Count > i)
-        {
-            _macdCache[i] = new StcMacdState(fastEma, slowEma, macd);
-        }
-        else if (_macdCache.Count < i)
-        {
-            throw new InvalidOperationException(
-                $"MACD cache gap detected: _macdCache.Count ({_macdCache.Count}) < i ({i}). " +
-                "This may indicate a rollback or non-sequential index scenario. " +
-                "Cache must be rebuilt or synchronized before continuing.");
-        }
+        // Get MACD value from chained input
+        double macd = item.Macd ?? double.NaN;
 
         // Add MACD to rolling windows for stochastic calculation (only if not NaN)
         if (!double.IsNaN(macd))
@@ -154,7 +116,8 @@ public class StcHub
     }
 
     /// <summary>
-    /// Restores the MACD and stochastic state up to the specified timestamp.
+    /// Restores the stochastic state up to the specified timestamp.
+    /// MACD state is handled automatically by the chained MacdHub.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
@@ -164,7 +127,7 @@ public class StcHub
         _macdLowWindow.Clear();
         _rawKBuffer.Clear();
 
-        // Rebuild from ProviderCache up to the rollback point
+        // Rebuild from MacdHub results up to the rollback point
         int index = ProviderCache.IndexGte(timestamp);
         if (index <= 0)
         {
@@ -173,35 +136,12 @@ public class StcHub
 
         int targetIndex = index - 1;
 
-        // Rebuild MACD cache up to target
-        _macdCache.Clear();
-        for (int p = 0; p <= targetIndex; p++)
-        {
-            IReusable item = ProviderCache[p];
-
-            // Calculate Fast EMA
-            double fastEma = p >= FastPeriods - 1
-                ? p > 0 && _macdCache.Count > 0 && !double.IsNaN(_macdCache[p - 1].FastEma)
-                    ? Ema.Increment(_fastK, _macdCache[p - 1].FastEma, item.Value)
-                    : Sma.Increment(ProviderCache, FastPeriods, p)
-                : double.NaN;
-
-            // Calculate Slow EMA
-            double slowEma = p >= SlowPeriods - 1
-                ? p > 0 && _macdCache.Count > 0 && !double.IsNaN(_macdCache[p - 1].SlowEma)
-                    ? Ema.Increment(_slowK, _macdCache[p - 1].SlowEma, item.Value)
-                    : Sma.Increment(ProviderCache, SlowPeriods, p)
-                : double.NaN;
-
-            double macd = fastEma - slowEma;
-            _macdCache.Add(new StcMacdState(fastEma, slowEma, macd));
-        }
-
         // Rebuild MACD rolling windows for cycle periods
         int startIdx = Math.Max(0, targetIndex + 1 - CyclePeriods);
         for (int p = startIdx; p <= targetIndex; p++)
         {
-            double macdValue = _macdCache[p].Macd;
+            MacdResult macdResult = ProviderCache[p];
+            double macdValue = macdResult.Macd ?? double.NaN;
             if (!double.IsNaN(macdValue))
             {
                 _macdHighWindow.Add(macdValue);
@@ -215,32 +155,33 @@ public class StcHub
             int kStart = Math.Max(SlowPeriods + CyclePeriods - 2, targetIndex + 1 - 3);
             for (int p = kStart; p <= targetIndex; p++)
             {
-                // Calculate raw %K for this position
+                // Calculate raw %K for this position using MacdHub results
                 int rStart = Math.Max(0, p + 1 - CyclePeriods);
                 double hh = double.NegativeInfinity;
                 double ll = double.PositiveInfinity;
 
                 for (int r = rStart; r <= p; r++)
                 {
-                    double macdAtR = _macdCache[r].Macd;
-                    if (macdAtR > hh)
+                    MacdResult macdAtR = ProviderCache[r];
+                    double macdValue = macdAtR.Macd ?? double.NaN;
+                    if (macdValue > hh)
                     {
-                        hh = macdAtR;
+                        hh = macdValue;
                     }
 
-                    if (macdAtR < ll)
+                    if (macdValue < ll)
                     {
-                        ll = macdAtR;
+                        ll = macdValue;
                     }
                 }
 
-                double macdAtP = _macdCache[p].Macd;
-                double rawAtP = (hh - ll) != 0 ? 100 * (macdAtP - ll) / (hh - ll) : 0;
+                MacdResult macdAtP = ProviderCache[p];
+                double macdAtPValue = macdAtP.Macd ?? double.NaN;
+                double rawAtP = (hh - ll) != 0 ? 100 * (macdAtPValue - ll) / (hh - ll) : 0;
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }
     }
-
 }
 
 public static partial class Stc
@@ -261,4 +202,22 @@ public static partial class Stc
         int fastPeriods = 23,
         int slowPeriods = 50)
         => new(chainProvider, cyclePeriods, fastPeriods, slowPeriods);
+
+    /// <summary>
+    /// Creates a new STC hub, using values from an existing MACD hub.
+    /// </summary>
+    /// <param name="macdHub">The MACD hub.</param>
+    /// <param name="cyclePeriods">The number of periods for the cycle. Default is 10.</param>
+    /// <returns>An STC hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the MACD hub is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when cyclePeriods is invalid.</exception>
+    /// <remarks>
+    /// <para>IMPORTANT: This is not a normal chaining approach.</para>
+    /// This extension overrides and enables a chain that specifically
+    /// reuses the existing <see cref="MacdHub"/> in its internal construction.
+    ///</remarks>
+    public static StcHub ToStcHub(
+        this MacdHub macdHub,
+        int cyclePeriods = 10)
+        => new(macdHub, cyclePeriods);
 }

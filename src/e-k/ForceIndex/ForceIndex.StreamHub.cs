@@ -79,25 +79,28 @@ public class ForceIndexHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset sum - will be recalculated during rebuild
+        // Reset sum for recalculation during rebuild
         _sumRawFi = 0;
 
-        // Rebuild the rolling sum from cache
-        int lastIndex = Cache.Count - 1;
-        if (lastIndex < 0)
+        // Find the cache index corresponding to the rollback timestamp
+        int rollbackIndex = Cache.IndexOf(timestamp, false);
+
+        // If rolling back to a point still in warmup period, rebuild the sum
+        // The sum is only used to compute the first EMA value at index == LookbackPeriods
+        if (rollbackIndex >= 0 && rollbackIndex < LookbackPeriods && ProviderCache.Count > 1)
         {
-            return;
+            // Rebuild sum for warmup period up to rollback point
+            int endIndex = Math.Min(rollbackIndex, LookbackPeriods - 1);
+
+            for (int i = 1; i <= endIndex && i < ProviderCache.Count; i++)
+            {
+                IQuote curr = ProviderCache[i];
+                IQuote prev = ProviderCache[i - 1];
+                _sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
+            }
         }
 
-        // Determine how many values to sum based on where we are
-        int endWarmup = Math.Min(LookbackPeriods - 1, lastIndex);
-
-        for (int i = 1; i <= endWarmup; i++)
-        {
-            IQuote curr = ProviderCache[i];
-            IQuote prev = ProviderCache[i - 1];
-            _sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
-        }
+        // If past warmup period, sum is not needed - EMA continues incrementally from cache
     }
 }
 

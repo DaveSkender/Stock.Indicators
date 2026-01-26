@@ -372,6 +372,23 @@ public class ConnorsRsiHub
             }
         }
     }
+
+    /// <inheritdoc/>
+    protected override void PruneState(DateTime toTimestamp)
+    {
+        // Keep streakBuffer aligned with Cache by ensuring same count.
+        // Use Cache.Count directly rather than relying on timestamps since
+        // streakBuffer doesn't store timestamps.
+        int targetSize = Cache.Count;
+        if (streakBuffer.Count > targetSize)
+        {
+            int excessCount = streakBuffer.Count - targetSize;
+            streakBuffer.RemoveRange(0, excessCount);
+        }
+
+        // gainBuffer is a sliding window, it doesn't need explicit pruning
+        // as it naturally maintains only the most recent RankPeriods+1 items
+    }
 }
 
 public static partial class ConnorsRsi
