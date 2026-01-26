@@ -33,7 +33,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // inherit settings (reinstantiate struct on heap)
         Properties = Properties.Combine(provider.Properties);
 
-        // inherit max cache size
+        // inherit max cache size from provider
         MaxCacheSize = provider.MaxCacheSize;
 
         // pre-allocate cache if reasonable size

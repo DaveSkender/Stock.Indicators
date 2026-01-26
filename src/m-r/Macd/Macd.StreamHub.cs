@@ -13,6 +13,7 @@ public class MacdHub
         int signalPeriods) : base(provider)
     {
         Macd.Validate(fastPeriods, slowPeriods, signalPeriods);
+
         FastPeriods = fastPeriods;
         SlowPeriods = slowPeriods;
         SignalPeriods = signalPeriods;
