@@ -21,10 +21,18 @@ public class QuoteHub
     /// </summary>
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public QuoteHub(int? maxCacheSize = null)
-        : base(new BaseProvider<IQuote>())
+        : base(new BaseProvider<IQuote>(ValidateAndGetMaxCacheSize(maxCacheSize)))
     {
         _isStandalone = true;
+    }
 
+    /// <summary>
+    /// Validates and returns the max cache size.
+    /// </summary>
+    /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
+    /// <returns>Validated max cache size.</returns>
+    private static int ValidateAndGetMaxCacheSize(int? maxCacheSize)
+    {
         const int maxCacheSizeDefault = 100_000;
 
         if (maxCacheSize is (not null and <= 0) or > absoluteMaxCacheSize)
@@ -36,7 +44,7 @@ public class QuoteHub
                 nameof(maxCacheSize), maxCacheSize, message);
         }
 
-        MaxCacheSize = maxCacheSize ?? maxCacheSizeDefault;
+        return maxCacheSize ?? maxCacheSizeDefault;
     }
 
     /// <summary>

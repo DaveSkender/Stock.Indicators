@@ -68,7 +68,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        QuoteHub quoteHub = new(maxCacheSize);
         StcHub observer = quoteHub.ToStcHub(cyclePeriods, fastPeriods, slowPeriods);
 
         // Stream more quotes than cache can hold
