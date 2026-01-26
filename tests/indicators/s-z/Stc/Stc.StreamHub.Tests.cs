@@ -56,6 +56,31 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
+        StcHub observer = quoteHub.ToStcHub(10, 23, 50);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(Quotes.Take(totalQuotes));
+
+        // Verify cache was pruned
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Compare to series on the same final cache window
+        IReadOnlyList<StcResult> expected = quoteHub.Quotes.ToStc(10, 23, 50);
+        observer.Results.IsExactly(expected);
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;

@@ -30,29 +30,37 @@ Create a quote hub and subscribe indicators as observers:
 ```csharp
 using Skender.Stock.Indicators;
 
-// create quote hub
+// create quote hub (the data source)
 QuoteHub quoteHub = new();
 
-// subscribe indicators (observers)
+// subscribe indicators to the hub
 SmaHub smaHub = quoteHub.ToSmaHub(20);
 RsiHub rsiHub = quoteHub.ToRsiHub(14);
-MacdHub macdHub = quoteHub.ToMacdHub();
 
 // stream quotes as they arrive
 foreach (Quote quote in liveQuotes)
 {
-    // single update propagates to all observers
+    // adding to quoteHub automatically updates all subscribers
     quoteHub.Add(quote);
-    
-    // access latest results from each indicator
-    SmaResult sma = smaHub.Results[^1];
-    RsiResult rsi = rsiHub.Results[^1];
-    MacdResult macd = macdHub.Results[^1];
-    
-    // use results for trading logic, alerts, etc.
-    // or subscribe your strategy
+
+    // safely get latest results
+    if (smaHub.Results.Count > 0)
+    {
+        SmaResult sma = smaHub.Results[^1];
+        RsiResult rsi = rsiHub.Results[^1];
+
+        // use results for trading logic, alerts, etc.
+        if (sma.Sma is not null && rsi.Rsi > 70)
+        {
+            Console.WriteLine($"{quote.Timestamp:d}: Overbought at {quote.Close:C2}");
+        }
+    }
 }
 ```
+
+::: tip
+Using `Results[^1]` on an empty collection throws `IndexOutOfRangeException`. Always check `Results.Count > 0` first.
+:::
 
 ## Key features
 
@@ -112,7 +120,55 @@ The hub automatically handles state rollback and recalculation when data arrives
 - **Memory:** Maintains cache and state for all subscribed indicators
 - **Latency:** Optimized for real-time updates, typically <1ms per quote
 - **Scalability:** Supports multiple concurrent observers with single propagation
-- **Thread safety:** Not thread-safe by default; synchronize external access - _designed for single-threaded inputs like WebSocket/SSE_
+
+## Thread safety
+
+Stream hubs use internal locking to protect cache operations during rebuild and rollback scenarios:
+
+- **Internal cache operations** are thread-safe (Insert, RemoveAt, RemoveRange, Rebuild)
+- **External access requires synchronization** when multiple threads call Add, Insert, or Remove
+- **Single-threaded usage** requires no additional synchronization
+- **Multi-threaded usage** should synchronize external calls to hub methods
+
+### Thread-safe external access example
+
+```csharp
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
+
+// Use lock for coordinated multi-threaded access
+object hubLock = new();
+
+// Thread 1: Adding quotes
+Task producer = Task.Run(() =>
+{
+    foreach (Quote quote in liveQuotes)
+    {
+        lock (hubLock)
+        {
+            quoteHub.Add(quote);
+        }
+    }
+});
+
+// Thread 2: Reading results
+Task consumer = Task.Run(() =>
+{
+    while (running)
+    {
+        SmaResult? latest;
+        lock (hubLock)
+        {
+            latest = smaHub.Results.Count > 0 ? smaHub.Results[^1] : null;
+        }
+        ProcessResult(latest);
+    }
+});
+```
+
+::: warning
+Internal thread safety protects cache integrity during rebuild operations (triggered by out-of-order data). However, external synchronization is still required when multiple threads access the same hub instance concurrently.
+:::
 
 ## Advanced patterns
 
@@ -145,7 +201,7 @@ void ProcessLiveData(Quote quote)
 {
     quoteHub.Add(quote);
     
-    RsiResult latest = rsiHub.Results.LastOrDefault();
+    RsiResult latest = rsiHub.Results[^1];
     
     if (latest?.Rsi > 70)
     {
@@ -159,6 +215,8 @@ void ProcessLiveData(Quote quote)
 ```
 
 ## WebSocket integration example
+
+This example demonstrates how to connect stream hubs to a live WebSocket feed. The pattern applies to any real-time data source (WebSocket, SSE, message queue, etc.) where quotes arrive asynchronously. The hub's `Add` method integrates each incoming quote, automatically propagating updates to all subscribed indicators.
 
 ```csharp
 // setup hubs
@@ -181,9 +239,9 @@ async Task OnQuoteReceived(WebSocketQuote wsQuote)
     
     // update hub - all observers cascade automatically
     quoteHub.Add(quote);
-    
-    // broadcast updated indicators to clients
-    await BroadcastIndicators(smaHub.Results.Last());
+
+    // in this example, the subscribing SmaHub will
+    // auto-generate the next corresponding SMA value
 }
 ```
 
@@ -192,11 +250,11 @@ async Task OnQuoteReceived(WebSocketQuote wsQuote)
 Stream hubs automatically prune old results when the cache exceeds the configured maximum size:
 
 ```csharp
-// default max cache size (~1.9 billion items)
+// default max cache size (100,000 items)
 QuoteHub quoteHub = new();
 
 // or configure custom max cache size
-QuoteHub limitedHub = new(maxCacheSize: 10000);
+QuoteHub limitedHub = new(maxCacheSize: 500);
 
 // automatic FIFO pruning when limit reached
 SmaHub smaHub = limitedHub.ToSmaHub(20);
@@ -208,7 +266,25 @@ foreach (Quote quote in liveQuotes)
 }
 ```
 
-The default cache size is very large (90% of `int.MaxValue`) to accommodate long-running streams. For applications with memory constraints, specify a smaller `maxCacheSize` when creating the QuoteHub.
+The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the QuoteHub.
+
+::: info Cache size inheritance
+Hubs will inherit the `maxCacheSize` of its provider.  For example, if you set a size of 1,000 for your `QuoteHub`, then a chained `SmaHub` will also have a maximum cache size of 1,000.
+:::
+
+::: tip ✨ ✨ Optimize cache size for your use case
+
+Set your `maxCacheSize` according to how you use the data produced in the hub cache.  For example, if you are only interested in the latest indicator values and don't use history, use a minimal cache size that aligns to the indicator minimum.
+
+```csharp
+// or configure custom max cache size
+QuoteHub limitedHub = new(maxCacheSize: 500);
+
+// automatic FIFO pruning when limit reached
+SmaHub smaHub = limitedHub.ToSmaHub(20);
+```
+
+:::
 
 ## See also
 

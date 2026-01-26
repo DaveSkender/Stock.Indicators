@@ -40,6 +40,3 @@ The library provides utilities and helper functions to work with historical quot
 - **Browse or export** - Discover indicators and parameters at runtime
 - **Execute by ID** - Run indicators dynamically without generics
 - **Execute from JSON** - Configure and run indicators from JSON
-
----
-Last updated: January 7, 2026

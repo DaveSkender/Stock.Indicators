@@ -154,6 +154,23 @@ public class FisherTransformHub
             }
         }
     }
+
+    /// <inheritdoc/>
+    protected override void PruneState(DateTime toTimestamp)
+    {
+        // Keep xv aligned with Cache by ensuring same count.
+        // Use Cache.Count directly rather than relying on timestamps since
+        // xv doesn't store timestamps.
+        int targetSize = Cache.Count;
+        if (xv.Count > targetSize)
+        {
+            int excessCount = xv.Count - targetSize;
+            xv.RemoveRange(0, excessCount);
+        }
+
+        // Rolling windows are self-pruning and maintain only LookbackPeriods items,
+        // so they don't need explicit pruning
+    }
 }
 
 public static partial class FisherTransform
