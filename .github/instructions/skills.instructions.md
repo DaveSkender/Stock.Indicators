@@ -131,7 +131,7 @@ This organization follows the Agent Skills specification from agentskills.io (ma
 
 ## File and tool references
 
-Skills use `#file:` and `#tool:` syntax for references. See markdown.instructions.md for complete syntax rules and guidelines.
+Skills use #file: and `#tool:` syntax for references. See markdown.instructions.md for complete syntax rules and guidelines.
 
 ## Skill invocation
 
