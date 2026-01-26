@@ -119,7 +119,10 @@ foreach (var obvResult in obvList)
 }
 
 // get latest RSI of OBV
-RsiResult latest = rsiList[^1];
+if (rsiList.Count > 0)
+{
+    RsiResult latest = rsiList[^1];
+}
 ```
 
 ## Performance characteristics
@@ -136,12 +139,18 @@ RsiResult latest = rsiList[^1];
 ```csharp
 SmaList smaList = new(20);
 
-// add new quote
-smaList.Add(quote);
-    
-// list auto-adds incremental SMA value
-SmaResult latest = smaList[^1];
-Console.WriteLine($"{latest.Timestamp:d}: SMA = {latest.Sma:N2}");
+foreach (var quote in streamingQuotes)
+{
+    // add new quote
+    smaList.Add(quote);
+
+    // list auto-adds incremental SMA value
+    if (smaList.Count > 0)
+    {
+        SmaResult latest = smaList[^1];
+        Console.WriteLine($"{latest.Timestamp:d}: SMA = {latest.Sma:N2}");
+    }
+}
 ```
 
 ### Batch addition with incremental updates
@@ -156,7 +165,10 @@ smaList.Add(historicalQuotes);
 while (newQuote = GetNextQuote())
 {
     smaList.Add(newQuote);
-    ProcessLatestResult(smaList[^1]);
+    if (smaList.Count > 0)
+    {
+        ProcessLatestResult(smaList[^1]);
+    }
 }
 ```
 
