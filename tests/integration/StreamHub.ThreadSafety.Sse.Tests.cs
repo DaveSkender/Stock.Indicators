@@ -34,7 +34,7 @@ public class ThreadSafetyTests : TestBase
         }
 
         // Setup: QuoteHub with StcHub
-        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+        QuoteHub quoteHub = new(MaxCacheSize);
         StcHub stcHub = quoteHub.ToStcHub();
 
         try
@@ -116,7 +116,7 @@ public class ThreadSafetyTests : TestBase
         }
 
         // Setup: Create one primary QuoteHub
-        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+        QuoteHub quoteHub = new(MaxCacheSize);
 
         try
         {
