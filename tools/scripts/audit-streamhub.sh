@@ -173,7 +173,7 @@ for test_file in "${test_files[@]}"; do
         if [[ $has_quote_observer_method -gt 0 ]]; then
             # Check if the method includes Insert and Remove operations
             has_insert=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.Insert(" || true)
-            has_remove=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.Remove(" || true)
+            has_remove=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.RemoveAt(" || true)
             has_duplicate=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "resend duplicate" || true)
 
             if [[ $has_insert -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
@@ -187,7 +187,7 @@ for test_file in "${test_files[@]}"; do
 
         if [[ $has_chain_provider_method -gt 0 ]]; then
             has_insert=$(grep -A 50 "ChainProvider_MatchesSeriesExactly" "$test_file" | grep -c "\.Insert(" || true)
-            has_remove=$(grep -A 50 "ChainProvider_MatchesSeriesExactly" "$test_file" | grep -c "\.Remove(" || true)
+            has_remove=$(grep -A 50 "ChainProvider_MatchesSeriesExactly" "$test_file" | grep -c "\.RemoveAt(" || true)
 
             if [[ $has_insert -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
                 provider_history_issues+=("$indicator_name: ChainHub test missing Insert/Remove operations")

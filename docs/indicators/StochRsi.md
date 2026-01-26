@@ -116,3 +116,29 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<StochRsiResult> results = observer.Results;
 ```
+
+::: info Compound hub
+The StochRSI hub is based on the RSI indicator.
+When the StochRSI hub is chained from an existing `RsiHub` instance it will reuse the existing RSI hub values rather than creating its own internal RSI calculations.
+**This is not a normal chaining model.**
+
+```csharp
+// creates an internal RSI hub
+var stochRsiHub = quotes
+  .ToStochRsiHub();
+
+// this is helpful in cases where you have an independent 
+// RSI hub and do not want to create duplicate copies
+
+var rsiHub = quotes
+  .ToRsiHub();
+
+// does not create 2nd internal huba separate internal RSI hub
+var stochRsiHub = rsiHub
+  .ToStochRsiHub();  // does not create 2nd internal hub
+
+// ❌ RSI → [ RSI ] → StochRSI
+// ✅ RSI → StochRSI
+```
+
+:::

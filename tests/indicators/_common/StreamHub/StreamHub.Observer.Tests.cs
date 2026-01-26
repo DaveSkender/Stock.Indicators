@@ -27,19 +27,19 @@ public class StreamObservers : TestBase
         }
 
         // original results
-        IReadOnlyList<QuotePart> original = observer.Results.ToList();
+        IReadOnlyList<TimeValue> original = observer.Results.ToList();
 
         // quotes to replace
         Quote q1000original = quotesList[1000] with { /* copy */ };
-        QuotePart r1000original = observer.Cache[1000] with { /* copy */ };
+        TimeValue r1000original = observer.Cache[1000] with { /* copy */ };
 
         // modify results (keeping quoteHub intact)
         Quote q1000modified = quotesList[1000] with { Close = 12345m };
-        QuotePart r1000modified = q1000modified.ToQuotePart(CandlePart.Close);
+        TimeValue r1000modified = q1000modified.ToQuotePart(CandlePart.Close);
 
         observer.Cache.Insert(1000, r1000modified); // add directly to cache
 
-        IReadOnlyList<QuotePart> modified = observer.Results.ToList();
+        IReadOnlyList<TimeValue> modified = observer.Results.ToList();
 
         // precondition: prefilled, modified
         quoteHub.Cache.Should().HaveCount(length);

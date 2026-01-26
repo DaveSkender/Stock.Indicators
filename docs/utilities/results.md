@@ -66,6 +66,3 @@ Without a specified `removePeriods` value, this utility will reverse-engineer th
 ## Sort results
 
 `results.ToSortedList()` sorts any collection of indicator results and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/customization).
-
----
-Last updated: January 7, 2026

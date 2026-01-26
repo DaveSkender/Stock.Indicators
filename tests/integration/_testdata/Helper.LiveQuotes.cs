@@ -1,6 +1,6 @@
 using Alpaca.Markets;
 
-namespace Tests.Indicators;
+namespace Tests.Data;
 
 internal static class FeedData
 {
@@ -32,8 +32,8 @@ internal static class FeedData
             Assert.Inconclusive("Data feed unusable. Environment variables missing.");
         }
 
-        ArgumentException.ThrowIfNullOrEmpty(nameof(alpacaApiKey));
-        ArgumentException.ThrowIfNullOrEmpty(nameof(alpacaSecret));
+        ArgumentException.ThrowIfNullOrEmpty(alpacaApiKey, nameof(alpacaApiKey));
+        ArgumentException.ThrowIfNullOrEmpty(alpacaSecret, nameof(alpacaSecret));
 
         // connect to Alpaca REST API
         SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
@@ -43,13 +43,13 @@ internal static class FeedData
             .GetAlpacaDataClient(secretKey);
 
         // compose request
-        // (excludes last 15 minutes for free delayed quotes)
-        DateTime into = DateTime.Now.Subtract(TimeSpan.FromMinutes(16));
+        // (excludes last 16 minutes for free delayed quotes)
+        DateTime into = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(16));
         DateTime from = into.Subtract(TimeSpan.FromDays(days));
 
         HistoricalBarsRequest request = new(symbol, from, into, BarTimeFrame.Day);
 
-        // fetch minute-bar quotes in Alpaca's format
+        // fetch daily quotes in Alpaca's format
         IPage<IBar> barSet = await client
             .ListHistoricalBarsAsync(request)
             .ConfigureAwait(false);

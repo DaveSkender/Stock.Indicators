@@ -5,11 +5,11 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Average()
     {
-        QuotePart[] results =
+        TimeValue[] results =
         [
-            new QuotePart(Quotes[0].Timestamp, 0.0),
-            new QuotePart(Quotes[1].Timestamp, 4.0),
-            new QuotePart(Quotes[2].Timestamp, 8.0)
+            new TimeValue(Quotes[0].Timestamp, 0.0),
+            new TimeValue(Quotes[1].Timestamp, 4.0),
+            new TimeValue(Quotes[2].Timestamp, 8.0)
         ];
 
         // calculate

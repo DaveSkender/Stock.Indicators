@@ -6,22 +6,22 @@ namespace Skender.Stock.Indicators;
 public static partial class QuoteParts
 {
     /// <summary>
-    /// Converts list of quotes to a list of <see cref="QuotePart"/>.
+    /// Converts list of quotes to a list of <see cref="TimeValue"/>.
     /// <para>
     /// Use this converter if an indicator needs to use something other than the default Close price.
     /// </para>
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-    /// <returns>List of <see cref="QuotePart"/> records.</returns>
+    /// <returns>List of <see cref="TimeValue"/> records.</returns>
     /// <remarks>This is an alias of <see cref="Use(IReadOnlyList{IQuote}, CandlePart)"/></remarks>
-    public static IReadOnlyList<QuotePart> ToQuotePart(
+    public static IReadOnlyList<TimeValue> ToQuotePart(
         this IReadOnlyList<IQuote> quotes,
         CandlePart candlePart)
     {
         ArgumentNullException.ThrowIfNull(quotes);
         int length = quotes.Count;
-        List<QuotePart> result = new(length);
+        List<TimeValue> result = new(length);
 
         for (int i = 0; i < length; i++)
         {
@@ -33,7 +33,7 @@ public static partial class QuoteParts
 
     /// <inheritdoc cref="ToQuotePart(IReadOnlyList{IQuote}, CandlePart)"/>
     /// <remarks>This is an alias of <see cref="ToQuotePartList(IReadOnlyList{IQuote}, CandlePart)"/></remarks>
-    public static IReadOnlyList<QuotePart> Use(
+    public static IReadOnlyList<TimeValue> Use(
         this IReadOnlyList<IQuote> quotes,
         CandlePart candlePart)
         => quotes.ToQuotePart(candlePart);

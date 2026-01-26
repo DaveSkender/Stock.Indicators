@@ -12,6 +12,7 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 | `ChainHub<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
 | `ChainHub<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
 | `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
+| `StreamHub<TProviderResult, TResult>` | Any hub result | Any result | Compound hubs (internal hub dependency) |
 
 ## Performance requirements
 
@@ -43,14 +44,21 @@ Override when maintaining stateful fields:
 ```csharp
 protected override void RollbackState(DateTime timestamp)
 {
-    _window.Clear();
-    int targetIndex = ProviderCache.IndexGte(timestamp) - 1;
-    int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+    int targetIndex = ProviderCache.IndexGte(timestamp);
 
-    for (int p = startIdx; p <= targetIndex; p++)
+    _window.Clear();
+
+    if (targetIndex <= 0) return;
+
+    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
+    int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+
+    for (int p = startIdx; p <= restoreIndex; p++)
         _window.Add(ProviderCache[p].Value);
 }
 ```
+
+**Critical**: Replay up to `targetIndex - 1` (exclusive of rollback timestamp). The quote at the rollback timestamp will be recalculated when it arrives via normal processing.
 
 ## Testing requirements
 
@@ -69,27 +77,27 @@ protected override void RollbackState(DateTime timestamp)
 ## Required implementation
 
 - [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists
-  - [ ] Uses appropriate provider base (`ChainHub` or `QuoteProvider`)
-  - [ ] Validates parameters in constructor; calls `Reinitialize()` as needed
+  - [ ] Uses appropriate provider base (ChainHub or QuoteProvider)
+  - [ ] Validates parameters in constructor; calls Reinitialize() as needed
   - [ ] Implements O(1) state updates; avoids O(n²) recalculation
-  - [ ] Overrides `RollbackState()` when maintaining stateful fields
-  - [ ] Overrides `ToString()` with concise hub name
+  - [ ] Overrides RollbackState() when maintaining stateful fields
+  - [ ] Overrides ToString() with concise hub name
 - [ ] Unit testing: `tests/indicators/**/{IndicatorName}.StreamHub.Tests.cs` exists
-  - [ ] Inherits `StreamHubTestBase` with correct test interfaces
+  - [ ] Inherits StreamHubTestBase with correct test interfaces
   - [ ] Comprehensive rollback validation present
   - [ ] Verifies Series parity
+- [ ] **Catalog registration**: Registered in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
+- [ ] **Performance benchmark**: Add to #file:../../../tools/performance/Perf.Stream.cs
+- [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
+- [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
+- [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
 
-## Examples
+## Common pitfalls
 
-- Chain: `src/e-k/Ema/Ema.StreamHub.cs`
-- Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
-- Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
-
-See `references/` for detailed patterns:
-
-- `provider-selection.md` - Choosing the right provider base
-- `rollback-patterns.md` - RollbackState implementation examples
-- `performance-patterns.md` - O(1) optimization techniques
+- Null or empty quotes causing stateful streaming regressions (always validate input sequences)
+- Index out of range and buffer reuse issues in streaming indicators (guard shared spans and caches)
+- Performance regressions from O(n) or O(n²) patterns instead of O(1) incremental updates
+- Improper rollback state replay (must replay up to targetIndex - 1, exclusive of rollback timestamp)
 
 ---
-Last updated: December 31, 2025
+Last updated: January 25, 2026

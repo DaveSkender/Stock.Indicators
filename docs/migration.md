@@ -26,7 +26,7 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 ### Indicator return types
 
 - **All indicator results**: Changed from `sealed class` to immutable `record` types
-- **`UseResult` type**: Renamed to `QuotePart`
+- **`UseResult` type**: Renamed to `TimeValue`
 - **`AtrStopResult` values**: Changed from `decimal` to `double`
 - **`UlcerIndexResult.UI` property**: Renamed to `UlcerIndex`
 - **`SmaAnalysis` model**: Renamed to `SmaAnalysisResult`
@@ -37,11 +37,12 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 - **`SyncSeries()` utility**: Removed along with `SyncType` enum
 - **`Find()` and `FindIndex()` utilities**: Removed
 - **`ToTupleCollection()` utility**: Deprecated
+- **`ToCollection()` utility**: Deprecated
 
 ### Other changes
 
 - **`Use()` method**: `candlePart` parameter now required (no default)
-- **`Use()` return type**: Now returns chainable `QuotePart` instead of tuple
+- **`Use()` return type**: Now returns chainable `TimeValue` instead of tuple
 - **`Numerixs` class**: Renamed to `Numerical`
 - **Internal signals**: Deprecated for several indicators
 - **GetX tuple interfaces**: Deprecated
@@ -125,14 +126,14 @@ var quoteParts = quotes.Use();
 var quoteParts = quotes.Use(CandlePart.Close);
 ```
 
-Handle new `QuotePart` return type:
+Handle new `TimeValue` return type:
 
 ```csharp
 // v2
 var (timestamp, value) = quotes.Use(CandlePart.Close);
 
 // v3
-IReadOnlyList<QuotePart> quoteParts = quotes.Use(CandlePart.Close);
+IReadOnlyList<TimeValue> quoteParts = quotes.Use(CandlePart.Close);
 ```
 
 ### Step 5: Update null handling
@@ -156,7 +157,7 @@ if (!double.IsNaN(result.Value))
 ### Step 6: Update class references
 
 - `Numerixs` → `Numerical`
-- `UseResult` → `QuotePart`
+- `UseResult` → `TimeValue`
 - `SmaAnalysis` → `SmaAnalysisResult`
 - `UlcerIndexResult.UI` → `UlcerIndexResult.UlcerIndex`
 
@@ -279,8 +280,13 @@ SmaList smaList = new(20);
 foreach (Quote newQuote in stream)
 {
     smaList.Add(newQuote);
-    SmaResult latest = smaList.LastOrDefault();
-    // Use latest...
+    
+    // Note: smaList[^1] throws IndexOutOfRangeException if empty
+    if (smaList.Count > 0)
+    {
+        SmaResult latest = smaList[^1];
+        // Use latest...
+    }
 }
 ```
 
@@ -338,7 +344,7 @@ Popular indicators with complete streaming documentation:
 | `quotes.Use()` | `quotes.Use(CandlePart.Close)` | Parameter now required |
 | `result.Value == null` | `double.IsNaN(result.Value)` | Null handling changed |
 | `Numerixs` | `Numerical` | Class renamed |
-| `UseResult` | `QuotePart` | Type renamed |
+| `UseResult` | `TimeValue` | Type renamed |
 | `SmaAnalysis` | `SmaAnalysisResult` | Type renamed |
 | `UlcerIndexResult.UI` | `UlcerIndexResult.UlcerIndex` | Property renamed |
 | `SyncSeries()` | (removed) | Use manual alignment |
@@ -351,6 +357,3 @@ Popular indicators with complete streaming documentation:
 - [Indicators](/indicators) - Indicator-specific documentation
 - [GitHub Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) - Ask questions and share ideas
 - [GitHub Issues](https://github.com/DaveSkender/Stock.Indicators/issues) - Report bugs or request features
-
----
-Last updated: January 10, 2026

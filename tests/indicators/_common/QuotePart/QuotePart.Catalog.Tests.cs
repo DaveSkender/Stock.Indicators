@@ -19,10 +19,10 @@ public class QuotePartTests : TestBase
         CandlePart candlePartValue = (CandlePart)candlePartParam.DefaultValue;
 
         // Act - Use catalog utility to dynamically execute the indicator
-        IReadOnlyList<QuotePart> catalogResults = ListingExecutor.Execute<QuotePart>(quotes, listing);
+        IReadOnlyList<TimeValue> catalogResults = ListingExecutor.Execute<TimeValue>(quotes, listing);
 
         // Act - Direct call for comparison using catalog's default parameter value
-        IReadOnlyList<QuotePart> directResults = quotes.ToQuotePart(candlePartValue);
+        IReadOnlyList<TimeValue> directResults = quotes.ToQuotePart(candlePartValue);
 
         // Assert - Results from catalog-driven execution should match direct call
         catalogResults.IsExactly(directResults);
