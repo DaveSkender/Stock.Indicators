@@ -6,8 +6,10 @@ namespace Skender.Stock.Indicators;
 public class EpmaHub
     : ChainHub<SlopeResult, EpmaResult>, IEpma
 {
-    // Track total items processed through this hub  
-    private int totalProcessed;
+    // Track how many unique items have been processed (should match Slope's count)
+    private int itemsProcessed;
+    private DateTime? lastSeenTimestamp;
+    private int lastCacheSize;
 
     internal EpmaHub(
         IChainProvider<IReusable> provider,
@@ -23,8 +25,10 @@ public class EpmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"EPMA({lookbackPeriods})";
 
-        // Initialize tracking
-        totalProcessed = 0;
+        // Initialize items processed counter
+        itemsProcessed = 0;
+        lastSeenTimestamp = null;
+        lastCacheSize = 0;
 
         Reinitialize();
     }
@@ -33,24 +37,39 @@ public class EpmaHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
+    public override void OnAdd(SlopeResult item, bool notify, int? indexHint)
+    {
+        // Call base to add the result to cache
+        base.OnAdd(item, notify, indexHint);
+
+        // Track cache size for pruning detection
+        lastCacheSize = Cache.Count;
+    }
+
+    /// <inheritdoc/>
     protected override (EpmaResult result, int index)
         ToIndicator(SlopeResult item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Increment total processed
-        totalProcessed++;
+        // Increment items processed for new unique items only
+        bool isNewItem = item.Timestamp != lastSeenTimestamp;
+        if (isNewItem)
+        {
+            lastSeenTimestamp = item.Timestamp;
+            itemsProcessed++;
+        }
 
-        // Calculate EPMA
+        // Calculate EPMA using the endpoint formula
+        // EPMA = slope × endpointX + intercept
+        // where endpointX = itemsProcessed (the global position of this quote)
         double? epma = null;
 
         if (item.Slope != null && item.Intercept != null)
         {
-            int cacheOffset = totalProcessed - ProviderCache.Count;
-            int x = cacheOffset + i + 1;
-
-            epma = (item.Slope * x) + item.Intercept;
+            // Use itemsProcessed as the endpoint X value
+            epma = (item.Slope * itemsProcessed) + item.Intercept;
         }
 
         EpmaResult r = new(
@@ -63,8 +82,28 @@ public class EpmaHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset tracking
-        totalProcessed = 0;
+        int targetIndex = ProviderCache.IndexGte(timestamp);
+
+        // Reset items processed counter to match the target index
+        itemsProcessed = targetIndex;
+        lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
+    }
+
+    /// <inheritdoc/>
+    protected override void PruneState(DateTime toTimestamp)
+    {
+        // Calculate how many items were removed by comparing cache sizes
+        int currentCacheSize = Cache.Count;
+        int removedCount = lastCacheSize - currentCacheSize;
+
+        if (removedCount > 0)
+        {
+            // Increment itemsProcessed by the number of removed items
+            itemsProcessed += removedCount;
+        }
+
+        // Update lastCacheSize for next pruning event
+        lastCacheSize = currentCacheSize;
     }
 }
 
