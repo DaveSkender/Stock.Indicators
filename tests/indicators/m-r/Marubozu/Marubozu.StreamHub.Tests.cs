@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class MarubozuHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider
         QuoteHub quoteHub = new();
@@ -60,7 +60,7 @@ public class MarubozuHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         MarubozuHub hub = new(new QuoteHub(), 95);
         hub.ToString().Should().Be("MARUBOZU(95.0)");

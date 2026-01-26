@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider
         QuoteHub quoteHub = new();
@@ -148,7 +148,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         AwesomeHub hub = new(new QuoteHub(), 5, 34);
         hub.ToString().Should().Be("AWESOME(5,34)");

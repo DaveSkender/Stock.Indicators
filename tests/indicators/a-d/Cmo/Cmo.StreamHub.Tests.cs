@@ -11,7 +11,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -156,7 +156,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         CmoHub observer = quoteHub.ToCmoHub(14);

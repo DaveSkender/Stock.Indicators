@@ -9,7 +9,7 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
         = Quotes.ToSuperTrend(lookbackPeriods, multiplier);
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -56,7 +56,7 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         SuperTrendHub hub = new(new QuoteHub(), 14, 3.0);
         hub.ToString().Should().Be("SUPERTREND(14,3)");

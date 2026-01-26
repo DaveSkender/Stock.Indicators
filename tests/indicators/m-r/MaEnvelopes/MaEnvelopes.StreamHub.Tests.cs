@@ -8,7 +8,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
     private readonly IReadOnlyList<MaEnvelopeResult> expectedOriginal = Quotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -118,7 +118,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.EndTransmission();
     }
 
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         MaEnvelopesHub hub = new(new QuoteHub(), lookbackPeriods, percentOffset, MaType.SMA);
         hub.ToString().Should().Be($"MAENV({lookbackPeriods},{percentOffset},{MaType.SMA})");

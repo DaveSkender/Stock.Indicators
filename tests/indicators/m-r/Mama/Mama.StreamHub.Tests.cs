@@ -7,7 +7,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     private const double slowLimit = 0.05;
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -167,7 +167,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         MamaHub hub = new(new QuoteHub(), fastLimit, slowLimit);
         hub.ToString().Should().Be("MAMA(0.5,0.05)");

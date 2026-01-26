@@ -6,7 +6,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int lookbackPeriods = 5;
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -136,7 +136,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         RsiHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("RSI(14)");

@@ -7,7 +7,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     private readonly IReadOnlyList<VwmaResult> expectedOriginal = Quotes.ToVwma(lookbackPeriods);
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -106,7 +106,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);

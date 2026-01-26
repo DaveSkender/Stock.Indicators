@@ -7,7 +7,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     private readonly IReadOnlyList<UlcerIndexResult> expectedOriginal = Quotes.ToUlcerIndex(lookbackPeriods);
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -141,7 +141,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         UlcerIndexHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("ULCER(14)");

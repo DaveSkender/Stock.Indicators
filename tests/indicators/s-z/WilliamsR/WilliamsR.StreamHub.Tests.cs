@@ -11,7 +11,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
         int length = Quotes.Count;
@@ -63,7 +63,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         WilliamsRHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("WILLR(14)");

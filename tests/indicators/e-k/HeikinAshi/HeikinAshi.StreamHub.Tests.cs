@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider
         QuoteHub quoteHub = new();
@@ -104,7 +104,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         HeikinAshiHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("HEIKINASHI");

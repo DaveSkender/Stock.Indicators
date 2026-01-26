@@ -11,7 +11,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     }
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -103,7 +103,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         UltimateHub hub = new(new QuoteHub(), 7, 14, 28);
         hub.ToString().Should().Be("UO(7,14,28)");

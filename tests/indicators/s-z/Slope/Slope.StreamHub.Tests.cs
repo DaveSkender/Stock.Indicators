@@ -6,7 +6,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     private const int lookbackPeriods = 14;
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -138,7 +138,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         SlopeHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("SLOPE(14)");

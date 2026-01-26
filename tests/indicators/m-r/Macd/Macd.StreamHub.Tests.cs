@@ -3,7 +3,7 @@ namespace StreamHubs;
 [TestClass]
 public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -28,7 +28,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.EndTransmission();
     }
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();

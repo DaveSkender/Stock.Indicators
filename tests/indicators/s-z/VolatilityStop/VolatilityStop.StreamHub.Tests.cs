@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -86,7 +86,7 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         VolatilityStopHub hub = new(new QuoteHub(), 7, 3);
         hub.ToString().Should().Be("VOLATILITY-STOP(7,3)");

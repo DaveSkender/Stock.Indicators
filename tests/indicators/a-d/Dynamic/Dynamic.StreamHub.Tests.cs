@@ -8,7 +8,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     private readonly IReadOnlyList<DynamicResult> expectedOriginal = Quotes.ToDynamic(lookbackPeriods, kFactor);
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -142,7 +142,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         DynamicHub hub = new(new QuoteHub(), 14, 0.6);
         hub.ToString().Should().Be("DYNAMIC(14,0.6)");

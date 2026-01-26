@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class Chandelier : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -93,7 +93,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         ChandelierHub hub = new(new QuoteHub(), 22, 3, Direction.Long);
         hub.ToString().Should().Be("CHEXIT(22,3,LONG)");

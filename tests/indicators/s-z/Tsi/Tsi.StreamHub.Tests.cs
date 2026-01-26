@@ -8,7 +8,7 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int signalPeriods = 7;
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -32,7 +32,7 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();

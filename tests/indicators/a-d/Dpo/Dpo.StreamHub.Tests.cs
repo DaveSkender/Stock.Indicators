@@ -6,7 +6,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int lookbackPeriods = 14;
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -150,7 +150,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         DpoHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("DPO(14)");

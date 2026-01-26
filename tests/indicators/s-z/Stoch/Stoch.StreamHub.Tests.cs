@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
@@ -57,7 +57,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         StochHub hub = new(new QuoteHub(), 14, 3, 3);
         hub.ToString().Should().Be("STOCH(14,3,3)");

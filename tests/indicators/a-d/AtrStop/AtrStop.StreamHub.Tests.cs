@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -94,7 +94,7 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         AtrStopHub hub = new(new QuoteHub(), 14, 3, EndType.Close);
         hub.ToString().Should().Be("ATR-STOP(14,3,CLOSE)");

@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class RollingPivots : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -60,7 +60,7 @@ public class RollingPivots : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         RollingPivotsHub hub = new(new QuoteHub(), 20, 0, PivotPointType.Standard);
         hub.ToString().Should().Be("ROLLING-PIVOTS(20,0,Standard)");

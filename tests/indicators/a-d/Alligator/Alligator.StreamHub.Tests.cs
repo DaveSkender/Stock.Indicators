@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -110,7 +110,7 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         AlligatorHub hub = new(new QuoteHub(), 13, 8, 7, 5, 4, 3);
         hub.ToString().Should().Be("ALLIGATOR(13,8,7,5,4,3)");

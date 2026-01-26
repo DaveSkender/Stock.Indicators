@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 5;
         const double volumeFactor = 0.7;
@@ -138,7 +138,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         T3Hub hub = new(new QuoteHub(), 5, 0.7);
         hub.ToString().Should().Be("T3(5,0.7)");

@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider
         QuoteHub quoteHub = new();
@@ -146,7 +146,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         ChaikinOscHub hub = new(new QuoteHub(), 3, 10);
         hub.ToString().Should().Be("CHAIKIN_OSC(3,10)");

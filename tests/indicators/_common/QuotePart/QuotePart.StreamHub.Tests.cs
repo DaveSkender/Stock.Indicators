@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const CandlePart candlePart = CandlePart.HLC3;
 
@@ -99,7 +99,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         QuotePartHub hub = new(new QuoteHub(), CandlePart.Close);
         hub.ToString().Should().Be("QUOTE-PART(CLOSE)");

@@ -12,7 +12,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
-    public override void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -169,7 +169,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
-    public override void ToStringOverride_ReturnsExpectedName()
+    public void ToStringOverride_ReturnsExpectedName()
     {
         StochRsiHub hub = new(new QuoteHub(), 14, 14, 3, 1);
         hub.ToString().Should().Be("STOCH-RSI(14,14,3,1)");
