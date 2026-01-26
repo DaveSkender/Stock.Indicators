@@ -19,6 +19,15 @@ public class BaseProvider<T>
     private static readonly IReadOnlyList<T> _providerCache = Array.Empty<T>().AsReadOnly();
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="BaseProvider{T}"/> class.
+    /// </summary>
+    /// <param name="maxCacheSize">Maximum cache size for the provider.</param>
+    public BaseProvider(int maxCacheSize = 0)
+    {
+        MaxCacheSize = maxCacheSize;
+    }
+
+    /// <summary>
     /// Hub properties with non-standard defaults:
     /// bit 0 = 1 (disable observer) and mask = 0b11111110 (do not pass bit 0 to child hubs).
     /// </summary>
@@ -37,7 +46,7 @@ public class BaseProvider<T>
     public IReadOnlyList<T> Results => _providerCache;
 
     /// <inheritdoc/>
-    public int MaxCacheSize => 0;
+    public int MaxCacheSize { get; }
 
     /// <inheritdoc />
     public int ObserverCount => 0;
