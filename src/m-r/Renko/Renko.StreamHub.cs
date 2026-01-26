@@ -57,22 +57,26 @@ public class RenkoHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // restore last brick marker
+        // restore last brick marker from cache
         if (Cache.Count != 0)
         {
-            lastBrick = Cache
-                .Last(c => c.Timestamp <= timestamp);
+            RenkoResult? brick = Cache
+                .LastOrDefault(c => c.Timestamp <= timestamp);
 
-            return;
+            if (brick is not null)
+            {
+                lastBrick = brick;
+                return;
+            }
+
+            // no brick before timestamp - reset to baseline
         }
 
-        // skip first quote
-        if (ProviderCache.Count <= 1)
+        // reset baseline if we have provider data
+        if (ProviderCache.Count > 1)
         {
-            return;
+            SetBaselineBrick();
         }
-
-        SetBaselineBrick();
     }
 
     /// <summary>

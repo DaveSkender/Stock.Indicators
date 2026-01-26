@@ -178,10 +178,7 @@ public class ThreadSafetyTests : TestBase
             PivotsHub pivotsHub = quoteHub.ToPivotsHub(11, 14);
             PmoHub pmoHub = quoteHub.ToPmoHub();
             PvoHub pvoHub = quoteHub.ToPvoHub();
-
-            // TODO: Renko produces variable-length output (bricks, not 1:1 with quotes), has rollback bug
-            // RenkoHub renkoHub = quoteHub.ToRenkoHub(2.5m);
-
+            RenkoHub renkoHub = quoteHub.ToRenkoHub(2.5m);
             RocHub rocHub = quoteHub.ToRocHub(20);
             RocWbHub rocWbHub = quoteHub.ToRocWbHub(14);
             RollingPivotsHub rollingPivotsHub = quoteHub.ToRollingPivotsHub(20, 0);
@@ -311,10 +308,7 @@ public class ThreadSafetyTests : TestBase
             fractalHub.Results.IsExactly(finalQuotes.ToFractal(2));
             fcbHub.Results.IsExactly(finalQuotes.ToFcb(2));
             fisherTransformHub.Results.IsExactly(finalQuotes.ToFisherTransform(10));
-
-            // TODO: ForceIndex rollback bug - incorrect values after rollback
-            // forceIndexHub.Results.IsExactly(finalQuotes.ToForceIndex(13));
-
+            forceIndexHub.Results.IsExactly(finalQuotes.ToForceIndex(13));
             gatorHub.Results.IsExactly(finalQuotes.ToGator());
             heikinAshiHub.Results.IsExactly(finalQuotes.ToHeikinAshi());
             hmaHub.Results.IsExactly(finalQuotes.ToHma(20));
@@ -335,10 +329,7 @@ public class ThreadSafetyTests : TestBase
             pivotsHub.Results.IsExactly(finalQuotes.ToPivots(11, 14));
             pmoHub.Results.IsExactly(finalQuotes.ToPmo());
             pvoHub.Results.IsExactly(finalQuotes.ToPvo());
-
-            // TODO: Renko produces variable-length output (bricks, not 1:1 with quotes)
-            // renkoHub.Results.IsExactly(finalQuotes.ToRenko(2.5m));
-
+            renkoHub.Results.IsExactly(finalQuotes.ToRenko(2.5m));
             rocHub.Results.IsExactly(finalQuotes.ToRoc(20));
             rocWbHub.Results.IsExactly(finalQuotes.ToRocWb(14));
             rollingPivotsHub.Results.IsExactly(finalQuotes.ToRollingPivots(20, 0));
