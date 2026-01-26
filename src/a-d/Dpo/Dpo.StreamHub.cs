@@ -30,6 +30,7 @@ public class DpoHub
 
     /// <inheritdoc/>
     public int Offset { get; init; }
+
     /// <remarks>
     /// DPO at any position requires an offset number of subsequent values for calculation.
     /// Emits results for all positions from Cache.Count to current index, calculating DPO when
