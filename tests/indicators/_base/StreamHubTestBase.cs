@@ -33,6 +33,17 @@ public interface ITestQuoteObserver
     /// </para>
     /// </summary>
     void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly();
+
+    /// <summary>
+    /// <para>Tests hub cache pruning behavior.</para>
+    /// <para>
+    /// Implementations should verify that when a QuoteHub has MaxCacheSize set,
+    /// the observer produces results matching the last N results from the full
+    /// series computation (where N = MaxCacheSize), not a recomputation on just
+    /// the cached quotes which would have different warmup.
+    /// </para>
+    /// </summary>
+    void WithCachePruning_MatchesSeriesExactly();
 }
 
 /// <summary>
