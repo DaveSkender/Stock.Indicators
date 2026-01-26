@@ -135,14 +135,13 @@ public class SlopeHub
     private (double? slope, double? intercept, double? stdDev, double? rSquared)
         CalculateStatistics(int currentIndex)
     {
-        // Calculate X values mathematically (sequential integers)
-        // X values are: (currentIndex - lookbackPeriods + 2) to (currentIndex + 1)
-        // For sequential X = [a, a+1, ..., a+n-1]:
-        // - sumX = n*a + n*(n-1)/2
-        // - avgX = a + (n-1)/2
-        double firstX = currentIndex - LookbackPeriods + 2d;
-        double sumX = (LookbackPeriods * firstX) + (LookbackPeriods * (LookbackPeriods - 1) / 2.0);
-        double avgX = sumX / LookbackPeriods;
+        // Calculate X values using RELATIVE positions (0, 1, 2, ..., n-1)
+        // This makes calculations pruning-independent
+        // For sequential X = [0, 1, ..., n-1]:
+        // - sumX = n*(n-1)/2
+        // - avgX = (n-1)/2
+        double sumX = LookbackPeriods * (LookbackPeriods - 1) / 2.0;
+        double avgX = (LookbackPeriods - 1) / 2.0;
 
         // Calculate sums for least squares method
 
@@ -152,16 +151,15 @@ public class SlopeHub
         // Second pass: calculate deviations and their products
         double sumSqY = 0;
         double sumSqXy = 0;
-        int relativeIndex = 0;
+        int relativeX = 0;
         foreach (double bufferValue in buffer)
         {
-            double xValue = firstX + relativeIndex;
-            double devX = xValue - avgX;
+            double devX = relativeX - avgX;
             double devY = bufferValue - avgY;
 
             sumSqY += devY * devY;
             sumSqXy += devX * devY;
-            relativeIndex++;
+            relativeX++;
         }
 
         // Use pre-calculated constant for sumSqX
@@ -208,13 +206,14 @@ public class SlopeHub
         }
 
         // Update Line values for the last lookbackPeriods results
-        // Using global indices (p + 1) like the series implementation
+        // Using relative indices (0, 1, 2, ..., n-1) within the window
         for (int p = startIndex; p <= currentIndex; p++)
         {
             SlopeResult existing = Cache[p];
 
-            // Calculate Line: y = mx + b, using global index (p + 1)
-            decimal? line = (decimal?)((slope * (p + 1)) + intercept).NaN2Null();
+            // Calculate Line: y = mx + b, using relative position within the window
+            int relativeX = p - startIndex;
+            decimal? line = (decimal?)((slope * relativeX) + intercept).NaN2Null();
 
             Cache[p] = existing with { Line = line };
         }
