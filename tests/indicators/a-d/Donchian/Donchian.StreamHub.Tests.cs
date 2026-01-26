@@ -60,7 +60,7 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         DonchianHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("DONCHIAN(20)");

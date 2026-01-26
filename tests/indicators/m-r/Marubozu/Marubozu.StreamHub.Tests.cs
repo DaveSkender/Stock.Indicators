@@ -60,7 +60,7 @@ public class MarubozuHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         MarubozuHub hub = new(new QuoteHub(), 95);
         hub.ToString().Should().Be("MARUBOZU(95.0)");

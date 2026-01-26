@@ -141,7 +141,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         FisherTransformHub hub = new(new QuoteHub(), 10);
         hub.ToString().Should().Be("FISHER(10)");

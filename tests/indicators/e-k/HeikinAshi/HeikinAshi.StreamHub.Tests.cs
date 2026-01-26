@@ -104,7 +104,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         HeikinAshiHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("HEIKINASHI");

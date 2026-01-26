@@ -132,7 +132,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         SmaHub hub = new(new QuoteHub(), 5);
         hub.ToString().Should().Be("SMA(5)");

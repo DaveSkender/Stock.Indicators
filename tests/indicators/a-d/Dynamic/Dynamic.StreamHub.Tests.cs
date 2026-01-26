@@ -142,7 +142,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         DynamicHub hub = new(new QuoteHub(), 14, 0.6);
         hub.ToString().Should().Be("DYNAMIC(14,0.6)");

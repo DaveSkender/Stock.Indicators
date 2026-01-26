@@ -155,7 +155,7 @@ public class SmmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         SmmaHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("SMMA(20)");

@@ -102,7 +102,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ObvHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("OBV");

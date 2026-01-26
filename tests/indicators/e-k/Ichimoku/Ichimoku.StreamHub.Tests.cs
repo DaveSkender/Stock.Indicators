@@ -96,7 +96,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         IchimokuHub sut = new(new QuoteHub(), 9, 26, 52, 26, 26);
         sut.ToString().Should().Be("ICHIMOKU(9,26,52)");

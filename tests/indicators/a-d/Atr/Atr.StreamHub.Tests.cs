@@ -96,7 +96,7 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         AtrHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("ATR(20)");

@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         List<Quote> quotesList = Quotes.ToList();
 

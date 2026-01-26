@@ -132,7 +132,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ParabolicSarHub hub = new(new QuoteHub(), 0.02, 0.2);
         hub.ToString().Should().Be("PSAR(0.02,0.2,0.02)");

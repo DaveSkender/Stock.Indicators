@@ -233,7 +233,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         HmaHub hub = new(new QuoteHub(), LookbackPeriods);
         hub.ToString().Should().Be($"HMA({LookbackPeriods})");

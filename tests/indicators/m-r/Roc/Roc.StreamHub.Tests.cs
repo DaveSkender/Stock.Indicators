@@ -133,7 +133,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         RocHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("ROC(20)");

@@ -93,7 +93,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ChandelierHub hub = new(new QuoteHub(), 22, 3, Direction.Long);
         hub.ToString().Should().Be("CHEXIT(22,3,LONG)");

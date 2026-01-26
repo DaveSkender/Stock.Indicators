@@ -96,7 +96,7 @@ public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         TrHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("TRUE RANGE");

@@ -106,7 +106,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);

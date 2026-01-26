@@ -69,7 +69,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         AroonHub hub = new(new QuoteHub(), 25);
         hub.ToString().Should().Be("AROON(25)");

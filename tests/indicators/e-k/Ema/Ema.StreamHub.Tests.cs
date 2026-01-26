@@ -136,7 +136,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         EmaHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("EMA(14)");

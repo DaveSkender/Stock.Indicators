@@ -54,7 +54,7 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         VortexHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("VORTEX(14)");

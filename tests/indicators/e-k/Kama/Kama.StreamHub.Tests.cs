@@ -170,7 +170,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         KamaHub hub = new(new QuoteHub(), 10, 2, 30);
         hub.ToString().Should().Be("KAMA(10,2,30)");

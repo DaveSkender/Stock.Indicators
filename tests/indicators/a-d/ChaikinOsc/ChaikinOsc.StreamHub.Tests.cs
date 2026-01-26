@@ -146,7 +146,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ChaikinOscHub hub = new(new QuoteHub(), 3, 10);
         hub.ToString().Should().Be("CHAIKIN_OSC(3,10)");

@@ -150,7 +150,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         DpoHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("DPO(14)");

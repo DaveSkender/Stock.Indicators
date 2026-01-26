@@ -58,7 +58,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         KvoHub hub = new(new QuoteHub(), 34, 55, 13);
         hub.ToString().Should().Be("KVO(34,55,13)");

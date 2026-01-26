@@ -207,7 +207,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StcHub hub = new(new QuoteHub(), cyclePeriods, fastPeriods, slowPeriods);
         hub.ToString().Should().Be($"STC({cyclePeriods},{fastPeriods},{slowPeriods})");

@@ -135,7 +135,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         TemaHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("TEMA(20)");

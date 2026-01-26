@@ -141,7 +141,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StdDevHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("STDDEV(14)");

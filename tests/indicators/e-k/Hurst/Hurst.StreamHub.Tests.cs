@@ -141,7 +141,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         HurstHub hub = new(new QuoteHub(), lookbackPeriods);
         hub.ToString().Should().Be("HURST(100)");

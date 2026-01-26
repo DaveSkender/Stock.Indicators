@@ -110,7 +110,7 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         AlligatorHub hub = new(new QuoteHub(), 13, 8, 7, 5, 4, 3);
         hub.ToString().Should().Be("ALLIGATOR(13,8,7,5,4,3)");

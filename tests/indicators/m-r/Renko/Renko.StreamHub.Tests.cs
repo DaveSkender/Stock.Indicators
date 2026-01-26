@@ -113,7 +113,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         RenkoHub hub = new(new QuoteHub(), 2.5m, EndType.Close);
         hub.ToString().Should().Be("RENKO(2.5,CLOSE)");

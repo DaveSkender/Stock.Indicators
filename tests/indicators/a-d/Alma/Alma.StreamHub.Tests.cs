@@ -141,7 +141,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         AlmaHub observer = quoteHub.ToAlmaHub(14, 0.85, 6);

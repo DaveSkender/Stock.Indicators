@@ -138,7 +138,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         T3Hub hub = new(new QuoteHub(), 5, 0.7);
         hub.ToString().Should().Be("T3(5,0.7)");

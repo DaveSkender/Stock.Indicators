@@ -169,7 +169,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StochRsiHub hub = new(new QuoteHub(), 14, 14, 3, 1);
         hub.ToString().Should().Be("STOCH-RSI(14,14,3,1)");

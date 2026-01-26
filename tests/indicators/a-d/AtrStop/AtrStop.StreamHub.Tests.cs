@@ -94,7 +94,7 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         AtrStopHub hub = new(new QuoteHub(), 14, 3, EndType.Close);
         hub.ToString().Should().Be("ATR-STOP(14,3,CLOSE)");

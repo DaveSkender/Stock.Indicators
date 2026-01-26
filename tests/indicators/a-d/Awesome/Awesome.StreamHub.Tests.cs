@@ -148,7 +148,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         AwesomeHub hub = new(new QuoteHub(), 5, 34);
         hub.ToString().Should().Be("AWESOME(5,34)");

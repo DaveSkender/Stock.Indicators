@@ -141,7 +141,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         UlcerIndexHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("ULCER(14)");

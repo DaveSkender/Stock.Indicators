@@ -138,7 +138,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         SlopeHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("SLOPE(14)");

@@ -86,7 +86,7 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         VolatilityStopHub hub = new(new QuoteHub(), 7, 3);
         hub.ToString().Should().Be("VOLATILITY-STOP(7,3)");

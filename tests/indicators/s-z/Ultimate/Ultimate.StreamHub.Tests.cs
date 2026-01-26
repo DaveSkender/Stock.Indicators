@@ -103,7 +103,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         UltimateHub hub = new(new QuoteHub(), 7, 14, 28);
         hub.ToString().Should().Be("UO(7,14,28)");

@@ -136,7 +136,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         RsiHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("RSI(14)");

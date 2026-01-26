@@ -133,7 +133,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         DemaHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("DEMA(14)");

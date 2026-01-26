@@ -99,7 +99,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuotePartHub hub = new(new QuoteHub(), CandlePart.Close);
         hub.ToString().Should().Be("QUOTE-PART(CLOSE)");

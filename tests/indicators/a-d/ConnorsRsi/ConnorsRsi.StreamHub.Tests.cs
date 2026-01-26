@@ -8,7 +8,7 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     private const int rankPeriods = 100;
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ConnorsRsiHub hub = Quotes.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
         string actual = hub.ToString();

@@ -3,7 +3,7 @@ namespace StreamHubs;
 [TestClass]
 public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();

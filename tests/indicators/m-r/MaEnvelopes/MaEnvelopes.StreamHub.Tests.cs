@@ -118,7 +118,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.EndTransmission();
     }
 
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         MaEnvelopesHub hub = new(new QuoteHub(), lookbackPeriods, percentOffset, MaType.SMA);
         hub.ToString().Should().Be($"MAENV({lookbackPeriods},{percentOffset},{MaType.SMA})");

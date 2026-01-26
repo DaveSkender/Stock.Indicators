@@ -60,7 +60,7 @@ public class RollingPivots : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         RollingPivotsHub hub = new(new QuoteHub(), 20, 0, PivotPointType.Standard);
         hub.ToString().Should().Be("ROLLING-PIVOTS(20,0,Standard)");

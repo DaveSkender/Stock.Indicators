@@ -167,7 +167,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         MamaHub hub = new(new QuoteHub(), fastLimit, slowLimit);
         hub.ToString().Should().Be("MAMA(0.5,0.05)");

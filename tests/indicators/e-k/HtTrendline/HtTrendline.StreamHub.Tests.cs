@@ -138,7 +138,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         HtTrendlineHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("HTL()");

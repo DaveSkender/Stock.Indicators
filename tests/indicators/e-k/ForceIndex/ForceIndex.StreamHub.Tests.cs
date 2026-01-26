@@ -106,7 +106,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);

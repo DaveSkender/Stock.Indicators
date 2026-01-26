@@ -3,7 +3,7 @@ namespace StreamHubs;
 [TestClass]
 public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         List<Quote> quotesList = Quotes.ToList();
 

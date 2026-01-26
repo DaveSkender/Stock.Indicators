@@ -59,7 +59,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(Quotes);

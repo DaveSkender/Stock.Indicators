@@ -136,7 +136,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.EndTransmission();
     }
 
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         TrixHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("TRIX(14)");

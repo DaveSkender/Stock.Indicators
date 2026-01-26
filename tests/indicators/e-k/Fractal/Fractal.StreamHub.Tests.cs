@@ -136,7 +136,7 @@ public class FractalHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         FractalHub hub1 = new(new QuoteHub(), 2, EndType.HighLow);
         hub1.ToString().Should().Be("FRACTAL(2,2,HIGHLOW)");

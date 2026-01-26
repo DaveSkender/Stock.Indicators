@@ -56,7 +56,7 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ToStringOverride_ReturnsExpectedName()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         SuperTrendHub hub = new(new QuoteHub(), 14, 3.0);
         hub.ToString().Should().Be("SUPERTREND(14,3)");
