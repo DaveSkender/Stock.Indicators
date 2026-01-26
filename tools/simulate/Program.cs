@@ -4,7 +4,21 @@ using Test.Simulation;
 // Parse command line arguments
 string mode = args.Length > 0 ? args[0].ToUpperInvariant() : "SSE";
 
-if (mode is "COINBASE" or "COINBASE-KLINES" or "COINBASE-TICKER")
+if (mode == "HUB-STRESS")
+{
+    // Hub stress test mode - tests hubs modified in PR #1927
+    string symbol = args.Length > 1 && !string.IsNullOrWhiteSpace(args[1]) ? args[1] : "BTC-USD";
+    int count = args.Length > 2 && int.TryParse(args[2], out int c) ? c : 500;
+    int maxCache = args.Length > 3 && int.TryParse(args[3], out int m) ? m : 200;
+
+    Console.WriteLine("Starting Hub Stress Test (PR #1927 / Issue #1925)...");
+    Console.WriteLine("Symbol: " + symbol + ", Target: " + count + " quotes, MaxCache: " + maxCache);
+    Console.WriteLine();
+
+    using HubStressTest test = new(symbol, count, maxCache);
+    await test.RunAsync().ConfigureAwait(false);
+}
+else if (mode is "COINBASE" or "COINBASE-KLINES" or "COINBASE-TICKER")
 {
     // Coinbase WebSocket mode
     // Determine Coinbase mode type from the mode string
