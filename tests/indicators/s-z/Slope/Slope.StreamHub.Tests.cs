@@ -56,8 +56,8 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int maxCacheSize = 40;  // 14 (lookback) + 26 extra for linear regression warmup
+        const int totalQuotes = 80;  // ~2x cache size
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
         IReadOnlyList<SlopeResult> expected = quotes

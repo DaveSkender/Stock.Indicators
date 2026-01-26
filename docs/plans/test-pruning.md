@@ -5,68 +5,57 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 ## Test summary
 
 - **Total tests**: 80
-- **Passed**: 74 (92.5%)
-- **Failed**: 6 (7.5%)
+- **Passed**: 76 (95%)
+- **Failed**: 4 (5%)
 
 ## Failed tests and hypotheses
 
-### 1. KvoHubTests.WithCachePruning_MatchesSeriesExactly
-
-**File**: `tests/indicators/e-k/Kvo/Kvo.StreamHub.Tests.cs`
-
-**Hypothesis**: KVO (Klinger Volume Oscillator) likely has complex state dependencies that require more historical data than the cache size allows. The oscillator may need extended lookback beyond the 50-quote cache to properly calculate its exponential moving averages and volume force calculations. The test may be comparing truncated results against full-series calculations that had complete warmup context.
-
-**Next steps**: Verify warmup period requirements and adjust test expectations or increase cache size for proper validation.
-
----
-
-### 2. IchimokuHubTests.WithCachePruning_MatchesSeriesExactly
-
-**File**: `tests/indicators/e-k/Ichimoku/Ichimoku.StreamHub.Tests.cs`
-
-**Hypothesis**: Ichimoku Cloud has multiple components (Tenkan-sen, Kijun-sen, Senkou Span A/B, Chikou Span) with varying lookback periods (typically 9, 26, 52 periods). With a 50-quote cache, the longer-period calculations (52-period) would not have enough historical data. Additionally, Senkou Span B is shifted forward 26 periods, creating complex state dependencies that may not work correctly with cache pruning.
-
-**Next steps**: Increase cache size to accommodate the longest lookback period plus displacement, or document that Ichimoku requires special handling for cache pruning scenarios.
-
----
-
-### 3. EpmaHubTests.WithCachePruning_MatchesSeriesExactly
+### 1. EpmaHubTests.WithCachePruning_MatchesSeriesExactly
 
 **File**: `tests/indicators/e-k/Epma/Epma.StreamHub.Tests.cs`
 
-**Hypothesis**: EPMA (Endpoint Moving Average) uses a unique calculation method that may be particularly sensitive to the starting point of the data series. When the cache is pruned, the EPMA calculation starts from a different initial state than the full series, leading to divergent results even in the steady-state portion of the indicator.
+**Hypothesis**: EPMA (Endpoint Moving Average) exhibits floating-point precision differences between streaming and batch calculations. The errors show minute differences in the last decimal places (e.g., expected 226.15542857142856 but found 226.15542857142853). This appears to be a systematic accumulation of floating-point rounding errors in EPMA's linear regression endpoint calculation when processed incrementally versus as a complete batch. The differences are within floating-point tolerance but fail exact equality checks.
 
-**Next steps**: Investigate EPMA's initialization logic and determine if state needs to be preserved across cache pruning or if the test expectations need adjustment.
+**Next steps**: This may require tolerance-based comparison rather than exact matching, or investigation into whether the streaming implementation can match the batch calculation's precision exactly.
 
 ---
 
-### 4. PmoHubTests.WithCachePruning_MatchesSeriesExactly
+### 2. PmoHubTests.WithCachePruning_MatchesSeriesExactly
 
 **File**: `tests/indicators/m-r/Pmo/Pmo.StreamHub.Tests.cs`
 
-**Hypothesis**: PMO (Price Momentum Oscillator) uses double exponential smoothing with potentially long lookback periods. The calculation depends heavily on previous EMA values, and cache pruning may discard critical state information needed for accurate continuation. The test failure suggests the pruned cache doesn't maintain sufficient historical context for the double-smoothed momentum calculations.
+**Hypothesis**: PMO (Price Momentum Oscillator) produces null values for PMO and Signal properties even with increased cache size (60 quotes for 35-period indicator). The double exponential smoothing may require significantly more warmup data than the simple period count suggests, or there may be an issue with state initialization when the cache is pruned during the warmup phase.
 
-**Next steps**: Review PMO's state management in StreamHub implementation and verify that warmup state is properly maintained or that cache size is sufficient for the indicator's requirements.
+**Next steps**: Investigate PMO's warmup requirements more deeply, potentially needing cache size of 100+ to ensure all EMA chains are fully initialized, or verify if there's a bug in the StreamHub implementation's state management.
 
 ---
 
-### 5. RenkoHubTests.WithCachePruning_MatchesSeriesExactly
+### 3. RenkoHubTests.WithCachePruning_MatchesSeriesExactly
 
 **File**: `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs`
 
-**Hypothesis**: Renko charts transform quotes into variable brick counts (non-1:1 timestamp mappings). The test failure shows only 3 results instead of the expected 50, indicating that Renko's brick formation logic fundamentally differs from standard indicators. When 100 quotes are streamed with a 50-quote cache, the Renko algorithm produces far fewer bricks than quotes. Cache pruning may be removing quotes that are still needed to complete in-progress bricks, or the test assumption that result count equals cache size is invalid for transformation indicators.
+**Hypothesis**: Renko charts transform quotes into bricks (non-1:1 mapping). The streaming implementation with cache pruning does not produce the same brick sequence as the full series calculation. This suggests that Renko's brick formation logic may depend on historical quotes beyond the visible cache window, or that the cache pruning disrupts the state machine that tracks partial brick formation.
 
-**Next steps**: Renko requires special test logic that accounts for quote-to-brick transformation ratios. The test may need to validate correctness of brick values rather than count, or skip cache pruning validation for transformation-based indicators.
+**Next steps**: Renko may be fundamentally incompatible with cache pruning due to its stateful transformation logic. Consider documenting this as a known limitation or implementing special handling for transformation indicators.
 
 ---
 
-### 6. SlopeHubTests.WithCachePruning_MatchesSeriesExactly
+### 4. SlopeHubTests.WithCachePruning_MatchesSeriesExactly
 
 **File**: `tests/indicators/s-z/Slope/Slope.StreamHub.Tests.cs`
 
-**Hypothesis**: Slope (Linear Regression Slope) uses a rolling window for least-squares calculations. The test failure shows numerical differences in `Intercept` values (e.g., expected 223.72193406593408 but found 223.7412967032967), suggesting precision differences rather than complete calculation failure. When the cache is pruned, the streaming version may be accumulating slightly different floating-point rounding errors compared to the batch calculation on the full series. This is particularly likely with the sum-of-squares calculations in linear regression.
+**Hypothesis**: Slope (Linear Regression Slope) exhibits floating-point precision differences between streaming and batch calculations. The test shows numerical differences in `Intercept` values (e.g., expected 209.1143296703297 but found 209.90668131868134). Even with increased cache size (40 quotes for 14-period indicator), the streaming version accumulates slightly different floating-point rounding errors compared to the batch calculation. This is characteristic of linear regression's sum-of-squares calculations when processed incrementally.
 
-**Next steps**: Verify if the differences are within acceptable floating-point tolerance. May need to use approximate equality checks rather than exact matching, or investigate if StreamHub's incremental calculation introduces systematic error.
+**Next steps**: Similar to EPMA, this may require tolerance-based comparison rather than exact matching, or investigation into whether the incremental calculation can be made to exactly match the batch version.
+
+---
+
+## Resolved tests
+
+The following tests were fixed by increasing cache sizes to accommodate initialization requirements:
+
+- **KvoHub**: Resolved by increasing cache to 70 (55 + 15 extra) from 50
+- **IchimokuHub**: Resolved by increasing cache to 90 (52 + 26 displacement + 12 extra) from 65
 
 ---
 
@@ -76,7 +65,13 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 - [x] Tests added to all 80 StreamHub test classes
 - [x] Build verification completed (no syntax errors)
 - [x] Initial test run completed
-- [ ] Fix failing tests (KvoHub, IchimokuHub, EpmaHub, PmoHub, RenkoHub, SlopeHub)
+- [x] Fixed 2 tests by adjusting cache sizes (KvoHub, IchimokuHub)
+- [ ] Investigate and fix remaining 4 tests:
+  - [ ] EpmaHub (floating-point precision)
+  - [ ] PmoHub (insufficient warmup or state bug)
+  - [ ] RenkoHub (transformation indicator incompatibility)
+  - [ ] SlopeHub (floating-point precision)
+- [ ] Add validation on max cache size at construction to enforce minimum initialization requirements
 
 ---
 Last updated: January 26, 2026

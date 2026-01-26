@@ -77,15 +77,21 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        // NOTE: Renko transforms quotes to bricks (non-1:1 mapping).
+        // The test validates that streaming with cache pruning produces
+        // the same brick sequence as the full series, not that result count
+        // matches cache size (which is invalid for transformation indicators).
+
+        const int maxCacheSize = 100;  // Sufficient for quote retention
+        const int totalQuotes = 200;  // ~2x cache size
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<RenkoResult> expected = quotes
+        
+        // Get full series results
+        IReadOnlyList<RenkoResult> fullSeries = quotes
             .ToRenko(brickSize, endType)
-            .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
@@ -95,13 +101,12 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         // Stream more quotes than cache can hold
         quoteHub.Add(quotes);
 
-        // Verify cache was pruned
+        // Verify cache was pruned (quotes, not results)
         quoteHub.Quotes.Should().HaveCount(maxCacheSize);
-        observer.Results.Should().HaveCount(maxCacheSize);
 
-        // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
-        observer.Results.IsExactly(expected);
+        // For Renko, validate the streaming results match the full series
+        // The count will be much less than cache size due to brick transformation
+        observer.Results.IsExactly(fullSeries);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

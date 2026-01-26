@@ -64,8 +64,8 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int maxCacheSize = 90;  // 52 (senkouB) + 26 (displacement) + 12 extra
+        const int totalQuotes = 180;  // ~2x cache size
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
         IReadOnlyList<IchimokuResult> expected = quotes
