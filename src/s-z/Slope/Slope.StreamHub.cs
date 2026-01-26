@@ -13,8 +13,8 @@ public class SlopeHub
 {
     private readonly Queue<double> buffer;
 
-    // Pre-calculated constant for X variance (sequential integers)
-    private readonly double sumSqXConstant;
+    // Track total items processed through this hub
+    private int totalProcessed;
 
     // Cache latest slope/intercept to avoid cache lookups in OnAdd
     private double? currentSlope;
@@ -36,10 +36,11 @@ public class SlopeHub
         Name = $"SLOPE({lookbackPeriods})";
         buffer = new Queue<double>(lookbackPeriods);
 
-        // Pre-calculate constant sumSqX for sequential X values
-        // When X values are [x, x+1, ..., x+n-1], avgX = x + (n-1)/2
-        // Sum of (Xi - avgX)^2 = n*(n^2 - 1)/12
-        sumSqXConstant = lookbackPeriods * ((lookbackPeriods * lookbackPeriods) - 1) / 12.0;
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
+        // Initialize tracking
+        totalProcessed = 0;
 
         Reinitialize();
     }
@@ -69,6 +70,9 @@ public class SlopeHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Increment total processed
+        totalProcessed++;
+
         // Update buffer
         buffer.Update(LookbackPeriods, item.Value);
 
@@ -78,9 +82,12 @@ public class SlopeHub
             return (new SlopeResult(item.Timestamp), i);
         }
 
+        // Calculate cache offset
+        int cacheOffset = totalProcessed - ProviderCache.Count;
+
         // Calculate slope, intercept, and statistics
         (double? slope, double? intercept, double? stdDev, double? rSquared)
-            = CalculateStatistics(i);
+            = CalculateStatistics(i, cacheOffset);
 
         // Cache slope and intercept for use in OnAdd
         currentSlope = slope;
@@ -110,6 +117,9 @@ public class SlopeHub
         currentSlope = null;
         currentIntercept = null;
 
+        // Reset tracking
+        totalProcessed = 0;
+
         if (targetIndex <= LookbackPeriods - 1)
         {
             return;
@@ -129,44 +139,51 @@ public class SlopeHub
     /// Calculates slope, intercept, standard deviation, and R-squared.
     /// </summary>
     /// <param name="currentIndex">The current index in the provider cache.</param>
+    /// <param name="cacheOffset">The offset to calculate global positions (totalCount - cacheSize).</param>
     private (double? slope, double? intercept, double? stdDev, double? rSquared)
-        CalculateStatistics(int currentIndex)
+        CalculateStatistics(int currentIndex, int cacheOffset)
     {
-        // Calculate X values mathematically (sequential integers)
-        // X values are: (currentIndex - lookbackPeriods + 2) to (currentIndex + 1)
-        // For sequential X = [a, a+1, ..., a+n-1]:
-        // - sumX = n*a + n*(n-1)/2
-        // - avgX = a + (n-1)/2
-        double firstX = currentIndex - LookbackPeriods + 2d;
-        double sumX = (LookbackPeriods * firstX) + (LookbackPeriods * (LookbackPeriods - 1) / 2.0);
-        double avgX = sumX / LookbackPeriods;
+        // Calculate X values using GLOBAL positions (p + 1) to match Series implementation
+        // For cache index i, global position = cacheOffset + i
+        // This allows mathematical equivalence even after cache pruning
+        int startIndex = currentIndex - LookbackPeriods + 1;
 
-        // Calculate sums for least squares method
+        // Calculate averages
+        double sumX = 0;
+        double sumY = 0;
 
-        // First pass: calculate avgY
-        double avgY = buffer.Average();
-
-        // Second pass: calculate deviations and their products
-        double sumSqY = 0;
-        double sumSqXy = 0;
-        int relativeIndex = 0;
-        foreach (double bufferValue in buffer)
+        for (int p = startIndex; p <= currentIndex; p++)
         {
-            double xValue = firstX + relativeIndex;
-            double devX = xValue - avgX;
-            double devY = bufferValue - avgY;
-
-            sumSqY += devY * devY;
-            sumSqXy += devX * devY;
-            relativeIndex++;
+            int globalPos = cacheOffset + p;
+            sumX += globalPos + 1; // X values: (p + 1) where p is global position
+            sumY += ProviderCache[p].Value;
         }
 
-        // Use pre-calculated constant for sumSqX
-        double? slope = (sumSqXy / sumSqXConstant).NaN2Null();
+        double avgX = sumX / LookbackPeriods;
+        double avgY = sumY / LookbackPeriods;
+
+        // Least squares method
+        double sumSqX = 0;
+        double sumSqY = 0;
+        double sumSqXy = 0;
+
+        for (int p = startIndex; p <= currentIndex; p++)
+        {
+            int globalPos = cacheOffset + p;
+            double devX = (globalPos + 1) - avgX;
+            double devY = ProviderCache[p].Value - avgY;
+
+            sumSqX += devX * devX;
+            sumSqY += devY * devY;
+            sumSqXy += devX * devY;
+        }
+
+        // Calculate slope and intercept
+        double? slope = (sumSqXy / sumSqX).NaN2Null();
         double? intercept = (avgY - (slope * avgX)).NaN2Null();
 
         // Calculate Standard Deviation and R-Squared
-        double stdDevX = Math.Sqrt(sumSqXConstant / LookbackPeriods);
+        double stdDevX = Math.Sqrt(sumSqX / LookbackPeriods);
         double stdDevY = Math.Sqrt(sumSqY / LookbackPeriods);
 
         double? rSquared = null;
@@ -184,11 +201,14 @@ public class SlopeHub
     /// Updates Line values for the last lookbackPeriods results using the current slope/intercept.
     /// This is legitimate historical repaint behavior matching the Series implementation.
     /// </summary>
-    /// <param name="currentIndex">The current index in the provider cache.</param>
+    /// <param name="currentIndex">The current index in the cache.</param>
     /// <param name="slope">The calculated slope value.</param>
     /// <param name="intercept">The calculated intercept value.</param>
     private void UpdateLineValues(int currentIndex, double? slope, double? intercept)
     {
+        // Calculate cache offset
+        int cacheOffset = totalProcessed - Cache.Count;
+
         // Calculate the range of indices that should have Line values
         int startIndex = currentIndex - LookbackPeriods + 1;
 
@@ -205,13 +225,14 @@ public class SlopeHub
         }
 
         // Update Line values for the last lookbackPeriods results
-        // Using global indices (p + 1) like the series implementation
+        // Using global position indices (p + 1) to match Series implementation
         for (int p = startIndex; p <= currentIndex; p++)
         {
             SlopeResult existing = Cache[p];
 
-            // Calculate Line: y = mx + b, using global index (p + 1)
-            decimal? line = (decimal?)((slope * (p + 1)) + intercept).NaN2Null();
+            // Calculate Line: y = mx + b, where x = (globalPos + 1)
+            int globalPos = cacheOffset + p;
+            decimal? line = (decimal?)((slope * (globalPos + 1)) + intercept).NaN2Null();
 
             Cache[p] = existing with { Line = line };
         }

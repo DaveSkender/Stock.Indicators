@@ -75,6 +75,44 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        // NOTE: Renko transforms quotes to bricks (non-1:1 mapping).
+        // The test validates that streaming with cache pruning produces
+        // the same brick sequence as the full series, not that result count
+        // matches cache size (which is invalid for transformation indicators).
+
+        const int maxCacheSize = 100;  // Sufficient for quote retention
+        const int totalQuotes = 200;  // ~2x cache size
+        const decimal brickSize = 2.5m;
+        const EndType endType = EndType.HighLow;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        // Get full series results
+        IReadOnlyList<RenkoResult> fullSeries = quotes
+            .ToRenko(brickSize, endType)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        RenkoHub observer = quoteHub.ToRenkoHub(brickSize, endType);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned (quotes, not results)
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+
+        // For Renko, validate the streaming results match the full series
+        // The count will be much less than cache size due to brick transformation
+        observer.Results.IsExactly(fullSeries);
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
         const decimal brickSize = 2.5m;

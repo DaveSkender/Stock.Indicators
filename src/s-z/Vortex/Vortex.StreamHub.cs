@@ -24,6 +24,9 @@ public class VortexHub
         _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

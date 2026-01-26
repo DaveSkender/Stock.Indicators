@@ -4,15 +4,27 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Endpoint Moving Average (EPMA)
 /// </summary>
 public class EpmaHub
-    : ChainHub<IReusable, EpmaResult>, IEpma
+    : ChainHub<SlopeResult, EpmaResult>, IEpma
 {
+    // Track total items processed through this hub  
+    private int totalProcessed;
+
     internal EpmaHub(
         IChainProvider<IReusable> provider,
-        int lookbackPeriods) : base(provider)
+        int lookbackPeriods)
+        : this(provider.ToSlopeHub(lookbackPeriods), lookbackPeriods)
+    { }
+
+    internal EpmaHub(
+        SlopeHub slopeHub,
+        int lookbackPeriods) : base(slopeHub)
     {
         Epma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         Name = $"EPMA({lookbackPeriods})";
+
+        // Initialize tracking
+        totalProcessed = 0;
 
         Reinitialize();
     }
@@ -22,17 +34,37 @@ public class EpmaHub
 
     /// <inheritdoc/>
     protected override (EpmaResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+        ToIndicator(SlopeResult item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // candidate result
+        // Increment total processed
+        totalProcessed++;
+
+        // Calculate EPMA
+        double? epma = null;
+
+        if (item.Slope != null && item.Intercept != null)
+        {
+            int cacheOffset = totalProcessed - ProviderCache.Count;
+            int x = cacheOffset + i + 1;
+
+            epma = (item.Slope * x) + item.Intercept;
+        }
+
         EpmaResult r = new(
             Timestamp: item.Timestamp,
-            Epma: Epma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
+            Epma: epma.NaN2Null());
 
         return (r, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Reset tracking
+        totalProcessed = 0;
     }
 }
 

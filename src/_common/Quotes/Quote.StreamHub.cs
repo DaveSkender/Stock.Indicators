@@ -12,26 +12,39 @@ public class QuoteHub
     private readonly bool _isStandalone;
 
     /// <summary>
+    /// Absolute maximum cache size to prevent overflow.
+    /// </summary>
+    private const int absoluteMaxCacheSize = (int)(0.8 * int.MaxValue);
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="QuoteHub"/> base, without its own provider.
     /// </summary>
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public QuoteHub(int? maxCacheSize = null)
-        : base(new BaseProvider<IQuote>())
+        : base(new BaseProvider<IQuote>(ValidateAndGetMaxCacheSize(maxCacheSize)))
     {
         _isStandalone = true;
+    }
 
+    /// <summary>
+    /// Validates and returns the max cache size.
+    /// </summary>
+    /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
+    /// <returns>Validated max cache size.</returns>
+    private static int ValidateAndGetMaxCacheSize(int? maxCacheSize)
+    {
         const int maxCacheSizeDefault = 100_000;
 
-        if (maxCacheSize is (not null and <= 0) or > maxCacheSizeDefault)
+        if (maxCacheSize is (not null and <= 0) or > absoluteMaxCacheSize)
         {
             string message
-                = $"'{nameof(maxCacheSize)}' must be greater than 0 and less than {maxCacheSizeDefault}.";
+                = $"'{nameof(maxCacheSize)}' must be greater than 0 and less than {absoluteMaxCacheSize}.";
 
             throw new ArgumentOutOfRangeException(
                 nameof(maxCacheSize), maxCacheSize, message);
         }
 
-        MaxCacheSize = maxCacheSize ?? maxCacheSizeDefault;
+        return maxCacheSize ?? maxCacheSizeDefault;
     }
 
     /// <summary>

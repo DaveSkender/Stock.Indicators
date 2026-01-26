@@ -14,6 +14,9 @@ public class VwmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"VWMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

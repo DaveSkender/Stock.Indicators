@@ -29,6 +29,9 @@ public class FisherTransformHub
         _priceMinWindow = new RollingWindowMin<double>(lookbackPeriods);
         Name = $"FISHER({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

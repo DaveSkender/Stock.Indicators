@@ -23,6 +23,9 @@ public class WilliamsRHub
 
         Name = $"WILLR({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
