@@ -83,8 +83,8 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int maxCacheSize = 110;  // 3*2 (rsi periods) + 100 (rank periods) + extra
+        const int totalQuotes = 220;  // ~2x cache size
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
         IReadOnlyList<ConnorsRsiResult> expected = quotes

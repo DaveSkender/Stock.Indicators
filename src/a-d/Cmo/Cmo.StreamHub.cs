@@ -17,6 +17,9 @@ public class CmoHub
         Name = $"CMO({lookbackPeriods})";
         _tickBuffer = new Queue<(bool? isUp, double value)>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

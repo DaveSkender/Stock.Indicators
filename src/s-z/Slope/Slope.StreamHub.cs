@@ -41,6 +41,9 @@ public class SlopeHub
         // Sum of (Xi - avgX)^2 = n*(n^2 - 1)/12
         sumSqXConstant = lookbackPeriods * ((lookbackPeriods * lookbackPeriods) - 1) / 12.0;
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

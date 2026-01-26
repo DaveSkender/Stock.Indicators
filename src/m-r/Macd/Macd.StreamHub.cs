@@ -24,6 +24,10 @@ public class MacdHub
 
         Name = $"MACD({fastPeriods},{slowPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = slowPeriods + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

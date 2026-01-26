@@ -14,6 +14,9 @@ public class RocHub
         LookbackPeriods = lookbackPeriods;
         Name = $"ROC({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

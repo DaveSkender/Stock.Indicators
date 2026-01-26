@@ -55,8 +55,8 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int maxCacheSize = 70;  // 63 (Hilbert minimum) + 7 extra
+        const int totalQuotes = 140;  // ~2x cache size
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
         IReadOnlyList<HtlResult> expected = quotes

@@ -53,8 +53,8 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int maxCacheSize = 65;  // 20*3 (triple smoothing) + 5 extra
+        const int totalQuotes = 130;  // ~2x cache size
         const int lookbackPeriods = 20;
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();

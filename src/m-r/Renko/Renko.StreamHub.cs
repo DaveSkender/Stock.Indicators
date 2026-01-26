@@ -21,6 +21,9 @@ public class RenkoHub
         EndType = endType;
         Name = $"RENKO({brickSize},{endType.ToString().ToUpperInvariant()})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // Renko needs minimum history for brick formation
+
         Reinitialize();
     }
 

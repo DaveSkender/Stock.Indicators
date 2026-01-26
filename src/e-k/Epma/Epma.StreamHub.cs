@@ -14,6 +14,9 @@ public class EpmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"EPMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 

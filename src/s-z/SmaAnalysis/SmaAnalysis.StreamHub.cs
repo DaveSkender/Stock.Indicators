@@ -14,6 +14,9 @@ public class SmaAnalysisHub
         LookbackPeriods = lookbackPeriods;
         Name = $"SMA-ANALYSIS({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
