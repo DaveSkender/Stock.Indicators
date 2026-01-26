@@ -74,12 +74,18 @@ public class ThreadSafetyTests : TestBase
                 quoteHub.Insert(allQuotes[500]);
             }
 
-            // Get final quote cache and compute series
-            IReadOnlyList<IQuote> finalCache = quoteHub.Results;
-            List<IQuote> finalQuotes = finalCache.ToList();
+            // Compute series on the FULL quote list (including quotes that were pruned from cache).
+            // Then take last N results to match the final cache size.
+            // This is the correct comparison because streaming indicators process all quotes
+            // and maintain running state, even after pruning removes early quotes from cache.
+            int finalCacheSize = quoteHub.Results.Count;
+            IReadOnlyList<StcResult> expectedResults = allQuotes
+                .ToStc()
+                .TakeLast(finalCacheSize)
+                .ToList();
 
-            // Compare: StcHub results should match series on final cache
-            stcHub.Results.IsExactly(finalQuotes.ToStc());
+            // Compare: StcHub streaming results should match truncated series
+            stcHub.Results.IsExactly(expectedResults);
         }
         finally
         {
@@ -275,97 +281,112 @@ public class ThreadSafetyTests : TestBase
             int actualPruned = TargetQuoteCount - quoteHubResults.Count;
             actualPruned.Should().Be(TargetQuoteCount - MaxCacheSize + 2);
 
-            // Convert QuoteHub final cache to Quote list for series comparison
-            List<IQuote> finalQuotes = quoteHubResults.ToList();
+            // Build complete quote list with all revisions applied (for series comparison).
+            // This mirrors what the streaming indicators processed, including quotes that were later pruned.
+            List<Quote> allQuotesWithRevisions = [.. allQuotes];
 
-            // TODO: how is it possible that this passes, given that
-            // pruning occurred and just using the post-pruned quotes
-            // should cause warmup errors to propagate differently?
-            // To be accurate, the static series would have to be done on
-            // the full set of all pre-pruned quotes (with revisions)
-            // and then trucated, like we do in STC WithCachePruning_MatchesSeriesExactly
+            // Apply revision from operation 3: replace quote at index 1600
+            if (allQuotes.Count > 1600)
+            {
+                Quote original = allQuotes[1600];
+                allQuotesWithRevisions[1600] = new Quote(
+                    original.Timestamp,
+                    original.Open,
+                    original.High,
+                    original.Low,
+                    original.Close * 1.01m,
+                    original.Volume
+                );
+            }
+
+            // Operation 4 final revision is back to original, so no change needed
+
+            // Get final cache size for truncation
+            int finalCacheSize = quoteHubResults.Count;
 
             // Verify ALL indicator hubs match their equivalent series calculations.
-            // Series is computed on the FINAL QuoteHub cache (after all rollbacks, inserts, replacements).
-            // This validates that hubs correctly handle pruning, late arrivals, and state rollbacks.
-            adlHub.Results.IsExactly(finalQuotes.ToAdl());
-            adxHub.Results.IsExactly(finalQuotes.ToAdx(14));
-            alligatorHub.Results.IsExactly(finalQuotes.ToAlligator());
-            almaHub.Results.IsExactly(finalQuotes.ToAlma(10, 0.85, 6));
-            aroonHub.Results.IsExactly(finalQuotes.ToAroon(25));
-            atrHub.Results.IsExactly(finalQuotes.ToAtr(14));
-            atrStopHub.Results.IsExactly(finalQuotes.ToAtrStop(21));
-            awesomeHub.Results.IsExactly(finalQuotes.ToAwesome());
-            bollingerBandsHub.Results.IsExactly(finalQuotes.ToBollingerBands(20, 2));
-            bopHub.Results.IsExactly(finalQuotes.ToBop());
-            cciHub.Results.IsExactly(finalQuotes.ToCci(20));
-            chaikinOscHub.Results.IsExactly(finalQuotes.ToChaikinOsc());
-            chandelierHub.Results.IsExactly(finalQuotes.ToChandelier());
-            chopHub.Results.IsExactly(finalQuotes.ToChop(14));
-            cmfHub.Results.IsExactly(finalQuotes.ToCmf(20));
-            cmoHub.Results.IsExactly(finalQuotes.ToCmo(14));
-            connorsRsiHub.Results.IsExactly(finalQuotes.ToConnorsRsi());
-            demaHub.Results.IsExactly(finalQuotes.ToDema(20));
-            dojiHub.Results.IsExactly(finalQuotes.ToDoji());
-            donchianHub.Results.IsExactly(finalQuotes.ToDonchian(20));
-            dpoHub.Results.IsExactly(finalQuotes.ToDpo(14));
-            dynamicHub.Results.IsExactly(finalQuotes.ToDynamic(14));
-            elderRayHub.Results.IsExactly(finalQuotes.ToElderRay(13));
-            emaHub.Results.IsExactly(finalQuotes.ToEma(20));
-            epmaHub.Results.IsExactly(finalQuotes.ToEpma(20));
-            fractalHub.Results.IsExactly(finalQuotes.ToFractal(2));
-            fcbHub.Results.IsExactly(finalQuotes.ToFcb(2));
-            fisherTransformHub.Results.IsExactly(finalQuotes.ToFisherTransform(10));
-            forceIndexHub.Results.IsExactly(finalQuotes.ToForceIndex(13));
-            gatorHub.Results.IsExactly(finalQuotes.ToGator());
-            heikinAshiHub.Results.IsExactly(finalQuotes.ToHeikinAshi());
-            hmaHub.Results.IsExactly(finalQuotes.ToHma(20));
-            htTrendlineHub.Results.IsExactly(finalQuotes.ToHtTrendline());
-            hurstHub.Results.IsExactly(finalQuotes.ToHurst(20));
-            ichimokuHub.Results.IsExactly(finalQuotes.ToIchimoku());
-            kamaHub.Results.IsExactly(finalQuotes.ToKama(10, 2, 30));
-            keltnerHub.Results.IsExactly(finalQuotes.ToKeltner());
-            kvoHub.Results.IsExactly(finalQuotes.ToKvo());
-            maEnvelopesHub.Results.IsExactly(finalQuotes.ToMaEnvelopes(20, 2.5, MaType.SMA));
-            macdHub.Results.IsExactly(finalQuotes.ToMacd());
-            mamaHub.Results.IsExactly(finalQuotes.ToMama());
-            marubozuHub.Results.IsExactly(finalQuotes.ToMarubozu());
-            mfiHub.Results.IsExactly(finalQuotes.ToMfi(14));
-            obvHub.Results.IsExactly(finalQuotes.ToObv());
-            parabolicSarHub.Results.IsExactly(finalQuotes.ToParabolicSar());
-            pivotPointsHub.Results.IsExactly(finalQuotes.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard));
-            pivotsHub.Results.IsExactly(finalQuotes.ToPivots(11, 14));
-            pmoHub.Results.IsExactly(finalQuotes.ToPmo());
-            pvoHub.Results.IsExactly(finalQuotes.ToPvo());
-            renkoHub.Results.IsExactly(finalQuotes.ToRenko(2.5m));
-            rocHub.Results.IsExactly(finalQuotes.ToRoc(20));
-            rocWbHub.Results.IsExactly(finalQuotes.ToRocWb(14));
-            rollingPivotsHub.Results.IsExactly(finalQuotes.ToRollingPivots(20, 0));
-            rsiHub.Results.IsExactly(finalQuotes.ToRsi(14));
-            slopeHub.Results.IsExactly(finalQuotes.ToSlope(20));
-            smaHub.Results.IsExactly(finalQuotes.ToSma(20));
-            smaAnalysisHub.Results.IsExactly(finalQuotes.ToSmaAnalysis(10));
-            smiHub.Results.IsExactly(finalQuotes.ToSmi());
-            smmaHub.Results.IsExactly(finalQuotes.ToSmma(20));
-            starcBandsHub.Results.IsExactly(finalQuotes.ToStarcBands());
-            stcHub.Results.IsExactly(finalQuotes.ToStc());
-            stdDevHub.Results.IsExactly(finalQuotes.ToStdDev(10));
-            stochHub.Results.IsExactly(finalQuotes.ToStoch());
-            stochRsiHub.Results.IsExactly(finalQuotes.ToStochRsi(14));
-            superTrendHub.Results.IsExactly(finalQuotes.ToSuperTrend());
-            t3Hub.Results.IsExactly(finalQuotes.ToT3(5));
-            temaHub.Results.IsExactly(finalQuotes.ToTema(20));
-            trHub.Results.IsExactly(finalQuotes.ToTr());
-            trixHub.Results.IsExactly(finalQuotes.ToTrix(14));
-            tsiHub.Results.IsExactly(finalQuotes.ToTsi());
-            ulcerIndexHub.Results.IsExactly(finalQuotes.ToUlcerIndex(14));
-            ultimateHub.Results.IsExactly(finalQuotes.ToUltimate());
-            volatilityStopHub.Results.IsExactly(finalQuotes.ToVolatilityStop());
-            vortexHub.Results.IsExactly(finalQuotes.ToVortex(14));
-            vwapHub.Results.IsExactly(finalQuotes.ToVwap());
-            vwmaHub.Results.IsExactly(finalQuotes.ToVwma(10));
-            williamsRHub.Results.IsExactly(finalQuotes.ToWilliamsR(14));
-            wmaHub.Results.IsExactly(finalQuotes.ToWma(20));
+            // Series must be computed on the FULL set of quotes (including those that were pruned),
+            // with all revisions applied, then truncated to match the final cache size.
+            // This matches how streaming indicators work: they process all quotes and maintain
+            // running state, even after pruning removes early quotes from the cache.
+            adlHub.Results.IsExactly(allQuotesWithRevisions.ToAdl().TakeLast(finalCacheSize).ToList());
+            adxHub.Results.IsExactly(allQuotesWithRevisions.ToAdx(14).TakeLast(finalCacheSize).ToList());
+            alligatorHub.Results.IsExactly(allQuotesWithRevisions.ToAlligator().TakeLast(finalCacheSize).ToList());
+            almaHub.Results.IsExactly(allQuotesWithRevisions.ToAlma(10, 0.85, 6).TakeLast(finalCacheSize).ToList());
+            aroonHub.Results.IsExactly(allQuotesWithRevisions.ToAroon(25).TakeLast(finalCacheSize).ToList());
+            atrHub.Results.IsExactly(allQuotesWithRevisions.ToAtr(14).TakeLast(finalCacheSize).ToList());
+            atrStopHub.Results.IsExactly(allQuotesWithRevisions.ToAtrStop(21).TakeLast(finalCacheSize).ToList());
+            awesomeHub.Results.IsExactly(allQuotesWithRevisions.ToAwesome().TakeLast(finalCacheSize).ToList());
+            bollingerBandsHub.Results.IsExactly(allQuotesWithRevisions.ToBollingerBands(20, 2).TakeLast(finalCacheSize).ToList());
+            bopHub.Results.IsExactly(allQuotesWithRevisions.ToBop().TakeLast(finalCacheSize).ToList());
+            cciHub.Results.IsExactly(allQuotesWithRevisions.ToCci(20).TakeLast(finalCacheSize).ToList());
+            chaikinOscHub.Results.IsExactly(allQuotesWithRevisions.ToChaikinOsc().TakeLast(finalCacheSize).ToList());
+            chandelierHub.Results.IsExactly(allQuotesWithRevisions.ToChandelier().TakeLast(finalCacheSize).ToList());
+            chopHub.Results.IsExactly(allQuotesWithRevisions.ToChop(14).TakeLast(finalCacheSize).ToList());
+            cmfHub.Results.IsExactly(allQuotesWithRevisions.ToCmf(20).TakeLast(finalCacheSize).ToList());
+            cmoHub.Results.IsExactly(allQuotesWithRevisions.ToCmo(14).TakeLast(finalCacheSize).ToList());
+            connorsRsiHub.Results.IsExactly(allQuotesWithRevisions.ToConnorsRsi().TakeLast(finalCacheSize).ToList());
+            demaHub.Results.IsExactly(allQuotesWithRevisions.ToDema(20).TakeLast(finalCacheSize).ToList());
+            dojiHub.Results.IsExactly(allQuotesWithRevisions.ToDoji().TakeLast(finalCacheSize).ToList());
+            donchianHub.Results.IsExactly(allQuotesWithRevisions.ToDonchian(20).TakeLast(finalCacheSize).ToList());
+            dpoHub.Results.IsExactly(allQuotesWithRevisions.ToDpo(14).TakeLast(finalCacheSize).ToList());
+            dynamicHub.Results.IsExactly(allQuotesWithRevisions.ToDynamic(14).TakeLast(finalCacheSize).ToList());
+            elderRayHub.Results.IsExactly(allQuotesWithRevisions.ToElderRay(13).TakeLast(finalCacheSize).ToList());
+            emaHub.Results.IsExactly(allQuotesWithRevisions.ToEma(20).TakeLast(finalCacheSize).ToList());
+            epmaHub.Results.IsExactly(allQuotesWithRevisions.ToEpma(20).TakeLast(finalCacheSize).ToList());
+            fractalHub.Results.IsExactly(allQuotesWithRevisions.ToFractal(2).TakeLast(finalCacheSize).ToList());
+            fcbHub.Results.IsExactly(allQuotesWithRevisions.ToFcb(2).TakeLast(finalCacheSize).ToList());
+            fisherTransformHub.Results.IsExactly(allQuotesWithRevisions.ToFisherTransform(10).TakeLast(finalCacheSize).ToList());
+            forceIndexHub.Results.IsExactly(allQuotesWithRevisions.ToForceIndex(13).TakeLast(finalCacheSize).ToList());
+            gatorHub.Results.IsExactly(allQuotesWithRevisions.ToGator().TakeLast(finalCacheSize).ToList());
+            heikinAshiHub.Results.IsExactly(allQuotesWithRevisions.ToHeikinAshi().TakeLast(finalCacheSize).ToList());
+            hmaHub.Results.IsExactly(allQuotesWithRevisions.ToHma(20).TakeLast(finalCacheSize).ToList());
+            htTrendlineHub.Results.IsExactly(allQuotesWithRevisions.ToHtTrendline().TakeLast(finalCacheSize).ToList());
+            hurstHub.Results.IsExactly(allQuotesWithRevisions.ToHurst(20).TakeLast(finalCacheSize).ToList());
+            ichimokuHub.Results.IsExactly(allQuotesWithRevisions.ToIchimoku().TakeLast(finalCacheSize).ToList());
+            kamaHub.Results.IsExactly(allQuotesWithRevisions.ToKama(10, 2, 30).TakeLast(finalCacheSize).ToList());
+            keltnerHub.Results.IsExactly(allQuotesWithRevisions.ToKeltner().TakeLast(finalCacheSize).ToList());
+            kvoHub.Results.IsExactly(allQuotesWithRevisions.ToKvo().TakeLast(finalCacheSize).ToList());
+            maEnvelopesHub.Results.IsExactly(allQuotesWithRevisions.ToMaEnvelopes(20, 2.5, MaType.SMA).TakeLast(finalCacheSize).ToList());
+            macdHub.Results.IsExactly(allQuotesWithRevisions.ToMacd().TakeLast(finalCacheSize).ToList());
+            mamaHub.Results.IsExactly(allQuotesWithRevisions.ToMama().TakeLast(finalCacheSize).ToList());
+            marubozuHub.Results.IsExactly(allQuotesWithRevisions.ToMarubozu().TakeLast(finalCacheSize).ToList());
+            mfiHub.Results.IsExactly(allQuotesWithRevisions.ToMfi(14).TakeLast(finalCacheSize).ToList());
+            obvHub.Results.IsExactly(allQuotesWithRevisions.ToObv().TakeLast(finalCacheSize).ToList());
+            parabolicSarHub.Results.IsExactly(allQuotesWithRevisions.ToParabolicSar().TakeLast(finalCacheSize).ToList());
+            pivotPointsHub.Results.IsExactly(allQuotesWithRevisions.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard).TakeLast(finalCacheSize).ToList());
+            pivotsHub.Results.IsExactly(allQuotesWithRevisions.ToPivots(11, 14).TakeLast(finalCacheSize).ToList());
+            pmoHub.Results.IsExactly(allQuotesWithRevisions.ToPmo().TakeLast(finalCacheSize).ToList());
+            pvoHub.Results.IsExactly(allQuotesWithRevisions.ToPvo().TakeLast(finalCacheSize).ToList());
+            renkoHub.Results.IsExactly(allQuotesWithRevisions.ToRenko(2.5m).TakeLast(finalCacheSize).ToList());
+            rocHub.Results.IsExactly(allQuotesWithRevisions.ToRoc(20).TakeLast(finalCacheSize).ToList());
+            rocWbHub.Results.IsExactly(allQuotesWithRevisions.ToRocWb(14).TakeLast(finalCacheSize).ToList());
+            rollingPivotsHub.Results.IsExactly(allQuotesWithRevisions.ToRollingPivots(20, 0).TakeLast(finalCacheSize).ToList());
+            rsiHub.Results.IsExactly(allQuotesWithRevisions.ToRsi(14).TakeLast(finalCacheSize).ToList());
+            slopeHub.Results.IsExactly(allQuotesWithRevisions.ToSlope(20).TakeLast(finalCacheSize).ToList());
+            smaHub.Results.IsExactly(allQuotesWithRevisions.ToSma(20).TakeLast(finalCacheSize).ToList());
+            smaAnalysisHub.Results.IsExactly(allQuotesWithRevisions.ToSmaAnalysis(10).TakeLast(finalCacheSize).ToList());
+            smiHub.Results.IsExactly(allQuotesWithRevisions.ToSmi().TakeLast(finalCacheSize).ToList());
+            smmaHub.Results.IsExactly(allQuotesWithRevisions.ToSmma(20).TakeLast(finalCacheSize).ToList());
+            starcBandsHub.Results.IsExactly(allQuotesWithRevisions.ToStarcBands().TakeLast(finalCacheSize).ToList());
+            stcHub.Results.IsExactly(allQuotesWithRevisions.ToStc().TakeLast(finalCacheSize).ToList());
+            stdDevHub.Results.IsExactly(allQuotesWithRevisions.ToStdDev(10).TakeLast(finalCacheSize).ToList());
+            stochHub.Results.IsExactly(allQuotesWithRevisions.ToStoch().TakeLast(finalCacheSize).ToList());
+            stochRsiHub.Results.IsExactly(allQuotesWithRevisions.ToStochRsi(14).TakeLast(finalCacheSize).ToList());
+            superTrendHub.Results.IsExactly(allQuotesWithRevisions.ToSuperTrend().TakeLast(finalCacheSize).ToList());
+            t3Hub.Results.IsExactly(allQuotesWithRevisions.ToT3(5).TakeLast(finalCacheSize).ToList());
+            temaHub.Results.IsExactly(allQuotesWithRevisions.ToTema(20).TakeLast(finalCacheSize).ToList());
+            trHub.Results.IsExactly(allQuotesWithRevisions.ToTr().TakeLast(finalCacheSize).ToList());
+            trixHub.Results.IsExactly(allQuotesWithRevisions.ToTrix(14).TakeLast(finalCacheSize).ToList());
+            tsiHub.Results.IsExactly(allQuotesWithRevisions.ToTsi().TakeLast(finalCacheSize).ToList());
+            ulcerIndexHub.Results.IsExactly(allQuotesWithRevisions.ToUlcerIndex(14).TakeLast(finalCacheSize).ToList());
+            ultimateHub.Results.IsExactly(allQuotesWithRevisions.ToUltimate().TakeLast(finalCacheSize).ToList());
+            volatilityStopHub.Results.IsExactly(allQuotesWithRevisions.ToVolatilityStop().TakeLast(finalCacheSize).ToList());
+            vortexHub.Results.IsExactly(allQuotesWithRevisions.ToVortex(14).TakeLast(finalCacheSize).ToList());
+            vwapHub.Results.IsExactly(allQuotesWithRevisions.ToVwap().TakeLast(finalCacheSize).ToList());
+            vwmaHub.Results.IsExactly(allQuotesWithRevisions.ToVwma(10).TakeLast(finalCacheSize).ToList());
+            williamsRHub.Results.IsExactly(allQuotesWithRevisions.ToWilliamsR(14).TakeLast(finalCacheSize).ToList());
+            wmaHub.Results.IsExactly(allQuotesWithRevisions.ToWma(20).TakeLast(finalCacheSize).ToList());
         }
         finally
         {
