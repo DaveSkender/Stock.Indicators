@@ -6,6 +6,9 @@ namespace Skender.Stock.Indicators;
 public class EpmaHub
     : ChainHub<IReusable, EpmaResult>, IEpma
 {
+    // Track total number of items processed to calculate global positions after pruning
+    private int totalProcessed;
+
     internal EpmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -30,12 +33,29 @@ public class EpmaHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Increment total processed count
+        totalProcessed++;
+
+        // Calculate cache offset: totalProcessed - current cache size
+        // This allows reconstruction of global positions after pruning
+        int cacheOffset = totalProcessed - ProviderCache.Count;
+
         // candidate result
         EpmaResult r = new(
             Timestamp: item.Timestamp,
-            Epma: Epma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
+            Epma: Epma.Increment(ProviderCache, LookbackPeriods, i, cacheOffset).NaN2Null());
 
         return (r, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        int targetIndex = ProviderCache.IndexGte(timestamp);
+
+        // Reset totalProcessed to match the target state
+        // Count items in provider cache up to (but not including) targetIndex
+        totalProcessed = targetIndex;
     }
 }
 

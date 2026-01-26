@@ -29,12 +29,14 @@ public static partial class Epma
     /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
     /// <param name="source">The source data provider cache.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="endIndex">The current index position to evaluate.</param>
+    /// <param name="endIndex">The current cache index position to evaluate.</param>
+    /// <param name="cacheOffset">The offset to calculate global positions (totalCount - cacheSize).</param>
     /// <returns>The EPMA value or double.NaN if incalculable.</returns>
     internal static double Increment<T>(
         IReadOnlyList<T> source,
         int lookbackPeriods,
-        int endIndex)
+        int endIndex,
+        int cacheOffset)
         where T : IReusable
     {
         if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
@@ -42,19 +44,21 @@ public static partial class Epma
             return double.NaN;
         }
 
-        // Calculate linear regression for the lookback window using relative X values
-        // X values are relative positions: 0, 1, 2, ..., (lookbackPeriods-1)
-        // This makes calculations pruning-independent
+        // Calculate linear regression using global position indices (p + 1)
+        // to match Series implementation, where p is the absolute position
+        // For cache index i, global position = cacheOffset + i
         int startIndex = endIndex - lookbackPeriods + 1;
 
-        // Calculate averages using relative position indices (0-based)
+        // Calculate averages
         double sumX = 0;
         double sumY = 0;
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
-            sumX += i; // Relative X values: 0, 1, 2, ..., n-1
-            sumY += source[startIndex + i].Value;
+            int cacheIdx = startIndex + i;
+            int globalPos = cacheOffset + cacheIdx;
+            sumX += globalPos + 1; // X values: (p + 1) where p is global position
+            sumY += source[cacheIdx].Value;
         }
 
         double avgX = sumX / lookbackPeriods;
@@ -66,8 +70,10 @@ public static partial class Epma
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
-            double devX = i - avgX;
-            double devY = source[startIndex + i].Value - avgY;
+            int cacheIdx = startIndex + i;
+            int globalPos = cacheOffset + cacheIdx;
+            double devX = (globalPos + 1) - avgX;
+            double devY = source[cacheIdx].Value - avgY;
 
             sumSqX += devX * devX;
             sumSqXy += devX * devY;
@@ -81,26 +87,9 @@ public static partial class Epma
         double slope = sumSqXy / sumSqX;
         double intercept = avgY - (slope * avgX);
 
-        // EPMA calculation: slope * (endpoint_relative_index) + intercept
-        // The endpoint is at relative position (lookbackPeriods - 1)
-        return (slope * (lookbackPeriods - 1)) + intercept;
+        // EPMA calculation: slope * (endpoint_X) + intercept
+        // Endpoint is at cache index endIndex, global position = cacheOffset + endIndex
+        int endpointX = cacheOffset + endIndex + 1;
+        return (slope * endpointX) + intercept;
     }
-
-    /// <summary>
-    /// Calculates EPMA increment for the current position using linear regression.
-    /// </summary>
-    /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
-    /// <param name="source">The source data provider cache.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="cacheIndex">The index position in the cache to evaluate.</param>
-    /// <param name="globalIndex">The actual global position in the full dataset (accounting for pruning) - DEPRECATED, use single-parameter overload.</param>
-    /// <returns>The EPMA value or double.NaN if incalculable.</returns>
-    [Obsolete("Use single-parameter Increment method instead. Global index is no longer needed.")]
-    internal static double Increment<T>(
-        IReadOnlyList<T> source,
-        int lookbackPeriods,
-        int cacheIndex,
-        int globalIndex)
-        where T : IReusable
-        => Increment(source, lookbackPeriods, cacheIndex);
 }
