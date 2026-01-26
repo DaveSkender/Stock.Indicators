@@ -283,7 +283,7 @@ public class ThreadSafetyTests : TestBase
 
             // Build complete quote list with all revisions applied (for series comparison).
             // This mirrors what the streaming indicators processed, including quotes that were later pruned.
-            List<Quote> allQuotesWithRevisions = [.. allQuotes];
+            List<Quote> allQuotesWithRevisions = new(allQuotes);
 
             // Apply revision from operation 3: replace quote at index 1600
             if (allQuotes.Count > 1600)
