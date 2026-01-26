@@ -6,8 +6,9 @@ namespace Skender.Stock.Indicators;
 public class EpmaHub
     : ChainHub<SlopeResult, EpmaResult>, IEpma
 {
-    // Track total items processed through this hub  
-    private int totalProcessed;
+    // Track global position counter
+    private int globalPositionCounter;
+    private DateTime? lastSeenTimestamp;
 
     internal EpmaHub(
         IChainProvider<IReusable> provider,
@@ -23,8 +24,9 @@ public class EpmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"EPMA({lookbackPeriods})";
 
-        // Initialize tracking
-        totalProcessed = 0;
+        // Initialize global position tracking
+        globalPositionCounter = 0;
+        lastSeenTimestamp = null;
 
         Reinitialize();
     }
@@ -39,15 +41,21 @@ public class EpmaHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Increment total processed
-        totalProcessed++;
+        // Track global position for new unique items only
+        bool isNewItem = item.Timestamp != lastSeenTimestamp;
+        if (isNewItem)
+        {
+            lastSeenTimestamp = item.Timestamp;
+            globalPositionCounter++;
+        }
 
         // Calculate EPMA
         double? epma = null;
 
         if (item.Slope != null && item.Intercept != null)
         {
-            int cacheOffset = totalProcessed - ProviderCache.Count;
+            // Calculate offset: globalPosition - cacheIndex - 1
+            int cacheOffset = globalPositionCounter - i - 1;
             int x = cacheOffset + i + 1;
 
             epma = (item.Slope * x) + item.Intercept;
@@ -63,8 +71,11 @@ public class EpmaHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset tracking
-        totalProcessed = 0;
+        int targetIndex = ProviderCache.IndexGte(timestamp);
+
+        // Reset global position tracking
+        globalPositionCounter = targetIndex;
+        lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
     }
 }
 

@@ -13,8 +13,9 @@ public class SlopeHub
 {
     private readonly Queue<double> buffer;
 
-    // Track total items processed through this hub
-    private int totalProcessed;
+    // Track global position counter (increments for each new unique item)
+    private int globalPositionCounter;
+    private DateTime? lastSeenTimestamp;
 
     // Cache latest slope/intercept to avoid cache lookups in OnAdd
     private double? currentSlope;
@@ -39,8 +40,9 @@ public class SlopeHub
         // Validate cache size for warmup requirements
         ValidateCacheSize(lookbackPeriods, Name);
 
-        // Initialize tracking
-        totalProcessed = 0;
+        // Initialize global position tracking
+        globalPositionCounter = 0;
+        lastSeenTimestamp = null;
 
         Reinitialize();
     }
@@ -70,8 +72,14 @@ public class SlopeHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Increment total processed
-        totalProcessed++;
+        // Track global position for new unique items only
+        // Duplicates (same timestamp) don't increment the counter
+        bool isNewItem = item.Timestamp != lastSeenTimestamp;
+        if (isNewItem)
+        {
+            lastSeenTimestamp = item.Timestamp;
+            globalPositionCounter++;
+        }
 
         // Update buffer
         buffer.Update(LookbackPeriods, item.Value);
@@ -82,8 +90,9 @@ public class SlopeHub
             return (new SlopeResult(item.Timestamp), i);
         }
 
-        // Calculate cache offset
-        int cacheOffset = totalProcessed - ProviderCache.Count;
+        // Calculate offset: globalPosition - cacheIndex - 1
+        // (subtract 1 because globalPositionCounter is 1-based, cache index is 0-based)
+        int cacheOffset = globalPositionCounter - i - 1;
 
         // Calculate slope, intercept, and statistics
         (double? slope, double? intercept, double? stdDev, double? rSquared)
@@ -117,8 +126,10 @@ public class SlopeHub
         currentSlope = null;
         currentIntercept = null;
 
-        // Reset tracking
-        totalProcessed = 0;
+        // Reset global position tracking
+        // After rollback, recalculate based on target index
+        globalPositionCounter = targetIndex;
+        lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
 
         if (targetIndex <= LookbackPeriods - 1)
         {
@@ -206,8 +217,8 @@ public class SlopeHub
     /// <param name="intercept">The calculated intercept value.</param>
     private void UpdateLineValues(int currentIndex, double? slope, double? intercept)
     {
-        // Calculate cache offset
-        int cacheOffset = totalProcessed - Cache.Count;
+        // Calculate offset using global position counter
+        int cacheOffset = globalPositionCounter - currentIndex - 1;
 
         // Calculate the range of indices that should have Line values
         int startIndex = currentIndex - LookbackPeriods + 1;
