@@ -57,8 +57,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         if (MaxCacheSize < requiredWarmupPeriods)
         {
             throw new ArgumentOutOfRangeException(
-                nameof(MaxCacheSize),
-                MaxCacheSize,
+                nameof(requiredWarmupPeriods),
+                requiredWarmupPeriods,
                 $"Insufficient cache size for {indicatorName}. " +
                 $"Requires at least {requiredWarmupPeriods} periods for proper initialization, " +
                 $"but inherited MaxCacheSize is {MaxCacheSize}. " +

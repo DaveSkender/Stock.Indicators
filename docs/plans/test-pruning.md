@@ -79,34 +79,39 @@ The following tests were fixed by increasing cache sizes to accommodate initiali
 ### Framework added
 
 Added `ValidateCacheSize(int requiredWarmupPeriods, string indicatorName)` protected method to `StreamHub<TIn, TOut>` base class. This method:
+
 - Validates inherited `MaxCacheSize` from provider
 - Throws `ArgumentOutOfRangeException` if cache is insufficient for warmup
 - Provides clear error message indicating required size
 
 ### Validation examples implemented
 
-**1. Simple lookback period (SMA, Hurst)**
-```csharp
-ValidateCacheSize(lookbackPeriods, Name);
-```
+1. Simple lookback period (SMA, Hurst)
 
-**2. Complex multi-period (Ichimoku)**
-```csharp
-int requiredWarmup = senkouBPeriods + senkouOffset;
-ValidateCacheSize(requiredWarmup, Name);
-```
+   ```csharp
+   ValidateCacheSize(lookbackPeriods, Name);
+   ```
 
-**3. Additive periods (PMO)**
-```csharp
-int requiredWarmup = timePeriods + smoothPeriods + signalPeriods;
-ValidateCacheSize(requiredWarmup, Name);
-```
+2. Complex multi-period (Ichimoku)
 
-**4. Maximum of periods (KVO)**
-```csharp
-int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
-ValidateCacheSize(requiredWarmup, Name);
-```
+   ```csharp
+   int requiredWarmup = senkouBPeriods + senkouOffset;
+   ValidateCacheSize(requiredWarmup, Name);
+   ```
+
+3. Additive periods (PMO)
+
+   ```csharp
+   int requiredWarmup = timePeriods + smoothPeriods + signalPeriods;
+   ValidateCacheSize(requiredWarmup, Name);
+   ```
+
+4. Maximum of periods (KVO)
+
+   ```csharp
+   int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
+   ValidateCacheSize(requiredWarmup, Name);
+   ```
 
 ### Pattern for remaining indicators
 

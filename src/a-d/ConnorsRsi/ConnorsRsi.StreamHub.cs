@@ -40,7 +40,7 @@ public class ConnorsRsiHub
         streakAvgLoss = double.NaN;
 
         // Validate cache size for warmup requirements
-        int requiredWarmup = rsiPeriods * 2 + Math.Max(streakPeriods, rankPeriods);
+        int requiredWarmup = (rsiPeriods * 2) + Math.Max(streakPeriods, rankPeriods);
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();
