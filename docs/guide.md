@@ -90,7 +90,6 @@ foreach (SmaResult r in results)
 {
     Console.WriteLine($"SMA on {r.Timestamp:d} was ${r.Sma:N4}");
 }
-Buffer list style indicators maintain incremental state as you add new data points. This is ideal for scenarios where you're building up historical data over time or processing data incrementally without needing a full hub infrastructure.
 
 ```
 
@@ -522,8 +521,6 @@ Common real‑time technologies in .NET are built around asynchronous I/O, but m
 ```csharp
 using System.Net.WebSockets;
 using Skender.Stock.Indicators;
-
-using System.Net.WebSockets;
 
 QuoteHub quoteHub = new();
 SmaHub smaHub = quoteHub.ToSma(20);
