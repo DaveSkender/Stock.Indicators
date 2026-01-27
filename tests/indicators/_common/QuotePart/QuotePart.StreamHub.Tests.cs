@@ -18,7 +18,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         QuotePartHub observer = quoteHub.ToQuotePartHub(candlePart);
 
         // fetch initial results (early)
-        IReadOnlyList<QuotePart> sut = observer.Results;
+        IReadOnlyList<TimeValue> sut = observer.Results;
 
         // emulate adding quotes to provider hub
         for (int i = 20; i < quotesCount; i++)
@@ -36,13 +36,13 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
 
-        IReadOnlyList<QuotePart> expectedOriginal = Quotes.Use(candlePart);
+        IReadOnlyList<TimeValue> expectedOriginal = Quotes.Use(candlePart);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<QuotePart> expectedRevised = RevisedQuotes.Use(candlePart);
+        IReadOnlyList<TimeValue> expectedRevised = RevisedQuotes.Use(candlePart);
 
         // assert, should equal series
         sut.Should().HaveCount(quotesCount - 1);
@@ -79,7 +79,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;

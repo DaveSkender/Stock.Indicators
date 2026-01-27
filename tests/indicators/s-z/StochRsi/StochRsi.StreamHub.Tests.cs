@@ -46,7 +46,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<StochRsiResult> expectedRevised = RevisedQuotes.ToStochRsi(14, 14, 3, 1);
         sut.IsExactly(expectedRevised);
@@ -102,6 +102,26 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
+    public void Provider_IsRsiHub()
+    {
+        QuoteHub quoteHub = new();
+        StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
+
+        System.Reflection.PropertyInfo property = typeof(StochRsiHub)
+            .GetProperty(
+                "Provider",
+                System.Reflection.BindingFlags.NonPublic
+                | System.Reflection.BindingFlags.Instance
+                | System.Reflection.BindingFlags.FlattenHierarchy)!;
+
+        object provider = property.GetValue(observer)!;
+        provider.Should().BeOfType<RsiHub>();
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
         const int rsiPeriods = 14;
@@ -130,7 +150,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;

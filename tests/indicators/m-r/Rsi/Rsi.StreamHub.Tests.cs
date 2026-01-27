@@ -40,7 +40,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<RsiResult> expectedRevised = RevisedQuotes.ToRsi(lookbackPeriods);
         sut.IsExactly(expectedRevised);
@@ -116,7 +116,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;

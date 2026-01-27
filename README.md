@@ -26,11 +26,11 @@ Quick example using streaming:
 
 ```csharp
 // Create a quote hub for streaming quotes
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // Subscribe indicators to the hub
-EmaHub<Quote> emaHub = quoteHub.ToEma(20);
-RsiHub<Quote> rsiHub = quoteHub.ToRsi(14);
+EmaHub emaHub = quoteHub.ToEma(20);
+RsiHub rsiHub = quoteHub.ToRsi(14);
 
 // Stream quotes as they arrive
 foreach (Quote quote in liveQuotes)
@@ -38,8 +38,8 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);
     
     // Access real-time results
-    EmaResult emaResult = emaHub.Results.LastOrDefault();
-    RsiResult rsiResult = rsiHub.Results.LastOrDefault();
+    EmaResult emaResult = emaHub.Results[^1];
+    RsiResult rsiResult = rsiHub.Results[^1];
 }
 ```
 

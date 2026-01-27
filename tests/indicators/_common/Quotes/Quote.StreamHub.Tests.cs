@@ -37,7 +37,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         sut.IsExactly(Quotes);
 
         // delete, should equal series (revised)
-        provider.Remove(Quotes[removeAtIndex]);
+        provider.RemoveAt(removeAtIndex);
 
         sut.IsExactly(RevisedQuotes);
         sut.Should().HaveCount(quotesCount - 1);
@@ -72,7 +72,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         provider.Insert(Quotes[80]);  // Late arrival
-        provider.Remove(Quotes[removeAtIndex]);  // Delete
+        provider.RemoveAt(removeAtIndex);  // Delete
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;

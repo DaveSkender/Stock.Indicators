@@ -177,10 +177,6 @@
       "tests.indicators": {
         "type": "Project",
         "dependencies": {
-          "FluentAssertions": "[7.2.0, )",
-          "MSTest.TestAdapter": "[4.0.2, )",
-          "MSTest.TestFramework": "[4.0.2, )",
-          "Microsoft.NET.Test.Sdk": "[18.0.1, )",
           "Skender.Stock.Indicators": "[1.0.0, )"
         }
       }

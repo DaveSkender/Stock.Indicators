@@ -7,21 +7,20 @@ on:
       - docs/**
       - .github/workflows/test-website-a11y.yml
 
-# Prevent multiple concurrent runs
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 env:
-  NODE_VERSION: "24.12.0"
-  PNPM_VERSION: "10.27.0"
+  NODE_VERSION: "24.13.0"
+  PNPM_VERSION: "10.28.1"
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 20
     defaults:
       run:

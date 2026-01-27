@@ -23,6 +23,7 @@ public class EmaHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
+
     /// <inheritdoc/>
     protected override (EmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

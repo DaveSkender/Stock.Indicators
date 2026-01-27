@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
-    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,15 +20,16 @@ private readonly RollingWindowMax<double> _window;
 
 protected override void RollbackState(DateTime timestamp)
 {
+    int targetIndex = ProviderCache.IndexGte(timestamp);
+
     _window.Clear();
 
-    int index = ProviderCache.IndexGte(timestamp);
-    if (index <= 0) return;
+    if (targetIndex <= 0) return;
 
-    int targetIndex = index - 1;
-    int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
+    int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
 
-    for (int p = startIdx; p <= targetIndex; p++)
+    for (int p = startIdx; p <= restoreIndex; p++)
     {
         _window.Add(ProviderCache[p].Value);
     }
@@ -46,19 +47,20 @@ private readonly Queue<double> _rawKBuffer;
 
 protected override void RollbackState(DateTime timestamp)
 {
+    int targetIndex = ProviderCache.IndexGte(timestamp);
+
     // Clear all state
     _highWindow.Clear();
     _lowWindow.Clear();
     _rawKBuffer.Clear();
 
-    int index = ProviderCache.IndexGte(timestamp);
-    if (index <= 0) return;
+    if (targetIndex <= 0) return;
 
-    int targetIndex = index - 1;
+    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
 
     // Rebuild windows
-    int windowStart = Math.Max(0, targetIndex + 1 - LookbackPeriods);
-    for (int p = windowStart; p <= targetIndex; p++)
+    int windowStart = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+    for (int p = windowStart; p <= restoreIndex; p++)
     {
         IQuote q = ProviderCache[p];
         _highWindow.Add((double)q.High);
@@ -66,8 +68,8 @@ protected override void RollbackState(DateTime timestamp)
     }
 
     // Prefill buffer for smoothing
-    int bufferStart = Math.Max(0, targetIndex + 1 - SmoothPeriods);
-    for (int p = bufferStart; p <= targetIndex; p++)
+    int bufferStart = Math.Max(0, restoreIndex + 1 - SmoothPeriods);
+    for (int p = bufferStart; p <= restoreIndex; p++)
     {
         double rawK = CalculateRawK(p);
         _rawKBuffer.Enqueue(rawK);
@@ -86,18 +88,19 @@ private double _prevValue = double.NaN;
 
 protected override void RollbackState(DateTime timestamp)
 {
+    int targetIndex = ProviderCache.IndexGte(timestamp);
+
     _avgGain = double.NaN;
     _avgLoss = double.NaN;
     _prevValue = double.NaN;
 
-    int index = ProviderCache.IndexGte(timestamp);
-    if (index <= 0) return;
+    if (targetIndex <= 0) return;
 
-    int targetIndex = index - 1;
+    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
 
     // Replay warmup period to rebuild Wilder's smoothing state
-    int startIdx = Math.Max(0, targetIndex + 1 - (2 * LookbackPeriods));
-    for (int p = startIdx; p <= targetIndex; p++)
+    int startIdx = Math.Max(0, restoreIndex + 1 - (2 * LookbackPeriods));
+    for (int p = startIdx; p <= restoreIndex; p++)
     {
         double value = ProviderCache[p].Value;
         if (!double.IsNaN(_prevValue))
@@ -125,18 +128,19 @@ private double _prevEma = double.NaN;
 
 protected override void RollbackState(DateTime timestamp)
 {
-    int index = ProviderCache.IndexGte(timestamp);
-    if (index <= 0)
+    int targetIndex = ProviderCache.IndexGte(timestamp);
+
+    if (targetIndex <= 0)
     {
         _prevEma = double.NaN;
         return;
     }
 
-    // Restore previous EMA from cache
-    int priorIndex = index - 1;
-    if (priorIndex >= LookbackPeriods)
+    // Restore previous EMA from cache (up to but NOT including timestamp)
+    int restoreIndex = targetIndex - 1;
+    if (restoreIndex >= LookbackPeriods)
     {
-        EmaResult prior = Cache[priorIndex];
+        EmaResult prior = Cache[restoreIndex];
         _prevEma = prior.Ema ?? double.NaN;
     }
     else
@@ -148,13 +152,56 @@ protected override void RollbackState(DateTime timestamp)
 
 **Reference**: `EmaHub.RollbackState`
 
+## Pattern: Compound hub state
+
+For compound hubs that maintain state beyond the internal hub's results:
+
+```csharp
+private readonly RollingWindowMax<double> _rsiMaxWindow;
+private readonly RollingWindowMin<double> _rsiMinWindow;
+private readonly Queue<double> kBuffer;
+private readonly Queue<double> signalBuffer;
+
+protected override void RollbackState(DateTime timestamp)
+{
+    int targetIndex = ProviderCache.IndexGte(timestamp);
+
+    // Clear all compound state
+    _rsiMaxWindow.Clear();
+    _rsiMinWindow.Clear();
+    kBuffer.Clear();
+    signalBuffer.Clear();
+
+    if (targetIndex <= 0) return;
+
+    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
+
+    // Replay compound hub processing using cached internal hub results
+    for (int i = 0; i <= restoreIndex; i++)
+    {
+        double rsiValue = ProviderCache[i].Value;  // ProviderCache holds RSI results
+        if (!double.IsNaN(rsiValue))
+        {
+            _ = UpdateOscillatorState(rsiValue);  // Rebuild compound state
+        }
+    }
+}
+```
+
+**Reference**: `StochRsiHub.RollbackState`
+
+**Note**: Most compound hubs do NOT need RollbackState override. Only override when maintaining additional state beyond the internal hub's results. See `compound-hubs.md` for details.
+
 ## Key principles
 
 1. **Clear all stateful fields first** - Reset to initial state
 2. **Find the target index** - Use `ProviderCache.IndexGte(timestamp)`
-3. **Replay from warmup start** - Calculate startIdx with lookback period
-4. **Rebuild incrementally** - Process each cached item in order
-5. **Match ToIndicator logic** - Use same calculations as normal processing
+3. **Calculate restore index** - Set `restoreIndex = targetIndex - 1` (rebuild up to but NOT including timestamp)
+4. **Replay from warmup start** - Calculate startIdx with lookback period
+5. **Rebuild incrementally** - Process each cached item in order up to `restoreIndex`
+6. **Match ToIndicator logic** - Use same calculations as normal processing
+
+**Critical**: The quote at the rollback timestamp will be recalculated when it arrives via normal processing. Do NOT include it in the replay loop.
 
 ## Anti-patterns to avoid
 
@@ -169,4 +216,4 @@ if (needsRebuild) { /* rebuild logic */ }
 **Use RollbackState override instead** - Framework calls it automatically.
 
 ---
-Last updated: December 31, 2025
+Last updated: January 19, 2026

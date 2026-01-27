@@ -636,15 +636,15 @@ public class StyleComparison
 
     [BenchmarkCategory("QuotePart")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<QuotePart> QuotePartSeries() => quotes.ToQuotePart(CandlePart.OHL3);
+    public IReadOnlyList<TimeValue> QuotePartSeries() => quotes.ToQuotePart(CandlePart.OHL3);
 
     [BenchmarkCategory("QuotePart")]
     [Benchmark]
-    public IReadOnlyList<QuotePart> QuotePartBuffer() => quotes.ToQuotePartList(CandlePart.OHL3);
+    public IReadOnlyList<TimeValue> QuotePartBuffer() => quotes.ToQuotePartList(CandlePart.OHL3);
 
     [BenchmarkCategory("QuotePart")]
     [Benchmark]
-    public IReadOnlyList<QuotePart> QuotePartStream() => quoteHub.ToQuotePartHub(CandlePart.OHL3).Results;
+    public IReadOnlyList<TimeValue> QuotePartStream() => quoteHub.ToQuotePartHub(CandlePart.OHL3).Results;
 
     [BenchmarkCategory("Renko")]
     [Benchmark(Baseline = true)]

@@ -20,7 +20,7 @@ public class QuoteHub
     {
         _isStandalone = true;
 
-        const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
+        const int maxCacheSizeDefault = 100_000;
 
         if (maxCacheSize is (not null and <= 0) or > maxCacheSizeDefault)
         {
@@ -69,41 +69,47 @@ public class QuoteHub
     /// <inheritdoc/>
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {
-        // for non-standalone QuoteHub, use standard behavior
+        ArgumentNullException.ThrowIfNull(item);
+
+        // for non-standalone QuoteHub, use standard behavior (which handles locking)
         if (!_isStandalone)
         {
             base.OnAdd(item, notify, indexHint);
             return;
         }
 
-        // get result and position
-        (IQuote result, int index) = ToIndicator(item, indexHint);
-
-        // check if this is a same-timestamp update (not a new item at the end)
-        if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
+        // Lock for standalone QuoteHub operations
+        lock (CacheLock)
         {
-            // check if this is an exact duplicate (same values)
-            // if so, defer to AppendCache for overflow tracking
-            if (Cache[index].Equals(result))
+            // get result and position
+            (IQuote result, int index) = ToIndicator(item, indexHint);
+
+            // check if this is a same-timestamp update (not a new item at the end)
+            if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
             {
+                // check if this is an exact duplicate (same values)
+                // if so, defer to AppendCache for overflow tracking
+                if (Cache[index].Equals(result))
+                {
+                    AppendCache(result, notify);
+                    return;
+                }
+
+                // replace existing item at this position (different values, same timestamp)
+                Cache[index] = result;
+
+                // notify observers (inside lock to ensure cache consistency)
+                if (notify)
+                {
+                    NotifyObserversOnRebuild(item.Timestamp);
+                }
+            }
+            else
+            {
+                // standard add behavior for new items
                 AppendCache(result, notify);
-                return;
             }
-
-            // replace existing item at this position (different values, same timestamp)
-            Cache[index] = result;
-
-            // notify observers to rebuild from this timestamp
-            if (notify)
-            {
-                NotifyObserversOnRebuild(result.Timestamp);
-            }
-
-            return;
         }
-
-        // standard add behavior for new items
-        AppendCache(result, notify);
     }
 
     /// <summary>
@@ -118,11 +124,16 @@ public class QuoteHub
         // instead, just notify observers to rebuild from this hub's cache
         if (_isStandalone)
         {
-            // rollback internal state
-            RollbackState(fromTimestamp);
+            lock (CacheLock)
+            {
+                // rollback internal state
+                RollbackState(fromTimestamp);
 
-            // notify observers to rebuild from this hub
-            NotifyObserversOnRebuild(fromTimestamp);
+                // notify observers to rebuild from this hub (inside lock
+                // to ensure cache consistency before any new items are added)
+                NotifyObserversOnRebuild(fromTimestamp);
+            }
+
             return;
         }
 

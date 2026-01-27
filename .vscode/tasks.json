@@ -31,6 +31,50 @@
       ],
       "default": "info",
       "type": "pickString"
+    },
+    {
+      "id": "simulationMode",
+      "description": "Select simulation mode (data source)",
+      "options": [
+        "sse",
+        "coinbase"
+      ],
+      "default": "sse",
+      "type": "pickString"
+    },
+    {
+      "id": "dataType",
+      "description": "Data type: quote (candles/klines) or trade (ticker/transactions)",
+      "options": [
+        "quote",
+        "trade"
+      ],
+      "default": "quote",
+      "type": "pickString"
+    },
+    {
+      "id": "deliveryInterval",
+      "description": "Delivery rate in milliseconds (how fast data is sent)",
+      "default": "50",
+      "type": "promptString"
+    },
+    {
+      "id": "count",
+      "description": "Maximum count (leave empty for unlimited)",
+      "default": "",
+      "type": "promptString"
+    },
+    {
+      "id": "quoteInterval",
+      "description": "Quote interval / timestamp spacing (e.g., 1s, 1m, 5m, 1h, 1d)",
+      "default": "1m",
+      "type": "promptString"
+    },
+    {
+      "id": "coinbaseSymbol",
+      "description": "Coinbase trading pair (e.g., BTC-USD, ETH-USD)",
+      "default": "BTC-USD",
+      "type": "promptString"
     }
   ],
   // defaults
@@ -95,6 +139,17 @@
       "type": "shell",
       "command": "dotnet restore && dotnet restore docs/Examples && dotnet outdated --exclude FluentAssertions",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Install: Chrome for Puppeteer",
+      "detail": "Install Chrome browser for Puppeteer-based accessibility testing",
+      "type": "shell",
+      "command": "pnpm dlx puppeteer browsers install chrome",
+      "presentation": {
+        "echo": false,
+        "clear": true,
+        "panel": "shared"
+      }
     },
     {
       "label": "Inspect: .NET packages",
@@ -418,9 +473,9 @@
     },
     {
       "label": "Test: Website links (htmlproofer)",
-      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
+      "detail": "Build website and check for broken links with htmlproofer (uses Docker)",
       "type": "shell",
-      "command": "bash .vitepress/run-htmlproofer.sh",
+      "command": "bash .vitepress/test-links.sh",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -431,7 +486,7 @@
       "label": "Test: Website a11y (pa11y)",
       "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
       "type": "shell",
-      "command": "bash .vitepress/run-pa11y.sh",
+      "command": "bash .vitepress/test-a11y.sh",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -507,38 +562,167 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Test simulation",
-      "detail": "Run streaming indicators simulation demo",
+      "label": "Run: Simulation with inputs",
+      "detail": "Run simulation with configurable mode, data type, intervals, and count",
       "type": "shell",
-      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} \"${input:count}\" ${input:quoteInterval} ${input:coinbaseSymbol}",
       "group": "none",
-      "problemMatcher": "$msCompile"
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Starting.*simulation",
+          "endsPattern": "^Strategy complete|^Stream complete|^Client disconnected"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Run: Simulation (default SSE)",
+      "detail": "Run SSE simulation with defaults: quote data, 50ms delivery, 1m intervals, unlimited count",
+      "type": "shell",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse quote 50 '' 1m",
+      "windows": {
+        "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse quote 50 \"\" 1m"
+      },
+      "group": "none",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Starting.*simulation",
+          "endsPattern": "^Strategy complete|^Stream complete|^Client disconnected"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Run: SSE Server",
+      "detail": "Start SSE server on localhost:5001",
+      "type": "shell",
+      "command": "dotnet run --project tools/sse-server/Test.SseServer.csproj -- --urls http://localhost:5001",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Building...|^SSE Server starting",
+          "endsPattern": "^Now listening on:"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Show: Running servers",
+      "detail": "Display all running VitePress, Simulation, and SSE Server processes",
+      "type": "shell",
+      "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node.exe):' && (tasklist //fi \"imagename eq node.exe\" 2>/dev/null | grep -E 'node|PID' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet.exe):' && (tasklist //fi \"imagename eq dotnet.exe\" 2>/dev/null | grep -E 'dotnet|PID' || echo '   No processes found')",
+      "linux": {
+        "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node):' && (ps aux | grep -E '[n]ode.*vitepress|PID.*CMD' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet):' && (ps aux | grep -E '[d]otnet.*(simulate|sse-server)|PID.*CMD' || echo '   No processes found')"
+      },
+      "osx": {
+        "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node):' && (ps aux | grep -E '[n]ode.*vitepress|PID.*CMD' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet):' && (ps aux | grep -E '[d]otnet.*(simulate|sse-server)|PID.*CMD' || echo '   No processes found')"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Stop: VitePress servers",
+      "detail": "Stop VitePress dev/preview servers on default ports (5173/5174)",
+      "type": "shell",
+      "command": "netstat -ano 2>/dev/null | grep -E ':(5173|5174)\\\\s' | awk '{print $5}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null && echo '[OK] VitePress servers successfully stopped' || echo '[INFO] No VitePress server processes found'",
+      "linux": {
+        "command": "(lsof -ti:5173,5174 2>/dev/null | xargs -r kill -9 2>/dev/null && echo '[OK] VitePress servers successfully stopped') || echo '[INFO] No VitePress server processes found'"
+      },
+      "osx": {
+        "command": "(lsof -ti:5173,5174 2>/dev/null | xargs kill -9 2>/dev/null && echo '[OK] VitePress servers successfully stopped') || echo '[INFO] No VitePress server processes found'"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
     },
     {
       "label": "Stop: All hosted servers",
-      "detail": "Stop VitePress dev/preview servers on default ports (5173/5174) across platforms",
-      "type": "shell",
-      "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true",
-      "windows": {
-        "command": "powershell -NoLogo -NoProfile -Command \"Get-CimInstance Win32_Process -Filter \\\"Name='node.exe'\\\" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -match 'vitepress|docs:dev|docs:preview|5173|5174' } | ForEach-Object { Write-Host \\\"Stopping VitePress process $($_.ProcessId)\\\"; Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }\""
-      },
-      "osx": {
-        "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true"
-      },
+      "detail": "Stop all hosted servers: VitePress, Simulation, and SSE Server",
+      "dependsOn": [
+        "Stop: VitePress servers",
+        "Stop: Simulation hosts",
+        "Stop: SseServer hosts"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
       "presentation": {
-        "reveal": "silent",
+        "reveal": "always",
         "panel": "shared"
       }
     },
     {
-      "label": "Install: Chrome for Puppeteer",
-      "detail": "Install Chrome browser for Puppeteer-based accessibility testing",
+      "label": "Stop: Simulation hosts",
+      "detail": "Stop dotnet processes running tools/simulate or Test.Simulation",
       "type": "shell",
-      "command": "pnpm dlx puppeteer browsers install chrome",
+      "command": "wmic process where \"name='dotnet.exe' and (commandline like '%Test.Simulation%' or commandline like '%tools/simulate%' or commandline like '%tools\\\\\\\\simulate%')\" get processid 2>/dev/null | grep -E '^[0-9]+' | xargs -I {} taskkill //PID {} //F 2>/dev/null && echo '[OK] Simulation hosts successfully stopped' || echo '[INFO] No Simulation server processes found'",
+      "linux": {
+        "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
+      },
+      "osx": {
+        "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
+      },
+      "problemMatcher": [],
       "presentation": {
-        "echo": false,
-        "clear": true,
-        "panel": "shared"
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Stop: SseServer hosts",
+      "detail": "Stop dotnet/Test.SseServer processes running tools/sse-server or Test.SseServer.exe",
+      "type": "shell",
+      "command": "(netstat -ano 2>/dev/null | grep ':5001\\\\s' | awk '{print $5}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null; wmic process where \"name='dotnet.exe' and (commandline like '%Test.SseServer%' or commandline like '%tools/sse-server%' or commandline like '%tools\\\\\\\\sse-server%')\" get processid 2>/dev/null | grep -E '^[0-9]+' | xargs -I {} taskkill //PID {} //F 2>/dev/null) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'",
+      "linux": {
+        "command": "((lsof -ti:5001 2>/dev/null | xargs -r kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
+      },
+      "osx": {
+        "command": "((lsof -ti:5001 2>/dev/null | xargs kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
       }
     },
     {

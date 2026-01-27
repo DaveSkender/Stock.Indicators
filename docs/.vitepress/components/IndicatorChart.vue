@@ -36,7 +36,7 @@ interface ThresholdLine {
 
 interface SeriesStyle {
   name: string
-  type?: 'line' | 'area' | 'histogram' | 'baseline' | 'dots'
+  type?: 'line' | 'area' | 'histogram' | 'baseline' | 'dots' | 'pointer'
   color?: string
   lineWidth?: LineWidth
   lineStyle?: 'solid' | 'dash' | 'dots'
@@ -367,6 +367,7 @@ function getLineStyle(style?: string): LineStyle {
 
 function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOscillator: boolean) {
   const targetArray = isOscillator ? oscillatorSeries : overlaySeries
+  const allMarkers: any[] = []  // Collect markers from all series
 
   seriesData.forEach((seriesConfig, index) => {
     const color = seriesConfig.color || indicatorColors[index % indicatorColors.length]
@@ -410,10 +411,20 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         })
         break
       case 'dots':
+        // For dots, create line series with invisible line, then add markers
         series = chart.addSeries(LineSeries, {
-          color: color,
-          lineWidth: lineWidth,
-          lineStyle: LineStyle.Dotted,
+          color: 'rgba(0,0,0,0)',
+          lineWidth: 0,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
+      case 'pointer':
+        // For pointers (triangular markers), create line series with invisible line
+        series = chart.addSeries(LineSeries, {
+          color: 'rgba(0,0,0,0)',
+          lineWidth: 0,
           priceLineVisible: false,
           lastValueVisible: false,
           crosshairMarkerVisible: false
@@ -437,16 +448,70 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
           time: parseTimestamp(d.timestamp),
           value: d.value as number
         }
-        // Preserve per-bar color if present (for conditional coloring like Elder-Ray)
-        if (d.color) {
+        // For dots and pointer types, don't add color to data points (only use for markers)
+        // For other types, preserve per-bar color if present
+        if (seriesConfig.type !== 'dots' && seriesConfig.type !== 'pointer' && d.color) {
           point.color = d.color
         }
         return point
       })
+    
+    if (seriesConfig.type === 'pointer' || seriesConfig.type === 'dots') {
+      console.log(`[${seriesConfig.name}] Total data points: ${seriesConfig.data.length}, Filtered: ${filteredData.length}`)
+    }
 
+    // Set data for all series types (markers need the data points to position correctly)
     series.setData(filteredData)
+
+    // For dots type, add circular markers for each data point
+    if (seriesConfig.type === 'dots') {
+      // Get original colors from source data for markers
+      const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
+      const markers = filteredData.map((d, idx) => ({
+        time: d.time,
+        position: 'inBar' as const,
+        color: sourceData[idx]?.color || color,
+        shape: 'circle' as const,
+        size: lineWidth || 3
+      }))
+      console.log(`[${seriesConfig.name}] Adding ${markers.length} dot markers`, markers.slice(0, 3))
+      allMarkers.push(...markers)  // Collect markers instead of setting directly
+    }
+
+    // For pointer type, add arrow markers (up for green, down for red)
+    if (seriesConfig.type === 'pointer') {
+      // Get original colors from source data for markers
+      const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
+      const markers = filteredData.map((d, idx) => {
+        const markerColor = sourceData[idx]?.color || color
+        // Use arrowUp for green (bullish), arrowDown for red (bearish)
+        const isGreen = markerColor === '#2E7D32' || markerColor.toLowerCase().includes('green')
+        return {
+          time: d.time,
+          position: 'inBar' as const,
+          color: markerColor,
+          shape: (isGreen ? 'arrowUp' : 'arrowDown') as const,
+          size: 3  // Increased size for better visibility
+        }
+      })
+      console.log(`[${seriesConfig.name}] Adding ${markers.length} pointer markers`, markers.slice(0, 3))
+      allMarkers.push(...markers)  // Collect markers instead of setting directly
+    }
+
     targetArray.push(series)
   })
+
+  // Set all markers on the candlestick series (only for overlay charts)
+  if (!isOscillator && allMarkers.length > 0 && candleSeries) {
+    // Sort markers by time to ensure correct rendering order
+    allMarkers.sort((a, b) => {
+      const timeA = typeof a.time === 'string' ? new Date(a.time).getTime() : a.time
+      const timeB = typeof b.time === 'string' ? new Date(b.time).getTime() : b.time
+      return timeA - timeB
+    })
+    console.log(`Setting ${allMarkers.length} total markers on candlestick series`)
+    candleSeries.setMarkers(allMarkers)
+  }
 }
 
 function updateViewportWidth() {

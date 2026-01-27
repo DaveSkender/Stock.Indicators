@@ -29,16 +29,16 @@ on:
         default: true
         required: true
 
-concurrency:
-  group: ${{ github.ref_name }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   package:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 30
 
     outputs:
@@ -48,7 +48,6 @@ jobs:
       dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
-
       - name: Validate CI deployment
         run: |
           echo "✅ CI deployment to GitHub Packages"
@@ -69,7 +68,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.x"

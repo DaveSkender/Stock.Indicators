@@ -61,7 +61,7 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
         _buffer.Update(LookbackPeriods, value);
 
         // Add to cache for Increment calculation
-        _cache.Add(new QuotePart(Timestamp: timestamp, Value: value));
+        _cache.Add(new TimeValue(Timestamp: timestamp, Value: value));
 
         // Calculate EPMA when we have enough values using shared Increment method
         // The actual global index is cache index + offset (to account for pruned items)

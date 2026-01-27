@@ -45,7 +45,7 @@ public static partial class Hma
                 continue;
             }
 
-            QuotePart sh = new(
+            TimeValue sh = new(
                 s.Timestamp,
                 (w2.Wma.Null2NaN() * 2d) - w1.Wma.Null2NaN());
 

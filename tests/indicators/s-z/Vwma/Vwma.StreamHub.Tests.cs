@@ -41,7 +41,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<VwmaResult> expectedRevised = RevisedQuotes.ToVwma(lookbackPeriods);
 
@@ -85,7 +85,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals

@@ -90,6 +90,7 @@ foreach (SmaResult r in results)
 {
     Console.WriteLine($"SMA on {r.Timestamp:d} was ${r.Sma:N4}");
 }
+
 ```
 
 ```console
@@ -124,7 +125,7 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<SmaResult> results = smaList;
 
 // or get the latest result
-SmaResult latest = smaList.LastOrDefault();
+SmaResult latest = smaList[^1];
 ```
 
 **Key features:**
@@ -132,7 +133,7 @@ SmaResult latest = smaList.LastOrDefault();
 - Implements `ICollection<TResult>` for standard collection operations
 - Automatically manages internal buffers for efficient calculations
 - Supports `.Add()` for individual quotes or `.Add(IReadOnlyList)` for batches
-- Auto-prunes results when exceeding `MaxListSize` (default ~1.9B elements)
+- Auto-prunes results when exceeding `MaxListSize` (default 100,000 elements)
 - Can be cleared and reused with `.Clear()`
 
 ### Stream hub style usage example
@@ -145,10 +146,10 @@ using Skender.Stock.Indicators;
 [..]
 
 // create quote hub and subscribe indicators
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSma(20);
-RsiHub<Quote> rsiHub = quoteHub.ToRsi(14);
-MacdHub<Quote> macdHub = quoteHub.ToMacd();
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
+RsiHub rsiHub = quoteHub.ToRsi(14);
+MacdHub macdHub = quoteHub.ToMacd();
 
 // stream quotes as they arrive
 foreach (Quote quote in liveQuotes)
@@ -157,9 +158,9 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);
     
     // access latest results from each indicator
-    SmaResult sma = smaHub.Results.LastOrDefault();
-    RsiResult rsi = rsiHub.Results.LastOrDefault();
-    MacdResult macd = macdHub.Results.LastOrDefault();
+    SmaResult sma = smaHub.Results[^1];
+    RsiResult rsi = rsiHub.Results[^1];
+    MacdResult macd = macdHub.Results[^1];
     
     // use results for trading logic, alerts, etc.
 }
@@ -243,7 +244,7 @@ IReadOnlyList<SmaResult> results = myQuotes.ToSma(20);
 ```
 
 ::: warning Custom quotes must have value based equality
-When implementing your custom quote type, it must be either `record` class or implement `IEquality` to be compatible with streaming hubs
+When implementing your custom quote type, it must be either `record` class or implement `IEquatable<T>` to be compatible with streaming hubs
 :::
 
 #### Using custom quote property names
@@ -315,7 +316,7 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities/quotes#extended-candle-properties), and further used as the basis for calculating indicators.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities/quotes/extended-candle-properties), and further used as the basis for calculating indicators.
 
 ## Incremental buffer style indicators
 
@@ -353,7 +354,7 @@ foreach (IQuote quote in quotes)
 IReadOnlyList<{IndicatorName}Result> results = indicatorList;
 
 // Or get latest value
-{IndicatorName}Result latest = indicatorList.LastOrDefault();
+{IndicatorName}Result latest = indicatorList[^1];
 
 // Clear and reuse if needed
 indicatorList.Clear();
@@ -361,7 +362,7 @@ indicatorList.Clear();
 
 ### Memory management
 
-Buffer lists automatically manage memory with the `MaxListSize` property (default ~1.9B elements). When the list exceeds this size, older results are automatically pruned. You can customize this behavior:
+Buffer lists automatically manage memory with the `MaxListSize` property (default 100,000 elements). When the list exceeds this size, older results are automatically pruned. You can customize this behavior:
 
 ```csharp
 SmaList smaList = new(20)
@@ -402,11 +403,11 @@ Stream hub style provides real-time processing with observable patterns and stat
 
 ```csharp
 // Create quote hub
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // Subscribe indicators (observers)
-{IndicatorName}Hub<Quote> hub1 = quoteHub.To{IndicatorName}(params);
-{IndicatorName}Hub<Quote> hub2 = quoteHub.To{IndicatorName}(params);
+{IndicatorName}Hub hub1 = quoteHub.To{IndicatorName}(params);
+{IndicatorName}Hub hub2 = quoteHub.To{IndicatorName}(params);
 
 // Stream quotes
 foreach (Quote quote in liveQuotes)
@@ -414,8 +415,8 @@ foreach (Quote quote in liveQuotes)
     quoteHub.Add(quote);  // Propagates to all observers
     
     // Access results
-    var result1 = hub1.Results.LastOrDefault();
-    var result2 = hub2.Results.LastOrDefault();
+    var result1 = hub1.Results[^1];
+    var result2 = hub2.Results[^1];
 }
 ```
 
@@ -424,14 +425,17 @@ foreach (Quote quote in liveQuotes)
 Stream hubs support indicator chaining for derived indicators:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // Chain RSI from EMA
-EmaHub<Quote> emaHub = quoteHub.ToEma(20);
-RsiHub<Quote> rsiHub = emaHub.ToRsi(14);  // RSI of EMA
+EmaHub emaHub = quoteHub.ToEmaHub(20);
+RsiHub rsiHub = emaHub.ToRsiHub(14);  // RSI of EMA
 
 // Or chain directly
-RsiHub<Quote> rsiOfEma = quoteHub.ToEma(20).ToRsi(14);
+RsiHub rsiOfEma
+  = quoteHub
+    .ToEmaHub(20)
+    .ToRsiHub(14);
 ```
 
 ### State management and rollback
@@ -439,8 +443,8 @@ RsiHub<Quote> rsiOfEma = quoteHub.ToEma(20).ToRsi(14);
 Stream hubs support late-arriving data and corrections:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
 
 // Add quotes
 quoteHub.Add(quote1);
@@ -461,6 +465,306 @@ quoteHub.Remove(badQuote);   // Triggers recalculation
 - **Scalability**: Supports multiple concurrent observers with single propagation
 
 See individual indicator documentation for specific streaming examples.
+
+## Thread safety and concurrency
+
+Understanding thread-safety is critical when working with streaming indicators and live data feeds. This section clarifies the library's threading model and provides guidance on safely integrating with real-time data sources.
+
+### Library threading model
+
+**Stock.Indicators processes stream events serially** - one event at a time. The library is designed for single-threaded sequential processing and is **not thread-safe by default**.
+
+- **Series style**: Calculations are stateless and thread-safe when inputs are not mutated concurrently; results are immutable and safe to share across threads
+- **Buffer lists**: Not thread-safe; synchronize external access if sharing across threads
+- **Stream hubs**: Not thread-safe; designed for single-threaded inputs like WebSocket/SSE
+
+A `StreamHub`, `QuoteHub`, or `BufferList` instance reads one quote at a time and is **not meant to be shared across threads** without external synchronization.
+
+### Why streaming is often single-threaded
+
+Thread-safety limitations in streaming contexts are normal and expected throughout the .NET ecosystem and common data feed technologies:
+
+**Common streaming technologies:**
+
+- **WebSocket connections**: Typically maintain a single connection with sequential message delivery. The underlying TCP stream is inherently sequential.
+- **Server-Sent Events (SSE)**: HTTP-based event streams deliver events one at a time over a single connection.
+- **Stock quote feeds** (IEX, Alpaca, Interactive Brokers, etc.): Most real-time market data APIs deliver quotes sequentially over WebSocket or similar connections.
+- **SignalR hubs**: .NET's real-time framework delivers messages to hub methods serially by default.
+- **gRPC streams**: Bidirectional streaming maintains message order within a single stream.
+
+**Why this design is optimal:**
+
+- **Order preservation**: Financial calculations require chronological processing; parallel processing would require complex synchronization to maintain order
+- **Performance**: Serial processing eliminates lock contention and coordination overhead for the common case
+- **Simplicity**: Most streaming data sources are inherently sequential; the library matches this natural flow
+
+::: details Read more: How common is thread safety in .NET asynchronous environments?
+
+Common real‑time technologies in .NET are built around asynchronous I/O, but most of them are **not inherently thread‑safe**.  Each framework has its own rules for how concurrent access is allowed:
+
+- **SignalR:** A SignalR server processes many requests concurrently.  The Microsoft Q&A documentation notes that if you have shared state in your hub, **you must make access to that state thread‑safe** by locking around the shared resource.  Splitting code across multiple hubs doesn’t change this, because the underlying threads can still access the same objects.  Also, `HubConnection` objects on the client are not thread‑safe; instance members should not be called from multiple threads at once.  For safe broadcasting, queue messages and use a single sending loop for each connection rather than firing `SendAsync` from several tasks concurrently.
+
+- **WebSockets:** The underlying `ClientWebSocket` class allows **only one send and one receive** to be in progress at a time.  The official API docs say that one send and one receive may run in parallel, but issuing multiple sends or multiple receives concurrently “is not supported and will result in undefined behaviour”.  If you need to send messages from multiple producers, serialize calls to `SendAsync` (for example, via a `ConcurrentQueue` and a dedicated sender task).
+
+- **Server‑Sent Events (SSE):** SSE streams are unidirectional and typically implemented by returning an `IAsyncEnumerable<T>` or reading from a `StreamReader`.  A `StreamReader` is **not thread‑safe by default**.  If multiple threads need to read from the same stream, wrap it using `TextReader.Synchronized` or provide each consumer with its own reader.  In most SSE patterns, only one enumeration reads the stream, so events are delivered serially and no additional locking is needed.  If you share a single event source among multiple clients, protect shared buffers with thread‑safe collections such as `BlockingCollection<T>`.
+
+- **Popular market‑data providers:** Many third‑party libraries use WebSocket connections under the hood.  Some, like JKorf’s `Binance.Net`/`CryptoExchange.Net`, document that only one subscriber should read a given WebSocket stream at a time, and their classes are not guaranteed to be thread‑safe.  Use separate client instances per subscription or consult the library’s documentation for concurrency guidelines.  When consuming data from these libraries, apply the same WebSocket rules above—queue outbound messages and avoid simultaneous sends or receives on the same socket.
+
+**Summary:** Real‑time components in .NET are designed for asynchronous I/O but not for free‑form multithreaded access.  Treat hubs, WebSocket clients and SSE stream readers as single‑consumer objects.  Protect shared state with locks or concurrent collections, and queue messages so that only one send or receive call is active at a time.  If you need to broadcast to multiple consumers, create separate connections or use thread‑safe collections to manage shared data.
+
+:::
+
+### Idiomatic usage patterns (no locks needed)
+
+#### WebSocket example with serial processing
+
+```csharp
+using System.Net.WebSockets;
+using Skender.Stock.Indicators;
+
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
+
+async Task ProcessWebSocketStream(string uri, CancellationToken cancellationToken)
+{
+    using var ws = new ClientWebSocket();
+    try
+    {
+        await ws.ConnectAsync(new Uri(uri), cancellationToken);
+
+        byte[] buffer = new byte[4096];
+
+        while (ws.State == WebSocketState.Open && !cancellationToken.IsCancellationRequested)
+        {
+            WebSocketReceiveResult result = await ws.ReceiveAsync(
+                new ArraySegment<byte>(buffer),
+                cancellationToken);
+
+            // If server requested close, acknowledge and exit
+            if (result.CloseStatus.HasValue)
+            {
+                try
+                {
+                    await ws.CloseOutputAsync(result.CloseStatus.Value, result.CloseStatusDescription ?? "", cancellationToken);
+                }
+                catch (WebSocketException) { }
+                break;
+            }
+
+            if (result.MessageType == WebSocketMessageType.Text)
+            {
+                // parse quote from JSON message (your method)
+                // ParseQuoteFromJson should only read `result.Count` bytes from the buffer
+                Quote quote = ParseQuoteFromJson(buffer, result.Count);
+
+                // process serially - no locks needed
+                quoteHub.Add(quote);
+
+                var latest = smaHub.Results.LastOrDefault();
+                // use results
+            }
+        }
+    }
+    catch (OperationCanceledException)
+    {
+        // cancellation requested - exit gracefully
+    }
+    catch (WebSocketException ex)
+    {
+        // handle connection errors
+        Console.WriteLine($"WebSocket error: {ex.Message}");
+    }
+    finally
+    {
+        if (ws.State == WebSocketState.Open || ws.State == WebSocketState.CloseReceived)
+        {
+            try
+            {
+                await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", cancellationToken);
+            }
+            catch (WebSocketException) { }
+            catch (OperationCanceledException) { }
+        }
+    }
+}
+```
+
+#### Server-Sent Events (SSE) example
+
+```csharp
+using Skender.Stock.Indicators;
+
+QuoteHub quoteHub = new();
+RsiHub rsiHub = quoteHub.ToRsi(14);
+
+async Task ProcessSSEStream(string sseEndpoint)
+{
+    using var client = new HttpClient();
+    using var stream = await client.GetStreamAsync(sseEndpoint);
+    using var reader = new StreamReader(stream);
+    
+    while (!reader.EndOfStream)
+    {
+        string? line = await reader.ReadLineAsync();
+        
+        if (line?.StartsWith("data:") == true)
+        {
+            // parse quote from SSE data line (your method)
+            Quote quote = ParseQuoteFromSSE(line);
+            
+            // process serially
+            quoteHub.Add(quote);
+            
+            var latest = rsiHub.Results.LastOrDefault();
+            // use results
+        }
+    }
+}
+```
+
+#### Multiple independent streams
+
+If you have multiple indicators that **don't need synchronization**, create separate instances per thread:
+
+```csharp
+// thread 1: processes MSFT
+Task.Run(() => {
+    QuoteHub msftHub = new();
+    SmaHub msftSma = msftHub.ToSma(20);
+    
+    foreach (var quote in msftStream)
+    {
+        msftHub.Add(quote);  // no locks needed
+    }
+});
+
+// thread 2: processes AAPL
+Task.Run(() => {
+    QuoteHub aaplHub = new();
+    SmaHub aaplSma = aaplHub.ToSma(20);
+    
+    foreach (var quote in aaplStream)
+    {
+        aaplHub.Add(quote);  // no locks needed
+    }
+});
+```
+
+### Troubleshooting concurrent access
+
+If your application architecture requires sharing a hub instance across threads or processing quotes from multiple concurrent sources, you'll need to add external synchronization. This section shows how to diagnose and fix concurrency issues.
+
+**Common symptoms:**
+
+- Inconsistent or corrupted results
+- `InvalidOperationException` from collection modification
+- Race conditions or unexpected behavior
+- Debugging shows multiple threads accessing the same hub
+
+#### Using locks for shared access
+
+If you must share a hub across threads, use a dedicated lock object:
+
+```csharp
+using Skender.Stock.Indicators;
+
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSma(20);
+
+// dedicated lock object (never lock on quoteHub directly)
+object _hubLock = new();
+
+// thread 1: processing quotes
+void ProcessQuotes(Quote quote)
+{
+    lock (_hubLock)
+    {
+        quoteHub.Add(quote);
+    }
+}
+
+// thread 2: reading results
+void ReadResults()
+{
+    lock (_hubLock)
+    {
+        var latest = smaHub.Results.LastOrDefault();
+        // use latest result
+    }
+}
+```
+
+::: warning Never lock on the hub instance directly
+Do NOT use `lock (quoteHub)` - always create a dedicated `private readonly object` for locking. Locking on public instances can cause deadlocks and violates encapsulation.
+:::
+
+#### Using Channel for producer-consumer coordination
+
+For high-throughput scenarios where you need to decouple quote reception from processing, use `System.Threading.Channels`:
+
+```csharp
+using System.Threading.Channels;
+using Skender.Stock.Indicators;
+
+Channel<Quote> quoteChannel = Channel.CreateUnbounded<Quote>();
+
+// producer thread: receives quotes from WebSocket
+async Task ProduceQuotes(WebSocket ws)
+{
+    while (ws.State == WebSocketState.Open)
+    {
+        Quote quote = await ReceiveQuoteFromWebSocket(ws);
+        await quoteChannel.Writer.WriteAsync(quote);
+    }
+    
+    quoteChannel.Writer.Complete();
+}
+
+// consumer thread: processes quotes through indicators
+async Task ConsumeQuotes()
+{
+    QuoteHub quoteHub = new();
+    SmaHub smaHub = quoteHub.ToSma(20);
+    
+    await foreach (Quote quote in quoteChannel.Reader.ReadAllAsync())
+    {
+        quoteHub.Add(quote);  // serial processing
+        
+        var latest = smaHub.Results.LastOrDefault();
+        // use results
+    }
+}
+
+// start both tasks
+await Task.WhenAll(
+    ProduceQuotes(websocket),
+    ConsumeQuotes()
+);
+```
+
+### When to use external synchronization
+
+**You need locks or channels when:**
+
+- Sharing a single hub instance across multiple threads
+- Multiple threads call `.Add()`, `.Insert()`, or `.Remove()` on the same hub
+- Reading results from one thread while another thread updates the hub
+- Processing quotes from multiple concurrent sources into one hub
+
+**You DON'T need locks when:**
+
+- Processing a single sequential stream (WebSocket, SSE, file reading)
+- Each thread has its own independent hub instances
+- Using Series style for batch calculations (results are immutable)
+- Reading from BufferList or StreamHub from the same thread that updates it
+
+### Performance considerations
+
+- **Locking overhead**: For high-frequency updates (>10k quotes/sec), channel-based coordination typically outperforms simple locks
+- **Lock contention**: Minimize lock hold time; read results outside the lock if possible
+- **False sharing**: If running multiple independent hubs, ensure they don't share cache lines
+
+See [Performance](/performance) for detailed benchmarks and optimization guidance.
 
 ## Utilities
 

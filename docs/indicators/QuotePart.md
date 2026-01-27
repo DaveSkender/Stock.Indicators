@@ -12,11 +12,11 @@ Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by i
 
 ```csharp
 // C# usage syntax
-IReadOnlyList<QuotePart> results =
+IReadOnlyList<TimeValue> results =
   quotes.Use(candlePart);
 
 // alternate syntax
-IReadOnlyList<QuotePart> results =
+IReadOnlyList<TimeValue> results =
   quotes.ToQuotePart(candlePart);
 ```
 
@@ -35,14 +35,14 @@ You must have at least 1 period of `quotes`.
 ## Response
 
 ```csharp
-IReadOnlyList<QuotePart>
+IReadOnlyList<TimeValue>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-### `QuotePart` type
+### `TimeValue` type
 
 | property | type | description |
 | -------- | ---- | ----------- |
@@ -51,9 +51,9 @@ IReadOnlyList<QuotePart>
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
 
-See [Utilities and helpers](/utilities/results) for more information.
+See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
@@ -81,7 +81,7 @@ foreach (IQuote quote in quotes)  // simulating stream
   quoteHub.Add(quote);
 }
 
-IReadOnlyList<QuotePart> results = observer.Results;
+IReadOnlyList<TimeValue> results = observer.Results;
 ```
 
 ## Buffering
@@ -96,5 +96,5 @@ foreach (IQuote quote in quotes)  // simulating stream
   buffer.Add(quote);
 }
 
-IReadOnlyList<QuotePart> results = buffer;
+IReadOnlyList<TimeValue> results = buffer;
 ```

@@ -46,7 +46,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<GatorResult> expected = RevisedQuotes.ToGator();
@@ -99,7 +99,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.Insert(quotesList[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<GatorResult> sut
@@ -116,6 +116,22 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         sut.IsExactly(expected);
 
         // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void Provider_IsAlligatorHub()
+    {
+        QuoteHub quoteHub = new();
+        GatorHub observer = quoteHub.ToGatorHub();
+
+        System.Reflection.PropertyInfo property = typeof(StreamHub<AlligatorResult, GatorResult>)
+            .GetProperty("Provider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+
+        object provider = property.GetValue(observer)!;
+        provider.Should().BeOfType<AlligatorHub>();
+
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -178,7 +194,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
 
         // test null alligatorHub parameter (throws NullReferenceException from base constructor)
-        Action act1 = () => _ = new GatorHub(null!);
+        Action act1 = () => _ = new GatorHub(alligatorHub: null!);
         act1.Should().Throw<NullReferenceException>("AlligatorHub cannot be null");
 
         // test null item in ToIndicator (via reflection to access protected method)

@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.27.0",
   "engines": {
-    "node": ">=24.12.0",
+    "node": ">=24.13.0",
     "pnpm": ">=10.27.0"
   },
   "scripts": {
@@ -16,14 +16,14 @@
     "generate:contributors": "node .vitepress/scripts/generate-contributors.mjs"
   },
   "devDependencies": {
-    "@octokit/rest": "22.0.1",
-    "@playwright/test": "1.57.0",
-    "@types/node": "24.10.4",
-    "sass-embedded": "1.97.1",
+    "@octokit/rest": "^22.0.1",
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^24.10.9",
+    "sass-embedded": "^1.97.3",
     "vitepress": "2.0.0-alpha.15",
-    "vue": "3.5.26"
+    "vue": "^3.5.27"
   },
   "dependencies": {
-    "lightweight-charts": "5.1.0"
+    "lightweight-charts": "^5.1.0"
   }
 }

@@ -112,8 +112,8 @@ Handle failures:
 When changing indicators or public APIs:
 
 - Update XML documentation for changed public APIs
-- Update `docs/_indicators/{IndicatorName}.md` for indicator changes
-- Update `src/MigrationGuide.V3.md` for breaking changes
+- Update `docs/indicators/{IndicatorName}.md` for indicator changes
+- Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
 - Update obsolete bridge files (`src/Obsolete.V3.*.cs`) for deprecated APIs
 
 ### Step 5: Verify and commit
@@ -159,7 +159,7 @@ For new or updated indicators, MUST include:
 - Series implementation (`*.StaticSeries.cs`)
 - Catalog entry and registration (`*.Catalog.cs`)
 - Unit tests with full coverage (`*.Tests.cs`)
-- Documentation (`docs/_indicators/{Name}.md`)
+- Documentation (`docs/indicators/{Name}.md`)
 - Regression test baseline (if algorithm changed)
 - Performance benchmark (for complex indicators)
 
@@ -168,7 +168,7 @@ For new or updated indicators, MUST include:
 When changing public APIs, MUST:
 
 - Add `[Obsolete]` attribute with migration message
-- Update `src/MigrationGuide.V3.md`
+- Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes
 - Update bridge files:
   - `src/Obsolete.V3.Indicators.cs`
   - `src/Obsolete.V3.Other.cs`

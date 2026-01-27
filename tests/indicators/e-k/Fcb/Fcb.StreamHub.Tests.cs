@@ -45,7 +45,7 @@ public class FcbHubTests : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<FcbResult> expected

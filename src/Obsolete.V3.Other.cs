@@ -24,6 +24,9 @@ public static partial class Indicator
             .Select(static x => (x.Timestamp, x.Value));
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Use 'Collection<T> Foo = [..myEnumerable];' instead.")]
+    internal static Collection<T> ToCollection<T>(this IEnumerable<T> source) => [.. source];
+
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
     public static IEnumerable<(DateTime Timestamp, double Value)> Use(
         this IReadOnlyList<IQuote> quotes)
@@ -154,7 +157,7 @@ public static partial class Indicator
 public interface IReusableResult : IReusable;
 
 [ExcludeFromCodeCoverage]
-[Obsolete("Rename `BasicData` to `QuotePart`", true)]
+[Obsolete("Rename `BasicData` to `TimeValue`", true)]
 public sealed class BasicData : IReusable
 {
     public DateTime Timestamp { get; set; }

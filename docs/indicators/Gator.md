@@ -52,12 +52,12 @@ The first 150 periods will have decreasing magnitude, convergence-related precis
 
 ### Utilities
 
-- [.Condense()](/utilities/results#condense)
-- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
+- [.Condense()](/utilities/results/condense)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results/remove-warmup-periods)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/results) for more information.
+See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
@@ -101,3 +101,29 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<GatorResult> results = observer.Results;
 ```
+
+::: info Compound hub
+The Gator hub is based on the Alligator indicator.
+When the Gator hub is chained from an existing `AlligatorHub` instance it will reuse the existing Alligator hub values rather than creating its own internal Alligator calculations.
+**This is not a normal chaining model.**
+
+```csharp
+// creates an internal Alligator hub
+var gatorHub = quotes
+  .ToGatorHub();
+
+// this is helpful in cases where you have an independent 
+// Alligator hub and do not want to create duplicate copies
+
+var alligatorHub = quotes
+  .ToAlligatorHub();
+
+// does not create 2nd internal huba separate internal Alligator hub
+var gatorHub = alligatorHub
+  .ToGatorHub();  // does not create 2nd internal hub
+
+// ❌ Alligator → [ Alligator ] → Gator
+// ✅ Alligator → Gator
+```
+
+:::

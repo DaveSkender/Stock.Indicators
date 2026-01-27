@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <inheritdoc />
 public class UltimateHub
-    : ChainHub<IReusable, UltimateResult>, IUltimate
+    : ChainHub<IQuote, UltimateResult>, IUltimate
 {
     internal UltimateHub(
         IQuoteProvider<IQuote> provider,
@@ -31,7 +31,7 @@ public class UltimateHub
 
     /// <inheritdoc/>
     protected override (UltimateResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -60,8 +60,8 @@ public class UltimateHub
         // Calculate sums for all three periods
         for (int p = i - LongPeriods + 1; p <= i; p++)
         {
-            IQuote current = (IQuote)ProviderCache[p];
-            IQuote previous = (IQuote)ProviderCache[p - 1];
+            IQuote current = ProviderCache[p];
+            IQuote previous = ProviderCache[p - 1];
 
             double high = (double)current.High;
             double low = (double)current.Low;
