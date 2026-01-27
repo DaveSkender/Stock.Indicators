@@ -71,10 +71,10 @@ When multiple bricks are drawn from a single `quote` period, the extra informati
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/results) for more information.
+See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 

@@ -10,5 +10,6 @@ package-lock.json
 _site/
 vendor/
 .bundle/
+.temp/
 .vitepress/cache/
 .vitepress/dist/

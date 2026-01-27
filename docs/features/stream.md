@@ -172,40 +172,23 @@ Internal thread safety protects cache integrity during rebuild operations (trigg
 
 ## Advanced patterns
 
-### Multiple symbol tracking
-
-```csharp
-// track multiple symbols with separate hubs
-Dictionary<string, QuoteHub> hubs = new();
-
-void ProcessQuote(string symbol, Quote quote)
-{
-    if (!hubs.ContainsKey(symbol))
-    {
-        hubs[symbol] = new QuoteHub();
-    }
-    
-    hubs[symbol].Add(quote);
-}
-```
-
-### Coordinated indicator updates
+### Reactive strategies
 
 ```csharp
 QuoteHub quoteHub = new();
 
-// create multiple indicator hubs
-var sma20 = quoteHub.ToSmaHub(20);
-var sma50 = quoteHub.ToSmaHub(50);
-var rsi = quoteHub.ToRsiHub(14);
-var macd = quoteHub.ToMacdHub();
+EmaHub emaFast = quoteHub.ToEmaHub(50);
+EmaHub emaSlow = quoteHub.ToEmaHub(200);
 
-// single update cascades to all
+// add quotes to quoteHub (from stream)
 quoteHub.Add(newQuote);
+// and the 2 EmaHub will be in sync
 
-// all indicators now have synchronized timestamps
-bool aboveGoldenCross = 
-    sma20.Results[^1].Sma > sma50.Results[^1].Sma;
+if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
+&& emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
+{
+    // cross over occurred
+}
 ```
 
 ### Event-driven alerts
