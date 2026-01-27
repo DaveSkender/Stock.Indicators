@@ -78,7 +78,7 @@ Ensures all required fields are present and valid:
 
 ### Chronological order
 
-While not strictly enforced, the validator will warn about significantly out-of-order quotes that could indicate data issues.
+The validator enforces chronological order and throws InvalidQuotesException for any out-of-order quotes.
 
 ## When to use
 

@@ -1,6 +1,10 @@
 ---
+layout: docs
 title: Helper utilities
 description: Numerical analysis utilities for creating custom indicators.
+nav:
+  parent: utilities
+  title: Helpers
 ---
 
 # Helper utilities
@@ -32,47 +36,3 @@ decimal? rounded = NullMath.Round(value, 2);
 [See more →](/utilities/helpers/nullmath)
 
 </div>
-
-<style scoped>
-.utility-cards {
-  display: grid;
-  gap: 1.5rem;
-  margin: 2rem 0;
-}
-
-.utility-cards h2 {
-  margin: 0;
-  font-size: 1.35rem;
-  padding: 1.25rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-divider);
-  border-left: 4px solid var(--vp-c-brand);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.utility-cards h2:hover {
-  border-left-color: var(--vp-c-brand-dark);
-  transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.utility-cards h2 a {
-  text-decoration: none;
-  color: var(--vp-c-brand);
-}
-
-.utility-cards p {
-  margin: 0.75rem 0 0 0;
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  color: var(--vp-c-text-2);
-  line-height: 1.6;
-}
-
-.utility-cards p strong {
-  display: block;
-  margin-top: 0.5rem;
-  color: var(--vp-c-text-1);
-  font-size: 0.9rem;
-}
-</style>

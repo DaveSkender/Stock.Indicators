@@ -72,7 +72,7 @@ The last line segment will always be redrawn back to the last known pivot.  Do n
 
 - [.Condense()](/utilities/results/condense)
 - [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/results/remove-warmup-periods)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
 
 See [Utilities and helpers](/utilities/results/) for more information.
 

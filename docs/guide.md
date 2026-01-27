@@ -90,6 +90,8 @@ foreach (SmaResult r in results)
 {
     Console.WriteLine($"SMA on {r.Timestamp:d} was ${r.Sma:N4}");
 }
+Buffer list style indicators maintain incremental state as you add new data points. This is ideal for scenarios where you're building up historical data over time or processing data incrementally without needing a full hub infrastructure.
+
 ```
 
 ```console
@@ -473,7 +475,7 @@ Understanding thread-safety is critical when working with streaming indicators a
 
 **Stock.Indicators processes stream events serially** - one event at a time. The library is designed for single-threaded sequential processing and is **not thread-safe by default**.
 
-- **Series style**: Results are immutable and thread-safe; calculations themselves are not thread-safe
+- **Series style**: Calculations are stateless and thread-safe when inputs are not mutated concurrently; results are immutable and safe to share across threads
 - **Buffer lists**: Not thread-safe; synchronize external access if sharing across threads
 - **Stream hubs**: Not thread-safe; designed for single-threaded inputs like WebSocket/SSE
 
@@ -497,7 +499,7 @@ Thread-safety limitations in streaming contexts are normal and expected througho
 - **Performance**: Serial processing eliminates lock contention and coordination overhead for the common case
 - **Simplicity**: Most streaming data sources are inherently sequential; the library matches this natural flow
 
-::: details read more: How common is thread safety in .NET asynchronous environments?
+::: details Read more: How common is thread safety in .NET asynchronous environments?
 
 Common real‑time technologies in .NET are built around asynchronous I/O, but most of them are **not inherently thread‑safe**.  Each framework has its own rules for how concurrent access is allowed:
 
@@ -521,65 +523,71 @@ Common real‑time technologies in .NET are built around asynchronous I/O, but m
 using System.Net.WebSockets;
 using Skender.Stock.Indicators;
 
+using System.Net.WebSockets;
+
 QuoteHub quoteHub = new();
 SmaHub smaHub = quoteHub.ToSma(20);
 
-async Task ProcessWebSocketStream(ClientWebSocket ws, string uri, CancellationToken cancellationToken)
+async Task ProcessWebSocketStream(string uri, CancellationToken cancellationToken)
 {
+    using var ws = new ClientWebSocket();
     try
     {
         await ws.ConnectAsync(new Uri(uri), cancellationToken);
-        
+
         byte[] buffer = new byte[4096];
-        
+
         while (ws.State == WebSocketState.Open && !cancellationToken.IsCancellationRequested)
         {
             WebSocketReceiveResult result = await ws.ReceiveAsync(
-                new ArraySegment<byte>(buffer), 
+                new ArraySegment<byte>(buffer),
                 cancellationToken);
-            
-            // check for close messages
-            if (result.MessageType == WebSocketMessageType.Close)
+
+            // If server requested close, acknowledge and exit
+            if (result.CloseStatus.HasValue)
             {
-                await ws.CloseOutputAsync(
-                    WebSocketCloseStatus.NormalClosure, 
-                    "Closing", 
-                    cancellationToken);
+                try
+                {
+                    await ws.CloseOutputAsync(result.CloseStatus.Value, result.CloseStatusDescription ?? "", cancellationToken);
+                }
+                catch (WebSocketException) { }
                 break;
             }
-            
+
             if (result.MessageType == WebSocketMessageType.Text)
             {
                 // parse quote from JSON message (your method)
+                // ParseQuoteFromJson should only read `result.Count` bytes from the buffer
                 Quote quote = ParseQuoteFromJson(buffer, result.Count);
-                
+
                 // process serially - no locks needed
                 quoteHub.Add(quote);
-                
+
                 var latest = smaHub.Results.LastOrDefault();
                 // use results
             }
         }
+    }
+    catch (OperationCanceledException)
+    {
+        // cancellation requested - exit gracefully
     }
     catch (WebSocketException ex)
     {
         // handle connection errors
         Console.WriteLine($"WebSocket error: {ex.Message}");
     }
-    catch (OperationCanceledException)
-    {
-        // cancellation requested - clean shutdown
-    }
     finally
     {
         if (ws.State == WebSocketState.Open || ws.State == WebSocketState.CloseReceived)
         {
-            await ws.CloseAsync(
-                WebSocketCloseStatus.NormalClosure, 
-                "Closing", 
-                CancellationToken.None);
+            try
+            {
+                await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", cancellationToken);
+            }
+            catch (WebSocketException) { }
+            catch (OperationCanceledException) { }
         }
-        ws.Dispose();
     }
 }
 ```
@@ -667,12 +675,12 @@ QuoteHub quoteHub = new();
 SmaHub smaHub = quoteHub.ToSma(20);
 
 // dedicated lock object (never lock on quoteHub directly)
-private readonly object _hubLock = new();
+object hubLock = new();
 
 // thread 1: processing quotes
 void ProcessQuotes(Quote quote)
 {
-    lock (_hubLock)
+    lock (hubLock)
     {
         quoteHub.Add(quote);
     }
@@ -681,7 +689,7 @@ void ProcessQuotes(Quote quote)
 // thread 2: reading results
 void ReadResults()
 {
-    lock (_hubLock)
+    lock (hubLock)
     {
         var latest = smaHub.Results.LastOrDefault();
         // use latest result

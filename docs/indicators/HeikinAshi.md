@@ -49,7 +49,7 @@ IReadOnlyList<HeikinAshiResult>
 ### Utilities
 
 - [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/results/remove-warmup-periods)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp

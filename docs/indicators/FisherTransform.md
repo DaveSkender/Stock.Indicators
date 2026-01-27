@@ -56,7 +56,7 @@ The first `N+15` warmup periods will have unusable decreasing magnitude, converg
 
 - [.Condense()](/utilities/results/condense)
 - [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/results/remove-warmup-periods)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
 
 For pruning of warmup periods, we recommend using the following guidelines:
 
