@@ -672,12 +672,12 @@ QuoteHub quoteHub = new();
 SmaHub smaHub = quoteHub.ToSma(20);
 
 // dedicated lock object (never lock on quoteHub directly)
-object hubLock = new();
+object _hubLock = new();
 
 // thread 1: processing quotes
 void ProcessQuotes(Quote quote)
 {
-    lock (hubLock)
+    lock (_hubLock)
     {
         quoteHub.Add(quote);
     }
@@ -686,7 +686,7 @@ void ProcessQuotes(Quote quote)
 // thread 2: reading results
 void ReadResults()
 {
-    lock (hubLock)
+    lock (_hubLock)
     {
         var latest = smaHub.Results.LastOrDefault();
         // use latest result
