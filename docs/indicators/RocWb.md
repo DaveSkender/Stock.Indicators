@@ -50,7 +50,7 @@ IReadOnlyList<RocWbResult>
 
 ### Utilities
 
-See [Utilities and helpers](/utilities/results) for more information.
+See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Streaming
 
