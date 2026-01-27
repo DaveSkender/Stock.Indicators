@@ -82,7 +82,8 @@ public class ThreadSafetyTests : TestBase
             }
 
             // Compute series on FULL quote list, then take last N matching cache size.
-            // Use quote cache size (not hub result size) because hub may have fewer results due to warmup.
+            // Streaming indicators process all quotes and maintain state, so series must be
+            // computed on the full history, then truncated to match the final cache size.
             int cacheSize = quoteHub.Results.Count;
             IReadOnlyList<StcResult> expected = allQuotesWithOperations
                 .ToStc()
