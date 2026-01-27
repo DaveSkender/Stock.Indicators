@@ -7,31 +7,31 @@ public class QuoteParts : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         // compose data
-        IReadOnlyList<QuotePart> o = Quotes.Use(CandlePart.Open);
-        IReadOnlyList<QuotePart> h = Quotes.Use(CandlePart.High);
-        IReadOnlyList<QuotePart> l = Quotes.Use(CandlePart.Low);
-        IReadOnlyList<QuotePart> c = Quotes.Use(CandlePart.Close);
-        IReadOnlyList<QuotePart> v = Quotes.Use(CandlePart.Volume);
-        IReadOnlyList<QuotePart> hl = Quotes.Use(CandlePart.HL2);
-        IReadOnlyList<QuotePart> hlc = Quotes.Use(CandlePart.HLC3);
-        IReadOnlyList<QuotePart> oc = Quotes.Use(CandlePart.OC2);
-        IReadOnlyList<QuotePart> ohl = Quotes.Use(CandlePart.OHL3);
-        IReadOnlyList<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4);
+        IReadOnlyList<TimeValue> o = Quotes.Use(CandlePart.Open);
+        IReadOnlyList<TimeValue> h = Quotes.Use(CandlePart.High);
+        IReadOnlyList<TimeValue> l = Quotes.Use(CandlePart.Low);
+        IReadOnlyList<TimeValue> c = Quotes.Use(CandlePart.Close);
+        IReadOnlyList<TimeValue> v = Quotes.Use(CandlePart.Volume);
+        IReadOnlyList<TimeValue> hl = Quotes.Use(CandlePart.HL2);
+        IReadOnlyList<TimeValue> hlc = Quotes.Use(CandlePart.HLC3);
+        IReadOnlyList<TimeValue> oc = Quotes.Use(CandlePart.OC2);
+        IReadOnlyList<TimeValue> ohl = Quotes.Use(CandlePart.OHL3);
+        IReadOnlyList<TimeValue> ohlc = Quotes.Use(CandlePart.OHLC4);
 
         // proper quantities
         c.Should().HaveCount(502);
 
         // samples
-        QuotePart ro = o[501];
-        QuotePart rh = h[501];
-        QuotePart rl = l[501];
-        QuotePart rc = c[501];
-        QuotePart rv = v[501];
-        QuotePart rhl = hl[501];
-        QuotePart rhlc = hlc[501];
-        QuotePart roc = oc[501];
-        QuotePart rohl = ohl[501];
-        QuotePart rohlc = ohlc[501];
+        TimeValue ro = o[501];
+        TimeValue rh = h[501];
+        TimeValue rl = l[501];
+        TimeValue rc = c[501];
+        TimeValue rv = v[501];
+        TimeValue rhl = hl[501];
+        TimeValue rhlc = hlc[501];
+        TimeValue roc = oc[501];
+        TimeValue rohl = ohl[501];
+        TimeValue rohlc = ohlc[501];
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
@@ -65,7 +65,7 @@ public class QuoteParts : StaticSeriesTestBase
     [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
-        IReadOnlyList<QuotePart> r = BadQuotes
+        IReadOnlyList<TimeValue> r = BadQuotes
             .Use(CandlePart.Close);
 
         r.Should().HaveCount(502);
@@ -75,12 +75,12 @@ public class QuoteParts : StaticSeriesTestBase
     [TestMethod]
     public override void NoQuotes_ReturnsEmpty()
     {
-        IReadOnlyList<QuotePart> r0 = Noquotes
+        IReadOnlyList<TimeValue> r0 = Noquotes
             .Use(CandlePart.Close);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<QuotePart> r1 = Onequote
+        IReadOnlyList<TimeValue> r1 = Onequote
             .Use(CandlePart.Close);
 
         r1.Should().HaveCount(1);

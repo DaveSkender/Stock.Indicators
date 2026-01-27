@@ -41,7 +41,7 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<VortexResult> expectedRevised = RevisedQuotes.ToVortex(lookbackPeriods);
 

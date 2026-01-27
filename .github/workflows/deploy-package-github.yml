@@ -18,6 +18,8 @@ on:
     branches:
       - "main"
       - "v[0-9]*"
+    paths:
+      - src/**
 
   workflow_dispatch:
     inputs:
@@ -27,17 +29,16 @@ on:
         default: true
         required: true
 
-concurrency:
-  group: ${{ github.ref_name }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  
   package:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 30
 
     outputs:
@@ -47,7 +48,6 @@ jobs:
       dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
-
       - name: Validate CI deployment
         run: |
           echo "✅ CI deployment to GitHub Packages"
@@ -68,7 +68,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.x"
@@ -91,7 +91,7 @@ jobs:
       - name: Compose CI version
         id: version_info
         run: |
-          # CI version format: {MajorMinorPatch}-ci-{run_number}
+          # CI version format: {MajorMinorPatch}-ci.{run_number}
           # This ensures every CI build has a unique, incrementing version
           # Examples: 2.7.2-ci.1234, 3.0.0-ci.567
 
@@ -105,7 +105,11 @@ jobs:
       - name: Compose package info
         id: package_info
         run: |
-          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj 2>/dev/null)
+          if [[ -z "$PACKAGE_NAME" ]]; then
+            echo "::error::Could not extract PackageId from src/Indicators.csproj"
+            exit 1
+          fi
           echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
           echo "url=https://github.com/${{ github.repository }}/packages" >> $GITHUB_OUTPUT
 
@@ -133,7 +137,6 @@ jobs:
           name: packages
           path: NuGet
           include-hidden-files: true
-  
       - name: Summary output
         if: always()
         run: |
@@ -173,7 +176,6 @@ jobs:
     environment:
       name: pkg.github.com
       url: ${{ needs.package.outputs.url }}
-    
     steps:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -199,7 +201,7 @@ jobs:
         if: ${{ env.dry_run != 'true' }}
         run: |
           echo "📦 Published CI package ${{ env.name }} version ${{ env.version }} to GitHub Packages"
-          echo "   All CI packages have -ci- suffix and will be auto-cleaned after 90 days"
+          echo "   All CI packages have -ci.N suffix and will be auto-cleaned after 90 days"
 
       - name: Deployment summary
         if: always()
@@ -246,7 +248,6 @@ jobs:
                   per_page: 100,
                 }
               );
-              
               console.log(`📦 Found ${versions.length} total package versions`);
 
               if (versions.length === 0) {

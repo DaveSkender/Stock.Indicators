@@ -84,6 +84,3 @@ var results = quotes
   .Use(CandlePart.HL2)
   .ToRsi(14);
 ```
-
----
-Last updated: January 7, 2026

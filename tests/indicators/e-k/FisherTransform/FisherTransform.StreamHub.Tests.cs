@@ -41,7 +41,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<FisherTransformResult> expectedRevised = RevisedQuotes.ToFisherTransform(lookbackPeriods);
 
@@ -120,7 +120,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals

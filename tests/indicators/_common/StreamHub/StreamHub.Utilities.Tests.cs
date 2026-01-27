@@ -34,11 +34,11 @@ public class CacheUtilities : TestBase
         observer.Cache.Should().HaveCount(3);
         quoteHub.Cache.Should().HaveCount(10);
 
-        List<QuotePart> cacheOver
+        List<TimeValue> cacheOver
             = observer.Results
                 .Where(c => c.Timestamp >= q3.Timestamp).ToList();
 
-        List<QuotePart> cacheUndr
+        List<TimeValue> cacheUndr
             = observer.Results
                 .Where(c => c.Timestamp <= q3.Timestamp).ToList();
 
@@ -77,11 +77,11 @@ public class CacheUtilities : TestBase
         observer.Cache.Should().HaveCount(3);
         quoteHub.Cache.Should().HaveCount(10);
 
-        List<QuotePart> cacheOver
+        List<TimeValue> cacheOver
             = observer.Results
                 .Where(c => c.Timestamp >= q3.Timestamp).ToList();
 
-        List<QuotePart> cacheUndr
+        List<TimeValue> cacheUndr
             = observer.Results
                 .Where(c => c.Timestamp <= q3.Timestamp).ToList();
 

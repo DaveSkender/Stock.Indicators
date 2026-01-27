@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides streaming hub for Force Index calculations.
 /// </summary>
 public class ForceIndexHub
-    : ChainHub<IReusable, ForceIndexResult>, IForceIndex
+    : ChainHub<IQuote, ForceIndexResult>, IForceIndex
 {
     private readonly double _k;
     private double _sumRawFi;
@@ -29,7 +29,7 @@ public class ForceIndexHub
 
     /// <inheritdoc />
     protected override (ForceIndexResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -40,8 +40,8 @@ public class ForceIndexHub
         if (i > 0)
         {
             // get current and previous quotes
-            IQuote currentQuote = (IQuote)ProviderCache[i];
-            IQuote previousQuote = (IQuote)ProviderCache[i - 1];
+            IQuote currentQuote = ProviderCache[i];
+            IQuote previousQuote = ProviderCache[i - 1];
 
             // calculate raw Force Index
             double rawFi = (double)currentQuote.Volume
@@ -79,25 +79,28 @@ public class ForceIndexHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset sum - will be recalculated during rebuild
+        // Reset sum for recalculation during rebuild
         _sumRawFi = 0;
 
-        // Rebuild the rolling sum from cache
-        int lastIndex = Cache.Count - 1;
-        if (lastIndex < 0)
+        // Find the cache index corresponding to the rollback timestamp
+        int rollbackIndex = Cache.IndexOf(timestamp, false);
+
+        // If rolling back to a point still in warmup period, rebuild the sum
+        // The sum is only used to compute the first EMA value at index == LookbackPeriods
+        if (rollbackIndex >= 0 && rollbackIndex < LookbackPeriods && ProviderCache.Count > 1)
         {
-            return;
+            // Rebuild sum for warmup period up to rollback point
+            int endIndex = Math.Min(rollbackIndex, LookbackPeriods - 1);
+
+            for (int i = 1; i <= endIndex && i < ProviderCache.Count; i++)
+            {
+                IQuote curr = ProviderCache[i];
+                IQuote prev = ProviderCache[i - 1];
+                _sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
+            }
         }
 
-        // Determine how many values to sum based on where we are
-        int endWarmup = Math.Min(LookbackPeriods - 1, lastIndex);
-
-        for (int i = 1; i <= endWarmup; i++)
-        {
-            IQuote curr = (IQuote)ProviderCache[i];
-            IQuote prev = (IQuote)ProviderCache[i - 1];
-            _sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
-        }
+        // If past warmup period, sum is not needed - EMA continues incrementally from cache
     }
 }
 

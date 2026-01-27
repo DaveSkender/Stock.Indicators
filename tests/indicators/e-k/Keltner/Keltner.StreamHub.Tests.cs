@@ -44,7 +44,7 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<KeltnerResult> expected = RevisedQuotes.ToKeltner(20, 2, 10);

@@ -13,6 +13,7 @@ public static class TestAssert
     /// <param name="selector">Selector that returns the bounded value to check.</param>
     /// <param name="minInclusive">Minimum inclusive bound.</param>
     /// <param name="maxInclusive">Maximum inclusive bound.</param>
+    [StackTraceHidden]
     public static void IsBetween<T>(
         this IEnumerable<T> results,
         Func<T, double?> selector,
@@ -53,6 +54,7 @@ public static class TestAssert
     /// <remarks>
     /// Collections are compared using strict ordering and by comparing all members of <typeparamref name="T"/>.
     /// </remarks>
+    [StackTraceHidden]
     public static void IsExactly<T>(
         this IEnumerable<T> actuals,
         IEnumerable<T> expected,

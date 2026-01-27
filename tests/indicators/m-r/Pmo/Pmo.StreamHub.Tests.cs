@@ -66,7 +66,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<PmoResult> expected = RevisedQuotes.ToPmo(35, 20, 10);
@@ -134,11 +134,11 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int signalPeriods = 10;
 
         // setup chain quoteHub
-        QuoteHub quoteProvider = new();
-        SmaHub quoteHub = quoteProvider.ToSmaHub(smaPeriods);
+        QuoteHub quoteHub = new();
+        SmaHub smaHub = quoteHub.ToSmaHub(smaPeriods);
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = smaHub
             .ToPmoHub(timePeriods, smoothPeriods, signalPeriods)
             .ToSmaHub(smaPeriods);
 
@@ -148,13 +148,13 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             if (i == 80) { continue; }  // Skip for late arrival
 
             Quote q = Quotes[i];
-            quoteProvider.Add(q);
+            quoteHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteProvider.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteProvider.Insert(Quotes[80]);  // Late arrival
-        quoteProvider.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
@@ -171,7 +171,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.Unsubscribe();
-        quoteProvider.EndTransmission();
+        smaHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 }

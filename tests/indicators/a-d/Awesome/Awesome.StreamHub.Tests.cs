@@ -46,7 +46,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<AwesomeResult> expected = RevisedQuotes.ToAwesome(5, 34);
@@ -129,7 +129,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = emaHub.Results;

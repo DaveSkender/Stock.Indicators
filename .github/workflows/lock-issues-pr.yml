@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   lock:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 10
 
     steps:

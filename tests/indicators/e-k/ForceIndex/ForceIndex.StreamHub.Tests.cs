@@ -41,7 +41,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<ForceIndexResult> expectedRevised = RevisedQuotes.ToForceIndex(lookbackPeriods);
 
@@ -85,7 +85,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals
@@ -148,14 +148,14 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
 
         // Create quotes with zero volume
-        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(static q => new Quote {
-            Timestamp = q.Timestamp,
-            Open = q.Open,
-            High = q.High,
-            Low = q.Low,
-            Close = q.Close,
-            Volume = 0
-        }).ToList();
+        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(static q => new Quote(
+            Timestamp: q.Timestamp,
+            Open: q.Open,
+            High: q.High,
+            Low: q.Low,
+            Close: q.Close,
+            Volume: 0
+        )).ToList();
 
         foreach (Quote quote in zeroVolumeQuotes)
         {
@@ -175,14 +175,14 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
 
         // Create quotes with no price change
-        List<Quote> flatQuotes = Enumerable.Range(0, 20).Select(static i => new Quote {
-            Timestamp = DateTime.Now.AddDays(i),
-            Open = 100,
-            High = 100,
-            Low = 100,
-            Close = 100,
-            Volume = 1000
-        }).ToList();
+        List<Quote> flatQuotes = Enumerable.Range(0, 20).Select(static i => new Quote(
+            Timestamp: DateTime.Now.AddDays(i),
+            Open: 100,
+            High: 100,
+            Low: 100,
+            Close: 100,
+            Volume: 1000
+        )).ToList();
 
         foreach (Quote quote in flatQuotes)
         {

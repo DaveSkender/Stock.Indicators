@@ -133,12 +133,9 @@ When adding or updating indicators:
 
 ### Accessibility testing
 
-- use Lighthouse in Chrome, or
-- build the site locally (see above), then:
-
-```bash
-npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
-```
+- Use Lighthouse in Chrome, or
+- Run the automated pa11y task: **Tasks: Run Task** → `Test: Website a11y (pa11y)`, or
+- Run script manually: `bash .vitepress/test-a11y.sh` (tests `localhost` build, not production)
 
 ## Submitting changes
 
@@ -263,14 +260,6 @@ Packages are deployed via two separate GitHub Actions workflows:
 - Git tag already exists (from release creation)
 
 **Workflow:** `.github/workflows/deploy-package-nuget.yml`
-
-**Benefits of separation:**
-
-- ✅ No version collisions between CI and production
-- ✅ CI builds naturally increment with run numbers
-- ✅ Production versions match release tags exactly
-- ✅ Dry-run testing via draft releases
-- ✅ Clear distinction between temporary CI builds and permanent releases
 
 ### Version examples
 

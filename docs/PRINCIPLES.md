@@ -26,9 +26,9 @@ All indicators MUST be mathematically correct, deterministic, and reproducible a
 
 **Documentation requirements:**
 
-`docs/_indicators/*.md` SHOULD link to creator's original publication and reputable secondary sources.
+`docs/indicators/*.md` SHOULD link to creator's original publication and reputable secondary sources.
 
-**NaN handling**: Use non-nullable `double` with IEEE 754 NaN propagation. See [AGENTS.md NaN handling policy](../AGENTS.md#nan-handling-policy) for implementation guidelines.
+**NaN handling**: Use non-nullable `double` with IEEE 754 NaN propagation. See [src/AGENTS.md](../src/AGENTS.md) NaN handling policy section for implementation guidelines.
 
 **Reputation criteria** ([#1024](https://github.com/DaveSkender/Stock.Indicators/discussions/1024)):
 
@@ -71,7 +71,7 @@ Low allocation, cache-friendly, single-pass O(n) computations.
 **Rules:**
 
 - Every public type/member has XML docs (`inheritdoc` for inherited semantics)
-- Update `docs/_indicators/*.md` when parameters, formulas, warmup, or examples change
+- Update `docs/indicators/*.md` when parameters, formulas, warmup, or examples change
 - Release notes enumerate breaking changes with migration guidance
 - Examples MUST compile and reflect current API
 

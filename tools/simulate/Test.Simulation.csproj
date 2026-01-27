@@ -17,17 +17,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All" />
+    <PackageReference Include="JKorf.Coinbase.Net" />
+    <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="_testdata\quotes\*.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

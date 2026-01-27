@@ -22,6 +22,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   package:
     runs-on: ubuntu-latest
@@ -33,11 +37,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Extract version from release tag
         id: version_info

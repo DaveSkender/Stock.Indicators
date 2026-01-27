@@ -9,8 +9,8 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        List<Quote> quotes = Quotes.ToList();
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -18,7 +18,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
         // prefill quotes at provider
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(quotes[i]);
         }
 
         // initialize observer
@@ -37,7 +37,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -48,20 +48,20 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // Should match series after all quotes added
-        IReadOnlyList<ParabolicSarResult> expectedOriginal = quotesList
+        IReadOnlyList<ParabolicSarResult> expectedOriginal = quotes
             .ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
         streamList.IsExactly(expectedOriginal);
 
         // delete
-        quoteHub.Remove(quotesList[removeAtIndex]);
-        quotesList.RemoveAt(removeAtIndex);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
         // time-series, for comparison (revised)
-        IReadOnlyList<ParabolicSarResult> seriesList = quotesList
+        IReadOnlyList<ParabolicSarResult> seriesList = quotes
             .ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
         // assert, should equal series (revised)
@@ -77,8 +77,8 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        List<Quote> quotes = Quotes.ToList();
+        int length = quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -97,7 +97,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -108,17 +108,17 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[removeAtIndex]);
-        quotesList.RemoveAt(removeAtIndex);
+        quoteHub.RemoveAt(removeAtIndex);
+        quotes.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> streamList = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> seriesList = quotesList
+        IReadOnlyList<SmaResult> seriesList = quotes
             .ToParabolicSar(accelerationStep, maxAccelerationFactor)
             .ToSma(smaPeriods);
 

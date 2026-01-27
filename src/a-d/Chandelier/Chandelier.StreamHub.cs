@@ -4,9 +4,9 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Chandelier Exit.
 /// </summary>
 public class ChandelierHub
-    : StreamHub<IQuote, ChandelierResult>, IChandelier
+    : ChainHub<AtrResult, ChandelierResult>, IChandelier
 {
-    private readonly AtrHub atrHub;
+    private readonly IQuoteProvider<IQuote> _quoteProvider;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
 
@@ -14,10 +14,28 @@ public class ChandelierHub
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
         double multiplier,
-        Direction type) : base(provider)
+        Direction type)
+        : this(
+            provider.ToAtrHub(lookbackPeriods),
+            provider,
+            lookbackPeriods,
+            multiplier,
+            type)
+    { }
+
+    internal ChandelierHub(
+        AtrHub atrHub,
+        IQuoteProvider<IQuote> quoteProvider,
+        int lookbackPeriods,
+        double multiplier,
+        Direction type)
+        : base(atrHub)
     {
+        ArgumentNullException.ThrowIfNull(atrHub);
+        ArgumentNullException.ThrowIfNull(quoteProvider);
         Chandelier.Validate(lookbackPeriods, multiplier);
 
+        _quoteProvider = quoteProvider;
         LookbackPeriods = lookbackPeriods;
         Multiplier = multiplier;
         Type = type;
@@ -25,9 +43,6 @@ public class ChandelierHub
         string typeName = type.ToString().ToUpperInvariant();
         Name = FormattableString.Invariant(
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
-
-        // Initialize internal ATR hub to maintain streaming state
-        atrHub = provider.ToAtrHub(lookbackPeriods);
 
         // Initialize rolling windows for O(1) amortized max/min tracking
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
@@ -47,13 +62,20 @@ public class ChandelierHub
 
     /// <inheritdoc/>
     protected override (ChandelierResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(AtrResult item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Get the quote from the underlying quote provider's cache
+        // to access High/Low values for rolling windows.
+        // System invariant: _quoteProvider.Results[i] must exist because the ATR hub
+        // is chained to this quote provider and processes quotes synchronously.
+        // The index i from ProviderCache (ATR results) maps 1:1 to quote provider indices.
+        IQuote quote = _quoteProvider.Results[i];
+
         // Add current quote to rolling windows
-        AddCurrentQuoteToWindows(item);
+        AddCurrentQuoteToWindows(quote);
 
         // handle warmup periods
         if (i < LookbackPeriods)
@@ -61,19 +83,8 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // use cached ATR result from internal hub (O(1) lookup)
-        // System invariant: atrHub.Results[i] must exist because atrHub subscribes
-        // to the same provider and processes updates synchronously before this hub.
-        // This bounds check defends against edge cases during initialization/rebuild.
-        if (i >= atrHub.Results.Count)
-        {
-            throw new InvalidOperationException(
-                $"ATR hub synchronization error: expected ATR result at index {i}, "
-                + $"but atrHub.Results.Count is {atrHub.Results.Count}. "
-                + "This indicates a state synchronization issue between chained hubs.");
-        }
-
-        double? atr = atrHub.Results[i].Atr;
+        // Use ATR from the compound hub's input
+        double? atr = item.Atr;
 
         if (atr is null)
         {
@@ -116,8 +127,8 @@ public class ChandelierHub
         _highWindow.Clear();
         _lowWindow.Clear();
 
-        // Rebuild windows from ProviderCache up to the rollback point
-        int index = ProviderCache.IndexGte(timestamp);
+        // Rebuild windows from the quote provider's cache
+        int index = _quoteProvider.Results.IndexGte(timestamp);
         if (index <= 0)
         {
             return;
@@ -129,7 +140,7 @@ public class ChandelierHub
 
         for (int p = startIdx; p <= targetIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
+            IQuote quote = _quoteProvider.Results[p];
             double cachedHigh = (double)quote.High;
             double cachedLow = (double)quote.Low;
 
@@ -158,4 +169,29 @@ public static partial class Chandelier
         double multiplier = 3,
         Direction type = Direction.Long)
              => new(quoteProvider, lookbackPeriods, multiplier, type);
+
+    /// <summary>
+    /// Creates a new Chandelier Exit hub, using ATR values from an existing ATR hub.
+    /// </summary>
+    /// <param name="atrHub">The existing ATR hub.</param>
+    /// <param name="quoteProvider">The quote provider (must be the same provider used by the ATR hub).</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
+    /// <remarks>
+    /// <para>IMPORTANT: This is not a normal chaining approach.</para>
+    /// This extension overrides the standard chaining pattern to specifically
+    /// reuse an existing <see cref="AtrHub"/> internally, avoiding duplicate ATR calculations
+    /// when multiple indicators need the same ATR values.
+    /// The quote provider must be the same provider used to create the ATR hub;
+    /// providing a different provider may result in index misalignment and incorrect calculations.
+    /// </remarks>
+    public static ChandelierHub ToChandelierHub(
+        this AtrHub atrHub,
+        IQuoteProvider<IQuote> quoteProvider,
+        int lookbackPeriods = 22,
+        double multiplier = 3,
+        Direction type = Direction.Long)
+             => new(atrHub, quoteProvider, lookbackPeriods, multiplier, type);
 }

@@ -14,4 +14,9 @@ public record SuperTrendResult
     decimal? SuperTrend,
     decimal? UpperBand,
     decimal? LowerBand
-) : ISeries;
+) : IReusable
+{
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => SuperTrend.Null2NaN();
+}

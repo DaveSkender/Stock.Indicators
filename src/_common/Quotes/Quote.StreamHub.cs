@@ -20,12 +20,12 @@ public class QuoteHub
     {
         _isStandalone = true;
 
-        const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
+        const int maxCacheSizeDefault = 100_000;
 
-        if (maxCacheSize is not null and > maxCacheSizeDefault)
+        if (maxCacheSize is (not null and <= 0) or > maxCacheSizeDefault)
         {
             string message
-                = $"'{nameof(maxCacheSize)}' must be less than {maxCacheSizeDefault}.";
+                = $"'{nameof(maxCacheSize)}' must be greater than 0 and less than {maxCacheSizeDefault}.";
 
             throw new ArgumentOutOfRangeException(
                 nameof(maxCacheSize), maxCacheSize, message);
@@ -69,41 +69,47 @@ public class QuoteHub
     /// <inheritdoc/>
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {
-        // for non-standalone QuoteHub, use standard behavior
+        ArgumentNullException.ThrowIfNull(item);
+
+        // for non-standalone QuoteHub, use standard behavior (which handles locking)
         if (!_isStandalone)
         {
             base.OnAdd(item, notify, indexHint);
             return;
         }
 
-        // get result and position
-        (IQuote result, int index) = ToIndicator(item, indexHint);
-
-        // check if this is a same-timestamp update (not a new item at the end)
-        if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
+        // Lock for standalone QuoteHub operations
+        lock (CacheLock)
         {
-            // check if this is an exact duplicate (same values)
-            // if so, defer to AppendCache for overflow tracking
-            if (Cache[index].Equals(result))
+            // get result and position
+            (IQuote result, int index) = ToIndicator(item, indexHint);
+
+            // check if this is a same-timestamp update (not a new item at the end)
+            if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
             {
+                // check if this is an exact duplicate (same values)
+                // if so, defer to AppendCache for overflow tracking
+                if (Cache[index].Equals(result))
+                {
+                    AppendCache(result, notify);
+                    return;
+                }
+
+                // replace existing item at this position (different values, same timestamp)
+                Cache[index] = result;
+
+                // notify observers (inside lock to ensure cache consistency)
+                if (notify)
+                {
+                    NotifyObserversOnRebuild(item.Timestamp);
+                }
+            }
+            else
+            {
+                // standard add behavior for new items
                 AppendCache(result, notify);
-                return;
             }
-
-            // replace existing item at this position (different values, same timestamp)
-            Cache[index] = result;
-
-            // notify observers to rebuild from this timestamp
-            if (notify)
-            {
-                NotifyObserversOnRebuild(result.Timestamp);
-            }
-
-            return;
         }
-
-        // standard add behavior for new items
-        AppendCache(result, notify);
     }
 
     /// <summary>
@@ -118,88 +124,22 @@ public class QuoteHub
         // instead, just notify observers to rebuild from this hub's cache
         if (_isStandalone)
         {
-            // rollback internal state
-            RollbackState(fromTimestamp);
+            lock (CacheLock)
+            {
+                // rollback internal state
+                RollbackState(fromTimestamp);
 
-            // notify observers to rebuild from this hub
-            NotifyObserversOnRebuild(fromTimestamp);
+                // notify observers to rebuild from this hub (inside lock
+                // to ensure cache consistency before any new items are added)
+                NotifyObserversOnRebuild(fromTimestamp);
+            }
+
             return;
         }
 
         // standard rebuild for QuoteHub with external provider
         base.Rebuild(fromTimestamp);
     }
-}
-
-/// <summary>
-/// Inert provider for base Hub initialization.
-/// </summary>
-/// <typeparam name="T">Type of record</typeparam>
-public class BaseProvider<T>
-    : IStreamObservable<T>
-    where T : IReusable
-{
-    /// <summary>
-    /// Inert quote provider is parent-less Hub.
-    /// It does not transfer its setting to its children.
-    /// </summary>
-    public BinarySettings Properties { get; } = new(0b00000001, 0b11111110);
-
-    /// <inheritdoc/>
-    public int MaxCacheSize => 0;
-
-    /// <summary>
-    /// Gets the number of observers.
-    /// </summary>
-    public int ObserverCount => 0;
-
-    /// <summary>
-    /// Gets a value indicating whether there are any observers.
-    /// </summary>
-    public bool HasObservers => false;
-
-    /// <summary>
-    /// Gets the list of quotes.
-    /// </summary>
-    public IReadOnlyList<T> Quotes { get; } = Array.Empty<T>();
-
-    /// <summary>
-    /// Gets a reference to the cache.
-    /// </summary>
-    /// <returns>A read-only list of quotes.</returns>
-    public IReadOnlyList<T> GetCacheRef() => Array.Empty<T>();
-
-    /// <summary>
-    /// Determines whether the specified observer is a subscriber.
-    /// </summary>
-    /// <param name="observer">The observer to check.</param>
-    /// <returns><c>true</c> if the observer is a subscriber; otherwise, <c>false</c>.</returns>
-    public bool HasSubscriber(IStreamObserver<T> observer) => false;
-
-    /// <summary>
-    /// Subscribes the specified observer.
-    /// </summary>
-    /// <param name="observer">The observer to subscribe.</param>
-    /// <returns>A disposable object that can be used to unsubscribe.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
-    public IDisposable Subscribe(IStreamObserver<T> observer)
-        => throw new InvalidOperationException();
-
-    /// <summary>
-    /// Unsubscribes the specified observer.
-    /// </summary>
-    /// <param name="observer">The observer to unsubscribe.</param>
-    /// <returns><c>true</c> if the observer was unsubscribed; otherwise, <c>false</c>.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
-    public bool Unsubscribe(IStreamObserver<T> observer)
-        => throw new InvalidOperationException();
-
-    /// <summary>
-    /// Ends the transmission.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
-    public void EndTransmission()
-        => throw new InvalidOperationException();
 }
 
 public static partial class Quotes

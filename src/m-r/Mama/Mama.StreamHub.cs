@@ -231,6 +231,30 @@ public class MamaHub
             ph.RemoveRange(index, removeCount);
         }
     }
+
+    /// <inheritdoc/>
+    protected override void PruneState(DateTime toTimestamp)
+    {
+        // Keep state arrays aligned with Cache by ensuring same count.
+        // Use Cache.Count directly rather than relying on timestamps since
+        // state arrays don't store timestamps.
+        int targetSize = Cache.Count;
+        if (pr.Count > targetSize)
+        {
+            int excessCount = pr.Count - targetSize;
+            pr.RemoveRange(0, excessCount);
+            sm.RemoveRange(0, excessCount);
+            dt.RemoveRange(0, excessCount);
+            pd.RemoveRange(0, excessCount);
+            q1.RemoveRange(0, excessCount);
+            i1.RemoveRange(0, excessCount);
+            q2.RemoveRange(0, excessCount);
+            i2.RemoveRange(0, excessCount);
+            re.RemoveRange(0, excessCount);
+            im.RemoveRange(0, excessCount);
+            ph.RemoveRange(0, excessCount);
+        }
+    }
 }
 
 public static partial class Mama

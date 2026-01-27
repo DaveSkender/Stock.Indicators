@@ -38,7 +38,7 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<AlligatorResult> expectedRevised = RevisedQuotes.ToAlligator();
         sut.IsExactly(expectedRevised);
@@ -88,7 +88,7 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.Insert(quotesList[80]);
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<AlligatorResult> sut

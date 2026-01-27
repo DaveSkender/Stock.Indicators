@@ -5,7 +5,20 @@ on:
     branches:
       - "main"
       - "v[0-9]*"
+    paths:
+      - "tests/integration/**"
+      - "tools/sse-server/**"
+      - ".github/workflows/test-integration.yml"
+  pull_request:
+    paths:
+      - "tests/integration/**"
+      - "tools/sse-server/**"
+      - ".github/workflows/test-integration.yml"
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -41,6 +54,7 @@ jobs:
         env:
           ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
           ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
+          DOTNET_CONFIGURATION: Release
         run: >
           dotnet test
           --configuration Release

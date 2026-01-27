@@ -38,7 +38,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<TrixResult> expectedRevised = RevisedQuotes.ToTrix(14);
         sut.IsExactly(expectedRevised);
@@ -118,7 +118,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = emaOfTrix.Results;

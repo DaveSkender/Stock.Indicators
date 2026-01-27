@@ -24,13 +24,20 @@ namespace Skender.Stock.Indicators;
 /// settings = settings with { [0] = true  }; // set bit 0 to true
 /// settings = settings with { [1] = false }; // set bit 1 to false
 /// </code>
+///
+/// As a reminder, bit positions are zero-based:
+/// <code>
+/// 0b00000000 8-bit binary literal (byte)
+///   ↑↑↑↑↑↑↑↑
+///   76543210 bit positions
+/// </code>
 /// </remarks>
 /// <param name="settings">
 /// Binary settings.
 /// Default is 0b00000000 (binary literal of 0).
 /// </param>
 /// <param name="mask">
-/// Mask for settings inheritence.
+/// Mask for settings inheritance.
 /// Default is 0b11111111 (binary literal of 255).
 /// </param>
 [Serializable]
@@ -124,4 +131,3 @@ public readonly struct BinarySettings(
     public static bool operator !=(BinarySettings left, BinarySettings right)
         => !(left == right);
 }
-

@@ -46,7 +46,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);  // rebuilds from insertion point
 
         // delete
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
         IReadOnlyList<PivotPointsResult> expected = RevisedQuotes.ToPivotPoints();

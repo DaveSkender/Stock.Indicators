@@ -31,23 +31,30 @@ Buffer lists maintain incremental state as you add new quotes:
 using Skender.Stock.Indicators;
 
 // create buffer list with lookback period
-SmaList smaList = new(20);
+SmaList smaList = new(lookbackPeriods: 20);
 
-// add quotes incrementally
-foreach (IQuote quote in quotes)
+// add quotes incrementally (e.g., from a data feed)
+foreach (Quote quote in quotes)
 {
     smaList.Add(quote);
+
+    // safely get latest result
+    if (smaList.Count > 0)
+    {
+        SmaResult r = smaList[^1];
+
+        // use result (SMA is null during warmup period)
+        if (r.Sma is not null)
+        {
+            Console.WriteLine($"{r.Timestamp:d}: SMA = {r.Sma:N2}");
+        }
+    }
 }
-
-// access results as ICollection
-IReadOnlyList<SmaResult> results = smaList;
-
-// or get the latest result
-SmaResult latest = smaList.LastOrDefault();
-
-// clear and reuse if needed
-smaList.Clear();
 ```
+
+::: tip
+Using `smaList[^1]` on an empty list throws `IndexOutOfRangeException`. Always check `Count > 0` first, or use `smaList.LastOrDefault()` which returns `null` when empty.
+:::
 
 ## Key features
 
@@ -88,7 +95,7 @@ SmaList smaList = new(20)
 };
 ```
 
-When the list exceeds `MaxListSize`, older results are automatically pruned. Default is approximately 1.9 billion elements.
+When the list exceeds `MaxListSize`, older results are automatically pruned. Default is 100,000 elements.
 
 ## Chaining indicators
 
@@ -112,7 +119,10 @@ foreach (var obvResult in obvList)
 }
 
 // get latest RSI of OBV
-RsiResult latest = rsiList.LastOrDefault();
+if (rsiList.Count > 0)
+{
+    RsiResult latest = rsiList[^1];
+}
 ```
 
 ## Performance characteristics
@@ -129,15 +139,15 @@ RsiResult latest = rsiList.LastOrDefault();
 ```csharp
 SmaList smaList = new(20);
 
-// simulate quotes arriving one at a time
-foreach (IQuote quote in historicalQuotes)
+foreach (var quote in streamingQuotes)
 {
+    // add new quote
     smaList.Add(quote);
-    
-    // process latest result
-    SmaResult latest = smaList.LastOrDefault();
-    if (latest?.Sma != null)
+
+    // list auto-adds incremental SMA value
+    if (smaList.Count > 0)
     {
+        SmaResult latest = smaList[^1];
         Console.WriteLine($"{latest.Timestamp:d}: SMA = {latest.Sma:N2}");
     }
 }
@@ -155,7 +165,10 @@ smaList.Add(historicalQuotes);
 while (newQuote = GetNextQuote())
 {
     smaList.Add(newQuote);
-    ProcessLatestResult(smaList.LastOrDefault());
+    if (smaList.Count > 0)
+    {
+        ProcessLatestResult(smaList[^1]);
+    }
 }
 ```
 

@@ -29,7 +29,7 @@ public class CatalogMetricsTests : TestBase
         Console.WriteLine($"Actual Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={seriesCount + streamCount + bufferCount}");
 
         // TODO: add final count later, not now
-        seriesCount.Should().Be(85);  // Updated for QuotePart
+        seriesCount.Should().Be(85);  // Updated for TimeValue
         bufferCount.Should().BeGreaterThan(5);
         streamCount.Should().BeGreaterThan(10);
 

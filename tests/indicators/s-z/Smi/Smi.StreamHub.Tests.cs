@@ -14,14 +14,14 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Quote> quotes = Quotes.ToList();
         int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        quoteHub.Add(quotesList.Take(20));
+        quoteHub.Add(quotes.Take(20));
 
         // initialize observer
         SmiHub observer = quoteHub.ToSmiHub(
@@ -36,7 +36,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -44,11 +44,11 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(quotes[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.Remove(quotesList[removeAtIndex]);
+        quoteHub.RemoveAt(removeAtIndex);
 
         IReadOnlyList<SmiResult> expectedRevised = RevisedQuotes.ToSmi(
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
@@ -89,7 +89,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         }
 
         quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // results from stream
         IReadOnlyList<EmaResult> sut = observer.Results;

@@ -58,7 +58,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
                 PruneList();
             }
         }
-    } = (int)(int.MaxValue * 0.9);
+    } = 100_000;
 
     /// <summary>
     /// Adds an item to the list using internal buffer logic.
