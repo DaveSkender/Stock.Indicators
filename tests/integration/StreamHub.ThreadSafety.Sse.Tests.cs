@@ -51,17 +51,23 @@ public class ThreadSafetyTests : TestBase
             List<Quote> allQuotes = await ConsumeQuotesFromSse(quoteHub, StcTestPort).ConfigureAwait(true);
             allQuotes.Should().HaveCount(TargetQuoteCount);
 
+            // Build complete quote list with all operations that will be applied.
+            // This ensures series is computed on the exact same sequence the streaming hub processes.
+            List<Quote> allQuotesWithOperations = new(allQuotes);
+
             // Apply rollback scenarios to trigger StcHub.RollbackState():
             // STC warmup period is slowPeriods + cyclePeriods - 2 = 50 + 10 - 2 = 58
             // The bug in RollbackState only manifests when targetIndex >= 58
 
             // 1. Late arrival after warmup (triggers rollback at index > 58)
+            // Note: Insert of existing quote is a no-op for series, already in allQuotesWithOperations
             if (allQuotes.Count > 80)
             {
                 quoteHub.Insert(allQuotes[80]);
             }
 
             // 2. Remove and re-insert after warmup (triggers complete rollback)
+            // Note: Remove then Insert of same quote is a no-op for series
             if (allQuotes.Count > 100)
             {
                 quoteHub.RemoveAt(100);
@@ -69,23 +75,21 @@ public class ThreadSafetyTests : TestBase
             }
 
             // 3. Late arrival deep into the data (triggers rollback with full buffer)
+            // Note: Insert of existing quote is a no-op for series, already in allQuotesWithOperations
             if (allQuotes.Count > 500)
             {
                 quoteHub.Insert(allQuotes[500]);
             }
 
-            // Get timestamps from streaming hub results (not quote cache).
-            // Hub results may differ from cache due to warmup - only results after warmup have values.
-            HashSet<DateTime> resultTimestamps = stcHub.Results.Select(r => r.Timestamp).ToHashSet();
-
-            // Compute series on FULL quote list, filter to match hub result timestamps.
-            // This ensures we're comparing the same quote timestamps.
-            IReadOnlyList<StcResult> expected = allQuotes
+            // Compute series on FULL quote list, then take last N matching cache size.
+            // Use quote cache size (not hub result size) because hub may have fewer results due to warmup.
+            int cacheSize = quoteHub.Results.Count;
+            IReadOnlyList<StcResult> expected = allQuotesWithOperations
                 .ToStc()
-                .Where(r => resultTimestamps.Contains(r.Timestamp))
+                .TakeLast(cacheSize)
                 .ToList();
 
-            // Streaming results should match filtered series
+            // Streaming results should match last N from full series
             stcHub.Results.IsExactly(expected);
         }
         finally
@@ -221,13 +225,19 @@ public class ThreadSafetyTests : TestBase
             // Verify SSE stream delivered the full batch
             allQuotes.Should().HaveCount(TargetQuoteCount, "SSE stream should deliver the full batch");
 
+            // Build complete quote list with all operations applied (matching what streaming hubs processed).
+            // This ensures series is computed on the exact same sequence the streaming hub processes.
+            List<Quote> allQuotesWithRevisions = new(allQuotes);
+
             // Apply rollback scenarios to test state management:
 
             // 1. Late non-replacement arrival: insert quote at index 10, arriving at position 49
+            // Note: Insert of existing quote is a no-op for series, already in allQuotesWithRevisions
             Quote lateQuote10 = allQuotes[10];
             quoteHub.Insert(lateQuote10);
 
             // 2. Full rebuild signal after 100 periods (remove and re-add to trigger rollback)
+            // Note: Remove then Insert of same quote is a no-op for series
             Quote rebuildQuote = allQuotes[100];
             quoteHub.RemoveAt(100);
             quoteHub.Insert(rebuildQuote);
@@ -245,6 +255,9 @@ public class ThreadSafetyTests : TestBase
                     original.Volume
                 );
                 quoteHub.Add(replacementQuote);
+                
+                // Apply the same revision to allQuotesWithRevisions
+                allQuotesWithRevisions[1600] = replacementQuote;
             }
 
             // 4. Multiple quotes with same timestamp (revisions) - each Add with same timestamp triggers rebuild
@@ -269,6 +282,7 @@ public class ThreadSafetyTests : TestBase
             ));
 
             quoteHub.Add(lastQuote); // final revision back to original
+            // Note: Final revision is back to original, so no change needed in allQuotesWithRevisions
 
             // Get final results from QuoteHub (this is the ground truth after all operations)
             IReadOnlyList<IQuote> quoteHubResults = quoteHub.Results;
@@ -281,23 +295,6 @@ public class ThreadSafetyTests : TestBase
             // Verify pruning actually occurred (we sent more quotes than cache size)
             int actualPruned = TargetQuoteCount - quoteHubResults.Count;
             actualPruned.Should().Be(TargetQuoteCount - MaxCacheSize + 2);
-
-            // Build complete quote list with all revisions applied (matching what streaming hubs processed).
-            // Operations 1, 2, and 4 don't change final values (duplicates/no-ops/revert to original).
-            // Only operation 3 changes a value (index 1600 close * 1.01).
-            List<Quote> allQuotesWithRevisions = new(allQuotes);
-            if (allQuotes.Count > 1600)
-            {
-                Quote original = allQuotes[1600];
-                allQuotesWithRevisions[1600] = new Quote(
-                    original.Timestamp,
-                    original.Open,
-                    original.High,
-                    original.Low,
-                    original.Close * 1.01m,
-                    original.Volume
-                );
-            }
 
             // Get final cache size for truncation
             int cacheSize = quoteHubResults.Count;
