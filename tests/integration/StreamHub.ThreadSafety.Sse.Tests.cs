@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using System.Text.Json;
 using System.Linq;
+using System.Text.Json;
 using Test.Tools;
 
 namespace StreamHubs;
@@ -77,7 +77,7 @@ public class ThreadSafetyTests : TestBase
             // Compute series on FULL quote list, then take last N matching cache size.
             // Streaming indicators process all quotes and maintain state, so series must be
             // computed on the full history, then truncated to match the final cache size.
-            int cacheSize = MaxCacheSize;
+            const int cacheSize = MaxCacheSize;
             IReadOnlyList<StcResult> expected = stcBatch.RevisedQuotes
                 .ToStc()
                 .TakeLast(cacheSize)
@@ -110,7 +110,7 @@ public class ThreadSafetyTests : TestBase
     /// <summary>
     /// Runs the SSE server and ingests 2,000+ quotes into a single <see cref="QuoteHub"/> with a
     /// maximum cache size of 1,500.  Every built-in streaming indicator hub is subscribed to the
-    /// primary quote hub.  A series of out-of-order operations (insert, remove and replace) are
+    /// primary quote hub.  A series of out-of-order operations (add, remove and replace) are
     /// applied to exercise the hub’s rollback logic both before and after pruning occurs.  After
     /// all quotes and revisions have been processed the full static series for each indicator is
     /// computed on the amended quote sequence, the results are truncated to the current cache size,
@@ -245,7 +245,7 @@ public class ThreadSafetyTests : TestBase
             // Determine how many quotes were pruned by comparing the initial total with the current cache size.
             // Use the amended list for correctness.  The expected number of pruned quotes is the
             // difference between the full revised list and the cache size.
-            int cacheSize = MaxCacheSize;
+            const int cacheSize = MaxCacheSize;
             int actualPruned = allQuotesWithRevisions.Count - cacheSize;
             actualPruned.Should().Be(allQuotesWithRevisions.Count - MaxCacheSize,
                 "pruning should remove exactly the excess quotes beyond the configured cache size");
@@ -310,14 +310,15 @@ public class ThreadSafetyTests : TestBase
             // hub and must be discarded.  Then compare the remainder of the series to the
             // streaming hub results.
             {
-                var renkoStatic = allQuotesWithRevisions.ToRenko(2.5m).ToList();
-                var firstDate = renkoHub.Results.First().Date;
+                List<RenkoResult> renkoStatic = allQuotesWithRevisions.ToRenko(2.5m).ToList();
+                DateTime firstDate = renkoHub.Results[0].Date;
                 int startIndex = renkoStatic.FindIndex(r => r.Date == firstDate);
                 startIndex.Should().BeGreaterThanOrEqualTo(0,
                     "the first Renko result in the hub should exist in the static series");
-                var expectedRenko = renkoStatic.Skip(startIndex).ToList();
+                List<RenkoResult> expectedRenko = renkoStatic.Skip(startIndex).ToList();
                 renkoHub.Results.IsExactly(expectedRenko);
             }
+
             rocHub.Results.IsExactly(allQuotesWithRevisions.ToRoc(20).TakeLast(cacheSize).ToList());
             rocWbHub.Results.IsExactly(allQuotesWithRevisions.ToRocWb(14).TakeLast(cacheSize).ToList());
             rollingPivotsHub.Results.IsExactly(allQuotesWithRevisions.ToRollingPivots(20, 0).TakeLast(cacheSize).ToList());
@@ -576,11 +577,15 @@ public class ThreadSafetyTests : TestBase
                 }
                 else
                 {
-                    QuoteAction? action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions);
-                    if (action is not null)
+                    QuoteAction action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions)
+                        ?? new QuoteAction(null, null);
+
+                    if (action.Quote is null && action.CacheIndex is null)
                     {
-                        ApplyQuoteAction(action, eventName, quoteHub, revisedQuotes);
+                        continue;
                     }
+
+                    ApplyQuoteAction(action, eventName, quoteHub, revisedQuotes);
                 }
             }
             else if (line.Length == 0)

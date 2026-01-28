@@ -391,7 +391,7 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
     return actions;
 }
 
-record SseQuoteAction(string EventType, QuoteAction Payload)
+internal sealed record SseQuoteAction(string EventType, QuoteAction Payload)
 {
     public static SseQuoteAction Add(Quote quote)
         => new("add", new QuoteAction(quote, null));
@@ -400,4 +400,4 @@ record SseQuoteAction(string EventType, QuoteAction Payload)
         => new("remove", new QuoteAction(quote, cacheIndex));
 }
 
-record QuoteAction(Quote Quote, int? CacheIndex);
+internal sealed record QuoteAction(Quote Quote, int? CacheIndex);
