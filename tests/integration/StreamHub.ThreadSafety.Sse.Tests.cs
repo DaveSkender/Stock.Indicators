@@ -119,7 +119,6 @@ public class ThreadSafetyTests : TestBase
     /// their static counterparts.
     /// </summary>
     [TestMethod]
-    [Obsolete("Uses local SSE server and is excluded from standard runs.")]
     public async Task AllHubs_WithSseStream_MatchSeriesExactly()
     {
         CancellationToken cts = TestContext?.CancellationToken ?? default;
