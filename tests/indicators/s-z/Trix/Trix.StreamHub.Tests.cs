@@ -32,7 +32,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<TrixResult> expectedOriginal = Quotes.ToTrix(14);
         sut.IsExactly(expectedOriginal);
@@ -148,7 +148,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

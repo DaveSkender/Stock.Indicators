@@ -42,8 +42,8 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrivals
-        quoteHub.Insert(Quotes[30]);  // rebuilds complete series
-        quoteHub.Insert(Quotes[80]);  // rebuilds from last reversal
+        quoteHub.Add(Quotes[30]);  // rebuilds complete series
+        quoteHub.Add(Quotes[80]);  // rebuilds from last reversal
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

@@ -36,7 +36,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
@@ -145,7 +145,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

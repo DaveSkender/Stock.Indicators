@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators;
 public class QuotePartHub
     : ChainHub<IQuote, TimeValue>, IQuotePart
 {
+    private const bool RebuildIsUnneeded = true;
+
     internal QuotePartHub(
         IQuoteProvider<IQuote> provider,
         CandlePart candlePart
@@ -18,6 +20,30 @@ public class QuotePartHub
 
     /// <inheritdoc/>
     public CandlePart CandlePartSelection { get; init; }
+
+    /// <inheritdoc/>
+    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    {
+        if (!RebuildIsUnneeded)
+        {
+            base.OnAdd(item, notify, indexHint);
+            return;
+        }
+
+        // Lock to prevent concurrent cache access.
+        lock (CacheLock)
+        {
+            (TimeValue result, int index) = ToIndicator(item, indexHint);
+
+            if (index >= 0 && index < Cache.Count)
+            {
+                InsertWithoutRebuild(result, index, notify);
+                return;
+            }
+
+            AppendCache(result, notify);
+        }
+    }
 
 
     /// <inheritdoc/>

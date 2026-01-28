@@ -34,7 +34,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<DpoResult> expectedOriginal = Quotes.ToDpo(lookbackPeriods);
         sut.IsExactly(expectedOriginal);
@@ -122,9 +122,9 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // FRAMEWORK FIX APPLIED: StreamHub.Rebuild() and OnRebuild() are now virtual methods.
         // DpoHub overrides Rebuild() to adjust the timestamp backward by offset, ensuring
         // downstream observers (e.g., SmaHub) are notified of the actual affected position
-        // during provider history mutations (Insert/Remove).
+        // during provider history mutations (Add/Remove).
         //
-        // How it works: When Insert(Quotes[80]) occurs with offset=11:
+        // How it works: When Add(Quotes[80]) occurs with offset=11:
         //   1. DpoHub.RollbackState() removes cache from position 69 ✓
         //   2. DpoHub.OnAdd() recalculates positions [69, 80] ✓
         //   3. DpoHub.Rebuild() adjusts timestamp to position 69 and notifies downstream ✓
@@ -158,7 +158,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
