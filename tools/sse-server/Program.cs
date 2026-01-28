@@ -169,7 +169,10 @@ app.MapGet("/quotes/longest", async (
                 Close: originalQuote.Close,
                 Volume: originalQuote.Volume);
 
-            streamedQuotes?.Add(quote);
+            if (streamedQuotes is not null)
+            {
+                streamedQuotes.Add(quote);
+            }
 
             // Serialize quote as JSON
             string json = JsonSerializer.Serialize(quote, jsonOptions);

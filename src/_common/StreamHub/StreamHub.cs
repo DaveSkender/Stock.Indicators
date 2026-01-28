@@ -124,35 +124,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Inserts a new item into the stream.
-    /// </summary>
-    /// <param name="newIn">The new item to insert.</param>
-    /// <remarks>
-    /// This should only be used when newer timestamps
-    /// are not impacted by the insertion of an older item.
-    /// </remarks>
-    [Obsolete("Insert is deprecated. Use Add() to handle late arrivals.")]
-    public void Insert(TIn newIn)
-    {
-        lock (CacheLock)
-        {
-            // generate candidate result
-            (TOut result, int index) = ToIndicator(newIn, null);
-
-            // insert, then rebuild observers (no self-rebuild)
-            if (index > 0)
-            {
-                InsertWithoutRebuild(result, index, notify: true);
-                return;
-            }
-
-            // normal add
-            AppendCache(result, notify: true);
-            // AppendCache handles notification
-        }
-    }
-
-    /// <summary>
     /// Removes a cached item at a specific index position.
     /// </summary>
     /// <inheritdoc/>
