@@ -1,0 +1,4018 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "streak": 0,
+    "rsi": null,
+    "rsiStreak": null,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "streak": 1,
+    "rsi": null,
+    "rsiStreak": null,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "streak": -1,
+    "rsi": null,
+    "rsiStreak": null,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "streak": 1,
+    "rsi": 92.27272727272661,
+    "rsiStreak": null,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "streak": -1,
+    "rsi": 62.17457886676824,
+    "rsiStreak": 33.33333333333333,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "streak": 0,
+    "rsi": 62.17457886676824,
+    "rsiStreak": 56.52173913043478,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "streak": 1,
+    "rsi": 76.65406427221166,
+    "rsiStreak": 74.35897435897436,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "streak": -1,
+    "rsi": 50.858352277181424,
+    "rsiStreak": 28.155339805825236,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "streak": 1,
+    "rsi": 66.49474893776184,
+    "rsiStreak": 67.96536796536796,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "streak": -1,
+    "rsi": 38.20923483254757,
+    "rsiStreak": 32.2381930184805,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "streak": 1,
+    "rsi": 55.692700691751014,
+    "rsiStreak": 66.96696696696696,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "streak": -1,
+    "rsi": 32.50447231502456,
+    "rsiStreak": 33.069698467622345,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "streak": 1,
+    "rsi": 58.249367210628854,
+    "rsiStreak": 66.7403586342422,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "streak": -1,
+    "rsi": 41.50480355985375,
+    "rsiStreak": 33.26802987633158,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "streak": 1,
+    "rsi": 71.79687565514426,
+    "rsiStreak": 66.68500519591663,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "streak": 2,
+    "rsi": 86.27325540614386,
+    "rsiStreak": 77.80131155553745,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "streak": -1,
+    "rsi": 78.77346943794062,
+    "rsiStreak": 25.916177089127984,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "streak": -2,
+    "rsi": 66.04306394753819,
+    "rsiStreak": 17.9400963642682,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "streak": -3,
+    "rsi": 33.77492960610245,
+    "rsiStreak": 11.104780619393395,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "streak": -4,
+    "rsi": 33.409475573923814,
+    "rsiStreak": 6.302317217623127,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "streak": 1,
+    "rsi": 37.941997083248495,
+    "rsiStreak": 82.40313694580304,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "streak": 2,
+    "rsi": 46.44722918999714,
+    "rsiStreak": 86.71812699857396,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "streak": 3,
+    "rsi": 83.12378013673116,
+    "rsiStreak": 91.08854623159085,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "streak": -1,
+    "rsi": 65.41534038698767,
+    "rsiStreak": 25.076605117927684,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "streak": 1,
+    "rsi": 65.69641471338493,
+    "rsiStreak": 56.55861268243512,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "streak": 2,
+    "rsi": 74.65621616033182,
+    "rsiStreak": 69.41155109250204,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "streak": 3,
+    "rsi": 90.71407010868303,
+    "rsiStreak": 80.78297568233498,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "streak": 4,
+    "rsi": 94.33284149676714,
+    "rsiStreak": 88.97797376815542,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "streak": 5,
+    "rsi": 96.86700689196968,
+    "rsiStreak": 94.05143864281165,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "streak": 6,
+    "rsi": 97.90577707634536,
+    "rsiStreak": 96.90276651437,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "streak": 7,
+    "rsi": 98.7307199986465,
+    "rsiStreak": 98.41869881333461,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "streak": -1,
+    "rsi": 89.94964907918737,
+    "rsiStreak": 11.144487236952656,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "streak": 1,
+    "rsi": 91.93231600505435,
+    "rsiStreak": 38.43937617993789,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "streak": 2,
+    "rsi": 96.2024749416321,
+    "rsiStreak": 52.90588138137634,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "streak": -1,
+    "rsi": 85.94194160328216,
+    "rsiStreak": 21.952862191259797,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "streak": 1,
+    "rsi": 87.44802270255602,
+    "rsiStreak": 56.15520446651194,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "streak": 2,
+    "rsi": 90.34442656445137,
+    "rsiStreak": 69.51468464141084,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "streak": 3,
+    "rsi": 93.26039439122283,
+    "rsiStreak": 81.0579467895381,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "streak": -1,
+    "rsi": 52.49471397402175,
+    "rsiStreak": 20.117631304789683,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "streak": 1,
+    "rsi": 89.22663082793724,
+    "rsiStreak": 54.40014062558599,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "streak": -1,
+    "rsi": 58.39937512028348,
+    "rsiStreak": 29.27375259670191,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "streak": 1,
+    "rsi": 60.421600464545634,
+    "rsiStreak": 63.23544601914207,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "streak": -1,
+    "rsi": 44.7914584335104,
+    "rsiStreak": 32.256888552639666,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "streak": -2,
+    "rsi": 32.26987520320765,
+    "rsiStreak": 21.65048357303627,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "streak": -3,
+    "rsi": 25.552946071601724,
+    "rsiStreak": 13.061177735488045,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "streak": 1,
+    "rsi": 38.756064963385136,
+    "rsiStreak": 79.17037574641338,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "streak": 2,
+    "rsi": 64.29990731825114,
+    "rsiStreak": 84.90831429212473,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "streak": 3,
+    "rsi": 67.19432656263169,
+    "rsiStreak": 90.26933093249059,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "streak": -1,
+    "rsi": 34.44450003528573,
+    "rsiStreak": 23.49638889815901,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "streak": 1,
+    "rsi": 75.25452039654104,
+    "rsiStreak": 56.02502652555444,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "streak": -1,
+    "rsi": 62.102087819125394,
+    "rsiStreak": 30.27755018772207,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "streak": -2,
+    "rsi": 50.150017165249615,
+    "rsiStreak": 20.74414372799447,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "streak": -3,
+    "rsi": 42.48454069980231,
+    "rsiStreak": 12.728543105551125,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "streak": -4,
+    "rsi": 11.667525638224049,
+    "rsiStreak": 7.179884453136637,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "streak": 1,
+    "rsi": 26.17146593201538,
+    "rsiStreak": 82.68031083113036,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "streak": -1,
+    "rsi": 23.500093970732706,
+    "rsiStreak": 50.08728059311162,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "streak": -2,
+    "rsi": 21.323557377726146,
+    "rsiStreak": 35.92532227933178,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "streak": -3,
+    "rsi": 17.773955978949544,
+    "rsiStreak": 22.94827475135763,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "streak": 1,
+    "rsi": 70.19420481240003,
+    "rsiStreak": 80.19125277456742,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "streak": 2,
+    "rsi": 73.48146950593332,
+    "rsiStreak": 85.55643301456753,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "streak": 3,
+    "rsi": 82.99358406569755,
+    "rsiStreak": 90.63139073322903,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "streak": -1,
+    "rsi": 59.53366571254095,
+    "rsiStreak": 23.78204536923323,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "streak": -2,
+    "rsi": 45.169515676485524,
+    "rsiStreak": 17.374401435583493,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "streak": 1,
+    "rsi": 51.473960438355896,
+    "rsiStreak": 68.42243671355565,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "streak": -1,
+    "rsi": 28.390381343334198,
+    "rsiStreak": 37.517141712815786,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "streak": 1,
+    "rsi": 56.119111756467156,
+    "rsiStreak": 67.17246366245013,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "streak": -1,
+    "rsi": 46.170723803312356,
+    "rsiStreak": 34.46101353910119,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "streak": 1,
+    "rsi": 53.66964828917407,
+    "rsiStreak": 66.79812131640595,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "streak": -1,
+    "rsi": 38.25343104367501,
+    "rsiStreak": 33.62087024054598,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "streak": -2,
+    "rsi": 14.920149572344911,
+    "rsiStreak": 22.46364194853321,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "streak": -3,
+    "rsi": 6.3641268544913885,
+    "rsiStreak": 13.502150321752495,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "streak": 1,
+    "rsi": 56.86577704069549,
+    "rsiStreak": 79.36333854624836,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "streak": -1,
+    "rsi": 44.54646310040231,
+    "rsiStreak": 45.05645495030821,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "streak": -2,
+    "rsi": 37.157516368518536,
+    "rsiStreak": 31.457937008710516,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "streak": 1,
+    "rsi": 70.05200131195521,
+    "rsiStreak": 75.61530352443752,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "streak": -1,
+    "rsi": 53.55686438026802,
+    "rsiStreak": 40.6756224190758,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "streak": 1,
+    "rsi": 79.02136970994604,
+    "rsiStreak": 69.16841731266405,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "streak": 2,
+    "rsi": 85.44723847259469,
+    "rsiStreak": 79.17190452366408,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "streak": -1,
+    "rsi": 81.4479487029949,
+    "rsiStreak": 26.86766969409699,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "streak": 1,
+    "rsi": 83.06181834121759,
+    "rsiStreak": 61.11751065122639,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "streak": -1,
+    "rsi": 62.147853043718136,
+    "rsiStreak": 31.558303143163016,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "streak": 1,
+    "rsi": 73.70181179375024,
+    "rsiStreak": 65.21018062264962,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "streak": 2,
+    "rsi": 75.2897164235248,
+    "rsiStreak": 76.67753052033588,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "streak": -1,
+    "rsi": 57.66332832232369,
+    "rsiStreak": 25.75052154552219,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "streak": 1,
+    "rsi": 68.3621412265125,
+    "rsiStreak": 60.622088710143906,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "streak": 2,
+    "rsi": 86.22978918339501,
+    "rsiStreak": 73.20599927071487,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "streak": -1,
+    "rsi": 83.83585284135128,
+    "rsiStreak": 25.092834707694095,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "streak": -2,
+    "rsi": 64.91334946590104,
+    "rsiStreak": 17.447956629005375,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "streak": 1,
+    "rsi": 78.87625000818261,
+    "rsiStreak": 70.80885872503772,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "streak": -1,
+    "rsi": 46.83061619003505,
+    "rsiStreak": 38.03135518297333,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "streak": -2,
+    "rsi": 31.372686721126854,
+    "rsiStreak": 25.99721427931776,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "streak": 1,
+    "rsi": 73.89298652309911,
+    "rsiStreak": 74.46912889931858,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "streak": -1,
+    "rsi": 63.913812698669844,
+    "rsiStreak": 39.75216963957573,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "streak": -2,
+    "rsi": 13.051284251355142,
+    "rsiStreak": 27.112514925936253,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "streak": 1,
+    "rsi": 31.315943036431634,
+    "rsiStreak": 74.9335304375628,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "streak": 2,
+    "rsi": 54.54854271774451,
+    "rsiStreak": 82.56119139834807,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "streak": 3,
+    "rsi": 67.52651862308772,
+    "rsiStreak": 89.15897957579963,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "streak": 4,
+    "rsi": 72.7100475349516,
+    "rsiStreak": 93.82868366731233,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "streak": 5,
+    "rsi": 78.14749281103369,
+    "rsiStreak": 96.68474006627822,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "streak": 6,
+    "rsi": 86.46617537041183,
+    "rsiStreak": 98.27831532874924,
+    "percentRank": null,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "streak": -1,
+    "rsi": 84.25916092555278,
+    "rsiStreak": 12.714699462540082,
+    "percentRank": 43,
+    "connorsRsi": null
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "streak": -2,
+    "rsi": 73.06884340499103,
+    "rsiStreak": 10.181940146569346,
+    "percentRank": 39,
+    "connorsRsi": 40.75026118385346
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "streak": -3,
+    "rsi": 68.94823855841258,
+    "rsiStreak": 7.281142909567663,
+    "percentRank": 44,
+    "connorsRsi": 40.07646048932675
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "streak": 1,
+    "rsi": 91.32632546809481,
+    "rsiStreak": 71.72490533518155,
+    "percentRank": 94,
+    "connorsRsi": 85.6837436010921
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "streak": 2,
+    "rsi": 94.03809450328245,
+    "rsiStreak": 79.01697639177647,
+    "percentRank": 75,
+    "connorsRsi": 82.6850236316863
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "streak": -1,
+    "rsi": 84.74738423171976,
+    "rsiStreak": 31.018872459446357,
+    "percentRank": 40,
+    "connorsRsi": 51.92208556372204
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "streak": -2,
+    "rsi": 52.66265766236561,
+    "rsiStreak": 22.0781136383103,
+    "percentRank": 9,
+    "connorsRsi": 27.913590433558635
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "streak": 1,
+    "rsi": 64.40773053668491,
+    "rsiStreak": 71.45108358390482,
+    "percentRank": 66,
+    "connorsRsi": 67.28627137352991
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "streak": 2,
+    "rsi": 67.75658955859917,
+    "rsiStreak": 79.9292527457078,
+    "percentRank": 51,
+    "connorsRsi": 66.22861410143565
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "streak": -1,
+    "rsi": 47.60183893823291,
+    "rsiStreak": 28.732724662911323,
+    "percentRank": 28,
+    "connorsRsi": 34.778187867048075
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "streak": -2,
+    "rsi": 45.35338326419194,
+    "rsiStreak": 20.13483908205147,
+    "percentRank": 45,
+    "connorsRsi": 36.82940744874781
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "streak": 1,
+    "rsi": 81.79397570270376,
+    "rsiStreak": 71.42999764785783,
+    "percentRank": 82,
+    "connorsRsi": 78.40799111685386
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "streak": -1,
+    "rsi": 64.63085923040506,
+    "rsiStreak": 38.47847066142647,
+    "percentRank": 27,
+    "connorsRsi": 43.36977663061051
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "streak": -2,
+    "rsi": 44.21823258952093,
+    "rsiStreak": 26.331451647871162,
+    "percentRank": 19,
+    "connorsRsi": 29.84989474579736
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "streak": 1,
+    "rsi": 47.067853289723246,
+    "rsiStreak": 74.54527485658159,
+    "percentRank": 49,
+    "connorsRsi": 56.871042715434946
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "streak": 2,
+    "rsi": 86.57398247601824,
+    "rsiStreak": 82.277731727712,
+    "percentRank": 95,
+    "connorsRsi": 87.95057140124341
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "streak": -1,
+    "rsi": 45.19772378388601,
+    "rsiStreak": 29.149235928374935,
+    "percentRank": 2,
+    "connorsRsi": 25.448986570753647
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "streak": -2,
+    "rsi": 43.9924523811484,
+    "rsiStreak": 20.377227435646503,
+    "percentRank": 44,
+    "connorsRsi": 36.1232266055983
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "streak": -3,
+    "rsi": 41.24292674110012,
+    "rsiStreak": 12.720908761356867,
+    "percentRank": 42,
+    "connorsRsi": 31.987945167485663
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "streak": 1,
+    "rsi": 53.11155341416863,
+    "rsiStreak": 78.2120013356345,
+    "percentRank": 62,
+    "connorsRsi": 64.44118491660105
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "streak": 2,
+    "rsi": 60.248902180300405,
+    "rsiStreak": 84.15628022266588,
+    "percentRank": 58,
+    "connorsRsi": 67.4683941343221
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "streak": -1,
+    "rsi": 16.4228463709605,
+    "rsiStreak": 31.91435564846998,
+    "percentRank": 2,
+    "connorsRsi": 16.779067339810158
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "streak": 1,
+    "rsi": 62.044682067737426,
+    "rsiStreak": 62.74784885018314,
+    "percentRank": 98,
+    "connorsRsi": 74.26417697264019
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "streak": -1,
+    "rsi": 34.26277973722058,
+    "rsiStreak": 32.925942971479515,
+    "percentRank": 2,
+    "connorsRsi": 23.0629075695667
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "streak": 1,
+    "rsi": 42.41533594050086,
+    "rsiStreak": 65.6124218651777,
+    "percentRank": 69,
+    "connorsRsi": 59.009252601892854
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "streak": 2,
+    "rsi": 50.72848868024157,
+    "rsiStreak": 76.87949091726894,
+    "percentRank": 66,
+    "connorsRsi": 64.53599319917016
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "streak": 3,
+    "rsi": 61.931349206694925,
+    "rsiStreak": 86.03242549362065,
+    "percentRank": 70,
+    "connorsRsi": 72.65459156677186
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "streak": -1,
+    "rsi": 26.19526050190713,
+    "rsiStreak": 20.645953774029053,
+    "percentRank": 2,
+    "connorsRsi": 16.280404758645393
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "streak": 1,
+    "rsi": 54.110904057731766,
+    "rsiStreak": 54.913018155586755,
+    "percentRank": 90,
+    "connorsRsi": 66.3413074044395
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "streak": 2,
+    "rsi": 58.09956334970466,
+    "rsiStreak": 68.51083022916686,
+    "percentRank": 60,
+    "connorsRsi": 62.2034645262905
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "streak": -1,
+    "rsi": 53.3680612527429,
+    "rsiStreak": 24.38503648682382,
+    "percentRank": 41,
+    "connorsRsi": 39.58436591318891
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "streak": 1,
+    "rsi": 79.21116740050064,
+    "rsiStreak": 59.31968352382548,
+    "percentRank": 92,
+    "connorsRsi": 76.84361697477537
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "streak": 2,
+    "rsi": 82.49214931586215,
+    "rsiStreak": 72.17502051122831,
+    "percentRank": 67,
+    "connorsRsi": 73.88905660903015
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "streak": 3,
+    "rsi": 89.46356111229404,
+    "rsiStreak": 82.950563565066,
+    "percentRank": 82,
+    "connorsRsi": 84.80470822578668
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "streak": -1,
+    "rsi": 88.01666015590212,
+    "rsiStreak": 20.241264706699283,
+    "percentRank": 49,
+    "connorsRsi": 52.419308287533795
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "streak": 1,
+    "rsi": 89.1565751183618,
+    "rsiStreak": 54.57889406359981,
+    "percentRank": 53,
+    "connorsRsi": 65.57848972732053
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "streak": 2,
+    "rsi": 95.44961919062813,
+    "rsiStreak": 68.2485066354485,
+    "percentRank": 86,
+    "connorsRsi": 83.23270860869222
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "streak": 3,
+    "rsi": 95.77101749806853,
+    "rsiStreak": 80.17892548945962,
+    "percentRank": 51,
+    "connorsRsi": 75.64998099584271
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "streak": -1,
+    "rsi": 79.65904208544546,
+    "rsiStreak": 20.014967090330288,
+    "percentRank": 37,
+    "connorsRsi": 45.558003058591915
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "streak": -2,
+    "rsi": 74.30184640722345,
+    "rsiStreak": 14.554375002958992,
+    "percentRank": 45,
+    "connorsRsi": 44.61874047006082
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "streak": 1,
+    "rsi": 86.8775489445026,
+    "rsiStreak": 67.59682945224651,
+    "percentRank": 75,
+    "connorsRsi": 76.49145946558303
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "streak": 2,
+    "rsi": 87.04439063582522,
+    "rsiStreak": 77.08159981756651,
+    "percentRank": 49,
+    "connorsRsi": 71.04199681779725
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "streak": -1,
+    "rsi": 61.3174707285724,
+    "rsiStreak": 27.965939864879516,
+    "percentRank": 33,
+    "connorsRsi": 40.76113686448397
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "streak": -2,
+    "rsi": 39.710795803596525,
+    "rsiStreak": 19.62806338790226,
+    "percentRank": 28,
+    "connorsRsi": 29.11295306383293
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "streak": -3,
+    "rsi": 31.168491785328513,
+    "rsiStreak": 12.296066876266252,
+    "percentRank": 41,
+    "connorsRsi": 28.154852887198256
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "streak": 1,
+    "rsi": 69.01622432587278,
+    "rsiStreak": 78.01009684613146,
+    "percentRank": 71,
+    "connorsRsi": 72.67544039066809
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "streak": 2,
+    "rsi": 73.5448896986391,
+    "rsiStreak": 84.0031036097531,
+    "percentRank": 52,
+    "connorsRsi": 69.8493311027974
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "streak": -1,
+    "rsi": 38.770970033287874,
+    "rsiStreak": 31.877233149656647,
+    "percentRank": 17,
+    "connorsRsi": 29.21606772764817
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "streak": 1,
+    "rsi": 63.158455038815276,
+    "rsiStreak": 62.72075000085237,
+    "percentRank": 67,
+    "connorsRsi": 64.29306834655588
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "streak": 2,
+    "rsi": 77.34081625883664,
+    "rsiStreak": 74.3390823514564,
+    "percentRank": 69,
+    "connorsRsi": 73.55996620343102
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "streak": -1,
+    "rsi": 43.91464382691364,
+    "rsiStreak": 25.90265272857806,
+    "percentRank": 12,
+    "connorsRsi": 27.272432185163904
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "streak": -2,
+    "rsi": 43.42921767540089,
+    "rsiStreak": 18.0585088102506,
+    "percentRank": 49,
+    "connorsRsi": 36.82924216188383
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "streak": -3,
+    "rsi": 6.6594918817618804,
+    "rsiStreak": 11.246758937183174,
+    "percentRank": 1,
+    "connorsRsi": 6.302083606315018
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "streak": 1,
+    "rsi": 17.65154705384832,
+    "rsiStreak": 77.90908633779482,
+    "percentRank": 64,
+    "connorsRsi": 53.18687779721438
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "streak": 2,
+    "rsi": 61.889943779177564,
+    "rsiStreak": 83.94028959420532,
+    "percentRank": 99,
+    "connorsRsi": 81.61007779112764
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "streak": -1,
+    "rsi": 61.45929331926287,
+    "rsiStreak": 31.818412642373872,
+    "percentRank": 47,
+    "connorsRsi": 46.75923532054558
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "streak": 1,
+    "rsi": 68.25230223378415,
+    "rsiStreak": 62.69990415866265,
+    "percentRank": 66,
+    "connorsRsi": 65.65073546414892
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "streak": -1,
+    "rsi": 20.273653999895714,
+    "rsiStreak": 32.898481097529,
+    "percentRank": 1,
+    "connorsRsi": 18.057378365808237
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "streak": -2,
+    "rsi": 18.325539858098736,
+    "rsiStreak": 22.299481248299287,
+    "percentRank": 22,
+    "connorsRsi": 20.87500703546601
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "streak": 1,
+    "rsi": 23.67731719968164,
+    "rsiStreak": 73.50851545829661,
+    "percentRank": 58,
+    "connorsRsi": 51.72861088599276
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "streak": 2,
+    "rsi": 67.19978367899422,
+    "rsiStreak": 81.59509662017877,
+    "percentRank": 99,
+    "connorsRsi": 82.59829343305766
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "streak": -1,
+    "rsi": 51.86443120026811,
+    "rsiStreak": 28.816787693754222,
+    "percentRank": 9,
+    "connorsRsi": 29.893739631340775
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "streak": -2,
+    "rsi": 42.36839141246193,
+    "rsiStreak": 20.134404629194336,
+    "percentRank": 15,
+    "connorsRsi": 25.834265347218757
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "streak": 1,
+    "rsi": 54.785980459220795,
+    "rsiStreak": 71.55556775583807,
+    "percentRank": 76,
+    "connorsRsi": 67.44718273835296
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "streak": 2,
+    "rsi": 55.05012013857999,
+    "rsiStreak": 80.09808371067327,
+    "percentRank": 49,
+    "connorsRsi": 61.38273461641776
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "streak": 3,
+    "rsi": 63.3910177662848,
+    "rsiStreak": 87.56632172282907,
+    "percentRank": 60,
+    "connorsRsi": 70.31911316303795
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "streak": 4,
+    "rsi": 83.27056354427343,
+    "rsiStreak": 92.89708830381923,
+    "percentRank": 83,
+    "connorsRsi": 86.38921728269754
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "streak": 5,
+    "rsi": 91.77785513907767,
+    "rsiStreak": 96.17603332646901,
+    "percentRank": 89,
+    "connorsRsi": 92.3179628218489
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "streak": 6,
+    "rsi": 93.02335265173377,
+    "rsiStreak": 98.01173473378543,
+    "percentRank": 61,
+    "connorsRsi": 84.01169579517307
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "streak": -1,
+    "rsi": 42.993748006238064,
+    "rsiStreak": 12.694632133706335,
+    "percentRank": 6,
+    "connorsRsi": 20.562793379981468
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "streak": 1,
+    "rsi": 58.7473921983098,
+    "rsiStreak": 41.69599297258696,
+    "percentRank": 78,
+    "connorsRsi": 59.48112839029892
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "streak": -1,
+    "rsi": 57.848162504580465,
+    "rsiStreak": 25.052177180530805,
+    "percentRank": 42,
+    "connorsRsi": 41.63344656170376
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "streak": -2,
+    "rsi": 47.63933680265502,
+    "rsiStreak": 17.90501933047956,
+    "percentRank": 24,
+    "connorsRsi": 29.84811871104486
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "streak": 1,
+    "rsi": 84.47641544559576,
+    "rsiStreak": 69.72614647964696,
+    "percentRank": 99,
+    "connorsRsi": 84.4008539750809
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "streak": 2,
+    "rsi": 88.3835676843764,
+    "rsiStreak": 78.69272712345366,
+    "percentRank": 77,
+    "connorsRsi": 81.35876493594336
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "streak": 3,
+    "rsi": 89.00615524611467,
+    "rsiStreak": 86.61909971915215,
+    "percentRank": 50,
+    "connorsRsi": 75.20841832175562
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "streak": -1,
+    "rsi": 84.47849488363244,
+    "rsiStreak": 21.7853498471886,
+    "percentRank": 33,
+    "connorsRsi": 46.421281576940345
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "streak": 1,
+    "rsi": 88.10808028027824,
+    "rsiStreak": 55.26738123861364,
+    "percentRank": 60,
+    "connorsRsi": 67.7918205062973
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "streak": 2,
+    "rsi": 92.37222866319439,
+    "rsiStreak": 68.6763646111073,
+    "percentRank": 71,
+    "connorsRsi": 77.3495310914339
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "streak": 3,
+    "rsi": 93.91293708163326,
+    "rsiStreak": 80.41681657591481,
+    "percentRank": 55,
+    "connorsRsi": 76.44325121918268
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "streak": 4,
+    "rsi": 94.4712991250737,
+    "rsiStreak": 88.80719544479962,
+    "percentRank": 46,
+    "connorsRsi": 76.42616485662444
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "streak": -1,
+    "rsi": 44.970236888757526,
+    "rsiStreak": 16.80528053208687,
+    "percentRank": 10,
+    "connorsRsi": 23.925172473614797
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "streak": 1,
+    "rsi": 48.15379576887208,
+    "rsiStreak": 49.536548508887954,
+    "percentRank": 45,
+    "connorsRsi": 47.563448092586675
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "streak": -1,
+    "rsi": 26.023195264289413,
+    "rsiStreak": 27.7226916703128,
+    "percentRank": 14,
+    "connorsRsi": 22.58196231153407
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "streak": 1,
+    "rsi": 38.91426392398763,
+    "rsiStreak": 61.569293781173094,
+    "percentRank": 53,
+    "connorsRsi": 51.161185901720245
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "streak": 2,
+    "rsi": 76.53414980189636,
+    "rsiStreak": 73.82618119540668,
+    "percentRank": 81,
+    "connorsRsi": 77.12011033243435
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "streak": 3,
+    "rsi": 81.82620831671076,
+    "rsiStreak": 84.01959434142678,
+    "percentRank": 60,
+    "connorsRsi": 75.28193421937918
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "streak": 4,
+    "rsi": 90.87440174381194,
+    "rsiStreak": 91.01670002072983,
+    "percentRank": 81,
+    "connorsRsi": 87.63036725484726
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "streak": 5,
+    "rsi": 95.2315337420591,
+    "rsiStreak": 95.21072186713468,
+    "percentRank": 83,
+    "connorsRsi": 91.14741853639794
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "streak": 6,
+    "rsi": 96.48886169656747,
+    "rsiStreak": 97.52330487705233,
+    "percentRank": 70,
+    "connorsRsi": 88.00405552453992
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "streak": 7,
+    "rsi": 97.10533481306092,
+    "rsiStreak": 98.74006562663556,
+    "percentRank": 56,
+    "connorsRsi": 83.94846681323216
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "streak": 8,
+    "rsi": 98.77055396356563,
+    "rsiStreak": 99.36449375701834,
+    "percentRank": 90,
+    "connorsRsi": 96.04501590686134
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "streak": -1,
+    "rsi": 84.57921126055768,
+    "rsiStreak": 10.015707169371737,
+    "percentRank": 20,
+    "connorsRsi": 38.19830614330981
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "streak": -2,
+    "rsi": 64.6686671892854,
+    "rsiStreak": 8.347655693513431,
+    "percentRank": 16,
+    "connorsRsi": 29.672107627599612
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "streak": 1,
+    "rsi": 77.42373614221037,
+    "rsiStreak": 54.15689635705146,
+    "percentRank": 76,
+    "connorsRsi": 69.19354416642061
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "streak": 2,
+    "rsi": 83.0252175530653,
+    "rsiStreak": 65.61449614715087,
+    "percentRank": 61,
+    "connorsRsi": 69.87990456673873
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "streak": -1,
+    "rsi": 61.35994471640103,
+    "rsiStreak": 26.250163277751113,
+    "percentRank": 18,
+    "connorsRsi": 35.203369331384046
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "streak": 1,
+    "rsi": 70.66877530927692,
+    "rsiStreak": 59.02584945834502,
+    "percentRank": 59,
+    "connorsRsi": 62.89820825587398
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "streak": 2,
+    "rsi": 79.01170373691635,
+    "rsiStreak": 71.63274274620568,
+    "percentRank": 61,
+    "connorsRsi": 70.54814882770734
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "streak": 3,
+    "rsi": 82.79356405077762,
+    "rsiStreak": 82.43903164545554,
+    "percentRank": 52,
+    "connorsRsi": 72.41086523207771
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "streak": 4,
+    "rsi": 87.54579776387723,
+    "rsiStreak": 90.03285012009582,
+    "percentRank": 54,
+    "connorsRsi": 77.19288262799101
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "streak": 5,
+    "rsi": 88.71463428736969,
+    "rsiStreak": 94.65525930029285,
+    "percentRank": 43,
+    "connorsRsi": 75.45663119588751
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "streak": 6,
+    "rsi": 97.16431146589213,
+    "rsiStreak": 97.22715387841085,
+    "percentRank": 89,
+    "connorsRsi": 94.46382178143432
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "streak": -1,
+    "rsi": 52.55101249635166,
+    "rsiStreak": 12.566820605063768,
+    "percentRank": 7,
+    "connorsRsi": 24.03927770047181
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "streak": 1,
+    "rsi": 63.73769769623552,
+    "rsiStreak": 41.6166400369991,
+    "percentRank": 69,
+    "connorsRsi": 58.118112577744874
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "streak": -1,
+    "rsi": 31.946535370975255,
+    "rsiStreak": 25.00243723514393,
+    "percentRank": 7,
+    "connorsRsi": 21.316324202039727
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "streak": 1,
+    "rsi": 42.89285374258073,
+    "rsiStreak": 58.29855474709445,
+    "percentRank": 61,
+    "connorsRsi": 54.06380282989173
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "streak": 2,
+    "rsi": 77.66286605623775,
+    "rsiStreak": 71.12013600659007,
+    "percentRank": 95,
+    "connorsRsi": 81.26100068760927
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "streak": -1,
+    "rsi": 54.6879057573388,
+    "rsiStreak": 25.000329912360158,
+    "percentRank": 9,
+    "connorsRsi": 29.562745223232984
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "streak": 1,
+    "rsi": 61.862003220233504,
+    "rsiStreak": 59.77786296742986,
+    "percentRank": 65,
+    "connorsRsi": 62.21328872922112
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "streak": 2,
+    "rsi": 68.08170368605954,
+    "rsiStreak": 72.52027815154861,
+    "percentRank": 60,
+    "connorsRsi": 66.86732727920271
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "streak": 3,
+    "rsi": 70.34843717703237,
+    "rsiStreak": 83.17844847315632,
+    "percentRank": 42,
+    "connorsRsi": 65.1756285500629
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "streak": 4,
+    "rsi": 84.17322201387121,
+    "rsiStreak": 90.5268676730628,
+    "percentRank": 81,
+    "connorsRsi": 85.233363228978
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "streak": 5,
+    "rsi": 88.12359297006097,
+    "rsiStreak": 94.94413312580379,
+    "percentRank": 64,
+    "connorsRsi": 82.35590869862159
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "streak": -1,
+    "rsi": 75.13946913440037,
+    "rsiStreak": 14.395226673212434,
+    "percentRank": 25,
+    "connorsRsi": 38.17823193587093
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "streak": 1,
+    "rsi": 83.72967912615815,
+    "rsiStreak": 45.32101142010901,
+    "percentRank": 68,
+    "connorsRsi": 65.68356351542239
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "streak": -1,
+    "rsi": 40.16153798384694,
+    "rsiStreak": 26.310803830797894,
+    "percentRank": 10,
+    "connorsRsi": 25.49078060488161
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "streak": -2,
+    "rsi": 37.555942425381815,
+    "rsiStreak": 18.53582536207233,
+    "percentRank": 29,
+    "connorsRsi": 28.36392259581805
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "streak": 1,
+    "rsi": 51.20741755496215,
+    "rsiStreak": 70.62269601234323,
+    "percentRank": 49,
+    "connorsRsi": 56.94337118910179
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "streak": -1,
+    "rsi": 28.028891778791504,
+    "rsiStreak": 38.12267234105291,
+    "percentRank": 14,
+    "connorsRsi": 26.717188039948137
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "streak": -2,
+    "rsi": 11.487893549420917,
+    "rsiStreak": 26.107979969690817,
+    "percentRank": 6,
+    "connorsRsi": 14.531957839703912
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "streak": 1,
+    "rsi": 64.65368902201394,
+    "rsiStreak": 74.44024914862054,
+    "percentRank": 96,
+    "connorsRsi": 78.36464605687816
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "streak": -1,
+    "rsi": 49.177502859467204,
+    "rsiStreak": 39.7624503408049,
+    "percentRank": 11,
+    "connorsRsi": 33.313317733424036
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "streak": 1,
+    "rsi": 57.87888402803927,
+    "rsiStreak": 68.81621892679274,
+    "percentRank": 68,
+    "connorsRsi": 64.89836765161067
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "streak": 2,
+    "rsi": 78.83976818629104,
+    "rsiStreak": 78.96285330001692,
+    "percentRank": 94,
+    "connorsRsi": 83.93420716210265
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "streak": -1,
+    "rsi": 71.58337472907323,
+    "rsiStreak": 26.74630005306976,
+    "percentRank": 25,
+    "connorsRsi": 41.10989159404766
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "streak": 1,
+    "rsi": 79.07002603882043,
+    "rsiStreak": 61.07060531207128,
+    "percentRank": 76,
+    "connorsRsi": 72.0468771169639
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "streak": -1,
+    "rsi": 72.99683702256607,
+    "rsiStreak": 31.526250576542907,
+    "percentRank": 29,
+    "connorsRsi": 44.50769586636966
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "streak": 1,
+    "rsi": 92.12516376027833,
+    "rsiStreak": 65.19842566658187,
+    "percentRank": 98,
+    "connorsRsi": 85.10786314228673
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "streak": -1,
+    "rsi": 86.66544452514572,
+    "rsiStreak": 32.87029250835744,
+    "percentRank": 27,
+    "connorsRsi": 48.845245677834384
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "streak": 1,
+    "rsi": 94.21195829973486,
+    "rsiStreak": 66.2950088512382,
+    "percentRank": 96,
+    "connorsRsi": 85.5023223836577
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "streak": -1,
+    "rsi": 78.21607298040524,
+    "rsiStreak": 33.21684664080297,
+    "percentRank": 14,
+    "connorsRsi": 41.8109732070694
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "streak": -2,
+    "rsi": 68.36124875919768,
+    "rsiStreak": 22.16001681878069,
+    "percentRank": 21,
+    "connorsRsi": 37.173755192659456
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "streak": -3,
+    "rsi": 43.451511021246915,
+    "rsiStreak": 13.303436560612738,
+    "percentRank": 8,
+    "connorsRsi": 21.584982527286552
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "streak": 1,
+    "rsi": 44.77823121343887,
+    "rsiStreak": 79.34477600150379,
+    "percentRank": 41,
+    "connorsRsi": 55.041002404980894
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "streak": 2,
+    "rsi": 67.58998948682758,
+    "rsiStreak": 85.04194516966831,
+    "percentRank": 81,
+    "connorsRsi": 77.8773115521653
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "streak": 3,
+    "rsi": 84.33451137892001,
+    "rsiStreak": 90.35986919651103,
+    "percentRank": 90,
+    "connorsRsi": 88.23146019181036
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "streak": 4,
+    "rsi": 89.06354991224005,
+    "rsiStreak": 94.36593919326754,
+    "percentRank": 80,
+    "connorsRsi": 87.80982970183585
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "streak": 5,
+    "rsi": 91.35206746527805,
+    "rsiStreak": 96.9231673501782,
+    "percentRank": 70,
+    "connorsRsi": 86.09174493848542
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "streak": -1,
+    "rsi": 89.47965225573945,
+    "rsiStreak": 15.034664383287947,
+    "percentRank": 35,
+    "connorsRsi": 46.50477221300914
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "streak": -2,
+    "rsi": 43.100367018593154,
+    "rsiStreak": 11.73092169594247,
+    "percentRank": 5,
+    "connorsRsi": 19.943762904845208
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "streak": 1,
+    "rsi": 77.85813198821441,
+    "rsiStreak": 61.92755028507237,
+    "percentRank": 94,
+    "connorsRsi": 77.92856075776227
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "streak": 2,
+    "rsi": 87.00981186981333,
+    "rsiStreak": 72.3936293797594,
+    "percentRank": 91,
+    "connorsRsi": 83.46781374985757
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "streak": -1,
+    "rsi": 63.20849994639308,
+    "rsiStreak": 27.324598074504834,
+    "percentRank": 7,
+    "connorsRsi": 32.511032673632634
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "streak": -2,
+    "rsi": 59.741959818572624,
+    "rsiStreak": 19.310167704891782,
+    "percentRank": 30,
+    "connorsRsi": 36.35070917448814
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "streak": 1,
+    "rsi": 69.30217129807842,
+    "rsiStreak": 70.76272738842711,
+    "percentRank": 71,
+    "connorsRsi": 70.35496622883518
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "streak": -1,
+    "rsi": 66.61584328978026,
+    "rsiStreak": 38.24575316732736,
+    "percentRank": 33,
+    "connorsRsi": 45.95386548570254
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "streak": -2,
+    "rsi": 51.22681342815799,
+    "rsiStreak": 26.20431471981533,
+    "percentRank": 23,
+    "connorsRsi": 33.477042715991104
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "streak": 1,
+    "rsi": 56.995283135884804,
+    "rsiStreak": 74.45687766529481,
+    "percentRank": 44,
+    "connorsRsi": 58.4840536003932
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "streak": 2,
+    "rsi": 75.88810212278294,
+    "rsiStreak": 82.21121192772354,
+    "percentRank": 71,
+    "connorsRsi": 76.36643801683549
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "streak": -1,
+    "rsi": 34.39988443332521,
+    "rsiStreak": 29.13773351326887,
+    "percentRank": 8,
+    "connorsRsi": 23.845872648864695
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "streak": 1,
+    "rsi": 74.33049418449075,
+    "rsiStreak": 61.917696061727305,
+    "percentRank": 92,
+    "connorsRsi": 76.08273008207269
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "streak": 2,
+    "rsi": 85.84767836061532,
+    "rsiStreak": 73.96236654475737,
+    "percentRank": 89,
+    "connorsRsi": 82.93668163512423
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "streak": 3,
+    "rsi": 90.22159661514053,
+    "rsiStreak": 84.05104010676123,
+    "percentRank": 82,
+    "connorsRsi": 85.42421224063393
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "streak": 4,
+    "rsi": 94.39406932318519,
+    "rsiStreak": 91.01431686246414,
+    "percentRank": 91,
+    "connorsRsi": 92.13612872854976
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "streak": 5,
+    "rsi": 95.23125879413608,
+    "rsiStreak": 95.20301800230716,
+    "percentRank": 67,
+    "connorsRsi": 85.81142559881441
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "streak": 6,
+    "rsi": 96.27445710458298,
+    "rsiStreak": 97.5174826816795,
+    "percentRank": 71,
+    "connorsRsi": 88.26397992875415
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "streak": -1,
+    "rsi": 78.64104816809996,
+    "rsiStreak": 12.575162729657293,
+    "percentRank": 20,
+    "connorsRsi": 37.07207029925242
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "streak": 1,
+    "rsi": 90.68625492572224,
+    "rsiStreak": 41.62887590054179,
+    "percentRank": 93,
+    "connorsRsi": 75.10504360875468
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "streak": 2,
+    "rsi": 94.70284261333646,
+    "rsiStreak": 56.188620081969255,
+    "percentRank": 89,
+    "connorsRsi": 79.96382089843523
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "streak": -1,
+    "rsi": 70.65969954946925,
+    "rsiStreak": 22.506019086832723,
+    "percentRank": 11,
+    "connorsRsi": 34.721906212100656
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "streak": 1,
+    "rsi": 85.77748553671228,
+    "rsiStreak": 56.930430416529205,
+    "percentRank": 98,
+    "connorsRsi": 80.23597198441382
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "streak": -1,
+    "rsi": 75.44668754468009,
+    "rsiStreak": 30.146789458556825,
+    "percentRank": 17,
+    "connorsRsi": 40.864492334412304
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "streak": 1,
+    "rsi": 83.51880948385377,
+    "rsiStreak": 64.01035588741263,
+    "percentRank": 81,
+    "connorsRsi": 76.1763884570888
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "streak": 2,
+    "rsi": 91.27640590605094,
+    "rsiStreak": 75.76098813571791,
+    "percentRank": 93,
+    "connorsRsi": 86.67913134725627
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "streak": 3,
+    "rsi": 92.6254274594478,
+    "rsiStreak": 85.3363575875622,
+    "percentRank": 65,
+    "connorsRsi": 80.98726168233667
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "streak": -1,
+    "rsi": 89.0034424658927,
+    "rsiStreak": 20.511985592204383,
+    "percentRank": 29,
+    "connorsRsi": 46.17180935269903
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "streak": 1,
+    "rsi": 89.66994672201209,
+    "rsiStreak": 54.82695348997227,
+    "percentRank": 39,
+    "connorsRsi": 61.16563340399478
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "streak": 2,
+    "rsi": 97.13987697583434,
+    "rsiStreak": 68.4479642001652,
+    "percentRank": 100,
+    "connorsRsi": 88.52928039199985
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "streak": -1,
+    "rsi": 59.662419874288716,
+    "rsiStreak": 24.365837172066847,
+    "percentRank": 1,
+    "connorsRsi": 28.342752348785186
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "streak": -2,
+    "rsi": 31.590382265828296,
+    "rsiStreak": 17.046804009956006,
+    "percentRank": 0,
+    "connorsRsi": 16.212395425261434
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "streak": 1,
+    "rsi": 33.91415936020253,
+    "rsiStreak": 70.39802289923206,
+    "percentRank": 44,
+    "connorsRsi": 49.4373940864782
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "streak": -1,
+    "rsi": 30.475756815862653,
+    "rsiStreak": 37.89870161971165,
+    "percentRank": 25,
+    "connorsRsi": 31.124819478524767
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "streak": -2,
+    "rsi": 7.81570541166262,
+    "rsiStreak": 25.928693162777904,
+    "percentRank": 0,
+    "connorsRsi": 11.24813285814684
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "streak": -3,
+    "rsi": 2.5270095257308185,
+    "rsiStreak": 15.890753056785599,
+    "percentRank": 0,
+    "connorsRsi": 6.139254194172139
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "streak": 1,
+    "rsi": 33.1708788477047,
+    "rsiStreak": 79.47098367051895,
+    "percentRank": 100,
+    "connorsRsi": 70.88062083940788
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "streak": -1,
+    "rsi": 29.28430535962393,
+    "rsiStreak": 45.25877334616782,
+    "percentRank": 4,
+    "connorsRsi": 26.181026235263914
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "streak": -2,
+    "rsi": 13.27883401012761,
+    "rsiStreak": 31.638442861689157,
+    "percentRank": 1,
+    "connorsRsi": 15.305758957272255
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "streak": 1,
+    "rsi": 34.11412157489204,
+    "rsiStreak": 75.63441649419342,
+    "percentRank": 99,
+    "connorsRsi": 69.58284602302848
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "streak": 2,
+    "rsi": 51.464767762373356,
+    "rsiStreak": 82.94982482864489,
+    "percentRank": 98,
+    "connorsRsi": 77.47153086367275
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "streak": 3,
+    "rsi": 54.52349320340168,
+    "rsiStreak": 89.34677393130998,
+    "percentRank": 70,
+    "connorsRsi": 71.2900890449039
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "streak": 4,
+    "rsi": 70.06491358543808,
+    "rsiStreak": 93.91372054616676,
+    "percentRank": 97,
+    "connorsRsi": 86.99287804386829
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "streak": 5,
+    "rsi": 79.91467373300353,
+    "rsiStreak": 96.72319603671971,
+    "percentRank": 96,
+    "connorsRsi": 90.87928992324107
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "streak": 6,
+    "rsi": 80.15144407770593,
+    "rsiStreak": 98.29618521849665,
+    "percentRank": 39,
+    "connorsRsi": 72.4825430987342
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "streak": -1,
+    "rsi": 58.731991793793725,
+    "rsiStreak": 12.731797837669163,
+    "percentRank": 5,
+    "connorsRsi": 25.487929877154297
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "streak": -2,
+    "rsi": 44.63507969758529,
+    "rsiStreak": 10.195983461431283,
+    "percentRank": 8,
+    "connorsRsi": 20.94368771967219
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "streak": 1,
+    "rsi": 49.39970883074963,
+    "rsiStreak": 59.08757619726442,
+    "percentRank": 53,
+    "connorsRsi": 53.82909500933801
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "streak": 2,
+    "rsi": 80.35422519778541,
+    "rsiStreak": 69.98245375156164,
+    "percentRank": 99,
+    "connorsRsi": 83.11222631644902
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "streak": 3,
+    "rsi": 88.29784436113894,
+    "rsiStreak": 80.41390913430578,
+    "percentRank": 94,
+    "connorsRsi": 87.57058449848158
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "streak": -1,
+    "rsi": 53.19611468105486,
+    "rsiStreak": 21.272983892162912,
+    "percentRank": 3,
+    "connorsRsi": 25.823032857739253
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "streak": -2,
+    "rsi": 35.98042860180142,
+    "rsiStreak": 15.553516980800552,
+    "percentRank": 5,
+    "connorsRsi": 18.84464852753399
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "streak": -3,
+    "rsi": 21.311497867576648,
+    "rsiStreak": 10.114653597592934,
+    "percentRank": 3,
+    "connorsRsi": 11.475383821723193
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "streak": 1,
+    "rsi": 35.184496091808924,
+    "rsiStreak": 76.33036664345948,
+    "percentRank": 76,
+    "connorsRsi": 62.50495424508947
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "streak": 2,
+    "rsi": 59.35120582136169,
+    "rsiStreak": 82.70186365695277,
+    "percentRank": 92,
+    "connorsRsi": 78.01768982610481
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "streak": 3,
+    "rsi": 63.8781346507117,
+    "rsiStreak": 88.75553415361053,
+    "percentRank": 68,
+    "connorsRsi": 73.5445562681074
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "streak": -1,
+    "rsi": 62.32421250614805,
+    "rsiStreak": 23.358644762094784,
+    "percentRank": 35,
+    "connorsRsi": 40.227619089414276
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "streak": 1,
+    "rsi": 74.2549210837752,
+    "rsiStreak": 55.87260799434926,
+    "percentRank": 74,
+    "connorsRsi": 68.04250969270815
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "streak": 2,
+    "rsi": 90.53656251834646,
+    "rsiStreak": 69.01678109846817,
+    "percentRank": 99,
+    "connorsRsi": 86.18444787227155
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "streak": -1,
+    "rsi": 84.60444834399374,
+    "rsiStreak": 24.761934851529105,
+    "percentRank": 26,
+    "connorsRsi": 45.12212773184095
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "streak": -2,
+    "rsi": 56.399764509747754,
+    "rsiStreak": 17.346618252958848,
+    "percentRank": 8,
+    "connorsRsi": 27.248794254235534
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "streak": -3,
+    "rsi": 40.40101504876846,
+    "rsiStreak": 10.848900494307443,
+    "percentRank": 11,
+    "connorsRsi": 20.749971847691967
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "streak": -4,
+    "rsi": 37.062790466202955,
+    "rsiStreak": 6.202340051336094,
+    "percentRank": 32,
+    "connorsRsi": 25.088376839179684
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "streak": 1,
+    "rsi": 44.00309542536022,
+    "rsiStreak": 82.24530630193999,
+    "percentRank": 50,
+    "connorsRsi": 58.749467242433404
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "streak": -1,
+    "rsi": 14.438300821359874,
+    "rsiStreak": 49.88886924496471,
+    "percentRank": 4,
+    "connorsRsi": 22.775723355441528
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "streak": 1,
+    "rsi": 23.84504417808222,
+    "rsiStreak": 71.95525089912724,
+    "percentRank": 56,
+    "connorsRsi": 50.60009835906982
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "streak": -1,
+    "rsi": 20.081736359215583,
+    "rsiStreak": 38.259868420689166,
+    "percentRank": 26,
+    "connorsRsi": 28.113868259968246
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "streak": -2,
+    "rsi": 4.90217326586793,
+    "rsiStreak": 26.057566751539014,
+    "percentRank": 2,
+    "connorsRsi": 10.986580005802315
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "streak": -3,
+    "rsi": 2.52507923566516,
+    "rsiStreak": 15.909478645436593,
+    "percentRank": 4,
+    "connorsRsi": 7.478185960367251
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "streak": 1,
+    "rsi": 49.09638768880975,
+    "rsiStreak": 79.56781089518687,
+    "percentRank": 100,
+    "connorsRsi": 76.22139952799887
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "streak": -1,
+    "rsi": 33.68555024245458,
+    "rsiStreak": 45.28562176960421,
+    "percentRank": 5,
+    "connorsRsi": 27.990390670686264
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "streak": -2,
+    "rsi": 31.161698421631343,
+    "rsiStreak": 31.649343773188264,
+    "percentRank": 24,
+    "connorsRsi": 28.93701406493987
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "streak": 1,
+    "rsi": 53.5193932559818,
+    "rsiStreak": 75.64734971277238,
+    "percentRank": 93,
+    "connorsRsi": 74.05558098958473
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "streak": -1,
+    "rsi": 29.194330517775796,
+    "rsiStreak": 40.708260179574495,
+    "percentRank": 4,
+    "connorsRsi": 24.634196899116763
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "streak": 1,
+    "rsi": 49.284814657000226,
+    "rsiStreak": 69.178858067709,
+    "percentRank": 93,
+    "connorsRsi": 70.48789090823641
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "streak": 2,
+    "rsi": 62.715883279960785,
+    "rsiStreak": 79.17741053700803,
+    "percentRank": 87,
+    "connorsRsi": 76.29776460565627
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "streak": 3,
+    "rsi": 71.2254075997181,
+    "rsiStreak": 87.37115062494728,
+    "percentRank": 80,
+    "connorsRsi": 79.53218607488846
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "streak": -1,
+    "rsi": 36.04600799511904,
+    "rsiStreak": 21.063340602992085,
+    "percentRank": 3,
+    "connorsRsi": 20.03644953270371
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "streak": 1,
+    "rsi": 44.88287568927184,
+    "rsiStreak": 55.12211477111426,
+    "percentRank": 70,
+    "connorsRsi": 56.66833015346203
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "streak": 2,
+    "rsi": 67.03390242257476,
+    "rsiStreak": 68.6490840470232,
+    "percentRank": 96,
+    "connorsRsi": 77.22766215653265
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "streak": -1,
+    "rsi": 55.74801544235945,
+    "rsiStreak": 24.443295987805982,
+    "percentRank": 17,
+    "connorsRsi": 32.39710381005514
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "streak": 1,
+    "rsi": 68.22900037063289,
+    "rsiStreak": 59.34718203348025,
+    "percentRank": 80,
+    "connorsRsi": 69.19206080137104
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "streak": -1,
+    "rsi": 59.273140806392625,
+    "rsiStreak": 30.847133956355847,
+    "percentRank": 27,
+    "connorsRsi": 39.04009158758282
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "streak": 1,
+    "rsi": 73.74661657111932,
+    "rsiStreak": 64.72605295839341,
+    "percentRank": 80,
+    "connorsRsi": 72.82422317650425
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "streak": 2,
+    "rsi": 84.58533220334058,
+    "rsiStreak": 76.32483477290725,
+    "percentRank": 86,
+    "connorsRsi": 82.30338899208262
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "streak": 3,
+    "rsi": 85.21342695527963,
+    "rsiStreak": 85.71754834374119,
+    "percentRank": 49,
+    "connorsRsi": 73.3103250996736
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "streak": -1,
+    "rsi": 58.109007351317196,
+    "rsiStreak": 20.53674683267957,
+    "percentRank": 16,
+    "connorsRsi": 31.548584727998918
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "streak": -2,
+    "rsi": 33.70789414585269,
+    "rsiStreak": 14.879470085110427,
+    "percentRank": 13,
+    "connorsRsi": 20.52912141032104
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "streak": -3,
+    "rsi": 33.32623036804067,
+    "rsiStreak": 9.593828415082385,
+    "percentRank": 44,
+    "connorsRsi": 28.973352927707683
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "streak": -4,
+    "rsi": 13.474049850091149,
+    "rsiStreak": 5.608913831318802,
+    "percentRank": 10,
+    "connorsRsi": 9.69432122713665
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "streak": 1,
+    "rsi": 25.551620970059503,
+    "rsiStreak": 81.68451841131305,
+    "percentRank": 62,
+    "connorsRsi": 56.41204646045751
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "streak": 2,
+    "rsi": 59.990406982633964,
+    "rsiStreak": 86.14965704539499,
+    "percentRank": 84,
+    "connorsRsi": 76.71335467600964
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "streak": 3,
+    "rsi": 62.4075165717171,
+    "rsiStreak": 90.68935085585687,
+    "percentRank": 51,
+    "connorsRsi": 68.03228914252466
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "streak": -1,
+    "rsi": 35.710126609588954,
+    "rsiStreak": 25.037499595810814,
+    "percentRank": 15,
+    "connorsRsi": 25.249208735133255
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "streak": 1,
+    "rsi": 43.89269914220226,
+    "rsiStreak": 56.51625797818842,
+    "percentRank": 54,
+    "connorsRsi": 51.46965237346356
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "streak": -1,
+    "rsi": 25.375652912769638,
+    "rsiStreak": 30.717803684316607,
+    "percentRank": 16,
+    "connorsRsi": 24.03115219902875
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "streak": -2,
+    "rsi": 21.040649831929088,
+    "rsiStreak": 21.090462076916552,
+    "percentRank": 31,
+    "connorsRsi": 24.377037302948548
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "streak": 1,
+    "rsi": 68.48517981343822,
+    "rsiStreak": 72.60536930961047,
+    "percentRank": 92,
+    "connorsRsi": 77.69684970768289
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "streak": 2,
+    "rsi": 74.55075623038094,
+    "rsiStreak": 80.91263554004361,
+    "percentRank": 65,
+    "connorsRsi": 73.48779725680818
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "streak": 0,
+    "rsi": 74.55075623038094,
+    "rsiStreak": 36.56279523088598,
+    "percentRank": 45,
+    "connorsRsi": 52.037850487088974
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "streak": 1,
+    "rsi": 88.6358076035554,
+    "rsiStreak": 59.02307219808022,
+    "percentRank": 82,
+    "connorsRsi": 76.55295993387854
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "streak": 2,
+    "rsi": 93.73360815732275,
+    "rsiStreak": 76.01037719050235,
+    "percentRank": 80,
+    "connorsRsi": 83.2479951159417
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "streak": 3,
+    "rsi": 94.86620256038765,
+    "rsiStreak": 86.88457807688012,
+    "percentRank": 62,
+    "connorsRsi": 81.25026021242259
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "streak": 4,
+    "rsi": 95.0828315498161,
+    "rsiStreak": 93.12095290960285,
+    "percentRank": 47,
+    "connorsRsi": 78.40126148647299
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "streak": -1,
+    "rsi": 50.41161661900676,
+    "rsiStreak": 16.180895778816563,
+    "percentRank": 16,
+    "connorsRsi": 27.530837465941108
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "streak": 1,
+    "rsi": 65.22383010570282,
+    "rsiStreak": 49.53666815128437,
+    "percentRank": 66,
+    "connorsRsi": 60.25349941899572
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "streak": -1,
+    "rsi": 59.85973967075689,
+    "rsiStreak": 27.583214309248262,
+    "percentRank": 38,
+    "connorsRsi": 41.814317993335045
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "streak": -2,
+    "rsi": 43.69050752060398,
+    "rsiStreak": 19.11285777230391,
+    "percentRank": 30,
+    "connorsRsi": 30.934455097635965
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "streak": 1,
+    "rsi": 74.51361310604865,
+    "rsiStreak": 71.5436857503681,
+    "percentRank": 75,
+    "connorsRsi": 73.68576628547225
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "streak": -1,
+    "rsi": 57.13101731242804,
+    "rsiStreak": 38.37638932793455,
+    "percentRank": 30,
+    "connorsRsi": 41.835802213454194
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "streak": 1,
+    "rsi": 68.13017791326072,
+    "rsiStreak": 68.02411314063477,
+    "percentRank": 61,
+    "connorsRsi": 65.71809701796516
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "streak": -1,
+    "rsi": 52.86949277203522,
+    "rsiStreak": 34.66692119102335,
+    "percentRank": 33,
+    "connorsRsi": 40.17880465435286
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "streak": -2,
+    "rsi": 37.981290155627434,
+    "rsiStreak": 23.260566306938586,
+    "percentRank": 31,
+    "connorsRsi": 30.747285487522007
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "streak": -3,
+    "rsi": 12.556383815202992,
+    "rsiStreak": 14.028834311648396,
+    "percentRank": 12,
+    "connorsRsi": 12.861739375617129
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "streak": 1,
+    "rsi": 59.39895129692293,
+    "rsiStreak": 79.40843436792302,
+    "percentRank": 92,
+    "connorsRsi": 76.93579522161532
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "streak": -1,
+    "rsi": 43.19494764110523,
+    "rsiStreak": 45.106053045124376,
+    "percentRank": 22,
+    "connorsRsi": 36.7670002287432
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "streak": 1,
+    "rsi": 65.60787289118036,
+    "rsiStreak": 70.54963697889514,
+    "percentRank": 81,
+    "connorsRsi": 72.3858366233585
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "streak": 2,
+    "rsi": 73.27195759556118,
+    "rsiStreak": 79.87681912052848,
+    "percentRank": 67,
+    "connorsRsi": 73.38292557202989
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "streak": 3,
+    "rsi": 74.6288714782385,
+    "rsiStreak": 87.68031719024138,
+    "percentRank": 52,
+    "connorsRsi": 71.43639622282662
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "streak": 4,
+    "rsi": 86.25077971583336,
+    "rsiStreak": 93.06157354251643,
+    "percentRank": 77,
+    "connorsRsi": 85.4374510861166
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "streak": -1,
+    "rsi": 85.45728093016363,
+    "rsiStreak": 17.336309159322155,
+    "percentRank": 45,
+    "connorsRsi": 49.2645300298286
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "streak": 1,
+    "rsi": 89.33346043481268,
+    "rsiStreak": 49.93020198243228,
+    "percentRank": 63,
+    "connorsRsi": 67.42122080574832
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "streak": 2,
+    "rsi": 90.97730647752249,
+    "rsiStreak": 64.08952736808249,
+    "percentRank": 55,
+    "connorsRsi": 70.02227794853499
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "streak": 3,
+    "rsi": 92.63301592093154,
+    "rsiStreak": 77.06256292635248,
+    "percentRank": 54,
+    "connorsRsi": 74.56519294909468
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "streak": -1,
+    "rsi": 55.25885414724879,
+    "rsiStreak": 19.809999418727557,
+    "percentRank": 28,
+    "connorsRsi": 34.356284521992116
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "streak": 1,
+    "rsi": 69.7393995353898,
+    "rsiStreak": 53.991429484331725,
+    "percentRank": 62,
+    "connorsRsi": 61.91027633990717
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "streak": -1,
+    "rsi": 55.79696062972698,
+    "rsiStreak": 29.14499755149137,
+    "percentRank": 37,
+    "connorsRsi": 40.64731939373945
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "streak": -2,
+    "rsi": 37.925004447283975,
+    "rsiStreak": 19.95970022316736,
+    "percentRank": 35,
+    "connorsRsi": 30.961568223483777
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "streak": -3,
+    "rsi": 19.963035927213838,
+    "rsiStreak": 12.242832028368696,
+    "percentRank": 28,
+    "connorsRsi": 20.068622651860846
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "streak": 1,
+    "rsi": 39.2406497989213,
+    "rsiStreak": 78.55909957879584,
+    "percentRank": 59,
+    "connorsRsi": 58.93324979257238
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "streak": -1,
+    "rsi": 16.917808224786768,
+    "rsiStreak": 44.745702424799084,
+    "percentRank": 22,
+    "connorsRsi": 27.88783688319528
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "streak": 1,
+    "rsi": 33.20301754518576,
+    "rsiStreak": 70.30679397337603,
+    "percentRank": 61,
+    "connorsRsi": 54.83660383952059
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "streak": -1,
+    "rsi": 10.30021977899628,
+    "rsiStreak": 36.51890428419516,
+    "percentRank": 9,
+    "connorsRsi": 18.60637468773048
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "streak": 1,
+    "rsi": 23.025578773397555,
+    "rsiStreak": 67.63077298891301,
+    "percentRank": 61,
+    "connorsRsi": 50.55211725410353
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "streak": -1,
+    "rsi": 12.793186850798875,
+    "rsiStreak": 34.15362374464661,
+    "percentRank": 16,
+    "connorsRsi": 20.982270198481828
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "streak": 1,
+    "rsi": 40.08892127063187,
+    "rsiStreak": 66.91132771427294,
+    "percentRank": 74,
+    "connorsRsi": 60.33341632830161
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "streak": 2,
+    "rsi": 46.4954617624843,
+    "rsiStreak": 77.90386401713918,
+    "percentRank": 55,
+    "connorsRsi": 59.7997752598745
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "streak": 3,
+    "rsi": 56.72486992006261,
+    "rsiStreak": 86.7244945162405,
+    "percentRank": 60,
+    "connorsRsi": 67.81645481210104
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "streak": -1,
+    "rsi": 38.42465915470124,
+    "rsiStreak": 20.680464293448935,
+    "percentRank": 27,
+    "connorsRsi": 28.70170781605006
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "streak": 1,
+    "rsi": 70.9377616669507,
+    "rsiStreak": 54.97144028087892,
+    "percentRank": 77,
+    "connorsRsi": 67.63640064927654
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "streak": 2,
+    "rsi": 84.07711787289178,
+    "rsiStreak": 68.56237686812027,
+    "percentRank": 81,
+    "connorsRsi": 77.87983158033735
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "streak": 3,
+    "rsi": 90.79407648303761,
+    "rsiStreak": 80.39631070060435,
+    "percentRank": 82,
+    "connorsRsi": 84.39679572788066
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "streak": 4,
+    "rsi": 92.66273912524218,
+    "rsiStreak": 88.81611637466594,
+    "percentRank": 68,
+    "connorsRsi": 83.15961849996937
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "streak": -1,
+    "rsi": 57.14594918714207,
+    "rsiStreak": 16.773547812160913,
+    "percentRank": 15,
+    "connorsRsi": 29.639832333100998
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "streak": 1,
+    "rsi": 74.9172595636838,
+    "rsiStreak": 49.52651675889261,
+    "percentRank": 84,
+    "connorsRsi": 69.48125877419214
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "streak": 2,
+    "rsi": 76.19185917541081,
+    "rsiStreak": 63.7803939817425,
+    "percentRank": 49,
+    "connorsRsi": 62.99075105238444
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "streak": -1,
+    "rsi": 70.0864332965653,
+    "rsiStreak": 23.671291613564094,
+    "percentRank": 40,
+    "connorsRsi": 44.58590830337647
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "streak": 1,
+    "rsi": 80.71223963389305,
+    "rsiStreak": 58.48278675129851,
+    "percentRank": 69,
+    "connorsRsi": 69.39834212839719
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "streak": 2,
+    "rsi": 84.88539029733789,
+    "rsiStreak": 71.48686827455343,
+    "percentRank": 58,
+    "connorsRsi": 71.45741952396378
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "streak": -1,
+    "rsi": 53.506278955206994,
+    "rsiStreak": 24.827616600252327,
+    "percentRank": 25,
+    "connorsRsi": 34.44463185181977
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "streak": -2,
+    "rsi": 45.85385123596142,
+    "rsiStreak": 17.299893108533993,
+    "percentRank": 39,
+    "connorsRsi": 34.0512481148318
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "streak": 1,
+    "rsi": 59.77297679210745,
+    "rsiStreak": 70.66537429008817,
+    "percentRank": 59,
+    "connorsRsi": 63.14611702739854
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "streak": 2,
+    "rsi": 80.43947070428771,
+    "rsiStreak": 79.48904058517502,
+    "percentRank": 75,
+    "connorsRsi": 78.30950376315424
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "streak": 3,
+    "rsi": 91.55505485249132,
+    "rsiStreak": 87.19335380739147,
+    "percentRank": 84,
+    "connorsRsi": 87.58280288662759
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "streak": -1,
+    "rsi": 73.80970733220877,
+    "rsiStreak": 21.771370300157884,
+    "percentRank": 29,
+    "connorsRsi": 41.52702587745555
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "streak": -2,
+    "rsi": 40.56956812187407,
+    "rsiStreak": 15.831943242520126,
+    "percentRank": 14,
+    "connorsRsi": 23.467170454798065
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "streak": -3,
+    "rsi": 26.701848962938243,
+    "rsiStreak": 10.243114418752626,
+    "percentRank": 21,
+    "connorsRsi": 19.314987793896957
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "streak": 1,
+    "rsi": 50.48988576906938,
+    "rsiStreak": 76.52848519332193,
+    "percentRank": 74,
+    "connorsRsi": 67.00612365413043
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "streak": -1,
+    "rsi": 43.395577879671805,
+    "rsiStreak": 44.0198613479427,
+    "percentRank": 37,
+    "connorsRsi": 41.4718130758715
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "streak": 1,
+    "rsi": 66.56916702893668,
+    "rsiStreak": 69.73363220025473,
+    "percentRank": 77,
+    "connorsRsi": 71.10093307639714
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "streak": 2,
+    "rsi": 77.55739665789113,
+    "rsiStreak": 79.26019851169832,
+    "percentRank": 72,
+    "connorsRsi": 76.27253172319648
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "streak": 3,
+    "rsi": 84.21756453913218,
+    "rsiStreak": 87.27240838695546,
+    "percentRank": 69,
+    "connorsRsi": 80.16332430869589
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "streak": 4,
+    "rsi": 88.73546374446134,
+    "rsiStreak": 92.81998327221419,
+    "percentRank": 66,
+    "connorsRsi": 82.51848233889184
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "streak": -1,
+    "rsi": 83.98024224456799,
+    "rsiStreak": 17.321363331370435,
+    "percentRank": 40,
+    "connorsRsi": 47.100535191979475
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "streak": -2,
+    "rsi": 67.3000623041015,
+    "rsiStreak": 13.069225230129462,
+    "percentRank": 36,
+    "connorsRsi": 38.78976251141032
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "streak": -3,
+    "rsi": 26.94476735964598,
+    "rsiStreak": 8.765583457240226,
+    "percentRank": 14,
+    "connorsRsi": 16.57011693896207
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "streak": -4,
+    "rsi": 17.986179981304304,
+    "rsiStreak": 5.284955509232873,
+    "percentRank": 23,
+    "connorsRsi": 15.423711830179059
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "streak": 1,
+    "rsi": 55.60434684484755,
+    "rsiStreak": 80.94567064221043,
+    "percentRank": 78,
+    "connorsRsi": 71.516672495686
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "streak": -1,
+    "rsi": 30.722343028050375,
+    "rsiStreak": 49.38543023064778,
+    "percentRank": 10,
+    "connorsRsi": 30.035924419566054
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "streak": 1,
+    "rsi": 59.72463832492277,
+    "rsiStreak": 71.56146497581032,
+    "percentRank": 80,
+    "connorsRsi": 70.42870110024437
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "streak": 2,
+    "rsi": 68.49699406705174,
+    "rsiStreak": 80.22541199210687,
+    "percentRank": 66,
+    "connorsRsi": 71.57413535305288
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "streak": 3,
+    "rsi": 73.67499817873865,
+    "rsiStreak": 87.71238383152715,
+    "percentRank": 57,
+    "connorsRsi": 72.79579400342193
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "streak": 4,
+    "rsi": 79.29807208902798,
+    "rsiStreak": 93.00740101707828,
+    "percentRank": 58,
+    "connorsRsi": 76.76849103536875
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "streak": -1,
+    "rsi": 73.16685630187919,
+    "rsiStreak": 17.518056315841562,
+    "percentRank": 38,
+    "connorsRsi": 42.89497087257359
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "streak": -2,
+    "rsi": 58.42026736231895,
+    "rsiStreak": 13.224572875223501,
+    "percentRank": 33,
+    "connorsRsi": 34.88161341251415
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "streak": 1,
+    "rsi": 82.47578177422045,
+    "rsiStreak": 64.8758443826681,
+    "percentRank": 79,
+    "connorsRsi": 75.45054205229619
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "streak": 2,
+    "rsi": 91.7973782566733,
+    "rsiStreak": 74.8541914034679,
+    "percentRank": 82,
+    "connorsRsi": 82.8838565533804
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "streak": 3,
+    "rsi": 92.19373960254799,
+    "rsiStreak": 83.96492973987705,
+    "percentRank": 44,
+    "connorsRsi": 73.38622311414169
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "streak": 4,
+    "rsi": 95.61881604485603,
+    "rsiStreak": 90.70232768575057,
+    "percentRank": 77,
+    "connorsRsi": 87.77371457686887
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "streak": -1,
+    "rsi": 63.878995065309816,
+    "rsiStreak": 17.43717500798803,
+    "percentRank": 17,
+    "connorsRsi": 32.77205669109929
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "streak": 0,
+    "rsi": 63.878995065309816,
+    "rsiStreak": 37.599025495965996,
+    "percentRank": 42,
+    "connorsRsi": 47.8260068537586
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "streak": -1,
+    "rsi": 48.59674782251832,
+    "rsiStreak": 25.26136805838918,
+    "percentRank": 30,
+    "connorsRsi": 34.619371960302495
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "streak": -2,
+    "rsi": 30.989090160068073,
+    "rsiStreak": 15.251913003495034,
+    "percentRank": 24,
+    "connorsRsi": 23.413667721187704
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "streak": -3,
+    "rsi": 19.35981686314733,
+    "rsiStreak": 8.508874140410953,
+    "percentRank": 22,
+    "connorsRsi": 16.622897001186093
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "streak": -4,
+    "rsi": 14.146032498710099,
+    "rsiStreak": 4.51585531389577,
+    "percentRank": 31,
+    "connorsRsi": 16.553962604201956
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "streak": 1,
+    "rsi": 36.8672337776547,
+    "rsiStreak": 83.22712023745646,
+    "percentRank": 56,
+    "connorsRsi": 58.69811800503705
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "streak": 2,
+    "rsi": 63.82779431454861,
+    "rsiStreak": 87.38630307732893,
+    "percentRank": 69,
+    "connorsRsi": 73.40469913062584
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "streak": 3,
+    "rsi": 65.50885422726435,
+    "rsiStreak": 91.56805419118204,
+    "percentRank": 45,
+    "connorsRsi": 67.35896947281547
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "streak": 4,
+    "rsi": 86.99987484218164,
+    "rsiStreak": 94.92982794612486,
+    "percentRank": 83,
+    "connorsRsi": 88.3099009294355
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "streak": 5,
+    "rsi": 87.35582811110947,
+    "rsiStreak": 97.17914718441409,
+    "percentRank": 43,
+    "connorsRsi": 75.84499176517453
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "streak": -1,
+    "rsi": 39.13556508265713,
+    "rsiStreak": 15.367567572291023,
+    "percentRank": 12,
+    "connorsRsi": 22.16771088498272
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "streak": 1,
+    "rsi": 67.00322897110513,
+    "rsiStreak": 45.79161118019544,
+    "percentRank": 81,
+    "connorsRsi": 64.59828005043353
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "streak": 2,
+    "rsi": 70.9193981331415,
+    "rsiStreak": 60.125775081212915,
+    "percentRank": 50,
+    "connorsRsi": 60.348391071451466
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "streak": 3,
+    "rsi": 87.6720955822881,
+    "rsiStreak": 73.91888124442961,
+    "percentRank": 89,
+    "connorsRsi": 83.5303256089059
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "streak": -1,
+    "rsi": 79.83912906593403,
+    "rsiStreak": 19.62106418043932,
+    "percentRank": 35,
+    "connorsRsi": 44.820064415457786
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "streak": -2,
+    "rsi": 53.595060467334186,
+    "rsiStreak": 14.350438614039433,
+    "percentRank": 18,
+    "connorsRsi": 28.648499693791205
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "streak": -3,
+    "rsi": 47.22261137340413,
+    "rsiStreak": 9.33518777120976,
+    "percentRank": 35,
+    "connorsRsi": 30.51926638153796
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "streak": -4,
+    "rsi": 29.82982527513019,
+    "rsiStreak": 5.49462151231846,
+    "percentRank": 19,
+    "connorsRsi": 18.10814892914955
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "streak": 1,
+    "rsi": 53.636357168198835,
+    "rsiStreak": 81.52053331859655,
+    "percentRank": 65,
+    "connorsRsi": 66.71896349559846
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "streak": 2,
+    "rsi": 54.51536691905483,
+    "rsiStreak": 86.01930430788141,
+    "percentRank": 44,
+    "connorsRsi": 61.51155707564541
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "streak": 3,
+    "rsi": 76.53583232432005,
+    "rsiStreak": 90.59738258183458,
+    "percentRank": 70,
+    "connorsRsi": 79.04440496871821
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "streak": -1,
+    "rsi": 68.04999188272174,
+    "rsiStreak": 25.02927338924711,
+    "percentRank": 40,
+    "connorsRsi": 44.35975509065628
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "streak": 1,
+    "rsi": 72.37420557901152,
+    "rsiStreak": 56.50670628948145,
+    "percentRank": 49,
+    "connorsRsi": 59.29363728949766
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "streak": -1,
+    "rsi": 18.89904254490071,
+    "rsiStreak": 30.714740860218754,
+    "percentRank": 3,
+    "connorsRsi": 17.537927801706488
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "streak": -2,
+    "rsi": 10.586175010768045,
+    "rsiStreak": 21.08890464814904,
+    "percentRank": 11,
+    "connorsRsi": 14.225026552972361
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "streak": 0,
+    "rsi": 10.586175010768045,
+    "rsiStreak": 64.98409599284014,
+    "percentRank": 44,
+    "connorsRsi": 39.85675700120273
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "streak": -1,
+    "rsi": 8.42301787883737,
+    "rsiStreak": 41.75654466221423,
+    "percentRank": 32,
+    "connorsRsi": 27.39318751368387
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "streak": -2,
+    "rsi": 1.1027070599238868,
+    "rsiStreak": 24.349702254064155,
+    "percentRank": 0,
+    "connorsRsi": 8.484136437996014
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "streak": -3,
+    "rsi": 0.5872046105742612,
+    "rsiStreak": 13.278782584408361,
+    "percentRank": 1,
+    "connorsRsi": 4.955329064994207
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "streak": 1,
+    "rsi": 30.611581759828184,
+    "rsiStreak": 81.299231219371,
+    "percentRank": 100,
+    "connorsRsi": 70.63693765973306
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "streak": -1,
+    "rsi": 25.824177896783794,
+    "rsiStreak": 45.56218429231701,
+    "percentRank": 12,
+    "connorsRsi": 27.795454063033603
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "streak": 1,
+    "rsi": 61.14076463531468,
+    "rsiStreak": 71.03059343528864,
+    "percentRank": 100,
+    "connorsRsi": 77.39045269020112
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "streak": 2,
+    "rsi": 61.3765262425858,
+    "rsiStreak": 80.26397544523992,
+    "percentRank": 48,
+    "connorsRsi": 63.21350056260857
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "streak": -1,
+    "rsi": 35.70587579100251,
+    "rsiStreak": 27.559654414839684,
+    "percentRank": 2,
+    "connorsRsi": 21.75517673528073
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "streak": -2,
+    "rsi": 34.875003546997064,
+    "rsiStreak": 19.168490411301903,
+    "percentRank": 41,
+    "connorsRsi": 31.681164652766324
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "streak": -3,
+    "rsi": 27.212807204945094,
+    "rsiStreak": 11.913697641279953,
+    "percentRank": 16,
+    "connorsRsi": 18.37550161540835
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "streak": -4,
+    "rsi": 19.85740647016172,
+    "rsiStreak": 6.7808980337815115,
+    "percentRank": 15,
+    "connorsRsi": 13.879434834647745
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "streak": -5,
+    "rsi": 5.820284437989528,
+    "rsiStreak": 3.642386385570205,
+    "percentRank": 1,
+    "connorsRsi": 3.4875569411865777
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "streak": 1,
+    "rsi": 41.43627157689587,
+    "rsiStreak": 85.29823376481974,
+    "percentRank": 99,
+    "connorsRsi": 75.24483511390521
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "streak": -1,
+    "rsi": 26.459383113526442,
+    "rsiStreak": 54.50540593857991,
+    "percentRank": 3,
+    "connorsRsi": 27.988263017368784
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "streak": -2,
+    "rsi": 22.6415281927936,
+    "rsiStreak": 40.048000194645724,
+    "percentRank": 15,
+    "connorsRsi": 25.896509462479774
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "streak": 1,
+    "rsi": 50.85725525303254,
+    "rsiStreak": 76.86575732109677,
+    "percentRank": 98,
+    "connorsRsi": 75.24100419137643
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "streak": 2,
+    "rsi": 64.88777626249193,
+    "rsiStreak": 83.58591071738395,
+    "percentRank": 96,
+    "connorsRsi": 81.49122899329195
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "streak": 3,
+    "rsi": 75.46878075508539,
+    "rsiStreak": 89.61771148778328,
+    "percentRank": 95,
+    "connorsRsi": 86.69549741428955
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "streak": -1,
+    "rsi": 60.174667864006,
+    "rsiStreak": 22.74667297458356,
+    "percentRank": 13,
+    "connorsRsi": 31.97378027952985
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "streak": 1,
+    "rsi": 68.90819887698719,
+    "rsiStreak": 55.75869592675733,
+    "percentRank": 82,
+    "connorsRsi": 68.88896493458151
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "streak": 2,
+    "rsi": 77.48217125576164,
+    "rsiStreak": 69.00397148972257,
+    "percentRank": 85,
+    "connorsRsi": 77.16204758182808
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "streak": 3,
+    "rsi": 90.64629891504539,
+    "rsiStreak": 80.61262894173157,
+    "percentRank": 99,
+    "connorsRsi": 90.08630928559232
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "streak": -1,
+    "rsi": 84.22394036567117,
+    "rsiStreak": 20.172490475439275,
+    "percentRank": 32,
+    "connorsRsi": 45.46547694703681
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "streak": -2,
+    "rsi": 53.730883256461254,
+    "rsiStreak": 14.672181732518723,
+    "percentRank": 6,
+    "connorsRsi": 24.801021662993325
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "streak": -3,
+    "rsi": 26.45245471036624,
+    "rsiStreak": 9.494544035223342,
+    "percentRank": 3,
+    "connorsRsi": 12.982332915196528
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "streak": -4,
+    "rsi": 24.604611240088758,
+    "rsiStreak": 5.566113842277005,
+    "percentRank": 32,
+    "connorsRsi": 20.723575027455254
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "streak": -5,
+    "rsi": 17.83829409914115,
+    "rsiStreak": 3.045731152243306,
+    "percentRank": 12,
+    "connorsRsi": 10.961341750461486
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "streak": 1,
+    "rsi": 49.49275403280477,
+    "rsiStreak": 84.93024694758695,
+    "percentRank": 93,
+    "connorsRsi": 75.80766699346391
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "streak": 2,
+    "rsi": 55.88893393275061,
+    "rsiStreak": 88.24074539492727,
+    "percentRank": 64,
+    "connorsRsi": 69.37655977589263
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "streak": -1,
+    "rsi": 24.93248110382308,
+    "rsiStreak": 38.066470022928506,
+    "percentRank": 5,
+    "connorsRsi": 22.66631704225053
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "streak": -2,
+    "rsi": 13.154788406386757,
+    "rsiStreak": 27.602978460438976,
+    "percentRank": 4,
+    "connorsRsi": 14.919255622275244
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "streak": 1,
+    "rsi": 22.930562393417034,
+    "rsiStreak": 72.67258729435241,
+    "percentRank": 68,
+    "connorsRsi": 54.534383229256484
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "streak": -1,
+    "rsi": 17.191712476939898,
+    "rsiStreak": 39.71081203681768,
+    "percentRank": 15,
+    "connorsRsi": 23.96750817125253
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "streak": 1,
+    "rsi": 56.498975237443055,
+    "rsiStreak": 68.3874937324398,
+    "percentRank": 97,
+    "connorsRsi": 73.96215632329428
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "streak": 2,
+    "rsi": 62.21726296625725,
+    "rsiStreak": 78.57726407147416,
+    "percentRank": 67,
+    "connorsRsi": 69.26484234591048
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "streak": 3,
+    "rsi": 83.92986644846386,
+    "rsiStreak": 86.97442371297623,
+    "percentRank": 100,
+    "connorsRsi": 90.30143005381336
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "streak": -1,
+    "rsi": 77.50382445044471,
+    "rsiStreak": 21.029682134082933,
+    "percentRank": 32,
+    "connorsRsi": 43.51116886150921
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "streak": 1,
+    "rsi": 82.99298556165134,
+    "rsiStreak": 55.08478042167375,
+    "percentRank": 83,
+    "connorsRsi": 73.69258866110836
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "streak": 2,
+    "rsi": 90.54838046969458,
+    "rsiStreak": 68.61795083063004,
+    "percentRank": 93,
+    "connorsRsi": 84.05544376677487
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "streak": -1,
+    "rsi": 34.13260861855761,
+    "rsiStreak": 24.438083113475486,
+    "percentRank": 0,
+    "connorsRsi": 19.523563910677698
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "streak": -2,
+    "rsi": 32.74626108465006,
+    "rsiStreak": 17.098712509796883,
+    "percentRank": 38,
+    "connorsRsi": 29.281657864815646
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "streak": -3,
+    "rsi": 16.94810370467397,
+    "rsiStreak": 10.682353813300168,
+    "percentRank": 3,
+    "connorsRsi": 10.21015250599138
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "streak": 1,
+    "rsi": 21.496612413915912,
+    "rsiStreak": 77.68192194461787,
+    "percentRank": 61,
+    "connorsRsi": 53.39284478617793
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "streak": 2,
+    "rsi": 22.278433630083583,
+    "rsiStreak": 83.76941941203424,
+    "percentRank": 55,
+    "connorsRsi": 53.68261768070594
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "streak": 3,
+    "rsi": 41.172622781993596,
+    "rsiStreak": 89.49831566038927,
+    "percentRank": 75,
+    "connorsRsi": 68.55697948079428
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "streak": -1,
+    "rsi": 40.2621330967432,
+    "rsiStreak": 23.40587578273751,
+    "percentRank": 48,
+    "connorsRsi": 37.22266962649357
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "streak": -2,
+    "rsi": 13.501886351405759,
+    "rsiStreak": 17.09408297047493,
+    "percentRank": 7,
+    "connorsRsi": 12.531989773960229
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "streak": -3,
+    "rsi": 6.61605525914851,
+    "rsiStreak": 11.104856053887445,
+    "percentRank": 5,
+    "connorsRsi": 7.573637104345319
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "streak": -4,
+    "rsi": 6.353088240696593,
+    "rsiStreak": 6.529438144403727,
+    "percentRank": 44,
+    "connorsRsi": 18.960842128366775
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "streak": -5,
+    "rsi": 3.4837365210011484,
+    "rsiStreak": 3.5796590489972715,
+    "percentRank": 11,
+    "connorsRsi": 6.02113185666614
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "streak": -6,
+    "rsi": 2.0199165860703516,
+    "rsiStreak": 1.8805349770887432,
+    "percentRank": 11,
+    "connorsRsi": 4.966817187719698
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "streak": -7,
+    "rsi": 1.1345635337615931,
+    "rsiStreak": 0.9647124648811172,
+    "percentRank": 5,
+    "connorsRsi": 2.3664253328809033
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "streak": -8,
+    "rsi": 0.6198157009539784,
+    "rsiStreak": 0.4887089344556159,
+    "percentRank": 3,
+    "connorsRsi": 1.369508211803198
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "streak": 1,
+    "rsi": 56.167995669209525,
+    "rsiStreak": 89.92950398068129,
+    "percentRank": 100,
+    "connorsRsi": 82.03249988329694
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "streak": 2,
+    "rsi": 61.32981862337446,
+    "rsiStreak": 91.60605539137107,
+    "percentRank": 85,
+    "connorsRsi": 79.31195800491518
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "streak": -1,
+    "rsi": 59.56664082721491,
+    "rsiStreak": 45.82848367565682,
+    "percentRank": 44,
+    "connorsRsi": 49.79837483429058
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "streak": 1,
+    "rsi": 68.80867254280334,
+    "rsiStreak": 67.48986293296537,
+    "percentRank": 88,
+    "connorsRsi": 74.7661784919229
+  }
+]

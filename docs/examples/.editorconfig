@@ -1,4 +1,5 @@
 # top-most EditorConfig file
+# isolated for distro
 root = true
 
 # global baselines

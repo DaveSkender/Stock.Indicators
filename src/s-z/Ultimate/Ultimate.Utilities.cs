@@ -1,17 +1,36 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Ultimate Oscillator indicator.
+/// </summary>
+public static partial class Ultimate
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<UltimateResult> RemoveWarmupPeriods(
-        this IEnumerable<UltimateResult> results)
+    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Ultimate Oscillator calculation.
+    /// </summary>
+    /// <param name="shortPeriods">The number of short lookback periods.</param>
+    /// <param name="middleAverage">The number of middle lookback periods.</param>
+    /// <param name="longPeriods">The number of long lookback periods.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when any of the periods are less than or equal to 0, or when the periods are not in increasing order.
+    /// </exception>
+    internal static void Validate(
+        int shortPeriods,
+        int middleAverage,
+        int longPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Ultimate != null);
+        // check parameter arguments
+        if (shortPeriods <= 0 || middleAverage <= 0 || longPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(longPeriods), longPeriods,
+                "Average periods must be greater than 0 for Ultimate Oscillator.");
+        }
 
-        return results.Remove(removePeriods);
+        if (shortPeriods >= middleAverage || middleAverage >= longPeriods)
+        {
+            throw new ArgumentOutOfRangeException(nameof(middleAverage), middleAverage,
+                "Average periods must be increasingly larger than each other for Ultimate Oscillator.");
+        }
     }
 }

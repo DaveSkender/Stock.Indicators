@@ -1,17 +1,23 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for Rate of Change (ROC) calculations.
+/// </summary>
+public static partial class Roc
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<RocResult> RemoveWarmupPeriods(
-        this IEnumerable<RocResult> results)
+    /// <summary>
+    /// Validates the parameters for ROC calculations.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
+    internal static void Validate(
+        int lookbackPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Roc != null);
-
-        return results.Remove(removePeriods);
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for ROC.");
+        }
     }
 }
