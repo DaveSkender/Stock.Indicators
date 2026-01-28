@@ -64,39 +64,12 @@ public class ThreadSafetyTests : TestBase
                 return;
             }
 
-            // Consume quotes from SSE stream
-            List<Quote> allQuotes = await ConsumeQuotesFromSse(quoteHub, StcTestPort).ConfigureAwait(true);
-            allQuotes.Should().HaveCount(TargetQuoteCount);
+            // Consume quotes from SSE stream (including rollback scenarios)
+            SseQuoteStreamResult streamResult = await ConsumeQuotesFromSse(quoteHub, StcTestPort, "stc-rollbacks").ConfigureAwait(true);
+            streamResult.BaseQuotes.Should().HaveCount(TargetQuoteCount);
 
-            // Build complete quote list with all operations that will be applied.
-            // This ensures series is computed on the exact same sequence the streaming hub processes.
-            List<Quote> allQuotesWithOperations = new(allQuotes);
-
-            // Apply rollback scenarios to trigger StcHub.RollbackState():
-            // STC warmup period is slowPeriods + cyclePeriods - 2 = 50 + 10 - 2 = 58
-            // The bug in RollbackState only manifests when targetIndex >= 58
-
-            // 1. Late arrival after warmup (triggers rollback at index > 58)
-            // Note: Insert of existing quote is a no-op for series, already in allQuotesWithOperations
-            if (allQuotes.Count > 80)
-            {
-                quoteHub.Insert(allQuotes[80]);
-            }
-
-            // 2. Remove and re-insert after warmup (triggers complete rollback)
-            // Note: Remove then Insert of same quote is a no-op for series
-            if (allQuotes.Count > 100)
-            {
-                quoteHub.RemoveAt(100);
-                quoteHub.Insert(allQuotes[100]);
-            }
-
-            // 3. Late arrival deep into the data (triggers rollback with full buffer)
-            // Note: Insert of existing quote is a no-op for series, already in allQuotesWithOperations
-            if (allQuotes.Count > 500)
-            {
-                quoteHub.Insert(allQuotes[500]);
-            }
+            // Build complete quote list with all operations already applied by SSE stream.
+            List<Quote> allQuotesWithOperations = new(streamResult.RevisedQuotes);
 
             // The hub cache should be completely filled – STC indicator uses the same QuoteHub and
             // therefore must have exactly MaxCacheSize results after processing all quotes and
@@ -254,77 +227,13 @@ public class ThreadSafetyTests : TestBase
             WmaHub wmaHub = quoteHub.ToWmaHub(20);
 
             // Consume quotes from SSE stream and apply test scenarios
-            List<Quote> allQuotes = await ConsumeQuotesFromSse(quoteHub, AllHubsTestPort).ConfigureAwait(true);
+            SseQuoteStreamResult streamResult = await ConsumeQuotesFromSse(quoteHub, AllHubsTestPort, "allhubs-rollbacks").ConfigureAwait(true);
 
             // Verify SSE stream delivered the full batch
-            allQuotes.Should().HaveCount(TargetQuoteCount, "SSE stream should deliver the full batch");
+            streamResult.BaseQuotes.Should().HaveCount(TargetQuoteCount, "SSE stream should deliver the full batch");
 
             // Build complete quote list with all operations applied (matching what streaming hubs processed).
-            // This ensures series is computed on the exact same sequence the streaming hub processes.
-            List<Quote> allQuotesWithRevisions = new(allQuotes);
-
-            // Apply rollback scenarios to test state management:
-
-            // 1. Late non‑replacement arrival: insert quote at index 10.  This simulates an out‑of‑order
-            //    quote that arrives long after the chronological point where it belongs.  We do not
-            //    modify the allQuotesWithRevisions list because the quote already exists at index 10.
-            if (allQuotesWithRevisions.Count > 10)
-            {
-                Quote lateQuote10 = allQuotesWithRevisions[10];
-                quoteHub.Insert(lateQuote10);
-            }
-
-            // 2. Full rebuild signal after 100 periods (remove and re‑add to trigger rollback).  This
-            //    operation effectively sends a notification that the data at index 100 has been corrected.
-            if (allQuotesWithRevisions.Count > 100)
-            {
-                Quote rebuildQuote = allQuotesWithRevisions[100];
-                quoteHub.RemoveAt(100);
-                quoteHub.Insert(rebuildQuote);
-            }
-
-            // 3. Late arrival replacement deep in the series: replace quote at index 1600 by re‑adding
-            //    with the same timestamp but a modified close.  Update the static list so that the
-            //    subsequent static series computation matches what the streaming hub processed.
-            if (allQuotesWithRevisions.Count > 1600)
-            {
-                Quote original = allQuotesWithRevisions[1600];
-                Quote replacementQuote = new(
-                    original.Timestamp,
-                    original.Open,
-                    original.High,
-                    original.Low,
-                    original.Close * 1.01m,  // Modified close
-                    original.Volume
-                );
-                quoteHub.Add(replacementQuote);
-                allQuotesWithRevisions[1600] = replacementQuote;
-            }
-
-            // 4. Multiple quotes with the same timestamp (revisions).  Each Add with the same timestamp
-            //    triggers a rebuild in the streaming hubs.  The final revision is back to the original
-            //    value, so there is no net change in the static list.
-            if (allQuotesWithRevisions.Count > 0)
-            {
-                Quote lastQuote = allQuotesWithRevisions[^1];
-                quoteHub.Add(new Quote(
-                    lastQuote.Timestamp,
-                    lastQuote.Open,
-                    lastQuote.High,
-                    lastQuote.Low,
-                    lastQuote.Close * 0.99m,
-                    lastQuote.Volume
-                ));
-                quoteHub.Add(new Quote(
-                    lastQuote.Timestamp,
-                    lastQuote.Open,
-                    lastQuote.High,
-                    lastQuote.Low,
-                    lastQuote.Close * 1.01m,
-                    lastQuote.Volume
-                ));
-                quoteHub.Add(lastQuote);
-            }
+            List<Quote> allQuotesWithRevisions = new(streamResult.RevisedQuotes);
 
             // Get final results from QuoteHub (this is the ground truth after all operations)
             IReadOnlyList<IQuote> quoteHubResults = quoteHub.Results;
@@ -624,13 +533,15 @@ public class ThreadSafetyTests : TestBase
         return false;
     }
 
-    private static async Task<List<Quote>> ConsumeQuotesFromSse(QuoteHub quoteHub, int port)
+    private static async Task<SseQuoteStreamResult> ConsumeQuotesFromSse(QuoteHub quoteHub, int port, string scenario)
     {
         List<Quote> allQuotes = [];
+        List<Quote> revisedQuotes = [];
         using HttpClient httpClient = new() { Timeout = TimeSpan.FromMinutes(5) };
 
         string batchSizeParam = $"&batchSize={TargetQuoteCount}";
-        Uri uri = new($"http://localhost:{port}/quotes/longest?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}");
+        string scenarioParam = string.IsNullOrWhiteSpace(scenario) ? string.Empty : $"&scenario={scenario}";
+        Uri uri = new($"http://localhost:{port}/quotes/longest?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}{scenarioParam}");
 
         using HttpResponseMessage response = await httpClient
             .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
@@ -642,18 +553,37 @@ public class ThreadSafetyTests : TestBase
 
         int quotesProcessed = 0;
         string? line;
+        string? currentEvent = null;
 
         while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
         {
             // SSE format: "event: quote", "data: {...}", blank line
+            if (line.StartsWith("event:", StringComparison.Ordinal))
+            {
+                currentEvent = line[6..].Trim();
+                continue;
+            }
+
             if (line.StartsWith("data:", StringComparison.Ordinal))
             {
                 string json = line[5..].Trim();
-                Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
+                string eventType = string.IsNullOrWhiteSpace(currentEvent) ? "quote" : currentEvent;
 
-                if (quote is not null)
+                if (string.Equals(eventType, "action", StringComparison.OrdinalIgnoreCase))
+                {
+                    SseQuoteAction? action = JsonSerializer.Deserialize<SseQuoteAction>(json, JsonOptions);
+                    if (action is not null)
+                    {
+                        ApplyAction(action, quoteHub, revisedQuotes);
+                    }
+                    continue;
+                }
+
+                Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
+                if (quote is not null && string.Equals(eventType, "quote", StringComparison.OrdinalIgnoreCase))
                 {
                     allQuotes.Add(quote);
+                    revisedQuotes.Add(quote);
                     quoteHub.Add(quote);
                     quotesProcessed++;
 
@@ -665,7 +595,81 @@ public class ThreadSafetyTests : TestBase
             }
         }
 
-        return allQuotes;
+        return new SseQuoteStreamResult(allQuotes, revisedQuotes);
     }
+
+    private static void ApplyAction(SseQuoteAction action, QuoteHub quoteHub, List<Quote> revisedQuotes)
+    {
+        if (string.IsNullOrWhiteSpace(action.Action))
+        {
+            return;
+        }
+
+        switch (action.Action.Trim().ToUpperInvariant())
+        {
+            case "INSERT":
+                if (action.Quote is null)
+                {
+                    return;
+                }
+
+                quoteHub.Insert(action.Quote);
+                InsertQuoteIfMissing(revisedQuotes, action.Quote);
+                break;
+            case "REMOVEAT":
+                if (action.Index is null || action.Index < 0 || action.Index >= revisedQuotes.Count)
+                {
+                    return;
+                }
+
+                quoteHub.RemoveAt(action.Index.Value);
+                revisedQuotes.RemoveAt(action.Index.Value);
+                break;
+            case "ADD":
+                if (action.Quote is null)
+                {
+                    return;
+                }
+
+                quoteHub.Add(action.Quote);
+                ReplaceOrInsertQuote(revisedQuotes, action.Quote);
+                break;
+        }
+    }
+
+    private static void InsertQuoteIfMissing(List<Quote> quotes, Quote quote)
+    {
+        int existingIndex = quotes.FindIndex(q => q.Timestamp == quote.Timestamp);
+        if (existingIndex >= 0)
+        {
+            return;
+        }
+
+        int insertIndex = quotes.FindIndex(q => q.Timestamp > quote.Timestamp);
+        if (insertIndex < 0)
+        {
+            quotes.Add(quote);
+        }
+        else
+        {
+            quotes.Insert(insertIndex, quote);
+        }
+    }
+
+    private static void ReplaceOrInsertQuote(List<Quote> quotes, Quote quote)
+    {
+        int existingIndex = quotes.FindIndex(q => q.Timestamp == quote.Timestamp);
+        if (existingIndex >= 0)
+        {
+            quotes[existingIndex] = quote;
+            return;
+        }
+
+        InsertQuoteIfMissing(quotes, quote);
+    }
+
+    private sealed record SseQuoteStreamResult(List<Quote> BaseQuotes, List<Quote> RevisedQuotes);
+
+    private sealed record SseQuoteAction(string Action, int? Index, Quote? Quote);
     #endregion
 }

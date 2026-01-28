@@ -120,7 +120,8 @@ app.MapGet("/quotes/longest", async (
     HttpContext context,
     int interval = 100,
     int? batchSize = null,
-    string quoteInterval = "1m"
+    string quoteInterval = "1m",
+    string? scenario = null
 ) => {
     // Validate interval parameter
     if (interval <= 0)
@@ -148,9 +149,10 @@ app.MapGet("/quotes/longest", async (
     int delivered = 0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
     DateTime baseTimestamp = longestQuotes[0].Timestamp;
+    List<Quote> streamedQuotes = new(totalQuotes);
 
     Console.WriteLine(
-        $"[Longest] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, total: {totalQuotes} quotes");
+        $"[Longest] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, total: {totalQuotes} quotes, scenario: {scenario ?? "none"}");
 
     try
     {
@@ -166,6 +168,8 @@ app.MapGet("/quotes/longest", async (
                 Low: originalQuote.Low,
                 Close: originalQuote.Close,
                 Volume: originalQuote.Volume);
+
+            streamedQuotes.Add(quote);
 
             // Serialize quote as JSON
             string json = JsonSerializer.Serialize(quote, jsonOptions);
@@ -186,6 +190,20 @@ app.MapGet("/quotes/longest", async (
 
             // Wait for the specified interval
             await Task.Delay(interval, context.RequestAborted).ConfigureAwait(false);
+        }
+
+        if (!string.IsNullOrWhiteSpace(scenario))
+        {
+            List<SseQuoteAction> actions = BuildScenarioActions(scenario, streamedQuotes);
+            foreach (SseQuoteAction action in actions)
+            {
+                string json = JsonSerializer.Serialize(action, jsonOptions);
+                string sseData = $"event: action\ndata: {json}\n\n";
+                await context.Response
+                    .WriteAsync(sseData, context.RequestAborted)
+                    .ConfigureAwait(false);
+                await context.Response.Body.FlushAsync(context.RequestAborted).ConfigureAwait(false);
+            }
         }
 
         Console.WriteLine($"[Longest] Stream complete - delivered {delivered} quotes");
@@ -264,3 +282,88 @@ static TimeSpan ParseInterval(string intervalString)
         _ => TimeSpan.FromMinutes(1)
     };
 }
+
+static List<SseQuoteAction> BuildScenarioActions(string scenario, IReadOnlyList<Quote> quotes)
+{
+    return scenario.Trim().ToLowerInvariant() switch {
+        "stc-rollbacks" => BuildStcRollbackActions(quotes),
+        "allhubs-rollbacks" => BuildAllHubsRollbackActions(quotes),
+        _ => []
+    };
+}
+
+static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> quotes)
+{
+    List<SseQuoteAction> actions = [];
+
+    if (quotes.Count > 80)
+    {
+        actions.Add(new SseQuoteAction("Insert", null, quotes[80]));
+    }
+
+    if (quotes.Count > 100)
+    {
+        actions.Add(new SseQuoteAction("RemoveAt", 100, null));
+        actions.Add(new SseQuoteAction("Insert", null, quotes[100]));
+    }
+
+    if (quotes.Count > 500)
+    {
+        actions.Add(new SseQuoteAction("Insert", null, quotes[500]));
+    }
+
+    return actions;
+}
+
+static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> quotes)
+{
+    List<SseQuoteAction> actions = [];
+
+    if (quotes.Count > 10)
+    {
+        actions.Add(new SseQuoteAction("Insert", null, quotes[10]));
+    }
+
+    if (quotes.Count > 100)
+    {
+        actions.Add(new SseQuoteAction("RemoveAt", 100, null));
+        actions.Add(new SseQuoteAction("Insert", null, quotes[100]));
+    }
+
+    if (quotes.Count > 1600)
+    {
+        Quote original = quotes[1600];
+        Quote replacement = new(
+            original.Timestamp,
+            original.Open,
+            original.High,
+            original.Low,
+            original.Close * 1.01m,
+            original.Volume);
+        actions.Add(new SseQuoteAction("Add", null, replacement));
+    }
+
+    if (quotes.Count > 0)
+    {
+        Quote lastQuote = quotes[^1];
+        actions.Add(new SseQuoteAction("Add", null, new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 0.99m,
+            lastQuote.Volume)));
+        actions.Add(new SseQuoteAction("Add", null, new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 1.01m,
+            lastQuote.Volume)));
+        actions.Add(new SseQuoteAction("Add", null, lastQuote));
+    }
+
+    return actions;
+}
+
+internal sealed record SseQuoteAction(string Action, int? Index, Quote? Quote);
