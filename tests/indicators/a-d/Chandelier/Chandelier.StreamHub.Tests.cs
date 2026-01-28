@@ -42,7 +42,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

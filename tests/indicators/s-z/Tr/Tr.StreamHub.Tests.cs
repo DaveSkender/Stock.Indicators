@@ -32,7 +32,7 @@ public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<TrResult> expectedOriginal = Quotes.ToTr();
         sut.IsExactly(expectedOriginal);
@@ -106,7 +106,7 @@ public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

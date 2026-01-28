@@ -42,8 +42,8 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrivals
-        quoteHub.Insert(Quotes[30]);  // rebuilds complete series
-        quoteHub.Insert(Quotes[80]);  // rebuilds from insertion point
+        quoteHub.Add(Quotes[30]);  // rebuilds complete series
+        quoteHub.Add(Quotes[80]);  // rebuilds from insertion point
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

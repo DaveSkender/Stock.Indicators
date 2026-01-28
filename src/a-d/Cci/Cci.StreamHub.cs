@@ -43,7 +43,7 @@ public class CciHub
 
     /// <summary>
     /// Restores the CciList state up to the specified timestamp.
-    /// Clears and rebuilds _cciList from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds _cciList from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

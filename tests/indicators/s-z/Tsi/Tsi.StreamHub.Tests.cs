@@ -60,7 +60,7 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<TsiResult> expectedOriginal = Quotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
         sut.IsExactly(expectedOriginal);
@@ -182,7 +182,7 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

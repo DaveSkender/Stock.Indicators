@@ -124,45 +124,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Inserts a new item into the stream.
-    /// </summary>
-    /// <param name="newIn">The new item to insert.</param>
-    /// <remarks>
-    /// This should only be used when newer timestamps
-    /// are not impacted by the insertion of an older item
-    /// </remarks>
-    public void Insert(TIn newIn)
-    {
-        lock (CacheLock)
-        {
-            // generate candidate result
-            (TOut result, int index) = ToIndicator(newIn, null);
-
-            // insert, then rebuild observers (no self-rebuild)
-            if (index > 0)
-            {
-                // check overflow/duplicates
-                if (IsOverflowing(result))
-                {
-                    return; // duplicate found
-                }
-
-                Cache.Insert(index, result);
-
-                // notify observers (inside lock to ensure cache consistency)
-                NotifyObserversOnRebuild(newIn.Timestamp);
-            }
-
-            // normal add
-            else
-            {
-                AppendCache(result, notify: true);
-                // AppendCache handles notification
-            }
-        }
-    }
-
-    /// <summary>
     /// Removes a cached item at a specific index position.
     /// </summary>
     /// <inheritdoc/>
@@ -427,6 +388,45 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         if (notify)
         {
             NotifyObserversOnAdd(item, Cache.Count - 1);
+        }
+    }
+
+    /// <summary>
+    /// Inserts an item without rebuilding this hub.
+    /// </summary>
+    /// <param name="item">Item to insert.</param>
+    /// <param name="index">Cache index to insert at.</param>
+    /// <param name="notify">Notify observers of rebuild.</param>
+    protected void InsertWithoutRebuild(TOut item, int index, bool notify)
+    {
+        if (index < 0 || index > Cache.Count)
+        {
+            AppendCache(item, notify);
+            return;
+        }
+
+        if (IsOverflowing(item))
+        {
+            return;
+        }
+
+        if (index < Cache.Count && Cache[index].Timestamp == item.Timestamp)
+        {
+            if (Cache[index].Equals(item))
+            {
+                return;
+            }
+
+            Cache[index] = item;
+        }
+        else
+        {
+            Cache.Insert(index, item);
+        }
+
+        if (notify)
+        {
+            NotifyObserversOnRebuild(item.Timestamp);
         }
     }
 

@@ -82,7 +82,7 @@ public class UlcerIndexHub
     /// Rollback state is not required for this indicator.
     /// The calculation uses only ProviderCache lookups without maintaining
     /// internal state fields. Each ToIndicator call recalculates from the cache,
-    /// so provider history mutations (Insert/Remove) are handled automatically.
+    /// so provider history mutations (Add/Remove) are handled automatically.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

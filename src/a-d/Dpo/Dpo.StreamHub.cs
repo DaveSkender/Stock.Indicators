@@ -184,7 +184,7 @@ public class DpoHub
     /// <param name="fromTimestamp">Point in time to rebuild from.</param>
     /// <remarks>
     /// DPO requires lookahead data for calculation: DPO[i] = Value[i] - SMA[i + offset].
-    /// When provider history is mutated (Insert/Remove), downstream observers need to be
+    /// When provider history is mutated (Add/Remove), downstream observers need to be
     /// notified from the adjusted position that accounts for the backward offset.
     /// This ensures chained observers recalculate all affected positions.
     /// </remarks>

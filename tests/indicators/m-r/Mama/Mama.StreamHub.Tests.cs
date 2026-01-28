@@ -46,7 +46,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
@@ -173,7 +173,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

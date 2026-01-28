@@ -65,7 +65,7 @@ public class CmoHub
 
     /// <summary>
     /// Restores the tick buffer state up to the specified timestamp.
-    /// Clears and rebuilds _tickBuffer from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds _tickBuffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

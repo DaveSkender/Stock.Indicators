@@ -40,7 +40,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<StochRsiResult> expectedOriginal = Quotes.ToStochRsi(14, 14, 3, 1);
         sut.IsExactly(expectedOriginal);
@@ -180,7 +180,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

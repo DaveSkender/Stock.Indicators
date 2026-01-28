@@ -46,7 +46,7 @@
               "type": "string",
               "default": "1m"
             }
-          }
+          },
         ],
         "responses": {
           "200": {
@@ -94,6 +94,16 @@
               "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days)$",
               "type": "string",
               "default": "1m"
+            }
+          },
+          {
+            "name": "scenario",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ]
             }
           }
         ],

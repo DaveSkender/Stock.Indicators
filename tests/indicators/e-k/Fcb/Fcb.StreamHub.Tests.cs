@@ -41,8 +41,8 @@ public class FcbHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrivals
-        quoteHub.Insert(Quotes[30]);
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[30]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

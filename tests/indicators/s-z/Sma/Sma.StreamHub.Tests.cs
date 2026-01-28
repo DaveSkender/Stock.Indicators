@@ -32,7 +32,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<SmaResult> expectedOriginal = Quotes.ToSma(5);
         sut.IsExactly(expectedOriginal);
@@ -140,7 +140,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

@@ -37,7 +37,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         actuals.Should().HaveCount(length);
         actuals.IsExactly(expectedOriginal);
@@ -114,7 +114,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // results from stream

@@ -32,7 +32,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<DemaResult> expectedOriginal = Quotes.ToDema(5);
         sut.IsExactly(expectedOriginal);
@@ -141,7 +141,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

@@ -38,7 +38,7 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)

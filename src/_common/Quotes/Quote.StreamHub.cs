@@ -119,6 +119,13 @@ public class QuoteHub
             }
             else
             {
+                // if out-of-order insert, avoid rebuilding this hub when standalone
+                if (index >= 0 && index < Cache.Count)
+                {
+                    InsertWithoutRebuild(result, index, notify);
+                    return;
+                }
+
                 // standard add behavior for new items
                 AppendCache(result, notify);
             }

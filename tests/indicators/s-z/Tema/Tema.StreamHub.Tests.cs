@@ -34,7 +34,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<TemaResult> expectedOriginal = Quotes.ToTema(lookbackPeriods);
         sut.IsExactly(expectedOriginal);
@@ -144,7 +144,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
