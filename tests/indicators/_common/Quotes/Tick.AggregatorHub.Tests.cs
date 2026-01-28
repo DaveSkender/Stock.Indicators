@@ -276,7 +276,7 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     }
 
     [TestMethod]
-    public void DuplicateExecutionId_IsIgnored()
+    public void DuplicateExecutionId_CorrectionRebuildsBar()
     {
         TickHub provider = new();
         TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
@@ -286,26 +286,22 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             DateTime.Parse("2023-11-09 10:00:00", invariantCulture),
             100m, 10m, "EXEC-001"));
 
-        // Add duplicate with same execution ID
+        // Add correction with same execution ID and timestamp
         provider.Add(new Tick(
-            DateTime.Parse("2023-11-09 10:00:10", invariantCulture),
+            DateTime.Parse("2023-11-09 10:00:00", invariantCulture),
             200m, 20m, "EXEC-001"));
-
-        // Add different tick with unique execution ID
-        provider.Add(new Tick(
-            DateTime.Parse("2023-11-09 10:00:20", invariantCulture),
-            101m, 11m, "EXEC-002"));
 
         IReadOnlyList<IQuote> results = aggregator.Results;
 
         results.Should().HaveCount(1);
 
-        // TODO: is this right? What if the second "EXEC-001" is a correction (likely)?
-
-        // Should only incorporate first and third ticks (not the duplicate)
+        // Should reflect corrected tick
         IQuote bar = results[0];
-        bar.High.Should().Be(101m); // Max of 100 and 101, not 200
-        bar.Volume.Should().Be(21m); // Sum of 10 and 11, not 30
+        bar.Open.Should().Be(200m);
+        bar.High.Should().Be(200m);
+        bar.Low.Should().Be(200m);
+        bar.Close.Should().Be(200m);
+        bar.Volume.Should().Be(20m);
 
         aggregator.Unsubscribe();
         provider.EndTransmission();
