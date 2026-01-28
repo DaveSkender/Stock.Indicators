@@ -52,7 +52,8 @@ interface ChartData {
     symbol?: string
     timeframe?: string
     indicator?: string
-    chartType?: 'overlay' | 'oscillator'
+    chartType?: 'overlay' | 'oscillator' | 'candles'
+    timeScale?: 'linear' | 'nonLinear'
     thresholds?: ThresholdLine[]
   }
   candles: Array<{
@@ -179,8 +180,8 @@ async function loadChartData(): Promise<ChartData | null> {
       }))
     }
 
-    // Set chart type from metadata
-    chartType.value = data.metadata?.chartType || 'overlay'
+    // Set chart type from metadata (candles map to overlay rendering)
+    chartType.value = data.metadata?.chartType === 'oscillator' ? 'oscillator' : 'overlay'
 
     return data
   } catch (error) {
@@ -295,7 +296,80 @@ function createOscillatorChart(container: HTMLDivElement): IChartApi {
   })
 }
 
-function setupCandlestickSeries(chart: IChartApi, data: ChartData) {
+interface TimeContext {
+  candleTimes: Array<string | number>
+  resolveSeriesTime: (timestamp: string, index: number) => string | number
+}
+
+function usesNonLinearTime(data: ChartData): boolean {
+  if (data.metadata?.timeScale === 'nonLinear') {
+    return true
+  }
+
+  const seen = new Set<string>()
+  let lastTimestamp = Number.NEGATIVE_INFINITY
+
+  for (const candle of data.candles) {
+    const normalized = parseTimestamp(candle.timestamp)
+    if (seen.has(normalized)) {
+      return true
+    }
+    seen.add(normalized)
+
+    const numericTime = new Date(normalized).getTime()
+    if (!Number.isNaN(numericTime)) {
+      if (numericTime < lastTimestamp) {
+        return true
+      }
+      lastTimestamp = numericTime
+    }
+  }
+
+  return false
+}
+
+function createTimeContext(data: ChartData): TimeContext {
+  const nonLinear = usesNonLinearTime(data)
+
+  if (!nonLinear) {
+    return {
+      candleTimes: data.candles.map(c => parseTimestamp(c.timestamp)),
+      resolveSeriesTime: (timestamp: string) => parseTimestamp(timestamp)
+    }
+  }
+
+  const candleTimes = data.candles.map((_, index) => index)
+  const timeIndexLookup = new Map<string, number[]>()
+  const timeIndexOffsets = new Map<string, number>()
+
+  data.candles.forEach((candle, index) => {
+    const key = parseTimestamp(candle.timestamp)
+    if (!timeIndexLookup.has(key)) {
+      timeIndexLookup.set(key, [])
+    }
+    timeIndexLookup.get(key)?.push(index)
+  })
+
+  return {
+    candleTimes,
+    resolveSeriesTime: (timestamp: string, index: number) => {
+      const key = parseTimestamp(timestamp)
+      const indices = timeIndexLookup.get(key)
+      if (!indices || indices.length === 0) {
+        return index
+      }
+      const offset = timeIndexOffsets.get(key) ?? 0
+      const resolved = indices[offset]
+      if (resolved === undefined) {
+        return index
+      }
+      timeIndexOffsets.set(key, offset + 1)
+      return resolved
+    }
+  }
+}
+
+function setupCandlestickSeries(chart: IChartApi, data: ChartData, timeContext: TimeContext) {
   const upColor = ChartColors.StandardGreen
   const downColor = ChartColors.StandardRed
 
@@ -310,8 +384,8 @@ function setupCandlestickSeries(chart: IChartApi, data: ChartData) {
     lastValueVisible: false
   })
 
-  const candleData = data.candles.map(c => ({
-    time: parseTimestamp(c.timestamp),
+  const candleData = data.candles.map((c, index) => ({
+    time: timeContext.candleTimes[index],
     open: c.open,
     high: c.high,
     low: c.low,
@@ -321,7 +395,7 @@ function setupCandlestickSeries(chart: IChartApi, data: ChartData) {
   candleSeries.setData(candleData)
 }
 
-function setupVolumeSeries(chart: IChartApi, data: ChartData) {
+function setupVolumeSeries(chart: IChartApi, data: ChartData, timeContext: TimeContext) {
   const upVolumeColor = 'rgba(46, 125, 50, 0.4)'
   const downVolumeColor = 'rgba(221, 44, 0, 0.4)'
 
@@ -337,8 +411,8 @@ function setupVolumeSeries(chart: IChartApi, data: ChartData) {
     scaleMargins: { top: 0.8, bottom: 0 },
   })
 
-  const volumeData = data.candles.map(c => ({
-    time: parseTimestamp(c.timestamp),
+  const volumeData = data.candles.map((c, index) => ({
+    time: timeContext.candleTimes[index],
     value: c.volume || 0,
     color: c.close >= c.open ? upVolumeColor : downVolumeColor
   }))
@@ -357,7 +431,7 @@ function getLineStyle(style?: string): LineStyle {
   }
 }
 
-function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOscillator: boolean) {
+function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOscillator: boolean, timeContext: TimeContext) {
   const targetArray = isOscillator ? oscillatorSeries : overlaySeries
   const allMarkers: any[] = []  // Collect markers from all series
 
@@ -435,9 +509,9 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
 
     const filteredData = seriesConfig.data
       .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
-      .map(d => {
+      .map((d, idx) => {
         const point = {
-          time: parseTimestamp(d.timestamp),
+          time: timeContext.resolveSeriesTime(d.timestamp, idx),
           value: d.value as number
         }
         // For dots and pointer types, don't add color to data points (only use for markers)
@@ -534,6 +608,7 @@ async function initChart() {
 
   // Determine chart type from data
   const isOscillatorType = data.metadata?.chartType === 'oscillator'
+  const timeContext = createTimeContext(data)
 
   // Hide loading BEFORE creating chart so container becomes visible.
   // This is critical because v-show hides the container while loading,
@@ -559,12 +634,12 @@ async function initChart() {
   // For overlay indicators, create overlay chart with candlesticks
   if (!isOscillatorType && overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
     overlayChart = createOverlayChart(overlayChartContainer.value)
-    setupCandlestickSeries(overlayChart, data)
-    setupVolumeSeries(overlayChart, data)
+    setupCandlestickSeries(overlayChart, data, timeContext)
+    setupVolumeSeries(overlayChart, data, timeContext)
 
     // For overlay indicators, add series to overlay chart
     if (data.series.length > 0) {
-      setupIndicatorSeries(overlayChart, data.series, false)
+      setupIndicatorSeries(overlayChart, data.series, false, timeContext)
     }
 
     overlayChart.timeScale().fitContent()
@@ -590,8 +665,8 @@ async function initChart() {
       })
 
       // Create horizontal line across all candle timestamps
-      const thresholdData = data.candles.map(c => ({
-        time: parseTimestamp(c.timestamp),
+      const thresholdData = data.candles.map((c, index) => ({
+        time: timeContext.candleTimes[index],
         value: threshold.value
       }))
       series.setData(thresholdData)
@@ -603,8 +678,8 @@ async function initChart() {
     if (data.series.length > 0) {
       const indicatorData = data.series[0].data
         .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
-        .map(d => ({
-          time: parseTimestamp(d.timestamp),
+        .map((d, idx) => ({
+          time: timeContext.resolveSeriesTime(d.timestamp, idx),
           value: d.value as number
         }))
 
@@ -629,7 +704,7 @@ async function initChart() {
     }
 
     // Add oscillator series
-    setupIndicatorSeries(oscillatorChart, data.series, true)
+    setupIndicatorSeries(oscillatorChart, data.series, true, timeContext)
     oscillatorChart.timeScale().fitContent()
   }
 
