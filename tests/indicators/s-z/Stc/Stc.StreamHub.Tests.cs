@@ -61,19 +61,25 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int maxCacheSize = 50;
         const int totalQuotes = 100;
 
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<StcResult> expected = quotes
+            .ToStc(cyclePeriods, fastPeriods, slowPeriods)
+            .TakeLast(maxCacheSize)
+            .ToList();
+
         // Setup with cache limit
-        QuoteHub quoteHub = new() { MaxCacheSize = maxCacheSize };
-        StcHub observer = quoteHub.ToStcHub(10, 23, 50);
+        QuoteHub quoteHub = new(maxCacheSize);
+        StcHub observer = quoteHub.ToStcHub(cyclePeriods, fastPeriods, slowPeriods);
 
         // Stream more quotes than cache can hold
-        quoteHub.Add(Quotes.Take(totalQuotes));
+        quoteHub.Add(quotes);
 
         // Verify cache was pruned
         quoteHub.Quotes.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
-        // Compare to series on the same final cache window
-        IReadOnlyList<StcResult> expected = quoteHub.Quotes.ToStc(10, 23, 50);
+        // Streaming results should match last N from full series (original series with front chopped off)
+        // NOT recomputation on just the cached quotes (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();

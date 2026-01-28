@@ -41,6 +41,10 @@ public class StcHub
 
         Name = $"STC({cyclePeriods},{FastPeriods},{SlowPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(FastPeriods, SlowPeriods) + cyclePeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

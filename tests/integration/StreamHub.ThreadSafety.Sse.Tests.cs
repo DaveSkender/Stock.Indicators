@@ -34,7 +34,7 @@ public class ThreadSafetyTests : TestBase
         }
 
         // Setup: QuoteHub with StcHub
-        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+        QuoteHub quoteHub = new(MaxCacheSize);
         StcHub stcHub = quoteHub.ToStcHub();
 
         try
@@ -116,7 +116,7 @@ public class ThreadSafetyTests : TestBase
         }
 
         // Setup: Create one primary QuoteHub
-        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+        QuoteHub quoteHub = new(MaxCacheSize);
 
         try
         {
@@ -268,14 +268,22 @@ public class ThreadSafetyTests : TestBase
 
             // Verify results are not empty and cache size is respected
             quoteHubResults.Should().NotBeEmpty("quote hub should have results");
-            quoteHubResults.Should().HaveCount(1498, "rollback operations modify final cache count");
+
+            quoteHubResults.Should().HaveCount(MaxCacheSize - 2);
 
             // Verify pruning actually occurred (we sent more quotes than cache size)
             int actualPruned = TargetQuoteCount - quoteHubResults.Count;
-            actualPruned.Should().Be(502, "exactly 502 quotes should have been pruned after rollback operations");
+            actualPruned.Should().Be(TargetQuoteCount - MaxCacheSize + 2);
 
             // Convert QuoteHub final cache to Quote list for series comparison
             List<IQuote> finalQuotes = quoteHubResults.ToList();
+
+            // TODO: how is it possible that this passes, given that
+            // pruning occurred and just using the post-pruned quotes
+            // should cause warmup errors to propagate differently?
+            // To be accurate, the static series would have to be done on
+            // the full set of all pre-pruned quotes (with revisions)
+            // and then trucated, like we do in STC WithCachePruning_MatchesSeriesExactly
 
             // Verify ALL indicator hubs match their equivalent series calculations.
             // Series is computed on the FINAL QuoteHub cache (after all rollbacks, inserts, replacements).

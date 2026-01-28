@@ -27,6 +27,9 @@ public class AdxHub
         _sumMdm = 0;
         _sumDx = 0;
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 

@@ -17,6 +17,10 @@ public class UltimateHub
         LongPeriods = longPeriods;
         Name = $"UO({shortPeriods},{middlePeriods},{longPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(Math.Max(shortPeriods, middlePeriods), longPeriods);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

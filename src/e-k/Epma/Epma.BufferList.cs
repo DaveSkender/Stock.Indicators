@@ -66,8 +66,7 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
         // Calculate EPMA when we have enough values using shared Increment method
         // The actual global index is cache index + offset (to account for pruned items)
         int cacheIndex = _cache.Count - 1;
-        int globalIndex = _cacheOffset + cacheIndex;
-        double epma = Epma.Increment(_cache, LookbackPeriods, cacheIndex, globalIndex);
+        double epma = Epma.Increment(_cache, LookbackPeriods, cacheIndex, _cacheOffset);
 
         AddInternal(new EpmaResult(timestamp, epma.NaN2Null()));
 

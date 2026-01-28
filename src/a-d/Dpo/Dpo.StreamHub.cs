@@ -22,6 +22,9 @@ public class DpoHub
         Offset = (lookbackPeriods / 2) + 1;
         Name = $"DPO({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

@@ -15,6 +15,9 @@ public class CmfHub : ChainHub<IQuote, CmfResult>, ICmf
         LookbackPeriods = lookbackPeriods;
         Name = $"CMF({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

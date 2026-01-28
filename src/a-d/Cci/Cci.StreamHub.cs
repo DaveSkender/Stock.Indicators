@@ -17,6 +17,9 @@ public class CciHub
         Name = $"CCI({lookbackPeriods})";
         _cciList = new CciList(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

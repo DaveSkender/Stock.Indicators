@@ -19,6 +19,9 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
         Name = $"MFI({lookbackPeriods})";
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

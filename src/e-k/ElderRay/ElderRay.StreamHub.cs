@@ -16,6 +16,9 @@ public class ElderRayHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"ELDER-RAY({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

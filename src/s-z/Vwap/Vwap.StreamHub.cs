@@ -17,6 +17,9 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
         StartDate = startDate;
         _autoAnchor = (startDate ?? default) == default;
         Name = "VWAP";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Requires at least 1 period
+
         Reinitialize();
     }
 

@@ -3,6 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configs", "Configs", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
+	ProjectSection(SolutionItems) = preProject
+		.coderabbit.yaml = .coderabbit.yaml
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.markdownlint-cli2.jsonc = .markdownlint-cli2.jsonc
+		AGENTS.md = AGENTS.md
+		LICENSE = LICENSE
+		NOTICE = NOTICE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "src\Indicators.csproj", "{8D0F1781-EDA3-4C51-B05D-D33FF1156E49}"
 EndProject
@@ -30,14 +40,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests (other)", "Tests (oth
 	ProjectSection(SolutionItems) = preProject
 		tests\AGENTS.md = tests\AGENTS.md
 		tests\Directory.Build.props = tests\Directory.Build.props
+		tests\DefaultTests.playlist = tests\DefaultTests.playlist
 		tests\Directory.Packages.props = tests\Directory.Packages.props
 		tests\README.md = tests\README.md
 		tests\tests.integration.runsettings = tests\tests.integration.runsettings
 		tests\tests.regression.runsettings = tests\tests.regression.runsettings
 		tests\tests.unit.runsettings = tests\tests.unit.runsettings
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4DC4349-B08A-4557-BAD9-EB3A8111C98A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.SseServer", "tools\sse-server\Test.SseServer.csproj", "{01CC3E53-1AC1-71D3-1076-C3420B6A2DF2}"
 EndProject
@@ -162,7 +171,6 @@ Global
 		{88C59340-F6C6-497B-A7F3-08ACCC8873EE} = {2137B81B-5620-4225-8CF4-7FE72E81DF23}
 		{D6CF664F-8232-4EE9-B044-CA34A0BA522E} = {2137B81B-5620-4225-8CF4-7FE72E81DF23}
 		{F449BEB0-5A04-6992-4A1F-DE3FFE72A1C6} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
-		{F4DC4349-B08A-4557-BAD9-EB3A8111C98A} = {89F97043-8E6C-4953-95AA-ACAC19C3B164}
 		{01CC3E53-1AC1-71D3-1076-C3420B6A2DF2} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

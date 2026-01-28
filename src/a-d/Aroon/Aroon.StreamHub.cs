@@ -14,6 +14,9 @@ public class AroonHub
         LookbackPeriods = lookbackPeriods;
         Name = $"AROON({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

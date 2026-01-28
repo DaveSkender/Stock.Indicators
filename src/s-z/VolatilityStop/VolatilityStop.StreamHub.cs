@@ -17,6 +17,9 @@ public class VolatilityStopHub
         Multiplier = multiplier;
         Name = $"VOLATILITY-STOP({lookbackPeriods},{multiplier})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

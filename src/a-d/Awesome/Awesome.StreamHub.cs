@@ -16,6 +16,10 @@ public class AwesomeHub
         SlowPeriods = slowPeriods;
         Name = $"AWESOME({fastPeriods},{slowPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(fastPeriods, slowPeriods);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

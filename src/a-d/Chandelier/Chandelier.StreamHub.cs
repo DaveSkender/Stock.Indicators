@@ -48,6 +48,9 @@ public class ChandelierHub
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

@@ -24,6 +24,9 @@ public class KeltnerHub
         EmaK = 2d / (emaPeriods + 1);
         Name = $"KELTNER({emaPeriods},{multiplier},{atrPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(_lookbackPeriods, Name);
+
         Reinitialize();
     }
 

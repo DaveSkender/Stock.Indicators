@@ -18,6 +18,9 @@ public class DemaHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"DEMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 

@@ -14,6 +14,11 @@ public class GatorHub
     {
         ArgumentNullException.ThrowIfNull(alligatorHub);
         Name = "GATOR()";
+
+        // Validate cache size for warmup requirements
+        // Gator inherits from Alligator, validation not needed here
+        // as AlligatorHub already validates
+
         Reinitialize();
     }
 
