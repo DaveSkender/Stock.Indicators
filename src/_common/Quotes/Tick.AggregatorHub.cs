@@ -8,7 +8,6 @@ public class TickAggregatorHub
 {
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
-    private readonly HashSet<string> _processedExecutionIds = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TickAggregatorHub"/> class.
@@ -77,17 +76,6 @@ public class TickAggregatorHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        // Check for duplicate execution IDs
-        if (!string.IsNullOrEmpty(item.ExecutionId))
-        {
-            if (_processedExecutionIds.Contains(item.ExecutionId))
-            {
-                return; // Skip duplicate tick
-            }
-
-            _processedExecutionIds.Add(item.ExecutionId);
-        }
-
         DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
         // Determine if this is for current bar, future bar, or past bar
@@ -98,29 +86,7 @@ public class TickAggregatorHub
         // Handle late arrival for past bar
         if (isPastBar)
         {
-            // Find the existing bar in cache
-            int existingIndex = Cache.IndexGte(barTimestamp);
-            if (existingIndex >= 0 && existingIndex < Cache.Count && Cache[existingIndex].Timestamp == barTimestamp)
-            {
-                // Update existing past bar
-                IQuote existingBar = Cache[existingIndex];
-                Quote updatedBar = new(
-                    Timestamp: barTimestamp,
-                    Open: existingBar.Open,  // Keep original open
-                    High: Math.Max(existingBar.High, item.Price),
-                    Low: Math.Min(existingBar.Low, item.Price),
-                    Close: item.Price,  // Update close
-                    Volume: existingBar.Volume + item.Volume);
-
-                Cache[existingIndex] = updatedBar;
-
-                // Trigger rebuild from this timestamp
-                if (notify)
-                {
-                    NotifyObserversOnRebuild(barTimestamp);
-                }
-            }
-
+            Rebuild(barTimestamp);
             return;
         }
 
@@ -246,4 +212,11 @@ public class TickAggregatorHub
     /// <inheritdoc/>
     public override string ToString()
         => $"TICK-AGG<{AggregationPeriod}>: {Cache.Count} items";
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        _currentBar = null;
+        _currentBarTimestamp = default;
+    }
 }

@@ -86,29 +86,7 @@ public class QuoteAggregatorHub
         // Handle late arrival for past bar
         if (isPastBar)
         {
-            // Find the existing bar in cache
-            int existingIndex = Cache.IndexGte(barTimestamp);
-            if (existingIndex >= 0 && existingIndex < Cache.Count && Cache[existingIndex].Timestamp == barTimestamp)
-            {
-                // Update existing past bar
-                IQuote existingBar = Cache[existingIndex];
-                Quote updatedBar = new(
-                    Timestamp: barTimestamp,
-                    Open: existingBar.Open,  // Keep original open
-                    High: Math.Max(existingBar.High, item.High),
-                    Low: Math.Min(existingBar.Low, item.Low),
-                    Close: item.Close,  // Update close
-                    Volume: existingBar.Volume + item.Volume);
-
-                Cache[existingIndex] = updatedBar;
-
-                // Trigger rebuild from this timestamp
-                if (notify)
-                {
-                    NotifyObserversOnRebuild(barTimestamp);
-                }
-            }
-
+            Rebuild(barTimestamp);
             return;
         }
 
@@ -227,6 +205,13 @@ public class QuoteAggregatorHub
     /// <inheritdoc/>
     public override string ToString()
         => $"QUOTE-AGG<{AggregationPeriod}>: {Cache.Count} items";
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        _currentBar = null;
+        _currentBarTimestamp = default;
+    }
 }
 
 public static partial class Quotes
