@@ -103,7 +103,7 @@ public class RsiHub
 
     /// <summary>
     /// Restores the RSI state (avgGain, avgLoss) up to the specified timestamp.
-    /// Called during Insert/Remove operations and explicit Rebuild() calls.
+    /// Called during Add/Remove operations and explicit Rebuild() calls.
     /// </summary>
     /// <remarks>
     /// This method rebuilds the state from the FIRST calculable position (LookbackPeriods)

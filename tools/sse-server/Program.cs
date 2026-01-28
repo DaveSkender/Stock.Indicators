@@ -120,7 +120,8 @@ app.MapGet("/quotes/longest", async (
     HttpContext context,
     int interval = 100,
     int? batchSize = null,
-    string quoteInterval = "1m"
+    string quoteInterval = "1m",
+    string? scenario = null
 ) => {
     // Validate interval parameter
     if (interval <= 0)
@@ -148,6 +149,7 @@ app.MapGet("/quotes/longest", async (
     int delivered = 0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
     DateTime baseTimestamp = longestQuotes[0].Timestamp;
+    List<Quote>? streamedQuotes = scenario is null ? null : [];
 
     Console.WriteLine(
         $"[Longest] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, total: {totalQuotes} quotes");
@@ -166,6 +168,8 @@ app.MapGet("/quotes/longest", async (
                 Low: originalQuote.Low,
                 Close: originalQuote.Close,
                 Volume: originalQuote.Volume);
+
+            streamedQuotes?.Add(quote);
 
             // Serialize quote as JSON
             string json = JsonSerializer.Serialize(quote, jsonOptions);
@@ -186,6 +190,11 @@ app.MapGet("/quotes/longest", async (
 
             // Wait for the specified interval
             await Task.Delay(interval, context.RequestAborted).ConfigureAwait(false);
+        }
+
+        if (streamedQuotes is not null)
+        {
+            await SendScenarioEvents(context, scenario, streamedQuotes, interval, jsonOptions).ConfigureAwait(false);
         }
 
         Console.WriteLine($"[Longest] Stream complete - delivered {delivered} quotes");
@@ -264,3 +273,128 @@ static TimeSpan ParseInterval(string intervalString)
         _ => TimeSpan.FromMinutes(1)
     };
 }
+
+static async Task SendScenarioEvents(
+    HttpContext context,
+    string? scenario,
+    IReadOnlyList<Quote> streamedQuotes,
+    int interval,
+    JsonSerializerOptions jsonOptions)
+{
+    if (string.IsNullOrWhiteSpace(scenario))
+    {
+        return;
+    }
+
+    List<SseQuoteAction> actions = scenario switch {
+        "stc-rollbacks" => BuildStcRollbackActions(streamedQuotes),
+        "allhubs-rollbacks" => BuildAllHubsRollbackActions(streamedQuotes),
+        _ => []
+    };
+
+    if (actions.Count == 0)
+    {
+        Console.WriteLine($"[Longest] No scenario actions for '{scenario}'");
+        return;
+    }
+
+    Console.WriteLine($"[Longest] Sending {actions.Count} scenario events for '{scenario}'");
+
+    foreach (SseQuoteAction action in actions)
+    {
+        string json = JsonSerializer.Serialize(action.Payload, jsonOptions);
+        string sseData = $"event: {action.EventType}\ndata: {json}\n\n";
+        await context.Response
+            .WriteAsync(sseData, context.RequestAborted)
+            .ConfigureAwait(false);
+        await context.Response.Body.FlushAsync(context.RequestAborted).ConfigureAwait(false);
+        await Task.Delay(interval, context.RequestAborted).ConfigureAwait(false);
+    }
+}
+
+static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> streamedQuotes)
+{
+    List<SseQuoteAction> actions = [];
+
+    if (streamedQuotes.Count > 80)
+    {
+        actions.Add(SseQuoteAction.Add(streamedQuotes[80]));
+    }
+
+    if (streamedQuotes.Count > 100)
+    {
+        Quote rebuildQuote = streamedQuotes[100];
+        actions.Add(SseQuoteAction.Remove(100, rebuildQuote));
+        actions.Add(SseQuoteAction.Add(rebuildQuote));
+    }
+
+    if (streamedQuotes.Count > 500)
+    {
+        actions.Add(SseQuoteAction.Add(streamedQuotes[500]));
+    }
+
+    return actions;
+}
+
+static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> streamedQuotes)
+{
+    List<SseQuoteAction> actions = [];
+
+    if (streamedQuotes.Count > 10)
+    {
+        actions.Add(SseQuoteAction.Add(streamedQuotes[10]));
+    }
+
+    if (streamedQuotes.Count > 100)
+    {
+        Quote rebuildQuote = streamedQuotes[100];
+        actions.Add(SseQuoteAction.Remove(100, rebuildQuote));
+        actions.Add(SseQuoteAction.Add(rebuildQuote));
+    }
+
+    if (streamedQuotes.Count > 1600)
+    {
+        Quote original = streamedQuotes[1600];
+        Quote replacementQuote = new(
+            original.Timestamp,
+            original.Open,
+            original.High,
+            original.Low,
+            original.Close * 1.01m,
+            original.Volume);
+        actions.Add(SseQuoteAction.Add(replacementQuote));
+    }
+
+    if (streamedQuotes.Count > 0)
+    {
+        Quote lastQuote = streamedQuotes[^1];
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 0.99m,
+            lastQuote.Volume)));
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 1.01m,
+            lastQuote.Volume)));
+        actions.Add(SseQuoteAction.Add(lastQuote));
+    }
+
+    return actions;
+}
+
+internal sealed record SseQuoteAction(string EventType, QuoteAction Payload)
+{
+    public static SseQuoteAction Add(Quote quote)
+        => new("add", new QuoteAction(quote, null));
+
+    public static SseQuoteAction Remove(int cacheIndex, Quote quote)
+        => new("remove", new QuoteAction(quote, cacheIndex));
+}
+
+internal sealed record QuoteAction(Quote Quote, int? CacheIndex);

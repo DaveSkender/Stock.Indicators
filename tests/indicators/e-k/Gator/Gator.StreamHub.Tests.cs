@@ -43,7 +43,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
@@ -127,7 +127,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Add(quotesList[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

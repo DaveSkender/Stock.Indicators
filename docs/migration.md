@@ -347,6 +347,7 @@ Popular indicators with complete streaming documentation:
 | `UseResult` | `TimeValue` | Type renamed |
 | `SmaAnalysis` | `SmaAnalysisResult` | Type renamed |
 | `UlcerIndexResult.UI` | `UlcerIndexResult.UlcerIndex` | Property renamed |
+| `StreamHub.Insert()` | `StreamHub.Add()` | Insert deprecated |
 | `SyncSeries()` | (removed) | Use manual alignment |
 | `Find()` / `FindIndex()` | LINQ methods | Use `.FirstOrDefault()` etc. |
 | `GetBaseQuote()` | `Use(CandlePart)` | Use utility instead |

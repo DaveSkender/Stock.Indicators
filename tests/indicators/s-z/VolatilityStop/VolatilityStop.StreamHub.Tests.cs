@@ -33,9 +33,9 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
             if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrivals (test Insert functionality)
-        quoteHub.Insert(Quotes[30]);  // rebuilds complete series
-        quoteHub.Insert(Quotes[80]);  // rebuilds from insertion point
+        // late arrivals (test Add late-arrival handling)
+        quoteHub.Add(Quotes[30]);  // rebuilds complete series
+        quoteHub.Add(Quotes[80]);  // rebuilds from insertion point
 
         IReadOnlyList<VolatilityStopResult> expectedOriginal = Quotes.ToVolatilityStop();
         sut.IsExactly(expectedOriginal);

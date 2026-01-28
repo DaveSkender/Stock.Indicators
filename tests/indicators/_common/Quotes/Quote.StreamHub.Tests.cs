@@ -32,7 +32,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         // late arrival, should equal series
-        provider.Insert(Quotes[80]);
+        provider.Add(Quotes[80]);
 
         sut.IsExactly(Quotes);
 
@@ -102,7 +102,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             if (i is > 100 and < 105) { provider.Add(q); }  // Duplicates
         }
 
-        provider.Insert(Quotes[80]);  // Late arrival
+        provider.Add(Quotes[80]);  // Late arrival
         provider.RemoveAt(removeAtIndex);  // Delete
 
         // final results

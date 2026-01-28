@@ -64,13 +64,12 @@ public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObs
     /// Insert a new item without rebuilding the cache.
     /// </summary>
     /// <remarks>
-    /// This is used in situations when inserting an older item
-    /// and where newer cache entries do not need to be rebuilt.
-    /// Typically, this is only used for provider-only hubs.
+    /// Use <see cref="Add(TIn)"/> for standard insert/update behavior.
     /// </remarks>
     /// <param name="newIn">
     /// Item to insert
     /// </param>
+    [Obsolete("Insert is deprecated. Use Add() to handle late arrivals.")]
     void Insert(TIn newIn);
 
     /// <summary>

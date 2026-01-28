@@ -13,7 +13,7 @@ bash tools/scripts/audit-streamhub.sh
 
 - **T173**: All StreamHub implementations have corresponding test files
 - **T175-T179**: Tests inherit from `StreamHubTestBase` and implement correct observer/provider interfaces
-- **T180-T183**: Tests include comprehensive provider history mutations (Insert/Remove operations)
+- **T180-T183**: Tests include comprehensive provider history mutations (Add/Remove operations)
 - **T184-T185**: Test base classes are properly structured
 
 ## Exit codes

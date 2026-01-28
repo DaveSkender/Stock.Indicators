@@ -11,7 +11,6 @@ public abstract class QuoteProvider<TIn, TOut> : StreamHub<TIn, TOut>, IQuotePro
         IStreamObservable<TIn> provider
     ) : base(provider)
     => Quotes = Cache.AsReadOnly();  // instantiate once
-
     /// <summary>
     /// Gets the quotes as a read-only collection (safe from external mutation).
     /// </summary>
