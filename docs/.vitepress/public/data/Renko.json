@@ -3,7 +3,8 @@
     "symbol": "S&P 500",
     "timeframe": "Daily",
     "indicator": "Renko",
-    "chartType": "candles"
+    "chartType": "candles",
+    "timeScale": "nonLinear"
   },
   "candles": [
     {
