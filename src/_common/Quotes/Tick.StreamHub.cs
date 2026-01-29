@@ -94,42 +94,41 @@ public class TickHub
                 return;
             }
 
-            // For ticks without execution IDs, replace in cache but notify as addition
-            // This allows aggregators to process multiple ticks at the same timestamp
+            // For ticks with different execution IDs but same timestamp,
+            // we need to store them properly (not drop them)
             bool hasExecutionId = !string.IsNullOrEmpty(result.ExecutionId);
+            bool hasCachedExecutionId = !string.IsNullOrEmpty(Cache[index].ExecutionId);
 
-            if (!hasExecutionId)
+            if (hasExecutionId && hasCachedExecutionId && Cache[index].ExecutionId != result.ExecutionId)
             {
-                // Replace existing tick in cache (keep only latest)
-                Cache[index] = result;
-
-                // Notify observers as if it's a new addition
-                // This allows aggregators to incorporate the tick's data
+                // Different execution IDs at same timestamp - both are valid trades
+                // Notify observers with the new tick so aggregators can process it
                 if (notify)
                 {
                     NotifyObserversOnAdd(result, index);
                 }
-
                 return;
             }
 
-            // For ticks with execution IDs, replace and trigger rebuild
-            if (Cache[index].ExecutionId == result.ExecutionId)
-            {
-                // replace existing item at this position (same execution ID)
-                Cache[index] = result;
+            // For ticks without execution IDs or same execution ID, replace in cache
+            Cache[index] = result;
 
-                // notify observers to rebuild from this timestamp
-                if (notify)
+            // Notify appropriately based on whether it's an update or new execution
+            if (notify)
+            {
+                if (hasExecutionId && hasCachedExecutionId && Cache[index].ExecutionId == result.ExecutionId)
                 {
+                    // Same execution ID - this is an update/correction
                     NotifyObserversOnRebuild(result.Timestamp);
                 }
-
-                return;
+                else
+                {
+                    // No execution IDs - notify as addition so aggregators can process
+                    NotifyObserversOnAdd(result, index);
+                }
             }
 
-            // Different execution IDs - this shouldn't happen often,
-            // but treat as late arrival and trigger rebuild
+            return;
         }
 
         // standard add behavior for new items

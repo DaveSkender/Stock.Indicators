@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators;
 public class QuoteAggregatorHub
     : QuoteProvider<IQuote, IQuote>
 {
+    private readonly object _addLock = new();
+    private readonly Dictionary<DateTime, IQuote> _inputQuoteTracker = [];
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
 
@@ -76,76 +78,118 @@ public class QuoteAggregatorHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
-
-        // Determine if this is for current bar, future bar, or past bar
-        bool isCurrentBar = _currentBar != null && barTimestamp == _currentBarTimestamp;
-        bool isFutureBar = _currentBar == null || barTimestamp > _currentBarTimestamp;
-        bool isPastBar = _currentBar != null && barTimestamp < _currentBarTimestamp;
-
-        // Handle late arrival for past bar
-        if (isPastBar)
+        lock (_addLock)
         {
-            Rebuild(barTimestamp);
-            return;
-        }
+            DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
-        // Handle gap filling if enabled and moving to future bar
-        if (FillGaps && isFutureBar && _currentBar != null)
-        {
-            DateTime lastBarTimestamp = _currentBarTimestamp;
-            DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(AggregationPeriod);
-
-            // Fill gaps between last bar and current bar
-            while (nextExpectedBarTimestamp < barTimestamp)
+            // Check if this exact input quote was already processed (duplicate detection)
+            if (_inputQuoteTracker.TryGetValue(item.Timestamp, out IQuote? previousQuote))
             {
-                // Create a gap-fill bar with carried-forward prices
-                Quote gapBar = new(
-                    Timestamp: nextExpectedBarTimestamp,
-                    Open: _currentBar.Close,
-                    High: _currentBar.Close,
-                    Low: _currentBar.Close,
-                    Close: _currentBar.Close,
-                    Volume: 0m);
-
-                // Add gap bar using base class logic
-                (IQuote gapResult, int gapIndex) = ToIndicator(gapBar, null);
-                AppendCache(gapResult, notify);
-
-                // Update current bar to the gap bar
-                _currentBar = gapBar;
-                _currentBarTimestamp = nextExpectedBarTimestamp;
-
-                nextExpectedBarTimestamp = nextExpectedBarTimestamp.Add(AggregationPeriod);
-            }
-        }
-
-        // Handle new bar or update to current bar
-        if (isFutureBar)
-        {
-            // Start a new bar
-            _currentBar = CreateOrUpdateBar(null, barTimestamp, item);
-            _currentBarTimestamp = barTimestamp;
-
-            // Use base class to add the new bar
-            (IQuote result, int index) = ToIndicator(_currentBar, indexHint);
-            AppendCache(result, notify);
-        }
-        else // isCurrentBar
-        {
-            // Update existing bar - for quotes with same timestamp, replace
-            _currentBar = CreateOrUpdateBar(_currentBar, barTimestamp, item);
-
-            // Replace the last item in cache with updated bar
-            int index = Cache.Count - 1;
-            if (index >= 0)
-            {
-                Cache[index] = _currentBar;
-
-                // Notify observers of the update
-                if (notify)
+                // This is an update to a previously seen quote - need to subtract old values
+                // and add new values to avoid double-counting
+                if (previousQuote.Timestamp == item.Timestamp)
                 {
-                    NotifyObserversOnRebuild(_currentBar.Timestamp);
+                    // Update tracker with new quote
+                    _inputQuoteTracker[item.Timestamp] = item;
+
+                    // Rebuild from this bar to recalculate correctly
+                    if (_currentBar != null && barTimestamp == _currentBarTimestamp)
+                    {
+                        Rebuild(barTimestamp);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                // Track this input quote
+                _inputQuoteTracker[item.Timestamp] = item;
+
+                // Prune old tracker entries (keep last 1000 or within 10x aggregation period)
+                if (_inputQuoteTracker.Count > 1000)
+                {
+                    DateTime pruneThreshold = item.Timestamp.Add(-10 * AggregationPeriod);
+                    List<DateTime> toRemove = _inputQuoteTracker
+                        .Where(kvp => kvp.Key < pruneThreshold)
+                        .Select(kvp => kvp.Key)
+                        .ToList();
+
+                    foreach (DateTime key in toRemove)
+                    {
+                        _inputQuoteTracker.Remove(key);
+                    }
+                }
+            }
+
+            // Determine if this is for current bar, future bar, or past bar
+            bool isCurrentBar = _currentBar != null && barTimestamp == _currentBarTimestamp;
+            bool isFutureBar = _currentBar == null || barTimestamp > _currentBarTimestamp;
+            bool isPastBar = _currentBar != null && barTimestamp < _currentBarTimestamp;
+
+            // Handle late arrival for past bar
+            if (isPastBar)
+            {
+                Rebuild(barTimestamp);
+                return;
+            }
+
+            // Handle gap filling if enabled and moving to future bar
+            if (FillGaps && isFutureBar && _currentBar != null)
+            {
+                DateTime lastBarTimestamp = _currentBarTimestamp;
+                DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(AggregationPeriod);
+
+                // Fill gaps between last bar and current bar
+                while (nextExpectedBarTimestamp < barTimestamp)
+                {
+                    // Create a gap-fill bar with carried-forward prices
+                    Quote gapBar = new(
+                        Timestamp: nextExpectedBarTimestamp,
+                        Open: _currentBar.Close,
+                        High: _currentBar.Close,
+                        Low: _currentBar.Close,
+                        Close: _currentBar.Close,
+                        Volume: 0m);
+
+                    // Add gap bar using base class logic
+                    (IQuote gapResult, int gapIndex) = ToIndicator(gapBar, null);
+                    AppendCache(gapResult, notify);
+
+                    // Update current bar to the gap bar
+                    _currentBar = gapBar;
+                    _currentBarTimestamp = nextExpectedBarTimestamp;
+
+                    nextExpectedBarTimestamp = nextExpectedBarTimestamp.Add(AggregationPeriod);
+                }
+            }
+
+            // Handle new bar or update to current bar
+            if (isFutureBar)
+            {
+                // Start a new bar
+                _currentBar = CreateOrUpdateBar(null, barTimestamp, item);
+                _currentBarTimestamp = barTimestamp;
+
+                // Use base class to add the new bar
+                (IQuote result, int index) = ToIndicator(_currentBar, indexHint);
+                AppendCache(result, notify);
+            }
+            else // isCurrentBar
+            {
+                // Update existing bar - for quotes with same timestamp, replace
+                _currentBar = CreateOrUpdateBar(_currentBar, barTimestamp, item);
+
+                // Replace the last item in cache with updated bar
+                int index = Cache.Count - 1;
+                if (index >= 0)
+                {
+                    Cache[index] = _currentBar;
+
+                    // Notify observers of the update
+                    if (notify)
+                    {
+                        NotifyObserversOnRebuild(_currentBar.Timestamp);
+                    }
                 }
             }
         }
@@ -209,8 +253,22 @@ public class QuoteAggregatorHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        _currentBar = null;
-        _currentBarTimestamp = default;
+        lock (_addLock)
+        {
+            _currentBar = null;
+            _currentBarTimestamp = default;
+
+            // Clear input tracker for rolled back period
+            List<DateTime> toRemove = _inputQuoteTracker
+                .Where(kvp => kvp.Key >= timestamp)
+                .Select(kvp => kvp.Key)
+                .ToList();
+
+            foreach (DateTime key in toRemove)
+            {
+                _inputQuoteTracker.Remove(key);
+            }
+        }
     }
 }
 
