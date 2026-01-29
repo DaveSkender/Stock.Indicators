@@ -51,9 +51,9 @@ IReadOnlyList<TimeValue>
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
 
-See [Utilities and helpers](/utilities/results) for more information.
+See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 

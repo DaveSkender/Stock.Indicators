@@ -1,3 +1,4 @@
+global using System.Diagnostics;
 global using FluentAssertions;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using Skender.Stock.Indicators;

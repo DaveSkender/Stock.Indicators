@@ -35,6 +35,47 @@ public class PivotsHub
 
     /// <inheritdoc/>
     public EndType EndType { get; init; }
+
+    /// <inheritdoc/>
+    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+
+        lock (CacheLock)
+        {
+            // First, add the current item
+            base.OnAdd(item, notify, indexHint);
+
+            // For forward-looking indicators, we need to recalculate the position
+            // that now has sufficient right context (i - RightSpan)
+            int i = indexHint ?? ProviderCache.IndexOf(item, true);
+            int targetIndex = i - RightSpan;
+
+            // Only recalculate if the target position is valid and needs calculation
+            if (targetIndex >= LeftSpan && targetIndex < Cache.Count)
+            {
+                PivotsResult existing = Cache[targetIndex];
+
+                // Only recalculate if the result was previously null (insufficient context)
+                if (existing.HighPoint is null && existing.LowPoint is null)
+                {
+                    (PivotsResult updated, int _) = ToIndicator(ProviderCache[targetIndex], targetIndex);
+                    Cache[targetIndex] = updated;
+
+                    // Notify observers if a pivot was actually found and notify is enabled
+                    if (notify && (updated.HighPoint is not null || updated.LowPoint is not null))
+                    {
+                        NotifyObserversOnRebuild(updated.Timestamp);
+                    }
+                }
+            }
+
+            // Recalculate trend lines after each new quote to extend lines to current position
+            // TODO: Future optimization could incrementally update only the latest trend line values
+            CalculateTrendLines();
+        }
+    }
+
     /// <summary>
     /// Rebuilds the hub from the beginning, including trend line calculations.
     /// </summary>

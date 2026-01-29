@@ -280,8 +280,13 @@ SmaList smaList = new(20);
 foreach (Quote newQuote in stream)
 {
     smaList.Add(newQuote);
-    SmaResult latest = smaList.LastOrDefault();
-    // Use latest...
+    
+    // Note: smaList[^1] throws IndexOutOfRangeException if empty
+    if (smaList.Count > 0)
+    {
+        SmaResult latest = smaList[^1];
+        // Use latest...
+    }
 }
 ```
 
@@ -352,6 +357,3 @@ Popular indicators with complete streaming documentation:
 - [Indicators](/indicators) - Indicator-specific documentation
 - [GitHub Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) - Ask questions and share ideas
 - [GitHub Issues](https://github.com/DaveSkender/Stock.Indicators/issues) - Report bugs or request features
-
----
-Last updated: January 10, 2026

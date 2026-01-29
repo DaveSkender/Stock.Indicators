@@ -68,37 +68,45 @@ public class IchimokuHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        // Add the new item normally
-        base.OnAdd(item, notify, indexHint);
-
-        // Update past result that can now have its ChikouSpan calculated
-        // This happens when a new quote provides the forward data needed
-        if (ChikouOffset > 0 && Cache.Count > ChikouOffset && ProviderCache.Count > ChikouOffset)
+        lock (CacheLock)
         {
-            int providerIndex = indexHint ?? ProviderCache.IndexOf(item, true);
+            // Add the new item normally
+            base.OnAdd(item, notify, indexHint);
 
-            // Find the past result that should be updated
-            // It's the result that is ChikouOffset periods before the current item
-            int backfillProviderIndex = providerIndex - ChikouOffset;
-
-            if (backfillProviderIndex >= 0 && backfillProviderIndex < ProviderCache.Count)
+            // Update past result that can now have its ChikouSpan calculated
+            // This happens when a new quote provides the forward data needed
+            if (ChikouOffset > 0 && Cache.Count > ChikouOffset && ProviderCache.Count > ChikouOffset)
             {
-                // Find the past result in Cache by timestamp (not by index)
-                DateTime backfillTimestamp = ProviderCache[backfillProviderIndex].Timestamp;
-                int backfillCacheIndex = Cache.IndexOf(backfillTimestamp, false);
+                int providerIndex = indexHint ?? ProviderCache.IndexOf(item, true);
 
-                if (backfillCacheIndex >= 0 && backfillCacheIndex < Cache.Count)
+                // Find the past result that should be updated
+                // It's the result that is ChikouOffset periods before the current item
+                int backfillProviderIndex = providerIndex - ChikouOffset;
+
+                if (backfillProviderIndex >= 0 && backfillProviderIndex < ProviderCache.Count)
                 {
-                    IchimokuResult pastResult = Cache[backfillCacheIndex];
+                    // Find the past result in Cache by timestamp (not by index)
+                    DateTime backfillTimestamp = ProviderCache[backfillProviderIndex].Timestamp;
+                    int backfillCacheIndex = Cache.IndexOf(backfillTimestamp, false);
 
-                    // During normal streaming (notify=true), only update if ChikouSpan is null
-                    // During rebuilds (notify=false), always update to ensure correctness
-                    if (!notify || pastResult.ChikouSpan is null)
+                    if (backfillCacheIndex >= 0 && backfillCacheIndex < Cache.Count)
                     {
+                        IchimokuResult pastResult = Cache[backfillCacheIndex];
                         decimal chikouClose = ProviderCache[providerIndex].Close;
 
-                        // Update the past result
-                        Cache[backfillCacheIndex] = pastResult with { ChikouSpan = chikouClose };
+                        // Update if ChikouSpan is null or value has changed (forward bar revision)
+                        // During rebuilds (notify=false), always update to ensure correctness
+                        if (!notify || pastResult.ChikouSpan is null || pastResult.ChikouSpan != chikouClose)
+                        {
+                            // Update the past result
+                            Cache[backfillCacheIndex] = pastResult with { ChikouSpan = chikouClose };
+
+                            // Notify observers when value changes during normal streaming
+                            if (notify && pastResult.ChikouSpan.HasValue && pastResult.ChikouSpan != chikouClose)
+                            {
+                                NotifyObserversOnRebuild(backfillTimestamp);
+                            }
+                        }
                     }
                 }
             }

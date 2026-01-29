@@ -13,23 +13,42 @@ head:
 
 ## Project information
 
-- **License:** [Apache 2.0](https://opensource.org/licenses/Apache-2.0)
-- **Source code:** [GitHub repository](https://github.com/DaveSkender/Stock.Indicators)
-- **Package:** [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) (NuGet)
-- **Documentation:** [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev)
-- **Demo site:** [Interactive stock charts](https://charts.stockindicators.dev)
-
-## Python version
+| | |
+| --- | --- |
+| **License** | [Apache 2.0](https://opensource.org/licenses/Apache-2.0) |
+| **Source code** | [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) |
+| **Package** | [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) (NuGet.org) |
+| **Documentation** | [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) |
+| **Demo site** | [charts.stockindicators.dev](https://charts.stockindicators.dev) |
 
 An alternate Python variant of this library is available at [python.stockindicators.dev](https://python.stockindicators.dev).
 
-## Chart visualizations generation
+## Attributions
 
-The indicator charts displayed throughout this documentation are generated using the following tools:
+This NuGet library project is developed with support from [community contributors](/#contribute-to-help-others).
 
-- **Chart library:** [`lightweight-charts`](https://tradingview.github.io/lightweight-charts)
-- **Chart data:** Generated from actual indicator calculations using this library
-- **License:** `lightweight-charts` is licensed under the Apache License 2.0
+Our documentation, examples, and testing is additionally built upon the work of several excellent open-source projects and data providers.
+
+::: tip Documentation and testing only
+The `Skender.Stock.Indicators` NuGet library itself does not contain work products or inherit licensing from any of these providers.
+:::
+
+### Chart libraries
+
+- **[Lightweight Charts™](https://tradingview.github.io/lightweight-charts)** - Financial charting library used throughout this documentation. Developed by [TradingView](https://tradingview.com) and licensed under the Apache License 2.0.
+- **[Chart.js](https://www.chartjs.org)** - Charting library used in our [demo site](https://charts.stockindicators.dev) is licensed under the MIT License.
+
+### Data providers and SDK libraries
+
+- **[Alpaca Markets](https://alpaca.markets)** - Market data used for quotes in our [demo site](https://charts.stockindicators.dev) and examples projects.
+- **[Coinbase](https://www.coinbase.com)** - Live cryptocurrency market data via WebSocket feeds for real-time testing.
+- **[JKorf/Coinbase.Net](https://github.com/JKorf/Coinbase.Net)** - .NET client library for Coinbase WebSocket API used for live market data streaming in testing tools. Licensed under the MIT License.
+
+### Development tools and frameworks
+
+- **[VitePress](https://vitepress.dev)** - Static site generator used for this documentation website (Vue.js and Vite).
+- **[BenchmarkDotNet](https://benchmarkdotnet.org)** - Performance benchmarking framework used for indicator optimization and regression testing. Licensed under the MIT License.
+- **[Cloudflare Pages](https://pages.cloudflare.com)** - Documentation hosting and deployment platform.
 
 ## Community and support
 
@@ -73,14 +92,15 @@ The compiled library is [Common Language Specification (CLS) compliant](https://
 
 This library follows strict quality standards:
 
-- Comprehensive unit test coverage
-- Performance benchmarking with BenchmarkDotNet
-- Mathematical precision validation against authoritative sources
+- Mathematical precision validation against authoritative sources and against manually calculated results.
+- Comprehensive unit test and regression test coverage
+- Performance testing and benchmarking with `BenchmarkDotNet`
 - Continuous integration and automated testing
+- Designed with a balanced set of [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
 
 ## Resources and references
 
-Technical indicator formulas and methodologies are based on industry-standard references including:
+Technical indicator formulas and methodologies are based on industry-standard references from [reputable authors](https://github.com/DaveSkender/Stock.Indicators/discussions/1024) including:
 
 - Published financial analysis textbooks
 - Academic papers on technical analysis
@@ -93,6 +113,3 @@ Specific references are documented in individual indicator pages where applicabl
 
 - [Stock Indicators for Python](https://python.stockindicators.dev) - Python port
 - [Demo chart site](https://charts.stockindicators.dev) - Interactive visualization
-
----
-Last updated: January 5, 2026

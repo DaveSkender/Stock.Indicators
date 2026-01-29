@@ -81,6 +81,3 @@ IReadOnlyList<EmaResult> emaResultsWithParams = indicatorListing
   .WithParamValue("lookbackPeriods", 10)
   .Execute<EmaResult>();
 ```
-
----
-Last updated: January 7, 2026

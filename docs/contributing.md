@@ -133,12 +133,9 @@ When adding or updating indicators:
 
 ### Accessibility testing
 
-- use Lighthouse in Chrome, or
-- build the site locally (see above), then:
-
-```bash
-npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
-```
+- Use Lighthouse in Chrome, or
+- Run the automated pa11y task: **Tasks: Run Task** → `Test: Website a11y (pa11y)`, or
+- Run script manually: `bash .vitepress/test-a11y.sh` (tests `localhost` build, not production)
 
 ## Submitting changes
 

@@ -55,8 +55,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// </remarks>
     public virtual void OnAdd(TIn item, bool notify, int? indexHint)
     {
-        (TOut result, int _) = ToIndicator(item, indexHint);
-        AppendCache(result, notify);
+        // Lock to prevent concurrent cache access.
+        // ToIndicator and AppendCache access Cache, which may be modified
+        // by concurrent Rebuild operations on other threads.
+        // .NET locks are reentrant, so this works when called from within Rebuild.
+        lock (CacheLock)
+        {
+            (TOut result, int _) = ToIndicator(item, indexHint);
+            AppendCache(result, notify);
+        }
     }
 
     /// <inheritdoc/>
@@ -69,13 +76,35 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// <inheritdoc/>
     public void OnPrune(DateTime toTimestamp)
     {
-        while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+        lock (CacheLock)
         {
-            Cache.RemoveAt(0);
-        }
+            int removedCount = 0;
+            while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+            {
+                Cache.RemoveAt(0);
+                removedCount++;
+            }
 
-        // notify observers
-        NotifyObserversOnPrune(toTimestamp);
+            // Allow derived classes to prune their internal state arrays
+            if (removedCount > 0)
+            {
+                PruneState(toTimestamp);
+            }
+
+            // notify observers (inside lock to ensure cache consistency)
+            NotifyObserversOnPrune(toTimestamp);
+        }
+    }
+
+    /// <summary>
+    /// Called when items are pruned from the beginning of the cache.
+    /// Override this method to prune internal state arrays in sync with the cache.
+    /// Prune all state items with timestamps &lt;= toTimestamp.
+    /// </summary>
+    /// <param name="toTimestamp">Prune all state items with timestamps less than or equal to this timestamp.</param>
+    protected virtual void PruneState(DateTime toTimestamp)
+    {
+        // No-op by default. Override in derived classes with internal state arrays.
     }
 
     /// <inheritdoc/>

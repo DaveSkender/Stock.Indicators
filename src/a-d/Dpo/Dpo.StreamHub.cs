@@ -30,6 +30,7 @@ public class DpoHub
 
     /// <inheritdoc/>
     public int Offset { get; init; }
+
     /// <remarks>
     /// DPO at any position requires an offset number of subsequent values for calculation.
     /// Emits results for all positions from Cache.Count to current index, calculating DPO when
@@ -42,52 +43,55 @@ public class DpoHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        int i = indexHint ?? ProviderCache.IndexOf(item, true);
-
-        // DPO at position dpoIndex requires SMA at position (dpoIndex + offset)
-        // Calculate the range of positions that now have sufficient lookahead data
-        int maxCalculableIndex = i - Offset;
-
-        // Determine the starting position for emission
-        int startIndex = Cache.Count;
-
-        // Check if we need to recalculate any existing results due to new lookahead data
-        if (notify && startIndex > 0 && maxCalculableIndex >= 0)
+        lock (CacheLock)
         {
-            // Check if there are positions in our cache that have null values
-            // but now have sufficient lookahead data for calculation
-            // This happens during normal streaming when quotes arrive in order
+            int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-            // Look backwards from maxCalculableIndex to find positions with null DPO
-            for (int checkIndex = Math.Max(0, maxCalculableIndex - LookbackPeriods);
-                checkIndex <= Math.Min(maxCalculableIndex, startIndex - 1);
-                checkIndex++)
+            // DPO at position dpoIndex requires SMA at position (dpoIndex + offset)
+            // Calculate the range of positions that now have sufficient lookahead data
+            int maxCalculableIndex = i - Offset;
+
+            // Determine the starting position for emission
+            int startIndex = Cache.Count;
+
+            // Check if we need to recalculate any existing results due to new lookahead data
+            if (notify && startIndex > 0 && maxCalculableIndex >= 0)
             {
-                if (checkIndex >= 0 && checkIndex < Cache.Count)
+                // Check if there are positions in our cache that have null values
+                // but now have sufficient lookahead data for calculation
+                // This happens during normal streaming when quotes arrive in order
+
+                // Look backwards from maxCalculableIndex to find positions with null DPO
+                for (int checkIndex = Math.Max(0, maxCalculableIndex - LookbackPeriods);
+                    checkIndex <= Math.Min(maxCalculableIndex, startIndex - 1);
+                    checkIndex++)
                 {
-                    DpoResult existingResult = Cache[checkIndex];
-                    if (!existingResult.Dpo.HasValue)
+                    if (checkIndex >= 0 && checkIndex < Cache.Count && checkIndex < ProviderCache.Count)
                     {
-                        // Found a null position that now has lookahead data
-                        // Trigger rebuild from this position
-                        Rebuild(ProviderCache[checkIndex].Timestamp);
-                        return;
+                        DpoResult existingResult = Cache[checkIndex];
+                        if (!existingResult.Dpo.HasValue)
+                        {
+                            // Found a null position that now has lookahead data
+                            // Trigger rebuild from this position
+                            Rebuild(ProviderCache[checkIndex].Timestamp);
+                            return;
+                        }
                     }
                 }
             }
-        }
 
-        // Emit all results from current cache size up to current provider index
-        // to maintain 1:1 correspondence (some will be null if insufficient lookahead)
-        for (int dpoIndex = startIndex; dpoIndex <= i; dpoIndex++)
-        {
-            if (dpoIndex < 0 || dpoIndex >= ProviderCache.Count)
+            // Emit all results from current cache size up to current provider index
+            // to maintain 1:1 correspondence (some will be null if insufficient lookahead)
+            for (int dpoIndex = startIndex; dpoIndex <= i; dpoIndex++)
             {
-                continue;
-            }
+                if (dpoIndex < 0 || dpoIndex >= ProviderCache.Count)
+                {
+                    continue;
+                }
 
-            DpoResult result = CalculateDpoAtIndex(dpoIndex);
-            AppendCache(result, notify);
+                DpoResult result = CalculateDpoAtIndex(dpoIndex);
+                AppendCache(result, notify);
+            }
         }
     }
 
