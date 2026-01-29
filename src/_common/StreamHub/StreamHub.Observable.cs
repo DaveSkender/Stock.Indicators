@@ -15,6 +15,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public int MaxCacheSize { get; private set; }
 
     /// <inheritdoc/>
+    public int MinCacheSize { get; private set; }
+
+    /// <inheritdoc/>
     public int ObserverCount => _observers.Count;
 
     /// <inheritdoc/>
@@ -30,12 +33,44 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public IDisposable Subscribe(IStreamObserver<TOut> observer)
     {
         _observers.Add(observer);
-        return new Unsubscriber(_observers, observer);
+
+        // Update MinCacheSize to the maximum of all subscribers
+        UpdateMinCacheSize();
+
+        return new Unsubscriber(_observers, observer, this);
     }
 
     /// <inheritdoc/>
     public bool Unsubscribe(IStreamObserver<TOut> observer)
-        => _observers.Remove(observer);
+    {
+        bool removed = _observers.Remove(observer);
+
+        // Re-evaluate MinCacheSize after unsubscribing
+        if (removed)
+        {
+            UpdateMinCacheSize();
+        }
+
+        return removed;
+    }
+
+    /// <summary>
+    /// Updates the MinCacheSize to the maximum of all subscribers' MinCacheSize values.
+    /// </summary>
+    private void UpdateMinCacheSize()
+    {
+        int maxMinCacheSize = 0;
+
+        foreach (IStreamObserver<TOut> observer in _observers)
+        {
+            if (observer is IStreamObservable<ISeries> observable)
+            {
+                maxMinCacheSize = Math.Max(maxMinCacheSize, observable.MinCacheSize);
+            }
+        }
+
+        MinCacheSize = maxMinCacheSize;
+    }
 
     /// <inheritdoc/>
     public void EndTransmission()
@@ -63,17 +98,28 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="observer">
     /// Your unique subscription as provided.
     /// </param>
+    /// <param name="hub">
+    /// The parent hub that needs MinCacheSize re-evaluation on unsubscribe.
+    /// </param>
     private sealed class Unsubscriber(
         ISet<IStreamObserver<TOut>> observers,
-        IStreamObserver<TOut> observer) : IDisposable
+        IStreamObserver<TOut> observer,
+        StreamHub<TIn, TOut> hub) : IDisposable
     {
         private readonly ISet<IStreamObserver<TOut>> _observers = observers;
         private readonly IStreamObserver<TOut> _observer = observer;
+        private readonly StreamHub<TIn, TOut> _hub = hub;
 
         /// <summary>
-        /// Remove single observer.
+        /// Remove single observer and update parent MinCacheSize.
         /// </summary>
-        public void Dispose() => _observers.Remove(_observer);
+        public void Dispose()
+        {
+            if (_observers.Remove(_observer))
+            {
+                _hub.UpdateMinCacheSize();
+            }
+        }
     }
 
     /// <summary>

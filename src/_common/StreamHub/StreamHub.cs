@@ -64,6 +64,28 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
                 $"but inherited MaxCacheSize is {MaxCacheSize}. " +
                 $"Increase the provider's MaxCacheSize to at least {requiredWarmupPeriods}.");
         }
+
+        // Set MinCacheSize to the required warmup periods
+        SetMinCacheSize(requiredWarmupPeriods);
+    }
+
+    /// <summary>
+    /// Sets the minimum cache size for this hub based on warmup requirements.
+    /// This should be called in derived class constructors to specify the minimum
+    /// number of periods required for the indicator to function correctly.
+    /// </summary>
+    /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
+    protected void SetMinCacheSize(int requiredWarmupPeriods)
+    {
+        MinCacheSize = Math.Max(MinCacheSize, requiredWarmupPeriods);
+
+        // Propagate to provider if we're increasing the requirement
+        if (Provider is IStreamObservable<ISeries> observable &&
+            requiredWarmupPeriods > observable.MinCacheSize)
+        {
+            // The provider will be updated through the Subscribe mechanism
+            // when this hub subscribes, so we don't need to update it here
+        }
     }
 
     // PROPERTIES
@@ -402,6 +424,21 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         if (index < 0 || index > Cache.Count)
         {
             AppendCache(item, notify);
+            return;
+        }
+
+        // Reject insertions that would modify indices before MinCacheSize
+        // to prevent corrupted rebuilds
+        if (index < MinCacheSize && Cache.Count > 0)
+        {
+            // Silently ignore the insert to maintain stability
+            return;
+        }
+
+        // Reject insertions that precede the current cache timeline
+        if (Cache.Count > 0 && item.Timestamp < Cache[0].Timestamp)
+        {
+            // Silently ignore inserts before the cache timeline
             return;
         }
 
