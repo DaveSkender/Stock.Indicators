@@ -24,6 +24,14 @@ public interface ITestQuoteObserver
     void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly();
 }
 
+public interface ITestTickObserver
+{
+    /// <summary>
+    /// Tests hub compatibility with tick provider
+    /// </summary>
+    void TickObserver_WithWarmupAndMultipleSameTimestamp_WorksCorrectly();
+}
+
 /// <summary>
 /// Add this to stream chainee indicator tests.
 /// </summary>
