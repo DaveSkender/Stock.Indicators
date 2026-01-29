@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class TickStreamHubTests : StreamHubTestBase
+public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
 {
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
@@ -256,6 +256,46 @@ public class TickStreamHubTests : StreamHubTestBase
         bar.Volume.Should().Be(45m); // Sum of all three (10 + 15 + 20)
 
         aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void TickObserver_WithWarmupAndMultipleSameTimestamp_WorksCorrectly()
+    {
+        // setup tick provider hub
+        TickHub provider = new();
+
+        // prefill some ticks
+        for (int i = 0; i < 20; i++)
+        {
+            provider.Add(new Tick(
+                DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(i),
+                100m + i, 10m + i, $"EXEC-{i:000}"));
+        }
+
+        // initialize observer
+        TickHub observer = new(provider);
+
+        // fetch initial results
+        IReadOnlyList<ITick> results = observer.Results;
+
+        results.Should().HaveCount(20);
+
+        // add more ticks including some at same timestamp with different execution IDs
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(20),
+            120m, 30m, "EXEC-020"));
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(20),
+            121m, 31m, "EXEC-021"));
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(21),
+            122m, 32m, "EXEC-022"));
+
+        results.Should().HaveCount(22); // 20 + 2 more ticks (same timestamp counts separately)
+
+        // cleanup
+        observer.Unsubscribe();
         provider.EndTransmission();
     }
 
