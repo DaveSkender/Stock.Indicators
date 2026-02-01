@@ -46,7 +46,7 @@
               "type": "string",
               "default": "1m"
             }
-          },
+          }
         ],
         "responses": {
           "200": {
@@ -100,10 +100,7 @@
             "name": "scenario",
             "in": "query",
             "schema": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": "string"
             }
           }
         ],

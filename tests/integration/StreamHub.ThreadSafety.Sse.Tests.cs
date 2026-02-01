@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Text.Json;
-using System.Linq;
 using Test.Tools;
 
 namespace StreamHubs;
@@ -245,7 +244,7 @@ public class ThreadSafetyTests : TestBase
             // Determine how many quotes were pruned by comparing the initial total with the current cache size.
             // Use the amended list for correctness.  The expected number of pruned quotes is the
             // difference between the full revised list and the cache size.
-            int cacheSize = MaxCacheSize;
+            const int cacheSize = MaxCacheSize;
             int actualPruned = allQuotesWithRevisions.Count - cacheSize;
             actualPruned.Should().Be(allQuotesWithRevisions.Count - MaxCacheSize,
                 "pruning should remove exactly the excess quotes beyond the configured cache size");
@@ -310,14 +309,15 @@ public class ThreadSafetyTests : TestBase
             // hub and must be discarded.  Then compare the remainder of the series to the
             // streaming hub results.
             {
-                var renkoStatic = allQuotesWithRevisions.ToRenko(2.5m).ToList();
-                var firstDate = renkoHub.Results.First().Date;
-                int startIndex = renkoStatic.FindIndex(r => r.Date == firstDate);
+                List<RenkoResult> renkoStatic = allQuotesWithRevisions.ToRenko(2.5m).ToList();
+                DateTime firstDate = renkoHub.Results[0].Timestamp;
+                int startIndex = renkoStatic.FindIndex(r => r.Timestamp == firstDate);
                 startIndex.Should().BeGreaterThanOrEqualTo(0,
                     "the first Renko result in the hub should exist in the static series");
-                var expectedRenko = renkoStatic.Skip(startIndex).ToList();
+                List<RenkoResult> expectedRenko = renkoStatic.Skip(startIndex).ToList();
                 renkoHub.Results.IsExactly(expectedRenko);
             }
+
             rocHub.Results.IsExactly(allQuotesWithRevisions.ToRoc(20).TakeLast(cacheSize).ToList());
             rocWbHub.Results.IsExactly(allQuotesWithRevisions.ToRocWb(14).TakeLast(cacheSize).ToList());
             rollingPivotsHub.Results.IsExactly(allQuotesWithRevisions.ToRollingPivots(20, 0).TakeLast(cacheSize).ToList());
