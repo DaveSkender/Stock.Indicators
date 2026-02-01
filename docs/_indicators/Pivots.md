@@ -26,7 +26,9 @@ IEnumerable<PivotsResult> results =
 
 **`rightSpan`** _`int`_ - Right evaluation window span width (`R`).  Must be at least 2.  Default is 2.
 
-**`maxTrendPeriods`** _`int`_ - Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20.
+**`maxTrendPeriods`** _`int`_ - Maximum lookback periods (`N`) for drawing trend lines between pivot points.  When pivot points are further apart than this value, the trend line tracking resets.  Must be greater than `leftSpan`.  Default is 20.
+
+> &#9432; **Note**: This parameter controls the lookback window for trend line calculations, not the number of results returned.
 
 **`endType`** _`EndType`_ - Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
 
@@ -82,6 +84,31 @@ IEnumerable<PivotsResult>
 **`PivotTrend.HL`** - Higher low
 
 **`PivotTrend.LL`** - Lower low
+
+#### Filtering results
+
+Since this method returns one result per input quote (with `null` values where no pivot exists), you'll often want to filter results for specific use cases:
+
+```csharp
+// get only records with pivot points
+var pivotsOnly = results.Condense();
+
+// get only records with trend lines
+var trendsOnly = results
+    .Where(x => x.HighTrend != null || x.LowTrend != null);
+
+// get only recent N periods
+var recentPivots = results.TakeLast(period);
+
+// get only high pivot points with Higher High trend
+var higherHighs = results
+    .Where(x => x.HighPoint != null && x.HighTrend == PivotTrend.HH);
+
+// combine filters: recent periods with trends
+var recentTrends = results
+    .Where(x => x.HighTrend != null || x.LowTrend != null)
+    .TakeLast(period);
+```
 
 ### Utilities
 

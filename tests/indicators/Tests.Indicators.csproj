@@ -32,25 +32,22 @@
     <None Update="_common\data\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="a-d\Adx\issue859quotes.csv">
+    <None Update="a-d\Adx\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="a-d\Dpo\Dpo.Data.csv">
+    <None Update="a-d\Dpo\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\WilliamsR\issue1127quotes.csv">
+    <None Update="m-r\Pivots\*.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="s-z\WilliamsR\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\ZigZag\data.ethusdt.json">
+    <None Update="s-z\ZigZag\*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\ZigZag\data.issue632.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\data.schrodinger.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\zigzag.csv">
+    <None Update="s-z\ZigZag\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

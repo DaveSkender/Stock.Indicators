@@ -138,20 +138,42 @@ public class ZigZagTests : TestBase
     }
 
     [TestMethod]
-    public void Issue632()
+    public void Issue0632()
     {
         // thresholds are never met
-        string json = File.ReadAllText("./s-z/ZigZag/data.issue632.json");
+        string json = File.ReadAllText("./s-z/ZigZag/data.issue0632.json");
 
-        List<Quote> quotesList = JsonConvert
+        List<Quote> quotes = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
             .ToList();
 
-        List<ZigZagResult> resultsList = quotesList
+        List<ZigZagResult> resultsList = quotes
             .GetZigZag(EndType.Close, 5m)
             .ToList();
 
         Assert.HasCount(17, resultsList);
+    }
+
+    [TestMethod]
+    public void Issue1949()
+    {
+        IOrderedEnumerable<Quote> quotes = File.ReadAllLines("s-z/ZigZag/data.issue1949.csv")
+            .Skip(1)
+            .Select(Importer.QuoteFromCsv)
+            .OrderByDescending(static x => x.Date);
+
+        List<ZigZagResult> r = quotes
+            .GetZigZag(endType: EndType.HighLow, percentChange: 5.0m)
+            .ToList();
+
+        string msg = "results size should match original quotes size";
+
+        r.Should().HaveCount(1430, msg);
+        r.Should().HaveCount(quotes.Count(), msg);
+        r.Where(static x => x.ZigZag is not null).Should().HaveCount(726);
+        r.Where(static x => x.PointType is not null).Should().HaveCount(1);
+        r[704].ZigZag.Should().Be(75540.8m);
+        r[704].PointType.Should().Be("L");
     }
 
     [TestMethod]
