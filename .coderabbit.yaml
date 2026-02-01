@@ -1,21 +1,24 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 # CodeRabbit config docs: https://docs.coderabbit.ai/reference/configuration
+# Defaults and examples GitHub repo: coderabbitai/awesome-coderabbit
 
 # General settings
-language: "en-US"               # Language for reviews (default: "en-US")
-inheritance: false              # top-level instructions (default: false)
+language: "en-US"            # Language for reviews (default: "en-US")
+tone_instructions: ""        # Custom tone for reviews (default: "")
+inheritance: false           # top-level instructions (default: false)
 
 # preview features
-early_access: true              # Enable early-access features (default: false)
+early_access: true           # Enable early-access features (default: false)
 
+# ISSUE ENRICHMENT (preview)
 issue_enrichment:
   auto_enrich:
-    enabled: false              # Enable auto issue enrichment (default: true)
+    enabled: false           # Enable auto issue enrichment (default: true)
   planning:
-    enabled: true               # Enable generating a plan for issues (default: true)
+    enabled: true            # Enable generating a planning for issues (default: true)
     auto_planning:
-      enabled: true             # Enable auto-generated plans based on labels (default: true)
-      labels:                   # Triggering labels for auto-planning (default: [])
+      enabled: true          # Enable auto-generated plans based on labels (default: true)
+      labels:                # Triggering labels for auto-planning (default: [])
         - rabbit-plan
   labeling:
     auto_apply_labels: false
@@ -28,41 +31,49 @@ reviews:
   commit_status: true
   fail_commit_status: false
   request_changes_workflow: false
-
+  enable_prompt_for_ai_agents: true
   in_progress_fortune: false
-  assess_linked_issues: true
+
+  abort_on_close: true
+  disable_cache: false
+
+  # High level summary of the changes in the PR/MR description or walkthrough.
   high_level_summary: false
   high_level_summary_in_walkthrough: false
-  collapse_walkthrough: true
-  changed_files_summary: false
-  sequence_diagrams: false
-  estimate_code_review_effort: false
-  poem: false
-  enable_prompt_for_ai_agents: true
+  high_level_summary_placeholder: "@coderabbitai summary"
 
-  related_issues: true
-  related_prs: true
+  # Walkthrough
+  collapse_walkthrough: true
+  changed_files_summary: false         # Generate a summary of the changed files in the walkthrough.
+  sequence_diagrams: false             # Generate sequence diagrams in the walkthrough.
+  estimate_code_review_effort: false   # Generate review effort in walkthrough.
+  assess_linked_issues: true           # Assess how well the changes address the linked issues in the walkthrough.
+  related_issues: true                 # Include possibly related issues in the walkthrough.
+  related_prs: true                    # Include possibly related pull requests in the walkthrough.
+  poem: false                          # Generate a poem in the walkthrough comment.
 
   # Automatic review scheduling
   auto_review:
     enabled: true
-    auto_incremental_review: true     # Review each push (default: true)
-    drafts: false                     # Review Draft pull requests (default: false)
+    auto_incremental_review: true      # Review each push (default: true)
+    drafts: false                      # Review Draft pull requests (default: false)
     base_branches:
       - ".*"
 
   # Automatic labels
+  # Suggest labels based on the changes in the pull request in the walkthrough.
   suggested_labels: false
   auto_apply_labels: false
 
   # Automatic reviewers
+  # Suggest reviewers based on the changes in the pull request in the walkthrough.
   suggested_reviewers: false
   auto_assign_reviewers: false
 
   # Automatic PR titles
   auto_title_placeholder: "@coderabbitai"
   auto_title_instructions: |
-    Generate PR titles following Conventional Commits format: `type: Subject`
+    Use conventional commit with short (<65 chars) sentence case Subject.  See Copilot instructions.
 
     Title strategy:
     - Focus on the PRIMARY contribution or most central feature delivered in the PR
@@ -86,35 +97,35 @@ reviews:
   # Code enhancement features
   finishing_touches:
     docstrings:
-      enabled: false              # Generate docstrings for PRs/MRs (default: true)
+      enabled: false         # Generate docstrings for PRs/MRs (default: true)
     unit_tests:
-      enabled: false              # Generate unit tests for PRs/MRs (default: true)
+      enabled: false         # Generate unit tests for PRs/MRs (default: true)
 
   # Pre-merge validation checks
   pre_merge_checks:
-    docstrings:                   # Docstring coverage check (default: warning)
+    docstrings:              # Docstring coverage check (default: warning)
       mode: off
-    description:                  # PR description validation (default: warning)
+    description:             # PR description validation (default: warning)
       mode: off
-    issue_assessment:             # Linked issue assessment (default: warning)
+    issue_assessment:        # Linked issue assessment (default: warning)
       mode: off
-    title:                        # PR title validation (default: warning)
+    title:                   # PR title validation (default: warning)
       mode: off
 
   # Files to include/exclude from reviews
   path_filters:
-    - "**"                    # Include all (base)
-    - "!node_modules/"        # NPM dependencies
-    - "!*-lock.json"          # NPM/PNPM lock files
-    - "!packages.lock.json"   # NuGet lock file
-    - "!packages/"            # NuGet packages cache
-    - "!.jekyll-cache/"       # Jekyll cache
-    - "!vendor/"              # Ruby vendor and gem files
-    - "!Gemfile.lock"         # Ruby dependencies lock
+    - "**"                   # Include all (base)
+    - "!node_modules/"       # NPM dependencies
+    - "!*-lock.json"         # NPM/PNPM lock files
+    - "!packages.lock.json"  # NuGet lock file
+    - "!packages/"           # NuGet packages cache
+    - "!.jekyll-cache/"      # Jekyll cache
+    - "!vendor/"             # Ruby vendor and gem files
+    - "!Gemfile.lock"        # Ruby dependencies lock
     - "!docs/.vitepress/cache/"  # VitePress cache
     - "!docs/.vitepress/dist/"   # VitePress build output
-    - "!bin/"                 # .NET build output
-    - "!obj/"                 # .NET build intermediate files
+    - "!bin/"                # .NET build output
+    - "!obj/"                # .NET build intermediate files
     - "!*.csv"                # Test data
     - "!*.json"               # Test data
     - "!*.g.cs"               # Generated source code
@@ -211,62 +222,125 @@ reviews:
 
   # Tool integrations
   tools:
-    gitleaks:
+
+    # tools: default on
+    actionlint:              # GitHub Actions workflow static checker
       enabled: true
-    semgrep:
+    ast-grep:                # Code pattern analysis using AST
+      essential_rules: true
+    gitleaks:                # Secret/credential scanner
       enabled: true
-    osvScanner:
+    github-checks:           # GitHub Checks integration
       enabled: true
-    markdownlint:
+      timeout_ms: 90000
+    markdownlint:            # Markdown linter for consistency
       enabled: true
-    yamllint:
+    osvScanner:              # Vulnerability package scanner
       enabled: true
-    actionlint:
+    semgrep:                 # Security & code quality static analysis
       enabled: true
-    shellcheck:
+    shellcheck:              # Shell script linter
       enabled: true
-    github-checks:
+    yamllint:                # YAML linter
       enabled: true
-      timeout_ms: 400000
-    eslint:
+
+    # tools: default off
+    biome:                   # Fast formatter, linter, and analyzer for web
       enabled: false
-    ruff:
+    brakeman:                # Rails security vulnerability scanner
       enabled: false
-    golangci-lint:
+    buf:                     # Protobuf linter
       enabled: false
-    hadolint:
+    checkov:                 # Infrastructure-as-code static analyzer
       enabled: false
-    checkov:
+    checkmake:               # Makefile linter
       enabled: false
-    htmlhint:
+    circleci:                # CircleCI config static checker
       enabled: false
-    languagetool:
+    clang:                   # C/C++ static analysis tool
       enabled: false
-    biome:
+    clippy:                  # Rust linter
       enabled: false
-    oxc:
+    cppcheck:                # C/C++ static analyzer
+      enabled: false
+    detekt:                  # Kotlin static analyzer
+      enabled: false
+    dotenvLint:              # .env file linter
+      enabled: false
+    eslint:                  # JavaScript/TypeScript linter
+      enabled: false
+    flake8:                  # Python linter
+      enabled: false
+    fortitudeLint:           # Fortran linter
+      enabled: false
+    golangci-lint:           # Go linter runner
+      enabled: false
+    hadolint:                # Dockerfile linter
+      enabled: false
+    htmlhint:                # HTML linter
+      enabled: false
+    languagetool:            # Grammar and style checker (30+ languages)
+      enabled: false
+    luacheck:                # Lua linter
+      enabled: false
+    oxc:                     # JavaScript/TypeScript linter in Rust
+      enabled: false
+    phpcs:                   # PHP linter and coding standard checker
+      enabled: false
+    phpmd:                   # PHP code quality analyzer
+      enabled: false
+    phpstan:                 # PHP static analysis tool
+      enabled: false
+    pmd:                     # Java/multilanguage static analyzer
+      enabled: false
+    prismaLint:              # Prisma schema linter
+      enabled: false
+    pylint:                  # Python static analyzer
+      enabled: false
+    regal:                   # Rego linter and language server
+      enabled: false
+    ruff:                    # Python linter and formatter
+      enabled: false
+    rubocop:                 # Ruby linter and code formatter
+      enabled: false
+    shopifyThemeCheck:       # Shopify Liquid theme linter
+      enabled: false
+    sqlfluff:                # SQL linter
+      enabled: false
+    swiftlint:               # Swift linter
       enabled: false
 
 # CHAT FEATURES
 chat:
-  art: true
+  art: false
   auto_reply: true
+  integrations:
+    jira:
+      usage: disabled
+    linear:
+      usage: disabled
 
 # KNOWLEDGE BASE
 knowledge_base:
   opt_out: false
+  web_search:
+    enabled: true
   code_guidelines:
     enabled: true
     filePatterns:
-      - "AGENTS.md"
       - "**/AGENTS.md"
-      - ".github/instructions/*.instructions.md"
+      - ".github/copilot-instructions.md"
       - ".github/instructions/**/*.instructions.md"
+      - ".github/skills/**/SKILL.md"
   learnings:
-    scope: "auto"
+    scope: auto
   issues:
-    scope: "auto"
+    scope: auto
   pull_requests:
-    scope: "auto"
+    scope: auto
   mcp:
-    usage: "auto"
+    usage: auto
+  jira:
+    usage: disabled
+  linear:
+    usage: disabled
