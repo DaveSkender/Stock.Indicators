@@ -6,16 +6,20 @@ on:
       - "main"
       - "v[0-9]*"
     paths:
-      - docs/examples/**
+      - "docs/examples/**"
   pull_request:
     branches: ["*"]
     paths:
-      - docs/examples/**
+      - "docs/examples/**"
       - ".github/workflows/test-examples.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -32,7 +36,7 @@ jobs:
           dotnet-version: "10.x"
           dotnet-quality: "ga"
           cache: true
-          cache-dependency-path: "docs/examples/**/packages.lock.json"
+          cache-dependency-path: "docs/examples/**/*.csproj"
 
       - name: Build examples
         run: >
