@@ -6,6 +6,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 {
     private readonly HashSet<IStreamObserver<TOut>> _observers = [];
 
+    /// <summary>
+    /// Stores the hub's own minimum cache size requirement (baseline).
+    /// This value represents the warmup periods needed by this hub itself,
+    /// independent of its subscribers.
+    /// </summary>
+    private int _minCacheSizeBaseline;
+
     // PROPERTIES
 
     /// <inheritdoc/>
@@ -55,11 +62,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     }
 
     /// <summary>
-    /// Updates the MinCacheSize to the maximum of all subscribers' MinCacheSize values.
+    /// Updates the MinCacheSize to the maximum of this hub's baseline requirement
+    /// and all subscribers' MinCacheSize values.
     /// </summary>
     private void UpdateMinCacheSize()
     {
-        int maxMinCacheSize = 0;
+        // Start from the hub's own baseline requirement
+        int maxMinCacheSize = _minCacheSizeBaseline;
 
         foreach (IStreamObserver<TOut> observer in _observers)
         {
@@ -86,6 +95,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         }
 
         _observers.Clear();
+
+        // Reset to baseline when all subscribers are removed
+        MinCacheSize = _minCacheSizeBaseline;
     }
 
     /// <summary>

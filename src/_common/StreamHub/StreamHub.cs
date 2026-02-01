@@ -77,15 +77,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
     protected void SetMinCacheSize(int requiredWarmupPeriods)
     {
-        MinCacheSize = Math.Max(MinCacheSize, requiredWarmupPeriods);
+        // Update the baseline requirement for this hub
+        _minCacheSizeBaseline = Math.Max(_minCacheSizeBaseline, requiredWarmupPeriods);
 
-        // Propagate to provider if we're increasing the requirement
-        if (Provider is IStreamObservable<ISeries> observable &&
-            requiredWarmupPeriods > observable.MinCacheSize)
-        {
-            // The provider will be updated through the Subscribe mechanism
-            // when this hub subscribes, so we don't need to update it here
-        }
+        // Update MinCacheSize to reflect the new baseline and any subscribers
+        UpdateMinCacheSize();
     }
 
     // PROPERTIES

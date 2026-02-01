@@ -104,16 +104,13 @@ public class QuoteHub
             // get result and position
             (IQuote result, int index) = ToIndicator(item, indexHint);
 
-            // Reject insertions that would modify indices before MinCacheSize
+            // Reject modifications that would affect indices before MinCacheSize
             // to prevent corrupted rebuilds in subscribers
-            if (index >= 0 && index < Cache.Count && index < MinCacheSize)
+            // This includes both insertions and same-timestamp replacements
+            if (index >= 0 && index < MinCacheSize && index < Cache.Count)
             {
-                // Only allow replacements at the same timestamp, not insertions
-                if (index < Cache.Count && Cache[index].Timestamp != result.Timestamp)
-                {
-                    // Silently ignore insertions before MinCacheSize
-                    return;
-                }
+                // Silently ignore all modifications before MinCacheSize
+                return;
             }
 
             // check if this is a same-timestamp update (not a new item at the end)

@@ -120,21 +120,28 @@ public class MinCacheSizeTests : TestBase
         }
 
         int minCacheSize = quoteHub.MinCacheSize;
-        minCacheSize.Should().BeGreaterThan(0);
+        minCacheSize.Should().BeGreaterThan(0, "MinCacheSize should be set from SMA warmup requirement");
 
         int initialCacheSize = quoteHub.Results.Count;
 
-        // Act - Try to insert a quote at an index before MinCacheSize
-        // This would corrupt the indicator's state
-        if (minCacheSize < quotes.Count - 100)
-        {
-            Quote insertQuote = quotes[minCacheSize - 1];
-            quoteHub.Add(insertQuote);
+        // Act - Try to insert a quote at an index before MinCacheSize with a different value
+        // This would corrupt the indicator's state, so it should be rejected
+        int insertIndex = minCacheSize - 1;
+        IQuote originalQuote = quoteHub.Results[insertIndex];
+        Quote insertQuote = new(
+            originalQuote.Timestamp,
+            originalQuote.Open * 0.99m,  // Different value to make rejection observable
+            originalQuote.High,
+            originalQuote.Low,
+            originalQuote.Close,
+            originalQuote.Volume);
 
-            // Assert
-            // The insert should be rejected to protect indicator state
-            quoteHub.Results.Count.Should().Be(initialCacheSize, "Insert before MinCacheSize should be rejected");
-        }
+        quoteHub.Add(insertQuote);
+
+        // Assert
+        // The insert should be rejected to protect indicator state
+        quoteHub.Results.Count.Should().Be(initialCacheSize, "Insert before MinCacheSize should be rejected");
+        quoteHub.Results[insertIndex].Open.Should().Be(originalQuote.Open, "Original value should be preserved");
     }
 
     [TestMethod]
@@ -154,25 +161,30 @@ public class MinCacheSizeTests : TestBase
         }
 
         int minCacheSize = quoteHub.MinCacheSize;
+        int insertIndex = minCacheSize + 5;
+
+        // Ensure we have enough quotes
+        insertIndex.Should().BeLessThan(quoteHub.Results.Count, "Need sufficient cache for safe insertion");
 
         // Act - Insert a quote at a safe position (after MinCacheSize)
-        // Create a quote that will be inserted in the middle but after MinCacheSize
-        if (minCacheSize < 50 && quotes.Count > 110)
-        {
-            DateTime targetTimestamp = quoteHub.Results[minCacheSize + 5].Timestamp;
-            Quote insertQuote = new(
-                targetTimestamp,
-                quotes[minCacheSize + 5].Open * 1.01m,
-                quotes[minCacheSize + 5].High,
-                quotes[minCacheSize + 5].Low,
-                quotes[minCacheSize + 5].Close,
-                quotes[minCacheSize + 5].Volume);
+        // Create a revision with same timestamp but different value
+        DateTime targetTimestamp = quoteHub.Results[insertIndex].Timestamp;
+        decimal originalOpen = quoteHub.Results[insertIndex].Open;
+        IQuote cachedQuote = quoteHub.Results[insertIndex];
+        Quote insertQuote = new(
+            targetTimestamp,
+            originalOpen * 1.01m,  // Changed value
+            cachedQuote.High,
+            cachedQuote.Low,
+            cachedQuote.Close,
+            cachedQuote.Volume);
 
-            quoteHub.Add(insertQuote);
+        quoteHub.Add(insertQuote);
 
-            // Assert - The quote should be accepted (it's a same-timestamp revision)
-            quoteHub.Results.Should().Contain(q => q.Timestamp == targetTimestamp);
-        }
+        // Assert - The quote revision should be accepted
+        quoteHub.Results.Should().Contain(q => q.Timestamp == targetTimestamp);
+        IQuote updatedQuote = quoteHub.Results.First(q => q.Timestamp == targetTimestamp);
+        updatedQuote.Open.Should().Be(originalOpen * 1.01m, "Revision should have updated the Open value");
     }
 
     [TestMethod]
@@ -187,8 +199,13 @@ public class MinCacheSizeTests : TestBase
 
         // Assert
         // QuoteHub should have the maximum MinCacheSize requirement from the chain
-        quoteHub.MinCacheSize.Should().BeGreaterThan(0);
-        smaHub.MinCacheSize.Should().BeGreaterThan(0);
-        quoteHub.MinCacheSize.Should().BeGreaterOrEqualTo(smaHub.MinCacheSize);
+        quoteHub.MinCacheSize.Should().BeGreaterThan(0, "QuoteHub should inherit MinCacheSize from subscribers");
+        smaHub.MinCacheSize.Should().BeGreaterThan(0, "SmaHub should have its own MinCacheSize requirement");
+        emaHub.MinCacheSize.Should().BeGreaterThan(0, "EmaHub should have MinCacheSize propagated to it");
+
+        // Verify propagation through the chain
+        quoteHub.MinCacheSize.Should().BeGreaterOrEqualTo(smaHub.MinCacheSize, "QuoteHub should track SmaHub requirement");
+        smaHub.MinCacheSize.Should().BeGreaterOrEqualTo(emaHub.MinCacheSize, "SmaHub should track EmaHub requirement");
+        quoteHub.MinCacheSize.Should().BeGreaterOrEqualTo(emaHub.MinCacheSize, "QuoteHub should track EmaHub requirement through chain");
     }
 }
