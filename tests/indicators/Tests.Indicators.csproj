@@ -38,6 +38,9 @@
     <None Update="a-d\Dpo\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="m-r\Pivots\*.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="s-z\WilliamsR\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
