@@ -107,6 +107,7 @@ public class TickHub
                 {
                     NotifyObserversOnAdd(result, index);
                 }
+
                 return;
             }
 
