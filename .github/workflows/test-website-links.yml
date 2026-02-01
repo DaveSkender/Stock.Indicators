@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: docs
@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.286.0
+        uses: ruby/setup-ruby@v1.287.0
         with:
           ruby-version: 3.3
           bundler-cache: true
