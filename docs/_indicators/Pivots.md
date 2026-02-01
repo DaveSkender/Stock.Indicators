@@ -85,15 +85,7 @@ IEnumerable<PivotsResult>
 
 **`PivotTrend.LL`** - Lower low
 
-### Utilities
-
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
-
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-### Filtering results
+#### Filtering results
 
 Since this method returns one result per input quote (with `null` values where no pivot exists), you'll often want to filter results for specific use cases:
 
@@ -117,6 +109,14 @@ var recentTrends = results
     .Where(x => x.HighTrend != null || x.LowTrend != null)
     .TakeLast(period);
 ```
+
+### Utilities
+
+- [.Condense()]({{site.baseurl}}/utilities#condense)
+- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
