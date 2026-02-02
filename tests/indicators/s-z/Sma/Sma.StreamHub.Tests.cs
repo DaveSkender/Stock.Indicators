@@ -31,7 +31,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival, should equal series
+        // late arrival triggers observer rebuild, should equal series
         quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<SmaResult> expectedOriginal = Quotes.ToSma(5);
@@ -139,7 +139,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
+        // late arrival triggers observer rebuild
         quoteHub.Add(Quotes[80]);
 
         // delete
