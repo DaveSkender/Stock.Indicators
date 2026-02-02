@@ -305,6 +305,7 @@ static async Task SendScenarioEvents(
     {
         string json = JsonSerializer.Serialize(action.Payload, jsonOptions);
         string sseData = $"event: {action.EventType}\ndata: {json}\n\n";
+        Console.WriteLine($"[Longest] Scenario event: {action.EventType}, Quote timestamp: {action.Payload.Quote?.Timestamp:yyyy-MM-dd}, CacheIndex: {action.Payload.CacheIndex}");
         await context.Response
             .WriteAsync(sseData, context.RequestAborted)
             .ConfigureAwait(false);
@@ -317,21 +318,31 @@ static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> streame
 {
     List<SseQuoteAction> actions = [];
 
-    if (streamedQuotes.Count > 80)
+    // With 2000 quotes and cache size 1500, quotes 0-499 will be pruned.
+    // All operations use Add with same timestamps to trigger revisions/rebuilds,
+    // avoiding cache size changes from removals.
+
+    const int cacheSize = 1500;
+    int pruneCount = streamedQuotes.Count - cacheSize; // 2000 - 1500 = 500
+
+    if (streamedQuotes.Count > pruneCount + 80)
     {
-        actions.Add(SseQuoteAction.Add(streamedQuotes[80]));
+        // Revision at cache index 80 (original index 580) - same timestamp, triggers rebuild
+        actions.Add(SseQuoteAction.Add(streamedQuotes[pruneCount + 80]));
     }
 
-    if (streamedQuotes.Count > 100)
+    if (streamedQuotes.Count > pruneCount + 100)
     {
-        Quote rebuildQuote = streamedQuotes[100];
-        actions.Add(SseQuoteAction.Remove(100, rebuildQuote));
-        actions.Add(SseQuoteAction.Add(rebuildQuote));
+        // Revision at cache index 100 (original index 600) - same timestamp, triggers rebuild
+        // Using Add (not Remove+Add) to keep cache size stable
+        Quote original = streamedQuotes[pruneCount + 100];
+        actions.Add(SseQuoteAction.Add(original));
     }
 
-    if (streamedQuotes.Count > 500)
+    if (streamedQuotes.Count > pruneCount + 500)
     {
-        actions.Add(SseQuoteAction.Add(streamedQuotes[500]));
+        // Revision at cache index 500 (original index 1000) - same timestamp, triggers rebuild
+        actions.Add(SseQuoteAction.Add(streamedQuotes[pruneCount + 500]));
     }
 
     return actions;
@@ -341,20 +352,30 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
 {
     List<SseQuoteAction> actions = [];
 
-    if (streamedQuotes.Count > 10)
+    // With 2000 quotes and cache size 1500, quotes 0-499 will be pruned.
+    // All operations use Add with same or modified timestamps to trigger revisions/rebuilds,
+    // avoiding cache size changes from removals.
+
+    const int cacheSize = 1500;
+    int pruneCount = streamedQuotes.Count - cacheSize; // 2000 - 1500 = 500
+
+    if (streamedQuotes.Count > pruneCount + 10)
     {
-        actions.Add(SseQuoteAction.Add(streamedQuotes[10]));
+        // Revision at cache index 10 (original index 510) - same timestamp, triggers rebuild
+        actions.Add(SseQuoteAction.Add(streamedQuotes[pruneCount + 10]));
     }
 
-    if (streamedQuotes.Count > 100)
+    if (streamedQuotes.Count > pruneCount + 100)
     {
-        Quote rebuildQuote = streamedQuotes[100];
-        actions.Add(SseQuoteAction.Remove(100, rebuildQuote));
-        actions.Add(SseQuoteAction.Add(rebuildQuote));
+        // Revision at cache index 100 (original index 600) - same timestamp, triggers rebuild
+        // Using Add (not Remove+Add) to keep cache size stable
+        Quote original = streamedQuotes[pruneCount + 100];
+        actions.Add(SseQuoteAction.Add(original));
     }
 
     if (streamedQuotes.Count > 1600)
     {
+        // Revise quote at index 1600 (cache index 1100) with modified close price
         Quote original = streamedQuotes[1600];
         Quote replacementQuote = new(
             original.Timestamp,
@@ -368,6 +389,7 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
 
     if (streamedQuotes.Count > 0)
     {
+        // Revise the last quote multiple times (testing same-timestamp updates)
         Quote lastQuote = streamedQuotes[^1];
         actions.Add(SseQuoteAction.Add(new Quote(
             lastQuote.Timestamp,
