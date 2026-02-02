@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     // NOTE: Renko transforms quotes to variable brick counts (non-1:1 timestamps).
-    // Intentionally excluded from comprehensive provider history testing (Insert/Remove)
+    // Intentionally excluded from comprehensive provider history testing (Add/Remove)
     // as quote transformations don't preserve timestamp mappings.
     // TODO: Revisit to explore alternative testing approach for quote transformations.
 
@@ -55,7 +55,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         // late arrival
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
 
         // delete
         quoteHub.RemoveAt(350);
@@ -127,7 +127,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToRenkoHub(brickSize, endType)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream (Renko transforms to bricks, no Insert/Remove)
+        // emulate quote stream (Renko transforms to bricks, no Add/Remove)
         for (int i = 0; i < quotesCount; i++)
         {
             quoteHub.Add(Quotes[i]);

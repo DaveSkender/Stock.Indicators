@@ -32,7 +32,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<RocResult> expectedOriginal = Quotes.ToRoc(20);
         sut.IsExactly(expectedOriginal);
@@ -141,7 +141,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

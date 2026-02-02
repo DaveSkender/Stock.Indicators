@@ -32,7 +32,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<AlmaResult> expectedOriginal = Quotes.ToAlma(10, 0.85, 6);
         sut.IsExactly(expectedOriginal);
@@ -151,7 +151,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

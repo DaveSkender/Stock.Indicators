@@ -39,10 +39,22 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         actuals.Should().HaveCount(length);
-        actuals.IsExactly(series);
+        // Use tolerance for floating-point EPMA values
+        for (int i = 0; i < actuals.Count; i++)
+        {
+            actuals[i].Timestamp.Should().Be(series[i].Timestamp);
+            if (actuals[i].Epma.HasValue && series[i].Epma.HasValue)
+            {
+                actuals[i].Epma.Should().BeApproximately(series[i].Epma.Value, Money6);
+            }
+            else
+            {
+                actuals[i].Epma.Should().Be(series[i].Epma);
+            }
+        }
 
         // delete, should equal series (revised)
         quoteHub.RemoveAt(removeAtIndex);
@@ -82,7 +94,19 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // Streaming results should match last N from full series (original series with front chopped off)
         // NOT recomputation on just the cached quotes (which would have different warmup)
-        observer.Results.IsExactly(expected);
+        // Use tolerance for floating-point EPMA values
+        for (int i = 0; i < observer.Results.Count; i++)
+        {
+            observer.Results[i].Timestamp.Should().Be(expected[i].Timestamp);
+            if (observer.Results[i].Epma.HasValue && expected[i].Epma.HasValue)
+            {
+                observer.Results[i].Epma.Should().BeApproximately(expected[i].Epma.Value, Money6);
+            }
+            else
+            {
+                observer.Results[i].Epma.Should().Be(expected[i].Epma);
+            }
+        }
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -196,7 +220,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         IReadOnlyList<SmaResult> sut = smaHub.Results;

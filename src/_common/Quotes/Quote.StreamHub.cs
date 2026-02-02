@@ -84,6 +84,17 @@ public class QuoteHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
+        // Reject additions that precede the current cache timeline
+        // (applies to both standalone and non-standalone QuoteHub)
+        lock (CacheLock)
+        {
+            if (Cache.Count > 0 && item.Timestamp < Cache[0].Timestamp)
+            {
+                // Silently ignore - this prevents indeterminate gaps in the timeline
+                return;
+            }
+        }
+
         // for non-standalone QuoteHub, use standard behavior (which handles locking)
         if (!_isStandalone)
         {
@@ -94,8 +105,18 @@ public class QuoteHub
         // Lock for standalone QuoteHub operations
         lock (CacheLock)
         {
+
             // get result and position
             (IQuote result, int index) = ToIndicator(item, indexHint);
+
+            // Reject modifications that would affect indices before MinCacheSize
+            // to prevent corrupted rebuilds in subscribers
+            // This includes both insertions and same-timestamp replacements
+            if (index >= 0 && index < MinCacheSize && index < Cache.Count)
+            {
+                // Silently ignore all modifications before MinCacheSize
+                return;
+            }
 
             // check if this is a same-timestamp update (not a new item at the end)
             if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
@@ -119,6 +140,23 @@ public class QuoteHub
             }
             else
             {
+                // if out-of-order insert, insert and trigger rebuild
+                if (index >= 0 && index < Cache.Count)
+                {
+                    Cache.Insert(index, result);
+
+                    // For standalone QuoteHub, notify observers to rebuild from this timestamp
+                    // For non-standalone, this won't be reached due to earlier branch
+                    if (notify)
+                    {
+                        // Notify observers directly - they will rebuild from the updated cache
+                        // No need to call Rebuild on QuoteHub itself since cache is already updated
+                        NotifyObserversOnRebuild(result.Timestamp);
+                    }
+
+                    return;
+                }
+
                 // standard add behavior for new items
                 AppendCache(result, notify);
             }

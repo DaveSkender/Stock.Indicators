@@ -32,7 +32,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         // late arrival, should equal series
-        provider.Insert(Quotes[80]);
+        provider.Add(Quotes[80]);
 
         sut.IsExactly(Quotes);
 
@@ -102,7 +102,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             if (i is > 100 and < 105) { provider.Add(q); }  // Duplicates
         }
 
-        provider.Insert(Quotes[80]);  // Late arrival
+        provider.Add(Quotes[80]);  // Late arrival
         provider.RemoveAt(removeAtIndex);  // Delete
 
         // final results
@@ -169,5 +169,168 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // close observations
         quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void IgnoreQuotesPrecedingTimeline_Standalone()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        // Setup standalone QuoteHub with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned to maxCacheSize
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+
+        // Cache should now contain quotes [50..99]
+        DateTime firstTimestamp = quoteHub.Cache[0].Timestamp;
+
+        // Try to add a quote that precedes the current timeline
+        Quote oldQuote = quotes[10]; // This is before quotes[50]
+        oldQuote.Timestamp.Should().BeBefore(firstTimestamp);
+
+        // This should be silently ignored
+        quoteHub.Add(oldQuote);
+
+        // Cache size should remain unchanged
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+
+        // First quote in cache should still be the same
+        quoteHub.Cache[0].Timestamp.Should().Be(firstTimestamp);
+
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void IgnoreQuotesPrecedingTimeline_NonStandalone_NoRebuild()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        // Setup provider QuoteHub with cache limit
+        QuoteHub provider = new(maxCacheSize);
+
+        // Create non-standalone observer
+        QuoteHub observer = provider.ToQuoteHub();
+
+        // Create a downstream observer to track rebuilds
+        QuoteHub downstream = observer.ToQuoteHub();
+
+        // Subscribe to downstream to track rebuilds
+        // We'll use a custom observer that tracks OnRebuild calls
+        var mockObserver = new MockRebuildTracker();
+        IDisposable subscription = downstream.Subscribe(mockObserver);
+
+        // Stream more quotes than cache can hold
+        provider.Add(quotes);
+
+        // Verify caches were pruned
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Reset rebuild tracking
+        mockObserver.Reset();
+
+        // Cache should now contain quotes [50..99]
+        DateTime observerFirstTimestamp = observer.Cache[0].Timestamp;
+
+        // Try to add a quote directly to the observer (non-standalone)
+        // that precedes its current timeline
+        Quote oldQuote = quotes[10]; // This is before quotes[50]
+        oldQuote.Timestamp.Should().BeBefore(observerFirstTimestamp);
+
+        // This should be silently ignored - no rebuild should occur
+        observer.Add(oldQuote);
+
+        // Verify no rebuild was triggered
+        mockObserver.RebuildCount.Should().Be(0, "no rebuild should be triggered for quotes preceding timeline");
+
+        // Cache should remain unchanged
+        observer.Results.Should().HaveCount(maxCacheSize);
+        observer.Cache[0].Timestamp.Should().Be(observerFirstTimestamp);
+
+        subscription.Dispose();
+        downstream.Unsubscribe();
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    // Helper class to track rebuild calls
+    private class MockRebuildTracker : IStreamObserver<IQuote>
+    {
+        public int RebuildCount { get; private set; }
+        public List<DateTime> RebuildTimestamps { get; } = new();
+
+        public bool IsSubscribed => false;
+
+        public void Reset()
+        {
+            RebuildCount = 0;
+            RebuildTimestamps.Clear();
+        }
+
+        public void Unsubscribe() { }
+        public void OnAdd(IQuote item, bool notify, int? indexHint) { }
+
+        public void OnRebuild(DateTime fromTimestamp)
+        {
+            RebuildCount++;
+            RebuildTimestamps.Add(fromTimestamp);
+        }
+
+        public void OnPrune(DateTime toTimestamp) { }
+        public void OnError(Exception exception) { }
+        public void OnCompleted() { }
+    }
+
+    [TestMethod]
+    public void IgnoreQuotesPrecedingTimeline_NonStandalone()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        // Setup provider QuoteHub with cache limit
+        QuoteHub provider = new(maxCacheSize);
+
+        // Create non-standalone observer
+        QuoteHub observer = provider.ToQuoteHub();
+
+        // Stream more quotes than cache can hold
+        provider.Add(quotes);
+
+        // Verify caches were pruned to maxCacheSize
+        provider.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Cache should now contain quotes [50..99]
+        DateTime observerFirstTimestamp = observer.Cache[0].Timestamp;
+
+        // Try to add a quote directly to the observer (non-standalone)
+        // that precedes its current timeline
+        Quote oldQuote = quotes[10]; // This is before quotes[50]
+        oldQuote.Timestamp.Should().BeBefore(observerFirstTimestamp);
+
+        // This should be silently ignored - no rebuild should occur
+        observer.Add(oldQuote);
+
+        // Verify no rebuild was triggered
+        mockObserver.RebuildCount.Should().Be(0, "no rebuild should be triggered for quotes preceding timeline");
+
+        // Cache should remain unchanged
+        observer.Results.Should().HaveCount(maxCacheSize);
+        observer.Cache[0].Timestamp.Should().Be(observerFirstTimestamp);
+        oldQuoteFound.Should().BeFalse("old quote should not be in cache");
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 }
