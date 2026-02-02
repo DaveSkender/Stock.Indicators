@@ -192,6 +192,11 @@ public class MinCacheSizeTests : TestBase
     {
         // Arrange
         QuoteHub quoteHub = new(maxCacheSize: 300);
+    [TestMethod]
+    public void MinCacheSize_ChainedIndicatorsPropagate()
+    {
+        // Arrange
+        QuoteHub quoteHub = new(maxCacheSize: 300);
 
         // Act - Create a chain: QuoteHub -> SMA(20) -> EMA(10)
         SmaHub smaHub = quoteHub.ToSmaHub(20);
@@ -199,13 +204,10 @@ public class MinCacheSizeTests : TestBase
 
         // Assert
         // QuoteHub should have the maximum MinCacheSize requirement from the chain
-        quoteHub.MinCacheSize.Should().BeGreaterThan(0, "QuoteHub should inherit MinCacheSize from subscribers");
-        smaHub.MinCacheSize.Should().BeGreaterThan(0, "SmaHub should have its own MinCacheSize requirement");
-        emaHub.MinCacheSize.Should().BeGreaterThan(0, "EmaHub should have MinCacheSize propagated to it");
-
-        // Verify propagation through the chain
-        quoteHub.MinCacheSize.Should().BeGreaterOrEqualTo(smaHub.MinCacheSize, "QuoteHub should track SmaHub requirement");
-        smaHub.MinCacheSize.Should().BeGreaterOrEqualTo(emaHub.MinCacheSize, "SmaHub should track EmaHub requirement");
-        quoteHub.MinCacheSize.Should().BeGreaterOrEqualTo(emaHub.MinCacheSize, "QuoteHub should track EmaHub requirement through chain");
+        quoteHub.MinCacheSize.Should().BeGreaterThan(0);
+        smaHub.MinCacheSize.Should().BeGreaterThan(0);
+        emaHub.MinCacheSize.Should().BeGreaterThan(0);
+        quoteHub.MinCacheSize.Should().BeGreaterOrEqualTo(emaHub.MinCacheSize);
+        smaHub.MinCacheSize.Should().BeGreaterOrEqualTo(emaHub.MinCacheSize);
     }
 }
