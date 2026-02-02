@@ -84,6 +84,17 @@ public class QuoteHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
+        // Reject additions that precede the current cache timeline
+        // (applies to both standalone and non-standalone QuoteHub)
+        lock (CacheLock)
+        {
+            if (Cache.Count > 0 && item.Timestamp < Cache[0].Timestamp)
+            {
+                // Silently ignore - this prevents indeterminate gaps in the timeline
+                return;
+            }
+        }
+
         // for non-standalone QuoteHub, use standard behavior (which handles locking)
         if (!_isStandalone)
         {
@@ -94,12 +105,6 @@ public class QuoteHub
         // Lock for standalone QuoteHub operations
         lock (CacheLock)
         {
-            // Reject additions that precede the current cache timeline
-            if (Cache.Count > 0 && item.Timestamp < Cache[0].Timestamp)
-            {
-                // Silently ignore - this prevents indeterminate gaps in the timeline
-                return;
-            }
 
             // get result and position
             (IQuote result, int index) = ToIndicator(item, indexHint);
