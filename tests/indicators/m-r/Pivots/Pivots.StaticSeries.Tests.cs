@@ -131,4 +131,19 @@ public class Pivots : StaticSeriesTestBase
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Quotes.ToPivots(20, 10, 20, EndType.Close));
     }
+
+    [TestMethod]
+    public void Issue1950()
+    {
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1950.pivots.csv");
+
+        IReadOnlyList<PivotsResult> r = quotes.ToPivots(maxTrendPeriods: 100);
+
+        const string msg = "results size should match original quotes size";
+
+        r.Should().HaveCount(1430, msg);
+        r.Should().HaveCount(quotes.Count, msg);
+        r.Where(static x => x.HighPoint is not null).Should().HaveCount(194);
+        r.Where(static x => x.LowPoint is not null).Should().HaveCount(193);
+    }
 }
