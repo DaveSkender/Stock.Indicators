@@ -326,8 +326,8 @@ static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> streame
         // Cache contains quotes 500-1999, so removing quote at index 1900 (cache index ~1400)
         if (streamedQuotes.Count > 1900)
         {
-            int removeIndex = 1900; // Quote within cache range
-            int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
+            const int removeIndex = 1900; // Quote within cache range
+            const int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
             actions.Add(SseQuoteAction.Remove(cacheIndex, streamedQuotes[removeIndex]));
         }
 
@@ -375,8 +375,8 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
         // Cache contains quotes 500-1999, so removing quote at index 1800 (cache index ~1300)
         if (streamedQuotes.Count > 1800)
         {
-            int removeIndex = 1800; // Quote within cache range
-            int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
+            const int removeIndex = 1800; // Quote within cache range
+            const int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
             actions.Add(SseQuoteAction.Remove(cacheIndex, streamedQuotes[removeIndex]));
         }
 

@@ -27,6 +27,9 @@ public class ThreadSafetyTests : TestBase
         PropertyNameCaseInsensitive = true
     };
 
+    // Explicit instantiation to satisfy CA1812 analyzer (QuoteAction used by reflection)
+    private static readonly QuoteAction _quoteActionReference = new(null, null);
+
     public TestContext? TestContext { get; set; }
 
     /// <summary>
@@ -242,7 +245,7 @@ public class ThreadSafetyTests : TestBase
             quoteHubResults.Should().HaveCount(MaxCacheSize, "quote hub should have exactly the configured cache size");
 
             // Verify pruning occurred by checking that we delivered more quotes than cache can hold
-            int expectedPruned = TargetQuoteCount - MaxCacheSize;
+            const int expectedPruned = TargetQuoteCount - MaxCacheSize;
             int actualPruned = allQuotesWithRevisions.Count - quoteHubResults.Count;
             actualPruned.Should().Be(expectedPruned,
                 "pruning should remove exactly the excess quotes beyond the configured cache size");

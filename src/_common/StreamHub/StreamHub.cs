@@ -449,6 +449,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
                 LastItem = lastBefore;
                 OverflowCount = overflowBefore;
             }
+
             return;
         }
 
@@ -463,6 +464,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
                     LastItem = lastBefore;
                     OverflowCount = overflowBefore;
                 }
+
                 return;
             }
         }
@@ -476,6 +478,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
                     LastItem = lastBefore;
                     OverflowCount = overflowBefore;
                 }
+
                 return;
             }
 
