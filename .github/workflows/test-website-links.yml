@@ -20,7 +20,7 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
       run:
