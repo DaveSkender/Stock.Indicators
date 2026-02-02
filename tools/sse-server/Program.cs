@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using Skender.Stock.Indicators;
 using Test.Data;
+using Test.SseServer;
 using TestData = Test.Data.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -120,7 +121,8 @@ app.MapGet("/quotes/longest", async (
     HttpContext context,
     int interval = 100,
     int? batchSize = null,
-    string quoteInterval = "1m"
+    string quoteInterval = "1m",
+    string? scenario = null
 ) => {
     // Validate interval parameter
     if (interval <= 0)
@@ -148,6 +150,7 @@ app.MapGet("/quotes/longest", async (
     int delivered = 0;
     TimeSpan timestampIncrement = ParseInterval(quoteInterval);
     DateTime baseTimestamp = longestQuotes[0].Timestamp;
+    List<Quote>? streamedQuotes = scenario is null ? null : [];
 
     Console.WriteLine(
         $"[Longest] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, total: {totalQuotes} quotes");
@@ -166,6 +169,8 @@ app.MapGet("/quotes/longest", async (
                 Low: originalQuote.Low,
                 Close: originalQuote.Close,
                 Volume: originalQuote.Volume);
+
+            streamedQuotes?.Add(quote);
 
             // Serialize quote as JSON
             string json = JsonSerializer.Serialize(quote, jsonOptions);
@@ -186,6 +191,11 @@ app.MapGet("/quotes/longest", async (
 
             // Wait for the specified interval
             await Task.Delay(interval, context.RequestAborted).ConfigureAwait(false);
+        }
+
+        if (streamedQuotes is not null)
+        {
+            await SendScenarioEvents(context, scenario, streamedQuotes, interval, jsonOptions).ConfigureAwait(false);
         }
 
         Console.WriteLine($"[Longest] Stream complete - delivered {delivered} quotes");
@@ -263,4 +273,117 @@ static TimeSpan ParseInterval(string intervalString)
         "d" or "day" or "days" => TimeSpan.FromDays(value),
         _ => TimeSpan.FromMinutes(1)
     };
+}
+
+static async Task SendScenarioEvents(
+    HttpContext context,
+    string? scenario,
+    IReadOnlyList<Quote> streamedQuotes,
+    int interval,
+    JsonSerializerOptions jsonOptions)
+{
+    if (string.IsNullOrWhiteSpace(scenario))
+    {
+        return;
+    }
+
+    List<SseQuoteAction> actions = scenario switch {
+        "stc-rollbacks" => BuildStcRollbackActions(streamedQuotes),
+        "allhubs-rollbacks" => BuildAllHubsRollbackActions(streamedQuotes),
+        _ => []
+    };
+
+    if (actions.Count == 0)
+    {
+        return;
+    }
+
+    foreach (SseQuoteAction action in actions)
+    {
+        string json = JsonSerializer.Serialize(action.Payload, jsonOptions);
+        string sseData = $"event: {action.EventType}\ndata: {json}\n\n";
+        await context.Response
+            .WriteAsync(sseData, context.RequestAborted)
+            .ConfigureAwait(false);
+        await context.Response.Body.FlushAsync(context.RequestAborted).ConfigureAwait(false);
+        await Task.Delay(interval, context.RequestAborted).ConfigureAwait(false);
+    }
+}
+
+static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> streamedQuotes)
+{
+    List<SseQuoteAction> actions = [];
+
+    // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
+    // Use same-timestamp revisions (Add) for the last quote only to avoid triggering
+    // rebuilds that invalidate earlier cache entries with insufficient lookback data.
+
+    if (streamedQuotes.Count > 0)
+    {
+        Quote lastQuote = streamedQuotes[^1];
+        // Perform multiple revisions on the last quote to test rollback functionality
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 0.99m,
+            lastQuote.Volume)));
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 1.01m,
+            lastQuote.Volume)));
+        // Restore original values (create new instance to avoid duplicate detection)
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close,
+            lastQuote.Volume)));
+    }
+
+    return actions;
+}
+
+static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> streamedQuotes)
+{
+    List<SseQuoteAction> actions = [];
+
+    // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
+    // Use same-timestamp revisions (Add) for the last quote only to avoid triggering
+    // rebuilds that invalidate earlier cache entries with insufficient lookback data.
+
+    if (streamedQuotes.Count > 0)
+    {
+        Quote lastQuote = streamedQuotes[^1];
+        // Perform multiple revisions on the last quote to test rollback functionality
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 0.99m,
+            lastQuote.Volume)));
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 1.01m,
+            lastQuote.Volume)));
+        // Restore original values (create new instance to avoid duplicate detection)
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close,
+            lastQuote.Volume)));
+    }
+
+    return actions;
 }

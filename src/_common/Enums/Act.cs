@@ -16,12 +16,7 @@ internal enum Act
     Ignore = 1,
 
     /// <summary>
-    /// Insert item without rebuilding cache.
-    /// </summary>
-    Insert = 2,
-
-    /// <summary>
     /// Reset and rebuild from marker position.
     /// </summary>
-    Rebuild = 3
+    Rebuild = 2
 }

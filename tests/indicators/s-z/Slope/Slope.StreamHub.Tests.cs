@@ -34,7 +34,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<SlopeResult> expectedOriginal = Quotes.ToSlope(lookbackPeriods);
         sut.IsExactly(expectedOriginal);
@@ -146,7 +146,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

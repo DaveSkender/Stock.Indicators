@@ -94,8 +94,24 @@ public class QuoteHub
         // Lock for standalone QuoteHub operations
         lock (CacheLock)
         {
+            // Reject additions that precede the current cache timeline
+            if (Cache.Count > 0 && item.Timestamp < Cache[0].Timestamp)
+            {
+                // Silently ignore - this prevents indeterminate gaps in the timeline
+                return;
+            }
+
             // get result and position
             (IQuote result, int index) = ToIndicator(item, indexHint);
+
+            // Reject modifications that would affect indices before MinCacheSize
+            // to prevent corrupted rebuilds in subscribers
+            // This includes both insertions and same-timestamp replacements
+            if (index >= 0 && index < MinCacheSize && index < Cache.Count)
+            {
+                // Silently ignore all modifications before MinCacheSize
+                return;
+            }
 
             // check if this is a same-timestamp update (not a new item at the end)
             if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
@@ -119,6 +135,13 @@ public class QuoteHub
             }
             else
             {
+                // if out-of-order insert, avoid rebuilding this hub when standalone
+                if (index >= 0 && index < Cache.Count)
+                {
+                    InsertWithoutRebuild(result, index, notify);
+                    return;
+                }
+
                 // standard add behavior for new items
                 AppendCache(result, notify);
             }

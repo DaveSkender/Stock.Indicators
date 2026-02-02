@@ -64,6 +64,24 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
                 $"but inherited MaxCacheSize is {MaxCacheSize}. " +
                 $"Increase the provider's MaxCacheSize to at least {requiredWarmupPeriods}.");
         }
+
+        // Set MinCacheSize to the required warmup periods
+        SetMinCacheSize(requiredWarmupPeriods);
+    }
+
+    /// <summary>
+    /// Sets the minimum cache size for this hub based on warmup requirements.
+    /// This should be called in derived class constructors to specify the minimum
+    /// number of periods required for the indicator to function correctly.
+    /// </summary>
+    /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
+    protected void SetMinCacheSize(int requiredWarmupPeriods)
+    {
+        // Update the baseline requirement for this hub
+        _minCacheSizeBaseline = Math.Max(_minCacheSizeBaseline, requiredWarmupPeriods);
+
+        // Update MinCacheSize to reflect the new baseline and any subscribers
+        UpdateMinCacheSize();
     }
 
     // PROPERTIES
@@ -120,45 +138,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         foreach (TIn newIn in batchIn.OrderBy(static x => x.Timestamp))
         {
             OnAdd(newIn, notify: true, null);
-        }
-    }
-
-    /// <summary>
-    /// Inserts a new item into the stream.
-    /// </summary>
-    /// <param name="newIn">The new item to insert.</param>
-    /// <remarks>
-    /// This should only be used when newer timestamps
-    /// are not impacted by the insertion of an older item
-    /// </remarks>
-    public void Insert(TIn newIn)
-    {
-        lock (CacheLock)
-        {
-            // generate candidate result
-            (TOut result, int index) = ToIndicator(newIn, null);
-
-            // insert, then rebuild observers (no self-rebuild)
-            if (index > 0)
-            {
-                // check overflow/duplicates
-                if (IsOverflowing(result))
-                {
-                    return; // duplicate found
-                }
-
-                Cache.Insert(index, result);
-
-                // notify observers (inside lock to ensure cache consistency)
-                NotifyObserversOnRebuild(newIn.Timestamp);
-            }
-
-            // normal add
-            else
-            {
-                AppendCache(result, notify: true);
-                // AppendCache handles notification
-            }
         }
     }
 
@@ -427,6 +406,81 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         if (notify)
         {
             NotifyObserversOnAdd(item, Cache.Count - 1);
+        }
+    }
+
+    /// <summary>
+    /// Inserts an item without rebuilding this hub.
+    /// </summary>
+    /// <param name="item">Item to insert.</param>
+    /// <param name="index">Cache index to insert at.</param>
+    /// <param name="notify">Notify observers of rebuild.</param>
+    protected void InsertWithoutRebuild(TOut item, int index, bool notify)
+    {
+        if (index < 0 || index > Cache.Count)
+        {
+            AppendCache(item, notify);
+            return;
+        }
+
+        int countBefore = Cache.Count;
+        bool midInsert = index < countBefore;
+        TOut? lastBefore = LastItem;
+        byte overflowBefore = OverflowCount;
+
+        if (IsOverflowing(item))
+        {
+            if (midInsert)
+            {
+                LastItem = lastBefore;
+                OverflowCount = overflowBefore;
+            }
+            return;
+        }
+
+        int removed = countBefore - Cache.Count;
+        if (removed > 0)
+        {
+            index -= removed;
+            if (index < 0)
+            {
+                if (midInsert)
+                {
+                    LastItem = lastBefore;
+                    OverflowCount = overflowBefore;
+                }
+                return;
+            }
+        }
+
+        if (index < Cache.Count && Cache[index].Timestamp == item.Timestamp)
+        {
+            if (Cache[index].Equals(item))
+            {
+                if (midInsert)
+                {
+                    LastItem = lastBefore;
+                    OverflowCount = overflowBefore;
+                }
+                return;
+            }
+
+            Cache[index] = item;
+        }
+        else
+        {
+            Cache.Insert(index, item);
+        }
+
+        if (midInsert)
+        {
+            LastItem = lastBefore;
+            OverflowCount = overflowBefore;
+        }
+
+        if (notify)
+        {
+            NotifyObserversOnRebuild(item.Timestamp);
         }
     }
 
