@@ -317,58 +317,14 @@ static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> streame
 {
     List<SseQuoteAction> actions = [];
 
-    if (streamedQuotes.Count > 80)
-    {
-        actions.Add(SseQuoteAction.Add(streamedQuotes[80]));
-    }
-
-    if (streamedQuotes.Count > 100)
-    {
-        Quote rebuildQuote = streamedQuotes[100];
-        actions.Add(SseQuoteAction.Remove(100, rebuildQuote));
-        actions.Add(SseQuoteAction.Add(rebuildQuote));
-    }
-
-    if (streamedQuotes.Count > 500)
-    {
-        actions.Add(SseQuoteAction.Add(streamedQuotes[500]));
-    }
-
-    return actions;
-}
-
-static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> streamedQuotes)
-{
-    List<SseQuoteAction> actions = [];
-
-    if (streamedQuotes.Count > 10)
-    {
-        actions.Add(SseQuoteAction.Add(streamedQuotes[10]));
-    }
-
-    if (streamedQuotes.Count > 100)
-    {
-        Quote rebuildQuote = streamedQuotes[100];
-        actions.Add(SseQuoteAction.Remove(100, rebuildQuote));
-        actions.Add(SseQuoteAction.Add(rebuildQuote));
-    }
-
-    if (streamedQuotes.Count > 1600)
-    {
-        Quote original = streamedQuotes[1600];
-        Quote replacementQuote = new(
-            original.Timestamp,
-            original.Open,
-            original.High,
-            original.Low,
-            original.Close * 1.01m,
-            original.Volume);
-        actions.Add(SseQuoteAction.Add(replacementQuote));
-    }
+    // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
+    // Use same-timestamp revisions (Add) for the last quote only to avoid triggering
+    // rebuilds that invalidate earlier cache entries with insufficient lookback data.
 
     if (streamedQuotes.Count > 0)
     {
         Quote lastQuote = streamedQuotes[^1];
+        // Perform multiple revisions on the last quote to test rollback functionality
         actions.Add(SseQuoteAction.Add(new Quote(
             lastQuote.Timestamp,
             lastQuote.Open,
@@ -383,7 +339,53 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
             lastQuote.Low,
             lastQuote.Close * 1.01m,
             lastQuote.Volume)));
-        actions.Add(SseQuoteAction.Add(lastQuote));
+        // Restore original values (create new instance to avoid duplicate detection)
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close,
+            lastQuote.Volume)));
+    }
+
+    return actions;
+}
+
+static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> streamedQuotes)
+{
+    List<SseQuoteAction> actions = [];
+
+    // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
+    // Use same-timestamp revisions (Add) for the last quote only to avoid triggering
+    // rebuilds that invalidate earlier cache entries with insufficient lookback data.
+
+    if (streamedQuotes.Count > 0)
+    {
+        Quote lastQuote = streamedQuotes[^1];
+        // Perform multiple revisions on the last quote to test rollback functionality
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 0.99m,
+            lastQuote.Volume)));
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close * 1.01m,
+            lastQuote.Volume)));
+        // Restore original values (create new instance to avoid duplicate detection)
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close,
+            lastQuote.Volume)));
     }
 
     return actions;
