@@ -77,6 +77,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
     protected void SetMinCacheSize(int requiredWarmupPeriods)
     {
+        // Validate parameter is within acceptable range
+        if (requiredWarmupPeriods < 0 || requiredWarmupPeriods > MaxCacheSize)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(requiredWarmupPeriods),
+                requiredWarmupPeriods,
+                $"Required warmup periods must be between 0 and {MaxCacheSize} (MaxCacheSize).");
+        }
+
         // Update the baseline requirement for this hub
         _minCacheSizeBaseline = Math.Max(_minCacheSizeBaseline, requiredWarmupPeriods);
 
@@ -428,9 +437,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         TOut? lastBefore = LastItem;
         byte overflowBefore = OverflowCount;
 
+        // Check if this is a tail replacement (replacing the last element with same timestamp)
+        bool isTailReplacement = index == Cache.Count - 1
+            && index < Cache.Count
+            && Cache[index].Timestamp == item.Timestamp;
+
         if (IsOverflowing(item))
         {
-            if (midInsert)
+            if (midInsert && !isTailReplacement)
             {
                 LastItem = lastBefore;
                 OverflowCount = overflowBefore;
@@ -444,7 +458,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             index -= removed;
             if (index < 0)
             {
-                if (midInsert)
+                if (midInsert && !isTailReplacement)
                 {
                     LastItem = lastBefore;
                     OverflowCount = overflowBefore;
@@ -457,7 +471,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         {
             if (Cache[index].Equals(item))
             {
-                if (midInsert)
+                if (midInsert && !isTailReplacement)
                 {
                     LastItem = lastBefore;
                     OverflowCount = overflowBefore;
@@ -472,7 +486,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             Cache.Insert(index, item);
         }
 
-        if (midInsert)
+        if (midInsert && !isTailReplacement)
         {
             LastItem = lastBefore;
             OverflowCount = overflowBefore;

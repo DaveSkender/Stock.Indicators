@@ -315,12 +315,22 @@ static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> streame
     List<SseQuoteAction> actions = [];
 
     // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
-    // Use same-timestamp revisions (Add) for the last quote only to avoid triggering
-    // rebuilds that invalidate earlier cache entries with insufficient lookback data.
+    // Use same-timestamp revisions (Add) for the last quote and also test Remove operations.
 
     if (streamedQuotes.Count > 0)
     {
         Quote lastQuote = streamedQuotes[^1];
+
+        // Add a Remove action for a quote inside the cached window (not the last quote)
+        // This exercises the remove/rollback and rebuild-on-remove paths
+        // Cache contains quotes 500-1999, so removing quote at index 1900 (cache index ~1400)
+        if (streamedQuotes.Count > 1900)
+        {
+            int removeIndex = 1900; // Quote within cache range
+            int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
+            actions.Add(SseQuoteAction.Remove(cacheIndex, streamedQuotes[removeIndex]));
+        }
+
         // Perform multiple revisions on the last quote to test rollback functionality
         actions.Add(SseQuoteAction.Add(new Quote(
             lastQuote.Timestamp,
@@ -354,12 +364,22 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
     List<SseQuoteAction> actions = [];
 
     // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
-    // Use same-timestamp revisions (Add) for the last quote only to avoid triggering
-    // rebuilds that invalidate earlier cache entries with insufficient lookback data.
+    // Use same-timestamp revisions (Add) for the last quote and also test Remove operations.
 
     if (streamedQuotes.Count > 0)
     {
         Quote lastQuote = streamedQuotes[^1];
+
+        // Add a Remove action for a quote inside the cached window (not the last quote)
+        // This exercises the remove/rollback and rebuild-on-remove paths
+        // Cache contains quotes 500-1999, so removing quote at index 1800 (cache index ~1300)
+        if (streamedQuotes.Count > 1800)
+        {
+            int removeIndex = 1800; // Quote within cache range
+            int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
+            actions.Add(SseQuoteAction.Remove(cacheIndex, streamedQuotes[removeIndex]));
+        }
+
         // Perform multiple revisions on the last quote to test rollback functionality
         actions.Add(SseQuoteAction.Add(new Quote(
             lastQuote.Timestamp,

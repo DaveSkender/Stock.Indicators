@@ -241,18 +241,17 @@ public class ThreadSafetyTests : TestBase
             // pruning behaviour.
             quoteHubResults.Should().HaveCount(MaxCacheSize, "quote hub should have exactly the configured cache size");
 
-            // Determine how many quotes were pruned by comparing the initial total with the current cache size.
-            // Use the amended list for correctness.  The expected number of pruned quotes is the
-            // difference between the full revised list and the cache size.
-            const int cacheSize = MaxCacheSize;
-            int actualPruned = allQuotesWithRevisions.Count - cacheSize;
-            actualPruned.Should().Be(allQuotesWithRevisions.Count - MaxCacheSize,
+            // Verify pruning occurred by checking that we delivered more quotes than cache can hold
+            int expectedPruned = TargetQuoteCount - MaxCacheSize;
+            int actualPruned = allQuotesWithRevisions.Count - quoteHubResults.Count;
+            actualPruned.Should().Be(expectedPruned,
                 "pruning should remove exactly the excess quotes beyond the configured cache size");
 
             // Compute static series on the FULL quote list (with revisions), then take the last N results.
             // Streaming indicators process the entire history and maintain state across revisions,
             // therefore the correct comparison pattern is to compute on the full history and then
             // truncate to the current cache size.
+            int cacheSize = quoteHubResults.Count;
             adlHub.Results.IsExactly(allQuotesWithRevisions.ToAdl().TakeLast(cacheSize).ToList());
             adxHub.Results.IsExactly(allQuotesWithRevisions.ToAdx(14).TakeLast(cacheSize).ToList());
             alligatorHub.Results.IsExactly(allQuotesWithRevisions.ToAlligator().TakeLast(cacheSize).ToList());
@@ -576,12 +575,13 @@ public class ThreadSafetyTests : TestBase
                 }
                 else
                 {
-                    QuoteAction action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions)
-                        ?? new QuoteAction(null, null);
+                    QuoteAction? action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions);
 
-                    if (action.Quote is null && action.CacheIndex is null)
+                    // Fail fast on malformed SSE payloads
+                    if (action is null || (action.Quote is null && action.CacheIndex is null))
                     {
-                        continue;
+                        throw new InvalidOperationException(
+                            $"Malformed SSE payload for event '{eventName}': {json}");
                     }
 
                     ApplyQuoteAction(action, eventName, quoteHub, revisedQuotes);
