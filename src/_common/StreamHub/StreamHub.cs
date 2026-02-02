@@ -424,29 +424,59 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
 
         // Reject insertions that would modify indices before MinCacheSize
-        // to prevent corrupted rebuilds
-        if (index < MinCacheSize && Cache.Count > 0)
+    /// <summary>
+    /// Inserts an item without rebuilding this hub.
+    /// </summary>
+    /// <param name="item">Item to insert.</param>
+    /// <param name="index">Cache index to insert at.</param>
+    /// <param name="notify">Notify observers of rebuild.</param>
+    protected void InsertWithoutRebuild(TOut item, int index, bool notify)
+    {
+        if (index < 0 || index > Cache.Count)
         {
-            // Silently ignore the insert to maintain stability
+            AppendCache(item, notify);
             return;
         }
 
-        // Reject insertions that precede the current cache timeline
-        if (Cache.Count > 0 && item.Timestamp < Cache[0].Timestamp)
-        {
-            // Silently ignore inserts before the cache timeline
-            return;
-        }
+        int countBefore = Cache.Count;
+        bool midInsert = index < countBefore;
+        TOut? lastBefore = LastItem;
+        byte overflowBefore = OverflowCount;
 
         if (IsOverflowing(item))
         {
+            if (midInsert)
+            {
+                LastItem = lastBefore;
+                OverflowCount = overflowBefore;
+            }
             return;
+        }
+
+        int removed = countBefore - Cache.Count;
+        if (removed > 0)
+        {
+            index -= removed;
+            if (index < 0)
+            {
+                if (midInsert)
+                {
+                    LastItem = lastBefore;
+                    OverflowCount = overflowBefore;
+                }
+                return;
+            }
         }
 
         if (index < Cache.Count && Cache[index].Timestamp == item.Timestamp)
         {
             if (Cache[index].Equals(item))
             {
+                if (midInsert)
+                {
+                    LastItem = lastBefore;
+                    OverflowCount = overflowBefore;
+                }
                 return;
             }
 
@@ -455,6 +485,12 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         else
         {
             Cache.Insert(index, item);
+        }
+
+        if (midInsert)
+        {
+            LastItem = lastBefore;
+            OverflowCount = overflowBefore;
         }
 
         if (notify)
