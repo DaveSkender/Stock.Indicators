@@ -1,6 +1,10 @@
 {
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
   },
   "chat.useAgentSkills": true,
   "chat.useAgentsMdFile": true,

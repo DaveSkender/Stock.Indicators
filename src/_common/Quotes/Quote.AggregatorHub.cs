@@ -26,7 +26,7 @@ public class QuoteAggregatorHub
         if (periodSize == PeriodSize.Month)
         {
             throw new ArgumentException(
-                "Month aggregation is not supported in streaming mode. Use TimeSpan overload for custom periods.",
+                $"Month aggregation is not supported in streaming mode. periodSize={periodSize}. Use TimeSpan overload for custom periods.",
                 nameof(periodSize));
         }
 
@@ -122,7 +122,6 @@ public class QuoteAggregatorHub
             }
 
             // Determine if this is for current bar, future bar, or past bar
-            bool isCurrentBar = _currentBar != null && barTimestamp == _currentBarTimestamp;
             bool isFutureBar = _currentBar == null || barTimestamp > _currentBarTimestamp;
             bool isPastBar = _currentBar != null && barTimestamp < _currentBarTimestamp;
 
@@ -152,7 +151,7 @@ public class QuoteAggregatorHub
                         Volume: 0m);
 
                     // Add gap bar using base class logic
-                    (IQuote gapResult, int gapIndex) = ToIndicator(gapBar, null);
+                    (IQuote gapResult, _) = ToIndicator(gapBar, null);
                     AppendCache(gapResult, notify);
 
                     // Update current bar to the gap bar
@@ -171,7 +170,7 @@ public class QuoteAggregatorHub
                 _currentBarTimestamp = barTimestamp;
 
                 // Use base class to add the new bar
-                (IQuote result, int index) = ToIndicator(_currentBar, indexHint);
+                (IQuote result, _) = ToIndicator(_currentBar, indexHint);
                 AppendCache(result, notify);
             }
             else // isCurrentBar

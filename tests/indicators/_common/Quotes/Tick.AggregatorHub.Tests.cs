@@ -176,7 +176,7 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         // Third should be average of first three closes
         smaResults[2].Sma.Should().NotBeNull();
         const double expectedSma = (100 + 101 + 102) / 3.0;
-        smaResults[2].Sma.Should().BeApproximately(expectedSma, 0.0001);
+        smaResults[2].Sma.Should().BeApproximately(expectedSma, Money4);
 
         sma.Unsubscribe();
         aggregator.Unsubscribe();
@@ -199,25 +199,83 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
                 10m + i));
         }
 
+        // Prefill warmup window
+        provider.Add(ticks.Take(20));
+
         // Initialize aggregator
         TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
 
-        // Add ticks
-        foreach (Tick tick in ticks)
+        // Fetch initial results
+        IReadOnlyList<IQuote> sut = aggregator.Results.ToList();
+
+        // Stream remaining ticks in-order including duplicates
+        for (int i = 20; i < ticks.Count; i++)
         {
+            // Skip one (add later as late arrival)
+            if (i == 80) { continue; }
+            
+            // Skip removal index
+            if (i == 50) { continue; }
+
+            Tick tick = ticks[i];
             provider.Add(tick);
+
+            // Stream duplicate at same timestamp with different execution ID
+            if (i is > 30 and < 35)
+            {
+                provider.Add(new Tick(
+                    tick.Timestamp,
+                    tick.Price + 0.5m,
+                    tick.Volume + 1m,
+                    $"dup-{i}"));
+            }
         }
 
-        // Fetch results
-        IReadOnlyList<IQuote> sut = aggregator.Results;
+        // Late historical insert (earlier timestamp than current tail)
+        provider.Insert(ticks[80]);
+        IReadOnlyList<IQuote> afterLateArrival = aggregator.Results.ToList();
 
-        sut.Should().HaveCount(100);
+        // Remove a historical tick (simulate rollback)
+        provider.Insert(ticks[50]);
+        IReadOnlyList<IQuote> afterRemoval = aggregator.Results.ToList();
+
+        // Verify structural invariants at all stages
         sut.Should().AllSatisfy(q => {
             q.Timestamp.Should().NotBe(default);
             q.Open.Should().BeGreaterThan(0);
             q.High.Should().BeGreaterThanOrEqualTo(q.Low);
             q.Close.Should().BeGreaterThan(0);
         });
+
+        afterLateArrival.Should().AllSatisfy(q => {
+            q.Timestamp.Should().NotBe(default);
+            q.Open.Should().BeGreaterThan(0);
+            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
+            q.Close.Should().BeGreaterThan(0);
+        });
+
+        afterRemoval.Should().AllSatisfy(q => {
+            q.Timestamp.Should().NotBe(default);
+            q.Open.Should().BeGreaterThan(0);
+            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
+            q.Close.Should().BeGreaterThan(0);
+        });
+
+        // Verify ordering is strictly preserved
+        for (int i = 1; i < sut.Count; i++)
+        {
+            sut[i].Timestamp.Should().BeGreaterThanOrEqualTo(sut[i - 1].Timestamp);
+        }
+
+        for (int i = 1; i < afterLateArrival.Count; i++)
+        {
+            afterLateArrival[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterLateArrival[i - 1].Timestamp);
+        }
+
+        for (int i = 1; i < afterRemoval.Count; i++)
+        {
+            afterRemoval[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterRemoval[i - 1].Timestamp);
+        }
 
         // Cleanup
         aggregator.Unsubscribe();
@@ -232,19 +290,21 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         // Setup tick provider hub
         TickHub provider = new();
 
-        // Initialize aggregator and chain with EMA
-        TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
-        EmaHub observer = aggregator.ToEmaHub(emaPeriods);
-
         // Create tick data
+        List<Tick> ticks = [];
         for (int i = 0; i < 100; i++)
         {
             Tick tick = new(
                 DateTime.Parse("2023-11-09 10:00", invariantCulture).AddMinutes(i),
                 100m + i,
                 10m + i);
+            ticks.Add(tick);
             provider.Add(tick);
         }
+
+        // Initialize aggregator and chain with EMA
+        TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
+        EmaHub observer = aggregator.ToEmaHub(emaPeriods);
 
         // Final results
         IReadOnlyList<EmaResult> sut = observer.Results;
@@ -254,6 +314,58 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         // Verify some EMA values are calculated
         sut.Skip(emaPeriods).Should().AllSatisfy(r => r.Ema.Should().NotBeNull());
+
+        // Build reference EMA Series from same tick sequence
+        // First aggregate ticks to quotes
+        List<Quote> quoteSequence = [];
+        foreach (Tick tick in ticks)
+        {
+            DateTime barTimestamp = tick.Timestamp.RoundDown(TimeSpan.FromMinutes(1));
+            Quote q = quoteSequence.FirstOrDefault(x => x.Timestamp == barTimestamp);
+            if (q == null)
+            {
+                q = new Quote(barTimestamp, tick.Price, tick.Price, tick.Price, tick.Price, tick.Volume);
+                quoteSequence.Add(q);
+            }
+            else
+            {
+                // Update existing bar
+                q = new Quote(
+                    q.Timestamp,
+                    q.Open,
+                    Math.Max(q.High, tick.Price),
+                    Math.Min(q.Low, tick.Price),
+                    tick.Price,
+                    q.Volume + tick.Volume);
+                quoteSequence[quoteSequence.Count - 1] = q;
+            }
+        }
+
+        // Calculate reference EMA on aggregated quotes
+        IReadOnlyList<EmaResult> referenceEma = quoteSequence.Ema(emaPeriods);
+
+        // Compare observer results to reference EMA with strict ordering and equality
+        sut.Should().HaveSameCount(referenceEma);
+        for (int i = 0; i < sut.Count; i++)
+        {
+            // Verify timestamp and ordering
+            sut[i].Timestamp.Should().Be(referenceEma[i].Timestamp);
+            if (i > 0)
+            {
+                sut[i].Timestamp.Should().BeGreaterThanOrEqualTo(sut[i - 1].Timestamp);
+            }
+
+            // Verify EMA values match
+            if (referenceEma[i].Ema.HasValue)
+            {
+                sut[i].Ema.Should().BeApproximately(referenceEma[i].Ema.Value, Money4,
+                    $"EMA at index {i} should match reference series");
+            }
+            else
+            {
+                sut[i].Ema.Should().BeNull($"EMA at index {i} should be null like reference");
+            }
+        }
 
         // Cleanup
         observer.Unsubscribe();

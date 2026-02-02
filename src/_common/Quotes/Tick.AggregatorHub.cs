@@ -28,7 +28,7 @@ public class TickAggregatorHub
         if (periodSize == PeriodSize.Month)
         {
             throw new ArgumentException(
-                "Month aggregation is not supported in streaming mode. Use TimeSpan overload for custom periods.",
+                $"Month aggregation is not supported in streaming mode. periodSize={periodSize}. Use TimeSpan overload for custom periods.",
                 nameof(periodSize));
         }
 
@@ -105,7 +105,7 @@ public class TickAggregatorHub
                 _processedExecutionIds[item.ExecutionId] = item.Timestamp;
 
                 // Prune old execution IDs (by time or size)
-                if (_processedExecutionIds.Count > MaxExecutionIdCacheSize / 2)
+                if (_processedExecutionIds.Count > (MaxExecutionIdCacheSize / 2))
                 {
                     DateTime pruneThreshold = item.Timestamp.Add(-_executionIdRetentionPeriod);
                     List<string> toRemove = _processedExecutionIds
@@ -124,7 +124,7 @@ public class TickAggregatorHub
                 {
                     List<string> toRemove = _processedExecutionIds
                         .OrderBy(kvp => kvp.Value)
-                        .Take(_processedExecutionIds.Count - MaxExecutionIdCacheSize / 2)
+                        .Take(_processedExecutionIds.Count - (MaxExecutionIdCacheSize / 2))
                         .Select(kvp => kvp.Key)
                         .ToList();
 
@@ -138,7 +138,6 @@ public class TickAggregatorHub
             DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
             // Determine if this is for current bar, future bar, or past bar
-            bool isCurrentBar = _currentBar != null && barTimestamp == _currentBarTimestamp;
             bool isFutureBar = _currentBar == null || barTimestamp > _currentBarTimestamp;
             bool isPastBar = _currentBar != null && barTimestamp < _currentBarTimestamp;
 

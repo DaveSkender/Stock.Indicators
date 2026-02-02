@@ -102,6 +102,9 @@ public class TickHub
             if (hasExecutionId && hasCachedExecutionId && Cache[index].ExecutionId != result.ExecutionId)
             {
                 // Different execution IDs at same timestamp - both are valid trades
+                // Persist to cache before notifying observers
+                Cache[index] = result;
+
                 // Notify observers with the new tick so aggregators can process it
                 if (notify)
                 {

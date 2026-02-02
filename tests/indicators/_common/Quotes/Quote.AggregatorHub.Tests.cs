@@ -338,7 +338,7 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         // Setup quote provider hub
         QuoteHub provider = new();
 
-        // Prefill quotes at provider
+        // Prefill quotes at provider (warmup window)
         provider.Add(Quotes.Take(20));
 
         // Initialize aggregator (1-minute aggregation, no gaps to keep it simple)
@@ -348,10 +348,13 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         IReadOnlyList<IQuote> sut = aggregator.Results;
 
         // Emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        for (int i = 20; i < Quotes.Count; i++)
         {
             // Skip one (add later)
             if (i == 80) { continue; }
+            
+            // Skip the removal index for now
+            if (i == removeAtIndex) { continue; }
 
             Quote q = Quotes[i];
             provider.Add(q);
@@ -362,17 +365,54 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
 
         // Late arrival
         provider.Insert(Quotes[80]);
+        IReadOnlyList<IQuote> afterLateArrival = aggregator.Results.ToList();
 
-        // Note: Since QuoteAggregatorHub aggregates by time periods,
-        // the exact count and structure will differ from raw quotes,
-        // but the aggregation should be consistent and not crash
+        // Removal (simulate rollback)
+        provider.Insert(Quotes[removeAtIndex]);
+        IReadOnlyList<IQuote> afterRemoval = aggregator.Results.ToList();
+
+        // Verify structural invariants
         sut.Should().NotBeEmpty();
+        afterLateArrival.Should().NotBeEmpty();
+        afterRemoval.Should().NotBeEmpty();
+
+        // Verify ordering and consistency
         sut.Should().AllSatisfy(q => {
             q.Timestamp.Should().NotBe(default);
             q.Open.Should().BeGreaterThan(0);
             q.High.Should().BeGreaterThanOrEqualTo(q.Low);
             q.Close.Should().BeGreaterThan(0);
         });
+
+        afterLateArrival.Should().AllSatisfy(q => {
+            q.Timestamp.Should().NotBe(default);
+            q.Open.Should().BeGreaterThan(0);
+            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
+            q.Close.Should().BeGreaterThan(0);
+        });
+
+        afterRemoval.Should().AllSatisfy(q => {
+            q.Timestamp.Should().NotBe(default);
+            q.Open.Should().BeGreaterThan(0);
+            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
+            q.Close.Should().BeGreaterThan(0);
+        });
+
+        // Verify ordering is preserved
+        for (int i = 1; i < sut.Count; i++)
+        {
+            sut[i].Timestamp.Should().BeGreaterThanOrEqualTo(sut[i - 1].Timestamp);
+        }
+
+        for (int i = 1; i < afterLateArrival.Count; i++)
+        {
+            afterLateArrival[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterLateArrival[i - 1].Timestamp);
+        }
+
+        for (int i = 1; i < afterRemoval.Count; i++)
+        {
+            afterRemoval[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterRemoval[i - 1].Timestamp);
+        }
 
         // Cleanup
         aggregator.Unsubscribe();

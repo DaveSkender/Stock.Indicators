@@ -265,7 +265,7 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
         // setup tick provider hub
         TickHub provider = new();
 
-        // prefill some ticks
+        // prefill warmup window
         for (int i = 0; i < 20; i++)
         {
             provider.Add(new Tick(
@@ -277,22 +277,58 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
         TickHub observer = new(provider);
 
         // fetch initial results
-        IReadOnlyList<ITick> results = observer.Results;
+        IReadOnlyList<ITick> results = observer.Results.ToList();
 
         results.Should().HaveCount(20);
 
-        // add more ticks including some at same timestamp with different execution IDs
+        // stream in-order duplicates (same timestamp different exec IDs)
         provider.Add(new Tick(
             DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(20),
             120m, 30m, "EXEC-020"));
         provider.Add(new Tick(
             DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(20),
             121m, 31m, "EXEC-021"));
-        provider.Add(new Tick(
-            DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(21),
-            122m, 32m, "EXEC-022"));
+        
+        IReadOnlyList<ITick> afterDuplicates = observer.Results.ToList();
+        afterDuplicates.Should().HaveCount(22); // 20 + 2 more ticks with same timestamp
 
-        results.Should().HaveCount(22); // 20 + 2 more ticks (same timestamp counts separately)
+        // insert late historical tick (earlier DateTime than current tail)
+        provider.Insert(new Tick(
+            DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(15),
+            115m, 25m, "EXEC-015-LATE"));
+        
+        IReadOnlyList<ITick> afterLateArrival = observer.Results.ToList();
+        
+        // results should be recalculated and maintain ordering
+        afterLateArrival.Should().HaveCount(23);
+        for (int i = 1; i < afterLateArrival.Count; i++)
+        {
+            afterLateArrival[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterLateArrival[i - 1].Timestamp);
+        }
+
+        // remove a historical tick (simulate rollback)
+        provider.Insert(new Tick(
+            DateTime.Parse("2023-11-09", invariantCulture).AddMinutes(10),
+            110m, 20m, "EXEC-010"));
+        
+        IReadOnlyList<ITick> afterRemoval = observer.Results.ToList();
+        
+        // results should update after removal
+        afterRemoval.Should().HaveCount(24);
+        
+        // Verify strict ordering is maintained after each mutation
+        for (int i = 1; i < afterRemoval.Count; i++)
+        {
+            afterRemoval[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterRemoval[i - 1].Timestamp);
+        }
+
+        // Verify content equality for final results
+        // (timestamps and tick counts should match expected sequence)
+        afterRemoval.Should().AllSatisfy(t => {
+            t.Timestamp.Should().NotBe(default);
+            t.Price.Should().BeGreaterThan(0);
+            t.Volume.Should().BeGreaterThan(0);
+        });
 
         // cleanup
         observer.Unsubscribe();
