@@ -391,6 +391,7 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
     {
         // Revise the last quote multiple times (testing same-timestamp updates)
         Quote lastQuote = streamedQuotes[^1];
+        // Perform multiple revisions on the last quote to test rollback functionality
         actions.Add(SseQuoteAction.Add(new Quote(
             lastQuote.Timestamp,
             lastQuote.Open,
@@ -405,7 +406,14 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
             lastQuote.Low,
             lastQuote.Close * 1.01m,
             lastQuote.Volume)));
-        actions.Add(SseQuoteAction.Add(lastQuote));
+        // Restore original values (create new instance to avoid duplicate detection)
+        actions.Add(SseQuoteAction.Add(new Quote(
+            lastQuote.Timestamp,
+            lastQuote.Open,
+            lastQuote.High,
+            lastQuote.Low,
+            lastQuote.Close,
+            lastQuote.Volume)));
     }
 
     return actions;
