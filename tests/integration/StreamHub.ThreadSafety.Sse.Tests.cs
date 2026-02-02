@@ -27,11 +27,6 @@ public class ThreadSafetyTests : TestBase
         PropertyNameCaseInsensitive = true
     };
 
-#pragma warning disable CA1823, RCS1213 // Field unused - QuoteAction needs explicit construction for JsonSerializer reflection
-    // Explicit instantiation to satisfy CA1812 analyzer (QuoteAction is constructed via JsonSerializer.Deserialize reflection)
-    private static readonly QuoteAction _quoteActionReference = new(null, null);
-#pragma warning restore CA1823, RCS1213
-
     public TestContext? TestContext { get; set; }
 
     /// <summary>
@@ -247,7 +242,7 @@ public class ThreadSafetyTests : TestBase
             quoteHubResults.Should().HaveCount(MaxCacheSize, "quote hub should have exactly the configured cache size");
 
             // Verify pruning occurred by checking that we delivered more quotes than cache can hold
-            const int expectedPruned = TargetQuoteCount - MaxCacheSize;
+            int expectedPruned = allQuotesWithRevisions.Count - MaxCacheSize;
             int actualPruned = allQuotesWithRevisions.Count - quoteHubResults.Count;
             actualPruned.Should().Be(expectedPruned,
                 "pruning should remove exactly the excess quotes beyond the configured cache size");
@@ -670,6 +665,7 @@ public class ThreadSafetyTests : TestBase
 
     private sealed record SseQuoteBatch(List<Quote> InitialQuotes, List<Quote> RevisedQuotes);
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated via JsonSerializer.Deserialize")]
     private sealed record QuoteAction(Quote? Quote, int? CacheIndex);
     #endregion
 }
