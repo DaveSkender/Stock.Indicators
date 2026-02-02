@@ -76,7 +76,7 @@ public class ThreadSafetyTests : TestBase
             // Compute series on FULL quote list, then take last N matching cache size.
             // Streaming indicators process all quotes and maintain state, so series must be
             // computed on the full history, then truncated to match the final cache size.
-            int cacheSize = MaxCacheSize;
+            const int cacheSize = MaxCacheSize;
             IReadOnlyList<StcResult> expected = stcBatch.RevisedQuotes
                 .ToStc()
                 .TakeLast(cacheSize)
@@ -109,7 +109,7 @@ public class ThreadSafetyTests : TestBase
     /// <summary>
     /// Runs the SSE server and ingests 2,000+ quotes into a single <see cref="QuoteHub"/> with a
     /// maximum cache size of 1,500.  Every built-in streaming indicator hub is subscribed to the
-    /// primary quote hub.  A series of out-of-order operations (insert, remove and replace) are
+    /// primary quote hub.  A series of out-of-order operations (add, remove and replace) are
     /// applied to exercise the hub’s rollback logic both before and after pruning occurs.  After
     /// all quotes and revisions have been processed the full static series for each indicator is
     /// computed on the amended quote sequence, the results are truncated to the current cache size,
@@ -576,11 +576,15 @@ public class ThreadSafetyTests : TestBase
                 }
                 else
                 {
-                    QuoteAction? action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions);
-                    if (action is not null)
+                    QuoteAction action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions)
+                        ?? new QuoteAction(null, null);
+
+                    if (action.Quote is null && action.CacheIndex is null)
                     {
-                        ApplyQuoteAction(action, eventName, quoteHub, revisedQuotes);
+                        continue;
                     }
+
+                    ApplyQuoteAction(action, eventName, quoteHub, revisedQuotes);
                 }
             }
             else if (line.Length == 0)
