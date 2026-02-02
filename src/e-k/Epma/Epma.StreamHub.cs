@@ -71,17 +71,12 @@ public class EpmaHub
         // Calculate EPMA using the endpoint formula
         // EPMA = slope × endpointX + intercept
         // where endpointX = globalIndex + 1 (1-based, matching Slope's X values)
-        double? epma = null;
-
-        if (item.Slope != null && item.Intercept != null)
-        {
-            // Use globalIndex + 1 as the endpoint X value (1-based)
-            epma = (item.Slope * (globalIndex + 1)) + item.Intercept;
-        }
+        // Match Series calculation exactly: ((slope * (index + 1)) + intercept).NaN2Null()
+        double? epma = ((item.Slope * (globalIndex + 1)) + item.Intercept).NaN2Null();
 
         EpmaResult r = new(
             Timestamp: item.Timestamp,
-            Epma: epma.NaN2Null());
+            Epma: epma);
 
         return (r, i);
     }
@@ -92,7 +87,7 @@ public class EpmaHub
         int targetIndex = ProviderCache.IndexGte(timestamp);
 
         // Reset counters to match the target index
-        globalIndexOffset = 0;
+        // NOTE: Do NOT reset globalIndexOffset - it tracks provider pruning and must persist across rollbacks
         itemsAdded = targetIndex;
         lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
     }
