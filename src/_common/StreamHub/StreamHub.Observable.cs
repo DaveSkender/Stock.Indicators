@@ -81,7 +81,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// </summary>
     /// <param name="item"><c>TSeries</c> item to send.</param>
     /// <param name="indexHint">Provider index hint.</param>
-    private void NotifyObserversOnAdd(TOut item, int? indexHint)
+    protected void NotifyObserversOnAdd(TOut item, int? indexHint)
     {
         if (ObserverCount == 0)
         {

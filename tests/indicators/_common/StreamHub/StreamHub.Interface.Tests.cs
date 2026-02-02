@@ -32,7 +32,8 @@ public class TestCompliance
         // Define observer and provider interface types
         Type[] observerTypes = [
             typeof(ITestChainObserver),
-            typeof(ITestQuoteObserver)
+            typeof(ITestQuoteObserver),
+            typeof(ITestTickObserver)
         ];
 
         // Add more provider interfaces here if needed

@@ -1,7 +1,12 @@
 {
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
   },
+  "chat.useAgentSkills": true,
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
   "chat.customAgentInSubagent.enabled": true,
@@ -12,6 +17,7 @@
   "files.associations": {
     "*.md": "markdown"
   },
+  "github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents": true,
   "github.copilot.chat.githubMcpServer.enabled": true,
   "github.copilot.chat.githubMcpServer.readonly": false,
   "github.copilot.chat.githubMcpServer.toolsets": [
