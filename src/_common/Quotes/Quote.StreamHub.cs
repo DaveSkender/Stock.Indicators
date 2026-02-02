@@ -145,12 +145,13 @@ public class QuoteHub
                 {
                     Cache.Insert(index, result);
 
-                    // For standalone QuoteHub, trigger rebuild which will notify observers
+                    // For standalone QuoteHub, notify observers to rebuild from this timestamp
                     // For non-standalone, this won't be reached due to earlier branch
                     if (notify)
                     {
-                        // Use Rebuild to properly handle state rollback and observer notification
-                        Rebuild(result.Timestamp);
+                        // Notify observers directly - they will rebuild from the updated cache
+                        // No need to call Rebuild on QuoteHub itself since cache is already updated
+                        NotifyObserversOnRebuild(result.Timestamp);
                     }
 
                     return;
