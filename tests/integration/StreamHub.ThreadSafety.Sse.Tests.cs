@@ -26,11 +26,7 @@ public class ThreadSafetyTests : TestBase
     private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNameCaseInsensitive = true
     };
-
-    // Explicit instantiation satisfies CA1812 (QuoteAction is primarily used via JsonSerializer reflection)
-    #pragma warning disable IDE0052 // Remove unread private members
-    private static readonly QuoteAction _quoteActionInstance = new(null, null);
-    #pragma warning restore IDE0052
+#pragma warning restore IDE0052
 
     public TestContext? TestContext { get; set; }
 
@@ -670,6 +666,11 @@ public class ThreadSafetyTests : TestBase
 
     private sealed record SseQuoteBatch(List<Quote> InitialQuotes, List<Quote> RevisedQuotes);
 
+    // CA1812: QuoteAction is instantiated via JsonSerializer.Deserialize
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Performance",
+        "CA1812:Avoid uninstantiated internal classes",
+        Justification = "Instantiated via JsonSerializer.Deserialize")]
     private sealed record QuoteAction(Quote? Quote, int? CacheIndex);
     #endregion
 }
