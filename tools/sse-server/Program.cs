@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using Skender.Stock.Indicators;
 using Test.Data;
+using Test.SseServer;
 using TestData = Test.Data.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -169,10 +170,7 @@ app.MapGet("/quotes/longest", async (
                 Close: originalQuote.Close,
                 Volume: originalQuote.Volume);
 
-            if (streamedQuotes is not null)
-            {
-                streamedQuotes.Add(quote);
-            }
+            streamedQuotes?.Add(quote);
 
             // Serialize quote as JSON
             string json = JsonSerializer.Serialize(quote, jsonOptions);
@@ -392,14 +390,3 @@ static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> str
 
     return actions;
 }
-
-internal sealed record SseQuoteAction(string EventType, QuoteAction Payload)
-{
-    public static SseQuoteAction Add(Quote quote)
-        => new("add", new QuoteAction(quote, null));
-
-    public static SseQuoteAction Remove(int cacheIndex, Quote quote)
-        => new("remove", new QuoteAction(quote, cacheIndex));
-}
-
-internal sealed record QuoteAction(Quote Quote, int? CacheIndex);

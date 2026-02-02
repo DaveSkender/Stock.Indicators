@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Linq;
 using System.Text.Json;
 using Test.Tools;
 
@@ -311,8 +310,8 @@ public class ThreadSafetyTests : TestBase
             // streaming hub results.
             {
                 List<RenkoResult> renkoStatic = allQuotesWithRevisions.ToRenko(2.5m).ToList();
-                DateTime firstDate = renkoHub.Results[0].Date;
-                int startIndex = renkoStatic.FindIndex(r => r.Date == firstDate);
+                DateTime firstDate = renkoHub.Results[0].Timestamp;
+                int startIndex = renkoStatic.FindIndex(r => r.Timestamp == firstDate);
                 startIndex.Should().BeGreaterThanOrEqualTo(0,
                     "the first Renko result in the hub should exist in the static series");
                 List<RenkoResult> expectedRenko = renkoStatic.Skip(startIndex).ToList();
