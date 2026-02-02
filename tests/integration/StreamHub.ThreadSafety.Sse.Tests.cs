@@ -27,8 +27,10 @@ public class ThreadSafetyTests : TestBase
         PropertyNameCaseInsensitive = true
     };
 
-    // Explicit instantiation to satisfy CA1812 analyzer (QuoteAction used by reflection)
+#pragma warning disable CA1823, RCS1213 // Field unused - QuoteAction needs explicit construction for JsonSerializer reflection
+    // Explicit instantiation to satisfy CA1812 analyzer (QuoteAction is constructed via JsonSerializer.Deserialize reflection)
     private static readonly QuoteAction _quoteActionReference = new(null, null);
+#pragma warning restore CA1823, RCS1213
 
     public TestContext? TestContext { get; set; }
 
