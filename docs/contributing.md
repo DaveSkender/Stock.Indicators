@@ -3,15 +3,15 @@ title: Contributing guidelines
 description: >-
   This NuGet package is an open-source project.
   Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
-permalink: /contributing/
-relative_path: pages/contributing.md
-layout: page
 ---
+
 
 # Contributing guidelines
 
-[![Codacy quality grade](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
-[![Codacy code coverage](https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
+<p style="display:flex; justify-content:left; gap:1rem; flex-wrap:wrap;">
+<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy quality grade."><img src="https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f" alt="Codacy quality grade" /></a>
+<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy code coverage."><img src="https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f" alt="Codacy code coverage" /></a>
+</p>
 
 **Thanks for taking the time to contribute!**
 
@@ -62,46 +62,80 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
 ```bash
-# from /tests/performance folder
-# run all performance benchmarks
+# from /tools/performance folder
+# run all performance benchmarks (~15-20 minutes)
 dotnet run -c Release
 
-# run individual performance benchmark
-dotnet run -c Release --filter *.GetAdx
+# run specific benchmark categories
+dotnet run -c Release --filter *Series*
+dotnet run -c Release --filter *Stream*
+dotnet run -c Release --filter *Buffer*
+
+# run specific performance benchmark
+dotnet run -c Release --filter *.ToAdx
+
+## run with CLI overrides from root
+dotnet run \
+--project tools/performance \
+--configuration Release \
+--filter *ToFisher* \
+--job Short \
+--warmupCount 3 \
+--iterationCount 4
 ```
+
+#### Performance regression detection
+
+Use the regression detection script to compare results with baseline:
+
+```bash
+# from tools/performance directory
+pwsh detect-regressions.ps1
+```
+
+### Regression baseline testing
+
+Regression baselines detect unintended behavioral changes in indicators. Each baseline is a JSON file with expected outputs for standard test data.
+
+```bash
+# run all regression baseline tests
+dotnet test --filter "TestCategory=Regression"
+
+# regenerate all baselines (locally)
+dotnet run --project tools/baselining -- --all
+
+# regenerate specific baseline
+dotnet run --project tools/baselining -- --indicator SMA
+```
+
+Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
+
+When reviewing PRs with baseline changes, verify the reason is documented, review numeric differences, and ensure no unexpected indicators were affected.
 
 ## Documentation
 
-This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
+This site uses [VitePress](https://vitepress.dev) with Vue components and Markdown.
 Our documentation site code is in the `docs` folder.
 Build the site locally to test that it works properly.
-See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve --livereload
-```
+pnpm install
+pnpm run docs:dev
 
-The site will be available at `http://127.0.0.1:4000`.
+# the site will open at http://localhost:5173/
+```
 
 When adding or updating indicators:
 
-- Add or update the `/docs/_indicators/` documentation files.
-- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
+- Add or update the `/docs/indicators/` documentation files.
+- Page image assets go in `/docs/.vitepress/public/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 
-- use Lighthouse in Chrome, or
-- build the site locally (see above), then:
-
-```bash
-# from /docs folder
-npx pa11y-ci \
-  --yes
-  --sitemap http://127.0.0.1:4000/sitemap.xml \
-  --config ./.pa11yci
-```
+- Use Lighthouse in Chrome, or
+- Run the automated pa11y task: **Tasks: Run Task** → `Test: Website a11y (pa11y)`, or
+- Run script manually: `bash .vitepress/test-a11y.sh` (tests `localhost` build, not production)
 
 ## Submitting changes
 
@@ -113,14 +147,14 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
 
-- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
+- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan (lowercase)
 - `Subject` starts with an uppercase letter
 
-Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`
+Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`, `plan: Define technical implementation approach`
 
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
-After a Pull Request is reviewed, accepted, and [squash] merged to the default branch, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 
@@ -137,16 +171,16 @@ If you want to contribute administratively, do code reviews, or provide general 
 
 This repository is optimized for GitHub Copilot and coding agents with:
 
-- **Custom agent instructions** in `AGENTS.md` files (root and subdirectories) providing repository context, coding patterns, and domain knowledge
-- **Scoped instruction files** in `.github/instructions/` for targeted guidance by file type and folder
+- **AGENTS.md files** (root and subdirectories) providing repository context, coding patterns, and domain knowledge
+- **Agent Skills** in `.github/skills/` with domain-specific expertise for indicator development, testing, and performance
 - **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
 - **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
 - **MCP server configurations** in `.vscode/mcp.json` for extended AI tools for developing capabilities with financial mathematics and .NET performance analysis
 
 When using GitHub Copilot:
 
-- Follow the established patterns documented in the AGENTS.md files and instruction files
-- Ensure all financial calculations maintain decimal precision
+- Follow the established patterns documented in the `AGENTS.md` files and skills
+- Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in `AGENTS.md`)
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 

@@ -6,6 +6,17 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <PackageReference>
+      <!--
+        Disable transitive package flow
+        to NuGet package consumers
+      -->
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemDefinitionGroup>
+
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.102" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />

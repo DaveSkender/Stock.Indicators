@@ -1,0 +1,113 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "SSE Quote Server",
+    "description": "Server-Sent Events (SSE) endpoint for streaming quote data with configurable delivery rate and time intervals.",
+    "version": "v1"
+  },
+  "paths": {
+    "/quotes/random": {
+      "get": {
+        "tags": [
+          "Quotes"
+        ],
+        "operationId": "GetRandomQuotes",
+        "parameters": [
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "batchSize",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          },
+          {
+            "name": "quoteInterval",
+            "in": "query",
+            "schema": {
+              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days)$",
+              "type": "string",
+              "default": "1m"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/quotes/longest": {
+      "get": {
+        "tags": [
+          "Quotes"
+        ],
+        "operationId": "GetLongestQuotes",
+        "parameters": [
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "batchSize",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          },
+          {
+            "name": "quoteInterval",
+            "in": "query",
+            "schema": {
+              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days)$",
+              "type": "string",
+              "default": "1m"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Quotes"
+    }
+  ]
+}

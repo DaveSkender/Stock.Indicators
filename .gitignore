@@ -67,3 +67,5 @@ _ReSharper*/
 .vitepress/dist/
 _site/
 vendor/
+coverage/
+nul

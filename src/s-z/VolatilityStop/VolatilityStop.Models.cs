@@ -1,19 +1,27 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Volatility Stop indicator calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Sar">The stop and reverse (SAR) value at this point.</param>
+/// <param name="IsStop">Indicates if the current point is a stop.</param>
+/// <param name="UpperBand">The upper band value at this point.</param>
+/// <param name="LowerBand">The lower band value at this point.</param>
 [Serializable]
-public sealed class VolatilityStopResult : ResultBase, IReusableResult
-{
-    public VolatilityStopResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Sar { get; set; }
-    public bool? IsStop { get; set; }
+public record VolatilityStopResult
+(
+    DateTime Timestamp,
+    double? Sar = null,
+    bool? IsStop = null,
 
     // SAR values as long/short stop bands
-    public double? UpperBand { get; set; }
-    public double? LowerBand { get; set; }
+    double? UpperBand = null,
+    double? LowerBand = null
 
-    double? IReusableResult.Value => Sar;
+) : IReusable
+{
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Sar.Null2NaN();
 }

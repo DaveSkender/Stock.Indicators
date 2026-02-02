@@ -1,17 +1,57 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for Kaufman's Adaptive Moving Average (KAMA) calculations.
+/// </summary>
+public static partial class Kama
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<KamaResult> RemoveWarmupPeriods(
-        this IEnumerable<KamaResult> results)
+    /// <summary>
+    /// Removes the recommended warmup periods from the KAMA results.
+    /// </summary>
+    /// <param name="results">The list of KAMA results to process.</param>
+    /// <returns>A list of KAMA results with the warmup periods removed.</returns>
+    public static IReadOnlyList<KamaResult> RemoveWarmupPeriods(
+        this IReadOnlyList<KamaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int erPeriods = results
-            .ToList()
-            .FindIndex(static x => x.ER != null);
+            .FindIndex(static x => x.Er != null);
 
         return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
+    }
+
+    /// <summary>
+    /// Validates the parameters for the KAMA calculation.
+    /// </summary>
+    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when any of the parameters are out of their valid range.
+    /// </exception>
+    internal static void Validate(
+        int erPeriods,
+        int fastPeriods,
+        int slowPeriods)
+    {
+        // check parameter arguments
+        if (erPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(erPeriods), erPeriods,
+                "Efficiency Ratio periods must be greater than 0 for KAMA.");
+        }
+
+        if (fastPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
+                "Fast EMA periods must be greater than 0 for KAMA.");
+        }
+
+        if (slowPeriods <= fastPeriods)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                "Slow EMA periods must be greater than Fast EMA period for KAMA.");
+        }
     }
 }

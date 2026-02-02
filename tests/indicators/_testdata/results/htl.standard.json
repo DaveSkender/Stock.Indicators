@@ -1,0 +1,3014 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "dcPeriods": null,
+    "trendline": 212.435,
+    "smoothPrice": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "dcPeriods": null,
+    "trendline": 213.685,
+    "smoothPrice": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "dcPeriods": null,
+    "trendline": 213.54,
+    "smoothPrice": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "dcPeriods": null,
+    "trendline": 214.295,
+    "smoothPrice": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "dcPeriods": null,
+    "trendline": 214.22,
+    "smoothPrice": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "dcPeriods": null,
+    "trendline": 214.205,
+    "smoothPrice": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "dcPeriods": null,
+    "trendline": 213.84,
+    "smoothPrice": 214.071
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "dcPeriods": 1,
+    "trendline": 213.375,
+    "smoothPrice": 213.76500000000001
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "dcPeriods": 2,
+    "trendline": 214.505,
+    "smoothPrice": 214.00300000000001
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "dcPeriods": 2,
+    "trendline": 213.79,
+    "smoothPrice": 213.92649999999998
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "dcPeriods": 3,
+    "trendline": 213.845,
+    "smoothPrice": 213.91350000000003
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "dcPeriods": 3,
+    "trendline": 213.95016666666666,
+    "smoothPrice": 213.846
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "dcPeriods": 4,
+    "trendline": 213.90508333333332,
+    "smoothPrice": 213.90900000000002
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "dcPeriods": 4,
+    "trendline": 213.84387500000003,
+    "smoothPrice": 213.78449999999998
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "dcPeriods": 5,
+    "trendline": 213.8820666666667,
+    "smoothPrice": 214.11149999999998
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "dcPeriods": 5,
+    "trendline": 214.13142499999998,
+    "smoothPrice": 215.0665
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "dcPeriods": 6,
+    "trendline": 214.45828333333333,
+    "smoothPrice": 215.87349999999998
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "dcPeriods": 7,
+    "trendline": 214.78217142857142,
+    "smoothPrice": 216.3535
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "dcPeriods": 7,
+    "trendline": 215.0373095238095,
+    "smoothPrice": 215.8295
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "dcPeriods": 8,
+    "trendline": 215.12565476190474,
+    "smoothPrice": 215.16549999999998
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "dcPeriods": 9,
+    "trendline": 215.15077083333335,
+    "smoothPrice": 215
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "dcPeriods": 10,
+    "trendline": 215.13715357142854,
+    "smoothPrice": 214.87149999999997
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "dcPeriods": 11,
+    "trendline": 215.1659064393939,
+    "smoothPrice": 215.48900000000003
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "dcPeriods": 12,
+    "trendline": 215.23084545454543,
+    "smoothPrice": 215.91949999999997
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "dcPeriods": 13,
+    "trendline": 215.31492709790209,
+    "smoothPrice": 216.25950000000003
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "dcPeriods": 14,
+    "trendline": 215.3948475690976,
+    "smoothPrice": 216.33649999999997
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 215.44688232600734,
+    "smoothPrice": 216.804
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 215.5423525775695,
+    "smoothPrice": 217.51950000000002
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 215.65079328836796,
+    "smoothPrice": 218.5355
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 215.7664870356037,
+    "smoothPrice": 219.37549999999996
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 215.93919701660565,
+    "smoothPrice": 220.334
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 216.11020813397127,
+    "smoothPrice": 220.99949999999998
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 216.30219454545448,
+    "smoothPrice": 221.35700000000003
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 216.5225611188811,
+    "smoothPrice": 222.13199999999998
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 216.7506890883191,
+    "smoothPrice": 222.6375
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 216.98155755799752,
+    "smoothPrice": 222.97999999999996
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 217.2010750424544,
+    "smoothPrice": 223.11100000000002
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 217.45689390622152,
+    "smoothPrice": 223.36549999999997
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 217.69078973727423,
+    "smoothPrice": 223.42149999999998
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 217.9959781609196,
+    "smoothPrice": 224.529
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 218.34706896551728,
+    "smoothPrice": 225.17249999999999
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 218.71746666666672,
+    "smoothPrice": 225.2805
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "dcPeriods": 31,
+    "trendline": 219.01954354838716,
+    "smoothPrice": 225.03349999999995
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "dcPeriods": 32,
+    "trendline": 219.24716182795706,
+    "smoothPrice": 224.57
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "dcPeriods": 34,
+    "trendline": 219.35073329380143,
+    "smoothPrice": 224.20850000000002
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "dcPeriods": 35,
+    "trendline": 219.43380658037412,
+    "smoothPrice": 223.824
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "dcPeriods": 36,
+    "trendline": 219.52853780345473,
+    "smoothPrice": 223.9065
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "dcPeriods": 37,
+    "trendline": 219.63880877999856,
+    "smoothPrice": 224.10600000000005
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "dcPeriods": 37,
+    "trendline": 219.82248685113686,
+    "smoothPrice": 223.96300000000002
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "dcPeriods": 38,
+    "trendline": 219.996171428007,
+    "smoothPrice": 224.473
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 220.1578417769997,
+    "smoothPrice": 224.91600000000003
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 220.36781447641974,
+    "smoothPrice": 225.18549999999996
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "dcPeriods": 38,
+    "trendline": 220.67546356275307,
+    "smoothPrice": 225.112
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "dcPeriods": 37,
+    "trendline": 221.00652054382317,
+    "smoothPrice": 224.45699999999997
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "dcPeriods": 35,
+    "trendline": 221.43493800040636,
+    "smoothPrice": 223.29450000000003
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "dcPeriods": 34,
+    "trendline": 221.87262759661476,
+    "smoothPrice": 222.738
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "dcPeriods": 32,
+    "trendline": 222.3566995457642,
+    "smoothPrice": 222.28850000000003
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 222.85148991596634,
+    "smoothPrice": 221.64050000000003
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 223.2309114604462,
+    "smoothPrice": 221.90900000000002
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 223.5322553001277,
+    "smoothPrice": 222.416
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 223.6994411877394,
+    "smoothPrice": 223.08800000000002
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 223.79607579329985,
+    "smoothPrice": 223.656
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 223.8413911680911,
+    "smoothPrice": 223.48000000000002
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 223.81215769230766,
+    "smoothPrice": 223.29299999999998
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 223.71696861888108,
+    "smoothPrice": 223.467
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 223.61920378787872,
+    "smoothPrice": 223.3565
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 223.55292613636362,
+    "smoothPrice": 223.35999999999999
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 223.48848181818184,
+    "smoothPrice": 223.3985
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 223.39052324561408,
+    "smoothPrice": 222.92600000000002
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 223.2591412280702,
+    "smoothPrice": 222.65750000000003
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 223.04887616959067,
+    "smoothPrice": 222.141
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 222.87019444444445,
+    "smoothPrice": 221.88300000000004
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 222.76836549707605,
+    "smoothPrice": 221.81499999999997
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 222.72322385620913,
+    "smoothPrice": 221.9
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 222.76238562091504,
+    "smoothPrice": 222.29749999999999
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 222.79436029411764,
+    "smoothPrice": 222.53400000000002
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 222.81662316176465,
+    "smoothPrice": 223.156
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 222.88169852941172,
+    "smoothPrice": 224.477
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 223.0164375,
+    "smoothPrice": 225.60099999999997
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 223.19524999999993,
+    "smoothPrice": 226.154
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 223.3746875,
+    "smoothPrice": 226.33800000000002
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 223.56418749999997,
+    "smoothPrice": 226.38849999999996
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 223.7538125,
+    "smoothPrice": 226.394
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 223.93474999999998,
+    "smoothPrice": 226.2935
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 224.14146875,
+    "smoothPrice": 226.2335
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 224.38178125,
+    "smoothPrice": 226.5025
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 224.67624999999998,
+    "smoothPrice": 226.85249999999996
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 224.92098529411768,
+    "smoothPrice": 227.14500000000004
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 225.1922132352941,
+    "smoothPrice": 227.27149999999997
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 225.37877716503263,
+    "smoothPrice": 227.036
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 225.5879035947712,
+    "smoothPrice": 226.91199999999998
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 225.75599183006534,
+    "smoothPrice": 227.1745
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 225.96911257309938,
+    "smoothPrice": 227.48149999999995
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 226.1552967836257,
+    "smoothPrice": 226.608
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 226.22482631578941,
+    "smoothPrice": 225.65900000000002
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 226.2469292606516,
+    "smoothPrice": 225.548
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 226.2517248462064,
+    "smoothPrice": 226.017
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 226.34018430735924,
+    "smoothPrice": 226.80200000000005
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 226.48797510822504,
+    "smoothPrice": 227.50500000000002
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 226.64645454545447,
+    "smoothPrice": 228.305
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 226.79040513833985,
+    "smoothPrice": 228.846
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 226.90586067193672,
+    "smoothPrice": 229.0845
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 226.99958711462446,
+    "smoothPrice": 229.08900000000003
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 227.09851250836113,
+    "smoothPrice": 229.47900000000004
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 227.22776307692303,
+    "smoothPrice": 230.233
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 227.41383538461537,
+    "smoothPrice": 230.913
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 227.63432435897434,
+    "smoothPrice": 231.1685
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 227.88945434782613,
+    "smoothPrice": 231.13850000000002
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 228.1430570487484,
+    "smoothPrice": 231.17049999999995
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 228.38608507434597,
+    "smoothPrice": 231.09499999999997
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 228.60333690946737,
+    "smoothPrice": 230.852
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 228.81862445887447,
+    "smoothPrice": 231.125
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 228.9930995670996,
+    "smoothPrice": 231.32350000000002
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 229.14698376623377,
+    "smoothPrice": 231.13299999999998
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 229.26361980048932,
+    "smoothPrice": 231.08099999999996
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 229.40969268774703,
+    "smoothPrice": 231.69399999999996
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 229.547162055336,
+    "smoothPrice": 232.00899999999996
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 229.7414836956522,
+    "smoothPrice": 232.01649999999995
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 229.989865942029,
+    "smoothPrice": 231.95850000000002
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 230.24247916666673,
+    "smoothPrice": 231.781
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 230.49118749999997,
+    "smoothPrice": 231.98599999999996
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 230.74285688405797,
+    "smoothPrice": 231.6605
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 230.93495018115942,
+    "smoothPrice": 231.6375
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 231.06566757246372,
+    "smoothPrice": 231.19350000000003
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 231.20331818181816,
+    "smoothPrice": 230.97299999999996
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 231.30502371541502,
+    "smoothPrice": 231.1525
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 231.3627341897233,
+    "smoothPrice": 231.12099999999995
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 231.36654220779218,
+    "smoothPrice": 230.7005
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 231.33884090909092,
+    "smoothPrice": 230.435
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 231.3099989177489,
+    "smoothPrice": 230.56599999999997
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.29761428571427,
+    "smoothPrice": 230.52400000000003
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.31102738095242,
+    "smoothPrice": 231.32649999999998
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.34807261904763,
+    "smoothPrice": 232.038
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.43595000000005,
+    "smoothPrice": 232.865
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.56197500000002,
+    "smoothPrice": 233.6015
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.6674,
+    "smoothPrice": 233.8025
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.78525,
+    "smoothPrice": 234.36599999999999
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 231.92810000000003,
+    "smoothPrice": 234.8735
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 232.08302500000005,
+    "smoothPrice": 235.05700000000002
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 232.23916547619052,
+    "smoothPrice": 235.18400000000003
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 232.41836785714287,
+    "smoothPrice": 235.5
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 232.62457023809526,
+    "smoothPrice": 235.7145
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 232.82837261904766,
+    "smoothPrice": 235.6435
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 233.0446,
+    "smoothPrice": 235.448
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 233.26665000000003,
+    "smoothPrice": 235.414
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 233.44043333333335,
+    "smoothPrice": 235.4635
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 233.57447499999998,
+    "smoothPrice": 235.50100000000003
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 233.7166189393939,
+    "smoothPrice": 235.527
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 233.8337048748353,
+    "smoothPrice": 235.66499999999996
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 233.94098320158105,
+    "smoothPrice": 235.85699999999997
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 234.0404673616601,
+    "smoothPrice": 236.094
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 234.11148229096995,
+    "smoothPrice": 235.79700000000003
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 234.1912175,
+    "smoothPrice": 234.913
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 234.28402461538462,
+    "smoothPrice": 233.94549999999998
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 234.41176923076927,
+    "smoothPrice": 234.019
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 234.55963461538462,
+    "smoothPrice": 234.4105
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 234.66499857549857,
+    "smoothPrice": 234.9785
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 234.7044783272283,
+    "smoothPrice": 234.5355
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 234.67356299559316,
+    "smoothPrice": 233.40800000000004
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 234.68056837255972,
+    "smoothPrice": 232.304
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 234.66761268472905,
+    "smoothPrice": 232.3775
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 234.68282019704435,
+    "smoothPrice": 232.6905
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 234.67527832512314,
+    "smoothPrice": 232.9725
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 234.65492610837433,
+    "smoothPrice": 233.3375
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 234.62924999999996,
+    "smoothPrice": 233.3315
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 234.5614855637657,
+    "smoothPrice": 233.0875
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 234.45138858784895,
+    "smoothPrice": 233.4435
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 234.37605230158732,
+    "smoothPrice": 234.25349999999997
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 234.36519452991456,
+    "smoothPrice": 235.29500000000002
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 234.35080923076924,
+    "smoothPrice": 235.34499999999997
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 234.34470615384618,
+    "smoothPrice": 235.38349999999997
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 234.3152197435897,
+    "smoothPrice": 235.3295
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 234.2470735869565,
+    "smoothPrice": 235.23499999999999
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 234.21561137681155,
+    "smoothPrice": 236.00950000000003
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 234.2493378623188,
+    "smoothPrice": 236.9685
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 234.36332608695648,
+    "smoothPrice": 237.69549999999998
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 234.54632608695647,
+    "smoothPrice": 238.15449999999996
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 234.73608695652175,
+    "smoothPrice": 238.3835
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 234.9253731884058,
+    "smoothPrice": 238.763
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 235.10501184782612,
+    "smoothPrice": 239.0795
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 235.25802506441224,
+    "smoothPrice": 239.17799999999997
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 235.36457345785442,
+    "smoothPrice": 239.209
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 235.46549136653894,
+    "smoothPrice": 239.07750000000001
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 235.59458844189015,
+    "smoothPrice": 238.788
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 235.7321155172414,
+    "smoothPrice": 238.7615
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 235.88361609195402,
+    "smoothPrice": 238.92799999999997
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 236.06051321839087,
+    "smoothPrice": 239.22150000000002
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 236.35977676518883,
+    "smoothPrice": 239.711
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 236.67631650246307,
+    "smoothPrice": 240.43399999999997
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 237.00500862068967,
+    "smoothPrice": 241.2
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 237.33792857142862,
+    "smoothPrice": 241.858
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 237.66844642857146,
+    "smoothPrice": 242.592
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 238.01903571428574,
+    "smoothPrice": 243.14800000000005
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 238.45813095238094,
+    "smoothPrice": 243.42749999999995
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 238.90398901098905,
+    "smoothPrice": 243.68449999999999
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 239.3930386630037,
+    "smoothPrice": 243.85600000000005
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 239.97468800445932,
+    "smoothPrice": 243.973
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 240.4887184159319,
+    "smoothPrice": 244.13999999999996
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 240.96273800489365,
+    "smoothPrice": 244.314
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 241.33477865612645,
+    "smoothPrice": 244.45749999999998
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 241.69487359307362,
+    "smoothPrice": 244.72749999999996
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 242.0145380952381,
+    "smoothPrice": 244.6545
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 242.26583571428569,
+    "smoothPrice": 245.09500000000003
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 242.54410952380948,
+    "smoothPrice": 245.53000000000003
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 242.7586019480519,
+    "smoothPrice": 245.714
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 242.90981018257102,
+    "smoothPrice": 245.31300000000002
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 243.1084814605684,
+    "smoothPrice": 245.1875
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 243.26891205533593,
+    "smoothPrice": 245.45049999999998
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 243.41387467391297,
+    "smoothPrice": 245.808
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 243.54371071906354,
+    "smoothPrice": 246.16199999999998
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 243.73572903846147,
+    "smoothPrice": 246.56499999999997
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 243.82198505494503,
+    "smoothPrice": 246.49200000000002
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 243.835794047619,
+    "smoothPrice": 246.75500000000002
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "dcPeriods": 32,
+    "trendline": 243.81397637362633,
+    "smoothPrice": 247.2045
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "dcPeriods": 35,
+    "trendline": 243.7228648809524,
+    "smoothPrice": 247.55599999999998
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "dcPeriods": 36,
+    "trendline": 243.71384007936507,
+    "smoothPrice": 247.8
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "dcPeriods": 35,
+    "trendline": 243.85550416666666,
+    "smoothPrice": 247.37749999999997
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "dcPeriods": 34,
+    "trendline": 244.13056083099906,
+    "smoothPrice": 247.179
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "dcPeriods": 33,
+    "trendline": 244.49752179568796,
+    "smoothPrice": 247.09300000000002
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "dcPeriods": 32,
+    "trendline": 244.8802205309396,
+    "smoothPrice": 246.79699999999997
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 245.25085607174688,
+    "smoothPrice": 246.35499999999996
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 245.58527494588742,
+    "smoothPrice": 246.70600000000005
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 245.85820327380952,
+    "smoothPrice": 246.98600000000002
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 246.06056931216935,
+    "smoothPrice": 247.248
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 246.2559140720391,
+    "smoothPrice": 247.80899999999997
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 246.43547293447295,
+    "smoothPrice": 248.3435
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 246.64883569800568,
+    "smoothPrice": 248.90050000000002
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 246.88331585284283,
+    "smoothPrice": 249.27450000000005
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 247.17785339312863,
+    "smoothPrice": 249.97750000000002
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 247.5025431978167,
+    "smoothPrice": 250.872
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 247.870082269904,
+    "smoothPrice": 252.2195
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 248.24611502620192,
+    "smoothPrice": 252.4315
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 248.63377669172937,
+    "smoothPrice": 253.3085
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 249.0475956656347,
+    "smoothPrice": 253.31900000000002
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 249.4200841073272,
+    "smoothPrice": 252.88299999999998
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 249.7050261437909,
+    "smoothPrice": 252.78249999999997
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 250.00439215686274,
+    "smoothPrice": 253.03799999999995
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 250.203691503268,
+    "smoothPrice": 253.79899999999998
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 250.41446388888895,
+    "smoothPrice": 254.73000000000002
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 250.70797857142855,
+    "smoothPrice": 255.419
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 250.96817218614714,
+    "smoothPrice": 255.5165
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 251.1530627705628,
+    "smoothPrice": 255.90099999999998
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 251.29162098318352,
+    "smoothPrice": 256.93
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 251.45032093369596,
+    "smoothPrice": 257.50149999999996
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 251.63578807997564,
+    "smoothPrice": 257.76
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 251.8442398881451,
+    "smoothPrice": 257.908
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 252.19271519795657,
+    "smoothPrice": 257.679
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 252.68298186918452,
+    "smoothPrice": 257.5065
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 253.25512318428696,
+    "smoothPrice": 257.47650000000004
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 253.87878241147737,
+    "smoothPrice": 257.5825
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 254.4872899145299,
+    "smoothPrice": 257.6695
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 254.9932021794872,
+    "smoothPrice": 257.921
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 255.4307116666667,
+    "smoothPrice": 258.73350000000005
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 255.8302291666667,
+    "smoothPrice": 259.91
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 256.20747916666676,
+    "smoothPrice": 261.27350000000007
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 256.6246041666667,
+    "smoothPrice": 262.4425
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 257.05018750000005,
+    "smoothPrice": 263.52250000000004
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 257.58398641304353,
+    "smoothPrice": 263.752
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 258.1399184782609,
+    "smoothPrice": 264.402
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 258.7930501482213,
+    "smoothPrice": 265.4785
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 259.42488636363635,
+    "smoothPrice": 266.61199999999997
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 260.1255540184453,
+    "smoothPrice": 267.55499999999995
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 260.7972175324675,
+    "smoothPrice": 268.326
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 261.4864021645021,
+    "smoothPrice": 268.9125
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 262.07452023809526,
+    "smoothPrice": 269.867
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 262.6905214285714,
+    "smoothPrice": 271.121
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 263.1274625776397,
+    "smoothPrice": 272.049
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 263.42344211180125,
+    "smoothPrice": 272.618
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 263.66159294225906,
+    "smoothPrice": 273.598
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 263.82472069298683,
+    "smoothPrice": 274.26899999999995
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "dcPeriods": 32,
+    "trendline": 263.8192625446999,
+    "smoothPrice": 273.744
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "dcPeriods": 34,
+    "trendline": 263.78747027716736,
+    "smoothPrice": 272.865
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "dcPeriods": 37,
+    "trendline": 263.62681851837885,
+    "smoothPrice": 272.07000000000005
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 263.4422300921538,
+    "smoothPrice": 270.04499999999996
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "dcPeriods": 40,
+    "trendline": 263.29462473401003,
+    "smoothPrice": 265.5825
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 263.3188306739431,
+    "smoothPrice": 260.33849999999995
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 263.4235788461539,
+    "smoothPrice": 259.0295
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 263.48648814102563,
+    "smoothPrice": 256.1345
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "dcPeriods": 40,
+    "trendline": 263.3749371794871,
+    "smoothPrice": 252.90050000000002
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 263.3313535256409,
+    "smoothPrice": 253.09649999999996
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 263.2888083333333,
+    "smoothPrice": 253.52149999999997
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "dcPeriods": 39,
+    "trendline": 263.2646733974358,
+    "smoothPrice": 255.26850000000005
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "dcPeriods": 38,
+    "trendline": 263.3570748987853,
+    "smoothPrice": 258.0525
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "dcPeriods": 37,
+    "trendline": 263.54368758434543,
+    "smoothPrice": 260.73300000000006
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "dcPeriods": 35,
+    "trendline": 263.87623763254294,
+    "smoothPrice": 261.84450000000004
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "dcPeriods": 33,
+    "trendline": 264.2910818865345,
+    "smoothPrice": 262.364
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "dcPeriods": 32,
+    "trendline": 264.5827003246754,
+    "smoothPrice": 262.004
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 264.75460944264074,
+    "smoothPrice": 262.2315
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 264.81166798589345,
+    "smoothPrice": 263.9455
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 264.68234424489145,
+    "smoothPrice": 265.2215
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 264.389514028883,
+    "smoothPrice": 264.969
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 263.8294031397977,
+    "smoothPrice": 262.88349999999997
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 262.9879422507123,
+    "smoothPrice": 260.231
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 261.9892207107024,
+    "smoothPrice": 259.631
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 261.18503862318846,
+    "smoothPrice": 260.43
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 260.4241893115942,
+    "smoothPrice": 261.1415
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 260.06888636363635,
+    "smoothPrice": 262.28000000000003
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 260.1585766516092,
+    "smoothPrice": 264.29049999999995
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 260.5862824675325,
+    "smoothPrice": 266.3685
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 261.30782575757576,
+    "smoothPrice": 267.5
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 262.00916666666666,
+    "smoothPrice": 267.28099999999995
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 262.62497619047616,
+    "smoothPrice": 266.45349999999996
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 263.185,
+    "smoothPrice": 265.913
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 263.473638095238,
+    "smoothPrice": 264.41400000000004
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 263.6097892857142,
+    "smoothPrice": 263.2305
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 263.7087894736842,
+    "smoothPrice": 262.77650000000006
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 263.6283723684211,
+    "smoothPrice": 260.4085
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 263.2004903508772,
+    "smoothPrice": 257.0655
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 262.6600277777778,
+    "smoothPrice": 255.08149999999995
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 262.15880409356726,
+    "smoothPrice": 254.06799999999998
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 261.77128594771244,
+    "smoothPrice": 253.07
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 261.38805882352943,
+    "smoothPrice": 253.35399999999998
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 260.89657189542487,
+    "smoothPrice": 252.1175
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 260.27541176470595,
+    "smoothPrice": 251.28950000000003
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 259.5151470588236,
+    "smoothPrice": 251.36599999999999
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 258.9899019607843,
+    "smoothPrice": 253.38899999999998
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 258.3545571895425,
+    "smoothPrice": 253.6105
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 257.89727579979365,
+    "smoothPrice": 253.897
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 257.3915423976608,
+    "smoothPrice": 254.68500000000003
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 257.0480628654971,
+    "smoothPrice": 255.083
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 256.70455000000004,
+    "smoothPrice": 256.1605
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 256.50827919799497,
+    "smoothPrice": 256.70750000000004
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 256.45802662337667,
+    "smoothPrice": 257.45300000000003
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 256.3648829004329,
+    "smoothPrice": 258.98099999999994
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 256.251170995671,
+    "smoothPrice": 260.29449999999997
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 256.2309881422925,
+    "smoothPrice": 260.4775
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 256.1538280632411,
+    "smoothPrice": 259.80199999999996
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 256.1450820158103,
+    "smoothPrice": 258.829
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 256.14415869565215,
+    "smoothPrice": 257.395
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 256.10227558528425,
+    "smoothPrice": 255.71099999999996
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 256.00390000000004,
+    "smoothPrice": 255.90300000000002
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 255.84837307692305,
+    "smoothPrice": 256.49899999999997
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 255.74246153846153,
+    "smoothPrice": 257.0145
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 255.7167115384615,
+    "smoothPrice": 256.396
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 255.74840384615382,
+    "smoothPrice": 255.90550000000002
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 255.76111538461538,
+    "smoothPrice": 254.3985
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 255.8467669230769,
+    "smoothPrice": 254.46550000000002
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 256.1252851282051,
+    "smoothPrice": 255.93999999999997
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 256.4203788628762,
+    "smoothPrice": 256.7625
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 256.73836724637675,
+    "smoothPrice": 258.2535
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 257.10757279314885,
+    "smoothPrice": 260.1375
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 257.46186561264824,
+    "smoothPrice": 261.71999999999997
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 257.81075691699596,
+    "smoothPrice": 263.12199999999996
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 258.10815909090906,
+    "smoothPrice": 262.919
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 258.35209486166,
+    "smoothPrice": 262.9215
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 258.5726946640316,
+    "smoothPrice": 262.9595
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 258.726371541502,
+    "smoothPrice": 262.743
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 258.8267747035573,
+    "smoothPrice": 263.15299999999996
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 259.00418868812346,
+    "smoothPrice": 263.6105
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 259.25600950498773,
+    "smoothPrice": 263.531
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 259.6648307359307,
+    "smoothPrice": 263.379
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 260.0555726190476,
+    "smoothPrice": 263.2605
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 260.35624404761904,
+    "smoothPrice": 262.121
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 260.6769,
+    "smoothPrice": 262.235
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 260.993525,
+    "smoothPrice": 262.238
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 261.4228999999999,
+    "smoothPrice": 262.986
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 261.9124749999999,
+    "smoothPrice": 264.257
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 262.28214642857137,
+    "smoothPrice": 265.07199999999995
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 262.6619107142857,
+    "smoothPrice": 266.15
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 263.07739047619043,
+    "smoothPrice": 267.13849999999996
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 263.41809740259737,
+    "smoothPrice": 267.7795
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 263.8099134199134,
+    "smoothPrice": 268.69199999999995
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 264.1939751082251,
+    "smoothPrice": 269.187
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 264.52137012987015,
+    "smoothPrice": 269.399
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 264.86345562770555,
+    "smoothPrice": 269.5045
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 265.21136190476193,
+    "smoothPrice": 269.092
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 265.57608157894737,
+    "smoothPrice": 268.56100000000004
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 265.85680751879704,
+    "smoothPrice": 267.7315
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 266.11765,
+    "smoothPrice": 267.75750000000005
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 266.3451315789474,
+    "smoothPrice": 267.39549999999997
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 266.5581842105263,
+    "smoothPrice": 267.3085
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 266.6255526315789,
+    "smoothPrice": 265.8185
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 266.706772368421,
+    "smoothPrice": 264.7695
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 266.76449342105263,
+    "smoothPrice": 264.098
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 266.71098452380954,
+    "smoothPrice": 263.204
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 266.71491547619047,
+    "smoothPrice": 263.6835
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 266.6847690476191,
+    "smoothPrice": 263.3775
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 266.61663203463206,
+    "smoothPrice": 263.5835
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 266.5383337568229,
+    "smoothPrice": 263.916
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 266.44043307735745,
+    "smoothPrice": 264.915
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 266.4627057312253,
+    "smoothPrice": 266.88
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 266.57460695652173,
+    "smoothPrice": 268.717
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 266.72223999999994,
+    "smoothPrice": 269.397
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 266.87828,
+    "smoothPrice": 270.05100000000004
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 266.99738999999994,
+    "smoothPrice": 270.59499999999997
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 267.0894641666667,
+    "smoothPrice": 270.94849999999997
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 267.13599304347827,
+    "smoothPrice": 271.35900000000004
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 267.20880887681164,
+    "smoothPrice": 271.91249999999997
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 267.3164221014493,
+    "smoothPrice": 272.05949999999996
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 267.47484584980236,
+    "smoothPrice": 272.08399999999995
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 267.647152173913,
+    "smoothPrice": 271.9495
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 267.8726640316205,
+    "smoothPrice": 272.52450000000005
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 268.1511818181818,
+    "smoothPrice": 273.483
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 268.54474999999996,
+    "smoothPrice": 274.477
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 268.9887954545455,
+    "smoothPrice": 274.5385
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 269.42795454545455,
+    "smoothPrice": 273.7595
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 269.750321146245,
+    "smoothPrice": 273.3465
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 269.9697503293807,
+    "smoothPrice": 273.0655
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 270.25035186100126,
+    "smoothPrice": 272.92199999999997
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 270.48964786231875,
+    "smoothPrice": 273.72200000000004
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 270.7213767307692,
+    "smoothPrice": 274.7125
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 270.95578979344725,
+    "smoothPrice": 276.01550000000003
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 271.0475437724727,
+    "smoothPrice": 276.804
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "dcPeriods": 31,
+    "trendline": 271.07220637682263,
+    "smoothPrice": 277.156
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "dcPeriods": 31,
+    "trendline": 271.21244446504346,
+    "smoothPrice": 276.402
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 271.56252969966624,
+    "smoothPrice": 275.6405
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 271.98919086021505,
+    "smoothPrice": 275.27750000000003
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 272.4026456989247,
+    "smoothPrice": 274.3525
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 272.8931626436782,
+    "smoothPrice": 274.9305
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 273.3254416256158,
+    "smoothPrice": 275.514
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 273.75389084564864,
+    "smoothPrice": 276.36199999999997
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 274.1635618605532,
+    "smoothPrice": 277.38300000000004
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 274.52868646520153,
+    "smoothPrice": 277.77099999999996
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 274.8929558974359,
+    "smoothPrice": 277.9715
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 275.26075483277594,
+    "smoothPrice": 278.33299999999997
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 275.5995820948617,
+    "smoothPrice": 279.428
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 276.01097362601166,
+    "smoothPrice": 280.49300000000005
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 276.5198146809712,
+    "smoothPrice": 281.545
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 277.08828731487813,
+    "smoothPrice": 282.0235
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 277.58475066833756,
+    "smoothPrice": 281.99350000000004
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 277.95747412280707,
+    "smoothPrice": 281.65600000000006
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 278.3008523391813,
+    "smoothPrice": 281.09749999999997
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 278.61126143790847,
+    "smoothPrice": 280.538
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 278.8987696078431,
+    "smoothPrice": 279.98650000000004
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 279.0941928104575,
+    "smoothPrice": 279.9545
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 279.34044934640525,
+    "smoothPrice": 279.9445
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 279.51215032679744,
+    "smoothPrice": 280.2725
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 279.7391856725147,
+    "smoothPrice": 281.11
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 279.9313795321638,
+    "smoothPrice": 281.7205
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 280.14302894736846,
+    "smoothPrice": 281.8515
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 280.3764144736843,
+    "smoothPrice": 282.06149999999997
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 280.6070000000001,
+    "smoothPrice": 282.3885
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 280.94341447368424,
+    "smoothPrice": 283.15950000000004
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 281.29699473684207,
+    "smoothPrice": 284.227
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 281.58590087719296,
+    "smoothPrice": 284.3005
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 281.78664035087724,
+    "smoothPrice": 284.26250000000005
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 281.92192002063985,
+    "smoothPrice": 284.01899999999995
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 282.05270588235294,
+    "smoothPrice": 283.89099999999996
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 282.2040784313725,
+    "smoothPrice": 283.758
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 282.41679411764704,
+    "smoothPrice": 284.178
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 282.6782647058823,
+    "smoothPrice": 284.4315
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 282.8947614379084,
+    "smoothPrice": 284.79650000000004
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 283.00753973168213,
+    "smoothPrice": 283.9405
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 283.0745037839697,
+    "smoothPrice": 282.726
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 283.0321994152047,
+    "smoothPrice": 281.3335
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 283.00824210526315,
+    "smoothPrice": 280.79200000000003
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 282.8521141604009,
+    "smoothPrice": 278.5665
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 282.4947857142857,
+    "smoothPrice": 274.002
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 281.9800675983437,
+    "smoothPrice": 270.8035
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "dcPeriods": 23,
+    "trendline": 281.41951035196684,
+    "smoothPrice": 269.1545
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 280.9198980331263,
+    "smoothPrice": 269.775
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 280.51908173076924,
+    "smoothPrice": 271.1345
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 280.16414515979193,
+    "smoothPrice": 271.3175
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 279.83846579354554,
+    "smoothPrice": 271.1765
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 279.5085528440908,
+    "smoothPrice": 270.284
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "dcPeriods": 30,
+    "trendline": 279.110277394636,
+    "smoothPrice": 268.02299999999997
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 278.5646913793103,
+    "smoothPrice": 265.5225
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 277.93514942528736,
+    "smoothPrice": 263.751
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 277.23614195402297,
+    "smoothPrice": 261.8675
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 276.47744827586206,
+    "smoothPrice": 260.264
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "dcPeriods": 29,
+    "trendline": 275.6894137931034,
+    "smoothPrice": 259.53550000000007
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "dcPeriods": 28,
+    "trendline": 274.78348275862066,
+    "smoothPrice": 261.523
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "dcPeriods": 27,
+    "trendline": 273.7969605683269,
+    "smoothPrice": 263.39750000000004
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "dcPeriods": 26,
+    "trendline": 272.7371901709401,
+    "smoothPrice": 264.8845
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "dcPeriods": 25,
+    "trendline": 271.5915838319088,
+    "smoothPrice": 265.7595
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "dcPeriods": 24,
+    "trendline": 270.36272749287747,
+    "smoothPrice": 266.5695
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 269.00583138111887,
+    "smoothPrice": 269.00149999999996
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "dcPeriods": 22,
+    "trendline": 268.0319840909091,
+    "smoothPrice": 271.18899999999996
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 267.3968790584415,
+    "smoothPrice": 271.6345
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "dcPeriods": 21,
+    "trendline": 267.1034502164502,
+    "smoothPrice": 270.4255
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 266.8789850649351,
+    "smoothPrice": 268.611
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 266.5958130952381,
+    "smoothPrice": 266.67650000000003
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 266.16997844611535,
+    "smoothPrice": 265.102
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 265.81791447368425,
+    "smoothPrice": 265.3065
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 265.5933868421053,
+    "smoothPrice": 264.8015
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 265.40223684210525,
+    "smoothPrice": 262.34250000000003
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "dcPeriods": 19,
+    "trendline": 265.25244736842103,
+    "smoothPrice": 260.905
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.2446549707602,
+    "smoothPrice": 259.043
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.277283625731,
+    "smoothPrice": 259.07849999999996
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.2191798245614,
+    "smoothPrice": 259.7095
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.162,
+    "smoothPrice": 261.876
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.14122222222215,
+    "smoothPrice": 264.5105
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.18261111111104,
+    "smoothPrice": 266.5045
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.33336111111106,
+    "smoothPrice": 269.283
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.33949999999993,
+    "smoothPrice": 269.11199999999997
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 265.02152777777775,
+    "smoothPrice": 265.4655
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 264.534,
+    "smoothPrice": 262.859
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 263.9027777777777,
+    "smoothPrice": 259.06350000000003
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 263.32533333333333,
+    "smoothPrice": 258.217
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 262.90175,
+    "smoothPrice": 259.052
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 262.57669444444446,
+    "smoothPrice": 259.25100000000003
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 262.1163954248366,
+    "smoothPrice": 258.05100000000004
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 261.63854411764703,
+    "smoothPrice": 254.95199999999994
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 261.16275490196074,
+    "smoothPrice": 252.0685
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 260.57575735294114,
+    "smoothPrice": 249.82999999999998
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "dcPeriods": 15,
+    "trendline": 259.60213688725486,
+    "smoothPrice": 246.2705
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "dcPeriods": 15,
+    "trendline": 258.2243791666666,
+    "smoothPrice": 243.33199999999997
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "dcPeriods": 15,
+    "trendline": 256.36346458333327,
+    "smoothPrice": 238.58649999999997
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "dcPeriods": 16,
+    "trendline": 254.67754999999997,
+    "smoothPrice": 236.41800000000003
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "dcPeriods": 17,
+    "trendline": 253.34910416666656,
+    "smoothPrice": 236.952
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "dcPeriods": 18,
+    "trendline": 252.45701388888884,
+    "smoothPrice": 239.86699999999996
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "dcPeriods": 20,
+    "trendline": 252.21717916666663,
+    "smoothPrice": 242.3435
+  }
+]

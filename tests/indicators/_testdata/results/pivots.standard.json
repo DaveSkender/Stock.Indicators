@@ -1,0 +1,4520 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": null,
+    "highTrend": null,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": null,
+    "highTrend": null,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": null,
+    "highTrend": null,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "highPoint": 215.17,
+    "lowPoint": null,
+    "highLine": 215.17,
+    "lowLine": null,
+    "highTrend": null,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 215.104,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 215.038,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 214.972,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": 212.53,
+    "highLine": 214.906,
+    "lowLine": 212.53,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "highPoint": 214.84,
+    "lowPoint": null,
+    "highLine": 214.84,
+    "lowLine": 212.58,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 215.1125,
+    "lowLine": 212.63,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 215.3850,
+    "lowLine": 212.68,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 215.6575,
+    "lowLine": 212.73,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 215.9300,
+    "lowLine": 212.78,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": 212.83,
+    "highLine": 216.2025,
+    "lowLine": 212.83,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 216.4750,
+    "lowLine": 212.995,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 216.7475,
+    "lowLine": 213.160,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "highPoint": 217.02,
+    "lowPoint": null,
+    "highLine": 217.0200,
+    "lowLine": 213.325,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 213.490,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 213.655,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": 213.82,
+    "highLine": null,
+    "lowLine": 213.82,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 214.13333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 214.44666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 214.76000000000000000000000000,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 215.07333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 215.38666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": 215.7,
+    "highLine": null,
+    "lowLine": 215.7,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 216.31,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 216.92,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 217.53,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 218.14,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 218.75,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 219.36,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 219.97,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 220.58,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 221.19,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 221.80,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": 222.41,
+    "highLine": null,
+    "lowLine": 222.41,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 222.44444444444444444444444444,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 222.47888888888888888888888889,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "highPoint": 227.04,
+    "lowPoint": null,
+    "highLine": 227.04,
+    "lowLine": 222.51333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.73,
+    "lowLine": 222.54777777777777777777777778,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.42,
+    "lowLine": 222.58222222222222222222222222,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.11,
+    "lowLine": 222.61666666666666666666666667,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.80,
+    "lowLine": 222.65111111111111111111111111,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.49,
+    "lowLine": 222.68555555555555555555555556,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": 222.72,
+    "highLine": 225.18,
+    "lowLine": 222.72,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "highPoint": 224.87,
+    "lowPoint": null,
+    "highLine": 224.87,
+    "lowLine": 222.86,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.31666666666666666666666667,
+    "lowLine": 223.00,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": 223.14,
+    "highLine": 225.76333333333333333333333333,
+    "lowLine": 223.14,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "highPoint": 226.21,
+    "lowPoint": null,
+    "highLine": 226.21,
+    "lowLine": 222.76555555555555555555555556,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.04818181818181818181818182,
+    "lowLine": 222.39111111111111111111111111,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.88636363636363636363636364,
+    "lowLine": 222.01666666666666666666666667,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.72454545454545454545454545,
+    "lowLine": 221.64222222222222222222222222,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.56272727272727272727272727,
+    "lowLine": 221.26777777777777777777777778,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.40090909090909090909090909,
+    "lowLine": 220.89333333333333333333333333,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.23909090909090909090909091,
+    "lowLine": 220.51888888888888888888888889,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.07727272727272727272727273,
+    "lowLine": 220.14444444444444444444444444,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": 219.77,
+    "highLine": 224.91545454545454545454545455,
+    "lowLine": 219.77,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 224.75363636363636363636363636,
+    "lowLine": 220.206,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 224.59181818181818181818181818,
+    "lowLine": 220.642,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "highPoint": 224.43,
+    "lowPoint": null,
+    "highLine": 224.43,
+    "lowLine": 221.078,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 224.635,
+    "lowLine": 221.514,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": 221.95,
+    "highLine": 224.840,
+    "lowLine": 221.95,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.045,
+    "lowLine": 222.11333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "highPoint": 225.25,
+    "lowPoint": null,
+    "highLine": 225.25,
+    "lowLine": 222.27666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": 222.44,
+    "highLine": 224.89333333333333333333333333,
+    "lowLine": 222.44,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 224.53666666666666666666666667,
+    "lowLine": 222.076,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "highPoint": 224.18,
+    "lowPoint": null,
+    "highLine": 224.18,
+    "lowLine": 221.712,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 224.46181818181818181818181818,
+    "lowLine": 221.348,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 224.74363636363636363636363636,
+    "lowLine": 220.984,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": 220.62,
+    "highLine": 225.02545454545454545454545455,
+    "lowLine": 220.62,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.30727272727272727272727273,
+    "lowLine": 221.134,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.58909090909090909090909091,
+    "lowLine": 221.648,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 225.87090909090909090909090909,
+    "lowLine": 222.162,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.15272727272727272727272727,
+    "lowLine": 222.676,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.43454545454545454545454545,
+    "lowLine": 223.190,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.71636363636363636363636364,
+    "lowLine": 223.704,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 226.99818181818181818181818182,
+    "lowLine": 224.218,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "highPoint": 227.28,
+    "lowPoint": null,
+    "highLine": 227.28,
+    "lowLine": 224.732,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 227.16666666666666666666666667,
+    "lowLine": 225.246,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": 225.76,
+    "highLine": 227.05333333333333333333333333,
+    "lowLine": 225.76,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "highPoint": 226.94,
+    "lowPoint": null,
+    "highLine": 226.94,
+    "lowLine": 225.69,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 227.10166666666666666666666667,
+    "lowLine": 225.62,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": 225.55,
+    "highLine": 227.26333333333333333333333333,
+    "lowLine": 225.55,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 227.42500000000000000000000000,
+    "lowLine": 225.61666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 227.58666666666666666666666667,
+    "lowLine": 225.68333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 227.74833333333333333333333333,
+    "lowLine": 225.75000000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "highPoint": 227.91,
+    "lowPoint": null,
+    "highLine": 227.91,
+    "lowLine": 225.81666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 228.00,
+    "lowLine": 225.88333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": 225.95,
+    "highLine": 228.09,
+    "lowLine": 225.95,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 228.18,
+    "lowLine": 225.438,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 228.27,
+    "lowLine": 224.926,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "highPoint": 228.36,
+    "lowPoint": null,
+    "highLine": 228.36,
+    "lowLine": 224.414,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 228.55142857142857142857142857,
+    "lowLine": 223.902,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": 223.39,
+    "highLine": 228.74285714285714285714285714,
+    "lowLine": 223.39,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 228.93428571428571428571428571,
+    "lowLine": 224.00875,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 229.12571428571428571428571429,
+    "lowLine": 224.62750,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 229.31714285714285714285714286,
+    "lowLine": 225.24625,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 229.50857142857142857142857143,
+    "lowLine": 225.86500,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "highPoint": 229.7,
+    "lowPoint": null,
+    "highLine": 229.7,
+    "lowLine": 226.48375,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 230.132,
+    "lowLine": 227.10250,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 230.564,
+    "lowLine": 227.72125,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": 228.34,
+    "highLine": 230.996,
+    "lowLine": 228.34,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 231.428,
+    "lowLine": 228.51714285714285714285714286,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "highPoint": 231.86,
+    "lowPoint": null,
+    "highLine": 231.86,
+    "lowLine": 228.69428571428571428571428571,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 231.984,
+    "lowLine": 228.87142857142857142857142857,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.108,
+    "lowLine": 229.04857142857142857142857143,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.232,
+    "lowLine": 229.22571428571428571428571429,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.356,
+    "lowLine": 229.40285714285714285714285714,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "highPoint": 232.48,
+    "lowPoint": 229.58,
+    "highLine": 232.48,
+    "lowLine": 229.58,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.43666666666666666666666667,
+    "lowLine": 229.6775,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.39333333333333333333333333,
+    "lowLine": 229.7750,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "highPoint": 232.35,
+    "lowPoint": null,
+    "highLine": 232.35,
+    "lowLine": 229.8725,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": 229.97,
+    "highLine": 232.68333333333333333333333333,
+    "lowLine": 229.97,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.01666666666666666666666667,
+    "lowLine": 230.2625,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "highPoint": 233.35,
+    "lowPoint": null,
+    "highLine": 233.35,
+    "lowLine": 230.5550,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.284,
+    "lowLine": 230.8475,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": 231.14,
+    "highLine": 233.218,
+    "lowLine": 231.14,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.152,
+    "lowLine": 230.75,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.086,
+    "lowLine": 230.36,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "highPoint": 233.02,
+    "lowPoint": null,
+    "highLine": 233.02,
+    "lowLine": 229.97,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.81,
+    "lowLine": 229.58,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.60,
+    "lowLine": 229.19,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "highPoint": 232.39,
+    "lowPoint": 228.8,
+    "highLine": 232.39,
+    "lowLine": 228.8,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.604,
+    "lowLine": 228.89,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 232.818,
+    "lowLine": 228.98,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.032,
+    "lowLine": 229.07,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": 229.16,
+    "highLine": 233.246,
+    "lowLine": 229.16,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.460,
+    "lowLine": 229.50,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.674,
+    "lowLine": 229.84,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 233.888,
+    "lowLine": 230.18,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 234.102,
+    "lowLine": 230.52,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 234.316,
+    "lowLine": 230.86,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "highPoint": 234.53,
+    "lowPoint": null,
+    "highLine": 234.53,
+    "lowLine": 231.20,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 234.875,
+    "lowLine": 231.54,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 235.220,
+    "lowLine": 231.88,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 235.565,
+    "lowLine": 232.22,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "highPoint": 235.91,
+    "lowPoint": null,
+    "highLine": 235.91,
+    "lowLine": 232.56,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.022,
+    "lowLine": 232.90,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.134,
+    "lowLine": 233.24,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.246,
+    "lowLine": 233.58,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.358,
+    "lowLine": 233.92,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "highPoint": 236.47,
+    "lowPoint": 234.26,
+    "highLine": 236.47,
+    "lowLine": 234.26,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.5775,
+    "lowLine": 234.4225,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.6850,
+    "lowLine": 234.5850,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.7925,
+    "lowLine": 234.7475,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": 234.91,
+    "highLine": 236.9000,
+    "lowLine": 234.91,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 237.0075,
+    "lowLine": 234.48666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 237.1150,
+    "lowLine": 234.06333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 237.2225,
+    "lowLine": 233.64000000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "highPoint": 237.33,
+    "lowPoint": null,
+    "highLine": 237.33,
+    "lowLine": 233.21666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 237.11833333333333333333333333,
+    "lowLine": 232.79333333333333333333333333,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": 232.37,
+    "highLine": 236.90666666666666666666666667,
+    "lowLine": 232.37,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.69500000000000000000000000,
+    "lowLine": 232.11428571428571428571428571,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.48333333333333333333333333,
+    "lowLine": 231.85857142857142857142857143,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.27166666666666666666666667,
+    "lowLine": 231.60285714285714285714285714,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "highPoint": 236.06,
+    "lowPoint": null,
+    "highLine": 236.06,
+    "lowLine": 231.34714285714285714285714286,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 235.595,
+    "lowLine": 231.09142857142857142857142857,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 235.130,
+    "lowLine": 230.83571428571428571428571429,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": 230.58,
+    "highLine": 234.665,
+    "lowLine": 230.58,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "highPoint": 234.2,
+    "lowPoint": null,
+    "highLine": 234.2,
+    "lowLine": 230.755,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 234.19666666666666666666666667,
+    "lowLine": 230.930,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 234.19333333333333333333333333,
+    "lowLine": 231.105,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "highPoint": 234.19,
+    "lowPoint": null,
+    "highLine": 234.19,
+    "lowLine": 231.280,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 234.708,
+    "lowLine": 231.455,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": 231.63,
+    "highLine": 235.226,
+    "lowLine": 231.63,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 235.744,
+    "lowLine": 232.1125,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 236.262,
+    "lowLine": 232.5950,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "highPoint": 236.78,
+    "lowPoint": null,
+    "highLine": 236.78,
+    "lowLine": 233.0775,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": 233.56,
+    "highLine": 237.02666666666666666666666667,
+    "lowLine": 233.56,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 237.27333333333333333333333333,
+    "lowLine": 234.01090909090909090909090909,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 237.52000000000000000000000000,
+    "lowLine": 234.46181818181818181818181818,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 237.76666666666666666666666667,
+    "lowLine": 234.91272727272727272727272727,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 238.01333333333333333333333333,
+    "lowLine": 235.36363636363636363636363636,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 238.26000000000000000000000000,
+    "lowLine": 235.81454545454545454545454545,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 238.50666666666666666666666667,
+    "lowLine": 236.26545454545454545454545455,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 238.75333333333333333333333333,
+    "lowLine": 236.71636363636363636363636364,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 239.00000000000000000000000000,
+    "lowLine": 237.16727272727272727272727273,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 239.24666666666666666666666667,
+    "lowLine": 237.61818181818181818181818182,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 239.49333333333333333333333333,
+    "lowLine": 238.06909090909090909090909091,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "highPoint": 239.74,
+    "lowPoint": 238.52,
+    "highLine": 239.74,
+    "lowLine": 238.52,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 238.25333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 237.98666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": 237.72,
+    "highLine": null,
+    "lowLine": 237.72,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 238.05333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 238.38666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 238.72000000000000000000000000,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 239.05333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 239.38666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 239.72000000000000000000000000,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 240.05333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 240.38666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 240.72000000000000000000000000,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 241.05333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 241.38666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 241.72000000000000000000000000,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 242.05333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 242.38666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 242.72000000000000000000000000,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 243.05333333333333333333333333,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 243.38666666666666666666666667,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": 243.72,
+    "highLine": null,
+    "lowLine": 243.72,
+    "highTrend": null,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 243.6375,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "highPoint": 246.75,
+    "lowPoint": null,
+    "highLine": 246.75,
+    "lowLine": 243.5550,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 246.8425,
+    "lowLine": 243.4725,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": 243.39,
+    "highLine": 246.9350,
+    "lowLine": 243.39,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 247.0275,
+    "lowLine": 243.74,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "highPoint": 247.12,
+    "lowPoint": null,
+    "highLine": 247.12,
+    "lowLine": 244.09,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 247.32,
+    "lowLine": 244.44,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 247.52,
+    "lowLine": 244.79,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 247.72,
+    "lowLine": 245.14,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": 245.49,
+    "highLine": 247.92,
+    "lowLine": 245.49,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 248.12,
+    "lowLine": 245.522,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 248.32,
+    "lowLine": 245.554,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "highPoint": 248.52,
+    "lowPoint": null,
+    "highLine": 248.52,
+    "lowLine": 245.586,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 248.3375,
+    "lowLine": 245.618,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": 245.65,
+    "highLine": 248.1550,
+    "lowLine": 245.65,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 247.9725,
+    "lowLine": 245.475,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "highPoint": 247.79,
+    "lowPoint": null,
+    "highLine": 247.79,
+    "lowLine": 245.300,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 247.93333333333333333333333333,
+    "lowLine": 245.125,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": 244.95,
+    "highLine": 248.07666666666666666666666667,
+    "lowLine": 244.95,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "highPoint": 248.22,
+    "lowPoint": null,
+    "highLine": 248.22,
+    "lowLine": 245.39727272727272727272727273,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 248.89545454545454545454545454,
+    "lowLine": 245.84454545454545454545454545,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 249.57090909090909090909090909,
+    "lowLine": 246.29181818181818181818181818,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 250.24636363636363636363636364,
+    "lowLine": 246.73909090909090909090909091,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 250.92181818181818181818181818,
+    "lowLine": 247.18636363636363636363636364,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 251.59727272727272727272727273,
+    "lowLine": 247.63363636363636363636363636,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 252.27272727272727272727272727,
+    "lowLine": 248.08090909090909090909090909,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 252.94818181818181818181818182,
+    "lowLine": 248.52818181818181818181818182,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 253.62363636363636363636363636,
+    "lowLine": 248.97545454545454545454545455,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 254.29909090909090909090909091,
+    "lowLine": 249.42272727272727272727272727,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": 249.87,
+    "highLine": 254.97454545454545454545454545,
+    "lowLine": 249.87,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "highPoint": 255.65,
+    "lowPoint": null,
+    "highLine": 255.65,
+    "lowLine": 250.49333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 255.955,
+    "lowLine": 251.11666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": 251.74,
+    "highLine": 256.260,
+    "lowLine": 251.74,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 256.565,
+    "lowLine": 252.20166666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 256.870,
+    "lowLine": 252.66333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 257.175,
+    "lowLine": 253.12500000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 257.480,
+    "lowLine": 253.58666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 257.785,
+    "lowLine": 254.04833333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": 254.51,
+    "highLine": 258.090,
+    "lowLine": 254.51,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 258.395,
+    "lowLine": 255.0975,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "highPoint": 258.7,
+    "lowPoint": null,
+    "highLine": 258.7,
+    "lowLine": 255.6850,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 259.31444444444444444444444444,
+    "lowLine": 256.2725,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": 256.86,
+    "highLine": 259.92888888888888888888888889,
+    "lowLine": 256.86,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 260.54333333333333333333333333,
+    "lowLine": 256.92,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.15777777777777777777777778,
+    "lowLine": 256.98,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": 257.04,
+    "highLine": 261.77222222222222222222222222,
+    "lowLine": 257.04,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 262.38666666666666666666666667,
+    "lowLine": 256.96333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 263.00111111111111111111111111,
+    "lowLine": 256.88666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": 256.81,
+    "highLine": 263.61555555555555555555555556,
+    "lowLine": 256.81,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 264.23000000000000000000000000,
+    "lowLine": 257.67428571428571428571428571,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 264.84444444444444444444444444,
+    "lowLine": 258.53857142857142857142857143,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.45888888888888888888888889,
+    "lowLine": 259.40285714285714285714285714,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.07333333333333333333333333,
+    "lowLine": 260.26714285714285714285714286,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.68777777777777777777777778,
+    "lowLine": 261.13142857142857142857142857,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.30222222222222222222222222,
+    "lowLine": 261.99571428571428571428571429,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": 262.86,
+    "highLine": 267.91666666666666666666666667,
+    "lowLine": 262.86,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.53111111111111111111111111,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.14555555555555555555555556,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "highPoint": 269.76,
+    "lowPoint": null,
+    "highLine": 269.76,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 270.5475,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.3350,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 272.1225,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 272.9100,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 273.6975,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.4850,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 275.2725,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "highPoint": 276.06,
+    "lowPoint": null,
+    "highLine": 276.06,
+    "lowLine": null,
+    "highTrend": 0,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 275.334,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.608,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 273.882,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 273.156,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 272.430,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.704,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 270.978,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 270.252,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.526,
+    "lowLine": null,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": 243.59,
+    "highLine": 268.800,
+    "lowLine": 243.59,
+    "highTrend": 1,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.074,
+    "lowLine": 245.60375,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.348,
+    "lowLine": 247.61750,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.622,
+    "lowLine": 249.63125,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.896,
+    "lowLine": 251.64500,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "highPoint": 265.17,
+    "lowPoint": null,
+    "highLine": 265.17,
+    "lowLine": 253.65875,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.74666666666666666666666667,
+    "lowLine": 255.67250,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.32333333333333333333333333,
+    "lowLine": 257.68625,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": 259.7,
+    "highLine": 266.90000000000000000000000000,
+    "lowLine": 259.7,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.47666666666666666666666667,
+    "lowLine": 258.925,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.05333333333333333333333333,
+    "lowLine": 258.150,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "highPoint": 268.63,
+    "lowPoint": null,
+    "highLine": 268.63,
+    "lowLine": 257.375,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.774,
+    "lowLine": 256.600,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.918,
+    "lowLine": 255.825,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": 255.05,
+    "highLine": 269.062,
+    "lowLine": 255.05,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.206,
+    "lowLine": 255.47727272727272727272727273,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.350,
+    "lowLine": 255.90454545454545454545454545,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.494,
+    "lowLine": 256.33181818181818181818181818,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.638,
+    "lowLine": 256.75909090909090909090909091,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.782,
+    "lowLine": 257.18636363636363636363636364,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.926,
+    "lowLine": 257.61363636363636363636363636,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "highPoint": 270.07,
+    "lowPoint": null,
+    "highLine": 270.07,
+    "lowLine": 258.04090909090909090909090909,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.859,
+    "lowLine": 258.46818181818181818181818182,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.648,
+    "lowLine": 258.89545454545454545454545455,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.437,
+    "lowLine": 259.32272727272727272727272727,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": 259.75,
+    "highLine": 265.226,
+    "lowLine": 259.75,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 264.015,
+    "lowLine": 257.1425,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 262.804,
+    "lowLine": 254.5350,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.593,
+    "lowLine": 251.9275,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": 249.32,
+    "highLine": 260.382,
+    "lowLine": 249.32,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 259.171,
+    "lowLine": 248.708,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "highPoint": 257.96,
+    "lowPoint": null,
+    "highLine": 257.96,
+    "lowLine": 248.096,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 257.94,
+    "lowLine": 247.484,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 257.92,
+    "lowLine": 246.872,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": 246.26,
+    "highLine": 257.90,
+    "lowLine": 246.26,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 257.88,
+    "lowLine": 246.61176470588235294117647059,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 257.86,
+    "lowLine": 246.96352941176470588235294118,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "highPoint": 257.84,
+    "lowPoint": null,
+    "highLine": 257.84,
+    "lowLine": 247.31529411764705882352941177,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 258.34,
+    "lowLine": 247.66705882352941176470588235,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 258.84,
+    "lowLine": 248.01882352941176470588235294,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 259.34,
+    "lowLine": 248.37058823529411764705882353,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 259.84,
+    "lowLine": 248.72235294117647058823529412,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 260.34,
+    "lowLine": 249.07411764705882352941176471,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 260.84,
+    "lowLine": 249.42588235294117647058823529,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.34,
+    "lowLine": 249.77764705882352941176470588,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.84,
+    "lowLine": 250.12941176470588235294117647,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "highPoint": 262.34,
+    "lowPoint": null,
+    "highLine": 262.34,
+    "lowLine": 250.48117647058823529411764706,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.9275,
+    "lowLine": 250.83294117647058823529411765,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.5150,
+    "lowLine": 251.18470588235294117647058824,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.1025,
+    "lowLine": 251.53647058823529411764705882,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 260.6900,
+    "lowLine": 251.88823529411764705882352941,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": 252.24,
+    "highLine": 260.2775,
+    "lowLine": 252.24,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 259.8650,
+    "lowLine": 251.95,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 259.4525,
+    "lowLine": 251.66,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "highPoint": 259.04,
+    "lowPoint": null,
+    "highLine": 259.04,
+    "lowLine": 251.37,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 259.639,
+    "lowLine": 251.08,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 260.238,
+    "lowLine": 250.79,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": 250.5,
+    "highLine": 260.837,
+    "lowLine": 250.5,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 261.436,
+    "lowLine": 251.82625,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 262.035,
+    "lowLine": 253.15250,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 262.634,
+    "lowLine": 254.47875,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 263.233,
+    "lowLine": 255.80500,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 263.832,
+    "lowLine": 257.13125,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 264.431,
+    "lowLine": 258.45750,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "highPoint": 265.03,
+    "lowPoint": null,
+    "highLine": 265.03,
+    "lowLine": 259.78375,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": 261.11,
+    "highLine": 265.05833333333333333333333333,
+    "lowLine": 261.11,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.08666666666666666666666667,
+    "lowLine": 261.40,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.11500000000000000000000000,
+    "lowLine": 261.69,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": 261.98,
+    "highLine": 265.14333333333333333333333333,
+    "lowLine": 261.98,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.17166666666666666666666667,
+    "lowLine": 261.47,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "highPoint": 265.2,
+    "lowPoint": null,
+    "highLine": 265.2,
+    "lowLine": 260.96,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.53666666666666666666666667,
+    "lowLine": 260.45,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 265.87333333333333333333333333,
+    "lowLine": 259.94,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.21000000000000000000000000,
+    "lowLine": 259.43,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": 258.92,
+    "highLine": 266.54666666666666666666666667,
+    "lowLine": 258.92,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.88333333333333333333333333,
+    "lowLine": 259.37133333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.22000000000000000000000000,
+    "lowLine": 259.82266666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.55666666666666666666666667,
+    "lowLine": 260.27400000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.89333333333333333333333333,
+    "lowLine": 260.72533333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.23000000000000000000000000,
+    "lowLine": 261.17666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.56666666666666666666666667,
+    "lowLine": 261.62800000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.90333333333333333333333333,
+    "lowLine": 262.07933333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.24000000000000000000000000,
+    "lowLine": 262.53066666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.57666666666666666666666667,
+    "lowLine": 262.98200000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.91333333333333333333333333,
+    "lowLine": 263.43333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "highPoint": 270.25,
+    "lowPoint": null,
+    "highLine": 270.25,
+    "lowLine": 263.88466666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.956,
+    "lowLine": 264.33600000000000000000000000,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.662,
+    "lowLine": 264.78733333333333333333333333,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.368,
+    "lowLine": 265.23866666666666666666666667,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": 265.69,
+    "highLine": 269.074,
+    "lowLine": 265.69,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "highPoint": 268.78,
+    "lowPoint": null,
+    "highLine": 268.78,
+    "lowLine": 264.6125,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.226,
+    "lowLine": 263.5350,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.672,
+    "lowLine": 262.4575,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": 261.38,
+    "highLine": 267.118,
+    "lowLine": 261.38,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 266.564,
+    "lowLine": 261.18333333333333333333333333,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "highPoint": 266.01,
+    "lowPoint": null,
+    "highLine": 266.01,
+    "lowLine": 260.98666666666666666666666667,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": 260.79,
+    "highLine": 266.51785714285714285714285714,
+    "lowLine": 260.79,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.02571428571428571428571429,
+    "lowLine": 261.59333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 267.53357142857142857142857143,
+    "lowLine": 262.39666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.04142857142857142857142857,
+    "lowLine": 263.20000000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.54928571428571428571428571,
+    "lowLine": 264.00333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.05714285714285714285714286,
+    "lowLine": 264.80666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.56500000000000000000000000,
+    "lowLine": 265.61000000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 270.07285714285714285714285714,
+    "lowLine": 266.41333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 270.58071428571428571428571429,
+    "lowLine": 267.21666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.08857142857142857142857143,
+    "lowLine": 268.02000000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.59642857142857142857142857,
+    "lowLine": 268.82333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 272.10428571428571428571428571,
+    "lowLine": 269.62666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": 270.43,
+    "highLine": 272.61214285714285714285714286,
+    "lowLine": 270.43,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "highPoint": 273.12,
+    "lowPoint": null,
+    "highLine": 273.12,
+    "lowLine": 270.5875,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 273.74,
+    "lowLine": 270.7450,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.36,
+    "lowLine": 270.9025,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": 271.06,
+    "highLine": 274.98,
+    "lowLine": 271.06,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 275.60,
+    "lowLine": 271.118,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "highPoint": 276.22,
+    "lowPoint": null,
+    "highLine": 276.22,
+    "lowLine": 271.176,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 276.39666666666666666666666667,
+    "lowLine": 271.234,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 276.57333333333333333333333333,
+    "lowLine": 271.292,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": 271.35,
+    "highLine": 276.75000000000000000000000000,
+    "lowLine": 271.35,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 276.92666666666666666666666667,
+    "lowLine": 271.28333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 277.10333333333333333333333333,
+    "lowLine": 271.21666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": 271.15,
+    "highLine": 277.28000000000000000000000000,
+    "lowLine": 271.15,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 277.45666666666666666666666667,
+    "lowLine": 271.25888888888888888888888889,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 277.63333333333333333333333333,
+    "lowLine": 271.36777777777777777777777778,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "highPoint": 277.81,
+    "lowPoint": null,
+    "highLine": 277.81,
+    "lowLine": 271.47666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 277.936,
+    "lowLine": 271.58555555555555555555555556,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 278.062,
+    "lowLine": 271.69444444444444444444444444,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 278.188,
+    "lowLine": 271.80333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 278.314,
+    "lowLine": 271.91222222222222222222222222,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 278.440,
+    "lowLine": 272.02111111111111111111111111,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": 272.13,
+    "highLine": 278.566,
+    "lowLine": 272.13,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 278.692,
+    "lowLine": 272.98166666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 278.818,
+    "lowLine": 273.83333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 278.944,
+    "lowLine": 274.68500000000000000000000000,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "highPoint": 279.07,
+    "lowPoint": null,
+    "highLine": 279.07,
+    "lowLine": 275.53666666666666666666666667,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 279.78666666666666666666666667,
+    "lowLine": 276.38833333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": 277.24,
+    "highLine": 280.50333333333333333333333333,
+    "lowLine": 277.24,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 281.22000000000000000000000000,
+    "lowLine": 277.365,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 281.93666666666666666666666667,
+    "lowLine": 277.490,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 282.65333333333333333333333333,
+    "lowLine": 277.615,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "highPoint": 283.37,
+    "lowPoint": null,
+    "highLine": 283.37,
+    "lowLine": 277.740,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 283.540625,
+    "lowLine": 277.865,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 283.711250,
+    "lowLine": 277.990,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 283.881875,
+    "lowLine": 278.115,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 284.052500,
+    "lowLine": 278.240,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 284.223125,
+    "lowLine": 278.365,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": 278.49,
+    "highLine": 284.393750,
+    "lowLine": 278.49,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 284.564375,
+    "lowLine": 278.865,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 284.735000,
+    "lowLine": 279.240,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 284.905625,
+    "lowLine": 279.615,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.076250,
+    "lowLine": 279.990,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.246875,
+    "lowLine": 280.365,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": 280.74,
+    "highLine": 285.417500,
+    "lowLine": 280.74,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.588125,
+    "lowLine": 280.97428571428571428571428571,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.758750,
+    "lowLine": 281.20857142857142857142857143,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.929375,
+    "lowLine": 281.44285714285714285714285714,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "highPoint": 286.1,
+    "lowPoint": null,
+    "highLine": 286.1,
+    "lowLine": 281.67714285714285714285714286,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.78,
+    "lowLine": 281.91142857142857142857142857,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.46,
+    "lowLine": 282.14571428571428571428571429,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "highPoint": 285.14,
+    "lowPoint": 282.38,
+    "highLine": 285.14,
+    "lowLine": 282.38,
+    "highTrend": 1,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.33,
+    "lowLine": 280.69090909090909090909090909,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.52,
+    "lowLine": 279.00181818181818181818181818,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.71,
+    "lowLine": 277.31272727272727272727272727,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 285.90,
+    "lowLine": 275.62363636363636363636363636,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "highPoint": 286.09,
+    "lowPoint": null,
+    "highLine": 286.09,
+    "lowLine": 273.93454545454545454545454546,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 284.913,
+    "lowLine": 272.24545454545454545454545455,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 283.736,
+    "lowLine": 270.55636363636363636363636364,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 282.559,
+    "lowLine": 268.86727272727272727272727273,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 281.382,
+    "lowLine": 267.17818181818181818181818182,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 280.205,
+    "lowLine": 265.48909090909090909090909091,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": 263.8,
+    "highLine": 279.028,
+    "lowLine": 263.8,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 277.851,
+    "lowLine": 262.945,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 276.674,
+    "lowLine": 262.090,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 275.497,
+    "lowLine": 261.235,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "highPoint": 274.32,
+    "lowPoint": null,
+    "highLine": 274.32,
+    "lowLine": 260.380,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.324375,
+    "lowLine": 259.525,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.328750,
+    "lowLine": 258.670,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.333125,
+    "lowLine": 257.815,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.337500,
+    "lowLine": 256.960,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.341875,
+    "lowLine": 256.105,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.346250,
+    "lowLine": 255.250,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.350625,
+    "lowLine": 254.395,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": 253.54,
+    "highLine": 274.355000,
+    "lowLine": 253.54,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.359375,
+    "lowLine": 255.915,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.363750,
+    "lowLine": 258.290,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.368125,
+    "lowLine": 260.665,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "highPoint": null,
+    "lowPoint": 263.04,
+    "highLine": 274.372500,
+    "lowLine": 263.04,
+    "highTrend": 0,
+    "lowTrend": 2
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.376875,
+    "lowLine": 262.76111111111111111111111111,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.381250,
+    "lowLine": 262.48222222222222222222222222,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 274.385625,
+    "lowLine": 262.20333333333333333333333333,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "highPoint": 274.39,
+    "lowPoint": null,
+    "highLine": 274.39,
+    "lowLine": 261.92444444444444444444444444,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 273.33833333333333333333333333,
+    "lowLine": 261.64555555555555555555555556,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 272.28666666666666666666666667,
+    "lowLine": 261.36666666666666666666666667,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.23500000000000000000000000,
+    "lowLine": 261.08777777777777777777777778,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 270.18333333333333333333333333,
+    "lowLine": 260.80888888888888888888888889,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "highPoint": null,
+    "lowPoint": 260.53,
+    "highLine": 269.13166666666666666666666667,
+    "lowLine": 260.53,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "highPoint": 268.08,
+    "lowPoint": null,
+    "highLine": 268.08,
+    "lowLine": 259.76,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.631,
+    "lowLine": 258.99,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.182,
+    "lowLine": 258.22,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.733,
+    "lowLine": 257.45,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "highPoint": null,
+    "lowPoint": 256.68,
+    "highLine": 270.284,
+    "lowLine": 256.68,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 270.835,
+    "lowLine": 256.246,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.386,
+    "lowLine": 255.812,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.937,
+    "lowLine": 255.378,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 272.488,
+    "lowLine": 254.944,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 273.039,
+    "lowLine": 254.510,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "highPoint": 273.59,
+    "lowPoint": null,
+    "highLine": 273.59,
+    "lowLine": 254.076,
+    "highTrend": 0,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 271.73666666666666666666666667,
+    "lowLine": 253.642,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 269.88333333333333333333333333,
+    "lowLine": 253.208,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 268.03000000000000000000000000,
+    "lowLine": 252.774,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "highPoint": null,
+    "lowPoint": 252.34,
+    "highLine": 266.17666666666666666666666667,
+    "lowLine": 252.34,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": 264.32333333333333333333333333,
+    "lowLine": 250.25636363636363636363636364,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "highPoint": 262.47,
+    "lowPoint": null,
+    "highLine": 262.47,
+    "lowLine": 248.17272727272727272727272727,
+    "highTrend": 1,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 246.08909090909090909090909091,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 244.00545454545454545454545454,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 241.92181818181818181818181818,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 239.83818181818181818181818182,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 237.75454545454545454545454545,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 235.67090909090909090909090909,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 233.58727272727272727272727273,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": 231.50363636363636363636363636,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "highPoint": null,
+    "lowPoint": 229.42,
+    "highLine": null,
+    "lowLine": 229.42,
+    "highTrend": null,
+    "lowTrend": 3
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": null,
+    "highTrend": null,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": null,
+    "highTrend": null,
+    "lowTrend": null
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "highPoint": null,
+    "lowPoint": null,
+    "highLine": null,
+    "lowLine": null,
+    "highTrend": null,
+    "lowTrend": null
+  }
+]

@@ -27,59 +27,13 @@ public static class NullMath
         : null;
 
     /// <summary>
-    /// Rounds a nullable decimal value to a specified number of fractional digits.
-    /// </summary>
-    /// <param name="value">The nullable decimal value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value, or null if the input is null.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static decimal? Round(this decimal? value, int digits)
-        => value.HasValue
-        ? Math.Round(value.GetValueOrDefault(), digits)
-        : null;
-
-    /// <summary>
-    /// Rounds a nullable double value to a specified number of fractional digits.
-    /// </summary>
-    /// <param name="value">The nullable double value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value, or null if the input is null.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double? Round(this double? value, int digits)
-        => value.HasValue
-        ? Math.Round(value.GetValueOrDefault(), digits)
-        : null;
-
-    /// <summary>
-    /// Rounds a double value to a specified number of fractional digits.
-    /// It is an extension alias of <see cref="Math.Round(double, int)"/>
-    /// </summary>
-    /// <param name="value">The double value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double Round(this double value, int digits)
-        => Math.Round(value, digits);
-
-    /// <summary>
-    /// Rounds a decimal value to a specified number of fractional digits.
-    /// It is an extension alias of <see cref="Math.Round(decimal, int)"/>
-    /// </summary>
-    /// <param name="value">The decimal value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static decimal Round(this decimal value, int digits)
-        => Math.Round(value, digits);
-
-    /// <summary>
     /// Converts a nullable double value to NaN if it is null.
     /// </summary>
     /// <param name="value">The nullable double value.</param>
     /// <returns>The value, or NaN if the input is null.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Null2NaN(this double? value)
-        => value.GetValueOrDefault(double.NaN);
+        => value ?? double.NaN;
 
     /// <summary>
     /// Converts a nullable decimal value to NaN if it is null.

@@ -6,9 +6,19 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <PackageReference>
+      <!--
+        Disable transitive packages flow
+        since test projects are leaf nodes
+      -->
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemDefinitionGroup>
+
   <ItemGroup>
     <PackageVersion Include="Alpaca.Markets" Version="7.2.0" />
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <!-- FluentAssertions pinned to v7.x to avoid licensing changes in v8+ -->
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />

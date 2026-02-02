@@ -1,17 +1,39 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Triple Exponential Moving Average (TEMA) indicator.
+/// </summary>
+public static partial class Tema
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<TemaResult> RemoveWarmupPeriods(
-        this IEnumerable<TemaResult> results)
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of TEMA results.</param>
+    /// <returns>A list of TEMA results with warmup periods removed.</returns>
+    public static IReadOnlyList<TemaResult> RemoveWarmupPeriods(
+        this IReadOnlyList<TemaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-          .ToList()
           .FindIndex(static x => x.Tema != null) + 1;
 
         return results.Remove((3 * n) + 100);
+    }
+
+    /// <summary>
+    /// Validates the parameters for TEMA calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for TEMA.");
+        }
     }
 }
