@@ -423,21 +423,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             return;
         }
 
-        // Reject insertions that would modify indices before MinCacheSize
-    /// <summary>
-    /// Inserts an item without rebuilding this hub.
-    /// </summary>
-    /// <param name="item">Item to insert.</param>
-    /// <param name="index">Cache index to insert at.</param>
-    /// <param name="notify">Notify observers of rebuild.</param>
-    protected void InsertWithoutRebuild(TOut item, int index, bool notify)
-    {
-        if (index < 0 || index > Cache.Count)
-        {
-            AppendCache(item, notify);
-            return;
-        }
-
         int countBefore = Cache.Count;
         bool midInsert = index < countBefore;
         TOut? lastBefore = LastItem;
