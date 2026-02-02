@@ -144,12 +144,12 @@ public class QuoteHub
                 if (index >= 0 && index < Cache.Count)
                 {
                     Cache.Insert(index, result);
-                    
+
                     if (notify)
                     {
                         NotifyObserversOnRebuild(result.Timestamp);
                     }
-                    
+
                     return;
                 }
 
