@@ -604,14 +604,19 @@ public class ThreadSafetyTests : TestBase
     {
         if (string.Equals(eventName, "remove", StringComparison.OrdinalIgnoreCase))
         {
+            // Capture timestamp before removal to maintain synchronization
+            DateTime? timestampToRemove = null;
             if (action.CacheIndex is >= 0 && action.CacheIndex < quoteHub.Results.Count)
             {
+                timestampToRemove = quoteHub.Results[action.CacheIndex.Value].Timestamp;
                 quoteHub.RemoveAt(action.CacheIndex.Value);
             }
 
-            if (action.Quote is not null)
+            // Update revisedQuotes using captured timestamp or fallback to action.Quote
+            DateTime? removalTimestamp = timestampToRemove ?? action.Quote?.Timestamp;
+            if (removalTimestamp.HasValue)
             {
-                RemoveQuoteByTimestamp(revisedQuotes, action.Quote.Timestamp);
+                RemoveQuoteByTimestamp(revisedQuotes, removalTimestamp.Value);
             }
 
             return;
