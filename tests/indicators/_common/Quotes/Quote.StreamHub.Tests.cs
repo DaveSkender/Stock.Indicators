@@ -326,18 +326,8 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // Cache size should remain unchanged
         int finalCount = observer.Cache.Count;
-        Console.WriteLine($"Observer cache count before: {initialCount}, after: {finalCount}");
-        Console.WriteLine($"Observer first timestamp before: {observerFirstTimestamp}, after: {observer.Cache[0].Timestamp}");
-
         // Check if old quote was actually added
         bool oldQuoteFound = observer.Cache.Any(q => q.Timestamp == oldQuote.Timestamp);
-        Console.WriteLine($"Old quote found in observer cache: {oldQuoteFound}");
-
-        if (oldQuoteFound)
-        {
-            int oldQuoteIndex = observer.Cache.ToList().FindIndex(q => q.Timestamp == oldQuote.Timestamp);
-            Console.WriteLine($"Old quote was inserted at index: {oldQuoteIndex}");
-        }
 
         // Verify expected behavior after the fix
         observer.Results.Should().HaveCount(maxCacheSize, "cache size should not change when adding old quotes");
