@@ -613,10 +613,10 @@ public class ThreadSafetyTests : TestBase
             }
 
             // Update revisedQuotes using captured timestamp or fallback to action.Quote
-            DateTime timestamp = timestampToRemove ?? action.Quote?.Timestamp ?? default;
-            if (timestamp != default)
+            DateTime removalTimestamp = timestampToRemove ?? action.Quote?.Timestamp ?? default;
+            if (removalTimestamp != default)
             {
-                RemoveQuoteByTimestamp(revisedQuotes, timestamp);
+                RemoveQuoteByTimestamp(revisedQuotes, removalTimestamp);
             }
 
             return;
