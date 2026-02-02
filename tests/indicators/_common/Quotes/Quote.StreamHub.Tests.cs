@@ -192,7 +192,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         DateTime firstTimestamp = quoteHub.Cache[0].Timestamp;
 
         // Try to add a quote that precedes the current timeline
-        Quote oldQuote = quotes[10]; // This is before quote[50]
+        Quote oldQuote = quotes[10]; // This is before quotes[50]
         oldQuote.Timestamp.Should().BeBefore(firstTimestamp);
 
         // This should be silently ignored
@@ -243,7 +243,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // Try to add a quote directly to the observer (non-standalone)
         // that precedes its current timeline
-        Quote oldQuote = quotes[10]; // This is before quote[50]
+        Quote oldQuote = quotes[10]; // This is before quotes[50]
         oldQuote.Timestamp.Should().BeBefore(observerFirstTimestamp);
 
         // This should be silently ignored - no rebuild should occur
@@ -315,16 +315,16 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // Try to add a quote directly to the observer (non-standalone)
         // that precedes its current timeline
-        Quote oldQuote = quotes[10]; // This is before quote[50]
+        Quote oldQuote = quotes[10]; // This is before quotes[50]
         oldQuote.Timestamp.Should().BeBefore(observerFirstTimestamp);
 
         // Get initial count
         int initialCount = observer.Cache.Count;
 
-        // This should be silently ignored (but currently is NOT for non-standalone)
+        // This should be silently ignored
         observer.Add(oldQuote);
 
-        // Cache size should remain unchanged (or show the bug if it doesn't)
+        // Cache size should remain unchanged
         int finalCount = observer.Cache.Count;
         Console.WriteLine($"Observer cache count before: {initialCount}, after: {finalCount}");
         Console.WriteLine($"Observer first timestamp before: {observerFirstTimestamp}, after: {observer.Cache[0].Timestamp}");
@@ -339,7 +339,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             Console.WriteLine($"Old quote was inserted at index: {oldQuoteIndex}");
         }
 
-        // These assertions will fail if the bug exists
+        // Verify expected behavior after the fix
         observer.Results.Should().HaveCount(maxCacheSize, "cache size should not change when adding old quotes");
         observer.Cache[0].Timestamp.Should().Be(observerFirstTimestamp, "first timestamp should not change");
         oldQuoteFound.Should().BeFalse("old quote should not be in cache");
