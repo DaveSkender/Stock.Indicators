@@ -31,6 +31,14 @@ public class RenkoHub
         Reinitialize();
     }
 
+    /// <inheritdoc/>
+    /// <remarks>
+    /// Renko is a transformation hub that doesn't have 1:1 timestamp alignment with input quotes.
+    /// Bricks are only created when price moves by brickSize, so not every quote produces a brick.
+    /// Provider-driven pruning would incorrectly remove bricks, so Renko opts out.
+    /// </remarks>
+    protected override bool ShouldPruneOnProviderPrune => false;
+
     /// <summary>
     /// Renko hub settings. Since it can produce 0 or many bricks per quote,
     /// the default 1:1 in/out is not used and must be skipped to prevent
@@ -73,6 +81,17 @@ public class RenkoHub
             if (brick is not null)
             {
                 lastBrick = brick;
+
+                // Restore the provider index corresponding to this brick
+                // Use IndexOf to find the index in the (potentially pruned) provider cache
+                lastBrickProviderIndex = ProviderCache.IndexOf(brick.Timestamp, true);
+
+                // If not found (brick predates pruned cache), use first available index
+                if (lastBrickProviderIndex == -1)
+                {
+                    lastBrickProviderIndex = 0;
+                }
+
                 return;
             }
 
@@ -83,8 +102,11 @@ public class RenkoHub
         if (ProviderCache.Count > 1)
         {
             SetBaselineBrick();
+            lastBrickProviderIndex = 0;
         }
     }
+
+
 
     /// <summary>
     /// re/initialize last brick marker
@@ -151,8 +173,19 @@ public class RenkoHub
             decimal sumV = 0;  // cumulative
 
             // Aggregate quotes from last brick to current quote
-            // Use lastBrickProviderIndex instead of timestamp lookup to handle pruned cache
-            int startIndex = Math.Max(0, lastBrickProviderIndex + 1);
+            // Find the starting index by looking for quotes after lastBrick timestamp
+            int startIndex = ProviderCache.IndexOf(lastBrick.Timestamp, true) + 1;
+
+            // Ensure startIndex is valid and within bounds
+            if (startIndex < 0)
+            {
+                startIndex = 0;
+            }
+
+            if (startIndex > providerIndex)
+            {
+                startIndex = providerIndex;
+            }
 
             for (int w = startIndex; w <= providerIndex; w++)
             {
