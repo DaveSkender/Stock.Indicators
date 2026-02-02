@@ -140,10 +140,16 @@ public class QuoteHub
             }
             else
             {
-                // if out-of-order insert, avoid rebuilding this hub when standalone
+                // if out-of-order insert, trigger rebuild to notify observers
                 if (index >= 0 && index < Cache.Count)
                 {
-                    InsertWithoutRebuild(result, index, notify);
+                    Cache.Insert(index, result);
+                    
+                    if (notify)
+                    {
+                        NotifyObserversOnRebuild(result.Timestamp);
+                    }
+                    
                     return;
                 }
 

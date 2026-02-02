@@ -35,7 +35,6 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // late arrival, should equal series
         quoteHub.Add(Quotes[80]);
-        quoteHub.Rebuild(Quotes[80].Timestamp);
 
         IReadOnlyList<SlopeResult> expectedOriginal = Quotes.ToSlope(lookbackPeriods);
         sut.IsExactly(expectedOriginal);
