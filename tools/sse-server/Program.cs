@@ -295,11 +295,8 @@ static async Task SendScenarioEvents(
 
     if (actions.Count == 0)
     {
-        Console.WriteLine($"[Longest] No scenario actions for '{scenario}'");
         return;
     }
-
-    Console.WriteLine($"[Longest] Sending {actions.Count} scenario events for '{scenario}'");
 
     foreach (SseQuoteAction action in actions)
     {
