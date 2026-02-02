@@ -83,7 +83,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             throw new ArgumentOutOfRangeException(
                 nameof(requiredWarmupPeriods),
                 requiredWarmupPeriods,
-                $"Required warmup periods must be between 0 and {MaxCacheSize} (MaxCacheSize).");
+                $"Required warmup periods must be between 0 and {MaxCacheSize} (MaxCacheSize). Got {requiredWarmupPeriods}.");
         }
 
         // Update the baseline requirement for this hub

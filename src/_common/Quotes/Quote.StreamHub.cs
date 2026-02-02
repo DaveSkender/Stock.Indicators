@@ -140,14 +140,17 @@ public class QuoteHub
             }
             else
             {
-                // if out-of-order insert, trigger rebuild to notify observers
+                // if out-of-order insert, insert and trigger rebuild
                 if (index >= 0 && index < Cache.Count)
                 {
                     Cache.Insert(index, result);
 
+                    // For standalone QuoteHub, trigger rebuild which will notify observers
+                    // For non-standalone, this won't be reached due to earlier branch
                     if (notify)
                     {
-                        NotifyObserversOnRebuild(result.Timestamp);
+                        // Use Rebuild to properly handle state rollback and observer notification
+                        Rebuild(result.Timestamp);
                     }
 
                     return;

@@ -227,7 +227,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         // Subscribe to downstream to track rebuilds
         // We'll use a custom observer that tracks OnRebuild calls
         var mockObserver = new MockRebuildTracker();
-        downstream.Subscribe(mockObserver);
+        IDisposable subscription = downstream.Subscribe(mockObserver);
 
         // Stream more quotes than cache can hold
         provider.Add(quotes);
@@ -256,6 +256,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         observer.Results.Should().HaveCount(maxCacheSize);
         observer.Cache[0].Timestamp.Should().Be(observerFirstTimestamp);
 
+        subscription.Dispose();
         downstream.Unsubscribe();
         observer.Unsubscribe();
         provider.EndTransmission();
