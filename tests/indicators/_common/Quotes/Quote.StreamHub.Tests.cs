@@ -319,20 +319,15 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         Quote oldQuote = quotes[10]; // This is before quotes[50]
         oldQuote.Timestamp.Should().BeBefore(observerFirstTimestamp);
 
-        // Get initial count
-        int initialCount = observer.Cache.Count;
-
-        // This should be silently ignored
+        // This should be silently ignored - no rebuild should occur
         observer.Add(oldQuote);
 
-        // Cache size should remain unchanged
-        int finalCount = observer.Cache.Count;
-        // Check if old quote was actually added
-        bool oldQuoteFound = observer.Cache.Any(q => q.Timestamp == oldQuote.Timestamp);
+        // Verify no rebuild was triggered
+        mockObserver.RebuildCount.Should().Be(0, "no rebuild should be triggered for quotes preceding timeline");
 
-        // Verify expected behavior after the fix
-        observer.Results.Should().HaveCount(maxCacheSize, "cache size should not change when adding old quotes");
-        observer.Cache[0].Timestamp.Should().Be(observerFirstTimestamp, "first timestamp should not change");
+        // Cache should remain unchanged
+        observer.Results.Should().HaveCount(maxCacheSize);
+        observer.Cache[0].Timestamp.Should().Be(observerFirstTimestamp);
         oldQuoteFound.Should().BeFalse("old quote should not be in cache");
 
         observer.Unsubscribe();

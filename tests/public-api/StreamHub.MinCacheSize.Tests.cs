@@ -111,7 +111,7 @@ public class MinCacheSizeTests : TestBase
         QuoteHub quoteHub = new(maxCacheSize: 200);
 
         // Subscribe an indicator that requires warmup
-        SmaHub smaHub = quoteHub.ToSmaHub(20);
+        _ = quoteHub.ToSmaHub(20);
 
         // Add quotes to build cache
         for (int i = 0; i < 100; i++)
@@ -152,7 +152,7 @@ public class MinCacheSizeTests : TestBase
         QuoteHub quoteHub = new(maxCacheSize: 200);
 
         // Subscribe an indicator that requires warmup
-        SmaHub smaHub = quoteHub.ToSmaHub(20);
+        _ = quoteHub.ToSmaHub(20);
 
         // Add quotes to build cache
         for (int i = 0; i < 100; i++)
