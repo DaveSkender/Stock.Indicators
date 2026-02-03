@@ -17,6 +17,9 @@ public class MarubozuHub
         _minBodyPercentDecimal = minBodyPercent / 100;
         Name = $"MARUBOZU({minBodyPercent:F1})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Pattern detection requires at least 1 period
+
         Reinitialize();
     }
 

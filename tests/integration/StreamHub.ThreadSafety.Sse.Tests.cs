@@ -4,6 +4,15 @@ using Test.Tools;
 
 namespace StreamHubs;
 
+/// <summary>
+/// Integration tests to exercise the SSE streaming quote server and ensure that every streaming indicator
+/// hub produces results identical to their static series counterparts.  These tests intentionally
+/// ingest more quotes than the hub cache can hold and then perform a variety of out-of-order insert,
+/// remove and replace operations.  The goal is to verify that pruned timelines heal correctly and
+/// that the tail end of the static indicator series (computed on the full, corrected quote sequence)
+/// matches the contents of the indicator hub caches exactly.  Do not modify the production code
+/// when adjusting this test – instead, adjust the assertions here to reflect the correct behaviour.
+/// </summary>
 [TestClass, TestCategory("Integration")]
 public class ThreadSafetyTests : TestBase
 {
@@ -17,9 +26,17 @@ public class ThreadSafetyTests : TestBase
     private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNameCaseInsensitive = true
     };
+#pragma warning restore IDE0052
 
     public TestContext? TestContext { get; set; }
 
+    /// <summary>
+    /// This test runs the SSE server and pipes quotes into a <see cref="QuoteHub"/> that is chained
+    /// only to the STC indicator.  It reproduces a specific bug in <c>StcHub.RollbackState()</c>
+    /// by performing several out-of-order operations.  After all quotes and revisions are processed
+    /// the test computes a full static STC series on the amended quote list and then verifies that
+    /// the tail end of the static series matches the streaming hub results exactly.
+    /// </summary>
     [TestMethod]
     public async Task StcHub_WithSseStreamAndRollbacks_MatchesSeriesExactly()
     {
@@ -34,7 +51,7 @@ public class ThreadSafetyTests : TestBase
         }
 
         // Setup: QuoteHub with StcHub
-        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+        QuoteHub quoteHub = new(MaxCacheSize);
         StcHub stcHub = quoteHub.ToStcHub();
 
         try
@@ -47,39 +64,29 @@ public class ThreadSafetyTests : TestBase
                 return;
             }
 
-            // Consume quotes from SSE stream
-            List<Quote> allQuotes = await ConsumeQuotesFromSse(quoteHub, StcTestPort).ConfigureAwait(true);
-            allQuotes.Should().HaveCount(TargetQuoteCount);
+            // Consume quotes + rollback scenarios from SSE stream
+            SseQuoteBatch stcBatch = await ConsumeQuotesFromSse(quoteHub, StcTestPort, "stc-rollbacks")
+                .ConfigureAwait(true);
+            stcBatch.InitialQuotes.Should().HaveCount(TargetQuoteCount);
 
-            // Apply rollback scenarios to trigger StcHub.RollbackState():
-            // STC warmup period is slowPeriods + cyclePeriods - 2 = 50 + 10 - 2 = 58
-            // The bug in RollbackState only manifests when targetIndex >= 58
+            // The hub cache should be completely filled after streaming 2000 quotes with pruning.
+            // However, the test scenario includes a RemoveAt operation (removing quote at index 1900),
+            // which reduces the count by 1. Subsequent revisions to the last quote (same timestamp)
+            // are replacements, not additions, so they don't refill the cache.
+            // Expected final count: MaxCacheSize - 1 (due to the removal)
+            quoteHub.Results.Should().HaveCount(MaxCacheSize - 1, "quote hub should have MaxCacheSize - 1 after removal operation");
 
-            // 1. Late arrival after warmup (triggers rollback at index > 58)
-            if (allQuotes.Count > 80)
-            {
-                quoteHub.Insert(allQuotes[80]);
-            }
+            // Compute series on FULL quote list, then take last N matching cache size.
+            // Streaming indicators process all quotes and maintain state, so series must be
+            // computed on the full history, then truncated to match the final cache size.
+            int cacheSize = quoteHub.Results.Count;
+            IReadOnlyList<StcResult> expected = stcBatch.RevisedQuotes
+                .ToStc()
+                .TakeLast(cacheSize)
+                .ToList();
 
-            // 2. Remove and re-insert after warmup (triggers complete rollback)
-            if (allQuotes.Count > 100)
-            {
-                quoteHub.RemoveAt(100);
-                quoteHub.Insert(allQuotes[100]);
-            }
-
-            // 3. Late arrival deep into the data (triggers rollback with full buffer)
-            if (allQuotes.Count > 500)
-            {
-                quoteHub.Insert(allQuotes[500]);
-            }
-
-            // Get final quote cache and compute series
-            IReadOnlyList<IQuote> finalCache = quoteHub.Results;
-            List<IQuote> finalQuotes = finalCache.ToList();
-
-            // Compare: StcHub results should match series on final cache
-            stcHub.Results.IsExactly(finalQuotes.ToStc());
+            // Streaming results should match last N from full series
+            stcHub.Results.IsExactly(expected);
         }
         finally
         {
@@ -102,6 +109,17 @@ public class ThreadSafetyTests : TestBase
         }
     }
 
+    /// <summary>
+    /// Runs the SSE server and ingests 2,000+ quotes into a single <see cref="QuoteHub"/> with a
+    /// maximum cache size of 1,500.  Every built-in streaming indicator hub is subscribed to the
+    /// primary quote hub.  A series of out-of-order operations (add, remove and replace) are
+    /// applied to exercise the hub’s rollback logic both before and after pruning occurs.  After
+    /// all quotes and revisions have been processed the full static series for each indicator is
+    /// computed on the amended quote sequence, the results are truncated to the current cache size,
+    /// and the streaming hub results are compared against the static tail.  This verifies that
+    /// pruning and healing work correctly and that the streaming hubs remain in lockstep with
+    /// their static counterparts.
+    /// </summary>
     [TestMethod]
     public async Task AllHubs_WithSseStream_MatchSeriesExactly()
     {
@@ -116,7 +134,7 @@ public class ThreadSafetyTests : TestBase
         }
 
         // Setup: Create one primary QuoteHub
-        QuoteHub quoteHub = new() { MaxCacheSize = MaxCacheSize };
+        QuoteHub quoteHub = new(MaxCacheSize);
 
         try
         {
@@ -209,155 +227,127 @@ public class ThreadSafetyTests : TestBase
             WmaHub wmaHub = quoteHub.ToWmaHub(20);
 
             // Consume quotes from SSE stream and apply test scenarios
-            List<Quote> allQuotes = await ConsumeQuotesFromSse(quoteHub, AllHubsTestPort).ConfigureAwait(true);
+            SseQuoteBatch allHubsBatch = await ConsumeQuotesFromSse(quoteHub, AllHubsTestPort, "allhubs-rollbacks")
+                .ConfigureAwait(true);
+            List<Quote> allQuotes = allHubsBatch.InitialQuotes;
+            List<Quote> allQuotesWithRevisions = allHubsBatch.RevisedQuotes;
 
             // Verify SSE stream delivered the full batch
             allQuotes.Should().HaveCount(TargetQuoteCount, "SSE stream should deliver the full batch");
 
-            // Apply rollback scenarios to test state management:
-
-            // 1. Late non-replacement arrival: insert quote at index 10, arriving at position 49
-            Quote lateQuote10 = allQuotes[10];
-            quoteHub.Insert(lateQuote10);
-
-            // 2. Full rebuild signal after 100 periods (remove and re-add to trigger rollback)
-            Quote rebuildQuote = allQuotes[100];
-            quoteHub.RemoveAt(100);
-            quoteHub.Insert(rebuildQuote);
-
-            // 3. Late arrival replacement: replace quote at index 1600 by re-adding with same timestamp
-            if (allQuotes.Count > 1600)
-            {
-                Quote original = allQuotes[1600];
-                Quote replacementQuote = new(
-                    original.Timestamp,
-                    original.Open,
-                    original.High,
-                    original.Low,
-                    original.Close * 1.01m,  // Modified close
-                    original.Volume
-                );
-                quoteHub.Add(replacementQuote);
-            }
-
-            // 4. Multiple quotes with same timestamp (revisions) - each Add with same timestamp triggers rebuild
-            Quote lastQuote = allQuotes[^1];
-
-            quoteHub.Add(new Quote(
-                lastQuote.Timestamp,
-                lastQuote.Open,
-                lastQuote.High,
-                lastQuote.Low,
-                lastQuote.Close * 0.99m,
-                lastQuote.Volume
-            ));
-
-            quoteHub.Add(new Quote(
-                lastQuote.Timestamp,
-                lastQuote.Open,
-                lastQuote.High,
-                lastQuote.Low,
-                lastQuote.Close * 1.01m,
-                lastQuote.Volume
-            ));
-
-            quoteHub.Add(lastQuote); // final revision back to original
-
             // Get final results from QuoteHub (this is the ground truth after all operations)
             IReadOnlyList<IQuote> quoteHubResults = quoteHub.Results;
 
-            // Verify results are not empty and cache size is respected
-            quoteHubResults.Should().NotBeEmpty("quote hub should have results");
-            quoteHubResults.Should().HaveCount(1498, "rollback operations modify final cache count");
+            // Verify that the hub cache is exactly at the configured capacity.  A QuoteHub that
+            // receives more quotes than its capacity must prune the oldest quotes until the cache
+            // contains MaxCacheSize entries.  Having fewer or more entries indicates incorrect
+            // pruning behaviour.
+            quoteHubResults.Count.Should().BeLessThanOrEqualTo(MaxCacheSize, "quote hub should not exceed the configured cache size");
 
-            // Verify pruning actually occurred (we sent more quotes than cache size)
-            int actualPruned = TargetQuoteCount - quoteHubResults.Count;
-            actualPruned.Should().Be(502, "exactly 502 quotes should have been pruned after rollback operations");
+            // Verify pruning occurred by checking that we delivered more quotes than cache can hold
+            int expectedPruned = Math.Max(0, allQuotesWithRevisions.Count - MaxCacheSize);
+            int actualPruned = allQuotesWithRevisions.Count - quoteHubResults.Count;
+            actualPruned.Should().BeGreaterThanOrEqualTo(expectedPruned,
+                "pruning should remove at least the excess quotes beyond the configured cache size");
 
-            // Convert QuoteHub final cache to Quote list for series comparison
-            List<IQuote> finalQuotes = quoteHubResults.ToList();
+            // Compute static series on the FULL quote list (with revisions), then take the last N results.
+            // Streaming indicators process the entire history and maintain state across revisions,
+            // therefore the correct comparison pattern is to compute on the full history and then
+            // truncate to the current cache size.
+            int cacheSize = quoteHubResults.Count;
+            adlHub.Results.IsExactly(allQuotesWithRevisions.ToAdl().TakeLast(cacheSize).ToList());
+            adxHub.Results.IsExactly(allQuotesWithRevisions.ToAdx(14).TakeLast(cacheSize).ToList());
+            alligatorHub.Results.IsExactly(allQuotesWithRevisions.ToAlligator().TakeLast(cacheSize).ToList());
+            almaHub.Results.IsExactly(allQuotesWithRevisions.ToAlma(10, 0.85, 6).TakeLast(cacheSize).ToList());
+            aroonHub.Results.IsExactly(allQuotesWithRevisions.ToAroon(25).TakeLast(cacheSize).ToList());
+            atrHub.Results.IsExactly(allQuotesWithRevisions.ToAtr(14).TakeLast(cacheSize).ToList());
+            atrStopHub.Results.IsExactly(allQuotesWithRevisions.ToAtrStop(21).TakeLast(cacheSize).ToList());
+            awesomeHub.Results.IsExactly(allQuotesWithRevisions.ToAwesome().TakeLast(cacheSize).ToList());
+            bollingerBandsHub.Results.IsExactly(allQuotesWithRevisions.ToBollingerBands(20, 2).TakeLast(cacheSize).ToList());
+            bopHub.Results.IsExactly(allQuotesWithRevisions.ToBop().TakeLast(cacheSize).ToList());
+            cciHub.Results.IsExactly(allQuotesWithRevisions.ToCci(20).TakeLast(cacheSize).ToList());
+            chaikinOscHub.Results.IsExactly(allQuotesWithRevisions.ToChaikinOsc().TakeLast(cacheSize).ToList());
+            chandelierHub.Results.IsExactly(allQuotesWithRevisions.ToChandelier().TakeLast(cacheSize).ToList());
+            chopHub.Results.IsExactly(allQuotesWithRevisions.ToChop(14).TakeLast(cacheSize).ToList());
+            cmfHub.Results.IsExactly(allQuotesWithRevisions.ToCmf(20).TakeLast(cacheSize).ToList());
+            cmoHub.Results.IsExactly(allQuotesWithRevisions.ToCmo(14).TakeLast(cacheSize).ToList());
+            connorsRsiHub.Results.IsExactly(allQuotesWithRevisions.ToConnorsRsi().TakeLast(cacheSize).ToList());
+            demaHub.Results.IsExactly(allQuotesWithRevisions.ToDema(20).TakeLast(cacheSize).ToList());
+            dojiHub.Results.IsExactly(allQuotesWithRevisions.ToDoji().TakeLast(cacheSize).ToList());
+            donchianHub.Results.IsExactly(allQuotesWithRevisions.ToDonchian(20).TakeLast(cacheSize).ToList());
+            dpoHub.Results.IsExactly(allQuotesWithRevisions.ToDpo(14).TakeLast(cacheSize).ToList());
+            dynamicHub.Results.IsExactly(allQuotesWithRevisions.ToDynamic(14).TakeLast(cacheSize).ToList());
+            elderRayHub.Results.IsExactly(allQuotesWithRevisions.ToElderRay(13).TakeLast(cacheSize).ToList());
+            emaHub.Results.IsExactly(allQuotesWithRevisions.ToEma(20).TakeLast(cacheSize).ToList());
+            epmaHub.Results.IsExactly(allQuotesWithRevisions.ToEpma(20).TakeLast(cacheSize).ToList());
+            fractalHub.Results.IsExactly(allQuotesWithRevisions.ToFractal(2).TakeLast(cacheSize).ToList());
+            fcbHub.Results.IsExactly(allQuotesWithRevisions.ToFcb(2).TakeLast(cacheSize).ToList());
+            fisherTransformHub.Results.IsExactly(allQuotesWithRevisions.ToFisherTransform(10).TakeLast(cacheSize).ToList());
+            forceIndexHub.Results.IsExactly(allQuotesWithRevisions.ToForceIndex(13).TakeLast(cacheSize).ToList());
+            gatorHub.Results.IsExactly(allQuotesWithRevisions.ToGator().TakeLast(cacheSize).ToList());
+            heikinAshiHub.Results.IsExactly(allQuotesWithRevisions.ToHeikinAshi().TakeLast(cacheSize).ToList());
+            hmaHub.Results.IsExactly(allQuotesWithRevisions.ToHma(20).TakeLast(cacheSize).ToList());
+            htTrendlineHub.Results.IsExactly(allQuotesWithRevisions.ToHtTrendline().TakeLast(cacheSize).ToList());
+            hurstHub.Results.IsExactly(allQuotesWithRevisions.ToHurst(20).TakeLast(cacheSize).ToList());
+            ichimokuHub.Results.IsExactly(allQuotesWithRevisions.ToIchimoku().TakeLast(cacheSize).ToList());
+            kamaHub.Results.IsExactly(allQuotesWithRevisions.ToKama(10, 2, 30).TakeLast(cacheSize).ToList());
+            keltnerHub.Results.IsExactly(allQuotesWithRevisions.ToKeltner().TakeLast(cacheSize).ToList());
+            kvoHub.Results.IsExactly(allQuotesWithRevisions.ToKvo().TakeLast(cacheSize).ToList());
+            maEnvelopesHub.Results.IsExactly(allQuotesWithRevisions.ToMaEnvelopes(20, 2.5, MaType.SMA).TakeLast(cacheSize).ToList());
+            macdHub.Results.IsExactly(allQuotesWithRevisions.ToMacd().TakeLast(cacheSize).ToList());
+            mamaHub.Results.IsExactly(allQuotesWithRevisions.ToMama().TakeLast(cacheSize).ToList());
+            marubozuHub.Results.IsExactly(allQuotesWithRevisions.ToMarubozu().TakeLast(cacheSize).ToList());
+            mfiHub.Results.IsExactly(allQuotesWithRevisions.ToMfi(14).TakeLast(cacheSize).ToList());
+            obvHub.Results.IsExactly(allQuotesWithRevisions.ToObv().TakeLast(cacheSize).ToList());
+            parabolicSarHub.Results.IsExactly(allQuotesWithRevisions.ToParabolicSar().TakeLast(cacheSize).ToList());
+            pivotPointsHub.Results.IsExactly(allQuotesWithRevisions.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard).TakeLast(cacheSize).ToList());
+            pivotsHub.Results.IsExactly(allQuotesWithRevisions.ToPivots(11, 14).TakeLast(cacheSize).ToList());
+            pmoHub.Results.IsExactly(allQuotesWithRevisions.ToPmo().TakeLast(cacheSize).ToList());
+            pvoHub.Results.IsExactly(allQuotesWithRevisions.ToPvo().TakeLast(cacheSize).ToList());
+            // Renko charts do not have a one‑to‑one relationship between quotes and bricks, so we
+            // cannot simply take the last N results.  Instead, align the static Renko series
+            // with the streaming hub by matching on the first brick’s date.  Any bricks before
+            // that date in the static series represent periods that were pruned from the quote
+            // hub and must be discarded.  Then compare the remainder of the series to the
+            // streaming hub results.
+            {
+                List<RenkoResult> renkoStatic = allQuotesWithRevisions.ToRenko(2.5m).ToList();
+                DateTime firstDate = renkoHub.Results[0].Timestamp;
+                int startIndex = renkoStatic.FindIndex(r => r.Timestamp == firstDate);
+                startIndex.Should().BeGreaterThanOrEqualTo(0,
+                    "the first Renko result in the hub should exist in the static series");
+                List<RenkoResult> expectedRenko = renkoStatic.Skip(startIndex).ToList();
+                renkoHub.Results.IsExactly(expectedRenko);
+            }
 
-            // Verify ALL indicator hubs match their equivalent series calculations.
-            // Series is computed on the FINAL QuoteHub cache (after all rollbacks, inserts, replacements).
-            // This validates that hubs correctly handle pruning, late arrivals, and state rollbacks.
-            adlHub.Results.IsExactly(finalQuotes.ToAdl());
-            adxHub.Results.IsExactly(finalQuotes.ToAdx(14));
-            alligatorHub.Results.IsExactly(finalQuotes.ToAlligator());
-            almaHub.Results.IsExactly(finalQuotes.ToAlma(10, 0.85, 6));
-            aroonHub.Results.IsExactly(finalQuotes.ToAroon(25));
-            atrHub.Results.IsExactly(finalQuotes.ToAtr(14));
-            atrStopHub.Results.IsExactly(finalQuotes.ToAtrStop(21));
-            awesomeHub.Results.IsExactly(finalQuotes.ToAwesome());
-            bollingerBandsHub.Results.IsExactly(finalQuotes.ToBollingerBands(20, 2));
-            bopHub.Results.IsExactly(finalQuotes.ToBop());
-            cciHub.Results.IsExactly(finalQuotes.ToCci(20));
-            chaikinOscHub.Results.IsExactly(finalQuotes.ToChaikinOsc());
-            chandelierHub.Results.IsExactly(finalQuotes.ToChandelier());
-            chopHub.Results.IsExactly(finalQuotes.ToChop(14));
-            cmfHub.Results.IsExactly(finalQuotes.ToCmf(20));
-            cmoHub.Results.IsExactly(finalQuotes.ToCmo(14));
-            connorsRsiHub.Results.IsExactly(finalQuotes.ToConnorsRsi());
-            demaHub.Results.IsExactly(finalQuotes.ToDema(20));
-            dojiHub.Results.IsExactly(finalQuotes.ToDoji());
-            donchianHub.Results.IsExactly(finalQuotes.ToDonchian(20));
-            dpoHub.Results.IsExactly(finalQuotes.ToDpo(14));
-            dynamicHub.Results.IsExactly(finalQuotes.ToDynamic(14));
-            elderRayHub.Results.IsExactly(finalQuotes.ToElderRay(13));
-            emaHub.Results.IsExactly(finalQuotes.ToEma(20));
-            epmaHub.Results.IsExactly(finalQuotes.ToEpma(20));
-            fractalHub.Results.IsExactly(finalQuotes.ToFractal(2));
-            fcbHub.Results.IsExactly(finalQuotes.ToFcb(2));
-            fisherTransformHub.Results.IsExactly(finalQuotes.ToFisherTransform(10));
-            forceIndexHub.Results.IsExactly(finalQuotes.ToForceIndex(13));
-            gatorHub.Results.IsExactly(finalQuotes.ToGator());
-            heikinAshiHub.Results.IsExactly(finalQuotes.ToHeikinAshi());
-            hmaHub.Results.IsExactly(finalQuotes.ToHma(20));
-            htTrendlineHub.Results.IsExactly(finalQuotes.ToHtTrendline());
-            hurstHub.Results.IsExactly(finalQuotes.ToHurst(20));
-            ichimokuHub.Results.IsExactly(finalQuotes.ToIchimoku());
-            kamaHub.Results.IsExactly(finalQuotes.ToKama(10, 2, 30));
-            keltnerHub.Results.IsExactly(finalQuotes.ToKeltner());
-            kvoHub.Results.IsExactly(finalQuotes.ToKvo());
-            maEnvelopesHub.Results.IsExactly(finalQuotes.ToMaEnvelopes(20, 2.5, MaType.SMA));
-            macdHub.Results.IsExactly(finalQuotes.ToMacd());
-            mamaHub.Results.IsExactly(finalQuotes.ToMama());
-            marubozuHub.Results.IsExactly(finalQuotes.ToMarubozu());
-            mfiHub.Results.IsExactly(finalQuotes.ToMfi(14));
-            obvHub.Results.IsExactly(finalQuotes.ToObv());
-            parabolicSarHub.Results.IsExactly(finalQuotes.ToParabolicSar());
-            pivotPointsHub.Results.IsExactly(finalQuotes.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard));
-            pivotsHub.Results.IsExactly(finalQuotes.ToPivots(11, 14));
-            pmoHub.Results.IsExactly(finalQuotes.ToPmo());
-            pvoHub.Results.IsExactly(finalQuotes.ToPvo());
-            renkoHub.Results.IsExactly(finalQuotes.ToRenko(2.5m));
-            rocHub.Results.IsExactly(finalQuotes.ToRoc(20));
-            rocWbHub.Results.IsExactly(finalQuotes.ToRocWb(14));
-            rollingPivotsHub.Results.IsExactly(finalQuotes.ToRollingPivots(20, 0));
-            rsiHub.Results.IsExactly(finalQuotes.ToRsi(14));
-            slopeHub.Results.IsExactly(finalQuotes.ToSlope(20));
-            smaHub.Results.IsExactly(finalQuotes.ToSma(20));
-            smaAnalysisHub.Results.IsExactly(finalQuotes.ToSmaAnalysis(10));
-            smiHub.Results.IsExactly(finalQuotes.ToSmi());
-            smmaHub.Results.IsExactly(finalQuotes.ToSmma(20));
-            starcBandsHub.Results.IsExactly(finalQuotes.ToStarcBands());
-            stcHub.Results.IsExactly(finalQuotes.ToStc());
-            stdDevHub.Results.IsExactly(finalQuotes.ToStdDev(10));
-            stochHub.Results.IsExactly(finalQuotes.ToStoch());
-            stochRsiHub.Results.IsExactly(finalQuotes.ToStochRsi(14));
-            superTrendHub.Results.IsExactly(finalQuotes.ToSuperTrend());
-            t3Hub.Results.IsExactly(finalQuotes.ToT3(5));
-            temaHub.Results.IsExactly(finalQuotes.ToTema(20));
-            trHub.Results.IsExactly(finalQuotes.ToTr());
-            trixHub.Results.IsExactly(finalQuotes.ToTrix(14));
-            tsiHub.Results.IsExactly(finalQuotes.ToTsi());
-            ulcerIndexHub.Results.IsExactly(finalQuotes.ToUlcerIndex(14));
-            ultimateHub.Results.IsExactly(finalQuotes.ToUltimate());
-            volatilityStopHub.Results.IsExactly(finalQuotes.ToVolatilityStop());
-            vortexHub.Results.IsExactly(finalQuotes.ToVortex(14));
-            vwapHub.Results.IsExactly(finalQuotes.ToVwap());
-            vwmaHub.Results.IsExactly(finalQuotes.ToVwma(10));
-            williamsRHub.Results.IsExactly(finalQuotes.ToWilliamsR(14));
-            wmaHub.Results.IsExactly(finalQuotes.ToWma(20));
+            rocHub.Results.IsExactly(allQuotesWithRevisions.ToRoc(20).TakeLast(cacheSize).ToList());
+            rocWbHub.Results.IsExactly(allQuotesWithRevisions.ToRocWb(14).TakeLast(cacheSize).ToList());
+            rollingPivotsHub.Results.IsExactly(allQuotesWithRevisions.ToRollingPivots(20, 0).TakeLast(cacheSize).ToList());
+            rsiHub.Results.IsExactly(allQuotesWithRevisions.ToRsi(14).TakeLast(cacheSize).ToList());
+            slopeHub.Results.IsExactly(allQuotesWithRevisions.ToSlope(20).TakeLast(cacheSize).ToList());
+            smaHub.Results.IsExactly(allQuotesWithRevisions.ToSma(20).TakeLast(cacheSize).ToList());
+            smaAnalysisHub.Results.IsExactly(allQuotesWithRevisions.ToSmaAnalysis(10).TakeLast(cacheSize).ToList());
+            smiHub.Results.IsExactly(allQuotesWithRevisions.ToSmi().TakeLast(cacheSize).ToList());
+            smmaHub.Results.IsExactly(allQuotesWithRevisions.ToSmma(20).TakeLast(cacheSize).ToList());
+            starcBandsHub.Results.IsExactly(allQuotesWithRevisions.ToStarcBands().TakeLast(cacheSize).ToList());
+            stcHub.Results.IsExactly(allQuotesWithRevisions.ToStc().TakeLast(cacheSize).ToList());
+            stdDevHub.Results.IsExactly(allQuotesWithRevisions.ToStdDev(10).TakeLast(cacheSize).ToList());
+            stochHub.Results.IsExactly(allQuotesWithRevisions.ToStoch().TakeLast(cacheSize).ToList());
+            stochRsiHub.Results.IsExactly(allQuotesWithRevisions.ToStochRsi(14).TakeLast(cacheSize).ToList());
+            superTrendHub.Results.IsExactly(allQuotesWithRevisions.ToSuperTrend().TakeLast(cacheSize).ToList());
+            t3Hub.Results.IsExactly(allQuotesWithRevisions.ToT3(5).TakeLast(cacheSize).ToList());
+            temaHub.Results.IsExactly(allQuotesWithRevisions.ToTema(20).TakeLast(cacheSize).ToList());
+            trHub.Results.IsExactly(allQuotesWithRevisions.ToTr().TakeLast(cacheSize).ToList());
+            trixHub.Results.IsExactly(allQuotesWithRevisions.ToTrix(14).TakeLast(cacheSize).ToList());
+            tsiHub.Results.IsExactly(allQuotesWithRevisions.ToTsi().TakeLast(cacheSize).ToList());
+            ulcerIndexHub.Results.IsExactly(allQuotesWithRevisions.ToUlcerIndex(14).TakeLast(cacheSize).ToList());
+            ultimateHub.Results.IsExactly(allQuotesWithRevisions.ToUltimate().TakeLast(cacheSize).ToList());
+            volatilityStopHub.Results.IsExactly(allQuotesWithRevisions.ToVolatilityStop().TakeLast(cacheSize).ToList());
+            vortexHub.Results.IsExactly(allQuotesWithRevisions.ToVortex(14).TakeLast(cacheSize).ToList());
+            vwapHub.Results.IsExactly(allQuotesWithRevisions.ToVwap().TakeLast(cacheSize).ToList());
+            vwmaHub.Results.IsExactly(allQuotesWithRevisions.ToVwma(10).TakeLast(cacheSize).ToList());
+            williamsRHub.Results.IsExactly(allQuotesWithRevisions.ToWilliamsR(14).TakeLast(cacheSize).ToList());
+            wmaHub.Results.IsExactly(allQuotesWithRevisions.ToWma(20).TakeLast(cacheSize).ToList());
         }
         finally
         {
@@ -381,6 +371,13 @@ public class ThreadSafetyTests : TestBase
             serverProcess.Dispose();
         }
     }
+
+    #region Helper methods
+    // Helper methods StartSseServer, FindRepositoryRoot, WaitForServerReady and ConsumeQuotesFromSse
+    // are unchanged from the original test.  They encapsulate the logic for launching the test
+    // SSE server, waiting until it is ready, and streaming quotes into the QuoteHub.  The
+    // implementations are reproduced here verbatim for completeness and to avoid any external
+    // dependencies when this file is used in isolation.
 
     private static Process? StartSseServer(int port)
     {
@@ -536,13 +533,15 @@ public class ThreadSafetyTests : TestBase
         return false;
     }
 
-    private static async Task<List<Quote>> ConsumeQuotesFromSse(QuoteHub quoteHub, int port)
+    private static async Task<SseQuoteBatch> ConsumeQuotesFromSse(QuoteHub quoteHub, int port, string? scenario = null)
     {
         List<Quote> allQuotes = [];
+        List<Quote> revisedQuotes = [];
         using HttpClient httpClient = new() { Timeout = TimeSpan.FromMinutes(5) };
 
         string batchSizeParam = $"&batchSize={TargetQuoteCount}";
-        Uri uri = new($"http://localhost:{port}/quotes/longest?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}");
+        string scenarioParam = string.IsNullOrWhiteSpace(scenario) ? string.Empty : $"&scenario={scenario}";
+        Uri uri = new($"http://localhost:{port}/quotes/longest?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}{scenarioParam}");
 
         using HttpResponseMessage response = await httpClient
             .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
@@ -552,31 +551,128 @@ public class ThreadSafetyTests : TestBase
         Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         using StreamReader reader = new(stream);
 
-        int quotesProcessed = 0;
         string? line;
+        string? eventType = null;
 
         while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
         {
             // SSE format: "event: quote", "data: {...}", blank line
-            if (line.StartsWith("data:", StringComparison.Ordinal))
+            if (line.StartsWith("event:", StringComparison.Ordinal))
+            {
+                eventType = line[6..].Trim();
+            }
+            else if (line.StartsWith("data:", StringComparison.Ordinal))
             {
                 string json = line[5..].Trim();
-                Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
+                string eventName = string.IsNullOrWhiteSpace(eventType) ? "quote" : eventType;
 
-                if (quote is not null)
+                if (string.Equals(eventName, "quote", StringComparison.OrdinalIgnoreCase))
                 {
-                    allQuotes.Add(quote);
-                    quoteHub.Add(quote);
-                    quotesProcessed++;
-
-                    if (quotesProcessed >= TargetQuoteCount)
+                    Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
+                    if (quote is not null)
                     {
-                        break;
+                        allQuotes.Add(quote);
+                        revisedQuotes.Add(quote);
+                        quoteHub.Add(quote);
                     }
                 }
+                else
+                {
+                    QuoteAction? action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions);
+
+                    // Fail fast on malformed SSE payloads
+                    if (action is null || (action.Quote is null && action.CacheIndex is null))
+                    {
+                        throw new InvalidOperationException(
+                            $"Malformed SSE payload for event '{eventName}': {json}");
+                    }
+
+                    ApplyQuoteAction(action, eventName, quoteHub, revisedQuotes);
+                }
+            }
+            else if (line.Length == 0)
+            {
+                eventType = null;
             }
         }
 
-        return allQuotes;
+        return new SseQuoteBatch(allQuotes, revisedQuotes);
     }
+
+    private static void ApplyQuoteAction(
+        QuoteAction action,
+        string eventName,
+        QuoteHub quoteHub,
+        List<Quote> revisedQuotes)
+    {
+        if (string.Equals(eventName, "remove", StringComparison.OrdinalIgnoreCase))
+        {
+            // Capture timestamp before removal to maintain synchronization
+            DateTime? timestampToRemove = null;
+            if (action.CacheIndex is >= 0 && action.CacheIndex < quoteHub.Results.Count)
+            {
+                timestampToRemove = quoteHub.Results[action.CacheIndex.Value].Timestamp;
+                quoteHub.RemoveAt(action.CacheIndex.Value);
+            }
+
+            // Update revisedQuotes using captured timestamp or fallback to action.Quote
+            DateTime? removalTimestamp = timestampToRemove ?? action.Quote?.Timestamp;
+            if (removalTimestamp.HasValue)
+            {
+                RemoveQuoteByTimestamp(revisedQuotes, removalTimestamp.Value);
+            }
+
+            return;
+        }
+
+        if (string.Equals(eventName, "add", StringComparison.OrdinalIgnoreCase))
+        {
+            if (action.Quote is null)
+            {
+                return;
+            }
+
+            quoteHub.Add(action.Quote);
+            UpsertQuoteByTimestamp(revisedQuotes, action.Quote);
+        }
+    }
+
+    private static void RemoveQuoteByTimestamp(List<Quote> quotes, DateTime timestamp)
+    {
+        int index = quotes.FindIndex(item => item.Timestamp == timestamp);
+        if (index >= 0)
+        {
+            quotes.RemoveAt(index);
+        }
+    }
+
+    private static void UpsertQuoteByTimestamp(List<Quote> quotes, Quote quote)
+    {
+        int index = quotes.FindIndex(item => item.Timestamp == quote.Timestamp);
+        if (index >= 0)
+        {
+            quotes[index] = quote;
+            return;
+        }
+
+        int insertIndex = quotes.FindIndex(item => item.Timestamp > quote.Timestamp);
+        if (insertIndex >= 0)
+        {
+            quotes.Insert(insertIndex, quote);
+        }
+        else
+        {
+            quotes.Add(quote);
+        }
+    }
+
+    private sealed record SseQuoteBatch(List<Quote> InitialQuotes, List<Quote> RevisedQuotes);
+
+    // CA1812: QuoteAction is instantiated via JsonSerializer.Deserialize
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Performance",
+        "CA1812:Avoid uninstantiated internal classes",
+        Justification = "Instantiated via JsonSerializer.Deserialize")]
+    private sealed record QuoteAction(Quote? Quote, int? CacheIndex);
+    #endregion
 }

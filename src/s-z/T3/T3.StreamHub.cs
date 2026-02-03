@@ -31,6 +31,9 @@ public class T3Hub
 
         Name = $"T3({lookbackPeriods},{volumeFactor:F1})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 6, Name);
+
         Reinitialize();
     }
 

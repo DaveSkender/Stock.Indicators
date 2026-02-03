@@ -28,6 +28,9 @@ public class HtTrendlineHub
         IChainProvider<IReusable> provider) : base(provider)
     {
         Name = "HTL()";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(63, Name);  // Hilbert Transform needs 63-period minimum
+
         Reinitialize();
     }
     /// <inheritdoc/>

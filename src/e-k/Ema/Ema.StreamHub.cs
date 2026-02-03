@@ -15,6 +15,9 @@ public class EmaHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"EMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

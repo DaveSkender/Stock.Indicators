@@ -16,6 +16,9 @@ public class DynamicHub
         KFactor = kFactor;
         Name = $"DYNAMIC({lookbackPeriods},{kFactor})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

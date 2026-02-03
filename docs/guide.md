@@ -451,7 +451,7 @@ quoteHub.Add(quote1);
 quoteHub.Add(quote2);
 
 // Late-arriving data with earlier timestamp
-quoteHub.Insert(lateQuote);  // Triggers recalculation
+quoteHub.Add(lateQuote);  // Triggers recalculation in dependent hubs
 
 // Remove incorrect quote
 quoteHub.Remove(badQuote);   // Triggers recalculation
@@ -747,7 +747,7 @@ await Task.WhenAll(
 **You need locks or channels when:**
 
 - Sharing a single hub instance across multiple threads
-- Multiple threads call `.Add()`, `.Insert()`, or `.Remove()` on the same hub
+- Do not call `.Add()` or `.Remove()` on the same hub from multiple threads
 - Reading results from one thread while another thread updates the hub
 - Processing quotes from multiple concurrent sources into one hub
 

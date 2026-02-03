@@ -33,7 +33,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // inherit settings (reinstantiate struct on heap)
         Properties = Properties.Combine(provider.Properties);
 
-        // inherit max cache size
+        // inherit max cache size from provider
         MaxCacheSize = provider.MaxCacheSize;
 
         // pre-allocate cache if reasonable size
@@ -44,6 +44,53 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         // build read-only cache reference
         Results = Cache.AsReadOnly();
+    }
+
+    /// <summary>
+    /// Validates that the inherited MaxCacheSize is sufficient for the indicator's warmup requirements.
+    /// </summary>
+    /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
+    /// <param name="indicatorName">The name of the indicator (for error messaging).</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when MaxCacheSize is less than required warmup periods.</exception>
+    protected void ValidateCacheSize(int requiredWarmupPeriods, string indicatorName)
+    {
+        if (MaxCacheSize < requiredWarmupPeriods)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(requiredWarmupPeriods),
+                requiredWarmupPeriods,
+                $"Insufficient cache size for {indicatorName}. " +
+                $"Requires at least {requiredWarmupPeriods} periods for proper initialization, " +
+                $"but inherited MaxCacheSize is {MaxCacheSize}. " +
+                $"Increase the provider's MaxCacheSize to at least {requiredWarmupPeriods}.");
+        }
+
+        // Set MinCacheSize to the required warmup periods
+        SetMinCacheSize(requiredWarmupPeriods);
+    }
+
+    /// <summary>
+    /// Sets the minimum cache size for this hub based on warmup requirements.
+    /// This should be called in derived class constructors to specify the minimum
+    /// number of periods required for the indicator to function correctly.
+    /// </summary>
+    /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
+    protected void SetMinCacheSize(int requiredWarmupPeriods)
+    {
+        // Validate parameter is within acceptable range
+        if (requiredWarmupPeriods < 0 || requiredWarmupPeriods > MaxCacheSize)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(requiredWarmupPeriods),
+                requiredWarmupPeriods,
+                $"Required warmup periods must be between 0 and {MaxCacheSize} (MaxCacheSize). Got {requiredWarmupPeriods}.");
+        }
+
+        // Update the baseline requirement for this hub
+        _minCacheSizeBaseline = Math.Max(_minCacheSizeBaseline, requiredWarmupPeriods);
+
+        // Update MinCacheSize to reflect the new baseline and any subscribers
+        UpdateMinCacheSize();
     }
 
     // PROPERTIES
@@ -100,45 +147,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         foreach (TIn newIn in batchIn.OrderBy(static x => x.Timestamp))
         {
             OnAdd(newIn, notify: true, null);
-        }
-    }
-
-    /// <summary>
-    /// Inserts a new item into the stream.
-    /// </summary>
-    /// <param name="newIn">The new item to insert.</param>
-    /// <remarks>
-    /// This should only be used when newer timestamps
-    /// are not impacted by the insertion of an older item
-    /// </remarks>
-    public void Insert(TIn newIn)
-    {
-        lock (CacheLock)
-        {
-            // generate candidate result
-            (TOut result, int index) = ToIndicator(newIn, null);
-
-            // insert, then rebuild observers (no self-rebuild)
-            if (index > 0)
-            {
-                // check overflow/duplicates
-                if (IsOverflowing(result))
-                {
-                    return; // duplicate found
-                }
-
-                Cache.Insert(index, result);
-
-                // notify observers (inside lock to ensure cache consistency)
-                NotifyObserversOnRebuild(newIn.Timestamp);
-            }
-
-            // normal add
-            else
-            {
-                AppendCache(result, notify: true);
-                // AppendCache handles notification
-            }
         }
     }
 
@@ -407,6 +415,89 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         if (notify)
         {
             NotifyObserversOnAdd(item, Cache.Count - 1);
+        }
+    }
+
+    /// <summary>
+    /// Inserts an item without rebuilding this hub.
+    /// </summary>
+    /// <param name="item">Item to insert.</param>
+    /// <param name="index">Cache index to insert at.</param>
+    /// <param name="notify">Notify observers of rebuild.</param>
+    protected void InsertWithoutRebuild(TOut item, int index, bool notify)
+    {
+        if (index < 0 || index > Cache.Count)
+        {
+            AppendCache(item, notify);
+            return;
+        }
+
+        int countBefore = Cache.Count;
+        bool midInsert = index < countBefore;
+        TOut? lastBefore = LastItem;
+        byte overflowBefore = OverflowCount;
+
+        // Check if this is a tail replacement (replacing the last element with same timestamp)
+        bool isTailReplacement = index == Cache.Count - 1
+            && index < Cache.Count
+            && Cache[index].Timestamp == item.Timestamp;
+
+        if (IsOverflowing(item))
+        {
+            if (midInsert && !isTailReplacement)
+            {
+                LastItem = lastBefore;
+                OverflowCount = overflowBefore;
+            }
+
+            return;
+        }
+
+        int removed = countBefore - Cache.Count;
+        if (removed > 0)
+        {
+            index -= removed;
+            if (index < 0)
+            {
+                if (midInsert && !isTailReplacement)
+                {
+                    LastItem = lastBefore;
+                    OverflowCount = overflowBefore;
+                }
+
+                return;
+            }
+        }
+
+        if (index < Cache.Count && Cache[index].Timestamp == item.Timestamp)
+        {
+            if (Cache[index].Equals(item))
+            {
+                if (midInsert && !isTailReplacement)
+                {
+                    LastItem = lastBefore;
+                    OverflowCount = overflowBefore;
+                }
+
+                return;
+            }
+
+            Cache[index] = item;
+        }
+        else
+        {
+            Cache.Insert(index, item);
+        }
+
+        if (midInsert && !isTailReplacement)
+        {
+            LastItem = lastBefore;
+            OverflowCount = overflowBefore;
+        }
+
+        if (notify)
+        {
+            NotifyObserversOnRebuild(item.Timestamp);
         }
     }
 

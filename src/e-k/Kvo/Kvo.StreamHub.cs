@@ -68,6 +68,11 @@ public class KvoHub
 
         Name = $"KVO({fastPeriods},{slowPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements
+        // KVO needs the longer of fast/slow periods plus signal period
+        int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

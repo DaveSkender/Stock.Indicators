@@ -36,6 +36,11 @@ public class IchimokuHub
 
         Name = $"ICHIMOKU({tenkanPeriods},{kijunPeriods},{senkouBPeriods})";
 
+        // Validate cache size for warmup requirements
+        // Ichimoku needs senkouBPeriods + senkouOffset for full calculation
+        int requiredWarmup = senkouBPeriods + senkouOffset;
+        ValidateCacheSize(requiredWarmup, Name);
+
         tenkanHighWindow = new RollingWindowMax<decimal>(tenkanPeriods);
         tenkanLowWindow = new RollingWindowMin<decimal>(tenkanPeriods);
         kijunHighWindow = new RollingWindowMax<decimal>(kijunPeriods);

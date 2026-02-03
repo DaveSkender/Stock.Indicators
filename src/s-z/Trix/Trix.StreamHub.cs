@@ -19,6 +19,9 @@ public class TrixHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"TRIX({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

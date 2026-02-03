@@ -125,6 +125,9 @@ public class MaEnvelopesHub
         k = 2d / (lookbackPeriods + 1); // for EMA-based types
         Name = $"MAENV({lookbackPeriods},{percentOffset},{Enum.GetName(movingAverageType)})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 

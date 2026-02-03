@@ -19,6 +19,24 @@ public class QuotePartHub
     /// <inheritdoc/>
     public CandlePart CandlePartSelection { get; init; }
 
+    /// <inheritdoc/>
+    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    {
+        // Lock to prevent concurrent cache access.
+        lock (CacheLock)
+        {
+            (TimeValue result, int index) = ToIndicator(item, indexHint);
+
+            if (index >= 0 && index < Cache.Count)
+            {
+                InsertWithoutRebuild(result, index, notify);
+                return;
+            }
+
+            AppendCache(result, notify);
+        }
+    }
+
 
     /// <inheritdoc/>
     protected override (TimeValue result, int index)

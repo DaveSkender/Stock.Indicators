@@ -47,6 +47,9 @@ public class RollingPivotsHub
         _lowWindow = new RollingWindowMin<decimal>(windowPeriods);
         _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(windowPeriods + offsetPeriods, Name);
+
         Reinitialize();
     }
 
@@ -106,7 +109,7 @@ public class RollingPivotsHub
 
     /// <summary>
     /// Restores the rolling window and offset buffer state up to the specified timestamp.
-    /// Clears and rebuilds state from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds state from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

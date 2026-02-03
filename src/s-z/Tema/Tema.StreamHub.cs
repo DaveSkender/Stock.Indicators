@@ -19,6 +19,9 @@ public class TemaHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"TEMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 3, Name);
+
         Reinitialize();
     }
 

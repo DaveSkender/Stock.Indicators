@@ -95,6 +95,13 @@
               "type": "string",
               "default": "1m"
             }
+          },
+          {
+            "name": "scenario",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

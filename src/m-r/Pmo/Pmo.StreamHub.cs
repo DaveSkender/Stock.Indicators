@@ -30,6 +30,11 @@ public class PmoHub
 
         Name = $"PMO({timePeriods},{smoothPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements
+        // PMO needs all three periods for double smoothing + signal
+        int requiredWarmup = timePeriods + smoothPeriods + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

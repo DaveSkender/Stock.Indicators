@@ -18,6 +18,9 @@ public class ForceIndexHub
         _k = 2d / (lookbackPeriods + 1);
         Name = $"FORCE({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

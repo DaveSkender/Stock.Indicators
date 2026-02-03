@@ -54,7 +54,7 @@ internal sealed class HubStressTest : IDisposable
         _socketClient = new CoinbaseSocketClient();
 
         // Create QuoteHub with constrained cache size to force pruning
-        _quoteHub = new QuoteHub { MaxCacheSize = maxCacheSize };
+        _quoteHub = new QuoteHub(maxCacheSize);
 
         // Subscribe all hubs modified in PR #1927
         _stcHub = _quoteHub.ToStcHub();                // STC: ChainHub<MacdResult, StcResult>

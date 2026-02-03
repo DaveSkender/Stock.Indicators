@@ -14,6 +14,9 @@ public class FcbHub
         WindowSpan = windowSpan;
         Name = $"FCB({windowSpan})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2 * windowSpan, Name);
+
         Reinitialize();
     }
 

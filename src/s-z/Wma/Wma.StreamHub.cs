@@ -14,6 +14,9 @@ public class WmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"WMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

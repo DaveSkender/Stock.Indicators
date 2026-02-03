@@ -61,19 +61,6 @@ public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObs
     void Add(IEnumerable<TIn> batchIn);
 
     /// <summary>
-    /// Insert a new item without rebuilding the cache.
-    /// </summary>
-    /// <remarks>
-    /// This is used in situations when inserting an older item
-    /// and where newer cache entries do not need to be rebuilt.
-    /// Typically, this is only used for provider-only hubs.
-    /// </remarks>
-    /// <param name="newIn">
-    /// Item to insert
-    /// </param>
-    void Insert(TIn newIn);
-
-    /// <summary>
     /// Delete an item from the cache, from a specific position.
     /// </summary>
     /// <param name="cacheIndex">Position in cache to delete</param>

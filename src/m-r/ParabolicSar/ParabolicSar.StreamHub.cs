@@ -40,6 +40,9 @@ public class ParabolicSarHub
         _isInitialized = false;
         _firstReversalFound = false;
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // SAR needs at least 2 periods to establish trend
+
         Reinitialize();
     }
 

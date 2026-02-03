@@ -37,6 +37,9 @@ public class DonchianHub
         _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -84,7 +87,7 @@ public class DonchianHub
 
     /// <summary>
     /// Restores the rolling window state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds rolling windows from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

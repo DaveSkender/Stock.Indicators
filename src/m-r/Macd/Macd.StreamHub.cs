@@ -13,6 +13,7 @@ public class MacdHub
         int signalPeriods) : base(provider)
     {
         Macd.Validate(fastPeriods, slowPeriods, signalPeriods);
+
         FastPeriods = fastPeriods;
         SlowPeriods = slowPeriods;
         SignalPeriods = signalPeriods;
@@ -22,6 +23,10 @@ public class MacdHub
         SignalK = 2d / (signalPeriods + 1);
 
         Name = $"MACD({fastPeriods},{slowPeriods},{signalPeriods})";
+
+        // Validate cache size for warmup requirements
+        int requiredWarmup = slowPeriods + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();
     }

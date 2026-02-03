@@ -56,6 +56,9 @@ public class StochHub
         // Initialize buffer for raw K values (needed for SMA smoothing)
         _rawKBuffer = new Queue<double>(smoothPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

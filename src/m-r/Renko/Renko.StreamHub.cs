@@ -11,6 +11,10 @@ public class RenkoHub
         = new(default, default, default,
             default, default, default, default);
 
+    // Track the last provider index used to form the lastBrick
+    // This allows aggregating quotes even when provider cache is pruned
+    private int lastBrickProviderIndex = -1;
+
     internal RenkoHub(
         IQuoteProvider<IQuote> provider,
         decimal brickSize,
@@ -21,8 +25,19 @@ public class RenkoHub
         EndType = endType;
         Name = $"RENKO({brickSize},{endType.ToString().ToUpperInvariant()})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // Renko needs minimum history for brick formation
+
         Reinitialize();
     }
+
+    /// <inheritdoc/>
+    /// <remarks>
+    /// Renko is a transformation hub that doesn't have 1:1 timestamp alignment with input quotes.
+    /// Bricks are only created when price moves by brickSize, so not every quote produces a brick.
+    /// Provider-driven pruning would incorrectly remove bricks, so Renko opts out.
+    /// </remarks>
+    protected override bool ShouldPruneOnProviderPrune => false;
 
     /// <summary>
     /// Renko hub settings. Since it can produce 0 or many bricks per quote,
@@ -66,6 +81,17 @@ public class RenkoHub
             if (brick is not null)
             {
                 lastBrick = brick;
+
+                // Restore the provider index corresponding to this brick
+                // Use IndexOf to find the index in the (potentially pruned) provider cache
+                lastBrickProviderIndex = ProviderCache.IndexOf(brick.Timestamp, true);
+
+                // If not found (brick predates pruned cache), use first available index
+                if (lastBrickProviderIndex == -1)
+                {
+                    lastBrickProviderIndex = 0;
+                }
+
                 return;
             }
 
@@ -76,8 +102,11 @@ public class RenkoHub
         if (ProviderCache.Count > 1)
         {
             SetBaselineBrick();
+            lastBrickProviderIndex = 0;
         }
     }
+
+
 
     /// <summary>
     /// re/initialize last brick marker
@@ -124,6 +153,7 @@ public class RenkoHub
         if (providerIndex == 1)
         {
             SetBaselineBrick();
+            lastBrickProviderIndex = 0;
         }
 
         // determine new brick quantity
@@ -142,10 +172,22 @@ public class RenkoHub
             decimal l = decimal.MaxValue;
             decimal sumV = 0;  // cumulative
 
-            // by aggregating provider cache range
-            int lastBrickIndex = ProviderCache.IndexOf(lastBrick.Timestamp, true);
+            // Aggregate quotes from last brick to current quote
+            // Find the starting index by looking for quotes after lastBrick timestamp
+            int startIndex = ProviderCache.IndexOf(lastBrick.Timestamp, true) + 1;
 
-            for (int w = lastBrickIndex + 1; w <= providerIndex; w++)
+            // Ensure startIndex is valid and within bounds
+            if (startIndex < 0)
+            {
+                startIndex = 0;
+            }
+
+            if (startIndex > providerIndex)
+            {
+                startIndex = providerIndex;
+            }
+
+            for (int w = startIndex; w <= providerIndex; w++)
             {
                 IQuote pq = ProviderCache[w];
 
@@ -171,6 +213,7 @@ public class RenkoHub
                     = new(item.Timestamp, o, h, l, c, v, isUp);
 
                 lastBrick = r;
+                lastBrickProviderIndex = providerIndex;
 
                 // save and send
                 AppendCache(r, notify);

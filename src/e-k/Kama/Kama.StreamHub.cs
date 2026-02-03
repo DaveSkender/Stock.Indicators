@@ -25,6 +25,8 @@ public class KamaHub
 
         Name = $"KAMA({erPeriods},{fastPeriods},{slowPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(erPeriods + 1, Name);
         Reinitialize();
     }
 

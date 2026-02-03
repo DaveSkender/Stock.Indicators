@@ -9,6 +9,9 @@ public class AdlHub : ChainHub<IQuote, AdlResult>
         : base(provider)
     {
         Name = "ADL";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Requires at least 1 period
+
         Reinitialize();
     }
 

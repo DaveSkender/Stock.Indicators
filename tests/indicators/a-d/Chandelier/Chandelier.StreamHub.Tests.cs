@@ -42,7 +42,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
@@ -55,6 +55,37 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         actuals.IsExactly(expected);
 
         // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<ChandelierResult> expected = quotes
+            .ToChandelier(22, 3)
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        ChandelierHub observer = quoteHub.ToChandelierHub(22, 3);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Streaming results should match last N from full series (original series with front chopped off)
+        // NOT recomputation on just the cached quotes (which would have different warmup)
+        observer.Results.IsExactly(expected);
+
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

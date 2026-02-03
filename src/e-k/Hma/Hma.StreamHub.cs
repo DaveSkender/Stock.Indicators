@@ -34,6 +34,9 @@ public class HmaHub
         shiftQty = lookbackPeriods - 1;
 
         Name = $"HMA({lookbackPeriods})";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
