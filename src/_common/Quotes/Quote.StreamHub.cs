@@ -109,12 +109,15 @@ public class QuoteHub
             // get result and position
             (IQuote result, int index) = ToIndicator(item, indexHint);
 
-            // Reject modifications that would affect indices before MinCacheSize
-            // to prevent corrupted rebuilds in subscribers
-            // This includes both insertions and same-timestamp replacements
-            if (index >= 0 && index < MinCacheSize && index < Cache.Count)
+            // Determine if this is an insertion (new timestamp) or a replacement (same timestamp)
+            bool isInsertion = index >= 0 && index < Cache.Count && Cache[index].Timestamp != result.Timestamp;
+
+            // Reject REPLACEMENTS (not insertions) that would affect indices before MinCacheSize
+            // to prevent corrupted rebuilds in subscribers. Insertions are safe because they
+            // add new data without corrupting existing warmup data.
+            if (!isInsertion && index >= 0 && index < MinCacheSize && index < Cache.Count)
             {
-                // Silently ignore all modifications before MinCacheSize
+                // Silently ignore replacements before MinCacheSize
                 return;
             }
 

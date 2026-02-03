@@ -25,6 +25,7 @@ public class HurstHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (HurstResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -89,9 +90,9 @@ public class HurstHub
         // Find the first index at or after timestamp
         int index = ProviderCache.IndexGte(timestamp);
 
-        if (index <= 0)
+        if (index < 0)
         {
-            // Rolling back before all data, keep cleared state
+            // Rolling back past all data, keep cleared state
             return;
         }
 

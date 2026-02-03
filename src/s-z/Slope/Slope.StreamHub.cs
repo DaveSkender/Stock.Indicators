@@ -137,7 +137,7 @@ public class SlopeHub
         currentIntercept = null;
 
         // Reset counters to match the target index
-        globalIndexOffset = 0;
+        // NOTE: Do NOT reset globalIndexOffset - it tracks provider pruning and must persist across rollbacks
         itemsAdded = targetIndex;
         lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
 
