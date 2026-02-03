@@ -198,6 +198,7 @@ public class SlopeHub
         {
             sumY += bufferValue;
         }
+
         double avgY = sumY / LookbackPeriods;
 
         // Calculate deviations and their products
