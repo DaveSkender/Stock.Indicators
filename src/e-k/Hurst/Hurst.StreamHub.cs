@@ -25,7 +25,7 @@ public class HurstHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-    
+
     /// <inheritdoc/>
     protected override (HurstResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
