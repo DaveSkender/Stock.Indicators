@@ -21,8 +21,8 @@ function extractCoAuthorUsername(line: string): string | null {
   const emailMatch = line.match(/<\d+\+([^@]+)@users\.noreply\.github\.com>/)
   if (emailMatch) return emailMatch[1]
 
-  // Match: @username
-  const atMatch = line.match(/@([a-zA-Z0-9-]+)/)
+  // Match: `@username` (standalone, not inside an email address)
+  const atMatch = line.match(/(?:^|[\s:])@([a-zA-Z0-9-]+)(?:\s|$)/)
   if (atMatch) return atMatch[1]
 
   return null
