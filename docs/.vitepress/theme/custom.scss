@@ -207,7 +207,8 @@ html:not(.dark) .vp-doc {
 }
 
 /* Code blocks */
-.vp-code {
+.shiki,
+pre.shiki {
   background-color: var(--vp-code-block-bg);
   color: var(--vp-c-text-1);
 }
