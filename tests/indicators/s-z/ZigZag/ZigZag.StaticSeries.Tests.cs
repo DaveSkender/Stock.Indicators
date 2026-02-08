@@ -133,18 +133,6 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Issue632_ThresholdNeverMet_ReturnsExpected()
-    {
-        // thresholds are never met
-        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0632.zigzag.thresholds.json");
-
-        IReadOnlyList<ZigZagResult> sut = quotes
-            .ToZigZag();
-
-        sut.Should().HaveCount(17);
-    }
-
-    [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ZigZagResult> r1 = BadQuotes
@@ -184,7 +172,19 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SchrodingerScenario_HighAndLowThresholdMet_IsDeterministic()
+    public void Exceptions()
+    {
+        // bad lookback period
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            static () => Quotes.ToZigZag(EndType.Close, 0));
+
+        // bad end type
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            static () => Quotes.ToZigZag((EndType)int.MaxValue, 2));
+    }
+
+    [TestMethod]
+    public void Issue0616_SchrodingerScenario_HighAndLowThresholdMet_IsDeterministic()
     {
         IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.schrodinger.json");
 
@@ -198,14 +198,32 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Issue0632_ThresholdNeverMet_ReturnsExpected()
     {
-        // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToZigZag(EndType.Close, 0));
+        // thresholds are never met
+        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0632.zigzag.thresholds.json");
 
-        // bad end type
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToZigZag((EndType)int.MaxValue, 2));
+        IReadOnlyList<ZigZagResult> sut = quotes
+            .ToZigZag();
+
+        sut.Should().HaveCount(17);
+    }
+
+    [TestMethod]
+    public void Issue1949_UserErrors()
+    {
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1949.zigzag.csv");
+
+        IReadOnlyList<ZigZagResult> r = quotes
+            .ToZigZag(endType: EndType.HighLow, percentChange: 5.0m);
+
+        const string msg = "results size should match original quotes size";
+
+        r.Should().HaveCount(1430, msg);
+        r.Should().HaveCount(quotes.Count, msg);
+        r.Where(static x => x.ZigZag is not null).Should().HaveCount(726);
+        r.Where(static x => x.PointType is not null).Should().HaveCount(1);
+        r[704].ZigZag.Should().Be(75540.8m);
+        r[704].PointType.Should().Be("L");
     }
 }

@@ -3,7 +3,7 @@ namespace Test.Base;
 /// <summary>
 /// Base tests that all streamed indicators should have.
 /// </summary>
-public abstract class StreamHubTestBase : TestBase  // default: quote observer
+public abstract class StreamHubTestBase : TestBaseWithPrecision  // default: quote observer
 {
     internal const int removeAtIndex = 495;
 

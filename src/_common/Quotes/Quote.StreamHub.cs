@@ -38,7 +38,7 @@ public class QuoteHub
         if (maxCacheSize is (not null and <= 0) or > absoluteMaxCacheSize)
         {
             string message
-                = $"'{nameof(maxCacheSize)}' must be greater than 0 and less than {absoluteMaxCacheSize}.";
+                = $"'{nameof(maxCacheSize)}' must be greater than 0 and not over {absoluteMaxCacheSize}.";
 
             throw new ArgumentOutOfRangeException(
                 nameof(maxCacheSize), maxCacheSize, message);
@@ -84,6 +84,17 @@ public class QuoteHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
+        // Reject additions that precede the current cache timeline
+        // (applies to both standalone and non-standalone QuoteHub)
+        lock (CacheLock)
+        {
+            if (Cache.Count > 0 && item.Timestamp < Cache[0].Timestamp)
+            {
+                // Silently ignore - this prevents indeterminate gaps in the timeline
+                return;
+            }
+        }
+
         // for non-standalone QuoteHub, use standard behavior (which handles locking)
         if (!_isStandalone)
         {
@@ -94,8 +105,21 @@ public class QuoteHub
         // Lock for standalone QuoteHub operations
         lock (CacheLock)
         {
+
             // get result and position
             (IQuote result, int index) = ToIndicator(item, indexHint);
+
+            // Determine if this is an insertion (new timestamp) or a replacement (same timestamp)
+            bool isInsertion = index >= 0 && index < Cache.Count && Cache[index].Timestamp != result.Timestamp;
+
+            // Reject REPLACEMENTS (not insertions) that would affect indices before MinCacheSize
+            // to prevent corrupted rebuilds in subscribers. Insertions are safe because they
+            // add new data without corrupting existing warmup data.
+            if (!isInsertion && index >= 0 && index < MinCacheSize && index < Cache.Count)
+            {
+                // Silently ignore replacements before MinCacheSize
+                return;
+            }
 
             // check if this is a same-timestamp update (not a new item at the end)
             if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
@@ -119,6 +143,23 @@ public class QuoteHub
             }
             else
             {
+                // if out-of-order insert, insert and trigger rebuild
+                if (index >= 0 && index < Cache.Count)
+                {
+                    Cache.Insert(index, result);
+
+                    // For standalone QuoteHub, notify observers to rebuild from this timestamp
+                    // For non-standalone, this won't be reached due to earlier branch
+                    if (notify)
+                    {
+                        // Notify observers directly - they will rebuild from the updated cache
+                        // No need to call Rebuild on QuoteHub itself since cache is already updated
+                        NotifyObserversOnRebuild(result.Timestamp);
+                    }
+
+                    return;
+                }
+
                 // standard add behavior for new items
                 AppendCache(result, notify);
             }

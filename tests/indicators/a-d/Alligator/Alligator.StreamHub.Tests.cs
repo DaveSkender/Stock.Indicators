@@ -32,7 +32,7 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<AlligatorResult> expectedOriginal = Quotes.ToAlligator();
         sut.IsExactly(expectedOriginal);
@@ -116,7 +116,7 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Add(quotesList[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

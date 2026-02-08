@@ -98,7 +98,7 @@ public class UserInterface
         }
 
         // late arrival
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
 
         // end all observations
         quoteHub.EndTransmission();

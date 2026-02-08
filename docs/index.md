@@ -59,9 +59,9 @@ Access a comprehensive library of battle-tested technical indicators used by tra
 
 <ClientOnly>
   <div class="home-charts-stack">
-    <IndicatorChart src="/data/Alma.json" />
-    <IndicatorChart src="/data/AtrStop.json" />
-    <IndicatorChart src="/data/Aroon.json" />
+    <IndicatorChart src="/data/HomeOverlay.json" />
+    <IndicatorChart src="/data/HomeMacd.json" />
+    <IndicatorChart src="/data/HomeStc.json" />
   </div>
 </ClientOnly>
 
@@ -121,6 +121,23 @@ provider.Add(newQuote);
 
 // consume downstream hubs indicators
 IReadOnlyList<RsiResult> = rsiHub.Results;
+```
+
+```csharp
+QuoteHub quoteHub = new();
+
+EmaHub emaFast = quoteHub.ToEmaHub(50);
+EmaHub emaSlow = quoteHub.ToEmaHub(200);
+
+// add quotes to quoteHub (from stream)
+quoteHub.Add(newQuote);
+// and the 2 EmaHubs will be in sync
+
+if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
+&& emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
+{
+    // cross over occurred
+}
 ```
 
 The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.

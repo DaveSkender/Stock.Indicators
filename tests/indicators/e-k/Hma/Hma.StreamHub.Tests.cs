@@ -34,7 +34,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<HmaResult> expectedOriginal = Quotes.ToHma(LookbackPeriods);
         sut.IsExactly(expectedOriginal);
@@ -142,7 +142,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
@@ -193,7 +193,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         };
 
         quoteHub.RemoveAt(targetIndex);
-        quoteHub.Insert(mutated);
+        quoteHub.Add(mutated);
         quotesList[targetIndex] = mutated;
 
         observer.Results.Should().HaveCount(quotesList.Count);

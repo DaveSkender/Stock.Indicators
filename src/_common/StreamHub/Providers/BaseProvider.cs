@@ -43,6 +43,9 @@ public class BaseProvider<T>(int maxCacheSize = 0)
     /// <inheritdoc/>
     public int MaxCacheSize { get; } = maxCacheSize;
 
+    /// <inheritdoc/>
+    public int MinCacheSize => 0; // Base provider has no minimum cache requirement
+
     /// <inheritdoc />
     public int ObserverCount => 0;
 

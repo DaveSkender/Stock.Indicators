@@ -44,7 +44,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
@@ -120,7 +120,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // results from stream

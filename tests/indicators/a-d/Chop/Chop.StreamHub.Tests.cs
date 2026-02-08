@@ -50,7 +50,7 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
@@ -123,7 +123,7 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

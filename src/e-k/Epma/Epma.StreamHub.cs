@@ -6,8 +6,11 @@ namespace Skender.Stock.Indicators;
 public class EpmaHub
     : ChainHub<SlopeResult, EpmaResult>, IEpma
 {
-    // Track how many unique items have been processed (should match Slope's count)
-    private int itemsProcessed;
+    // Track how many items have been removed from the beginning
+    private int globalIndexOffset;
+
+    // Track how many unique items have been added (for deduplication)
+    private int itemsAdded;
     private DateTime? lastSeenTimestamp;
     private int lastCacheSize;
 
@@ -25,8 +28,9 @@ public class EpmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"EPMA({lookbackPeriods})";
 
-        // Initialize items processed counter
-        itemsProcessed = 0;
+        // Initialize counters
+        globalIndexOffset = 0;
+        itemsAdded = 0;
         lastSeenTimestamp = null;
         lastCacheSize = 0;
 
@@ -53,28 +57,26 @@ public class EpmaHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Increment items processed for new unique items only
+        // Increment items added counter for new unique items only
         bool isNewItem = item.Timestamp != lastSeenTimestamp;
         if (isNewItem)
         {
             lastSeenTimestamp = item.Timestamp;
-            itemsProcessed++;
+            itemsAdded++;
         }
+
+        // Calculate the global index (absolute position accounting for pruned items)
+        int globalIndex = globalIndexOffset + i;
 
         // Calculate EPMA using the endpoint formula
         // EPMA = slope × endpointX + intercept
-        // where endpointX = itemsProcessed (the global position of this quote)
-        double? epma = null;
-
-        if (item.Slope != null && item.Intercept != null)
-        {
-            // Use itemsProcessed as the endpoint X value
-            epma = (item.Slope * itemsProcessed) + item.Intercept;
-        }
+        // where endpointX = globalIndex + 1 (1-based, matching Slope's X values)
+        // Match Series calculation exactly: ((slope * (index + 1)) + intercept).NaN2Null()
+        double? epma = ((item.Slope * (globalIndex + 1)) + item.Intercept).NaN2Null();
 
         EpmaResult r = new(
             Timestamp: item.Timestamp,
-            Epma: epma.NaN2Null());
+            Epma: epma);
 
         return (r, i);
     }
@@ -84,8 +86,9 @@ public class EpmaHub
     {
         int targetIndex = ProviderCache.IndexGte(timestamp);
 
-        // Reset items processed counter to match the target index
-        itemsProcessed = targetIndex;
+        // Reset counters to match the target index
+        // NOTE: Do NOT reset globalIndexOffset - it tracks provider pruning and must persist across rollbacks
+        itemsAdded = targetIndex;
         lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
     }
 
@@ -98,8 +101,8 @@ public class EpmaHub
 
         if (removedCount > 0)
         {
-            // Increment itemsProcessed by the number of removed items
-            itemsProcessed += removedCount;
+            // Update global index offset to maintain absolute positions
+            globalIndexOffset += removedCount;
         }
 
         // Update lastCacheSize for next pruning event

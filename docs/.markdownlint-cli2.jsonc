@@ -7,6 +7,7 @@
   ],
   "config": {
     "MD013": false,
+    "MD024": { "siblings_only": true },
     "MD025": false,
     // MD028: Allow blank lines in blockquotes, since
     // it can occur when we have adjacent warning blocks
@@ -26,10 +27,14 @@
         "div",
         "p",
         "h1",
+        "h2",
+        "h3",
         "ul",
         "li",
         "nav",
         "script",
+        "style",
+        "span",
         "Badge",
         "ClientOnly",
         "IndicatorChart",

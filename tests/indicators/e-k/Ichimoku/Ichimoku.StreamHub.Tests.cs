@@ -42,7 +42,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         actuals.Should().HaveCount(length);
         actuals.IsExactly(expectedOriginal);

@@ -9,7 +9,7 @@ public class TrHub
     {
         Name = "TRUE RANGE";
         // Validate cache size for warmup requirements
-        ValidateCacheSize(1, Name);  // Requires at least 1 period
+        ValidateCacheSize(2, Name);  // Requires current + previous period
 
         Reinitialize();
     }

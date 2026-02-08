@@ -24,10 +24,14 @@ IReadOnlyList<PivotsResult> results =
 | ----- | ---- | ----------- |
 | `leftSpan` | int | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
 | `rightSpan` | int | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
-| `maxTrendPeriods` | int | Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20. |
+| `maxTrendPeriods` | int | Maximum lookback periods (`N`) for drawing trend lines between pivot points.  When pivot points are further apart than this value, the trend line tracking resets.  Must be greater than `leftSpan`.  Default is 20. |
 | `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `L+R+1`.
+
+::: note
+The `maxTrendPeriods` parameter controls the lookback window for trend line calculations, not the number of results returned.
+:::
 
 ### Historical quotes requirements
 
@@ -78,13 +82,38 @@ This price pattern looks forward and backward in the historical quotes so it wil
 
 **`PivotTrend.LL`** - Lower low
 
+#### Filtering results
+
+Since this method returns one result per input quote (with `null` values where no pivot exists), you'll often want to filter results for specific use cases:
+
+```csharp
+// get only records with pivot points
+var pivotsOnly = results.Condense();
+
+// get only records with trend lines
+var trendsOnly = results
+    .Where(x => x.HighTrend != null || x.LowTrend != null);
+
+// get only recent N periods
+var recentPivots = results.TakeLast(period);
+
+// get only high pivot points with Higher High trend
+var higherHighs = results
+    .Where(x => x.HighPoint != null && x.HighTrend == PivotTrend.HH);
+
+// combine filters: recent periods with trends
+var recentTrends = results
+    .Where(x => x.HighTrend != null || x.LowTrend != null)
+    .TakeLast(period);
+```
+
 ### Utilities
 
-- [.Condense()](/utilities/results#condense)
-- [.Find(lookupDate)](/utilities/results#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/results#remove-warmup-periods)
+- [.Condense()](/utilities/results/condense)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/results) for more information.
+See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 

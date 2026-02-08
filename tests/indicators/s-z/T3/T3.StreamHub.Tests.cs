@@ -35,7 +35,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<T3Result> expectedOriginal = Quotes.ToT3(lookbackPeriods, volumeFactor);
         sut.IsExactly(expectedOriginal);
@@ -148,7 +148,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

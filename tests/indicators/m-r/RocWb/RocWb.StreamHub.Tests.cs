@@ -35,7 +35,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<RocWbResult> expectedOriginal = Quotes.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
         sut.IsExactly(expectedOriginal);
@@ -149,7 +149,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

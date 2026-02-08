@@ -37,7 +37,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
         actuals.Should().HaveCount(length);

@@ -123,7 +123,7 @@ For the remaining 75 indicators, add validation following these patterns:
 - **T3**: `ValidateCacheSize(lookbackPeriods * 6, Name);`
 - **Multi-parameter**: Calculate `requiredWarmup` based on indicator-specific logic, then call `ValidateCacheSize(requiredWarmup, Name);`
 
-Insert validation call immediately before `Reinitialize()` in each indicator's constructor.
+Add validation call immediately before `Reinitialize()` in each indicator's constructor.
 
 ---
 Last updated: January 26, 2026
