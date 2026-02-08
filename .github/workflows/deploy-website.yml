@@ -61,10 +61,13 @@ jobs:
         run: pnpm run docs:build
         env:
           NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
         run: pnpm run docs:build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to Cloudflare Pages
         id: deploy

@@ -3,24 +3,24 @@
   "version": "1.0.0",
   "description": "Stock Indicators for .NET documentation",
   "type": "module",
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.29.1",
   "engines": {
     "node": ">=24.13.0",
-    "pnpm": ">=10.27.0"
+    "pnpm": ">=10.29.1"
   },
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "generate:charts": "node scripts/generate-chart-data.mjs",
-    "generate:contributors": "node .vitepress/scripts/generate-contributors.mjs"
+    "generate:charts": "node .vitepress/scripts/generate-chart-data.mjs"
   },
   "devDependencies": {
     "@octokit/rest": "^22.0.1",
-    "@playwright/test": "^1.58.0",
-    "@types/node": "^24.10.9",
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^24.10.11",
     "sass-embedded": "^1.97.3",
-    "vitepress": "2.0.0-alpha.15",
+    "tsx": "^4.21.0",
+    "vitepress": "2.0.0-alpha.16",
     "vue": "^3.5.27"
   },
   "dependencies": {

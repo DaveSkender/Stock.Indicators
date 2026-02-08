@@ -129,4 +129,4 @@ var highVolumeCandles = candles
 
 - [Quote utilities overview](/utilities/quotes/)
 - [Validate quote history](/utilities/quotes/validate-quote-history) - Ensure data quality
-- [Candlestick patterns](/indicators#candlestick-patterns) - Built-in pattern indicators
+- [Candlestick patterns](/indicators/Marubozu) - Built-in pattern indicators
