@@ -28,8 +28,8 @@ importers:
         specifier: ^4.21.0
         version: 4.21.0
       vitepress:
-        specifier: 2.0.0-alpha.15
-        version: 2.0.0-alpha.15(@types/node@25.2.2)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)
+        specifier: 2.0.0-alpha.16
+        version: 2.0.0-alpha.16(@types/node@25.2.2)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)
       vue:
         specifier: ^3.5.27
         version: 3.5.27
@@ -61,6 +61,9 @@ packages:
 
   '@docsearch/js@4.5.3':
     resolution: {integrity: sha512-rcBiUMCXbZLqrLIT6F6FDcrG/tyvM2WM0zum6NPbIiQNDQxbSgmNc+/bToS0rxBsXaxiU64esiWoS02WqrWLsg==}
+
+  '@docsearch/sidepanel-js@4.5.4':
+    resolution: {integrity: sha512-f4KE4cG+P09gJHQNfttfMNy+3gAGj8U0YEgiOOso0YCFI5nGoVvJQpxNMSPgXs4sG34A/oCfKhYwHJiqgHhxPw==}
 
   '@esbuild/aix-ppc64@0.27.2':
     resolution: {integrity: sha512-GZMB+a0mOMZs4MpDbj8RJp4cw+w1WV5NYD6xzgvzUJ5Ek2jerwfO2eADyI6ExDSUED+1X8aMbegahsJi+8mgpw==}
@@ -218,8 +221,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@iconify-json/simple-icons@1.2.67':
-    resolution: {integrity: sha512-RGJRwlxyup54L1UDAjCshy3ckX5zcvYIU74YLSnUgHGvqh6B4mvksbGNHAIEp7dZQ6cM13RZVT5KC07CmnFNew==}
+  '@iconify-json/simple-icons@1.2.70':
+    resolution: {integrity: sha512-CYNRCgN6nBTjN4dNkrBCjHXNR2e4hQihdsZUs/afUNFOWLSYjfihca4EFN05rRvDk4Xoy2n8tym6IxBZmcn+Qg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1128,8 +1131,8 @@ packages:
       yaml:
         optional: true
 
-  vitepress@2.0.0-alpha.15:
-    resolution: {integrity: sha512-jhjSYd10Z6RZiKOa7jy0xMVf5NB5oSc/lS3bD/QoUc6V8PrvQR5JhC9104NEt6+oTGY/ftieVWxY9v7YI+1IjA==}
+  vitepress@2.0.0-alpha.16:
+    resolution: {integrity: sha512-w1nwsefDVIsje7BZr2tsKxkZutDGjG0YoQ2yxO7+a9tvYVqfljYbwj5LMYkPy8Tb7YbPwa22HtIhk62jbrvuEQ==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
@@ -1174,6 +1177,8 @@ snapshots:
   '@docsearch/css@4.5.3': {}
 
   '@docsearch/js@4.5.3': {}
+
+  '@docsearch/sidepanel-js@4.5.4': {}
 
   '@esbuild/aix-ppc64@0.27.2':
     optional: true
@@ -1253,7 +1258,7 @@ snapshots:
   '@esbuild/win32-x64@0.27.2':
     optional: true
 
-  '@iconify-json/simple-icons@1.2.67':
+  '@iconify-json/simple-icons@1.2.70':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -2090,11 +2095,12 @@ snapshots:
       sass-embedded: 1.97.3
       tsx: 4.21.0
 
-  vitepress@2.0.0-alpha.15(@types/node@25.2.2)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0):
+  vitepress@2.0.0-alpha.16(@types/node@25.2.2)(postcss@8.5.6)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0):
     dependencies:
       '@docsearch/css': 4.5.3
       '@docsearch/js': 4.5.3
-      '@iconify-json/simple-icons': 1.2.67
+      '@docsearch/sidepanel-js': 4.5.4
+      '@iconify-json/simple-icons': 1.2.70
       '@shikijs/core': 3.21.0
       '@shikijs/transformers': 3.21.0
       '@shikijs/types': 3.21.0

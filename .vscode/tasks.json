@@ -129,7 +129,7 @@
       "detail": "Restore .NET and NPM packages",
       "dependsOn": [
         "Install: .NET packages",
-        "Install: NPM (pnpm) packages"
+        "Install: Node packages (pnpm)"
       ],
       "dependsOrder": "parallel"
     },
@@ -164,7 +164,7 @@
       "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples"
     },
     {
-      "label": "Install: NPM (pnpm) packages",
+      "label": "Install: Node packages (pnpm)",
       "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
       "command": "pnpm install",
@@ -247,7 +247,7 @@
       "detail": "Build VitePress website for production",
       "type": "shell",
       "command": "pnpm run docs:build",
-      "dependsOn": "Install: NPM (pnpm) packages",
+      "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -517,7 +517,7 @@
       "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
       "command": "pnpm run docs:dev",
-      "dependsOn": "Install: NPM (pnpm) packages",
+      "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
@@ -532,7 +532,7 @@
       "detail": "Serve VitePress website with hot reload on port 5174 (VS Code Simple Browser)",
       "type": "shell",
       "command": "pnpm run docs:dev -- --port 5174",
-      "dependsOn": "Install: NPM (pnpm) packages",
+      "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
