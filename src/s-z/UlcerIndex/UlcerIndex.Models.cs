@@ -1,14 +1,22 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of an Ulcer Index calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="UlcerIndex">The value of the Ulcer Index at this point.</param>
 [Serializable]
-public sealed class UlcerIndexResult : ResultBase, IReusableResult
+public record UlcerIndexResult
+(
+    DateTime Timestamp,
+    double? UlcerIndex
+) : IReusable
 {
-    public UlcerIndexResult(DateTime date)
-    {
-        Date = date;
-    }
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => UlcerIndex.Null2NaN();
 
-    public double? UI { get; set; } // ulcer index
-
-    double? IReusableResult.Value => UI;
+    /// <inheritdoc/>
+    [Obsolete("Rename UI to UlcerIndex")]
+    public double? UI => UlcerIndex;
 }

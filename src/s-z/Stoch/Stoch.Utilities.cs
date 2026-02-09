@@ -1,17 +1,63 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Stochastic Oscillator.
+/// </summary>
+public static partial class Stoch
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<StochResult> RemoveWarmupPeriods(
-        this IEnumerable<StochResult> results)
+    /// <summary>
+    /// Validates the parameters for Stochastic Oscillator calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
+    internal static void Validate(
+        int lookbackPeriods,
+        int signalPeriods,
+        int smoothPeriods,
+        double kFactor,
+        double dFactor,
+        MaType movingAverageType)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Oscillator != null);
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Stochastic.");
+        }
 
-        return results.Remove(removePeriods);
+        if (signalPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                "Signal periods must be greater than 0 for Stochastic.");
+        }
+
+        if (smoothPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                "Smooth periods must be greater than 0 for Stochastic.");
+        }
+
+        if (kFactor <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(kFactor), kFactor,
+                "kFactor must be greater than 0 for Stochastic.");
+        }
+
+        if (dFactor <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
+                "dFactor must be greater than 0 for Stochastic.");
+        }
+
+        if (movingAverageType is not MaType.SMA and not MaType.SMMA)
+        {
+            throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
+                "Stochastic only supports SMA and SMMA moving average types.");
+        }
     }
 }

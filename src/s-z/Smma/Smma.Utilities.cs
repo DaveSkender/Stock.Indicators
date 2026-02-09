@@ -1,17 +1,39 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for Smoothed Moving Average (SMMA) calculations.
+/// </summary>
+public static partial class Smma
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<SmmaResult> RemoveWarmupPeriods(
-        this IEnumerable<SmmaResult> results)
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of SMMA results.</param>
+    /// <returns>A list of SMMA results with the warmup periods removed.</returns>
+    public static IReadOnlyList<SmmaResult> RemoveWarmupPeriods(
+        this IReadOnlyList<SmmaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(static x => x.Smma != null) + 1;
 
         return results.Remove(n + 100);
+    }
+
+    /// <summary>
+    /// Validates the lookback periods parameter.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of lookback periods to validate.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for SMMA.");
+        }
     }
 }

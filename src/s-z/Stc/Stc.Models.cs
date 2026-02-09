@@ -1,14 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Schaff Trend Cycle (STC) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Stc">The value of the STC at this point.</param>
 [Serializable]
-public sealed class StcResult : ResultBase, IReusableResult
+public record StcResult
+(
+    DateTime Timestamp,
+    double? Stc
+) : IReusable
 {
-    public StcResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Stc { get; set; }
-
-    double? IReusableResult.Value => Stc;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Stc.Null2NaN();
 }

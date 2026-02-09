@@ -29,12 +29,12 @@ on:
         default: true
         required: true
 
-concurrency:
-  group: ${{ github.ref_name }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   package:
@@ -137,7 +137,6 @@ jobs:
           name: packages
           path: NuGet
           include-hidden-files: true
-
       - name: Summary output
         if: always()
         run: |
@@ -177,7 +176,6 @@ jobs:
     environment:
       name: pkg.github.com
       url: ${{ needs.package.outputs.url }}
-
     steps:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -250,7 +248,6 @@ jobs:
                   per_page: 100,
                 }
               );
-
               console.log(`📦 Found ${versions.length} total package versions`);
 
               if (versions.length === 0) {

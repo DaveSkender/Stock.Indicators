@@ -1,17 +1,25 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Money Flow Index (MFI).
+/// </summary>
+public static partial class Mfi
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<MfiResult> RemoveWarmupPeriods(
-        this IEnumerable<MfiResult> results)
+    /// <summary>
+    /// Validates the parameters for the MFI calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 1.
+    /// </exception>
+    internal static void Validate(
+        int lookbackPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Mfi != null);
-
-        return results.Remove(removePeriods);
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for MFI.");
+        }
     }
 }

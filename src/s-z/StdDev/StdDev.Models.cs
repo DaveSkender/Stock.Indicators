@@ -1,17 +1,22 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Standard Deviation calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="StdDev">The value of the standard deviation at this point.</param>
+/// <param name="Mean">The mean value at this point.</param>
+/// <param name="ZScore">The Z-score value at this point.</param>
 [Serializable]
-public sealed class StdDevResult : ResultBase, IReusableResult
+public record StdDevResult
+(
+    DateTime Timestamp,
+    double? StdDev,
+    double? Mean,
+    double? ZScore
+) : IReusable
 {
-    public StdDevResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? StdDev { get; set; }
-    public double? Mean { get; set; }
-    public double? ZScore { get; set; }
-    public double? StdDevSma { get; set; }
-
-    double? IReusableResult.Value => StdDev;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => StdDev.Null2NaN();
 }

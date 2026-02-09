@@ -1,100 +1,97 @@
 ---
 applyTo: "docs/**"
-description: "Documentation website development, Jekyll builds, and content guidelines"
+description: "Documentation website development - VitePress builds, accessibility testing, content guidelines"
 ---
 
 # Documentation website instructions
 
-These instructions apply to all files in the `docs/` folder and cover Jekyll site development and content creation.
+These instructions apply to all files in the docs/ folder.
 
-## Build and development workflow
-
-### Local development setup
+## Local development
 
 ```bash
-bundle install
-bundle exec jekyll serve --livereload
-
+# from /docs folder
+pnpm install
+pnpm run docs:dev
+# Site will open at http://localhost:5173/
 ```
 
-The site will be available at `http://127.0.0.1:4000`.
+## VitePress-specific guidelines
 
-### Code cleanup and formatting
+### Alert blocks
 
-- **Markdown linting**: Follow markdown linting rules in the `.github/instructions/markdown.instructions.md` file
-- **Jekyll configuration**: Follow Jekyll best practices in `_config.yml`
-- **Front matter validation**: Ensure YAML front matter follows documented schema
+VitePress supports native custom container syntax. Use these instead of GitHub alert syntax:
+
+- `::: tip` — Helpful suggestions
+- `::: warning` — Important warnings
+- `::: danger` — Critical warnings about dangerous operations
+- `::: details` — Collapsible details sections
+- `::: info` — Informational highlights (default)
+
+```markdown
+::: warning
+This is a warning message
+:::
+
+::: tip ✨ Pro tip
+You can add custom titles
+:::
+```
+
+**Note:** Avoid using GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`, etc.) in VitePress pages. However, they are still preferred in non-website pages.
+
+### Asset management
+
+- Place static assets in `.vitepress/public/` directory
+- Assets in public directory are served from root path
+- Use absolute paths starting with `/` for assets
+- For images in markdown content, use HTML `<img>` tags with absolute paths
+
+## Build and testing
+
+```bash
+# Production build
+pnpm run docs:build
+
+# Preview production build (starts server on port 4173)
+pnpm run docs:preview
+```
+
+### Accessibility testing
+
+**Option 1**: Use VS Code task: **Tasks: Run Task** → `Test: Website a11y (pa11y)`
+
+**Option 2**: Run script manually (from docs/ folder):
+
+```bash
+bash .vitepress/test-a11y.sh
+```
+
+The script builds the site, starts a local preview server, and runs pa11y-ci against localhost URLs (not production).
 
 ## Content guidelines
 
-### Indicator documentation
-
-When adding or updating indicators:
-
-- Add or update files in the `_indicators/` directory
-- Place image assets in the `assets/` folder
+- Add or update files in `/docs/indicators/` directory
+- Place image assets in `/docs/.vitepress/public/assets/` folder
 - Follow consistent naming conventions for asset files
 - Include comprehensive examples with sample data
+- Use HTML `<img>` tags instead of markdown syntax for images (avoids SSR import issues)
+- Optimize images to webp format: `cwebp -resize 832 0 -q 100 input.png -o output.webp`
 
-### Content structure
+## Accessibility requirements
 
 - Use semantic HTML elements when HTML is required
 - Provide alt text for all images
 - Ensure proper heading hierarchy (no skipping levels)
 - Include descriptive link text (avoid "click here")
+- Run Lighthouse for accessibility audits
 
-## Jekyll-specific guidelines
-
-### Front matter requirements
+## Front matter requirements
 
 - Include required YAML front matter for all pages
 - Use consistent layout references
 - Set appropriate page titles and descriptions
 - Include navigation metadata when applicable
 
-### Template and includes
-
-- Follow established patterns in `_layouts/` and `_includes/`
-- Maintain consistency in template structure
-- Use Jekyll's data files in `_data/` for structured content
-- Leverage Jekyll plugins appropriately
-
-### Asset management
-
-- Place static assets in appropriate subdirectories under `/assets/`
-- Use Jekyll's asset pipeline for CSS and JavaScript
-- Optimize images for web delivery
-- Follow naming conventions for asset files
-
-## Testing and validation
-
-### Pre-commit testing
-
-Before committing documentation changes:
-
-1. Build verification: Ensure Jekyll builds without errors
-2. Link checking: Verify all internal and external links work
-3. Content review: Check for typos and formatting consistency
-
-### Continuous integration
-
-The documentation site should build successfully in the CI/CD pipeline.
-
-## Content maintenance
-
-### Regular updates
-
-- Keep indicator documentation current with library changes
-- Update examples when API changes occur
-- Refresh screenshots and visual examples periodically
-- Maintain accuracy of mathematical formulas and calculations
-
-### Version compatibility
-
-- Document version-specific features appropriately
-- Maintain backward compatibility in examples where possible
-- Clearly mark deprecated features
-- Provide migration guidance for breaking changes
-
 ---
-Last updated: December 7, 2025
+Last updated: January 25, 2026

@@ -1,17 +1,28 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+public static partial class Awesome
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<AwesomeResult> RemoveWarmupPeriods(
-        this IEnumerable<AwesomeResult> results)
+    /// <summary>
+    /// parameter validation
+    /// </summary>
+    /// <param name="fastPeriods">Number of periods for the fast moving average</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
+    internal static void Validate(
+        int fastPeriods,
+        int slowPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Oscillator != null);
+        // check parameter arguments
+        if (fastPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                "Fast periods must be greater than 0 for Awesome Oscillator.");
+        }
 
-        return results.Remove(removePeriods);
+        if (slowPeriods <= fastPeriods)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                "Slow periods must be larger than Fast Periods for Awesome Oscillator.");
+        }
     }
 }

@@ -1,0 +1,235 @@
+name: Test performance (manual)
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.indicator }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      indicator:
+        description: Select indicator to benchmark
+        type: choice
+        required: true
+        options:
+          - ADL
+          - ADX
+          - ALLIGATOR
+          - ALMA
+          - AROON
+          - ATR
+          - ATR-STOP
+          - AWESOME
+          - BB
+          - BETA
+          - BOP
+          - CCI
+          - CHAIKIN-OSC
+          - CHEXIT
+          - CHOP
+          - CMF
+          - CMO
+          - CORR
+          - CRSI
+          - DEMA
+          - DOJI
+          - DONCHIAN
+          - DPO
+          - DYNAMIC
+          - ELDER-RAY
+          - EMA
+          - EPMA
+          - FCB
+          - FISHER
+          - FORCE
+          - FRACTAL
+          - GATOR
+          - HEIKINASHI
+          - HMA
+          - HTL
+          - HURST
+          - ICHIMOKU
+          - KAMA
+          - KELTNER
+          - KVO
+          - MA-ENV
+          - MACD
+          - MAMA
+          - MARUBOZU
+          - MFI
+          - OBV
+          - PIVOT-POINTS
+          - PIVOTS
+          - PMO
+          - PRS
+          - PSAR
+          - PVO
+          - QUOTEPART
+          - RENKO
+          - RENKO-ATR
+          - ROC
+          - ROC-WB
+          - ROLLING-PIVOTS
+          - RSI
+          - SLOPE
+          - SMA
+          - SMA-ANALYSIS
+          - SMI
+          - SMMA
+          - STARC
+          - STC
+          - STDEV
+          - STDEV-CHANNELS
+          - STOCH
+          - STOCH-RSI
+          - SUPERTREND
+          - T3
+          - TEMA
+          - TR
+          - TRIX
+          - TSI
+          - ULCER
+          - UO
+          - VOL-STOP
+          - VORTEX
+          - VWAP
+          - VWMA
+          - WILLR
+          - WMA
+          - ZIGZAG
+      series:
+        description: for Series
+        type: boolean
+        required: true
+        default: true
+      buffer:
+        description: for Buffer
+        type: boolean
+        required: true
+        default: true
+      streamhub:
+        description: for StreamHub
+        type: boolean
+        required: true
+        default: true
+      periods:
+        description: Number of randomly generated quote periods
+        type: number
+        required: true
+        default: 500000
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Setup GitVersion Tool
+        run: dotnet tool install --global GitVersion.Tool
+
+      - name: Determine version
+        id: gitversion
+        run: |
+          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+          # Export GitVersion variables to environment
+          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+
+      - name: Run manual performance test
+        working-directory: tools/performance
+        run: |
+          # Build list of selected types based on boolean inputs
+          TYPES=()
+          if [ "${{ inputs.series }}" = "true" ]; then
+            TYPES+=("Series")
+          fi
+          if [ "${{ inputs.buffer }}" = "true" ]; then
+            TYPES+=("Buffer")
+          fi
+          if [ "${{ inputs.streamhub }}" = "true" ]; then
+            TYPES+=("StreamHub")
+          fi
+
+          if [ ${#TYPES[@]} -eq 0 ]; then
+            echo "No style selected; exiting."
+            exit 1
+          fi
+
+          # If all three selected, run the broad wildcard; otherwise build a regex group
+          if [ ${#TYPES[@]} -eq 3 ]; then
+            FILTER="Performance.ManualTestDirect*"
+          else
+            PATTERN=$(IFS='|'; echo "${TYPES[*]}")
+            FILTER="Performance.ManualTestDirect.(${PATTERN})"
+          fi
+
+          echo "Using filter: $FILTER"
+          dotnet run -c Release -- --filter "$FILTER" --job short --exporters json markdown
+        env:
+          PERF_TEST_KEYWORD: ${{ inputs.indicator }}
+          PERF_TEST_PERIODS: ${{ inputs.periods }}
+          PERF_TEST_SERIES: ${{ inputs.series }}
+          PERF_TEST_BUFFER: ${{ inputs.buffer }}
+          PERF_TEST_STREAMHUB: ${{ inputs.streamhub }}
+
+      - name: Save test results
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: manual-test-results
+          path: tools/performance/BenchmarkDotNet.Artifacts/results
+
+      - name: Publish summary
+        if: always()
+        env:
+          INDICATOR_KEYWORD: ${{ inputs.indicator }}
+          INDICATOR_PERIODS: ${{ inputs.periods }}
+          INDICATOR_SERIES: ${{ inputs.series }}
+          INDICATOR_BUFFER: ${{ inputs.buffer }}
+          INDICATOR_STREAMHUB: ${{ inputs.streamhub }}
+          VERSION: ${{ steps.gitversion.outputs.FullSemVer }}
+        run: |
+          TITLE="## Manual Performance Test Results"
+          if [ -n "$VERSION" ]; then
+            TITLE="$TITLE for $VERSION"
+          fi
+          echo "$TITLE" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Indicator:** $INDICATOR_KEYWORD" >> $GITHUB_STEP_SUMMARY
+          echo "**Periods:** $INDICATOR_PERIODS" >> $GITHUB_STEP_SUMMARY
+
+          STYLE_SELECTED=""
+          if [ "$INDICATOR_SERIES" = "true" ]; then STYLE_SELECTED="${STYLE_SELECTED}Series "; fi
+          if [ "$INDICATOR_BUFFER" = "true" ]; then STYLE_SELECTED="${STYLE_SELECTED}Buffer "; fi
+          if [ "$INDICATOR_STREAMHUB" = "true" ]; then STYLE_SELECTED="${STYLE_SELECTED}StreamHub "; fi
+          if [ -z "$STYLE_SELECTED" ]; then STYLE_SELECTED="(none selected)"; fi
+          echo "**Style:** $STYLE_SELECTED" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          RESULTS_FILE="tools/performance/BenchmarkDotNet.Artifacts/results/Performance.ManualTestDirect-report-github.md"
+          if [ -f "$RESULTS_FILE" ]; then
+            cat "$RESULTS_FILE" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No results generated. Check if the indicator keyword is supported in ManualTestDirect.cs." >> $GITHUB_STEP_SUMMARY
+          fi

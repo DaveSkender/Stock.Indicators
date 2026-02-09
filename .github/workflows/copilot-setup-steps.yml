@@ -1,10 +1,14 @@
-name: Copilot Environment Setup
+name: Copilot environment setup
 
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
+
+env:
+  NODE_VERSION: "24.13.0"
+  PNPM_VERSION: "10.28.1"
 
 jobs:
   copilot-setup-steps:
@@ -14,12 +18,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.287.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          ruby-version: 3.3
-          bundler-cache: true
-          working-directory: docs
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+        continue-on-error: true
+        timeout-minutes: 5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: docs/pnpm-lock.yaml
+        continue-on-error: true
+
+      - name: Install pnpm packages
+        working-directory: docs
+        run: pnpm install --frozen-lockfile --config.confirmModulesPurge=false
+        continue-on-error: true
+        timeout-minutes: 5
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -28,21 +47,21 @@ jobs:
           dotnet-quality: "ga"
           cache: true
           cache-dependency-path: "**/packages.lock.json"
-
-      - name: Install .NET & NPM global tools
-        run: |
-          dotnet tool install --global dotnet-format
-          dotnet tool install --global roslynator.dotnet.cli@0.11.0
-          dotnet tool install --global dotnet-outdated-tool
-          dotnet tool install --global dotnet-reportgenerator-globaltool
-          npm install --global @angular/cli
         continue-on-error: true
-        # bug in Roslynator v0.12.0
 
       - name: Restore packages
         run: dotnet restore
         continue-on-error: true
         timeout-minutes: 5
+
+      - name: Install .NET global tools
+        run: |
+          dotnet tool install --global dotnet-format
+          dotnet tool install --global roslynator.dotnet.cli@0.11.0
+          dotnet tool install --global dotnet-outdated-tool
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+        continue-on-error: true
+        # bug in Roslynator v0.12.0
 
       - name: Environment summary
         run: |

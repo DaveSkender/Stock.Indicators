@@ -1,131 +1,86 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
-// QUOTE UTILITIES
-
-public static partial class QuoteUtility
+/// <summary>
+/// Provides methods for manipulating and handling quote data.
+/// </summary>
+public static partial class Quotes
 {
-    /* STANDARD DECIMAL QUOTES */
+    /* LISTS */
 
-    // convert TQuotes to basic double tuple list
-    /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
-    ///
-    public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart = CandlePart.Close)
-        where TQuote : IQuote => quotes
-            .Select(x => x.ToTuple(candlePart));
+    /// <summary>
+    /// Convert IQuote list to built-in Quote type list (public API only).
+    /// </summary>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <returns>A list of converted quotes.</returns>
+    public static IReadOnlyList<Quote> ToQuoteList(
+        this IReadOnlyList<IQuote> quotes)
 
-    // TUPLE QUOTES
-
-    // convert quotes to tuple list
-    public static Collection<(DateTime, double)> ToTupleCollection<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart)
-        where TQuote : IQuote
         => quotes
-            .ToTuple(candlePart)
-            .ToCollection();
-
-    internal static List<(DateTime, double)> ToTuple<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .Select(x => x.ToTuple(candlePart))
+            .OrderBy(static x => x.Timestamp)
+            .Select(static x => x.ToQuote())
             .ToList();
 
-    // convert tuples to list, with sorting
-    public static Collection<(DateTime, double)> ToSortedCollection(
-        this IEnumerable<(DateTime date, double value)> tuples)
-        => tuples
-            .ToSortedList()
-            .ToCollection();
+    /// <summary>
+    /// Convert IQuote list to QuoteD type list with inline casting.
+    /// Uses direct loop instead of LINQ for better performance.
+    /// </summary>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <returns>A list of converted quotes in double precision.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
+    internal static List<QuoteD> ToQuoteDList(
+        this IReadOnlyList<IQuote> quotes)
+    {
+        ArgumentNullException.ThrowIfNull(quotes);
 
-    internal static List<(DateTime, double)> ToSortedList(
-        this IEnumerable<(DateTime date, double value)> tuples)
-        => tuples
-            .OrderBy(static x => x.date)
-            .ToList();
+        int length = quotes.Count;
+        List<QuoteD> result = new(length);
 
-    // DOUBLE QUOTES
+        for (int i = 0; i < length; i++)
+        {
+            IQuote q = quotes[i];
+            result.Add(new QuoteD(
+                Timestamp: q.Timestamp,
+                Open: (double)q.Open,
+                High: (double)q.High,
+                Low: (double)q.Low,
+                Close: (double)q.Close,
+                Volume: (double)q.Volume));
+        }
 
-    // convert to quotes in double precision
-    internal static List<QuoteD> ToQuoteD<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .Select(static x => new QuoteD {
-                Date = x.Date,
-                Open = (double)x.Open,
-                High = (double)x.High,
-                Low = (double)x.Low,
-                Close = (double)x.Close,
-                Volume = (double)x.Volume
-            })
-            .OrderBy(static x => x.Date)
-            .ToList();
+        return result;
+    }
 
-    // convert quoteD list to tuples
-    internal static List<(DateTime, double)> ToTuple(
-        this List<QuoteD> qdList,
-        CandlePart candlePart) => qdList
-            .OrderBy(x => x.Date)
-            .Select(x => x.ToTuple(candlePart))
-            .ToList();
+    /* TYPES */
 
-    /* ELEMENTS */
+    /// <summary>
+    /// Convert any IQuote type to native Quote type (public API only).
+    /// </summary>
+    /// <typeparam name="TQuote">Type of quote record</typeparam>
+    /// <param name="quote">The quote to convert.</param>
+    /// <returns>A converted quote.</returns>
+    public static Quote ToQuote<TQuote>(this TQuote quote)
+        where TQuote : IQuote
 
-    // convert TQuote element to basic tuple
-    internal static (DateTime date, double value) ToTuple<TQuote>(
-        this TQuote q,
-        CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch {
-            CandlePart.Open => (q.Date, (double)q.Open),
-            CandlePart.High => (q.Date, (double)q.High),
-            CandlePart.Low => (q.Date, (double)q.Low),
-            CandlePart.Close => (q.Date, (double)q.Close),
-            CandlePart.Volume => (q.Date, (double)q.Volume),
-            CandlePart.HL2 => (q.Date, (double)(q.High + q.Low) / 2),
-            CandlePart.HLC3 => (q.Date, (double)(q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => (q.Date, (double)(q.Open + q.Close) / 2),
-            CandlePart.OHL3 => (q.Date, (double)(q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => (q.Date, (double)(q.Open + q.High + q.Low + q.Close) / 4),
-            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
-        };
+        => new(
+            Timestamp: quote.Timestamp,
+            Open: quote.Open,
+            High: quote.High,
+            Low: quote.Low,
+            Close: quote.Close,
+            Volume: quote.Volume);
 
-    // convert TQuote element to basic double class
-    internal static BasicData ToBasicData<TQuote>(
-        this TQuote q,
-        CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch {
-            CandlePart.Open => new BasicData { Date = q.Date, Value = (double)q.Open },
-            CandlePart.High => new BasicData { Date = q.Date, Value = (double)q.High },
-            CandlePart.Low => new BasicData { Date = q.Date, Value = (double)q.Low },
-            CandlePart.Close => new BasicData { Date = q.Date, Value = (double)q.Close },
-            CandlePart.Volume => new BasicData { Date = q.Date, Value = (double)q.Volume },
-            CandlePart.HL2 => new BasicData { Date = q.Date, Value = (double)(q.High + q.Low) / 2 },
-            CandlePart.HLC3 => new BasicData { Date = q.Date, Value = (double)(q.High + q.Low + q.Close) / 3 },
-            CandlePart.OC2 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.Close) / 2 },
-            CandlePart.OHL3 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low) / 3 },
-            CandlePart.OHLC4 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
-            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
-        };
+    /// <summary>
+    /// Convert to quote in double precision.
+    /// </summary>
+    /// <param name="quote">The quote to convert.</param>
+    /// <returns>A converted quote in double precision.</returns>
+    internal static QuoteD ToQuoteD(this IQuote quote)
 
-    // convert quoteD element to basic tuple
-    internal static (DateTime, double) ToTuple(
-        this QuoteD q,
-        CandlePart candlePart) => candlePart switch {
-            CandlePart.Open => (q.Date, q.Open),
-            CandlePart.High => (q.Date, q.High),
-            CandlePart.Low => (q.Date, q.Low),
-            CandlePart.Close => (q.Date, q.Close),
-            CandlePart.Volume => (q.Date, q.Volume),
-            CandlePart.HL2 => (q.Date, (q.High + q.Low) / 2),
-            CandlePart.HLC3 => (q.Date, (q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => (q.Date, (q.Open + q.Close) / 2),
-            CandlePart.OHL3 => (q.Date, (q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => (q.Date, (q.Open + q.High + q.Low + q.Close) / 4),
-            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
-        };
+        => new(
+            Timestamp: quote.Timestamp,
+            Open: (double)quote.Open,
+            High: (double)quote.High,
+            Low: (double)quote.Low,
+            Close: (double)quote.Close,
+            Volume: (double)quote.Volume);
 }

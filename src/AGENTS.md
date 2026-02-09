@@ -2,37 +2,62 @@
 
 This folder contains the Stock Indicators library source code.
 
-## Quick reference
+## Implementation guidance
 
-- Follow .NET development instructions in .github/instructions/dotnet.instructions.md
-- **Data type usage**:
-  - Public API: Use `decimal` for quote inputs (Open, High, Low, Close, Volume)
-  - Internal calculations: Use `double` for performance (via `QuoteD` and converter methods)
-  - Result types: Use `double?` for most indicators, `decimal?` when precision is critical (e.g., ZigZag, PivotPoints)
-- Validate all public method parameters
-- Document all public APIs with XML comments
-- Write unit tests for all code paths
+See .github/skills/ for detailed indicator development guidance:
 
-## Common pitfalls to avoid
+- indicator-series - Series indicator implementation patterns
+- indicator-buffer - BufferList indicator implementation patterns  
+- indicator-stream - StreamHub indicator implementation patterns
+- indicator-catalog - Catalog entry creation and registration
+- code-completion - Quality gates for completing code work
 
-- **Off-by-one errors**: Double-check lookback period calculations
-- **Null reference exceptions**: Validate data before access
-- **Type mismatches**: Public quote inputs are `decimal`, internal calculations use `double`, result types vary by indicator
-- **Index out of bounds**: Verify collection sizes before indexing
-- **Performance regression**: Profile before and after optimization changes
+## Technical constraints
 
-## Building and testing
+**Performance & compatibility:**
 
-```bash
-# Build from solution root
-dotnet build
+- Targets: net10.0, net9.0, net8.0 (all must build and pass tests)
+- Complexity: Single-pass O(n) unless mathematically impossible
+- Warmup: Provide deterministic WarmupPeriod helper for each indicator
+- Precision: Use double for speed; escalate to decimal only when rounding affects financial correctness
+- Allocation: Result list + minimal working buffers only
+- Thread safety: Stateless calculations are thread-safe; streaming hubs isolate instance state
+- Backward compatibility: Renaming public members or altering defaults requires MAJOR version bump
 
-# Run tests from solution root
-dotnet test
+**Error conventions:**
 
-# Format code
-dotnet format
-```
+- Use ArgumentOutOfRangeException for invalid numeric parameter ranges
+- Use ArgumentException for semantic misuse (e.g., insufficient history)
+- Never swallow exceptions; wrap only to add context
+- Messages MUST include parameter name and offending value when relevant
+
+## NaN handling policy
+
+This library uses non-nullable double types internally for performance, with intentional NaN propagation:
+
+**Core principles:**
+
+1. Natural propagation - NaN values propagate through calculations (any operation with NaN produces NaN)
+2. Internal representation - Use double.NaN internally when a value cannot be calculated
+3. External representation - Convert NaN to null (via .NaN2Null()) only at final result boundary
+4. No rejection - Never reject NaN inputs; allow them to flow through the system
+5. Performance first - Non-nullable double provides significant performance gains
+
+**Implementation guidelines:**
+
+- Division by zero - Guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`)
+- No epsilon comparisons - Use exact zero comparison (!= 0 or == 0), never epsilon values
+- NaN propagation - Accept NaN inputs and allow natural propagation
+- State initialization - Use double.NaN for uninitialized state instead of sentinel values
+
+See _common/README.md for complete policy documentation.
+
+## Series as the canonical reference
+
+- Series indicators are the canonical source of truth for numerical correctness
+- Series results are based on authoritative publications and manually verified calculations
+- Stream and Buffer implementations must match Series results for same inputs once warmed up
+- For discrepancies, fix Stream/Buffer unless there is verified issue with Series and reference data
 
 ---
-Last updated: December 30, 2025
+Last updated: January 25, 2026

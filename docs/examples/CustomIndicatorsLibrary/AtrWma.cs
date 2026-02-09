@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Skender.Stock.Indicators;
 
 namespace Custom.Stock.Indicators;
@@ -18,14 +17,14 @@ public sealed class AtrWmaResult : ResultBase, IReusableResult
 public static class CustomIndicators
 {
     // Custom ATR WMA calculation
-    public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<AtrWmaResult> GetAtrWma(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // sort quotes and convert to collection or list
-        Collection<TQuote> quotesList = quotes
-            .ToSortedCollection();
+        // sort quotes and convert to list
+        List<IQuote> quotesList = quotes
+            .OrderBy(x => x.Date)
+            .ToList();
 
         // initialize results
         List<AtrWmaResult> results = new(quotesList.Count);
@@ -35,10 +34,10 @@ public static class CustomIndicators
             .GetAtr(lookbackPeriods)
             .ToList();
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < quotesList.Count; i++)
         {
-            TQuote q = quotesList[i];
+            IQuote q = quotesList[i];
 
             AtrWmaResult r = new()
             {

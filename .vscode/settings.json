@@ -12,6 +12,7 @@
   "files.associations": {
     "*.md": "markdown"
   },
+  "github.copilot.chat.copilotMemory.enabled": true,
   "github.copilot.chat.githubMcpServer.enabled": true,
   "github.copilot.chat.githubMcpServer.readonly": false,
   "github.copilot.chat.githubMcpServer.toolsets": [
@@ -23,14 +24,15 @@
     "github_support_docs_search",
     "web_search"
   ],
-  "github.copilot.chat.tools.memory.enabled": true,
   "githubPullRequests.ignoredPullRequestBranches": [
     "v3"
   ],
   "search.useIgnoreFiles": true, // default: true
   "search.exclude": {
     // not otherwise ignored
-    "**/*.json": true,
-    "**/*.csv": true
-  },
+    "tests/**/*.json": true,
+    "tests/**/*.csv": true,
+    "**/.vitepress/cache": true,
+    "**/.vitepress/dist": true,
+  }
 }

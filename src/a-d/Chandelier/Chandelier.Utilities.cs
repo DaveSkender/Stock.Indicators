@@ -1,17 +1,34 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Chandelier Exit indicator.
+/// </summary>
+public static partial class Chandelier
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<ChandelierResult> RemoveWarmupPeriods(
-        this IEnumerable<ChandelierResult> results)
+    /// <summary>
+    /// Validates the parameters for the Chandelier Exit calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier for the ATR calculation, must be greater than 0.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 0,
+    /// or the multiplier is less than or equal to 0.
+    /// </exception>
+    internal static void Validate(
+        int lookbackPeriods,
+        double multiplier)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.ChandelierExit != null);
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Chandelier Exit.");
+        }
 
-        return results.Remove(removePeriods);
+        if (multiplier <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
+                "Multiplier must be greater than 0 for Chandelier Exit.");
+        }
     }
 }

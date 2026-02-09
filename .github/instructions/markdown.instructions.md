@@ -8,7 +8,7 @@ description: Markdown formatting guide
 Agents: follow these conventions when creating or modifying Markdown files. All rules align with GitHub Flavored Markdown (GFM) and VS Code Markdown language features while ensuring consistent automation and linting.
 
 > [!IMPORTANT]
-> **CRITICAL: context loading warning:** Entry point files (`AGENTS.md`, root instruction files) auto-load in many contexts. These files must NOT use `#file:` references as they cascade and cause exponential context bloat. Use plain-text file path mentions instead.
+> **CRITICAL: context loading warning:** Entry point files (`AGENTS.md`, root instruction files) auto-load in many contexts. These files must NOT use #file: references as they cascade and cause exponential context bloat. Use plain-text file path mentions instead.
 
 > [!NOTE]
 > **First time setup:** If configuring a new repository, see the Setup section at the end of this file for complete configuration requirements.
@@ -40,10 +40,10 @@ Agents: follow these conventions when creating or modifying Markdown files. All 
 | Setext headers (`===`, `---`) | Convert to ATX (`#`, `##`) |
 | Missing blank lines around headers | Add blank line before and after |
 | Missing blank lines around code blocks | Add blank line before and after fence |
-| Backticks in `#file:` references | Remove backticks: `#file:path` not `` `#file:path` `` |
-| `#file:` in entry point files | Replace with plain-text path mention |
+| Backticks in #file: references | Remove backticks: `#file:path` not `` `#file:path` `` |
+| #file: in entry point files | Replace with plain-text path mention |
 | Ordered lists for non-sequential items | Convert to unordered hyphen lists |
-| Trailing punctuation after `#file:` | Remove punctuation or add space |
+| Trailing punctuation after #file: | Remove punctuation or add space |
 | Missing language identifier in fenced blocks | Add language (or `plaintext`) |
 | Nested code blocks with equal fence length | Increase outer fence length |
 
@@ -143,9 +143,9 @@ More content.
 
 Choose the appropriate referencing style based on whether the file content is needed for the current task.
 
-### When to use `#file:` context tokens
+### When to use #file: context tokens
 
-Use `#file:` when the agent **must read the file content** to complete the task:
+Use #file: when the agent **must read the file content** to complete the task:
 
 - Instruction files that define coding standards for the current work
 - Templates or schemas the agent must follow
@@ -157,7 +157,7 @@ Follow conventions from #file:../../AGENTS.md
 Apply the template in #file:adr-template.md
 ```
 
-**Syntax rules for `#file:` and `#folder:` tokens:**
+**Syntax rules for #file: and #folder: tokens:**
 
 - Tokens are context variables, not clickable links.
 - Do not wrap in backticks.
@@ -185,9 +185,9 @@ See the contributing guide in docs/contributing.md for details.
 
 Root entry points (AGENTS.md) are auto-loaded in many contexts. To prevent cascading file loads:
 
-- **CRITICAL: Entry point files must NOT use `#file:` references.** Files like `AGENTS.md` and root-level instruction files are auto-loaded and will cascade their `#file:` references into context, causing bloat. Use plain-text file path mentions instead.
-- **Scoped instruction files may use `#file:` selectively.** Files in `.github/instructions/` with `applyTo` patterns are auto-attached only in their specific domains and can safely use `#file:` for on-demand fetching.
-- **Agent files should use targeted `#file:` references.** Agent files reference instruction files they need; this is intentional and domain-appropriate.
+- **CRITICAL: Entry point files must NOT use #file: references.** Files like `AGENTS.md` and root-level instruction files are auto-loaded and will cascade their #file: references into context, causing bloat. Use plain-text file path mentions instead.
+- **Scoped instruction files may use #file: selectively.** Files in `.github/instructions/` with `applyTo` patterns are auto-attached only in their specific domains and can safely use #file: for on-demand fetching.
+- **Agent files should use targeted #file: references.** Agent files reference instruction files they need; this is intentional and domain-appropriate.
 - **Minimize cascading hierarchies.** Avoid chains like: AGENTS.md → instruction file → context file → another instruction file.
 - **Prefer plain-text mentions in navigational sections.** Let agents decide what to fetch: `See the markdown authoring guidelines in .github/instructions/markdown.instructions.md`
 - **Never use `file:` URI scheme** (e.g., `file:///path/to/doc.md`). These always force auto-loading.
@@ -325,6 +325,8 @@ Allowed elements (defined in `.markdownlint-cli2.jsonc`):
 - `> [!IMPORTANT]` — Critical information
 - `> [!WARNING]` — Caution required
 - `> [!CAUTION]` — Danger or risk
+
+> Exception: for docs VitePress website, use native `:::` codeblocks for alerts.
 
 **Tables:** Use pipe-delimited format with alignment:
 

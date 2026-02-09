@@ -1,30 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Simple Moving Average (SMA) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Sma">The value of the SMA at this point.</param>
 [Serializable]
-public sealed class SmaResult : ResultBase, IReusableResult
+public record SmaResult(
+    DateTime Timestamp,
+    double? Sma
+) : IReusable
 {
-    public SmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Sma { get; set; }
-
-    double? IReusableResult.Value => Sma;
-}
-
-[Serializable]
-public sealed class SmaAnalysis : ResultBase, IReusableResult
-{
-    public SmaAnalysis(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Sma { get; set; } // simple moving average
-    public double? Mad { get; set; } // mean absolute deviation
-    public double? Mse { get; set; } // mean square error
-    public double? Mape { get; set; } // mean absolute percentage error
-
-    double? IReusableResult.Value => Sma;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Sma.Null2NaN();
 }

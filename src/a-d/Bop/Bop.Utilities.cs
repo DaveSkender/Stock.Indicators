@@ -1,17 +1,23 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the BOP (Balance of Power) indicator.
+/// </summary>
+public static partial class Bop
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<BopResult> RemoveWarmupPeriods(
-        this IEnumerable<BopResult> results)
+    /// <summary>
+    /// Validates the parameters for the BOP calculation.
+    /// </summary>
+    /// <param name="smoothPeriods">The number of smoothing periods for the BOP calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the smoothing periods are less than or equal to 0.</exception>
+    internal static void Validate(
+        int smoothPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Bop != null);
-
-        return results.Remove(removePeriods);
+        // check parameter arguments
+        if (smoothPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                "Smoothing periods must be greater than 0 for BOP.");
+        }
     }
 }

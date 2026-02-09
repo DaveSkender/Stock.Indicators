@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for Hilbert Transform Instantaneous Trendline (HTL) calculations.
+/// </summary>
+public static partial class HtTrendline
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<HtlResult> RemoveWarmupPeriods(
-        this IEnumerable<HtlResult> results) => results.Remove(100);
+    /// <summary>
+    /// Removes the recommended warmup periods from the HTL results.
+    /// </summary>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<HtlResult> RemoveWarmupPeriods(
+        this IReadOnlyList<HtlResult> results)
+            => results.Remove(100);
 }
