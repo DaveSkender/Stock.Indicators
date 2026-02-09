@@ -14,6 +14,9 @@ public class AtrHub
         LookbackPeriods = lookbackPeriods;
         Name = $"ATR({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

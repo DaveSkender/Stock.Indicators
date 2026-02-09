@@ -51,6 +51,10 @@ public class TsiHub
         _cs1History = [];
         _as1History = [];
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = lookbackPeriods + smoothPeriods + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 

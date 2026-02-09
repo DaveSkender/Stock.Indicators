@@ -33,6 +33,9 @@ public class PivotPointsHub
         windowClose = 0;
         windowPoint = new();
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // Needs at least 2 periods for pivot calculation
+
         Reinitialize();
     }
 

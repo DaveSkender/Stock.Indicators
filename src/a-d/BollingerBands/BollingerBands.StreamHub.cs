@@ -16,6 +16,9 @@ public class BollingerBandsHub
         StandardDeviations = standardDeviations;
         Name = $"BB({lookbackPeriods},{standardDeviations})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

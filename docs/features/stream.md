@@ -106,7 +106,7 @@ quoteHub.Add(quote1);
 quoteHub.Add(quote2);
 
 // late-arriving data with earlier timestamp
-quoteHub.Insert(lateQuote);  // triggers recalculation
+quoteHub.Add(lateQuote);  // triggers recalculation in dependent hubs
 
 // remove incorrect quote
 quoteHub.Remove(badQuote);   // triggers recalculation
@@ -125,8 +125,8 @@ The hub automatically handles state rollback and recalculation when data arrives
 
 Stream hubs use internal locking to protect cache operations during rebuild and rollback scenarios:
 
-- **Internal cache operations** are thread-safe (Insert, RemoveAt, RemoveRange, Rebuild)
-- **External access requires synchronization** when multiple threads call Add, Insert, or Remove
+- **Internal cache operations** are thread-safe (Add, RemoveAt, RemoveRange, Rebuild)
+- **External access requires synchronization** when multiple threads call Add or Remove
 - **Single-threaded usage** requires no additional synchronization
 - **Multi-threaded usage** should synchronize external calls to hub methods
 

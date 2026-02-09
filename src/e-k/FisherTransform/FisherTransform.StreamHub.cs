@@ -29,6 +29,9 @@ public class FisherTransformHub
         _priceMinWindow = new RollingWindowMin<double>(lookbackPeriods);
         Name = $"FISHER({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -114,7 +117,7 @@ public class FisherTransformHub
 
     /// <summary>
     /// Restores the rolling window and xv state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows and xv array from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds rolling windows and xv array from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

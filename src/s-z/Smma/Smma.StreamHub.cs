@@ -14,6 +14,9 @@ public class SmmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"SMMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

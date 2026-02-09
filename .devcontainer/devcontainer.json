@@ -21,6 +21,7 @@
     "vscode": {
       "settings": {
         "chat.tools.global.autoApprove": true,
+        "dotnet.defaultSolution": "Stock.Indicators.sln",
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [

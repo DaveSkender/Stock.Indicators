@@ -26,6 +26,9 @@ public class RocWbHub
         rocEmaInitBuffer = new Queue<double>(emaPeriods);
         Name = $"ROCWB({lookbackPeriods},{emaPeriods},{stdDevPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 

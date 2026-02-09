@@ -14,6 +14,9 @@ public class BopHub
         SmoothPeriods = smoothPeriods;
         Name = $"BOP({smoothPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(smoothPeriods, Name);  // Requires at least smooth period
+
         Reinitialize();
     }
 

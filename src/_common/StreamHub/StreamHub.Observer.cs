@@ -73,27 +73,56 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     public virtual void OnRebuild(DateTime fromTimestamp)
         => Rebuild(fromTimestamp);
 
+    /// <summary>
+    /// Gets a value indicating whether this hub should prune its cache when the provider prunes.
+    /// Transformation hubs (like Renko) that don't have 1:1 timestamp alignment with inputs
+    /// should override this to return false.
+    /// </summary>
+    protected virtual bool ShouldPruneOnProviderPrune => true;
+
     /// <inheritdoc/>
     public void OnPrune(DateTime toTimestamp)
     {
         lock (CacheLock)
         {
             int removedCount = 0;
-            while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+
+            // Only prune if this hub participates in provider-driven pruning
+            if (ShouldPruneOnProviderPrune)
             {
-                Cache.RemoveAt(0);
-                removedCount++;
+                while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+                {
+                    Cache.RemoveAt(0);
+                    removedCount++;
+                }
             }
 
-            // Allow derived classes to prune their internal state arrays
-            if (removedCount > 0)
+            // Always call PruneState to allow tracking of provider pruning,
+            // even if this hub's cache wasn't pruned
+            if (ShouldPruneOnProviderPrune && removedCount > 0)
             {
                 PruneState(toTimestamp);
+            }
+            else if (!ShouldPruneOnProviderPrune)
+            {
+                // Call OnProviderPrune for hubs that don't prune their own cache
+                // but need to track upstream pruning (e.g., Slope tracking itemsProcessed)
+                OnProviderPrune(toTimestamp);
             }
 
             // notify observers (inside lock to ensure cache consistency)
             NotifyObserversOnPrune(toTimestamp);
         }
+    }
+
+    /// <summary>
+    /// Called when the provider prunes, even if this hub doesn't prune its own cache.
+    /// Override this to track upstream pruning events (e.g., Slope updating itemsProcessed).
+    /// </summary>
+    /// <param name="toTimestamp">Timestamp of last item being removed from provider.</param>
+    protected virtual void OnProviderPrune(DateTime toTimestamp)
+    {
+        // No-op by default. Override in derived classes that need to track provider pruning.
     }
 
     /// <summary>

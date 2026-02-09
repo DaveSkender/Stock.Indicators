@@ -6,8 +6,12 @@ namespace Skender.Stock.Indicators;
 public class VwapHub : ChainHub<IQuote, VwapResult>
 {
     private readonly bool _autoAnchor;
+    private readonly Queue<(DateTime Timestamp, double Volume, double VolumeTp)> _stateQueue = new();
     private double _cumVolume;
     private double _cumVolumeTp;
+    private double _prunedVolume;
+    private double _prunedVolumeTp;
+    private DateTime? _autoAnchorDate;
 
     internal VwapHub(
         IQuoteProvider<IQuote> provider,
@@ -17,6 +21,9 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
         StartDate = startDate;
         _autoAnchor = (startDate ?? default) == default;
         Name = "VWAP";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Requires at least 1 period
+
         Reinitialize();
     }
 
@@ -35,6 +42,7 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
         if (StartDate == null)
         {
             StartDate = item.Timestamp;
+            _autoAnchorDate ??= StartDate;
         }
 
         double volume = (double)item.Volume;
@@ -50,6 +58,7 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
             _cumVolumeTp += volume * (high + low + close) / 3;
 
             vwap = _cumVolume != 0 ? _cumVolumeTp / _cumVolume : null;
+            _stateQueue.Enqueue((item.Timestamp, volume, volume * (high + low + close) / 3));
         }
         else
         {
@@ -70,13 +79,14 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
     protected override void RollbackState(DateTime timestamp)
     {
         // Clear cumulative state
-        _cumVolume = 0;
-        _cumVolumeTp = 0;
+        _cumVolume = _prunedVolume;
+        _cumVolumeTp = _prunedVolumeTp;
+        _stateQueue.Clear();
 
         // Reset start date if auto-anchoring
         if (_autoAnchor)
         {
-            StartDate = null;
+            StartDate = _autoAnchorDate;
         }
 
         // Rebuild cumulative state from ProviderCache
@@ -96,6 +106,7 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
             if (StartDate == null)
             {
                 StartDate = quote.Timestamp;
+                _autoAnchorDate ??= StartDate;
             }
 
             if (quote.Timestamp >= StartDate.Value)
@@ -107,7 +118,19 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
 
                 _cumVolume += volume;
                 _cumVolumeTp += volume * (high + low + close) / 3;
+                _stateQueue.Enqueue((quote.Timestamp, volume, volume * (high + low + close) / 3));
             }
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void PruneState(DateTime toTimestamp)
+    {
+        while (_stateQueue.Count > 0 && _stateQueue.Peek().Timestamp <= toTimestamp)
+        {
+            (DateTime _, double volume, double volumeTp) = _stateQueue.Dequeue();
+            _prunedVolume += volume;
+            _prunedVolumeTp += volumeTp;
         }
     }
 

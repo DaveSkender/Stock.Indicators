@@ -19,6 +19,9 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
         Name = $"MFI({lookbackPeriods})";
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -97,7 +100,7 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
 
     /// <summary>
     /// Restores the buffer state up to the specified timestamp.
-    /// Clears and rebuilds buffer from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds buffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

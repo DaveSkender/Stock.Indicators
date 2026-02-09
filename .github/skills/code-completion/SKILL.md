@@ -19,6 +19,11 @@ Use this skill when:
 - Adding or updating indicators
 - A human reminds you to run the "code completion checklist"
 
+> [!NOTE]
+> This should not be run fully with every incremental change during a turn.
+> For incremental changes during a turn, run whichever component of the checklist that reasonably tests the changes made.
+> Unless deemed important, only perform the Roslynator and formatting steps at the very end of the turn.
+
 ## Required tools
 
 - #tool:runCommands - Execute shell commands for linting, building, testing

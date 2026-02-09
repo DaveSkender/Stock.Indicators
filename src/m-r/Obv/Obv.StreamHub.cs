@@ -9,6 +9,9 @@ public class ObvHub : ChainHub<IQuote, ObvResult>
         IQuoteProvider<IQuote> provider) : base(provider)
     {
         Name = "OBV";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Requires at least 1 period
+
         Reinitialize();
     }
 

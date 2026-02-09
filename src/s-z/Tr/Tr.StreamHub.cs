@@ -8,6 +8,9 @@ public class TrHub
         : base(provider)
     {
         Name = "TRUE RANGE";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // Requires current + previous period
+
         Reinitialize();
     }
 
