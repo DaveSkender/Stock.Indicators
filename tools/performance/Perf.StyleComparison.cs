@@ -622,6 +622,10 @@ public class StyleComparison
     [Benchmark(Baseline = true)]
     public IReadOnlyList<PrsResult> PrsSeries() => quotes.ToPrs(o);
 
+    [BenchmarkCategory("Prs")]
+    [Benchmark]
+    public IReadOnlyList<PrsResult> PrsStream() => quoteHub.ToPrsHub(quoteHubOther).Results;
+
     [BenchmarkCategory("Pvo")]
     [Benchmark(Baseline = true)]
     public IReadOnlyList<PvoResult> PvoSeries() => quotes.ToPvo();
