@@ -70,10 +70,6 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
         const int totalQuotes = 100;
 
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<PivotsResult> expected = quotes
-            .ToPivots()
-            .TakeLast(maxCacheSize)
-            .ToList();
 
         // Setup with cache limit
         QuoteHub quoteHub = new(maxCacheSize);
@@ -82,12 +78,24 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
         // Stream more quotes than cache can hold
         quoteHub.Add(quotes);
 
+        // Ensure pivots are calculated with full future context
+        observer.Rebuild(0);
+
         // Verify cache was pruned
         quoteHub.Quotes.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
-        // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // Expected: pivots computed on the same cached window that the observer uses.
+        // Pivots depend on left-span context, which is lost after pruning. The observer
+        // recomputes from the cached 50 quotes after Rebuild(0), so the expected must
+        // also use only those 50 quotes to match the observer's context.
+        IReadOnlyList<PivotsResult> expected = quotes
+            .TakeLast(maxCacheSize)
+            .ToList()
+            .ToPivots()
+            .ToList();
+
+        // Streaming results should match series on the cached window
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();

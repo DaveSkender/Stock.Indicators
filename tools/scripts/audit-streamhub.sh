@@ -174,7 +174,6 @@ for test_file in "${test_files[@]}"; do
             # Check if the method includes late Add and Remove operations
             has_add=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -E -c "\\.Add\\([^)]*\\[80\\]\\)" || true)
             has_remove=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.RemoveAt(" || true)
-            has_duplicate=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "resend duplicate" || true)
 
             if [[ $has_add -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
                 provider_history_issues+=("$indicator_name: QuoteObserver test missing Add/Remove operations")

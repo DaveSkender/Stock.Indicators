@@ -26,7 +26,6 @@ public class ThreadSafetyTests : TestBase
     private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNameCaseInsensitive = true
     };
-#pragma warning restore IDE0052
 
     public TestContext? TestContext { get; set; }
 
@@ -373,11 +372,10 @@ public class ThreadSafetyTests : TestBase
     }
 
     #region Helper methods
-    // Helper methods StartSseServer, FindRepositoryRoot, WaitForServerReady and ConsumeQuotesFromSse
-    // are unchanged from the original test.  They encapsulate the logic for launching the test
-    // SSE server, waiting until it is ready, and streaming quotes into the QuoteHub.  The
-    // implementations are reproduced here verbatim for completeness and to avoid any external
-    // dependencies when this file is used in isolation.
+    // Helper methods StartSseServer, FindRepositoryRoot, and WaitForServerReady are unchanged.
+    // ConsumeQuotesFromSse is extended below to handle action events and batching.
+    // They encapsulate the logic for launching the test SSE server, waiting until it is ready,
+    // and streaming quotes into the QuoteHub.
 
     private static Process? StartSseServer(int port)
     {
@@ -668,7 +666,8 @@ public class ThreadSafetyTests : TestBase
 
     private sealed record SseQuoteBatch(List<Quote> InitialQuotes, List<Quote> RevisedQuotes);
 
-    // CA1812: QuoteAction is instantiated via JsonSerializer.Deserialize
+    // Intentional: QuoteAction is retained solely as a reflection anchor for JsonSerializer.Deserialize.
+    // The SuppressMessage attribute suppresses CA1812 (Avoid uninstantiated internal classes).
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Performance",
         "CA1812:Avoid uninstantiated internal classes",
