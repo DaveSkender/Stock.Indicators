@@ -48,7 +48,8 @@ public class RollingPivotsHub
         _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(windowPeriods + offsetPeriods, Name);
+        // RollingPivots needs windowPeriods + offsetPeriods + 1 items before first valid result.
+        ValidateCacheSize(windowPeriods + offsetPeriods + 1, Name);
 
         Reinitialize();
     }

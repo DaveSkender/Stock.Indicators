@@ -126,7 +126,9 @@ public class MaEnvelopesHub
         Name = $"MAENV({lookbackPeriods},{percentOffset},{Enum.GetName(movingAverageType)})";
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(lookbackPeriods * 2, Name);
+        // TEMA requires 3 successive EMA smoothings (3× lookback); all other types use 2×.
+        int cacheMultiplier = movingAverageType == MaType.TEMA ? 3 : 2;
+        ValidateCacheSize(lookbackPeriods * cacheMultiplier, Name);
 
         Reinitialize();
     }

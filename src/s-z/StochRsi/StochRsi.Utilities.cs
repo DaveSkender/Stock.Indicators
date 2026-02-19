@@ -22,6 +22,23 @@ public static partial class StochRsi
     }
 
     /// <summary>
+    /// Returns the minimum number of source items required to produce a full
+    /// Stochastic RSI result (with signal and smooth), used to validate cache
+    /// size settings.
+    /// </summary>
+    /// <param name="rsiPeriods">Number of periods for RSI.</param>
+    /// <param name="stochPeriods">Number of periods for Stochastic %K window.</param>
+    /// <param name="signalPeriods">Number of periods for the signal (D) line.</param>
+    /// <param name="smoothPeriods">Number of periods for %K smoothing.</param>
+    /// <returns>Minimum warmup period count.</returns>
+    public static int WarmupPeriod(
+        int rsiPeriods,
+        int stochPeriods,
+        int signalPeriods,
+        int smoothPeriods)
+        => (rsiPeriods * 2) + stochPeriods + Math.Max(signalPeriods, smoothPeriods);
+
+    /// <summary>
     /// Validates the parameters for Stochastic RSI calculation.
     /// </summary>
     /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>

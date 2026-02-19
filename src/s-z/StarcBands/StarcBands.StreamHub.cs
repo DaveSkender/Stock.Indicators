@@ -23,7 +23,9 @@ public class StarcBandsHub
         Name = $"STARCBANDS({smaPeriods},{multiplier},{atrPeriods})";
 
         // Validate cache size for warmup requirements
-        int requiredWarmup = Math.Max(smaPeriods, atrPeriods);
+        // Validate cache size for warmup requirements
+        // ATR initialization accesses ProviderCache[p-1], requiring atrPeriods + 1 provider items.
+        int requiredWarmup = Math.Max(smaPeriods, atrPeriods + 1);
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

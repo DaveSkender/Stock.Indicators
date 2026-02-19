@@ -26,7 +26,6 @@ public class ThreadSafetyTests : TestBase
     private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNameCaseInsensitive = true
     };
-#pragma warning restore IDE0052
 
     public TestContext? TestContext { get; set; }
 
