@@ -6,6 +6,15 @@ namespace Skender.Stock.Indicators;
 public static partial class Hma
 {
     /// <summary>
+    /// Returns the minimum number of source items required to produce a valid HMA result.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="sqrtPeriods">The square root of the lookback periods (pre-computed).</param>
+    /// <returns>Minimum warmup period count (lookbackPeriods + sqrtPeriods - 1).</returns>
+    public static int WarmupPeriod(int lookbackPeriods, int sqrtPeriods)
+        => lookbackPeriods + sqrtPeriods - 1;
+
+    /// <summary>
     /// Validates the lookback periods for HMA calculations.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>

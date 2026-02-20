@@ -60,6 +60,12 @@ public class RollingPivotsHub
     /// <inheritdoc/>
     public int OffsetPeriods { get; init; }
 
+    /// <summary>
+    /// Gets the deterministic warmup period (WindowPeriods + OffsetPeriods), i.e., the number
+    /// of initial items that produce null results before the first valid pivot point.
+    /// </summary>
+    public int LookbackPeriods => WindowPeriods + OffsetPeriods;
+
     /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
     /// <inheritdoc/>

@@ -52,8 +52,9 @@ public class TsiHub
         _as1History = [];
 
         // Validate cache size for warmup requirements
-        // First valid TSI at max(lookbackPeriods, smoothPeriods); signal needs signalPeriods more
-        int requiredWarmup = Math.Max(lookbackPeriods, smoothPeriods) + signalPeriods;
+        // First valid TSI signal at lookbackPeriods + smoothPeriods + signalPeriods - 1
+        // due to sequential EMA of EMA (cs1 then cs2) followed by signal EMA.
+        int requiredWarmup = lookbackPeriods + smoothPeriods + signalPeriods - 1;
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

@@ -27,9 +27,9 @@ public class RocWbHub
         Name = $"ROCWB({lookbackPeriods},{emaPeriods},{stdDevPeriods})";
 
         // Validate cache size for warmup requirements
-        // RocWb needs lookbackPeriods ROC values before the EMA/StdDev calculation;
-        // EMA initialization requires emaPeriods consecutive ROC values, each needing lookbackPeriods items.
-        int requiredWarmup = lookbackPeriods + Math.Max(emaPeriods, stdDevPeriods) - 1;
+        // RocWb needs lookbackPeriods items for the first ROC value, then Max(emaPeriods, stdDevPeriods)
+        // more items to fill the EMA/StdDev buffers — total item count, not a zero-based index.
+        int requiredWarmup = lookbackPeriods + Math.Max(emaPeriods, stdDevPeriods);
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

@@ -28,6 +28,21 @@ public static partial class Ichimoku
     }
 
     /// <summary>
+    /// Returns the minimum number of source items required to produce a valid Ichimoku result.
+    /// </summary>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
+    /// <returns>Minimum warmup period count.</returns>
+    public static int WarmupPeriod(
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int senkouOffset)
+        => Math.Max(Math.Max(tenkanPeriods, kijunPeriods), senkouBPeriods) + senkouOffset;
+
+    /// <summary>
     /// Validates the parameters for the Ichimoku Cloud calculation.
     /// </summary>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
