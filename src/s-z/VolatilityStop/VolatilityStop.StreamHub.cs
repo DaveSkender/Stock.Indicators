@@ -259,10 +259,12 @@ public class VolatilityStopHub
                 atr = sumTr / LookbackPeriods;
             }
 
+            // Use previous period's ATR for SAR calculation (like ToIndicator)
+            double atrForSar = PrevAtr ?? atr;
             PrevAtr = atr;
 
             // Calculate SAR (for stop detection, not needed to store)
-            double arc = atr * Multiplier;
+            double arc = atrForSar * Multiplier;
             double sar = IsLong ? Sic - arc : Sic + arc;
 
             // Check for stop
