@@ -5,9 +5,6 @@
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
   "chat.customAgentInSubagent.enabled": true,
-  "codacy.cli.devMode": true,
-  "codacy.guardrails.analyzeGeneratedCode": "disabled",
-  "codacy.guardrails.instructionsFile": "manual",
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "files.associations": {
     "*.md": "markdown"
@@ -18,13 +15,13 @@
   "github.copilot.chat.githubMcpServer.toolsets": [
     "default", // default: context, repos, issues, pull_requests, users
     "actions",
-    // "projects",
     "discussions",
     "copilot",
     "github_support_docs_search",
     "web_search"
   ],
   "githubPullRequests.ignoredPullRequestBranches": [
+    "main",
     "v3"
   ],
   "search.useIgnoreFiles": true, // default: true
@@ -32,7 +29,9 @@
     // not otherwise ignored
     "tests/**/*.json": true,
     "tests/**/*.csv": true,
-    "**/.vitepress/cache": true,
-    "**/.vitepress/dist": true,
+    "docs/examples/**/*.json": true,
+    "docs/.vitepress/cache": true,
+    "docs/.vitepress/dist": true,
+    "docs/.vitepress/public/data/**/*.json": true
   }
 }
