@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "vitepress": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "629d8ec4bcbf7cac86c15c3ca5f173933f01729bcb6396c0d74733755a896a41"
+    }
+  }
+}
