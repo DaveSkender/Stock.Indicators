@@ -60,7 +60,7 @@ public sealed class StochRsiHub
         signalBuffer = new Queue<double>(signalPeriods);
 
         // Validate cache size for warmup requirements
-        int requiredWarmup = StochRsi.StreamHubWarmupPeriod(RsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        int requiredWarmup = (rsiPeriods * 2) + stochPeriods + Math.Max(signalPeriods, smoothPeriods);
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();
