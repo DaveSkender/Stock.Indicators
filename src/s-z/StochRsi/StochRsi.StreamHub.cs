@@ -60,7 +60,7 @@ public sealed class StochRsiHub
         signalBuffer = new Queue<double>(signalPeriods);
 
         // Validate cache size for warmup requirements
-        int requiredWarmup = (rsiHub.LookbackPeriods * 2) + stochPeriods + Math.Max(signalPeriods, smoothPeriods);
+        int requiredWarmup = (RsiPeriods * 2) + stochPeriods + Math.Max(signalPeriods, smoothPeriods);
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();
@@ -77,6 +77,7 @@ public sealed class StochRsiHub
 
     /// <inheritdoc/>
     public int SmoothPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (StochRsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
