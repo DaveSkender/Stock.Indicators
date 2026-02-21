@@ -14,8 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: "24.13.0"
-  PNPM_VERSION: "10.28.1"
+  NODE_VERSION: 24
+  PNPM_VERSION: "latest"
 
 jobs:
   deploy:
@@ -79,3 +79,4 @@ jobs:
           command: >
             pages deploy docs/.vitepress/dist
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
+  

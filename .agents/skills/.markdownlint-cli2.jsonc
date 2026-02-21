@@ -1,0 +1,6 @@
+{
+  "ignores": [
+    // external sources
+    "vitepress/**"
+  ]
+}

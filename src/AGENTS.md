@@ -4,7 +4,7 @@ This folder contains the Stock Indicators library source code.
 
 ## Implementation guidance
 
-See .github/skills/ for detailed indicator development guidance:
+See .agents/skills/ for detailed indicator development guidance:
 
 - indicator-series - Series indicator implementation patterns
 - indicator-buffer - BufferList indicator implementation patterns  

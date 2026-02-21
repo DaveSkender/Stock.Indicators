@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "roslynator.dotnet.cli": {
+      "version": "0.11.0",
+      "commands": ["roslynator"],
+      "rollForward": false
+    },
+    "dotnet-outdated-tool": {
+      "version": "4.7.0",
+      "commands": ["dotnet-outdated"],
+      "rollForward": true
+    }
+  }
+}

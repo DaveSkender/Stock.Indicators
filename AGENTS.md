@@ -74,11 +74,11 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 
 ## Build and verification
 
-See the code-completion skill (.github/skills/code-completion/SKILL.md) for complete quality gates, linting commands, build procedures, and testing workflows.
+See the code-completion skill (.agents/skills/code-completion/SKILL.md) for complete quality gates, linting commands, build procedures, and testing workflows.
 
 ## Skills for development
 
-This repository uses Agent Skills (.github/skills/) for domain-specific guidance. Skills are automatically loaded when relevant:
+This repository uses Agent Skills (.agents/skills/) for domain-specific guidance. Skills are automatically loaded when relevant:
 
 | Skill | Description | When to use |
 | ----- | ----------- | ----------- |
@@ -89,18 +89,18 @@ This repository uses Agent Skills (.github/skills/) for domain-specific guidance
 | performance-testing | Benchmarking with BenchmarkDotNet, regression detection | Adding performance tests, optimizing indicator performance |
 | code-completion | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
 | testing-standards | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
+| vitepress | VitePress documentation site development - configuration, routing, theme, components | Working on the docs/ site, VitePress config, or custom theme |
 
-Skills are defined in .github/skills/ following the Agent Skills specification. Refer to the skills instruction file (.github/instructions/skills.instructions.md) when developing new skills.
+Skills are defined in .agents/skills/ following the Agent Skills specification.
 
 ## Folder-specific guidance
 
-Domain-specific instruction files are auto-loaded by pattern matching:
+Subfolder AGENTS.md files and instruction files provide domain-specific context:
 
-- Markdown files: See .github/instructions/markdown.instructions.md for authoring standards
-- Documentation site: See .github/instructions/docs.instructions.md for VitePress development
-- Source code: See src/AGENTS.md for implementation constraints
-- Test suite: See tests/AGENTS.md for test organization
-- Skills authoring: See .github/instructions/skills.instructions.md for skill development
+- Markdown files: .github/instructions/markdown.instructions.md for authoring standards
+- Documentation site: docs/AGENTS.md for VitePress development
+- Source code: src/AGENTS.md for implementation constraints
+- Test suite: tests/AGENTS.md for test organization
 
 ## MCP tools guidance
 
@@ -122,4 +122,4 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, p
 Examples: `feat: Add RSI indicator`, `fix: Resolve MACD calculation error`, `docs: Update API documentation`
 
 ---
-Last updated: January 25, 2026
+Last updated: February 21, 2026

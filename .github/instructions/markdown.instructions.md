@@ -178,7 +178,7 @@ Use plain-text mentions when referencing files **for awareness only** (agent dec
 
 ```markdown
 Refer to the AGENTS.md file for project context.
-See the contributing guide in docs/contributing.md for details.
+See the contributing guide in docs/CONTRIBUTING.md for details.
 ```
 
 ### Avoiding context window bloat
@@ -275,7 +275,6 @@ Example file tree:
 my-repo/
 ├── .github/
 │   ├── instructions/
-│   ├── prompts/
 │   └── workflows/
 ├── docs/
 │   └── AGENTS.md                     # Subfolder agent context (optional)
@@ -299,6 +298,14 @@ Prefer a central AGENTS.md file for AI agent context. See [agents.md specificati
   ```
 
 - Do not include change logs here.
+
+**Exceptions (no end-of-file elements):**
+
+- `README.md` at root
+- `AGENTS.md` (all)
+- `.agents/**/*.md`
+- `.github/**/*.md`
+- `docs/adr/*.md` (uses its own form)
 
 ### HTML elements
 
@@ -533,6 +540,3 @@ npx markdownlint-cli2 --no-globs "README.md"
 - Auto-fix resolves formatting issues (bullets, headers, spacing)
 - VS Code shows inline warnings for markdown violations
 - Format-on-save applies fixes automatically
-
----
-Last updated: December 31, 2025

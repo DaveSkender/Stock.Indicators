@@ -24,7 +24,7 @@ dotnet test tests/integration/ --settings tests/tests.integration.runsettings
 dotnet test
 ```
 
-See .github/skills/testing-standards/SKILL.md for test writing guidance and conventions.
+See .agents/skills/testing-standards/SKILL.md for test writing guidance and conventions.
 
 ---
 Last updated: January 25, 2026

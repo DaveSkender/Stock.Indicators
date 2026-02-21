@@ -7,8 +7,7 @@ permissions:
   contents: read
 
 env:
-  NODE_VERSION: "24.13.0"
-  PNPM_VERSION: "10.28.1"
+  NODE_VERSION: 24
 
 jobs:
   copilot-setup-steps:
@@ -21,7 +20,6 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: ${{ env.PNPM_VERSION }}
           run_install: false
         continue-on-error: true
         timeout-minutes: 5

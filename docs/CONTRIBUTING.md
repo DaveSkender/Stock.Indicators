@@ -172,7 +172,7 @@ If you want to contribute administratively, do code reviews, or provide general 
 This repository is optimized for GitHub Copilot and coding agents with:
 
 - **AGENTS.md files** (root and subdirectories) providing repository context, coding patterns, and domain knowledge
-- **Agent Skills** in `.github/skills/` with domain-specific expertise for indicator development, testing, and performance
+- **Agent Skills** in `.agents/skills/` with domain-specific expertise for indicator development, testing, and performance
 - **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
 - **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
 - **MCP server configurations** in `.vscode/mcp.json` for extended AI tools for developing capabilities with financial mathematics and .NET performance analysis

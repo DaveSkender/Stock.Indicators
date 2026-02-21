@@ -56,7 +56,7 @@ Format:
 
 For additional guidance on regression baselines and how they are used in this repository, see the "Regression baseline testing" section in the contributing guide.
 
-Related reading: `docs/contributing.md` (search for "Regression baseline testing").
+Related reading in regression testing section of the [contributing guidelines](../../docs/CONTRIBUTING.md).
 
 ## When to Regenerate Baselines
 
@@ -129,9 +129,5 @@ After modifying the generator:
 3. Verify baseline files are correctly formatted
 4. Check that existing regression tests still pass
 
-## Related Documentation
-
-- Contributing guide: regression baseline testing — `docs/contributing.md`
-
 ---
-Last updated: October 8, 2025
+Last updated: February 20, 2026
