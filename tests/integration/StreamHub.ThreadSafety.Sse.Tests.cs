@@ -372,11 +372,10 @@ public class ThreadSafetyTests : TestBase
     }
 
     #region Helper methods
-    // Helper methods StartSseServer, FindRepositoryRoot, and WaitForServerReady are unchanged.
-    // ConsumeQuotesFromSse is extended below to handle action events and batching.
-    // They encapsulate the logic for launching the test SSE server, waiting until it is ready,
+    // Keep helper methods StartSseServer, FindRepositoryRoot, and WaitForServerReady unchanged.
+    // Extend ConsumeQuotesFromSse below to handle action events and batching.
+    // Encapsulate the logic for launching the test SSE server, waiting until it is ready,
     // and streaming quotes into the QuoteHub.
-
     private static Process? StartSseServer(int port)
     {
         try
