@@ -299,6 +299,14 @@ Prefer a central AGENTS.md file for AI agent context. See [agents.md specificati
 
 - Do not include change logs here.
 
+**Exceptions (no end-of-file elements):**
+
+- `README.md` at root
+- `AGENTS.md` (all)
+- `.agents/**/*.md`
+- `.github/**/*.md`
+- `docs/adr/*.md` (uses its own form)
+
 ### HTML elements
 
 **Agents: Avoid HTML unless no Markdown equivalent exists.**
