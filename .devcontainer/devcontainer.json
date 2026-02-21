@@ -21,6 +21,7 @@
     "vscode": {
       "settings": {
         "chat.tools.global.autoApprove": true,
+        "dotnet.defaultSolution": "Stock.Indicators.sln",
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
@@ -48,6 +49,6 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": ".devcontainer/startup.sh",
+  "postCreateCommand": ".devcontainer/post-create.sh",
   "remoteUser": "vscode"
 }
