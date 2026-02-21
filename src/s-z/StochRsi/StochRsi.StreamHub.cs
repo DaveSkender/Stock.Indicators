@@ -77,6 +77,7 @@ public sealed class StochRsiHub
 
     /// <inheritdoc/>
     public int SmoothPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (StochRsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

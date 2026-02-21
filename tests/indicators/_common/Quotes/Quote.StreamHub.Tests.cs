@@ -268,7 +268,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         public int RebuildCount { get; private set; }
         public List<DateTime> RebuildTimestamps { get; } = new();
 
-        public bool IsSubscribed => false;
+        public bool IsSubscribed => true;
 
         public void Reset()
         {

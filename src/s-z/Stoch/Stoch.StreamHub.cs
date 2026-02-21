@@ -57,7 +57,10 @@ public class StochHub
         _rawKBuffer = new Queue<double>(smoothPeriods);
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(lookbackPeriods, Name);
+        // Signal SMA reads Cache[p].Oscillator for p = (i - SignalPeriods + 1) to (i - 1);
+        // cache must retain at least Max(lookbackPeriods, signalPeriods) items.
+        int requiredWarmup = Math.Max(lookbackPeriods, signalPeriods);
+        ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();
     }

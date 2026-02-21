@@ -52,7 +52,9 @@ public class TsiHub
         _as1History = [];
 
         // Validate cache size for warmup requirements
-        int requiredWarmup = lookbackPeriods + smoothPeriods + signalPeriods;
+        // First valid TSI signal at lookbackPeriods + smoothPeriods + signalPeriods - 1
+        // due to sequential EMA of EMA (cs1 then cs2) followed by signal EMA.
+        int requiredWarmup = lookbackPeriods + smoothPeriods + signalPeriods - 1;
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

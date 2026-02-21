@@ -48,7 +48,8 @@ public class RollingPivotsHub
         _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(windowPeriods + offsetPeriods, Name);
+        // RollingPivots needs windowPeriods + offsetPeriods + 1 items before first valid result.
+        ValidateCacheSize(windowPeriods + offsetPeriods + 1, Name);
 
         Reinitialize();
     }
@@ -58,6 +59,12 @@ public class RollingPivotsHub
 
     /// <inheritdoc/>
     public int OffsetPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the deterministic warmup period (WindowPeriods + OffsetPeriods), i.e., the number
+    /// of initial items that produce null results before the first valid pivot point.
+    /// </summary>
+    public int LookbackPeriods => WindowPeriods + OffsetPeriods;
 
     /// <inheritdoc/>
     public PivotPointType PointType { get; init; }

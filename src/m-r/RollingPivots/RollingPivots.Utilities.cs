@@ -21,6 +21,18 @@ public static partial class RollingPivots
     }
 
     /// <summary>
+    /// Returns the minimum number of source items required to produce a valid Rolling Pivot result
+    /// (equivalent to windowPeriods + offsetPeriods, the item count before the first non-null result).
+    /// </summary>
+    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
+    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
+    /// <returns>Minimum warmup period count.</returns>
+    public static int WarmupPeriod(
+        int windowPeriods,
+        int offsetPeriods)
+        => windowPeriods + offsetPeriods;
+
+    /// <summary>
     /// Validates the parameters for Rolling Pivots calculations.
     /// </summary>
     /// <param name="windowPeriods">The number of periods in the rolling window.</param>

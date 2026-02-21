@@ -125,8 +125,8 @@ The hub automatically handles state rollback and recalculation when data arrives
 
 Stream hubs use internal locking to protect cache operations during rebuild and rollback scenarios:
 
-- **Internal cache operations** are thread-safe (Add, RemoveAt, RemoveRange, Rebuild)
-- **External access requires synchronization** when multiple threads call Add or Remove
+- **Treat internal cache operations** as thread-safe (Add, RemoveAt, RemoveRange, Rebuild)
+- **Synchronize external access** when multiple threads call Add or Remove
 - **Single-threaded usage** requires no additional synchronization
 - **Multi-threaded usage** should synchronize external calls to hub methods
 

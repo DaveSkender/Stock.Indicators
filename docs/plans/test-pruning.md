@@ -12,7 +12,7 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 
 ### 1. EpmaHubTests.WithCachePruning_MatchesSeriesExactly
 
-**File**: `tests/indicators/e-k/Epma/Epma.StreamHub.Tests.cs`
+**File**: tests/indicators/e-k/Epma/Epma.StreamHub.Tests.cs
 
 **Current cache**: 100 quotes (20-period + 80 extra)
 
@@ -24,7 +24,7 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 
 ### 2. RenkoHubTests.WithCachePruning_MatchesSeriesExactly
 
-**File**: `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs`
+**File**: tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs
 
 **Current cache**: 100 quotes (sufficient for transformation)
 
@@ -36,7 +36,7 @@ This document tracks failing `WithCachePruning_MatchesSeriesExactly` test implem
 
 ### 3. SlopeHubTests.WithCachePruning_MatchesSeriesExactly
 
-**File**: `tests/indicators/s-z/Slope/Slope.StreamHub.Tests.cs`
+**File**: tests/indicators/s-z/Slope/Slope.StreamHub.Tests.cs
 
 **Current cache**: 100 quotes (14-period + 86 extra)
 

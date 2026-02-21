@@ -18,7 +18,7 @@ public abstract class StreamHubTestBase : TestBaseWithPrecision  // default: quo
 
 /// <summary>
 /// Add this to stream indicator tests
-/// (all get this directly or inherited from IChainObserver).
+/// (all get this directly or inherited from <see cref="ITestChainObserver"/>).
 /// </summary>
 public interface ITestQuoteObserver
 {
