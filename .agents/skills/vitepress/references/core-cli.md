@@ -3,11 +3,11 @@ name: vitepress-cli
 description: Command-line interface for development, building, and previewing VitePress sites
 ---
 
-# CLI Commands
+# CLI commands
 
 VitePress provides four main commands: `dev`, `build`, `preview`, and `init`.
 
-## Development Server
+## Development server
 
 Start the dev server with hot module replacement:
 
@@ -37,7 +37,7 @@ vitepress dev docs
 vitepress dev docs --port 3000 --open
 ```
 
-## Production Build
+## Production build
 
 Build static files for production:
 
@@ -59,7 +59,7 @@ vitepress build docs
 vitepress build docs --outDir dist
 ```
 
-## Preview Production Build
+## Preview production build
 
 Locally preview the production build:
 
@@ -78,7 +78,7 @@ vitepress preview docs
 vitepress preview docs --port 4173
 ```
 
-## Initialize Project
+## Initialize project
 
 Start the setup wizard:
 
@@ -91,7 +91,7 @@ This creates the basic file structure:
 - `index.md` - Home page
 - Optional example pages
 
-## Package.json Scripts
+## Package.json scripts
 
 Typical scripts configuration:
 
@@ -105,13 +105,16 @@ Typical scripts configuration:
 }
 ```
 
-## Key Points
+## Key points
 
 - Dev server runs at `http://localhost:5173` by default
 - Preview server runs at `http://localhost:4173`
 - Production output goes to `.vitepress/dist` by default
 - The `docs` argument specifies the project root directory
 - Use `--base` to override base path without modifying config
+
+---
+Last updated: February 21, 2026
 
 <!--
 Source references:

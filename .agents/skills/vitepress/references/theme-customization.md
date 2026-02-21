@@ -3,11 +3,11 @@ name: extending-vitepress-default-theme
 description: Customize CSS variables, use layout slots, register global components, and override theme fonts
 ---
 
-# Extending Default Theme
+# Extending default theme
 
 Customize the default theme through CSS, slots, and Vue components.
 
-## Theme Entry File
+## Theme entry file
 
 Create `.vitepress/theme/index.ts` to extend the default theme:
 
@@ -19,7 +19,7 @@ import './custom.css'
 export default DefaultTheme
 ```
 
-## CSS Variables
+## CSS variables
 
 Override root CSS variables:
 
@@ -48,7 +48,7 @@ Override root CSS variables:
 
 See [all CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css).
 
-## Home Hero Customization
+## Home hero customization
 
 ```css
 :root {
@@ -62,7 +62,7 @@ See [all CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/
 }
 ```
 
-## Custom Fonts
+## Custom fonts
 
 Remove Inter font and use your own:
 
@@ -103,7 +103,7 @@ export default {
 }
 ```
 
-## Global Components
+## Global components
 
 Register components available in all markdown:
 
@@ -126,7 +126,7 @@ Use in markdown:
 <MyComponent :prop="value" />
 ```
 
-## Layout Slots
+## Layout slots
 
 Inject content into specific locations:
 
@@ -191,7 +191,7 @@ const { Layout } = DefaultTheme
 - `nav-bar-content-before`, `nav-bar-content-after`
 - `not-found` (404 page)
 
-## Using Render Functions
+## Using render functions
 
 Alternative to template slots:
 
@@ -211,7 +211,7 @@ export default {
 }
 ```
 
-## Override Internal Components
+## Override internal components
 
 Replace default theme components with Vite aliases:
 
@@ -235,7 +235,7 @@ export default {
 }
 ```
 
-## View Transitions
+## View transitions
 
 Custom dark mode toggle animation:
 
@@ -276,13 +276,17 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }) => {
 </template>
 ```
 
-## Key Points
+## Key points
 
 - Import `vitepress/theme-without-fonts` to use custom fonts
 - Use layout slots to inject content without overriding components
 - Global components are registered in `enhanceApp`
 - Override CSS variables for theming
 - Use Vite aliases to replace internal components
+
+
+---
+Last updated: February 21, 2026
 
 <!--
 Source references:

@@ -48,7 +48,7 @@ npx skills add <owner/repo> --skill <name> --agent <agent> --yes
 
 When adding skills from a source repository, use
 
-- the `--agent univeral` for the `<agent>` target when adding new skills
+- the `--agent universal` for the `<agent>` target when adding new skills
 - the `--copy` modifier when adding skills from a private source repository
 
 Use `npx skills --help` for CLI syntax definitions and its [npm registry page](https://www.npmjs.com/package/skills) for additional parameter options and values.

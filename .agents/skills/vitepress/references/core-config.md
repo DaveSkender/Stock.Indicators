@@ -7,7 +7,7 @@ description: Config file setup, defineConfig helper, site metadata, and build op
 
 VitePress configuration is defined in `.vitepress/config.[js|ts|mjs|mts]`. Use `defineConfig` for TypeScript intellisense.
 
-## Basic Config
+## Basic config
 
 ```ts
 // .vitepress/config.ts
@@ -29,7 +29,7 @@ export default defineConfig({
 })
 ```
 
-## Site Metadata
+## Site metadata
 
 ```ts
 export default defineConfig({
@@ -46,7 +46,7 @@ export default defineConfig({
 })
 ```
 
-## Build Options
+## Build options
 
 ```ts
 export default defineConfig({
@@ -75,7 +75,7 @@ export default defineConfig({
 })
 ```
 
-## Route Rewrites
+## Route rewrites
 
 Map source paths to different output paths:
 
@@ -91,7 +91,7 @@ export default defineConfig({
 })
 ```
 
-## Appearance (Dark Mode)
+## Appearance (dark mode)
 
 ```ts
 export default defineConfig({
@@ -103,7 +103,7 @@ export default defineConfig({
 })
 ```
 
-## Vite & Vue Configuration
+## Vite & Vue configuration
 
 ```ts
 export default defineConfig({
@@ -133,7 +133,7 @@ export default defineConfig({
 })
 ```
 
-## Build Hooks
+## Build hooks
 
 ```ts
 export default defineConfig({
@@ -157,7 +157,7 @@ export default defineConfig({
 })
 ```
 
-## Dynamic Config
+## Dynamic config
 
 For async configuration:
 
@@ -174,13 +174,17 @@ export default async () => {
 }
 ```
 
-## Key Points
+## Key points
 
 - Config file supports `.js`, `.ts`, `.mjs`, `.mts` extensions
 - Use `defineConfig` for TypeScript support
 - `base` must start and end with `/` for sub-path deployments
 - `srcDir` separates source files from project root
 - Build hooks enable custom transformations and post-processing
+
+
+---
+Last updated: February 21, 2026
 
 <!--
 Source references:

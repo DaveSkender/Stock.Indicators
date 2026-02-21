@@ -3,7 +3,7 @@ name: vitepress-markdown
 description: Markdown extensions including frontmatter, custom containers, tables, anchors, and file includes
 ---
 
-# Markdown Extensions
+# Markdown extensions
 
 VitePress extends standard markdown with additional features for documentation.
 
@@ -37,7 +37,7 @@ const { frontmatter } = useData()
 </script>
 ```
 
-## Custom Containers
+## Custom containers
 
 Styled callout blocks:
 
@@ -75,7 +75,7 @@ Open by default with {open} attribute.
 :::
 ```
 
-## GitHub-flavored Alerts
+## GitHub-flavored alerts
 
 Alternative syntax using blockquotes:
 
@@ -93,7 +93,7 @@ Alternative syntax using blockquotes:
 > Negative potential consequences.
 ```
 
-## Header Anchors
+## Header anchors
 
 Headers get automatic anchor links. Custom anchors:
 
@@ -103,7 +103,7 @@ Headers get automatic anchor links. Custom anchors:
 [Link to heading](#custom-anchor)
 ```
 
-## Table of Contents
+## Table of contents
 
 Generate a TOC with:
 
@@ -111,7 +111,7 @@ Generate a TOC with:
 [[toc]]
 ```
 
-## GitHub-Style Tables
+## GitHub-style tables
 
 ```md
 | Feature | Status |
@@ -128,7 +128,7 @@ Use shortcodes:
 :tada: :rocket: :100:
 ```
 
-## File Includes
+## File includes
 
 Include content from other files:
 
@@ -156,7 +156,7 @@ Usage content here
 <!--@include: ./parts/basics.md#usage-->
 ```
 
-## Code Snippet Import
+## Code snippet import
 
 Import code from files:
 
@@ -182,7 +182,7 @@ Import specific region:
 <<< @/snippets/example.js#regionName{1,2}
 ```
 
-## Code Groups
+## Code groups
 
 Tab groups for code variants:
 
@@ -211,7 +211,7 @@ Import files in code groups:
 :::
 ```
 
-## Math Equations
+## Math equations
 
 Requires setup:
 
@@ -239,7 +239,7 @@ $$
 $$
 ```
 
-## Image Lazy Loading
+## Image lazy loading
 
 ```ts
 export default {
@@ -251,7 +251,7 @@ export default {
 }
 ```
 
-## Raw Container
+## Raw container
 
 Prevent VitePress style conflicts:
 
@@ -261,7 +261,7 @@ Prevent VitePress style conflicts:
 :::
 ```
 
-## Key Points
+## Key points
 
 - Frontmatter supports YAML or JSON format
 - Custom containers support info, tip, warning, danger, details
@@ -269,6 +269,9 @@ Prevent VitePress style conflicts:
 - `@` in imports refers to source root (or `srcDir` if configured)
 - Code groups create tabbed code blocks
 - Math support requires markdown-it-mathjax3 package
+
+---
+Last updated: February 21, 2026
 
 <!--
 Source references:

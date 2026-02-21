@@ -3,11 +3,11 @@ name: vitepress-ssr-compatibility
 description: Server-side rendering compatibility, ClientOnly component, and handling browser-only code
 ---
 
-# SSR Compatibility
+# SSR compatibility
 
 VitePress pre-renders pages on the server during build. All Vue code must be SSR-compatible.
 
-## The Rule
+## The rule
 
 Only access browser/DOM APIs in Vue lifecycle hooks:
 - `onMounted()`
@@ -35,7 +35,7 @@ const width = window.innerWidth
 </script>
 ```
 
-## ClientOnly Component
+## ClientOnly component
 
 Wrap non-SSR-friendly components:
 
@@ -47,11 +47,11 @@ Wrap non-SSR-friendly components:
 </template>
 ```
 
-## Libraries That Access Browser on Import
+## Libraries that access browser on import
 
 Some libraries access `window` or `document` when imported:
 
-### Dynamic Import in onMounted
+### Dynamic import in onMounted
 
 ```vue
 <script setup>
@@ -64,7 +64,7 @@ onMounted(async () => {
 </script>
 ```
 
-### Conditional Import
+### Conditional import
 
 ```ts
 if (!import.meta.env.SSR) {
@@ -155,7 +155,7 @@ export default {
 }
 ```
 
-## Common SSR Errors
+## Common SSR errors
 
 ### "window is not defined"
 
@@ -186,7 +186,7 @@ onMounted(() => {
 })
 ```
 
-### Hydration Mismatch
+### Hydration mismatch
 
 Server and client render different content:
 
@@ -200,7 +200,7 @@ Server and client render different content:
 </ClientOnly>
 ```
 
-## Checking Environment
+## Checking environment
 
 ```ts
 // In Vue component
@@ -213,7 +213,7 @@ if (inBrowser) {
 }
 ```
 
-## Key Points
+## Key points
 
 - Access browser APIs only in `onMounted` or `onBeforeMount`
 - Use `<ClientOnly>` for non-SSR components
@@ -221,6 +221,9 @@ if (inBrowser) {
 - Check `import.meta.env.SSR` for environment-specific code
 - Teleport to body only, or use `postRender` hook
 - Consistent rendering prevents hydration mismatches
+
+---
+Last updated: February 21, 2026
 
 <!--
 Source references:
