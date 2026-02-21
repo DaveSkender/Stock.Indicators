@@ -522,10 +522,6 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         return point
       })
     
-    if (seriesConfig.type === 'pointer' || seriesConfig.type === 'dots') {
-      console.log(`[${seriesConfig.name}] Total data points: ${seriesConfig.data.length}, Filtered: ${filteredData.length}`)
-    }
-
     // Set data for all series types (markers need the data points to position correctly)
     series.setData(filteredData)
 
@@ -540,7 +536,6 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         shape: 'circle' as const,
         size: lineWidth || 3
       }))
-      console.log(`[${seriesConfig.name}] Adding ${markers.length} dot markers`, markers.slice(0, 3))
       allMarkers.push(...markers)  // Collect markers instead of setting directly
     }
 
@@ -557,10 +552,9 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
           position: 'inBar' as const,
           color: markerColor,
           shape: (isGreen ? 'arrowUp' : 'arrowDown') as const,
-          size: 3  // Increased size for better visibility
+          size: 3
         }
       })
-      console.log(`[${seriesConfig.name}] Adding ${markers.length} pointer markers`, markers.slice(0, 3))
       allMarkers.push(...markers)  // Collect markers instead of setting directly
     }
 
@@ -575,7 +569,6 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
       const timeB = typeof b.time === 'string' ? new Date(b.time).getTime() : b.time
       return timeA - timeB
     })
-    console.log(`Setting ${allMarkers.length} total markers on candlestick series`)
     candleSeries.setMarkers(allMarkers)
   }
 }

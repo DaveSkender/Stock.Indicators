@@ -483,6 +483,8 @@ export default defineConfig({
       noExternal: true
     },
     build: {
+      // Local search index grows with docs; raise threshold to suppress false warning
+      chunkSizeWarningLimit: 600,
       rollupOptions: {
         output: {
           assetFileNames: 'assets/[name].[hash][extname]'
