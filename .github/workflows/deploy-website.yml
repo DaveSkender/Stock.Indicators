@@ -15,7 +15,7 @@ concurrency:
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: "lts"
+  PNPM_VERSION: "latest"
 
 jobs:
   deploy:
