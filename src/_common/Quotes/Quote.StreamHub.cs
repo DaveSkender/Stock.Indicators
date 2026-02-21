@@ -146,17 +146,7 @@ public class QuoteHub
                 // if out-of-order insert, insert and trigger rebuild
                 if (index >= 0 && index < Cache.Count)
                 {
-                    Cache.Insert(index, result);
-
-                    // For standalone QuoteHub, notify observers to rebuild from this timestamp
-                    // For non-standalone, this won't be reached due to earlier branch
-                    if (notify)
-                    {
-                        // Notify observers directly - they will rebuild from the updated cache
-                        // No need to call Rebuild on QuoteHub itself since cache is already updated
-                        NotifyObserversOnRebuild(result.Timestamp);
-                    }
-
+                    InsertWithoutRebuild(result, index, notify);
                     return;
                 }
 

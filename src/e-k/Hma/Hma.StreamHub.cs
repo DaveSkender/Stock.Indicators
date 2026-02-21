@@ -36,8 +36,8 @@ public class HmaHub
         Name = $"HMA({lookbackPeriods})";
 
         // Validate cache size for warmup requirements
-        // HMA's CalculateHma requires minIndex = (lookbackPeriods - 1) + (sqrtPeriods - 1).
-        ValidateCacheSize(Hma.WarmupPeriod(lookbackPeriods, sqrtPeriods), Name);
+        // HMA requires lookbackPeriods + sqrtPeriods - 1 samples (see minIndex in CalculateHma)
+        ValidateCacheSize(lookbackPeriods + sqrtPeriods - 1, Name);
 
         Reinitialize();
     }

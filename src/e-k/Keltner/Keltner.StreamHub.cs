@@ -25,8 +25,9 @@ public class KeltnerHub
         Name = $"KELTNER({emaPeriods},{multiplier},{atrPeriods})";
 
         // Validate cache size for warmup requirements
-        // ATR initialization accesses ProviderCache[p-1], requiring atrPeriods + 1 provider items.
-        ValidateCacheSize(Math.Max(emaPeriods, atrPeriods + 1), Name);
+        // ATR requires a prior close for TR, so atrPeriods needs +1
+        int requiredWarmup = Math.Max(emaPeriods, atrPeriods + 1);
+        ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();
     }
