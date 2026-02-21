@@ -48,6 +48,16 @@ _ReSharper*/
 *.sln.docstates
 *.userprefs
 
+# Agent configuration (not used)
+.claude/
+.cline/
+.clinerules/
+.codex/
+.copilot/
+.cursor/
+.github/skills/
+.github/prompts/
+
 # .NET project sensitive
 
 **/Properties/launchSettings.json

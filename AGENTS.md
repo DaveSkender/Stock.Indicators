@@ -74,11 +74,11 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 
 ## Build and verification
 
-See the code-completion skill (.github/skills/code-completion/SKILL.md) for complete quality gates, linting commands, build procedures, and testing workflows.
+See the code-completion skill (.agents/skills/code-completion/SKILL.md) for complete quality gates, linting commands, build procedures, and testing workflows.
 
 ## Skills for development
 
-This repository uses Agent Skills (.github/skills/) for domain-specific guidance. Skills are automatically loaded when relevant:
+This repository uses Agent Skills (.agents/skills/) for domain-specific guidance. Skills are automatically loaded when relevant:
 
 | Skill | Description | When to use |
 | ----- | ----------- | ----------- |
@@ -90,7 +90,7 @@ This repository uses Agent Skills (.github/skills/) for domain-specific guidance
 | code-completion | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
 | testing-standards | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
 
-Skills are defined in .github/skills/ following the Agent Skills specification. Refer to the skills instruction file (.github/instructions/skills.instructions.md) when developing new skills.
+Skills are defined in .agents/skills/ following the Agent Skills specification. Refer to the skills instruction file (.github/instructions/skills.instructions.md) when developing new skills.
 
 ## Folder-specific guidance
 

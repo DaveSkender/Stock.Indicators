@@ -329,9 +329,7 @@ knowledge_base:
     enabled: true
     filePatterns:
       - "**/AGENTS.md"
-      - ".github/copilot-instructions.md"
-      - ".github/instructions/**/*.instructions.md"
-      - ".github/skills/**/SKILL.md"
+      - ".agents/skills/**/SKILL.md"
   learnings:
     scope: auto
   issues:
