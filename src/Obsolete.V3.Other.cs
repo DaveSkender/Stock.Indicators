@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
-#pragma warning disable CS1591 // Missing XML comments
+#pragma warning disable CS1591 // XML docs not required for obsolete code
 
 /// <summary>
 /// OBSOLETE IN v3.0.0
@@ -100,12 +100,6 @@ public static partial class Indicator
     public static int FindIndex<TSeries>(this List<TSeries> series, DateTime lookupDate)
         where TSeries : ISeries => series?.FindIndex(x => x.Timestamp == lookupDate) ?? -1;
 
-    /// <summary>
-    /// Rounds a nullable decimal value to a specified number of fractional digits.
-    /// </summary>
-    /// <param name="value">The nullable decimal value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value, or null if the input is null.</returns>
     [Obsolete("Rounding deprecated.  Use Math.Round() instead.")]
     [ExcludeFromCodeCoverage]
     public static decimal? Round(this decimal? value, int digits)
@@ -113,12 +107,6 @@ public static partial class Indicator
         ? Math.Round(value.GetValueOrDefault(), digits)
         : null;
 
-    /// <summary>
-    /// Rounds a nullable double value to a specified number of fractional digits.
-    /// </summary>
-    /// <param name="value">The nullable double value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value, or null if the input is null.</returns>
     [ExcludeFromCodeCoverage]
     [Obsolete("Rounding deprecated.  Use Math.Round() instead.")]
     public static double? Round(this double? value, int digits)
@@ -126,25 +114,11 @@ public static partial class Indicator
         ? Math.Round(value.GetValueOrDefault(), digits)
         : null;
 
-    /// <summary>
-    /// Rounds a double value to a specified number of fractional digits.
-    /// It is an extension alias of <see cref="Math.Round(double, int)"/>
-    /// </summary>
-    /// <param name="value">The double value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value.</returns>
     [ExcludeFromCodeCoverage]
     [Obsolete("Rounding deprecated.  Use Math.Round() instead.")]
     public static double Round(this double value, int digits)
         => Math.Round(value, digits);
 
-    /// <summary>
-    /// Rounds a decimal value to a specified number of fractional digits.
-    /// It is an extension alias of <see cref="Math.Round(decimal, int)"/>
-    /// </summary>
-    /// <param name="value">The decimal value.</param>
-    /// <param name="digits">The number of fractional digits.</param>
-    /// <returns>The rounded value.</returns>
     [ExcludeFromCodeCoverage]
     [Obsolete("Rounding deprecated.  Use Math.Round() instead.")]
     public static decimal Round(this decimal value, int digits)
@@ -166,9 +140,6 @@ public sealed class BasicData : IReusable
     public double Value { get; set; }
 }
 
-/// <summary>
-/// ENUM
-/// </summary>
 [Obsolete($"Rename '{nameof(ChandelierType)}' to '{nameof(Direction)}'.")]
 [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Not really an issue.")]
 public enum ChandelierType
