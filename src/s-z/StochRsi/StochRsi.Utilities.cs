@@ -22,24 +22,6 @@ public static partial class StochRsi
     }
 
     /// <summary>
-    /// Returns the number of warmup periods required before StochRsi produces its first value.
-    /// This helper is the authoritative warmup definition for both Series and StreamHub.
-    /// StreamHub uses extra RSI periods (x2) to allow RSI to re-initialize reliably after
-    /// cache pruning or rollback, while the Series can rely on the full history always being present.
-    /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <returns>Minimum cache size required for streaming warmup.</returns>
-    internal static int StreamHubWarmupPeriod(
-        int rsiPeriods,
-        int stochPeriods,
-        int signalPeriods,
-        int smoothPeriods)
-        => (rsiPeriods * 2) + stochPeriods + Math.Max(signalPeriods, smoothPeriods);
-
-    /// <summary>
     /// Validates the parameters for Stochastic RSI calculation.
     /// </summary>
     /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
