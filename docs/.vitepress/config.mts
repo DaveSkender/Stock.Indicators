@@ -466,6 +466,8 @@ export default defineConfig({
 
   // Redirect old URLs to new locations
   rewrites: {
+    // Case-sensitivity fix: serve CONTRIBUTING.md at /contributing
+    'CONTRIBUTING.md': 'contributing.md',
     // Legacy routes
     'indicators/BasicQuote': 'indicators/QuotePart',
   },
