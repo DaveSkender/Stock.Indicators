@@ -98,7 +98,7 @@
       "label": "Setup: Dev tools",
       "detail": "Complete one-time environment setup (global tools and packages)",
       "type": "shell",
-      "command": "bash .devcontainer/startup.sh",
+      "command": "bash .devcontainer/post-create.sh",
       "problemMatcher": [
         "$msCompile",
         "$eslint-compact"
@@ -109,6 +109,7 @@
       "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
       "group": "build",
       "dependsOn": [
+        "Setup: Dev tools",
         "Git: pull",
         "Clean: .NET Solution (dotnet clean)",
         "Build: .NET Solution (not incremental)",
