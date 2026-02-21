@@ -25,7 +25,9 @@ public class VortexHub
         _isInitialized = false;
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(lookbackPeriods, Name);
+        // Vortex uses the first period for initialization and fills the buffer for LookbackPeriods more,
+        // so the first valid result occurs at index LookbackPeriods (requiring LookbackPeriods + 1 items).
+        ValidateCacheSize(lookbackPeriods + 1, Name);
 
         Reinitialize();
     }

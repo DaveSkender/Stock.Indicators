@@ -58,7 +58,8 @@ public interface IStreamObservable<out T>
     /// Additions that would modify index values before this position are rejected to prevent
     /// corrupted rebuilds.
     /// </summary>
-    int MinCacheSize { get; }
+    /// <remarks>Default implementation returns 0 (no minimum requirement).</remarks>
+    int MinCacheSize => 0;
 
     /// <summary>
     /// Gets the current number of subscribers.

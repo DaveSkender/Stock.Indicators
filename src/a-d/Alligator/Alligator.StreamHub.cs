@@ -28,8 +28,8 @@ public class AlligatorHub
         Name = $"ALLIGATOR({jawPeriods},{jawOffset},{teethPeriods},{teethOffset},{lipsPeriods},{lipsOffset})";
 
         // Validate cache size for warmup requirements (after param validation)
-        // All three lines require periods+offset values; cache must fit the largest
-        int requiredWarmup = Math.Max(Math.Max(jawPeriods + jawOffset, teethPeriods + teethOffset), lipsPeriods + lipsOffset);
+        // Alligator.Validate() guarantees jawPeriods + jawOffset > teethPeriods + teethOffset > lipsPeriods + lipsOffset
+        int requiredWarmup = jawPeriods + jawOffset;
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

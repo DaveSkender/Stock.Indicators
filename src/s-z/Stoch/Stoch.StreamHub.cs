@@ -58,8 +58,8 @@ public class StochHub
 
         // Validate cache size for warmup requirements
         // Signal SMA reads Cache[p].Oscillator for p = (i - SignalPeriods + 1) to (i - 1);
-        // cache must retain at least Max(lookbackPeriods, signalPeriods) items.
-        int requiredWarmup = Math.Max(lookbackPeriods, signalPeriods);
+        // cache must retain at least Max(lookbackPeriods, signalPeriods, smoothPeriods) items.
+        int requiredWarmup = Math.Max(Math.Max(lookbackPeriods, signalPeriods), smoothPeriods);
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

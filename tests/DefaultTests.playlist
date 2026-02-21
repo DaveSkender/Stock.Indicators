@@ -3,12 +3,8 @@
     <Rule Match="All">
       <Property Name="Solution" />
       <Rule Match="Any">
-        <Rule Match="All">
-          <Property Name="Project" Value="Tests.Indicators" />
-        </Rule>
-        <Rule Match="All">
-          <Property Name="Project" Value="Tests.PublicApi" />
-        </Rule>
+        <Property Name="Project" Value="Tests.Indicators" />
+        <Property Name="Project" Value="Tests.PublicApi" />
       </Rule>
     </Rule>
   </Rule>

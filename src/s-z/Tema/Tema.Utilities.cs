@@ -8,7 +8,7 @@ public static partial class Tema
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of TEMA results.</param>
+    /// <param name="results">List of TEMA results.</param>
     /// <returns>A list of TEMA results with warmup periods removed.</returns>
     public static IReadOnlyList<TemaResult> RemoveWarmupPeriods(
         this IReadOnlyList<TemaResult> results)

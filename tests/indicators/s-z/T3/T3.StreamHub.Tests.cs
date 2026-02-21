@@ -54,8 +54,8 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int maxCacheSize = 200;
+        const int totalQuotes = 502;
         const int lookbackPeriods = 5;
         const double volumeFactor = 0.7;
 

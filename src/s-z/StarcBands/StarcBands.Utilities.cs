@@ -55,7 +55,7 @@ public static partial class StarcBands
         if (smaPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "EMA periods must be greater than 1 for STARC Bands.");
+                "SMA periods must be greater than 1 for STARC Bands.");
         }
 
         if (atrPeriods <= 1)

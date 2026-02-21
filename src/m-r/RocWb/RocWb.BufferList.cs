@@ -14,7 +14,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     /// <summary>
     /// Initializes a new instance of the <see cref="RocWbList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">Number of periods to look back for the ROC calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="emaPeriods">Number of periods for the exponential moving average calculation.</param>
     /// <param name="stdDevPeriods">Number of periods for the standard deviation calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="stdDevPeriods"/> is invalid.</exception>
@@ -35,7 +35,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     /// <summary>
     /// Initializes a new instance of the <see cref="RocWbList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">Number of periods to look back for the ROC calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="emaPeriods">Number of periods for the exponential moving average calculation.</param>
     /// <param name="stdDevPeriods">Number of periods for the standard deviation calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>

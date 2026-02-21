@@ -18,8 +18,10 @@ public class UltimateHub
         Name = $"UO({shortPeriods},{middlePeriods},{longPeriods})";
 
         // Validate cache size for warmup requirements
-        // ToIndicator accesses ProviderCache[p-1] where p starts at (i - LongPeriods + 1),
-        // requiring ProviderCache[i - LongPeriods] to exist: needs LongPeriods + 1 items.
+        // requiredWarmup = Math.Max(Math.Max(shortPeriods, middlePeriods), longPeriods) + 1
+        // ToIndicator accesses ProviderCache[p-1], which requires one extra period beyond the largest window.
+        // Ultimate.Validate() guarantees longPeriods >= middlePeriods >= shortPeriods,
+        // so in practice longPeriods + 1 is the effective minimum.
         int requiredWarmup = Math.Max(Math.Max(shortPeriods, middlePeriods), longPeriods) + 1;
         ValidateCacheSize(requiredWarmup, Name);
 

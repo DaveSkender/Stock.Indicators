@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 internal enum Act
 {
     /// <summary>
-    /// Adds item to end of cache or rebuild if older.
+    /// Adds item to end of cache.
     /// </summary>
     Add = 0,
 

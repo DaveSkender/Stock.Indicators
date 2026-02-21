@@ -70,7 +70,7 @@ public class KvoHub
 
         // Validate cache size for warmup requirements
         // KVO needs the longer of fast/slow periods plus signal period
-        int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
+        int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods + 1;
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

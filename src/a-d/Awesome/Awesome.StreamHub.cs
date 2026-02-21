@@ -17,7 +17,8 @@ public class AwesomeHub
         Name = $"AWESOME({fastPeriods},{slowPeriods})";
 
         // Validate cache size for warmup requirements
-        int requiredWarmup = Math.Max(fastPeriods, slowPeriods);
+        // Awesome.Validate() guarantees slowPeriods > fastPeriods, so SlowPeriods drives ToIndicator activation
+        int requiredWarmup = slowPeriods;
         ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();

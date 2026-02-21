@@ -43,7 +43,7 @@ public static partial class Keltner
     /// Validates the parameters for the Keltner Channel calculation.
     /// </summary>
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when any of the parameters are out of their valid range.

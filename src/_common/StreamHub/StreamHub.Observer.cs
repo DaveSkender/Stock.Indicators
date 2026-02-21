@@ -97,8 +97,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
                 }
             }
 
-            // Always call PruneState to allow tracking of provider pruning,
-            // even if this hub's cache wasn't pruned
+            // Call PruneState only when this hub participates in pruning and items were removed
             if (ShouldPruneOnProviderPrune && removedCount > 0)
             {
                 PruneState(toTimestamp);

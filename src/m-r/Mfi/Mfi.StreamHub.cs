@@ -20,7 +20,7 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(lookbackPeriods, Name);
+        ValidateCacheSize(lookbackPeriods + 1, Name);
 
         Reinitialize();
     }

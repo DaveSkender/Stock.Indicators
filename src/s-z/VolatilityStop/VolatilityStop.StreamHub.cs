@@ -17,6 +17,9 @@ public class VolatilityStopHub
         Multiplier = multiplier;
         Name = $"VOLATILITY-STOP({lookbackPeriods},{multiplier})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -195,7 +198,6 @@ public class VolatilityStopHub
     /// <summary>
     /// Restores the Volatility Stop state up to the specified timestamp.
     /// </summary>
-    /// <inheritdoc/>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {

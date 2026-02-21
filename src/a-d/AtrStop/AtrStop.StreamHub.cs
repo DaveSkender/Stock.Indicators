@@ -20,7 +20,7 @@ public class AtrStopHub
         Name = $"ATR-STOP({lookbackPeriods},{multiplier},{endType.ToString().ToUpperInvariant()})";
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(lookbackPeriods, Name);
+        ValidateCacheSize(lookbackPeriods + 1, Name);
 
         Reinitialize();
     }

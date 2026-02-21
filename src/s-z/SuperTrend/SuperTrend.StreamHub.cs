@@ -18,7 +18,7 @@ public class SuperTrendHub
         Name = $"SUPERTREND({lookbackPeriods},{multiplier})";
 
         // Validate cache size for warmup requirements
-        ValidateCacheSize(lookbackPeriods, Name);
+        ValidateCacheSize(lookbackPeriods + 1, Name);
 
         Reinitialize();
     }

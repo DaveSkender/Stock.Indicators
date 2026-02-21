@@ -38,12 +38,12 @@ public sealed class SmiHub
 
         Name = $"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements (before allocating rolling windows)
+        ValidateCacheSize(lookbackPeriods, Name);
+
         // Initialize rolling windows for O(1) amortized max/min tracking
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
-
-        // Validate cache size for warmup requirements
-        ValidateCacheSize(lookbackPeriods, Name);
 
         Reinitialize();
     }

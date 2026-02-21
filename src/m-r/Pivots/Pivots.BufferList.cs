@@ -21,8 +21,8 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     /// </summary>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
-    /// <param name="endType">The type of end point for the pivot calculation.</param>
+    /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
+    /// <param name="endType">Type of end point for the pivot calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public PivotsList(
         int leftSpan = 2,
@@ -44,7 +44,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         // Buffer needs to hold enough quotes to compute fractals and track trends
         _quoteBuffer = [];
 
-        Name = $"PIVOTS({2}, {2}, {20}, {EndType.HighLow})";
+        Name = $"PIVOTS({leftSpan}, {rightSpan}, {maxTrendPeriods}, {endType})";
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     /// </summary>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
-    /// <param name="endType">The type of end point for the pivot calculation.</param>
+    /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
+    /// <param name="endType">Type of end point for the pivot calculation.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public PivotsList(
         int leftSpan,
@@ -348,8 +348,8 @@ public static partial class Pivots
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
-    /// <param name="endType">The type of end point for the pivot calculation.</param>
+    /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
+    /// <param name="endType">Type of end point for the pivot calculation.</param>
     /// <returns>A new <see cref="PivotsList"/> instance.</returns>
     public static PivotsList ToPivotsList(
         this IReadOnlyList<IQuote> quotes,
