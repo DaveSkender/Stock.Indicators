@@ -9,8 +9,8 @@ public static partial class RollingPivots
     /// Creates a Rolling Pivot Points streaming hub from a quotes provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
-    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
+    /// <param name="windowPeriods">Number of periods in the rolling window.</param>
+    /// <param name="offsetPeriods">Number of periods to offset the window.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <returns>An instance of <see cref="RollingPivotsHub"/>.</returns>
     public static RollingPivotsHub ToRollingPivotsHub(

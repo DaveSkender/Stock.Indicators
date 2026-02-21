@@ -19,9 +19,9 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// <summary>
     /// Initializes a new instance of the <see cref="MacdList"/> class.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public MacdList(
         int fastPeriods = 12,
@@ -51,9 +51,9 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// <summary>
     /// Initializes a new instance of the <see cref="MacdList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public MacdList(
         int fastPeriods,
@@ -240,9 +240,9 @@ public static partial class Macd
     /// Creates a MACD buffer list from reusable values.
     /// </summary>
     /// <param name="source">The list of source data.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A MACD buffer list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

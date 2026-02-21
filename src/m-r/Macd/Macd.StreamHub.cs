@@ -117,9 +117,9 @@ public static partial class Macd
     /// Creates a MACD streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A MACD hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

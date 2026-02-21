@@ -13,7 +13,7 @@ public static partial class MaEnvelopes
     /// Converts a list of source values to Moving Average Envelope results.
     /// </summary>
     /// <param name="source">The list of source values to transform.</param>
-    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
+    /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
     /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
     /// <returns>A list of Moving Average Envelope results.</returns>

@@ -17,8 +17,8 @@ public class FractalHub
     /// Initializes a new instance of the <see cref="FractalHub"/> class with different left and right spans.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
-    /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
+    /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
+    /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     internal FractalHub(
         IQuoteProvider<IQuote> provider,
@@ -171,8 +171,8 @@ public static partial class Fractal
     /// Initializes a new instance of the <see cref="FractalHub"/> class with different left and right spans.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
-    /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
+    /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
+    /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.HighLow"/>.</param>
     /// <returns>An instance of <see cref="FractalHub"/>.</returns>
     public static FractalHub ToFractalHub(

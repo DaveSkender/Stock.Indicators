@@ -12,7 +12,7 @@ public static partial class Renko
     /// <param name="lastBrick">The last Renko brick.</param>
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The type of price to use for the end of the brick.</param>
-    /// <returns>The number of new bricks to be added.</returns>
+    /// <returns>Number of new bricks to be added.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the end type is out of range.</exception>
     internal static int GetNewBrickQuantity(
         IQuote q,

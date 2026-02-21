@@ -24,9 +24,9 @@ public static partial class Macd
     /// <summary>
     /// Validates the parameters for the MACD calculation.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when any of the parameters are out of their valid range.
     /// </exception>

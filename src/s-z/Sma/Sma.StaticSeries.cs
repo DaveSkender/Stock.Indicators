@@ -9,7 +9,7 @@ public static partial class Sma
     /// Calculates the Simple Moving Average (SMA) for a given source list and lookback period.
     /// </summary>
     /// <param name="source">The source list to analyze.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the SMA calculation.</param>
     /// <returns>A read-only list of SMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>

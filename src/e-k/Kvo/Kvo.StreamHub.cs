@@ -9,9 +9,9 @@ public static partial class Kvo
     /// Creates a KVO streaming hub from a quote provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A KVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

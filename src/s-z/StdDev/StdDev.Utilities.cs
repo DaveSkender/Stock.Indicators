@@ -8,7 +8,7 @@ public static partial class StdDev
     /// <summary>
     /// Validates the lookback periods parameter.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods to validate.</param>
+    /// <param name="lookbackPeriods">Number of lookback periods to validate.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     internal static void Validate(
         int lookbackPeriods)

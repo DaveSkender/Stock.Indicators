@@ -194,9 +194,9 @@ public static partial class Stc
     /// Creates a Schaff Trend Cycle (STC) streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="cyclePeriods">The number of periods for the cycle. Default is 10.</param>
-    /// <param name="fastPeriods">The number of fast periods for the MACD calculation. Default is 23.</param>
-    /// <param name="slowPeriods">The number of slow periods for the MACD calculation. Default is 50.</param>
+    /// <param name="cyclePeriods">Number of periods for the cycle. Default is 10.</param>
+    /// <param name="fastPeriods">Number of fast periods for the MACD calculation. Default is 23.</param>
+    /// <param name="slowPeriods">Number of slow periods for the MACD calculation. Default is 50.</param>
     /// <returns>A STC hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
@@ -211,7 +211,7 @@ public static partial class Stc
     /// Creates a new STC hub, using values from an existing MACD hub.
     /// </summary>
     /// <param name="macdHub">The MACD hub.</param>
-    /// <param name="cyclePeriods">The number of periods for the cycle. Default is 10.</param>
+    /// <param name="cyclePeriods">Number of periods for the cycle. Default is 10.</param>
     /// <returns>An STC hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the MACD hub is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when cyclePeriods is invalid.</exception>

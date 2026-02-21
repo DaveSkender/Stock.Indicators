@@ -24,7 +24,7 @@ public static partial class Tema
     /// <summary>
     /// Validates the parameters for TEMA calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int lookbackPeriods)

@@ -207,9 +207,9 @@ public static partial class StarcBands
     /// Creates a STARC Bands streaming hub from a quote provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="smaPeriods">The number of periods for the SMA.</param>
+    /// <param name="smaPeriods">Number of periods for the SMA.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="StarcBandsHub"/>.</returns>
     public static StarcBandsHub ToStarcBandsHub(
         this IQuoteProvider<IQuote> quoteProvider,

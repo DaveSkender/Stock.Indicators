@@ -25,8 +25,8 @@ public static partial class Pivots
     /// <summary>
     /// Validates the parameters for pivot points calculations.
     /// </summary>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
+    /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
+    /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
     /// <param name="caller">The name of the calling method.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any parameter is out of range.</exception>

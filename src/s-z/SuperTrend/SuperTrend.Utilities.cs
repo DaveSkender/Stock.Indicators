@@ -42,7 +42,7 @@ public static partial class SuperTrend
     /// <summary>
     /// Validates the parameters for SuperTrend calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback.</param>
     /// <param name="multiplier">The multiplier for the SuperTrend calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(

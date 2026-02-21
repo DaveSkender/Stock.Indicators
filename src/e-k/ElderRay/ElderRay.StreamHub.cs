@@ -67,7 +67,7 @@ public static partial class ElderRay
     /// Creates an Elder Ray streaming hub from a quote provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 13.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 13.</param>
     /// <returns>An Elder Ray hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

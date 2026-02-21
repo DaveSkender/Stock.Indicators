@@ -15,9 +15,9 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="ConnorsRsiList"/> class.
     /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation on close prices.</param>
-    /// <param name="streakPeriods">The number of periods for the RSI calculation on streak.</param>
-    /// <param name="rankPeriods">The number of periods for the percent rank calculation.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation on close prices.</param>
+    /// <param name="streakPeriods">Number of periods for the RSI calculation on streak.</param>
+    /// <param name="rankPeriods">Number of periods for the percent rank calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="rankPeriods"/> is invalid.</exception>
     public ConnorsRsiList(
         int rsiPeriods = 3,
@@ -41,9 +41,9 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="ConnorsRsiList"/> class with initial values.
     /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation on close prices.</param>
-    /// <param name="streakPeriods">The number of periods for the RSI calculation on streak.</param>
-    /// <param name="rankPeriods">The number of periods for the percent rank calculation.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation on close prices.</param>
+    /// <param name="streakPeriods">Number of periods for the RSI calculation on streak.</param>
+    /// <param name="rankPeriods">Number of periods for the percent rank calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public ConnorsRsiList(
         int rsiPeriods,
@@ -208,9 +208,9 @@ public static partial class ConnorsRsi
     /// Creates a buffer list for Connors RSI calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation on close prices.</param>
-    /// <param name="streakPeriods">The number of periods for the RSI calculation on streak.</param>
-    /// <param name="rankPeriods">The number of periods for the percent rank calculation.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation on close prices.</param>
+    /// <param name="streakPeriods">Number of periods for the RSI calculation on streak.</param>
+    /// <param name="rankPeriods">Number of periods for the percent rank calculation.</param>
     /// <returns>A new <see cref="ConnorsRsiList"/> instance.</returns>
     public static ConnorsRsiList ToConnorsRsiList(
         this IReadOnlyList<IReusable> source,

@@ -297,9 +297,9 @@ public static partial class Pmo
     /// Creates a PMO streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="timePeriods">Number of periods for the time span.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A PMO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

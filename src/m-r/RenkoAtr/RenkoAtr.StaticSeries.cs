@@ -9,7 +9,7 @@ public static partial class RenkoAtr
     /// Converts a list of quotes to a list of Renko chart results using ATR for brick size.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="atrPeriods">The number of periods for calculating ATR.</param>
+    /// <param name="atrPeriods">Number of periods for calculating ATR.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>
     public static IReadOnlyList<RenkoResult> ToRenkoAtr(

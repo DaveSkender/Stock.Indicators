@@ -9,9 +9,9 @@ public static partial class Kvo
     /// Converts a list of quotes to KVO (Klinger Volume Oscillator) results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of KVO results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KvoResult> ToKvo(
@@ -27,9 +27,9 @@ public static partial class Kvo
     /// Calculates the KVO (Klinger Volume Oscillator) for a list of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of KVO results.</returns>
     private static List<KvoResult> CalcKvo(
         this List<QuoteD> quotes,

@@ -24,7 +24,7 @@ public static partial class Smma
     /// <summary>
     /// Validates the lookback periods parameter.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods to validate.</param>
+    /// <param name="lookbackPeriods">Number of lookback periods to validate.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)

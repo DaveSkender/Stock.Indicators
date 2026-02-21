@@ -19,8 +19,8 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotsList"/> class.
     /// </summary>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
+    /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
+    /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
     /// <param name="endType">The type of end point for the pivot calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
@@ -50,8 +50,8 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotsList"/> class with initial quotes.
     /// </summary>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
+    /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
+    /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
     /// <param name="endType">The type of end point for the pivot calculation.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -346,8 +346,8 @@ public static partial class Pivots
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
+    /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
+    /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
     /// <param name="endType">The type of end point for the pivot calculation.</param>
     /// <returns>A new <see cref="PivotsList"/> instance.</returns>

@@ -28,7 +28,7 @@ public static partial class Wma
     /// Calculates a weighted moving average from the supplied buffer.
     /// </summary>
     /// <param name="buffer">The buffer containing the values to average.</param>
-    /// <param name="periods">The number of periods in the weighted average.</param>
+    /// <param name="periods">Number of periods in the weighted average.</param>
     /// <param name="divisor">The divisor used to normalize the weighted sum.</param>
     /// <returns>The weighted moving average, or <c>null</c> if insufficient data is present.</returns>
     internal static double? ComputeWeightedMovingAverage(Queue<double> buffer, int periods, double divisor)

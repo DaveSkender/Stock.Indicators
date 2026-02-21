@@ -9,8 +9,8 @@ public static partial class Awesome
     /// Calculates the Awesome Oscillator for a series of data.
     /// </summary>
     /// <param name="source">The source data.</param>
-    /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
-    /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average. Default is 5.</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average. Default is 34.</param>
     /// <returns>A list of Awesome Oscillator results.</returns>
     public static IReadOnlyList<AwesomeResult> ToAwesome(
         this IReadOnlyList<IReusable> source,

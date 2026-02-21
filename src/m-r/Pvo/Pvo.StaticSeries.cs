@@ -9,9 +9,9 @@ public static partial class Pvo
     /// Converts a list of quotes to a list of PVO results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of PVO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     public static IReadOnlyList<PvoResult> ToPvo(
@@ -27,9 +27,9 @@ public static partial class Pvo
     /// Calculates the PVO values.
     /// </summary>
     /// <param name="source">The list of volume values.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of PVO results.</returns>
     private static List<PvoResult> CalcPvo(
         this IReadOnlyList<IReusable> source,  // volume

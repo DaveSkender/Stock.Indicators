@@ -43,10 +43,10 @@ public static partial class StochRsi
     /// <summary>
     /// Validates the parameters for Stochastic RSI calculation.
     /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int rsiPeriods,

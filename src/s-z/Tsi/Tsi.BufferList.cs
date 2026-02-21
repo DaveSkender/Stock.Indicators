@@ -25,9 +25,9 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
     /// <summary>
     /// Initializes a new instance of the <see cref="TsiList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
+    /// <param name="smoothPeriods">Number of periods for the smoothing calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public TsiList(
         int lookbackPeriods = 25,
@@ -56,9 +56,9 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
     /// <summary>
     /// Initializes a new instance of the <see cref="TsiList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
+    /// <param name="smoothPeriods">Number of periods for the smoothing calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public TsiList(
         int lookbackPeriods,

@@ -9,7 +9,7 @@ public static partial class Bop
     /// Calculates the Balance of Power (BOP) for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="smoothPeriods">The number of periods to use for smoothing. Default is 14.</param>
+    /// <param name="smoothPeriods">Number of periods to use for smoothing. Default is 14.</param>
     /// <returns>A read-only list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     public static IReadOnlyList<BopResult> ToBop(
         this IReadOnlyList<IQuote> quotes,
@@ -22,7 +22,7 @@ public static partial class Bop
     /// Calculates the Balance of Power (BOP) for a series of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="smoothPeriods">The number of periods to use for smoothing.</param>
+    /// <param name="smoothPeriods">Number of periods to use for smoothing.</param>
     /// <returns>A list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     private static List<BopResult> CalcBop(
         this List<QuoteD> quotes,

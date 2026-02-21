@@ -9,10 +9,10 @@ public static partial class StochRsi
     /// Converts a source list to a list of StochRsiResult.
     /// </summary>
     /// /// <param name="source">The source list.</param>
-    /// <param name="rsiPeriods">The number of periods for RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiPeriods">Number of periods for RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <returns>A list of StochRsiResult.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<StochRsiResult> ToStochRsi(

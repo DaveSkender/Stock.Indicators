@@ -226,10 +226,10 @@ public static partial class StochRsi
     /// Converts the chain provider to a Stochastic RSI hub.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <returns>A Stochastic RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
@@ -250,9 +250,9 @@ public static partial class StochRsi
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>
     /// Do not use this interface if you want to instead want a StochRSI of an RSI hub.</remarks>
     /// <param name="rsiHub">The existing RSI hub provider.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <returns>A Stochastic RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

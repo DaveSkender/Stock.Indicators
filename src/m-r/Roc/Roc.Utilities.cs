@@ -8,7 +8,7 @@ public static partial class Roc
     /// <summary>
     /// Validates the parameters for ROC calculations.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the ROC calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)

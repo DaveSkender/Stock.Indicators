@@ -80,8 +80,8 @@ public static partial class Awesome
     /// Creates an Awesome Oscillator hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
-    /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average. Default is 5.</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average. Default is 34.</param>
     /// <returns>An Awesome Oscillator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>

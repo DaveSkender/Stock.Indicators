@@ -9,10 +9,10 @@ public static partial class Smi
     /// Converts a list of quotes to SMI results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
-    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
+    /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
+    /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
     public static IReadOnlyList<SmiResult> ToSmi(
         this IReadOnlyList<IQuote> quotes,
@@ -32,10 +32,10 @@ public static partial class Smi
     /// Calculates the SMI for a list of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
-    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
+    /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
+    /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
     private static List<SmiResult> CalcSmi(
         this List<QuoteD> quotes,

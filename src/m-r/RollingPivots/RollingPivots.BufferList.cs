@@ -10,8 +10,8 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     /// <summary>
     /// Initializes a new instance of the <see cref="RollingPivotsList"/> class.
     /// </summary>
-    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
-    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
+    /// <param name="windowPeriods">Number of periods in the rolling window.</param>
+    /// <param name="offsetPeriods">Number of periods to offset the window.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="pointType"/> is invalid.</exception>
     public RollingPivotsList(
@@ -31,8 +31,8 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     /// <summary>
     /// Initializes a new instance of the <see cref="RollingPivotsList"/> class with initial quotes.
     /// </summary>
-    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
-    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
+    /// <param name="windowPeriods">Number of periods in the rolling window.</param>
+    /// <param name="offsetPeriods">Number of periods to offset the window.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public RollingPivotsList(

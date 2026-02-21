@@ -46,7 +46,7 @@ public static partial class StdDevChannels
     /// Validates the parameters for Standard Deviation Channels.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="stdDeviations">The number of standard deviations.</param>
+    /// <param name="stdDeviations">Number of standard deviations.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are out of range.</exception>
     internal static void Validate(
         int? lookbackPeriods,

@@ -281,9 +281,9 @@ public static partial class Ichimoku
     /// Converts a quote provider to an Ichimoku hub.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <returns>An Ichimoku hub.</returns>
     public static IchimokuHub ToIchimokuHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -296,10 +296,10 @@ public static partial class Ichimoku
     /// Converts a quote provider to an Ichimoku hub with specified parameters.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
-    /// <param name="offsetPeriods">The number of periods for the offset.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="offsetPeriods">Number of periods for the offset.</param>
     /// <returns>An Ichimoku hub.</returns>
     public static IchimokuHub ToIchimokuHub(
         this IQuoteProvider<IQuote> quoteProvider,

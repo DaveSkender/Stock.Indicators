@@ -182,7 +182,7 @@ public static partial class FisherTransform
     /// Creates a Fisher Transform streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 10.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 10.</param>
     /// <returns>A Fisher Transform hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

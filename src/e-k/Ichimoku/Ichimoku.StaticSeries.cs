@@ -9,9 +9,9 @@ public static partial class Ichimoku
     /// Converts a list of quotes to Ichimoku Cloud results using default parameters.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B). Default is 52.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B). Default is 52.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
     public static IReadOnlyList<IchimokuResult> ToIchimoku(
         this IReadOnlyList<IQuote> quotes,
@@ -31,10 +31,10 @@ public static partial class Ichimoku
     /// Converts a list of quotes to Ichimoku Cloud results with specified parameters.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
-    /// <param name="offsetPeriods">The number of periods for the offset.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="offsetPeriods">Number of periods for the offset.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
     public static IReadOnlyList<IchimokuResult> ToIchimoku(
         this IReadOnlyList<IQuote> quotes,
@@ -55,11 +55,11 @@ public static partial class Ichimoku
     /// Calculates the Ichimoku Cloud indicator.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
-    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
-    /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
+    /// <param name="chikouOffset">Number of periods for the Chikou offset.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
     public static IReadOnlyList<IchimokuResult> ToIchimoku(
         this IReadOnlyList<IQuote> quotes,
@@ -144,7 +144,7 @@ public static partial class Ichimoku
     /// </summary>
     /// <param name="i">The current index in the quotes list.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <returns>The Tenkan-sen value.</returns>
     private static decimal? CalcIchimokuTenkanSen(
         int i, IReadOnlyList<IQuote> quotes, int tenkanPeriods)
@@ -181,7 +181,7 @@ public static partial class Ichimoku
     /// </summary>
     /// <param name="i">The current index in the quotes list.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <returns>The Kijun-sen value.</returns>
     private static decimal? CalcIchimokuKijunSen(
         int i,
@@ -219,8 +219,8 @@ public static partial class Ichimoku
     /// </summary>
     /// <param name="i">The current index in the quotes list.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <returns>The Senkou Span B value.</returns>
     private static decimal? CalcIchimokuSenkouB(
         int i,

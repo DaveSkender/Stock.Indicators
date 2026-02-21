@@ -18,11 +18,11 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// <summary>
     /// Initializes a new instance of the <see cref="IchimokuList"/> class.
     /// </summary>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
-    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
-    /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
+    /// <param name="chikouOffset">Number of periods for the Chikou offset.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="chikouOffset"/> is invalid.</exception>
     public IchimokuList(
         int tenkanPeriods = 9,
@@ -51,11 +51,11 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// <summary>
     /// Initializes a new instance of the <see cref="IchimokuList"/> class with initial quotes.
     /// </summary>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
-    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
-    /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
+    /// <param name="chikouOffset">Number of periods for the Chikou offset.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public IchimokuList(
         int tenkanPeriods,
@@ -373,11 +373,11 @@ public static partial class Ichimoku
     /// Creates a buffer list for Ichimoku Cloud calculations.
     /// </summary>
     /// <param name="quotes">Historical price quotes.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line). Default is 26.</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B). Default is 52.</param>
-    /// <param name="senkouOffset">The number of periods for the Senkou offset. Default is 26.</param>
-    /// <param name="chikouOffset">The number of periods for the Chikou offset. Default is 26.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line). Default is 26.</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B). Default is 52.</param>
+    /// <param name="senkouOffset">Number of periods for the Senkou offset. Default is 26.</param>
+    /// <param name="chikouOffset">Number of periods for the Chikou offset. Default is 26.</param>
     /// <returns>An IchimokuList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

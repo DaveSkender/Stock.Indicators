@@ -135,7 +135,7 @@ public static class Numerical
     /// Determines the number of decimal places in a decimal value.
     /// </summary>
     /// <param name="n">The decimal value.</param>
-    /// <returns>The number of decimal places.</returns>
+    /// <returns>Number of decimal places.</returns>
     internal static int GetDecimalPlaces(this decimal n)
     {
         // source: https://stackoverflow.com/a/30205131/4496145

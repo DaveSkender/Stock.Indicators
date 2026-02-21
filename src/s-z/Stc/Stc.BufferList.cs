@@ -11,9 +11,9 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
     /// <summary>
     /// Initializes a new instance of the <see cref="StcList"/> class.
     /// </summary>
-    /// <param name="cyclePeriods">The number of periods for the cycle calculation.</param>
-    /// <param name="fastPeriods">The number of periods for the fast MA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow MA.</param>
+    /// <param name="cyclePeriods">Number of periods for the cycle calculation.</param>
+    /// <param name="fastPeriods">Number of periods for the fast MA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow MA.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowPeriods"/> is invalid.</exception>
     public StcList(
         int cyclePeriods = 10,
@@ -35,9 +35,9 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
     /// <summary>
     /// Initializes a new instance of the <see cref="StcList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="cyclePeriods">The number of periods for the cycle calculation.</param>
-    /// <param name="fastPeriods">The number of periods for the fast MA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow MA.</param>
+    /// <param name="cyclePeriods">Number of periods for the cycle calculation.</param>
+    /// <param name="fastPeriods">Number of periods for the fast MA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow MA.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public StcList(
         int cyclePeriods,
@@ -136,9 +136,9 @@ public static partial class Stc
     /// Creates a buffer list for Schaff Trend Cycle calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>
-    /// <param name="cyclePeriods">The number of periods for the cycle calculation.</param>
-    /// <param name="fastPeriods">The number of periods for the fast MA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow MA.</param>
+    /// <param name="cyclePeriods">Number of periods for the cycle calculation.</param>
+    /// <param name="fastPeriods">Number of periods for the fast MA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow MA.</param>
     /// <returns>A buffer list for Schaff Trend Cycle calculations.</returns>
     public static StcList ToStcList(
         this IReadOnlyList<IReusable> source,

@@ -42,9 +42,9 @@ public static partial class StarcBands
     /// <summary>
     /// Validates the parameters for STARC Bands calculation.
     /// </summary>
-    /// <param name="smaPeriods">The number of periods for the simple moving average.</param>
+    /// <param name="smaPeriods">Number of periods for the simple moving average.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the average true range.</param>
+    /// <param name="atrPeriods">Number of periods for the average true range.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int smaPeriods,

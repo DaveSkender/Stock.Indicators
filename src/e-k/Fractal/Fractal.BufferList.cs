@@ -10,7 +10,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalList"/> class.
     /// </summary>
-    /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
+    /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     public FractalList(int windowSpan = 2, EndType endType = EndType.HighLow)
         : this(windowSpan, windowSpan, endType)
@@ -20,8 +20,8 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalList"/> class with different left and right spans.
     /// </summary>
-    /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
-    /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
+    /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
+    /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public FractalList(int leftSpan, int rightSpan, EndType endType = EndType.HighLow)
@@ -39,7 +39,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalList"/> class with initial quotes.
     /// </summary>
-    /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
+    /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     public FractalList(int windowSpan, IReadOnlyList<IQuote> quotes, EndType endType = EndType.HighLow)
@@ -48,8 +48,8 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalList"/> class with different spans and initial quotes.
     /// </summary>
-    /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
-    /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
+    /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
+    /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     public FractalList(int leftSpan, int rightSpan, IReadOnlyList<IQuote> quotes, EndType endType = EndType.HighLow)
@@ -182,7 +182,7 @@ public static partial class Fractal
     /// Creates a buffer list for Williams Fractal calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
+    /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     /// <returns>An initialized <see cref="FractalList" />.</returns>
     public static FractalList ToFractalList(
@@ -195,8 +195,8 @@ public static partial class Fractal
     /// Creates a buffer list for Williams Fractal calculations with different left and right spans.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
-    /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
+    /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
+    /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     /// <returns>An initialized <see cref="FractalList" />.</returns>
     public static FractalList ToFractalList(

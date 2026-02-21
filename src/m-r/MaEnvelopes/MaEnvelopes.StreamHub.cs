@@ -13,7 +13,7 @@ public static partial class MaEnvelopes
     /// Creates a Moving Average Envelopes streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
+    /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
     /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
     /// <returns>A Moving Average Envelopes hub.</returns>

@@ -160,7 +160,7 @@ public static partial class T3
     /// Creates a buffer list for T3 calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="volumeFactor">The volume smoothing factor.</param>
     /// <returns>A buffer list for T3 calculations.</returns>
     public static T3List ToT3List(

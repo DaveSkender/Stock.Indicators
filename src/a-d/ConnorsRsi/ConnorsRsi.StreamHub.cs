@@ -401,9 +401,9 @@ public static partial class ConnorsRsi
     /// Creates a ConnorsRsi streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
-    /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
-    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
+    /// <param name="rsiPeriods">Number of periods to use for the RSI calculation. Default is 3.</param>
+    /// <param name="streakPeriods">Number of periods to use for the streak calculation. Default is 2.</param>
+    /// <param name="rankPeriods">Number of periods to use for the percent rank calculation. Default is 100.</param>
     /// <returns>A ConnorsRsi hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

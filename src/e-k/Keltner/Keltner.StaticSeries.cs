@@ -9,9 +9,9 @@ public static partial class Keltner
     /// Converts a list of quotes to Keltner Channel results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="emaPeriods">The number of periods for the EMA.</param>
+    /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KeltnerResult> ToKeltner(
@@ -27,9 +27,9 @@ public static partial class Keltner
     /// Calculates the Keltner Channel for a list of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="emaPeriods">The number of periods for the EMA.</param>
+    /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     private static List<KeltnerResult> CalcKeltner(
         this List<QuoteD> quotes,

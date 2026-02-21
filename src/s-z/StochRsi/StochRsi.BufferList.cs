@@ -11,10 +11,10 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiList"/> class.
     /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="smoothPeriods"/> is invalid.</exception>
     public StochRsiList(
         int rsiPeriods,
@@ -38,10 +38,10 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public StochRsiList(
         int rsiPeriods,
@@ -130,10 +130,10 @@ public static partial class StochRsi
     /// Creates a buffer list for Stochastic RSI calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>
-    /// <param name="rsiPeriods">The number of periods for RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiPeriods">Number of periods for RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <returns>A buffer list for Stochastic RSI calculations.</returns>
     public static StochRsiList ToStochRsiList(
         this IReadOnlyList<IReusable> source,

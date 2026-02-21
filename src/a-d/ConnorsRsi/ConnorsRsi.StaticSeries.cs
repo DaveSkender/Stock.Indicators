@@ -9,9 +9,9 @@ public static partial class ConnorsRsi
     /// Calculates the Connors RSI for a series of quotes.
     /// </summary>
     /// <param name="source">The source list of quotes.</param>
-    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
-    /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
-    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
+    /// <param name="rsiPeriods">Number of periods to use for the RSI calculation. Default is 3.</param>
+    /// <param name="streakPeriods">Number of periods to use for the streak calculation. Default is 2.</param>
+    /// <param name="rankPeriods">Number of periods to use for the percent rank calculation. Default is 100.</param>
     /// <returns>A read-only list of <see cref="ConnorsRsiResult"/> containing the Connors RSI calculation results.</returns>
     public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi(
         this IReadOnlyList<IReusable> source,
@@ -74,8 +74,8 @@ public static partial class ConnorsRsi
     /// Calculates the baseline streak and rank for the Connors RSI.
     /// </summary>
     /// <param name="source">The source list of quotes.</param>
-    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation.</param>
-    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation.</param>
+    /// <param name="rsiPeriods">Number of periods to use for the RSI calculation.</param>
+    /// <param name="rankPeriods">Number of periods to use for the percent rank calculation.</param>
     /// <returns>A list of <see cref="ConnorsRsiResult"/> containing the baseline streak and rank calculation results.</returns>
     private static List<ConnorsRsiResult> CalcStreak(
         this IReadOnlyList<IReusable> source,

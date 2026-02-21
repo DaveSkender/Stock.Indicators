@@ -157,11 +157,11 @@ public static partial class Alligator
     /// Converts a chain provider to an Alligator hub.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="jawPeriods">The number of periods for the jaw.</param>
+    /// <param name="jawPeriods">Number of periods for the jaw.</param>
     /// <param name="jawOffset">The offset for the jaw.</param>
-    /// <param name="teethPeriods">The number of periods for the teeth.</param>
+    /// <param name="teethPeriods">Number of periods for the teeth.</param>
     /// <param name="teethOffset">The offset for the teeth.</param>
-    /// <param name="lipsPeriods">The number of periods for the lips.</param>
+    /// <param name="lipsPeriods">Number of periods for the lips.</param>
     /// <param name="lipsOffset">The offset for the lips.</param>
     /// <returns>An Alligator hub.</returns>
     public static AlligatorHub ToAlligatorHub(

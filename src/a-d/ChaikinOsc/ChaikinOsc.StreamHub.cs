@@ -128,8 +128,8 @@ public static partial class ChaikinOsc
     /// Creates a Chaikin Oscillator hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 3.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 10.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 3.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 10.</param>
     /// <returns>A Chaikin Oscillator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>

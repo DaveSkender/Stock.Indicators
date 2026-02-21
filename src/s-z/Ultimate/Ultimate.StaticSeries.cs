@@ -9,9 +9,9 @@ public static partial class Ultimate
     /// Calculates the Ultimate Oscillator for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="shortPeriods">The number of short lookback periods.</param>
-    /// <param name="middlePeriods">The number of middle lookback periods.</param>
-    /// <param name="longPeriods">The number of long lookback periods.</param>
+    /// <param name="shortPeriods">Number of short lookback periods.</param>
+    /// <param name="middlePeriods">Number of middle lookback periods.</param>
+    /// <param name="longPeriods">Number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
     public static IReadOnlyList<UltimateResult> ToUltimate(
@@ -27,9 +27,9 @@ public static partial class Ultimate
     /// Calculates the Ultimate Oscillator for a series of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="shortPeriods">The number of short lookback periods.</param>
-    /// <param name="middlePeriods">The number of middle lookback periods.</param>
-    /// <param name="longPeriods">The number of long lookback periods.</param>
+    /// <param name="shortPeriods">Number of short lookback periods.</param>
+    /// <param name="middlePeriods">Number of middle lookback periods.</param>
+    /// <param name="longPeriods">Number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     private static List<UltimateResult> CalcUltimate(
         this List<QuoteD> quotes,

@@ -16,7 +16,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="MaEnvelopesList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
+    /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="movingAverageType"/> is invalid.</exception>
@@ -59,7 +59,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="MaEnvelopesList"/> class with initial values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
+    /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
@@ -194,7 +194,7 @@ public static partial class MaEnvelopes
     /// Creates a buffer list for Moving Average Envelopes calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>
-    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
+    /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <returns>A new <see cref="MaEnvelopesList"/> instance.</returns>

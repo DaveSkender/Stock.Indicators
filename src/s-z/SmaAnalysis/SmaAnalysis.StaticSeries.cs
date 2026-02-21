@@ -9,7 +9,7 @@ public static partial class SmaAnalysis
     /// Converts a source list to a list of SMA analysis results.
     /// </summary>
     /// /// <param name="source">The source list to analyze.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the SMA calculation.</param>
     /// <returns>A read-only list of SMA analysis results.</returns>
     public static IReadOnlyList<SmaAnalysisResult> ToSmaAnalysis(
         this IReadOnlyList<IReusable> source,

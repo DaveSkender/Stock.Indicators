@@ -204,10 +204,10 @@ public static partial class Smi
     /// Creates a Stochastic Momentum Index (SMI) streaming hub from a quotes provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
-    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
+    /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
+    /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <returns>A Stochastic Momentum Index hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

@@ -119,9 +119,9 @@ public static partial class Ultimate
     /// Converts the provided quote provider to an Ultimate Oscillator hub with the specified periods.
     /// </summary>
     /// <param name="quoteProvider">The quote provider to convert.</param>
-    /// <param name="shortPeriods">The number of short lookback periods.</param>
-    /// <param name="middlePeriods">The number of middle lookback periods.</param>
-    /// <param name="longPeriods">The number of long lookback periods.</param>
+    /// <param name="shortPeriods">Number of short lookback periods.</param>
+    /// <param name="middlePeriods">Number of middle lookback periods.</param>
+    /// <param name="longPeriods">Number of long lookback periods.</param>
     /// <returns>An instance of <see cref="UltimateHub"/>.</returns>
     public static UltimateHub ToUltimateHub(
         this IQuoteProvider<IQuote> quoteProvider,

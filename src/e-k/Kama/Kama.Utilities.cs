@@ -24,9 +24,9 @@ public static partial class Kama
     /// <summary>
     /// Validates the parameters for the KAMA calculation.
     /// </summary>
-    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="erPeriods">Number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when any of the parameters are out of their valid range.
     /// </exception>

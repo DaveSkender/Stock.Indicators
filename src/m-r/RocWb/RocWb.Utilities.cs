@@ -24,8 +24,8 @@ public static partial class RocWb
     /// Validates the parameters for RocWb calculations.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="emaPeriods">The number of periods for the exponential moving average calculation.</param>
-    /// <param name="stdDevPeriods">The number of periods for the standard deviation calculation.</param>
+    /// <param name="emaPeriods">Number of periods for the exponential moving average calculation.</param>
+    /// <param name="stdDevPeriods">Number of periods for the standard deviation calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of range.</exception>
     internal static void Validate(
         int lookbackPeriods,

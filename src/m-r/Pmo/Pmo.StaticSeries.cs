@@ -9,9 +9,9 @@ public static partial class Pmo
     /// Converts a list of source values to a list of PMO results.
     /// </summary>
     /// <param name="source">The list of source values.</param>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="timePeriods">Number of periods for the time span.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of PMO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<PmoResult> ToPmo(

@@ -11,7 +11,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
+    /// <param name="standardDeviations">Number of standard deviations to use for the bands.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="standardDeviations"/> is invalid.</exception>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations = 2)
     {
@@ -27,7 +27,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
+    /// <param name="standardDeviations">Number of standard deviations to use for the bands.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, standardDeviations) => Add(values);
@@ -132,7 +132,7 @@ public static partial class BollingerBands
     /// </summary>
     /// <param name="source">Time-series values</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
+    /// <param name="standardDeviations">Number of standard deviations to use for the bands.</param>
     /// <returns>A BollingerBandsList instance pre-populated with historical data</returns>
     /// <exception cref="ArgumentNullException">Thrown when source is null</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid</exception>

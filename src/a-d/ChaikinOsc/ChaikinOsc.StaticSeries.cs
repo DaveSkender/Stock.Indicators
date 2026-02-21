@@ -9,8 +9,8 @@ public static partial class ChaikinOsc
     /// Calculates the Chaikin Oscillator for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">The number of periods to use for the fast EMA. Default is 3.</param>
-    /// <param name="slowPeriods">The number of periods to use for the slow EMA. Default is 10.</param>
+    /// <param name="fastPeriods">Number of periods to use for the fast EMA. Default is 3.</param>
+    /// <param name="slowPeriods">Number of periods to use for the slow EMA. Default is 10.</param>
     /// <returns>A read-only list of <see cref="ChaikinOscResult"/> containing the Chaikin Oscillator calculation results.</returns>
     public static IReadOnlyList<ChaikinOscResult> ToChaikinOsc(
         this IReadOnlyList<IQuote> quotes,
