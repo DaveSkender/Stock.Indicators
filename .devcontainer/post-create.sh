@@ -10,10 +10,7 @@ echo "🔍 Verifying .NET environment..."
 dotnet --version
 
 echo "🧰 Installing .NET-based tools..."
-dotnet tool install --global dotnet-format
-dotnet tool install --global roslynator.dotnet.cli@0.11.0  # bug in 0.12.0
-dotnet tool install --global dotnet-outdated-tool
-dotnet tool list --global
+dotnet tool restore
 
 # Refresh git repo
 echo "🗂️ Fetch and pull from git..."
