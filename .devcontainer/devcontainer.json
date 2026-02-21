@@ -7,7 +7,7 @@
   "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "24"
+      "version": "lts"
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
       "version": "10.0",
@@ -37,6 +37,9 @@
         "redhat.vscode-yaml"
       ]
     }
+  },
+  "containerEnv": {
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
   },
   "forwardPorts": [
     5173,
