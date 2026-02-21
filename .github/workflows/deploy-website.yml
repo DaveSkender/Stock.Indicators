@@ -39,6 +39,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           run_install: false
+          working-directory: docs
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
