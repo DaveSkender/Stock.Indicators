@@ -1,6 +1,10 @@
-# Documentation website development
+# Documentation website
 
-This folder contains the VitePress documentation website for Stock Indicators.
+This folder contains the VitePress documentation site for Stock Indicators at [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev).
+
+Load #skill:vitepress for VitePress configuration, routing, theme, and component guidance.
+
+Refer to our markdown instructions for our general Markdown formatting standards.
 
 ## Quick start
 
@@ -8,12 +12,52 @@ This folder contains the VitePress documentation website for Stock Indicators.
 # from /docs folder
 pnpm install
 pnpm run docs:dev
-# Site will open at http://localhost:5173/
+# Opens at http://localhost:5173/
 ```
 
-See .github/instructions/docs.instructions.md for complete VitePress development guidance, accessibility testing, and content guidelines.
+## Build and preview
 
-See .github/instructions/markdown.instructions.md for markdown authoring standards.
+```bash
+# Production build
+pnpm run docs:build
 
----
-Last updated: January 25, 2026
+# Preview production build (port 4173)
+pnpm run docs:preview
+```
+
+## Visual inspection with Playwright
+
+Use the Playwright MCP tool to visually inspect docs work against the dev server.
+
+Start the dev server first (port 5173):
+
+```bash
+# from /docs folder
+pnpm run docs:dev
+```
+
+Then use the #tool:playwright MCP tool to navigate, screenshot, and inspect pages:
+
+- Navigate to `http://localhost:5173/<page-path>` to inspect any page
+- Take screenshots to verify layout, typography, and component rendering
+- Inspect element state, check link targets, and validate page structure
+
+## Content guidelines
+
+- Add indicator pages to the `indicators/` directory
+- Place image assets in `.vitepress/public/assets/`
+- Use HTML `<img>` tags instead of Markdown image syntax (avoids SSR import issues)
+- Optimize images to webp: `cwebp -resize 832 0 -q 100 input.png -o output.webp`
+- All pages require YAML front matter with title, description, and layout metadata
+
+## VitePress alert blocks
+
+Use VitePress native container syntax instead of GitHub alert syntax in docs pages:
+
+- `::: tip` — helpful suggestions
+- `::: warning` — important warnings
+- `::: danger` — critical warnings
+- `::: info` — informational highlights (default)
+- `::: details` — collapsible sections
+
+GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`) are still preferred in non-website Markdown files.
