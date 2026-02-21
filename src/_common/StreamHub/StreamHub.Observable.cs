@@ -6,13 +6,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 {
     private readonly HashSet<IStreamObserver<TOut>> _observers = [];
 
-    /// <summary>
-    /// Stores the hub's own minimum cache size requirement (baseline).
-    /// This value represents the warmup periods needed by this hub itself,
-    /// independent of its subscribers.
-    /// </summary>
-    private int _minCacheSizeBaseline;
-
     // PROPERTIES
 
     /// <inheritdoc/>
