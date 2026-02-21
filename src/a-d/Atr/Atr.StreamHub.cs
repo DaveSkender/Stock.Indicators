@@ -15,7 +15,8 @@ public class AtrHub
         Name = $"ATR({lookbackPeriods})";
 
         // Validate cache size for warmup requirements
-        // ATR initialization requires a prior close for the first TR, so +1 for the extra period
+        // ATR re-init loop accesses ProviderCache[p] and ProviderCache[p-1] where p runs up to
+        // i = LookbackPeriods, so index LookbackPeriods must exist: needs LookbackPeriods + 1 items.
         ValidateCacheSize(lookbackPeriods + 1, Name);
 
         Reinitialize();

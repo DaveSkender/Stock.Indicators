@@ -18,7 +18,7 @@ public class HurstHub
         _buffer = new Queue<double>(lookbackPeriods + 1);
 
         // Validate cache size for warmup requirements
-        // Hurst requires lookbackPeriods + 1 values to calculate lookbackPeriods returns
+        // Hurst requires (lookbackPeriods + 1) values in ProviderCache to compute lookbackPeriods returns.
         ValidateCacheSize(lookbackPeriods + 1, Name);
 
         Reinitialize();
