@@ -540,6 +540,3 @@ npx markdownlint-cli2 --no-globs "README.md"
 - Auto-fix resolves formatting issues (bullets, headers, spacing)
 - VS Code shows inline warnings for markdown violations
 - Format-on-save applies fixes automatically
-
----
-Last updated: December 31, 2025
