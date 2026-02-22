@@ -23,10 +23,9 @@ public static partial class StochRsi
 
     /// <summary>
     /// Returns the minimum number of source items required to produce a full
-    /// Stochastic RSI result (with signal and smooth), used to validate cache
-    /// size settings. Signal and smooth EMAs are applied sequentially, so their
-    /// warmup costs are additive. When smoothPeriods is 1, the smoothing step is
-    /// a pass-through and only costs 1 item.
+    /// Stochastic RSI result (with signal and smooth), used to validate cache size settings.
+    /// Signal and smooth SMAs are applied sequentially, so their warmup costs are additive.
+    /// When smoothPeriods is 1, the smoothing step is a pass-through and only costs 1 item.
     /// </summary>
     /// <param name="rsiPeriods">Number of periods for RSI.</param>
     /// <param name="stochPeriods">Number of periods for Stochastic %K window.</param>
