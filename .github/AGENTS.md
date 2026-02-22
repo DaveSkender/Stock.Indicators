@@ -18,13 +18,10 @@ Ensure developers and AI agents across all organization repositories receive con
 
 ```plaintext
 .github/
-├── agents/          # Workspace-scoped Copilot custom agents
-├── aw/              # GitHub Agentic Workflow action config
 ├── instructions/    # File-pattern routing instruction files
 ├── workflows/       # GitHub Actions workflows
-│   ├── *.yml        # Standard GitHub Actions workflows
-│   ├── *.lock.yml   # Agentic Workflows (compiled — do not edit)
-│   └── *.md         # GitHub Agentic Workflows source files
+│   └── *.yml        # CI/CD pipeline definitions
+├── ISSUE_TEMPLATE/  # GitHub issue templates
 └── AGENTS.md        # Authoring conventions and guardrails (this file)
 ```
 
@@ -32,22 +29,13 @@ Agent skills live in `/.agents/skills/`, not in `.github/`.
 
 ## Skills
 
-- Execute #skill:agent-customization before authoring custom agent profiles or instruction files
-
-## Agents
-
-Delegate to these subagents when authoring files:
-
-- @AgentMaker — author Copilot custom agents, instructions, prompts, and skills files
-- @agentic-workflows — author GitHub Agentic Workflows (`.md` source files in `workflows/`)
+- Execute #skill:agent-customization before authoring instruction files
 
 ## Boundaries
 
-✅ Always load #skill:agent-customization before editing any file in `agents/`, `instructions/`
+✅ Always load #skill:agent-customization before editing any file in `instructions/`
 
 ⚠️ Ask before deleting any instruction file — verify no `applyTo` pattern depends on it
-
-⚠️ Ask before deleting any agent file — verify no AGENTS.md @AgentName references depend on it
 
 🚫 Never create instruction files for cross-cutting concerns or frameworks — use skills instead
 

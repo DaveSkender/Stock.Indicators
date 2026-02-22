@@ -6,47 +6,23 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 - Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
 - Documentation at <a href="https://dotnet.stockindicators.dev">dotnet.stockindicators.dev</a> is sourced from the `docs/` content in this repository.
 
+## Primary directive
+
+Provide financial market developers with mathematically exact, high-performance technical analysis indicators they can depend on in production — so they can build trading and analytics applications with full confidence in numerical correctness.
+
+## Secondary directives
+
+1. Surface every indicator's behavior, limitations, and integration path through clear documentation and ergonomic APIs, so developers can discover and use any indicator without guesswork (not as important as primary)
+2. Protect downstream users from silent numerical errors through comprehensive validation, deterministic warmup, and ≥ 98% test coverage — ensuring every deployment succeeds (not as important as #1)
+3. Ensure all three indicator styles — Series, Buffer, Stream — produce identical results, so developers can switch between batch and real-time APIs without concern for numerical differences (not as important as #2)
+
 ## AI-first development model
 
-**This repository is optimized for AI agent contributions, not human coding.**
+This repository is optimized for AI agent contributions. Agents are the primary contributors; humans set direction, review, and validate outcomes.
 
-Guidance follows industry standards for AI configuration:
-
-- **Imperative, directive voice**: "Run the command" not "You should run"
-- **Present tense**: Avoid historical context; focus on current directives
-- **Autonomous decision-making**: Agents infer, proceed, and document assumptions
-- **Outcome-focused**: Define "what" (results) and "why" (rationale), not "how" (micro-steps)
-- **No approval loops**: Agents complete work (code + tests + docs) before yielding to humans
-- **Succinctness over verbosity**: Prefer compact, scannable directives; eliminate filler words and redundant explanations
-
-**AI agents contribute by:**
-
-1. Performing the vast majority of actual coding work
-2. Making educated guesses and documenting assumptions
-3. Following standards defined in guidance files
-4. Proceeding autonomously without human approval loops
-5. Generating changes, tests, and documentation in one pass
-6. Executing quality gates (build, test, lint) before yielding
-
-**Humans contribute by:**
-
-1. Setting strategic direction (what capabilities to build)
-2. Making architectural decisions and defining quality standards
-3. Reviewing agent-generated changes for alignment with project philosophy
-4. Correcting agent assumptions when they guess incorrectly
-5. Providing context agents cannot infer from repository artifacts
-6. Validating outcomes, not micromanaging implementation details
-
-**Human coding is an anti-pattern** in this workflow. If you are a human developer who wants to write code, you can—but recognize that this repository's instructions are optimized for AI agent consumption, not human procedural guidance.
-
-**For AI agents:**
-
-- Make reasonable inferences and proceed autonomously
-- Generate complete implementations (code + tests + docs) in one turn
-- Execute quality gates (build, test, lint) before yielding to humans
-- Document assumptions when making educated guesses
-- Follow established patterns and standards without seeking approval
-- Handle edge cases using documented principles and constitutional rules
+- **Agents**: infer and proceed autonomously, generate complete implementations (code + tests + docs) in one pass, execute quality gates before yielding, document assumptions
+- **Humans**: set strategic direction, make architectural decisions, review agent output, validate outcomes — not micromanage implementation
+- **Voice**: imperative, present tense; no historical context; outcome-focused
 
 ## Guiding principles
 
@@ -56,7 +32,7 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 
 ## Repository layout
 
-```text
+```plaintext
 (root)
 ├── src/                   # Library source code
 │    ├── _common/          # Shared utilities, base classes, and common types
@@ -72,9 +48,26 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 └── .specify/              # Spec Kit configuration and active specifications
 ```
 
-## Build and verification
+## Commands
 
-See the code-completion skill (.agents/skills/code-completion/SKILL.md) for complete quality gates, linting commands, build procedures, and testing workflows.
+```bash
+# Build
+dotnet build "Stock.Indicators.sln" -v minimal --nologo
+
+# Test (unit; integration tests run in CI only)
+dotnet test "Stock.Indicators.sln" --no-restore --nologo
+
+# Lint: .NET format
+dotnet format --severity info --no-restore
+
+# Lint: Markdown
+npx markdownlint-cli2 --fix
+
+# All quality gates (abbreviated)
+dotnet format --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2
+```
+
+See the code-completion skill for the complete quality gates checklist, Roslynator commands, and VS Code task equivalents.
 
 ## Skills for development
 
@@ -121,5 +114,18 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, p
 
 Examples: `feat: Add RSI indicator`, `fix: Resolve MACD calculation error`, `docs: Update API documentation`
 
----
-Last updated: February 21, 2026
+## Boundaries
+
+✅ Always run quality gates (format + build + test + markdownlint) before marking work complete
+
+✅ Always load the relevant skill before working in a domain area
+
+✅ Always keep Series results as canonical truth — fix Stream/Buffer to match, not the reverse
+
+⚠️ Ask before renaming or removing any public API member — requires a MAJOR version bump
+
+⚠️ Ask before suppressing any compiler or linting warning — treat all warnings as errors
+
+🚫 Never duplicate indicator calculations from authoritative sources — cite and implement from reference
+
+🚫 Never merge without all quality gates passing — no exceptions for "minor" changes

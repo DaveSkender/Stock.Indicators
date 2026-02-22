@@ -4,11 +4,11 @@ This folder contains unit tests, integration tests, and performance benchmarks.
 
 ## Test organization
 
-- indicators/ - Unit tests for all indicators
-- other/ - Integration and utility tests  
-- performance/ - Performance benchmarks
+- `indicators/` — unit tests for all indicators
+- `other/` — integration and utility tests
+- `performance/` — performance benchmarks
 
-## Running tests
+## Commands
 
 ```bash
 # Unit tests only
@@ -24,4 +24,16 @@ dotnet test tests/integration/ --settings tests/tests.integration.runsettings
 dotnet test
 ```
 
-See .agents/skills/testing-standards/SKILL.md for test writing guidance and conventions.
+Load #skill:testing-standards for test naming conventions, FluentAssertions patterns, precision requirements, and test base class selection.
+
+## Boundaries
+
+✅ Always write tests before marking an indicator implementation complete
+
+✅ Always verify Stream/Buffer results match Series results for the same inputs
+
+⚠️ Ask before changing baseline test data — run the baseline generation task and review the diff
+
+🚫 Never skip or exclude a failing test without fixing the root cause
+
+🚫 Never add `[Ignore]` attributes without a tracked issue and justification
