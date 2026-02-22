@@ -52,7 +52,7 @@ Individual checks (if needed):
 
 ```bash
 # Roslynator only (fast)
-roslynator fix --properties TargetFramework=net10.0 --severity-level info --verbosity normal
+dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level info --verbosity normal
 
 # .NET format only
 dotnet format --severity info --no-restore

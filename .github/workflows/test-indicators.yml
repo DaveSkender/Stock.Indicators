@@ -90,7 +90,7 @@ jobs:
 
       - name: Run Roslynator analysis
         run: >
-          roslynator analyze
+          dotnet tool run roslynator analyze
           --properties TargetFramework=net10.0
           --severity-level info
           --verbosity normal

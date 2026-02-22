@@ -36,7 +36,7 @@ See subfolder AGENTS.md files for detailed domain-specific guidance.
 ### Linting and testing
 
 - **Markdown**: `npx markdownlint-cli2` (auto-fix with `npx markdownlint-cli2 --fix`)
-- **Roslynator**: `roslynator fix --properties TargetFramework=net10.0 --severity-level info` (fast for dev loop)
+- **Roslynator**: `dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level info` (fast for dev loop)
 - **All linters**: `dotnet format && npx markdownlint-cli2` (auto-fix with both `--fix` flags)
 - **Build**: `dotnet build "Stock.Indicators.sln" -v minimal --nologo`
 - **Test**: `dotnet test "Stock.Indicators.sln" --no-restore --nologo`
