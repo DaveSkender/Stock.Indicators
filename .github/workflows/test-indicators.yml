@@ -81,9 +81,8 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
-      - name: Install Roslynator
-        run: dotnet tool install --global roslynator.dotnet.cli@0.11.0
-        # bug in Roslynator v0.12.0
+      - name: Install .NET tools
+        run: dotnet tool restore
 
       - name: Build solution
         # note: Roslynator cannot use cached bin/obj

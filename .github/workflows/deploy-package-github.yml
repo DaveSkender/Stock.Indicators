@@ -79,7 +79,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y libxml2-utils
-          dotnet tool install --global GitVersion.Tool
+          dotnet tool restore
 
       - name: Generate version info
         id: gitversion

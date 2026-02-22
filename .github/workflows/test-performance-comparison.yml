@@ -29,8 +29,8 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
-      - name: Setup GitVersion Tool
-        run: dotnet tool install --global GitVersion.Tool
+      - name: Install .NET tools
+        run: dotnet tool restore
 
       - name: Determine version
         id: gitversion

@@ -52,14 +52,10 @@ jobs:
         continue-on-error: true
         timeout-minutes: 5
 
-      - name: Install .NET global tools
+      - name: Install .NET tools
         run: |
-          dotnet tool install --global dotnet-format
-          dotnet tool install --global roslynator.dotnet.cli@0.11.0
-          dotnet tool install --global dotnet-outdated-tool
-          dotnet tool install --global dotnet-reportgenerator-globaltool
+          dotnet tool restore
         continue-on-error: true
-        # bug in Roslynator v0.12.0
 
       - name: Environment summary
         run: |
