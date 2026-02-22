@@ -123,6 +123,3 @@ public static StochRsiHub ToStochRsiHub(
 | `ChainHub<IReusable, T>` | `ITestChainObserver` | `ITestChainProvider` |
 | `ChainHub<IQuote, T>` | `ITestChainObserver` | `ITestChainProvider` |
 | `QuoteProvider<IQuote, T>` | `ITestQuoteObserver` | `ITestChainProvider` |
-
----
-Last updated: January 19, 2026

@@ -217,6 +217,3 @@ Follow standard StreamHub testing requirements:
 4. Verify Series parity with the compound indicator
 
 **Example**: `tests/indicators/s-z/StochRsi/StochRsi.StreamHub.Tests.cs`
-
----
-Last updated: January 19, 2026

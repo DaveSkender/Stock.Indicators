@@ -86,11 +86,11 @@ protected override void RollbackState(DateTime timestamp)
   - [ ] Inherits StreamHubTestBase with correct test interfaces
   - [ ] Comprehensive rollback validation present
   - [ ] Verifies Series parity
-- [ ] **Catalog registration**: Registered in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
-- [ ] **Performance benchmark**: Add to #file:../../../tools/performance/Perf.Stream.cs
+- [ ] **Catalog registration**: Registered in `Catalog.Listings.cs`
+- [ ] **Performance benchmark**: Add to `tools/performance/Perf.Stream.cs`
 - [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
-- [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
+- [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
 
 ## Examples
 
@@ -99,12 +99,12 @@ protected override void RollbackState(DateTime timestamp)
 - Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`, `src/e-k/Gator/Gator.StreamHub.cs`
 
-See #folder:references for detailed patterns:
+See detailed patterns in references:
 
-- #file:references/provider-selection.md - Choosing the right provider base
-- #file:references/rollback-patterns.md - RollbackState implementation examples
-- #file:references/performance-patterns.md - O(1) optimization techniques
-- #file:references/compound-hubs.md - Internal hub dependencies and construction patterns
+- [Provider selection](references/provider-selection.md) — choosing the right provider base
+- [Rollback patterns](references/rollback-patterns.md) — RollbackState implementation examples
+- [Performance patterns](references/performance-patterns.md) — O(1) optimization techniques
+- [Compound hubs](references/compound-hubs.md) — internal hub dependencies and construction patterns
 
 ## Common pitfalls
 
@@ -112,6 +112,3 @@ See #folder:references for detailed patterns:
 - Index out of range and buffer reuse issues in streaming indicators (guard shared spans and caches)
 - Performance regressions from O(n) or O(n²) patterns instead of O(1) incremental updates
 - Improper rollback state replay (must replay up to targetIndex - 1, exclusive of rollback timestamp)
-
----
-Last updated: January 25, 2026

@@ -118,7 +118,7 @@ When changing indicators or public APIs:
 
 - Update XML documentation for changed public APIs
 - Update `docs/indicators/{IndicatorName}.md` for indicator changes
-- Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
+- Update `docs/migration.md` for notable and breaking changes from v2
 - Update obsolete bridge files (`src/Obsolete.V3.*.cs`) for deprecated APIs
 
 ### Step 5: Verify and commit
@@ -173,54 +173,9 @@ For new or updated indicators, MUST include:
 When changing public APIs, MUST:
 
 - Add `[Obsolete]` attribute with migration message
-- Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes
+- Update `docs/migration.md` for notable and breaking changes
 - Update bridge files:
   - `src/Obsolete.V3.Indicators.cs`
   - `src/Obsolete.V3.Other.cs`
 
-## Best practices
-
-- Run linters frequently during development, not just at the end
-- Address linting errors as they appear
-- Use VS Code tasks for quick access to quality gates
-- Run specific tests during active development
-- Document exceptions when disabling analyzer rules
-
-## Quick reference
-
-| Gate                | Command                                                                                                    | VS Code task                         |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| Lint .NET (fix)     | `dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level hidden`                               | `Lint: .NET Roslynator (fix)`        |
-| Lint all (fix)      | `dotnet format --severity info --no-restore && npx markdownlint-cli2 --fix`                               | `Lint: All (fix)`                    |
-| Lint markdown (fix) | `npx markdownlint-cli2 --fix`                                                                              | `Lint: Markdown (fix)`               |
-| Build               | `dotnet build -v minimal --nologo`                                                                         | `Build: .NET Solution (incremental)` |
-| Test                | `dotnet test --no-restore --nologo`                                                                        | `Test: Unit tests`                   |
-| Full check          | `dotnet format --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2`         | Run sequentially                     |
-
-## Configuration files
-
-Linting:
-
-- Analyzers: #file:../../../src/Directory.Build.props
-- .NET format: #file:../../../.editorconfig
-- Roslynator: Global configuration
-- Markdown: #file:../../../.markdownlint-cli2.jsonc
-
-Build:
-
-- Solution: #file:../../../Stock.Indicators.sln
-- Project: #file:../../../src/Indicators.csproj
-- Dependencies: #file:../../../src/Directory.Packages.props
-
-Test:
-
-- Unit tests: #file:../../../tests/tests.unit.runsettings
-- Regression: #file:../../../tests/tests.regression.runsettings
-- Integration: #file:../../../tests/tests.integration.runsettings
-
-## About maintenance of this file
-
-When lint/build/test commands change or new quality gates are added, update this skill file to reflect current workflow
-
----
-Last updated: January 2, 2026
+See [references/quality-gates.md](references/quality-gates.md) for the quick reference table of all commands and configuration file locations.

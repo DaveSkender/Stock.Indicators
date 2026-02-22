@@ -147,6 +147,3 @@ Add `[MemoryDiagnoser]` to see allocations:
 3. Run benchmarks after changes
 4. Compare with `detect-regressions.ps1`
 5. Investigate any > 10% regressions
-
----
-Last updated: December 31, 2025

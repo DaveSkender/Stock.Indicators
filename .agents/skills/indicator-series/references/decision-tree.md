@@ -50,6 +50,3 @@ public record MacdResult
 | `IReusable` | Chains from another indicator | EMA-of-EMA, SMA-of-RSI |
 
 Most indicators accept `IQuote`. Use `IReusable` only for indicators explicitly designed to chain.
-
----
-Last updated: December 31, 2025

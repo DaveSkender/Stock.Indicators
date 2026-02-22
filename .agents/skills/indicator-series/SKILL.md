@@ -37,15 +37,15 @@ return new List<TResult>(results);  // NOT results.ToList()
 
 Beyond the `.StaticSeries.cs` file, ensure:
 
-- [ ] **Catalog registration**: Create `src/**/{Indicator}.Catalog.cs` and register in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
+- [ ] **Catalog registration**: Create `src/**/{Indicator}.Catalog.cs` and register in `Catalog.Listings.cs`
 - [ ] **Unit tests**: Create `tests/indicators/**/{Indicator}.StaticSeries.Tests.cs`
   - Inherit from `StaticSeriesTestBase`
   - Include `[TestCategory("Regression")]` for baseline validation
   - Verify against manually calculated reference values
-- [ ] **Performance benchmark**: Add to #file:../../../tools/performance/Perf.Series.cs
+- [ ] **Performance benchmark**: Add to `tools/performance/Perf.Series.cs`
 - [ ] **Public documentation**: Update `docs/indicators/{Indicator}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{Indicator}.Regression.Tests.cs`
-- [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
+- [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
 
 ## Precision testing patterns
 
@@ -63,7 +63,7 @@ Beyond the `.StaticSeries.cs` file, ensure:
 - **Complex multi-stage**: `src/a-d/Adx/Adx.StaticSeries.cs`
 - **Multi-line results**: `src/a-d/Alligator/Alligator.StaticSeries.cs`
 
-See `references/decision-tree.md` for result interface selection guidance.
+See [references/decision-tree.md](references/decision-tree.md) for result interface selection guidance.
 
 ## Constitutional constraints
 
@@ -82,6 +82,3 @@ NEVER modify formulas without verification against authoritative mathematical re
 - Performance regressions from unnecessary allocations or LINQ
 - Documentation drift between code comments, XML docs, and published docs site
 - Improper NaN handling (do not reject NaN inputs; guard against division by zero)
-
----
-Last updated: January 25, 2026

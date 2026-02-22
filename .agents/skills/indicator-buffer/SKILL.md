@@ -14,6 +14,8 @@ All BufferList implementations support `IQuote` inputs from the base class. The 
 | `IIncrementFromChain` | `IReusable`, `(DateTime, double)` | Chainable single-value indicators | SMA, EMA, RSI |
 | `IIncrementFromQuote` | (none - only IQuote) | Requires OHLCV properties | Stoch, ATR, VWAP |
 
+See [references/interface-selection.md](references/interface-selection.md) for detailed decision tree and test interface mapping.
+
 ## Constructor pattern
 
 ```csharp
@@ -77,17 +79,14 @@ public override void Clear()
   - [ ] Inherits `BufferListTestBase` and implements correct test interface
   - [ ] All 5 required tests from base class pass
   - [ ] Verifies equivalence with Series results
-- [ ] **Catalog registration**: Registered in [Catalog.Listings.cs](../../../src/_common/Catalog/Catalog.Listings.cs)
-- [ ] **Performance benchmark**: Add to #file:../../../tools/performance/Perf.Buffer.cs
+- [ ] **Catalog registration**: Registered in `Catalog.Listings.cs`
+- [ ] **Performance benchmark**: Add to `tools/performance/Perf.Buffer.cs`
 - [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
-- [ ] **Migration guide**: Update [docs/migration.md](../../../docs/migration.md) for notable and breaking changes from v2
+- [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
 
 ## Common pitfalls
 
 - Manual buffer management instead of using BufferListUtilities extension methods
 - Not implementing Clear() to reset all internal state properly
 - Using Should().Be() instead of IsExactly() for Series parity verification
-
----
-Last updated: January 25, 2026

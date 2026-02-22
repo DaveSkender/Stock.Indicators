@@ -214,6 +214,3 @@ if (needsRebuild) { /* rebuild logic */ }
 ```
 
 **Use RollbackState override instead** - Framework calls it automatically.
-
----
-Last updated: January 19, 2026

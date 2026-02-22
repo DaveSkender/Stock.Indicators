@@ -40,7 +40,4 @@ Can indicator work with single chainable IReusable values?
 
 Additional test interface for custom caches:
 
-- `ITestCustomBufferListCache` - When using `List<T>` instead of `Queue<T>`
-
----
-Last updated: December 31, 2025
+- `ITestCustomBufferListCache` — when using `List<T>` instead of `Queue<T>`

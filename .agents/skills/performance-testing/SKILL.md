@@ -117,7 +117,4 @@ cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json \
 - Redundant calculations in loops
 - Poor cache locality
 
-See `references/benchmark-patterns.md` for detailed patterns.
-
----
-Last updated: December 31, 2025
+See [references/benchmark-patterns.md](references/benchmark-patterns.md) for detailed patterns.

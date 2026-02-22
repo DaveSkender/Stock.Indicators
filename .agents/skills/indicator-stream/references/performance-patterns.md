@@ -176,6 +176,3 @@ Run benchmarks:
 cd tools/performance
 dotnet run -c Release --filter *.MyIndicatorHub
 ```
-
----
-Last updated: December 31, 2025

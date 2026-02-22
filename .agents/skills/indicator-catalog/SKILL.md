@@ -131,6 +131,3 @@ public class EmaCatalogTests : TestBase
 - ❌ Wrong indicator method name (breaks extension method discovery)
 - ❌ `isReusable: true` for `ISeries` models (violates interface contract)
 - ❌ Multiple `isReusable: true` results (ambiguous Value mapping)
-
----
-Last updated: December 31, 2025
