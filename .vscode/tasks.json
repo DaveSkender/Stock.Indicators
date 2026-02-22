@@ -505,22 +505,16 @@
       "command": "coderabbit",
       "args": [
         "--plain"
-      ],
-      "presentation": {
-        "clear": true
-      }
+      ]
     },
     {
       "label": "Review: CodeRabbit CLI (prompt-only)",
-      "detail": "Perform a full code review with CodeRabbit CLI in plain text response mode",
+      "detail": "Perform a full code review with CodeRabbit CLI in prompt-only response mode",
       "type": "shell",
       "command": "coderabbit",
       "args": [
         "--prompt-only"
-      ],
-      "presentation": {
-        "clear": true
-      }
+      ]
     },
     {
       "label": "Review: CodeRabbit CLI (uncommitted, plain)",
@@ -531,24 +525,18 @@
         "--plain",
         "--type",
         "uncommitted"
-      ],
-      "presentation": {
-        "clear": true
-      }
+      ]
     },
     {
       "label": "Review: CodeRabbit CLI (uncommitted, prompt-only)",
-      "detail": "Perform a code review on uncommitted with CodeRabbit CLI in plain text response mode",
+      "detail": "Perform a code review on uncommitted with CodeRabbit CLI in prompt-only response mode",
       "type": "shell",
       "command": "coderabbit",
       "args": [
         "--prompt-only",
         "--type",
         "uncommitted"
-      ],
-      "presentation": {
-        "clear": true
-      }
+      ]
     },
     {
       "label": "Verify: Quick checks (build + lint + unit test)",
