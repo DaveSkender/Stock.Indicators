@@ -63,15 +63,15 @@ This ensures:
 3. All tests pass
 4. **All warnings must be fixed**—do not ignore or defer warnings
 
-See the [Code Completion skill](.github/skills/code-completion/SKILL.md) for detailed checklist and troubleshooting.
+See the [Code Completion skill](.agents/skills/code-completion/SKILL.md) for detailed checklist and troubleshooting.
 
 ## Skills for development
 
-This repository uses Agent Skills (`.github/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
+This repository uses Agent Skills (`.agents/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
 
 | Skill | Description | When to use |
 | ----- | ----------- | ----------- |
-| [code-completion](.github/skills/code-completion/SKILL.md) | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
+| [code-completion](.agents/skills/code-completion/SKILL.md) | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
 
 Additional path-specific instruction files:
 
@@ -81,7 +81,7 @@ Additional path-specific instruction files:
 | `docs/**` | `.github/instructions/docs.instructions.md` | Jekyll documentation site |
 | `src/**` | `src/AGENTS.md` | Formula protection rules |
 
-Skills are defined in `.github/skills/` following the Agent Skills specification.  
+Skills are defined in `.agents/skills/` following the Agent Skills specification.  
 
 ## Folder-specific guidance
 
