@@ -8,7 +8,7 @@ public static partial class T3
     /// <summary>
     /// Calculates the T3 moving average for a series of data.
     /// </summary>
-    /// /// <param name="source">The source list of data.</param>
+    /// <param name="source">The source list of data.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="volumeFactor">The volume factor.</param>
     /// <returns>A list of T3Result containing the T3 moving average values.</returns>

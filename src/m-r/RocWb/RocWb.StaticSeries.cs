@@ -8,7 +8,7 @@ public static partial class RocWb
     /// <summary>
     /// Converts a list of reusable values to a list of RocWb results.
     /// </summary>
-    /// /// <param name="source">The list of reusable values.</param>
+    /// <param name="source">The list of reusable values.</param>
     /// <param name="lookbackPeriods">Number of periods to look back for the ROC calculation.</param>
     /// <param name="emaPeriods">Number of periods for the exponential moving average calculation.</param>
     /// <param name="stdDevPeriods">Number of periods for the standard deviation calculation.</param>
