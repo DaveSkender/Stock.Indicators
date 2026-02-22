@@ -36,7 +36,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     /// <summary>
     /// Adds a new quote to the Aroon list.
     /// </summary>
-    /// <param name="quote">The quote to add.</param>
+    /// <param name="quote">Quote to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
     public void Add(IQuote quote)
     {

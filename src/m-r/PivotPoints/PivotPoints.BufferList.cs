@@ -6,8 +6,8 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// Initializes a new instance of the <see cref="PivotPointsList"/> class.
 /// </remarks>
-/// <param name="windowSize">The size of the window for pivot point calculation.</param>
-/// <param name="pointType">The type of pivot point calculation to use.</param>
+/// <param name="windowSize">Size of the window for pivot point calculation.</param>
+/// <param name="pointType">Type of pivot point calculation to use.</param>
 public class PivotPointsList(
     PeriodSize windowSize = PeriodSize.Month,
     PivotPointType pointType = PivotPointType.Standard) : BufferList<PivotPointsResult>, IIncrementFromQuote, IPivotPoints
@@ -23,8 +23,8 @@ public class PivotPointsList(
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotPointsList"/> class with initial quotes.
     /// </summary>
-    /// <param name="windowSize">The size of the window for pivot point calculation.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <param name="windowSize">Size of the window for pivot point calculation.</param>
+    /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public PivotPointsList(
         PeriodSize windowSize,
@@ -142,8 +142,8 @@ public static partial class PivotPoints
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="windowSize">The size of the window for pivot point calculation.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <param name="windowSize">Size of the window for pivot point calculation.</param>
+    /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>A new <see cref="PivotPointsList"/> instance.</returns>
     public static PivotPointsList ToPivotPointsList(
         this IReadOnlyList<IQuote> quotes,

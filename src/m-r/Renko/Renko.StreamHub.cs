@@ -231,9 +231,9 @@ public static partial class Renko
     /// <summary>
     /// Converts a quote provider to a Renko hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="brickSize">Size of each Renko brick.</param>
+    /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A Renko hub.</returns>
     public static RenkoHub ToRenkoHub(
         this IQuoteProvider<IQuote> quoteProvider,

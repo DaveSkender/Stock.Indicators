@@ -84,7 +84,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// <summary>
     /// Adds a new quote to the Ichimoku list.
     /// </summary>
-    /// <param name="quote">The quote to add.</param>
+    /// <param name="quote">Quote to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
     public void Add(IQuote quote)
     {
@@ -168,7 +168,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// <summary>
     /// Adds a list of quotes to the Ichimoku list.
     /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
+    /// <param name="quotes">List of quotes to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     public void Add(IReadOnlyList<IQuote> quotes)
     {
@@ -273,8 +273,8 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// <summary>
     /// Calculates the midpoint (average of high and low) for a rolling window.
     /// </summary>
-    /// <param name="buffer">The buffer containing high/low tuples.</param>
-    /// <returns>The midpoint value.</returns>
+    /// <param name="buffer">Buffer containing high/low tuples.</param>
+    /// <returns>Midpoint value.</returns>
     private static decimal CalculateMidpoint(Queue<(decimal High, decimal Low)> buffer)
     {
         decimal max = decimal.MinValue;
@@ -300,8 +300,8 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// Calculates the Senkou Span B value for the current position.
     /// Uses historical data from range [currentIndex - senkouOffset - senkouBPeriods + 1, currentIndex - senkouOffset].
     /// </summary>
-    /// <param name="currentIndex">The current position in the results list.</param>
-    /// <returns>The Senkou Span B value, or null if insufficient data.</returns>
+    /// <param name="currentIndex">Current position in the results list.</param>
+    /// <returns>Senkou Span B value, or null if insufficient data.</returns>
     private decimal? CalculateSenkouSpanB(int currentIndex)
     {
         if (currentIndex < SenkouOffset + SenkouBPeriods - 1)

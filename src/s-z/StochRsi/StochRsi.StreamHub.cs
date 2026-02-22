@@ -225,7 +225,7 @@ public static partial class StochRsi
     /// <summary>
     /// Converts the chain provider to a Stochastic RSI hub.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="rsiPeriods">Number of periods for the RSI calculation.</param>
     /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
@@ -249,7 +249,7 @@ public static partial class StochRsi
     /// reuses the existing <see cref="RsiHub"/> as its internal construction.
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>
     /// Do not use this interface if you want to instead want a StochRSI of an RSI hub.</remarks>
-    /// <param name="rsiHub">The existing RSI hub provider.</param>
+    /// <param name="rsiHub">Existing RSI hub provider.</param>
     /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <param name="smoothPeriods">Number of periods for smoothing.</param>

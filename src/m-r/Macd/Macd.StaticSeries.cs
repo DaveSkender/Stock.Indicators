@@ -8,7 +8,7 @@ public static partial class Macd
     /// <summary>
     /// Converts a list of source values to MACD (Moving Average Convergence Divergence) results.
     /// </summary>
-    /// <param name="source">The list of source values to transform.</param>
+    /// <param name="source">List of source values to transform.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
     /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>

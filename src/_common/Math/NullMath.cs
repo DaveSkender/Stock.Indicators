@@ -16,8 +16,8 @@ public static class NullMath
     /// <summary>
     /// Returns the absolute value of a nullable double.
     /// </summary>
-    /// <param name="value">The nullable double value.</param>
-    /// <returns>The absolute value, or null if the input is null.</returns>
+    /// <param name="value">Nullable double value.</param>
+    /// <returns>Absolute value, or null if the input is null.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double? Abs(this double? value)
         => value.HasValue
@@ -29,8 +29,8 @@ public static class NullMath
     /// <summary>
     /// Converts a nullable double value to NaN if it is null.
     /// </summary>
-    /// <param name="value">The nullable double value.</param>
-    /// <returns>The value, or NaN if the input is null.</returns>
+    /// <param name="value">Nullable double value.</param>
+    /// <returns>Value, or NaN if the input is null.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Null2NaN(this double? value)
         => value ?? double.NaN;
@@ -38,8 +38,8 @@ public static class NullMath
     /// <summary>
     /// Converts a nullable decimal value to NaN if it is null.
     /// </summary>
-    /// <param name="value">The nullable decimal value.</param>
-    /// <returns>The value as a double, or NaN if the input is null.</returns>
+    /// <param name="value">Nullable decimal value.</param>
+    /// <returns>Value as a double, or NaN if the input is null.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Null2NaN(this decimal? value)
         => value.HasValue
@@ -49,8 +49,8 @@ public static class NullMath
     /// <summary>
     /// Converts a nullable double value to null if it is NaN.
     /// </summary>
-    /// <param name="value">The nullable double value.</param>
-    /// <returns>The value, or null if the input is NaN.</returns>
+    /// <param name="value">Nullable double value.</param>
+    /// <returns>Value, or null if the input is NaN.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double? NaN2Null(this double? value)
         => value.HasValue && double.IsNaN(value.GetValueOrDefault())
@@ -60,8 +60,8 @@ public static class NullMath
     /// <summary>
     /// Converts a double value to null if it is NaN.
     /// </summary>
-    /// <param name="value">The double value.</param>
-    /// <returns>The value, or null if the input is NaN.</returns>
+    /// <param name="value">Double value.</param>
+    /// <returns>Value, or null if the input is NaN.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double? NaN2Null(this double value)
         => double.IsNaN(value)

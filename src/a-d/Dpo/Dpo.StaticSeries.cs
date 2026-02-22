@@ -16,7 +16,7 @@ public static partial class Dpo
     /// <summary>
     /// Converts a list of source data to Detrended Price Oscillator (DPO) results.
     /// </summary>
-    /// <param name="source">The list of source data.</param>
+    /// <param name="source">List of source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of DPO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>

@@ -3,10 +3,10 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of a Hilbert Transform Trendline (HTL) calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the result.</param>
-/// <param name="DcPeriods">The dominant cycle periods.</param>
-/// <param name="Trendline">The value of the trendline.</param>
-/// <param name="SmoothPrice">The smoothed price.</param>
+/// <param name="Timestamp">Timestamp of the result.</param>
+/// <param name="DcPeriods">Dominant cycle periods.</param>
+/// <param name="Trendline">Value of the trendline.</param>
+/// <param name="SmoothPrice">Smoothed price.</param>
 [Serializable]
 public record HtlResult
 (

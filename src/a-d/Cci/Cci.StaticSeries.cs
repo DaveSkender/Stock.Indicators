@@ -21,7 +21,7 @@ public static partial class Cci
     /// <summary>
     /// Calculates the Commodity Channel Index (CCI) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
     private static List<CciResult> CalcCci(

@@ -8,7 +8,7 @@ public static partial class UlcerIndex
     /// <summary>
     /// Calculates the Ulcer Index for a series of data.
     /// </summary>
-    /// <param name="source">The source list of data.</param>
+    /// <param name="source">Source list of data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of UlcerIndexResult containing the Ulcer Index values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>

@@ -21,7 +21,7 @@ public sealed partial class UrlSafeAttribute : ValidationAttribute
     /// <summary>
     /// Determines whether the specified value is URL-safe.
     /// </summary>
-    /// <param name="value">The value to validate.</param>
+    /// <param name="value">Value to validate.</param>
     /// <returns><c>true</c> if the value is URL-safe; otherwise, <c>false</c>.</returns>
     public override bool IsValid(object? value)
         => value is null || (value is string str && (string.IsNullOrEmpty(str) || UrlSafeRegex.IsMatch(str)));
@@ -29,8 +29,8 @@ public sealed partial class UrlSafeAttribute : ValidationAttribute
     /// <summary>
     /// Formats the error message to include the property name.
     /// </summary>
-    /// <param name="name">The name of the property being validated.</param>
-    /// <returns>The formatted error message.</returns>
+    /// <param name="name">Name of the property being validated.</param>
+    /// <returns>Formatted error message.</returns>
     public override string FormatErrorMessage(string name)
         => $"The '{name}' field is not URL safe.";
 }

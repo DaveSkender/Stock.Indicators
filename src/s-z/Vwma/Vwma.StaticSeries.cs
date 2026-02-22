@@ -22,7 +22,7 @@ public static partial class Vwma
     /// <summary>
     /// Calculates the VWMA for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     private static List<VwmaResult> CalcVwma(

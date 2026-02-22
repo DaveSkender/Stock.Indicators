@@ -71,7 +71,7 @@ public static class IndicatorConfigExtensions
     /// <summary>
     /// Converts an <see cref="IndicatorConfig"/> to a <see cref="ListingExecutionBuilder"/>.
     /// </summary>
-    /// <param name="config">The indicator configuration.</param>
+    /// <param name="config">Indicator configuration.</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when config is null.</exception>
     public static ListingExecutionBuilder ToBuilder(this IndicatorConfig config)
@@ -83,10 +83,10 @@ public static class IndicatorConfigExtensions
     /// <summary>
     /// Executes an indicator configuration with the provided quotes.
     /// </summary>
-    /// <typeparam name="TResult">The expected result type.</typeparam>
-    /// <param name="config">The indicator configuration.</param>
+    /// <typeparam name="TResult">Expected result type.</typeparam>
+    /// <param name="config">Indicator configuration.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>The indicator results.</returns>
+    /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when config is null.</exception>
     public static IReadOnlyList<TResult> Execute<TResult>(this IndicatorConfig config, IEnumerable<IQuote> quotes)
         where TResult : class

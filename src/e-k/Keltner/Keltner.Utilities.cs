@@ -8,7 +8,7 @@ public static partial class Keltner
     /// <summary>
     /// Removes empty (null) periods from the Keltner Channel results.
     /// </summary>
-    /// <param name="results">The list of Keltner Channel results to condense.</param>
+    /// <param name="results">List of Keltner Channel results to condense.</param>
     /// <returns>A condensed list of Keltner Channel results without null periods.</returns>
     public static IReadOnlyList<KeltnerResult> Condense(
         this IReadOnlyList<KeltnerResult> results)
@@ -26,7 +26,7 @@ public static partial class Keltner
     /// <summary>
     /// Removes the recommended warmup periods from the Keltner Channel results.
     /// </summary>
-    /// <param name="results">The list of Keltner Channel results to process.</param>
+    /// <param name="results">List of Keltner Channel results to process.</param>
     /// <returns>A list of Keltner Channel results with the warmup periods removed.</returns>
     public static IReadOnlyList<KeltnerResult> RemoveWarmupPeriods(
         this IReadOnlyList<KeltnerResult> results)

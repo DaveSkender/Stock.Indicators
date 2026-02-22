@@ -217,7 +217,7 @@ public static partial class RocWb
     /// <summary>
     /// Creates a RocWb streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window for ROC.</param>
     /// <param name="emaPeriods">Quantity of periods for EMA smoothing.</param>
     /// <param name="stdDevPeriods">Quantity of periods for standard deviation bands.</param>

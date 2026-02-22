@@ -8,7 +8,7 @@ public static partial class Stc
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of STC results.</param>
+    /// <param name="results">List of STC results.</param>
     /// <returns>A list of STC results with warmup periods removed.</returns>
     public static IReadOnlyList<StcResult> RemoveWarmupPeriods(
         this IReadOnlyList<StcResult> results)

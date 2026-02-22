@@ -8,7 +8,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Removes empty (null) periods from the Ichimoku Cloud results.
     /// </summary>
-    /// <param name="results">The list of Ichimoku Cloud results to condense.</param>
+    /// <param name="results">List of Ichimoku Cloud results to condense.</param>
     /// <returns>A condensed list of Ichimoku Cloud results without null periods.</returns>
     public static IReadOnlyList<IchimokuResult> Condense(
         this IReadOnlyList<IchimokuResult> results)

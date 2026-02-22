@@ -189,7 +189,7 @@ public static partial class Pvo
     /// <summary>
     /// Creates a PVO streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
     /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
@@ -206,7 +206,7 @@ public static partial class Pvo
     /// <summary>
     /// Creates a PVO streaming hub from a quote provider (extracts Volume).
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
     /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>

@@ -389,7 +389,7 @@ public static partial class Tsi
     /// <summary>
     /// Creates a TSI streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
     /// <param name="smoothPeriods">Number of periods for the smoothing calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal calculation.</param>

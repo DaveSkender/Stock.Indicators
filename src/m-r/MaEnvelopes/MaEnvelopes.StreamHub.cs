@@ -12,10 +12,10 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Creates a Moving Average Envelopes streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
-    /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
-    /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
+    /// <param name="percentOffset">Percentage offset for the envelopes. Default is 2.5.</param>
+    /// <param name="movingAverageType">Type of moving average to use. Default is SMA.</param>
     /// <returns>A Moving Average Envelopes hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid or the moving average type is not supported.</exception>

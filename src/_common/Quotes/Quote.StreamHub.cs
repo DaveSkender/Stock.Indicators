@@ -50,7 +50,7 @@ public class QuoteHub
     /// <summary>
     /// Initializes a new instance of the <see cref="QuoteHub"/> class with a specified provider.
     /// </summary>
-    /// <param name="provider">The quote provider.</param>
+    /// <param name="provider">Quote provider.</param>
     public QuoteHub(
         IQuoteProvider<IQuote> provider)
         : base(provider)
@@ -191,7 +191,7 @@ public static partial class Quotes
     /// <summary>
     /// Creates a QuoteHub that is subscribed to an IQuoteProvider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider to convert.</param>
+    /// <param name="quoteProvider">Quote provider to convert.</param>
     /// <returns>A new instance of QuoteHub.</returns>
     public static QuoteHub ToQuoteHub(
         this IQuoteProvider<IQuote> quoteProvider)

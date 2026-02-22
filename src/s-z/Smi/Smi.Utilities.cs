@@ -8,7 +8,7 @@ public static partial class Smi
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of SMI results.</param>
+    /// <param name="results">List of SMI results.</param>
     /// <returns>A list of SMI results with the warmup periods removed.</returns>
     public static IReadOnlyList<SmiResult> RemoveWarmupPeriods(
         this IReadOnlyList<SmiResult> results)

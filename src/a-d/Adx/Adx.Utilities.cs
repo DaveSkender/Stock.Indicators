@@ -8,7 +8,7 @@ public static partial class Adx
     /// <summary>
     /// Removes the recommended warmup periods from the ADX results.
     /// </summary>
-    /// <param name="results">The list of ADX results.</param>
+    /// <param name="results">List of ADX results.</param>
     /// <returns>A list of ADX results with the warmup periods removed.</returns>
     public static IReadOnlyList<AdxResult> RemoveWarmupPeriods(
         this IReadOnlyList<AdxResult> results)

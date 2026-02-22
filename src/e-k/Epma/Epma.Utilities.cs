@@ -26,12 +26,12 @@ public static partial class Epma
     /// <summary>
     /// Calculates EPMA increment for the current position using linear regression.
     /// </summary>
-    /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
-    /// <param name="source">The source data provider cache.</param>
+    /// <typeparam name="T">Type of the source items, must implement IReusable.</typeparam>
+    /// <param name="source">Source data provider cache.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="endIndex">The current cache index position to evaluate.</param>
-    /// <param name="cacheOffset">The offset to calculate global positions (totalCount - cacheSize).</param>
-    /// <returns>The EPMA value or double.NaN if incalculable.</returns>
+    /// <param name="endIndex">Current cache index position to evaluate.</param>
+    /// <param name="cacheOffset">Offset to calculate global positions (totalCount - cacheSize).</param>
+    /// <returns>EPMA value or double.NaN if incalculable.</returns>
     internal static double Increment<T>(
         IReadOnlyList<T> source,
         int lookbackPeriods,

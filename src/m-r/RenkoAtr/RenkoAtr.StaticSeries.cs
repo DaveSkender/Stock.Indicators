@@ -10,7 +10,7 @@ public static partial class RenkoAtr
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="atrPeriods">Number of periods for calculating ATR.</param>
-    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>
     public static IReadOnlyList<RenkoResult> ToRenkoAtr(
         this IReadOnlyList<IQuote> quotes,

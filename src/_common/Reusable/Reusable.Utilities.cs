@@ -60,7 +60,7 @@ public static class Reusable
     /// <summary>
     /// Converts a quote to a basic chainable class.
     /// </summary>
-    /// <param name="q">The quote to convert.</param>
+    /// <param name="q">Quote to convert.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A reusable type.</returns>
     internal static IReusable ToReusable(this IQuote q, CandlePart candlePart)

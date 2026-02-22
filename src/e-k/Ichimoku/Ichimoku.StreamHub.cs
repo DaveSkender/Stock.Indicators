@@ -280,7 +280,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a quote provider to an Ichimoku hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
@@ -295,7 +295,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a quote provider to an Ichimoku hub with specified parameters.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>

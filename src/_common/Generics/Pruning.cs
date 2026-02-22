@@ -8,8 +8,8 @@ public static class Pruning
     /// <summary>
     /// Removes a specified number of warmup periods from the beginning of the series.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the series.</typeparam>
-    /// <param name="series">The series from which to remove warmup periods.</param>
+    /// <typeparam name="T">Type of elements in the series.</typeparam>
+    /// <param name="series">Series from which to remove warmup periods.</param>
     /// <param name="removePeriods">Number of periods to remove.</param>
     /// <returns>A new series with the specified number of warmup periods removed.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when removePeriods is less than 0.</exception>
@@ -24,10 +24,10 @@ public static class Pruning
     /// <summary>
     /// Finds the index of the first element that matches the specified predicate.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the series.</typeparam>
-    /// <param name="series">The series to search.</param>
-    /// <param name="match">The predicate that defines the conditions of the element to search for.</param>
-    /// <returns>The zero-based index of the first occurrence of an element that matches the conditions defined by match, if found; otherwise, -1.</returns>
+    /// <typeparam name="T">Type of elements in the series.</typeparam>
+    /// <param name="series">Series to search.</param>
+    /// <param name="match">Predicate that defines the conditions of the element to search for.</param>
+    /// <returns>Zero-based index of the first occurrence of an element that matches the conditions defined by match, if found; otherwise, -1.</returns>
     internal static int FindIndex<T>(
         this IReadOnlyList<T> series,
         Func<T, bool> match)
@@ -46,8 +46,8 @@ public static class Pruning
     /// <summary>
     /// Removes a specified number of periods from the beginning of the series.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the series.</typeparam>
-    /// <param name="series">The series from which to remove periods.</param>
+    /// <typeparam name="T">Type of elements in the series.</typeparam>
+    /// <param name="series">Series from which to remove periods.</param>
     /// <param name="removePeriods">Number of periods to remove.</param>
     /// <returns>A new list with the specified number of periods removed.</returns>
     internal static List<T> Remove<T>(

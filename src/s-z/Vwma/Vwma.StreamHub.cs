@@ -70,7 +70,7 @@ public static partial class Vwma
     /// <summary>
     /// Converts the quote provider to a VWMA hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A VWMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

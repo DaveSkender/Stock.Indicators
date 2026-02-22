@@ -20,8 +20,8 @@ public class ListingExecutionBuilder
     /// <summary>
     /// Sets or overrides a parameter value for the indicator.
     /// </summary>
-    /// <param name="parameterName">The name of the parameter to override.</param>
-    /// <param name="value">The value to set for the parameter.</param>
+    /// <param name="parameterName">Name of the parameter to override.</param>
+    /// <param name="value">Value to set for the parameter.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the parameter override applied.</returns>
     /// <exception cref="ArgumentException">Thrown when an argument is invalid</exception>
     public ListingExecutionBuilder WithParamValue(string parameterName, object value)
@@ -88,9 +88,9 @@ public class ListingExecutionBuilder
     /// This is equivalent to calling WithParamValue for a series parameter,
     /// but provides a more intuitive fluent API for chaining indicators.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the series, which must implement IReusable.</typeparam>
-    /// <param name="series">The series data to process.</param>
-    /// <param name="parameterName">The name of the series parameter. If null, attempts to find the first series parameter.</param>
+    /// <typeparam name="T">Type of elements in the series, which must implement IReusable.</typeparam>
+    /// <param name="series">Series data to process.</param>
+    /// <param name="parameterName">Name of the series parameter. If null, attempts to find the first series parameter.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the series parameter set.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="series"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder FromSource<T>(IReadOnlyList<T> series, string? parameterName = null)
@@ -110,8 +110,8 @@ public class ListingExecutionBuilder
     /// <summary>
     /// Executes the configured indicator and returns the results.
     /// </summary>
-    /// <typeparam name="TResult">The expected result type.</typeparam>
-    /// <returns>The indicator results.</returns>
+    /// <typeparam name="TResult">Expected result type.</typeparam>
+    /// <returns>Indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when quotes have not been set via From().</exception>
     public IReadOnlyList<TResult> Execute<TResult>()
         where TResult : class => _quotes == null
@@ -121,8 +121,8 @@ public class ListingExecutionBuilder
     /// <summary>
     /// Validates that a parameter value is compatible with the expected parameter type.
     /// </summary>
-    /// <param name="parameterName">The name of the parameter.</param>
-    /// <param name="value">The value to validate.</param>
+    /// <param name="parameterName">Name of the parameter.</param>
+    /// <param name="value">Value to validate.</param>
     /// <exception cref="ArgumentException">Thrown when the parameter type is incompatible.</exception>
     private void ValidateParameterType(string parameterName, object value)
     {
@@ -177,7 +177,7 @@ public class ListingExecutionBuilder
     /// <summary>
     /// Finds the first series parameter in the indicator's parameter list.
     /// </summary>
-    /// <returns>The name of the first series parameter.</returns>
+    /// <returns>Name of the first series parameter.</returns>
     /// <exception cref="InvalidOperationException">Thrown when no series parameter is found.</exception>
     private string FindFirstSeriesParameter()
     {

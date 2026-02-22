@@ -8,7 +8,7 @@ public static partial class Smma
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of SMMA results.</param>
+    /// <param name="results">List of SMMA results.</param>
     /// <returns>A list of SMMA results with the warmup periods removed.</returns>
     public static IReadOnlyList<SmmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<SmmaResult> results)

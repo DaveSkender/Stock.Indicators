@@ -69,8 +69,8 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaList"/> class.
     /// </summary>
-    /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
-    /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
+    /// <param name="fastLimit">Fast limit for the MAMA calculation.</param>
+    /// <param name="slowLimit">Slow limit for the MAMA calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowLimit"/> is invalid.</exception>
     public MamaList(
         double fastLimit = 0.5,
@@ -87,8 +87,8 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
-    /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
+    /// <param name="fastLimit">Fast limit for the MAMA calculation.</param>
+    /// <param name="slowLimit">Slow limit for the MAMA calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public MamaList(
         double fastLimit,

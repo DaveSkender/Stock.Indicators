@@ -147,8 +147,8 @@ public static partial class Vwap
     /// <summary>
     /// Creates a VWAP streaming hub from a quotes provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first quote.</param>
     /// <returns>A VWAP streaming hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     public static VwapHub ToVwapHub(

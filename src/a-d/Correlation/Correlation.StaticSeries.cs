@@ -8,8 +8,8 @@ public static partial class Correlation
     /// <summary>
     /// Calculates the correlation coefficient for two series of quotes.
     /// </summary>
-    /// <param name="sourceA">The first source list of quotes.</param>
-    /// <param name="sourceB">The second source list of quotes.</param>
+    /// <param name="sourceA">First source list of quotes.</param>
+    /// <param name="sourceB">Second source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CorrResult"/> containing the correlation calculation results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either sourceA or sourceB is null.</exception>
@@ -75,9 +75,9 @@ public static partial class Correlation
     /// <summary>
     /// Calculates the correlation for a given period.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the result.</param>
-    /// <param name="dataA">The data series A.</param>
-    /// <param name="dataB">The data series B.</param>
+    /// <param name="timestamp">Timestamp of the result.</param>
+    /// <param name="dataA">Data series A.</param>
+    /// <param name="dataB">Data series B.</param>
     /// <returns>A <see cref="CorrResult"/> containing the correlation calculation result for the given period.</returns>
     internal static CorrResult PeriodCorrelation(
         DateTime timestamp,

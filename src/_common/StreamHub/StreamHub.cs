@@ -49,8 +49,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Validates that the inherited MaxCacheSize is sufficient for the indicator's warmup requirements.
     /// </summary>
-    /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
-    /// <param name="indicatorName">The name of the indicator (for error messaging).</param>
+    /// <param name="requiredWarmupPeriods">Minimum number of periods required for indicator warmup.</param>
+    /// <param name="indicatorName">Name of the indicator (for error messaging).</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when MaxCacheSize is less than required warmup periods.</exception>
     protected void ValidateCacheSize(int requiredWarmupPeriods, string indicatorName)
     {
@@ -74,7 +74,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// This should be called in derived class constructors to specify the minimum
     /// number of periods required for the indicator to function correctly.
     /// </summary>
-    /// <param name="requiredWarmupPeriods">The minimum number of periods required for indicator warmup.</param>
+    /// <param name="requiredWarmupPeriods">Minimum number of periods required for indicator warmup.</param>
     protected void SetMinCacheSize(int requiredWarmupPeriods)
     {
         // Validate parameter is within acceptable range
@@ -135,13 +135,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Adds a new item to the stream.
     /// </summary>
-    /// <param name="newIn">The new item to add.</param>
+    /// <param name="newIn">New item to add.</param>
     public void Add(TIn newIn) => OnAdd(newIn, notify: true, null);
 
     /// <summary>
     /// Adds a batch of new items to the stream.
     /// </summary>
-    /// <param name="batchIn">The batch of new items to add.</param>
+    /// <param name="batchIn">Batch of new items to add.</param>
     public void Add(IEnumerable<TIn> batchIn)
     {
         foreach (TIn newIn in batchIn.OrderBy(static x => x.Timestamp))

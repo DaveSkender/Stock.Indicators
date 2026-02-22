@@ -170,9 +170,9 @@ public static partial class Keltner
     /// <summary>
     /// Creates a Keltner Channels streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="KeltnerHub"/>.</returns>
     public static KeltnerHub ToKeltnerHub(

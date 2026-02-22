@@ -40,7 +40,7 @@ public static partial class Fcb
     /// <summary>
     /// Validates the window span for FCB calculations.
     /// </summary>
-    /// <param name="windowSpan">The window span for the calculation.</param>
+    /// <param name="windowSpan">Window span for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the window span is less than 2.
     /// </exception>

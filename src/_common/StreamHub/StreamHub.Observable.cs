@@ -187,7 +187,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <summary>
     /// Sends error (exception) to all subscribers.
     /// </summary>
-    /// <param name="exception">The exception to send.</param>
+    /// <param name="exception">Exception to send.</param>
     private void NotifyObserversOnError(Exception exception)
     {
         if (ObserverCount == 0)

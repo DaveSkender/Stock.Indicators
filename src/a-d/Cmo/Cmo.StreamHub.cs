@@ -114,7 +114,7 @@ public static partial class Cmo
     /// <summary>
     /// Creates a CMO streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CMO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

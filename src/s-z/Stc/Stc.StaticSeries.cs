@@ -8,7 +8,7 @@ public static partial class Stc
     /// <summary>
     /// Converts a series of values to Schaff Trend Cycle (STC) series.
     /// </summary>
-    /// <param name="source">The source series of values.</param>
+    /// <param name="source">Source series of values.</param>
     /// <param name="cyclePeriods">Number of periods for the cycle.</param>
     /// <param name="fastPeriods">Number of fast periods for the MACD calculation.</param>
     /// <param name="slowPeriods">Number of slow periods for the MACD calculation.</param>

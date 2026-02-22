@@ -17,8 +17,8 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// Initializes a new instance of the <see cref="MaEnvelopesList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
-    /// <param name="percentOffset">The percentage offset for the envelopes.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="percentOffset">Percentage offset for the envelopes.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="movingAverageType"/> is invalid.</exception>
     public MaEnvelopesList(
         int lookbackPeriods,
@@ -60,8 +60,8 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// Initializes a new instance of the <see cref="MaEnvelopesList"/> class with initial values.
     /// </summary>
     /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
-    /// <param name="percentOffset">The percentage offset for the envelopes.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="percentOffset">Percentage offset for the envelopes.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public MaEnvelopesList(
         int lookbackPeriods,
@@ -193,10 +193,10 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Creates a buffer list for Moving Average Envelopes calculations.
     /// </summary>
-    /// <param name="source">The source list of reusable values.</param>
+    /// <param name="source">Source list of reusable values.</param>
     /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
-    /// <param name="percentOffset">The percentage offset for the envelopes.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="percentOffset">Percentage offset for the envelopes.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <returns>A new <see cref="MaEnvelopesList"/> instance.</returns>
     public static MaEnvelopesList ToMaEnvelopesList(
         this IReadOnlyList<IReusable> source,

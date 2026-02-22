@@ -207,7 +207,7 @@ public static partial class ConnorsRsi
     /// <summary>
     /// Creates a buffer list for Connors RSI calculations.
     /// </summary>
-    /// <param name="source">The source list of reusable values.</param>
+    /// <param name="source">Source list of reusable values.</param>
     /// <param name="rsiPeriods">Number of periods for the RSI calculation on close prices.</param>
     /// <param name="streakPeriods">Number of periods for the RSI calculation on streak.</param>
     /// <param name="rankPeriods">Number of periods for the percent rank calculation.</param>

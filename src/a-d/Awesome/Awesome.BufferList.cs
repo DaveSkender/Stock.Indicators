@@ -42,8 +42,8 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     /// <summary>
     /// Adds a new value to the Awesome list.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the value.</param>
-    /// <param name="value">The value to add.</param>
+    /// <param name="timestamp">Timestamp of the value.</param>
+    /// <param name="value">Value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
         // Add to buffer

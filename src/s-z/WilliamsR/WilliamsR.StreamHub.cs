@@ -143,7 +143,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Converts the quote provider to a Williams %R hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Williams %R hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

@@ -156,13 +156,13 @@ public static partial class Alligator
     /// <summary>
     /// Converts a chain provider to an Alligator hub.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="jawPeriods">Number of periods for the jaw.</param>
-    /// <param name="jawOffset">The offset for the jaw.</param>
+    /// <param name="jawOffset">Offset for the jaw.</param>
     /// <param name="teethPeriods">Number of periods for the teeth.</param>
-    /// <param name="teethOffset">The offset for the teeth.</param>
+    /// <param name="teethOffset">Offset for the teeth.</param>
     /// <param name="lipsPeriods">Number of periods for the lips.</param>
-    /// <param name="lipsOffset">The offset for the lips.</param>
+    /// <param name="lipsOffset">Offset for the lips.</param>
     /// <returns>An Alligator hub.</returns>
     public static AlligatorHub ToAlligatorHub(
         this IChainProvider<IReusable> chainProvider,

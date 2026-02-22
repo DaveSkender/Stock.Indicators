@@ -87,7 +87,7 @@ public static partial class Cci
     /// <summary>
     /// Creates a CCI hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CCI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

@@ -10,7 +10,7 @@ public static partial class Fractal
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowSpan">Number of periods to look back and forward for the calculation. Default is 2.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is HighLow.</param>
+    /// <param name="endType">Type of price to use for the calculation. Default is HighLow.</param>
     /// <returns>A list of Fractal results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
@@ -27,7 +27,7 @@ public static partial class Fractal
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is HighLow.</param>
+    /// <param name="endType">Type of price to use for the calculation. Default is HighLow.</param>
     /// <returns>A list of Fractal results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the left or right span is invalid.</exception>

@@ -142,10 +142,10 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Tenkan-sen (conversion line) for the Ichimoku Cloud indicator.
     /// </summary>
-    /// <param name="i">The current index in the quotes list.</param>
+    /// <param name="i">Current index in the quotes list.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
-    /// <returns>The Tenkan-sen value.</returns>
+    /// <returns>Tenkan-sen value.</returns>
     private static decimal? CalcIchimokuTenkanSen(
         int i, IReadOnlyList<IQuote> quotes, int tenkanPeriods)
     {
@@ -179,10 +179,10 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Kijun-sen (base line) for the Ichimoku Cloud indicator.
     /// </summary>
-    /// <param name="i">The current index in the quotes list.</param>
+    /// <param name="i">Current index in the quotes list.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
-    /// <returns>The Kijun-sen value.</returns>
+    /// <returns>Kijun-sen value.</returns>
     private static decimal? CalcIchimokuKijunSen(
         int i,
         IReadOnlyList<IQuote> quotes,
@@ -217,11 +217,11 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Senkou Span B (leading span B) for the Ichimoku Cloud indicator.
     /// </summary>
-    /// <param name="i">The current index in the quotes list.</param>
+    /// <param name="i">Current index in the quotes list.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
-    /// <returns>The Senkou Span B value.</returns>
+    /// <returns>Senkou Span B value.</returns>
     private static decimal? CalcIchimokuSenkouB(
         int i,
         IReadOnlyList<IQuote> quotes,

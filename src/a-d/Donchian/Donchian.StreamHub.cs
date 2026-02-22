@@ -8,7 +8,7 @@ public static partial class Donchian
     /// <summary>
     /// Creates a Donchian Channels streaming hub from a quotes provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="DonchianHub"/>.</returns>
     public static DonchianHub ToDonchianHub(

@@ -181,7 +181,7 @@ public static partial class Vortex
     /// <summary>
     /// Converts the quote provider to a Vortex Indicator hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Vortex Indicator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

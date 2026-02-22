@@ -27,8 +27,8 @@ public static partial class Pivots
     /// </summary>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
-    /// <param name="caller">The name of the calling method.</param>
+    /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
+    /// <param name="caller">Name of the calling method.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any parameter is out of range.</exception>
     internal static void Validate(
         int leftSpan,

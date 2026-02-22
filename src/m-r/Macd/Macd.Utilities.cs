@@ -8,7 +8,7 @@ public static partial class Macd
     /// <summary>
     /// Removes the recommended warmup periods from the MACD results.
     /// </summary>
-    /// <param name="results">The list of MACD results.</param>
+    /// <param name="results">List of MACD results.</param>
     /// <returns>A list of MACD results with the warmup periods removed.</returns>
     public static IReadOnlyList<MacdResult> RemoveWarmupPeriods(
         this IReadOnlyList<MacdResult> results)

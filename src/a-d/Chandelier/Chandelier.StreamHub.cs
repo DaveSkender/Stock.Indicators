@@ -161,10 +161,10 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a Chandelier Exit streaming hub from a quotes provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     public static ChandelierHub ToChandelierHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -176,11 +176,11 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a new Chandelier Exit hub, using ATR values from an existing ATR hub.
     /// </summary>
-    /// <param name="atrHub">The existing ATR hub.</param>
-    /// <param name="quoteProvider">The quote provider (must be the same provider used by the ATR hub).</param>
+    /// <param name="atrHub">Existing ATR hub.</param>
+    /// <param name="quoteProvider">Quote provider (must be the same provider used by the ATR hub).</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     /// <remarks>
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>

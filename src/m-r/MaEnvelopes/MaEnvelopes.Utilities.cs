@@ -8,7 +8,7 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Removes empty (null) periods from the Moving Average Envelope results.
     /// </summary>
-    /// <param name="results">The list of Moving Average Envelope results.</param>
+    /// <param name="results">List of Moving Average Envelope results.</param>
     /// <returns>A list of Moving Average Envelope results with empty periods removed.</returns>
     public static IReadOnlyList<MaEnvelopeResult> Condense(
         this IReadOnlyList<MaEnvelopeResult> results)
@@ -26,7 +26,7 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Validates the parameters for the Moving Average Envelopes calculation.
     /// </summary>
-    /// <param name="percentOffset">The percentage offset for the envelopes.</param>
+    /// <param name="percentOffset">Percentage offset for the envelopes.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the percent offset is less than or equal to 0.</exception>
     internal static void Validate(
         double percentOffset)

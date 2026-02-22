@@ -8,7 +8,7 @@ public static partial class Kama
     /// <summary>
     /// Converts a list of source values to KAMA (Kaufman's Adaptive Moving Average) results.
     /// </summary>
-    /// <param name="source">The list of source values to transform.</param>
+    /// <param name="source">List of source values to transform.</param>
     /// <param name="erPeriods">Number of periods for the Efficiency Ratio (ER).</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>

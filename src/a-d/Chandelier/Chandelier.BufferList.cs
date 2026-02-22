@@ -12,8 +12,8 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     /// Initializes a new instance of the <see cref="ChandelierList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="type"/> is invalid.</exception>
     public ChandelierList(int lookbackPeriods = 22, double multiplier = 3, Direction type = Direction.Long)
     {
@@ -32,8 +32,8 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     /// Initializes a new instance of the <see cref="ChandelierList"/> class with initial quotes.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ChandelierList(int lookbackPeriods, double multiplier, Direction type, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier, type) => Add(quotes);

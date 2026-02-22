@@ -18,9 +18,9 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="lookbackPeriods">Number of periods to look back for the oscillator calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <param name="smoothPeriods">Number of periods for smoothing the oscillator.</param>
-    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
-    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="kFactor">K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="movingAverageType"/> is invalid.</exception>
     public StochList(
         int lookbackPeriods = 14,
@@ -52,9 +52,9 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="lookbackPeriods">Number of periods to look back for the oscillator calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <param name="smoothPeriods">Number of periods for smoothing the oscillator.</param>
-    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
-    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="kFactor">K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public StochList(
         int lookbackPeriods,
@@ -105,10 +105,10 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <summary>
     /// Adds a new quote data point for Stochastic calculation.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the data point.</param>
-    /// <param name="high">The high price.</param>
-    /// <param name="low">The low price.</param>
-    /// <param name="close">The close price.</param>
+    /// <param name="timestamp">Timestamp of the data point.</param>
+    /// <param name="high">High price.</param>
+    /// <param name="low">Low price.</param>
+    /// <param name="close">Close price.</param>
     /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     public void Add(DateTime timestamp, double high, double low, double close)
     {

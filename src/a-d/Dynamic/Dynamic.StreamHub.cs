@@ -67,9 +67,9 @@ public static partial class MgDynamic
     /// <summary>
     /// Creates a Dynamic streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor">The smoothing factor for the calculation.</param>
+    /// <param name="kFactor">Smoothing factor for the calculation.</param>
     /// <returns>A Dynamic hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>

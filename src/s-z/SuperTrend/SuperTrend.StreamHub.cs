@@ -254,7 +254,7 @@ public static partial class SuperTrend
     /// <summary>
     /// Creates a SuperTrend hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="multiplier">ATR multiplier used for band calculation.</param>
     /// <returns>An instance of <see cref="SuperTrendHub"/>.</returns>

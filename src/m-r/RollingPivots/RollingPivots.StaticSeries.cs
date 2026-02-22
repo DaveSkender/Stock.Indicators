@@ -11,7 +11,7 @@ public static partial class RollingPivots
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowPeriods">Number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">Number of periods to offset the window.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>A list of Rolling Pivot Points results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes are null.</exception>
     public static IReadOnlyList<RollingPivotsResult> ToRollingPivots(

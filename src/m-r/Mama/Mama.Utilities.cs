@@ -15,8 +15,8 @@ public static partial class Mama
     /// <summary>
     /// Validates the parameters for the MAMA calculation.
     /// </summary>
-    /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
-    /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
+    /// <param name="fastLimit">Fast limit for the MAMA calculation.</param>
+    /// <param name="slowLimit">Slow limit for the MAMA calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the fast limit is less than or equal to the slow limit, or greater than or equal to 1,
     /// or when the slow limit is less than or equal to 0.

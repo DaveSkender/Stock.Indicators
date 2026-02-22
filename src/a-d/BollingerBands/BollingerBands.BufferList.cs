@@ -41,8 +41,8 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <summary>
     /// Adds a new value to the Bollinger Bands list.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the value.</param>
-    /// <param name="value">The value to add.</param>
+    /// <param name="timestamp">Timestamp of the value.</param>
+    /// <param name="value">Value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
         // Use universal buffer extension method for consistent buffer management
@@ -89,7 +89,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <summary>
     /// Adds a new reusable value to the Bollinger Bands list.
     /// </summary>
-    /// <param name="value">The reusable value to add.</param>
+    /// <param name="value">Reusable value to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the value is null.</exception>
     public void Add(IReusable value)
     {
@@ -100,7 +100,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <summary>
     /// Adds a list of reusable values to the Bollinger Bands list.
     /// </summary>
-    /// <param name="values">The list of reusable values to add.</param>
+    /// <param name="values">List of reusable values to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the values list is null.</exception>
     public void Add(IReadOnlyList<IReusable> values)
     {

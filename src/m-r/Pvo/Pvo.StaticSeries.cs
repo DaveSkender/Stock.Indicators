@@ -26,7 +26,7 @@ public static partial class Pvo
     /// <summary>
     /// Calculates the PVO values.
     /// </summary>
-    /// <param name="source">The list of volume values.</param>
+    /// <param name="source">List of volume values.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>

@@ -9,8 +9,8 @@ public static partial class ZigZag
     /// Converts a list of quotes to a ZigZag series.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="endType">The type of end to use (Close or HighLow).</param>
-    /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
+    /// <param name="endType">Type of end to use (Close or HighLow).</param>
+    /// <param name="percentChange">Percentage change threshold for ZigZag points.</param>
     /// <returns>A list of ZigZag results.</returns>
     public static IReadOnlyList<ZigZagResult> ToZigZag(
         this IReadOnlyList<IQuote> quotes,
@@ -115,11 +115,11 @@ public static partial class ZigZag
     /// <summary>
     /// Evaluates the next ZigZag point.
     /// </summary>
-    /// <param name="quotesList">The list of quotes.</param>
-    /// <param name="endType">The type of end to use (Close or HighLow).</param>
-    /// <param name="changeThreshold">The percentage change threshold for ZigZag points.</param>
-    /// <param name="lastPoint">The last ZigZag point.</param>
-    /// <returns>The next ZigZag point.</returns>
+    /// <param name="quotesList">List of quotes.</param>
+    /// <param name="endType">Type of end to use (Close or HighLow).</param>
+    /// <param name="changeThreshold">Percentage change threshold for ZigZag points.</param>
+    /// <param name="lastPoint">Last ZigZag point.</param>
+    /// <returns>Next ZigZag point.</returns>
     internal static ZigZagPoint EvaluateNextPoint(
         IReadOnlyList<IQuote> quotesList,
         EndType endType,
@@ -197,10 +197,10 @@ public static partial class ZigZag
     /// <summary>
     /// Draws a ZigZag line between two points.
     /// </summary>
-    /// <param name="results">The list of ZigZag results.</param>
+    /// <param name="results">List of ZigZag results.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lastPoint">The last ZigZag point.</param>
-    /// <param name="nextPoint">The next ZigZag point.</param>
+    /// <param name="lastPoint">Last ZigZag point.</param>
+    /// <param name="nextPoint">Next ZigZag point.</param>
     private static void DrawZigZagLine(
         List<ZigZagResult> results, IReadOnlyList<IQuote> quotes,
         ZigZagPoint lastPoint, ZigZagPoint nextPoint)
@@ -239,11 +239,11 @@ public static partial class ZigZag
     /// <summary>
     /// Draws a retrace line between two points.
     /// </summary>
-    /// <param name="results">The list of ZigZag results.</param>
-    /// <param name="lastDirection">The direction of the last ZigZag point.</param>
-    /// <param name="lastLowPoint">The last low ZigZag point.</param>
-    /// <param name="lastHighPoint">The last high ZigZag point.</param>
-    /// <param name="nextPoint">The next ZigZag point.</param>
+    /// <param name="results">List of ZigZag results.</param>
+    /// <param name="lastDirection">Direction of the last ZigZag point.</param>
+    /// <param name="lastLowPoint">Last low ZigZag point.</param>
+    /// <param name="lastHighPoint">Last high ZigZag point.</param>
+    /// <param name="nextPoint">Next ZigZag point.</param>
     private static void DrawRetraceLine(
         List<ZigZagResult> results,
         string lastDirection,
@@ -330,10 +330,10 @@ public static partial class ZigZag
     /// <summary>
     /// Gets the ZigZag evaluation for a quote.
     /// </summary>
-    /// <param name="endType">The type of end to use (Close or HighLow).</param>
-    /// <param name="index">The index of the quote.</param>
-    /// <param name="q">The quote.</param>
-    /// <returns>The ZigZag evaluation.</returns>
+    /// <param name="endType">Type of end to use (Close or HighLow).</param>
+    /// <param name="index">Index of the quote.</param>
+    /// <param name="q">Quote.</param>
+    /// <returns>ZigZag evaluation.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static ZigZagEval GetZigZagEval(
         EndType endType,

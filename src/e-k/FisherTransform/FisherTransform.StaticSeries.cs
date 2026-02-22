@@ -8,7 +8,7 @@ public static partial class FisherTransform
     /// <summary>
     /// Converts a list of source data to Fisher Transform results.
     /// </summary>
-    /// <param name="source">The list of source data.</param>
+    /// <param name="source">List of source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Fisher Transform results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>

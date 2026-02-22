@@ -17,8 +17,8 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
     /// <summary>
     /// Initializes a new instance of the <see cref="RenkoList"/> class.
     /// </summary>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <param name="brickSize">Size of each Renko brick.</param>
+    /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public RenkoList(
         decimal brickSize,
@@ -44,8 +44,8 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
     /// <summary>
     /// Initializes a new instance of the <see cref="RenkoList"/> class with initial quotes.
     /// </summary>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <param name="brickSize">Size of each Renko brick.</param>
+    /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public RenkoList(
         decimal brickSize,
@@ -163,8 +163,8 @@ public static partial class Renko
     /// Creates a buffer list for Renko Chart calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <param name="brickSize">Size of each Renko brick.</param>
+    /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A buffer list for Renko Chart calculations.</returns>
     public static RenkoList ToRenkoList(
         this IReadOnlyList<IQuote> quotes,

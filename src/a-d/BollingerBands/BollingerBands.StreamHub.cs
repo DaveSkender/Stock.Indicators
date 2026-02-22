@@ -51,7 +51,7 @@ public static partial class BollingerBands
     /// <summary>
     /// Converts the chain provider to a Bollinger Bands hub.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="standardDeviations">Number of standard deviations.</param>
     /// <returns>A Bollinger Bands hub.</returns>

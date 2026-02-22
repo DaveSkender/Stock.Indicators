@@ -21,7 +21,7 @@ public static partial class Cmf
     /// <summary>
     /// Calculates the Chaikin Money Flow (CMF) for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="source">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="CmfResult"/> containing the CMF calculation results.</returns>
     private static List<CmfResult> CalcCmf(

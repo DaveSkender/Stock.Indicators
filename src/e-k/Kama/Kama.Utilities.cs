@@ -8,7 +8,7 @@ public static partial class Kama
     /// <summary>
     /// Removes the recommended warmup periods from the KAMA results.
     /// </summary>
-    /// <param name="results">The list of KAMA results to process.</param>
+    /// <param name="results">List of KAMA results to process.</param>
     /// <returns>A list of KAMA results with the warmup periods removed.</returns>
     public static IReadOnlyList<KamaResult> RemoveWarmupPeriods(
         this IReadOnlyList<KamaResult> results)

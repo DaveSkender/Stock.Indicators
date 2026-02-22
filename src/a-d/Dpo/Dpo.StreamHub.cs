@@ -101,7 +101,7 @@ public class DpoHub
     /// <summary>
     /// Calculates DPO result for a specific index position.
     /// </summary>
-    /// <param name="dpoIndex">The DPO value to calculate (index position).</param>
+    /// <param name="dpoIndex">DPO value to calculate (index position).</param>
     private DpoResult CalculateDpoAtIndex(int dpoIndex)
     {
         IReusable dpoTargetItem = ProviderCache[dpoIndex];
@@ -214,7 +214,7 @@ public static partial class Dpo
     /// <summary>
     /// Converts the chain provider to a DPO hub.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A DPO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

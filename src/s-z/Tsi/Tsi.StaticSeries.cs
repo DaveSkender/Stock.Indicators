@@ -8,7 +8,7 @@ public static partial class Tsi
     /// <summary>
     /// Calculates the True Strength Index (TSI) for a given source of data.
     /// </summary>
-    /// <param name="source">The source list of data.</param>
+    /// <param name="source">Source list of data.</param>
     /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
     /// <param name="smoothPeriods">Number of periods for the smoothing calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal calculation.</param>

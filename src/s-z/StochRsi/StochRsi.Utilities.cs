@@ -8,7 +8,7 @@ public static partial class StochRsi
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of Stochastic RSI results.</param>
+    /// <param name="results">List of Stochastic RSI results.</param>
     /// <returns>A list of Stochastic RSI results with warmup periods removed.</returns>
     public static IReadOnlyList<StochRsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<StochRsiResult> results)

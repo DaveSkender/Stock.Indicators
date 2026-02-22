@@ -25,7 +25,7 @@ internal class RandomGbm : List<Quote>
     /// <param name="volatility">How dynamic/volatile the series should be; default is 1.</param>
     /// <param name="drift">Incremental drift due to annual interest rate; default is 5%.</param>
     /// <param name="seed">Starting value of the random series; should not be 0.</param>
-    /// <param name="periodSize">The period size for the quotes.</param>
+    /// <param name="periodSize">Period size for the quotes.</param>
     /// <param name="includeWeekends">Whether to include weekends in the generated data.</param>
     /// <exception cref="ArgumentException">Thrown when an invalid argument is provided.</exception>
     public RandomGbm(
@@ -81,7 +81,7 @@ internal class RandomGbm : List<Quote>
     /// <summary>
     /// Adds a new quote to the list.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the quote.</param>
+    /// <param name="timestamp">Timestamp of the quote.</param>
     public void Add(DateTime timestamp)
     {
         double open = Price(_seed, _volatility * _volatility, _drift);
@@ -112,9 +112,9 @@ internal class RandomGbm : List<Quote>
     /// <summary>
     /// Generates a random price based on the seed, volatility, and drift.
     /// </summary>
-    /// <param name="seed">The seed value.</param>
-    /// <param name="volatility">The volatility value.</param>
-    /// <param name="drift">The drift value.</param>
+    /// <param name="seed">Seed value.</param>
+    /// <param name="volatility">Volatility value.</param>
+    /// <param name="drift">Drift value.</param>
     /// <returns>A random price.</returns>
     private static double Price(double seed, double volatility, double drift)
     {

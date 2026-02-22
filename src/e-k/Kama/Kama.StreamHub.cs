@@ -111,7 +111,7 @@ public static partial class Kama
     /// <summary>
     /// Creates a KAMA streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="erPeriods">Number of periods for the Efficiency Ratio (ER).</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>

@@ -9,7 +9,7 @@ public static partial class Hma
     /// Returns the minimum number of source items required to produce a valid HMA result.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="sqrtPeriods">The square root of the lookback periods (pre-computed).</param>
+    /// <param name="sqrtPeriods">Square root of the lookback periods (pre-computed).</param>
     /// <returns>Minimum warmup period count (lookbackPeriods + sqrtPeriods - 1).</returns>
     public static int WarmupPeriod(int lookbackPeriods, int sqrtPeriods)
         => lookbackPeriods + sqrtPeriods - 1;

@@ -19,7 +19,7 @@ public static partial class Obv
     /// <summary>
     /// Calculates the OBV for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <returns>A list of OBV results.</returns>
     private static List<ObvResult> CalcObv(
         this List<QuoteD> quotes)

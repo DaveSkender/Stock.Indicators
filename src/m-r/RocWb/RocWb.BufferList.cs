@@ -122,7 +122,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     /// <summary>
     /// Adds a new reusable value to the RocWb list.
     /// </summary>
-    /// <param name="value">The reusable value to add.</param>
+    /// <param name="value">Reusable value to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the value is null.</exception>
     public void Add(IReusable value)
     {
@@ -133,7 +133,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     /// <summary>
     /// Adds a list of reusable values to the RocWb list.
     /// </summary>
-    /// <param name="values">The list of reusable values to add.</param>
+    /// <param name="values">List of reusable values to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the values list is null.</exception>
     public void Add(IReadOnlyList<IReusable> values)
     {

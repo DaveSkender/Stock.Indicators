@@ -101,10 +101,10 @@ public static partial class Alma
     /// Creates an ALMA streaming hub with a chain provider source.
     /// </summary>
     /// <remarks>If providers contain historical data, this hub will fast-forward its cache.</remarks>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
-    /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
+    /// <param name="offset">Offset for the ALMA calculation. Default is 0.85.</param>
+    /// <param name="sigma">Sigma for the ALMA calculation. Default is 6.</param>
     /// <returns>A chain-sourced instance of <see cref="AlmaHub"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="chainProvider"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

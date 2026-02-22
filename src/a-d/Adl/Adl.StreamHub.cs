@@ -47,7 +47,7 @@ public static partial class Adl
     /// <summary>
     /// Creates an AdlHub that is subscribed to an IQuoteProvider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     public static AdlHub ToAdlHub(
         this IQuoteProvider<IQuote> quoteProvider)
         => new(quoteProvider);

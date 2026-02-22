@@ -3,14 +3,14 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of the Beta calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the result.</param>
-/// <param name="Beta">The Beta value.</param>
-/// <param name="BetaUp">The Beta+ upside value.</param>
-/// <param name="BetaDown">The Beta- downside value.</param>
-/// <param name="Ratio">The ratio of BetaUp to BetaDown.</param>
-/// <param name="Convexity">The convexity of the Beta.</param>
-/// <param name="ReturnsEval">The returns of the evaluated asset.</param>
-/// <param name="ReturnsMrkt">The returns of the market.</param>
+/// <param name="Timestamp">Timestamp of the result.</param>
+/// <param name="Beta">Beta value.</param>
+/// <param name="BetaUp">Beta+ upside value.</param>
+/// <param name="BetaDown">Beta- downside value.</param>
+/// <param name="Ratio">Ratio of BetaUp to BetaDown.</param>
+/// <param name="Convexity">Convexity of the Beta.</param>
+/// <param name="ReturnsEval">Returns of the evaluated asset.</param>
+/// <param name="ReturnsMrkt">Returns of the market.</param>
 [Serializable]
 public record BetaResult(
     DateTime Timestamp,

@@ -85,7 +85,7 @@ public static partial class Atr
     /// <summary>
     /// Converts the provided quote provider to an ATR hub with the specified lookback periods.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider to convert.</param>
+    /// <param name="quoteProvider">Quote provider to convert.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="AtrHub"/>.</returns>
     public static AtrHub ToAtrHub(

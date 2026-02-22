@@ -321,9 +321,9 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a Parabolic SAR streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation. Default is 0.02.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     /// <returns>A Parabolic SAR hub.</returns>
     public static ParabolicSarHub ToParabolicSarHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -334,10 +334,10 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a Parabolic SAR streaming hub from a quote provider with custom initial factor.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
+    /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <returns>A Parabolic SAR hub.</returns>
     public static ParabolicSarHub ToParabolicSarHub(
         this IQuoteProvider<IQuote> quoteProvider,

@@ -6,11 +6,11 @@ public static partial class Atr
     /// Calculates the Average True Range (ATR) incrementally.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="high">The high price of the current period.</param>
-    /// <param name="low">The low price of the current period.</param>
-    /// <param name="prevClose">The close price of the previous period.</param>
-    /// <param name="prevAtr">The ATR value of the previous period.</param>
-    /// <returns>The ATR value for the current period.</returns>
+    /// <param name="high">High price of the current period.</param>
+    /// <param name="low">Low price of the current period.</param>
+    /// <param name="prevClose">Close price of the previous period.</param>
+    /// <param name="prevAtr">ATR value of the previous period.</param>
+    /// <returns>ATR value for the current period.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Increment(
         int lookbackPeriods,
@@ -27,9 +27,9 @@ public static partial class Atr
     /// Calculates the Average True Range (ATR) incrementally for a given quote.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quote">The current quote.</param>
-    /// <param name="prevClose">The close price of the previous period.</param>
-    /// <param name="prevAtr">The ATR value of the previous period.</param>
+    /// <param name="quote">Current quote.</param>
+    /// <param name="prevClose">Close price of the previous period.</param>
+    /// <param name="prevAtr">ATR value of the previous period.</param>
     /// <returns>An <see cref="AtrResult"/> containing the ATR values for the current period.</returns>
     public static AtrResult Increment(
         int lookbackPeriods,

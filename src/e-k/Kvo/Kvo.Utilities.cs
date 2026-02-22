@@ -7,7 +7,7 @@ public static partial class Kvo
     /// <summary>
     /// Removes the recommended warmup periods from the KVO (Klinger Volume Oscillator) results.
     /// </summary>
-    /// <param name="results">The list of KVO results to process.</param>
+    /// <param name="results">List of KVO results to process.</param>
     /// <returns>A list of KVO results with the warmup periods removed.</returns>
     public static IReadOnlyList<KvoResult> RemoveWarmupPeriods(
         this IReadOnlyList<KvoResult> results)

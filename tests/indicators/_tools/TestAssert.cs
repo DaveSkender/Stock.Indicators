@@ -41,8 +41,8 @@ public static class TestAssert
     /// Asserts that two <see cref="IEnumerable{T}" /> series are exactly the same.
     /// </summary>
     /// <typeparam name="T">List elements must be <see cref="ISeries"/> types.</typeparam>
-    /// <param name="actuals">The actual collection subject under test (sut).</param>
-    /// <param name="expected">The expected collection to match exactly.</param>
+    /// <param name="actuals">Actual collection subject under test (sut).</param>
+    /// <param name="expected">Expected collection to match exactly.</param>
     /// <param name="because">
     /// Optional formatted phrase, supported by <see cref="string.Format(string,object[])" />,
     /// explaining why the assertion is needed. If the phrase does not start with the word

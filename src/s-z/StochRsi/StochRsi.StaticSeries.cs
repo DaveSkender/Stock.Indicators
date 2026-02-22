@@ -8,7 +8,7 @@ public static partial class StochRsi
     /// <summary>
     /// Converts a source list to a list of StochRsiResult.
     /// </summary>
-    /// <param name="source">The source list.</param>
+    /// <param name="source">Source list.</param>
     /// <param name="rsiPeriods">Number of periods for RSI calculation.</param>
     /// <param name="stochPeriods">Number of periods for Stochastic calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>

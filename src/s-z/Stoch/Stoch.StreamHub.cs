@@ -22,13 +22,13 @@ public class StochHub
     /// <summary>
     /// Initializes a new instance of the <see cref="StochHub"/> class with extended parameters.
     /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
-    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="provider">Quote provider.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
+    /// <param name="kFactor">K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     internal StochHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods,
@@ -387,10 +387,10 @@ public static partial class Stoch
     /// <summary>
     /// Converts the quote provider to a Stochastic Oscillator hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
     /// <returns>A Stochastic Oscillator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
@@ -404,13 +404,13 @@ public static partial class Stoch
     /// <summary>
     /// Converts the quote provider to a Stochastic Oscillator hub with extended parameters.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
-    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
+    /// <param name="kFactor">K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <returns>A Stochastic Oscillator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

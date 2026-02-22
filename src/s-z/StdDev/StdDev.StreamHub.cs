@@ -83,7 +83,7 @@ public static partial class StdDev
     /// <summary>
     /// Converts the chain provider to a StdDev hub.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A StdDev hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

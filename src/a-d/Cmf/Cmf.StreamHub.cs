@@ -94,7 +94,7 @@ public static partial class Cmf
     /// <summary>
     /// Converts the quote provider to a CMF hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CMF hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

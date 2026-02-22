@@ -12,10 +12,10 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Converts a list of source values to Moving Average Envelope results.
     /// </summary>
-    /// <param name="source">The list of source values to transform.</param>
+    /// <param name="source">List of source values to transform.</param>
     /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
-    /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
-    /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
+    /// <param name="percentOffset">Percentage offset for the envelopes. Default is 2.5.</param>
+    /// <param name="movingAverageType">Type of moving average to use. Default is SMA.</param>
     /// <returns>A list of Moving Average Envelope results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the moving average type is not supported.</exception>
     public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes(

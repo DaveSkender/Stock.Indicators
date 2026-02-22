@@ -135,7 +135,7 @@ public static partial class Stc
     /// <summary>
     /// Creates a buffer list for Schaff Trend Cycle calculations.
     /// </summary>
-    /// <param name="source">The source list of reusable values.</param>
+    /// <param name="source">Source list of reusable values.</param>
     /// <param name="cyclePeriods">Number of periods for the cycle calculation.</param>
     /// <param name="fastPeriods">Number of periods for the fast MA.</param>
     /// <param name="slowPeriods">Number of periods for the slow MA.</param>

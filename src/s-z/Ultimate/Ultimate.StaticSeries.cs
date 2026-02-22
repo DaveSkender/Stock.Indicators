@@ -26,7 +26,7 @@ public static partial class Ultimate
     /// <summary>
     /// Calculates the Ultimate Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="shortPeriods">Number of short lookback periods.</param>
     /// <param name="middlePeriods">Number of middle lookback periods.</param>
     /// <param name="longPeriods">Number of long lookback periods.</param>

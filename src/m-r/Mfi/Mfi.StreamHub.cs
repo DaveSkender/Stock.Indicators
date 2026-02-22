@@ -157,7 +157,7 @@ public static partial class Mfi
     /// <summary>
     /// Converts the quote provider to an MFI hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods. Default is 14.</param>
     /// <returns>An MFI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

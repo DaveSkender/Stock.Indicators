@@ -21,7 +21,7 @@ public static partial class Bop
     /// <summary>
     /// Calculates the Balance of Power (BOP) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="smoothPeriods">Number of periods to use for smoothing.</param>
     /// <returns>A list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     private static List<BopResult> CalcBop(

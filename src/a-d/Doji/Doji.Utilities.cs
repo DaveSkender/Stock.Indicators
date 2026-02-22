@@ -8,7 +8,7 @@ public static partial class Doji
     /// <summary>
     /// Validates the maximum price change percentage for Doji candlestick patterns.
     /// </summary>
-    /// <param name="maxPriceChangePercent">The maximum price change percentage to validate.</param>
+    /// <param name="maxPriceChangePercent">Maximum price change percentage to validate.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the max price change percent is less than 0 or greater than 0.5.
     /// </exception>

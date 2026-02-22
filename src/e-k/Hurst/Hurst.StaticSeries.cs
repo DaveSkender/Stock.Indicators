@@ -8,7 +8,7 @@ public static partial class Hurst
     /// <summary>
     /// Converts a list of time-series values to Hurst Exponent results.
     /// </summary>
-    /// <param name="source">The list of time-series values to transform.</param>
+    /// <param name="source">List of time-series values to transform.</param>
     /// <param name="lookbackPeriods">Number of periods to look back for the calculation.</param>
     /// <returns>A list of Hurst Exponent results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
@@ -65,8 +65,8 @@ public static partial class Hurst
     /// <summary>
     /// Calculates the Hurst Exponent for a given window of values.
     /// </summary>
-    /// <param name="values">The array of values to evaluate.</param>
-    /// <returns>The calculated Hurst Exponent.</returns>
+    /// <param name="values">Array of values to evaluate.</param>
+    /// <returns>Calculated Hurst Exponent.</returns>
     internal static double CalcHurstWindow(double[] values)
     {
         int totalSize = values.Length;

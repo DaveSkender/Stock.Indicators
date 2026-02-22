@@ -8,7 +8,7 @@ public static partial class Hma
     /// <summary>
     /// Converts a list of time-series values to Hull Moving Average (HMA) results.
     /// </summary>
-    /// <param name="source">The list of time-series values to transform.</param>
+    /// <param name="source">List of time-series values to transform.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of HMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>

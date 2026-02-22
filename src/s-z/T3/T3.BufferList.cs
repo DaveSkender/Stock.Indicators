@@ -19,7 +19,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     /// Initializes a new instance of the <see cref="T3List"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="volumeFactor">The volume factor for the calculation.</param>
+    /// <param name="volumeFactor">Volume factor for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="volumeFactor"/> is invalid.</exception>
     public T3List(
         int lookbackPeriods = 5,
@@ -44,7 +44,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     /// Initializes a new instance of the <see cref="T3List"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="volumeFactor">The volume factor for the calculation.</param>
+    /// <param name="volumeFactor">Volume factor for the calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public T3List(
         int lookbackPeriods,
@@ -159,9 +159,9 @@ public static partial class T3
     /// <summary>
     /// Creates a buffer list for T3 calculations.
     /// </summary>
-    /// <param name="source">The source list of reusable values.</param>
+    /// <param name="source">Source list of reusable values.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
-    /// <param name="volumeFactor">The volume smoothing factor.</param>
+    /// <param name="volumeFactor">Volume smoothing factor.</param>
     /// <returns>A buffer list for T3 calculations.</returns>
     public static T3List ToT3List(
         this IReadOnlyList<IReusable> source,

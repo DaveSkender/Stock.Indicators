@@ -27,10 +27,10 @@ public static partial class Wma
     /// <summary>
     /// Calculates a weighted moving average from the supplied buffer.
     /// </summary>
-    /// <param name="buffer">The buffer containing the values to average.</param>
+    /// <param name="buffer">Buffer containing the values to average.</param>
     /// <param name="periods">Number of periods in the weighted average.</param>
-    /// <param name="divisor">The divisor used to normalize the weighted sum.</param>
-    /// <returns>The weighted moving average, or <c>null</c> if insufficient data is present.</returns>
+    /// <param name="divisor">Divisor used to normalize the weighted sum.</param>
+    /// <returns>Weighted moving average, or <c>null</c> if insufficient data is present.</returns>
     internal static double? ComputeWeightedMovingAverage(Queue<double> buffer, int periods, double divisor)
     {
         if (buffer.Count < periods)
@@ -60,11 +60,11 @@ public static partial class Wma
     /// <summary>
     /// Calculates a weighted moving average for the specified index using reusable source values.
     /// </summary>
-    /// <typeparam name="T">The reusable type within the source list.</typeparam>
-    /// <param name="source">The source list of reusable values.</param>
+    /// <typeparam name="T">Reusable type within the source list.</typeparam>
+    /// <param name="source">Source list of reusable values.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="endIndex">The ending index (inclusive) for the calculation.</param>
-    /// <returns>The weighted moving average, or <see cref="double.NaN"/> if insufficient data is present.</returns>
+    /// <param name="endIndex">Ending index (inclusive) for the calculation.</param>
+    /// <returns>Weighted moving average, or <see cref="double.NaN"/> if insufficient data is present.</returns>
     internal static double Increment<T>(
         IReadOnlyList<T> source,
         int lookbackPeriods,

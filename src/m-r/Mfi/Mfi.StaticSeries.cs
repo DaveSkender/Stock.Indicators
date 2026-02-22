@@ -23,7 +23,7 @@ public static partial class Mfi
     /// <summary>
     /// Calculates the Money Flow Index (MFI) for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Number of periods to use for the MFI calculation.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     private static List<MfiResult> CalcMfi(

@@ -8,7 +8,7 @@ public static partial class ChaikinOsc
     /// <summary>
     /// Removes the recommended warmup periods from the Chaikin Oscillator results.
     /// </summary>
-    /// <param name="results">The list of Chaikin Oscillator results.</param>
+    /// <param name="results">List of Chaikin Oscillator results.</param>
     /// <returns>A list of Chaikin Oscillator results with the warmup periods removed.</returns>
     public static IReadOnlyList<ChaikinOscResult> RemoveWarmupPeriods(
         this IReadOnlyList<ChaikinOscResult> results)

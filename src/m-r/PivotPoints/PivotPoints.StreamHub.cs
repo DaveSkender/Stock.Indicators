@@ -166,9 +166,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Creates a PivotPoints streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowSize">The size of the window for pivot calculation. Default is <see cref="PeriodSize.Month"/>.</param>
-    /// <param name="pointType">The type of pivot points to calculate. Default is <see cref="PivotPointType.Standard"/>.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="windowSize">Size of the window for pivot calculation. Default is <see cref="PeriodSize.Month"/>.</param>
+    /// <param name="pointType">Type of pivot points to calculate. Default is <see cref="PivotPointType.Standard"/>.</param>
     /// <returns>An instance of <see cref="PivotPointsHub"/>.</returns>
     public static PivotPointsHub ToPivotPointsHub(
         this IQuoteProvider<IQuote> quoteProvider,

@@ -21,7 +21,7 @@ public static partial class Adx
     /// <summary>
     /// Calculates the ADX from a list of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">List of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ADX results.</returns>
     private static List<AdxResult> CalcAdx(

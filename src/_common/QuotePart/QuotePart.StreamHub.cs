@@ -61,7 +61,7 @@ public static partial class QuoteParts
     /// <summary>
     /// Creates an QuotePart streaming hub from a chain provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>An new <see cref="QuotePartHub"/> instance.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

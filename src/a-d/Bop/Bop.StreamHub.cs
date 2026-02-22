@@ -75,7 +75,7 @@ public static partial class Bop
     /// <summary>
     /// Creates a Balance of Power hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="smoothPeriods">Number of periods for smoothing. Default is 14.</param>
     /// <returns>A Balance of Power hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

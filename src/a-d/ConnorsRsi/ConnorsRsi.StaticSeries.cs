@@ -8,7 +8,7 @@ public static partial class ConnorsRsi
     /// <summary>
     /// Calculates the Connors RSI for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="source">Source list of quotes.</param>
     /// <param name="rsiPeriods">Number of periods to use for the RSI calculation. Default is 3.</param>
     /// <param name="streakPeriods">Number of periods to use for the streak calculation. Default is 2.</param>
     /// <param name="rankPeriods">Number of periods to use for the percent rank calculation. Default is 100.</param>
@@ -73,7 +73,7 @@ public static partial class ConnorsRsi
     /// <summary>
     /// Calculates the baseline streak and rank for the Connors RSI.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="source">Source list of quotes.</param>
     /// <param name="rsiPeriods">Number of periods to use for the RSI calculation.</param>
     /// <param name="rankPeriods">Number of periods to use for the percent rank calculation.</param>
     /// <returns>A list of <see cref="ConnorsRsiResult"/> containing the baseline streak and rank calculation results.</returns>

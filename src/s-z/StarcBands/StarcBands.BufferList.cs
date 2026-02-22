@@ -12,7 +12,7 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
     /// Initializes a new instance of the <see cref="StarcBandsList"/> class.
     /// </summary>
     /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
-    /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
+    /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="atrPeriods"/> is invalid.</exception>
     public StarcBandsList(
@@ -35,7 +35,7 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
     /// Initializes a new instance of the <see cref="StarcBandsList"/> class with initial quotes.
     /// </summary>
     /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
-    /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
+    /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public StarcBandsList(

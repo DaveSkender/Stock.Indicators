@@ -44,7 +44,7 @@ public class HubCollection : Collection<IStreamObservable<ISeries>>
     /// Initializes a new instance of the <see cref="HubCollection"/> class
     /// that contains elements copied from the specified collection.
     /// </summary>
-    /// <param name="collection">The collection whose elements are copied to the new collection.</param>
+    /// <param name="collection">Collection whose elements are copied to the new collection.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="collection"/> is null.</exception>
     public HubCollection(IEnumerable<IStreamObservable<ISeries>> collection)
         : base(new List<IStreamObservable<ISeries>>(

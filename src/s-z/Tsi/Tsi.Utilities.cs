@@ -25,9 +25,9 @@ public static partial class Tsi
     /// <summary>
     /// Validates the parameters for the TSI calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The lookback periods.</param>
-    /// <param name="smoothPeriods">The smoothing periods.</param>
-    /// <param name="signalPeriods">The signal periods.</param>
+    /// <param name="lookbackPeriods">Lookback periods.</param>
+    /// <param name="smoothPeriods">Smoothing periods.</param>
+    /// <param name="signalPeriods">Signal periods.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of range.</exception>
     internal static void Validate(
         int lookbackPeriods,

@@ -16,10 +16,10 @@ public class FractalHub
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalHub"/> class with different left and right spans.
     /// </summary>
-    /// <param name="provider">The quote provider.</param>
+    /// <param name="provider">Quote provider.</param>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
-    /// <param name="endType">The type of price to use for the calculation.</param>
+    /// <param name="endType">Type of price to use for the calculation.</param>
     internal FractalHub(
         IQuoteProvider<IQuote> provider,
         int leftSpan,
@@ -154,9 +154,9 @@ public static partial class Fractal
     /// <summary>
     /// Creates a Fractal hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowSpan">The window span used for both left and right spans.</param>
-    /// <param name="endType">The price end type to use.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="windowSpan">Window span used for both left and right spans.</param>
+    /// <param name="endType">Price end type to use.</param>
     /// <returns>An instance of <see cref="FractalHub"/>.</returns>
     public static FractalHub ToFractalHub(
        this IQuoteProvider<IQuote> quoteProvider,
@@ -170,10 +170,10 @@ public static partial class Fractal
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalHub"/> class with different left and right spans.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.HighLow"/>.</param>
+    /// <param name="endType">Type of price to use for the calculation. Default is <see cref="EndType.HighLow"/>.</param>
     /// <returns>An instance of <see cref="FractalHub"/>.</returns>
     public static FractalHub ToFractalHub(
        this IQuoteProvider<IQuote> quoteProvider,

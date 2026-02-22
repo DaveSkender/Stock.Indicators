@@ -129,7 +129,7 @@ public static partial class StochRsi
     /// <summary>
     /// Creates a buffer list for Stochastic RSI calculations.
     /// </summary>
-    /// <param name="source">The source list of reusable values.</param>
+    /// <param name="source">Source list of reusable values.</param>
     /// <param name="rsiPeriods">Number of periods for RSI calculation.</param>
     /// <param name="stochPeriods">Number of periods for Stochastic calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>

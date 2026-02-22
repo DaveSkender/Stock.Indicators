@@ -8,7 +8,7 @@ public static partial class BollingerBands
     /// <summary>
     /// Calculates the Bollinger Bands for a series of data.
     /// </summary>
-    /// <param name="source">The source list of data.</param>
+    /// <param name="source">Source list of data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="standardDeviations">Number of standard deviations to use for the bands.</param>
     /// <returns>A read-only list of <see cref="BollingerBandsResult"/> containing the Bollinger Bands calculation results.</returns>

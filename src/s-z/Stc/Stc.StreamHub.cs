@@ -193,7 +193,7 @@ public static partial class Stc
     /// <summary>
     /// Creates a Schaff Trend Cycle (STC) streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="cyclePeriods">Number of periods for the cycle. Default is 10.</param>
     /// <param name="fastPeriods">Number of fast periods for the MACD calculation. Default is 23.</param>
     /// <param name="slowPeriods">Number of slow periods for the MACD calculation. Default is 50.</param>
@@ -210,7 +210,7 @@ public static partial class Stc
     /// <summary>
     /// Creates a new STC hub, using values from an existing MACD hub.
     /// </summary>
-    /// <param name="macdHub">The MACD hub.</param>
+    /// <param name="macdHub">MACD hub.</param>
     /// <param name="cyclePeriods">Number of periods for the cycle. Default is 10.</param>
     /// <returns>An STC hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the MACD hub is null.</exception>

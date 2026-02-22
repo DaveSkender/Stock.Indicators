@@ -30,7 +30,7 @@ public class SlopeHub
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeHub"/> class.
     /// </summary>
-    /// <param name="provider">The chain provider.</param>
+    /// <param name="provider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -181,7 +181,7 @@ public class SlopeHub
     /// <summary>
     /// Calculates slope, intercept, standard deviation, and R-squared using global X values.
     /// </summary>
-    /// <param name="globalIndex">The global index (0-based absolute position) of the current item.</param>
+    /// <param name="globalIndex">Global index (0-based absolute position) of the current item.</param>
     private (double? slope, double? intercept, double? stdDev, double? rSquared)
         CalculateStatistics(int globalIndex)
     {
@@ -242,9 +242,9 @@ public class SlopeHub
     /// Updates Line values for the last lookbackPeriods results using the current slope/intercept.
     /// This is legitimate historical repaint behavior matching the Series implementation.
     /// </summary>
-    /// <param name="currentIndex">The current index in the cache.</param>
-    /// <param name="slope">The calculated slope value.</param>
-    /// <param name="intercept">The calculated global intercept value.</param>
+    /// <param name="currentIndex">Current index in the cache.</param>
+    /// <param name="slope">Calculated slope value.</param>
+    /// <param name="intercept">Calculated global intercept value.</param>
     private void UpdateLineValues(int currentIndex, double? slope, double? intercept)
     {
         // Calculate the range of indices that should have Line values
@@ -284,7 +284,7 @@ public static partial class Slope
     /// <summary>
     /// Creates a Slope streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Slope hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
