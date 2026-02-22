@@ -92,7 +92,7 @@ public static partial class QuoteParts
 
             ? quotes.ToQuotePart(candlePart)
 
-            : (IReadOnlyList<IReusable>)items
+            : items
                 .Cast<IReusable>()
                 .ToList();
     }

@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
-#pragma warning disable RCS1141,RCS1142,RCS1228,RCS1141
+#pragma warning disable RCS1141,RCS1142,RCS1228
 
 /// <summary>
 /// OBSOLETE IN v3.0.0
