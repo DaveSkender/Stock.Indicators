@@ -78,9 +78,9 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     public void WithCachePruning_MatchesSeriesExactly()
     {
         // NOTE: Renko transforms quotes to bricks (non-1:1 mapping).
-        // The test validates that streaming with cache pruning produces
-        // the same brick sequence as the full series, not that result count
-        // matches cache size (which is invalid for transformation indicators).
+        // Quote pruning removes oldest quotes, but brick count != quote count.
+        // Use timestamp-based alignment to match streaming results against
+        // the corresponding tail of the full static series.
 
         const int maxCacheSize = 100;  // Sufficient for quote retention
         const int totalQuotes = 200;  // ~2x cache size
@@ -90,7 +90,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
 
         // Get full series results
-        IReadOnlyList<RenkoResult> fullSeries = quotes
+        List<RenkoResult> fullSeries = quotes
             .ToRenko(brickSize, endType)
             .ToList();
 
@@ -104,9 +104,17 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         // Verify cache was pruned (quotes, not results)
         quoteHub.Quotes.Should().HaveCount(maxCacheSize);
 
-        // For Renko, validate the streaming results match the full series
-        // The count will be much less than cache size due to brick transformation
-        observer.Results.IsExactly(fullSeries);
+        // Renko bricks don't map 1:1 with quotes. Align the static series
+        // with the streaming hub by matching on the first brick's timestamp.
+        // Any bricks before that date in the static series represent periods
+        // that were pruned from the quote hub and must be discarded.
+        DateTime firstDate = observer.Results[0].Timestamp;
+        int startIndex = fullSeries.FindIndex(r => r.Timestamp == firstDate);
+        startIndex.Should().BeGreaterThanOrEqualTo(0,
+            "the first Renko result in the hub should exist in the static series");
+
+        List<RenkoResult> expected = fullSeries.Skip(startIndex).ToList();
+        observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

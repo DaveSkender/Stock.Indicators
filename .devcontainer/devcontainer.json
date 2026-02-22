@@ -39,6 +39,7 @@
     }
   },
   "containerEnv": {
+    "DISABLE_TELEMETRY": "1",
     "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
   },
   "forwardPorts": [

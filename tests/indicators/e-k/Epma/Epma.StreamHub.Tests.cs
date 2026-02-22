@@ -42,19 +42,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.Add(Quotes[80]);
 
         actuals.Should().HaveCount(length);
-        // Use tolerance for floating-point EPMA values
-        for (int i = 0; i < actuals.Count; i++)
-        {
-            actuals[i].Timestamp.Should().Be(series[i].Timestamp);
-            if (actuals[i].Epma.HasValue && series[i].Epma.HasValue)
-            {
-                actuals[i].Epma.Should().BeApproximately(series[i].Epma.Value, Money6);
-            }
-            else
-            {
-                actuals[i].Epma.Should().Be(series[i].Epma);
-            }
-        }
+        actuals.IsExactly(series);
 
         // delete, should equal series (revised)
         quoteHub.RemoveAt(removeAtIndex);
@@ -94,19 +82,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // Streaming results should match last N from full series (original series with front chopped off)
         // NOT recomputation on just the cached quotes (which would have different warmup)
-        // Use tolerance for floating-point EPMA values
-        for (int i = 0; i < observer.Results.Count; i++)
-        {
-            observer.Results[i].Timestamp.Should().Be(expected[i].Timestamp);
-            if (observer.Results[i].Epma.HasValue && expected[i].Epma.HasValue)
-            {
-                observer.Results[i].Epma.Should().BeApproximately(expected[i].Epma.Value, Money6);
-            }
-            else
-            {
-                observer.Results[i].Epma.Should().Be(expected[i].Epma);
-            }
-        }
+        observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
