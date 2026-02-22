@@ -75,6 +75,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// number of periods required for the indicator to function correctly.
     /// </summary>
     /// <param name="requiredWarmupPeriods">Minimum number of periods required for indicator warmup.</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     protected void SetMinCacheSize(int requiredWarmupPeriods)
     {
         // Validate parameter is within acceptable range

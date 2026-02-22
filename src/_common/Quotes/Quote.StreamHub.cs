@@ -31,6 +31,7 @@ public class QuoteHub
     /// </summary>
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     /// <returns>Validated max cache size.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     private static int ValidateAndGetMaxCacheSize(int? maxCacheSize)
     {
         const int maxCacheSizeDefault = 100_000;

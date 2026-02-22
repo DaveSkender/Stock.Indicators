@@ -371,7 +371,6 @@ public class ThreadSafetyTests : TestBase
         }
     }
 
-    #region Helper methods
     // Keep helper methods StartSseServer, FindRepositoryRoot, and WaitForServerReady unchanged.
     // Extend ConsumeQuotesFromSse below to handle action events and batching.
     // Encapsulate the logic for launching the test SSE server, waiting until it is ready,
@@ -672,5 +671,4 @@ public class ThreadSafetyTests : TestBase
         "CA1812:Avoid uninstantiated internal classes",
         Justification = "Instantiated via JsonSerializer.Deserialize")]
     private sealed record QuoteAction(Quote? Quote, int? CacheIndex);
-    #endregion
 }

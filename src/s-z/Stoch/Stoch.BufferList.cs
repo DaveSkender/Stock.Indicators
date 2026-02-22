@@ -182,12 +182,9 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                     // Re/initialize with SMA when _prevSmoothK is NaN
                     // (happens at start or after NaN input values)
                     // This matches standard SMMA pattern (see Alligator, SMMA indicators)
-                    if (double.IsNaN(_prevSmoothK))
+                    if (double.IsNaN(_prevSmoothK) && _rawKBuffer.Count == SmoothPeriods)
                     {
-                        if (_rawKBuffer.Count == SmoothPeriods)
-                        {
-                            _prevSmoothK = _rawKBuffer.Average();
-                        }
+                        _prevSmoothK = _rawKBuffer.Average();
                     }
 
                     if (!double.IsNaN(_prevSmoothK))
@@ -228,12 +225,9 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                     // Re/initialize with SMA when _prevSignal is NaN
                     // (happens at start or after NaN input values)
                     // This matches standard SMMA pattern (see Alligator, SMMA indicators)
-                    if (double.IsNaN(_prevSignal))
+                    if (double.IsNaN(_prevSignal) && _smoothKBuffer.Count == SignalPeriods)
                     {
-                        if (_smoothKBuffer.Count == SignalPeriods)
-                        {
-                            _prevSignal = _smoothKBuffer.Average();
-                        }
+                        _prevSignal = _smoothKBuffer.Average();
                     }
 
                     if (!double.IsNaN(_prevSignal))

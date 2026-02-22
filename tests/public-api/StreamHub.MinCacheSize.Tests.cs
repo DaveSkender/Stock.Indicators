@@ -1,5 +1,3 @@
-using Test.Data;
-
 namespace Indicators;
 
 [TestClass]

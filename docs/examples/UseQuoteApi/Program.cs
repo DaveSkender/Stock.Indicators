@@ -71,7 +71,7 @@ IEnumerable<SmaResult> results = quotes.ToSma(10);
 
 if (!results.Any() || results == null)
 {
-    throw new NullReferenceException("No indicator results were returned.");
+    throw new InvalidOperationException("No indicator results were returned.");
 }
 
 // show results

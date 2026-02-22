@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace Skender.Stock.Indicators;
 
 /// <summary>
