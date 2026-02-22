@@ -39,6 +39,7 @@ jobs:
         run: |
           dotnet tool restore
         continue-on-error: true
+        timeout-minutes: 5
 
       - name: Environment summary
         run: |
