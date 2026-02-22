@@ -417,8 +417,12 @@
     {
       "label": "Test: All tests",
       "detail": "Run all tests including integration tests",
-      "type": "shell",
-      "command": "dotnet test --no-restore --nologo",
+      "dependsOn": [
+        "Test: Unit tests",
+        "Test: Integration",
+        "Test: Regression tests"
+      ],
+      "dependsOrder": "parallel",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
