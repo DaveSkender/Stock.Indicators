@@ -47,7 +47,7 @@ jobs:
           echo "### Development Tools" >> $GITHUB_STEP_SUMMARY
           echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDKs: $(dotnet --list-sdks | wc -l) versions available" >> $GITHUB_STEP_SUMMARY
-          echo "- .NET Tools: $(dotnet tool list --global | wc -l) installed" >> $GITHUB_STEP_SUMMARY
+          echo "- .NET Tools: $(dotnet tool list --local | tail -n +3 | wc -l) installed" >> $GITHUB_STEP_SUMMARY
           echo "- Node.js: $(node --version 2>/dev/null || echo 'Not available')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
         continue-on-error: true

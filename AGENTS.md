@@ -81,7 +81,7 @@ Additional path-specific instruction files:
 | `docs/**` | `.github/instructions/docs.instructions.md` | Jekyll documentation site |
 | `src/**` | `src/AGENTS.md` | Formula protection rules |
 
-Skills are defined in `.agents/skills/` following the Agent Skills specification.  
+Skills are defined in `.agents/skills/` following the Agent Skills specification.
 
 ## Folder-specific guidance
 
