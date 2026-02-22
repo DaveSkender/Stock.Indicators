@@ -1,6 +1,9 @@
 {
+  // inherits from root config
+  "config": {
+    "MD033": false // allows <any-placeholder>
+  },
   "ignores": [
-    // external sources
     "vitepress/**"
   ]
 }
