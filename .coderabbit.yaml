@@ -119,21 +119,18 @@ reviews:
     - "!*-lock.json"         # NPM/PNPM lock files
     - "!packages.lock.json"  # NuGet lock file
     - "!packages/"           # NuGet packages cache
-    - "!.jekyll-cache/"      # Jekyll cache
-    - "!vendor/"             # Ruby vendor and gem files
-    - "!Gemfile.lock"        # Ruby dependencies lock
     - "!docs/.vitepress/cache/"  # VitePress cache
     - "!docs/.vitepress/dist/"   # VitePress build output
     - "!bin/"                # .NET build output
     - "!obj/"                # .NET build intermediate files
-    - "!*.csv"                # Test data
-    - "!*.json"               # Test data
-    - "!*.g.cs"               # Generated source code
-    - "!*.docx"               # Office Word
-    - "!*.pptx"               # Office PowerPoint
-    - "!*.xlsx"               # Office Spreadsheets
-    - "!*.bak"                # Backup files
-    - "!*.zip"                # Compressed files
+    - "!**/_testdata/**/*.csv"   # Test data
+    - "!**/_testdata/**/*.json"  # Test data
+    - "!*.g.cs"              # Generated source code
+    - "!*.docx"              # Office Word
+    - "!*.pptx"              # Office PowerPoint
+    - "!*.xlsx"              # Office Spreadsheets
+    - "!*.bak"               # Backup files
+    - "!*.zip"               # Compressed files
 
   # Path-based configuration
   path_instructions:
