@@ -49,6 +49,15 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include [tests](#testing).
 - Do not commingle multiple contributions on different topics.  Please keep changes small and separate.
 
+### Initial setup
+
+The recommended setup uses VS Code with the dev container (automated) or the **Setup: Dev tools** VS Code task.  For manual setup, run these commands once after cloning:
+
+```bash
+dotnet tool restore   # install .NET CLI tools
+dotnet restore        # restore NuGet packages
+```
+
 ## Testing
 
 - Review the `tests/indicators` folder for examples of unit tests.  Just copy one of these.
