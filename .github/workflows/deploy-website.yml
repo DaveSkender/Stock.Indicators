@@ -79,4 +79,3 @@ jobs:
           command: >
             pages deploy docs/.vitepress/dist
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
-  
