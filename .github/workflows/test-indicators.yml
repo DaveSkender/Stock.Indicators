@@ -93,13 +93,10 @@ jobs:
 
       - name: Run Roslynator analysis
         run: >
-          roslynator analyze
+          dotnet tool run roslynator analyze
           --properties TargetFramework=net10.0
           --severity-level hidden
           --verbosity normal
-          ||
-          echo "::warning title=Roslynator::analysis failed"
-        continue-on-error: true
 
       - name: Check .NET code formatting
         run: dotnet format --verify-no-changes --severity info --no-restore

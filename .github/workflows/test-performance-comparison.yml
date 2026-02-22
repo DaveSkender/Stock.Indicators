@@ -35,9 +35,9 @@ jobs:
       - name: Determine version
         id: gitversion
         run: |
-          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+          dotnet tool run dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
           # Export GitVersion variables to environment
-          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+          dotnet tool run dotnet-gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
       - name: Build library
         run: >

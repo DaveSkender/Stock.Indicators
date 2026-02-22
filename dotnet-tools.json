@@ -28,7 +28,7 @@
       "commands": [
         "reportgenerator"
       ],
-      "rollForward": false
+      "rollForward": true
     }
   }
 }
