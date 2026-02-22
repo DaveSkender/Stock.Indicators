@@ -56,18 +56,18 @@ List<Quote> quotes = barSet
     .Items
     .Select(bar => new Quote
     {
-        Date = bar.TimeUtc,
+        Timestamp = bar.TimeUtc,
         Open = bar.Open,
         High = bar.High,
         Low = bar.Low,
         Close = bar.Close,
         Volume = bar.Volume
     })
-    .OrderBy(x => x.Date)
+    .OrderBy(x => x.Timestamp)
     .ToList();
 
 // calculate 10-period SMA
-IEnumerable<SmaResult> results = quotes.GetSma(10);
+IEnumerable<SmaResult> results = quotes.ToSma(10);
 
 if (!results.Any() || results == null)
 {
@@ -80,7 +80,7 @@ Console.WriteLine($"{symbol} Results ------- (last 10 of {results.Count()}) --")
 foreach (SmaResult r in results.TakeLast(10))
 {
     // only showing last 10 records for brevity
-    Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}");
+    Console.WriteLine($"SMA on {r.Timestamp:u} was ${r.Sma:N3}");
 }
 
 // analyze results (compare to quote values)
@@ -108,6 +108,6 @@ for (int i = quotes.Count - 25; i < quotes.Count; i++)
 
     bool isBullish = (double)q.Close > r.Sma;
 
-    Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}"
+    Console.WriteLine($"SMA on {r.Timestamp:u} was ${r.Sma:N3}"
                     + $" and Bullishness is {isBullish}");
 }
