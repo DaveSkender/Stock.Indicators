@@ -1,4 +1,4 @@
-name: Copilot Environment Setup
+name: Copilot environment setup
 
 on:
   workflow_dispatch:
@@ -28,21 +28,17 @@ jobs:
           dotnet-quality: "ga"
           cache: true
           cache-dependency-path: "**/packages.lock.json"
-
-      - name: Install .NET & NPM global tools
-        run: |
-          dotnet tool install --global dotnet-format
-          dotnet tool install --global roslynator.dotnet.cli@0.11.0
-          dotnet tool install --global dotnet-outdated-tool
-          dotnet tool install --global dotnet-reportgenerator-globaltool
-          npm install --global @angular/cli
         continue-on-error: true
-        # bug in Roslynator v0.12.0
 
       - name: Restore packages
         run: dotnet restore
         continue-on-error: true
         timeout-minutes: 5
+
+      - name: Install .NET tools
+        run: |
+          dotnet tool restore
+        continue-on-error: true
 
       - name: Environment summary
         run: |

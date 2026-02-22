@@ -29,12 +29,12 @@ on:
         default: true
         required: true
 
-concurrency:
-  group: ${{ github.ref_name }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   package:
@@ -79,7 +79,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y libxml2-utils
-          dotnet tool install --global GitVersion.Tool
+          dotnet tool restore
 
       - name: Generate version info
         id: gitversion

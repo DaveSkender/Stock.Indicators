@@ -7,17 +7,17 @@ on:
       - docs/**
       - .github/workflows/test-website-a11y.yml
 
-# Prevent multiple concurrent runs
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: docs

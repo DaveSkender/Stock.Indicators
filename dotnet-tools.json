@@ -4,12 +4,30 @@
   "tools": {
     "roslynator.dotnet.cli": {
       "version": "0.11.0",
-      "commands": ["roslynator"],
+      "commands": [
+        "roslynator"
+      ],
       "rollForward": false
     },
     "dotnet-outdated-tool": {
       "version": "4.7.0",
-      "commands": ["dotnet-outdated"],
+      "commands": [
+        "dotnet-outdated"
+      ],
+      "rollForward": true
+    },
+    "gitversion.tool": {
+      "version": "6.6.0",
+      "commands": [
+        "dotnet-gitversion"
+      ],
+      "rollForward": false
+    },
+    "dotnet-reportgenerator-globaltool": {
+      "version": "5.5.1",
+      "commands": [
+        "reportgenerator"
+      ],
       "rollForward": true
     }
   }

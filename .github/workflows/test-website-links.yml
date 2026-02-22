@@ -7,17 +7,17 @@ on:
       - docs/**
       - .github/workflows/test-website-links.yml
 
-# Prevent multiple concurrent runs
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: docs
@@ -30,10 +30,9 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.287.0
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3
-          bundler-cache: true
+          ruby-version: 3.4
 
       - name: Install dependencies
         run: gem install html-proofer
@@ -58,7 +57,6 @@ jobs:
       - name: Serve site
         run: bundle exec jekyll serve --port 4000 --detach
 
-        # see help in setup step
       - name: Test for broken URLs
         run: >
           htmlproofer _site
