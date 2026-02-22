@@ -57,7 +57,7 @@ Individual checks (if needed):
 
 ```bash
 # Roslynator only (fast)
-roslynator fix --properties TargetFramework=net10.0 --severity-level info --verbosity normal
+dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level info --verbosity normal
 
 # .NET format only
 dotnet format --severity info --no-restore
@@ -190,7 +190,7 @@ When changing public APIs, MUST:
 
 | Gate                | Command                                                                                                    | VS Code task                         |
 | ------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| Lint .NET (fix)     | `roslynator fix --properties TargetFramework=net10.0 --severity-level info`                               | `Lint: .NET Roslynator (fix)`        |
+| Lint .NET (fix)     | `dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level info`                               | `Lint: .NET Roslynator (fix)`        |
 | Lint all (fix)      | `dotnet format --severity info --no-restore && npx markdownlint-cli2 --fix`                               | `Lint: All (fix)`                    |
 | Lint markdown (fix) | `npx markdownlint-cli2 --fix`                                                                              | `Lint: Markdown (fix)`               |
 | Build               | `dotnet build -v minimal --nologo`                                                                         | `Build: .NET Solution (incremental)` |
