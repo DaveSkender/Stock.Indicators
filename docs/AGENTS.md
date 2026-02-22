@@ -4,7 +4,7 @@ This folder contains the VitePress documentation site for Stock Indicators at [d
 
 Load #skill:vitepress for VitePress configuration, routing, theme, and component guidance.
 
-Refer to our markdown instructions for our general Markdown formatting standards.
+Load #skill:markdown for general Markdown authoring standards, linting workflow, and validation.
 
 ## Quick start
 

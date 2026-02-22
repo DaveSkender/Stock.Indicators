@@ -25,6 +25,3 @@ dotnet test
 ```
 
 See .agents/skills/testing-standards/SKILL.md for test writing guidance and conventions.
-
----
-Last updated: January 25, 2026

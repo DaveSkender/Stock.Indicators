@@ -90,14 +90,14 @@ This repository uses Agent Skills (.agents/skills/) for domain-specific guidance
 | code-completion | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
 | testing-standards | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
 | vitepress | VitePress documentation site development - configuration, routing, theme, components | Working on the docs/ site, VitePress config, or custom theme |
+| markdown | Markdown authoring, linting workflow, formatting rules, validation checklist | Creating or modifying any Markdown file |
 
 Skills are defined in .agents/skills/ following the Agent Skills specification.
 
 ## Folder-specific guidance
 
-Subfolder AGENTS.md files and instruction files provide domain-specific context:
+Subfolder AGENTS.md files provide domain-specific context:
 
-- Markdown files: .github/instructions/markdown.instructions.md for authoring standards
 - Documentation site: docs/AGENTS.md for VitePress development
 - Source code: src/AGENTS.md for implementation constraints
 - Test suite: tests/AGENTS.md for test organization

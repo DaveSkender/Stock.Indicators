@@ -58,6 +58,3 @@ See _common/README.md for complete policy documentation.
 - Series results are based on authoritative publications and manually verified calculations
 - Stream and Buffer implementations must match Series results for same inputs once warmed up
 - For discrepancies, fix Stream/Buffer unless there is verified issue with Series and reference data
-
----
-Last updated: January 25, 2026
