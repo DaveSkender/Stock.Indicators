@@ -36,8 +36,7 @@ jobs:
         timeout-minutes: 5
 
       - name: Install .NET tools
-        run: |
-          dotnet tool restore
+        run: dotnet tool restore
         continue-on-error: true
         timeout-minutes: 5
 
