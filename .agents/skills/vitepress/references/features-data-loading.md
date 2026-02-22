@@ -3,11 +3,11 @@ name: vitepress-data-loading
 description: Build-time data loaders for fetching remote data or processing local files
 ---
 
-# Data loading
+# Data Loading
 
 VitePress data loaders run at build time to load arbitrary data that's serialized as JSON in the client bundle.
 
-## Basic usage
+## Basic Usage
 
 Create a file ending with `.data.js` or `.data.ts`:
 
@@ -35,7 +35,7 @@ import { data } from './example.data.ts'
 </template>
 ```
 
-## Async data
+## Async Data
 
 Fetch remote data:
 
@@ -49,7 +49,7 @@ export default {
 }
 ```
 
-## Local files with watch
+## Local Files with Watch
 
 Process local files with hot reload:
 
@@ -120,7 +120,7 @@ export default createContentLoader('posts/*.md', {
 })
 ```
 
-## Usage example: Blog index
+## Usage Example: Blog Index
 
 ```ts
 // posts.data.ts
@@ -152,7 +152,7 @@ import { data as posts } from './posts.data.ts'
 </template>
 ```
 
-## Typed data loaders
+## Typed Data Loaders
 
 ```ts
 // example.data.ts
@@ -174,7 +174,7 @@ export default defineLoader({
 })
 ```
 
-## In build hooks
+## In Build Hooks
 
 Use in config for generating additional files:
 
@@ -190,7 +190,7 @@ export default {
 }
 ```
 
-## Accessing config
+## Accessing Config
 
 ```ts
 // example.data.ts
@@ -204,7 +204,7 @@ export default {
 }
 ```
 
-## Key points
+## Key Points
 
 - Data loaders run only at build time in Node.js
 - File must end with `.data.js` or `.data.ts`
@@ -213,10 +213,6 @@ export default {
 - `createContentLoader` simplifies loading markdown collections
 - Keep data small - it's inlined in the client bundle
 - Heavy data should use `transform` to reduce payload
-
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

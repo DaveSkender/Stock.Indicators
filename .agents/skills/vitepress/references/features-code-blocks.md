@@ -3,11 +3,11 @@ name: vitepress-code-blocks
 description: Syntax highlighting, line highlighting, colored diffs, focus, and line numbers
 ---
 
-# Code blocks
+# Code Blocks
 
 VitePress uses Shiki for syntax highlighting with powerful code block features.
 
-## Syntax highlighting
+## Syntax Highlighting
 
 Specify language after opening backticks:
 
@@ -21,7 +21,7 @@ export default {
 
 Supports [all languages](https://shiki.style/languages) available in Shiki.
 
-## Line highlighting
+## Line Highlighting
 
 Highlight specific lines:
 
@@ -90,7 +90,7 @@ Focus multiple lines:
 // [!code focus:3]
 ```
 
-## Colored diffs
+## Colored Diffs
 
 Show additions and removals:
 
@@ -107,7 +107,7 @@ export default {
 ```
 ````
 
-## Errors and warnings
+## Errors and Warnings
 
 Color lines as errors or warnings:
 
@@ -124,7 +124,7 @@ export default {
 ```
 ````
 
-## Line numbers
+## Line Numbers
 
 Enable globally:
 
@@ -161,7 +161,7 @@ const b = 2  // This is line 6
 ```
 ````
 
-## Code groups
+## Code Groups
 
 Tabbed code blocks:
 
@@ -179,7 +179,7 @@ export default defineConfig({ /* ... */ })
 :::
 ````
 
-## Import code snippets
+## Import Code Snippets
 
 From external files:
 
@@ -216,7 +216,7 @@ In code groups:
 :::
 ```
 
-## File labels
+## File Labels
 
 Add filename labels to code blocks:
 
@@ -226,7 +226,7 @@ export default defineConfig({})
 ```
 ````
 
-## Key points
+## Key Points
 
 - Use `// [!code highlight]` for inline highlighting
 - Use `// [!code focus]` to focus with blur effect
@@ -235,10 +235,6 @@ export default defineConfig({})
 - `:line-numbers` and `:no-line-numbers` control line numbers per block
 - `@` in imports refers to source root
 - Code groups create tabbed interfaces
-
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

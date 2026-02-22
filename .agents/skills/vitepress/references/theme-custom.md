@@ -3,11 +3,11 @@ name: vitepress-custom-themes
 description: Building custom themes from scratch with the theme interface, Layout component, and enhanceApp
 ---
 
-# Custom themes
+# Custom Themes
 
 Build a theme from scratch when the default theme doesn't fit your needs.
 
-## Theme entry
+## Theme Entry
 
 Create `.vitepress/theme/index.ts`:
 
@@ -23,7 +23,7 @@ export default {
 }
 ```
 
-## Theme interface
+## Theme Interface
 
 ```ts
 interface Theme {
@@ -44,7 +44,7 @@ interface EnhanceAppContext {
 }
 ```
 
-## Basic layout
+## Basic Layout
 
 The Layout component must render `<Content />` for markdown:
 
@@ -112,7 +112,7 @@ const goToGuide = () => router.go('/guide/')
 </script>
 ```
 
-## Built-in components
+## Built-in Components
 
 ```vue
 <script setup>
@@ -130,7 +130,7 @@ import { Content } from 'vitepress'
 </template>
 ```
 
-## Extend another theme
+## Extend Another Theme
 
 Build on top of default theme or any other:
 
@@ -146,7 +146,7 @@ export default {
 }
 ```
 
-## Register plugins and components
+## Register Plugins and Components
 
 ```ts
 // .vitepress/theme/index.ts
@@ -185,7 +185,7 @@ export default {
 }
 ```
 
-## Theme-aware layout
+## Theme-Aware Layout
 
 Handle different page layouts:
 
@@ -208,7 +208,7 @@ const { page, frontmatter } = useData()
 </template>
 ```
 
-## Distributing a theme
+## Distributing a Theme
 
 As npm package:
 
@@ -238,7 +238,7 @@ export default {
 }
 ```
 
-## Theme config types
+## Theme Config Types
 
 For custom theme config types:
 
@@ -254,7 +254,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
-## Key points
+## Key Points
 
 - Theme must export `Layout` component
 - `<Content />` renders the markdown content
@@ -262,10 +262,6 @@ export default defineConfigWithTheme<ThemeConfig>({
 - `enhanceApp` runs on both server and client
 - Check `import.meta.env.SSR` for client-only code
 - Use `extends` to build on existing themes
-
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

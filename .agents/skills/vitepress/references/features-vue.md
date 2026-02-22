@@ -29,7 +29,7 @@ HTML with Vue directives:
 </div>
 ```
 
-## Script and style
+## Script and Style
 
 Add `<script setup>` and `<style>` after frontmatter:
 
@@ -62,7 +62,7 @@ Count: {{ count }}
 
 **Note:** Use `<style module>` instead of `<style scoped>` to avoid bloating page size.
 
-## Importing components
+## Importing Components
 
 Local import (code-split per page):
 
@@ -74,7 +74,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 <CustomComponent />
 ```
 
-## Global components
+## Global Components
 
 Register in theme for use everywhere:
 
@@ -115,7 +115,7 @@ const router = useRouter()
 Current page: {{ page.relativePath }}
 ```
 
-## Global variables
+## Global Variables
 
 Available without import:
 
@@ -125,13 +125,13 @@ Available without import:
 Params: {{ $params.id }}
 ```
 
-## Components in headers
+## Components in Headers
 
 ```md
 # My Title <Badge type="tip" text="v2.0" />
 ```
 
-## Escaping Vue syntax
+## Escaping Vue Syntax
 
 Prevent Vue interpolation:
 
@@ -147,7 +147,7 @@ Or use container:
 :::
 ```
 
-## Vue in code blocks
+## Vue in Code Blocks
 
 Enable Vue processing in fenced code with `-vue` suffix:
 
@@ -157,7 +157,7 @@ Hello {{ 1 + 1 }}
 ```
 ````
 
-## CSS pre-processors
+## CSS Pre-processors
 
 Supported out of the box (install the preprocessor):
 
@@ -208,7 +208,7 @@ Enable Vue language features for `.md` files:
 }
 ```
 
-## Key points
+## Key Points
 
 - Markdown files are Vue SFCs - use `<script setup>` and `<style>`
 - Access page data via `useData()` or `$frontmatter` global
@@ -216,10 +216,6 @@ Enable Vue language features for `.md` files:
 - Use `<style module>` instead of `<style scoped>`
 - Wrap non-SSR components in `<ClientOnly>`
 - Component names must be PascalCase or contain hyphens
-
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

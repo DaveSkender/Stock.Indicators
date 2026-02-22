@@ -7,11 +7,11 @@ description: Setting up multi-language sites with locale configuration and RTL s
 
 VitePress supports multi-language sites through locale configuration.
 
-## Directory structure
+## Directory Structure
 
 Organize content by locale:
 
-```plaintext
+```
 docs/
 ├─ en/
 │  ├─ guide.md
@@ -26,7 +26,7 @@ docs/
 
 Or with root as default language:
 
-```plaintext
+```
 docs/
 ├─ guide.md        # English (root)
 ├─ index.md
@@ -64,7 +64,7 @@ export default defineConfig({
 })
 ```
 
-## Locale-specific config
+## Locale-Specific Config
 
 Override site config per locale:
 
@@ -106,7 +106,7 @@ locales: {
 }
 ```
 
-## Locale-specific properties
+## Locale-Specific Properties
 
 Each locale can override:
 
@@ -124,7 +124,7 @@ interface LocaleSpecificConfig {
 
 ## Search i18n
 
-### Local search
+### Local Search
 
 ```ts
 themeConfig: {
@@ -178,11 +178,11 @@ themeConfig: {
 }
 ```
 
-## Separate locale directories
+## Separate Locale Directories
 
 For fully separated locales without root fallback:
 
-```plaintext
+```
 docs/
 ├─ en/
 │  └─ index.md
@@ -194,13 +194,13 @@ docs/
 
 Requires server redirect for `/` → `/en/`. Netlify example:
 
-```plaintext
+```
 /* /en/:splat 302 Language=en
 /* /zh/:splat 302 Language=zh
 /* /en/:splat 302
 ```
 
-## Persisting language choice
+## Persisting Language Choice
 
 Set cookie on language change:
 
@@ -225,7 +225,7 @@ watchEffect(() => {
 </template>
 ```
 
-## RTL support (experimental)
+## RTL Support (Experimental)
 
 For right-to-left languages:
 
@@ -255,7 +255,7 @@ export default {
 }
 ```
 
-## Organizing config
+## Organizing Config
 
 Split config into separate files:
 
@@ -284,7 +284,7 @@ export default defineConfig({
 })
 ```
 
-## Key points
+## Key Points
 
 - Use `locales` object in config with `root` for default language
 - Each locale can override title, description, and themeConfig
@@ -292,9 +292,6 @@ export default defineConfig({
 - Don't override `themeConfig.algolia` at locale level
 - `dir: 'rtl'` enables RTL with PostCSS plugin
 - Language switcher appears automatically in nav
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

@@ -3,7 +3,7 @@ name: vitepress-theme-configuration
 description: Default theme configuration for navigation, sidebar, search, social links, and footer
 ---
 
-# Theme configuration
+# Theme Configuration
 
 Configure the default theme via `themeConfig` in your VitePress config.
 
@@ -13,10 +13,12 @@ Configure the default theme via `themeConfig` in your VitePress config.
 export default {
   themeConfig: {
     // Site title in nav (overrides config.title)
-    siteTitle: 'My Docs',   // text title; set false to hide
+    siteTitle: 'My Docs',
+    siteTitle: false,  // Hide title
     
     // Logo
-    logo: '/logo.svg',      // simple logo; or { light, dark, alt } for theme-aware logos
+    logo: '/logo.svg',
+    logo: { light: '/light-logo.svg', dark: '/dark-logo.svg', alt: 'Logo' },
     
     // Nav links
     nav: [
@@ -28,7 +30,7 @@ export default {
 }
 ```
 
-### Dropdown menu
+### Dropdown Menu
 
 ```ts
 nav: [
@@ -55,7 +57,7 @@ nav: [
 ]
 ```
 
-### Active match
+### Active Match
 
 Control when nav item shows as active:
 
@@ -71,7 +73,7 @@ nav: [
 
 ## Sidebar
 
-### Simple sidebar
+### Simple Sidebar
 
 ```ts
 sidebar: [
@@ -85,7 +87,7 @@ sidebar: [
 ]
 ```
 
-### Multiple sidebars
+### Multiple Sidebars
 
 Different sidebar per section:
 
@@ -112,7 +114,7 @@ sidebar: {
 }
 ```
 
-### Collapsible groups
+### Collapsible Groups
 
 ```ts
 sidebar: [
@@ -129,7 +131,7 @@ sidebar: [
 ]
 ```
 
-### Base path
+### Base Path
 
 Simplify links with common base:
 
@@ -147,7 +149,7 @@ sidebar: {
 
 ## Search
 
-### Local search
+### Local Search
 
 ```ts
 themeConfig: {
@@ -186,7 +188,7 @@ search: {
 }
 ```
 
-## Social links
+## Social Links
 
 ```ts
 socialLinks: [
@@ -213,7 +215,7 @@ footer: {
 
 Footer only displays on pages without sidebar.
 
-## Edit link
+## Edit Link
 
 ```ts
 editLink: {
@@ -224,7 +226,7 @@ editLink: {
 
 `:path` is replaced with the page's source file path.
 
-## Last updated
+## Last Updated
 
 Enable in site config:
 
@@ -248,7 +250,7 @@ themeConfig: {
 }
 ```
 
-## Outline (table of contents)
+## Outline (Table of Contents)
 
 ```ts
 outline: {
@@ -265,7 +267,7 @@ outline: 2       // Only h2
 outline: [2, 4]  // h2 through h4
 ```
 
-## Doc footer navigation
+## Doc Footer Navigation
 
 ```ts
 docFooter: {
@@ -279,13 +281,13 @@ docFooter: {
 }
 ```
 
-## External link icon
+## External Link Icon
 
 ```ts
 externalLinkIcon: true  // Show icon on external links
 ```
 
-## Appearance toggle labels
+## Appearance Toggle Labels
 
 ```ts
 darkModeSwitchLabel: 'Appearance',
@@ -295,7 +297,7 @@ sidebarMenuLabel: 'Menu',
 returnToTopLabel: 'Return to top'
 ```
 
-## Key points
+## Key Points
 
 - `nav` defines top navigation links
 - `sidebar` can be array (single) or object (multiple sidebars)
@@ -303,9 +305,6 @@ returnToTopLabel: 'Return to top'
 - Local search works out of the box
 - `editLink.pattern` uses `:path` placeholder
 - Enable `lastUpdated` in site config, customize in themeConfig
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

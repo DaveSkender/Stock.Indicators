@@ -7,7 +7,7 @@ description: File-based routing, source directory structure, clean URLs, and rou
 
 VitePress uses file-based routing where markdown files map directly to HTML pages.
 
-## File to URL mapping
+## File to URL Mapping
 
 ```
 .
@@ -18,7 +18,7 @@ VitePress uses file-based routing where markdown files map directly to HTML page
 │  └─ getting-started.md → /guide/getting-started.html
 ```
 
-## Project structure
+## Project Structure
 
 ```
 .
@@ -34,7 +34,7 @@ VitePress uses file-based routing where markdown files map directly to HTML page
 │     └─ intro.md
 ```
 
-## Source directory
+## Source Directory
 
 Separate source files from project root:
 
@@ -55,7 +55,7 @@ With `srcDir: 'src'`:
    └─ guide/intro.md    →  /guide/intro.html
 ```
 
-## Linking between pages
+## Linking Between Pages
 
 Use relative or absolute paths. Omit file extensions:
 
@@ -84,7 +84,7 @@ export default {
 - Vercel: Enable `cleanUrls` in `vercel.json`
 - Nginx: Configure `try_files $uri $uri.html $uri/ =404`
 
-## Route rewrites
+## Route Rewrites
 
 Customize the mapping between source and output paths:
 
@@ -115,7 +115,7 @@ export default {
 }
 ```
 
-## Public directory
+## Public Directory
 
 Files in `public/` are copied to output root as-is:
 
@@ -154,17 +154,13 @@ import { withBase } from 'vitepress'
 </template>
 ```
 
-## Key points
+## Key Points
 
 - `index.md` files map to directory root (`/guide/` instead of `/guide/index`)
 - Use paths without extensions in links for flexibility
 - `srcDir` separates source from config
 - `cleanUrls` removes `.html` but requires server support
 - `rewrites` enables complex source structures with clean output URLs
-
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

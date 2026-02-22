@@ -7,7 +7,7 @@ description: Deploying VitePress sites to various platforms including GitHub Pag
 
 Deploy VitePress static sites to various hosting platforms.
 
-## Build and preview
+## Build and Preview
 
 ```bash
 # Build production files
@@ -19,7 +19,7 @@ npm run docs:preview
 
 Output is in `.vitepress/dist` by default.
 
-## Setting base path
+## Setting Base Path
 
 For sub-path deployment (e.g., `https://user.github.io/repo/`):
 
@@ -55,7 +55,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
@@ -101,7 +101,7 @@ Configure in dashboard:
 
 **Warning:** Don't enable "Auto Minify" for HTML - it removes Vue hydration comments.
 
-### Vercel configuration
+### Vercel Configuration
 
 For clean URLs, add `vercel.json`:
 
@@ -116,7 +116,7 @@ For clean URLs, add `vercel.json`:
 Create `.gitlab-ci.yml`:
 
 ```yaml
-image: node:22
+image: node:18
 
 pages:
   cache:
@@ -179,11 +179,11 @@ server {
 
 **Important:** Don't default to `index.html` like SPAs - use `$uri.html` for clean URLs.
 
-## HTTP cache headers
+## HTTP Cache Headers
 
 For hashed assets (immutable):
 
-```plaintext
+```
 Cache-Control: max-age=31536000, immutable
 ```
 
@@ -191,7 +191,7 @@ Cache-Control: max-age=31536000, immutable
 
 Place in `docs/public/_headers`:
 
-```plaintext
+```
 /assets/*
   cache-control: max-age=31536000
   cache-control: immutable
@@ -215,7 +215,7 @@ Place in `docs/public/_headers`:
 }
 ```
 
-## Other platforms
+## Other Platforms
 
 | Platform | Guide |
 |----------|-------|
@@ -225,7 +225,7 @@ Place in `docs/public/_headers`:
 | Render | Build: `npm run docs:build`, Publish: `docs/.vitepress/dist` |
 | Kinsta | Follow [Kinsta docs](https://kinsta.com/docs/vitepress-static-site-example/) |
 
-## Key points
+## Key Points
 
 - Set `base` for sub-path deployments
 - GitHub Pages requires workflow file and enabling Pages in settings
@@ -233,9 +233,6 @@ Place in `docs/public/_headers`:
 - Don't enable HTML minification (breaks hydration)
 - Cache `/assets/*` with immutable headers
 - For clean URLs on Nginx, use `try_files $uri $uri.html $uri/ =404`
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:

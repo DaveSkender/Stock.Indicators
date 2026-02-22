@@ -3,15 +3,15 @@ name: vitepress-dynamic-routes
 description: Generate multiple pages from a single markdown template using paths loader files
 ---
 
-# Dynamic routes
+# Dynamic Routes
 
 Generate many pages from a single markdown file and dynamic data. Useful for blogs, package docs, or any data-driven pages.
 
-## Basic setup
+## Basic Setup
 
 Create a template file with parameter in brackets and a paths loader:
 
-```plaintext
+```
 .
 └─ packages/
    ├─ [pkg].md           # Route template
@@ -38,9 +38,9 @@ Generated pages:
 - `/packages/bar.html`
 - `/packages/baz.html`
 
-## Multiple parameters
+## Multiple Parameters
 
-```plaintext
+```
 .
 └─ packages/
    ├─ [pkg]-[version].md
@@ -60,7 +60,7 @@ export default {
 }
 ```
 
-## Dynamic path generation
+## Dynamic Path Generation
 
 From local files:
 
@@ -95,7 +95,7 @@ export default {
 }
 ```
 
-## Accessing params in page
+## Accessing Params in Page
 
 Template globals:
 
@@ -119,7 +119,7 @@ const { params } = useData()
 </template>
 ```
 
-## Passing content
+## Passing Content
 
 For heavy content (raw markdown/HTML from CMS), use `content` instead of params to avoid bloating the client bundle:
 
@@ -150,7 +150,7 @@ title: {{ $params.title }}
 
 The `<!-- @content -->` placeholder is replaced with the content from the paths loader.
 
-## Watch option
+## Watch Option
 
 Auto-rebuild when template or data files change:
 
@@ -176,7 +176,7 @@ export default {
 }
 ```
 
-## Complete example: Blog
+## Complete Example: Blog
 
 ```js
 // posts/[slug].paths.js
@@ -220,7 +220,7 @@ layout: doc
 <!-- @content -->
 ```
 
-## Key points
+## Key Points
 
 - Template file uses `[param]` syntax in filename
 - Paths loader file must be named `[param].paths.js` or `.ts`
@@ -228,9 +228,6 @@ layout: doc
 - Use `$params` in templates or `useData().params` in scripts
 - Use `content` for heavy data to avoid client bundle bloat
 - `watch` enables HMR for template/data file changes
-
----
-Last updated: February 21, 2026
 
 <!--
 Source references:
