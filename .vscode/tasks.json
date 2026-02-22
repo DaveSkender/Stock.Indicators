@@ -415,14 +415,14 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Test: All tests",
-      "detail": "Run all tests including integration tests",
+      "label": "Test: All",
+      "detail": "Run all unit, regression, and integration tests (excluding performance or website tests)",
       "dependsOn": [
         "Test: Unit tests",
+        "Test: Regression tests",
         "Test: Integration",
-        "Test: Regression tests"
       ],
-      "dependsOrder": "parallel",
+      "dependsOrder": "sequence",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
