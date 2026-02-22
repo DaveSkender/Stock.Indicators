@@ -529,7 +529,8 @@
       "command": "coderabbit",
       "args": [
         "--plain",
-        "--type uncommitted"
+        "--type",
+        "uncommitted"
       ],
       "presentation": {
         "clear": true
@@ -542,7 +543,8 @@
       "command": "coderabbit",
       "args": [
         "--prompt-only",
-        "--type uncommitted"
+        "--type",
+        "uncommitted"
       ],
       "presentation": {
         "clear": true
