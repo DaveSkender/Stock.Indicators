@@ -126,11 +126,11 @@ reviews:
     - "!**/_testdata/**/*.csv"   # Test data
     - "!**/_testdata/**/*.json"  # Test data
     - "!**/*.g.cs"           # Generated source code
-    - "!*.docx"              # Office Word
-    - "!*.pptx"              # Office PowerPoint
-    - "!*.xlsx"              # Office Spreadsheets
-    - "!*.bak"               # Backup files
-    - "!*.zip"               # Compressed files
+    - "!**/*.docx"           # Office Word
+    - "!**/*.pptx"           # Office PowerPoint
+    - "!**/*.xlsx"           # Office Spreadsheets
+    - "!**/*.bak"            # Backup files
+    - "!**/*.zip"            # Compressed files
 
   # Path-based configuration
   path_instructions:
