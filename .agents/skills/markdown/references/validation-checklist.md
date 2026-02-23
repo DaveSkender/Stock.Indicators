@@ -6,7 +6,6 @@ Complete validation checklist for Markdown files before committing.
 
 - [ ] Zero errors from `npx markdownlint-cli2 --no-globs {filepath}`
 - [ ] All structural issues auto-fixed
-- [ ] All code fences have language identifiers
 - [ ] All lists use hyphen bullets
 - [ ] All headers are ATX style
 - [ ] Blank lines around headers and code blocks
@@ -22,10 +21,10 @@ Complete validation checklist for Markdown files before committing.
 
 - [ ] No backticks around #file: tokens
 - [ ] No trailing punctuation after #file: tokens
-- [ ] Entry point files use markdown links, not #file:
+- [ ] Entry point files use plain-text path mentions, not #file:
 - [ ] Skill references use #skill: for loading, links for optional
 - [ ] Tool references use #tool:server/name format
-- [ ] Agent references use `@AgentName` in docs, @AgentName in agents
+- [ ] Agent references use `AgentName` in docs, AgentName in agents
 
 ## Content quality
 
@@ -34,7 +33,7 @@ Complete validation checklist for Markdown files before committing.
 - [ ] Headers follow sequential hierarchy (no skipping levels)
 - [ ] Lists use proper indentation
 - [ ] End-of-file formatting applied (if required)
-  - Except AGENTS.md and .github/**/*.md — do NOT include 'Last updated' or other end-of-file footers per repo rules
+  - Except: README.md (root), AGENTS.md (all), .agents/**/*.md, .github/**/*.md, docs/adr/*.md — do NOT include 'Last updated' or other end-of-file footers for these paths
 - [ ] Mermaid diagrams use stroke styling (no fill colors)
 - [ ] HTML uses only allowed elements
 - [ ] All images have alt text

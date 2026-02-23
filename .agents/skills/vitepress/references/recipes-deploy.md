@@ -116,7 +116,7 @@ For clean URLs, add `vercel.json`:
 Create `.gitlab-ci.yml`:
 
 ```yaml
-image: node:20
+image: node:24
 
 pages:
   cache:
