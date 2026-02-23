@@ -106,7 +106,7 @@ Verify content-level requirements:
 2. **Code fences:** All blocks have language identifiers
 3. **Headers:** Sentence case, ATX style, sequential hierarchy (no skipping levels)
 4. **Lists:** Hyphen bullets only, proper indentation
-5. **End of file:** Blank line, `---` separator, "Last updated: {date}" footer (see [formatting-standards](references/formatting-standards.md) for exclusions: .github/**/*.md, README.md, AGENTS.md)
+5. **End of file:** Blank line, `---` separator, "Last updated: {date}" footer (see [formatting-standards](references/formatting-standards.md) for exclusions: .github/**/*.md, README.md, AGENTS.md, .agents/**/*.md, docs/adr/*.md)
 6. **Diagrams:** Mermaid diagrams use stroke styling (not fill colors)
 7. **HTML:** Only allowed elements, all images have alt text
 

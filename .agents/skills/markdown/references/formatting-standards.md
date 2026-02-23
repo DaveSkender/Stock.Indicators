@@ -83,7 +83,7 @@ Most files should end with:
 ```markdown
 
 ---
-Last updated: {Month Day, Year}
+# Last updated: {Month Day, Year}
 
 ```
 

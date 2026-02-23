@@ -34,7 +34,7 @@ Complete validation checklist for Markdown files before committing.
 - [ ] Headers follow sequential hierarchy (no skipping levels)
 - [ ] Lists use proper indentation
 - [ ] End-of-file formatting applied (if required)
-  Except AGENTS.md and .github/**/*.md — do NOT include 'Last updated' or other end-of-file footers per repo rules
+  - Except AGENTS.md and .github/**/*.md — do NOT include 'Last updated' or other end-of-file footers per repo rules
 - [ ] Mermaid diagrams use stroke styling (no fill colors)
 - [ ] HTML uses only allowed elements
 - [ ] All images have alt text

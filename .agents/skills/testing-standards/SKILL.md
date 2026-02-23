@@ -32,12 +32,12 @@ Compile errors if missing. Additional tests are developer discretion.
 
 - `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
 - `Clear_WithState_ResetsState()`
-- Plus interface methods from `ITestQuoteBufferList` or `ITestChainBufferList` (see patterns reference)
+- Plus interface methods from `ITestQuoteBufferList` or `ITestChainBufferList` (see [patterns reference](references/patterns.md))
 
 **Stream** (`StreamHubTestBase`):
 
 - `ToStringOverride_ReturnsExpectedName()`
-- Plus interface methods from `ITestQuoteObserver`, `ITestChainObserver`, and/or `ITestChainProvider` (see patterns reference)
+- Plus interface methods from `ITestQuoteObserver`, `ITestChainObserver`, and/or `ITestChainProvider` (see [patterns reference](references/patterns.md))
 
 ## Test data
 

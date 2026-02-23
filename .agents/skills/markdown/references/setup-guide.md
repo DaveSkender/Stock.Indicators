@@ -40,7 +40,10 @@ Add to `.vscode/settings.json`:
 {
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
   },
   "files.associations": {
     "*.md": "markdown"
@@ -79,7 +82,7 @@ Use this example as a starting point if no configuration exists.
     "MD024": { "siblings_only": true },
     "MD028": false,
     "MD033": {
-      "allowed_elements": ["details", "summary", "br", "sub", "sup", "kbd", "abbr", "a", "img", "workflow"]
+      "allowed_elements": ["details", "summary", "br", "sub", "sup", "kbd", "abbr", "a", "img"]
     },
     "MD046": { "style": "fenced" },
     "MD048": { "style": "backtick" }
@@ -92,7 +95,7 @@ Use this example as a starting point if no configuration exists.
 1. **MUST have:** `"gitignore": true` (prevents linting ignored files)
 2. **Customize:** `ignores` array based on project build outputs and structure
 3. **Remove:** Competing configuration files (e.g., `markdownlint.json`, `.markdownlintrc`) if present
-4. **Document exceptions:** Add rule overrides to `config` section, never use inline disables
+4. **Document exceptions:** Prefer adding rule overrides to the `config` section. For narrow, targeted cases where restructuring isn't possible, use inline suppressions with `<!-- markdownlint-disable MD### -->...<!-- markdownlint-enable MD### -->`
 
 ## Step 4: Add VS Code tasks
 

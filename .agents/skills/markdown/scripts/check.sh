@@ -16,7 +16,7 @@ fi
 # Configuration file
 echo ""
 echo "--- Configuration ---"
-for conf in .markdownlint-cli2.jsonc .markdownlint-cli2.yaml .markdownlint-cli2.json .markdownlint.json .markdownlint.yaml; do
+for conf in .markdownlint-cli2.jsonc .markdownlint-cli2.yaml .markdownlint-cli2.yml .markdownlint-cli2.json .markdownlint.json .markdownlint.yaml .markdownlint.yml; do
   if [[ -f "$conf" ]]; then
     echo "✓ Config found: $conf"
     break

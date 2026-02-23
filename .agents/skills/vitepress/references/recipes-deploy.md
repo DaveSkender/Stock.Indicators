@@ -55,7 +55,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
@@ -116,7 +116,7 @@ For clean URLs, add `vercel.json`:
 Create `.gitlab-ci.yml`:
 
 ```yaml
-image: node:18
+image: node:20
 
 pages:
   cache:

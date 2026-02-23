@@ -9,7 +9,7 @@
 | Lint markdown (fix) | `npx markdownlint-cli2 --fix` | `Lint: Markdown (fix)` |
 | Build | `dotnet build -v minimal --nologo` | `Build: .NET Solution (incremental)` |
 | Test | `dotnet test --no-restore --nologo` | `Test: Unit tests` |
-| Full check | `dotnet format --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2` | Run sequentially |
+| Full check | `dotnet format --severity info --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2` | Run sequentially |
 
 ## Configuration files
 
