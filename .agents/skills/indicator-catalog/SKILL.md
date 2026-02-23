@@ -5,10 +5,9 @@ description: Create and register indicator catalog entries for automation. Use f
 
 # Indicator catalog development
 
-## File structure
+## File
 
-- Catalog: `src/{category}/{Indicator}/{Indicator}.Catalog.cs`
-- Location: Same directory as `{Indicator}.Models.cs`
+`src/{category}/{Indicator}/{Indicator}.Catalog.cs`
 
 ## Builder pattern
 
@@ -58,45 +57,49 @@ public static partial class Ema
 }
 ```
 
-## Method naming conventions
+## Method naming
 
 | Style | Pattern | Example |
 | ----- | ------- | ------- |
-| Series | `To{IndicatorName}` | `ToEma` |
-| Stream | `To{IndicatorName}Hub` | `ToEmaHub` |
-| Buffer | `To{IndicatorName}List` | `ToEmaList` |
+| Series | `To{Name}` | `ToEma` |
+| Stream | `To{Name}Hub` | `ToEmaHub` |
+| Buffer | `To{Name}List` | `ToEmaList` |
 
-**Critical**: `.WithMethodName()` must be in style-specific listings, NOT in CommonListing.
+`.WithMethodName()` must be in style-specific listings, NOT in `CommonListing`.
 
-## Required parameter patterns
+## Parameter patterns
 
-- Use `AddParameter<T>()` for basic types (int, double, bool)
-- Use `AddEnumParameter<T>()` for enum types
-- Use `AddDateParameter()` for DateTime parameters
-- Use `AddSeriesParameter()` for `IReadOnlyList<T> where T : IReusable`
-- MUST set `minimum` and `maximum` for all numeric parameters
+- `AddParameter<T>()` — int, double, bool
+- `AddEnumParameter<T>()` — enum types
+- `AddDateParameter()` — DateTime
+- `AddSeriesParameter()` — `IReadOnlyList<T> where T : IReusable`
+- `minimum` and `maximum` required for all numeric parameters
 
-## Required result patterns
+## Result patterns
 
-- `dataName` MUST match property name in Models file exactly
-- Set `isReusable: true` ONLY for property mapping to `IReusable.Value`
-- `ISeries` models: ALL results MUST have `isReusable: false`
-- Exactly ONE result with `isReusable: true` per `IReusable` indicator
+- `dataName` must match property name in Models file exactly
+- `isReusable: true` only for the property mapping to `IReusable.Value`
+- `ISeries` models: all results must have `isReusable: false`
+- Exactly one `isReusable: true` per `IReusable` indicator
 
 ## Categories
 
 | Category | Examples |
 | -------- | -------- |
-| MovingAverage | EMA, SMA, HMA, TEMA |
-| Oscillator | RSI, Stochastic, MACD |
-| PriceChannel | Bollinger Bands, Keltner |
-| Trend | ADX, Aroon, Parabolic SAR |
-| Volume | OBV, Chaikin Money Flow |
-| Volatility | ATR, Standard Deviation |
+| `CandlestickPattern` | Doji, Marubozu |
+| `MovingAverage` | EMA, SMA, HMA, TEMA, WMA, DEMA |
+| `Oscillator` | RSI, Stochastic, MACD, CCI, BOP, CMO, Chop, DPO |
+| `PriceChannel` | Bollinger Bands, Keltner, Donchian, VWAP |
+| `PriceCharacteristic` | ATR, Beta, Standard Deviation, True Range |
+| `PricePattern` | Fractal, Pivot Points |
+| `PriceTransform` | Quote Part, ZigZag |
+| `PriceTrend` | ADX, Aroon, Alligator, AtrStop, SuperTrend, Vortex |
+| `StopAndReverse` | Chandelier, Parabolic SAR, Volatility Stop |
+| `VolumeBased` | OBV, Chaikin Money Flow, Chaikin Oscillator |
 
 ## Registration
 
-Add to `src/_common/Catalog/Catalog.Listings.cs` in `PopulateCatalog()`:
+`src/_common/Catalog/Catalog.Listings.cs`, `PopulateCatalog()` — alphabetical order:
 
 ```csharp
 _catalog.Add(Ema.SeriesListing);
@@ -104,11 +107,16 @@ _catalog.Add(Ema.StreamListing);
 _catalog.Add(Ema.BufferListing);
 ```
 
-Register in alphabetical order by indicator name.
+## Prohibited
+
+- `.WithMethodName()` in `CommonListing`
+- Wrong indicator method name
+- `isReusable: true` for `ISeries` models
+- Multiple `isReusable: true` results per indicator
 
 ## Testing
 
-Create `tests/indicators/{folder}/{Indicator}/{Indicator}.Catalog.Tests.cs`:
+`tests/indicators/{folder}/{Indicator}/{Indicator}.Catalog.Tests.cs`:
 
 ```csharp
 [TestClass]
@@ -124,10 +132,3 @@ public class EmaCatalogTests : TestBase
     }
 }
 ```
-
-## Prohibited patterns
-
-- ❌ `.WithMethodName()` in CommonListing (MUST be in style-specific listings)
-- ❌ Wrong indicator method name (breaks extension method discovery)
-- ❌ `isReusable: true` for `ISeries` models (violates interface contract)
-- ❌ Multiple `isReusable: true` results (ambiguous Value mapping)

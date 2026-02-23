@@ -1,139 +1,68 @@
 # Testing patterns
 
-## Required test coverage
-
-MUST include these test types for every indicator.
-
-### Standard tests
+## FluentAssertions
 
 ```csharp
-[TestMethod]
-public void Standard()
-{
-    // Test against historical data with expected results
-    var results = quotes.ToIndicator(14);
-
-    // Verify specific data points
-    var result = results.ElementAt(index);
-    result.Value.Should().BeApproximately(expected, precision);
-}
-```
-
-### Boundary tests
-
-```csharp
-[TestMethod]
-public void MinimumPeriods()
-{
-    // Test with minimum lookback
-    var results = quotes.ToIndicator(2);
-    results.Should().NotBeEmpty();
-}
-```
-
-### Bad data tests
-
-```csharp
-[TestMethod]
-public void BadParameter()
-{
-    Action act = () => quotes.ToIndicator(-1);
-    act.Should().Throw<ArgumentOutOfRangeException>();
-}
-
-[TestMethod]
-public void NullQuotes()
-{
-    Action act = () => ((IReadOnlyList<Quote>)null!).ToIndicator(14);
-    act.Should().Throw<ArgumentNullException>();
-}
-```
-
-### Insufficient data tests
-
-```csharp
-[TestMethod]
-public void InsufficientQuotes()
-{
-    var results = quotes.Take(5).ToList().ToIndicator(20);
-    results.Should().BeEmpty();
-}
-```
-
-## FluentAssertions patterns
-
-```csharp
-// Exact equality
-result.Value.Should().Be(expected);
-
-// Approximate equality with precision
-result.Value.Should().BeApproximately(expected, 0.0001);
-
-// Null checks
-result.Value.Should().BeNull();
-result.Value.Should().NotBeNull();
-
-// Collection assertions
+result.Value.Should().BeApproximately(expected, Money6);
 results.Should().HaveCount(502);
-results.Should().BeEmpty();
-results.Should().NotBeEmpty();
-
-// Exception assertions
 act.Should().Throw<ArgumentOutOfRangeException>();
-act.Should().Throw<ArgumentNullException>()
-   .WithParameterName("quotes");
+act.Should().Throw<ArgumentNullException>().WithParameterName("quotes");
 ```
 
 ## Precision constants
 
-Use constants from `TestBase`:
+Defined in `TestBaseWithPrecision`. Use for `BeApproximately()` with manually calculated values only:
 
 | Constant | Value | Use case |
 | -------- | ----- | -------- |
-| `Money6` | 0.000001 | Most calculations |
-| `Money5` | 0.00001 | Lower precision |
-| `Money4` | 0.0001 | Standard tolerance |
-| `Percent` | 0.01 | Percentage values |
+| `Money4` | 0.00005 | Standard spot check tolerance |
+| `Money5` | 0.000005 | Higher precision |
+| `Money6` | 0.0000005 | Most calculations |
+| `Money8` | 0.000000005 | Very high precision |
+| `Money10` | 0.00000000005 | Full-dataset regression validation |
+| `Money12` | 0.0000000000005 | Maximum precision regression |
+
+## Series parity
+
+Use `IsExactly()` (NOT `Should().Be()`):
 
 ```csharp
-result.Ema.Should().BeApproximately(123.456789, Money6);
-```
-
-## Series parity validation
-
-Buffer and Stream tests must validate against Series:
-
-```csharp
-[TestMethod]
-public void MatchesSeries()
-{
-    // Get Series results (canonical reference)
-    var series = quotes.ToIndicator(14);
-
-    // Get Buffer results
-    var buffer = new IndicatorList(14) { quotes };
-
-    // Validate exact parity
-    buffer.IsExactly(series);
-}
+buffer.IsExactly(quotes.ToIndicator(14));
 ```
 
 ## BufferList constraints
 
-MUST implement these 5 base class tests:
+Inherit `BufferListTestBase`.
 
-1. `AddQuote_IncrementsResults()`
-2. `AddQuotesBatch_IncrementsResults()`
-3. `QuotesCtor_OnInstantiation_IncrementsResults()`
-4. `Clear_WithState_ResetsState()`
-5. `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
+`IIncrementFromQuote` → implement `ITestQuoteBufferList`:
+
+- `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
+- `Clear_WithState_ResetsState()`
+- `AddQuote_IncrementsResults()`
+- `AddQuotesBatch_IncrementsResults()`
+- `QuotesCtor_OnInstantiation_IncrementsResults()`
+
+`IIncrementFromChain` → implement `ITestChainBufferList` (all above, plus):
+
+- `AddReusableItem_IncrementsResults()`
+- `AddReusableItemBatch_IncrementsResults()`
+- `AddDateAndValue_IncrementsResults()`
+
+`ITestCustomBufferListCache` (when non-standard Queue history caching is used):
+
+- `CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()`
 
 ## StreamHub constraints
 
-All StreamHub tests must validate rollback scenarios:
+Inherit `StreamHubTestBase`. Abstract method (compile error if missing):
 
-- Prefill warmup window before subscribing
-- Stream in-order including duplicates
-- Insert late historical quote → verify recalculation
-- Remove historical quote → verify recalculation
-- Compare to Series with strict ordering
+- `ToStringOverride_ReturnsExpectedName()`
+
+Implement ONE observer interface:
+
+- `ITestChainObserver`: `ChainObserver_ChainedProvider_MatchesSeriesExactly()` + inherits all `ITestQuoteObserver` methods
+- `ITestQuoteObserver`: `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()`, `WithCachePruning_MatchesSeriesExactly()`
+
+If hub acts as chain provider, also implement `ITestChainProvider`:
+
+- `ChainProvider_MatchesSeriesExactly()`

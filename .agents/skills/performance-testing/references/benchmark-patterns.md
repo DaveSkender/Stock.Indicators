@@ -14,7 +14,7 @@
 
 ```csharp
 [MemoryDiagnoser]
-[SimpleJob(RuntimeMoniker.Net80)]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class SeriesIndicators
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
@@ -34,7 +34,7 @@ public class SeriesIndicators
 
 ```csharp
 [MemoryDiagnoser]
-[SimpleJob(RuntimeMoniker.Net80)]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class StreamIndicators
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
@@ -59,7 +59,7 @@ public class StreamIndicators
 
 ```csharp
 [MemoryDiagnoser]
-[SimpleJob(RuntimeMoniker.Net80)]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class BufferIndicators
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
@@ -76,7 +76,7 @@ public class BufferIndicators
 
 ```csharp
 [MemoryDiagnoser]
-[SimpleJob(RuntimeMoniker.Net80)]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class EmaStyleComparison
 {
     private const int LookbackPeriods = 14;

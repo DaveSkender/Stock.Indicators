@@ -5,29 +5,7 @@ description: Quality gates checklist for completing code work before finishing i
 
 # Code completion checklist
 
-Execute these quality gates before finishing any code work cycle to ensure the codebase is production-ready.
-
-## When to use this skill
-
-Use this skill when:
-
-- Implementing new features
-- Fixing bugs
-- Refactoring code
-- Modifying existing functionality
-- Making any changes to C# source code
-- Adding or updating indicators
-- A human reminds you to run the "code completion checklist"
-
-> [!NOTE]
-> This should not be run fully with every incremental change during a turn.
-> For incremental changes during a turn, run whichever component of the checklist that reasonably tests the changes made.
-> Unless deemed important, only perform the Roslynator and formatting steps at the very end of the turn.
-
-## Required tools
-
-- #tool:runCommands - Execute shell commands for linting, building, testing
-- #tool:read - Read error output and configuration files
+Run before finishing any implementation cycle.
 
 ## Workflow
 
@@ -42,88 +20,47 @@ Before running quality gates:
 
 ### Step 1: Run linters
 
-Execute linting for all code (markdown + .NET):
-
 ```bash
 dotnet format --severity info --no-restore
 npx markdownlint-cli2 --fix
 ```
 
-Success criteria: **Zero linting errors and zero warnings**. All warnings must be fixed before completing work.
-
-CRITICAL: Suppressing warnings is not an appropriate way to resolve lint or build warnings.
-
-Individual checks (if needed):
+Zero errors and zero warnings required. Individual checks:
 
 ```bash
-# Roslynator only (fast)
 dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal
-
-# .NET format only
 dotnet format --severity info --no-restore
-
-# Markdown only
 npx markdownlint-cli2 --fix
 ```
 
-VS Code tasks: `Lint: All (fix)` or `Lint: .NET code & markdown files (fix)` (faster)
+VS Code task: `Lint: All (fix)`
 
-Handle failures:
-
-- Review reported issues
-- Fix manually or re-run fix commands
-- For unfixable issues, document justification and seek approval
-- Re-run lint to verify
-
-### Step 2: Build solution
-
-Verify compilation and build artifacts:
+### Step 2: Build
 
 ```bash
 dotnet build "Stock.Indicators.sln" -v minimal --nologo
 ```
 
-Success criteria: All projects compile without errors. No build warnings.
-
 VS Code task: `Build: .NET Solution (incremental)`
 
-Handle failures:
-
-- Review compilation errors and warnings
-- Fix code issues, type errors, or configuration problems
-- Ensure all packages are restored (`dotnet restore`)
-- Re-run build to verify
-
-### Step 3: Run test suites
-
-Execute all unit tests (integration tests run in CI only):
+### Step 3: Test
 
 ```bash
 dotnet test "Stock.Indicators.sln" --no-restore --nologo
 ```
 
-Success criteria: All tests pass. No test failures. Coverage ≥ 98% (validated in CI/CD via Codacy).
-
 VS Code task: `Test: Unit tests`
-
-Handle failures:
-
-- Review test output and failure messages
-- Fix code or update tests as appropriate
-- Re-run test suite to verify
 
 ### Step 4: Update documentation
 
 When changing indicators or public APIs:
 
 - Update XML documentation for changed public APIs
-- Update `docs/indicators/{IndicatorName}.md` for indicator changes
+- Update `docs/indicators/{IndicatorName}.md`
 - Update `docs/migration.md` for notable and breaking changes from v2
-- Update obsolete bridge files (`src/Obsolete.V3.*.cs`) for deprecated APIs
+- Update `src/Obsolete.V3.*.cs` for deprecated APIs
 
-### Step 5: Verify and commit
-
-After all gates pass:
+### Step 5: Verify
 
 ```bash
 dotnet format --verify-no-changes --severity info --no-restore
@@ -132,50 +69,33 @@ dotnet test "Stock.Indicators.sln" --no-build --nologo
 npx markdownlint-cli2
 ```
 
-- Review changes for completeness
-- Address any remaining warnings
-- Document intentional deviations
-- Commit changes if working in unattended mode
-
 ## Quality standards
 
-Before marking work complete:
-
-- **Zero linting errors and zero warnings** - all warnings must be fixed
-- **Zero build warnings and zero errors** - all compilation warnings must be addressed
-- All projects build successfully
-- All tests pass with no warnings
-- Coverage threshold maintained (≥ 98% validated in CI/CD)
+- Zero linting errors and zero warnings
+- Zero build warnings and errors
+- All tests pass (coverage ≥ 98% validated in CI/CD)
 - Documentation updated for public API changes
 - Migration bridges updated for breaking changes
 
-**Critical**: Treat all warnings as errors. Do not ignore, defer, suppress, or accept warnings regardless of scope, type, or reason. Warnings indicate issues that must be resolved.
+Do not ignore, defer, or suppress warnings.
 
-Abbreviated verification command:
+## Indicator components
 
-```bash
-dotnet format --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2
-```
+New or updated indicators require:
 
-## Required indicator components
+- Series: `*.StaticSeries.cs`
+- Catalog: `*.Catalog.cs` + registration
+- Tests: `*.Tests.cs` with full coverage
+- Docs: `docs/indicators/{Name}.md`
+- Regression baseline (if algorithm changed)
+- Performance benchmark (complex indicators)
 
-For new or updated indicators, MUST include:
+## Migration bridge
 
-- Series implementation (`*.StaticSeries.cs`)
-- Catalog entry and registration (`*.Catalog.cs`)
-- Unit tests with full coverage (`*.Tests.cs`)
-- Documentation (`docs/indicators/{Name}.md`)
-- Regression test baseline (if algorithm changed)
-- Performance benchmark (for complex indicators)
+When changing public APIs:
 
-## Required migration bridge
-
-When changing public APIs, MUST:
-
-- Add `[Obsolete]` attribute with migration message
-- Update `docs/migration.md` for notable and breaking changes
-- Update bridge files:
-  - `src/Obsolete.V3.Indicators.cs`
-  - `src/Obsolete.V3.Other.cs`
+- Add `[Obsolete]` with migration message
+- Update `docs/migration.md`
+- Update `src/Obsolete.V3.Indicators.cs` and `src/Obsolete.V3.Other.cs`
 
 See [references/quality-gates.md](references/quality-gates.md) for the quick reference table of all commands and configuration file locations.

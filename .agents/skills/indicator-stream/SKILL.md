@@ -16,26 +16,24 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 
 ## Performance requirements
 
-**Target**: StreamHub ≤ 1.5x slower than Series
+Target: StreamHub ≤ 1.5x slower than Series.
 
-### Anti-pattern 1: O(n²) recalculation (FORBIDDEN)
+Forbid O(n²) recalculation — rebuild entire history on each tick:
 
 ```csharp
-// WRONG - Rebuilds entire history on each tick
+// WRONG
 for (int k = 0; k <= i; k++) { subset.Add(cache[k]); }
 var result = subset.ToIndicator();
 ```
 
-### Correct: O(1) incremental update
+O(1) incremental update:
 
 ```csharp
-// CORRECT - Maintain state, update incrementally
+// CORRECT
 _avgGain = ((_avgGain * (period - 1)) + gain) / period;
 ```
 
-### Anti-pattern 2: O(n) window scans
-
-Use `RollingWindowMax/Min` utilities instead of linear scans for max/min operations.
+Use `RollingWindowMax/Min` utilities instead of O(n) linear scans.
 
 ## RollbackState pattern
 
@@ -45,34 +43,25 @@ Override when maintaining stateful fields:
 protected override void RollbackState(DateTime timestamp)
 {
     int targetIndex = ProviderCache.IndexGte(timestamp);
-
     _window.Clear();
-
     if (targetIndex <= 0) return;
-
-    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
+    int restoreIndex = targetIndex - 1;
     int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
-
     for (int p = startIdx; p <= restoreIndex; p++)
         _window.Add(ProviderCache[p].Value);
 }
 ```
 
-**Critical**: Replay up to `targetIndex - 1` (exclusive of rollback timestamp). The quote at the rollback timestamp will be recalculated when it arrives via normal processing.
+Replay up to `targetIndex - 1` (exclusive). The rollback timestamp is recalculated via normal processing.
 
 ## Testing requirements
 
-1. Inherit from `StreamHubTestBase`
-2. Implement exactly ONE observer interface:
-   - `ITestChainObserver` (most common)
-   - `ITestQuoteObserver` (quote-only providers)
-3. Implement at most ONE provider interface: `ITestChainProvider`
-4. Comprehensive rollback validation (required):
-   - Prefill warmup window before subscribing
-   - Stream in-order including duplicates
-   - Insert a late historical quote → verify recalculation
-   - Remove a historical quote → verify recalculation
-   - Compare results to Series with strict ordering
+- Inherit `StreamHubTestBase`
+- Abstract method (compile error if missing): `ToStringOverride_ReturnsExpectedName()`
+- Implement ONE observer interface:
+  - `ITestChainObserver` (most indicators — chain input): inherits `ITestQuoteObserver`, adds `ChainObserver_ChainedProvider_MatchesSeriesExactly()`
+  - `ITestQuoteObserver` (direct quote input only): `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()`, `WithCachePruning_MatchesSeriesExactly()`
+- If hub acts as chain provider, also implement `ITestChainProvider`: `ChainProvider_MatchesSeriesExactly()`
 
 ## Required implementation
 
@@ -97,18 +86,15 @@ protected override void RollbackState(DateTime timestamp)
 - Chain: `src/e-k/Ema/Ema.StreamHub.cs`
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
 - Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
-- Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`, `src/e-k/Gator/Gator.StreamHub.cs`
+- Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`
 
-See detailed patterns in references:
+- [Provider selection](references/provider-selection.md)
+- [Rollback patterns](references/rollback-patterns.md)
+- [Performance patterns](references/performance-patterns.md)
+- [Compound hubs](references/compound-hubs.md)
 
-- [Provider selection](references/provider-selection.md) — choosing the right provider base
-- [Rollback patterns](references/rollback-patterns.md) — RollbackState implementation examples
-- [Performance patterns](references/performance-patterns.md) — O(1) optimization techniques
-- [Compound hubs](references/compound-hubs.md) — internal hub dependencies and construction patterns
+## Constraints
 
-## Common pitfalls
-
-- Null or empty quotes causing stateful streaming regressions (always validate input sequences)
-- Index out of range and buffer reuse issues in streaming indicators (guard shared spans and caches)
-- Performance regressions from O(n) or O(n²) patterns instead of O(1) incremental updates
-- Improper rollback state replay (must replay up to targetIndex - 1, exclusive of rollback timestamp)
+- O(n²) recalculation is forbidden; all updates must be O(1)
+- `RollbackState()` replay is exclusive of rollback timestamp
+- Series parity required: results must be numerically identical to StaticSeries

@@ -5,47 +5,42 @@ description: Testing conventions for Stock Indicators. Use for test naming (Meth
 
 # Testing standards
 
-## Test base class selection
+## Base class selection
 
-| Style | Base Class | Purpose |
-| ----- | ---------- | ------- |
-| Series | `StaticSeriesTestBase` | Batch processing tests |
-| Buffer | `BufferListTestBase` | Incremental processing tests |
-| Stream | `StreamHubTestBase` | Real-time processing tests |
-| Other | `TestBase` | General utility tests |
+| Style | Base Class |
+| ----- | ---------- |
+| Series | `StaticSeriesTestBase` |
+| Buffer | `BufferListTestBase` |
+| Stream | `StreamHubTestBase` |
+| Other | `TestBase` |
 
-## Test naming convention
+## Test naming
 
 Pattern: `MethodName_StateUnderTest_ExpectedBehavior`
 
-```csharp
-[TestMethod]
-public void ToEma_WithSmallDataset_CalculatesCorrectly() { }
+## Required abstract methods
 
-[TestMethod]
-public void ToRsi_WithInsufficientData_ReturnsEmpty() { }
+Compile errors if missing. Additional tests are developer discretion.
 
-[TestMethod]
-public void AddQuote_WithNullInput_ThrowsArgumentNull() { }
-```
+**Series** (`StaticSeriesTestBase`):
 
-## Required test types
+- `DefaultParameters_ReturnsExpectedResults()`
+- `BadQuotes_DoesNotFail()`
+- `NoQuotes_ReturnsEmpty()`
 
-MUST include for every indicator:
+**Buffer** (`BufferListTestBase`):
 
-- `Standard` — spot checks against historical reference values
-- `MinimumPeriods` — boundary case with minimum lookback
-- `BadParameter` — `ArgumentOutOfRangeException` for invalid inputs
-- `NullQuotes` — `ArgumentNullException` for null inputs
-- `InsufficientQuotes` — empty result when data < warmup period
-- `MatchesSeries` — Buffer/Stream exact parity against Series
+- `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
+- `Clear_WithState_ResetsState()`
+- Plus interface methods from `ITestQuoteBufferList` or `ITestChainBufferList` (see patterns reference)
 
-See [references/patterns.md](references/patterns.md) for code examples of each test type, FluentAssertions patterns, precision constants, and BufferList/StreamHub constraints.
+**Stream** (`StreamHubTestBase`):
+
+- `ToStringOverride_ReturnsExpectedName()`
+- Plus interface methods from `ITestQuoteObserver`, `ITestChainObserver`, and/or `ITestChainProvider` (see patterns reference)
 
 ## Test data
 
-Use standard test data from `Data.GetDefault()`:
+`Data.GetDefault()` — 502 quotes. Use consistently across all tests.
 
-- 502 quotes of historical data
-- Consistent across all tests
-- Excel reference file: `tests/_common/Data.Quotes.xlsx`
+See [references/patterns.md](references/patterns.md) for FluentAssertions patterns, precision constants, and full BufferList/StreamHub interface method lists.

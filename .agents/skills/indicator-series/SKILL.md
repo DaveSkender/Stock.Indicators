@@ -7,14 +7,30 @@ description: Implement Series-style batch indicators with mathematical precision
 
 ## File structure
 
-- Implementation: `src/{category}/{Indicator}/{Indicator}.StaticSeries.cs`
-- Test: `tests/indicators/{category}/{Indicator}/{Indicator}.StaticSeries.Tests.cs`
-- Catalog: `src/{category}/{Indicator}/{Indicator}.Catalog.cs`
-- Categories: a-d, e-k, m-r, s-z (alphabetical)
+All files live in `src/{category}/{Indicator}/`:
+
+| File | Purpose |
+| ---- | ------- |
+| `{Indicator}.StaticSeries.cs` | Static partial class — `To{Indicator}()` + `To{Indicator}List()` entry points |
+| `{Indicator}.StreamHub.cs` | Hub class (internal ctor) + `To{Indicator}Hub()` extension |
+| `{Indicator}.BufferList.cs` | List class + `To{Indicator}List()` extension |
+| `{Indicator}.Catalog.cs` | `CommonListing`, `SeriesListing`, `StreamListing`, `BufferListing` |
+| `{Indicator}.Models.cs` | Result record(s) |
+| `{Indicator}.Utilities.cs` | `Validate()` (internal), `Increment()` (public), `RemoveWarmupPeriods()` |
+| `I{Indicator}.cs` | Parameter interface (parameter properties only; NOT result properties) |
+
+Test files mirror in `tests/indicators/{category}/{Indicator}/`:
+
+- `{Indicator}.StaticSeries.Tests.cs`
+- `{Indicator}.BufferList.Tests.cs`
+- `{Indicator}.StreamHub.Tests.cs`
+- `{Indicator}.Regression.Tests.cs`
+
+Category folders: `a-d`, `e-k`, `m-r`, `s-z` (alphabetical)
 
 ## Performance optimization
 
-**Array allocation pattern** (recommended for new implementations):
+Array allocation pattern (use for predictable result counts; benchmark first):
 
 ```csharp
 TResult[] results = new TResult[length];
@@ -22,22 +38,14 @@ TResult[] results = new TResult[length];
 return new List<TResult>(results);  // NOT results.ToList()
 ```
 
-**When to use**: Indicators with predictable result counts show ~2x improvement (Issue #1259)
-
-**When NOT to use**: Benchmark first. Some indicators (ADL) remain faster with `List.Add()`
-
-**Conversion strategy**:
-
-1. Benchmark existing List-based implementation
-2. Convert to array pattern
-3. Benchmark again
-4. Revert if no improvement or regression
+Some indicators (e.g., ADL) are faster with `List.Add()` — benchmark both.
 
 ## Required implementation
 
 Beyond the `.StaticSeries.cs` file, ensure:
 
 - [ ] **Catalog registration**: Create `src/**/{Indicator}.Catalog.cs` and register in `Catalog.Listings.cs`
+- [ ] **Interface file**: Create `src/**/{Indicator}/I{Indicator}.cs` with parameter properties (NOT result properties)
 - [ ] **Unit tests**: Create `tests/indicators/**/{Indicator}.StaticSeries.Tests.cs`
   - Inherit from `StaticSeriesTestBase`
   - Include `[TestCategory("Regression")]` for baseline validation
@@ -47,38 +55,25 @@ Beyond the `.StaticSeries.cs` file, ensure:
 - [ ] **Regression tests**: Add to `tests/indicators/**/{Indicator}.Regression.Tests.cs`
 - [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
 
-## Precision testing patterns
+## Precision testing
 
-- **Store reference data separately**: Create `{Indicator}.Data.cs` files with arrays of expected values at maximum precision
-- **Excel manual calculations**: Export at highest precision available (~14 decimal places for `default.csv` values ~200)
-- **Baseline regression validation**: Compare full dataset against reference arrays using Money10-Money12 precision
-- **Spot check assertions**: Use Money4 for individual sample value readability (sanity checks, not proofs)
-- **Longer datasets**: May require lower precision (e.g., Money10 for 15k quotes) due to accumulated floating-point error
-- **Document degradation**: When precision must be lowered, explain why in test comments
+- Store reference data in `{Indicator}.Data.cs` at maximum precision
+- Regression: compare full dataset using Money10-Money12
+- Spot checks: use Money4
+- Document when precision must be lowered due to accumulated floating-point error
 
 ## Examples
 
-- **Simple single-value**: `src/s-z/Sma/Sma.StaticSeries.cs`
-- **Exponential smoothing**: `src/e-k/Ema/Ema.StaticSeries.cs`
-- **Complex multi-stage**: `src/a-d/Adx/Adx.StaticSeries.cs`
-- **Multi-line results**: `src/a-d/Alligator/Alligator.StaticSeries.cs`
+- Simple: `src/s-z/Sma/Sma.StaticSeries.cs`
+- Exponential smoothing: `src/e-k/Ema/Ema.StaticSeries.cs`
+- Complex multi-stage: `src/a-d/Adx/Adx.StaticSeries.cs`
+- Multi-value results: `src/a-d/Alligator/Alligator.StaticSeries.cs`
 
-See [references/decision-tree.md](references/decision-tree.md) for result interface selection guidance.
+See [references/decision-tree.md](references/decision-tree.md) for result interface selection.
 
-## Constitutional constraints
+## Constraints
 
-- **Series is truth**: All other styles (BufferList, StreamHub) MUST match Series results exactly
-- **Verify against authoritative sources**: NEVER trust other libraries—use reference publications only
-- **Algebraic stability**: Prefer boundary detection over clamping
-- **Real-world testing**: Synthetic boundary data may miss precision edge cases
-- **Fix formulas, not symptoms**: When all styles fail identically, fix the core algorithm
-
-NEVER modify formulas without verification against authoritative mathematical references. See src/AGENTS.md for formula protection rules.
-
-## Common pitfalls
-
-- Off-by-one windows when calculating lookback or warmup periods
-- Precision loss in chained calculations (favor double for performance)
-- Performance regressions from unnecessary allocations or LINQ
-- Documentation drift between code comments, XML docs, and published docs site
-- Improper NaN handling (do not reject NaN inputs; guard against division by zero)
+- Series is canonical truth — BufferList and StreamHub MUST match exactly
+- Verify algorithms against authoritative reference publications only
+- Never reject NaN inputs; guard against division by zero
+- Fix formulas, not symptoms — see src/AGENTS.md
