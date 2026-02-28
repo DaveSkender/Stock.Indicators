@@ -220,7 +220,7 @@ public class TsiHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset all state
         _isFirstPeriod = true;
@@ -234,24 +234,12 @@ public class TsiHub
         _cs1History.Clear();
         _as1History.Clear();
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        int targetIndex = index - 1;
-
-        for (int i = 0; i <= targetIndex; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
             IReusable item = ProviderCache[i];
             double currentValue = item.Value;

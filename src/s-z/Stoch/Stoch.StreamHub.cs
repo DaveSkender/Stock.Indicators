@@ -299,26 +299,21 @@ public class StochHub
     /// Restores the rolling window state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear rolling windows and buffer
         _highWindow.Clear();
         _lowWindow.Clear();
         _rawKBuffer.Clear();
 
-        // Rebuild windows from ProviderCache up to the rollback point
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-
         // Rebuild high/low windows
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
-        for (int p = startIdx; p <= targetIndex; p++)
+        int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             double cachedHigh = (double)quote.High;
@@ -329,10 +324,10 @@ public class StochHub
         }
 
         // Prefill raw-%K buffer for SMA smoothing so the next tick uses a full window
-        if (SmoothPeriods > 1 && targetIndex >= LookbackPeriods - 1)
+        if (SmoothPeriods > 1 && restoreIndex >= LookbackPeriods - 1)
         {
-            int kStart = Math.Max(LookbackPeriods - 1, targetIndex + 1 - SmoothPeriods);
-            for (int p = kStart; p <= targetIndex; p++)
+            int kStart = Math.Max(LookbackPeriods - 1, restoreIndex + 1 - SmoothPeriods);
+            for (int p = kStart; p <= restoreIndex; p++)
             {
                 int rStart = Math.Max(0, p + 1 - LookbackPeriods);
                 double hh = double.NegativeInfinity;

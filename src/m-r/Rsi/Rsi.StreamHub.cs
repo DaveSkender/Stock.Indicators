@@ -112,24 +112,14 @@ public class RsiHub
     /// incremental updates.
     /// </remarks>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset state
         _avgGain = double.NaN;
         _avgLoss = double.NaN;
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index == -1)
-        {
-            index = ProviderCache.Count;
-        }
-
-        // Target is the position just before where rebuild will start
-        int targetIndex = index - 1;
-
         // Not enough data to initialize state
-        if (targetIndex < LookbackPeriods)
+        if (restoreIndex < LookbackPeriods)
         {
             return;
         }
@@ -139,8 +129,8 @@ public class RsiHub
         _avgGain = sumGain / LookbackPeriods;
         _avgLoss = sumLoss / LookbackPeriods;
 
-        // Apply Wilder's smoothing for subsequent positions up to targetIndex
-        for (int p = LookbackPeriods + 1; p <= targetIndex; p++)
+        // Apply Wilder's smoothing for subsequent positions up to restoreIndex
+        for (int p = LookbackPeriods + 1; p <= restoreIndex; p++)
         {
             double pPrevVal = ProviderCache[p - 1].Value;
             double pCurrVal = ProviderCache[p].Value;

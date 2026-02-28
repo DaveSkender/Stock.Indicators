@@ -117,7 +117,7 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Fix**: Replaced loop with three sliding-window rolling-sum queues (`_shortQueue`, `_middleQueue`, `_longQueue`) plus six running-sum fields; each new quote now updates sums in O(1)
   - **Status**: COMPLETE - Added `RollbackState` override to rebuild queues/sums from `ProviderCache` on rollback; all `Series-parity` tests pass
 
-- [ ] **P011** - Adl StreamHub performance optimization (3-4 hours)
+- [x] **P011** - Adl StreamHub performance optimization (3-4 hours)
   - **Current**: 5.87x slower than Series (32,493 ns vs 5,534 ns)
   - **Problem**: Running sum calculation with inefficiencies
   - **Action**: Optimize state management for rolling totals

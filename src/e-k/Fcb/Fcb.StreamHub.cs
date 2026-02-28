@@ -91,14 +91,12 @@ public class FcbHub
     /// Restores the prior FCB state.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-
         // restore prior state
-        if (i > 0)
+        if (restoreIndex >= 0)
         {
-            FcbResult priorResult = Cache[i - 1];
+            FcbResult priorResult = Cache[restoreIndex];
             UpperLine = priorResult.UpperBand;
             LowerLine = priorResult.LowerBand;
         }

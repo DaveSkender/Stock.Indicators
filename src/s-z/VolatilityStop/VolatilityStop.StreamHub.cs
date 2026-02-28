@@ -196,13 +196,11 @@ public class VolatilityStopHub
     }
 
     /// <summary>
-    /// Restores the Volatility Stop state up to the specified timestamp.
+    /// Restores the Volatility Stop state up to the specified index.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int targetIndex = ProviderCache.IndexGte(timestamp);
-
         // Reset all state
         Sic = 0;
         IsLong = false;
@@ -210,13 +208,10 @@ public class VolatilityStopHub
         NullificationDone = false;
         PrevAtr = null;
 
-        if (targetIndex <= LookbackPeriods)
+        if (restoreIndex < LookbackPeriods)
         {
             return;
         }
-
-        // Replay the calculation from the beginning up to targetIndex - 1
-        int restoreIndex = targetIndex - 1;
 
         // Initialize trend (same as in ToIndicator)
         Sic = (double)ProviderCache[0].Close;

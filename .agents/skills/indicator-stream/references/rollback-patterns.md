@@ -2,7 +2,8 @@
 
 ## When to override RollbackState
 
-Override `RollbackState(DateTime timestamp)` when the hub maintains stateful fields:
+Override `RollbackState(int restoreIndex)` when the hub maintains stateful fields.
+The base class computes `restoreIndex = IndexBefore(fromTimestamp)` before calling this method — `-1` means reset everything, `>= 0` is the last `ProviderCache` index to preserve.
 
 | State Type | Requires Override | Examples |
 | ---------- | ----------------- | -------- |
@@ -18,15 +19,12 @@ Override `RollbackState(DateTime timestamp)` when the hub maintains stateful fie
 ```csharp
 private readonly RollingWindowMax<double> _window;
 
-protected override void RollbackState(DateTime timestamp)
+protected override void RollbackState(int restoreIndex)
 {
-    int targetIndex = ProviderCache.IndexGte(timestamp);
-
     _window.Clear();
 
-    if (targetIndex <= 0) return;
+    if (restoreIndex < 0) return;
 
-    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
     int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
 
     for (int p = startIdx; p <= restoreIndex; p++)
@@ -45,18 +43,14 @@ private readonly RollingWindowMax<double> _highWindow;
 private readonly RollingWindowMin<double> _lowWindow;
 private readonly Queue<double> _rawKBuffer;
 
-protected override void RollbackState(DateTime timestamp)
+protected override void RollbackState(int restoreIndex)
 {
-    int targetIndex = ProviderCache.IndexGte(timestamp);
-
     // Clear all state
     _highWindow.Clear();
     _lowWindow.Clear();
     _rawKBuffer.Clear();
 
-    if (targetIndex <= 0) return;
-
-    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
+    if (restoreIndex < 0) return;
 
     // Rebuild windows
     int windowStart = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
@@ -86,17 +80,14 @@ private double _avgGain = double.NaN;
 private double _avgLoss = double.NaN;
 private double _prevValue = double.NaN;
 
-protected override void RollbackState(DateTime timestamp)
+protected override void RollbackState(int restoreIndex)
 {
-    int targetIndex = ProviderCache.IndexGte(timestamp);
-
     _avgGain = double.NaN;
     _avgLoss = double.NaN;
     _prevValue = double.NaN;
 
-    if (targetIndex <= 0) return;
+    if (restoreIndex < 0) return;
 
-    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
 
     // Replay warmup period to rebuild Wilder's smoothing state
     int startIdx = Math.Max(0, restoreIndex + 1 - (2 * LookbackPeriods));
@@ -126,18 +117,15 @@ protected override void RollbackState(DateTime timestamp)
 ```csharp
 private double _prevEma = double.NaN;
 
-protected override void RollbackState(DateTime timestamp)
+protected override void RollbackState(int restoreIndex)
 {
-    int targetIndex = ProviderCache.IndexGte(timestamp);
-
-    if (targetIndex <= 0)
+    if (restoreIndex < 0)
     {
         _prevEma = double.NaN;
         return;
     }
 
-    // Restore previous EMA from cache (up to but NOT including timestamp)
-    int restoreIndex = targetIndex - 1;
+    // Restore previous EMA from cache at restoreIndex
     if (restoreIndex >= LookbackPeriods)
     {
         EmaResult prior = Cache[restoreIndex];
@@ -162,19 +150,15 @@ private readonly RollingWindowMin<double> _rsiMinWindow;
 private readonly Queue<double> kBuffer;
 private readonly Queue<double> signalBuffer;
 
-protected override void RollbackState(DateTime timestamp)
+protected override void RollbackState(int restoreIndex)
 {
-    int targetIndex = ProviderCache.IndexGte(timestamp);
-
     // Clear all compound state
     _rsiMaxWindow.Clear();
     _rsiMinWindow.Clear();
     kBuffer.Clear();
     signalBuffer.Clear();
 
-    if (targetIndex <= 0) return;
-
-    int restoreIndex = targetIndex - 1;  // Rebuild up to but NOT including timestamp
+    if (restoreIndex < 0) return;
 
     // Replay compound hub processing using cached internal hub results
     for (int i = 0; i <= restoreIndex; i++)
@@ -195,13 +179,13 @@ protected override void RollbackState(DateTime timestamp)
 ## Key principles
 
 1. **Clear all stateful fields first** - Reset to initial state
-2. **Find the target index** - Use `ProviderCache.IndexGte(timestamp)`
-3. **Calculate restore index** - Set `restoreIndex = targetIndex - 1` (rebuild up to but NOT including timestamp)
-4. **Replay from warmup start** - Calculate startIdx with lookback period
-5. **Rebuild incrementally** - Process each cached item in order up to `restoreIndex`
+2. **Receive `restoreIndex` directly** - Base class computes `IndexBefore(fromTimestamp)`; `-1` means reset everything, `>= 0` is the last index to preserve
+3. **Guard on `restoreIndex < 0`** - Return early after clearing state; nothing to replay
+4. **Replay from warmup start** - Calculate `startIdx` with lookback period
+5. **Rebuild incrementally** - Process each cached item in order up to `restoreIndex` (inclusive)
 6. **Match ToIndicator logic** - Use same calculations as normal processing
 
-**Critical**: The quote at the rollback timestamp will be recalculated when it arrives via normal processing. Do NOT include it in the replay loop.
+**Critical**: The item at the rollback timestamp is recalculated when it arrives via normal processing. Do NOT include it in the replay loop.
 
 ## Anti-patterns to avoid
 

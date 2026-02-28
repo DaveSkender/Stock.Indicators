@@ -124,24 +124,30 @@ public class ChandelierHub
     /// Restores the rolling window state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear rolling windows
         _highWindow.Clear();
         _lowWindow.Clear();
 
-        // Rebuild windows from the quote provider's cache
-        int index = _quoteProvider.Results.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+        // Derive quote-cache index from ATR-cache timestamp
+        DateTime ts = ProviderCache[restoreIndex].Timestamp;
+        int quoteIndex = _quoteProvider.Results.IndexGte(ts);
 
-        for (int p = startIdx; p <= targetIndex; p++)
+        if (quoteIndex < 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the matching quote
+        int startIdx = Math.Max(0, quoteIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= quoteIndex; p++)
         {
             IQuote quote = _quoteProvider.Results[p];
             double cachedHigh = (double)quote.High;

@@ -153,7 +153,7 @@ public sealed class SmiHub
     /// Restores the SMI calculation state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset state variables
         _lastSmEma1 = double.NaN;
@@ -166,18 +166,14 @@ public sealed class SmiHub
         _highWindow.Clear();
         _lowWindow.Clear();
 
-        // Find the index up to which we need to rebuild
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0 || index < LookbackPeriods)
+        if (restoreIndex < LookbackPeriods - 1)
         {
             return;
         }
 
         // Rebuild state from cache up to the rollback point
-        int targetIndex = index - 1;
-
         // Process each period to rebuild both windows and EMA state
-        for (int p = 0; p <= targetIndex; p++)
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote q = ProviderCache[p];
             double high = (double)q.High;

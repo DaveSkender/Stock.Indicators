@@ -76,7 +76,7 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
     /// Restores the cumulative state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear cumulative state
         _cumVolume = _prunedVolume;
@@ -89,16 +89,13 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
             StartDate = _autoAnchorDate;
         }
 
-        // Rebuild cumulative state from ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
-        for (int p = 0; p <= targetIndex; p++)
+        // Rebuild cumulative state from ProviderCache
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
 
