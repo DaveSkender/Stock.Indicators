@@ -147,31 +147,21 @@ public class PmoHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         _prevRocEma = double.NaN;
         _rocHistory.Clear();
         _rocEmaHistory.Clear();
 
-        // Find where recalculation starts; replay builds state for items before it.
-        // -1 = all items precede timestamp → replay everything (set to Count).
-        //  0 = timestamp is at/before first item → nothing precedes it, skip.
-        int targetIndex = ProviderCache.IndexGte(timestamp);
-
-        if (targetIndex == -1)
-        {
-            targetIndex = ProviderCache.Count;
-        }
-
-        if (targetIndex <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Replay items 0..targetIndex-1 to rebuild _prevRocEma,
+        // Replay items 0..restoreIndex to rebuild _prevRocEma,
         // _rocHistory, and _rocEmaHistory so the next ToIndicator
-        // call at targetIndex continues with correct EMA state.
-        for (int i = 0; i < targetIndex; i++)
+        // call continues with correct EMA state.
+        for (int i = 0; i <= restoreIndex; i++)
         {
             double currVal = ProviderCache[i].Value;
             double prevVal = i > 0 ? ProviderCache[i - 1].Value : double.NaN;
@@ -206,7 +196,7 @@ public class PmoHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(int restoreIndex)
+    protected override void PruneState(DateTime toTimestamp)
     {
         // Keep history lists aligned with Cache after provider-driven pruning.
         int targetSize = Cache.Count;
