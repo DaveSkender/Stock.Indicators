@@ -106,7 +106,7 @@ To test for thread-safety issues:
 ## Dependencies
 
 - **SSE Mode**: Requires the SSE server project (`tools/sse-server`)
-- **Coinbase Mode**: Uses JKorf.Coinbase.Net v2.11.3 (matches reported issue version)
+- **Coinbase Mode**: Uses JKorf.Coinbase.Net
 
 ## Notes
 

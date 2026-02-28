@@ -8,9 +8,7 @@ description: Created by Alexander Elder, the Force Index depicts volume-based bu
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure based on the change in price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/382 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/ForceIndex.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="ForceIndex" />
 
 ```csharp
 // C# usage syntax
