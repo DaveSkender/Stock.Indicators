@@ -30,6 +30,12 @@ public class PmoHub
 
         Name = $"PMO({timePeriods},{smoothPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements
+        // PMO signal first appears at index (timePeriods + smoothPeriods + signalPeriods - 2),
+        // requiring timePeriods + smoothPeriods + signalPeriods - 1 items.
+        int requiredWarmup = timePeriods + smoothPeriods + signalPeriods - 1;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -290,10 +296,10 @@ public static partial class Pmo
     /// <summary>
     /// Creates a PMO streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="timePeriods">Number of periods for the time span.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A PMO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

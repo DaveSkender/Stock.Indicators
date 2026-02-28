@@ -15,6 +15,9 @@ public class CmfHub : ChainHub<IQuote, CmfResult>, ICmf
         LookbackPeriods = lookbackPeriods;
         Name = $"CMF({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -91,7 +94,7 @@ public static partial class Cmf
     /// <summary>
     /// Converts the quote provider to a CMF hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CMF hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

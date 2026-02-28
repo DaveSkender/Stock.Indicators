@@ -8,7 +8,7 @@ public static partial class Marubozu
     /// <summary>
     /// Validates the parameters for the Marubozu calculation.
     /// </summary>
-    /// <param name="minBodyPercent">The minimum body percentage to qualify as a Marubozu.</param>
+    /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the minimum body percentage is greater than 100 or less than 80.
     /// </exception>

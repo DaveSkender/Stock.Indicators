@@ -8,8 +8,8 @@ public static partial class Rsi
     /// <summary>
     /// Converts a list of reusable values to a list of RSI results.
     /// </summary>
-    /// <param name="source">The list of reusable values.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the RSI calculation.</param>
+    /// <param name="source">List of reusable values.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the RSI calculation.</param>
     /// <returns>A list of RSI results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<RsiResult> ToRsi(

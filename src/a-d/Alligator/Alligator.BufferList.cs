@@ -113,8 +113,8 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     /// <summary>
     /// Adds a new value to the Alligator list.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the value.</param>
-    /// <param name="value">The value to add.</param>
+    /// <param name="timestamp">Timestamp of the value.</param>
+    /// <param name="value">Value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
         // Add to input buffer (List for O(1) indexing)

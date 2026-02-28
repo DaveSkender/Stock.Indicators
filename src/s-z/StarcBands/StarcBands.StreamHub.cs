@@ -22,6 +22,11 @@ public class StarcBandsHub
         AtrPeriods = atrPeriods;
         Name = $"STARCBANDS({smaPeriods},{multiplier},{atrPeriods})";
 
+        // Validate cache size for warmup requirements
+        // ATR initialization accesses ProviderCache[p-1], requiring atrPeriods + 1 provider items.
+        int requiredWarmup = Math.Max(smaPeriods, atrPeriods + 1);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -201,10 +206,10 @@ public static partial class StarcBands
     /// <summary>
     /// Creates a STARC Bands streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="smaPeriods">The number of periods for the SMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="smaPeriods">Number of periods for the SMA.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="StarcBandsHub"/>.</returns>
     public static StarcBandsHub ToStarcBandsHub(
         this IQuoteProvider<IQuote> quoteProvider,

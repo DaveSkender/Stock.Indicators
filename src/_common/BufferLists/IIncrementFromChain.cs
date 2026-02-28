@@ -12,14 +12,14 @@ public interface IIncrementFromChain
     /// <summary>
     /// Apply new reusable input value to increment indicator list values.
     /// </summary>
-    /// <param name="timestamp">The date context.</param>
-    /// <param name="value">The next value.</param>
+    /// <param name="timestamp">Date context.</param>
+    /// <param name="value">Next value.</param>
     void Add(DateTime timestamp, double value);
 
     /// <summary>
     /// Apply new input value to increment indicator list values.
     /// </summary>
-    /// <param name="value">The next reusable value.</param>
+    /// <param name="value">Next reusable value.</param>
     void Add(IReusable value);
 
     /// <summary>

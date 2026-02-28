@@ -12,9 +12,9 @@ public static partial class ParabolicSar
     /// <summary>
     /// Validates the parameters for the Parabolic SAR calculation.
     /// </summary>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
+    /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the acceleration step, maximum acceleration factor, or initial factor are out of range.
     /// </exception>

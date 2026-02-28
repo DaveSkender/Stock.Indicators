@@ -17,11 +17,16 @@ public class HurstHub
         Name = $"HURST({lookbackPeriods})";
         _buffer = new Queue<double>(lookbackPeriods + 1);
 
+        // Validate cache size for warmup requirements
+        // Hurst requires (lookbackPeriods + 1) values in ProviderCache to compute lookbackPeriods returns.
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (HurstResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -86,9 +91,9 @@ public class HurstHub
         // Find the first index at or after timestamp
         int index = ProviderCache.IndexGte(timestamp);
 
-        if (index <= 0)
+        if (index < 0)
         {
-            // Rolling back before all data, keep cleared state
+            // Rolling back past all data, keep cleared state
             return;
         }
 
@@ -112,8 +117,8 @@ public static partial class Hurst
     /// <summary>
     /// Creates a Hurst Exponent streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation.</param>
     /// <returns>A Hurst hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

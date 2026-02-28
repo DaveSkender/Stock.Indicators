@@ -14,6 +14,11 @@ public class AtrHub
         LookbackPeriods = lookbackPeriods;
         Name = $"ATR({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        // ATR re-init loop accesses ProviderCache[p] and ProviderCache[p-1] where p runs up to
+        // i = LookbackPeriods, so index LookbackPeriods must exist: needs LookbackPeriods + 1 items.
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -80,7 +85,7 @@ public static partial class Atr
     /// <summary>
     /// Converts the provided quote provider to an ATR hub with the specified lookback periods.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider to convert.</param>
+    /// <param name="quoteProvider">Quote provider to convert.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="AtrHub"/>.</returns>
     public static AtrHub ToAtrHub(

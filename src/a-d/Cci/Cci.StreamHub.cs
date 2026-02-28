@@ -17,6 +17,9 @@ public class CciHub
         Name = $"CCI({lookbackPeriods})";
         _cciList = new CciList(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -40,7 +43,7 @@ public class CciHub
 
     /// <summary>
     /// Restores the CciList state up to the specified timestamp.
-    /// Clears and rebuilds _cciList from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds _cciList from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
@@ -84,7 +87,7 @@ public static partial class Cci
     /// <summary>
     /// Creates a CCI hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CCI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

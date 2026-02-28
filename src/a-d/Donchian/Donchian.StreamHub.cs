@@ -8,7 +8,7 @@ public static partial class Donchian
     /// <summary>
     /// Creates a Donchian Channels streaming hub from a quotes provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="DonchianHub"/>.</returns>
     public static DonchianHub ToDonchianHub(
@@ -36,6 +36,9 @@ public class DonchianHub
         Name = $"DONCHIAN({lookbackPeriods})";
         _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
+
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
 
         Reinitialize();
     }
@@ -84,7 +87,7 @@ public class DonchianHub
 
     /// <summary>
     /// Restores the rolling window state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds rolling windows from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

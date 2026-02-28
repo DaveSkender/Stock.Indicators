@@ -8,10 +8,10 @@ public static partial class StarcBands
     /// <summary>
     /// Converts a series of quotes to STARC Bands.
     /// </summary>
-    /// <param name="quotes">The source series of quotes.</param>
-    /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
-    /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
-    /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
+    /// <param name="quotes">Source series of quotes.</param>
+    /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
+    /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
+    /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     public static IReadOnlyList<StarcBandsResult> ToStarcBands(
         this IReadOnlyList<IQuote> quotes,
@@ -25,10 +25,10 @@ public static partial class StarcBands
     /// <summary>
     /// Calculates the STARC Bands for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
-    /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
-    /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
+    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
+    /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
+    /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     private static List<StarcBandsResult> CalcStarcBands(
         this List<QuoteD> quotes,

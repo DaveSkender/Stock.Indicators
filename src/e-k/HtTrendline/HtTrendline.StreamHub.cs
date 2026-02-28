@@ -28,6 +28,9 @@ public class HtTrendlineHub
         IChainProvider<IReusable> provider) : base(provider)
     {
         Name = "HTL()";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(63, Name);  // Hilbert Transform needs 63-period minimum
+
         Reinitialize();
     }
     /// <inheritdoc/>
@@ -216,7 +219,7 @@ public static partial class HtTrendline
     /// <summary>
     /// Creates an HtTrendline streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <returns>An HtTrendline hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     public static HtTrendlineHub ToHtTrendlineHub(

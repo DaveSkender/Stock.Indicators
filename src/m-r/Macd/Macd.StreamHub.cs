@@ -13,6 +13,7 @@ public class MacdHub
         int signalPeriods) : base(provider)
     {
         Macd.Validate(fastPeriods, slowPeriods, signalPeriods);
+
         FastPeriods = fastPeriods;
         SlowPeriods = slowPeriods;
         SignalPeriods = signalPeriods;
@@ -22,6 +23,11 @@ public class MacdHub
         SignalK = 2d / (signalPeriods + 1);
 
         Name = $"MACD({fastPeriods},{slowPeriods},{signalPeriods})";
+
+        // Validate cache size for warmup requirements
+        // First valid Signal is at index (slowPeriods + signalPeriods - 2), requiring slowPeriods + signalPeriods - 1 items.
+        int requiredWarmup = slowPeriods + signalPeriods - 1;
+        ValidateCacheSize(requiredWarmup, Name);
 
         Reinitialize();
     }
@@ -110,10 +116,10 @@ public static partial class Macd
     /// <summary>
     /// Creates a MACD streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A MACD hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

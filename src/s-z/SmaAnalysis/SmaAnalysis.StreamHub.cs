@@ -14,6 +14,9 @@ public class SmaAnalysisHub
         LookbackPeriods = lookbackPeriods;
         Name = $"SMA-ANALYSIS({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -84,7 +87,7 @@ public static partial class SmaAnalysis
     /// <summary>
     /// Converts the chain provider to an SMA Analysis hub.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An SMA Analysis hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

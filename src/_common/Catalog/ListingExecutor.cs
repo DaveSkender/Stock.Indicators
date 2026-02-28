@@ -10,16 +10,16 @@ internal static class ListingExecutor
     /// <summary>
     /// Executes an indicator method dynamically using catalog metadata.
     /// </summary>
-    /// <typeparam name="TResult">The expected result type.</typeparam>
+    /// <typeparam name="TResult">Expected result type.</typeparam>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="listing">The indicator listing containing metadata.</param>
+    /// <param name="listing">Indicator listing containing metadata.</param>
     /// <param name="parameters">
     /// Optional parameter value overrides. This dictionary provides user-specified values
     /// that override the default values defined in <paramref name="listing"/>.Parameters.
     /// The listing.Parameters metadata defines the schema (names, types, defaults),
     /// while this dictionary provides runtime override values.
     /// </param>
-    /// <returns>The indicator results.</returns>
+    /// <returns>Indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
     internal static IReadOnlyList<TResult> Execute<TResult>(
@@ -130,11 +130,11 @@ internal static class ListingExecutor
     /// Executes an indicator method dynamically using catalog metadata with parameter values.
     /// This is a convenience method that creates the parameter dictionary automatically.
     /// </summary>
-    /// <typeparam name="TResult">The expected result type.</typeparam>
+    /// <typeparam name="TResult">Expected result type.</typeparam>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="listing">The indicator listing containing metadata.</param>
+    /// <param name="listing">Indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
-    /// <returns>The indicator results.</returns>
+    /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="listing"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">Thrown when an argument is invalid</exception>
     internal static IReadOnlyList<TResult> Execute<TResult>(

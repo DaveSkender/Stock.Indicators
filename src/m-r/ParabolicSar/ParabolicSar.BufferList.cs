@@ -20,8 +20,8 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     /// <summary>
     /// Initializes a new instance of the <see cref="ParabolicSarList"/> class.
     /// </summary>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation. Default is 0.02.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     public ParabolicSarList(
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
@@ -32,9 +32,9 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     /// <summary>
     /// Initializes a new instance of the <see cref="ParabolicSarList"/> class.
     /// </summary>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
+    /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="initialFactor"/> is invalid.</exception>
     public ParabolicSarList(
         double accelerationStep,
@@ -59,9 +59,9 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     /// <summary>
     /// Initializes a new instance of the <see cref="ParabolicSarList"/> class with initial quotes.
     /// </summary>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
+    /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ParabolicSarList(
         double accelerationStep,

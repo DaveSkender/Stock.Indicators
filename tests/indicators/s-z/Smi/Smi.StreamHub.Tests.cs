@@ -44,7 +44,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
@@ -57,6 +57,38 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         actuals.IsExactly(expectedRevised);
 
         // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<SmiResult> expected = quotes
+            .ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        SmiHub observer = quoteHub.ToSmiHub(
+            lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Streaming results should match last N from full series (original series with front chopped off)
+        // NOT recomputation on just the cached quotes (which would have different warmup)
+        observer.Results.IsExactly(expected);
+
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -88,7 +120,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // results from stream

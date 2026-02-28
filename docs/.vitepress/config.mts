@@ -466,6 +466,8 @@ export default defineConfig({
 
   // Redirect old URLs to new locations
   rewrites: {
+    // Case-sensitivity fix: serve CONTRIBUTING.md at /contributing
+    'CONTRIBUTING.md': 'contributing.md',
     // Legacy routes
     'indicators/BasicQuote': 'indicators/QuotePart',
   },
@@ -481,6 +483,8 @@ export default defineConfig({
       noExternal: true
     },
     build: {
+      // Local search index grows with docs; raise threshold to suppress false warning
+      chunkSizeWarningLimit: 600,
       rollupOptions: {
         output: {
           assetFileNames: 'assets/[name].[hash][extname]'

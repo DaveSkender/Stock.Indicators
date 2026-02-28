@@ -8,10 +8,10 @@ public static partial class RollingPivots
     /// <summary>
     /// Creates a Rolling Pivot Points streaming hub from a quotes provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
-    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="windowPeriods">Number of periods in the rolling window.</param>
+    /// <param name="offsetPeriods">Number of periods to offset the window.</param>
+    /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>An instance of <see cref="RollingPivotsHub"/>.</returns>
     public static RollingPivotsHub ToRollingPivotsHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -47,6 +47,10 @@ public class RollingPivotsHub
         _lowWindow = new RollingWindowMin<decimal>(windowPeriods);
         _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
 
+        // Validate cache size for warmup requirements
+        // RollingPivots needs windowPeriods + offsetPeriods + 1 items before first valid result.
+        ValidateCacheSize(windowPeriods + offsetPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -55,6 +59,12 @@ public class RollingPivotsHub
 
     /// <inheritdoc/>
     public int OffsetPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the deterministic warmup period (WindowPeriods + OffsetPeriods), i.e., the number
+    /// of initial items that produce null results before the first valid pivot point.
+    /// </summary>
+    public int LookbackPeriods => WindowPeriods + OffsetPeriods;
 
     /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
@@ -106,7 +116,7 @@ public class RollingPivotsHub
 
     /// <summary>
     /// Restores the rolling window and offset buffer state up to the specified timestamp.
-    /// Clears and rebuilds state from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds state from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

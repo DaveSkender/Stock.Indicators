@@ -22,6 +22,9 @@ public class RsiHub
         LookbackPeriods = lookbackPeriods;
         Name = $"RSI({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 
@@ -100,7 +103,7 @@ public class RsiHub
 
     /// <summary>
     /// Restores the RSI state (avgGain, avgLoss) up to the specified timestamp.
-    /// Called during Insert/Remove operations and explicit Rebuild() calls.
+    /// Called during Add/Remove operations and explicit Rebuild() calls.
     /// </summary>
     /// <remarks>
     /// This method rebuilds the state from the FIRST calculable position (LookbackPeriods)
@@ -211,7 +214,7 @@ public static partial class Rsi
     /// <summary>
     /// Creates an RSI streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

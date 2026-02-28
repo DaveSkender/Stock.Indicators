@@ -2,12 +2,13 @@
 
 This document tracks remaining work for the v3 streaming indicators implementation.
 
-**Status**: 97% complete - Framework is production-ready with comprehensive BufferList (93%) and StreamHub (95%) coverage.
+**Status**: 97% complete - Framework is production-ready with comprehensive BufferList (93%) and StreamHub (93%) coverage.
 
 - Total indicators: 85
 - With BufferList: 79 (93%)
-- With StreamHub: 80 (95%)
-- With streaming documentation: 78 of 79 streamable (99%)
+- With StreamHub: 79 (93%)
+- With streaming documentation: 77 of 79 streamable (97%)
+- Non-streamable (Series only): Beta, Correlation, Prs, RenkoAtr, StdDevChannels, ZigZag
 
 **Related plans**: [Branching Strategy Migration](branching-strategy.plan.md) (required for v3.0 stable release), [File Reorganization](file-reorg.plan.md) (deferred to v3.1)
 
@@ -82,11 +83,11 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Status**: COMPLETE - Significant optimization achieved while maintaining mathematical correctness
   - **Priority**: 🔴 HIGH
 
-- [ ] **P006** - Prs StreamHub performance optimization (3-4 hours)
-  - **Current**: 7.47x slower than Series (35,070 ns vs 4,694 ns)
-  - **Problem**: Potential state management or allocation inefficiencies
-  - **Action**: Review implementation for unnecessary recalculations
-  - **Priority**: 🔴 HIGH
+- [ ] **P006** - Prs streaming support not implemented (deferred to v3.1+)
+  - **Status**: No StreamHub or BufferList implementation exists for Prs
+  - **Problem**: Multi-source indicator (requires two quote series) — streaming architecture is non-trivial
+  - **Action**: Deferred; see v3.1+ Advanced Features section (same challenge as Beta, Correlation)
+  - **Priority**: 🟡 DEFERRED
 
 - [x] **P007** - Roc StreamHub performance optimization (3-4 hours)
   - **Current**: 6.98x slower than Series (30,153 ns vs 4,322 ns)
@@ -162,11 +163,18 @@ Based on performance analysis (January 3, 2026), the following indicators have c
 
 ### Medium Priority - Documentation & Usability
 
-- [ ] **D007** - Migration guide updates (1-2 hours)
-  - **File**: Update migration guide documentation
+- [x] **D007** - Migration guide updates (1-2 hours)
+  - **File**: `docs/migration.md`
   - **Action**: Document migration path from Series to streaming
   - **Action**: Add best practices for choosing BufferList vs StreamHub
   - **Action**: Include performance considerations
+  - **Status**: COMPLETE - `docs/migration.md` has comprehensive streaming capabilities section with BufferList/StreamHub examples, migration patterns, and performance guidance
+
+- [ ] **D008** - Add missing streaming docs for SmaAnalysis and Tr (1-2 hours)
+  - **Files**: `docs/indicators/SmaAnalysis.md`, `docs/indicators/Tr.md` (both missing)
+  - **Problem**: SmaAnalysis and Tr have complete StreamHub + BufferList implementations but no documentation pages
+  - **Action**: Create indicator doc pages with streaming sections
+  - **Priority**: 🟡 MEDIUM
 
 ### Medium Priority - Code Quality & Cleanup
 
@@ -243,8 +251,10 @@ Based on performance analysis (January 3, 2026), the following indicators have c
 
 - [ ] **T219** - Catalog metrics final count verification (1 hour)
   - **File**: `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:31-32`
-  - **Problem**: Test uses placeholder count
-  - **Action**: Lock final catalog counts once streaming indicators complete
+  - **Problem**: Test uses placeholder assertions for Buffer and Stream counts
+  - **Current exact counts**: Series=85, Buffer=79, Stream=79, Total=243
+  - **Action**: Replace `BeGreaterThan()` assertions with exact `Be(79)` assertions for Buffer and Stream
+  - **Action**: Verify total catalog count assertion
 
 - [x] **T222** - StreamHub cache management exact value verification (1-2 hours)
   - **File**: `tests/indicators/_common/StreamHub/StreamHub.CacheMgmt.Tests.cs:21,36`
@@ -413,4 +423,4 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
   - **Action**: Implement naming conventions for chained indicator workflows
 
 ---
-Last updated: January 3, 2026
+Last updated: February 27, 2026

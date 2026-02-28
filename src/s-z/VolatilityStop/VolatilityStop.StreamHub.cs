@@ -17,6 +17,9 @@ public class VolatilityStopHub
         Multiplier = multiplier;
         Name = $"VOLATILITY-STOP({lookbackPeriods},{multiplier})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -196,7 +199,6 @@ public class VolatilityStopHub
     /// Restores the Volatility Stop state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
         int targetIndex = ProviderCache.IndexGte(timestamp);
@@ -258,10 +260,12 @@ public class VolatilityStopHub
                 atr = sumTr / LookbackPeriods;
             }
 
+            // Use previous period's ATR for SAR calculation (mirrors ToIndicator)
+            double atrForSar = PrevAtr ?? atr;
             PrevAtr = atr;
 
             // Calculate SAR (for stop detection, not needed to store)
-            double arc = atr * Multiplier;
+            double arc = atrForSar * Multiplier;
             double sar = IsLong ? Sic - arc : Sic + arc;
 
             // Check for stop
@@ -293,7 +297,7 @@ public static partial class VolatilityStop
     /// <summary>
     /// Creates a Volatility Stop hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="multiplier">Multiplier used to scale ATR for SAR.</param>
     /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>

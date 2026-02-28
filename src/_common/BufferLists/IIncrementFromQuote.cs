@@ -12,7 +12,7 @@ public interface IIncrementFromQuote
     /// <summary>
     /// Apply new quote to increment indicator list values.
     /// </summary>
-    /// <param name="quote">The next quote value.</param>
+    /// <param name="quote">Next quote value.</param>
     void Add(IQuote quote);
 
     /// <summary>

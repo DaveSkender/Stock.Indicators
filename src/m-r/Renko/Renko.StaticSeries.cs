@@ -9,8 +9,8 @@ public static partial class Renko
     /// Converts a list of quotes to a list of Renko chart results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <param name="brickSize">Size of each Renko brick.</param>
+    /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     public static IReadOnlyList<RenkoResult> ToRenko(

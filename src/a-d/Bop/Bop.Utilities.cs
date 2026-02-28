@@ -8,7 +8,7 @@ public static partial class Bop
     /// <summary>
     /// Validates the parameters for the BOP calculation.
     /// </summary>
-    /// <param name="smoothPeriods">The number of smoothing periods for the BOP calculation.</param>
+    /// <param name="smoothPeriods">Number of smoothing periods for the BOP calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the smoothing periods are less than or equal to 0.</exception>
     internal static void Validate(
         int smoothPeriods)

@@ -25,6 +25,8 @@ public class KamaHub
 
         Name = $"KAMA({erPeriods},{fastPeriods},{slowPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(erPeriods + 1, Name);
         Reinitialize();
     }
 
@@ -109,10 +111,10 @@ public static partial class Kama
     /// <summary>
     /// Creates a KAMA streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="erPeriods">Number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <returns>A KAMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>

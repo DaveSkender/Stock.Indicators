@@ -30,7 +30,7 @@ internal class CatalogListingBuilder
     /// Initializes a new instance of the CatalogListingBuilder class from an existing listing.
     /// This enables the "inherit and override" pattern for creating multiple styles.
     /// </summary>
-    /// <param name="baseListing">The base listing to inherit properties from.</param>
+    /// <param name="baseListing">Base listing to inherit properties from.</param>
     internal CatalogListingBuilder(IndicatorListing baseListing)
     {
         ArgumentNullException.ThrowIfNull(baseListing);
@@ -74,8 +74,8 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Sets the name of the indicator.
     /// </summary>
-    /// <param name="name">The indicator name.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <param name="name">Indicator name.</param>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder WithName(string name)
     {
         _name = name;
@@ -85,8 +85,8 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Sets the ID of the indicator.
     /// </summary>
-    /// <param name="id">The indicator ID.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <param name="id">Indicator ID.</param>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder WithId(string id)
     {
         _id = id;
@@ -96,8 +96,8 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Sets the style of the indicator.
     /// </summary>
-    /// <param name="style">The indicator style.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <param name="style">Indicator style.</param>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder WithStyle(Style style)
     {
         CurrentStyle = style;
@@ -107,8 +107,8 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Sets the category of the indicator.
     /// </summary>
-    /// <param name="category">The indicator category.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <param name="category">Indicator category.</param>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder WithCategory(Category category)
     {
         _category = category;
@@ -118,8 +118,8 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Sets the method name for automation use cases.
     /// </summary>
-    /// <param name="methodName">The method name.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <param name="methodName">Method name.</param>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder WithMethodName(string methodName)
     {
         _methodName = methodName;
@@ -129,15 +129,15 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Adds a parameter to the indicator.
     /// </summary>
-    /// <typeparam name="T">The type of the parameter.</typeparam>
-    /// <param name="parameterName">The name of the parameter.</param>
-    /// <param name="displayName">The display name of the parameter.</param>
+    /// <typeparam name="T">Type of the parameter.</typeparam>
+    /// <param name="parameterName">Name of the parameter.</param>
+    /// <param name="displayName">Display name of the parameter.</param>
     /// <param name="description">Optional description of the parameter.</param>
     /// <param name="isRequired">Whether the parameter is required.</param>
     /// <param name="defaultValue">Optional default value for the parameter.</param>
     /// <param name="minimum">Optional minimum value for the parameter.</param>
     /// <param name="maximum">Optional maximum value for the parameter.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder AddParameter<T>(
         string parameterName,
         string displayName,
@@ -164,13 +164,13 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Adds an enum parameter to the indicator.
     /// </summary>
-    /// <typeparam name="T">The enum type of the parameter.</typeparam>
-    /// <param name="parameterName">The name of the parameter.</param>
-    /// <param name="displayName">The display name of the parameter.</param>
+    /// <typeparam name="T">Enum type of the parameter.</typeparam>
+    /// <param name="parameterName">Name of the parameter.</param>
+    /// <param name="displayName">Display name of the parameter.</param>
     /// <param name="description">Optional description of the parameter.</param>
     /// <param name="isRequired">Whether the parameter is required.</param>
     /// <param name="defaultValue">Optional default value for the parameter.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder AddEnumParameter<T>(
         string parameterName,
         string displayName,
@@ -204,12 +204,12 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Adds a date parameter to the indicator.
     /// </summary>
-    /// <param name="parameterName">The name of the parameter.</param>
-    /// <param name="displayName">The display name of the parameter.</param>
+    /// <param name="parameterName">Name of the parameter.</param>
+    /// <param name="displayName">Display name of the parameter.</param>
     /// <param name="description">Optional description of the parameter.</param>
     /// <param name="isRequired">Whether the parameter is required.</param>
     /// <param name="defaultValue">Optional default value for the parameter.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder AddDateParameter(
         string parameterName,
         string displayName,
@@ -234,11 +234,11 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Adds a series parameter for IReadOnlyList&lt;T&gt; where T : IReusable type parameters.
     /// </summary>
-    /// <param name="parameterName">The name of the parameter.</param>
-    /// <param name="displayName">The display name of the parameter.</param>
+    /// <param name="parameterName">Name of the parameter.</param>
+    /// <param name="displayName">Display name of the parameter.</param>
     /// <param name="description">Optional description of the parameter.</param>
     /// <param name="isRequired">Whether the parameter is required.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder AddSeriesParameter(
         string parameterName,
         string displayName,
@@ -262,11 +262,11 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Adds a result to the indicator.
     /// </summary>
-    /// <param name="dataName">The name of the data property.</param>
-    /// <param name="displayName">The display name of the result.</param>
-    /// <param name="dataType">The type of the result.</param>
+    /// <param name="dataName">Name of the data property.</param>
+    /// <param name="displayName">Display name of the result.</param>
+    /// <param name="dataType">Type of the result.</param>
     /// <param name="isReusable">Whether this is the reusable result.</param>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder AddResult(
         string dataName,
         string displayName,
@@ -286,7 +286,7 @@ internal class CatalogListingBuilder
     /// <summary>
     /// Adds common price High, Low, Close results to the indicator.
     /// </summary>
-    /// <returns>The builder instance for method chaining.</returns>
+    /// <returns>Builder instance for method chaining.</returns>
     internal CatalogListingBuilder AddPriceHlcResult()
     {
         AddResult("High", "High", ResultType.Default, false);

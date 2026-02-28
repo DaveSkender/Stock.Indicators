@@ -14,6 +14,9 @@ public class SmmaHub
         LookbackPeriods = lookbackPeriods;
         Name = $"SMMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -52,7 +55,7 @@ public static partial class Smma
     /// <summary>
     /// Creates an SMMA streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An SMMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

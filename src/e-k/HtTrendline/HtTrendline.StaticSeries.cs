@@ -8,7 +8,7 @@ public static partial class HtTrendline
     /// <summary>
     /// Converts a list of time-series values to Hilbert Transform Instantaneous Trendline (HTL) results.
     /// </summary>
-    /// <param name="source">The list of time-series values to transform.</param>
+    /// <param name="source">List of time-series values to transform.</param>
     /// <returns>A list of HTL results and smoothed price.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<HtlResult> ToHtTrendline(

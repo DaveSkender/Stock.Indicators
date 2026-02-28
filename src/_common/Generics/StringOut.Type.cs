@@ -15,9 +15,9 @@ public static partial class StringOut
     /// <summary>
     /// Writes the string representation of an ISeries instance to the console.
     /// </summary>
-    /// <typeparam name="T">The type of the ISeries instance.</typeparam>
-    /// <param name="obj">The ISeries instance to write to the console.</param>
-    /// <returns>The string representation of the ISeries instance.</returns>
+    /// <typeparam name="T">Type of the ISeries instance.</typeparam>
+    /// <param name="obj">ISeries instance to write to the console.</param>
+    /// <returns>String representation of the ISeries instance.</returns>
     public static string ToConsole<T>(this T obj) where T : ISeries
     {
         string? output = obj.ToStringOut();
@@ -28,8 +28,8 @@ public static partial class StringOut
     /// <summary>
     /// Converts an ISeries instance to a formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of the ISeries instance.</typeparam>
-    /// <param name="obj">The ISeries instance to convert.</param>
+    /// <typeparam name="T">Type of the ISeries instance.</typeparam>
+    /// <param name="obj">ISeries instance to convert.</param>
     /// <returns>A formatted string representation of the ISeries instance.</returns>
     public static string ToStringOut<T>(this T obj) where T : ISeries
     {
@@ -98,9 +98,9 @@ public static partial class StringOut
     /// <summary>
     /// Calculates the maximum width of a column based on the header and values.
     /// </summary>
-    /// <param name="header">The header of the column.</param>
-    /// <param name="values">The list of values in the column.</param>
-    /// <returns>The maximum width of the column.</returns>
+    /// <param name="header">Header of the column.</param>
+    /// <param name="values">List of values in the column.</param>
+    /// <returns>Maximum width of the column.</returns>
     private static int MaxWidth(string header, List<string> values)
     {
         int maxValue = values.Count != 0 ? values.Max(static v => v.Length) : 0;
@@ -110,7 +110,7 @@ public static partial class StringOut
     /// <summary>
     /// Formats a property value for display, handling different data types appropriately.
     /// </summary>
-    /// <param name="value">The value to format.</param>
+    /// <param name="value">Value to format.</param>
     /// <returns>A formatted string representation of the value.</returns>
     private static string FormatPropertyValue(object? value)
         => value switch {
@@ -150,7 +150,7 @@ public static partial class StringOut
     /// <summary>
     /// Retrieves property descriptions from the XML documentation file.
     /// </summary>
-    /// <param name="type">The type whose property descriptions are to be retrieved.</param>
+    /// <param name="type">Type whose property descriptions are to be retrieved.</param>
     /// <returns>A dictionary containing property names and their descriptions.</returns>
     private static Dictionary<string, string> GetPropertyDescriptionsFromXml(Type type)
     {
@@ -193,7 +193,7 @@ public static partial class StringOut
     /// converts HTML refs like <see cref="long"/> and <see langword="get"/>."/>
     /// </summary>
     /// <param name="summaryElement"><see cref="XElement"/> to be cleaned.</param>
-    /// <returns>The cleaned text content of the XML documentation.</returns>
+    /// <returns>Cleaned text content of the XML documentation.</returns>
     private static string ParseXmlElement(this XElement? summaryElement)
     {
         if (summaryElement == null)
@@ -225,7 +225,7 @@ public static partial class StringOut
     /// Retrieves the public instance properties of a type that are not marked with
     /// <see cref="JsonIgnoreAttribute"/> or <see cref="ObsoleteAttribute"/>.
     /// </summary>
-    /// <param name="type">The type whose properties are to be retrieved.</param>
+    /// <param name="type">Type whose properties are to be retrieved.</param>
     /// <returns>An array of <see cref="PropertyInfo"/> objects representing the properties of the type.</returns>
     private static PropertyInfo[] GetStringOutProperties(Type type)
         => type.GetProperties(BindingFlags.Public | BindingFlags.Instance)

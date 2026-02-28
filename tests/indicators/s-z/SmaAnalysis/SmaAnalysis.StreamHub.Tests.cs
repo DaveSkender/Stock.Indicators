@@ -32,7 +32,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<SmaAnalysisResult> expectedOriginal = Quotes.ToSmaAnalysis(5);
         sut.IsExactly(expectedOriginal);
@@ -45,6 +45,37 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         sut.Should().HaveCount(quotesCount - 1);
 
         // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<SmaAnalysisResult> expected = quotes
+            .ToSmaAnalysis(5)
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        SmaAnalysisHub observer = quoteHub.ToSmaAnalysisHub(5);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Streaming results should match last N from full series (original series with front chopped off)
+        // NOT recomputation on just the cached quotes (which would have different warmup)
+        observer.Results.IsExactly(expected);
+
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -119,7 +150,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

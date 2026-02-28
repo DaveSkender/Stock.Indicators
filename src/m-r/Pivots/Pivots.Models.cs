@@ -3,13 +3,13 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of a pivot points calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the pivot point.</param>
-/// <param name="HighPoint">The high point value.</param>
-/// <param name="LowPoint">The low point value.</param>
-/// <param name="HighLine">The high line value.</param>
-/// <param name="LowLine">The low line value.</param>
-/// <param name="HighTrend">The high trend direction.</param>
-/// <param name="LowTrend">The low trend direction.</param>
+/// <param name="Timestamp">Timestamp of the pivot point.</param>
+/// <param name="HighPoint">High point value.</param>
+/// <param name="LowPoint">Low point value.</param>
+/// <param name="HighLine">High line value.</param>
+/// <param name="LowLine">Low line value.</param>
+/// <param name="HighTrend">High trend direction.</param>
+/// <param name="LowTrend">Low trend direction.</param>
 [Serializable]
 public record PivotsResult
 (

@@ -3,11 +3,11 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of a ZigZag indicator calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the data point.</param>
-/// <param name="ZigZag">The value of the ZigZag line at this point.</param>
-/// <param name="PointType">The type of point (e.g., H: high or L: low).</param>
-/// <param name="RetraceHigh">The value of the retrace high line at this point.</param>
-/// <param name="RetraceLow">The value of the retrace low line at this point.</param>
+/// <param name="Timestamp">Timestamp of the data point.</param>
+/// <param name="ZigZag">Value of the ZigZag line at this point.</param>
+/// <param name="PointType">Type of point (e.g., H: high or L: low).</param>
+/// <param name="RetraceHigh">Value of the retrace high line at this point.</param>
+/// <param name="RetraceLow">Value of the retrace low line at this point.</param>
 [Serializable]
 public record ZigZagResult
 (

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides O(1) amortized rolling window maximum tracking using a monotonic deque.
 /// </summary>
-/// <typeparam name="T">The type of values being tracked (must be comparable).</typeparam>
+/// <typeparam name="T">Type of values being tracked (must be comparable).</typeparam>
 /// <remarks>
 /// Uses a deque data structure to maintain values in decreasing order, allowing constant-time
 /// operations for adding new values and retrieving the maximum. When the window is full,
@@ -20,7 +20,7 @@ internal sealed class RollingWindowMax<T> where T : IComparable<T>
     /// <summary>
     /// Initializes a new instance of the <see cref="RollingWindowMax{T}"/> class.
     /// </summary>
-    /// <param name="capacity">The maximum number of elements in the rolling window.</param>
+    /// <param name="capacity">Maximum number of elements in the rolling window.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when capacity is less than or equal to zero.</exception>
     internal RollingWindowMax(int capacity)
     {
@@ -83,7 +83,7 @@ internal sealed class RollingWindowMax<T> where T : IComparable<T>
     /// <summary>
     /// Adds a new value to the rolling window.
     /// </summary>
-    /// <param name="value">The value to add.</param>
+    /// <param name="value">Value to add.</param>
     /// <remarks>
     /// If the window is full, the oldest value is automatically removed.
     /// The operation maintains the monotonic decreasing property of the deque,

@@ -8,7 +8,7 @@ public static partial class Smi
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of SMI results.</param>
+    /// <param name="results">List of SMI results.</param>
     /// <returns>A list of SMI results with the warmup periods removed.</returns>
     public static IReadOnlyList<SmiResult> RemoveWarmupPeriods(
         this IReadOnlyList<SmiResult> results)
@@ -25,9 +25,9 @@ public static partial class Smi
     /// Validates the parameters for the SMI calculation.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of first smoothing periods.</param>
-    /// <param name="secondSmoothPeriods">The number of second smoothing periods.</param>
-    /// <param name="signalPeriods">The number of signal periods.</param>
+    /// <param name="firstSmoothPeriods">Number of first smoothing periods.</param>
+    /// <param name="secondSmoothPeriods">Number of second smoothing periods.</param>
+    /// <param name="signalPeriods">Number of signal periods.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when any of the parameters are less than or equal to 0.
     /// </exception>

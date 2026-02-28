@@ -23,7 +23,7 @@ public static partial class ElderRay
     /// <summary>
     /// Calculates the Elder Ray indicator.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Elder Ray results.</returns>
     private static List<ElderRayResult> CalcElderRay(

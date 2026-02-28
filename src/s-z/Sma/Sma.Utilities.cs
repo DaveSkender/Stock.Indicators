@@ -56,7 +56,7 @@ public static partial class Sma
     /// Calculates the sum of all values in a Queue buffer.
     /// Optimized for Queue&lt;double&gt; usage in BufferList implementations.
     /// </summary>
-    /// <param name="buffer">The queue buffer containing values to sum.</param>
+    /// <param name="buffer">Queue buffer containing values to sum.</param>
     /// <returns>Sum of all values in the buffer.</returns>
     internal static double Sum(this Queue<double> buffer)
     {
@@ -73,7 +73,7 @@ public static partial class Sma
     /// Calculates the average of all values in a Queue buffer.
     /// Uses the buffer's count as the denominator for improved conciseness.
     /// </summary>
-    /// <param name="buffer">The queue buffer containing values to average.</param>
+    /// <param name="buffer">Queue buffer containing values to average.</param>
     /// <returns>Average of all values in the buffer, or NaN if buffer is empty.</returns>
     internal static double Average(this Queue<double> buffer)
         => buffer.Count > 0 ? buffer.Sum() / buffer.Count : double.NaN;
@@ -81,7 +81,7 @@ public static partial class Sma
     /// <summary>
     /// Validates the lookback periods parameter.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods to validate.</param>
+    /// <param name="lookbackPeriods">Number of lookback periods to validate.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)

@@ -13,6 +13,9 @@ public class HeikinAshiHub
         IQuoteProvider<IQuote> provider) : base(provider)
     {
         Name = "HEIKINASHI";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Pattern detection requires at least 1 period
+
         Reinitialize();
     }
     /// <inheritdoc/>
@@ -140,7 +143,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Creates a Heikin-Ashi hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <returns>A Heikin-Ashi hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     public static HeikinAshiHub ToHeikinAshiHub(

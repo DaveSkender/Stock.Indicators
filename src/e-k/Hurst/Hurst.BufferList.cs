@@ -10,7 +10,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
     /// <summary>
     /// Initializes a new instance of the <see cref="HurstList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public HurstList(int lookbackPeriods)
     {
@@ -24,7 +24,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
     /// <summary>
     /// Initializes a new instance of the <see cref="HurstList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public HurstList(int lookbackPeriods, IReadOnlyList<IReusable> values)

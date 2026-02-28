@@ -12,10 +12,10 @@ public static partial class Prs
     /// <summary>
     /// Validates the parameters for PRS calculations.
     /// </summary>
-    /// <typeparam name="T">The type of the source values.</typeparam>
-    /// <param name="quotesEval">The list of evaluation quotes.</param>
-    /// <param name="quotesBase">The list of base quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
+    /// <typeparam name="T">Type of the source values.</typeparam>
+    /// <param name="quotesEval">List of evaluation quotes.</param>
+    /// <param name="quotesBase">List of base quotes.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when there are insufficient quotes or mismatched quote counts.</exception>
     internal static void Validate<T>(

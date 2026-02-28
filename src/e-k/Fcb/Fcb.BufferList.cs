@@ -13,7 +13,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     /// <summary>
     /// Initializes a new instance of the <see cref="FcbList"/> class.
     /// </summary>
-    /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
+    /// <param name="windowSpan">Window span for the calculation. Default is 2.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="windowSpan"/> is invalid.</exception>
     public FcbList(
         int windowSpan = 2
@@ -33,7 +33,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     /// <summary>
     /// Initializes a new instance of the <see cref="FcbList"/> class with initial quotes.
     /// </summary>
-    /// <param name="windowSpan">The window span for the calculation.</param>
+    /// <param name="windowSpan">Window span for the calculation.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public FcbList(
         int windowSpan,

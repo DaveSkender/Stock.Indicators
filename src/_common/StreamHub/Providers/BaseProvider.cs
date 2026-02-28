@@ -12,7 +12,8 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// Only used to initialize a <see cref="QuoteHub"/> base that does not have its own provider.
 /// </remarks>
-public class BaseProvider<T>
+/// <param name="maxCacheSize">Maximum cache size for the provider.</param>
+public class BaseProvider<T>(int maxCacheSize = 0)
     : IStreamObservable<T>
     where T : IReusable
 {
@@ -37,7 +38,10 @@ public class BaseProvider<T>
     public IReadOnlyList<T> Results => _providerCache;
 
     /// <inheritdoc/>
-    public int MaxCacheSize => 0;
+    public int MaxCacheSize { get; } = maxCacheSize;
+
+    /// <inheritdoc/>
+    public int MinCacheSize => 0; // Base provider has no minimum cache requirement
 
     /// <inheritdoc />
     public int ObserverCount => 0;

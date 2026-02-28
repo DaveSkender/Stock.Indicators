@@ -21,9 +21,9 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
     /// <summary>
     /// Initializes a new instance of the <see cref="PmoList"/> class.
     /// </summary>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="timePeriods">Number of periods for the time span.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public PmoList(
         int timePeriods = 35,
@@ -50,9 +50,9 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
     /// <summary>
     /// Initializes a new instance of the <see cref="PmoList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="timePeriods">Number of periods for the time span.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public PmoList(
         int timePeriods,

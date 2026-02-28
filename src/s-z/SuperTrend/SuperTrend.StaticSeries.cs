@@ -10,7 +10,7 @@ public static partial class SuperTrend
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
     public static IReadOnlyList<SuperTrendResult> ToSuperTrend(
         this IReadOnlyList<IQuote> quotes,
@@ -23,9 +23,9 @@ public static partial class SuperTrend
     /// <summary>
     /// Calculates the SuperTrend indicator.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
     private static List<SuperTrendResult> CalcSuperTrend(
         this List<QuoteD> quotes,

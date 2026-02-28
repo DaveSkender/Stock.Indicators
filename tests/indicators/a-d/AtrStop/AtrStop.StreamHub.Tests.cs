@@ -42,8 +42,8 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrivals
-        quoteHub.Insert(Quotes[30]);  // rebuilds complete series
-        quoteHub.Insert(Quotes[80]);  // rebuilds from last reversal
+        quoteHub.Add(Quotes[30]);  // rebuilds complete series
+        quoteHub.Add(Quotes[80]);  // rebuilds from last reversal
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);
@@ -56,6 +56,37 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.IsExactly(expected);
 
         // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<AtrStopResult> expected = quotes
+            .ToAtrStop()
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        AtrStopHub observer = quoteHub.ToAtrStopHub();
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Streaming results should match last N from full series (original series with front chopped off)
+        // NOT recomputation on just the cached quotes (which would have different warmup)
+        observer.Results.IsExactly(expected);
+
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

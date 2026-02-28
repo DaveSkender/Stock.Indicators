@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     // NOTE: Renko transforms quotes to variable brick counts (non-1:1 timestamps).
-    // Intentionally excluded from comprehensive provider history testing (Insert/Remove)
+    // Intentionally excluded from comprehensive provider history testing (Add/Remove)
     // as quote transformations don't preserve timestamp mappings.
     // TODO: Revisit to explore alternative testing approach for quote transformations.
 
@@ -55,7 +55,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         // late arrival
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
 
         // delete
         quoteHub.RemoveAt(350);
@@ -75,6 +75,52 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        // NOTE: Renko transforms quotes to bricks (non-1:1 mapping).
+        // Quote pruning removes oldest quotes, but brick count != quote count.
+        // Use timestamp-based alignment to match streaming results against
+        // the corresponding tail of the full static series.
+
+        const int maxCacheSize = 100;  // Sufficient for quote retention
+        const int totalQuotes = 200;  // ~2x cache size
+        const decimal brickSize = 2.5m;
+        const EndType endType = EndType.HighLow;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        // Get full series results
+        List<RenkoResult> fullSeries = quotes
+            .ToRenko(brickSize, endType)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        RenkoHub observer = quoteHub.ToRenkoHub(brickSize, endType);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned (quotes, not results)
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+
+        // Renko bricks don't map 1:1 with quotes. Align the static series
+        // with the streaming hub by matching on the first brick's timestamp.
+        // Any bricks before that date in the static series represent periods
+        // that were pruned from the quote hub and must be discarded.
+        DateTime firstDate = observer.Results[0].Timestamp;
+        int startIndex = fullSeries.FindIndex(r => r.Timestamp == firstDate);
+        startIndex.Should().BeGreaterThanOrEqualTo(0,
+            "the first Renko result in the hub should exist in the static series");
+
+        List<RenkoResult> expected = fullSeries.Skip(startIndex).ToList();
+        observer.Results.IsExactly(expected);
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
         const decimal brickSize = 2.5m;
@@ -89,7 +135,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToRenkoHub(brickSize, endType)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream (Renko transforms to bricks, no Insert/Remove)
+        // emulate quote stream (Renko transforms to bricks, no Add/Remove)
         for (int i = 0; i < quotesCount; i++)
         {
             quoteHub.Add(Quotes[i]);

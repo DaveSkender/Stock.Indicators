@@ -26,6 +26,10 @@ public class PvoHub
 
         Name = $"PVO({fastPeriods},{slowPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -185,10 +189,10 @@ public static partial class Pvo
     /// <summary>
     /// Creates a PVO streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A PVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
@@ -202,10 +206,10 @@ public static partial class Pvo
     /// <summary>
     /// Creates a PVO streaming hub from a quote provider (extracts Volume).
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A PVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

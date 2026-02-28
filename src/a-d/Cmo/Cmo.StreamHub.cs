@@ -17,6 +17,9 @@ public class CmoHub
         Name = $"CMO({lookbackPeriods})";
         _tickBuffer = new Queue<(bool? isUp, double value)>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -62,7 +65,7 @@ public class CmoHub
 
     /// <summary>
     /// Restores the tick buffer state up to the specified timestamp.
-    /// Clears and rebuilds _tickBuffer from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds _tickBuffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
@@ -111,7 +114,7 @@ public static partial class Cmo
     /// <summary>
     /// Creates a CMO streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CMO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

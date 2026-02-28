@@ -12,9 +12,9 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     /// <summary>
     /// Initializes a new instance of the <see cref="UltimateList"/> class.
     /// </summary>
-    /// <param name="shortPeriods">The number of short periods.</param>
-    /// <param name="middlePeriods">The number of middle periods.</param>
-    /// <param name="longPeriods">The number of long periods.</param>
+    /// <param name="shortPeriods">Number of short periods.</param>
+    /// <param name="middlePeriods">Number of middle periods.</param>
+    /// <param name="longPeriods">Number of long periods.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="longPeriods"/> is invalid.</exception>
     public UltimateList(
         int shortPeriods = 7,
@@ -35,9 +35,9 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     /// <summary>
     /// Initializes a new instance of the <see cref="UltimateList"/> class with initial quotes.
     /// </summary>
-    /// <param name="shortPeriods">The number of short periods.</param>
-    /// <param name="middlePeriods">The number of middle periods.</param>
-    /// <param name="longPeriods">The number of long periods.</param>
+    /// <param name="shortPeriods">Number of short periods.</param>
+    /// <param name="middlePeriods">Number of middle periods.</param>
+    /// <param name="longPeriods">Number of long periods.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public UltimateList(
         int shortPeriods,

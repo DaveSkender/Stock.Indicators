@@ -14,6 +14,9 @@ public class AroonHub
         LookbackPeriods = lookbackPeriods;
         Name = $"AROON({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -79,7 +82,7 @@ public static partial class Aroon
     /// <summary>
     /// Creates an Aroon hub from a quote provider.
     /// </summary>
-    /// <param name="provider">The quote provider.</param>
+    /// <param name="provider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An Aroon hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>

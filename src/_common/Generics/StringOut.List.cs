@@ -44,10 +44,10 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>The fixed-width formatted string representation of the list.</returns>
+    /// <returns>Fixed-width formatted string representation of the list.</returns>
     public static string ToConsole<T>(
         this IReadOnlyList<T> source,
         IDictionary<string, string>? args = null)
@@ -56,8 +56,8 @@ public static partial class StringOut
     /// <summary>
     /// Writes the contents of the series to the console and returns the output as a string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the series. Must implement <see cref="ISeries"/>.</typeparam>
-    /// <param name="source">The read-only list of series elements to be written to the console.</param>
+    /// <typeparam name="T">Type of elements in the series. Must implement <see cref="ISeries"/>.</typeparam>
+    /// <param name="source">Read-only list of series elements to be written to the console.</param>
     /// <param name="args">Optional key-value pairs that provide additional formatting or output options.</param>
     /// <returns>A string containing the console output generated from the series.</returns>
     public static string ToConsole<T>(
@@ -68,11 +68,11 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="filter">A predicate to filter the elements.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
     public static string ToConsole<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
@@ -90,11 +90,11 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="filter">A predicate to filter the elements.</param>
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
-    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     public static string ToConsole<T>(
         this IEnumerable<T> source,
@@ -114,12 +114,12 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="filter">A predicate to filter the elements.</param>
-    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="limitQty">Maximum number of elements to include in the output.</param>
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
-    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
     public static string ToConsole<T>(
@@ -146,12 +146,12 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="filter">A predicate to filter the elements.</param>
-    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="limitQty">Maximum number of elements to include in the output.</param>
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
-    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
     public static string ToConsole<T>(
@@ -188,8 +188,8 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
@@ -217,9 +217,9 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
-    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
+    /// <param name="limitQty">Maximum number of elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
@@ -252,10 +252,10 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
-    /// <param name="startIndex">The starting index of the elements to include in the output.</param>
-    /// <param name="endIndex">The ending index of the elements to include in the output.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
+    /// <param name="startIndex">Starting index of the elements to include in the output.</param>
+    /// <param name="endIndex">Ending index of the elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
@@ -276,8 +276,8 @@ public static partial class StringOut
     /// <summary>
     /// Converts a filtered list of ISeries to a fixed-width formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="filter">A predicate to filter the elements.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
@@ -304,10 +304,10 @@ public static partial class StringOut
     /// <summary>
     /// Converts a filtered list of ISeries to a fixed-width formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="filter">A predicate to filter the elements.</param>
-    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="limitQty">Maximum number of elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
@@ -341,8 +341,8 @@ public static partial class StringOut
 
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.</summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
@@ -364,9 +364,9 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
-    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
+    /// <param name="limitQty">Maximum number of elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
@@ -389,10 +389,10 @@ public static partial class StringOut
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="source">The list of ISeries elements to convert.</param>
-    /// <param name="startIndex">The starting index of the elements to include in the output.</param>
-    /// <param name="endIndex">The ending index of the elements to include in the output.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">List of ISeries elements to convert.</param>
+    /// <param name="startIndex">Starting index of the elements to include in the output.</param>
+    /// <param name="endIndex">Ending index of the elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
@@ -525,9 +525,9 @@ public static partial class StringOut
     /// Determines the appropriate date precision or decimal places
     /// based on the first 1,000 actual values.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="property">The array of PropertyInfo objects representing the properties of the type.</param>
-    /// <param name="list">The list of ISeries elements to analyze.</param>
+    /// <typeparam name="T">Type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="property">Array of PropertyInfo objects representing the properties of the type.</param>
+    /// <param name="list">List of ISeries elements to analyze.</param>
     /// <returns>Format to be used in ToString()</returns>
     private static string AutoFormat<T>(
         PropertyInfo property,
@@ -601,8 +601,8 @@ public static partial class StringOut
     /// <summary>
     /// Returns the colloquial type name for a given type.
     /// </summary>
-    /// <param name="type">The type to get the colloquial name for.</param>
-    /// <returns>The colloquial type name.</returns>
+    /// <param name="type">Type to get the colloquial name for.</param>
+    /// <returns>Colloquial type name.</returns>
     public static string ColloquialTypeName(Type? type)
     {
         if (type == null)
@@ -621,8 +621,8 @@ public static partial class StringOut
     /// Formats a list of ISeries items using specific indices, preserving original index numbers.
     /// Reuses core formatting logic by delegating to the main ToStringOut implementation.
     /// </summary>
-    /// <typeparam name="T">The type of series items, must implement ISeries.</typeparam>
-    /// <param name="source">The source list of series items.</param>
+    /// <typeparam name="T">Type of series items, must implement ISeries.</typeparam>
+    /// <param name="source">Source list of series items.</param>
     /// <param name="indices">Array of indices to include in the output.</param>
     /// <param name="args">Optional format arguments for specific properties or types.</param>
     /// <returns>Formatted string representation of the specified items.</returns>

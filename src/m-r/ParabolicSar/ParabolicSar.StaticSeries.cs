@@ -9,8 +9,8 @@ public static partial class ParabolicSar
     /// Converts a list of quotes to Parabolic SAR results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation. Default is 0.02.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the acceleration step or maximum acceleration factor are out of range.</exception>
@@ -30,9 +30,9 @@ public static partial class ParabolicSar
     /// Gets the Parabolic SAR results for a list of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
+    /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the acceleration step, maximum acceleration factor, or initial factor are out of range.</exception>
@@ -51,10 +51,10 @@ public static partial class ParabolicSar
     /// <summary>
     /// Calculates the Parabolic SAR for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
+    /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     private static List<ParabolicSarResult> CalcParabolicSar(
         this List<QuoteD> quotes,

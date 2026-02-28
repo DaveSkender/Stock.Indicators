@@ -8,9 +8,9 @@ public static partial class ConnorsRsi
     /// <summary>
     /// Validates the parameters for the Connors RSI calculation.
     /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation on the close price.</param>
-    /// <param name="streakPeriods">The number of periods for the RSI calculation on the streak.</param>
-    /// <param name="rankPeriods">The number of periods for the percent rank calculation.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation on the close price.</param>
+    /// <param name="streakPeriods">Number of periods for the RSI calculation on the streak.</param>
+    /// <param name="rankPeriods">Number of periods for the percent rank calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the RSI periods for the close price are less than or equal to 1,
     /// the RSI periods for the streak are less than or equal to 1,

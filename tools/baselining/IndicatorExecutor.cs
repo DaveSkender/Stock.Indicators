@@ -15,8 +15,8 @@ internal static class IndicatorExecutor
     /// <summary>
     /// Executes an indicator and returns its results.
     /// </summary>
-    /// <param name="listing">The indicator listing to execute.</param>
-    /// <returns>The indicator results as a list.</returns>
+    /// <param name="listing">Indicator listing to execute.</param>
+    /// <returns>Indicator results as a list.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator method cannot be found or executed.</exception>
     public static object Execute(IndicatorListing listing)
     {
@@ -145,8 +145,8 @@ internal static class IndicatorExecutor
     /// <summary>
     /// Gets the baseline file path for an indicator.
     /// </summary>
-    /// <param name="listing">The indicator listing.</param>
-    /// <returns>The full path to the baseline file.</returns>
+    /// <param name="listing">Indicator listing.</param>
+    /// <returns>Full path to the baseline file.</returns>
     public static string GetBaselinePath(IndicatorListing listing)
     {
         // Baselines are stored in _testdata/results/ directory

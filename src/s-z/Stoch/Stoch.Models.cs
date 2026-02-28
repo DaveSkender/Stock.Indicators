@@ -3,8 +3,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of a Stochastic Oscillator calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the data point.</param>
-/// <param name="Oscillator">The Stochastic Oscillator (%K) at this point.</param>
+/// <param name="Timestamp">Timestamp of the data point.</param>
+/// <param name="Oscillator">Stochastic Oscillator (%K) at this point.</param>
 /// <param name="Signal">The %D signal at this point.</param>
 /// <param name="PercentJ">The %J at this point.</param>
 [Serializable]

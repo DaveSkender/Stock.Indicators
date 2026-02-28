@@ -92,8 +92,11 @@ public static partial class QuoteParts
 
             ? quotes.ToQuotePart(candlePart)
 
-            : (IReadOnlyList<IReusable>)items
-                .Cast<IReusable>()
-                .ToList();
+            : items is IReadOnlyList<IReusable> reusable // fast-path: already the right type
+                ? reusable
+
+                : items
+                    .Cast<IReusable>()
+                    .ToList();
     }
 }

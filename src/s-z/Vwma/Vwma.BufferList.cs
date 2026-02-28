@@ -59,9 +59,9 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     /// <summary>
     /// Apply new price and volume values for calculating incremental VWMA values.
     /// </summary>
-    /// <param name="timestamp">The date context.</param>
-    /// <param name="price">The price value (typically close price).</param>
-    /// <param name="volume">The volume value.</param>
+    /// <param name="timestamp">Date context.</param>
+    /// <param name="price">Price value (typically close price).</param>
+    /// <param name="volume">Volume value.</param>
     public void Add(DateTime timestamp, double price, double volume)
     {
         // Use BufferListUtilities extension method for consistent buffer management

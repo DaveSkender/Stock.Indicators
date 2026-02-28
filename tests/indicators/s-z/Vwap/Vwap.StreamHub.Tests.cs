@@ -32,7 +32,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         IReadOnlyList<VwapResult> expectedOriginal = Quotes.ToVwap();
         sut.IsExactly(expectedOriginal);
@@ -45,6 +45,37 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         sut.Should().HaveCount(quotesCount - 1);
 
         // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 50;
+        const int totalQuotes = 100;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<VwapResult> expected = quotes
+            .ToVwap()
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        VwapHub observer = quoteHub.ToVwapHub();
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Streaming results should match last N from full series (original series with front chopped off)
+        // NOT recomputation on just the cached quotes (which would have different warmup)
+        observer.Results.IsExactly(expected);
+
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -90,7 +121,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotes[80]);
+        quoteHub.Add(quotes[80]);
 
         // removal
         quoteHub.RemoveAt(removeAtIndex);
@@ -132,7 +163,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
             if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Add(Quotes[80]);  // Late arrival
         quoteHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results

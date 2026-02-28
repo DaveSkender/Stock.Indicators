@@ -8,7 +8,7 @@ public static partial class ChaikinOsc
     /// <summary>
     /// Removes the recommended warmup periods from the Chaikin Oscillator results.
     /// </summary>
-    /// <param name="results">The list of Chaikin Oscillator results.</param>
+    /// <param name="results">List of Chaikin Oscillator results.</param>
     /// <returns>A list of Chaikin Oscillator results with the warmup periods removed.</returns>
     public static IReadOnlyList<ChaikinOscResult> RemoveWarmupPeriods(
         this IReadOnlyList<ChaikinOscResult> results)
@@ -24,8 +24,8 @@ public static partial class ChaikinOsc
     /// <summary>
     /// Validates the parameters for the Chaikin Oscillator calculation.
     /// </summary>
-    /// <param name="fastPeriods">The number of fast lookback periods for the calculation.</param>
-    /// <param name="slowPeriods">The number of slow lookback periods for the calculation.</param>
+    /// <param name="fastPeriods">Number of fast lookback periods for the calculation.</param>
+    /// <param name="slowPeriods">Number of slow lookback periods for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the fast lookback periods are less than or equal to 0,
     /// or the slow lookback periods are less than or equal to the fast lookback periods.

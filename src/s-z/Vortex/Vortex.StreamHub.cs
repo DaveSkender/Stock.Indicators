@@ -24,6 +24,11 @@ public class VortexHub
         _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
 
+        // Validate cache size for warmup requirements
+        // Vortex uses the first period for initialization and fills the buffer for LookbackPeriods more,
+        // so the first valid result occurs at index LookbackPeriods (requiring LookbackPeriods + 1 items).
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -176,7 +181,7 @@ public static partial class Vortex
     /// <summary>
     /// Converts the quote provider to a Vortex Indicator hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Vortex Indicator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

@@ -19,6 +19,24 @@ public class QuotePartHub
     /// <inheritdoc/>
     public CandlePart CandlePartSelection { get; init; }
 
+    /// <inheritdoc/>
+    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    {
+        // Lock to prevent concurrent cache access.
+        lock (CacheLock)
+        {
+            (TimeValue result, int index) = ToIndicator(item, indexHint);
+
+            if (index >= 0 && index < Cache.Count)
+            {
+                InsertWithoutRebuild(result, index, notify);
+                return;
+            }
+
+            AppendCache(result, notify);
+        }
+    }
+
 
     /// <inheritdoc/>
     protected override (TimeValue result, int index)
@@ -43,7 +61,7 @@ public static partial class QuoteParts
     /// <summary>
     /// Creates an QuotePart streaming hub from a chain provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>An new <see cref="QuotePartHub"/> instance.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

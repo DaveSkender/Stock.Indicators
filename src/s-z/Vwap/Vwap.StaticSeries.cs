@@ -9,7 +9,7 @@ public static partial class Vwap
     /// Calculates the VWAP for a series of quotes starting from a specific date.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="startDate">The start date for the VWAP calculation.</param>
+    /// <param name="startDate">Start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap(
@@ -36,8 +36,8 @@ public static partial class Vwap
     /// <summary>
     /// Calculates the VWAP for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="startDate">The optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
+    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="startDate">Optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     private static List<VwapResult> CalcVwap(
         this List<QuoteD> quotes,

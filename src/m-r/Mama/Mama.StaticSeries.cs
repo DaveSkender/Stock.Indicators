@@ -8,9 +8,9 @@ public static partial class Mama
     /// <summary>
     /// Converts a list of source values to MESA Adaptive Moving Average (MAMA) results.
     /// </summary>
-    /// <param name="source">The list of source values to transform.</param>
-    /// <param name="fastLimit">The fast limit for the MAMA calculation. Default is 0.5.</param>
-    /// <param name="slowLimit">The slow limit for the MAMA calculation. Default is 0.05.</param>
+    /// <param name="source">List of source values to transform.</param>
+    /// <param name="fastLimit">Fast limit for the MAMA calculation. Default is 0.5.</param>
+    /// <param name="slowLimit">Slow limit for the MAMA calculation. Default is 0.05.</param>
     /// <returns>A list of MESA Adaptive Moving Average (MAMA) results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the fast or slow limit is out of range.</exception>
     public static IReadOnlyList<MamaResult> ToMama(

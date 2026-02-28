@@ -25,7 +25,7 @@ public static partial class Fractal
     /// <summary>
     /// Validates the window span for Fractal calculations.
     /// </summary>
-    /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
+    /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the window span is less than 2.
     /// </exception>

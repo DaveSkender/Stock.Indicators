@@ -22,7 +22,7 @@ public static partial class Vortex
     /// <summary>
     /// Calculates the Vortex indicator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     private static List<VortexResult> CalcVortex(

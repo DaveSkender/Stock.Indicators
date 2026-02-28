@@ -17,6 +17,9 @@ public class MarubozuHub
         _minBodyPercentDecimal = minBodyPercent / 100;
         Name = $"MARUBOZU({minBodyPercent:F1})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Pattern detection requires at least 1 period
+
         Reinitialize();
     }
 
@@ -56,8 +59,8 @@ public static partial class Marubozu
     /// <summary>
     /// Creates a Marubozu hub from a quote provider.
     /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="minBodyPercent">The minimum body percentage to qualify as a Marubozu. Default is 95.</param>
+    /// <param name="provider">Quote provider.</param>
+    /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu. Default is 95.</param>
     /// <returns>A Marubozu hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the minBodyPercent is invalid.</exception>

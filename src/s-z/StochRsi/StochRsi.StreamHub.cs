@@ -59,6 +59,10 @@ public sealed class StochRsiHub
         kBuffer = new Queue<double>(smoothPeriods);
         signalBuffer = new Queue<double>(signalPeriods);
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = StochRsi.WarmupPeriod(RsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -73,6 +77,7 @@ public sealed class StochRsiHub
 
     /// <inheritdoc/>
     public int SmoothPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (StochRsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -220,11 +225,11 @@ public static partial class StochRsi
     /// <summary>
     /// Converts the chain provider to a Stochastic RSI hub.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <returns>A Stochastic RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
@@ -244,10 +249,10 @@ public static partial class StochRsi
     /// reuses the existing <see cref="RsiHub"/> as its internal construction.
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>
     /// Do not use this interface if you want to instead want a StochRSI of an RSI hub.</remarks>
-    /// <param name="rsiHub">The existing RSI hub provider.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiHub">Existing RSI hub provider.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <returns>A Stochastic RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

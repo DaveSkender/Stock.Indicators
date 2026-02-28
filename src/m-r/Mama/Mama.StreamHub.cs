@@ -35,6 +35,9 @@ public class MamaHub
         SlowLimit = slowLimit;
         Name = $"MAMA({fastLimit},{slowLimit})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(50, Name);  // MAMA adaptive algorithm needs minimum history
+
         Reinitialize();
     }
 
@@ -262,9 +265,9 @@ public static partial class Mama
     /// <summary>
     /// Creates a MAMA streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
-    /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="fastLimit">Fast limit for the MAMA calculation.</param>
+    /// <param name="slowLimit">Slow limit for the MAMA calculation.</param>
     /// <returns>A MAMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the limits are invalid.</exception>

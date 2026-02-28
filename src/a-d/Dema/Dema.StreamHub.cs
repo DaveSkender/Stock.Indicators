@@ -18,6 +18,9 @@ public class DemaHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"DEMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 
@@ -104,7 +107,7 @@ public static partial class Dema
     /// <summary>
     /// Creates a DEMA streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A DEMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

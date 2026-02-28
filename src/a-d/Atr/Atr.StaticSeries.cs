@@ -22,7 +22,7 @@ public static partial class Atr
     /// <summary>
     /// Calculates the Average True Range (ATR) for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">List of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ATR results.</returns>
     internal static List<AtrResult> CalcAtr(

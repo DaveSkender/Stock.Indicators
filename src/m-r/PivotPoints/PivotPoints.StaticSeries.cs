@@ -10,9 +10,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Converts a series of quotes to pivot points.
     /// </summary>
-    /// <param name="quotes">The series of quotes.</param>
-    /// <param name="windowSize">The size of the window for pivot point calculation.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <param name="quotes">Series of quotes.</param>
+    /// <param name="windowSize">Size of the window for pivot point calculation.</param>
+    /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>A list of pivot point results.</returns>
     public static IReadOnlyList<PivotPointsResult> ToPivotPoints(
         this IReadOnlyList<IQuote> quotes,
@@ -111,11 +111,11 @@ public static partial class PivotPoints
     /// <summary>
     /// Gets the pivot point based on the specified type and price values.
     /// </summary>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
-    /// <param name="open">The opening price.</param>
-    /// <param name="high">The highest price.</param>
-    /// <param name="low">The lowest price.</param>
-    /// <param name="close">The closing price.</param>
+    /// <param name="pointType">Type of pivot point calculation to use.</param>
+    /// <param name="open">Opening price.</param>
+    /// <param name="high">Highest price.</param>
+    /// <param name="low">Lowest price.</param>
+    /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static WindowPoint GetPivotPoint(
@@ -135,9 +135,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Gets the window number based on the date and window size.
     /// </summary>
-    /// <param name="d">The date.</param>
-    /// <param name="windowSize">The size of the window.</param>
-    /// <returns>The window number.</returns>
+    /// <param name="d">Date.</param>
+    /// <param name="windowSize">Size of the window.</param>
+    /// <returns>Window number.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static int GetWindowNumber(DateTime d, PeriodSize windowSize)
 
@@ -163,9 +163,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Gets the standard pivot point based on the high, low, and close prices.
     /// </summary>
-    /// <param name="high">The highest price.</param>
-    /// <param name="low">The lowest price.</param>
-    /// <param name="close">The closing price.</param>
+    /// <param name="high">Highest price.</param>
+    /// <param name="low">Lowest price.</param>
+    /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointStandard(
         decimal high, decimal low, decimal close)
@@ -186,9 +186,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Gets the Camarilla pivot point based on the high, low, and close prices.
     /// </summary>
-    /// <param name="high">The highest price.</param>
-    /// <param name="low">The lowest price.</param>
-    /// <param name="close">The closing price.</param>
+    /// <param name="high">Highest price.</param>
+    /// <param name="low">Lowest price.</param>
+    /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointCamarilla(
         decimal high, decimal low, decimal close)
@@ -207,10 +207,10 @@ public static partial class PivotPoints
     /// <summary>
     /// Gets the Demark pivot point based on the open, high, low, and close prices.
     /// </summary>
-    /// <param name="open">The opening price.</param>
-    /// <param name="high">The highest price.</param>
-    /// <param name="low">The lowest price.</param>
-    /// <param name="close">The closing price.</param>
+    /// <param name="open">Opening price.</param>
+    /// <param name="high">Highest price.</param>
+    /// <param name="low">Lowest price.</param>
+    /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     internal static WindowPoint GetPivotPointDemark(
         decimal open, decimal high, decimal low, decimal close)
@@ -231,9 +231,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Gets the Fibonacci pivot point based on the high, low, and close prices.
     /// </summary>
-    /// <param name="high">The highest price.</param>
-    /// <param name="low">The lowest price.</param>
-    /// <param name="close">The closing price.</param>
+    /// <param name="high">Highest price.</param>
+    /// <param name="low">Lowest price.</param>
+    /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointFibonacci(
         decimal high, decimal low, decimal close)
@@ -254,9 +254,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Gets the Woodie pivot point based on the current open, high, and low prices.
     /// </summary>
-    /// <param name="currentOpen">The current opening price.</param>
-    /// <param name="high">The highest price.</param>
-    /// <param name="low">The lowest price.</param>
+    /// <param name="currentOpen">Current opening price.</param>
+    /// <param name="high">Highest price.</param>
+    /// <param name="low">Lowest price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointWoodie(
         decimal currentOpen, decimal high, decimal low)

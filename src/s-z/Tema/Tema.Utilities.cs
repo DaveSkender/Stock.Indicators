@@ -8,7 +8,7 @@ public static partial class Tema
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of TEMA results.</param>
+    /// <param name="results">List of TEMA results.</param>
     /// <returns>A list of TEMA results with warmup periods removed.</returns>
     public static IReadOnlyList<TemaResult> RemoveWarmupPeriods(
         this IReadOnlyList<TemaResult> results)
@@ -24,7 +24,7 @@ public static partial class Tema
     /// <summary>
     /// Validates the parameters for TEMA calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int lookbackPeriods)

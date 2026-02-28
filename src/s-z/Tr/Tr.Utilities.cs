@@ -8,10 +8,10 @@ public static partial class Tr
     /// <summary>
     /// Calculates the True Range increment.
     /// </summary>
-    /// <param name="high">The high price.</param>
-    /// <param name="low">The low price.</param>
-    /// <param name="prevClose">The previous close price.</param>
-    /// <returns>The True Range increment.</returns>
+    /// <param name="high">High price.</param>
+    /// <param name="low">Low price.</param>
+    /// <param name="prevClose">Previous close price.</param>
+    /// <returns>True Range increment.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Increment(
         double high,

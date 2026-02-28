@@ -9,7 +9,7 @@ public static partial class ForceIndex
     /// Converts a list of quotes to Force Index results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 2.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 2.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
@@ -23,7 +23,7 @@ public static partial class ForceIndex
     /// <summary>
     /// Calculates the Force Index for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>

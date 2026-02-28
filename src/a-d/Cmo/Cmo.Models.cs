@@ -3,8 +3,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of the Chande Momentum Oscillator (CMO) calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the result.</param>
-/// <param name="Cmo">The Chande Momentum Oscillator value.</param>
+/// <param name="Timestamp">Timestamp of the result.</param>
+/// <param name="Cmo">Chande Momentum Oscillator value.</param>
 [Serializable]
 public record CmoResult
 (

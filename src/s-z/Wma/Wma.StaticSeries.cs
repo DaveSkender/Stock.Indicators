@@ -8,7 +8,7 @@ public static partial class Wma
     /// <summary>
     /// Calculates the WMA for a series of reusable data.
     /// </summary>
-    /// <param name="source">The source list of reusable data.</param>
+    /// <param name="source">Source list of reusable data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of WmaResult containing the WMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>

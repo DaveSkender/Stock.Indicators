@@ -19,6 +19,9 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
         Name = $"MFI({lookbackPeriods})";
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -97,7 +100,7 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
 
     /// <summary>
     /// Restores the buffer state up to the specified timestamp.
-    /// Clears and rebuilds buffer from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds buffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
@@ -154,8 +157,8 @@ public static partial class Mfi
     /// <summary>
     /// Converts the quote provider to an MFI hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="lookbackPeriods">Number of lookback periods. Default is 14.</param>
     /// <returns>An MFI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

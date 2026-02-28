@@ -21,6 +21,10 @@ public class PivotsHub
         EndType = endType;
         Name = $"PIVOTS({leftSpan},{rightSpan},{maxTrendPeriods},{endType.ToString().ToUpperInvariant()})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = leftSpan + rightSpan + 1;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -79,7 +83,7 @@ public class PivotsHub
     /// <summary>
     /// Rebuilds the hub from the beginning, including trend line calculations.
     /// </summary>
-    /// <param name="fromTimestamp">The timestamp to rebuild from.</param>
+    /// <param name="fromTimestamp">Timestamp to rebuild from.</param>
     public new void Rebuild(DateTime fromTimestamp)
     {
         // First, rebuild pivot points
@@ -92,7 +96,7 @@ public class PivotsHub
     /// <summary>
     /// Rebuilds the hub from a specific index, including trend line calculations.
     /// </summary>
-    /// <param name="fromIndex">The index to rebuild from.</param>
+    /// <param name="fromIndex">Index to rebuild from.</param>
     public new void Rebuild(int fromIndex)
     {
         // First, rebuild pivot points
@@ -291,11 +295,11 @@ public static partial class Pivots
     /// <summary>
     /// Creates a Pivots streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point. Default is 2.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point. Default is 2.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation. Default is 20.</param>
-    /// <param name="endType">The type of end point for the pivot calculation. Default is <see cref="EndType.HighLow"/>.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="leftSpan">Number of periods to the left of the pivot point. Default is 2.</param>
+    /// <param name="rightSpan">Number of periods to the right of the pivot point. Default is 2.</param>
+    /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation. Default is 20.</param>
+    /// <param name="endType">Type of end point for the pivot calculation. Default is <see cref="EndType.HighLow"/>.</param>
     /// <returns>An instance of <see cref="PivotsHub"/>.</returns>
     public static PivotsHub ToPivotsHub(
         this IQuoteProvider<IQuote> quoteProvider,

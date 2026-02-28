@@ -23,6 +23,9 @@ public class ChopHub
         _sumTrueRange = 0;
         Name = $"CHOP({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -89,7 +92,7 @@ public class ChopHub
 
     /// <summary>
     /// Restores the rolling window state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows and true range buffer from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds rolling windows and true range buffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
@@ -139,7 +142,7 @@ public static partial class Chop
     /// <summary>
     /// Creates a Choppiness Index (CHOP) streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A ChopHub instance.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

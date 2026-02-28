@@ -8,7 +8,7 @@ public static class Candlesticks
     /// <summary>
     /// Condenses the list of candle results by filtering out those with no match.
     /// </summary>
-    /// <param name="candleResults">The list of candle results to condense.</param>
+    /// <param name="candleResults">List of candle results to condense.</param>
     /// <returns>A condensed list of candle results.</returns>
     public static IReadOnlyList<CandleResult> Condense(
         this IReadOnlyList<CandleResult> candleResults) => candleResults
@@ -19,8 +19,8 @@ public static class Candlesticks
     /// Converts a quote to candle properties.
     /// </summary>
     /// <typeparam name="TQuote">Type of quote record</typeparam>
-    /// <param name="quote">The quote to convert.</param>
-    /// <returns>The candle properties.</returns>
+    /// <param name="quote">Quote to convert.</param>
+    /// <returns>Candle properties.</returns>
     public static CandleProperties ToCandle<TQuote>(
         this TQuote quote)
         where TQuote : IQuote

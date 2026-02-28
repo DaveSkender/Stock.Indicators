@@ -8,7 +8,7 @@ public static partial class StochRsi
     /// <summary>
     /// Removes the recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of Stochastic RSI results.</param>
+    /// <param name="results">List of Stochastic RSI results.</param>
     /// <returns>A list of Stochastic RSI results with warmup periods removed.</returns>
     public static IReadOnlyList<StochRsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<StochRsiResult> results)
@@ -22,12 +22,30 @@ public static partial class StochRsi
     }
 
     /// <summary>
+    /// Returns the minimum number of source items required to produce a full
+    /// Stochastic RSI result (with signal and smooth), used to validate cache size settings.
+    /// Signal and smooth SMAs are applied sequentially, so their warmup costs are additive.
+    /// When smoothPeriods is 1, the smoothing step is a pass-through and only costs 1 item.
+    /// </summary>
+    /// <param name="rsiPeriods">Number of periods for RSI.</param>
+    /// <param name="stochPeriods">Number of periods for Stochastic %K window.</param>
+    /// <param name="signalPeriods">Number of periods for the signal (D) line.</param>
+    /// <param name="smoothPeriods">Number of periods for %K smoothing.</param>
+    /// <returns>Minimum warmup period count.</returns>
+    public static int WarmupPeriod(
+        int rsiPeriods,
+        int stochPeriods,
+        int signalPeriods,
+        int smoothPeriods)
+        => (rsiPeriods * 2) + stochPeriods + signalPeriods + smoothPeriods - (smoothPeriods > 1 ? 2 : 1);
+
+    /// <summary>
     /// Validates the parameters for Stochastic RSI calculation.
     /// </summary>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="rsiPeriods">Number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">Number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int rsiPeriods,

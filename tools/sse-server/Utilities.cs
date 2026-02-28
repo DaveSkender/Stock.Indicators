@@ -37,3 +37,14 @@ internal static class Utilities
         };
     }
 }
+
+internal sealed record SseQuoteAction(string EventType, QuoteAction Payload)
+{
+    public static SseQuoteAction Add(Quote quote)
+        => new("add", new QuoteAction(quote, null));
+
+    public static SseQuoteAction Remove(int cacheIndex, Quote quote)
+        => new("remove", new QuoteAction(quote, cacheIndex));
+}
+
+internal sealed record QuoteAction(Quote Quote, int? CacheIndex);

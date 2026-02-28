@@ -51,6 +51,12 @@ public class TsiHub
         _cs1History = [];
         _as1History = [];
 
+        // Validate cache size for warmup requirements
+        // First valid TSI signal at lookbackPeriods + smoothPeriods + signalPeriods - 1
+        // due to sequential EMA of EMA (cs1 then cs2) followed by signal EMA.
+        int requiredWarmup = lookbackPeriods + smoothPeriods + signalPeriods - 1;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -383,10 +389,10 @@ public static partial class Tsi
     /// <summary>
     /// Creates a TSI streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
+    /// <param name="smoothPeriods">Number of periods for the smoothing calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal calculation.</param>
     /// <returns>A TSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

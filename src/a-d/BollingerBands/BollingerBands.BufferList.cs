@@ -11,7 +11,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
+    /// <param name="standardDeviations">Number of standard deviations to use for the bands.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="standardDeviations"/> is invalid.</exception>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations = 2)
     {
@@ -27,7 +27,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
+    /// <param name="standardDeviations">Number of standard deviations to use for the bands.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, standardDeviations) => Add(values);
@@ -41,8 +41,8 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <summary>
     /// Adds a new value to the Bollinger Bands list.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the value.</param>
-    /// <param name="value">The value to add.</param>
+    /// <param name="timestamp">Timestamp of the value.</param>
+    /// <param name="value">Value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
         // Use universal buffer extension method for consistent buffer management
@@ -89,7 +89,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <summary>
     /// Adds a new reusable value to the Bollinger Bands list.
     /// </summary>
-    /// <param name="value">The reusable value to add.</param>
+    /// <param name="value">Reusable value to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the value is null.</exception>
     public void Add(IReusable value)
     {
@@ -100,7 +100,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <summary>
     /// Adds a list of reusable values to the Bollinger Bands list.
     /// </summary>
-    /// <param name="values">The list of reusable values to add.</param>
+    /// <param name="values">List of reusable values to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the values list is null.</exception>
     public void Add(IReadOnlyList<IReusable> values)
     {
@@ -132,7 +132,7 @@ public static partial class BollingerBands
     /// </summary>
     /// <param name="source">Time-series values</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
+    /// <param name="standardDeviations">Number of standard deviations to use for the bands.</param>
     /// <returns>A BollingerBandsList instance pre-populated with historical data</returns>
     /// <exception cref="ArgumentNullException">Thrown when source is null</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid</exception>

@@ -18,6 +18,9 @@ public class ForceIndexHub
         _k = 2d / (lookbackPeriods + 1);
         Name = $"FORCE({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -109,7 +112,7 @@ public static partial class ForceIndex
     /// <summary>
     /// Converts the quote provider to a Force Index hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Force Index hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

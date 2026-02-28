@@ -27,6 +27,9 @@ public class AdxHub
         _sumMdm = 0;
         _sumDx = 0;
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 
@@ -332,7 +335,7 @@ public static partial class Adx
     /// <summary>
     /// Creates a stream hub for ADX indicator calculations.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static AdxHub ToAdxHub(
         this IQuoteProvider<IQuote> quoteProvider,

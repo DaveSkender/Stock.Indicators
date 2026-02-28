@@ -10,8 +10,8 @@ public static partial class Chandelier
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>A read-only list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
     public static IReadOnlyList<ChandelierResult> ToChandelier(
         this IReadOnlyList<IQuote> quotes,
@@ -25,10 +25,10 @@ public static partial class Chandelier
     /// <summary>
     /// Calculates the Chandelier Exit for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>A list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     private static List<ChandelierResult> CalcChandelier(
