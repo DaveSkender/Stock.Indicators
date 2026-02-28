@@ -1,13 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
-
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
@@ -15,14 +11,11 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="JKorf.Coinbase.Net" />
     <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
   </ItemGroup>
-
 </Project>

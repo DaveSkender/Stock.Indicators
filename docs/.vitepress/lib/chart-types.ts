@@ -41,5 +41,5 @@ export interface ChartData {
 
 export interface TimeContext {
   candleTimes: Array<string | number>
-  resolveSeriesTime: (timestamp: string, index: number) => string | number
+  createResolveSeriesTime: () => (timestamp: string, index: number) => string | number
 }

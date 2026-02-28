@@ -45,13 +45,12 @@ export function createTimeContext(data: ChartData): TimeContext {
   if (!nonLinear) {
     return {
       candleTimes: data.candles.map(c => parseTimestamp(c.timestamp)),
-      resolveSeriesTime: (timestamp: string) => parseTimestamp(timestamp)
+      createResolveSeriesTime: () => (timestamp: string) => parseTimestamp(timestamp)
     }
   }
 
   const candleTimes = data.candles.map((_, index) => index)
   const timeIndexLookup = new Map<string, number[]>()
-  const timeIndexOffsets = new Map<string, number>()
 
   data.candles.forEach((candle, index) => {
     const key = parseTimestamp(candle.timestamp)
@@ -63,19 +62,22 @@ export function createTimeContext(data: ChartData): TimeContext {
 
   return {
     candleTimes,
-    resolveSeriesTime: (timestamp: string, index: number) => {
-      const key = parseTimestamp(timestamp)
-      const indices = timeIndexLookup.get(key)
-      if (!indices || indices.length === 0) {
-        return index
+    createResolveSeriesTime: () => {
+      const timeIndexOffsets = new Map<string, number>()
+      return (timestamp: string, index: number) => {
+        const key = parseTimestamp(timestamp)
+        const indices = timeIndexLookup.get(key)
+        if (!indices || indices.length === 0) {
+          return index
+        }
+        const offset = timeIndexOffsets.get(key) ?? 0
+        const resolved = indices[offset]
+        if (resolved === undefined) {
+          return index
+        }
+        timeIndexOffsets.set(key, offset + 1)
+        return resolved
       }
-      const offset = timeIndexOffsets.get(key) ?? 0
-      const resolved = indices[offset]
-      if (resolved === undefined) {
-        return index
-      }
-      timeIndexOffsets.set(key, offset + 1)
-      return resolved
     }
   }
 }

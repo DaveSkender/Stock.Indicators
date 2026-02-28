@@ -131,9 +131,9 @@ var stochRsiHub = quotes
 var rsiHub = quotes
   .ToRsiHub();
 
-// does not create 2nd internal huba separate internal RSI hub
+// does not create a 2nd internal hub
 var stochRsiHub = rsiHub
-  .ToStochRsiHub();  // does not create 2nd internal hub
+  .ToStochRsiHub();
 
 // ❌ RSI → [ RSI ] → StochRSI
 // ✅ RSI → StochRSI

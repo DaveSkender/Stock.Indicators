@@ -47,12 +47,11 @@ function readStorageCache(cacheKey: string): CachePayload | null {
     return null
   }
 
-  const raw = window.localStorage.getItem(cacheKey)
-  if (!raw) {
-    return null
-  }
-
   try {
+    const raw = window.localStorage.getItem(cacheKey)
+    if (!raw) {
+      return null
+    }
     const parsed = JSON.parse(raw) as CachePayload
     if (!parsed.expiresAt || !parsed.data || Date.now() > parsed.expiresAt) {
       window.localStorage.removeItem(cacheKey)
@@ -60,7 +59,8 @@ function readStorageCache(cacheKey: string): CachePayload | null {
     }
     return parsed
   } catch {
-    window.localStorage.removeItem(cacheKey)
+    // SecurityError (private/restrictive mode), QuotaExceededError, or JSON parse failure
+    try { window.localStorage.removeItem(cacheKey) } catch { /* ignore */ }
     return null
   }
 }

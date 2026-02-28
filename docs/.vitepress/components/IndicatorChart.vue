@@ -369,11 +369,12 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         })
     }
 
+    const resolveSeriesTime = timeContext.createResolveSeriesTime()
     const filteredData = seriesConfig.data
       .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
       .map((d, idx) => {
         const point = {
-          time: timeContext.resolveSeriesTime(d.timestamp, idx),
+          time: resolveSeriesTime(d.timestamp, idx),
           value: d.value as number
         }
         // For dots and pointer types, don't add color to data points (only use for markers)
@@ -383,7 +384,7 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         }
         return point
       })
-    
+
     // Set data for all series types (markers need the data points to position correctly)
     series.setData(filteredData)
 
@@ -531,10 +532,11 @@ async function initChart() {
     // This creates colored fills when indicator exceeds threshold values
     // Supports bidirectional fills (fillAbove/fillBelow) for richer visualizations
     if (data.series.length > 0) {
+      const resolveSeriesTime = timeContext.createResolveSeriesTime()
       const indicatorData = data.series[0].data
         .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
         .map((d, idx) => ({
-          time: timeContext.resolveSeriesTime(d.timestamp, idx),
+          time: resolveSeriesTime(d.timestamp, idx),
           value: d.value as number
         }))
 
