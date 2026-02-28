@@ -380,9 +380,9 @@
       "detail": "Run complete linting (Roslynator + dotnet format + markdown)",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
+        "Lint: Markdown",
         "Lint: .NET Roslynator (analyze)",
-        "Lint: .NET format",
-        "Lint: Markdown"
+        "Lint: .NET format"
       ],
       "dependsOrder": "sequence",
       "group": "test",
