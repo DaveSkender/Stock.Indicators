@@ -41,7 +41,7 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         WilliamsRList sut = new(14, Quotes);
         sut.IsBetween(static x => x.WilliamsR, -100, 0);

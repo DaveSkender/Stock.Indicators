@@ -149,7 +149,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public static void IncrementalUpdates()
+    public void IncrementalUpdates()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -280,7 +280,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<SmiResult> sut = Quotes.ToSmiHub(14, 20, 5, 3).Results;
         sut.IsBetween(static x => x.Smi, -100, 100);

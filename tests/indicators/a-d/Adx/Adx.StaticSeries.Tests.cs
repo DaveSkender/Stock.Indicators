@@ -70,7 +70,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<AdxResult> sut = Quotes.ToAdx(14);
         sut.IsBetween(static x => x.Pdi, 0, 100);

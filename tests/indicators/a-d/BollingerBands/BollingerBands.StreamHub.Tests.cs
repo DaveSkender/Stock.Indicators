@@ -147,7 +147,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     }
 
     [TestMethod]
-    public static void PrefilledProviderRebuilds()
+    public void PrefilledProviderRebuilds()
     {
         QuoteHub quoteHub = new();
         List<Quote> quotes = Quotes.Take(25).ToList();

@@ -179,7 +179,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<UlcerIndexResult> sut = Quotes.ToUlcerIndexHub(14).Results;
         sut.IsBetween(static x => x.UlcerIndex, 0, 100);

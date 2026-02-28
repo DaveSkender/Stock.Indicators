@@ -123,7 +123,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public static void AddSingleValue_ValidatesHistoricalRepaint()
+    public void AddSingleValue_ValidatesHistoricalRepaint()
     {
         // Test that Line values are correctly updated as new data arrives
         // This verifies the legitimate historical repaint behavior

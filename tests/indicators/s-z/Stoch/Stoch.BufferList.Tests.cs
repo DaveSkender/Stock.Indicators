@@ -85,7 +85,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         StochList sut = new(14, 3, 3, 1, 1, MaType.SMA, Quotes);
         sut.IsBetween(static x => x.Oscillator, 0, 100);
@@ -142,7 +142,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public static void BufferListExtension()
+    public void BufferListExtension()
     {
         // Test extension method
         StochList fromExtension = Quotes.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);

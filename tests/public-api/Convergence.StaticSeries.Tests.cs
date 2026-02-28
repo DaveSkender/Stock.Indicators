@@ -9,7 +9,7 @@ public class ConvergenceStaticSeries : TestBase
         [5, 14, 28, 40, 50, 75, 100, 110, 120, 130, 140, 150, 160, 175, 200, 250, 350, 500, 600, 700, 800, 900, 1000];
 
     [TestMethod]
-    public static void Adx()
+    public void Adx()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -22,7 +22,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Alligator()
+    public void Alligator()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -37,7 +37,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Atr()
+    public void Atr()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -50,7 +50,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void ChaikinOsc()
+    public void ChaikinOsc()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -63,7 +63,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void ConnorsRsi()
+    public void ConnorsRsi()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -76,7 +76,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Dema()
+    public void Dema()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -89,7 +89,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Dynamic()
+    public void Dynamic()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -102,7 +102,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Ema()
+    public void Ema()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -115,7 +115,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void FisherTransform()
+    public void FisherTransform()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -128,7 +128,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Gator()
+    public void Gator()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -143,7 +143,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void HtTrendline()
+    public void HtTrendline()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -156,7 +156,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Kama()
+    public void Kama()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -169,7 +169,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Keltner()
+    public void Keltner()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -182,7 +182,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Macd()
+    public void Macd()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -195,7 +195,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Mama()
+    public void Mama()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -208,7 +208,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Pmo()
+    public void Pmo()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -221,7 +221,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Pvo()
+    public void Pvo()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -234,7 +234,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Rsi()
+    public void Rsi()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -247,7 +247,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Smi()
+    public void Smi()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -260,7 +260,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Smma()
+    public void Smma()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -273,7 +273,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void StarcBands()
+    public void StarcBands()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -286,7 +286,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void StochRsi()
+    public void StochRsi()
     {
         foreach (int qty in QuotesQuantities.Where(static x => x <= 502))
         {
@@ -299,7 +299,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void T3()
+    public void T3()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -312,7 +312,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Tema()
+    public void Tema()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -325,7 +325,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Trix()
+    public void Trix()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -338,7 +338,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Tsi()
+    public void Tsi()
     {
         foreach (int qty in QuotesQuantities)
         {
@@ -351,7 +351,7 @@ public class ConvergenceStaticSeries : TestBase
     }
 
     [TestMethod]
-    public static void Vortex()
+    public void Vortex()
     {
         foreach (int qty in QuotesQuantities)
         {

@@ -11,7 +11,7 @@ public class Ultimate : BufferListTestBase
        = Quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         UltimateList sut = new(7, 14, 28, Quotes);
         sut.IsBetween(static x => x.Ultimate, 0, 100);

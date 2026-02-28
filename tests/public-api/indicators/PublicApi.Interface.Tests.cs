@@ -39,7 +39,7 @@ public class UserInterface
     }
 
     [TestMethod]
-    public static void QuoteValidationReturn()
+    public void QuoteValidationReturn()
     {
         IReadOnlyList<Quote> h = quotes.Validate();
 

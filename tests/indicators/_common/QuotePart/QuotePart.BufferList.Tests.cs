@@ -81,7 +81,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public static void MultipleCandleParts()
+    public void MultipleCandleParts()
     {
         // Test different candle parts
         IReadOnlyList<TimeValue> openSeries = Quotes.ToQuotePart(CandlePart.Open);

@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<UltimateResult> sut = Quotes.ToUltimateHub(7, 14, 28).Results;
         sut.IsBetween(static x => x.Ultimate, 0, 100);

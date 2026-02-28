@@ -49,7 +49,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochResult> sut = Quotes.ToStoch(14, 3, 3);
         sut.IsBetween(static x => x.Oscillator, 0, 100);
@@ -215,7 +215,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public static void Boundary()
+    public void Boundary()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;

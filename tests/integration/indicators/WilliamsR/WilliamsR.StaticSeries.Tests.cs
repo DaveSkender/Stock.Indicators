@@ -7,7 +7,7 @@ namespace StaticSeries;
 public class WilliamsRTests
 {
     [TestMethod]
-    public static async Task ToWilliamsR_LiveData_MaintainsBoundaryRange()
+    public async Task ToWilliamsR_LiveData_MaintainsBoundaryRange()
     {
         // initialize
         IEnumerable<Quote> feedQuotes = await FeedData  // live quotes

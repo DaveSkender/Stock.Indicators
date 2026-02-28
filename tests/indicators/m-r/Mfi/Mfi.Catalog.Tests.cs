@@ -94,7 +94,7 @@ public class MfiTests : TestBase
     }
 
     [TestMethod]
-    public static void MfiSeriesFromCatalogMatchesDirectCall()
+    public void MfiSeriesFromCatalogMatchesDirectCall()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;

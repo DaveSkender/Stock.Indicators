@@ -18,7 +18,7 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<ConnorsRsiResult> sut = Quotes.ToConnorsRsiHub(3, 2, 100).Results;
         sut.IsBetween(static x => x.ConnorsRsi, 0, 100);

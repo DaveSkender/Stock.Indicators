@@ -17,7 +17,7 @@ public class BoundaryTests : TestBase
     /// After warmup, RSI should approach but not exceed 100.
     /// </summary>
     [TestMethod]
-    public static void RSI_WithMonotonicallyIncreasingPrices_StaysBelow100()
+    public void RSI_WithMonotonicallyIncreasingPrices_StaysBelow100()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyIncreasing(100);
@@ -38,7 +38,7 @@ public class BoundaryTests : TestBase
     /// After warmup, RSI should approach but not go below 0.
     /// </summary>
     [TestMethod]
-    public static void RSI_WithMonotonicallyDecreasingPrices_StaysAbove0()
+    public void RSI_WithMonotonicallyDecreasingPrices_StaysAbove0()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyDecreasing(100);
@@ -59,7 +59,7 @@ public class BoundaryTests : TestBase
     /// Stochastic should be exactly 100 when close equals highest high.
     /// </summary>
     [TestMethod]
-    public static void Stoch_WithCloseEqualsHigh_StaysBelow100()
+    public void Stoch_WithCloseEqualsHigh_StaysBelow100()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetCloseEqualsHigh(100);
@@ -87,7 +87,7 @@ public class BoundaryTests : TestBase
     /// Stochastic should be exactly 0 when close equals lowest low.
     /// </summary>
     [TestMethod]
-    public static void Stoch_WithCloseEqualsLow_StaysAbove0()
+    public void Stoch_WithCloseEqualsLow_StaysAbove0()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetCloseEqualsLow(100);
@@ -115,7 +115,7 @@ public class BoundaryTests : TestBase
     /// This is currently failing in the main test suite.
     /// </summary>
     [TestMethod]
-    public static void StochRSI_WithMonotonicallyIncreasingPrices_StaysWithinBounds()
+    public void StochRSI_WithMonotonicallyIncreasingPrices_StaysWithinBounds()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyIncreasing(100);
@@ -135,7 +135,7 @@ public class BoundaryTests : TestBase
     /// Tests CMO with alternating prices.
     /// </summary>
     [TestMethod]
-    public static void CMO_WithAlternatingPrices_StaysWithinBounds()
+    public void CMO_WithAlternatingPrices_StaysWithinBounds()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetAlternating(100);

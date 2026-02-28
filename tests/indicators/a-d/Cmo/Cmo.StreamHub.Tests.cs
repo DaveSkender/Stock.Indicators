@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public static void Results_AreAlwaysBounded()
+    public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<CmoResult> sut = Quotes.ToCmoHub(14).Results;
         sut.IsBetween(static x => x.Cmo, -100, 100);
