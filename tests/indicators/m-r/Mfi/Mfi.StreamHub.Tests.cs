@@ -7,7 +7,7 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     private static readonly IReadOnlyList<MfiResult> expectedOriginal = Quotes.ToMfi(lookbackPeriods);
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<MfiResult> sut = Quotes.ToMfiHub(14).Results;
         sut.IsBetween(static x => x.Mfi, 0, 100);

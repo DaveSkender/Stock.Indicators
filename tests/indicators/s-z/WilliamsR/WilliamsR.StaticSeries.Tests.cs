@@ -22,7 +22,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<WilliamsResult> sut = Quotes.ToWilliamsR(14);
         sut.IsBetween(static x => x.WilliamsR, -100, 0);
@@ -78,7 +78,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Boundary()
+    public static void Boundary()
     {
         IReadOnlyList<WilliamsResult> sut = Data
             .GetRandom(2500)

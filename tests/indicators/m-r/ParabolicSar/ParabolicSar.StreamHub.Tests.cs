@@ -170,7 +170,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     }
 
     [TestMethod]
-    public void CustomInitialFactor()
+    public static void CustomInitialFactor()
     {
         const double customInitialFactor = 0.05;
         List<Quote> quotesList = Quotes.ToList();

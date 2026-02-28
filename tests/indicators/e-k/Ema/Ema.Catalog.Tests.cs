@@ -9,7 +9,7 @@ namespace Catalogging;
 public class EmaTests : TestBase
 {
     [TestMethod]
-    public void EmaExecuteByIdMatchesDirect()
+    public static void EmaExecuteByIdMatchesDirect()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
@@ -31,7 +31,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaExecuteFromJsonMatchesDirect()
+    public static void EmaExecuteFromJsonMatchesDirect()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
@@ -147,7 +147,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaSeriesFromCatalogMatchesDirectCall()
+    public static void EmaSeriesFromCatalogMatchesDirectCall()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;

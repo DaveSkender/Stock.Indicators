@@ -43,7 +43,7 @@ public class Aroon : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<AroonResult> sut = Quotes.ToAroon(25);
         sut.IsBetween(static x => x.AroonUp, 0, 100);

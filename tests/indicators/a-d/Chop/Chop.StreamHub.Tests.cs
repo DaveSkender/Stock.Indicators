@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<ChopResult> sut = Quotes.ToChopHub(14).Results;
         sut.IsBetween(static x => x.Chop, 0, 100);

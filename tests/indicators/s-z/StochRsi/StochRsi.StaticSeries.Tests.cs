@@ -43,7 +43,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochRsiResult> sut = Quotes.ToStochRsi(14, 14, 3, 1);
         sut.IsBetween(static x => x.StochRsi, 0, 100);

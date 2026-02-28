@@ -133,7 +133,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<CmfResult> sut = Quotes.ToCmfHub(20).Results;
         sut.IsBetween(static x => x.Cmf, -1, 1);

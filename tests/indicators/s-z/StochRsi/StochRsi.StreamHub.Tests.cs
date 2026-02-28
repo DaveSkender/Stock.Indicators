@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochRsiResult> sut = Quotes.ToStochRsiHub(14, 14, 3, 1).Results;
         sut.IsBetween(static x => x.StochRsi, 0, 100);

@@ -49,7 +49,7 @@ public class StochRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         StochRsiList sut = new(14, 14, 3, 1, Quotes);
         sut.IsBetween(static x => x.StochRsi, 0, 100);

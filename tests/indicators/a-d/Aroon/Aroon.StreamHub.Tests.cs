@@ -4,7 +4,7 @@ namespace StreamHubs;
 public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<AroonResult> sut = Quotes.ToAroonHub(25).Results;
         sut.IsBetween(static x => x.AroonUp, 0, 100);

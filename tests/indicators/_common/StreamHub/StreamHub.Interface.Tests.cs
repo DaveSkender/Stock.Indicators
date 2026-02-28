@@ -91,7 +91,7 @@ public class TestCompliance
     }
 
     [TestMethod]
-    public void ChainObserver_DoesNotRedundantlyImplementQuoteObserver()
+    public static void ChainObserver_DoesNotRedundantlyImplementQuoteObserver()
     {
         // ITestChainObserver inherits ITestQuoteObserver, so implementing both is redundant
 

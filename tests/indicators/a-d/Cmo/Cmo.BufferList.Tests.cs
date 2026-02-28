@@ -14,7 +14,7 @@ public class Cmo : BufferListTestBase, ITestChainBufferList
        = Quotes.ToCmo(lookbackPeriods);
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         CmoList sut = new(14, Quotes);
         sut.IsBetween(static x => x.Cmo, -100, 100);

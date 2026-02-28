@@ -98,7 +98,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public static void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochResult> sut = Quotes.ToStochHub(14, 3, 3).Results;
         sut.IsBetween(static x => x.Oscillator, 0, 100);
@@ -139,7 +139,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void IncrementalUpdates()
+    public static void IncrementalUpdates()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;

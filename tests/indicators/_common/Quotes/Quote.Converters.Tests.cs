@@ -29,7 +29,7 @@ public partial class Quotes : TestBase
     }
 
     [TestMethod]
-    public void ToQuoteList()
+    public static void ToQuoteList()
     {
         // setup
         IReadOnlyList<Quote> quotes
