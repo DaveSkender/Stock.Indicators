@@ -8,9 +8,7 @@ description: Standard Deviation Channels are price ranges based on an linear reg
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/368 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/StdDevChannels.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="StdDevChannels" />
 
 ```csharp
 // C# usage syntax
@@ -69,9 +67,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `quotes`.
 
-<ClientOnly>
-  <IndicatorChart src="/data/StdDevChannels.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="StdDevChannels" />
 
 ## Chaining
 

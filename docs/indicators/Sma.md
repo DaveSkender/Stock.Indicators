@@ -8,9 +8,7 @@ description: Simple moving average.  Extended to include mean absolute deviation
 [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average price over a lookback window.  An [extended analysis](#analysis) option includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Sma.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="Sma" />
 
 ```csharp
 // C# usage syntax (with Close price)

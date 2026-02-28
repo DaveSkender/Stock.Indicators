@@ -8,9 +8,7 @@ description: Weighted Moving Average is the linear weighted average of financial
 [Weighted Moving Average](https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average) is the linear weighted average of price over a lookback window.  This also called Linear Weighted Moving Average (LWMA).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/227 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Wma.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="Wma" />
 
 ```csharp
 // C# usage syntax (with Close price)

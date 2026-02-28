@@ -48,7 +48,9 @@
         "ClientOnly",
         "IndicatorChart",
         "clientonly",
-        "indicatorchart"
+        "indicatorchart",
+        "IndicatorChartPanel",
+        "indicatorchartpanel"
       ]
     },
     "MD041": false,

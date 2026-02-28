@@ -380,9 +380,9 @@
       "detail": "Run complete linting (Roslynator + dotnet format + markdown)",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
+        "Lint: Markdown",
         "Lint: .NET Roslynator (analyze)",
-        "Lint: .NET format",
-        "Lint: Markdown"
+        "Lint: .NET format"
       ],
       "dependsOrder": "sequence",
       "group": "test",
@@ -428,7 +428,7 @@
       "label": "Test: Integration",
       "detail": "Run integration tests only (requires external dependencies)",
       "type": "shell",
-      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo",
+      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo; test_exit=$?; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue'; exit $test_exit",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
@@ -436,9 +436,12 @@
       "label": "Test: All",
       "detail": "Run all unit, regression, and integration tests (excluding performance or website tests)",
       "dependsOn": [
+        "Clean: .NET Solution (dotnet clean)",
+        "Build: .NET Solution (not incremental)",
         "Test: Unit tests",
         "Test: Regression tests",
         "Test: Integration",
+        "Stop: SseServer hosts"
       ],
       "dependsOrder": "sequence",
       "group": "test",
@@ -756,7 +759,7 @@
       "label": "Stop: Simulation hosts",
       "detail": "Stop dotnet processes running tools/simulate or Test.Simulation",
       "type": "shell",
-      "command": "wmic process where \"name='dotnet.exe' and (commandline like '%Test.Simulation%' or commandline like '%tools/simulate%' or commandline like '%tools\\\\\\\\simulate%')\" get processid 2>/dev/null | grep -E '^[0-9]+' | xargs -I {} taskkill //PID {} //F 2>/dev/null && echo '[OK] Simulation hosts successfully stopped' || echo '[INFO] No Simulation server processes found'",
+      "command": "(powershell.exe -NoProfile -Command 'Stop-Process -Name Test.Simulation -Force -ErrorAction SilentlyContinue' && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'",
       "linux": {
         "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
       },
@@ -774,7 +777,7 @@
       "label": "Stop: SseServer hosts",
       "detail": "Stop dotnet/Test.SseServer processes running tools/sse-server or Test.SseServer.exe",
       "type": "shell",
-      "command": "(netstat -ano 2>/dev/null | grep ':5001\\\\s' | awk '{print $5}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null; wmic process where \"name='dotnet.exe' and (commandline like '%Test.SseServer%' or commandline like '%tools/sse-server%' or commandline like '%tools\\\\\\\\sse-server%')\" get processid 2>/dev/null | grep -E '^[0-9]+' | xargs -I {} taskkill //PID {} //F 2>/dev/null) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'",
+      "command": "(netstat -ano 2>/dev/null | grep -E ':5001\\s' | awk '{print $NF}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue' && echo '[OK] SSE Server hosts successfully stopped') || echo '[INFO] No SSE Server server processes found'",
       "linux": {
         "command": "((lsof -ti:5001 2>/dev/null | xargs -r kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
       },
