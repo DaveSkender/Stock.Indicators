@@ -77,19 +77,16 @@ function writeStorageCache(cacheKey: string, payload: CachePayload) {
   }
 }
 
-function sliceData(data: ChartData, maxBars: number): ChartData {
-  if (data.candles.length > maxBars) {
-    data.candles = data.candles.slice(-maxBars)
-  }
 
+function sliceData(data: ChartData, maxBars: number): ChartData {
+  const result = { ...data, candles: data.candles.slice(-maxBars) }
   if (data.series) {
-    data.series = data.series.map(s => ({
+    result.series = data.series.map(s => ({
       ...s,
       data: s.data.slice(-maxBars)
     }))
   }
-
-  return data
+  return result
 }
 
 async function fetchJson(url: string): Promise<ChartData> {
@@ -149,4 +146,5 @@ export async function getChartData(options: ChartProviderOptions): Promise<Chart
   }
 
   return sliceData(data, maxBars)
+
 }
