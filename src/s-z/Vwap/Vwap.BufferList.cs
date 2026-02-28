@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// Initializes a new instance of the <see cref="VwapList"/> class.
 /// </remarks>
-/// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
+/// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first quote.</param>
 public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IIncrementFromQuote
 {
     private readonly bool _autoAnchor = (startDate ?? default) == default;
@@ -16,7 +16,7 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
     /// <summary>
     /// Initializes a new instance of the <see cref="VwapList"/> class with initial quotes.
     /// </summary>
-    /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
+    /// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first quote.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
         : this(startDate) => Add(quotes);

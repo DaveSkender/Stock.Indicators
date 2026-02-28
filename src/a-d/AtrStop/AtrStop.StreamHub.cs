@@ -19,6 +19,9 @@ public class AtrStopHub
         EndType = endType;
         Name = $"ATR-STOP({lookbackPeriods},{multiplier},{endType.ToString().ToUpperInvariant()})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -159,14 +162,12 @@ public class AtrStopHub
     /// Restores the prior ATR Stop state.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-
         // restore prior stop point
-        if (i > LookbackPeriods)
+        if (restoreIndex >= LookbackPeriods)
         {
-            AtrStopResult resetStop = Cache[i - 1];
+            AtrStopResult resetStop = Cache[restoreIndex];
 
             // prevailing direction and bands
             IsBullish = resetStop.AtrStop >= resetStop.SellStop;
@@ -189,10 +190,10 @@ public static partial class AtrStop
     /// <summary>
     /// Creates an ATR Stop hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="multiplier">ATR multiplier.</param>
-    /// <param name="endType">The price end type to use.</param>
+    /// <param name="endType">Price end type to use.</param>
     /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
     public static AtrStopHub ToAtrStopHub(
        this IQuoteProvider<IQuote> quoteProvider,

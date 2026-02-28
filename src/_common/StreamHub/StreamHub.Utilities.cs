@@ -9,7 +9,7 @@ public static class StreamHub
     /// Try to find index position of the provided timestamp.
     /// </summary>
     /// <typeparam name="T">Type of the items in the cache, must implement ISeries.</typeparam>
-    /// <param name="cache">The cache to search.</param>
+    /// <param name="cache">Cache to search.</param>
     /// <param name="timestamp">Timestamp to seek.</param>
     /// <param name="index">Index of timestamp or -1 when not found.</param>
     /// <returns>True if found.</returns>
@@ -27,7 +27,7 @@ public static class StreamHub
     /// Get the cache index based on item equality.
     /// </summary>
     /// <typeparam name="T">Type of the items in the cache, must implement ISeries.</typeparam>
-    /// <param name="cache">The cache to search.</param>
+    /// <param name="cache">Cache to search.</param>
     /// <param name="cachedItem">Time-series object to find in cache.</param>
     /// <param name="throwOnFail">Throw exception when item is not found.</param>
     /// <returns>Index position.</returns>
@@ -108,7 +108,7 @@ public static class StreamHub
     /// <see cref="IndexOf{T}(IReadOnlyList{T},T,bool)"/> is more appropriate.
     /// </remarks>
     /// <typeparam name="T">Type of the items in the cache, must implement ISeries.</typeparam>
-    /// <param name="cache">The cache to search.</param>
+    /// <param name="cache">Cache to search.</param>
     /// <param name="timestamp">Timestamp of cached item.</param>
     /// <param name="throwOnFail">Throw exception when timestamp is not found.</param>
     /// <returns>Index position.</returns>
@@ -157,7 +157,7 @@ public static class StreamHub
     /// <see cref="IndexOf{T}(IReadOnlyList{T},T,bool)"/> is more appropriate.
     /// </remarks>
     /// <typeparam name="T">Type of the items in the cache, must implement ISeries.</typeparam>
-    /// <param name="cache">The cache to search.</param>
+    /// <param name="cache">Cache to search.</param>
     /// <param name="timestamp">Timestamp of cached item.</param>
     /// <returns>First index position or -1 if not found.</returns>
     internal static int IndexGte<T>(

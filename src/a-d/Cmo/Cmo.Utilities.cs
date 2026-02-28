@@ -24,8 +24,8 @@ public static partial class Cmo
     /// <summary>
     /// Calculates CMO from a collection of ticks.
     /// </summary>
-    /// <param name="ticks">The collection of ticks with direction and value.</param>
-    /// <returns>The calculated CMO value, or null if not enough valid data.</returns>
+    /// <param name="ticks">Collection of ticks with direction and value.</param>
+    /// <returns>Calculated CMO value, or null if not enough valid data.</returns>
     internal static double? PeriodCalculation(IEnumerable<(bool? isUp, double value)> ticks)
     {
         double sH = 0;

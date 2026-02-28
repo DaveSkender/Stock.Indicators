@@ -21,7 +21,7 @@ public static partial class Chop
     /// <summary>
     /// Calculates the Choppiness Index (CHOP) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     private static List<ChopResult> CalcChop(

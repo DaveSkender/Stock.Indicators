@@ -86,11 +86,11 @@ public class BoundsCheckingTests : TestBase
     }
 
     /// <summary>
-    /// Test Case 4: Insert a late arrival quote that triggers rebuild.
+    /// Test Case 4: Add a late arrival quote that triggers rebuild.
     /// This tests the scenario where rebuild starts from a middle index.
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_InsertLateArrival_ShouldNotThrow()
+    public void AtrStopHub_AddLateArrival_ShouldNotThrow()
     {
         // Arrange
         const int lookbackPeriods = 21;
@@ -111,7 +111,7 @@ public class BoundsCheckingTests : TestBase
         observer.Results.Should().HaveCount(49);
 
         // Act - insert the late arrival
-        quoteHub.Insert(Quotes[30]);
+        quoteHub.Add(Quotes[30]);
 
         // Assert - should not throw and should have all quotes
         observer.Results.Should().HaveCount(50);
@@ -376,7 +376,7 @@ public class BoundsCheckingTests : TestBase
         // Act - insert late arrivals in reverse order
         foreach (int idx in skipIndices.Reverse())
         {
-            quoteHub.Insert(Quotes[idx]);
+            quoteHub.Add(Quotes[idx]);
         }
 
         // Assert - should not throw and should have all quotes

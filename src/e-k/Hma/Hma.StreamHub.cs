@@ -34,6 +34,11 @@ public class HmaHub
         shiftQty = lookbackPeriods - 1;
 
         Name = $"HMA({lookbackPeriods})";
+
+        // Validate cache size for warmup requirements
+        // HMA requires lookbackPeriods + sqrtPeriods - 1 samples (see minIndex in CalculateHma)
+        ValidateCacheSize(lookbackPeriods + sqrtPeriods - 1, Name);
+
         Reinitialize();
     }
 
@@ -113,7 +118,7 @@ public static partial class Hma
     /// <summary>
     /// Creates an HMA streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An HMA hub.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

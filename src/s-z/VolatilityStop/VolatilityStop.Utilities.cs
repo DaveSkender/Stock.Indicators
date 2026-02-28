@@ -7,6 +7,14 @@ public static partial class VolatilityStop
 {
     // remove recommended periods
     /// <summary>
+    /// Returns the minimum number of source items required to produce a valid Volatility Stop result.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <returns>Minimum warmup period count (lookbackPeriods + 1).</returns>
+    public static int WarmupPeriod(int lookbackPeriods)
+        => lookbackPeriods + 1;
+
+    /// <summary>
     /// Removes the warmup periods from the Volatility Stop results.
     /// </summary>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
@@ -28,7 +36,7 @@ public static partial class VolatilityStop
     /// Validates the parameters for the Volatility Stop calculation.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the Average True Range.</param>
+    /// <param name="multiplier">Multiplier for the Average True Range.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1, or when the multiplier is less than or equal to 0.
     /// </exception>

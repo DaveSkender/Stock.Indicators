@@ -14,9 +14,9 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
     /// <summary>
     /// Initializes a new instance of the <see cref="KamaList"/> class.
     /// </summary>
-    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="erPeriods">Number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowPeriods"/> is invalid.</exception>
     public KamaList(
         int erPeriods = 10,
@@ -42,9 +42,9 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
     /// <summary>
     /// Initializes a new instance of the <see cref="KamaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="erPeriods">Number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public KamaList(
         int erPeriods,

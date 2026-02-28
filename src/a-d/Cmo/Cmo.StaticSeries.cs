@@ -8,7 +8,7 @@ public static partial class Cmo
     /// <summary>
     /// Calculates the Chande Momentum Oscillator (CMO) for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="source">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CmoResult"/> containing the CMO calculation results.</returns>
     public static IReadOnlyList<CmoResult> ToCmo(

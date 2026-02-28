@@ -23,6 +23,9 @@ public class WilliamsRHub
 
         Name = $"WILLR({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -91,33 +94,24 @@ public class WilliamsRHub
 
     /// <summary>
     /// Restores the rolling window state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds rolling windows from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear rolling windows
         _highWindow.Clear();
         _lowWindow.Clear();
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index == -1)
-        {
-            index = ProviderCache.Count;
-        }
-
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
-
         // Rebuild rolling windows from ProviderCache
-        for (int p = startIdx; p <= targetIndex; p++)
+        int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
 
@@ -140,7 +134,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Converts the quote provider to a Williams %R hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Williams %R hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

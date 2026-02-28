@@ -16,8 +16,8 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// Initializes a new instance of the <see cref="AtrStopList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The candle threshold point to use for reversals.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="endType">Candle threshold point to use for reversals.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public AtrStopList(
         int lookbackPeriods = 21,
@@ -42,8 +42,8 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// Initializes a new instance of the <see cref="AtrStopList"/> class with initial quotes.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The candle threshold point to use for reversals.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="endType">Candle threshold point to use for reversals.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public AtrStopList(
         int lookbackPeriods,
@@ -64,7 +64,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// <summary>
     /// Adds a new quote to the AtrStop list.
     /// </summary>
-    /// <param name="quote">The quote to add.</param>
+    /// <param name="quote">Quote to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
     public void Add(IQuote quote)
     {
@@ -210,8 +210,8 @@ public static partial class AtrStop
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The candle threshold point to use for reversals.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="endType">Candle threshold point to use for reversals.</param>
     /// <returns>An AtrStopList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

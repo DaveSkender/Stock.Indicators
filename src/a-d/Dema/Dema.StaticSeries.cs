@@ -8,7 +8,7 @@ public static partial class Dema
     /// <summary>
     /// Calculates the Double Exponential Moving Average (DEMA) for a series of data.
     /// </summary>
-    /// <param name="source">The source list of data points.</param>
+    /// <param name="source">Source list of data points.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="DemaResult"/> containing the DEMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
@@ -78,7 +78,7 @@ public static partial class Dema
     /// <summary>
     /// Creates a DEMA buffer list from a series of data points.
     /// </summary>
-    /// <param name="source">The source list of data points.</param>
+    /// <param name="source">Source list of data points.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A <see cref="DemaList"/> containing the DEMA calculations.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>

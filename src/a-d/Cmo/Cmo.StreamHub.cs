@@ -17,6 +17,9 @@ public class CmoHub
         Name = $"CMO({lookbackPeriods})";
         _tickBuffer = new Queue<(bool? isUp, double value)>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -62,35 +65,25 @@ public class CmoHub
 
     /// <summary>
     /// Restores the tick buffer state up to the specified timestamp.
-    /// Clears and rebuilds _tickBuffer from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds _tickBuffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear tick buffer
         _tickBuffer.Clear();
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index == -1)
-        {
-            index = ProviderCache.Count;
-        }
-
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-
         // Need at least LookbackPeriods items to rebuild buffer
-        // Start from targetIndex - LookbackPeriods + 1, but not before index 1 (we need i-1 for prevValue)
-        int startIdx = Math.Max(1, targetIndex + 1 - LookbackPeriods);
+        // Start from restoreIndex - LookbackPeriods + 1, but not before index 1 (we need i-1 for prevValue)
+        int startIdx = Math.Max(1, restoreIndex + 1 - LookbackPeriods);
 
         // Rebuild tick buffer from ProviderCache
-        for (int p = startIdx; p <= targetIndex; p++)
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             double prevValue = ProviderCache[p - 1].Value;
             double currValue = ProviderCache[p].Value;
@@ -111,7 +104,7 @@ public static partial class Cmo
     /// <summary>
     /// Creates a CMO streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CMO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

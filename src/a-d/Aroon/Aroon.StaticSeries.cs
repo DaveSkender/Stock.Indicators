@@ -21,7 +21,7 @@ public static partial class Aroon
     /// <summary>
     /// Calculates the Aroon Oscillator for the given source data.
     /// </summary>
-    /// <param name="quotes">The source data.</param>
+    /// <param name="quotes">Source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Aroon results.</returns>
     private static List<AroonResult> CalcAroon(

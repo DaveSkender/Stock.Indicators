@@ -8,10 +8,10 @@ public static partial class RollingPivots
     /// <summary>
     /// Creates a Rolling Pivot Points streaming hub from a quotes provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
-    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="windowPeriods">Number of periods in the rolling window.</param>
+    /// <param name="offsetPeriods">Number of periods to offset the window.</param>
+    /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>An instance of <see cref="RollingPivotsHub"/>.</returns>
     public static RollingPivotsHub ToRollingPivotsHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -47,6 +47,10 @@ public class RollingPivotsHub
         _lowWindow = new RollingWindowMin<decimal>(windowPeriods);
         _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
 
+        // Validate cache size for warmup requirements
+        // RollingPivots needs windowPeriods + offsetPeriods + 1 items before first valid result.
+        ValidateCacheSize(windowPeriods + offsetPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -55,6 +59,12 @@ public class RollingPivotsHub
 
     /// <inheritdoc/>
     public int OffsetPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the deterministic warmup period (WindowPeriods + OffsetPeriods), i.e., the number
+    /// of initial items that produce null results before the first valid pivot point.
+    /// </summary>
+    public int LookbackPeriods => WindowPeriods + OffsetPeriods;
 
     /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
@@ -106,37 +116,33 @@ public class RollingPivotsHub
 
     /// <summary>
     /// Restores the rolling window and offset buffer state up to the specified timestamp.
-    /// Clears and rebuilds state from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds state from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear state
         _highWindow.Clear();
         _lowWindow.Clear();
         _offsetBuffer.Clear();
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-        int totalNeeded = WindowPeriods + OffsetPeriods;
-        int startIdx = Math.Max(0, targetIndex + 1 - totalNeeded);
-
         // Rebuild rolling windows and offset buffer from ProviderCache
-        for (int p = startIdx; p <= targetIndex; p++)
+        int totalNeeded = WindowPeriods + OffsetPeriods;
+        int startIdx = Math.Max(0, restoreIndex + 1 - totalNeeded);
+
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             _highWindow.Add(quote.High);
             _lowWindow.Add(quote.Low);
 
             // Only add to offset buffer for the last (OffsetPeriods + 1) quotes
-            if (p > targetIndex - OffsetPeriods - 1)
+            if (p > restoreIndex - OffsetPeriods - 1)
             {
                 _offsetBuffer.Enqueue(quote);
             }

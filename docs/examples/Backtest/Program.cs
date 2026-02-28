@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Text.Json;
 using Skender.Stock.Indicators;
 
@@ -23,14 +22,14 @@ using Skender.Stock.Indicators;
 // We're mocking with a simple JSON file import
 string json = File.ReadAllText("quotes.data.json");
 
-Collection<Quote> quotes = JsonSerializer
+IReadOnlyList<Quote> quotes = JsonSerializer
     .Deserialize<IReadOnlyCollection<Quote>>(json)
-    .ToSortedCollection();
+    .ToSortedList();
 
 // Calculate Stochastic RSI
 List<StochRsiResult> resultsList =
     quotes
-        .GetStochRsi(14, 14, 3)
+        .ToStochRsi(14, 14, 3)
         .ToList();
 
 // initialize
@@ -84,7 +83,7 @@ for (int i = 1; i < quotes.Count; i++)
     if (cross != string.Empty)
     {
         Console.WriteLine(
-            $"{q.Date,10:yyyy-MM-dd} " +
+            $"{q.Timestamp,10:yyyy-MM-dd} " +
             $"{q.Close,10:c2}" +
             $"{e.StochRsi,7:N1}" +
             $"{e.Signal,7:N1}" +

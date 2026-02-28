@@ -4,8 +4,8 @@ namespace Skender.Stock.Indicators;
 /// Represents the result of the
 /// ALMA (Arnaud Legoux Moving Average) calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the result.</param>
-/// <param name="Alma">The ALMA value.</param>
+/// <param name="Timestamp">Timestamp of the result.</param>
+/// <param name="Alma">ALMA value.</param>
 [Serializable]
 public record AlmaResult
 (

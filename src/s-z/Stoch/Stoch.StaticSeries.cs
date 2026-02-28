@@ -11,9 +11,9 @@ public static partial class Stoch
     /// Calculates the Stochastic Oscillator for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     public static IReadOnlyList<StochResult> ToStoch(
         this IReadOnlyList<IQuote> quotes,
@@ -31,12 +31,12 @@ public static partial class Stoch
     /// Calculates the Stochastic Oscillator for a series of quotes with specified factors and moving average type.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <param name="kFactor">The factor for the %K line.</param>
-    /// <param name="dFactor">The factor for the %D line.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
+    /// <param name="kFactor">Factor for the %K line.</param>
+    /// <param name="dFactor">Factor for the %D line.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     public static IReadOnlyList<StochResult> ToStoch(
         this IReadOnlyList<IQuote> quotes,
@@ -59,10 +59,10 @@ public static partial class Stoch
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations.
     /// </summary>
-    /// <param name="quotes">The list of quotes to process.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <param name="quotes">List of quotes to process.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
     /// <returns>A StochList instance initialized with the provided quotes.</returns>
     public static StochList ToStochList(
         this IReadOnlyList<IQuote> quotes,
@@ -74,13 +74,13 @@ public static partial class Stoch
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations with extended parameters.
     /// </summary>
-    /// <param name="quotes">The list of quotes to process.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <param name="kFactor">The factor for the %K line.</param>
-    /// <param name="dFactor">The factor for the %D line.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="quotes">List of quotes to process.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
+    /// <param name="kFactor">Factor for the %K line.</param>
+    /// <param name="dFactor">Factor for the %D line.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <returns>A StochList instance initialized with the provided quotes and extended parameters.</returns>
     public static StochList ToStochList(
         this IReadOnlyList<IQuote> quotes,
@@ -95,13 +95,13 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <param name="kFactor">The factor for the %K line.</param>
-    /// <param name="dFactor">The factor for the %D line.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">Signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
+    /// <param name="kFactor">Factor for the %K line.</param>
+    /// <param name="dFactor">Factor for the %D line.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     internal static List<StochResult> CalcStoch(

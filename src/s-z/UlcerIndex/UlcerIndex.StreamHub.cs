@@ -14,6 +14,9 @@ public class UlcerIndexHub
         LookbackPeriods = lookbackPeriods;
         Name = $"ULCER({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -45,7 +48,7 @@ public class UlcerIndexHub
                 IReusable ps = ProviderCache[p];
                 double pValue = ps.Value;
 
-                // Find maximum from start of window up to current period p  
+                // Find maximum from start of window up to current period p
                 double maxClose = 0;
                 for (int z = startIdx; z <= p; z++)
                 {
@@ -79,10 +82,10 @@ public class UlcerIndexHub
     /// Rollback state is not required for this indicator.
     /// The calculation uses only ProviderCache lookups without maintaining
     /// internal state fields. Each ToIndicator call recalculates from the cache,
-    /// so provider history mutations (Insert/Remove) are handled automatically.
+    /// so provider history mutations (Add/Remove) are handled automatically.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // No stateful fields to rollback.
         // Calculation relies entirely on ProviderCache which is managed by the base class.
@@ -94,7 +97,7 @@ public static partial class UlcerIndex
     /// <summary>
     /// Creates an Ulcer Index streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An Ulcer Index hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

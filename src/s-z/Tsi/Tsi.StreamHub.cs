@@ -51,6 +51,12 @@ public class TsiHub
         _cs1History = [];
         _as1History = [];
 
+        // Validate cache size for warmup requirements
+        // First valid TSI signal at lookbackPeriods + smoothPeriods + signalPeriods - 1
+        // due to sequential EMA of EMA (cs1 then cs2) followed by signal EMA.
+        int requiredWarmup = lookbackPeriods + smoothPeriods + signalPeriods - 1;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -214,7 +220,7 @@ public class TsiHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset all state
         _isFirstPeriod = true;
@@ -228,24 +234,12 @@ public class TsiHub
         _cs1History.Clear();
         _as1History.Clear();
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        int targetIndex = index - 1;
-
-        for (int i = 0; i <= targetIndex; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
             IReusable item = ProviderCache[i];
             double currentValue = item.Value;
@@ -383,10 +377,10 @@ public static partial class Tsi
     /// <summary>
     /// Creates a TSI streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
+    /// <param name="smoothPeriods">Number of periods for the smoothing calculation.</param>
+    /// <param name="signalPeriods">Number of periods for the signal calculation.</param>
     /// <returns>A TSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

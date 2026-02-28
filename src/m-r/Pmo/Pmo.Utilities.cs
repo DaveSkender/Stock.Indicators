@@ -23,9 +23,9 @@ public static partial class Pmo
     /// <summary>
     /// Validates the parameters for PMO calculations.
     /// </summary>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="timePeriods">Number of periods for the time span.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any parameter is out of range.</exception>
     internal static void Validate(
         int timePeriods,

@@ -40,6 +40,9 @@ public class ParabolicSarHub
         _isInitialized = false;
         _firstReversalFound = false;
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // SAR needs at least 2 periods to establish trend
+
         Reinitialize();
     }
 
@@ -196,23 +199,20 @@ public class ParabolicSarHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear state
         _buffer.Clear();
         _isInitialized = false;
         _firstReversalFound = false;
 
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild state by replaying history up to timestamp
-        int targetIndex = index - 1;
-
-        for (int p = 0; p <= targetIndex; p++)
+        // Rebuild state by replaying history up to restoreIndex
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             double high = (double)quote.High;
@@ -318,9 +318,9 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a Parabolic SAR streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation. Default is 0.02.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     /// <returns>A Parabolic SAR hub.</returns>
     public static ParabolicSarHub ToParabolicSarHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -331,10 +331,10 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a Parabolic SAR streaming hub from a quote provider with custom initial factor.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
+    /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <returns>A Parabolic SAR hub.</returns>
     public static ParabolicSarHub ToParabolicSarHub(
         this IQuoteProvider<IQuote> quoteProvider,

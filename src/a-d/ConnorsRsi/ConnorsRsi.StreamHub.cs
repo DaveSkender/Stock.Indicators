@@ -39,6 +39,10 @@ public class ConnorsRsiHub
         streakAvgGain = double.NaN;
         streakAvgLoss = double.NaN;
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = (rsiPeriods * 2) + Math.Max(streakPeriods, rankPeriods);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -242,7 +246,7 @@ public class ConnorsRsiHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset state
         streak = 0;
@@ -252,17 +256,13 @@ public class ConnorsRsiHub
         gainBuffer.Clear();
         streakBuffer.Clear();
 
-        // Restore state from cache up to the timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
         // Replay values to restore state
-        for (int i = 0; i <= targetIndex; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
             // Get original quote value from the cached quote provider results
             double value = _quoteCache[i].Value;
@@ -273,6 +273,9 @@ public class ConnorsRsiHub
                 prevValue = value;
                 streak = 0;
                 streakBuffer.Add(0);
+                // Match ToIndicator: at i=0, prevValue is set to currentValue before
+                // the gain formula, so gain = (value - value)/value = 0.
+                gainBuffer.Enqueue(!double.IsNaN(value) && value > 0 ? 0.0 : double.NaN);
             }
             else
             {
@@ -396,10 +399,10 @@ public static partial class ConnorsRsi
     /// <summary>
     /// Creates a ConnorsRsi streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
-    /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
-    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="rsiPeriods">Number of periods to use for the RSI calculation. Default is 3.</param>
+    /// <param name="streakPeriods">Number of periods to use for the streak calculation. Default is 2.</param>
+    /// <param name="rankPeriods">Number of periods to use for the percent rank calculation. Default is 100.</param>
     /// <returns>A ConnorsRsi hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

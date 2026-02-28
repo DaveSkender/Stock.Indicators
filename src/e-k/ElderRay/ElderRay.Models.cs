@@ -3,10 +3,10 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of an Elder Ray calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the result.</param>
-/// <param name="Ema">The Exponential Moving Average (EMA) value.</param>
-/// <param name="BullPower">The Bull Power value.</param>
-/// <param name="BearPower">The Bear Power value.</param>
+/// <param name="Timestamp">Timestamp of the result.</param>
+/// <param name="Ema">Exponential Moving Average (EMA) value.</param>
+/// <param name="BullPower">Bull Power value.</param>
+/// <param name="BearPower">Bear Power value.</param>
 [Serializable]
 public record ElderRayResult
 (

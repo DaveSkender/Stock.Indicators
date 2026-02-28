@@ -12,9 +12,9 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="KeltnerList"/> class.
     /// </summary>
-    /// <param name="emaPeriods">The number of periods for the EMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="emaPeriods">Number of periods for the EMA.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="atrPeriods"/> is invalid.</exception>
     public KeltnerList(
         int emaPeriods = 20,
@@ -36,9 +36,9 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="KeltnerList"/> class with initial quotes.
     /// </summary>
-    /// <param name="emaPeriods">The number of periods for the EMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="emaPeriods">Number of periods for the EMA.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public KeltnerList(
         int emaPeriods,

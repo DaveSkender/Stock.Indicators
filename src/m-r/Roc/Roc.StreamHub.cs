@@ -14,6 +14,9 @@ public class RocHub
         LookbackPeriods = lookbackPeriods;
         Name = $"ROC({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -61,7 +64,7 @@ public static partial class Roc
     /// <summary>
     /// Creates an ROC streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An ROC hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

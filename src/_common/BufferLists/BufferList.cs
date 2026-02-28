@@ -18,8 +18,8 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// <summary>
     /// Gets the result at the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the result to get.</param>
-    /// <returns>The result at the specified index.</returns>
+    /// <param name="index">Zero-based index of the result to get.</param>
+    /// <returns>Result at the specified index.</returns>
     public TResult this[int index] => _internalList[index];
 
     /// <inheritdoc/>
@@ -64,7 +64,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// Adds an item to the list using internal buffer logic.
     /// Automatically prunes the list if it exceeds MaxListSize.
     /// </summary>
-    /// <param name="item">The item to add.</param>
+    /// <param name="item">Item to add.</param>
     protected void AddInternal(TResult item)
     {
         _internalList.Add(item);
@@ -79,8 +79,8 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// Updates an existing item in the list at the specified index.
     /// Used for indicators that need to revise historical values (repaint).
     /// </summary>
-    /// <param name="index">The zero-based index of the item to update.</param>
-    /// <param name="item">The updated item.</param>
+    /// <param name="index">Zero-based index of the item to update.</param>
+    /// <param name="item">Updated item.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when index is out of range.</exception>
     protected void UpdateInternal(int index, TResult item)
     {
@@ -97,7 +97,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// <summary>
     /// Removes the item at the specified index from the internal list.
     /// </summary>
-    /// <param name="index">The zero-based index of the item to remove.</param>
+    /// <param name="index">Zero-based index of the item to remove.</param>
     protected void RemoveAt(int index) => _internalList.RemoveAt(index);
 
     /// <summary>

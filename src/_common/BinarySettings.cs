@@ -64,7 +64,7 @@ public readonly struct BinarySettings(
     /// <summary>
     /// Gets the value of the bit at the specified index.
     /// </summary>
-    /// <param name="index">The index of the bit to get.</param>
+    /// <param name="index">Index of the bit to get.</param>
     /// <returns>True if the bit is set; otherwise, false.</returns>
     public bool this[short index]
         => (Settings & (1 << index)) != 0;
@@ -73,7 +73,7 @@ public readonly struct BinarySettings(
     /// Combines the current settings with another <see cref="BinarySettings"/> instance
     /// using a bitwise OR operation, excluding the bits masked by the parent settings.
     /// </summary>
-    /// <param name="parentSettings">The parent <see cref="BinarySettings"/> instance to combine with.</param>
+    /// <param name="parentSettings">Parent <see cref="BinarySettings"/> instance to combine with.</param>
     /// <returns>
     /// A new <see cref="BinarySettings"/> instance with combined settings.
     /// Notably, it does not modify the current read-only instance.

@@ -9,7 +9,7 @@ public static partial class Marubozu
     /// Converts a list of quotes to Marubozu candlestick pattern results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="minBodyPercent">The minimum body percentage to qualify as a Marubozu. Default is 95.</param>
+    /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu. Default is 95.</param>
     /// <returns>A list of <see cref="CandleResult"/> indicating the presence of Marubozu patterns.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the minimum body percentage is out of range.</exception>

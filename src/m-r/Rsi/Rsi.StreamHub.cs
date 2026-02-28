@@ -22,6 +22,9 @@ public class RsiHub
         LookbackPeriods = lookbackPeriods;
         Name = $"RSI({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 2, Name);
+
         Reinitialize();
     }
 
@@ -100,7 +103,7 @@ public class RsiHub
 
     /// <summary>
     /// Restores the RSI state (avgGain, avgLoss) up to the specified timestamp.
-    /// Called during Insert/Remove operations and explicit Rebuild() calls.
+    /// Called during Add/Remove operations and explicit Rebuild() calls.
     /// </summary>
     /// <remarks>
     /// This method rebuilds the state from the FIRST calculable position (LookbackPeriods)
@@ -109,24 +112,14 @@ public class RsiHub
     /// incremental updates.
     /// </remarks>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset state
         _avgGain = double.NaN;
         _avgLoss = double.NaN;
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index == -1)
-        {
-            index = ProviderCache.Count;
-        }
-
-        // Target is the position just before where rebuild will start
-        int targetIndex = index - 1;
-
         // Not enough data to initialize state
-        if (targetIndex < LookbackPeriods)
+        if (restoreIndex < LookbackPeriods)
         {
             return;
         }
@@ -136,8 +129,8 @@ public class RsiHub
         _avgGain = sumGain / LookbackPeriods;
         _avgLoss = sumLoss / LookbackPeriods;
 
-        // Apply Wilder's smoothing for subsequent positions up to targetIndex
-        for (int p = LookbackPeriods + 1; p <= targetIndex; p++)
+        // Apply Wilder's smoothing for subsequent positions up to restoreIndex
+        for (int p = LookbackPeriods + 1; p <= restoreIndex; p++)
         {
             double pPrevVal = ProviderCache[p - 1].Value;
             double pCurrVal = ProviderCache[p].Value;
@@ -211,7 +204,7 @@ public static partial class Rsi
     /// <summary>
     /// Creates an RSI streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

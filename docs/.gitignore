@@ -1,6 +1,5 @@
 # VitePress site
 node_modules/
---open/
 .vitepress/dist/
 .vitepress/cache/
 .vitepress/.temp/
@@ -11,5 +10,3 @@ _site/
 vendor/
 .bundle/
 .temp/
-.vitepress/cache/
-.vitepress/dist/

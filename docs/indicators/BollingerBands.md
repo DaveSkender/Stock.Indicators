@@ -8,9 +8,7 @@ description: Created by John Bollinger, the Bollinger Bands price channels depic
 Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands® is a registered trademark of John A. Bollinger.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/BollingerBands.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="BollingerBands" />
 
 ```csharp
 // C# usage syntax

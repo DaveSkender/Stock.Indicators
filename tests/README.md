@@ -90,7 +90,7 @@ The project uses Roslynator for code analysis and formatting. All analyzer rules
 To run Roslynator analysis:
 
 ```bash
-roslynator analyze \
+dotnet tool run roslynator analyze \
 --properties TargetFramework=net10.0 \
 --verbosity normal \
 --severity-level hidden \
@@ -100,7 +100,7 @@ roslynator analyze \
 To apply automatic fixes:
 
 ```bash
-roslynator fix \
+dotnet tool run roslynator fix \
 --properties TargetFramework=net10.0 \
 --verbosity normal \
 --severity-level hidden \

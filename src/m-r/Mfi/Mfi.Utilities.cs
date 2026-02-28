@@ -8,7 +8,7 @@ public static partial class Mfi
     /// <summary>
     /// Validates the parameters for the MFI calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation.</param>
+    /// <param name="lookbackPeriods">Number of periods to use for the MFI calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1.
     /// </exception>

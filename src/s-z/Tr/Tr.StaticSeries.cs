@@ -19,7 +19,7 @@ public static partial class Tr
     /// <summary>
     /// Calculates the True Range (TR) for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <returns>A list of True Range (TR) results.</returns>
     private static List<TrResult> CalcTr(
         this List<QuoteD> quotes)

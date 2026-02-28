@@ -10,7 +10,7 @@ public static partial class VolatilityStop
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the Average True Range.</param>
+    /// <param name="multiplier">Multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
     public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop(
@@ -24,9 +24,9 @@ public static partial class VolatilityStop
     /// <summary>
     /// Calculates the Volatility Stop for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the Average True Range.</param>
+    /// <param name="multiplier">Multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     private static List<VolatilityStopResult> CalcVolatilityStop(
         this List<QuoteD> quotes,

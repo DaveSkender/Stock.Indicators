@@ -12,7 +12,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     /// Initializes a new instance of the <see cref="DynamicList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor">The smoothing factor for the calculation.</param>
+    /// <param name="kFactor">Smoothing factor for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="kFactor"/> is invalid.</exception>
     public DynamicList(
         int lookbackPeriods,
@@ -33,7 +33,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     /// Initializes a new instance of the <see cref="DynamicList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor">The smoothing factor for the calculation.</param>
+    /// <param name="kFactor">Smoothing factor for the calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public DynamicList(
         int lookbackPeriods,

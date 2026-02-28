@@ -12,10 +12,10 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Creates a Moving Average Envelopes streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
-    /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
-    /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="lookbackPeriods">Number of periods for the moving average.</param>
+    /// <param name="percentOffset">Percentage offset for the envelopes. Default is 2.5.</param>
+    /// <param name="movingAverageType">Type of moving average to use. Default is SMA.</param>
     /// <returns>A Moving Average Envelopes hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid or the moving average type is not supported.</exception>
@@ -124,6 +124,15 @@ public class MaEnvelopesHub
         offsetRatio = percentOffset / 100d;
         k = 2d / (lookbackPeriods + 1); // for EMA-based types
         Name = $"MAENV({lookbackPeriods},{percentOffset},{Enum.GetName(movingAverageType)})";
+
+        // Validate cache size for warmup requirements using type-specific multipliers:
+        // TEMA needs 3x, DEMA needs 2x, all other types need 1x
+        int warmupMultiplier = movingAverageType switch {
+            MaType.TEMA => 3,
+            MaType.DEMA => 2,
+            _ => 1
+        };
+        ValidateCacheSize(lookbackPeriods * warmupMultiplier, Name);
 
         Reinitialize();
     }
@@ -355,10 +364,9 @@ public class MaEnvelopesHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > lookbackPeriods)
+        if (restoreIndex >= lookbackPeriods)
         {
             // Reset state variables based on MA type
             if (movingAverageType == MaType.DEMA)

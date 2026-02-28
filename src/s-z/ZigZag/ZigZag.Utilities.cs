@@ -25,7 +25,7 @@ public static partial class ZigZag
     /// <summary>
     /// Validates the parameters for the ZigZag indicator.
     /// </summary>
-    /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
+    /// <param name="percentChange">Percentage change threshold for ZigZag points.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the percent change is less than or equal to 0.</exception>
     internal static void Validate(
         decimal percentChange)

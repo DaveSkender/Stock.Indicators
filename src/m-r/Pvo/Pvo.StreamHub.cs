@@ -26,6 +26,10 @@ public class PvoHub
 
         Name = $"PVO({fastPeriods},{slowPeriods},{signalPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(fastPeriods, slowPeriods) + signalPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -124,30 +128,19 @@ public class PvoHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset state
         _prevFastEma = double.NaN;
         _prevSlowEma = double.NaN;
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // Rebuild state up to the index before timestamp
-        int targetIndex = index - 1;
-
-        for (int i = 0; i <= targetIndex; i++)
+        // Rebuild state up to restoreIndex
+        for (int i = 0; i <= restoreIndex; i++)
         {
             IReusable item = ProviderCache[i];
 
@@ -185,10 +178,10 @@ public static partial class Pvo
     /// <summary>
     /// Creates a PVO streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A PVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
@@ -202,10 +195,10 @@ public static partial class Pvo
     /// <summary>
     /// Creates a PVO streaming hub from a quote provider (extracts Volume).
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A PVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>

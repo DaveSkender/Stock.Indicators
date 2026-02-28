@@ -19,6 +19,9 @@ public class TemaHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"TEMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods * 3, Name);
+
         Reinitialize();
     }
 
@@ -67,12 +70,11 @@ public class TemaHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > LookbackPeriods)
+        if (restoreIndex >= LookbackPeriods)
         {
-            TemaResult prior = Cache[i - 1];
+            TemaResult prior = Cache[restoreIndex];
             lastEma1 = prior.Ema1;
             lastEma2 = prior.Ema2;
             lastEma3 = prior.Ema3;
@@ -109,7 +111,7 @@ public static partial class Tema
     /// <summary>
     /// Creates a TEMA streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A TEMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

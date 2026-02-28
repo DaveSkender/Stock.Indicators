@@ -8,12 +8,12 @@ public static partial class Stoch
     /// <summary>
     /// Validates the parameters for Stochastic Oscillator calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
-    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing.</param>
+    /// <param name="kFactor">K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int lookbackPeriods,

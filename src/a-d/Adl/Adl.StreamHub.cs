@@ -5,10 +5,15 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AdlHub : ChainHub<IQuote, AdlResult>
 {
+    private double _previousAdl;
+
     internal AdlHub(IQuoteProvider<IQuote> provider)
         : base(provider)
     {
         Name = "ADL";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Requires at least 1 period
+
         Reinitialize();
     }
 
@@ -27,9 +32,23 @@ public class AdlHub : ChainHub<IQuote, AdlResult>
             item.Low,
             item.Close,
             item.Volume,
-            i > 0 ? Cache[i - 1].Value : 0);
+            _previousAdl);
+
+        _previousAdl = r.Adl;
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Restores the running ADL sum to the state immediately before the rollback timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(int restoreIndex)
+    {
+        // restore from the last cache entry before the rollback point
+        _previousAdl = restoreIndex >= 0
+            ? Cache[restoreIndex].Adl
+            : 0;
     }
 
     /// <inheritdoc/>
@@ -44,7 +63,7 @@ public static partial class Adl
     /// <summary>
     /// Creates an AdlHub that is subscribed to an IQuoteProvider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     public static AdlHub ToAdlHub(
         this IQuoteProvider<IQuote> quoteProvider)
         => new(quoteProvider);

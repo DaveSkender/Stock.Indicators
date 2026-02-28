@@ -10,9 +10,9 @@ public record CandleResult : IReusable
     /// Initializes a new instance of the <see cref="CandleResult"/> record.
     /// </summary>
     /// <param name="timestamp">Timestamp of record.</param>
-    /// <param name="quote">The quote used for the analysis.</param>
-    /// <param name="match">The match result of the analysis.</param>
-    /// <param name="price">The price associated with the result.</param>
+    /// <param name="quote">Quote used for the analysis.</param>
+    /// <param name="match">Match result of the analysis.</param>
+    /// <param name="price">Price associated with the result.</param>
     public CandleResult(
         DateTime timestamp,
         IQuote quote,
@@ -29,9 +29,9 @@ public record CandleResult : IReusable
     /// Initializes a new instance of the <see cref="CandleResult"/> record.
     /// </summary>
     /// <param name="timestamp">Timestamp of record.</param>
-    /// <param name="candle">The candlestick properties.</param>
-    /// <param name="match">The match result of the analysis.</param>
-    /// <param name="price">The price associated with the result.</param>
+    /// <param name="candle">Candlestick properties.</param>
+    /// <param name="match">Match result of the analysis.</param>
+    /// <param name="price">Price associated with the result.</param>
     [JsonConstructor]
     public CandleResult(
         DateTime timestamp,

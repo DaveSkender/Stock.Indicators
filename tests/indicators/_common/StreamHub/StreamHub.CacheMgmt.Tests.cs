@@ -62,7 +62,7 @@ public class CacheManagement : TestBase
         }
 
         // add late
-        quoteHub.Insert(Quotes[100]);
+        quoteHub.Add(Quotes[100]);
 
         // assert same as original
         for (int i = 0; i < length; i++)

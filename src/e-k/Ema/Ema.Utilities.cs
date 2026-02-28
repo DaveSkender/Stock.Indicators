@@ -8,10 +8,10 @@ public static partial class Ema
     /// <summary>
     /// Increments the EMA value using the smoothing factor.
     /// </summary>
-    /// <param name="k">The smoothing factor.</param>
-    /// <param name="lastEma">The last EMA value.</param>
-    /// <param name="newPrice">The new price value.</param>
-    /// <returns>The incremented EMA value.</returns>
+    /// <param name="k">Smoothing factor.</param>
+    /// <param name="lastEma">Last EMA value.</param>
+    /// <param name="newPrice">New price value.</param>
+    /// <returns>Incremented EMA value.</returns>
     public static double Increment(
         double k,
         double lastEma,
@@ -22,9 +22,9 @@ public static partial class Ema
     /// Increments the EMA value using the lookback periods.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="lastEma">The last EMA value.</param>
-    /// <param name="newPrice">The new price value.</param>
-    /// <returns>The incremented EMA value.</returns>
+    /// <param name="lastEma">Last EMA value.</param>
+    /// <param name="newPrice">New price value.</param>
+    /// <returns>Incremented EMA value.</returns>
     public static double Increment(
         int lookbackPeriods,
         double lastEma,
@@ -37,10 +37,10 @@ public static partial class Ema
     /// <summary>
     /// Increments the EMA value using the smoothing factor.
     /// </summary>
-    /// <param name="k">The smoothing factor.</param>
-    /// <param name="lastEma">The last EMA value.</param>
-    /// <param name="newPrice">The new price value.</param>
-    /// <returns>The incremented EMA value, or null if the last EMA value is null.</returns>
+    /// <param name="k">Smoothing factor.</param>
+    /// <param name="lastEma">Last EMA value.</param>
+    /// <param name="newPrice">New price value.</param>
+    /// <returns>Incremented EMA value, or null if the last EMA value is null.</returns>
     public static double? Increment(
         double k,
         double? lastEma,
@@ -50,7 +50,7 @@ public static partial class Ema
     /// <summary>
     /// Removes the recommended warmup periods from the EMA results.
     /// </summary>
-    /// <param name="results">The list of EMA results.</param>
+    /// <param name="results">List of EMA results.</param>
     /// <returns>A list of EMA results with warmup periods removed.</returns>
     public static IReadOnlyList<EmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<EmaResult> results)

@@ -8,7 +8,7 @@ public static class ListingExecutionBuilderExtensions
     /// <summary>
     /// Creates a customizable indicator builder from an indicator listing.
     /// </summary>
-    /// <param name="listing">The base indicator listing.</param>
+    /// <param name="listing">Base indicator listing.</param>
     /// <param name="parameterName">Name of the parameter</param>
     /// <param name="value">Value to set</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> for fluent configuration.</returns>
@@ -21,7 +21,7 @@ public static class ListingExecutionBuilderExtensions
     /// <summary>
     /// Creates a customizable indicator builder from an indicator listing with multiple parameters.
     /// </summary>
-    /// <param name="listing">The base indicator listing.</param>
+    /// <param name="listing">Base indicator listing.</param>
     /// <param name="parameters">Dictionary of parameter names and values.</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> for fluent configuration.</returns>
     public static ListingExecutionBuilder WithParams(
@@ -32,7 +32,7 @@ public static class ListingExecutionBuilderExtensions
     /// <summary>
     /// Creates a customizable indicator builder from an indicator listing and sets the source quotes.
     /// </summary>
-    /// <param name="listing">The base indicator listing.</param>
+    /// <param name="listing">Base indicator listing.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> with quotes set.</returns>
     public static ListingExecutionBuilder From(
@@ -46,9 +46,9 @@ public static class ListingExecutionBuilderExtensions
     /// <typeparam name="T">
     /// The type of elements in the series, which must implement <see cref="IReusable"/>.
     /// </typeparam>
-    /// <param name="listing">The base indicator listing.</param>
-    /// <param name="series">The series data to process.</param>
-    /// <param name="parameterName">The name of the series parameter. If null, attempts to find the first series parameter.</param>
+    /// <param name="listing">Base indicator listing.</param>
+    /// <param name="series">Series data to process.</param>
+    /// <param name="parameterName">Name of the series parameter. If null, attempts to find the first series parameter.</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> with the series parameter set.</returns>
     public static ListingExecutionBuilder From<T>(
         this IndicatorListing listing,
@@ -61,10 +61,10 @@ public static class ListingExecutionBuilderExtensions
     /// Creates a customizable indicator builder from an indicator listing and sets a series source.
     /// Alias for From&lt;T&gt; to provide consistent naming with the fluent API.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the series, which must implement IReusable.</typeparam>
-    /// <param name="listing">The base indicator listing.</param>
-    /// <param name="series">The series data to process.</param>
-    /// <param name="parameterName">The name of the series parameter. If null, attempts to find the first series parameter.</param>
+    /// <typeparam name="T">Type of elements in the series, which must implement IReusable.</typeparam>
+    /// <param name="listing">Base indicator listing.</param>
+    /// <param name="series">Series data to process.</param>
+    /// <param name="parameterName">Name of the series parameter. If null, attempts to find the first series parameter.</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> with the series parameter set.</returns>
     public static ListingExecutionBuilder FromSource<T>(
         this IndicatorListing listing,
@@ -76,10 +76,10 @@ public static class ListingExecutionBuilderExtensions
     /// <summary>
     /// Executes an indicator using the default parameters from the catalog.
     /// </summary>
-    /// <typeparam name="TResult">The expected result type.</typeparam>
-    /// <param name="listing">The indicator listing.</param>
+    /// <typeparam name="TResult">Expected result type.</typeparam>
+    /// <param name="listing">Indicator listing.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>The indicator results.</returns>
+    /// <returns>Indicator results.</returns>
     public static IReadOnlyList<TResult> Execute<TResult>(
         this IndicatorListing listing,
         IEnumerable<IQuote> quotes)
@@ -89,10 +89,10 @@ public static class ListingExecutionBuilderExtensions
     /// <summary>
     /// Alternative syntax: Execute an indicator from quotes using a custom indicator builder.
     /// </summary>
-    /// <typeparam name="TResult">The expected result type.</typeparam>
+    /// <typeparam name="TResult">Expected result type.</typeparam>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="customIndicator">The custom indicator configuration.</param>
-    /// <returns>The indicator results.</returns>
+    /// <param name="customIndicator">Custom indicator configuration.</param>
+    /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when a required parameter is null</exception>
     public static IReadOnlyList<TResult> Execute<TResult>(
         this IEnumerable<IQuote> quotes,
@@ -105,12 +105,12 @@ public static class ListingExecutionBuilderExtensions
     /// <summary>
     /// Alternative syntax: Execute an indicator from a series using a custom indicator builder.
     /// </summary>
-    /// <typeparam name="TSource">The type of elements in the source series, which must implement IReusable.</typeparam>
-    /// <typeparam name="TResult">The expected result type.</typeparam>
-    /// <param name="series">The series data to process.</param>
-    /// <param name="customIndicator">The custom indicator configuration.</param>
-    /// <param name="parameterName">The name of the series parameter. If null, attempts to find the first series parameter.</param>
-    /// <returns>The indicator results.</returns>
+    /// <typeparam name="TSource">Type of elements in the source series, which must implement IReusable.</typeparam>
+    /// <typeparam name="TResult">Expected result type.</typeparam>
+    /// <param name="series">Series data to process.</param>
+    /// <param name="customIndicator">Custom indicator configuration.</param>
+    /// <param name="parameterName">Name of the series parameter. If null, attempts to find the first series parameter.</param>
+    /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when a required parameter is null</exception>
     public static IReadOnlyList<TResult> Execute<TSource, TResult>(
         this IReadOnlyList<TSource> series,

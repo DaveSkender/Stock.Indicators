@@ -16,6 +16,11 @@ public class AwesomeHub
         SlowPeriods = slowPeriods;
         Name = $"AWESOME({fastPeriods},{slowPeriods})";
 
+        // Validate cache size for warmup requirements
+        // Awesome.Validate() guarantees slowPeriods > fastPeriods, so SlowPeriods drives ToIndicator activation
+        int requiredWarmup = slowPeriods;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -75,9 +80,9 @@ public static partial class Awesome
     /// <summary>
     /// Creates an Awesome Oscillator hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
-    /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average. Default is 5.</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average. Default is 34.</param>
     /// <returns>An Awesome Oscillator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>

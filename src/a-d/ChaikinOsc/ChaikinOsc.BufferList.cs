@@ -12,8 +12,8 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     /// <summary>
     /// Initializes a new instance of the <see cref="ChaikinOscList"/> class.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods to use for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods to use for the slow EMA.</param>
+    /// <param name="fastPeriods">Number of periods to use for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods to use for the slow EMA.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowPeriods"/> is invalid.</exception>
     public ChaikinOscList(int fastPeriods = 3, int slowPeriods = 10)
     {
@@ -31,8 +31,8 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     /// <summary>
     /// Initializes a new instance of the <see cref="ChaikinOscList"/> class with initial quotes.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods to use for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods to use for the slow EMA.</param>
+    /// <param name="fastPeriods">Number of periods to use for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods to use for the slow EMA.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ChaikinOscList(int fastPeriods, int slowPeriods, IReadOnlyList<IQuote> quotes)
         : this(fastPeriods, slowPeriods) => Add(quotes);

@@ -53,6 +53,15 @@ public interface IStreamObservable<out T>
     int MaxCacheSize { get; }
 
     /// <summary>
+    /// Gets the minimum cache size required by this hub or its subscribers.
+    /// This value represents the maximum minimum cache size requirement from all subscribers.
+    /// Additions that would modify index values before this position are rejected to prevent
+    /// corrupted rebuilds.
+    /// </summary>
+    /// <remarks>Default implementation returns 0 (no minimum requirement).</remarks>
+    int MinCacheSize => 0;
+
+    /// <summary>
     /// Gets the current number of subscribers.
     /// </summary>
     int ObserverCount { get; }

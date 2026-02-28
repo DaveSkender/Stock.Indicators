@@ -4,13 +4,7 @@ This folder contains the Stock Indicators library source code.
 
 ## Implementation guidance
 
-See .github/skills/ for detailed indicator development guidance:
-
-- indicator-series - Series indicator implementation patterns
-- indicator-buffer - BufferList indicator implementation patterns  
-- indicator-stream - StreamHub indicator implementation patterns
-- indicator-catalog - Catalog entry creation and registration
-- code-completion - Quality gates for completing code work
+Load the relevant skill before working in this folder. See the skills index in the root [AGENTS.md](../AGENTS.md#skills-for-development).
 
 ## Technical constraints
 
@@ -59,5 +53,16 @@ See _common/README.md for complete policy documentation.
 - Stream and Buffer implementations must match Series results for same inputs once warmed up
 - For discrepancies, fix Stream/Buffer unless there is verified issue with Series and reference data
 
----
-Last updated: January 25, 2026
+## Boundaries
+
+✅ Always use Series results as the canonical numerical reference — Stream/Buffer must match exactly
+
+✅ Always provide a deterministic `WarmupPeriod` property for every indicator
+
+⚠️ Ask before changing any public API member name, signature, or default value — requires MAJOR version bump
+
+🚫 Never use epsilon comparisons — use exact zero checks (`!= 0`, `== 0`)
+
+🚫 Never swallow exceptions; wrap only to add context
+
+🚫 Never use nullable `double?` internally for performance — use `double.NaN` for uninitialized state

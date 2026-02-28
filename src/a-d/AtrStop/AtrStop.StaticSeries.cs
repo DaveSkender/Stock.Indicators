@@ -10,8 +10,8 @@ public static partial class AtrStop
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The candle threshold point to use for reversals.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="endType">Candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
     public static IReadOnlyList<AtrStopResult> ToAtrStop(
         this IReadOnlyList<IQuote> quotes,

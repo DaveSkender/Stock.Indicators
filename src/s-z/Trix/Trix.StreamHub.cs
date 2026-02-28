@@ -19,6 +19,10 @@ public class TrixHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"TRIX({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        // TRIX uses 3 chained EMAs; each requires lookbackPeriods for proper seeding.
+        ValidateCacheSize(lookbackPeriods * 3, Name);
+
         Reinitialize();
     }
 
@@ -83,12 +87,11 @@ public class TrixHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > LookbackPeriods)
+        if (restoreIndex >= LookbackPeriods)
         {
-            TrixResult prior = Cache[i - 1];
+            TrixResult prior = Cache[restoreIndex];
             lastEma1 = prior.Ema1;
             lastEma2 = prior.Ema2;
             lastEma3 = prior.Ema3 ?? double.NaN;
@@ -133,7 +136,7 @@ public static partial class Trix
     /// <summary>
     /// Creates a TRIX streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A TRIX hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>

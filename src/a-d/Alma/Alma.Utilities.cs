@@ -10,8 +10,8 @@ public static partial class Alma
     /// </summary>
     /// <param name="source">List of chainable values.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="offset">The offset parameter for the ALMA calculation.</param>
-    /// <param name="sigma">The sigma parameter for the ALMA calculation.</param>
+    /// <param name="offset">Offset parameter for the ALMA calculation.</param>
+    /// <param name="sigma">Sigma parameter for the ALMA calculation.</param>
     /// <param name="endIndex">Index position to evaluate.</param>
     /// <typeparam name="T">IReusable (chainable) type.</typeparam>
     /// <returns>ALMA value or <see langword="double.NaN"/> when incalculable.</returns>
@@ -57,8 +57,8 @@ public static partial class Alma
     /// Validates the parameters for the ALMA calculation.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="offset">The offset parameter for the ALMA calculation, must be between 0 and 1.</param>
-    /// <param name="sigma">The sigma parameter for the ALMA calculation, must be greater than 0.</param>
+    /// <param name="offset">Offset parameter for the ALMA calculation, must be between 0 and 1.</param>
+    /// <param name="sigma">Sigma parameter for the ALMA calculation, must be greater than 0.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1,
     /// the offset is not between 0 and 1, or the sigma is less than or equal to 0.

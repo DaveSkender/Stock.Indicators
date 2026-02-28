@@ -57,10 +57,10 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// <summary>
     /// Adds a new quote data point for Williams %R calculation.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the data point.</param>
-    /// <param name="high">The high price.</param>
-    /// <param name="low">The low price.</param>
-    /// <param name="close">The close price.</param>
+    /// <param name="timestamp">Timestamp of the data point.</param>
+    /// <param name="high">High price.</param>
+    /// <param name="low">Low price.</param>
+    /// <param name="close">Close price.</param>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
         // Update rolling buffer using BufferListUtilities with consolidated tuple

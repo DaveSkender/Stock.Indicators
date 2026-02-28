@@ -15,6 +15,9 @@ public class EmaHub
         K = 2d / (lookbackPeriods + 1);
         Name = $"EMA({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -59,7 +62,7 @@ public static partial class Ema
     /// Creates an EMA streaming hub with a chain provider source.
     /// </summary>
     /// <remarks>If providers contain historical data, this hub will fast-forward its cache.</remarks>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A chain-sourced instance of <see cref="EmaHub"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="chainProvider"/> is null.</exception>

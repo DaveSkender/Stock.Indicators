@@ -14,6 +14,11 @@ public class GatorHub
     {
         ArgumentNullException.ThrowIfNull(alligatorHub);
         Name = "GATOR()";
+
+        // Validate cache size for warmup requirements
+        // Gator inherits from Alligator, validation not needed here
+        // as AlligatorHub already validates
+
         Reinitialize();
     }
 
@@ -53,7 +58,7 @@ public static partial class Gator
     /// <summary>
     /// Creates a Gator hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <returns>A Gator hub.</returns>
     public static GatorHub ToGatorHub(
         this IChainProvider<IReusable> chainProvider)
@@ -62,7 +67,7 @@ public static partial class Gator
     /// <summary>
     /// Creates a new Gator hub, using values from an existing Alligator hub.
     /// </summary>
-    /// <param name="alligatorHub">The Alligator hub.</param>
+    /// <param name="alligatorHub">Alligator hub.</param>
     /// <returns>A Gator hub.</returns>
     /// <remarks>
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>

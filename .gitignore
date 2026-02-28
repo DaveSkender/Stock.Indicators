@@ -15,6 +15,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 dist/
+build/
 
 ##
 ## TESTING
@@ -47,6 +48,16 @@ _ReSharper*/
 *.userosscache
 *.sln.docstates
 *.userprefs
+
+# Agent configuration (not used)
+.claude/
+.cline/
+.clinerules/
+.codex/
+.copilot/
+.cursor/
+.github/skills/
+.github/prompts/
 
 # .NET project sensitive
 

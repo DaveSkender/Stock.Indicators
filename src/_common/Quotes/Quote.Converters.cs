@@ -56,7 +56,7 @@ public static partial class Quotes
     /// Convert any IQuote type to native Quote type (public API only).
     /// </summary>
     /// <typeparam name="TQuote">Type of quote record</typeparam>
-    /// <param name="quote">The quote to convert.</param>
+    /// <param name="quote">Quote to convert.</param>
     /// <returns>A converted quote.</returns>
     public static Quote ToQuote<TQuote>(this TQuote quote)
         where TQuote : IQuote
@@ -72,7 +72,7 @@ public static partial class Quotes
     /// <summary>
     /// Convert to quote in double precision.
     /// </summary>
-    /// <param name="quote">The quote to convert.</param>
+    /// <param name="quote">Quote to convert.</param>
     /// <returns>A converted quote in double precision.</returns>
     internal static QuoteD ToQuoteD(this IQuote quote)
 

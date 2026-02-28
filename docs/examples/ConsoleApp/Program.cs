@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json;
 using Skender.Stock.Indicators;
@@ -9,12 +8,12 @@ using Skender.Stock.Indicators;
 // We're mocking with a simple JSON file import
 string json = File.ReadAllText("quotes.data.json");
 
-Collection<Quote> quotes = JsonSerializer
+IReadOnlyList<Quote> quotes = JsonSerializer
     .Deserialize<IReadOnlyCollection<Quote>>(json)
-    .ToSortedCollection();
+    .ToSortedList();
 
 // Calculate 10-period SMA
-IEnumerable<SmaResult> results = quotes.GetSma(10);
+IEnumerable<SmaResult> results = quotes.ToSma(10);
 
 // show results
 Console.WriteLine("SMA Results ---------------------------");
@@ -22,14 +21,14 @@ Console.WriteLine("SMA Results ---------------------------");
 foreach (SmaResult r in results.TakeLast(10))
 {
     // only showing last 10 records for brevity
-    Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}");
+    Console.WriteLine($"SMA on {r.Timestamp:u} was ${r.Sma:N3}");
 }
 
 // optionally, you can lookup individual values by date
 DateTime lookupDate = DateTime
     .Parse("2021-08-12T17:08:17.9746795+02:00", CultureInfo.InvariantCulture);
 
-double? specificSma = results.Find(lookupDate).Sma;
+double? specificSma = results.First(x => x.Timestamp == lookupDate).Sma;
 
 Console.WriteLine();
 Console.WriteLine("SMA on Specific Date ------------------");
@@ -60,6 +59,6 @@ for (int i = quotes.Count - 25; i < quotes.Count; i++)
 
     bool isBullish = (double)q.Close > r.Sma;
 
-    Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}"
+    Console.WriteLine($"SMA on {r.Timestamp:u} was ${r.Sma:N3}"
                     + $" and Bullishness is {isBullish}");
 }

@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Text.Json;
 using Custom.Stock.Indicators;
 using Skender.Stock.Indicators;
@@ -10,9 +9,9 @@ using Skender.Stock.Indicators;
 // We're mocking with a simple JSON file import
 string json = File.ReadAllText("quotes.data.json");
 
-Collection<Quote> quotes = JsonSerializer
+IReadOnlyList<Quote> quotes = JsonSerializer
     .Deserialize<IReadOnlyCollection<Quote>>(json)
-    .ToSortedCollection();
+    .ToSortedList();
 
 // Calculate 10-period custom AtrWma
 IReadOnlyList<AtrWmaResult> results = quotes
@@ -24,5 +23,5 @@ Console.WriteLine("ATR WMA Results ---------------------------");
 foreach (AtrWmaResult r in results.Take(30))
 {
     // only showing first 30 records for brevity
-    Console.WriteLine($"ATR WMA on {r.Date:u} was ${r.AtrWma:N3}");
+    Console.WriteLine($"ATR WMA on {r.Timestamp:u} was ${r.AtrWma:N3}");
 }

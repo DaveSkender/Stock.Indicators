@@ -41,6 +41,10 @@ public class StcHub
 
         Name = $"STC({cyclePeriods},{FastPeriods},{SlowPeriods})";
 
+        // Validate cache size for warmup requirements
+        int requiredWarmup = Math.Max(FastPeriods, SlowPeriods) + cyclePeriods + 1;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -120,25 +124,21 @@ public class StcHub
     /// MACD state is handled automatically by the chained MacdHub.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear rolling windows and buffer
         _macdHighWindow.Clear();
         _macdLowWindow.Clear();
         _rawKBuffer.Clear();
 
-        // Rebuild from MacdHub results up to the rollback point
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
         // Rebuild MACD rolling windows for cycle periods
-        int startIdx = Math.Max(0, targetIndex + 1 - CyclePeriods);
-        for (int p = startIdx; p <= targetIndex; p++)
+        int startIdx = Math.Max(0, restoreIndex + 1 - CyclePeriods);
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             MacdResult macdResult = ProviderCache[p];
             double macdValue = macdResult.Macd ?? double.NaN;
@@ -150,10 +150,10 @@ public class StcHub
         }
 
         // Prefill raw %K buffer (smoothPeriods = 3)
-        if (targetIndex >= SlowPeriods + CyclePeriods - 2)
+        if (restoreIndex >= SlowPeriods + CyclePeriods - 2)
         {
-            int kStart = Math.Max(SlowPeriods + CyclePeriods - 2, targetIndex + 1 - 3);
-            for (int p = kStart; p <= targetIndex; p++)
+            int kStart = Math.Max(SlowPeriods + CyclePeriods - 2, restoreIndex + 1 - 3);
+            for (int p = kStart; p <= restoreIndex; p++)
             {
                 // Calculate raw %K for this position using MacdHub results
                 int rStart = Math.Max(0, p + 1 - CyclePeriods);
@@ -189,10 +189,10 @@ public static partial class Stc
     /// <summary>
     /// Creates a Schaff Trend Cycle (STC) streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="cyclePeriods">The number of periods for the cycle. Default is 10.</param>
-    /// <param name="fastPeriods">The number of fast periods for the MACD calculation. Default is 23.</param>
-    /// <param name="slowPeriods">The number of slow periods for the MACD calculation. Default is 50.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="cyclePeriods">Number of periods for the cycle. Default is 10.</param>
+    /// <param name="fastPeriods">Number of fast periods for the MACD calculation. Default is 23.</param>
+    /// <param name="slowPeriods">Number of slow periods for the MACD calculation. Default is 50.</param>
     /// <returns>A STC hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
@@ -206,8 +206,8 @@ public static partial class Stc
     /// <summary>
     /// Creates a new STC hub, using values from an existing MACD hub.
     /// </summary>
-    /// <param name="macdHub">The MACD hub.</param>
-    /// <param name="cyclePeriods">The number of periods for the cycle. Default is 10.</param>
+    /// <param name="macdHub">MACD hub.</param>
+    /// <param name="cyclePeriods">Number of periods for the cycle. Default is 10.</param>
     /// <returns>An STC hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the MACD hub is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when cyclePeriods is invalid.</exception>

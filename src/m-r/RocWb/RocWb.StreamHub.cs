@@ -26,6 +26,12 @@ public class RocWbHub
         rocEmaInitBuffer = new Queue<double>(emaPeriods);
         Name = $"ROCWB({lookbackPeriods},{emaPeriods},{stdDevPeriods})";
 
+        // Validate cache size for warmup requirements
+        // RocWb needs lookbackPeriods items for the first ROC value, then Max(emaPeriods, stdDevPeriods)
+        // more items to fill the EMA/StdDev buffers — total item count, not a zero-based index.
+        int requiredWarmup = lookbackPeriods + Math.Max(emaPeriods, stdDevPeriods);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -123,24 +129,20 @@ public class RocWbHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear state
         prevEma = double.NaN;
         rocSqBuffer.Clear();
         rocEmaInitBuffer.Clear();
 
-        // Rebuild from ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
-        // Replay state up to target index
-        for (int p = 0; p <= targetIndex; p++)
+        // Replay state up to restoreIndex
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IReusable current = ProviderCache[p];
 
@@ -211,7 +213,7 @@ public static partial class RocWb
     /// <summary>
     /// Creates a RocWb streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window for ROC.</param>
     /// <param name="emaPeriods">Quantity of periods for EMA smoothing.</param>
     /// <param name="stdDevPeriods">Quantity of periods for standard deviation bands.</param>

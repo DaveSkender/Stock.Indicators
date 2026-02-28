@@ -3,12 +3,12 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the properties of a candlestick.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the candlestick.</param>
-/// <param name="Open">The opening price of the candlestick.</param>
-/// <param name="High">The highest price of the candlestick.</param>
-/// <param name="Low">The lowest price of the candlestick.</param>
-/// <param name="Close">The closing price of the candlestick.</param>
-/// <param name="Volume">The volume of the candlestick.</param>
+/// <param name="Timestamp">Timestamp of the candlestick.</param>
+/// <param name="Open">Opening price of the candlestick.</param>
+/// <param name="High">Highest price of the candlestick.</param>
+/// <param name="Low">Lowest price of the candlestick.</param>
+/// <param name="Close">Closing price of the candlestick.</param>
+/// <param name="Volume">Volume of the candlestick.</param>
 [Serializable]
 public record CandleProperties
 (

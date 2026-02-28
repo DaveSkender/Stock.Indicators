@@ -14,6 +14,9 @@ public class FcbHub
         WindowSpan = windowSpan;
         Name = $"FCB({windowSpan})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2 * windowSpan, Name);
+
         Reinitialize();
     }
 
@@ -88,14 +91,12 @@ public class FcbHub
     /// Restores the prior FCB state.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-
         // restore prior state
-        if (i > 0)
+        if (restoreIndex >= 0)
         {
-            FcbResult priorResult = Cache[i - 1];
+            FcbResult priorResult = Cache[restoreIndex];
             UpperLine = priorResult.UpperBand;
             LowerLine = priorResult.LowerBand;
         }
@@ -113,8 +114,8 @@ public static partial class Fcb
     /// <summary>
     /// Creates a Fractal Chaos Bands (FCB) hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowSpan">The window span used for fractal detection.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="windowSpan">Window span used for fractal detection.</param>
     /// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(
        this IQuoteProvider<IQuote> quoteProvider,

@@ -8,7 +8,7 @@ public static partial class Slope
     /// <summary>
     /// Calculates Slope and Linear Regression for a given source list and lookback period.
     /// </summary>
-    /// <param name="source">The source list to analyze.</param>
+    /// <param name="source">Source list to analyze.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of Slope results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>

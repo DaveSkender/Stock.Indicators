@@ -17,11 +17,16 @@ public class HurstHub
         Name = $"HURST({lookbackPeriods})";
         _buffer = new Queue<double>(lookbackPeriods + 1);
 
+        // Validate cache size for warmup requirements
+        // Hurst requires (lookbackPeriods + 1) values in ProviderCache to compute lookbackPeriods returns.
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (HurstResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -73,33 +78,21 @@ public class HurstHub
     /// Restores the buffer state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear buffer
         _buffer.Clear();
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
-
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        int targetIndex = index - 1;
 
         // Rebuild buffer from cache
         // We need at most the last (lookbackPeriods + 1) values
-        int startIdx = Math.Max(0, targetIndex + 1 - (LookbackPeriods + 1));
+        int startIdx = Math.Max(0, restoreIndex + 1 - (LookbackPeriods + 1));
 
-        for (int p = startIdx; p <= targetIndex; p++)
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IReusable item = ProviderCache[p];
             _buffer.Update(LookbackPeriods + 1, item.Value);
@@ -112,8 +105,8 @@ public static partial class Hurst
     /// <summary>
     /// Creates a Hurst Exponent streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation.</param>
     /// <returns>A Hurst hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

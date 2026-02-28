@@ -34,9 +34,9 @@ public static partial class Catalog
     /// <summary>
     /// Gets an indicator by its ID and style.
     /// </summary>
-    /// <param name="id">The unique ID of the indicator.</param>
-    /// <param name="style">The style of the indicator.</param>
-    /// <returns>The indicator listing with the specified ID and style, or null if not found.</returns>
+    /// <param name="id">Unique ID of the indicator.</param>
+    /// <param name="style">Style of the indicator.</param>
+    /// <returns>Indicator listing with the specified ID and style, or null if not found.</returns>
     public static IndicatorListing? Get(string id, Style style)
         => string.IsNullOrWhiteSpace(id)
             ? null
@@ -45,7 +45,7 @@ public static partial class Catalog
     /// <summary>
     /// Gets all indicators with the specified ID.
     /// </summary>
-    /// <param name="id">The unique ID of the indicator.</param>
+    /// <param name="id">Unique ID of the indicator.</param>
     /// <returns>All indicator listings with the specified ID.</returns>
     public static IReadOnlyCollection<IndicatorListing> Get(string id)
         => string.IsNullOrWhiteSpace(id)
@@ -55,7 +55,7 @@ public static partial class Catalog
     /// <summary>
     /// Gets all indicators with the specified style.
     /// </summary>
-    /// <param name="style">The style of indicators to retrieve.</param>
+    /// <param name="style">Style of indicators to retrieve.</param>
     /// <returns>All indicator listings with the specified style.</returns>
     public static IReadOnlyCollection<IndicatorListing> Get(Style style)
         => Listings
@@ -65,7 +65,7 @@ public static partial class Catalog
     /// <summary>
     /// Gets all indicators in the specified category.
     /// </summary>
-    /// <param name="category">The category of indicators to retrieve.</param>
+    /// <param name="category">Category of indicators to retrieve.</param>
     /// <returns>All indicator listings in the specified category.</returns>
     public static IReadOnlyCollection<IndicatorListing> Get(Category category)
         => Listings
@@ -75,7 +75,7 @@ public static partial class Catalog
     /// <summary>
     /// Searches for indicators by name or ID, using a partial match.
     /// </summary>
-    /// <param name="query">The search query.</param>
+    /// <param name="query">Search query.</param>
     /// <returns>All indicator listings that match the search query.</returns>
     public static IReadOnlyCollection<IndicatorListing> Search(string query)
     {
@@ -95,7 +95,7 @@ public static partial class Catalog
     /// <summary>
     /// Searches for indicators by name, with an optional style filter.
     /// </summary>
-    /// <param name="query">The search query.</param>
+    /// <param name="query">Search query.</param>
     /// <param name="style">Optional style filter.</param>
     /// <returns>All indicator listings that match the search query and style filter.</returns>
     internal static IReadOnlyCollection<IndicatorListing> Search(string query, Style style)
@@ -110,7 +110,7 @@ public static partial class Catalog
     /// <summary>
     /// Searches for indicators by name, with an optional category filter.
     /// </summary>
-    /// <param name="query">The search query.</param>
+    /// <param name="query">Search query.</param>
     /// <param name="category">Optional category filter.</param>
     /// <returns>All indicator listings that match the search query and category filter.</returns>
     internal static IReadOnlyCollection<IndicatorListing> Search(string query, Category category)
@@ -121,7 +121,7 @@ public static partial class Catalog
     /// <summary>
     /// Converts the catalog to a JSON string representation.
     /// </summary>
-    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="catalog">Catalog of indicator listings.</param>
     /// <param name="filePath">Optional file path to save the JSON output. If provided, the content will be written to this file.</param>
     /// <returns>A JSON string containing all catalog properties according to the defined schema.</returns>
     internal static string ToJson(
@@ -144,7 +144,7 @@ public static partial class Catalog
     /// <summary>
     /// Converts the catalog to a Markdown checklist format.
     /// </summary>
-    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="catalog">Catalog of indicator listings.</param>
     /// <param name="filePath">
     /// Optional file path to save the Markdown output.
     /// If provided, the content will be written to this file.
@@ -185,7 +185,7 @@ public static partial class Catalog
     /// <summary>
     /// Converts the catalog to a Markdown table format.
     /// </summary>
-    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="catalog">Catalog of indicator listings.</param>
     /// <param name="filePath">
     /// Optional file path to save the Markdown output.
     /// If provided, the content will be written to this file.
@@ -234,12 +234,12 @@ public static partial class Catalog
     /// <summary>
     /// Executes an indicator using only its ID and style with a typed result.
     /// </summary>
-    /// <typeparam name="TResult">The expected indicator result type.</typeparam>
+    /// <typeparam name="TResult">Expected indicator result type.</typeparam>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="id">The indicator ID (e.g., "EMA", "RSI", "MACD").</param>
-    /// <param name="style">The indicator style (Series, Stream, or Buffer).</param>
+    /// <param name="id">Indicator ID (e.g., "EMA", "RSI", "MACD").</param>
+    /// <param name="style">Indicator style (Series, Stream, or Buffer).</param>
     /// <param name="parameters">Optional parameter overrides.</param>
-    /// <returns>The indicator results as a typed list.</returns>
+    /// <returns>Indicator results as a typed list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentException">Thrown when id is null or empty.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
@@ -269,10 +269,10 @@ public static partial class Catalog
     /// <summary>
     /// Executes an indicator from a JSON configuration string with a typed result.
     /// </summary>
-    /// <typeparam name="TResult">The expected indicator result type.</typeparam>
+    /// <typeparam name="TResult">Expected indicator result type.</typeparam>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="json">The JSON configuration string containing indicator settings.</param>
-    /// <returns>The indicator results as a typed list.</returns>
+    /// <param name="json">JSON configuration string containing indicator settings.</param>
+    /// <returns>Indicator results as a typed list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when json or quotes is null.</exception>
     /// <exception cref="ArgumentException">Thrown when json is empty or invalid.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
@@ -312,7 +312,7 @@ public static partial class Catalog
     /// <summary>
     /// Converts JsonElement values in parameters dictionary to their appropriate types.
     /// </summary>
-    /// <param name="parameters">The parameters dictionary that may contain JsonElement values.</param>
+    /// <param name="parameters">Parameters dictionary that may contain JsonElement values.</param>
     /// <returns>A new dictionary with converted values.</returns>
     private static Dictionary<string, object>? ConvertJsonElementsInParameters(Dictionary<string, object>? parameters)
     {
@@ -345,8 +345,8 @@ public static partial class Catalog
     /// <summary>
     /// Converts a JsonElement to its appropriate .NET type.
     /// </summary>
-    /// <param name="element">The JsonElement to convert.</param>
-    /// <returns>The converted value, or null for null JsonElements.</returns>
+    /// <param name="element">JsonElement to convert.</param>
+    /// <returns>Converted value, or null for null JsonElements.</returns>
     /// <exception cref="NotImplementedException">Thrown when the feature is not yet implemented</exception>
     private static object? ConvertJsonElement(JsonElement element)
 

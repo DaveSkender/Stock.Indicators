@@ -18,6 +18,9 @@ public class ForceIndexHub
         _k = 2d / (lookbackPeriods + 1);
         Name = $"FORCE({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -77,20 +80,20 @@ public class ForceIndexHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset sum for recalculation during rebuild
         _sumRawFi = 0;
 
-        // Find the cache index corresponding to the rollback timestamp
-        int rollbackIndex = Cache.IndexOf(timestamp, false);
+        // Derive mutation index (first entry being removed)
+        int mutationIndex = restoreIndex + 1;
 
         // If rolling back to a point still in warmup period, rebuild the sum
         // The sum is only used to compute the first EMA value at index == LookbackPeriods
-        if (rollbackIndex >= 0 && rollbackIndex < LookbackPeriods && ProviderCache.Count > 1)
+        if (mutationIndex >= 0 && mutationIndex < LookbackPeriods && ProviderCache.Count > 1)
         {
             // Rebuild sum for warmup period up to rollback point
-            int endIndex = Math.Min(rollbackIndex, LookbackPeriods - 1);
+            int endIndex = Math.Min(mutationIndex, LookbackPeriods - 1);
 
             for (int i = 1; i <= endIndex && i < ProviderCache.Count; i++)
             {
@@ -109,7 +112,7 @@ public static partial class ForceIndex
     /// <summary>
     /// Converts the quote provider to a Force Index hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Force Index hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

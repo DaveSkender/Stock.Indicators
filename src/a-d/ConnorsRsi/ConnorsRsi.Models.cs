@@ -3,12 +3,12 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of the Connors RSI calculation.
 /// </summary>
-/// <param name="Timestamp">The timestamp of the result.</param>
-/// <param name="Streak">The streak value.</param>
-/// <param name="Rsi">The RSI value.</param>
-/// <param name="RsiStreak">The RSI streak value.</param>
-/// <param name="PercentRank">The percent rank value.</param>
-/// <param name="ConnorsRsi">The Connors RSI value.</param>
+/// <param name="Timestamp">Timestamp of the result.</param>
+/// <param name="Streak">Streak value.</param>
+/// <param name="Rsi">RSI value.</param>
+/// <param name="RsiStreak">RSI streak value.</param>
+/// <param name="PercentRank">Percent rank value.</param>
+/// <param name="ConnorsRsi">Connors RSI value.</param>
 [Serializable]
 public record ConnorsRsiResult
 (

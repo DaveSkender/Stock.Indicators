@@ -9,6 +9,9 @@ public class ObvHub : ChainHub<IQuote, ObvResult>
         IQuoteProvider<IQuote> provider) : base(provider)
     {
         Name = "OBV";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Requires at least 1 period
+
         Reinitialize();
     }
 
@@ -40,7 +43,7 @@ public static partial class Obv
     /// <summary>
     /// Converts the quote provider to an OBV hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <returns>An OBV hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     public static ObvHub ToObvHub(

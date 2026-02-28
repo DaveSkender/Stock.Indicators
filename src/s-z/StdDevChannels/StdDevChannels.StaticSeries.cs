@@ -8,10 +8,10 @@ public static partial class StdDevChannels
     /// <summary>
     /// Converts a series of quotes to Standard Deviation Channels.
     /// </summary>
-    /// <param name="source">The source series of quotes.</param>
+    /// <param name="source">Source series of quotes.</param>
     /// <param name="lookbackPeriods">
     /// The number of periods for the lookback. Default is 20.</param>
-    /// <param name="stdDeviations">The number of standard deviations for the channel width.</param>
+    /// <param name="stdDeviations">Number of standard deviations for the channel width.</param>
     /// <returns>A list of <see cref="StdDevChannelsResult"/> containing the Standard Deviation Channels values.</returns>
     public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels(
         this IReadOnlyList<IReusable> source,

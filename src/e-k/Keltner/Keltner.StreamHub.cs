@@ -24,6 +24,11 @@ public class KeltnerHub
         EmaK = 2d / (emaPeriods + 1);
         Name = $"KELTNER({emaPeriods},{multiplier},{atrPeriods})";
 
+        // Validate cache size for warmup requirements
+        // ATR requires a prior close for TR, so atrPeriods needs +1
+        int requiredWarmup = Math.Max(emaPeriods, atrPeriods + 1);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -165,10 +170,10 @@ public static partial class Keltner
     /// <summary>
     /// Creates a Keltner Channels streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="emaPeriods">The number of periods for the EMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="emaPeriods">Number of periods for the EMA.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="KeltnerHub"/>.</returns>
     public static KeltnerHub ToKeltnerHub(
         this IQuoteProvider<IQuote> quoteProvider,

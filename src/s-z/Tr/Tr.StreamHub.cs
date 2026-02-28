@@ -8,6 +8,9 @@ public class TrHub
         : base(provider)
     {
         Name = "TRUE RANGE";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // Requires current + previous period
+
         Reinitialize();
     }
 
@@ -43,7 +46,7 @@ public static partial class Tr
     /// <summary>
     /// Converts a quote provider to a True Range (TR) hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <returns>A True Range (TR) hub.</returns>
     public static TrHub ToTrHub(
         this IQuoteProvider<IQuote> quoteProvider)

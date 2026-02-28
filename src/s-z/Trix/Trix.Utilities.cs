@@ -8,7 +8,7 @@ public static partial class Trix
     /// <summary>
     /// Removes the recommended warmup periods from the TRIX results.
     /// </summary>
-    /// <param name="results">The list of TRIX results.</param>
+    /// <param name="results">List of TRIX results.</param>
     /// <returns>A list of TRIX results with the warmup periods removed.</returns>
     public static IReadOnlyList<TrixResult> RemoveWarmupPeriods(
         this IReadOnlyList<TrixResult> results)

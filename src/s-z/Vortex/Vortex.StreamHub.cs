@@ -24,6 +24,11 @@ public class VortexHub
         _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
 
+        // Validate cache size for warmup requirements
+        // Vortex uses the first period for initialization and fills the buffer for LookbackPeriods more,
+        // so the first valid result occurs at index LookbackPeriods (requiring LookbackPeriods + 1 items).
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -106,7 +111,7 @@ public class VortexHub
     /// Restores the buffer state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear buffer and state
         _buffer.Clear();
@@ -115,18 +120,13 @@ public class VortexHub
         _prevLow = 0;
         _prevClose = 0;
 
-        // Rebuild state from ProviderCache up to the rollback point
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-
         // Process first quote to initialize state
-        if (targetIndex >= 0)
+        if (restoreIndex >= 0)
         {
             IQuote firstQuote = ProviderCache[0];
             _prevHigh = (double)firstQuote.High;
@@ -136,8 +136,8 @@ public class VortexHub
         }
 
         // Rebuild buffer from quotes starting at index 1
-        int startIdx = Math.Max(1, targetIndex + 1 - LookbackPeriods);
-        for (int p = startIdx; p <= targetIndex; p++)
+        int startIdx = Math.Max(1, restoreIndex + 1 - LookbackPeriods);
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             IQuote prevQuote = ProviderCache[p - 1];
@@ -160,9 +160,9 @@ public class VortexHub
         }
 
         // Update prev values to the last processed quote
-        if (targetIndex >= 0)
+        if (restoreIndex >= 0)
         {
-            IQuote lastQuote = ProviderCache[targetIndex];
+            IQuote lastQuote = ProviderCache[restoreIndex];
             _prevHigh = (double)lastQuote.High;
             _prevLow = (double)lastQuote.Low;
             _prevClose = (double)lastQuote.Close;
@@ -176,7 +176,7 @@ public static partial class Vortex
     /// <summary>
     /// Converts the quote provider to a Vortex Indicator hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Vortex Indicator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

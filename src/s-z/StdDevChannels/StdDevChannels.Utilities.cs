@@ -8,7 +8,7 @@ public static partial class StdDevChannels
     /// <summary>
     /// Removes empty (null) periods from the results.
     /// </summary>
-    /// <param name="results">The list of results to condense.</param>
+    /// <param name="results">List of results to condense.</param>
     /// <returns>A condensed list of results.</returns>
     public static IReadOnlyList<StdDevChannelsResult> Condense(
         this IReadOnlyList<StdDevChannelsResult> results)
@@ -29,7 +29,7 @@ public static partial class StdDevChannels
     /// <summary>
     /// Removes recommended warmup periods from the results.
     /// </summary>
-    /// <param name="results">The list of results to process.</param>
+    /// <param name="results">List of results to process.</param>
     /// <returns>A list of results with warmup periods removed.</returns>
     public static IReadOnlyList<StdDevChannelsResult> RemoveWarmupPeriods(
         this IReadOnlyList<StdDevChannelsResult> results)
@@ -46,7 +46,7 @@ public static partial class StdDevChannels
     /// Validates the parameters for Standard Deviation Channels.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="stdDeviations">The number of standard deviations.</param>
+    /// <param name="stdDeviations">Number of standard deviations.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are out of range.</exception>
     internal static void Validate(
         int? lookbackPeriods,

@@ -8,9 +8,9 @@ public static partial class MgDynamic
     /// <summary>
     /// Converts a list of source data to McGinley Dynamic results.
     /// </summary>
-    /// <param name="source">The list of source data.</param>
+    /// <param name="source">List of source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor">The smoothing factor for the calculation.</param>
+    /// <param name="kFactor">Smoothing factor for the calculation.</param>
     /// <returns>A list of McGinley Dynamic results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>

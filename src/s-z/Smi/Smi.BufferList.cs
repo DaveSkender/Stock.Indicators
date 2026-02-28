@@ -16,10 +16,10 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
     /// <summary>
     /// Initializes a new instance of the <see cref="SmiList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
-    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
+    /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
+    /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public SmiList(
         int lookbackPeriods = 13,
@@ -46,10 +46,10 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
     /// <summary>
     /// Initializes a new instance of the <see cref="SmiList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
-    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
+    /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
+    /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public SmiList(
         int lookbackPeriods,

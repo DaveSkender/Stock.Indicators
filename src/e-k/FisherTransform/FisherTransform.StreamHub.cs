@@ -29,6 +29,9 @@ public class FisherTransformHub
         _priceMinWindow = new RollingWindowMin<double>(lookbackPeriods);
         Name = $"FISHER({lookbackPeriods})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods, Name);
+
         Reinitialize();
     }
 
@@ -114,35 +117,32 @@ public class FisherTransformHub
 
     /// <summary>
     /// Restores the rolling window and xv state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows and xv array from ProviderCache for Insert/Remove operations.
+    /// Clears and rebuilds rolling windows and xv array from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear rolling windows
         _priceMaxWindow.Clear();
         _priceMinWindow.Clear();
 
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             xv.Clear();
             return;
         }
 
-        // Truncate xv array to rollback point
-        if (index < xv.Count)
+        // Truncate xv array to keep entries up to restoreIndex
+        int keepCount = restoreIndex + 1;
+        if (keepCount < xv.Count)
         {
-            int removeCount = xv.Count - index;
-            xv.RemoveRange(index, removeCount);
+            xv.RemoveRange(keepCount, xv.Count - keepCount);
         }
 
         // Rebuild rolling windows from ProviderCache
-        int targetIndex = index - 1;
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+        int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
 
-        for (int p = startIdx; p <= targetIndex; p++)
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             double priceValue = ProviderCache[p].Hl2OrValue();
 
@@ -178,8 +178,8 @@ public static partial class FisherTransform
     /// <summary>
     /// Creates a Fisher Transform streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 10.</param>
+    /// <param name="chainProvider">Chain provider.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 10.</param>
     /// <returns>A Fisher Transform hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

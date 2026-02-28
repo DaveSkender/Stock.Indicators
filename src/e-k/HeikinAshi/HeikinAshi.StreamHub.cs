@@ -13,6 +13,9 @@ public class HeikinAshiHub
         IQuoteProvider<IQuote> provider) : base(provider)
     {
         Name = "HEIKINASHI";
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Pattern detection requires at least 1 period
+
         Reinitialize();
     }
     /// <inheritdoc/>
@@ -93,30 +96,24 @@ public class HeikinAshiHub
     /// Restores the state to the last result before or at the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // restore previous open/close markers
-        if (Cache.Count != 0)
+        if (Cache.Count != 0 && restoreIndex >= 0)
         {
-            bool found = false;
-            HeikinAshiResult lastResult = default!;
+            DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
+
             for (int j = Cache.Count - 1; j >= 0; j--)
             {
                 HeikinAshiResult c = Cache[j];
-                if (c.Timestamp <= timestamp)
+                if (c.Timestamp <= preserveTimestamp)
                 {
-                    lastResult = c;
-                    found = true;
-                    break;
+                    _prevOpen = c.Open;
+                    _prevClose = c.Close;
+                    return;
                 }
             }
 
-            if (found)
-            {
-                _prevOpen = lastResult.Open;
-                _prevClose = lastResult.Close;
-                return;
-            }
             // else: fall through to seed from first quote/defaults below
         }
 
@@ -140,7 +137,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Creates a Heikin-Ashi hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <returns>A Heikin-Ashi hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     public static HeikinAshiHub ToHeikinAshiHub(

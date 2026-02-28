@@ -33,6 +33,9 @@ public class PivotPointsHub
         windowClose = 0;
         windowPoint = new();
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(2, Name);  // Needs at least 2 periods for pivot calculation
+
         Reinitialize();
     }
 
@@ -42,7 +45,7 @@ public class PivotPointsHub
     /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset all state
         windowId = 0;
@@ -53,17 +56,13 @@ public class PivotPointsHub
         windowClose = 0;
         windowPoint = new();
 
-        // Find the index for the rollback timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
         // Rebuild state up to the rollback point
-        int targetIndex = index - 1;
-
-        for (int p = 0; p <= targetIndex; p++)
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote q = ProviderCache[p];
 
@@ -163,9 +162,9 @@ public static partial class PivotPoints
     /// <summary>
     /// Creates a PivotPoints streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowSize">The size of the window for pivot calculation. Default is <see cref="PeriodSize.Month"/>.</param>
-    /// <param name="pointType">The type of pivot points to calculate. Default is <see cref="PivotPointType.Standard"/>.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="windowSize">Size of the window for pivot calculation. Default is <see cref="PeriodSize.Month"/>.</param>
+    /// <param name="pointType">Type of pivot points to calculate. Default is <see cref="PivotPointType.Standard"/>.</param>
     /// <returns>An instance of <see cref="PivotPointsHub"/>.</returns>
     public static PivotPointsHub ToPivotPointsHub(
         this IQuoteProvider<IQuote> quoteProvider,

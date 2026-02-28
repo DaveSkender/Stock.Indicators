@@ -31,6 +31,11 @@ public class T3Hub
 
         Name = $"T3({lookbackPeriods},{volumeFactor:F1})";
 
+        // Validate cache size for warmup requirements
+        // T3 requires 6 chained EMAs, each needing (N-1) periods to converge plus 100 extra.
+        int requiredWarmup = (6 * (lookbackPeriods - 1)) + 100;
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -90,12 +95,11 @@ public class T3Hub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > 0 && Cache.Count > i - 1)
+        if (restoreIndex >= 0 && Cache.Count > restoreIndex)
         {
-            T3Result prior = Cache[i - 1];
+            T3Result prior = Cache[restoreIndex];
             lastEma1 = prior.Ema1;
             lastEma2 = prior.Ema2;
             lastEma3 = prior.Ema3;
@@ -135,9 +139,9 @@ public static partial class T3
     /// <summary>
     /// Creates a T3 streaming hub from a chain provider.
     /// </summary>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="chainProvider">Chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="volumeFactor">The volume factor for the calculation.</param>
+    /// <param name="volumeFactor">Volume factor for the calculation.</param>
     /// <returns>A T3 hub.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are invalid.</exception>
     public static T3Hub ToT3Hub(

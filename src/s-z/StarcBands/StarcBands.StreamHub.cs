@@ -22,6 +22,11 @@ public class StarcBandsHub
         AtrPeriods = atrPeriods;
         Name = $"STARCBANDS({smaPeriods},{multiplier},{atrPeriods})";
 
+        // Validate cache size for warmup requirements
+        // ATR initialization accesses ProviderCache[p-1], requiring atrPeriods + 1 provider items.
+        int requiredWarmup = Math.Max(smaPeriods, atrPeriods + 1);
+        ValidateCacheSize(requiredWarmup, Name);
+
         Reinitialize();
     }
 
@@ -34,31 +39,18 @@ public class StarcBandsHub
     /// <inheritdoc/>
     public int AtrPeriods { get; init; }
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset ATR state
         _prevAtr = double.NaN;
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
-
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        // (since IndexGte gives us first index >= timestamp)
-        int targetIndex = index - 1;
 
         // Rebuild ATR state from cache
-        for (int i = 0; i <= targetIndex; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
             if (i == 0)
             {
@@ -201,10 +193,10 @@ public static partial class StarcBands
     /// <summary>
     /// Creates a STARC Bands streaming hub from a quote provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="smaPeriods">The number of periods for the SMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="smaPeriods">Number of periods for the SMA.</param>
+    /// <param name="multiplier">Multiplier for the ATR.</param>
+    /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="StarcBandsHub"/>.</returns>
     public static StarcBandsHub ToStarcBandsHub(
         this IQuoteProvider<IQuote> quoteProvider,

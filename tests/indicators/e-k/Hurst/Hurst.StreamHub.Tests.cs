@@ -37,7 +37,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
@@ -49,6 +49,37 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         actuals.IsExactly(expectedRevised);
 
         // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 120;  // 100 (lookback period) + 20 extra
+        const int totalQuotes = 240;  // ~2x cache size
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<HurstResult> expected = quotes
+            .ToHurst(lookbackPeriods)
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        // Setup with cache limit
+        QuoteHub quoteHub = new(maxCacheSize);
+        HurstHub observer = quoteHub.ToHurstHub(lookbackPeriods);
+
+        // Stream more quotes than cache can hold
+        quoteHub.Add(quotes);
+
+        // Verify cache was pruned
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // Streaming results should match last N from full series (original series with front chopped off)
+        // NOT recomputation on just the cached quotes (which would have different warmup)
+        observer.Results.IsExactly(expected);
+
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -117,7 +148,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         // late arrival
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Add(Quotes[80]);
 
         // delete
         quoteHub.RemoveAt(removeAtIndex);

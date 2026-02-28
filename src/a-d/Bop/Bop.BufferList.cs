@@ -10,7 +10,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
     /// <summary>
     /// Initializes a new instance of the <see cref="BopList"/> class.
     /// </summary>
-    /// <param name="smoothPeriods">The number of periods to use for smoothing.</param>
+    /// <param name="smoothPeriods">Number of periods to use for smoothing.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="smoothPeriods"/> is invalid.</exception>
     public BopList(int smoothPeriods)
     {
@@ -24,7 +24,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
     /// <summary>
     /// Initializes a new instance of the <see cref="BopList"/> class with initial quotes.
     /// </summary>
-    /// <param name="smoothPeriods">The number of periods to use for smoothing.</param>
+    /// <param name="smoothPeriods">Number of periods to use for smoothing.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public BopList(int smoothPeriods, IReadOnlyList<IQuote> quotes)
         : this(smoothPeriods) => Add(quotes);

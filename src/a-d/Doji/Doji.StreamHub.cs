@@ -17,6 +17,9 @@ public class DojiHub
         _maxPriceChangePercentDecimal = maxPriceChangePercent / 100;
         Name = $"DOJI({maxPriceChangePercent:F1})";
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(1, Name);  // Pattern detection requires at least 1 period
+
         Reinitialize();
     }
 
@@ -56,7 +59,7 @@ public static partial class Doji
     /// <summary>
     /// Creates a Doji hub from a quote provider.
     /// </summary>
-    /// <param name="provider">The quote provider.</param>
+    /// <param name="provider">Quote provider.</param>
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price. Default is 0.1.</param>
     /// <returns>A Doji hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>

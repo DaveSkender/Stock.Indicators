@@ -7,8 +7,7 @@
   "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "24.13.0",
-      "pnpmVersion": "10.26.2"
+      "version": "lts"
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
       "version": "10.0",
@@ -21,6 +20,7 @@
     "vscode": {
       "settings": {
         "chat.tools.global.autoApprove": true,
+        "dotnet.defaultSolution": "Stock.Indicators.sln",
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
@@ -38,6 +38,10 @@
       ]
     }
   },
+  "containerEnv": {
+    "DISABLE_TELEMETRY": "1",
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
+  },
   "forwardPorts": [
     5173,
     5174
@@ -48,6 +52,6 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": ".devcontainer/startup.sh",
+  "postCreateCommand": ".devcontainer/post-create.sh",
   "remoteUser": "vscode"
 }

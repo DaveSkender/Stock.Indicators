@@ -170,7 +170,7 @@ StreamHub style adds observable patterns and state management:
 Series (502 quotes):      ~25μs total
 StreamHub (502 quotes):   ~32μs total (~28% overhead)
 Per-quote latency:        ~64ns average
-Rollback (Insert):        ~2-5μs for state rebuild
+Rollback (late Add):      ~2-5μs for state rebuild
 ```
 
 **Scaling Characteristics:**
@@ -206,7 +206,7 @@ Real-time performance targets for trading applications:
 | Single indicator per quote         | <100μs  | 60-80μs             |
 | 5 indicators on hub per quote      | <500μs  | 300-400μs           |
 | Complex chains (EMA→RSI→Slope)     | <200μs  | 120-150μs           |
-| State rebuild (Insert/Remove)      | <5ms    | 2-3ms               |
+| State rebuild (Add/Remove)         | <5ms    | 2-3ms               |
 
 ### When to Choose Each Style
 

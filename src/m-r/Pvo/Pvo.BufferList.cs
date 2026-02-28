@@ -17,9 +17,9 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     /// <summary>
     /// Initializes a new instance of the <see cref="PvoList"/> class.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public PvoList(
         int fastPeriods = 12,
@@ -47,9 +47,9 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     /// <summary>
     /// Initializes a new instance of the <see cref="PvoList"/> class with initial quotes.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public PvoList(
         int fastPeriods,

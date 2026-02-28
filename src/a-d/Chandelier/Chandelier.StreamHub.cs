@@ -48,6 +48,9 @@ public class ChandelierHub
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
 
+        // Validate cache size for warmup requirements
+        ValidateCacheSize(lookbackPeriods + 1, Name);
+
         Reinitialize();
     }
 
@@ -121,24 +124,30 @@ public class ChandelierHub
     /// Restores the rolling window state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear rolling windows
         _highWindow.Clear();
         _lowWindow.Clear();
 
-        // Rebuild windows from the quote provider's cache
-        int index = _quoteProvider.Results.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+        // Derive quote-cache index from ATR-cache timestamp
+        DateTime ts = ProviderCache[restoreIndex].Timestamp;
+        int quoteIndex = _quoteProvider.Results.IndexGte(ts);
 
-        for (int p = startIdx; p <= targetIndex; p++)
+        if (quoteIndex < 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the matching quote
+        int startIdx = Math.Max(0, quoteIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= quoteIndex; p++)
         {
             IQuote quote = _quoteProvider.Results[p];
             double cachedHigh = (double)quote.High;
@@ -158,10 +167,10 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a Chandelier Exit streaming hub from a quotes provider.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">Quote provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     public static ChandelierHub ToChandelierHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -173,11 +182,11 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a new Chandelier Exit hub, using ATR values from an existing ATR hub.
     /// </summary>
-    /// <param name="atrHub">The existing ATR hub.</param>
-    /// <param name="quoteProvider">The quote provider (must be the same provider used by the ATR hub).</param>
+    /// <param name="atrHub">Existing ATR hub.</param>
+    /// <param name="quoteProvider">Quote provider (must be the same provider used by the ATR hub).</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
+    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     /// <remarks>
     /// <para>IMPORTANT: This is not a normal chaining approach.</para>
