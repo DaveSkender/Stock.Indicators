@@ -14,7 +14,7 @@ public class HurstTests : TestBase
 
         // proper quantities
         Assert.HasCount(15821, results);
-        Assert.AreEqual(1, results.Count(static x => x.HurstExponent != null));
+        Assert.ContainsSingle(static x => x.HurstExponent != null, results);
 
         // sample value
         HurstResult r15820 = results[15820];

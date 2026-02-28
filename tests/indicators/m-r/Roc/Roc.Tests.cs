@@ -14,7 +14,7 @@ public class RocTests : TestBase
         Assert.HasCount(502, results);
         Assert.HasCount(482, results.Where(static x => x.Momentum != null));
         Assert.HasCount(482, results.Where(static x => x.Roc != null));
-        Assert.IsFalse(results.Any(static x => x.RocSma != null));
+        Assert.DoesNotContain(static x => x.RocSma != null, results);
 
         // sample values
         RocResult r49 = results[49];

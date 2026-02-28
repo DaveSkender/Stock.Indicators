@@ -14,7 +14,7 @@ public class StdDevTests : TestBase
         Assert.HasCount(502, results);
         Assert.HasCount(493, results.Where(static x => x.StdDev != null));
         Assert.HasCount(493, results.Where(static x => x.ZScore != null));
-        Assert.IsFalse(results.Any(static x => x.StdDevSma != null));
+        Assert.DoesNotContain(static x => x.StdDevSma != null, results);
 
         // sample values
         StdDevResult r1 = results[8];

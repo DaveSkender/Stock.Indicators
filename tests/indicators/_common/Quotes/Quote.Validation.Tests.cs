@@ -51,7 +51,7 @@ public class QuoteValidation : TestBase
 
         for (int i = 1; i < r1.Count; i++)
         {
-            Assert.IsTrue(r1[i].Date >= r1[i - 1].Date);
+            Assert.IsGreaterThanOrEqualTo(r1[i - 1].Date, r1[i].Date);
         }
 
         // should be 50 results and no index corruption
@@ -60,7 +60,7 @@ public class QuoteValidation : TestBase
 
         for (int i = 1; i < r2.Count; i++)
         {
-            Assert.IsTrue(r2[i].Date >= r2[i - 1].Date);
+            Assert.IsGreaterThanOrEqualTo(r2[i - 1].Date, r2[i].Date);
         }
 
         // should be original 200 periods and no index corruption, after temp mods
@@ -68,7 +68,7 @@ public class QuoteValidation : TestBase
 
         for (int i = 1; i < h.Count; i++)
         {
-            Assert.IsTrue(h[i].Date >= h[i - 1].Date);
+            Assert.IsGreaterThanOrEqualTo(h[i - 1].Date, h[i].Date);
         }
     }
 
