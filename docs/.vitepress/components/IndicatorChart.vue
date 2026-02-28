@@ -52,6 +52,7 @@ const overlaySeries: ISeriesApi<any>[] = []
 const oscillatorSeries: ISeriesApi<any>[] = []
 let resizeObserver: ResizeObserver | null = null
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null
+let chartRunId = 0
 
 // Stock.Charts color scheme (Material Design M2)
 const ChartColors = {
@@ -455,12 +456,15 @@ function updatePriceScaleVisibility() {
 async function initChart() {
   isLoading.value = true
   hasError.value = false
+  const runId = chartRunId
 
   const data = await loadChartData()
   if (!data) {
     isLoading.value = false
     return
   }
+
+  if (runId !== chartRunId) return
 
   // Determine chart type from data
   const isOscillatorType = data.metadata?.chartType === 'oscillator'
@@ -478,6 +482,8 @@ async function initChart() {
   await new Promise(resolve => requestAnimationFrame(resolve))
   await new Promise(resolve => requestAnimationFrame(resolve))
 
+  if (runId !== chartRunId) return
+
   // Wait for container to have a valid width (may take a few frames)
   // Check the appropriate container based on chart type
   const containerToCheck = isOscillatorType ? oscillatorChartContainer.value : overlayChartContainer.value
@@ -486,6 +492,8 @@ async function initChart() {
     await new Promise(resolve => setTimeout(resolve, INIT_POLL_INTERVAL_MS))
     attempts++
   }
+
+  if (runId !== chartRunId) return
 
   // For overlay indicators, create overlay chart with candlesticks
   if (!isOscillatorType && overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
@@ -592,6 +600,7 @@ async function initChart() {
 }
 
 function destroyChart() {
+  chartRunId++
   if (resizeTimeout) {
     clearTimeout(resizeTimeout)
     resizeTimeout = null

@@ -90,11 +90,17 @@ function sliceData(data: ChartData, maxBars: number): ChartData {
 }
 
 async function fetchJson(url: string): Promise<ChartData> {
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`Failed to load chart data: ${response.status}`)
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 8000)
+  try {
+    const response = await fetch(url, { signal: controller.signal })
+    if (!response.ok) {
+      throw new Error(`Failed to load chart data: ${response.status}`)
+    }
+    return await response.json() as ChartData
+  } finally {
+    clearTimeout(timeoutId)
   }
-  return await response.json() as ChartData
 }
 
 export async function getChartData(options: ChartProviderOptions): Promise<ChartData> {

@@ -121,13 +121,16 @@ When the StochRSI hub is chained from an existing `RsiHub` instance it will reus
 **This is not a normal chaining model.**
 
 ```csharp
-// creates an internal RSI hub
+// creates a new internal RSI hub
 var stochRsiHub = quotes
   .ToStochRsiHub();
+```
 
-// this is helpful in cases where you have an independent 
-// RSI hub and do not want to create duplicate copies
+As an option, if you have an existing RSI hub you may reuse it:
 
+```csharp
+
+// existing hub
 var rsiHub = quotes
   .ToRsiHub();
 

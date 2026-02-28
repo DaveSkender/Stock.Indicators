@@ -428,7 +428,7 @@
       "label": "Test: Integration",
       "detail": "Run integration tests only (requires external dependencies)",
       "type": "shell",
-      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue' || true",
+      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo; test_exit=$?; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue'; exit $test_exit",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
@@ -759,7 +759,7 @@
       "label": "Stop: Simulation hosts",
       "detail": "Stop dotnet processes running tools/simulate or Test.Simulation",
       "type": "shell",
-      "command": "(powershell.exe -NoProfile -Command 'Stop-Process -Name Test.Simulation -Force -ErrorAction SilentlyContinue' || true) && echo '[OK] Simulation hosts successfully stopped' || echo '[INFO] No Simulation server processes found'",
+      "command": "(powershell.exe -NoProfile -Command 'Stop-Process -Name Test.Simulation -Force -ErrorAction SilentlyContinue' && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'",
       "linux": {
         "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
       },
