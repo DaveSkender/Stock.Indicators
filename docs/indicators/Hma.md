@@ -8,9 +8,7 @@ description: Created by Alan Hull, the Hull Moving Average is a modified weighte
 Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified weighted average of price that reduces lag.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/252 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Hma.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="Hma" />
 
 ```csharp
 // C# usage syntax
