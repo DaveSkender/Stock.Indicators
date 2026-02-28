@@ -97,7 +97,7 @@ public class UltimateHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // clear all rolling state
         _shortQueue.Clear();
@@ -107,15 +107,13 @@ public class UltimateHub
         _sumBp2 = _sumTr2 = 0;
         _sumBp3 = _sumTr3 = 0;
 
-        int targetIndex = ProviderCache.IndexGte(timestamp);
-        if (targetIndex <= 0)
+        // restoreIndex < 0 means reset to initial state (no data to preserve)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // rebuild up to but not including the rollback timestamp;
-        // only need the last LongPeriods items to populate the queues correctly
-        int restoreIndex = targetIndex - 1;
+        // rebuild queues: only need the last LongPeriods items up to restoreIndex
         int startIdx = Math.Max(1, restoreIndex + 1 - LongPeriods);
 
         for (int p = startIdx; p <= restoreIndex; p++)
