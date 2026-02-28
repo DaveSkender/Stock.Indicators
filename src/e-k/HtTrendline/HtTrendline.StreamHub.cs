@@ -155,7 +155,7 @@ public class HtTrendlineHub
     /// Restores the state up to the specified timestamp by clearing and rebuilding from cache.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // clear all state arrays
         pr.Clear();
@@ -171,17 +171,13 @@ public class HtTrendlineHub
         sd.Clear();
         it.Clear();
 
-        // rebuild state from provider cache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
         // replay calculations to rebuild state
-        for (int p = 0; p <= targetIndex; p++)
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IReusable reusable = ProviderCache[p];
             _ = ToIndicator(reusable, p);

@@ -145,7 +145,7 @@ public class DpoHub
     /// <summary>
     /// Restores the DPO state and adjusts cache for retroactive calculation requirements.
     /// </summary>
-    /// <param name="timestamp">Point in time to restore from.</param>
+    /// <param name="restoreIndex">Last ProviderCache index to preserve, or -1 to reset.</param>
     /// <remarks>
     /// DPO calculation at any position relies on data values with an offset: DPO[i] = Value[i] - SMA[i + offset].
     /// When a quote is inserted/removed at position p, all positions from (p - offset) onward
@@ -153,11 +153,11 @@ public class DpoHub
     /// This override clears cache entries from the earlier affected position to ensure
     /// all offset-dependent positions are retroactively recalculated during rebuild.
     /// </remarks>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        // Get the mutation index in provider cache
-        int mutationIndex = ProviderCache.IndexGte(timestamp);
-        if (mutationIndex < 0)
+        // Derive mutation index (first entry being removed)
+        int mutationIndex = restoreIndex + 1;
+        if (mutationIndex >= ProviderCache.Count)
         {
             return;
         }

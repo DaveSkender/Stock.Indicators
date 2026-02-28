@@ -67,12 +67,11 @@ public class DemaHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > LookbackPeriods)
+        if (restoreIndex >= LookbackPeriods)
         {
-            DemaResult prior = Cache[i - 1];
+            DemaResult prior = Cache[restoreIndex];
             lastEma1 = prior.Ema1;
             lastEma2 = prior.Ema2;
         }

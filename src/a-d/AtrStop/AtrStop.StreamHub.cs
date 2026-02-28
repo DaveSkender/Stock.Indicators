@@ -162,14 +162,12 @@ public class AtrStopHub
     /// Restores the prior ATR Stop state.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-
         // restore prior stop point
-        if (i > LookbackPeriods)
+        if (restoreIndex >= LookbackPeriods)
         {
-            AtrStopResult resetStop = Cache[i - 1];
+            AtrStopResult resetStop = Cache[restoreIndex];
 
             // prevailing direction and bands
             IsBullish = resetStop.AtrStop >= resetStop.SellStop;

@@ -46,32 +46,22 @@ public class CciHub
     /// Clears and rebuilds _cciList from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear CciList
         _cciList.Clear();
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index == -1)
-        {
-            index = ProviderCache.Count;
-        }
-
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-
         // Optimize: only rebuild the rolling window needed for CciList
         // CciList maintains a _tpBuffer of size LookbackPeriods via Queue.Update()
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+        int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
 
         // Rebuild CciList from ProviderCache
-        for (int p = startIdx; p <= targetIndex; p++)
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             _cciList.Add(quote);

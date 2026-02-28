@@ -206,7 +206,7 @@ public class PmoHub
     }
 
     /// <inheritdoc/>
-    protected override void PruneState(DateTime toTimestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Keep history lists aligned with Cache after provider-driven pruning.
         int targetSize = Cache.Count;

@@ -199,23 +199,20 @@ public class ParabolicSarHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear state
         _buffer.Clear();
         _isInitialized = false;
         _firstReversalFound = false;
 
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild state by replaying history up to timestamp
-        int targetIndex = index - 1;
-
-        for (int p = 0; p <= targetIndex; p++)
+        // Rebuild state by replaying history up to restoreIndex
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             double high = (double)quote.High;

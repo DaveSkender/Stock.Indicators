@@ -37,22 +37,22 @@ Use `RollingWindowMax/Min` utilities instead of O(n) linear scans.
 
 ## RollbackState pattern
 
-Override when maintaining stateful fields:
+Override when maintaining stateful fields.
+The base class computes `restoreIndex` via `IndexBefore` before calling this method.
+`restoreIndex` is the last `ProviderCache` index to preserve, or `-1` to reset everything.
 
 ```csharp
-protected override void RollbackState(DateTime timestamp)
+protected override void RollbackState(int restoreIndex)
 {
-    int targetIndex = ProviderCache.IndexGte(timestamp);
     _window.Clear();
-    if (targetIndex <= 0) return;
-    int restoreIndex = targetIndex - 1;
+    if (restoreIndex < 0) return;
     int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
     for (int p = startIdx; p <= restoreIndex; p++)
         _window.Add(ProviderCache[p].Value);
 }
 ```
 
-Replay up to `targetIndex - 1` (exclusive). The rollback timestamp is recalculated via normal processing.
+Replay up to `restoreIndex` (inclusive). The item at the rollback timestamp is recalculated via normal processing.
 
 ## Testing requirements
 
@@ -96,5 +96,5 @@ Replay up to `targetIndex - 1` (exclusive). The rollback timestamp is recalculat
 ## Constraints
 
 - O(n²) recalculation is forbidden; all updates must be O(1)
-- `RollbackState()` replay is exclusive of rollback timestamp
+- `RollbackState(int restoreIndex)` receives the last index to preserve (`-1` = reset all); replay is inclusive of `restoreIndex`, exclusive of the rollback timestamp
 - Series parity required: results must be numerically identical to StaticSeries

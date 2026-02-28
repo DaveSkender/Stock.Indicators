@@ -78,33 +78,21 @@ public class HurstHub
     /// Restores the buffer state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear buffer
         _buffer.Clear();
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
-
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index < 0)
-        {
-            // Rolling back past all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        int targetIndex = index - 1;
 
         // Rebuild buffer from cache
         // We need at most the last (lookbackPeriods + 1) values
-        int startIdx = Math.Max(0, targetIndex + 1 - (LookbackPeriods + 1));
+        int startIdx = Math.Max(0, restoreIndex + 1 - (LookbackPeriods + 1));
 
-        for (int p = startIdx; p <= targetIndex; p++)
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IReusable item = ProviderCache[p];
             _buffer.Update(LookbackPeriods + 1, item.Value);

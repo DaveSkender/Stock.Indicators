@@ -95,12 +95,11 @@ public class T3Hub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > 0 && Cache.Count > i - 1)
+        if (restoreIndex >= 0 && Cache.Count > restoreIndex)
         {
-            T3Result prior = Cache[i - 1];
+            T3Result prior = Cache[restoreIndex];
             lastEma1 = prior.Ema1;
             lastEma2 = prior.Ema2;
             lastEma3 = prior.Ema3;

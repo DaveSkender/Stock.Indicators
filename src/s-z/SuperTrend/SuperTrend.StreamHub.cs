@@ -148,7 +148,7 @@ public class SuperTrendHub
     /// Restores the prior SuperTrend state.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset all state
         IsBullish = true;
@@ -156,25 +156,13 @@ public class SuperTrendHub
         LowerBand = double.MinValue;
         PrevAtr = double.NaN;
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        int targetIndex = index - 1;
-
-        // Replay up to target to rebuild state
-        for (int i = 0; i <= targetIndex; i++)
+        // Replay up to restoreIndex to rebuild state
+        for (int i = 0; i <= restoreIndex; i++)
         {
             IQuote item = ProviderCache[i];
 

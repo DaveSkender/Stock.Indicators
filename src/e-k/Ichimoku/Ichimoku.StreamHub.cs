@@ -221,7 +221,7 @@ public class IchimokuHub
     /// Restores the rolling window states up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear all windows
         tenkanHighWindow.Clear();
@@ -229,17 +229,14 @@ public class IchimokuHub
         kijunHighWindow.Clear();
         kijunLowWindow.Clear();
 
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
         // Rebuild Tenkan windows
-        int tenkanStart = Math.Max(0, targetIndex - TenkanPeriods + 1);
-        for (int p = tenkanStart; p <= targetIndex; p++)
+        int tenkanStart = Math.Max(0, restoreIndex - TenkanPeriods + 1);
+        for (int p = tenkanStart; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             tenkanHighWindow.Add(quote.High);
@@ -247,8 +244,8 @@ public class IchimokuHub
         }
 
         // Rebuild Kijun windows
-        int kijunStart = Math.Max(0, targetIndex - KijunPeriods + 1);
-        for (int p = kijunStart; p <= targetIndex; p++)
+        int kijunStart = Math.Max(0, restoreIndex - KijunPeriods + 1);
+        for (int p = kijunStart; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             kijunHighWindow.Add(quote.High);
