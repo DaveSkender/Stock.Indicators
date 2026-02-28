@@ -98,19 +98,22 @@ async function fetchJson(url: string): Promise<ChartData> {
 }
 
 export async function getChartData(options: ChartProviderOptions): Promise<ChartData> {
-  const maxBars = options.maxBars ?? 100
+  const normalizedMaxBars =
+    Number.isFinite(options.maxBars) && options.maxBars! > 0
+      ? Math.floor(options.maxBars!)
+      : 100
   const cacheKey = getCacheKey(options.indicatorKey)
 
   if (cacheKey) {
     const memory = memoryCache.get(cacheKey)
     if (memory && Date.now() <= memory.expiresAt) {
-      return sliceData(structuredClone(memory.data), maxBars)
+      return sliceData(structuredClone(memory.data), normalizedMaxBars)
     }
 
     const storage = readStorageCache(cacheKey)
     if (storage) {
       memoryCache.set(cacheKey, storage)
-      return sliceData(structuredClone(storage.data), maxBars)
+      return sliceData(structuredClone(storage.data), normalizedMaxBars)
     }
   }
 
@@ -145,6 +148,6 @@ export async function getChartData(options: ChartProviderOptions): Promise<Chart
     writeStorageCache(cacheKey, payload)
   }
 
-  return sliceData(data, maxBars)
+  return sliceData(data, normalizedMaxBars)
 
 }
