@@ -7,9 +7,7 @@ description: Created by E.W. Dreiss, the Choppiness Index measures the trendines
 
 Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppiness on a scale of 0 to 100, to depict steady trends versus conditions of choppiness.  [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/357 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Chop.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="Chop" />
 
 ```csharp
 // C# usage syntax

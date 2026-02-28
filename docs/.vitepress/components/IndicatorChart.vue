@@ -14,6 +14,9 @@ import {
   LineStyle,
   LineWidth
 } from 'lightweight-charts'
+import { createTimeContext, parseTimestamp } from '../lib/chart-time'
+import { getChartData } from '../lib/chart-data-provider'
+import type { ChartData, SeriesStyle, TimeContext } from '../lib/chart-types'
 
 // Maximum number of bars to display (tail view)
 const MAX_BARS_WIDE = 100
@@ -26,49 +29,9 @@ const INIT_POLL_INTERVAL_MS = 50
 // Debounce delay for resize events (ms)
 const RESIZE_DEBOUNCE_MS = 100
 
-interface ThresholdLine {
-  value: number
-  color: string
-  style?: 'solid' | 'dash'
-  fill?: 'above' | 'below'
-  fillColor?: string
-}
-
-interface SeriesStyle {
-  name: string
-  type?: 'line' | 'area' | 'histogram' | 'baseline' | 'dots' | 'pointer'
-  color?: string
-  lineWidth?: LineWidth
-  lineStyle?: 'solid' | 'dash' | 'dots'
-  data: Array<{
-    timestamp: string
-    value: number | null
-    color?: string
-  }>
-}
-
-interface ChartData {
-  metadata?: {
-    symbol?: string
-    timeframe?: string
-    indicator?: string
-    chartType?: 'overlay' | 'oscillator' | 'candles'
-    timeScale?: 'linear' | 'nonLinear'
-    thresholds?: ThresholdLine[]
-  }
-  candles: Array<{
-    timestamp: string
-    open: number
-    high: number
-    low: number
-    close: number
-    volume?: number
-  }>
-  series: SeriesStyle[]
-}
-
 const props = withDefaults(defineProps<{
   src: string
+  indicatorKey?: string
 }>(), {})
 
 // Get VitePress theme state
@@ -146,43 +109,15 @@ const isMobileViewport = computed(() => viewportWidth.value > 0 && viewportWidth
 // Responsive bar count based on viewport width
 const maxBars = computed(() => isMobileViewport.value ? MAX_BARS_MOBILE : MAX_BARS_WIDE)
 
-function parseTimestamp(timestamp: string): string {
-  try {
-    const date = new Date(timestamp)
-    if (isNaN(date.getTime())) {
-      return '1970-01-01'
-    }
-    return date.toISOString().split('T')[0]
-  } catch {
-    return '1970-01-01'
-  }
-}
-
 async function loadChartData(): Promise<ChartData | null> {
   try {
-    const response = await fetch(props.src)
-    if (!response.ok) {
-      throw new Error(`Failed to load chart data: ${response.status}`)
-    }
-    const data = await response.json() as ChartData
+    const data = await getChartData({
+      src: props.src,
+      indicatorKey: props.indicatorKey,
+      maxBars: maxBars.value
+    })
 
-    // Slice to show only the last maxBars bars
-    const barCount = maxBars.value
-    if (data.candles.length > barCount) {
-      data.candles = data.candles.slice(-barCount)
-    }
-
-    // Slice series data to match
-    if (data.series) {
-      data.series = data.series.map(s => ({
-        ...s,
-        data: s.data.slice(-barCount)
-      }))
-    }
-
-    // Set chart type from metadata (candles map to overlay rendering)
     chartType.value = data.metadata?.chartType === 'oscillator' ? 'oscillator' : 'overlay'
-
     return data
   } catch (error) {
     console.error('Error loading chart data:', error)
@@ -296,79 +231,6 @@ function createOscillatorChart(container: HTMLDivElement): IChartApi {
   })
 }
 
-interface TimeContext {
-  candleTimes: Array<string | number>
-  resolveSeriesTime: (timestamp: string, index: number) => string | number
-}
-
-function usesNonLinearTime(data: ChartData): boolean {
-  if (data.metadata?.timeScale === 'nonLinear') {
-    return true
-  }
-
-  const seen = new Set<string>()
-  let lastTimestamp = Number.NEGATIVE_INFINITY
-
-  for (const candle of data.candles) {
-    const normalized = parseTimestamp(candle.timestamp)
-    if (seen.has(normalized)) {
-      return true
-    }
-    seen.add(normalized)
-
-    const numericTime = new Date(normalized).getTime()
-    if (!Number.isNaN(numericTime)) {
-      if (numericTime < lastTimestamp) {
-        return true
-      }
-      lastTimestamp = numericTime
-    }
-  }
-
-  return false
-}
-
-function createTimeContext(data: ChartData): TimeContext {
-  const nonLinear = usesNonLinearTime(data)
-
-  if (!nonLinear) {
-    return {
-      candleTimes: data.candles.map(c => parseTimestamp(c.timestamp)),
-      resolveSeriesTime: (timestamp: string) => parseTimestamp(timestamp)
-    }
-  }
-
-  const candleTimes = data.candles.map((_, index) => index)
-  const timeIndexLookup = new Map<string, number[]>()
-  const timeIndexOffsets = new Map<string, number>()
-
-  data.candles.forEach((candle, index) => {
-    const key = parseTimestamp(candle.timestamp)
-    if (!timeIndexLookup.has(key)) {
-      timeIndexLookup.set(key, [])
-    }
-    timeIndexLookup.get(key)?.push(index)
-  })
-
-  return {
-    candleTimes,
-    resolveSeriesTime: (timestamp: string, index: number) => {
-      const key = parseTimestamp(timestamp)
-      const indices = timeIndexLookup.get(key)
-      if (!indices || indices.length === 0) {
-        return index
-      }
-      const offset = timeIndexOffsets.get(key) ?? 0
-      const resolved = indices[offset]
-      if (resolved === undefined) {
-        return index
-      }
-      timeIndexOffsets.set(key, offset + 1)
-      return resolved
-    }
-  }
-}
-
 function setupCandlestickSeries(chart: IChartApi, data: ChartData, timeContext: TimeContext) {
   const upColor = ChartColors.StandardGreen
   const downColor = ChartColors.StandardRed
@@ -437,7 +299,7 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
 
   seriesData.forEach((seriesConfig, index) => {
     const color = seriesConfig.color || indicatorColors[index % indicatorColors.length]
-    const lineWidth = seriesConfig.lineWidth || 2
+    const lineWidth = (seriesConfig.lineWidth || 2) as LineWidth
     const lineStyle = getLineStyle(seriesConfig.lineStyle)
 
     let series: ISeriesApi<any>
@@ -772,7 +634,7 @@ onUnmounted(() => {
   destroyChart()
 })
 
-watch(() => props.src, () => {
+watch(() => [props.src, props.indicatorKey], () => {
   destroyChart()
   initChart()
 })

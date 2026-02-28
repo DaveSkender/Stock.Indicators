@@ -8,9 +8,7 @@ description: Created by Quong and Soudack, the Money Flow Index is a price-volum
 Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wiki/Money_flow_index) is a price-volume oscillator that shows buying and selling momentum.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/247 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Mfi.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="Mfi" />
 
 ```csharp
 // C# usage syntax

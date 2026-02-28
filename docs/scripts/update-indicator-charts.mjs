@@ -45,7 +45,7 @@ for (const mdFile of mdFiles) {
   let content = fs.readFileSync(mdPath, 'utf-8');
   
   // Check if already updated
-  if (content.includes('IndicatorChart')) {
+  if (content.includes('IndicatorChart') || content.includes('IndicatorChartPanel')) {
     console.log(`Skipping ${indicatorName} - already updated`);
     skippedCount++;
     continue;
@@ -59,7 +59,7 @@ for (const mdFile of mdFiles) {
   const mdImgPattern = /!\[[^\]]*\]\(\/assets\/charts\/[^)]+\.png\)/gi;
   
   let updated = false;
-  const replacement = `<ClientOnly>\n  <IndicatorChart src="/data/${indicatorName}.json" :height="360" />\n</ClientOnly>`;
+  const replacement = `<IndicatorChartPanel indicator-key="${indicatorName}" />`;
   
   // Check and replace HTML img tags
   if (imgPattern.test(content)) {
