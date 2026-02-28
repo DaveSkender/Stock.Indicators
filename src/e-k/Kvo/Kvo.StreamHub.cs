@@ -206,10 +206,10 @@ public class KvoHub
     }
 
     /// <summary>
-    /// Restore rolling state up to the specified timestamp for accurate rebuilds.
+    /// Restore rolling state up to the specified index for accurate rebuilds.
     /// </summary>
-    /// <param name="timestamp">Timestamp of record.</param>
-    protected override void RollbackState(DateTime timestamp)
+    /// <param name="restoreIndex">Last ProviderCache index to preserve, or -1 to reset.</param>
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset all state
         _prevHlc = 0;
@@ -220,25 +220,13 @@ public class KvoHub
         _prevVfSlowEma = 0;
         _sumVf = 0;
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        int targetIndex = index - 1;
-
-        // Rebuild state by recalculating all values up to targetIndex
-        for (int i = 0; i <= targetIndex; i++)
+        // Rebuild state by recalculating all values up to restoreIndex
+        for (int i = 0; i <= restoreIndex; i++)
         {
             IQuote item = ProviderCache[i];
             double high = (double)item.High;

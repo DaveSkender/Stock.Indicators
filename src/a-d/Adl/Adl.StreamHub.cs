@@ -43,19 +43,12 @@ public class AdlHub : ChainHub<IQuote, AdlResult>
     /// Restores the running ADL sum to the state immediately before the rollback timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int targetIndex = ProviderCache.IndexGte(timestamp);
-
-        if (targetIndex <= 0)
-        {
-            _previousAdl = 0;
-            return;
-        }
-
-        // Restore from the last cache entry before the rollback point
-        int restoreIndex = targetIndex - 1;
-        _previousAdl = Cache[restoreIndex].Adl;
+        // restore from the last cache entry before the rollback point
+        _previousAdl = restoreIndex >= 0
+            ? Cache[restoreIndex].Adl
+            : 0;
     }
 
     /// <inheritdoc/>

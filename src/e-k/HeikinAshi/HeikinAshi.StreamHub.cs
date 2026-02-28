@@ -96,30 +96,24 @@ public class HeikinAshiHub
     /// Restores the state to the last result before or at the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // restore previous open/close markers
-        if (Cache.Count != 0)
+        if (Cache.Count != 0 && restoreIndex >= 0)
         {
-            bool found = false;
-            HeikinAshiResult lastResult = default!;
+            DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
+
             for (int j = Cache.Count - 1; j >= 0; j--)
             {
                 HeikinAshiResult c = Cache[j];
-                if (c.Timestamp <= timestamp)
+                if (c.Timestamp <= preserveTimestamp)
                 {
-                    lastResult = c;
-                    found = true;
-                    break;
+                    _prevOpen = c.Open;
+                    _prevClose = c.Close;
+                    return;
                 }
             }
 
-            if (found)
-            {
-                _prevOpen = lastResult.Open;
-                _prevClose = lastResult.Close;
-                return;
-            }
             // else: fall through to seed from first quote/defaults below
         }
 

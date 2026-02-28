@@ -283,7 +283,7 @@ public class PmoHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset state - will be recalculated during rebuild
         prevRocEma = double.NaN;

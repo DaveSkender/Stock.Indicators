@@ -45,7 +45,7 @@ public class PivotPointsHub
     /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset all state
         windowId = 0;
@@ -56,17 +56,13 @@ public class PivotPointsHub
         windowClose = 0;
         windowPoint = new();
 
-        // Find the index for the rollback timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
         // Rebuild state up to the rollback point
-        int targetIndex = index - 1;
-
-        for (int p = 0; p <= targetIndex; p++)
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote q = ProviderCache[p];
 

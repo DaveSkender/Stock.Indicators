@@ -85,7 +85,7 @@ public class UlcerIndexHub
     /// so provider history mutations (Add/Remove) are handled automatically.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // No stateful fields to rollback.
         // Calculation relies entirely on ProviderCache which is managed by the base class.

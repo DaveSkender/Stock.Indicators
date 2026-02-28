@@ -82,14 +82,12 @@ public class EpmaHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int targetIndex = ProviderCache.IndexGte(timestamp);
-
-        // Reset counters to match the target index
+        // Reset counters to match the restore point
         // NOTE: Do NOT reset globalIndexOffset - it tracks provider pruning and must persist across rollbacks
-        itemsAdded = targetIndex;
-        lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
+        itemsAdded = restoreIndex + 1;
+        lastSeenTimestamp = restoreIndex >= 0 ? ProviderCache[restoreIndex].Timestamp : null;
     }
 
     /// <inheritdoc/>
