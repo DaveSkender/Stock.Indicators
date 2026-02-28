@@ -9,7 +9,6 @@ description: Slope of the best fit line is determined by an ordinary least-squar
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
 
 <IndicatorChartPanel indicator-key="Slope" />
-<IndicatorChartPanel indicator-key="Slope" />
 
 ```csharp
 // C# usage syntax
