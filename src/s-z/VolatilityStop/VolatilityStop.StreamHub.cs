@@ -196,7 +196,7 @@ public class VolatilityStopHub
     }
 
     /// <summary>
-    /// Restores the Volatility Stop state up to the specified timestamp.
+    /// Restores the Volatility Stop state up to the specified index.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)

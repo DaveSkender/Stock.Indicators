@@ -273,6 +273,9 @@ public class ConnorsRsiHub
                 prevValue = value;
                 streak = 0;
                 streakBuffer.Add(0);
+                // Match ToIndicator: at i=0, prevValue is set to currentValue before
+                // the gain formula, so gain = (value - value)/value = 0.
+                gainBuffer.Enqueue(!double.IsNaN(value) && value > 0 ? 0.0 : double.NaN);
             }
             else
             {
