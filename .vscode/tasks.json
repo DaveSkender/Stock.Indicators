@@ -437,8 +437,7 @@
       "label": "Test: All",
       "detail": "Run all unit, regression, and integration tests (excluding performance or website tests)",
       "dependsOn": [
-        "Clean: .NET Solution (dotnet clean)",
-        "Build: .NET Solution (not incremental)",
+        "Build: .NET Solution (incremental)",
         "Test: Unit tests",
         "Test: Regression tests",
         "Test: Integration",
