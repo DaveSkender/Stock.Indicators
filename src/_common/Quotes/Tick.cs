@@ -30,6 +30,10 @@ public record Tick
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Tick"/> class.
+    /// <remarks>
+    /// This parameterless constructor exists for serialization/deserialization
+    /// scenarios. Use the primary constructor with explicit values for normal usage.
+    /// </remarks>
     /// </summary>
     public Tick()
         : this(default, default, default, null) { }

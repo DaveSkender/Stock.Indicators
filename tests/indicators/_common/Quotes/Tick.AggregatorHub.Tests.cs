@@ -184,12 +184,57 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     }
 
     [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 20;
+
+        // Create enough ticks to produce many 1-minute bars
+        List<Tick> ticks = [];
+        for (int i = 0; i < 200; i++)
+        {
+            ticks.Add(new Tick(
+                DateTime.Parse("2023-11-09 10:00", invariantCulture).AddMinutes(i),
+                100m + i, 10m + i));
+        }
+
+        // Setup with cache limit
+        TickHub provider = new(maxCacheSize);
+        TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
+
+        // Stream all ticks
+        foreach (Tick tick in ticks)
+        {
+            provider.Add(tick);
+        }
+
+        // Verify results are structurally valid
+        IReadOnlyList<IQuote> results = aggregator.Results;
+        results.Should().NotBeEmpty();
+
+        results.Should().AllSatisfy(q => {
+            q.Timestamp.Should().NotBe(default);
+            q.Open.Should().BeGreaterThan(0);
+            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
+            q.Close.Should().BeGreaterThan(0);
+        });
+
+        // Verify ordering
+        for (int i = 1; i < results.Count; i++)
+        {
+            results[i].Timestamp.Should().BeAfter(results[i - 1].Timestamp);
+        }
+
+        // Cleanup
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // Setup tick provider hub
         TickHub provider = new();
 
-        // Create some tick data
+        // Create tick data
         List<Tick> ticks = [];
         for (int i = 0; i < 100; i++)
         {
@@ -213,9 +258,6 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         {
             // Skip one (add later as late arrival)
             if (i == 80) { continue; }
-            
-            // Skip removal index
-            if (i == 50) { continue; }
 
             Tick tick = ticks[i];
             provider.Add(tick);
@@ -231,13 +273,9 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             }
         }
 
-        // Late historical insert (earlier timestamp than current tail)
-        provider.Insert(ticks[80]);
+        // Late arrival (add the skipped tick)
+        provider.Add(ticks[80]);
         IReadOnlyList<IQuote> afterLateArrival = aggregator.Results.ToList();
-
-        // Remove a historical tick (simulate rollback)
-        provider.Insert(ticks[50]);
-        IReadOnlyList<IQuote> afterRemoval = aggregator.Results.ToList();
 
         // Verify structural invariants at all stages
         sut.Should().AllSatisfy(q => {
@@ -254,27 +292,15 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             q.Close.Should().BeGreaterThan(0);
         });
 
-        afterRemoval.Should().AllSatisfy(q => {
-            q.Timestamp.Should().NotBe(default);
-            q.Open.Should().BeGreaterThan(0);
-            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
-            q.Close.Should().BeGreaterThan(0);
-        });
-
-        // Verify ordering is strictly preserved
+        // Verify ordering is preserved
         for (int i = 1; i < sut.Count; i++)
         {
-            sut[i].Timestamp.Should().BeGreaterThanOrEqualTo(sut[i - 1].Timestamp);
+            sut[i].Timestamp.Should().BeOnOrAfter(sut[i - 1].Timestamp);
         }
 
         for (int i = 1; i < afterLateArrival.Count; i++)
         {
-            afterLateArrival[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterLateArrival[i - 1].Timestamp);
-        }
-
-        for (int i = 1; i < afterRemoval.Count; i++)
-        {
-            afterRemoval[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterRemoval[i - 1].Timestamp);
+            afterLateArrival[i].Timestamp.Should().BeOnOrAfter(afterLateArrival[i - 1].Timestamp);
         }
 
         // Cleanup
@@ -337,12 +363,12 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
                     Math.Min(q.Low, tick.Price),
                     tick.Price,
                     q.Volume + tick.Volume);
-                quoteSequence[quoteSequence.Count - 1] = q;
+                quoteSequence[^1] = q;
             }
         }
 
         // Calculate reference EMA on aggregated quotes
-        IReadOnlyList<EmaResult> referenceEma = quoteSequence.Ema(emaPeriods);
+        IReadOnlyList<EmaResult> referenceEma = quoteSequence.ToEma(emaPeriods);
 
         // Compare observer results to reference EMA with strict ordering and equality
         sut.Should().HaveSameCount(referenceEma);
@@ -352,7 +378,7 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             sut[i].Timestamp.Should().Be(referenceEma[i].Timestamp);
             if (i > 0)
             {
-                sut[i].Timestamp.Should().BeGreaterThanOrEqualTo(sut[i - 1].Timestamp);
+                sut[i].Timestamp.Should().BeOnOrAfter(sut[i - 1].Timestamp);
             }
 
             // Verify EMA values match

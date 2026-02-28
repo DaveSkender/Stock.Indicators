@@ -95,7 +95,7 @@ public class TickAggregatorHub
             // Check for duplicate execution IDs with time-based pruning
             if (!string.IsNullOrEmpty(item.ExecutionId))
             {
-                if (_processedExecutionIds.TryGetValue(item.ExecutionId, out DateTime processedTime))
+                if (_processedExecutionIds.ContainsKey(item.ExecutionId))
                 {
                     // Skip duplicate tick
                     return;
@@ -273,16 +273,24 @@ public class TickAggregatorHub
         => $"TICK-AGG<{AggregationPeriod}>: {Cache.Count} items";
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         lock (_addLock)
         {
             _currentBar = null;
             _currentBarTimestamp = default;
 
+            if (restoreIndex < 0)
+            {
+                _processedExecutionIds.Clear();
+                return;
+            }
+
             // Clear execution IDs for rolled back period
+            DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
+
             List<string> toRemove = _processedExecutionIds
-                .Where(kvp => kvp.Value >= timestamp)
+                .Where(kvp => kvp.Value > preserveTimestamp)
                 .Select(kvp => kvp.Key)
                 .ToList();
 

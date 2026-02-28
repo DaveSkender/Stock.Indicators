@@ -12,27 +12,41 @@ public class TickHub
     private readonly bool _isStandalone;
 
     /// <summary>
+    /// Absolute maximum cache size to prevent overflow.
+    /// </summary>
+    private const int absoluteMaxCacheSize = (int)(0.8 * int.MaxValue);
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="TickHub"/> class without its own provider.
     /// </summary>
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public TickHub(int? maxCacheSize = null)
-        : base(new BaseProvider<ITick>())
+        : base(new BaseProvider<ITick>(ValidateAndGetMaxCacheSize(maxCacheSize)))
     {
         _isStandalone = true;
+        Name = "TICK-HUB";
+    }
 
-        const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
+    /// <summary>
+    /// Validates and returns the max cache size.
+    /// </summary>
+    /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
+    /// <returns>Validated max cache size.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    private static int ValidateAndGetMaxCacheSize(int? maxCacheSize)
+    {
+        const int maxCacheSizeDefault = 100_000;
 
-        if (maxCacheSize is not null and > maxCacheSizeDefault)
+        if (maxCacheSize is (not null and <= 0) or > absoluteMaxCacheSize)
         {
             string message
-                = $"'{nameof(maxCacheSize)}' must be less than {maxCacheSizeDefault}.";
+                = $"'{nameof(maxCacheSize)}' must be greater than 0 and not over {absoluteMaxCacheSize}.";
 
             throw new ArgumentOutOfRangeException(
                 nameof(maxCacheSize), maxCacheSize, message);
         }
 
-        MaxCacheSize = maxCacheSize ?? maxCacheSizeDefault;
-        Name = "TICK-HUB";
+        return maxCacheSize ?? maxCacheSizeDefault;
     }
 
     /// <summary>
@@ -43,8 +57,6 @@ public class TickHub
         IStreamObservable<ITick> provider)
         : base(provider ?? throw new ArgumentNullException(nameof(provider)))
     {
-        ArgumentNullException.ThrowIfNull(provider);
-
         _isStandalone = false;
         Name = "TICK-HUB";
         Reinitialize();
@@ -151,8 +163,14 @@ public class TickHub
         // instead, just notify observers to rebuild from this hub's cache
         if (_isStandalone)
         {
+            // compute restore index from cache
+            int gte = Cache.IndexGte(fromTimestamp);
+            int restoreIndex = gte == -1
+                ? Cache.Count - 1
+                : gte - 1;
+
             // rollback internal state
-            RollbackState(fromTimestamp);
+            RollbackState(restoreIndex);
 
             // notify observers to rebuild from this hub
             NotifyObserversOnRebuild(fromTimestamp);

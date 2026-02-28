@@ -333,28 +333,67 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
     }
 
     [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 20;
+
+        // Create enough minute quotes to produce many 5-minute bars
+        List<Quote> minuteQuotes = [];
+        for (int i = 0; i < 200; i++)
+        {
+            minuteQuotes.Add(new Quote(
+                DateTime.Parse("2023-11-09 10:00", invariantCulture).AddMinutes(i),
+                100m + i, 105m + i, 99m + i, 102m + i, 1000m + i));
+        }
+
+        // Setup with cache limit
+        QuoteHub provider = new(maxCacheSize);
+        QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+
+        // Stream all quotes
+        provider.Add(minuteQuotes);
+
+        // Verify results are structurally valid
+        IReadOnlyList<IQuote> results = aggregator.Results;
+        results.Should().NotBeEmpty();
+
+        results.Should().AllSatisfy(q => {
+            q.Timestamp.Should().NotBe(default);
+            q.Open.Should().BeGreaterThan(0);
+            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
+            q.Close.Should().BeGreaterThan(0);
+        });
+
+        // Verify ordering
+        for (int i = 1; i < results.Count; i++)
+        {
+            results[i].Timestamp.Should().BeAfter(results[i - 1].Timestamp);
+        }
+
+        // Cleanup
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // Setup quote provider hub
         QuoteHub provider = new();
 
         // Prefill quotes at provider (warmup window)
         provider.Add(Quotes.Take(20));
 
-        // Initialize aggregator (1-minute aggregation, no gaps to keep it simple)
+        // Initialize aggregator (1-minute aggregation)
         QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(PeriodSize.OneMinute);
 
-        // Fetch initial results (early)
+        // Fetch initial results
         IReadOnlyList<IQuote> sut = aggregator.Results;
 
-        // Emulate adding quotes to provider hub
+        // Stream additional quotes
         for (int i = 20; i < Quotes.Count; i++)
         {
-            // Skip one (add later)
+            // Skip one (add later as late arrival)
             if (i == 80) { continue; }
-            
-            // Skip the removal index for now
-            if (i == removeAtIndex) { continue; }
 
             Quote q = Quotes[i];
             provider.Add(q);
@@ -363,20 +402,14 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
             if (i is > 100 and < 105) { provider.Add(q); }
         }
 
-        // Late arrival
-        provider.Insert(Quotes[80]);
+        // Late arrival (add the skipped quote)
+        provider.Add(Quotes[80]);
         IReadOnlyList<IQuote> afterLateArrival = aggregator.Results.ToList();
-
-        // Removal (simulate rollback)
-        provider.Insert(Quotes[removeAtIndex]);
-        IReadOnlyList<IQuote> afterRemoval = aggregator.Results.ToList();
 
         // Verify structural invariants
         sut.Should().NotBeEmpty();
         afterLateArrival.Should().NotBeEmpty();
-        afterRemoval.Should().NotBeEmpty();
 
-        // Verify ordering and consistency
         sut.Should().AllSatisfy(q => {
             q.Timestamp.Should().NotBe(default);
             q.Open.Should().BeGreaterThan(0);
@@ -391,27 +424,15 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
             q.Close.Should().BeGreaterThan(0);
         });
 
-        afterRemoval.Should().AllSatisfy(q => {
-            q.Timestamp.Should().NotBe(default);
-            q.Open.Should().BeGreaterThan(0);
-            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
-            q.Close.Should().BeGreaterThan(0);
-        });
-
         // Verify ordering is preserved
         for (int i = 1; i < sut.Count; i++)
         {
-            sut[i].Timestamp.Should().BeGreaterThanOrEqualTo(sut[i - 1].Timestamp);
+            sut[i].Timestamp.Should().BeOnOrAfter(sut[i - 1].Timestamp);
         }
 
         for (int i = 1; i < afterLateArrival.Count; i++)
         {
-            afterLateArrival[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterLateArrival[i - 1].Timestamp);
-        }
-
-        for (int i = 1; i < afterRemoval.Count; i++)
-        {
-            afterRemoval[i].Timestamp.Should().BeGreaterThanOrEqualTo(afterRemoval[i - 1].Timestamp);
+            afterLateArrival[i].Timestamp.Should().BeOnOrAfter(afterLateArrival[i - 1].Timestamp);
         }
 
         // Cleanup

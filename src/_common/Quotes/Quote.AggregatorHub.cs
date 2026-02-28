@@ -83,21 +83,16 @@ public class QuoteAggregatorHub
             DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
             // Check if this exact input quote was already processed (duplicate detection)
-            if (_inputQuoteTracker.TryGetValue(item.Timestamp, out IQuote? previousQuote))
+            if (_inputQuoteTracker.TryGetValue(item.Timestamp, out IQuote? _))
             {
-                // This is an update to a previously seen quote - need to subtract old values
-                // and add new values to avoid double-counting
-                if (previousQuote.Timestamp == item.Timestamp)
-                {
-                    // Update tracker with new quote
-                    _inputQuoteTracker[item.Timestamp] = item;
+                // Update tracker with new quote
+                _inputQuoteTracker[item.Timestamp] = item;
 
-                    // Rebuild from this bar to recalculate correctly
-                    if (_currentBar != null && barTimestamp == _currentBarTimestamp)
-                    {
-                        Rebuild(barTimestamp);
-                        return;
-                    }
+                // Rebuild from this bar to recalculate correctly
+                if (_currentBar != null && barTimestamp == _currentBarTimestamp)
+                {
+                    Rebuild(barTimestamp);
+                    return;
                 }
             }
             else
@@ -250,16 +245,24 @@ public class QuoteAggregatorHub
         => $"QUOTE-AGG<{AggregationPeriod}>: {Cache.Count} items";
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         lock (_addLock)
         {
             _currentBar = null;
             _currentBarTimestamp = default;
 
+            if (restoreIndex < 0)
+            {
+                _inputQuoteTracker.Clear();
+                return;
+            }
+
             // Clear input tracker for rolled back period
+            DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
+
             List<DateTime> toRemove = _inputQuoteTracker
-                .Where(kvp => kvp.Key >= timestamp)
+                .Where(kvp => kvp.Key > preserveTimestamp)
                 .Select(kvp => kvp.Key)
                 .ToList();
 
