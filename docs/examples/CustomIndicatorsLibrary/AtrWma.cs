@@ -14,11 +14,6 @@ public record AtrWmaResult
     /// <inheritdoc/>
     [JsonIgnore]
     public double Value => AtrWma.Null2NaN();
-
-    public override bool Equals(object obj)
-    {
-        return Equals(obj as AtrWmaResult);
-    }
 }
 
 public static class CustomIndicators
