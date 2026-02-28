@@ -8,9 +8,7 @@ description: Created by Marc Chaikin, the Accumulation / Distribution Line is a 
 Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.wikipedia.org/wiki/Accumulation/distribution_index) is a rolling accumulation of Chaikin Money Flow Volume.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/271 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Adl.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="Adl" />
 
 ```csharp
 // C# usage syntax

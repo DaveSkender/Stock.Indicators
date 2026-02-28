@@ -9,42 +9,8 @@
     "MD013": false,
     "MD024": { "siblings_only": true },
     "MD025": false,
-    // MD028: Allow blank lines in blockquotes, since
-    // it can occur when we have adjacent warning blocks
     "MD028": false,
-    "MD033": {
-      "allowed_elements": [
-        "a",
-        "code",
-        "details",
-        "summary",
-        "sub",
-        "sup",
-        "kbd",
-        "abbr",
-        "img",
-        "br",
-        "div",
-        "p",
-        "h1",
-        "h2",
-        "h3",
-        "ul",
-        "li",
-        "nav",
-        "script",
-        "style",
-        "span",
-        "Badge",
-        "ClientOnly",
-        "IndicatorChart",
-        "Contributors",
-        "TQuote",
-        "clientonly",
-        "indicatorchart",
-        "contributors"
-      ]
-    },
+    "MD033": false,  // accomodate vue components
     "MD041": false,  // accomodate website markdown
     "MD060": false
   }
