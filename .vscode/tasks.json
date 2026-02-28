@@ -777,7 +777,7 @@
       "label": "Stop: SseServer hosts",
       "detail": "Stop dotnet/Test.SseServer processes running tools/sse-server or Test.SseServer.exe",
       "type": "shell",
-      "command": "(netstat -ano 2>/dev/null | grep -E ':5001\\s' | awk '{print $NF}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue' || true) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'",
+      "command": "(netstat -ano 2>/dev/null | grep -E ':5001\\s' | awk '{print $NF}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue' && echo '[OK] SSE Server hosts successfully stopped') || echo '[INFO] No SSE Server server processes found'",
       "linux": {
         "command": "((lsof -ti:5001 2>/dev/null | xargs -r kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
       },
