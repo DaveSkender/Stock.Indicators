@@ -8,9 +8,7 @@ description: Created by Tushar Chande and Stanley Kroll, Stochastic RSI is a Sto
 Created by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator](/indicators/Stoch).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/236 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/StochRsi.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="StochRsi" />
 
 ```csharp
 // C# usage syntax
@@ -123,19 +121,22 @@ When the StochRSI hub is chained from an existing `RsiHub` instance it will reus
 **This is not a normal chaining model.**
 
 ```csharp
-// creates an internal RSI hub
+// creates a new internal RSI hub
 var stochRsiHub = quotes
   .ToStochRsiHub();
+```
 
-// this is helpful in cases where you have an independent 
-// RSI hub and do not want to create duplicate copies
+As an option, if you have an existing RSI hub you may reuse it:
 
+```csharp
+
+// existing hub
 var rsiHub = quotes
   .ToRsiHub();
 
-// does not create 2nd internal huba separate internal RSI hub
+// does not create a 2nd internal hub
 var stochRsiHub = rsiHub
-  .ToStochRsiHub();  // does not create 2nd internal hub
+  .ToStochRsiHub();
 
 // ❌ RSI → [ RSI ] → StochRSI
 // ✅ RSI → StochRSI

@@ -8,9 +8,7 @@ description: Created by Laurence Connors, the ConnorsRSI is a composite oscillat
 Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf) is a composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.  See [analysis](https://alvarezquanttrading.com/blog/connorsrsi-analysis).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/260 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/ConnorsRsi.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="ConnorsRsi" />
 
 ```csharp
 // C# usage syntax

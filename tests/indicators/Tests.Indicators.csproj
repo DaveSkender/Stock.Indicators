@@ -1,25 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-
     <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <IsPublishable>False</IsPublishable>
-
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
@@ -28,20 +21,15 @@
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="../../src/Indicators.csproj" />
   </ItemGroup>
-
   <ItemGroup>
-
     <None Update="_testdata/quotes/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="_testdata/results/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-
   </ItemGroup>
-
 </Project>

@@ -8,9 +8,7 @@ description: Created by J. Welles Wilder, the Average Directional Index (ADX) is
 Created by J. Welles Wilder, the [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is part of the Directional Movement system (commonly referred to as DMI). This system includes the Positive and Negative Directional Indicators (+DI and −DI), the Directional Index (DX), and ADX, and is used to measure the strength of price trends.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
 
-<ClientOnly>
-  <IndicatorChart src="/data/Adx.json" :height="360" />
-</ClientOnly>
+<IndicatorChartPanel indicator-key="Adx" />
 
 ```csharp
 // C# usage syntax

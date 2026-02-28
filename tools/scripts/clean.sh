@@ -55,4 +55,4 @@ for file in "${DELETE_FILES[@]}"; do
 done
 
 echo ""
-echo "✓ Cleanup completed!"
+echo "✓ Cache deletes completed!"

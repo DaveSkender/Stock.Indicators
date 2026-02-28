@@ -53,7 +53,7 @@ public partial class Quotes : TestBase
 
         for (int i = 1; i < r1.Count; i++)
         {
-            (r1[i].Timestamp >= r1[i - 1].Timestamp).Should().BeTrue();
+            Assert.IsGreaterThanOrEqualTo(r1[i - 1].Timestamp, r1[i].Timestamp);
         }
 
         // should be 50 results and no index corruption
@@ -62,7 +62,7 @@ public partial class Quotes : TestBase
 
         for (int i = 1; i < r2.Count; i++)
         {
-            (r2[i].Timestamp >= r2[i - 1].Timestamp).Should().BeTrue();
+            Assert.IsGreaterThanOrEqualTo(r2[i - 1].Timestamp, r2[i].Timestamp);
         }
 
         // should be original 200 periods and no index corruption, after temp mods
@@ -70,7 +70,7 @@ public partial class Quotes : TestBase
 
         for (int i = 1; i < h.Count; i++)
         {
-            (h[i].Timestamp >= h[i - 1].Timestamp).Should().BeTrue();
+            Assert.IsGreaterThanOrEqualTo(h[i - 1].Timestamp, h[i].Timestamp);
         }
     }
 
