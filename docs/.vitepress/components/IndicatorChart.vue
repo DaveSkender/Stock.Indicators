@@ -14,7 +14,7 @@ import {
   LineStyle,
   LineWidth
 } from 'lightweight-charts'
-import { createTimeContext, parseTimestamp } from '../lib/chart-time'
+import { createTimeContext } from '../lib/chart-time'
 import { getChartData } from '../lib/chart-data-provider'
 import type { ChartData, SeriesStyle, TimeContext } from '../lib/chart-types'
 
