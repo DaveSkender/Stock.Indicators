@@ -5,6 +5,8 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AdlHub : ChainHub<IQuote, AdlResult>
 {
+    private double _previousAdl;
+
     internal AdlHub(IQuoteProvider<IQuote> provider)
         : base(provider)
     {
@@ -30,9 +32,30 @@ public class AdlHub : ChainHub<IQuote, AdlResult>
             item.Low,
             item.Close,
             item.Volume,
-            i > 0 ? Cache[i - 1].Value : 0);
+            _previousAdl);
+
+        _previousAdl = r.Adl;
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Restores the running ADL sum to the state immediately before the rollback timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        int targetIndex = ProviderCache.IndexGte(timestamp);
+
+        if (targetIndex <= 0)
+        {
+            _previousAdl = 0;
+            return;
+        }
+
+        // Restore from the last cache entry before the rollback point
+        int restoreIndex = targetIndex - 1;
+        _previousAdl = Cache[restoreIndex].Adl;
     }
 
     /// <inheritdoc/>
