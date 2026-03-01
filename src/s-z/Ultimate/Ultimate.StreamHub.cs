@@ -135,6 +135,12 @@ public class UltimateHub
     /// the running sums by subtracting the evicted entry (if at capacity) and
     /// adding the new entry.
     /// </summary>
+    /// <param name="queue">The bounded queue of (Bp, Tr) pairs.</param>
+    /// <param name="capacity">Maximum number of entries to retain.</param>
+    /// <param name="bp">Buying pressure value to enqueue.</param>
+    /// <param name="tr">True range value to enqueue.</param>
+    /// <param name="sumBp">Running sum of buying pressure, updated in place.</param>
+    /// <param name="sumTr">Running sum of true range, updated in place.</param>
     private static void UpdateRollingSum(
         Queue<(double Bp, double Tr)> queue, int capacity,
         double bp, double tr,
