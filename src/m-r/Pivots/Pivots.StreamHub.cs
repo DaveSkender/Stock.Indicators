@@ -211,7 +211,7 @@ public class PivotsHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // No state to rollback for Pivots streaming implementation
         // Pivot points are calculated independently for each position

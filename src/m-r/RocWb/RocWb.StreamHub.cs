@@ -129,24 +129,20 @@ public class RocWbHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear state
         prevEma = double.NaN;
         rocSqBuffer.Clear();
         rocEmaInitBuffer.Clear();
 
-        // Rebuild from ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
-        // Replay state up to target index
-        for (int p = 0; p <= targetIndex; p++)
+        // Replay state up to restoreIndex
+        for (int p = 0; p <= restoreIndex; p++)
         {
             IReusable current = ProviderCache[p];
 

@@ -95,7 +95,7 @@ public class ChopHub
     /// Clears and rebuilds rolling windows and true range buffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear rolling windows and buffer
         _trueHighWindow.Clear();
@@ -103,24 +103,15 @@ public class ChopHub
         _trueRangeBuffer.Clear();
         _sumTrueRange = 0;
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index == -1)
-        {
-            index = ProviderCache.Count;
-        }
-
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-        int startIdx = Math.Max(1, targetIndex + 1 - LookbackPeriods);
-
         // Rebuild rolling windows and buffer from ProviderCache
-        for (int p = startIdx; p <= targetIndex; p++)
+        int startIdx = Math.Max(1, restoreIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote current = ProviderCache[p];
             double prevClose = (double)ProviderCache[p - 1].Close;

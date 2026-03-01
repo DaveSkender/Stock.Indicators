@@ -125,10 +125,8 @@ public class SlopeHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int targetIndex = ProviderCache.IndexGte(timestamp);
-
         // Clear buffer
         buffer.Clear();
 
@@ -136,18 +134,17 @@ public class SlopeHub
         currentSlope = null;
         currentIntercept = null;
 
-        // Reset counters to match the target index
+        // Reset counters to match the restore point
         // NOTE: Do NOT reset globalIndexOffset - it tracks provider pruning and must persist across rollbacks
-        itemsAdded = targetIndex;
-        lastSeenTimestamp = targetIndex > 0 ? ProviderCache[targetIndex - 1].Timestamp : null;
+        itemsAdded = restoreIndex + 1;
+        lastSeenTimestamp = restoreIndex >= 0 ? ProviderCache[restoreIndex].Timestamp : null;
 
-        if (targetIndex <= LookbackPeriods - 1)
+        if (restoreIndex < LookbackPeriods - 1)
         {
             return;
         }
 
-        // Rebuild buffer from cache up to targetIndex - 1
-        int restoreIndex = targetIndex - 1;
+        // Rebuild buffer from cache up to restoreIndex
         int startIdx = Math.Max(0, restoreIndex - LookbackPeriods + 1);
 
         for (int p = startIdx; p <= restoreIndex; p++)

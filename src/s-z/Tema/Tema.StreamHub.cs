@@ -70,12 +70,11 @@ public class TemaHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > LookbackPeriods)
+        if (restoreIndex >= LookbackPeriods)
         {
-            TemaResult prior = Cache[i - 1];
+            TemaResult prior = Cache[restoreIndex];
             lastEma1 = prior.Ema1;
             lastEma2 = prior.Ema2;
             lastEma3 = prior.Ema3;

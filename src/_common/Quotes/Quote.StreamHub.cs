@@ -172,7 +172,11 @@ public class QuoteHub
             lock (CacheLock)
             {
                 // rollback internal state
-                RollbackState(fromTimestamp);
+                int gte = Cache.IndexGte(fromTimestamp);
+                int restoreIndex = gte == -1
+                    ? Cache.Count - 1
+                    : gte - 1;
+                RollbackState(restoreIndex);
 
                 // notify observers to rebuild from this hub (inside lock
                 // to ensure cache consistency before any new items are added)

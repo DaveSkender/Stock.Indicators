@@ -87,12 +87,11 @@ public class TrixHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > LookbackPeriods)
+        if (restoreIndex >= LookbackPeriods)
         {
-            TrixResult prior = Cache[i - 1];
+            TrixResult prior = Cache[restoreIndex];
             lastEma1 = prior.Ema1;
             lastEma2 = prior.Ema2;
             lastEma3 = prior.Ema3 ?? double.NaN;

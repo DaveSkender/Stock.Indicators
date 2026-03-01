@@ -174,8 +174,12 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
     {
+        // compute restore index: last ProviderCache entry before rollback point
+        int gteIndex = ProviderCache.IndexGte(fromTimestamp);
+        int restoreIndex = (gteIndex == -1 ? ProviderCache.Count : gteIndex) - 1;
+
         // rollback internal state
-        RollbackState(fromTimestamp);
+        RollbackState(restoreIndex);
 
         // remove cache entries
         Cache.RemoveAll(c => c.Timestamp >= fromTimestamp);
@@ -360,16 +364,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Rollbacks internal state to a point in time.
-    /// Behavior varies by indicator.
+    /// Restores internal state to match entries through restoreIndex.
     /// </summary>
     /// <remarks>
-    /// Override when indicator needs to rollback state to a
-    /// point in time (e.g. when rebuilding cache). Example:
-    /// <see cref="AtrStopHub.RollbackState(DateTime)"/>
+    /// Override when indicator maintains stateful fields.
+    /// Called before cache entries are removed during rollback.
     /// </remarks>
-    /// <param name="timestamp">Point in time to restore.</param>
-    protected virtual void RollbackState(DateTime timestamp)
+    /// <param name="restoreIndex">
+    /// Last ProviderCache index to retain, or -1 when no entries
+    /// precede the rollback point (reset to initial state).
+    /// </param>
+    protected virtual void RollbackState(int restoreIndex)
     {
         // default: do nothing
     }

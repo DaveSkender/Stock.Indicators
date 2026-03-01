@@ -246,7 +246,7 @@ public class ConnorsRsiHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset state
         streak = 0;
@@ -256,17 +256,13 @@ public class ConnorsRsiHub
         gainBuffer.Clear();
         streakBuffer.Clear();
 
-        // Restore state from cache up to the timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        int targetIndex = index - 1;
-
         // Replay values to restore state
-        for (int i = 0; i <= targetIndex; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
             // Get original quote value from the cached quote provider results
             double value = _quoteCache[i].Value;
@@ -277,6 +273,9 @@ public class ConnorsRsiHub
                 prevValue = value;
                 streak = 0;
                 streakBuffer.Add(0);
+                // Match ToIndicator: at i=0, prevValue is set to currentValue before
+                // the gain formula, so gain = (value - value)/value = 0.
+                gainBuffer.Enqueue(!double.IsNaN(value) && value > 0 ? 0.0 : double.NaN);
             }
             else
             {

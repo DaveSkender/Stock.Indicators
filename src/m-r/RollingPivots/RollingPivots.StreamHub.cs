@@ -119,34 +119,30 @@ public class RollingPivotsHub
     /// Clears and rebuilds state from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear state
         _highWindow.Clear();
         _lowWindow.Clear();
         _offsetBuffer.Clear();
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-        int totalNeeded = WindowPeriods + OffsetPeriods;
-        int startIdx = Math.Max(0, targetIndex + 1 - totalNeeded);
-
         // Rebuild rolling windows and offset buffer from ProviderCache
-        for (int p = startIdx; p <= targetIndex; p++)
+        int totalNeeded = WindowPeriods + OffsetPeriods;
+        int startIdx = Math.Max(0, restoreIndex + 1 - totalNeeded);
+
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             _highWindow.Add(quote.High);
             _lowWindow.Add(quote.Low);
 
             // Only add to offset buffer for the last (OffsetPeriods + 1) quotes
-            if (p > targetIndex - OffsetPeriods - 1)
+            if (p > restoreIndex - OffsetPeriods - 1)
             {
                 _offsetBuffer.Enqueue(quote);
             }

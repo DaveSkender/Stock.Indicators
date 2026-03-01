@@ -68,32 +68,22 @@ public class CmoHub
     /// Clears and rebuilds _tickBuffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Clear tick buffer
         _tickBuffer.Clear();
 
-        // Find target index in ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index == -1)
-        {
-            index = ProviderCache.Count;
-        }
-
-        if (index <= 0)
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild up to the index before the rollback timestamp
-        int targetIndex = index - 1;
-
         // Need at least LookbackPeriods items to rebuild buffer
-        // Start from targetIndex - LookbackPeriods + 1, but not before index 1 (we need i-1 for prevValue)
-        int startIdx = Math.Max(1, targetIndex + 1 - LookbackPeriods);
+        // Start from restoreIndex - LookbackPeriods + 1, but not before index 1 (we need i-1 for prevValue)
+        int startIdx = Math.Max(1, restoreIndex + 1 - LookbackPeriods);
 
         // Rebuild tick buffer from ProviderCache
-        for (int p = startIdx; p <= targetIndex; p++)
+        for (int p = startIdx; p <= restoreIndex; p++)
         {
             double prevValue = ProviderCache[p - 1].Value;
             double currValue = ProviderCache[p].Value;

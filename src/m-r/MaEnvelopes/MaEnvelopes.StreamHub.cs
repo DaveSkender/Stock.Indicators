@@ -364,10 +364,9 @@ public class MaEnvelopesHub
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
-        int i = ProviderCache.IndexGte(timestamp);
-        if (i > lookbackPeriods)
+        if (restoreIndex >= lookbackPeriods)
         {
             // Reset state variables based on MA type
             if (movingAverageType == MaType.DEMA)

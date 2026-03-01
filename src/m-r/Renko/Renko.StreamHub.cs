@@ -70,13 +70,15 @@ public class RenkoHub
     /// Restores the last brick marker to the state at the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // restore last brick marker from cache
-        if (Cache.Count != 0)
+        if (Cache.Count != 0 && restoreIndex >= 0)
         {
+            DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
+
             RenkoResult? brick = Cache
-                .LastOrDefault(c => c.Timestamp <= timestamp);
+                .LastOrDefault(c => c.Timestamp <= preserveTimestamp);
 
             if (brick is not null)
             {

@@ -39,31 +39,18 @@ public class StarcBandsHub
     /// <inheritdoc/>
     public int AtrPeriods { get; init; }
     /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    protected override void RollbackState(int restoreIndex)
     {
         // Reset ATR state
         _prevAtr = double.NaN;
 
-        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        if (restoreIndex < 0)
         {
             return;
         }
-
-        // Find the first index at or after timestamp
-        int index = ProviderCache.IndexGte(timestamp);
-
-        if (index <= 0)
-        {
-            // Rolling back before all data, keep cleared state
-            return;
-        }
-
-        // We need to rebuild state up to the index before timestamp
-        // (since IndexGte gives us first index >= timestamp)
-        int targetIndex = index - 1;
 
         // Rebuild ATR state from cache
-        for (int i = 0; i <= targetIndex; i++)
+        for (int i = 0; i <= restoreIndex; i++)
         {
             if (i == 0)
             {
