@@ -158,6 +158,10 @@ jobs:
       name: ${{ needs.package.outputs.name }}
       NUGET_PUBLISH_URL: https://api.nuget.org/v3/index.json
 
+    environment:
+      name: nuget.org
+      url: ${{ needs.package.outputs.url }}
+
     steps:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
