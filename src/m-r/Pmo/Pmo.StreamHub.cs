@@ -10,8 +10,11 @@ public class PmoHub
     private readonly double smoothingConstant2;
     private readonly double smoothingConstant3;
 
-    private double prevRocEma;
-    private double prevPmo;
+    private double _prevRocEma;
+
+    // History lists for SMA seed initialization at warmup boundaries
+    private readonly List<double> _rocHistory;
+    private readonly List<double> _rocEmaHistory;  // scaled ×10
 
     internal PmoHub(
         IChainProvider<IReusable> provider,
@@ -29,6 +32,10 @@ public class PmoHub
         smoothingConstant3 = 2d / (signalPeriods + 1);
 
         Name = $"PMO({timePeriods},{smoothPeriods},{signalPeriods})";
+
+        _prevRocEma = double.NaN;
+        _rocHistory = [];
+        _rocEmaHistory = [];
 
         // Validate cache size for warmup requirements
         // PMO signal first appears at index (timePeriods + smoothPeriods + signalPeriods - 2),
@@ -57,23 +64,78 @@ public class PmoHub
         double currentValue = item.Value;
         double prevValue = i > 0 ? ProviderCache[i - 1].Value : double.NaN;
 
-        // Calculate rate of change (ROC)
-        double roc = CalculateRoc(currentValue, prevValue);
+        // Rate of change (ROC)
+        double roc = prevValue == 0 ? double.NaN : 100 * ((currentValue / prevValue) - 1);
+        _rocHistory.Add(roc);
 
-        // Restore state if needed (after rollback)
-        RestoreStateIfNeeded(i);
+        // ROC EMA — re/initialize as SMA seed, then O(1) incremental
+        double rocEma;
 
-        // Calculate ROC EMA (first smoothing with timePeriods)
-        double rocEma = CalculateRocEma(i, roc);
+        if (double.IsNaN(_prevRocEma) && i >= TimePeriods)
+        {
+            double sum = 0;
+            for (int p = i - TimePeriods + 1; p <= i; p++)
+            {
+                sum += _rocHistory[p];
+            }
+
+            rocEma = sum / TimePeriods;
+        }
+        else if (!double.IsNaN(_prevRocEma))
+        {
+            rocEma = _prevRocEma + (smoothingConstant2 * (roc - _prevRocEma));
+        }
+        else
+        {
+            rocEma = double.NaN;
+        }
+
+        _prevRocEma = rocEma;
         double rocEmaScaled = rocEma * 10;
-        prevRocEma = rocEma;
+        _rocEmaHistory.Add(rocEmaScaled);
 
-        // Calculate PMO (second smoothing with smoothPeriods)
-        double pmoValue = CalculatePmoValue(i, rocEmaScaled);
-        prevPmo = pmoValue;
+        // PMO — re/initialize as SMA seed, then O(1) incremental via Cache reference
+        double prevPmo = i > 0 ? Cache[i - 1].Pmo ?? double.NaN : double.NaN;
+        double pmoValue;
 
-        // Calculate Signal (third smoothing with signalPeriods)
-        double signalValue = CalculateSignalValue(i, pmoValue);
+        if (double.IsNaN(prevPmo) && i >= SmoothPeriods + TimePeriods - 1)
+        {
+            double sum = 0;
+            for (int p = i - SmoothPeriods + 1; p <= i; p++)
+            {
+                sum += _rocEmaHistory[p];
+            }
+
+            pmoValue = sum / SmoothPeriods;
+        }
+        else if (!double.IsNaN(prevPmo))
+        {
+            pmoValue = prevPmo + (smoothingConstant1 * (rocEmaScaled - prevPmo));
+        }
+        else
+        {
+            pmoValue = double.NaN;
+        }
+
+        // Signal — re/initialize as SMA seed of PMO, then O(1) incremental via Cache reference
+        double prevSignal = i > 0 ? Cache[i - 1].Signal ?? double.NaN : double.NaN;
+        double signalValue;
+
+        if (double.IsNaN(prevSignal) && i >= SignalPeriods + SmoothPeriods + TimePeriods - 2)
+        {
+            double sum = 0;
+            for (int j = i - SignalPeriods + 1; j < i; j++)
+            {
+                sum += Cache[j].Pmo ?? double.NaN;
+            }
+
+            sum += pmoValue;
+            signalValue = sum / SignalPeriods;
+        }
+        else
+        {
+            signalValue = Ema.Increment(smoothingConstant3, prevSignal, pmoValue);
+        }
 
         // Candidate result
         PmoResult r = new(
@@ -84,210 +146,67 @@ public class PmoHub
         return (r, i);
     }
 
-    private static double CalculateRoc(double currentValue, double prevValue)
-        => prevValue == 0 ? double.NaN : 100 * ((currentValue / prevValue) - 1);
-
-    private void RestoreStateIfNeeded(int index)
+    /// <inheritdoc/>
+    protected override void RollbackState(int restoreIndex)
     {
-        if (index <= TimePeriods || !double.IsNaN(prevRocEma))
+        _prevRocEma = double.NaN;
+        _rocHistory.Clear();
+        _rocEmaHistory.Clear();
+
+        if (restoreIndex < 0)
         {
             return;
         }
 
-        // Recalculate state by replaying from the first calculable position
-        double tempPrevRocEma = double.NaN;
-        double tempPrevPmo = double.NaN;
-        double tempPrevSignal = double.NaN;
-
-        // Need to store PMO values for Signal calculation
-        double[] pmoValues = new double[index];
-
-        for (int p = 0; p < index; p++)
+        // Replay items 0..restoreIndex to rebuild _prevRocEma,
+        // _rocHistory, and _rocEmaHistory so the next ToIndicator
+        // call continues with correct EMA state.
+        for (int i = 0; i <= restoreIndex; i++)
         {
-            double pCurrVal = ProviderCache[p].Value;
-            double pPrevVal = p > 0 ? ProviderCache[p - 1].Value : double.NaN;
-            double pRoc = CalculateRoc(pCurrVal, pPrevVal);
+            double currVal = ProviderCache[i].Value;
+            double prevVal = i > 0 ? ProviderCache[i - 1].Value : double.NaN;
 
-            // Calculate ROC EMA
-            double pRocEma = CalculateRocEmaForRestore(p, pRoc, ref tempPrevRocEma);
-            double pRocEmaScaled = pRocEma * 10;
-            tempPrevRocEma = pRocEma;
+            double roc = prevVal == 0 ? double.NaN : 100 * ((currVal / prevVal) - 1);
+            _rocHistory.Add(roc);
 
-            // Calculate PMO
-            double pPmo = CalculatePmoForRestore(p, pRocEmaScaled, ref tempPrevPmo);
-            tempPrevPmo = pPmo;
-            pmoValues[p] = pPmo;
+            double rocEma;
 
-            // Calculate Signal
-            tempPrevSignal = CalculateSignalForRestore(p, pPmo, pmoValues, ref tempPrevSignal);
-        }
-
-        prevRocEma = tempPrevRocEma;
-        prevPmo = tempPrevPmo;
-    }
-
-    private double CalculateRocEmaForRestore(int position, double roc, ref double tempPrevRocEma)
-    {
-        if (double.IsNaN(tempPrevRocEma) && position >= TimePeriods)
-        {
-            return InitRocEma(position);
-        }
-
-        if (!double.IsNaN(tempPrevRocEma))
-        {
-            return tempPrevRocEma + (smoothingConstant2 * (roc - tempPrevRocEma));
-        }
-
-        return double.NaN;
-    }
-
-    private double CalculatePmoForRestore(int position, double rocEmaScaled, ref double tempPrevPmo)
-    {
-        if (double.IsNaN(tempPrevPmo) && position >= SmoothPeriods + TimePeriods - 1)
-        {
-            return InitPmo(position);
-        }
-
-        if (!double.IsNaN(tempPrevPmo))
-        {
-            return tempPrevPmo + (smoothingConstant1 * (rocEmaScaled - tempPrevPmo));
-        }
-
-        return double.NaN;
-    }
-
-    private double CalculateSignalForRestore(int position, double pmo, double[] pmoValues, ref double tempPrevSignal)
-    {
-        if (double.IsNaN(tempPrevSignal) && position >= SignalPeriods + SmoothPeriods + TimePeriods - 2)
-        {
-            // Initialize from pmoValues array
-            double sum = 0;
-            for (int j = position - SignalPeriods + 1; j <= position; j++)
+            if (double.IsNaN(_prevRocEma) && i >= TimePeriods)
             {
-                sum += pmoValues[j];
+                double sum = 0;
+                for (int p = i - TimePeriods + 1; p <= i; p++)
+                {
+                    sum += _rocHistory[p];
+                }
+
+                rocEma = sum / TimePeriods;
             }
-
-            return sum / SignalPeriods;
-        }
-
-        if (!double.IsNaN(tempPrevSignal))
-        {
-            return Ema.Increment(smoothingConstant3, tempPrevSignal, pmo);
-        }
-
-        return double.NaN;
-    }
-
-    private double CalculateRocEma(int index, double roc)
-    {
-        if (index < TimePeriods)
-        {
-            return double.NaN;
-        }
-
-        if (index > 0 && !double.IsNaN(prevRocEma))
-        {
-            return prevRocEma + (smoothingConstant2 * (roc - prevRocEma));
-        }
-
-        return InitRocEma(index);
-    }
-
-    private double CalculatePmoValue(int index, double rocEmaScaled)
-    {
-        if (index < SmoothPeriods + TimePeriods - 1)
-        {
-            return double.NaN;
-        }
-
-        if (index > 0 && !double.IsNaN(prevPmo))
-        {
-            return prevPmo + (smoothingConstant1 * (rocEmaScaled - prevPmo));
-        }
-
-        return InitPmo(index);
-    }
-
-    private double CalculateSignalValue(int index, double pmoValue)
-    {
-        if (index >= SignalPeriods + SmoothPeriods + TimePeriods - 2
-            && (index == 0 || Cache[index - 1].Signal is null))
-        {
-            return InitSignal(index, pmoValue);
-        }
-
-        return Ema.Increment(
-            smoothingConstant3,
-            index > 0 ? Cache[index - 1].Signal ?? double.NaN : double.NaN,
-            pmoValue);
-    }
-
-    private double InitSignal(int endIndex, double currentPmo)
-    {
-        // Initialize signal as SMA of PMO values - match series code pattern exactly
-        double sum = 0;  // Start from 0 like series code
-        for (int j = endIndex - SignalPeriods + 1; j < endIndex; j++)  // Previous PMO values from Cache
-        {
-            sum += Cache[j].Pmo ?? double.NaN;
-        }
-
-        sum += currentPmo;  // Add current PMO value last
-        return sum / SignalPeriods;
-    }
-
-    private double InitRocEma(int endIndex)
-    {
-        double sum = 0;
-        for (int p = endIndex - TimePeriods + 1; p <= endIndex; p++)
-        {
-            double pCurrVal = ProviderCache[p].Value;
-            double pPrevVal = p > 0 ? ProviderCache[p - 1].Value : double.NaN;
-            double pRoc = pPrevVal == 0 ? double.NaN : 100 * ((pCurrVal / pPrevVal) - 1);
-            sum += pRoc;
-        }
-
-        return sum / TimePeriods;
-    }
-
-    private double InitPmo(int endIndex)
-    {
-        // Need to rebuild ROC EMA values for this window
-        double sum = 0;
-        double tempPrevRocEma = double.NaN;
-
-        for (int p = endIndex - SmoothPeriods + 1; p <= endIndex; p++)
-        {
-            double pCurrVal = ProviderCache[p].Value;
-            double pPrevVal = p > 0 ? ProviderCache[p - 1].Value : double.NaN;
-            double pRoc = pPrevVal == 0 ? double.NaN : 100 * ((pCurrVal / pPrevVal) - 1);
-
-            double pRocEma;
-            if (double.IsNaN(tempPrevRocEma) && p >= TimePeriods)
+            else if (!double.IsNaN(_prevRocEma))
             {
-                pRocEma = InitRocEma(p);
-            }
-            else if (!double.IsNaN(tempPrevRocEma))
-            {
-                pRocEma = tempPrevRocEma + (smoothingConstant2 * (pRoc - tempPrevRocEma));
+                rocEma = _prevRocEma + (smoothingConstant2 * (roc - _prevRocEma));
             }
             else
             {
-                pRocEma = double.NaN;
+                rocEma = double.NaN;
             }
 
-            tempPrevRocEma = pRocEma;
-            sum += pRocEma * 10;
+            _prevRocEma = rocEma;
+            _rocEmaHistory.Add(rocEma * 10);
         }
-
-        return sum / SmoothPeriods;
     }
 
     /// <inheritdoc/>
-    protected override void RollbackState(int restoreIndex)
+    protected override void PruneState(DateTime toTimestamp)
     {
-        // Reset state - will be recalculated during rebuild
-        prevRocEma = double.NaN;
-        prevPmo = double.NaN;
+        // Keep history lists aligned with Cache after provider-driven pruning.
+        int targetSize = Cache.Count;
+
+        if (_rocHistory.Count > targetSize)
+        {
+            int excessCount = _rocHistory.Count - targetSize;
+            _rocHistory.RemoveRange(0, excessCount);
+            _rocEmaHistory.RemoveRange(0, excessCount);
+        }
     }
 }
 

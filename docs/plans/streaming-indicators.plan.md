@@ -111,11 +111,11 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Action**: Optimize provider subscription and state updates
   - **Priority**: 🔴 HIGH
 
-- [ ] **P010** - Ultimate (UO) StreamHub performance optimization (4-6 hours)
-  - **Current**: 5.89x slower than Series (161,480 ns vs 27,426 ns)
-  - **Problem**: Complex weighted sum calculations
-  - **Action**: Review for calculation caching opportunities
-  - **Priority**: 🔴 HIGH
+- [x] **P010** - Ultimate (UO) StreamHub performance optimization (4-6 hours)
+  - **Previous**: 5.89x slower than Series (161,480 ns vs 27,426 ns)
+  - **Problem**: O(LongPeriods) loop recalculating full weighted sums on every quote
+  - **Fix**: Replaced loop with three sliding-window rolling-sum queues (`_shortQueue`, `_middleQueue`, `_longQueue`) plus six running-sum fields; each new quote now updates sums in O(1)
+  - **Status**: COMPLETE - Added `RollbackState` override to rebuild queues/sums from `ProviderCache` on rollback; all `Series-parity` tests pass
 
 - [x] **P011** - Adl StreamHub performance optimization (3-4 hours)
   - **Current**: 5.87x slower than Series (32,493 ns vs 5,534 ns)
@@ -123,7 +123,7 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Action**: Optimize state management for rolling totals
   - **Priority**: 🔴 HIGH
 
-- [ ] **P012** - Pmo StreamHub performance optimization (3-4 hours)
+- [x] **P012** - Pmo StreamHub performance optimization (3-4 hours)
   - **Current**: 5.81x slower than Series (33,445 ns vs 5,760 ns)
   - **Problem**: EMA-based calculations with additional overhead
   - **Action**: Review layered EMA state management
