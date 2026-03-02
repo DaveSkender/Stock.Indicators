@@ -283,7 +283,7 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         // Third should be average of first three closes
         smaResults[2].Sma.Should().NotBeNull();
         const double expectedSma = (102 + 104 + 106) / 3.0;
-        smaResults[2].Sma.Should().BeApproximately(expectedSma, 0.0001);
+        smaResults[2].Sma.Should().BeApproximately(expectedSma, Money4);
 
         sma.Unsubscribe();
         aggregator.Unsubscribe();
@@ -386,7 +386,7 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         // Initialize aggregator (1-minute aggregation)
         QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(PeriodSize.OneMinute);
 
-        // Fetch initial results
+        // Fetch live results reference
         IReadOnlyList<IQuote> sut = aggregator.Results;
 
         // Stream additional quotes
@@ -404,35 +404,38 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
 
         // Late arrival (add the skipped quote)
         provider.Add(Quotes[80]);
-        IReadOnlyList<IQuote> afterLateArrival = aggregator.Results.ToList();
 
-        // Verify structural invariants
-        sut.Should().NotBeEmpty();
-        afterLateArrival.Should().NotBeEmpty();
+        // Build expected Series after all streaming (prefill + duplicates + late arrival)
+        IReadOnlyList<Quote> expectedOriginal = Quotes.Aggregate(PeriodSize.OneMinute);
 
-        sut.Should().AllSatisfy(q => {
-            q.Timestamp.Should().NotBe(default);
-            q.Open.Should().BeGreaterThan(0);
-            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
-            q.Close.Should().BeGreaterThan(0);
-        });
-
-        afterLateArrival.Should().AllSatisfy(q => {
-            q.Timestamp.Should().NotBe(default);
-            q.Open.Should().BeGreaterThan(0);
-            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
-            q.Close.Should().BeGreaterThan(0);
-        });
-
-        // Verify ordering is preserved
-        for (int i = 1; i < sut.Count; i++)
+        // Strict count parity and ordering after late arrival
+        sut.Should().HaveCount(expectedOriginal.Count);
+        for (int i = 0; i < expectedOriginal.Count; i++)
         {
-            sut[i].Timestamp.Should().BeOnOrAfter(sut[i - 1].Timestamp);
+            sut[i].Timestamp.Should().Be(expectedOriginal[i].Timestamp);
+            sut[i].Open.Should().Be(expectedOriginal[i].Open);
+            sut[i].High.Should().Be(expectedOriginal[i].High);
+            sut[i].Low.Should().Be(expectedOriginal[i].Low);
+            sut[i].Close.Should().Be(expectedOriginal[i].Close);
+            sut[i].Volume.Should().Be(expectedOriginal[i].Volume);
         }
 
-        for (int i = 1; i < afterLateArrival.Count; i++)
+        // Rollback: remove a historical quote to simulate deletion
+        provider.RemoveAt(removeAtIndex);
+
+        // Build revised expected Series after removal
+        IReadOnlyList<Quote> expectedRevised = RevisedQuotes.Aggregate(PeriodSize.OneMinute);
+
+        // Strict count parity and ordering after rollback
+        sut.Should().HaveCount(expectedRevised.Count);
+        for (int i = 0; i < expectedRevised.Count; i++)
         {
-            afterLateArrival[i].Timestamp.Should().BeOnOrAfter(afterLateArrival[i - 1].Timestamp);
+            sut[i].Timestamp.Should().Be(expectedRevised[i].Timestamp);
+            sut[i].Open.Should().Be(expectedRevised[i].Open);
+            sut[i].High.Should().Be(expectedRevised[i].High);
+            sut[i].Low.Should().Be(expectedRevised[i].Low);
+            sut[i].Close.Should().Be(expectedRevised[i].Close);
+            sut[i].Volume.Should().Be(expectedRevised[i].Volume);
         }
 
         // Cleanup

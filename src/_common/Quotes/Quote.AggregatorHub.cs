@@ -208,17 +208,14 @@ public class QuoteAggregatorHub
                 Close: quote.Close,
                 Volume: quote.Volume);
         }
-        else
-        {
-            // Update existing bar
-            return new Quote(
-                Timestamp: barTimestamp,
-                Open: existingBar.Open,  // Keep original open
-                High: Math.Max(existingBar.High, quote.High),
-                Low: Math.Min(existingBar.Low, quote.Low),
-                Close: quote.Close,  // Always use latest close
-                Volume: existingBar.Volume + quote.Volume);
-        }
+        // Update existing bar
+        return new Quote(
+            Timestamp: barTimestamp,
+            Open: existingBar.Open,  // Keep original open
+            High: Math.Max(existingBar.High, quote.High),
+            Low: Math.Min(existingBar.Low, quote.Low),
+            Close: quote.Close,  // Always use latest close
+            Volume: existingBar.Volume + quote.Volume);
     }
 
     /// <inheritdoc/>

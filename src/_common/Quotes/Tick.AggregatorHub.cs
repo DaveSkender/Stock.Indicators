@@ -227,17 +227,14 @@ public class TickAggregatorHub
                 Close: tick.Price,
                 Volume: tick.Volume);
         }
-        else
-        {
-            // Update existing bar
-            return new Quote(
-                Timestamp: barTimestamp,
-                Open: existingBar.Open,  // Keep original open
-                High: Math.Max(existingBar.High, tick.Price),
-                Low: Math.Min(existingBar.Low, tick.Price),
-                Close: tick.Price,  // Always use latest price
-                Volume: existingBar.Volume + tick.Volume);
-        }
+        // Update existing bar
+        return new Quote(
+            Timestamp: barTimestamp,
+            Open: existingBar.Open,  // Keep original open
+            High: Math.Max(existingBar.High, tick.Price),
+            Low: Math.Min(existingBar.Low, tick.Price),
+            Close: tick.Price,  // Always use latest price
+            Volume: existingBar.Volume + tick.Volume);
     }
 
     /// <inheritdoc/>
