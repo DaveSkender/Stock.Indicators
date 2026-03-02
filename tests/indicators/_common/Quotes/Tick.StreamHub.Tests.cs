@@ -347,12 +347,12 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
 
         public void OnCompleted() => IsSubscribed = false;
 
-        public void OnRebuild(DateTime timestamp)
-            => OnRebuildAction.Invoke(timestamp);
+        public void OnRebuild(DateTime fromTimestamp)
+            => OnRebuildAction.Invoke(fromTimestamp);
 
-        public void OnError(Exception error) { }
+        public void OnError(Exception exception) { }
 
-        public void OnPrune(DateTime timestamp) { }
+        public void OnPrune(DateTime toTimestamp) { }
 
         public void Unsubscribe() => IsSubscribed = false;
     }

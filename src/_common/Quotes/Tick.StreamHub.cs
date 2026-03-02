@@ -147,6 +147,19 @@ public class TickHub
             return;
         }
 
+        // late-arrival: insert tick at correct sorted position, then rebuild observers
+        if (Cache.Count > 0 && result.Timestamp < Cache[^1].Timestamp)
+        {
+            Cache.Insert(index, result);
+
+            if (notify)
+            {
+                NotifyObserversOnRebuild(result.Timestamp);
+            }
+
+            return;
+        }
+
         // standard add behavior for new items
         AppendCache(result, notify);
     }

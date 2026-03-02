@@ -234,9 +234,9 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     {
         TickHub provider = new();
 
-        // Create tick data
+        // Create tick data: 50 ticks (each at a different minute timestamp)
         List<Tick> ticks = [];
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 50; i++)
         {
             ticks.Add(new Tick(
                 DateTime.Parse("2023-11-09 10:00", invariantCulture).AddMinutes(i),
@@ -244,26 +244,24 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
                 10m + i));
         }
 
-        // Prefill warmup window
-        provider.Add(ticks.Take(20));
+        // Prefill warmup window (first 10 ticks = minutes 0-9)
+        provider.Add(ticks.Take(10));
 
         // Initialize aggregator
         TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
+        aggregator.Results.Should().HaveCount(10);
 
-        // Warmup should populate initial bars
-        aggregator.Results.Should().HaveCount(20);
-
-        // Stream remaining ticks in-order including duplicates
-        for (int i = 20; i < ticks.Count; i++)
+        // Stream ticks 10-39 in-order, skipping tick[25] for late arrival
+        // Also inject duplicates at ticks 15-18 to test duplicate handling
+        for (int i = 10; i < 40; i++)
         {
-            // Skip one (add later as late arrival)
-            if (i == 80) { continue; }
+            if (i == 25) { continue; }  // Skip for late arrival
 
             Tick tick = ticks[i];
             provider.Add(tick);
 
             // Stream duplicate at same timestamp with different execution ID
-            if (i is > 30 and < 35)
+            if (i is > 15 and < 19)
             {
                 provider.Add(new Tick(
                     tick.Timestamp,
@@ -273,13 +271,17 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             }
         }
 
-        // Late arrival (add the skipped tick)
-        provider.Add(ticks[80]);
+        // Snapshot before late arrival
+        IReadOnlyList<IQuote> beforeLateArrival = aggregator.Results.ToList();
 
-        // Snapshot after late arrival
+        // Late arrival: inject tick[25] which was skipped in stream
+        provider.Add(ticks[25]);
         IReadOnlyList<IQuote> afterLateArrival = aggregator.Results.ToList();
 
-        // All stages should have valid structural invariants
+        // Late arrival should result in same or more bars (only adds, never removes)
+        afterLateArrival.Count.Should().BeGreaterThanOrEqualTo(beforeLateArrival.Count);
+
+        // All bars should have valid structural invariants
         afterLateArrival.Should().AllSatisfy(q => {
             q.Timestamp.Should().NotBe(default);
             q.Open.Should().BeGreaterThan(0);
@@ -287,44 +289,139 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             q.Close.Should().BeGreaterThan(0);
         });
 
-        // Verify ordering is preserved after late arrival
+        // Verify ordering is preserved
         for (int i = 1; i < afterLateArrival.Count; i++)
         {
             afterLateArrival[i].Timestamp.Should().BeAfter(afterLateArrival[i - 1].Timestamp);
         }
 
-        // Spot-check: a simple tick should have Open=High=Low=Close=Price
-        // (no duplicates at minute 20, which maps to tick[20])
-        DateTime minute20 = ticks[20].Timestamp.RoundDown(TimeSpan.FromMinutes(1));
-        IQuote bar20 = afterLateArrival.FirstOrDefault(q => q.Timestamp == minute20);
-        bar20.Should().NotBeNull();
-        bar20.Open.Should().Be(ticks[20].Price);
-        bar20.High.Should().Be(ticks[20].Price);
-        bar20.Low.Should().Be(ticks[20].Price);
-        bar20.Close.Should().Be(ticks[20].Price);
-        bar20.Volume.Should().Be(ticks[20].Volume);
+        // Build reference aggregated quotes from exact tick sequence for parity comparison
+        // This represents what the Series API would produce
+        List<Quote> referenceQuotes = [];
+
+        // Add warmup ticks
+        foreach (Tick tick in ticks.Take(10))
+        {
+            DateTime barTimestamp = tick.Timestamp.RoundDown(TimeSpan.FromMinutes(1));
+            referenceQuotes.Add(new Quote(barTimestamp, tick.Price, tick.Price, tick.Price, tick.Price, tick.Volume));
+        }
+
+        // Add stream ticks (10-24, 26-39) including duplicates
+        for (int i = 10; i < 40; i++)
+        {
+            if (i == 25) { continue; }
+
+            Tick tick = ticks[i];
+            DateTime barTimestamp = tick.Timestamp.RoundDown(TimeSpan.FromMinutes(1));
+            int existingIdx = referenceQuotes.FindIndex(q => q.Timestamp == barTimestamp);
+
+            if (existingIdx < 0)
+            {
+                referenceQuotes.Add(new Quote(barTimestamp, tick.Price, tick.Price, tick.Price, tick.Price, tick.Volume));
+            }
+            else
+            {
+                Quote q = referenceQuotes[existingIdx];
+                referenceQuotes[existingIdx] = new Quote(
+                    q.Timestamp, q.Open, Math.Max(q.High, tick.Price), Math.Min(q.Low, tick.Price),
+                    tick.Price, q.Volume + tick.Volume);
+            }
+
+            // Add duplicate at same minute
+            if (i is > 15 and < 19)
+            {
+                Tick dup = new(tick.Timestamp, tick.Price + 0.5m, tick.Volume + 1m, $"dup-{i}");
+                Quote q = referenceQuotes[existingIdx >= 0 ? existingIdx : referenceQuotes.Count - 1];
+                int dupIdx = referenceQuotes.FindIndex(x => x.Timestamp == barTimestamp);
+                referenceQuotes[dupIdx] = new Quote(
+                    q.Timestamp, q.Open, Math.Max(q.High, dup.Price), Math.Min(q.Low, dup.Price),
+                    dup.Price, q.Volume + dup.Volume);
+            }
+        }
+
+        // Add late arrival tick[25]
+        {
+            Tick tick = ticks[25];
+            DateTime barTimestamp = tick.Timestamp.RoundDown(TimeSpan.FromMinutes(1));
+            int existingIdx = referenceQuotes.FindIndex(q => q.Timestamp == barTimestamp);
+
+            if (existingIdx < 0)
+            {
+                referenceQuotes.Add(new Quote(barTimestamp, tick.Price, tick.Price, tick.Price, tick.Price, tick.Volume));
+            }
+            else
+            {
+                Quote q = referenceQuotes[existingIdx];
+                referenceQuotes[existingIdx] = new Quote(
+                    q.Timestamp, q.Open, Math.Max(q.High, tick.Price), Math.Min(q.Low, tick.Price),
+                    tick.Price, q.Volume + tick.Volume);
+            }
+        }
+
+        // Verify strict numerical parity with reference aggregation for all bars
+        // The aggregator results should exactly match what Series computation would produce
+        // Build a mapping of bar timestamps -> bars for comparison since order should match
+        Dictionary<DateTime, Quote> referenceMap = referenceQuotes.ToDictionary(q => q.Timestamp);
+
+        afterLateArrival.Should().AllSatisfy(bar => {
+            // Verify this bar exists in reference and matches exactly
+            referenceMap.Should().ContainKey(bar.Timestamp,
+                $"bar at {bar.Timestamp:O} should exist in reference aggregation");
+
+            Quote expected = referenceMap[bar.Timestamp];
+            bar.Open.Should().Be(expected.Open,
+                $"bar at {bar.Timestamp:O} Open must match (got {bar.Open:C4}, expected {expected.Open:C4})");
+            bar.High.Should().Be(expected.High,
+                $"bar at {bar.Timestamp:O} High must match (got {bar.High:C4}, expected {expected.High:C4})");
+            bar.Low.Should().Be(expected.Low,
+                $"bar at {bar.Timestamp:O} Low must match (got {bar.Low:C4}, expected {expected.Low:C4})");
+            bar.Close.Should().Be(expected.Close,
+                $"bar at {bar.Timestamp:O} Close must match (got {bar.Close:C4}, expected {expected.Close:C4})");
+            bar.Volume.Should().Be(expected.Volume,
+                $"bar at {bar.Timestamp:O} Volume must match");
+        });
 
         // Rollback: remove a historical tick (simulate deletion)
-        DateTime removeTimestamp = ticks[50].Timestamp;
-        int removeIndex = provider.Cache.IndexGte(removeTimestamp);
-        removeIndex.Should().BeGreaterOrEqualTo(0, "tick[50] should be in provider cache");
-        provider.RemoveAt(removeIndex);
+        DateTime removeTimestamp = ticks[20].Timestamp;
+        int removeIdx = provider.Cache.IndexGte(removeTimestamp);
+        removeIdx.Should().BeGreaterOrEqualTo(0, "tick[20] should be in cache");
+        provider.RemoveAt(removeIdx);
 
-        // Snapshot after removal
         IReadOnlyList<IQuote> afterRemoval = aggregator.Results.ToList();
-
-        // Should have one fewer bar (tick[50] was the only tick in its minute)
         afterRemoval.Should().HaveCount(afterLateArrival.Count - 1);
 
-        // The removed minute should be absent
-        DateTime minute50 = removeTimestamp.RoundDown(TimeSpan.FromMinutes(1));
-        afterRemoval.Should().NotContain(q => q.Timestamp == minute50);
+        // Removed minute should be absent
+        DateTime minute20 = removeTimestamp.RoundDown(TimeSpan.FromMinutes(1));
+        afterRemoval.Should().NotContain(q => q.Timestamp == minute20);
 
-        // Verify ordering is preserved after removal
+        // Verify ordering after removal
         for (int i = 1; i < afterRemoval.Count; i++)
         {
             afterRemoval[i].Timestamp.Should().BeAfter(afterRemoval[i - 1].Timestamp);
         }
+
+        // Verify parity after removal using map-based comparison
+        // The removed minute bar should be absent from both aggregator and reference
+        Dictionary<DateTime, IQuote> afterRemovalMap = afterRemoval.ToDictionary(q => q.Timestamp);
+
+        referenceQuotes.RemoveAll(q => q.Timestamp == minute20);
+        referenceMap.Remove(minute20);
+
+        // All bars in afterRemoval should match reference exactly
+        afterRemovalMap.Should().AllSatisfy(kvp => {
+            referenceMap.Should().ContainKey(kvp.Key,
+                $"bar at {kvp.Key:O} should exist in reference after removal");
+
+            Quote expected = referenceMap[kvp.Key];
+            kvp.Value.Open.Should().Be(expected.Open);
+            kvp.Value.High.Should().Be(expected.High);
+            kvp.Value.Low.Should().Be(expected.Low);
+            kvp.Value.Close.Should().Be(expected.Close);
+            kvp.Value.Volume.Should().Be(expected.Volume);
+        });
+
+        // Reference and aggregator should have same bar count after removal
+        afterRemovalMap.Should().HaveSameCount(referenceMap);
 
         // Cleanup
         aggregator.Unsubscribe();
