@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class TickAggregatorHub
     : QuoteProvider<ITick, IQuote>
 {
-    private readonly object _addLock = new();
     private readonly Dictionary<string, DateTime> _processedExecutionIds = [];
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
@@ -90,7 +89,7 @@ public class TickAggregatorHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        lock (_addLock)
+        lock (CacheLock)
         {
             // Check for duplicate execution IDs with time-based pruning
             if (!string.IsNullOrEmpty(item.ExecutionId))
@@ -275,29 +274,26 @@ public class TickAggregatorHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        lock (_addLock)
+        _currentBar = null;
+        _currentBarTimestamp = default;
+
+        if (restoreIndex < 0)
         {
-            _currentBar = null;
-            _currentBarTimestamp = default;
+            _processedExecutionIds.Clear();
+            return;
+        }
 
-            if (restoreIndex < 0)
-            {
-                _processedExecutionIds.Clear();
-                return;
-            }
+        // Clear execution IDs for rolled back period
+        DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
 
-            // Clear execution IDs for rolled back period
-            DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
+        List<string> toRemove = _processedExecutionIds
+            .Where(kvp => kvp.Value > preserveTimestamp)
+            .Select(kvp => kvp.Key)
+            .ToList();
 
-            List<string> toRemove = _processedExecutionIds
-                .Where(kvp => kvp.Value > preserveTimestamp)
-                .Select(kvp => kvp.Key)
-                .ToList();
-
-            foreach (string key in toRemove)
-            {
-                _processedExecutionIds.Remove(key);
-            }
+        foreach (string key in toRemove)
+        {
+            _processedExecutionIds.Remove(key);
         }
     }
 }

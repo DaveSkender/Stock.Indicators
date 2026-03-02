@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class QuoteAggregatorHub
     : QuoteProvider<IQuote, IQuote>
 {
-    private readonly object _addLock = new();
     private readonly Dictionary<DateTime, IQuote> _inputQuoteTracker = [];
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
@@ -78,12 +77,12 @@ public class QuoteAggregatorHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        lock (_addLock)
+        lock (CacheLock)
         {
             DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
             // Check if this exact input quote was already processed (duplicate detection)
-            if (_inputQuoteTracker.TryGetValue(item.Timestamp, out IQuote? _))
+            if (_inputQuoteTracker.ContainsKey(item.Timestamp))
             {
                 // Update tracker with new quote
                 _inputQuoteTracker[item.Timestamp] = item;
@@ -247,29 +246,26 @@ public class QuoteAggregatorHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        lock (_addLock)
+        _currentBar = null;
+        _currentBarTimestamp = default;
+
+        if (restoreIndex < 0)
         {
-            _currentBar = null;
-            _currentBarTimestamp = default;
+            _inputQuoteTracker.Clear();
+            return;
+        }
 
-            if (restoreIndex < 0)
-            {
-                _inputQuoteTracker.Clear();
-                return;
-            }
+        // Clear input tracker for rolled back period
+        DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
 
-            // Clear input tracker for rolled back period
-            DateTime preserveTimestamp = ProviderCache[restoreIndex].Timestamp;
+        List<DateTime> toRemove = _inputQuoteTracker
+            .Where(kvp => kvp.Key > preserveTimestamp)
+            .Select(kvp => kvp.Key)
+            .ToList();
 
-            List<DateTime> toRemove = _inputQuoteTracker
-                .Where(kvp => kvp.Key > preserveTimestamp)
-                .Select(kvp => kvp.Key)
-                .ToList();
-
-            foreach (DateTime key in toRemove)
-            {
-                _inputQuoteTracker.Remove(key);
-            }
+        foreach (DateTime key in toRemove)
+        {
+            _inputQuoteTracker.Remove(key);
         }
     }
 }
