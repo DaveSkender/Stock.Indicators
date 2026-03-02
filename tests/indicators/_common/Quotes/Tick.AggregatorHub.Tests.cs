@@ -250,8 +250,8 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         // Initialize aggregator
         TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
 
-        // Fetch initial results
-        IReadOnlyList<IQuote> sut = aggregator.Results.ToList();
+        // Warmup should populate initial bars
+        aggregator.Results.Should().HaveCount(20);
 
         // Stream remaining ticks in-order including duplicates
         for (int i = 20; i < ticks.Count; i++)
@@ -275,16 +275,11 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         // Late arrival (add the skipped tick)
         provider.Add(ticks[80]);
+
+        // Snapshot after late arrival
         IReadOnlyList<IQuote> afterLateArrival = aggregator.Results.ToList();
 
-        // Verify structural invariants at all stages
-        sut.Should().AllSatisfy(q => {
-            q.Timestamp.Should().NotBe(default);
-            q.Open.Should().BeGreaterThan(0);
-            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
-            q.Close.Should().BeGreaterThan(0);
-        });
-
+        // All stages should have valid structural invariants
         afterLateArrival.Should().AllSatisfy(q => {
             q.Timestamp.Should().NotBe(default);
             q.Open.Should().BeGreaterThan(0);
@@ -292,15 +287,43 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             q.Close.Should().BeGreaterThan(0);
         });
 
-        // Verify ordering is preserved
-        for (int i = 1; i < sut.Count; i++)
-        {
-            sut[i].Timestamp.Should().BeOnOrAfter(sut[i - 1].Timestamp);
-        }
-
+        // Verify ordering is preserved after late arrival
         for (int i = 1; i < afterLateArrival.Count; i++)
         {
-            afterLateArrival[i].Timestamp.Should().BeOnOrAfter(afterLateArrival[i - 1].Timestamp);
+            afterLateArrival[i].Timestamp.Should().BeAfter(afterLateArrival[i - 1].Timestamp);
+        }
+
+        // Spot-check: a simple tick should have Open=High=Low=Close=Price
+        // (no duplicates at minute 20, which maps to tick[20])
+        DateTime minute20 = ticks[20].Timestamp.RoundDown(TimeSpan.FromMinutes(1));
+        IQuote bar20 = afterLateArrival.FirstOrDefault(q => q.Timestamp == minute20);
+        bar20.Should().NotBeNull();
+        bar20.Open.Should().Be(ticks[20].Price);
+        bar20.High.Should().Be(ticks[20].Price);
+        bar20.Low.Should().Be(ticks[20].Price);
+        bar20.Close.Should().Be(ticks[20].Price);
+        bar20.Volume.Should().Be(ticks[20].Volume);
+
+        // Rollback: remove a historical tick (simulate deletion)
+        DateTime removeTimestamp = ticks[50].Timestamp;
+        int removeIndex = provider.Cache.IndexGte(removeTimestamp);
+        removeIndex.Should().BeGreaterOrEqualTo(0, "tick[50] should be in provider cache");
+        provider.RemoveAt(removeIndex);
+
+        // Snapshot after removal
+        IReadOnlyList<IQuote> afterRemoval = aggregator.Results.ToList();
+
+        // Should have one fewer bar (tick[50] was the only tick in its minute)
+        afterRemoval.Should().HaveCount(afterLateArrival.Count - 1);
+
+        // The removed minute should be absent
+        DateTime minute50 = removeTimestamp.RoundDown(TimeSpan.FromMinutes(1));
+        afterRemoval.Should().NotContain(q => q.Timestamp == minute50);
+
+        // Verify ordering is preserved after removal
+        for (int i = 1; i < afterRemoval.Count; i++)
+        {
+            afterRemoval[i].Timestamp.Should().BeAfter(afterRemoval[i - 1].Timestamp);
         }
 
         // Cleanup

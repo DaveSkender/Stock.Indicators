@@ -475,13 +475,21 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         // Assert: should have same count as batch aggregation
         sut.Should().HaveCount(expected.Count);
 
-        // Verify EMA values match exactly
-        for (int i = emaPeriods; i < sut.Count; i++)
+        // Verify EMA values match Series exactly (strict parity)
+        for (int i = 0; i < sut.Count; i++)
         {
-            if (sut[i].Ema.HasValue && expected[i].Ema.HasValue)
+            sut[i].Timestamp.Should().Be(expected[i].Timestamp,
+                $"timestamp at index {i} should match Series reference");
+
+            if (expected[i].Ema.HasValue)
             {
                 sut[i].Ema.Should().BeApproximately(expected[i].Ema.Value, Money4,
-                    $"at index {i}, timestamp {sut[i].Timestamp}");
+                    $"EMA at index {i} should match Series reference");
+            }
+            else
+            {
+                sut[i].Ema.Should().BeNull(
+                    $"EMA at index {i} should be null like Series reference");
             }
         }
 

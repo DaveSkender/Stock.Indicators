@@ -40,7 +40,7 @@ public class TickHub
         if (maxCacheSize is (not null and <= 0) or > absoluteMaxCacheSize)
         {
             string message
-                = $"'{nameof(maxCacheSize)}' must be greater than 0 and not over {absoluteMaxCacheSize}.";
+                = $"'{nameof(maxCacheSize)}' must be greater than 0 and not over {absoluteMaxCacheSize}; was {maxCacheSize}.";
 
             throw new ArgumentOutOfRangeException(
                 nameof(maxCacheSize), maxCacheSize, message);

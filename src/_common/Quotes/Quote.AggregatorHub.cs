@@ -18,6 +18,10 @@ public class QuoteAggregatorHub
     /// <param name="provider">The quote provider.</param>
     /// <param name="periodSize">The period size to aggregate to.</param>
     /// <param name="fillGaps">Whether to fill gaps by carrying forward the last known price.</param>
+    /// <exception cref="ArgumentException">
+    /// Thrown when <paramref name="periodSize"/> is <see cref="PeriodSize.Month"/>,
+    /// which is not supported in streaming mode.
+    /// </exception>
     public QuoteAggregatorHub(
         IQuoteProvider<IQuote> provider,
         PeriodSize periodSize,

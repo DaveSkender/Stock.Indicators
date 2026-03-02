@@ -47,7 +47,7 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
         int addCount = 0;
 
         TestTickObserver observer = new() {
-            OnAddAction = (tick, notify, idx) => addCount++
+            OnAddAction = (_, _, _) => addCount++
         };
 
         hub.Subscribe(observer);
@@ -83,7 +83,7 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
         int rebuildCount = 0;
 
         TestTickObserver observer = new() {
-            OnRebuildAction = (ts) => rebuildCount++
+            OnRebuildAction = _ => rebuildCount++
         };
 
         hub.Subscribe(observer);
@@ -119,7 +119,7 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
         int addCount = 0;
 
         TestTickObserver observer = new() {
-            OnAddAction = (tick, notify, idx) => addCount++
+            OnAddAction = (_, _, _) => addCount++
         };
 
         hub.Subscribe(observer);
@@ -150,7 +150,7 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
         int addCount = 0;
 
         TestTickObserver observer = new() {
-            OnAddAction = (tick, notify, idx) => addCount++
+            OnAddAction = (_, _, _) => addCount++
         };
 
         hub.Subscribe(observer);
