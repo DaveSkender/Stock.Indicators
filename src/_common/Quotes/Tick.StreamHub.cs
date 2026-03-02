@@ -113,11 +113,10 @@ public class TickHub
 
             if (hasExecutionId && hasCachedExecutionId && Cache[index].ExecutionId != result.ExecutionId)
             {
-                // Different execution IDs at same timestamp - both are valid trades
-                // Persist to cache before notifying observers
+                // Different execution IDs at same timestamp - both are valid trades;
+                // replace the cached entry and notify as a new addition so aggregators process it
                 Cache[index] = result;
 
-                // Notify observers with the new tick so aggregators can process it
                 if (notify)
                 {
                     NotifyObserversOnAdd(result, index);
@@ -129,10 +128,11 @@ public class TickHub
             // For ticks without execution IDs or same execution ID, replace in cache
             Cache[index] = result;
 
-            // Notify appropriately based on whether it's an update or new execution
+            // Notify appropriately: same ExecutionId = correction (rebuild),
+            // no ExecutionIds = treat as new addition for aggregators
             if (notify)
             {
-                if (hasExecutionId && hasCachedExecutionId && Cache[index].ExecutionId == result.ExecutionId)
+                if (hasExecutionId && hasCachedExecutionId)
                 {
                     // Same execution ID - this is an update/correction
                     NotifyObserversOnRebuild(result.Timestamp);
