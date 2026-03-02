@@ -99,11 +99,12 @@ for test_file in "${test_files[@]}"; do
 
         # Check which interfaces are implemented
         has_quote_observer=$(echo "$class_line" | grep -c "ITestQuoteObserver" || true)
+        has_tick_observer=$(echo "$class_line" | grep -c "ITestTickObserver" || true)
         has_chain_observer=$(echo "$class_line" | grep -c "ITestChainObserver" || true)
         has_chain_provider=$(echo "$class_line" | grep -c "ITestChainProvider" || true)
 
-        # Validation: Should implement exactly one observer interface
-        observer_count=$((has_quote_observer + has_chain_observer))
+        # Validation: Should implement at least one observer interface
+        observer_count=$((has_quote_observer + has_tick_observer + has_chain_observer))
 
         # Note: ITestChainObserver inherits ITestQuoteObserver, so if both appear, that's valid
         if [[ $has_chain_observer -eq 1 ]] && [[ $has_quote_observer -eq 1 ]]; then
