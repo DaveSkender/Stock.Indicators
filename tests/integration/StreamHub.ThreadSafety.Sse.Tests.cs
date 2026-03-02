@@ -18,6 +18,7 @@ public class ThreadSafetyTests : TestBase
 {
     private const int StcTestPort = 5099;
     private const int AllHubsTestPort = 5100;
+    private const int AggregatorTestPort = 5101;
     private const int TargetQuoteCount = 2000;
     private const int MaxCacheSize = 1500;
     private const int SseInterval = 1; // milliseconds between quotes
@@ -371,6 +372,152 @@ public class ThreadSafetyTests : TestBase
         }
     }
 
+    /// <summary>
+    /// Tests that QuoteAggregatorHub correctly aggregates incoming quote stream into 5-minute
+    /// bars and that downstream EMA indicator produces results matching the static series
+    /// computed on the aggregated quotes.
+    /// </summary>
+    [TestMethod]
+    public async Task QuoteAggregatorHub_WithSseStream_MatchesSeriesExactly()
+    {
+        CancellationToken cts = TestContext?.CancellationToken ?? default;
+
+        // Start SSE server
+        Process? serverProcess = StartSseServer(AggregatorTestPort);
+        if (serverProcess is null)
+        {
+            Assert.Fail("Failed to start SSE server");
+            return;
+        }
+
+        // Setup: QuoteHub -> QuoteAggregatorHub -> EmaHub
+        QuoteHub quoteHub = new();
+        QuoteAggregatorHub aggregator = quoteHub.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+        EmaHub emaHub = aggregator.ToEmaHub(14);
+
+        try
+        {
+            // Wait for server to be ready
+            bool serverReady = await WaitForServerReady(AggregatorTestPort, cts).ConfigureAwait(true);
+            if (!serverReady)
+            {
+                Assert.Fail("SSE server did not become ready within timeout period");
+                return;
+            }
+
+            // Stream quotes with 1-minute intervals (will be aggregated to 5-minute bars)
+            SseQuoteBatch quoteBatch = await ConsumeQuotesFromSse(quoteHub, AggregatorTestPort, "aggregator-test")
+                .ConfigureAwait(true);
+
+            // Verify quotes were delivered
+            quoteBatch.InitialQuotes.Should().HaveCount(TargetQuoteCount);
+
+            // Compute expected aggregated quotes and EMA on static series
+            IReadOnlyList<Quote> aggregatedQuotes = quoteBatch.RevisedQuotes.Aggregate(PeriodSize.FiveMinutes);
+            IReadOnlyList<EmaResult> expected = aggregatedQuotes.ToEma(14);
+
+            // Verify aggregator results count
+            aggregator.Results.Count.Should().BeGreaterThan(0, "aggregator should produce results");
+
+            // Verify EMA results match exactly
+            emaHub.Results.IsExactly(expected);
+        }
+        finally
+        {
+            emaHub.Unsubscribe();
+            aggregator.Unsubscribe();
+            quoteHub.EndTransmission();
+
+            if (!serverProcess.HasExited)
+            {
+                serverProcess.Kill();
+                try
+                {
+                    await serverProcess.WaitForExitAsync(CancellationToken.None).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    // Ignore cancellation - process is already killed
+                }
+            }
+
+            serverProcess.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Tests that TickAggregatorHub correctly aggregates incoming tick stream into 5-minute
+    /// quote bars and that downstream EMA indicator produces results matching the static series
+    /// computed on the aggregated quotes.
+    /// </summary>
+    [TestMethod]
+    public async Task TickAggregatorHub_WithSseStream_MatchesSeriesExactly()
+    {
+        CancellationToken cts = TestContext?.CancellationToken ?? default;
+
+        // Start SSE server
+        Process? serverProcess = StartSseServer(AggregatorTestPort + 1);
+        if (serverProcess is null)
+        {
+            Assert.Fail("Failed to start SSE server");
+            return;
+        }
+
+        // Setup: TickHub -> TickAggregatorHub -> EmaHub
+        TickHub tickHub = new();
+        TickAggregatorHub aggregator = tickHub.ToTickAggregatorHub(PeriodSize.FiveMinutes);
+        EmaHub emaHub = aggregator.ToEmaHub(14);
+
+        try
+        {
+            // Wait for server to be ready
+            bool serverReady = await WaitForServerReady(AggregatorTestPort + 1, cts).ConfigureAwait(true);
+            if (!serverReady)
+            {
+                Assert.Fail("SSE server did not become ready within timeout period");
+                return;
+            }
+
+            // Stream quotes (which will be converted to ticks)
+            SseQuoteBatch quoteBatch = await ConsumeQuotesFromSse(tickHub, AggregatorTestPort + 1, "aggregator-test")
+                .ConfigureAwait(true);
+
+            // Verify quotes were delivered
+            quoteBatch.InitialQuotes.Should().HaveCount(TargetQuoteCount);
+
+            // Compute expected: quotes -> aggregate -> EMA
+            IReadOnlyList<Quote> aggregatedQuotes = quoteBatch.RevisedQuotes.Aggregate(PeriodSize.FiveMinutes);
+            IReadOnlyList<EmaResult> expected = aggregatedQuotes.ToEma(14);
+
+            // Verify aggregator results count
+            aggregator.Results.Count.Should().BeGreaterThan(0, "aggregator should produce results");
+
+            // Verify EMA results match exactly
+            emaHub.Results.IsExactly(expected);
+        }
+        finally
+        {
+            emaHub.Unsubscribe();
+            aggregator.Unsubscribe();
+            tickHub.EndTransmission();
+
+            if (!serverProcess.HasExited)
+            {
+                serverProcess.Kill();
+                try
+                {
+                    await serverProcess.WaitForExitAsync(CancellationToken.None).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    // Ignore cancellation - process is already killed
+                }
+            }
+
+            serverProcess.Dispose();
+        }
+    }
+
     // Keep helper methods StartSseServer, FindRepositoryRoot, and WaitForServerReady unchanged.
     // Extend ConsumeQuotesFromSse below to handle action events and batching.
     // Encapsulate the logic for launching the test SSE server, waiting until it is ready,
@@ -595,6 +742,73 @@ public class ThreadSafetyTests : TestBase
         return new SseQuoteBatch(allQuotes, revisedQuotes);
     }
 
+    private static async Task<SseQuoteBatch> ConsumeQuotesFromSse(TickHub tickHub, int port, string? scenario = null)
+    {
+        List<Quote> allQuotes = [];
+        List<Quote> revisedQuotes = [];
+        using HttpClient httpClient = new() { Timeout = TimeSpan.FromMinutes(5) };
+
+        string batchSizeParam = $"&batchSize={TargetQuoteCount}";
+        string scenarioParam = string.IsNullOrWhiteSpace(scenario) ? string.Empty : $"&scenario={scenario}";
+        Uri uri = new($"http://localhost:{port}/quotes/longest?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}{scenarioParam}");
+
+        using HttpResponseMessage response = await httpClient
+            .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+        response.EnsureSuccessStatusCode();
+
+        Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+        using StreamReader reader = new(stream);
+
+        string? line;
+        string? eventType = null;
+
+        while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
+        {
+            // SSE format: "event: quote", "data: {...}", blank line
+            if (line.StartsWith("event:", StringComparison.Ordinal))
+            {
+                eventType = line[6..].Trim();
+            }
+            else if (line.StartsWith("data:", StringComparison.Ordinal))
+            {
+                string json = line[5..].Trim();
+                string eventName = string.IsNullOrWhiteSpace(eventType) ? "quote" : eventType;
+
+                if (string.Equals(eventName, "quote", StringComparison.OrdinalIgnoreCase))
+                {
+                    Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
+                    if (quote is not null)
+                    {
+                        allQuotes.Add(quote);
+                        revisedQuotes.Add(quote);
+                        // Convert quote to tick for TickHub
+                        tickHub.Add(new Tick(quote.Timestamp, quote.Close, quote.Volume));
+                    }
+                }
+                else
+                {
+                    QuoteAction? action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions);
+
+                    // Fail fast on malformed SSE payloads
+                    if (action is null || (action.Quote is null && action.CacheIndex is null))
+                    {
+                        throw new InvalidOperationException(
+                            $"Malformed SSE payload for event '{eventName}': {json}");
+                    }
+
+                    ApplyQuoteAction(action, eventName, tickHub, revisedQuotes);
+                }
+            }
+            else if (line.Length == 0)
+            {
+                eventType = null;
+            }
+        }
+
+        return new SseQuoteBatch(allQuotes, revisedQuotes);
+    }
+
     private static void ApplyQuoteAction(
         QuoteAction action,
         string eventName,
@@ -629,6 +843,45 @@ public class ThreadSafetyTests : TestBase
             }
 
             quoteHub.Add(action.Quote);
+            UpsertQuoteByTimestamp(revisedQuotes, action.Quote);
+        }
+    }
+
+    private static void ApplyQuoteAction(
+        QuoteAction action,
+        string eventName,
+        TickHub tickHub,
+        List<Quote> revisedQuotes)
+    {
+        if (string.Equals(eventName, "remove", StringComparison.OrdinalIgnoreCase))
+        {
+            // Capture timestamp before removal to maintain synchronization
+            DateTime? timestampToRemove = null;
+            if (action.CacheIndex is >= 0 && action.CacheIndex < tickHub.Results.Count)
+            {
+                timestampToRemove = tickHub.Results[action.CacheIndex.Value].Timestamp;
+                tickHub.RemoveAt(action.CacheIndex.Value);
+            }
+
+            // Update revisedQuotes using captured timestamp or fallback to action.Quote
+            DateTime? removalTimestamp = timestampToRemove ?? action.Quote?.Timestamp;
+            if (removalTimestamp.HasValue)
+            {
+                RemoveQuoteByTimestamp(revisedQuotes, removalTimestamp.Value);
+            }
+
+            return;
+        }
+
+        if (string.Equals(eventName, "add", StringComparison.OrdinalIgnoreCase))
+        {
+            if (action.Quote is null)
+            {
+                return;
+            }
+
+            // Convert quote to tick for TickHub
+            tickHub.Add(new Tick(action.Quote.Timestamp, action.Quote.Close, action.Quote.Volume));
             UpsertQuoteByTimestamp(revisedQuotes, action.Quote);
         }
     }
