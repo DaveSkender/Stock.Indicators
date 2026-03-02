@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators;
 public class QuoteAggregatorHub
     : QuoteProvider<IQuote, IQuote>
 {
+    private const int maxInputTrackerSize = 1000;
+
     private readonly Dictionary<DateTime, IQuote> _inputQuoteTracker = [];
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
@@ -99,8 +101,8 @@ public class QuoteAggregatorHub
                 // Track this input quote
                 _inputQuoteTracker[item.Timestamp] = item;
 
-                // Prune old tracker entries (keep last 1000 or within 10x aggregation period)
-                if (_inputQuoteTracker.Count > 1000)
+                // Prune old tracker entries
+                if (_inputQuoteTracker.Count > maxInputTrackerSize)
                 {
                     DateTime pruneThreshold = item.Timestamp.Add(-10 * AggregationPeriod);
                     List<DateTime> toRemove = _inputQuoteTracker
@@ -211,10 +213,10 @@ public class QuoteAggregatorHub
         // Update existing bar
         return new Quote(
             Timestamp: barTimestamp,
-            Open: existingBar.Open,  // Keep original open
+            Open: existingBar.Open,
             High: Math.Max(existingBar.High, quote.High),
             Low: Math.Min(existingBar.Low, quote.Low),
-            Close: quote.Close,  // Always use latest close
+            Close: quote.Close,
             Volume: existingBar.Volume + quote.Volume);
     }
 

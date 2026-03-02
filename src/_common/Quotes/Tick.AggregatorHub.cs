@@ -6,11 +6,12 @@ namespace Skender.Stock.Indicators;
 public class TickAggregatorHub
     : QuoteProvider<ITick, IQuote>
 {
+    private const int maxExecutionIdCacheSize = 10000;
+
     private readonly Dictionary<string, DateTime> _processedExecutionIds = [];
+    private readonly TimeSpan _executionIdRetentionPeriod;
     private Quote? _currentBar;
     private DateTime _currentBarTimestamp;
-    private const int MaxExecutionIdCacheSize = 10000;
-    private readonly TimeSpan _executionIdRetentionPeriod;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TickAggregatorHub"/> class.
@@ -104,7 +105,7 @@ public class TickAggregatorHub
                 _processedExecutionIds[item.ExecutionId] = item.Timestamp;
 
                 // Prune old execution IDs (by time or size)
-                if (_processedExecutionIds.Count > (MaxExecutionIdCacheSize / 2))
+                if (_processedExecutionIds.Count > (maxExecutionIdCacheSize / 2))
                 {
                     DateTime pruneThreshold = item.Timestamp.Add(-_executionIdRetentionPeriod);
                     List<string> toRemove = _processedExecutionIds
@@ -119,11 +120,11 @@ public class TickAggregatorHub
                 }
 
                 // Hard limit: if still too large after pruning, remove oldest entries
-                if (_processedExecutionIds.Count > MaxExecutionIdCacheSize)
+                if (_processedExecutionIds.Count > maxExecutionIdCacheSize)
                 {
                     List<string> toRemove = _processedExecutionIds
                         .OrderBy(kvp => kvp.Value)
-                        .Take(_processedExecutionIds.Count - (MaxExecutionIdCacheSize / 2))
+                        .Take(_processedExecutionIds.Count - (maxExecutionIdCacheSize / 2))
                         .Select(kvp => kvp.Key)
                         .ToList();
 
@@ -230,10 +231,10 @@ public class TickAggregatorHub
         // Update existing bar
         return new Quote(
             Timestamp: barTimestamp,
-            Open: existingBar.Open,  // Keep original open
+            Open: existingBar.Open,
             High: Math.Max(existingBar.High, tick.Price),
             Low: Math.Min(existingBar.Low, tick.Price),
-            Close: tick.Price,  // Always use latest price
+            Close: tick.Price,
             Volume: existingBar.Volume + tick.Volume);
     }
 
