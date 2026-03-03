@@ -506,7 +506,7 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
                     Math.Min(q.Low, tick.Price),
                     tick.Price,
                     q.Volume + tick.Volume);
-                quoteSequence[^1] = q;
+                quoteSequence[idx] = q;
             }
         }
 
