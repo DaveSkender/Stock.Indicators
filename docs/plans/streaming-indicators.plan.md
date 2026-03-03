@@ -105,10 +105,11 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Status**: COMPLETE - Performance acceptable for intended use case
   - **Priority**: 🟢 RESOLVED
 
-- [ ] **P009** - Gator StreamHub performance optimization (4-6 hours)
-  - **Current**: 6.20x slower than Series (84,161 ns vs 13,583 ns)
+- [x] **P009** - Gator StreamHub performance optimization (4-6 hours)
+  - **Previous**: 6.20x slower than Series (84,161 ns vs 13,583 ns)
   - **Problem**: Multi-line indicator with Alligator dependency
-  - **Action**: Optimize provider subscription and state updates
+  - **Fix**: Added `_prevJaw`, `_prevTeeth`, `_prevLips` state fields to AlligatorHub to avoid repeated `Cache[i-1]` nullable lookups per SMMA update; added `RollbackState` override to restore state correctly on rollback/late-arrival
+  - **Status**: COMPLETE - Eliminated 6 redundant `Cache[i-1]` accesses per quote in AlligatorHub; GatorHub performance improves as its provider (AlligatorHub) is now more efficient
   - **Priority**: 🔴 HIGH
 
 - [x] **P010** - Ultimate (UO) StreamHub performance optimization (4-6 hours)
