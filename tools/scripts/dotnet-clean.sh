@@ -66,8 +66,6 @@ for file in "${DELETE_FILES[@]}"; do
   find "${find_args[@]}" 2>/dev/null || true
 done
 
-echo "→ Restoring packages..."
-dotnet restore
 
 echo ""
 echo "✅ Cache deletes completed!"
