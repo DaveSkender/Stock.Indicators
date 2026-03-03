@@ -79,19 +79,15 @@
   ],
   // defaults
   "group": "none",
-  "presentation": {
-    "clear": true,
-    "echo": true,
-    "panel": "dedicated",
-    "focus": true,
-    "reveal": "always",
-    "revealProblems": "onProblem",
-    "showReuseMessage": false
-  },
-  "problemMatcher": [],
   "options": {
     "cwd": "${workspaceFolder}"
   },
+  "presentation": {
+    "clear": true,
+    "panel": "dedicated",
+    "showReuseMessage": false
+  },
+  "problemMatcher": [],
   // tasks
   "tasks": [
     {
@@ -209,31 +205,27 @@
       "detail": "Clean build outputs (bin/obj) for solution",
       "type": "shell",
       "command": "dotnet clean -v minimal --nologo && dotnet clean -c Release -v minimal --nologo",
-      "group": "build",
       "problemMatcher": "$msCompile"
     },
     {
       "label": "Delete: Temporary caches",
       "detail": "Delete bin, obj, node_modules, other caches, and lock files",
       "type": "shell",
-      "command": "bash tools/scripts/clean.sh",
-      "group": "build",
+      "command": "bash tools/scripts/dotnet-clean.sh",
       "problemMatcher": "$msCompile"
     },
     {
       "label": "Delete: Temporary caches (and restore)",
       "detail": "Delete temporary caches then restore",
       "type": "shell",
-      "command": "bash tools/scripts/clean.sh && dotnet restore --force-evaluate",
-      "group": "build",
+      "command": "bash tools/scripts/dotnet-clean.sh && dotnet restore --force-evaluate",
       "problemMatcher": "$msCompile"
     },
     {
       "label": "Delete: Temporary caches (and build)",
       "detail": "Delete temporary caches then rebuild",
       "type": "shell",
-      "command": "bash tools/scripts/clean.sh && dotnet build --no-incremental",
-      "group": "build",
+      "command": "bash tools/scripts/dotnet-clean.sh && dotnet build --no-incremental",
       "problemMatcher": "$msCompile"
     },
     {
@@ -299,7 +291,11 @@
       "dependsOn": "Install: .NET tools",
       "dependsOrder": "sequence",
       "group": "test",
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "clear": true,
+        "revealProblems": "onProblem"
+      }
     },
     {
       "label": "Lint: .NET Roslynator (fix)",

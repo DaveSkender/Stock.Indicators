@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # Delete specific folders (supports globs and subfolder paths) and files, skipping protected ones.
 
 DELETE_FOLDERS=(
@@ -26,13 +28,22 @@ SKIPPED_FOLDERS=(
   # add more protected folders as needed
 )
 
-# start from root, basic dotnet clean
+# find root directory
+ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+cd "$ROOT_DIR" || exit 1
+
 echo ""
-echo "=== Deleting caches and lock files ==="
-cd "$(dirname "$0")/../.." || exit 1
-dotnet clean
+echo "╔═══════════════════════════════════════╗"
+echo "║  Cleaning .NET caches and lock files  ║"
+echo "╚═══════════════════════════════════════╝"
+echo "🧹 evaluating ${ROOT_DIR}..."
+echo ""
+
+echo "→ Basic solution cleaning..."
+dotnet clean --nologo --verbosity quiet
 
 # Delete folders (bypasses SKIPPED_FOLDERS)
+echo "→ Deleting cache directories..."
 for folder in "${DELETE_FOLDERS[@]}"; do
   # Build find argument array with exclusions
   find_args=(".")
@@ -44,6 +55,7 @@ for folder in "${DELETE_FOLDERS[@]}"; do
 done
 
 # Delete files (bypasses SKIPPED_FOLDERS)
+echo "→ Deleting temporary and lock files..."
 for file in "${DELETE_FILES[@]}"; do
   # Build find argument array with exclusions
   find_args=(".")
@@ -54,5 +66,6 @@ for file in "${DELETE_FILES[@]}"; do
   find "${find_args[@]}" 2>/dev/null || true
 done
 
+
 echo ""
-echo "✓ Cache deletes completed!"
+echo "✅ Cache deletes completed!"
