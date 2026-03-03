@@ -1,19 +1,17 @@
 ---
-title: Simple Moving Average (SMA)
-description: Simple moving average.  Extended to include mean absolute deviation, mean square error, and mean absolute percentage error
+title: SMA with extended analysis
+description: Simple Moving Average (SMA) extended with Mean Absolute Deviation (MAD), Mean Square Error (MSE), and Mean Absolute Percentage Error (MAPE).
 ---
 
-# Simple Moving Average (SMA)
+# SMA with extended analysis
 
-[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average price over a lookback window.  An [extended analysis](#analysis) option includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
+[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) with extended statistical analysis including Mean Absolute Deviation (MAD), Mean Square Error (MSE), and Mean Absolute Percentage Error (MAPE).  See also [Simple Moving Average](/indicators/Sma).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Sma" />
-
 ```csharp
-// C# usage syntax (with Close price)
-IReadOnlyList<SmaResult> results =
-  quotes.ToSma(lookbackPeriods);
+// C# usage syntax
+IReadOnlyList<SmaAnalysisResult> results =
+  quotes.ToSmaAnalysis(lookbackPeriods);
 ```
 
 ## Parameters
@@ -31,39 +29,13 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IReadOnlyList<SmaResult>
+IReadOnlyList<SmaAnalysisResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
-
-### `SmaResult`
-
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `Sma` | double | Simple moving average |
-
-### Utilities
-
-- [.Condense()](/utilities/results/condense)
-- [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods()](/utilities/results/remove-warmup-periods)
-- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
-
-See [Utilities and helpers](/utilities/results/) for more information.
-
-## Analysis
-
-This indicator has an extended version with more analysis.  See [SMA with extended analysis](/indicators/SmaAnalysis) for the full documentation including streaming support.
-
-```csharp
-// C# usage syntax
-IReadOnlyList<SmaAnalysisResult> analysis =
-  quotes.ToSmaAnalysis(lookbackPeriods);
-```
 
 ### `SmaAnalysisResult`
 
@@ -75,6 +47,15 @@ IReadOnlyList<SmaAnalysisResult> analysis =
 | `Mse` | double | Mean square error |
 | `Mape` | double | Mean absolute percentage error |
 
+### Utilities
+
+- [.Condense()](/utilities/results/condense)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results/remove-warmup-periods)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
+
+See [Utilities and helpers](/utilities/results/) for more information.
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -82,8 +63,8 @@ This indicator may be generated from any chain-enabled indicator or method.
 ```csharp
 // example
 var results = quotes
-    .Use(CandlePart.Volume)
-    .ToSma(..);
+    .Use(CandlePart.HL2)
+    .ToSmaAnalysis(..);
 ```
 
 Results can be further processed on `Sma` with additional chain-enabled indicators.
@@ -91,7 +72,7 @@ Results can be further processed on `Sma` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .ToSma(..)
+    .ToSmaAnalysis(..)
     .ToRsi(..);
 ```
 
@@ -100,27 +81,30 @@ var results = quotes
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
 
 ```csharp
-SmaList smaList = new(lookbackPeriods);
+SmaAnalysisList smaAnalysisList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IReusable value in quotes)  // simulating stream
 {
-  smaList.Add(quote);
+  smaAnalysisList.Add(value);
 }
 
-// based on `ICollection<SmaResult>`
-IReadOnlyList<SmaResult> results = smaList;
+// based on `ICollection<SmaAnalysisResult>`
+IReadOnlyList<SmaAnalysisResult> results = smaAnalysisList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a chain-enabled hub for advanced streaming scenarios:
 
 ```csharp
 QuoteHub quoteHub = new();
-SmaHub observer = quoteHub.ToSmaHub(lookbackPeriods);
+SmaAnalysisHub observer = quoteHub.ToSmaAnalysisHub(lookbackPeriods);
 
 foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }
 
-IReadOnlyList<SmaResult> results = observer.Results;
+IReadOnlyList<SmaAnalysisResult> results = observer.Results;
 ```
+
+---
+Last updated: March 3, 2026
