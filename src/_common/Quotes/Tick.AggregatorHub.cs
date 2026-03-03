@@ -32,7 +32,14 @@ public class TickAggregatorHub
                 nameof(periodSize));
         }
 
-        AggregationPeriod = periodSize.ToTimeSpan();
+        TimeSpan agg = periodSize.ToTimeSpan();
+
+        if (agg == TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(periodSize), periodSize, "Unsupported PeriodSize");
+        }
+
+        AggregationPeriod = agg;
         FillGaps = fillGaps;
         Name = $"TICK-AGG({periodSize})";
 

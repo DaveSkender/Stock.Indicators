@@ -207,21 +207,44 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             provider.Add(tick);
         }
 
-        // Verify results are structurally valid
-        IReadOnlyList<IQuote> results = aggregator.Results;
-        results.Should().NotBeEmpty();
-
-        results.Should().AllSatisfy(q => {
-            q.Timestamp.Should().NotBe(default);
-            q.Open.Should().BeGreaterThan(0);
-            q.High.Should().BeGreaterThanOrEqualTo(q.Low);
-            q.Close.Should().BeGreaterThan(0);
-        });
-
-        // Verify ordering
-        for (int i = 1; i < results.Count; i++)
+        // Compute expected 1-minute bars from original ticks:
+        // group ticks by tick.Timestamp truncated to minute, produce Open/High/Low/Close/Timestamp per group
+        List<Quote> allBars = [];
+        foreach (Tick tick in ticks)
         {
-            results[i].Timestamp.Should().BeAfter(results[i - 1].Timestamp);
+            DateTime barTs = tick.Timestamp.RoundDown(TimeSpan.FromMinutes(1));
+            int idx = allBars.FindIndex(q => q.Timestamp == barTs);
+            if (idx < 0)
+            {
+                allBars.Add(new Quote(barTs, tick.Price, tick.Price, tick.Price, tick.Price, tick.Volume));
+            }
+            else
+            {
+                Quote q = allBars[idx];
+                allBars[idx] = new Quote(barTs, q.Open, Math.Max(q.High, tick.Price), Math.Min(q.Low, tick.Price), tick.Price, q.Volume + tick.Volume);
+            }
+        }
+
+        // Apply cache pruning semantics: TickHub retains only the most recent maxCacheSize ticks;
+        // since each tick falls on a unique minute, this maps to the last maxCacheSize bars
+        List<Quote> expectedBars = allBars.Count > maxCacheSize
+            ? allBars.Skip(allBars.Count - maxCacheSize).ToList()
+            : allBars;
+
+        // Verify exact count and numerical parity: Timestamp, Open, High, Low, Close for each entry
+        IReadOnlyList<IQuote> results = aggregator.Results;
+        results.Should().HaveCount(expectedBars.Count);
+
+        for (int i = 0; i < expectedBars.Count; i++)
+        {
+            Quote expected = expectedBars[i];
+            IQuote actual = results[i];
+
+            actual.Timestamp.Should().Be(expected.Timestamp, $"bar[{i}] Timestamp should match");
+            actual.Open.Should().Be(expected.Open, $"bar[{i}] Open should match");
+            actual.High.Should().Be(expected.High, $"bar[{i}] High should match");
+            actual.Low.Should().Be(expected.Low, $"bar[{i}] Low should match");
+            actual.Close.Should().Be(expected.Close, $"bar[{i}] Close should match");
         }
 
         // Cleanup

@@ -36,6 +36,14 @@ public class QuoteAggregatorHub
         }
 
         AggregationPeriod = periodSize.ToTimeSpan();
+
+        if (AggregationPeriod == TimeSpan.Zero)
+        {
+            throw new ArgumentException(
+                $"PeriodSize '{periodSize}' maps to TimeSpan.Zero, which is not a valid aggregation period.",
+                nameof(periodSize));
+        }
+
         FillGaps = fillGaps;
         Name = $"QUOTE-AGG({periodSize})";
 
@@ -109,14 +117,35 @@ public class QuoteAggregatorHub
                 if (_inputQuoteTracker.Count > maxInputTrackerSize)
                 {
                     DateTime pruneThreshold = item.Timestamp.Add(-10 * AggregationPeriod);
-                    List<DateTime> toRemove = _inputQuoteTracker
-                        .Where(kvp => kvp.Key < pruneThreshold)
-                        .Select(kvp => kvp.Key)
-                        .ToList();
 
-                    foreach (DateTime key in toRemove)
+                    // Remove entries older than threshold (no LINQ)
+                    List<DateTime> keysToRemove = [];
+                    foreach (DateTime key in _inputQuoteTracker.Keys)
+                    {
+                        if (key < pruneThreshold)
+                        {
+                            keysToRemove.Add(key);
+                        }
+                    }
+
+                    foreach (DateTime key in keysToRemove)
                     {
                         _inputQuoteTracker.Remove(key);
+                    }
+
+                    // Hard cap: if threshold pruning wasn't enough, remove oldest until within limit
+                    while (_inputQuoteTracker.Count > maxInputTrackerSize)
+                    {
+                        DateTime oldest = DateTime.MaxValue;
+                        foreach (DateTime key in _inputQuoteTracker.Keys)
+                        {
+                            if (key < oldest)
+                            {
+                                oldest = key;
+                            }
+                        }
+
+                        _inputQuoteTracker.Remove(oldest);
                     }
                 }
             }
@@ -139,7 +168,7 @@ public class QuoteAggregatorHub
                 DateTime nextExpectedBarTimestamp = lastBarTimestamp.Add(AggregationPeriod);
 
                 // Fill gaps between last bar and current bar
-                while (nextExpectedBarTimestamp < barTimestamp)
+                while (AggregationPeriod > TimeSpan.Zero && nextExpectedBarTimestamp < barTimestamp)
                 {
                     // Create a gap-fill bar with carried-forward prices
                     Quote gapBar = new(
