@@ -9,7 +9,7 @@ public class ChandelierHub
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
     private double _prevClose = double.NaN;
-    private double? _prevAtr;
+    private double _prevAtr = double.NaN;
 
     internal ChandelierHub(
         IQuoteProvider<IQuote> provider,
@@ -82,7 +82,7 @@ public class ChandelierHub
         // compute ATR: re/initialize as SMA when no prior value, else use SMMA
         double atr;
 
-        if (_prevAtr is null)
+        if (double.IsNaN(_prevAtr))
         {
             // Lazy initialization: compute SMA of the last LookbackPeriods true ranges.
             // This handles both the initial warmup completion and post-rollback re-init,
@@ -100,7 +100,7 @@ public class ChandelierHub
         }
         else
         {
-            atr = Atr.Increment(LookbackPeriods, high, low, prevClose, _prevAtr.Value);
+            atr = Atr.Increment(LookbackPeriods, high, low, prevClose, _prevAtr);
         }
 
         _prevAtr = atr;
@@ -124,7 +124,7 @@ public class ChandelierHub
         _highWindow.Clear();
         _lowWindow.Clear();
         _prevClose = double.NaN;
-        _prevAtr = null;
+        _prevAtr = double.NaN;
 
         if (restoreIndex < 0)
         {
@@ -154,7 +154,7 @@ public class ChandelierHub
         {
             double atr;
 
-            if (_prevAtr is null)
+            if (double.IsNaN(_prevAtr))
             {
                 double sumTr = 0;
                 for (int q = p + 1 - LookbackPeriods; q <= p; q++)
@@ -174,7 +174,7 @@ public class ChandelierHub
                     (double)ProviderCache[p].High,
                     (double)ProviderCache[p].Low,
                     (double)ProviderCache[p - 1].Close,
-                    _prevAtr.Value);
+                    _prevAtr);
             }
 
             _prevAtr = atr;
