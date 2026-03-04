@@ -88,6 +88,3 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<TrResult> results = observer.Results;
 ```
-
----
-Last updated: March 3, 2026

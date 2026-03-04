@@ -161,6 +161,3 @@ When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indi
 **ATR variant does not support streaming**: The `ToRenkoAtr()` method requires calculating ATR across the full dataset to determine the final brick size. Incremental streaming would require buffering all historical quotes and recalculating the entire Renko series on each new data point, which defeats the purpose of incremental processing.
 
 **Recommendation**: Use the Series implementation (`ToRenkoAtr()`) with periodic batch recalculation. For real-time scenarios, consider recalculating at appropriate intervals rather than on every tick.
-
----
-Last updated: January 28, 2026

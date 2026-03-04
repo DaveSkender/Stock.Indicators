@@ -105,6 +105,3 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<SmaAnalysisResult> results = observer.Results;
 ```
-
----
-Last updated: March 3, 2026
