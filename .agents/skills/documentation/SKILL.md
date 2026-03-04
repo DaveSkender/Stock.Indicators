@@ -209,6 +209,12 @@ Variations:
 - When the indicator can only output to chains (not read from them), describe that instead
 - When chaining outputs to a specific property, note which property is the chainable value (e.g., "Note: \`TenkanSen\` is the primary reusable value for chaining purposes.")
 
+End the section with a cross-reference to the usage guide:
+
+```markdown
+See [Chaining indicators](/features/batch#chaining) for more.
+```
+
 ### 7. Streaming section
 
 ````markdown
@@ -245,6 +251,30 @@ IReadOnlyList<{Indicator}Result> results = observer.Results;
 
 When the hub subscribes to an upstream chain-enabled hub (not a `QuoteHub`), adjust the hub variable type and creation accordingly.
 
+End the section with a cross-reference to the usage guides:
+
+```markdown
+See [Buffer lists](/features/buffer) and [Stream hubs](/features/stream) for full usage guides.
+```
+
+### 7a. Streaming not applicable
+
+When an indicator cannot support streaming due to an architectural constraint, include `## Streaming` with this standard wording instead of examples:
+
+```markdown
+## Streaming
+
+Streaming is not supported for this indicator.
+{One sentence stating the architectural reason.}
+Use the Series (batch) implementation with periodic recalculation instead.
+```
+
+Standard reasons by category:
+
+- **Dual-series indicators** (Beta, Correlation, Prs): "This indicator requires a second synchronized quote series, which cannot be expressed in the single-series streaming model."
+- **Lookahead/repaint indicators** (ZigZag): "This indicator requires lookahead to confirm reversal points; output repaints as new data arrives, making incremental results undefined."
+- **Full-dataset algorithms** (StdDevChannels): "This indicator recalculates the entire dataset on each new data point, making incremental streaming impractical."
+
 ## Optional and conditional sections
 
 ### Inline warnings
@@ -279,6 +309,28 @@ IReadOnlyList<...> results = quotes.ToIndicator(a, b);
 IReadOnlyList<...> results = quotes.ToIndicator(a, b, c);
 ```
 
+### Multi-variant indicators (substantially different parameter sets)
+
+When two variants share the same result type but have distinct parameter sets and different streaming support (e.g., Renko fixed-brick vs. ATR-derived), merge them into one page with a shared structure:
+
+1. Show both signatures in the usage syntax block with distinguishing comments
+2. Use `## Parameters` with H3 subsections per variant (`### Fixed brick size`, `### ATR-derived brick size`)
+3. Combine `## Response` into one section (shared result type)
+4. Combine `## Chaining` — note any variant-specific restrictions
+5. In `## Streaming`, show full examples for the supported variant, then add a `warning` admonition for the unsupported variant:
+
+````markdown
+## Streaming
+
+[Full buffer/hub examples for the supported variant]
+
+::: warning
+`ToVariantAtr()` does not support streaming.  {One sentence reason.}
+:::
+````
+
+Do not create a separate H2 section for the unsupported variant — keep all streaming content under one `## Streaming` heading.
+
 ## Image assets
 
 Chart images for the `<IndicatorChartPanel>` component are rendered from JSON data files at `docs/.vitepress/public/data/{IndicatorKey}.json`. When adding a new indicator:
@@ -286,6 +338,8 @@ Chart images for the `<IndicatorChartPanel>` component are rendered from JSON da
 1. Confirm whether a JSON data file exists for the indicator key
 2. If it exists, add `<IndicatorChartPanel indicator-key="{IndicatorKey}" />` to the page
 3. If it does not exist, omit the chart panel — do not add a placeholder
+
+A second `<IndicatorChartPanel>` mid-page is valid when it illustrates a behaviorally distinct mode of the same indicator (e.g., StdDevChannels with `null` lookback renders differently than a fixed-period run; HtTrendline exposes both a trendline output and a dominant cycle period output). In that case, place the second panel immediately after the prose that introduces the distinct behavior, under its own H2 or H3 heading. Do not add a second panel merely to show the same output at different parameter values.
 
 For static (non-chart) images referenced in prose:
 
@@ -303,7 +357,7 @@ For static (non-chart) images referenced in prose:
 - [ ] Historical quotes requirements stated
 - [ ] Response section: return type, bullet list, result table, Utilities links
 - [ ] Chaining section: correct chainability direction described
-- [ ] Streaming section: both `List<T>` and `QuoteHub` examples present
+- [ ] Streaming section: full examples present, or "not applicable" note with architectural reason
 - [ ] Site builds without errors: `pnpm run docs:dev` from `docs/`
 
 ## Checklist: updating an existing indicator page
