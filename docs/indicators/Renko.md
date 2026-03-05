@@ -5,29 +5,46 @@ description: The Renko Chart is a Japanese price transformed candlestick pattern
 
 # Renko Chart
 
-The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese price transformed candlestick pattern that uses "bricks" to show a defined increment of change over a non-linear time series.  Transitions can use either `Close` or `High/Low` price values.  An [ATR variant](#atr-variant) is also provided where brick size is determined by current Average True Range values.
+The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese price transformed candlestick pattern that uses "bricks" to show a defined increment of change over a non-linear time series.  Transitions can use either `Close` or `High/Low` price values.  An ATR variant is also provided where brick size is determined by current Average True Range values.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/478 "Community discussion about this indicator")
 
 <IndicatorChartPanel indicator-key="Renko" />
 
 ```csharp
-// C# usage syntax
+// C# usage syntax (fixed brick size)
 IReadOnlyList<RenkoResult> results =
   quotes.ToRenko(brickSize, endType);
+
+// C# usage syntax (ATR-derived brick size — Series only)
+IReadOnlyList<RenkoResult> results =
+  quotes.ToRenkoAtr(atrPeriods, endType);
 ```
 
 ## Parameters
 
 | param | type | description |
 | ----- | ---- | ----------- |
+| `endType` | EndType | See [EndType options](#endtype-options) below.  Applies to both variants.  Default is `EndType.Close` |
+
+### Fixed brick size
+
+| param | type | description |
+| ----- | ---- | ----------- |
 | `brickSize` | decimal | Brick size.  Must be greater than 0. |
-| `endType` | EndType | See options below.  Default is `EndType.Close` |
+
+### ATR-derived brick size
+
+| param | type | description |
+| ----- | ---- | ----------- |
+| `atrPeriods` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
-You must have at least two periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
+**Fixed brick size**: You must have at least two periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+**ATR-derived brick size**: You must have at least `A+100` periods of `quotes`.
+
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ### EndType options
 
@@ -47,6 +64,10 @@ IReadOnlyList<RenkoResult>
 
 ::: warning
 Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Timestamp`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
+:::
+
+::: warning 🖌️ ATR repaint warning
+When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/Atr) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
 :::
 
 ### `RenkoResult`
@@ -91,11 +112,26 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
-**Fixed brick size only** - Streaming implementations are only available for fixed brick size Renko. The [ATR variant](#atr-variant) requires full dataset processing and does not support incremental streaming.
+**Fixed brick size only** — Streaming implementations are available for the fixed brick size variant only.
 
-Subscribe to a `QuoteHub` for streaming scenarios:
+Use a `BufferList` for incremental processing:
+
+```csharp
+RenkoList buffer = new(brickSize, endType);
+
+foreach (IQuote quote in quotes)  // simulating incremental data
+{
+  buffer.Add(quote);
+}
+
+IReadOnlyList<RenkoResult> results = buffer;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
 QuoteHub quoteHub = new();
@@ -109,55 +145,10 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<RenkoResult> results = observer.Results;
 ```
 
-Use a `BufferList` for incremental processing:
-
-```csharp
-RenkoList buffer = new(brickSize, endType);
-
-foreach (IQuote quote in quotes)  // simulating stream  // simulating incremental data
-{
-  buffer.Add(quote);
-}
-
-IReadOnlyList<RenkoResult> results = buffer;
-```
-
-## ATR Variant
-
-```csharp
-// C# usage syntax
-IReadOnlyList<RenkoResult> results =
-  quotes.ToRenkoAtr(atrPeriods, endType);
-```
-
-### Parameters for ATR
-
-**`atrPeriod`** _`int`_ - Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.
-
-**`endType`** _`EndType`_ - See options below.  Default is `EndType.Close`
-
-#### Historical quotes requirements for ATR
-
-You must have at least `A+100` periods of `quotes`.
-
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
-
-### Response for ATR
-
-```csharp
-IReadOnlyList<RenkoResult>
-```
-
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It does not return a single incremental indicator value.
-- See [RenkoResult](#renkoresult) above for detailed response structure.
-
-::: warning 🖌️ Repaint warning
-When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/Atr) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+::: warning
+`ToRenkoAtr()` does not support streaming.
+The ATR brick size is derived from the full dataset and changes as new quotes are added, making incremental output undefined.
+Use the Series implementation with periodic recalculation instead.
 :::
 
-### Streaming limitations for ATR
-
-**ATR variant does not support streaming**: The `ToRenkoAtr()` method requires calculating ATR across the full dataset to determine the final brick size. Incremental streaming would require buffering all historical quotes and recalculating the entire Renko series on each new data point, which defeats the purpose of incremental processing.
-
-**Recommendation**: Use the Series implementation (`ToRenkoAtr()`) with periodic batch recalculation. For real-time scenarios, consider recalculating at appropriate intervals rather than on every tick.
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
