@@ -95,7 +95,6 @@ var emaHub = quotes
 
 Note: `TenkanSen` is the primary reusable value for chaining purposes.
 
-
 See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming

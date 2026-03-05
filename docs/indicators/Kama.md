@@ -84,7 +84,6 @@ var results = quotes
     .ToRsi(..);
 ```
 
-
 See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming

@@ -81,7 +81,6 @@ foreach (IQuote quote in quotes)  // simulating stream
 TsiList buffer = quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
 
-
 See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
 
 ## Chaining

@@ -80,7 +80,6 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<RocWbResult> results = observer.Results;
 ```
 
-
 See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
 
 ## Chaining

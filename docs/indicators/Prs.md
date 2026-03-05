@@ -82,7 +82,6 @@ var results = quotesEval
 
 See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
-
 ## Streaming
 
 Streaming is not supported for this indicator.

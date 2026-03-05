@@ -82,7 +82,6 @@ var results = quotesEval
 
 Results **cannot** be further chained with additional transforms.
 
-
 See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming

@@ -89,7 +89,6 @@ This indicator must be generated from `quotes` and **cannot** be generated from 
 
 See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
-
 ## Streaming
 
 Streaming is not supported for this indicator.

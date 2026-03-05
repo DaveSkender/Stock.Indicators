@@ -72,7 +72,6 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
-
 See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming

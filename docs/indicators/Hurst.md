@@ -75,7 +75,6 @@ var results = quotes
     .ToSlope(..);
 ```
 
-
 See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming

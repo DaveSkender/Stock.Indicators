@@ -92,7 +92,6 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<HtlResult> results = htlList;
 ```
 
-
 See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
 
 ## Chaining
