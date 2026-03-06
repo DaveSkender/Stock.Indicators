@@ -32,35 +32,35 @@ public static partial class Donchian
 
             if (i >= lookbackPeriods)
             {
-                decimal highHigh = 0;
-                decimal lowLow = decimal.MaxValue;
+                double highHigh = 0;
+                double lowLow = double.MaxValue;
 
                 // high/low over prior periods
                 for (int p = i - lookbackPeriods; p < i; p++)
                 {
                     IQuote d = quotes[p];
 
-                    if (d.High > highHigh)
+                    if ((double)d.High > highHigh)
                     {
-                        highHigh = d.High;
+                        highHigh = (double)d.High;
                     }
 
-                    if (d.Low < lowLow)
+                    if ((double)d.Low < lowLow)
                     {
-                        lowLow = d.Low;
+                        lowLow = (double)d.Low;
                     }
                 }
 
-                decimal u = highHigh;
-                decimal l = lowLow;
-                decimal c = (u + l) / 2m;
+                double u = highHigh;
+                double l = lowLow;
+                double c = (u + l) / 2d;
 
                 results.Add(new DonchianResult(
                     Timestamp: q.Timestamp,
                     UpperBand: u,
                     Centerline: c,
                     LowerBand: l,
-                    Width: c == 0 ? null : (u - l) / c));
+                    Width: c == 0 ? null : (double?)((u - l) / c)));
             }
             else
             {

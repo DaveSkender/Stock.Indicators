@@ -7,10 +7,10 @@ public class IchimokuHub
     : StreamHub<IQuote, IchimokuResult>, IIchimoku
 {
 
-    private readonly RollingWindowMax<decimal> tenkanHighWindow;
-    private readonly RollingWindowMin<decimal> tenkanLowWindow;
-    private readonly RollingWindowMax<decimal> kijunHighWindow;
-    private readonly RollingWindowMin<decimal> kijunLowWindow;
+    private CircularDoubleBuffer tenkanHighBuffer;
+    private CircularDoubleBuffer tenkanLowBuffer;
+    private CircularDoubleBuffer kijunHighBuffer;
+    private CircularDoubleBuffer kijunLowBuffer;
 
     internal IchimokuHub(
         IQuoteProvider<IQuote> provider,
@@ -41,10 +41,10 @@ public class IchimokuHub
         int requiredWarmup = Math.Max(Math.Max(tenkanPeriods, kijunPeriods), senkouBPeriods) + senkouOffset;
         ValidateCacheSize(requiredWarmup, Name);
 
-        tenkanHighWindow = new RollingWindowMax<decimal>(tenkanPeriods);
-        tenkanLowWindow = new RollingWindowMin<decimal>(tenkanPeriods);
-        kijunHighWindow = new RollingWindowMax<decimal>(kijunPeriods);
-        kijunLowWindow = new RollingWindowMin<decimal>(kijunPeriods);
+        tenkanHighBuffer = new CircularDoubleBuffer(tenkanPeriods);
+        tenkanLowBuffer = new CircularDoubleBuffer(tenkanPeriods);
+        kijunHighBuffer = new CircularDoubleBuffer(kijunPeriods);
+        kijunLowBuffer = new CircularDoubleBuffer(kijunPeriods);
 
         Reinitialize();
     }
@@ -97,7 +97,7 @@ public class IchimokuHub
                     if (backfillCacheIndex >= 0 && backfillCacheIndex < Cache.Count)
                     {
                         IchimokuResult pastResult = Cache[backfillCacheIndex];
-                        decimal chikouClose = ProviderCache[providerIndex].Close;
+                        double chikouClose = (double)ProviderCache[providerIndex].Close;
 
                         // Update if ChikouSpan is null or value has changed (forward bar revision)
                         // During rebuilds (notify=false), always update to ensure correctness
@@ -126,32 +126,32 @@ public class IchimokuHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current quote to rolling windows
-        tenkanHighWindow.Add(item.High);
-        tenkanLowWindow.Add(item.Low);
-        kijunHighWindow.Add(item.High);
-        kijunLowWindow.Add(item.Low);
+        // Add current quote to rolling buffers
+        tenkanHighBuffer.Add((double)item.High);
+        tenkanLowBuffer.Add((double)item.Low);
+        kijunHighBuffer.Add((double)item.High);
+        kijunLowBuffer.Add((double)item.Low);
 
         // Calculate Tenkan-sen (conversion line)
-        decimal? tenkanSen = null;
+        double? tenkanSen = null;
         if (i >= TenkanPeriods - 1)
         {
-            decimal max = tenkanHighWindow.GetMax();
-            decimal min = tenkanLowWindow.GetMin();
-            tenkanSen = (min + max) / 2;
+            double max = tenkanHighBuffer.GetMax();
+            double min = tenkanLowBuffer.GetMin();
+            tenkanSen = (min + max) / 2d;
         }
 
         // Calculate Kijun-sen (base line)
-        decimal? kijunSen = null;
+        double? kijunSen = null;
         if (i >= KijunPeriods - 1)
         {
-            decimal max = kijunHighWindow.GetMax();
-            decimal min = kijunLowWindow.GetMin();
-            kijunSen = (min + max) / 2;
+            double max = kijunHighBuffer.GetMax();
+            double min = kijunLowBuffer.GetMin();
+            kijunSen = (min + max) / 2d;
         }
 
         // Calculate Senkou Span A (leading span A)
-        decimal? senkouSpanA = null;
+        double? senkouSpanA = null;
         int senkouStartPeriod = Math.Max(
             2 * SenkouOffset,
             Math.Max(TenkanPeriods, KijunPeriods)) - 1;
@@ -160,49 +160,48 @@ public class IchimokuHub
         {
             if (SenkouOffset == 0)
             {
-                senkouSpanA = (tenkanSen + kijunSen) / 2;
+                senkouSpanA = (tenkanSen + kijunSen) / 2d;
             }
             else
             {
                 IchimokuResult skq = Cache[i - SenkouOffset];
-                senkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
+                senkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2d;
             }
         }
 
         // Calculate Senkou Span B (leading span B)
-        decimal? senkouSpanB = null;
+        double? senkouSpanB = null;
         if (i >= SenkouOffset + SenkouBPeriods - 1)
         {
-            // Calculate max/min over the SenkouB period, offset back
-            decimal max = decimal.MinValue;
-            decimal min = decimal.MaxValue;
+            double max = double.MinValue;
+            double min = double.MaxValue;
 
             for (int p = i - SenkouOffset - SenkouBPeriods + 1;
                  p <= i - SenkouOffset; p++)
             {
                 IQuote d = ProviderCache[p];
 
-                if (d.High > max)
+                if ((double)d.High > max)
                 {
-                    max = d.High;
+                    max = (double)d.High;
                 }
 
-                if (d.Low < min)
+                if ((double)d.Low < min)
                 {
-                    min = d.Low;
+                    min = (double)d.Low;
                 }
             }
 
-            senkouSpanB = min == decimal.MaxValue ? null : (min + max) / 2;
+            senkouSpanB = min == double.MaxValue ? null : (double?)((min + max) / 2d);
         }
 
         // Calculate Chikou Span (lagging span)
         // This is forward-looking: ChikouSpan at index i uses Close from index i + ChikouOffset
-        decimal? chikouSpan = null;
+        double? chikouSpan = null;
         int chikouIndex = i + ChikouOffset;
         if (chikouIndex < ProviderCache.Count)
         {
-            chikouSpan = ProviderCache[chikouIndex].Close;
+            chikouSpan = (double)ProviderCache[chikouIndex].Close;
         }
 
         // Create result
@@ -223,33 +222,33 @@ public class IchimokuHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear all windows
-        tenkanHighWindow.Clear();
-        tenkanLowWindow.Clear();
-        kijunHighWindow.Clear();
-        kijunLowWindow.Clear();
+        // Clear all buffers
+        tenkanHighBuffer.Clear();
+        tenkanLowBuffer.Clear();
+        kijunHighBuffer.Clear();
+        kijunLowBuffer.Clear();
 
         if (restoreIndex < 0)
         {
             return;
         }
 
-        // Rebuild Tenkan windows
+        // Rebuild Tenkan buffers
         int tenkanStart = Math.Max(0, restoreIndex - TenkanPeriods + 1);
         for (int p = tenkanStart; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
-            tenkanHighWindow.Add(quote.High);
-            tenkanLowWindow.Add(quote.Low);
+            tenkanHighBuffer.Add((double)quote.High);
+            tenkanLowBuffer.Add((double)quote.Low);
         }
 
-        // Rebuild Kijun windows
+        // Rebuild Kijun buffers
         int kijunStart = Math.Max(0, restoreIndex - KijunPeriods + 1);
         for (int p = kijunStart; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
-            kijunHighWindow.Add(quote.High);
-            kijunLowWindow.Add(quote.Low);
+            kijunHighBuffer.Add((double)quote.High);
+            kijunLowBuffer.Add((double)quote.Low);
         }
 
         // After Remove operations, ChikouSpan values that point past the end need to be nulled

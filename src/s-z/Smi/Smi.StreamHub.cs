@@ -7,11 +7,9 @@ public sealed class SmiHub
     : ChainHub<IQuote, SmiResult>, ISmi
 {
 
-    // Circular buffers for high/low tracking — avoids heap allocations per tick
-    private readonly double[] _highs;
-    private readonly double[] _lows;
-    private int _windowHead;  // next write position in circular buffer
-    private int _windowFill;  // items in buffer (0..LookbackPeriods)
+    // Circular buffers for high/low tracking — zero heap allocation per tick
+    private CircularDoubleBuffer _highBuffer;
+    private CircularDoubleBuffer _lowBuffer;
 
     // State for EMA smoothing
     private double _lastSmEma1 = double.NaN;
@@ -44,8 +42,8 @@ public sealed class SmiHub
         ValidateCacheSize(lookbackPeriods, Name);
 
         // Allocate circular buffers — fixed size, no per-tick heap allocations
-        _highs = new double[lookbackPeriods];
-        _lows = new double[lookbackPeriods];
+        _highBuffer = new CircularDoubleBuffer(lookbackPeriods);
+        _lowBuffer = new CircularDoubleBuffer(lookbackPeriods);
 
         Reinitialize();
     }
@@ -77,19 +75,15 @@ public sealed class SmiHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double high = (double)item.High;
-        double low = (double)item.Low;
-        double close = (double)item.Close;
-
-        // Write into circular buffer — no heap allocation, O(1) per tick
-        AddToWindow(high, low);
+        _highBuffer.Add((double)item.High);
+        _lowBuffer.Add((double)item.Low);
 
         double smi = double.NaN;
         double signal = double.NaN;
 
-        if (_windowFill == LookbackPeriods)
+        if (_highBuffer.IsFull)
         {
-            (smi, signal) = CalculateSmi(close);
+            (smi, signal) = CalculateSmi((double)item.Close);
         }
 
         SmiResult result = new(
@@ -100,43 +94,10 @@ public sealed class SmiHub
         return (result, i);
     }
 
-    // Writes high/low into the circular buffer and advances the head pointer.
-    private void AddToWindow(double high, double low)
-    {
-        _highs[_windowHead] = high;
-        _lows[_windowHead] = low;
-        _windowHead++;
-        if (_windowHead >= LookbackPeriods)
-        {
-            _windowHead = 0;
-        }
-
-        if (_windowFill < LookbackPeriods)
-        {
-            _windowFill++;
-        }
-    }
-
     private (double smi, double signal) CalculateSmi(double close)
     {
-        // Scan circular buffer for max high and min low — cache-friendly O(LookbackPeriods) scan
-        // Eliminates heap allocations from monotonic-deque pattern; fast for small fixed windows
-        double hH = _highs[0];
-        double lL = _lows[0];
-        for (int j = 1; j < LookbackPeriods; j++)
-        {
-            double h = _highs[j];
-            double l = _lows[j];
-            if (h > hH)
-            {
-                hH = h;
-            }
-
-            if (l < lL)
-            {
-                lL = l;
-            }
-        }
+        double hH = _highBuffer.GetMax();
+        double lL = _lowBuffer.GetMin();
 
         // Calculate distance from midpoint and range
         double sm = close - (0.5d * (hH + lL));
@@ -194,9 +155,9 @@ public sealed class SmiHub
         _lastHlEma2 = double.NaN;
         _lastSignal = double.NaN;
 
-        // Reset circular buffer
-        _windowHead = 0;
-        _windowFill = 0;
+        // Reset circular buffers
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
 
         if (restoreIndex < LookbackPeriods - 1)
         {
@@ -207,17 +168,13 @@ public sealed class SmiHub
         for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote q = ProviderCache[p];
-            double high = (double)q.High;
-            double low = (double)q.Low;
-            double close = (double)q.Close;
-
-            // Write into circular buffer
-            AddToWindow(high, low);
+            _highBuffer.Add((double)q.High);
+            _lowBuffer.Add((double)q.Low);
 
             // Calculate EMA state only after warmup
             if (p >= LookbackPeriods - 1)
             {
-                CalculateSmi(close);
+                CalculateSmi((double)q.Close);
             }
         }
     }

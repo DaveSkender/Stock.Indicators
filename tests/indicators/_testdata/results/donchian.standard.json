@@ -1,3516 +1,3436 @@
 [
   {
-    "timestamp": "2017-01-03T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-03T00:00:00"
   },
   {
-    "timestamp": "2017-01-04T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-04T00:00:00"
   },
   {
-    "timestamp": "2017-01-05T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-05T00:00:00"
   },
   {
-    "timestamp": "2017-01-06T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-06T00:00:00"
   },
   {
-    "timestamp": "2017-01-09T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-09T00:00:00"
   },
   {
-    "timestamp": "2017-01-10T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-10T00:00:00"
   },
   {
-    "timestamp": "2017-01-11T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-11T00:00:00"
   },
   {
-    "timestamp": "2017-01-12T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-12T00:00:00"
   },
   {
-    "timestamp": "2017-01-13T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-13T00:00:00"
   },
   {
-    "timestamp": "2017-01-17T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-17T00:00:00"
   },
   {
-    "timestamp": "2017-01-18T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-18T00:00:00"
   },
   {
-    "timestamp": "2017-01-19T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-19T00:00:00"
   },
   {
-    "timestamp": "2017-01-20T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-20T00:00:00"
   },
   {
-    "timestamp": "2017-01-23T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-23T00:00:00"
   },
   {
-    "timestamp": "2017-01-24T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-24T00:00:00"
   },
   {
-    "timestamp": "2017-01-25T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-25T00:00:00"
   },
   {
-    "timestamp": "2017-01-26T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-26T00:00:00"
   },
   {
-    "timestamp": "2017-01-27T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-27T00:00:00"
   },
   {
-    "timestamp": "2017-01-30T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-30T00:00:00"
   },
   {
-    "timestamp": "2017-01-31T00:00:00",
-    "upperBand": null,
-    "centerline": null,
-    "lowerBand": null,
-    "width": null
+    "timestamp": "2017-01-31T00:00:00"
   },
   {
     "timestamp": "2017-02-01T00:00:00",
     "upperBand": 217.02,
     "centerline": 214.27,
     "lowerBand": 211.52,
-    "width": 0.0256685490269286414337051384
+    "width": 0.02566854902692864
   },
   {
     "timestamp": "2017-02-02T00:00:00",
     "upperBand": 217.02,
     "centerline": 214.775,
     "lowerBand": 212.53,
-    "width": 0.0209055988825515073914561751
+    "width": 0.02090559888255155
   },
   {
     "timestamp": "2017-02-03T00:00:00",
     "upperBand": 217.02,
     "centerline": 214.775,
     "lowerBand": 212.53,
-    "width": 0.0209055988825515073914561751
+    "width": 0.02090559888255155
   },
   {
     "timestamp": "2017-02-06T00:00:00",
     "upperBand": 217.02,
     "centerline": 214.775,
     "lowerBand": 212.53,
-    "width": 0.0209055988825515073914561751
+    "width": 0.02090559888255155
   },
   {
     "timestamp": "2017-02-07T00:00:00",
     "upperBand": 217.02,
     "centerline": 214.775,
     "lowerBand": 212.53,
-    "width": 0.0209055988825515073914561751
+    "width": 0.02090559888255155
   },
   {
     "timestamp": "2017-02-08T00:00:00",
     "upperBand": 217.02,
     "centerline": 214.775,
     "lowerBand": 212.53,
-    "width": 0.0209055988825515073914561751
+    "width": 0.02090559888255155
   },
   {
     "timestamp": "2017-02-09T00:00:00",
     "upperBand": 217.02,
     "centerline": 214.775,
     "lowerBand": 212.53,
-    "width": 0.0209055988825515073914561751
+    "width": 0.02090559888255155
   },
   {
     "timestamp": "2017-02-10T00:00:00",
     "upperBand": 218.19,
     "centerline": 215.36,
     "lowerBand": 212.53,
-    "width": 0.0262815750371471025260029718
+    "width": 0.026281575037147085
   },
   {
     "timestamp": "2017-02-13T00:00:00",
     "upperBand": 218.97,
-    "centerline": 215.90,
+    "centerline": 215.9,
     "lowerBand": 212.83,
-    "width": 0.028439092172301991662806855
+    "width": 0.02843909217230193
   },
   {
     "timestamp": "2017-02-14T00:00:00",
     "upperBand": 220.19,
     "centerline": 216.51,
     "lowerBand": 212.83,
-    "width": 0.0339938109094268163133342571
+    "width": 0.03399381090942675
   },
   {
     "timestamp": "2017-02-15T00:00:00",
     "upperBand": 220.8,
     "centerline": 216.815,
     "lowerBand": 212.83,
-    "width": 0.0367594493000945506537831792
+    "width": 0.036759449300094546
   },
   {
     "timestamp": "2017-02-16T00:00:00",
     "upperBand": 222.15,
     "centerline": 217.49,
     "lowerBand": 212.83,
-    "width": 0.0428525449445951538001747207
+    "width": 0.042852544944595124
   },
   {
     "timestamp": "2017-02-17T00:00:00",
     "upperBand": 222.16,
     "centerline": 217.495,
     "lowerBand": 212.83,
-    "width": 0.0428975378744338950320697028
+    "width": 0.04289753787443382
   },
   {
     "timestamp": "2017-02-21T00:00:00",
     "upperBand": 222.16,
     "centerline": 217.495,
     "lowerBand": 212.83,
-    "width": 0.0428975378744338950320697028
+    "width": 0.04289753787443382
   },
   {
     "timestamp": "2017-02-22T00:00:00",
     "upperBand": 223.62,
     "centerline": 218.695,
     "lowerBand": 213.77,
-    "width": 0.045039895745215940007773383
+    "width": 0.04503989574521591
   },
   {
     "timestamp": "2017-02-23T00:00:00",
     "upperBand": 223.62,
     "centerline": 218.72,
     "lowerBand": 213.82,
-    "width": 0.0448061448427212874908558888
+    "width": 0.044806144842721336
   },
   {
     "timestamp": "2017-02-24T00:00:00",
     "upperBand": 223.81,
     "centerline": 218.815,
     "lowerBand": 213.82,
-    "width": 0.0456550053698329639192925531
+    "width": 0.045655005369833
   },
   {
     "timestamp": "2017-02-27T00:00:00",
     "upperBand": 223.81,
     "centerline": 218.815,
     "lowerBand": 213.82,
-    "width": 0.0456550053698329639192925531
+    "width": 0.045655005369833
   },
   {
     "timestamp": "2017-02-28T00:00:00",
     "upperBand": 224.2,
     "centerline": 219.01,
     "lowerBand": 213.82,
-    "width": 0.0473950961143326788731108169
+    "width": 0.04739509611433266
   },
   {
     "timestamp": "2017-03-01T00:00:00",
     "upperBand": 224.2,
     "centerline": 219.01,
     "lowerBand": 213.82,
-    "width": 0.0473950961143326788731108169
+    "width": 0.04739509611433266
   },
   {
     "timestamp": "2017-03-02T00:00:00",
     "upperBand": 227.04,
     "centerline": 220.665,
     "lowerBand": 214.29,
-    "width": 0.0577798925973761131126368024
+    "width": 0.05777989259737611
   },
   {
     "timestamp": "2017-03-03T00:00:00",
     "upperBand": 227.04,
     "centerline": 220.665,
     "lowerBand": 214.29,
-    "width": 0.0577798925973761131126368024
+    "width": 0.05777989259737611
   },
   {
     "timestamp": "2017-03-06T00:00:00",
     "upperBand": 227.04,
     "centerline": 221.37,
     "lowerBand": 215.7,
-    "width": 0.0512264534489768261282016533
+    "width": 0.05122645344897684
   },
   {
     "timestamp": "2017-03-07T00:00:00",
     "upperBand": 227.04,
     "centerline": 221.37,
     "lowerBand": 215.7,
-    "width": 0.0512264534489768261282016533
+    "width": 0.05122645344897684
   },
   {
     "timestamp": "2017-03-08T00:00:00",
     "upperBand": 227.04,
     "centerline": 221.37,
     "lowerBand": 215.7,
-    "width": 0.0512264534489768261282016533
+    "width": 0.05122645344897684
   },
   {
     "timestamp": "2017-03-09T00:00:00",
     "upperBand": 227.04,
     "centerline": 221.37,
     "lowerBand": 215.7,
-    "width": 0.0512264534489768261282016533
+    "width": 0.05122645344897684
   },
   {
     "timestamp": "2017-03-10T00:00:00",
     "upperBand": 227.04,
     "centerline": 221.94,
     "lowerBand": 216.84,
-    "width": 0.045958367126250337929170046
+    "width": 0.04595836712625029
   },
   {
     "timestamp": "2017-03-13T00:00:00",
     "upperBand": 227.04,
-    "centerline": 222.46,
+    "centerline": 222.45999999999998,
     "lowerBand": 217.88,
-    "width": 0.0411759417423357008001438461
+    "width": 0.04117594174233569
   },
   {
     "timestamp": "2017-03-14T00:00:00",
     "upperBand": 227.04,
     "centerline": 223.135,
     "lowerBand": 219.23,
-    "width": 0.0350012324377618930244022677
+    "width": 0.0350012324377619
   },
   {
     "timestamp": "2017-03-15T00:00:00",
     "upperBand": 227.04,
     "centerline": 223.185,
     "lowerBand": 219.33,
-    "width": 0.0345453323476040056455406949
+    "width": 0.034545332347603916
   },
   {
     "timestamp": "2017-03-16T00:00:00",
     "upperBand": 227.04,
-    "centerline": 223.77,
+    "centerline": 223.76999999999998,
     "lowerBand": 220.5,
-    "width": 0.0292264378603029896769003888
+    "width": 0.029226437860302955
   },
   {
     "timestamp": "2017-03-17T00:00:00",
     "upperBand": 227.04,
     "centerline": 223.985,
     "lowerBand": 220.93,
-    "width": 0.0272786124070808313056677903
+    "width": 0.027278612407080762
   },
   {
     "timestamp": "2017-03-20T00:00:00",
     "upperBand": 227.04,
-    "centerline": 224.025,
+    "centerline": 224.02499999999998,
     "lowerBand": 221.01,
-    "width": 0.0269166387679946434549715434
+    "width": 0.02691663876799465
   },
   {
     "timestamp": "2017-03-21T00:00:00",
     "upperBand": 227.04,
     "centerline": 224.725,
     "lowerBand": 222.41,
-    "width": 0.0206029591723217265546779397
+    "width": 0.020602959172321706
   },
   {
     "timestamp": "2017-03-22T00:00:00",
     "upperBand": 227.04,
-    "centerline": 224.34,
+    "centerline": 224.33999999999997,
     "lowerBand": 221.64,
-    "width": 0.0240706071142016581973789783
+    "width": 0.024070607114201687
   },
   {
     "timestamp": "2017-03-23T00:00:00",
     "upperBand": 227.04,
-    "centerline": 224.085,
+    "centerline": 224.08499999999998,
     "lowerBand": 221.13,
-    "width": 0.0263739206104826293593948725
+    "width": 0.026373920610482618
   },
   {
     "timestamp": "2017-03-24T00:00:00",
     "upperBand": 227.04,
-    "centerline": 224.085,
+    "centerline": 224.08499999999998,
     "lowerBand": 221.13,
-    "width": 0.0263739206104826293593948725
+    "width": 0.026373920610482618
   },
   {
     "timestamp": "2017-03-27T00:00:00",
     "upperBand": 227.04,
-    "centerline": 224.045,
+    "centerline": 224.04500000000002,
     "lowerBand": 221.05,
-    "width": 0.026735700417326876297172443
+    "width": 0.02673570041732679
   },
   {
     "timestamp": "2017-03-28T00:00:00",
     "upperBand": 227.04,
     "centerline": 223.405,
     "lowerBand": 219.77,
-    "width": 0.032541796289250464403213894
+    "width": 0.032541796289250385
   },
   {
     "timestamp": "2017-03-29T00:00:00",
     "upperBand": 227.04,
     "centerline": 223.405,
     "lowerBand": 219.77,
-    "width": 0.032541796289250464403213894
+    "width": 0.032541796289250385
   },
   {
     "timestamp": "2017-03-30T00:00:00",
     "upperBand": 226.34,
     "centerline": 223.055,
     "lowerBand": 219.77,
-    "width": 0.029454618815987088386272444
+    "width": 0.029454618815987058
   },
   {
     "timestamp": "2017-03-31T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-03T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-04T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-05T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-06T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-07T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-10T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-11T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-12T00:00:00",
     "upperBand": 226.21,
     "centerline": 222.99,
     "lowerBand": 219.77,
-    "width": 0.028880218843894345037894076
+    "width": 0.028880218843894332
   },
   {
     "timestamp": "2017-04-13T00:00:00",
     "upperBand": 225.99,
     "centerline": 222.88,
     "lowerBand": 219.77,
-    "width": 0.0279073941134242641780330223
+    "width": 0.027907394113424258
   },
   {
     "timestamp": "2017-04-17T00:00:00",
     "upperBand": 225.8,
-    "centerline": 222.785,
+    "centerline": 222.78500000000003,
     "lowerBand": 219.77,
-    "width": 0.0270664542047265300626164239
+    "width": 0.02706645420472653
   },
   {
     "timestamp": "2017-04-18T00:00:00",
     "upperBand": 225.46,
     "centerline": 222.615,
     "lowerBand": 219.77,
-    "width": 0.0255598230128248321092469061
+    "width": 0.02555982301282482
   },
   {
     "timestamp": "2017-04-19T00:00:00",
     "upperBand": 225.46,
     "centerline": 222.615,
     "lowerBand": 219.77,
-    "width": 0.0255598230128248321092469061
+    "width": 0.02555982301282482
   },
   {
     "timestamp": "2017-04-20T00:00:00",
     "upperBand": 225.25,
     "centerline": 222.51,
     "lowerBand": 219.77,
-    "width": 0.0246281066019504741359938879
+    "width": 0.02462810660195043
   },
   {
     "timestamp": "2017-04-21T00:00:00",
     "upperBand": 225.25,
     "centerline": 222.51,
     "lowerBand": 219.77,
-    "width": 0.0246281066019504741359938879
+    "width": 0.02462810660195043
   },
   {
     "timestamp": "2017-04-24T00:00:00",
     "upperBand": 225.25,
     "centerline": 222.51,
     "lowerBand": 219.77,
-    "width": 0.0246281066019504741359938879
+    "width": 0.02462810660195043
   },
   {
     "timestamp": "2017-04-25T00:00:00",
     "upperBand": 225.27,
     "centerline": 222.52,
     "lowerBand": 219.77,
-    "width": 0.0247168793816286176523458566
+    "width": 0.024716879381628618
   },
   {
     "timestamp": "2017-04-26T00:00:00",
     "upperBand": 226.73,
     "centerline": 223.675,
     "lowerBand": 220.62,
-    "width": 0.0273164189113669386386498268
+    "width": 0.027316418911366873
   },
   {
     "timestamp": "2017-04-27T00:00:00",
     "upperBand": 227.28,
     "centerline": 223.95,
     "lowerBand": 220.62,
-    "width": 0.0297387809778968519758874749
+    "width": 0.02973878097789684
   },
   {
     "timestamp": "2017-04-28T00:00:00",
     "upperBand": 227.28,
     "centerline": 223.95,
     "lowerBand": 220.62,
-    "width": 0.0297387809778968519758874749
+    "width": 0.02973878097789684
   },
   {
     "timestamp": "2017-05-01T00:00:00",
     "upperBand": 227.28,
     "centerline": 223.95,
     "lowerBand": 220.62,
-    "width": 0.0297387809778968519758874749
+    "width": 0.02973878097789684
   },
   {
     "timestamp": "2017-05-02T00:00:00",
     "upperBand": 227.28,
     "centerline": 223.95,
     "lowerBand": 220.62,
-    "width": 0.0297387809778968519758874749
+    "width": 0.02973878097789684
   },
   {
     "timestamp": "2017-05-03T00:00:00",
     "upperBand": 227.28,
     "centerline": 223.95,
     "lowerBand": 220.62,
-    "width": 0.0297387809778968519758874749
+    "width": 0.02973878097789684
   },
   {
     "timestamp": "2017-05-04T00:00:00",
     "upperBand": 227.28,
     "centerline": 223.95,
     "lowerBand": 220.62,
-    "width": 0.0297387809778968519758874749
+    "width": 0.02973878097789684
   },
   {
     "timestamp": "2017-05-05T00:00:00",
     "upperBand": 227.28,
     "centerline": 223.95,
     "lowerBand": 220.62,
-    "width": 0.0297387809778968519758874749
+    "width": 0.02973878097789684
   },
   {
     "timestamp": "2017-05-08T00:00:00",
     "upperBand": 227.46,
-    "centerline": 224.04,
+    "centerline": 224.04000000000002,
     "lowerBand": 220.62,
-    "width": 0.0305302624531333690412426352
+    "width": 0.03053026245313338
   },
   {
     "timestamp": "2017-05-09T00:00:00",
     "upperBand": 227.65,
     "centerline": 224.135,
     "lowerBand": 220.62,
-    "width": 0.0313650255426417114685345885
+    "width": 0.03136502554264172
   },
   {
     "timestamp": "2017-05-10T00:00:00",
     "upperBand": 227.91,
     "centerline": 224.265,
     "lowerBand": 220.62,
-    "width": 0.0325061868771319644170958464
+    "width": 0.03250618687713193
   },
   {
     "timestamp": "2017-05-11T00:00:00",
     "upperBand": 227.91,
     "centerline": 224.265,
     "lowerBand": 220.62,
-    "width": 0.0325061868771319644170958464
+    "width": 0.03250618687713193
   },
   {
     "timestamp": "2017-05-12T00:00:00",
     "upperBand": 227.91,
     "centerline": 224.265,
     "lowerBand": 220.62,
-    "width": 0.0325061868771319644170958464
+    "width": 0.03250618687713193
   },
   {
     "timestamp": "2017-05-15T00:00:00",
     "upperBand": 227.91,
     "centerline": 224.44,
     "lowerBand": 220.97,
-    "width": 0.0309214043842452325788629478
+    "width": 0.030921404384245222
   },
   {
     "timestamp": "2017-05-16T00:00:00",
     "upperBand": 228.15,
     "centerline": 224.655,
     "lowerBand": 221.16,
-    "width": 0.0311143753755758830206316352
+    "width": 0.031114375375575924
   },
   {
     "timestamp": "2017-05-17T00:00:00",
     "upperBand": 228.36,
     "centerline": 224.81,
     "lowerBand": 221.26,
-    "width": 0.0315822249899915484186646501
+    "width": 0.03158222498999165
   },
   {
     "timestamp": "2017-05-18T00:00:00",
     "upperBand": 228.36,
-    "centerline": 225.095,
+    "centerline": 225.09500000000003,
     "lowerBand": 221.83,
-    "width": 0.0290099735667162753504076057
+    "width": 0.029009973566716276
   },
   {
     "timestamp": "2017-05-19T00:00:00",
     "upperBand": 228.36,
     "centerline": 225.26,
     "lowerBand": 222.16,
-    "width": 0.0275237503329485927372813638
+    "width": 0.027523750332948668
   },
   {
     "timestamp": "2017-05-22T00:00:00",
     "upperBand": 228.36,
     "centerline": 225.465,
     "lowerBand": 222.57,
-    "width": 0.0256802607943583261260062537
+    "width": 0.025680260794358416
   },
   {
     "timestamp": "2017-05-23T00:00:00",
     "upperBand": 228.36,
     "centerline": 225.875,
     "lowerBand": 223.39,
-    "width": 0.0220033204205866076369673492
+    "width": 0.02200332042058673
   },
   {
     "timestamp": "2017-05-24T00:00:00",
     "upperBand": 228.36,
     "centerline": 225.875,
     "lowerBand": 223.39,
-    "width": 0.0220033204205866076369673492
+    "width": 0.02200332042058673
   },
   {
     "timestamp": "2017-05-25T00:00:00",
     "upperBand": 228.42,
-    "centerline": 225.905,
+    "centerline": 225.90499999999997,
     "lowerBand": 223.39,
-    "width": 0.0222659967685531528739957062
+    "width": 0.022265996768553162
   },
   {
     "timestamp": "2017-05-26T00:00:00",
     "upperBand": 229.7,
     "centerline": 226.545,
     "lowerBand": 223.39,
-    "width": 0.0278531859012558211392880002
+    "width": 0.027853185901255833
   },
   {
     "timestamp": "2017-05-30T00:00:00",
     "upperBand": 229.7,
     "centerline": 226.545,
     "lowerBand": 223.39,
-    "width": 0.0278531859012558211392880002
+    "width": 0.027853185901255833
   },
   {
     "timestamp": "2017-05-31T00:00:00",
     "upperBand": 229.7,
     "centerline": 226.545,
     "lowerBand": 223.39,
-    "width": 0.0278531859012558211392880002
+    "width": 0.027853185901255833
   },
   {
     "timestamp": "2017-06-01T00:00:00",
     "upperBand": 229.7,
     "centerline": 226.545,
     "lowerBand": 223.39,
-    "width": 0.0278531859012558211392880002
+    "width": 0.027853185901255833
   },
   {
     "timestamp": "2017-06-02T00:00:00",
     "upperBand": 230.94,
     "centerline": 227.165,
     "lowerBand": 223.39,
-    "width": 0.033235753747276208923029516
+    "width": 0.03323575374727626
   },
   {
     "timestamp": "2017-06-05T00:00:00",
     "upperBand": 231.86,
     "centerline": 227.625,
     "lowerBand": 223.39,
-    "width": 0.0372103239978034047226798462
+    "width": 0.037210323997803524
   },
   {
     "timestamp": "2017-06-06T00:00:00",
     "upperBand": 231.86,
     "centerline": 227.625,
     "lowerBand": 223.39,
-    "width": 0.0372103239978034047226798462
+    "width": 0.037210323997803524
   },
   {
     "timestamp": "2017-06-07T00:00:00",
     "upperBand": 231.86,
     "centerline": 227.625,
     "lowerBand": 223.39,
-    "width": 0.0372103239978034047226798462
+    "width": 0.037210323997803524
   },
   {
     "timestamp": "2017-06-08T00:00:00",
     "upperBand": 231.86,
     "centerline": 227.625,
     "lowerBand": 223.39,
-    "width": 0.0372103239978034047226798462
+    "width": 0.037210323997803524
   },
   {
     "timestamp": "2017-06-09T00:00:00",
     "upperBand": 231.86,
     "centerline": 227.625,
     "lowerBand": 223.39,
-    "width": 0.0372103239978034047226798462
+    "width": 0.037210323997803524
   },
   {
     "timestamp": "2017-06-12T00:00:00",
     "upperBand": 232.48,
     "centerline": 227.935,
     "lowerBand": 223.39,
-    "width": 0.0398797902910917586153947397
+    "width": 0.039879790291091774
   },
   {
     "timestamp": "2017-06-13T00:00:00",
     "upperBand": 232.48,
     "centerline": 227.935,
     "lowerBand": 223.39,
-    "width": 0.0398797902910917586153947397
+    "width": 0.039879790291091774
   },
   {
     "timestamp": "2017-06-14T00:00:00",
     "upperBand": 232.48,
     "centerline": 227.935,
     "lowerBand": 223.39,
-    "width": 0.0398797902910917586153947397
+    "width": 0.039879790291091774
   },
   {
     "timestamp": "2017-06-15T00:00:00",
     "upperBand": 232.48,
     "centerline": 227.935,
     "lowerBand": 223.39,
-    "width": 0.0398797902910917586153947397
+    "width": 0.039879790291091774
   },
   {
     "timestamp": "2017-06-16T00:00:00",
     "upperBand": 232.48,
     "centerline": 227.935,
     "lowerBand": 223.39,
-    "width": 0.0398797902910917586153947397
+    "width": 0.039879790291091774
   },
   {
     "timestamp": "2017-06-19T00:00:00",
     "upperBand": 232.48,
     "centerline": 228.81,
     "lowerBand": 225.14,
-    "width": 0.0320790175254578034176827936
+    "width": 0.03207901752545782
   },
   {
     "timestamp": "2017-06-20T00:00:00",
     "upperBand": 233.35,
-    "centerline": 229.98,
+    "centerline": 229.98000000000002,
     "lowerBand": 226.61,
-    "width": 0.0293068962518479867814592573
+    "width": 0.0293068962518479
   },
   {
     "timestamp": "2017-06-21T00:00:00",
     "upperBand": 233.35,
     "centerline": 230.305,
     "lowerBand": 227.26,
-    "width": 0.0264431948937278825904778446
+    "width": 0.026443194893727897
   },
   {
     "timestamp": "2017-06-22T00:00:00",
     "upperBand": 233.35,
     "centerline": 230.505,
     "lowerBand": 227.66,
-    "width": 0.0246849309125615496410056181
+    "width": 0.02468493091256154
   },
   {
     "timestamp": "2017-06-23T00:00:00",
     "upperBand": 233.35,
     "centerline": 230.845,
     "lowerBand": 228.34,
-    "width": 0.021702874222963460330524811
+    "width": 0.021702874222963423
   },
   {
     "timestamp": "2017-06-26T00:00:00",
     "upperBand": 233.35,
     "centerline": 230.845,
     "lowerBand": 228.34,
-    "width": 0.021702874222963460330524811
+    "width": 0.021702874222963423
   },
   {
     "timestamp": "2017-06-27T00:00:00",
     "upperBand": 233.35,
     "centerline": 230.845,
     "lowerBand": 228.34,
-    "width": 0.021702874222963460330524811
+    "width": 0.021702874222963423
   },
   {
     "timestamp": "2017-06-28T00:00:00",
     "upperBand": 233.35,
     "centerline": 230.845,
     "lowerBand": 228.34,
-    "width": 0.021702874222963460330524811
+    "width": 0.021702874222963423
   },
   {
     "timestamp": "2017-06-29T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.315,
     "lowerBand": 229.28,
-    "width": 0.0175950543630979400384756717
+    "width": 0.01759505436309791
   },
   {
     "timestamp": "2017-06-30T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-03T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-05T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-06T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-07T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-10T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-11T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-12T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-13T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-14T00:00:00",
     "upperBand": 233.35,
     "centerline": 231.075,
     "lowerBand": 228.8,
-    "width": 0.0196905766526019690576652602
+    "width": 0.019690576652601897
   },
   {
     "timestamp": "2017-07-17T00:00:00",
     "upperBand": 234.53,
-    "centerline": 231.665,
+    "centerline": 231.66500000000002,
     "lowerBand": 228.8,
-    "width": 0.0247339908920208059050784538
+    "width": 0.02473399089202076
   },
   {
     "timestamp": "2017-07-18T00:00:00",
     "upperBand": 234.53,
-    "centerline": 231.665,
+    "centerline": 231.66500000000002,
     "lowerBand": 228.8,
-    "width": 0.0247339908920208059050784538
+    "width": 0.02473399089202076
   },
   {
     "timestamp": "2017-07-19T00:00:00",
     "upperBand": 234.53,
-    "centerline": 231.665,
+    "centerline": 231.66500000000002,
     "lowerBand": 228.8,
-    "width": 0.0247339908920208059050784538
+    "width": 0.02473399089202076
   },
   {
     "timestamp": "2017-07-20T00:00:00",
     "upperBand": 235.51,
     "centerline": 232.155,
     "lowerBand": 228.8,
-    "width": 0.0289031035299692016109926558
+    "width": 0.028903103529969113
   },
   {
     "timestamp": "2017-07-21T00:00:00",
     "upperBand": 235.91,
-    "centerline": 232.355,
+    "centerline": 232.35500000000002,
     "lowerBand": 228.8,
-    "width": 0.0305997288631619719825267371
+    "width": 0.030599728863161906
   },
   {
     "timestamp": "2017-07-24T00:00:00",
     "upperBand": 235.91,
-    "centerline": 232.355,
+    "centerline": 232.35500000000002,
     "lowerBand": 228.8,
-    "width": 0.0305997288631619719825267371
+    "width": 0.030599728863161906
   },
   {
     "timestamp": "2017-07-25T00:00:00",
     "upperBand": 235.91,
-    "centerline": 232.355,
+    "centerline": 232.35500000000002,
     "lowerBand": 228.8,
-    "width": 0.0305997288631619719825267371
+    "width": 0.030599728863161906
   },
   {
     "timestamp": "2017-07-26T00:00:00",
     "upperBand": 236.28,
-    "centerline": 232.54,
+    "centerline": 232.54000000000002,
     "lowerBand": 228.8,
-    "width": 0.0321665089877010406811731315
+    "width": 0.032166508987700994
   },
   {
     "timestamp": "2017-07-27T00:00:00",
     "upperBand": 236.28,
-    "centerline": 232.54,
+    "centerline": 232.54000000000002,
     "lowerBand": 228.8,
-    "width": 0.0321665089877010406811731315
+    "width": 0.032166508987700994
   },
   {
     "timestamp": "2017-07-28T00:00:00",
     "upperBand": 236.47,
     "centerline": 232.635,
     "lowerBand": 228.8,
-    "width": 0.0329701033808326348141939089
+    "width": 0.03297010338083258
   },
   {
     "timestamp": "2017-07-31T00:00:00",
     "upperBand": 236.47,
     "centerline": 232.815,
     "lowerBand": 229.16,
-    "width": 0.0313983205549470609711573567
+    "width": 0.03139832055494707
   },
   {
     "timestamp": "2017-08-01T00:00:00",
     "upperBand": 236.47,
     "centerline": 232.815,
     "lowerBand": 229.16,
-    "width": 0.0313983205549470609711573567
+    "width": 0.03139832055494707
   },
   {
     "timestamp": "2017-08-02T00:00:00",
     "upperBand": 236.47,
     "centerline": 232.815,
     "lowerBand": 229.16,
-    "width": 0.0313983205549470609711573567
+    "width": 0.03139832055494707
   },
   {
     "timestamp": "2017-08-03T00:00:00",
     "upperBand": 236.47,
     "centerline": 232.815,
     "lowerBand": 229.16,
-    "width": 0.0313983205549470609711573567
+    "width": 0.03139832055494707
   },
   {
     "timestamp": "2017-08-04T00:00:00",
     "upperBand": 236.47,
     "centerline": 232.925,
     "lowerBand": 229.38,
-    "width": 0.0304389825050982075775464205
+    "width": 0.03043898250509822
   },
   {
     "timestamp": "2017-08-07T00:00:00",
     "upperBand": 236.47,
     "centerline": 233.06,
     "lowerBand": 229.65,
-    "width": 0.0292628507680425641465716983
+    "width": 0.029262850768042536
   },
   {
     "timestamp": "2017-08-08T00:00:00",
     "upperBand": 236.47,
     "centerline": 233.06,
     "lowerBand": 229.65,
-    "width": 0.0292628507680425641465716983
+    "width": 0.029262850768042536
   },
   {
     "timestamp": "2017-08-09T00:00:00",
     "upperBand": 237.33,
-    "centerline": 234.66,
+    "centerline": 234.66000000000003,
     "lowerBand": 231.99,
-    "width": 0.022756328304781385834824853
+    "width": 0.022756328304781397
   },
   {
     "timestamp": "2017-08-10T00:00:00",
     "upperBand": 237.33,
     "centerline": 234.875,
     "lowerBand": 232.42,
-    "width": 0.0209047365620010643959552954
+    "width": 0.02090473656200117
   },
   {
     "timestamp": "2017-08-11T00:00:00",
     "upperBand": 237.33,
-    "centerline": 234.85,
+    "centerline": 234.85000000000002,
     "lowerBand": 232.37,
-    "width": 0.0211198637428145624866936342
+    "width": 0.021119863742814594
   },
   {
     "timestamp": "2017-08-14T00:00:00",
     "upperBand": 237.33,
-    "centerline": 234.85,
+    "centerline": 234.85000000000002,
     "lowerBand": 232.37,
-    "width": 0.0211198637428145624866936342
+    "width": 0.021119863742814594
   },
   {
     "timestamp": "2017-08-15T00:00:00",
     "upperBand": 237.33,
-    "centerline": 234.85,
+    "centerline": 234.85000000000002,
     "lowerBand": 232.37,
-    "width": 0.0211198637428145624866936342
+    "width": 0.021119863742814594
   },
   {
     "timestamp": "2017-08-16T00:00:00",
     "upperBand": 237.33,
-    "centerline": 234.85,
+    "centerline": 234.85000000000002,
     "lowerBand": 232.37,
-    "width": 0.0211198637428145624866936342
+    "width": 0.021119863742814594
   },
   {
     "timestamp": "2017-08-17T00:00:00",
     "upperBand": 237.33,
-    "centerline": 234.85,
+    "centerline": 234.85000000000002,
     "lowerBand": 232.37,
-    "width": 0.0211198637428145624866936342
+    "width": 0.021119863742814594
   },
   {
     "timestamp": "2017-08-18T00:00:00",
     "upperBand": 237.33,
     "centerline": 234.56,
     "lowerBand": 231.79,
-    "width": 0.0236186903137789904502046385
+    "width": 0.023618690313779077
   },
   {
     "timestamp": "2017-08-21T00:00:00",
     "upperBand": 237.33,
     "centerline": 234.135,
     "lowerBand": 230.94,
-    "width": 0.0272919469536805689025562176
+    "width": 0.027291946953680632
   },
   {
     "timestamp": "2017-08-22T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-08-23T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-08-24T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-08-25T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-08-28T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-08-29T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-08-30T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-08-31T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-09-01T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-09-05T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-09-06T00:00:00",
     "upperBand": 237.33,
     "centerline": 233.955,
     "lowerBand": 230.58,
-    "width": 0.0288517022504327755337564916
+    "width": 0.028851702250432775
   },
   {
     "timestamp": "2017-09-07T00:00:00",
     "upperBand": 236.78,
     "centerline": 233.68,
     "lowerBand": 230.58,
-    "width": 0.0265320095857583019513865115
+    "width": 0.026532009585758253
   },
   {
     "timestamp": "2017-09-08T00:00:00",
     "upperBand": 236.78,
     "centerline": 233.68,
     "lowerBand": 230.58,
-    "width": 0.0265320095857583019513865115
+    "width": 0.026532009585758253
   },
   {
     "timestamp": "2017-09-11T00:00:00",
     "upperBand": 236.78,
     "centerline": 233.68,
     "lowerBand": 230.58,
-    "width": 0.0265320095857583019513865115
+    "width": 0.026532009585758253
   },
   {
     "timestamp": "2017-09-12T00:00:00",
     "upperBand": 237.71,
     "centerline": 234.145,
     "lowerBand": 230.58,
-    "width": 0.030451216126759059557112046
+    "width": 0.03045121612675904
   },
   {
     "timestamp": "2017-09-13T00:00:00",
     "upperBand": 238.46,
     "centerline": 234.52,
     "lowerBand": 230.58,
-    "width": 0.0336005457956677468872590824
+    "width": 0.03360054579566773
   },
   {
     "timestamp": "2017-09-14T00:00:00",
     "upperBand": 238.57,
     "centerline": 234.575,
     "lowerBand": 230.58,
-    "width": 0.0340616007673451987637216242
+    "width": 0.034061600767345115
   },
   {
     "timestamp": "2017-09-15T00:00:00",
     "upperBand": 238.68,
     "centerline": 234.63,
     "lowerBand": 230.58,
-    "width": 0.0345224395857307249712313003
+    "width": 0.0345224395857307
   },
   {
     "timestamp": "2017-09-18T00:00:00",
     "upperBand": 238.88,
-    "centerline": 234.73,
+    "centerline": 234.73000000000002,
     "lowerBand": 230.58,
-    "width": 0.0353597750607080475439867081
+    "width": 0.03535977506070797
   },
   {
     "timestamp": "2017-09-19T00:00:00",
     "upperBand": 239.67,
     "centerline": 235.125,
     "lowerBand": 230.58,
-    "width": 0.0386602870813397129186602871
+    "width": 0.0386602870813396
   },
   {
     "timestamp": "2017-09-20T00:00:00",
     "upperBand": 239.67,
-    "centerline": 235.65,
+    "centerline": 235.64999999999998,
     "lowerBand": 231.63,
-    "width": 0.0341183959261616804583068109
+    "width": 0.03411839592616165
   },
   {
     "timestamp": "2017-09-21T00:00:00",
     "upperBand": 239.74,
     "centerline": 235.685,
     "lowerBand": 231.63,
-    "width": 0.034410335829603071896811422
+    "width": 0.03441033582960313
   },
   {
     "timestamp": "2017-09-22T00:00:00",
     "upperBand": 239.74,
     "centerline": 235.685,
     "lowerBand": 231.63,
-    "width": 0.034410335829603071896811422
+    "width": 0.03441033582960313
   },
   {
     "timestamp": "2017-09-25T00:00:00",
     "upperBand": 239.74,
     "centerline": 235.685,
     "lowerBand": 231.63,
-    "width": 0.034410335829603071896811422
+    "width": 0.03441033582960313
   },
   {
     "timestamp": "2017-09-26T00:00:00",
     "upperBand": 239.74,
     "centerline": 235.685,
     "lowerBand": 231.63,
-    "width": 0.034410335829603071896811422
+    "width": 0.03441033582960313
   },
   {
     "timestamp": "2017-09-27T00:00:00",
     "upperBand": 239.74,
     "centerline": 235.685,
     "lowerBand": 231.63,
-    "width": 0.034410335829603071896811422
+    "width": 0.03441033582960313
   },
   {
     "timestamp": "2017-09-28T00:00:00",
     "upperBand": 240.03,
     "centerline": 236.635,
     "lowerBand": 233.24,
-    "width": 0.0286939801804466794852832421
+    "width": 0.028693980180446648
   },
   {
     "timestamp": "2017-09-29T00:00:00",
     "upperBand": 240.03,
-    "centerline": 236.795,
+    "centerline": 236.79500000000002,
     "lowerBand": 233.56,
-    "width": 0.0273232120610654785785172829
+    "width": 0.02732321206106547
   },
   {
     "timestamp": "2017-10-02T00:00:00",
     "upperBand": 240.82,
     "centerline": 237.19,
     "lowerBand": 233.56,
-    "width": 0.0306083730342763185631771997
+    "width": 0.03060837303427628
   },
   {
     "timestamp": "2017-10-03T00:00:00",
     "upperBand": 241.78,
-    "centerline": 237.67,
+    "centerline": 237.67000000000002,
     "lowerBand": 233.56,
-    "width": 0.0345857701855513947910968991
+    "width": 0.03458577018555139
   },
   {
     "timestamp": "2017-10-04T00:00:00",
     "upperBand": 242.33,
     "centerline": 238.555,
     "lowerBand": 234.78,
-    "width": 0.031648886001131814466265641
+    "width": 0.03164888600113186
   },
   {
     "timestamp": "2017-10-05T00:00:00",
     "upperBand": 242.85,
     "centerline": 238.85,
     "lowerBand": 234.85,
-    "width": 0.0334938245760937827088130626
+    "width": 0.03349382457609378
   },
   {
     "timestamp": "2017-10-06T00:00:00",
     "upperBand": 244.04,
     "centerline": 239.445,
     "lowerBand": 234.85,
-    "width": 0.0383804213911336632629622669
+    "width": 0.03838042139113366
   },
   {
     "timestamp": "2017-10-09T00:00:00",
     "upperBand": 244.06,
     "centerline": 240.275,
     "lowerBand": 236.49,
-    "width": 0.0315055665383414837165747581
+    "width": 0.031505566538341453
   },
   {
     "timestamp": "2017-10-10T00:00:00",
     "upperBand": 244.06,
     "centerline": 240.89,
     "lowerBand": 237.72,
-    "width": 0.0263190667939723525260492341
+    "width": 0.02631906679397237
   },
   {
     "timestamp": "2017-10-11T00:00:00",
     "upperBand": 244.4,
     "centerline": 241.06,
     "lowerBand": 237.72,
-    "width": 0.0277109433336098896540280428
+    "width": 0.02771094333360992
   },
   {
     "timestamp": "2017-10-12T00:00:00",
     "upperBand": 244.4,
     "centerline": 241.06,
     "lowerBand": 237.72,
-    "width": 0.0277109433336098896540280428
+    "width": 0.02771094333360992
   },
   {
     "timestamp": "2017-10-13T00:00:00",
     "upperBand": 244.41,
     "centerline": 241.065,
     "lowerBand": 237.72,
-    "width": 0.027751851160475390454856574
+    "width": 0.02775185116047538
   },
   {
     "timestamp": "2017-10-16T00:00:00",
     "upperBand": 244.61,
-    "centerline": 241.165,
+    "centerline": 241.16500000000002,
     "lowerBand": 237.72,
-    "width": 0.0285696514834242116393340659
+    "width": 0.02856965148342427
   },
   {
     "timestamp": "2017-10-17T00:00:00",
     "upperBand": 244.84,
     "centerline": 241.28,
     "lowerBand": 237.72,
-    "width": 0.0295092838196286472148541114
+    "width": 0.029509283819628664
   },
   {
     "timestamp": "2017-10-18T00:00:00",
     "upperBand": 244.85,
     "centerline": 241.285,
     "lowerBand": 237.72,
-    "width": 0.0295501170814596846053422301
+    "width": 0.029550117081459666
   },
   {
     "timestamp": "2017-10-19T00:00:00",
     "upperBand": 245.26,
     "centerline": 241.49,
     "lowerBand": 237.72,
-    "width": 0.0312228249616961364859828564
+    "width": 0.0312228249616961
   },
   {
     "timestamp": "2017-10-20T00:00:00",
     "upperBand": 245.26,
     "centerline": 241.49,
     "lowerBand": 237.72,
-    "width": 0.0312228249616961364859828564
+    "width": 0.0312228249616961
   },
   {
     "timestamp": "2017-10-23T00:00:00",
     "upperBand": 246.4,
     "centerline": 242.06,
     "lowerBand": 237.72,
-    "width": 0.035858877964141122035858878
+    "width": 0.03585887796414115
   },
   {
     "timestamp": "2017-10-24T00:00:00",
     "upperBand": 246.75,
-    "centerline": 242.58,
+    "centerline": 242.57999999999998,
     "lowerBand": 238.41,
-    "width": 0.034380410586198367548849864
+    "width": 0.03438041058619838
   },
   {
     "timestamp": "2017-10-25T00:00:00",
     "upperBand": 246.75,
     "centerline": 242.61,
     "lowerBand": 238.47,
-    "width": 0.0341288487696302708049956721
+    "width": 0.03412884876963027
   },
   {
     "timestamp": "2017-10-26T00:00:00",
     "upperBand": 246.75,
     "centerline": 242.975,
     "lowerBand": 239.2,
-    "width": 0.0310731556744521041259388826
+    "width": 0.031073155674452152
   },
   {
     "timestamp": "2017-10-27T00:00:00",
     "upperBand": 246.75,
     "centerline": 243.215,
     "lowerBand": 239.68,
-    "width": 0.0290689307814073967477334868
+    "width": 0.02906893078140737
   },
   {
     "timestamp": "2017-10-30T00:00:00",
     "upperBand": 247.12,
     "centerline": 243.96,
     "lowerBand": 240.8,
-    "width": 0.0259058862108542383997376619
+    "width": 0.02590588621085421
   },
   {
     "timestamp": "2017-10-31T00:00:00",
     "upperBand": 247.12,
     "centerline": 244.405,
     "lowerBand": 241.69,
-    "width": 0.0222172214152738282768355803
+    "width": 0.022217221415273856
   },
   {
     "timestamp": "2017-11-01T00:00:00",
     "upperBand": 247.12,
     "centerline": 244.565,
     "lowerBand": 242.01,
-    "width": 0.0208942407948807065606280539
+    "width": 0.020894240794880763
   },
   {
     "timestamp": "2017-11-02T00:00:00",
     "upperBand": 247.63,
     "centerline": 245.125,
     "lowerBand": 242.62,
-    "width": 0.0204385517593064762876083631
+    "width": 0.02043855175930644
   },
   {
     "timestamp": "2017-11-03T00:00:00",
     "upperBand": 247.63,
     "centerline": 245.34,
     "lowerBand": 243.05,
-    "width": 0.01866797097904948235102307
+    "width": 0.018667970979049417
   },
   {
     "timestamp": "2017-11-06T00:00:00",
     "upperBand": 247.7,
     "centerline": 245.375,
     "lowerBand": 243.05,
-    "width": 0.0189505858380030565461029037
+    "width": 0.018950585838002965
   },
   {
     "timestamp": "2017-11-07T00:00:00",
     "upperBand": 248.18,
     "centerline": 245.775,
     "lowerBand": 243.37,
-    "width": 0.0195707456006510019326619876
+    "width": 0.019570745600651012
   },
   {
     "timestamp": "2017-11-08T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-09T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-10T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-13T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-14T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-15T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-16T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-17T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-20T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-21T00:00:00",
     "upperBand": 248.52,
-    "centerline": 245.955,
+    "centerline": 245.95499999999998,
     "lowerBand": 243.39,
-    "width": 0.0208574739281575898030127462
+    "width": 0.020857473928157687
   },
   {
     "timestamp": "2017-11-22T00:00:00",
     "upperBand": 249.33,
     "centerline": 246.36,
     "lowerBand": 243.39,
-    "width": 0.0241110569897710667316122747
+    "width": 0.02411105698977117
   },
   {
     "timestamp": "2017-11-24T00:00:00",
     "upperBand": 249.33,
     "centerline": 247.07,
     "lowerBand": 244.81,
-    "width": 0.0182944104909539806532561622
+    "width": 0.01829441049095402
   },
   {
     "timestamp": "2017-11-27T00:00:00",
     "upperBand": 249.6,
-    "centerline": 247.275,
+    "centerline": 247.27499999999998,
     "lowerBand": 244.95,
-    "width": 0.0188049742189869578404610252
+    "width": 0.018804974218986983
   },
   {
     "timestamp": "2017-11-28T00:00:00",
     "upperBand": 249.86,
     "centerline": 247.405,
     "lowerBand": 244.95,
-    "width": 0.0198460014955235342858875124
+    "width": 0.019846001495523635
   },
   {
     "timestamp": "2017-11-29T00:00:00",
     "upperBand": 251.92,
     "centerline": 248.435,
     "lowerBand": 244.95,
-    "width": 0.0280556282327369332018435406
+    "width": 0.02805562823273693
   },
   {
     "timestamp": "2017-11-30T00:00:00",
     "upperBand": 252.62,
     "centerline": 248.785,
     "lowerBand": 244.95,
-    "width": 0.0308298329883232509998593163
+    "width": 0.030829832988323317
   },
   {
     "timestamp": "2017-12-01T00:00:00",
     "upperBand": 254.94,
     "centerline": 249.945,
     "lowerBand": 244.95,
-    "width": 0.0399687931344895877092960451
+    "width": 0.03996879313448962
   },
   {
     "timestamp": "2017-12-04T00:00:00",
     "upperBand": 254.94,
     "centerline": 249.945,
     "lowerBand": 244.95,
-    "width": 0.0399687931344895877092960451
+    "width": 0.03996879313448962
   },
   {
     "timestamp": "2017-12-05T00:00:00",
     "upperBand": 255.65,
-    "centerline": 250.30,
+    "centerline": 250.3,
     "lowerBand": 244.95,
-    "width": 0.0427487015581302437075509389
+    "width": 0.04274870155813031
   },
   {
     "timestamp": "2017-12-06T00:00:00",
     "upperBand": 255.65,
-    "centerline": 250.30,
+    "centerline": 250.3,
     "lowerBand": 244.95,
-    "width": 0.0427487015581302437075509389
+    "width": 0.04274870155813031
   },
   {
     "timestamp": "2017-12-07T00:00:00",
     "upperBand": 255.65,
-    "centerline": 250.30,
+    "centerline": 250.3,
     "lowerBand": 244.95,
-    "width": 0.0427487015581302437075509389
+    "width": 0.04274870155813031
   },
   {
     "timestamp": "2017-12-08T00:00:00",
     "upperBand": 255.65,
-    "centerline": 250.30,
+    "centerline": 250.3,
     "lowerBand": 244.95,
-    "width": 0.0427487015581302437075509389
+    "width": 0.04274870155813031
   },
   {
     "timestamp": "2017-12-11T00:00:00",
     "upperBand": 255.65,
-    "centerline": 250.30,
+    "centerline": 250.3,
     "lowerBand": 244.95,
-    "width": 0.0427487015581302437075509389
+    "width": 0.04274870155813031
   },
   {
     "timestamp": "2017-12-12T00:00:00",
     "upperBand": 255.65,
-    "centerline": 250.30,
+    "centerline": 250.3,
     "lowerBand": 244.95,
-    "width": 0.0427487015581302437075509389
+    "width": 0.04274870155813031
   },
   {
     "timestamp": "2017-12-13T00:00:00",
     "upperBand": 256.15,
-    "centerline": 250.55,
+    "centerline": 250.54999999999998,
     "lowerBand": 244.95,
-    "width": 0.0447016563560167631211335063
+    "width": 0.04470165635601672
   },
   {
     "timestamp": "2017-12-14T00:00:00",
     "upperBand": 256.38,
     "centerline": 250.665,
     "lowerBand": 244.95,
-    "width": 0.0455987074382143498294536533
+    "width": 0.04559870743821438
   },
   {
     "timestamp": "2017-12-15T00:00:00",
     "upperBand": 256.38,
     "centerline": 251.55,
     "lowerBand": 246.72,
-    "width": 0.0384019081693500298151460942
+    "width": 0.03840190816935001
   },
   {
     "timestamp": "2017-12-18T00:00:00",
     "upperBand": 257.19,
     "centerline": 252.095,
     "lowerBand": 247,
-    "width": 0.0404212697594160931394910649
+    "width": 0.04042126975941608
   },
   {
     "timestamp": "2017-12-19T00:00:00",
     "upperBand": 258.7,
-    "centerline": 252.895,
+    "centerline": 252.89499999999998,
     "lowerBand": 247.09,
-    "width": 0.0459083809486150378615630993
+    "width": 0.045908380948614984
   },
   {
     "timestamp": "2017-12-20T00:00:00",
     "upperBand": 258.7,
-    "centerline": 253.085,
+    "centerline": 253.08499999999998,
     "lowerBand": 247.47,
-    "width": 0.0443724440405397396131734398
+    "width": 0.0443724440405397
   },
   {
     "timestamp": "2017-12-21T00:00:00",
     "upperBand": 258.7,
-    "centerline": 253.715,
+    "centerline": 253.71499999999997,
     "lowerBand": 248.73,
-    "width": 0.0392960605403701003094022821
+    "width": 0.0392960605403701
   },
   {
     "timestamp": "2017-12-22T00:00:00",
     "upperBand": 258.7,
     "centerline": 253.92,
     "lowerBand": 249.14,
-    "width": 0.0376496534341524889729048519
+    "width": 0.0376496534341525
   },
   {
     "timestamp": "2017-12-26T00:00:00",
     "upperBand": 258.7,
     "centerline": 253.92,
     "lowerBand": 249.14,
-    "width": 0.0376496534341524889729048519
+    "width": 0.0376496534341525
   },
   {
     "timestamp": "2017-12-27T00:00:00",
     "upperBand": 258.7,
     "centerline": 254.235,
     "lowerBand": 249.77,
-    "width": 0.0351249827915117902727791217
+    "width": 0.0351249827915117
   },
   {
     "timestamp": "2017-12-28T00:00:00",
     "upperBand": 258.7,
     "centerline": 254.285,
     "lowerBand": 249.87,
-    "width": 0.0347248166427433784926362153
+    "width": 0.034724816642743316
   },
   {
     "timestamp": "2017-12-29T00:00:00",
     "upperBand": 258.7,
     "centerline": 254.285,
     "lowerBand": 249.87,
-    "width": 0.0347248166427433784926362153
+    "width": 0.034724816642743316
   },
   {
     "timestamp": "2018-01-02T00:00:00",
     "upperBand": 258.7,
     "centerline": 254.285,
     "lowerBand": 249.87,
-    "width": 0.0347248166427433784926362153
+    "width": 0.034724816642743316
   },
   {
     "timestamp": "2018-01-03T00:00:00",
     "upperBand": 258.9,
     "centerline": 255.32,
     "lowerBand": 251.74,
-    "width": 0.028043239855867147109509635
+    "width": 0.028043239855867024
   },
   {
     "timestamp": "2018-01-04T00:00:00",
     "upperBand": 260.66,
-    "centerline": 256.20,
+    "centerline": 256.20000000000005,
     "lowerBand": 251.74,
-    "width": 0.0348165495706479313036690086
+    "width": 0.03481654957064799
   },
   {
     "timestamp": "2018-01-05T00:00:00",
     "upperBand": 262.12,
     "centerline": 256.93,
     "lowerBand": 251.74,
-    "width": 0.0404001089790993655859572646
+    "width": 0.04040010897909935
   },
   {
     "timestamp": "2018-01-08T00:00:00",
     "upperBand": 263.47,
-    "centerline": 257.715,
+    "centerline": 257.71500000000003,
     "lowerBand": 251.96,
-    "width": 0.0446617387424092505286847875
+    "width": 0.04466173874240932
   },
   {
     "timestamp": "2018-01-09T00:00:00",
     "upperBand": 263.99,
     "centerline": 258.495,
     "lowerBand": 253,
-    "width": 0.0425153291166173426952165419
+    "width": 0.04251532911661738
   },
   {
     "timestamp": "2018-01-10T00:00:00",
     "upperBand": 265.1,
     "centerline": 259.745,
     "lowerBand": 254.39,
-    "width": 0.0412327475023580819650041387
+    "width": 0.041232747502358225
   },
   {
     "timestamp": "2018-01-11T00:00:00",
     "upperBand": 265.1,
     "centerline": 259.805,
     "lowerBand": 254.51,
-    "width": 0.0407613402359461904120397991
+    "width": 0.04076134023594631
   },
   {
     "timestamp": "2018-01-12T00:00:00",
     "upperBand": 265.94,
     "centerline": 260.225,
     "lowerBand": 254.51,
-    "width": 0.0439235277163992698626188875
+    "width": 0.04392352771639929
   },
   {
     "timestamp": "2018-01-16T00:00:00",
     "upperBand": 267.86,
     "centerline": 261.185,
     "lowerBand": 254.51,
-    "width": 0.0511131956276202691578766009
+    "width": 0.05111319562762036
   },
   {
     "timestamp": "2018-01-17T00:00:00",
     "upperBand": 269.76,
     "centerline": 262.68,
     "lowerBand": 255.6,
-    "width": 0.0539058931018730013704888077
+    "width": 0.053905893101872986
   },
   {
     "timestamp": "2018-01-18T00:00:00",
     "upperBand": 269.76,
-    "centerline": 263.285,
+    "centerline": 263.28499999999997,
     "lowerBand": 256.81,
-    "width": 0.0491862430446094536338948288
+    "width": 0.04918624304460942
   },
   {
     "timestamp": "2018-01-19T00:00:00",
     "upperBand": 269.76,
-    "centerline": 263.285,
+    "centerline": 263.28499999999997,
     "lowerBand": 256.81,
-    "width": 0.0491862430446094536338948288
+    "width": 0.04918624304460942
   },
   {
     "timestamp": "2018-01-22T00:00:00",
     "upperBand": 270.07,
     "centerline": 263.44,
     "lowerBand": 256.81,
-    "width": 0.0503340419070756149407834801
+    "width": 0.050334041907075584
   },
   {
     "timestamp": "2018-01-23T00:00:00",
     "upperBand": 272.27,
-    "centerline": 264.54,
+    "centerline": 264.53999999999996,
     "lowerBand": 256.81,
-    "width": 0.0584410675134195206774022832
+    "width": 0.05844106751341945
   },
   {
     "timestamp": "2018-01-24T00:00:00",
     "upperBand": 273.16,
     "centerline": 264.985,
     "lowerBand": 256.81,
-    "width": 0.0617016057512689397513066777
+    "width": 0.061701605751269026
   },
   {
     "timestamp": "2018-01-25T00:00:00",
     "upperBand": 274.2,
     "centerline": 265.505,
     "lowerBand": 256.81,
-    "width": 0.0654978248997194026477844108
+    "width": 0.06549782489971935
   },
   {
     "timestamp": "2018-01-26T00:00:00",
     "upperBand": 274.2,
     "centerline": 265.505,
     "lowerBand": 256.81,
-    "width": 0.0654978248997194026477844108
+    "width": 0.06549782489971935
   },
   {
     "timestamp": "2018-01-29T00:00:00",
     "upperBand": 276.06,
     "centerline": 266.435,
     "lowerBand": 256.81,
-    "width": 0.0722502674198209694672246514
+    "width": 0.07225026741982096
   },
   {
     "timestamp": "2018-01-30T00:00:00",
     "upperBand": 276.06,
     "centerline": 266.435,
     "lowerBand": 256.81,
-    "width": 0.0722502674198209694672246514
+    "width": 0.07225026741982096
   },
   {
     "timestamp": "2018-01-31T00:00:00",
     "upperBand": 276.06,
-    "centerline": 266.80,
+    "centerline": 266.8,
     "lowerBand": 257.54,
-    "width": 0.0694152923538230884557721139
+    "width": 0.06941529235382302
   },
   {
     "timestamp": "2018-02-01T00:00:00",
     "upperBand": 276.06,
     "centerline": 267.55,
     "lowerBand": 259.04,
-    "width": 0.0636142777051018501214726219
+    "width": 0.06361427770510178
   },
   {
     "timestamp": "2018-02-02T00:00:00",
     "upperBand": 276.06,
     "centerline": 268.315,
     "lowerBand": 260.57,
-    "width": 0.0577306524048226897489890614
+    "width": 0.057730652404822724
   },
   {
     "timestamp": "2018-02-05T00:00:00",
     "upperBand": 276.06,
     "centerline": 268.99,
     "lowerBand": 261.92,
-    "width": 0.0525670099260195546302836537
+    "width": 0.0525670099260195
   },
   {
     "timestamp": "2018-02-06T00:00:00",
     "upperBand": 276.06,
     "centerline": 264.83,
     "lowerBand": 253.6,
-    "width": 0.0848091228335158403504134728
+    "width": 0.08480912283351588
   },
   {
     "timestamp": "2018-02-07T00:00:00",
     "upperBand": 276.06,
     "centerline": 262.61,
     "lowerBand": 249.16,
-    "width": 0.1024332660599367883934351319
+    "width": 0.1024332660599368
   },
   {
     "timestamp": "2018-02-08T00:00:00",
     "upperBand": 276.06,
     "centerline": 262.61,
     "lowerBand": 249.16,
-    "width": 0.1024332660599367883934351319
+    "width": 0.1024332660599368
   },
   {
     "timestamp": "2018-02-09T00:00:00",
     "upperBand": 276.06,
     "centerline": 262.075,
     "lowerBand": 248.09,
-    "width": 0.1067251740913860536106076505
+    "width": 0.10672517409138606
   },
   {
     "timestamp": "2018-02-12T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-13T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-14T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-15T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-16T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-20T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-21T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-22T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-23T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-26T00:00:00",
     "upperBand": 276.06,
     "centerline": 259.825,
     "lowerBand": 243.59,
-    "width": 0.1249687289521793514865775041
+    "width": 0.12496872895217935
   },
   {
     "timestamp": "2018-02-27T00:00:00",
     "upperBand": 275.87,
     "centerline": 259.73,
     "lowerBand": 243.59,
-    "width": 0.1242829091749124090401570862
+    "width": 0.1242829091749124
   },
   {
     "timestamp": "2018-02-28T00:00:00",
     "upperBand": 274.24,
     "centerline": 258.915,
     "lowerBand": 243.59,
-    "width": 0.1183786184655195720603286793
+    "width": 0.11837861846551959
   },
   {
     "timestamp": "2018-03-01T00:00:00",
     "upperBand": 272.85,
     "centerline": 258.22,
     "lowerBand": 243.59,
-    "width": 0.1133142281775230423669738982
+    "width": 0.11331422817752311
   },
   {
     "timestamp": "2018-03-02T00:00:00",
     "upperBand": 272.62,
     "centerline": 258.105,
     "lowerBand": 243.59,
-    "width": 0.1124736057031053253520853916
+    "width": 0.11247360570310533
   },
   {
     "timestamp": "2018-03-05T00:00:00",
     "upperBand": 269.9,
     "centerline": 256.745,
     "lowerBand": 243.59,
-    "width": 0.1024752186021149389472044246
+    "width": 0.10247521860211484
   },
   {
     "timestamp": "2018-03-06T00:00:00",
     "upperBand": 268.63,
     "centerline": 256.11,
     "lowerBand": 243.59,
-    "width": 0.0977704892429034399281558705
+    "width": 0.09777048924290341
   },
   {
     "timestamp": "2018-03-07T00:00:00",
     "upperBand": 268.63,
     "centerline": 256.11,
     "lowerBand": 243.59,
-    "width": 0.0977704892429034399281558705
+    "width": 0.09777048924290341
   },
   {
     "timestamp": "2018-03-08T00:00:00",
     "upperBand": 268.63,
     "centerline": 256.11,
     "lowerBand": 243.59,
-    "width": 0.0977704892429034399281558705
+    "width": 0.09777048924290341
   },
   {
     "timestamp": "2018-03-09T00:00:00",
     "upperBand": 268.63,
     "centerline": 256.11,
     "lowerBand": 243.59,
-    "width": 0.0977704892429034399281558705
+    "width": 0.09777048924290341
   },
   {
     "timestamp": "2018-03-12T00:00:00",
     "upperBand": 268.63,
     "centerline": 256.11,
     "lowerBand": 243.59,
-    "width": 0.0977704892429034399281558705
+    "width": 0.09777048924290341
   },
   {
     "timestamp": "2018-03-13T00:00:00",
     "upperBand": 269.59,
     "centerline": 260.805,
     "lowerBand": 252.02,
-    "width": 0.0673683403308985640612718314
+    "width": 0.06736834033089843
   },
   {
     "timestamp": "2018-03-14T00:00:00",
     "upperBand": 270.07,
     "centerline": 261.835,
     "lowerBand": 253.6,
-    "width": 0.0629022094066874176485191055
+    "width": 0.06290220940668742
   },
   {
     "timestamp": "2018-03-15T00:00:00",
     "upperBand": 270.07,
     "centerline": 262.31,
     "lowerBand": 254.55,
-    "width": 0.0591666348976401967138119019
+    "width": 0.059166634897640125
   },
   {
     "timestamp": "2018-03-16T00:00:00",
     "upperBand": 270.07,
     "centerline": 262.56,
     "lowerBand": 255.05,
-    "width": 0.0572059719683120048750761731
+    "width": 0.05720597196831193
   },
   {
     "timestamp": "2018-03-19T00:00:00",
     "upperBand": 270.07,
     "centerline": 262.56,
     "lowerBand": 255.05,
-    "width": 0.0572059719683120048750761731
+    "width": 0.05720597196831193
   },
   {
     "timestamp": "2018-03-20T00:00:00",
     "upperBand": 270.07,
     "centerline": 262.56,
     "lowerBand": 255.05,
-    "width": 0.0572059719683120048750761731
+    "width": 0.05720597196831193
   },
   {
     "timestamp": "2018-03-21T00:00:00",
     "upperBand": 270.07,
     "centerline": 262.56,
     "lowerBand": 255.05,
-    "width": 0.0572059719683120048750761731
+    "width": 0.05720597196831193
   },
   {
     "timestamp": "2018-03-22T00:00:00",
     "upperBand": 270.07,
     "centerline": 262.56,
     "lowerBand": 255.05,
-    "width": 0.0572059719683120048750761731
+    "width": 0.05720597196831193
   },
   {
     "timestamp": "2018-03-23T00:00:00",
     "upperBand": 270.07,
     "centerline": 262.365,
     "lowerBand": 254.66,
-    "width": 0.0587349684599698892763897624
+    "width": 0.05873496845996987
   },
   {
     "timestamp": "2018-03-26T00:00:00",
     "upperBand": 270.07,
     "centerline": 259.695,
     "lowerBand": 249.32,
-    "width": 0.0799014228229268950114557462
+    "width": 0.07990142282292689
   },
   {
     "timestamp": "2018-03-27T00:00:00",
     "upperBand": 270.07,
     "centerline": 259.695,
     "lowerBand": 249.32,
-    "width": 0.0799014228229268950114557462
+    "width": 0.07990142282292689
   },
   {
     "timestamp": "2018-03-28T00:00:00",
     "upperBand": 270.07,
     "centerline": 259.695,
     "lowerBand": 249.32,
-    "width": 0.0799014228229268950114557462
+    "width": 0.07990142282292689
   },
   {
     "timestamp": "2018-03-29T00:00:00",
     "upperBand": 270.07,
     "centerline": 259.695,
     "lowerBand": 249.32,
-    "width": 0.0799014228229268950114557462
+    "width": 0.07990142282292689
   },
   {
     "timestamp": "2018-04-02T00:00:00",
     "upperBand": 270.07,
     "centerline": 259.695,
     "lowerBand": 249.32,
-    "width": 0.0799014228229268950114557462
+    "width": 0.07990142282292689
   },
   {
     "timestamp": "2018-04-03T00:00:00",
     "upperBand": 270.07,
-    "centerline": 258.165,
+    "centerline": 258.16499999999996,
     "lowerBand": 246.26,
-    "width": 0.0922278387852729843317258343
+    "width": 0.092227838785273
   },
   {
     "timestamp": "2018-04-04T00:00:00",
     "upperBand": 270.07,
-    "centerline": 258.165,
+    "centerline": 258.16499999999996,
     "lowerBand": 246.26,
-    "width": 0.0922278387852729843317258343
+    "width": 0.092227838785273
   },
   {
     "timestamp": "2018-04-05T00:00:00",
     "upperBand": 270.07,
-    "centerline": 258.165,
+    "centerline": 258.16499999999996,
     "lowerBand": 246.26,
-    "width": 0.0922278387852729843317258343
+    "width": 0.092227838785273
   },
   {
     "timestamp": "2018-04-06T00:00:00",
     "upperBand": 270.07,
-    "centerline": 258.165,
+    "centerline": 258.16499999999996,
     "lowerBand": 246.26,
-    "width": 0.0922278387852729843317258343
+    "width": 0.092227838785273
   },
   {
     "timestamp": "2018-04-09T00:00:00",
     "upperBand": 270.07,
-    "centerline": 258.165,
+    "centerline": 258.16499999999996,
     "lowerBand": 246.26,
-    "width": 0.0922278387852729843317258343
+    "width": 0.092227838785273
   },
   {
     "timestamp": "2018-04-10T00:00:00",
     "upperBand": 270.07,
-    "centerline": 258.165,
+    "centerline": 258.16499999999996,
     "lowerBand": 246.26,
-    "width": 0.0922278387852729843317258343
+    "width": 0.092227838785273
   },
   {
     "timestamp": "2018-04-11T00:00:00",
     "upperBand": 270.07,
-    "centerline": 258.165,
+    "centerline": 258.16499999999996,
     "lowerBand": 246.26,
-    "width": 0.0922278387852729843317258343
+    "width": 0.092227838785273
   },
   {
     "timestamp": "2018-04-12T00:00:00",
     "upperBand": 267.77,
     "centerline": 257.015,
     "lowerBand": 246.26,
-    "width": 0.0836916133299612863062467171
+    "width": 0.08369161332996125
   },
   {
     "timestamp": "2018-04-13T00:00:00",
     "upperBand": 266.41,
-    "centerline": 256.335,
+    "centerline": 256.33500000000004,
     "lowerBand": 246.26,
-    "width": 0.0786080714689761444984102834
+    "width": 0.07860807146897626
   },
   {
     "timestamp": "2018-04-16T00:00:00",
     "upperBand": 266.3,
     "centerline": 256.28,
     "lowerBand": 246.26,
-    "width": 0.0781957234275011705946620883
+    "width": 0.07819572342750127
   },
   {
     "timestamp": "2018-04-17T00:00:00",
     "upperBand": 265.34,
-    "centerline": 255.80,
+    "centerline": 255.79999999999998,
     "lowerBand": 246.26,
-    "width": 0.0745895230648944487881157154
+    "width": 0.07458952306489439
   },
   {
     "timestamp": "2018-04-18T00:00:00",
     "upperBand": 264.25,
     "centerline": 255.255,
     "lowerBand": 246.26,
-    "width": 0.0704785410667763608940079528
+    "width": 0.0704785410667764
   },
   {
     "timestamp": "2018-04-19T00:00:00",
     "upperBand": 264.25,
     "centerline": 255.255,
     "lowerBand": 246.26,
-    "width": 0.0704785410667763608940079528
+    "width": 0.0704785410667764
   },
   {
     "timestamp": "2018-04-20T00:00:00",
     "upperBand": 262.34,
-    "centerline": 254.30,
+    "centerline": 254.29999999999998,
     "lowerBand": 246.26,
-    "width": 0.0632324026740070782540306724
+    "width": 0.06323240267400702
   },
   {
     "timestamp": "2018-04-23T00:00:00",
     "upperBand": 262.34,
-    "centerline": 254.30,
+    "centerline": 254.29999999999998,
     "lowerBand": 246.26,
-    "width": 0.0632324026740070782540306724
+    "width": 0.06323240267400702
   },
   {
     "timestamp": "2018-04-24T00:00:00",
     "upperBand": 262.34,
-    "centerline": 254.30,
+    "centerline": 254.29999999999998,
     "lowerBand": 246.26,
-    "width": 0.0632324026740070782540306724
+    "width": 0.06323240267400702
   },
   {
     "timestamp": "2018-04-25T00:00:00",
     "upperBand": 262.34,
-    "centerline": 254.30,
+    "centerline": 254.29999999999998,
     "lowerBand": 246.26,
-    "width": 0.0632324026740070782540306724
+    "width": 0.06323240267400702
   },
   {
     "timestamp": "2018-04-26T00:00:00",
     "upperBand": 262.34,
-    "centerline": 254.30,
+    "centerline": 254.29999999999998,
     "lowerBand": 246.26,
-    "width": 0.0632324026740070782540306724
+    "width": 0.06323240267400702
   },
   {
     "timestamp": "2018-04-27T00:00:00",
     "upperBand": 262.34,
-    "centerline": 254.30,
+    "centerline": 254.29999999999998,
     "lowerBand": 246.26,
-    "width": 0.0632324026740070782540306724
+    "width": 0.06323240267400702
   },
   {
     "timestamp": "2018-04-30T00:00:00",
     "upperBand": 262.34,
-    "centerline": 254.30,
+    "centerline": 254.29999999999998,
     "lowerBand": 246.26,
-    "width": 0.0632324026740070782540306724
+    "width": 0.06323240267400702
   },
   {
     "timestamp": "2018-05-01T00:00:00",
     "upperBand": 262.34,
-    "centerline": 255.235,
+    "centerline": 255.23499999999999,
     "lowerBand": 248.13,
-    "width": 0.0556741826160205300997120301
+    "width": 0.05567418261602045
   },
   {
     "timestamp": "2018-05-02T00:00:00",
     "upperBand": 262.34,
-    "centerline": 255.235,
+    "centerline": 255.23499999999999,
     "lowerBand": 248.13,
-    "width": 0.0556741826160205300997120301
+    "width": 0.05567418261602045
   },
   {
     "timestamp": "2018-05-03T00:00:00",
     "upperBand": 262.34,
-    "centerline": 255.91,
+    "centerline": 255.90999999999997,
     "lowerBand": 249.48,
-    "width": 0.0502520417334219061388769489
+    "width": 0.050252041733421855
   },
   {
     "timestamp": "2018-05-04T00:00:00",
     "upperBand": 262.34,
-    "centerline": 255.91,
+    "centerline": 255.90999999999997,
     "lowerBand": 249.48,
-    "width": 0.0502520417334219061388769489
+    "width": 0.050252041733421855
   },
   {
     "timestamp": "2018-05-07T00:00:00",
     "upperBand": 262.34,
-    "centerline": 256.42,
+    "centerline": 256.41999999999996,
     "lowerBand": 250.5,
-    "width": 0.0461742453786756103268075813
+    "width": 0.04617424537867552
   },
   {
     "timestamp": "2018-05-08T00:00:00",
     "upperBand": 262.34,
-    "centerline": 256.42,
+    "centerline": 256.41999999999996,
     "lowerBand": 250.5,
-    "width": 0.0461742453786756103268075813
+    "width": 0.04617424537867552
   },
   {
     "timestamp": "2018-05-09T00:00:00",
     "upperBand": 262.34,
-    "centerline": 256.42,
+    "centerline": 256.41999999999996,
     "lowerBand": 250.5,
-    "width": 0.0461742453786756103268075813
+    "width": 0.04617424537867552
   },
   {
     "timestamp": "2018-05-10T00:00:00",
     "upperBand": 262.34,
-    "centerline": 256.42,
+    "centerline": 256.41999999999996,
     "lowerBand": 250.5,
-    "width": 0.0461742453786756103268075813
+    "width": 0.04617424537867552
   },
   {
     "timestamp": "2018-05-11T00:00:00",
     "upperBand": 263.4,
     "centerline": 256.95,
     "lowerBand": 250.5,
-    "width": 0.0502043199065966141272621133
+    "width": 0.05020431990659653
   },
   {
     "timestamp": "2018-05-14T00:00:00",
     "upperBand": 264.13,
     "centerline": 257.315,
     "lowerBand": 250.5,
-    "width": 0.0529700950197229077201095933
+    "width": 0.05297009501972289
   },
   {
     "timestamp": "2018-05-15T00:00:00",
     "upperBand": 265.03,
     "centerline": 257.765,
     "lowerBand": 250.5,
-    "width": 0.0563691734719608946133105736
+    "width": 0.05636917347196079
   },
   {
     "timestamp": "2018-05-16T00:00:00",
     "upperBand": 265.03,
     "centerline": 257.765,
     "lowerBand": 250.5,
-    "width": 0.0563691734719608946133105736
+    "width": 0.05636917347196079
   },
   {
     "timestamp": "2018-05-17T00:00:00",
     "upperBand": 265.03,
     "centerline": 257.765,
     "lowerBand": 250.5,
-    "width": 0.0563691734719608946133105736
+    "width": 0.05636917347196079
   },
   {
     "timestamp": "2018-05-18T00:00:00",
     "upperBand": 265.03,
     "centerline": 257.765,
     "lowerBand": 250.5,
-    "width": 0.0563691734719608946133105736
+    "width": 0.05636917347196079
   },
   {
     "timestamp": "2018-05-21T00:00:00",
     "upperBand": 265.03,
     "centerline": 257.765,
     "lowerBand": 250.5,
-    "width": 0.0563691734719608946133105736
+    "width": 0.05636917347196079
   },
   {
     "timestamp": "2018-05-22T00:00:00",
     "upperBand": 265.03,
     "centerline": 257.765,
     "lowerBand": 250.5,
-    "width": 0.0563691734719608946133105736
+    "width": 0.05636917347196079
   },
   {
     "timestamp": "2018-05-23T00:00:00",
     "upperBand": 265.2,
     "centerline": 257.85,
     "lowerBand": 250.5,
-    "width": 0.0570098894706224549156486329
+    "width": 0.0570098894706224
   },
   {
     "timestamp": "2018-05-24T00:00:00",
     "upperBand": 265.2,
     "centerline": 257.85,
     "lowerBand": 250.5,
-    "width": 0.0570098894706224549156486329
+    "width": 0.0570098894706224
   },
   {
     "timestamp": "2018-05-25T00:00:00",
     "upperBand": 265.2,
     "centerline": 257.85,
     "lowerBand": 250.5,
-    "width": 0.0570098894706224549156486329
+    "width": 0.0570098894706224
   },
   {
     "timestamp": "2018-05-29T00:00:00",
     "upperBand": 265.2,
     "centerline": 257.85,
     "lowerBand": 250.5,
-    "width": 0.0570098894706224549156486329
+    "width": 0.0570098894706224
   },
   {
     "timestamp": "2018-05-30T00:00:00",
     "upperBand": 265.2,
     "centerline": 257.85,
     "lowerBand": 250.5,
-    "width": 0.0570098894706224549156486329
+    "width": 0.0570098894706224
   },
   {
     "timestamp": "2018-05-31T00:00:00",
     "upperBand": 265.2,
     "centerline": 257.85,
     "lowerBand": 250.5,
-    "width": 0.0570098894706224549156486329
+    "width": 0.0570098894706224
   },
   {
     "timestamp": "2018-06-01T00:00:00",
     "upperBand": 265.2,
     "centerline": 257.85,
     "lowerBand": 250.5,
-    "width": 0.0570098894706224549156486329
+    "width": 0.0570098894706224
   },
   {
     "timestamp": "2018-06-04T00:00:00",
     "upperBand": 265.2,
     "centerline": 258.865,
     "lowerBand": 252.53,
-    "width": 0.0489444304946593784404998745
+    "width": 0.04894443049465933
   },
   {
     "timestamp": "2018-06-05T00:00:00",
     "upperBand": 266.1,
     "centerline": 261.25,
     "lowerBand": 256.4,
-    "width": 0.0371291866028708133971291866
+    "width": 0.03712918660287099
   },
   {
     "timestamp": "2018-06-06T00:00:00",
     "upperBand": 266.43,
-    "centerline": 261.415,
+    "centerline": 261.41499999999996,
     "lowerBand": 256.4,
-    "width": 0.0383681120058145094963946216
+    "width": 0.03836811200581463
   },
   {
     "timestamp": "2018-06-07T00:00:00",
     "upperBand": 268.36,
     "centerline": 263.315,
     "lowerBand": 258.27,
-    "width": 0.0383191234832804815525131496
+    "width": 0.0383191234832806
   },
   {
     "timestamp": "2018-06-08T00:00:00",
     "upperBand": 269.09,
     "centerline": 264.005,
     "lowerBand": 258.92,
-    "width": 0.0385219976894377000435597811
+    "width": 0.038521997689437544
   },
   {
     "timestamp": "2018-06-11T00:00:00",
     "upperBand": 269.09,
     "centerline": 264.005,
     "lowerBand": 258.92,
-    "width": 0.0385219976894377000435597811
+    "width": 0.038521997689437544
   },
   {
     "timestamp": "2018-06-12T00:00:00",
     "upperBand": 270.15,
-    "centerline": 264.535,
+    "centerline": 264.53499999999997,
     "lowerBand": 258.92,
-    "width": 0.0424518494717145179276844274
+    "width": 0.042451849471714376
   },
   {
     "timestamp": "2018-06-13T00:00:00",
     "upperBand": 270.15,
-    "centerline": 264.535,
+    "centerline": 264.53499999999997,
     "lowerBand": 258.92,
-    "width": 0.0424518494717145179276844274
+    "width": 0.042451849471714376
   },
   {
     "timestamp": "2018-06-14T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-15T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-18T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-19T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-20T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-21T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-22T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-25T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-26T00:00:00",
     "upperBand": 270.25,
-    "centerline": 264.585,
+    "centerline": 264.58500000000004,
     "lowerBand": 258.92,
-    "width": 0.0428217775006141693595630894
+    "width": 0.042821777500614104
   },
   {
     "timestamp": "2018-06-27T00:00:00",
     "upperBand": 270.25,
-    "centerline": 265.79,
+    "centerline": 265.78999999999996,
     "lowerBand": 261.33,
-    "width": 0.0335603295835057752360886414
+    "width": 0.03356032958350584
   },
   {
     "timestamp": "2018-06-28T00:00:00",
     "upperBand": 270.25,
-    "centerline": 265.79,
+    "centerline": 265.78999999999996,
     "lowerBand": 261.33,
-    "width": 0.0335603295835057752360886414
+    "width": 0.03356032958350584
   },
   {
     "timestamp": "2018-06-29T00:00:00",
     "upperBand": 270.25,
     "centerline": 265.52,
     "lowerBand": 260.79,
-    "width": 0.0356282012654413980114492317
+    "width": 0.03562820126544132
   },
   {
     "timestamp": "2018-07-02T00:00:00",
     "upperBand": 270.25,
     "centerline": 265.52,
     "lowerBand": 260.79,
-    "width": 0.0356282012654413980114492317
+    "width": 0.03562820126544132
   },
   {
     "timestamp": "2018-07-03T00:00:00",
     "upperBand": 270.25,
     "centerline": 265.52,
     "lowerBand": 260.79,
-    "width": 0.0356282012654413980114492317
+    "width": 0.03562820126544132
   },
   {
     "timestamp": "2018-07-05T00:00:00",
     "upperBand": 270.25,
     "centerline": 265.52,
     "lowerBand": 260.79,
-    "width": 0.0356282012654413980114492317
+    "width": 0.03562820126544132
   },
   {
     "timestamp": "2018-07-06T00:00:00",
     "upperBand": 270.25,
     "centerline": 265.52,
     "lowerBand": 260.79,
-    "width": 0.0356282012654413980114492317
+    "width": 0.03562820126544132
   },
   {
     "timestamp": "2018-07-09T00:00:00",
     "upperBand": 270.25,
     "centerline": 265.52,
     "lowerBand": 260.79,
-    "width": 0.0356282012654413980114492317
+    "width": 0.03562820126544132
   },
   {
     "timestamp": "2018-07-10T00:00:00",
     "upperBand": 270.25,
     "centerline": 265.52,
     "lowerBand": 260.79,
-    "width": 0.0356282012654413980114492317
+    "width": 0.03562820126544132
   },
   {
     "timestamp": "2018-07-11T00:00:00",
     "upperBand": 271.01,
-    "centerline": 265.90,
+    "centerline": 265.9,
     "lowerBand": 260.79,
-    "width": 0.0384355020684467845054531779
+    "width": 0.038435502068446675
   },
   {
     "timestamp": "2018-07-12T00:00:00",
     "upperBand": 271.01,
-    "centerline": 265.90,
+    "centerline": 265.9,
     "lowerBand": 260.79,
-    "width": 0.0384355020684467845054531779
+    "width": 0.038435502068446675
   },
   {
     "timestamp": "2018-07-13T00:00:00",
     "upperBand": 271.42,
     "centerline": 266.105,
     "lowerBand": 260.79,
-    "width": 0.0399466376054564927378290524
+    "width": 0.03994663760545647
   },
   {
     "timestamp": "2018-07-16T00:00:00",
     "upperBand": 271.9,
     "centerline": 266.345,
     "lowerBand": 260.79,
-    "width": 0.0417128160844018096829300344
+    "width": 0.041712816084401645
   },
   {
     "timestamp": "2018-07-17T00:00:00",
     "upperBand": 271.9,
     "centerline": 266.345,
     "lowerBand": 260.79,
-    "width": 0.0417128160844018096829300344
+    "width": 0.041712816084401645
   },
   {
     "timestamp": "2018-07-18T00:00:00",
     "upperBand": 272.85,
-    "centerline": 266.82,
+    "centerline": 266.82000000000005,
     "lowerBand": 260.79,
-    "width": 0.0451990105689228693501236789
+    "width": 0.04519901056892287
   },
   {
     "timestamp": "2018-07-19T00:00:00",
     "upperBand": 273.12,
-    "centerline": 266.955,
+    "centerline": 266.95500000000004,
     "lowerBand": 260.79,
-    "width": 0.0461875597010732145867281002
+    "width": 0.04618755970107315
   },
   {
     "timestamp": "2018-07-20T00:00:00",
     "upperBand": 273.12,
-    "centerline": 266.955,
+    "centerline": 266.95500000000004,
     "lowerBand": 260.79,
-    "width": 0.0461875597010732145867281002
+    "width": 0.04618755970107315
   },
   {
     "timestamp": "2018-07-23T00:00:00",
     "upperBand": 273.12,
-    "centerline": 266.955,
+    "centerline": 266.95500000000004,
     "lowerBand": 260.79,
-    "width": 0.0461875597010732145867281002
+    "width": 0.04618755970107315
   },
   {
     "timestamp": "2018-07-24T00:00:00",
     "upperBand": 273.12,
-    "centerline": 266.955,
+    "centerline": 266.95500000000004,
     "lowerBand": 260.79,
-    "width": 0.0461875597010732145867281002
+    "width": 0.04618755970107315
   },
   {
     "timestamp": "2018-07-25T00:00:00",
     "upperBand": 274.46,
     "centerline": 267.625,
     "lowerBand": 260.79,
-    "width": 0.0510789350770667912190565156
+    "width": 0.05107893507706664
   },
   {
     "timestamp": "2018-07-26T00:00:00",
     "upperBand": 276.22,
     "centerline": 268.505,
     "lowerBand": 260.79,
-    "width": 0.0574663414089123107577140091
+    "width": 0.05746634140891234
   },
   {
     "timestamp": "2018-07-27T00:00:00",
     "upperBand": 276.22,
     "centerline": 268.505,
     "lowerBand": 260.79,
-    "width": 0.0574663414089123107577140091
+    "width": 0.05746634140891234
   },
   {
     "timestamp": "2018-07-30T00:00:00",
     "upperBand": 276.22,
     "centerline": 268.87,
     "lowerBand": 261.52,
-    "width": 0.0546732621713095548034366051
+    "width": 0.054673262171309724
   },
   {
     "timestamp": "2018-07-31T00:00:00",
     "upperBand": 276.22,
     "centerline": 268.87,
     "lowerBand": 261.52,
-    "width": 0.0546732621713095548034366051
+    "width": 0.054673262171309724
   },
   {
     "timestamp": "2018-08-01T00:00:00",
     "upperBand": 276.22,
-    "centerline": 269.445,
+    "centerline": 269.44500000000005,
     "lowerBand": 262.67,
-    "width": 0.0502885561060698843919909443
+    "width": 0.050288556106069915
   },
   {
     "timestamp": "2018-08-02T00:00:00",
     "upperBand": 276.22,
-    "centerline": 269.705,
+    "centerline": 269.70500000000004,
     "lowerBand": 263.19,
-    "width": 0.0483120446413674199588439221
+    "width": 0.04831204464136752
   },
   {
     "timestamp": "2018-08-03T00:00:00",
     "upperBand": 276.22,
     "centerline": 270.555,
     "lowerBand": 264.89,
-    "width": 0.0418768827040712609266138123
+    "width": 0.04187688270407141
   },
   {
     "timestamp": "2018-08-06T00:00:00",
     "upperBand": 276.22,
     "centerline": 272.395,
     "lowerBand": 268.57,
-    "width": 0.0280842159364158666642192404
+    "width": 0.028084215936415993
   },
   {
     "timestamp": "2018-08-07T00:00:00",
     "upperBand": 276.82,
     "centerline": 272.705,
     "lowerBand": 268.59,
-    "width": 0.0301791312957224840028602336
+    "width": 0.030179131295722552
   },
   {
     "timestamp": "2018-08-08T00:00:00",
     "upperBand": 277.81,
-    "centerline": 273.20,
+    "centerline": 273.2,
     "lowerBand": 268.59,
-    "width": 0.0337481698389458272327964861
+    "width": 0.03374816983894593
   },
   {
     "timestamp": "2018-08-09T00:00:00",
     "upperBand": 277.81,
     "centerline": 273.725,
     "lowerBand": 269.64,
-    "width": 0.0298474746552196547629920541
+    "width": 0.02984747465521971
   },
   {
     "timestamp": "2018-08-10T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.12,
     "lowerBand": 270.43,
-    "width": 0.0269225156865606303808551
+    "width": 0.026922515686560615
   },
   {
     "timestamp": "2018-08-13T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.12,
     "lowerBand": 270.43,
-    "width": 0.0269225156865606303808551
+    "width": 0.026922515686560615
   },
   {
     "timestamp": "2018-08-14T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.12,
     "lowerBand": 270.43,
-    "width": 0.0269225156865606303808551
+    "width": 0.026922515686560615
   },
   {
     "timestamp": "2018-08-15T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.435,
     "lowerBand": 271.06,
-    "width": 0.0245959881210487000564796764
+    "width": 0.0245959881210487
   },
   {
     "timestamp": "2018-08-16T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.435,
     "lowerBand": 271.06,
-    "width": 0.0245959881210487000564796764
+    "width": 0.0245959881210487
   },
   {
     "timestamp": "2018-08-17T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.435,
     "lowerBand": 271.06,
-    "width": 0.0245959881210487000564796764
+    "width": 0.0245959881210487
   },
   {
     "timestamp": "2018-08-20T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.435,
     "lowerBand": 271.06,
-    "width": 0.0245959881210487000564796764
+    "width": 0.0245959881210487
   },
   {
     "timestamp": "2018-08-21T00:00:00",
     "upperBand": 277.81,
     "centerline": 274.48,
     "lowerBand": 271.15,
-    "width": 0.0242640629554065870008743806
+    "width": 0.024264062955406677
   },
   {
     "timestamp": "2018-08-22T00:00:00",
     "upperBand": 279.07,
     "centerline": 275.11,
     "lowerBand": 271.15,
-    "width": 0.0287884846061575369852059176
+    "width": 0.028788484606157592
   },
   {
     "timestamp": "2018-08-23T00:00:00",
     "upperBand": 279.07,
     "centerline": 275.11,
     "lowerBand": 271.15,
-    "width": 0.0287884846061575369852059176
+    "width": 0.028788484606157592
   },
   {
     "timestamp": "2018-08-24T00:00:00",
     "upperBand": 279.07,
     "centerline": 275.11,
     "lowerBand": 271.15,
-    "width": 0.0287884846061575369852059176
+    "width": 0.028788484606157592
   },
   {
     "timestamp": "2018-08-27T00:00:00",
     "upperBand": 279.42,
-    "centerline": 275.285,
+    "centerline": 275.28499999999997,
     "lowerBand": 271.15,
-    "width": 0.0300415932578963619521586719
+    "width": 0.030041593257896505
   },
   {
     "timestamp": "2018-08-28T00:00:00",
     "upperBand": 281.59,
     "centerline": 276.37,
     "lowerBand": 271.15,
-    "width": 0.0377754459601259181532004197
+    "width": 0.03777544596012591
   },
   {
     "timestamp": "2018-08-29T00:00:00",
     "upperBand": 282.09,
     "centerline": 276.62,
     "lowerBand": 271.15,
-    "width": 0.0395488395632998337068903188
+    "width": 0.039548839563299826
   },
   {
     "timestamp": "2018-08-30T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.26,
     "lowerBand": 271.15,
-    "width": 0.0440741542234725528384909471
+    "width": 0.044074154223472654
   },
   {
     "timestamp": "2018-08-31T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-04T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-05T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-06T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-07T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-10T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-11T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-12T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-13T00:00:00",
     "upperBand": 283.37,
     "centerline": 277.75,
     "lowerBand": 272.13,
-    "width": 0.0404680468046804680468046805
+    "width": 0.0404680468046805
   },
   {
     "timestamp": "2018-09-14T00:00:00",
     "upperBand": 283.37,
-    "centerline": 279.30,
+    "centerline": 279.3,
     "lowerBand": 275.23,
-    "width": 0.029144289294665234514858575
+    "width": 0.029144289294665185
   },
   {
     "timestamp": "2018-09-17T00:00:00",
     "upperBand": 283.37,
     "centerline": 279.305,
     "lowerBand": 275.24,
-    "width": 0.0291079644116646676572206011
+    "width": 0.02910796441166465
   },
   {
     "timestamp": "2018-09-18T00:00:00",
     "upperBand": 283.37,
     "centerline": 280.13,
     "lowerBand": 276.89,
-    "width": 0.0231321172312854746010780709
+    "width": 0.02313211723128554
   },
   {
     "timestamp": "2018-09-19T00:00:00",
     "upperBand": 283.37,
     "centerline": 280.305,
     "lowerBand": 277.24,
-    "width": 0.0218690355148855710743654234
+    "width": 0.021869035514885553
   },
   {
     "timestamp": "2018-09-20T00:00:00",
     "upperBand": 283.37,
     "centerline": 280.305,
     "lowerBand": 277.24,
-    "width": 0.0218690355148855710743654234
+    "width": 0.021869035514885553
   },
   {
     "timestamp": "2018-09-21T00:00:00",
     "upperBand": 285.51,
     "centerline": 281.375,
     "lowerBand": 277.24,
-    "width": 0.0293913816081741448245224345
+    "width": 0.02939138160817408
   },
   {
     "timestamp": "2018-09-24T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.135,
     "lowerBand": 278.17,
-    "width": 0.0281071118436209615963988871
+    "width": 0.028107111843620986
   },
   {
     "timestamp": "2018-09-25T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-09-26T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-09-27T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-09-28T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-10-01T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-10-02T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-10-03T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-10-04T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-10-05T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.295,
     "lowerBand": 278.49,
-    "width": 0.0269576152606316087780513293
+    "width": 0.026957615260631656
   },
   {
     "timestamp": "2018-10-08T00:00:00",
     "upperBand": 286.1,
     "centerline": 282.425,
     "lowerBand": 278.75,
-    "width": 0.0260246083030893157475435956
+    "width": 0.026024608303089395
   },
   {
     "timestamp": "2018-10-09T00:00:00",
     "upperBand": 286.1,
-    "centerline": 282.335,
+    "centerline": 282.33500000000004,
     "lowerBand": 278.57,
-    "width": 0.0266704446845059946517434962
+    "width": 0.026670444684506096
   },
   {
     "timestamp": "2018-10-10T00:00:00",
     "upperBand": 286.1,
-    "centerline": 282.335,
+    "centerline": 282.33500000000004,
     "lowerBand": 278.57,
-    "width": 0.0266704446845059946517434962
+    "width": 0.026670444684506096
   },
   {
     "timestamp": "2018-10-11T00:00:00",
     "upperBand": 286.1,
     "centerline": 278.615,
     "lowerBand": 271.13,
-    "width": 0.0537300576063743875957863001
+    "width": 0.05373005760637448
   },
   {
     "timestamp": "2018-10-12T00:00:00",
     "upperBand": 286.1,
-    "centerline": 274.95,
+    "centerline": 274.95000000000005,
     "lowerBand": 263.8,
-    "width": 0.0811056555737406801236588471
+    "width": 0.0811056555737407
   },
   {
     "timestamp": "2018-10-15T00:00:00",
     "upperBand": 286.1,
-    "centerline": 274.95,
+    "centerline": 274.95000000000005,
     "lowerBand": 263.8,
-    "width": 0.0811056555737406801236588471
+    "width": 0.0811056555737407
   },
   {
     "timestamp": "2018-10-16T00:00:00",
     "upperBand": 286.1,
-    "centerline": 274.95,
+    "centerline": 274.95000000000005,
     "lowerBand": 263.8,
-    "width": 0.0811056555737406801236588471
+    "width": 0.0811056555737407
   },
   {
     "timestamp": "2018-10-17T00:00:00",
     "upperBand": 286.1,
-    "centerline": 274.95,
+    "centerline": 274.95000000000005,
     "lowerBand": 263.8,
-    "width": 0.0811056555737406801236588471
+    "width": 0.0811056555737407
   },
   {
     "timestamp": "2018-10-18T00:00:00",
     "upperBand": 286.1,
-    "centerline": 274.95,
+    "centerline": 274.95000000000005,
     "lowerBand": 263.8,
-    "width": 0.0811056555737406801236588471
+    "width": 0.0811056555737407
   },
   {
     "timestamp": "2018-10-19T00:00:00",
     "upperBand": 286.1,
-    "centerline": 274.95,
+    "centerline": 274.95000000000005,
     "lowerBand": 263.8,
-    "width": 0.0811056555737406801236588471
+    "width": 0.0811056555737407
   },
   {
     "timestamp": "2018-10-22T00:00:00",
     "upperBand": 286.09,
     "centerline": 274.945,
     "lowerBand": 263.8,
-    "width": 0.0810707596064667478950335522
+    "width": 0.08107075960646662
   },
   {
     "timestamp": "2018-10-23T00:00:00",
     "upperBand": 286.09,
     "centerline": 274.945,
     "lowerBand": 263.8,
-    "width": 0.0810707596064667478950335522
+    "width": 0.08107075960646662
   },
   {
     "timestamp": "2018-10-24T00:00:00",
     "upperBand": 286.09,
     "centerline": 274.09,
     "lowerBand": 262.09,
-    "width": 0.0875624794775438724506548944
+    "width": 0.08756247947754388
   },
   {
     "timestamp": "2018-10-25T00:00:00",
     "upperBand": 286.09,
-    "centerline": 272.18,
+    "centerline": 272.17999999999995,
     "lowerBand": 258.27,
-    "width": 0.1022117716217209199794253803
+    "width": 0.10221177162172092
   },
   {
     "timestamp": "2018-10-26T00:00:00",
     "upperBand": 286.09,
-    "centerline": 272.18,
+    "centerline": 272.17999999999995,
     "lowerBand": 258.27,
-    "width": 0.1022117716217209199794253803
+    "width": 0.10221177162172092
   },
   {
     "timestamp": "2018-10-29T00:00:00",
     "upperBand": 286.09,
     "centerline": 271.005,
     "lowerBand": 255.92,
-    "width": 0.1113263592922639803693658789
+    "width": 0.11132635929226394
   },
   {
     "timestamp": "2018-10-30T00:00:00",
     "upperBand": 286.09,
     "centerline": 269.815,
     "lowerBand": 253.54,
-    "width": 0.1206382150732909586197950448
+    "width": 0.1206382150732909
   },
   {
     "timestamp": "2018-10-31T00:00:00",
     "upperBand": 286.09,
     "centerline": 269.815,
     "lowerBand": 253.54,
-    "width": 0.1206382150732909586197950448
+    "width": 0.1206382150732909
   },
   {
     "timestamp": "2018-11-01T00:00:00",
     "upperBand": 284.17,
     "centerline": 268.855,
     "lowerBand": 253.54,
-    "width": 0.1139275817820014505960461959
+    "width": 0.11392758178200153
   },
   {
     "timestamp": "2018-11-02T00:00:00",
     "upperBand": 283.22,
     "centerline": 268.38,
     "lowerBand": 253.54,
-    "width": 0.1105894627021387584767866458
+    "width": 0.11058946270213889
   },
   {
     "timestamp": "2018-11-05T00:00:00",
     "upperBand": 281.85,
     "centerline": 267.695,
     "lowerBand": 253.54,
-    "width": 0.1057546835017463904817049254
+    "width": 0.10575468350174651
   },
   {
     "timestamp": "2018-11-06T00:00:00",
     "upperBand": 281.85,
     "centerline": 267.695,
     "lowerBand": 253.54,
-    "width": 0.1057546835017463904817049254
+    "width": 0.10575468350174651
   },
   {
     "timestamp": "2018-11-07T00:00:00",
     "upperBand": 279.94,
     "centerline": 266.74,
     "lowerBand": 253.54,
-    "width": 0.0989727824848166754142610782
+    "width": 0.0989727824848167
   },
   {
     "timestamp": "2018-11-08T00:00:00",
     "upperBand": 274.32,
     "centerline": 263.93,
     "lowerBand": 253.54,
-    "width": 0.0787329973856704429204713371
+    "width": 0.07873299738567044
   },
   {
     "timestamp": "2018-11-09T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-12T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-13T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-14T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-15T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-16T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-19T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-20T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-21T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-23T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-26T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-27T00:00:00",
     "upperBand": 274.39,
     "centerline": 263.965,
     "lowerBand": 253.54,
-    "width": 0.0789877445873505957229178111
+    "width": 0.07898774458735058
   },
   {
     "timestamp": "2018-11-28T00:00:00",
     "upperBand": 274.39,
-    "centerline": 265.535,
+    "centerline": 265.53499999999997,
     "lowerBand": 256.68,
-    "width": 0.0666955391944564746643568644
+    "width": 0.06669553919445641
   },
   {
     "timestamp": "2018-11-29T00:00:00",
     "upperBand": 274.39,
-    "centerline": 265.535,
+    "centerline": 265.53499999999997,
     "lowerBand": 256.68,
-    "width": 0.0666955391944564746643568644
+    "width": 0.06669553919445641
   },
   {
     "timestamp": "2018-11-30T00:00:00",
     "upperBand": 274.39,
-    "centerline": 265.535,
+    "centerline": 265.53499999999997,
     "lowerBand": 256.68,
-    "width": 0.0666955391944564746643568644
+    "width": 0.06669553919445641
   },
   {
     "timestamp": "2018-12-03T00:00:00",
     "upperBand": 274.39,
-    "centerline": 265.535,
+    "centerline": 265.53499999999997,
     "lowerBand": 256.68,
-    "width": 0.0666955391944564746643568644
+    "width": 0.06669553919445641
   },
   {
     "timestamp": "2018-12-04T00:00:00",
     "upperBand": 274.39,
-    "centerline": 265.535,
+    "centerline": 265.53499999999997,
     "lowerBand": 256.68,
-    "width": 0.0666955391944564746643568644
+    "width": 0.06669553919445641
   },
   {
     "timestamp": "2018-12-06T00:00:00",
     "upperBand": 274.39,
-    "centerline": 265.535,
+    "centerline": 265.53499999999997,
     "lowerBand": 256.68,
-    "width": 0.0666955391944564746643568644
+    "width": 0.06669553919445641
   },
   {
     "timestamp": "2018-12-07T00:00:00",
     "upperBand": 274.39,
     "centerline": 265.23,
     "lowerBand": 256.07,
-    "width": 0.0690721260792519699883120311
+    "width": 0.06907212607925194
   },
   {
     "timestamp": "2018-12-10T00:00:00",
     "upperBand": 274.39,
     "centerline": 265.23,
     "lowerBand": 256.07,
-    "width": 0.0690721260792519699883120311
+    "width": 0.06907212607925194
   },
   {
     "timestamp": "2018-12-11T00:00:00",
     "upperBand": 273.59,
     "centerline": 262.965,
     "lowerBand": 252.34,
-    "width": 0.0808092331679120795543133117
+    "width": 0.08080923316791198
   },
   {
     "timestamp": "2018-12-12T00:00:00",
     "upperBand": 273.59,
     "centerline": 262.965,
     "lowerBand": 252.34,
-    "width": 0.0808092331679120795543133117
+    "width": 0.08080923316791198
   },
   {
     "timestamp": "2018-12-13T00:00:00",
     "upperBand": 273.59,
     "centerline": 262.965,
     "lowerBand": 252.34,
-    "width": 0.0808092331679120795543133117
+    "width": 0.08080923316791198
   },
   {
     "timestamp": "2018-12-14T00:00:00",
     "upperBand": 273.59,
     "centerline": 262.965,
     "lowerBand": 252.34,
-    "width": 0.0808092331679120795543133117
+    "width": 0.08080923316791198
   },
   {
     "timestamp": "2018-12-17T00:00:00",
     "upperBand": 273.59,
     "centerline": 262.965,
     "lowerBand": 252.34,
-    "width": 0.0808092331679120795543133117
+    "width": 0.08080923316791198
   },
   {
     "timestamp": "2018-12-18T00:00:00",
     "upperBand": 273.59,
     "centerline": 260.48,
     "lowerBand": 247.37,
-    "width": 0.1006603194103194103194103194
+    "width": 0.10066031941031929
   },
   {
     "timestamp": "2018-12-19T00:00:00",
     "upperBand": 273.59,
     "centerline": 260.36,
     "lowerBand": 247.13,
-    "width": 0.1016285143647257643263174067
+    "width": 0.10162851436472568
   },
   {
     "timestamp": "2018-12-20T00:00:00",
     "upperBand": 273.59,
     "centerline": 258.445,
     "lowerBand": 243.3,
-    "width": 0.1172009518466211379597206369
+    "width": 0.11720095184662101
   },
   {
     "timestamp": "2018-12-21T00:00:00",
     "upperBand": 273.59,
     "centerline": 256.15,
     "lowerBand": 238.71,
-    "width": 0.1361702127659574468085106383
+    "width": 0.13617021276595734
   },
   {
     "timestamp": "2018-12-24T00:00:00",
     "upperBand": 273.59,
     "centerline": 254.555,
     "lowerBand": 235.52,
-    "width": 0.1495551059692404391978157962
+    "width": 0.1495551059692403
   },
   {
     "timestamp": "2018-12-26T00:00:00",
     "upperBand": 273.59,
     "centerline": 251.755,
     "lowerBand": 229.92,
-    "width": 0.1734622946912673035292248416
+    "width": 0.17346229469126725
   },
   {
     "timestamp": "2018-12-27T00:00:00",
     "upperBand": 273.59,
     "centerline": 251.505,
     "lowerBand": 229.42,
-    "width": 0.1756227510387467445975229121
+    "width": 0.1756227510387467
   },
   {
     "timestamp": "2018-12-28T00:00:00",
     "upperBand": 273.59,
     "centerline": 251.505,
     "lowerBand": 229.42,
-    "width": 0.1756227510387467445975229121
+    "width": 0.1756227510387467
   },
   {
     "timestamp": "2018-12-31T00:00:00",
     "upperBand": 273.59,
     "centerline": 251.505,
     "lowerBand": 229.42,
-    "width": 0.1756227510387467445975229121
+    "width": 0.1756227510387467
   }
 ]

@@ -14,10 +14,10 @@ public class PivotPointsList(
 {
     private int _windowId = int.MinValue;
     private bool _firstWindow = true;
-    private decimal _windowHigh;
-    private decimal _windowLow;
-    private decimal _windowOpen;
-    private decimal _windowClose;
+    private double _windowHigh;
+    private double _windowLow;
+    private double _windowOpen;
+    private double _windowClose;
     private WindowPoint _windowPoint = new();
 
     /// <summary>
@@ -49,10 +49,10 @@ public class PivotPointsList(
         if (_windowId == int.MinValue)
         {
             _windowId = GetWindowNumber(timestamp, WindowSize);
-            _windowHigh = quote.High;
-            _windowLow = quote.Low;
-            _windowOpen = quote.Open;
-            _windowClose = quote.Close;
+            _windowHigh = (double)quote.High;
+            _windowLow = (double)quote.Low;
+            _windowOpen = (double)quote.Open;
+            _windowClose = (double)quote.Close;
         }
 
         // Check for new window
@@ -66,16 +66,16 @@ public class PivotPointsList(
             // Set new levels
             if (PointType == PivotPointType.Woodie)
             {
-                _windowOpen = quote.Open;
+                _windowOpen = (double)quote.Open;
             }
 
             _windowPoint = GetPivotPoint(
                 PointType, _windowOpen, _windowHigh, _windowLow, _windowClose);
 
             // Reset window min/max thresholds
-            _windowOpen = quote.Open;
-            _windowHigh = quote.High;
-            _windowLow = quote.Low;
+            _windowOpen = (double)quote.Open;
+            _windowHigh = (double)quote.High;
+            _windowLow = (double)quote.Low;
         }
 
         // Add levels
@@ -99,9 +99,9 @@ public class PivotPointsList(
         AddInternal(result);
 
         // Capture window thresholds (for next iteration)
-        _windowHigh = quote.High > _windowHigh ? quote.High : _windowHigh;
-        _windowLow = quote.Low < _windowLow ? quote.Low : _windowLow;
-        _windowClose = quote.Close;
+        _windowHigh = (double)quote.High > _windowHigh ? (double)quote.High : _windowHigh;
+        _windowLow = (double)quote.Low < _windowLow ? (double)quote.Low : _windowLow;
+        _windowClose = (double)quote.Close;
     }
 
     /// <inheritdoc />
@@ -132,7 +132,7 @@ public class PivotPointsList(
         => PivotPoints.GetWindowNumber(d, windowSize);
 
     private static WindowPoint GetPivotPoint(
-        PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
+        PivotPointType pointType, double open, double high, double low, double close)
         => PivotPoints.GetPivotPoint(pointType, open, high, low, close);
 }
 

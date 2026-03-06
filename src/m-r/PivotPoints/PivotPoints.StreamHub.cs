@@ -9,10 +9,10 @@ public class PivotPointsHub
 
     private int windowId;
     private bool firstWindow;
-    private decimal windowHigh;
-    private decimal windowLow;
-    private decimal windowOpen;
-    private decimal windowClose;
+    private double windowHigh;
+    private double windowLow;
+    private double windowOpen;
+    private double windowClose;
     private WindowPoint windowPoint;
 
     internal PivotPointsHub(
@@ -69,10 +69,10 @@ public class PivotPointsHub
             if (p == 0)
             {
                 windowId = PivotPoints.GetWindowNumber(q.Timestamp, WindowSize);
-                windowHigh = q.High;
-                windowLow = q.Low;
-                windowOpen = q.Open;
-                windowClose = q.Close;
+                windowHigh = (double)q.High;
+                windowLow = (double)q.Low;
+                windowOpen = (double)q.Open;
+                windowClose = (double)q.Close;
                 continue;
             }
 
@@ -93,10 +93,10 @@ public class PivotPointsHub
         {
             windowId = PivotPoints.GetWindowNumber(item.Timestamp, WindowSize);
             firstWindow = true;
-            windowHigh = item.High;
-            windowLow = item.Low;
-            windowOpen = item.Open;
-            windowClose = item.Close;
+            windowHigh = (double)item.High;
+            windowLow = (double)item.Low;
+            windowOpen = (double)item.Open;
+            windowClose = (double)item.Close;
             windowPoint = new();
         }
 
@@ -125,7 +125,6 @@ public class PivotPointsHub
 
     private void UpdateWindowState(IQuote q)
     {
-        // Check for new window
         int windowEval = PivotPoints.GetWindowNumber(q.Timestamp, WindowSize);
 
         if (windowEval != windowId)
@@ -134,25 +133,25 @@ public class PivotPointsHub
             firstWindow = false;
 
             // Set new levels based on previous window
-            decimal pivotOpen = windowOpen;
+            double pivotOpen = windowOpen;
             if (PointType == PivotPointType.Woodie)
             {
-                pivotOpen = q.Open;
+                pivotOpen = (double)q.Open;
             }
 
             windowPoint = PivotPoints.GetPivotPoint(
                 PointType, pivotOpen, windowHigh, windowLow, windowClose);
 
             // Reset window min/max thresholds
-            windowOpen = q.Open;
-            windowHigh = q.High;
-            windowLow = q.Low;
+            windowOpen = (double)q.Open;
+            windowHigh = (double)q.High;
+            windowLow = (double)q.Low;
         }
 
         // Update window thresholds (for next iteration)
-        windowHigh = q.High > windowHigh ? q.High : windowHigh;
-        windowLow = q.Low < windowLow ? q.Low : windowLow;
-        windowClose = q.Close;
+        windowHigh = (double)q.High > windowHigh ? (double)q.High : windowHigh;
+        windowLow = (double)q.Low < windowLow ? (double)q.Low : windowLow;
+        windowClose = (double)q.Close;
     }
 
 }

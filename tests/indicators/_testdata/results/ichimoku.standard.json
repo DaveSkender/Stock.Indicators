@@ -1,426 +1,289 @@
 [
   {
     "timestamp": "2017-01-03T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 217.86
   },
   {
     "timestamp": "2017-01-04T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 218.72
   },
   {
     "timestamp": "2017-01-05T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 219.91
   },
   {
     "timestamp": "2017-01-06T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 220.79
   },
   {
     "timestamp": "2017-01-09T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 221.94
   },
   {
     "timestamp": "2017-01-10T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 221.75
   },
   {
     "timestamp": "2017-01-11T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 222.1
   },
   {
     "timestamp": "2017-01-12T00:00:00",
-    "tenkanSen": null,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.43
   },
   {
     "timestamp": "2017-01-13T00:00:00",
     "tenkanSen": 213.345,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.23
   },
   {
     "timestamp": "2017-01-17T00:00:00",
     "tenkanSen": 213.85,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.38
   },
   {
     "timestamp": "2017-01-18T00:00:00",
     "tenkanSen": 213.85,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.66
   },
   {
     "timestamp": "2017-01-19T00:00:00",
     "tenkanSen": 213.85,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 224.01
   },
   {
     "timestamp": "2017-01-20T00:00:00",
-    "tenkanSen": 213.71,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "tenkanSen": 213.70999999999998,
     "chikouSpan": 223.41
   },
   {
     "timestamp": "2017-01-23T00:00:00",
-    "tenkanSen": 213.71,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "tenkanSen": 213.70999999999998,
     "chikouSpan": 226.53
   },
   {
     "timestamp": "2017-01-24T00:00:00",
     "tenkanSen": 214.005,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 225.11
   },
   {
     "timestamp": "2017-01-25T00:00:00",
-    "tenkanSen": 214.71,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "tenkanSen": 214.70999999999998,
     "chikouSpan": 225.25
   },
   {
     "timestamp": "2017-01-26T00:00:00",
     "tenkanSen": 214.925,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 224.58
   },
   {
     "timestamp": "2017-01-27T00:00:00",
     "tenkanSen": 214.925,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.91
   },
   {
     "timestamp": "2017-01-30T00:00:00",
     "tenkanSen": 214.925,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.49
   },
   {
     "timestamp": "2017-01-31T00:00:00",
     "tenkanSen": 214.925,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.78
   },
   {
     "timestamp": "2017-02-01T00:00:00",
     "tenkanSen": 214.925,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 224.56
   },
   {
     "timestamp": "2017-02-02T00:00:00",
     "tenkanSen": 214.925,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 224.67
   },
   {
     "timestamp": "2017-02-03T00:00:00",
     "tenkanSen": 215.395,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.81
   },
   {
     "timestamp": "2017-02-06T00:00:00",
-    "tenkanSen": 215.42,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "tenkanSen": 215.42000000000002,
     "chikouSpan": 225.75
   },
   {
     "timestamp": "2017-02-07T00:00:00",
-    "tenkanSen": 215.42,
-    "kijunSen": null,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "tenkanSen": 215.42000000000002,
     "chikouSpan": 225.31
   },
   {
     "timestamp": "2017-02-08T00:00:00",
-    "tenkanSen": 215.395,
+    "tenkanSen": 215.39499999999998,
     "kijunSen": 214.27,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 224.91
   },
   {
     "timestamp": "2017-02-09T00:00:00",
     "tenkanSen": 216.005,
     "kijunSen": 215.36,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 224.66
   },
   {
     "timestamp": "2017-02-10T00:00:00",
-    "tenkanSen": 216.395,
+    "tenkanSen": 216.39499999999998,
     "kijunSen": 215.75,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 221.78
   },
   {
     "timestamp": "2017-02-13T00:00:00",
     "tenkanSen": 217.24,
     "kijunSen": 216.36,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 222.3
   },
   {
     "timestamp": "2017-02-14T00:00:00",
-    "tenkanSen": 217.545,
-    "kijunSen": 216.665,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "tenkanSen": 217.54500000000002,
+    "kijunSen": 216.66500000000002,
     "chikouSpan": 222.06
   },
   {
     "timestamp": "2017-02-15T00:00:00",
     "tenkanSen": 218.925,
     "kijunSen": 217.34,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 221.9
   },
   {
     "timestamp": "2017-02-16T00:00:00",
     "tenkanSen": 218.93,
     "kijunSen": 217.345,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 221.67
   },
   {
     "timestamp": "2017-02-17T00:00:00",
     "tenkanSen": 218.93,
     "kijunSen": 217.345,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.29
   },
   {
     "timestamp": "2017-02-21T00:00:00",
     "tenkanSen": 219.66,
-    "kijunSen": 218.225,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "kijunSen": 218.22500000000002,
     "chikouSpan": 223.5
   },
   {
     "timestamp": "2017-02-22T00:00:00",
-    "tenkanSen": 220.23,
-    "kijunSen": 218.225,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
+    "tenkanSen": 220.23000000000002,
+    "kijunSen": 218.22500000000002,
     "chikouSpan": 224.21
   },
   {
     "timestamp": "2017-02-23T00:00:00",
     "tenkanSen": 220.845,
     "kijunSen": 218.32,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.69
   },
   {
     "timestamp": "2017-02-24T00:00:00",
-    "tenkanSen": 221.52,
+    "tenkanSen": 221.51999999999998,
     "kijunSen": 218.32,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.3
   },
   {
     "timestamp": "2017-02-27T00:00:00",
     "tenkanSen": 221.765,
     "kijunSen": 218.515,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.44
   },
   {
     "timestamp": "2017-02-28T00:00:00",
     "tenkanSen": 222.35,
     "kijunSen": 218.515,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 222.78
   },
   {
     "timestamp": "2017-03-01T00:00:00",
     "tenkanSen": 223.985,
     "kijunSen": 220.405,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.4
   },
   {
     "timestamp": "2017-03-02T00:00:00",
-    "tenkanSen": 224.025,
+    "tenkanSen": 224.02499999999998,
     "kijunSen": 220.43,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.17
   },
   {
     "timestamp": "2017-03-03T00:00:00",
     "tenkanSen": 224.725,
     "kijunSen": 220.43,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.31
   },
   {
     "timestamp": "2017-03-06T00:00:00",
     "tenkanSen": 224.725,
     "kijunSen": 220.43,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.04
   },
   {
     "timestamp": "2017-03-07T00:00:00",
     "tenkanSen": 224.725,
     "kijunSen": 220.43,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 222.06
   },
   {
     "timestamp": "2017-03-08T00:00:00",
     "tenkanSen": 224.725,
     "kijunSen": 220.43,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 220.62
   },
   {
     "timestamp": "2017-03-09T00:00:00",
     "tenkanSen": 224.88,
     "kijunSen": 220.665,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 222.58
   },
   {
     "timestamp": "2017-03-10T00:00:00",
     "tenkanSen": 224.88,
     "kijunSen": 220.665,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 221.91
   },
   {
     "timestamp": "2017-03-13T00:00:00",
     "tenkanSen": 224.88,
     "kijunSen": 221.37,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 221.5
   },
   {
     "timestamp": "2017-03-14T00:00:00",
     "tenkanSen": 224.53,
     "kijunSen": 221.37,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 223.31
   },
   {
     "timestamp": "2017-03-15T00:00:00",
     "tenkanSen": 224.465,
     "kijunSen": 221.37,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 222.6
   },
   {
     "timestamp": "2017-03-16T00:00:00",
     "tenkanSen": 224.465,
     "kijunSen": 221.37,
-    "senkouSpanA": null,
-    "senkouSpanB": null,
     "chikouSpan": 225.04
   },
   {
     "timestamp": "2017-03-17T00:00:00",
     "tenkanSen": 224.465,
     "kijunSen": 221.94,
-    "senkouSpanA": 214.8325,
-    "senkouSpanB": null,
+    "senkouSpanA": 214.83249999999998,
     "chikouSpan": 226.35
   },
   {
     "timestamp": "2017-03-20T00:00:00",
     "tenkanSen": 224.465,
-    "kijunSen": 222.46,
+    "kijunSen": 222.45999999999998,
     "senkouSpanA": 215.6825,
-    "senkouSpanB": null,
     "chikouSpan": 226.21
   },
   {
@@ -428,23 +291,20 @@
     "tenkanSen": 223.925,
     "kijunSen": 223.135,
     "senkouSpanA": 216.0725,
-    "senkouSpanB": null,
     "chikouSpan": 226.4
   },
   {
     "timestamp": "2017-03-22T00:00:00",
-    "tenkanSen": 223.67,
+    "tenkanSen": 223.67000000000002,
     "kijunSen": 223.185,
-    "senkouSpanA": 216.80,
-    "senkouSpanB": null,
+    "senkouSpanA": 216.8,
     "chikouSpan": 225.91
   },
   {
     "timestamp": "2017-03-23T00:00:00",
-    "tenkanSen": 223.67,
-    "kijunSen": 223.77,
-    "senkouSpanA": 217.105,
-    "senkouSpanB": null,
+    "tenkanSen": 223.67000000000002,
+    "kijunSen": 223.76999999999998,
+    "senkouSpanA": 217.10500000000002,
     "chikouSpan": 226.48
   },
   {
@@ -452,7 +312,6 @@
     "tenkanSen": 223.63,
     "kijunSen": 223.985,
     "senkouSpanA": 218.1325,
-    "senkouSpanB": null,
     "chikouSpan": 226.56
   },
   {
@@ -460,7 +319,6 @@
     "tenkanSen": 222.99,
     "kijunSen": 223.405,
     "senkouSpanA": 218.1375,
-    "senkouSpanB": null,
     "chikouSpan": 226.29
   },
   {
@@ -468,47 +326,41 @@
     "tenkanSen": 222.88,
     "kijunSen": 223.405,
     "senkouSpanA": 218.1375,
-    "senkouSpanB": null,
     "chikouSpan": 226.55
   },
   {
     "timestamp": "2017-03-29T00:00:00",
-    "tenkanSen": 222.785,
+    "tenkanSen": 222.78500000000003,
     "kijunSen": 223.405,
     "senkouSpanA": 218.9425,
-    "senkouSpanB": null,
     "chikouSpan": 227.44
   },
   {
     "timestamp": "2017-03-30T00:00:00",
     "tenkanSen": 222.615,
     "kijunSen": 223.405,
-    "senkouSpanA": 219.2275,
-    "senkouSpanB": null,
+    "senkouSpanA": 219.22750000000002,
     "chikouSpan": 227.41
   },
   {
     "timestamp": "2017-03-31T00:00:00",
     "tenkanSen": 222.615,
     "kijunSen": 223.405,
-    "senkouSpanA": 219.5825,
-    "senkouSpanB": null,
+    "senkouSpanA": 219.58249999999998,
     "chikouSpan": 227.2
   },
   {
     "timestamp": "2017-04-03T00:00:00",
-    "tenkanSen": 222.10,
+    "tenkanSen": 222.10000000000002,
     "kijunSen": 223.405,
     "senkouSpanA": 219.92,
-    "senkouSpanB": null,
     "chikouSpan": 227.61
   },
   {
     "timestamp": "2017-04-04T00:00:00",
-    "tenkanSen": 222.10,
+    "tenkanSen": 222.10000000000002,
     "kijunSen": 223.405,
-    "senkouSpanA": 220.140,
-    "senkouSpanB": null,
+    "senkouSpanA": 220.14,
     "chikouSpan": 227.14
   },
   {
@@ -516,7 +368,6 @@
     "tenkanSen": 222.51,
     "kijunSen": 223.405,
     "senkouSpanA": 220.4325,
-    "senkouSpanB": null,
     "chikouSpan": 226.76
   },
   {
@@ -524,7 +375,6 @@
     "tenkanSen": 222.51,
     "kijunSen": 223.055,
     "senkouSpanA": 222.195,
-    "senkouSpanB": null,
     "chikouSpan": 228.01
   },
   {
@@ -532,31 +382,27 @@
     "tenkanSen": 223.235,
     "kijunSen": 222.99,
     "senkouSpanA": 222.2275,
-    "senkouSpanB": null,
     "chikouSpan": 227.8
   },
   {
     "timestamp": "2017-04-10T00:00:00",
-    "tenkanSen": 223.60,
+    "tenkanSen": 223.6,
     "kijunSen": 222.99,
     "senkouSpanA": 222.5775,
-    "senkouSpanB": null,
     "chikouSpan": 223.76
   },
   {
     "timestamp": "2017-04-11T00:00:00",
-    "tenkanSen": 223.33,
+    "tenkanSen": 223.32999999999998,
     "kijunSen": 222.99,
     "senkouSpanA": 222.5775,
-    "senkouSpanB": null,
     "chikouSpan": 224.66
   },
   {
     "timestamp": "2017-04-12T00:00:00",
-    "tenkanSen": 223.33,
+    "tenkanSen": 223.32999999999998,
     "kijunSen": 222.99,
     "senkouSpanA": 222.5775,
-    "senkouSpanB": null,
     "chikouSpan": 226.12
   },
   {
@@ -564,55 +410,48 @@
     "tenkanSen": 222.935,
     "kijunSen": 222.99,
     "senkouSpanA": 222.5775,
-    "senkouSpanB": null,
     "chikouSpan": 227.27
   },
   {
     "timestamp": "2017-04-17T00:00:00",
     "tenkanSen": 222.935,
     "kijunSen": 222.99,
-    "senkouSpanA": 222.7725,
-    "senkouSpanB": null,
+    "senkouSpanA": 222.77249999999998,
     "chikouSpan": 227.78
   },
   {
     "timestamp": "2017-04-18T00:00:00",
     "tenkanSen": 222.935,
     "kijunSen": 222.99,
-    "senkouSpanA": 222.7725,
-    "senkouSpanB": null,
+    "senkouSpanA": 222.77249999999998,
     "chikouSpan": 228.31
   },
   {
     "timestamp": "2017-04-19T00:00:00",
-    "tenkanSen": 222.40,
+    "tenkanSen": 222.4,
     "kijunSen": 222.99,
     "senkouSpanA": 223.125,
-    "senkouSpanB": null,
     "chikouSpan": 229.4
   },
   {
     "timestamp": "2017-04-20T00:00:00",
-    "tenkanSen": 222.40,
+    "tenkanSen": 222.4,
     "kijunSen": 222.99,
     "senkouSpanA": 222.95,
-    "senkouSpanB": null,
     "chikouSpan": 229.35
   },
   {
     "timestamp": "2017-04-21T00:00:00",
-    "tenkanSen": 222.40,
+    "tenkanSen": 222.4,
     "kijunSen": 222.88,
-    "senkouSpanA": 222.9175,
-    "senkouSpanB": null,
+    "senkouSpanA": 222.91750000000002,
     "chikouSpan": 229.15
   },
   {
     "timestamp": "2017-04-24T00:00:00",
     "tenkanSen": 222.945,
-    "kijunSen": 222.785,
-    "senkouSpanA": 222.9175,
-    "senkouSpanB": null,
+    "kijunSen": 222.78500000000003,
+    "senkouSpanA": 222.91750000000002,
     "chikouSpan": 229.09
   },
   {
@@ -627,7 +466,7 @@
     "timestamp": "2017-04-26T00:00:00",
     "tenkanSen": 223.95,
     "kijunSen": 223.525,
-    "senkouSpanA": 223.4625,
+    "senkouSpanA": 223.46249999999998,
     "senkouSpanB": 219.785,
     "chikouSpan": 231.69
   },
@@ -635,7 +474,7 @@
     "timestamp": "2017-04-27T00:00:00",
     "tenkanSen": 224.125,
     "kijunSen": 223.525,
-    "senkouSpanA": 223.530,
+    "senkouSpanA": 223.53,
     "senkouSpanB": 219.785,
     "chikouSpan": 231.51
   },
@@ -649,7 +488,7 @@
   },
   {
     "timestamp": "2017-05-01T00:00:00",
-    "tenkanSen": 224.27,
+    "tenkanSen": 224.26999999999998,
     "kijunSen": 223.525,
     "senkouSpanA": 223.72,
     "senkouSpanB": 219.785,
@@ -675,37 +514,37 @@
     "timestamp": "2017-05-04T00:00:00",
     "tenkanSen": 224.925,
     "kijunSen": 223.95,
-    "senkouSpanA": 223.1425,
+    "senkouSpanA": 223.14249999999998,
     "senkouSpanB": 219.785,
     "chikouSpan": 230.92
   },
   {
     "timestamp": "2017-05-05T00:00:00",
     "tenkanSen": 226.505,
-    "kijunSen": 224.04,
-    "senkouSpanA": 223.095,
+    "kijunSen": 224.04000000000002,
+    "senkouSpanA": 223.09500000000003,
     "senkouSpanB": 219.935,
     "chikouSpan": 232.05
   },
   {
     "timestamp": "2017-05-08T00:00:00",
-    "tenkanSen": 226.60,
+    "tenkanSen": 226.60000000000002,
     "kijunSen": 224.135,
-    "senkouSpanA": 223.010,
+    "senkouSpanA": 223.01,
     "senkouSpanB": 219.935,
     "chikouSpan": 231.75
   },
   {
     "timestamp": "2017-05-09T00:00:00",
-    "tenkanSen": 226.73,
+    "tenkanSen": 226.73000000000002,
     "kijunSen": 224.265,
-    "senkouSpanA": 223.010,
+    "senkouSpanA": 223.01,
     "senkouSpanB": 219.935,
     "chikouSpan": 231.31
   },
   {
     "timestamp": "2017-05-10T00:00:00",
-    "tenkanSen": 226.73,
+    "tenkanSen": 226.73000000000002,
     "kijunSen": 224.265,
     "senkouSpanA": 222.7525,
     "senkouSpanB": 219.935,
@@ -713,7 +552,7 @@
   },
   {
     "timestamp": "2017-05-11T00:00:00",
-    "tenkanSen": 226.73,
+    "tenkanSen": 226.73000000000002,
     "kijunSen": 224.265,
     "senkouSpanA": 222.7525,
     "senkouSpanB": 219.935,
@@ -721,15 +560,15 @@
   },
   {
     "timestamp": "2017-05-12T00:00:00",
-    "tenkanSen": 226.73,
+    "tenkanSen": 226.73000000000002,
     "kijunSen": 224.265,
-    "senkouSpanA": 222.9575,
+    "senkouSpanA": 222.95749999999998,
     "senkouSpanB": 219.935,
     "chikouSpan": 231.71
   },
   {
     "timestamp": "2017-05-15T00:00:00",
-    "tenkanSen": 226.85,
+    "tenkanSen": 226.85000000000002,
     "kijunSen": 224.385,
     "senkouSpanA": 222.7825,
     "senkouSpanB": 220.405,
@@ -747,7 +586,7 @@
     "timestamp": "2017-05-17T00:00:00",
     "tenkanSen": 226.03,
     "kijunSen": 224.49,
-    "senkouSpanA": 223.295,
+    "senkouSpanA": 223.29500000000002,
     "senkouSpanB": 220.43,
     "chikouSpan": 231.82
   },
@@ -770,7 +609,7 @@
   {
     "timestamp": "2017-05-22T00:00:00",
     "tenkanSen": 225.875,
-    "kijunSen": 224.665,
+    "kijunSen": 224.66500000000002,
     "senkouSpanA": 222.9625,
     "senkouSpanB": 220.43,
     "chikouSpan": 232.17
@@ -785,8 +624,8 @@
   },
   {
     "timestamp": "2017-05-24T00:00:00",
-    "tenkanSen": 225.905,
-    "kijunSen": 224.84,
+    "tenkanSen": 225.90499999999997,
+    "kijunSen": 224.83999999999997,
     "senkouSpanA": 222.9625,
     "senkouSpanB": 220.665,
     "chikouSpan": 230.56
@@ -836,7 +675,7 @@
     "tenkanSen": 229.235,
     "kijunSen": 227.625,
     "senkouSpanA": 223.7375,
-    "senkouSpanB": 222.58,
+    "senkouSpanB": 222.57999999999998,
     "chikouSpan": 230.93
   },
   {
@@ -857,17 +696,17 @@
   },
   {
     "timestamp": "2017-06-07T00:00:00",
-    "tenkanSen": 230.10,
+    "tenkanSen": 230.10000000000002,
     "kijunSen": 227.625,
-    "senkouSpanA": 223.8975,
+    "senkouSpanA": 223.89749999999998,
     "senkouSpanB": 223.525,
     "chikouSpan": 234.14
   },
   {
     "timestamp": "2017-06-08T00:00:00",
-    "tenkanSen": 230.10,
+    "tenkanSen": 230.10000000000002,
     "kijunSen": 227.625,
-    "senkouSpanA": 224.040,
+    "senkouSpanA": 224.04000000000002,
     "senkouSpanB": 223.525,
     "chikouSpan": 234.11
   },
@@ -875,7 +714,7 @@
     "timestamp": "2017-06-09T00:00:00",
     "tenkanSen": 230.41,
     "kijunSen": 227.935,
-    "senkouSpanA": 224.335,
+    "senkouSpanA": 224.33499999999998,
     "senkouSpanB": 223.525,
     "chikouSpan": 234.24
   },
@@ -970,7 +809,7 @@
   {
     "timestamp": "2017-06-27T00:00:00",
     "tenkanSen": 231.66,
-    "kijunSen": 229.98,
+    "kijunSen": 229.98000000000002,
     "senkouSpanA": 225.1825,
     "senkouSpanB": 224.065,
     "chikouSpan": 235.48
@@ -979,7 +818,7 @@
     "timestamp": "2017-06-28T00:00:00",
     "tenkanSen": 231.72,
     "kijunSen": 230.305,
-    "senkouSpanA": 225.270,
+    "senkouSpanA": 225.27,
     "senkouSpanB": 224.065,
     "chikouSpan": 235.9
   },
@@ -993,23 +832,23 @@
   },
   {
     "timestamp": "2017-06-30T00:00:00",
-    "tenkanSen": 230.91,
+    "tenkanSen": 230.91000000000003,
     "kijunSen": 230.845,
-    "senkouSpanA": 225.3725,
+    "senkouSpanA": 225.37249999999997,
     "senkouSpanB": 224.095,
     "chikouSpan": 235.76
   },
   {
     "timestamp": "2017-07-03T00:00:00",
-    "tenkanSen": 230.91,
+    "tenkanSen": 230.91000000000003,
     "kijunSen": 230.845,
-    "senkouSpanA": 226.155,
+    "senkouSpanA": 226.15499999999997,
     "senkouSpanB": 224.735,
     "chikouSpan": 235.75
   },
   {
     "timestamp": "2017-07-05T00:00:00",
-    "tenkanSen": 230.91,
+    "tenkanSen": 230.91000000000003,
     "kijunSen": 230.845,
     "senkouSpanA": 226.2375,
     "senkouSpanB": 224.735,
@@ -1017,15 +856,15 @@
   },
   {
     "timestamp": "2017-07-06T00:00:00",
-    "tenkanSen": 230.91,
+    "tenkanSen": 230.91000000000003,
     "kijunSen": 230.845,
-    "senkouSpanA": 226.340,
+    "senkouSpanA": 226.33999999999997,
     "senkouSpanB": 224.735,
     "chikouSpan": 232.77
   },
   {
     "timestamp": "2017-07-07T00:00:00",
-    "tenkanSen": 230.91,
+    "tenkanSen": 230.91000000000003,
     "kijunSen": 231.075,
     "senkouSpanA": 226.545,
     "senkouSpanB": 224.735,
@@ -1036,14 +875,14 @@
     "tenkanSen": 230.595,
     "kijunSen": 231.075,
     "senkouSpanA": 227.6025,
-    "senkouSpanB": 225.355,
+    "senkouSpanB": 225.35500000000002,
     "chikouSpan": 235.05
   },
   {
     "timestamp": "2017-07-11T00:00:00",
     "tenkanSen": 230.595,
     "kijunSen": 231.075,
-    "senkouSpanA": 228.430,
+    "senkouSpanA": 228.43,
     "senkouSpanB": 225.815,
     "chikouSpan": 235.46
   },
@@ -1057,7 +896,7 @@
   },
   {
     "timestamp": "2017-07-13T00:00:00",
-    "tenkanSen": 231.17,
+    "tenkanSen": 231.17000000000002,
     "kijunSen": 231.075,
     "senkouSpanA": 228.6925,
     "senkouSpanB": 225.815,
@@ -1066,7 +905,7 @@
   {
     "timestamp": "2017-07-14T00:00:00",
     "tenkanSen": 231.845,
-    "kijunSen": 231.665,
+    "kijunSen": 231.66500000000002,
     "senkouSpanA": 228.8625,
     "senkouSpanB": 225.815,
     "chikouSpan": 231.6
@@ -1074,7 +913,7 @@
   {
     "timestamp": "2017-07-17T00:00:00",
     "tenkanSen": 231.845,
-    "kijunSen": 231.665,
+    "kijunSen": 231.66500000000002,
     "senkouSpanA": 228.8625,
     "senkouSpanB": 225.815,
     "chikouSpan": 234.03
@@ -1082,7 +921,7 @@
   {
     "timestamp": "2017-07-18T00:00:00",
     "tenkanSen": 231.845,
-    "kijunSen": 231.665,
+    "kijunSen": 231.66500000000002,
     "senkouSpanA": 229.1725,
     "senkouSpanB": 226.55,
     "chikouSpan": 233.19
@@ -1098,7 +937,7 @@
   {
     "timestamp": "2017-07-20T00:00:00",
     "tenkanSen": 232.78,
-    "kijunSen": 232.355,
+    "kijunSen": 232.35500000000002,
     "senkouSpanA": 229.4075,
     "senkouSpanB": 226.55,
     "chikouSpan": 233.19
@@ -1106,32 +945,32 @@
   {
     "timestamp": "2017-07-21T00:00:00",
     "tenkanSen": 232.78,
-    "kijunSen": 232.355,
-    "senkouSpanA": 229.4825,
+    "kijunSen": 232.35500000000002,
+    "senkouSpanA": 229.48250000000002,
     "senkouSpanB": 226.55,
     "chikouSpan": 233.2
   },
   {
     "timestamp": "2017-07-24T00:00:00",
     "tenkanSen": 233.95,
-    "kijunSen": 232.355,
-    "senkouSpanA": 229.4825,
+    "kijunSen": 232.35500000000002,
+    "senkouSpanA": 229.48250000000002,
     "senkouSpanB": 226.55,
     "chikouSpan": 233.46
   },
   {
     "timestamp": "2017-07-25T00:00:00",
     "tenkanSen": 234.35,
-    "kijunSen": 232.54,
-    "senkouSpanA": 229.4825,
+    "kijunSen": 232.54000000000002,
+    "senkouSpanA": 229.48250000000002,
     "senkouSpanB": 226.55,
     "chikouSpan": 234.57
   },
   {
     "timestamp": "2017-07-26T00:00:00",
     "tenkanSen": 234.615,
-    "kijunSen": 232.54,
-    "senkouSpanA": 229.9175,
+    "kijunSen": 232.54000000000002,
+    "senkouSpanA": 229.91750000000002,
     "senkouSpanB": 226.985,
     "chikouSpan": 235.98
   },
@@ -1139,7 +978,7 @@
     "timestamp": "2017-07-27T00:00:00",
     "tenkanSen": 234.88,
     "kijunSen": 232.635,
-    "senkouSpanA": 229.9175,
+    "senkouSpanA": 229.91750000000002,
     "senkouSpanB": 226.985,
     "chikouSpan": 236.31
   },
@@ -1147,7 +986,7 @@
     "timestamp": "2017-07-28T00:00:00",
     "tenkanSen": 234.88,
     "kijunSen": 232.635,
-    "senkouSpanA": 229.9175,
+    "senkouSpanA": 229.91750000000002,
     "senkouSpanB": 226.985,
     "chikouSpan": 234.62
   },
@@ -1195,13 +1034,13 @@
     "timestamp": "2017-08-07T00:00:00",
     "tenkanSen": 235.365,
     "kijunSen": 232.815,
-    "senkouSpanA": 230.790,
+    "senkouSpanA": 230.79,
     "senkouSpanB": 227.255,
     "chikouSpan": 238.54
   },
   {
     "timestamp": "2017-08-08T00:00:00",
-    "tenkanSen": 235.795,
+    "tenkanSen": 235.79500000000002,
     "kijunSen": 233.245,
     "senkouSpanA": 230.8775,
     "senkouSpanB": 227.305,
@@ -1209,7 +1048,7 @@
   },
   {
     "timestamp": "2017-08-09T00:00:00",
-    "tenkanSen": 235.975,
+    "tenkanSen": 235.97500000000002,
     "kijunSen": 233.245,
     "senkouSpanA": 230.8775,
     "senkouSpanB": 227.59,
@@ -1217,7 +1056,7 @@
   },
   {
     "timestamp": "2017-08-10T00:00:00",
-    "tenkanSen": 234.85,
+    "tenkanSen": 234.85000000000002,
     "kijunSen": 233.245,
     "senkouSpanA": 230.8775,
     "senkouSpanB": 227.755,
@@ -1225,15 +1064,15 @@
   },
   {
     "timestamp": "2017-08-11T00:00:00",
-    "tenkanSen": 234.85,
-    "kijunSen": 233.355,
+    "tenkanSen": 234.85000000000002,
+    "kijunSen": 233.35500000000002,
     "senkouSpanA": 230.8775,
-    "senkouSpanB": 227.96,
+    "senkouSpanB": 227.95999999999998,
     "chikouSpan": 239.53
   },
   {
     "timestamp": "2017-08-14T00:00:00",
-    "tenkanSen": 234.85,
+    "tenkanSen": 234.85000000000002,
     "kijunSen": 233.49,
     "senkouSpanA": 230.9925,
     "senkouSpanB": 228.37,
@@ -1241,17 +1080,17 @@
   },
   {
     "timestamp": "2017-08-15T00:00:00",
-    "tenkanSen": 234.85,
+    "tenkanSen": 234.85000000000002,
     "kijunSen": 233.49,
-    "senkouSpanA": 230.835,
+    "senkouSpanA": 230.83499999999998,
     "senkouSpanB": 228.37,
     "chikouSpan": 238.97
   },
   {
     "timestamp": "2017-08-16T00:00:00",
-    "tenkanSen": 234.85,
-    "kijunSen": 234.66,
-    "senkouSpanA": 230.835,
+    "tenkanSen": 234.85000000000002,
+    "kijunSen": 234.66000000000003,
+    "senkouSpanA": 230.83499999999998,
     "senkouSpanB": 228.37,
     "chikouSpan": 239.02
   },
@@ -1276,7 +1115,7 @@
     "tenkanSen": 233.32,
     "kijunSen": 233.955,
     "senkouSpanA": 231.755,
-    "senkouSpanB": 228.96,
+    "senkouSpanB": 228.95999999999998,
     "chikouSpan": 239.6
   },
   {
@@ -1284,7 +1123,7 @@
     "tenkanSen": 233.32,
     "kijunSen": 233.955,
     "senkouSpanA": 231.755,
-    "senkouSpanB": 228.96,
+    "senkouSpanB": 228.95999999999998,
     "chikouSpan": 239.89
   },
   {
@@ -1292,14 +1131,14 @@
     "tenkanSen": 233.32,
     "kijunSen": 233.955,
     "senkouSpanA": 231.755,
-    "senkouSpanB": 228.96,
+    "senkouSpanB": 228.95999999999998,
     "chikouSpan": 240.74
   },
   {
     "timestamp": "2017-08-24T00:00:00",
     "tenkanSen": 233.32,
     "kijunSen": 233.955,
-    "senkouSpanA": 232.300,
+    "senkouSpanA": 232.3,
     "senkouSpanB": 229.45,
     "chikouSpan": 241.78
   },
@@ -1308,7 +1147,7 @@
     "tenkanSen": 233.32,
     "kijunSen": 233.955,
     "senkouSpanA": 232.5675,
-    "senkouSpanB": 229.65,
+    "senkouSpanB": 229.64999999999998,
     "chikouSpan": 242.3
   },
   {
@@ -1316,36 +1155,36 @@
     "tenkanSen": 233.32,
     "kijunSen": 233.955,
     "senkouSpanA": 232.5675,
-    "senkouSpanB": 229.65,
+    "senkouSpanB": 229.64999999999998,
     "chikouSpan": 242.58
   },
   {
     "timestamp": "2017-08-29T00:00:00",
-    "tenkanSen": 232.855,
+    "tenkanSen": 232.85500000000002,
     "kijunSen": 233.955,
     "senkouSpanA": 233.1525,
-    "senkouSpanB": 229.65,
+    "senkouSpanB": 229.64999999999998,
     "chikouSpan": 244.02
   },
   {
     "timestamp": "2017-08-30T00:00:00",
-    "tenkanSen": 232.725,
+    "tenkanSen": 232.72500000000002,
     "kijunSen": 233.955,
     "senkouSpanA": 233.445,
-    "senkouSpanB": 229.835,
+    "senkouSpanB": 229.83499999999998,
     "chikouSpan": 243.74
   },
   {
     "timestamp": "2017-08-31T00:00:00",
-    "tenkanSen": 233.415,
+    "tenkanSen": 233.41500000000002,
     "kijunSen": 233.955,
-    "senkouSpanA": 233.5775,
-    "senkouSpanB": 229.835,
+    "senkouSpanA": 233.57750000000001,
+    "senkouSpanB": 229.83499999999998,
     "chikouSpan": 243.34
   },
   {
     "timestamp": "2017-09-01T00:00:00",
-    "tenkanSen": 234.205,
+    "tenkanSen": 234.20499999999998,
     "kijunSen": 233.955,
     "senkouSpanA": 233.7575,
     "senkouSpanB": 229.93,
@@ -1353,7 +1192,7 @@
   },
   {
     "timestamp": "2017-09-05T00:00:00",
-    "tenkanSen": 234.205,
+    "tenkanSen": 234.20499999999998,
     "kijunSen": 233.955,
     "senkouSpanA": 233.7575,
     "senkouSpanB": 229.93,
@@ -1361,41 +1200,41 @@
   },
   {
     "timestamp": "2017-09-06T00:00:00",
-    "tenkanSen": 234.205,
+    "tenkanSen": 234.20499999999998,
     "kijunSen": 233.955,
-    "senkouSpanA": 234.000,
+    "senkouSpanA": 234,
     "senkouSpanB": 229.93,
     "chikouSpan": 244
   },
   {
     "timestamp": "2017-09-07T00:00:00",
-    "tenkanSen": 234.205,
+    "tenkanSen": 234.20499999999998,
     "kijunSen": 233.955,
-    "senkouSpanA": 234.000,
+    "senkouSpanA": 234,
     "senkouSpanB": 229.93,
     "chikouSpan": 244.3
   },
   {
     "timestamp": "2017-09-08T00:00:00",
-    "tenkanSen": 234.205,
+    "tenkanSen": 234.20499999999998,
     "kijunSen": 233.955,
-    "senkouSpanA": 234.000,
+    "senkouSpanA": 234,
     "senkouSpanB": 230.805,
     "chikouSpan": 244.63
   },
   {
     "timestamp": "2017-09-11T00:00:00",
-    "tenkanSen": 234.67,
+    "tenkanSen": 234.67000000000002,
     "kijunSen": 234.145,
-    "senkouSpanA": 234.000,
-    "senkouSpanB": 231.54,
+    "senkouSpanA": 234,
+    "senkouSpanB": 231.54000000000002,
     "chikouSpan": 244.8
   },
   {
     "timestamp": "2017-09-12T00:00:00",
-    "tenkanSen": 235.85,
+    "tenkanSen": 235.85000000000002,
     "kijunSen": 234.52,
-    "senkouSpanA": 234.000,
+    "senkouSpanA": 234,
     "senkouSpanB": 231.865,
     "chikouSpan": 245.04
   },
@@ -1403,7 +1242,7 @@
     "timestamp": "2017-09-13T00:00:00",
     "tenkanSen": 236.065,
     "kijunSen": 234.575,
-    "senkouSpanA": 234.090,
+    "senkouSpanA": 234.09,
     "senkouSpanB": 232.065,
     "chikouSpan": 245.1
   },
@@ -1411,15 +1250,15 @@
     "timestamp": "2017-09-14T00:00:00",
     "tenkanSen": 236.12,
     "kijunSen": 234.63,
-    "senkouSpanA": 234.520,
+    "senkouSpanA": 234.52,
     "senkouSpanB": 232.835,
     "chikouSpan": 246.37
   },
   {
     "timestamp": "2017-09-15T00:00:00",
     "tenkanSen": 236.22,
-    "kijunSen": 234.73,
-    "senkouSpanA": 234.610,
+    "kijunSen": 234.73000000000002,
+    "senkouSpanA": 234.61,
     "senkouSpanB": 232.835,
     "chikouSpan": 245.41
   },
@@ -1435,46 +1274,46 @@
     "timestamp": "2017-09-19T00:00:00",
     "tenkanSen": 237.26,
     "kijunSen": 235.125,
-    "senkouSpanA": 234.1025,
+    "senkouSpanA": 234.10250000000002,
     "senkouSpanB": 232.835,
     "chikouSpan": 244.63
   },
   {
     "timestamp": "2017-09-20T00:00:00",
-    "tenkanSen": 237.295,
-    "kijunSen": 235.16,
-    "senkouSpanA": 234.17,
+    "tenkanSen": 237.29500000000002,
+    "kijunSen": 235.16000000000003,
+    "senkouSpanA": 234.17000000000002,
     "senkouSpanB": 233.065,
     "chikouSpan": 244.94
   },
   {
     "timestamp": "2017-09-21T00:00:00",
     "tenkanSen": 238.115,
-    "kijunSen": 235.16,
-    "senkouSpanA": 234.17,
+    "kijunSen": 235.16000000000003,
+    "senkouSpanA": 234.17000000000002,
     "senkouSpanB": 233.065,
     "chikouSpan": 246.94
   },
   {
     "timestamp": "2017-09-22T00:00:00",
     "tenkanSen": 238.78,
-    "kijunSen": 235.16,
-    "senkouSpanA": 234.755,
+    "kijunSen": 235.16000000000003,
+    "senkouSpanA": 234.75500000000002,
     "senkouSpanB": 233.065,
     "chikouSpan": 246.02
   },
   {
     "timestamp": "2017-09-25T00:00:00",
-    "tenkanSen": 238.73,
-    "kijunSen": 235.16,
+    "tenkanSen": 238.73000000000002,
+    "kijunSen": 235.16000000000003,
     "senkouSpanA": 234.56,
     "senkouSpanB": 233.065,
     "chikouSpan": 246.41
   },
   {
     "timestamp": "2017-09-26T00:00:00",
-    "tenkanSen": 238.73,
-    "kijunSen": 235.16,
+    "tenkanSen": 238.73000000000002,
+    "kijunSen": 235.16000000000003,
     "senkouSpanA": 234.135,
     "senkouSpanB": 233.065,
     "chikouSpan": 246.73
@@ -1482,7 +1321,7 @@
   {
     "timestamp": "2017-09-27T00:00:00",
     "tenkanSen": 238.875,
-    "kijunSen": 235.83,
+    "kijunSen": 235.82999999999998,
     "senkouSpanA": 233.6375,
     "senkouSpanB": 233.065,
     "chikouSpan": 246.83
@@ -1490,14 +1329,14 @@
   {
     "timestamp": "2017-09-28T00:00:00",
     "tenkanSen": 238.875,
-    "kijunSen": 235.83,
+    "kijunSen": 235.82999999999998,
     "senkouSpanA": 233.6375,
     "senkouSpanB": 233.065,
     "chikouSpan": 247.65
   },
   {
     "timestamp": "2017-09-29T00:00:00",
-    "tenkanSen": 239.27,
+    "tenkanSen": 239.26999999999998,
     "kijunSen": 236.225,
     "senkouSpanA": 233.6375,
     "senkouSpanB": 233.065,
@@ -1506,7 +1345,7 @@
   {
     "timestamp": "2017-10-02T00:00:00",
     "tenkanSen": 239.75,
-    "kijunSen": 236.705,
+    "kijunSen": 236.70499999999998,
     "senkouSpanA": 233.6375,
     "senkouSpanB": 233.065,
     "chikouSpan": 247.86
@@ -1514,7 +1353,7 @@
   {
     "timestamp": "2017-10-03T00:00:00",
     "tenkanSen": 240.025,
-    "kijunSen": 236.98,
+    "kijunSen": 236.98000000000002,
     "senkouSpanA": 233.6375,
     "senkouSpanB": 233.065,
     "chikouSpan": 248.29
@@ -1531,7 +1370,7 @@
     "timestamp": "2017-10-05T00:00:00",
     "tenkanSen": 240.88,
     "kijunSen": 238.64,
-    "senkouSpanA": 233.405,
+    "senkouSpanA": 233.40500000000003,
     "senkouSpanB": 233.065,
     "chikouSpan": 247.31
   },
@@ -1539,7 +1378,7 @@
     "timestamp": "2017-10-06T00:00:00",
     "tenkanSen": 241.235,
     "kijunSen": 238.81,
-    "senkouSpanA": 233.340,
+    "senkouSpanA": 233.34000000000003,
     "senkouSpanB": 233.065,
     "chikouSpan": 247.54
   },
@@ -1554,40 +1393,40 @@
   {
     "timestamp": "2017-10-10T00:00:00",
     "tenkanSen": 241.8,
-    "kijunSen": 238.98,
-    "senkouSpanA": 234.080,
+    "kijunSen": 238.98000000000002,
+    "senkouSpanA": 234.07999999999998,
     "senkouSpanB": 233.065,
     "chikouSpan": 245.73
   },
   {
     "timestamp": "2017-10-11T00:00:00",
-    "tenkanSen": 242.04,
+    "tenkanSen": 242.04000000000002,
     "kijunSen": 239.59,
-    "senkouSpanA": 234.080,
+    "senkouSpanA": 234.07999999999998,
     "senkouSpanB": 233.065,
     "chikouSpan": 247.82
   },
   {
     "timestamp": "2017-10-12T00:00:00",
-    "tenkanSen": 242.605,
+    "tenkanSen": 242.60500000000002,
     "kijunSen": 239.63,
-    "senkouSpanA": 234.080,
+    "senkouSpanA": 234.07999999999998,
     "senkouSpanB": 233.065,
     "chikouSpan": 247.09
   },
   {
     "timestamp": "2017-10-13T00:00:00",
     "tenkanSen": 243.15,
-    "kijunSen": 239.73,
-    "senkouSpanA": 234.080,
+    "kijunSen": 239.73000000000002,
+    "senkouSpanA": 234.07999999999998,
     "senkouSpanB": 233.065,
     "chikouSpan": 247.51
   },
   {
     "timestamp": "2017-10-16T00:00:00",
     "tenkanSen": 243.425,
-    "kijunSen": 240.665,
-    "senkouSpanA": 234.080,
+    "kijunSen": 240.66500000000002,
+    "senkouSpanA": 234.07999999999998,
     "senkouSpanB": 233.065,
     "chikouSpan": 249.13
   },
@@ -1595,7 +1434,7 @@
     "timestamp": "2017-10-17T00:00:00",
     "tenkanSen": 243.735,
     "kijunSen": 241.285,
-    "senkouSpanA": 234.4075,
+    "senkouSpanA": 234.40750000000003,
     "senkouSpanB": 233.255,
     "chikouSpan": 248.91
   },
@@ -1611,7 +1450,7 @@
     "timestamp": "2017-10-19T00:00:00",
     "tenkanSen": 244.155,
     "kijunSen": 241.49,
-    "senkouSpanA": 235.320,
+    "senkouSpanA": 235.32,
     "senkouSpanB": 233.865,
     "chikouSpan": 249.36
   },
@@ -1620,15 +1459,15 @@
     "tenkanSen": 244.885,
     "kijunSen": 242.06,
     "senkouSpanA": 235.375,
-    "senkouSpanB": 233.92,
+    "senkouSpanB": 233.92000000000002,
     "chikouSpan": 251.89
   },
   {
     "timestamp": "2017-10-23T00:00:00",
     "tenkanSen": 245.225,
     "kijunSen": 242.235,
-    "senkouSpanA": 235.475,
-    "senkouSpanB": 234.02,
+    "senkouSpanA": 235.47500000000002,
+    "senkouSpanB": 234.01999999999998,
     "chikouSpan": 251.74
   },
   {
@@ -1644,47 +1483,47 @@
     "tenkanSen": 245.07,
     "kijunSen": 242.235,
     "senkouSpanA": 236.1925,
-    "senkouSpanB": 234.525,
+    "senkouSpanB": 234.52499999999998,
     "chikouSpan": 253.41
   },
   {
     "timestamp": "2017-10-26T00:00:00",
     "tenkanSen": 245.07,
     "kijunSen": 242.235,
-    "senkouSpanA": 236.2275,
+    "senkouSpanA": 236.22750000000002,
     "senkouSpanB": 234.695,
     "chikouSpan": 253.11
   },
   {
     "timestamp": "2017-10-27T00:00:00",
     "tenkanSen": 245.255,
-    "kijunSen": 242.42,
-    "senkouSpanA": 236.6375,
+    "kijunSen": 242.42000000000002,
+    "senkouSpanA": 236.63750000000002,
     "senkouSpanB": 234.695,
     "chikouSpan": 252.2
   },
   {
     "timestamp": "2017-10-30T00:00:00",
     "tenkanSen": 245.255,
-    "kijunSen": 242.42,
-    "senkouSpanA": 236.97,
-    "senkouSpanB": 235.16,
+    "kijunSen": 242.42000000000002,
+    "senkouSpanA": 236.97000000000003,
+    "senkouSpanB": 235.16000000000003,
     "chikouSpan": 252.24
   },
   {
     "timestamp": "2017-10-31T00:00:00",
     "tenkanSen": 245.255,
     "kijunSen": 242.765,
-    "senkouSpanA": 236.945,
-    "senkouSpanB": 235.16,
+    "senkouSpanA": 236.94500000000002,
+    "senkouSpanB": 235.16000000000003,
     "chikouSpan": 253.04
   },
   {
     "timestamp": "2017-11-01T00:00:00",
     "tenkanSen": 245.51,
     "kijunSen": 243.05,
-    "senkouSpanA": 236.945,
-    "senkouSpanB": 235.16,
+    "senkouSpanA": 236.94500000000002,
+    "senkouSpanB": 235.16000000000003,
     "chikouSpan": 254.42
   },
   {
@@ -1708,13 +1547,13 @@
     "tenkanSen": 245.785,
     "kijunSen": 244.49,
     "senkouSpanA": 237.7475,
-    "senkouSpanB": 235.70,
+    "senkouSpanB": 235.7,
     "chikouSpan": 255.61
   },
   {
     "timestamp": "2017-11-07T00:00:00",
-    "tenkanSen": 246.665,
-    "kijunSen": 245.105,
+    "tenkanSen": 246.66500000000002,
+    "kijunSen": 245.10500000000002,
     "senkouSpanA": 238.2275,
     "senkouSpanB": 236.18,
     "chikouSpan": 254.56
@@ -1738,7 +1577,7 @@
   {
     "timestamp": "2017-11-10T00:00:00",
     "tenkanSen": 247.005,
-    "kijunSen": 245.785,
+    "kijunSen": 245.78500000000003,
     "senkouSpanA": 239.76,
     "senkouSpanB": 237.31,
     "chikouSpan": 257.32
@@ -1746,7 +1585,7 @@
   {
     "timestamp": "2017-11-13T00:00:00",
     "tenkanSen": 247.005,
-    "kijunSen": 245.785,
+    "kijunSen": 245.78500000000003,
     "senkouSpanA": 240.0225,
     "senkouSpanB": 237.32,
     "chikouSpan": 257.18
@@ -1762,15 +1601,15 @@
   {
     "timestamp": "2017-11-15T00:00:00",
     "tenkanSen": 246.735,
-    "kijunSen": 245.955,
-    "senkouSpanA": 240.39,
+    "kijunSen": 245.95499999999998,
+    "senkouSpanA": 240.39000000000001,
     "senkouSpanB": 237.49,
     "chikouSpan": 257.65
   },
   {
     "timestamp": "2017-11-16T00:00:00",
     "tenkanSen": 246.735,
-    "kijunSen": 245.955,
+    "kijunSen": 245.95499999999998,
     "senkouSpanA": 240.815,
     "senkouSpanB": 237.49,
     "chikouSpan": 257.34
@@ -1778,7 +1617,7 @@
   {
     "timestamp": "2017-11-17T00:00:00",
     "tenkanSen": 246.735,
-    "kijunSen": 245.955,
+    "kijunSen": 245.95499999999998,
     "senkouSpanA": 241.1175,
     "senkouSpanB": 237.495,
     "chikouSpan": 257.46
@@ -1786,16 +1625,16 @@
   {
     "timestamp": "2017-11-20T00:00:00",
     "tenkanSen": 246.67,
-    "kijunSen": 245.955,
+    "kijunSen": 245.95499999999998,
     "senkouSpanA": 241.44,
-    "senkouSpanB": 237.595,
+    "senkouSpanB": 237.59500000000003,
     "chikouSpan": 257.99
   },
   {
     "timestamp": "2017-11-21T00:00:00",
     "tenkanSen": 247.14,
     "kijunSen": 246.36,
-    "senkouSpanA": 242.045,
+    "senkouSpanA": 242.04500000000002,
     "senkouSpanB": 237.71,
     "chikouSpan": 257.02
   },
@@ -1803,16 +1642,16 @@
     "timestamp": "2017-11-22T00:00:00",
     "tenkanSen": 247.14,
     "kijunSen": 246.36,
-    "senkouSpanA": 242.510,
+    "senkouSpanA": 242.51,
     "senkouSpanB": 237.715,
     "chikouSpan": 258.86
   },
   {
     "timestamp": "2017-11-24T00:00:00",
-    "tenkanSen": 247.275,
+    "tenkanSen": 247.27499999999998,
     "kijunSen": 246.495,
     "senkouSpanA": 242.8225,
-    "senkouSpanB": 237.92,
+    "senkouSpanB": 237.92000000000002,
     "chikouSpan": 260.5
   },
   {
@@ -1820,23 +1659,23 @@
     "tenkanSen": 247.405,
     "kijunSen": 246.625,
     "senkouSpanA": 242.8225,
-    "senkouSpanB": 237.92,
+    "senkouSpanB": 237.92000000000002,
     "chikouSpan": 261.59
   },
   {
     "timestamp": "2017-11-28T00:00:00",
     "tenkanSen": 248.435,
-    "kijunSen": 247.655,
+    "kijunSen": 247.65499999999997,
     "senkouSpanA": 243.4725,
     "senkouSpanB": 238.49,
     "chikouSpan": 263.34
   },
   {
     "timestamp": "2017-11-29T00:00:00",
-    "tenkanSen": 249.67,
+    "tenkanSen": 249.67000000000002,
     "kijunSen": 248.005,
-    "senkouSpanA": 243.730,
-    "senkouSpanB": 238.665,
+    "senkouSpanA": 243.73000000000002,
+    "senkouSpanB": 238.66500000000002,
     "chikouSpan": 263.82
   },
   {
@@ -1844,7 +1683,7 @@
     "tenkanSen": 250.97,
     "kijunSen": 249.165,
     "senkouSpanA": 243.735,
-    "senkouSpanB": 238.665,
+    "senkouSpanB": 238.66500000000002,
     "chikouSpan": 264.42
   },
   {
@@ -1852,61 +1691,61 @@
     "tenkanSen": 251.015,
     "kijunSen": 249.875,
     "senkouSpanA": 243.6525,
-    "senkouSpanB": 238.665,
+    "senkouSpanB": 238.66500000000002,
     "chikouSpan": 264.01
   },
   {
     "timestamp": "2017-12-04T00:00:00",
     "tenkanSen": 251.56,
-    "kijunSen": 250.30,
+    "kijunSen": 250.3,
     "senkouSpanA": 243.6525,
-    "senkouSpanB": 238.665,
+    "senkouSpanB": 238.66500000000002,
     "chikouSpan": 265.94
   },
   {
     "timestamp": "2017-12-05T00:00:00",
     "tenkanSen": 252.19,
-    "kijunSen": 250.30,
+    "kijunSen": 250.3,
     "senkouSpanA": 243.8375,
-    "senkouSpanB": 238.85,
+    "senkouSpanB": 238.85000000000002,
     "chikouSpan": 267.67
   },
   {
     "timestamp": "2017-12-06T00:00:00",
-    "tenkanSen": 252.395,
-    "kijunSen": 250.30,
+    "tenkanSen": 252.39499999999998,
+    "kijunSen": 250.3,
     "senkouSpanA": 243.8375,
-    "senkouSpanB": 238.85,
+    "senkouSpanB": 238.85000000000002,
     "chikouSpan": 266.76
   },
   {
     "timestamp": "2017-12-07T00:00:00",
-    "tenkanSen": 252.395,
-    "kijunSen": 250.30,
-    "senkouSpanA": 244.010,
-    "senkouSpanB": 238.85,
+    "tenkanSen": 252.39499999999998,
+    "kijunSen": 250.3,
+    "senkouSpanA": 244.01,
+    "senkouSpanB": 238.85000000000002,
     "chikouSpan": 269.3
   },
   {
     "timestamp": "2017-12-08T00:00:00",
     "tenkanSen": 252.71,
-    "kijunSen": 250.30,
+    "kijunSen": 250.3,
     "senkouSpanA": 244.28,
-    "senkouSpanB": 239.105,
+    "senkouSpanB": 239.10500000000002,
     "chikouSpan": 268.85
   },
   {
     "timestamp": "2017-12-11T00:00:00",
     "tenkanSen": 252.76,
-    "kijunSen": 250.30,
-    "senkouSpanA": 244.4625,
+    "kijunSen": 250.3,
+    "senkouSpanA": 244.46249999999998,
     "senkouSpanB": 239.63,
     "chikouSpan": 270.07
   },
   {
     "timestamp": "2017-12-12T00:00:00",
     "tenkanSen": 253.01,
-    "kijunSen": 250.55,
+    "kijunSen": 250.54999999999998,
     "senkouSpanA": 244.6175,
     "senkouSpanB": 239.665,
     "chikouSpan": 272.27
@@ -1923,7 +1762,7 @@
     "timestamp": "2017-12-14T00:00:00",
     "tenkanSen": 254.06,
     "kijunSen": 250.665,
-    "senkouSpanA": 245.885,
+    "senkouSpanA": 245.88500000000002,
     "senkouSpanB": 240.075,
     "chikouSpan": 272.74
   },
@@ -1931,7 +1770,7 @@
     "timestamp": "2017-12-15T00:00:00",
     "tenkanSen": 254.465,
     "kijunSen": 251.07,
-    "senkouSpanA": 246.000,
+    "senkouSpanA": 246,
     "senkouSpanB": 240.075,
     "chikouSpan": 272.85
   },
@@ -1945,7 +1784,7 @@
   },
   {
     "timestamp": "2017-12-19T00:00:00",
-    "tenkanSen": 255.33,
+    "tenkanSen": 255.32999999999998,
     "kijunSen": 251.825,
     "senkouSpanA": 246.395,
     "senkouSpanB": 240.88,
@@ -1956,23 +1795,23 @@
     "tenkanSen": 255.85,
     "kijunSen": 251.825,
     "senkouSpanA": 246.395,
-    "senkouSpanB": 241.04,
+    "senkouSpanB": 241.04000000000002,
     "chikouSpan": 271.37
   },
   {
     "timestamp": "2017-12-21T00:00:00",
-    "tenkanSen": 256.545,
+    "tenkanSen": 256.54499999999996,
     "kijunSen": 251.825,
     "senkouSpanA": 246.475,
-    "senkouSpanB": 241.04,
+    "senkouSpanB": 241.04000000000002,
     "chikouSpan": 271.51
   },
   {
     "timestamp": "2017-12-22T00:00:00",
     "tenkanSen": 256.605,
-    "kijunSen": 252.71,
+    "kijunSen": 252.70999999999998,
     "senkouSpanA": 246.345,
-    "senkouSpanB": 241.04,
+    "senkouSpanB": 241.04000000000002,
     "chikouSpan": 271.2
   },
   {
@@ -1986,7 +1825,7 @@
   {
     "timestamp": "2017-12-27T00:00:00",
     "tenkanSen": 256.605,
-    "kijunSen": 252.895,
+    "kijunSen": 252.89499999999998,
     "senkouSpanA": 246.345,
     "senkouSpanB": 241.685,
     "chikouSpan": 254.2
@@ -1994,7 +1833,7 @@
   {
     "timestamp": "2017-12-28T00:00:00",
     "tenkanSen": 257.15,
-    "kijunSen": 253.085,
+    "kijunSen": 253.08499999999998,
     "senkouSpanA": 246.3125,
     "senkouSpanB": 241.685,
     "chikouSpan": 259.21
@@ -2002,15 +1841,15 @@
   {
     "timestamp": "2017-12-29T00:00:00",
     "tenkanSen": 257.755,
-    "kijunSen": 253.715,
+    "kijunSen": 253.71499999999997,
     "senkouSpanA": 246.75,
-    "senkouSpanB": 242.91,
+    "senkouSpanB": 242.91000000000003,
     "chikouSpan": 257.8
   },
   {
     "timestamp": "2018-01-02T00:00:00",
     "tenkanSen": 257.855,
-    "kijunSen": 254.02,
+    "kijunSen": 254.01999999999998,
     "senkouSpanA": 246.75,
     "senkouSpanB": 243.525,
     "chikouSpan": 248.13
@@ -2018,17 +1857,17 @@
   {
     "timestamp": "2018-01-03T00:00:00",
     "tenkanSen": 258.735,
-    "kijunSen": 254.90,
+    "kijunSen": 254.9,
     "senkouSpanA": 246.885,
     "senkouSpanB": 243.66,
     "chikouSpan": 251.86
   },
   {
     "timestamp": "2018-01-04T00:00:00",
-    "tenkanSen": 259.465,
+    "tenkanSen": 259.46500000000003,
     "kijunSen": 255.945,
     "senkouSpanA": 247.015,
-    "senkouSpanB": 243.79,
+    "senkouSpanB": 243.79000000000002,
     "chikouSpan": 255.56
   },
   {
@@ -2041,47 +1880,47 @@
   },
   {
     "timestamp": "2018-01-08T00:00:00",
-    "tenkanSen": 260.40,
+    "tenkanSen": 260.4,
     "kijunSen": 256.93,
     "senkouSpanA": 248.8375,
-    "senkouSpanB": 245.17,
+    "senkouSpanB": 245.17000000000002,
     "chikouSpan": 259.65
   },
   {
     "timestamp": "2018-01-09T00:00:00",
-    "tenkanSen": 260.955,
+    "tenkanSen": 260.95500000000004,
     "kijunSen": 257.485,
     "senkouSpanA": 250.0675,
-    "senkouSpanB": 246.33,
+    "senkouSpanB": 246.32999999999998,
     "chikouSpan": 262.96
   },
   {
     "timestamp": "2018-01-10T00:00:00",
-    "tenkanSen": 260.955,
+    "tenkanSen": 260.95500000000004,
     "kijunSen": 258.42,
     "senkouSpanA": 250.445,
-    "senkouSpanB": 246.33,
+    "senkouSpanB": 246.32999999999998,
     "chikouSpan": 263.04
   },
   {
     "timestamp": "2018-01-11T00:00:00",
     "tenkanSen": 261.375,
-    "kijunSen": 258.84,
+    "kijunSen": 258.84000000000003,
     "senkouSpanA": 250.93,
     "senkouSpanB": 246.685,
     "chikouSpan": 261.39
   },
   {
     "timestamp": "2018-01-12T00:00:00",
-    "tenkanSen": 262.70,
-    "kijunSen": 259.80,
+    "tenkanSen": 262.70000000000005,
+    "kijunSen": 259.8,
     "senkouSpanA": 251.245,
     "senkouSpanB": 246.685,
     "chikouSpan": 260.09
   },
   {
     "timestamp": "2018-01-16T00:00:00",
-    "tenkanSen": 264.40,
+    "tenkanSen": 264.4,
     "kijunSen": 260.86,
     "senkouSpanA": 251.3475,
     "senkouSpanB": 246.685,
@@ -2089,7 +1928,7 @@
   },
   {
     "timestamp": "2018-01-17T00:00:00",
-    "tenkanSen": 265.165,
+    "tenkanSen": 265.16499999999996,
     "kijunSen": 261.38,
     "senkouSpanA": 251.3475,
     "senkouSpanB": 247.03,
@@ -2097,7 +1936,7 @@
   },
   {
     "timestamp": "2018-01-18T00:00:00",
-    "tenkanSen": 265.84,
+    "tenkanSen": 265.84000000000003,
     "kijunSen": 262.075,
     "senkouSpanA": 251.505,
     "senkouSpanB": 247.06,
@@ -2105,8 +1944,8 @@
   },
   {
     "timestamp": "2018-01-19T00:00:00",
-    "tenkanSen": 266.465,
-    "kijunSen": 262.29,
+    "tenkanSen": 266.46500000000003,
+    "kijunSen": 262.28999999999996,
     "senkouSpanA": 251.53,
     "senkouSpanB": 247.425,
     "chikouSpan": 264.31
@@ -2115,15 +1954,15 @@
     "timestamp": "2018-01-22T00:00:00",
     "tenkanSen": 267.565,
     "kijunSen": 263.39,
-    "senkouSpanA": 251.78,
+    "senkouSpanA": 251.77999999999997,
     "senkouSpanB": 247.915,
     "chikouSpan": 261.63
   },
   {
     "timestamp": "2018-01-23T00:00:00",
     "tenkanSen": 268.01,
-    "kijunSen": 263.835,
-    "senkouSpanA": 251.895,
+    "kijunSen": 263.83500000000004,
+    "senkouSpanA": 251.89499999999998,
     "senkouSpanB": 248.59,
     "chikouSpan": 257.83
   },
@@ -2137,23 +1976,23 @@
   },
   {
     "timestamp": "2018-01-25T00:00:00",
-    "tenkanSen": 270.05,
+    "tenkanSen": 270.04999999999995,
     "kijunSen": 265.505,
-    "senkouSpanA": 252.7675,
-    "senkouSpanB": 249.60,
+    "senkouSpanA": 252.76749999999998,
+    "senkouSpanB": 249.6,
     "chikouSpan": 262.15
   },
   {
     "timestamp": "2018-01-26T00:00:00",
     "tenkanSen": 271.03,
     "kijunSen": 266.435,
-    "senkouSpanA": 253.5225,
+    "senkouSpanA": 253.52249999999998,
     "senkouSpanB": 250.66,
     "chikouSpan": 262.82
   },
   {
     "timestamp": "2018-01-29T00:00:00",
-    "tenkanSen": 271.41,
+    "tenkanSen": 271.40999999999997,
     "kijunSen": 266.435,
     "senkouSpanA": 253.5775,
     "senkouSpanB": 250.875,
@@ -2163,21 +2002,21 @@
     "timestamp": "2018-01-30T00:00:00",
     "tenkanSen": 272.185,
     "kijunSen": 266.435,
-    "senkouSpanA": 253.8375,
+    "senkouSpanA": 253.83749999999998,
     "senkouSpanB": 250.875,
     "chikouSpan": 263.99
   },
   {
     "timestamp": "2018-01-31T00:00:00",
-    "tenkanSen": 272.455,
+    "tenkanSen": 272.45500000000004,
     "kijunSen": 266.435,
-    "senkouSpanA": 254.185,
+    "senkouSpanA": 254.18499999999997,
     "senkouSpanB": 251.035,
     "chikouSpan": 268.59
   },
   {
     "timestamp": "2018-02-01T00:00:00",
-    "tenkanSen": 272.92,
+    "tenkanSen": 272.91999999999996,
     "kijunSen": 266.435,
     "senkouSpanA": 254.6575,
     "senkouSpanB": 251.045,
@@ -2187,7 +2026,7 @@
     "timestamp": "2018-02-02T00:00:00",
     "tenkanSen": 270.655,
     "kijunSen": 266.435,
-    "senkouSpanA": 254.7275,
+    "senkouSpanA": 254.72750000000002,
     "senkouSpanB": 251.045,
     "chikouSpan": 266.52
   },
@@ -2195,7 +2034,7 @@
     "timestamp": "2018-02-05T00:00:00",
     "tenkanSen": 264.83,
     "kijunSen": 264.83,
-    "senkouSpanA": 254.750,
+    "senkouSpanA": 254.75,
     "senkouSpanB": 251.045,
     "chikouSpan": 265.15
   },
@@ -2203,7 +2042,7 @@
     "timestamp": "2018-02-06T00:00:00",
     "tenkanSen": 262.61,
     "kijunSen": 262.61,
-    "senkouSpanA": 255.1175,
+    "senkouSpanA": 255.11749999999998,
     "senkouSpanB": 251.045,
     "chikouSpan": 264.86
   },
@@ -2211,7 +2050,7 @@
     "timestamp": "2018-02-07T00:00:00",
     "tenkanSen": 262.61,
     "kijunSen": 262.61,
-    "senkouSpanA": 255.735,
+    "senkouSpanA": 255.73499999999999,
     "senkouSpanB": 251.045,
     "chikouSpan": 265.15
   },
@@ -2220,7 +2059,7 @@
     "tenkanSen": 261.98,
     "kijunSen": 262.075,
     "senkouSpanA": 255.9375,
-    "senkouSpanB": 251.145,
+    "senkouSpanB": 251.14499999999998,
     "chikouSpan": 261.56
   },
   {
@@ -2235,7 +2074,7 @@
     "timestamp": "2018-02-12T00:00:00",
     "tenkanSen": 258.22,
     "kijunSen": 259.825,
-    "senkouSpanA": 257.705,
+    "senkouSpanA": 257.70500000000004,
     "senkouSpanB": 252.755,
     "chikouSpan": 261.5
   },
@@ -2251,7 +2090,7 @@
     "timestamp": "2018-02-14T00:00:00",
     "tenkanSen": 256.745,
     "kijunSen": 259.825,
-    "senkouSpanA": 258.665,
+    "senkouSpanA": 258.66499999999996,
     "senkouSpanB": 253.69,
     "chikouSpan": 249.53
   },
@@ -2259,7 +2098,7 @@
     "timestamp": "2018-02-15T00:00:00",
     "tenkanSen": 254.635,
     "kijunSen": 259.825,
-    "senkouSpanA": 259.220,
+    "senkouSpanA": 259.22,
     "senkouSpanB": 254.245,
     "chikouSpan": 256.36
   },
@@ -2313,7 +2152,7 @@
   },
   {
     "timestamp": "2018-02-27T00:00:00",
-    "tenkanSen": 261.59,
+    "tenkanSen": 261.59000000000003,
     "kijunSen": 259.825,
     "senkouSpanA": 264.3775,
     "senkouSpanB": 257.51,
@@ -2323,13 +2162,13 @@
     "timestamp": "2018-02-28T00:00:00",
     "tenkanSen": 263.745,
     "kijunSen": 259.825,
-    "senkouSpanA": 265.4775,
+    "senkouSpanA": 265.47749999999996,
     "senkouSpanB": 258.61,
     "chikouSpan": 251.14
   },
   {
     "timestamp": "2018-03-01T00:00:00",
-    "tenkanSen": 262.41,
+    "tenkanSen": 262.40999999999997,
     "kijunSen": 259.825,
     "senkouSpanA": 265.9225,
     "senkouSpanB": 259.055,
@@ -2337,7 +2176,7 @@
   },
   {
     "timestamp": "2018-03-02T00:00:00",
-    "tenkanSen": 261.84,
+    "tenkanSen": 261.84000000000003,
     "kijunSen": 259.825,
     "senkouSpanA": 267.11,
     "senkouSpanB": 259.575,
@@ -2345,7 +2184,7 @@
   },
   {
     "timestamp": "2018-03-05T00:00:00",
-    "tenkanSen": 261.84,
+    "tenkanSen": 261.84000000000003,
     "kijunSen": 259.825,
     "senkouSpanA": 267.7775,
     "senkouSpanB": 259.575,
@@ -2353,15 +2192,15 @@
   },
   {
     "timestamp": "2018-03-06T00:00:00",
-    "tenkanSen": 261.84,
+    "tenkanSen": 261.84000000000003,
     "kijunSen": 259.73,
-    "senkouSpanA": 268.7325,
+    "senkouSpanA": 268.73249999999996,
     "senkouSpanB": 260.505,
     "chikouSpan": 257.15
   },
   {
     "timestamp": "2018-03-07T00:00:00",
-    "tenkanSen": 261.84,
+    "tenkanSen": 261.84000000000003,
     "kijunSen": 258.915,
     "senkouSpanA": 268.9225,
     "senkouSpanB": 260.505,
@@ -2369,17 +2208,17 @@
   },
   {
     "timestamp": "2018-03-08T00:00:00",
-    "tenkanSen": 261.84,
+    "tenkanSen": 261.84000000000003,
     "kijunSen": 258.22,
-    "senkouSpanA": 269.310,
+    "senkouSpanA": 269.31,
     "senkouSpanB": 260.505,
     "chikouSpan": 258.5
   },
   {
     "timestamp": "2018-03-09T00:00:00",
-    "tenkanSen": 261.84,
+    "tenkanSen": 261.84000000000003,
     "kijunSen": 258.105,
-    "senkouSpanA": 269.445,
+    "senkouSpanA": 269.44500000000005,
     "senkouSpanB": 260.505,
     "chikouSpan": 261.27
   },
@@ -2395,7 +2234,7 @@
     "timestamp": "2018-03-13T00:00:00",
     "tenkanSen": 262.56,
     "kijunSen": 256.83,
-    "senkouSpanA": 268.545,
+    "senkouSpanA": 268.54499999999996,
     "senkouSpanB": 261.53,
     "chikouSpan": 260.01
   },
@@ -2425,25 +2264,25 @@
   },
   {
     "timestamp": "2018-03-19T00:00:00",
-    "tenkanSen": 264.91,
+    "tenkanSen": 264.90999999999997,
     "kijunSen": 256.83,
-    "senkouSpanA": 262.0275,
+    "senkouSpanA": 262.02750000000003,
     "senkouSpanB": 262.075,
     "chikouSpan": 254.93
   },
   {
     "timestamp": "2018-03-20T00:00:00",
-    "tenkanSen": 264.91,
+    "tenkanSen": 264.90999999999997,
     "kijunSen": 261.045,
-    "senkouSpanA": 259.370,
+    "senkouSpanA": 259.37,
     "senkouSpanB": 259.825,
     "chikouSpan": 257.52
   },
   {
     "timestamp": "2018-03-21T00:00:00",
-    "tenkanSen": 264.91,
+    "tenkanSen": 264.90999999999997,
     "kijunSen": 261.835,
-    "senkouSpanA": 259.0225,
+    "senkouSpanA": 259.02250000000004,
     "senkouSpanB": 259.825,
     "chikouSpan": 257.76
   },
@@ -2451,7 +2290,7 @@
     "timestamp": "2018-03-22T00:00:00",
     "tenkanSen": 262.365,
     "kijunSen": 262.31,
-    "senkouSpanA": 258.965,
+    "senkouSpanA": 258.96500000000003,
     "senkouSpanB": 259.825,
     "chikouSpan": 255.78
   },
@@ -2459,15 +2298,15 @@
     "timestamp": "2018-03-23T00:00:00",
     "tenkanSen": 259.695,
     "kijunSen": 259.695,
-    "senkouSpanA": 258.285,
+    "senkouSpanA": 258.28499999999997,
     "senkouSpanB": 259.825,
     "chikouSpan": 256.23
   },
   {
     "timestamp": "2018-03-26T00:00:00",
-    "tenkanSen": 258.545,
+    "tenkanSen": 258.54499999999996,
     "kijunSen": 259.695,
-    "senkouSpanA": 257.230,
+    "senkouSpanA": 257.23,
     "senkouSpanB": 259.825,
     "chikouSpan": 254.51
   },
@@ -2475,7 +2314,7 @@
     "timestamp": "2018-03-27T00:00:00",
     "tenkanSen": 257.865,
     "kijunSen": 259.695,
-    "senkouSpanA": 257.1025,
+    "senkouSpanA": 257.10249999999996,
     "senkouSpanB": 259.825,
     "chikouSpan": 253.95
   },
@@ -2483,7 +2322,7 @@
     "timestamp": "2018-03-28T00:00:00",
     "tenkanSen": 257.81,
     "kijunSen": 259.695,
-    "senkouSpanA": 257.1025,
+    "senkouSpanA": 257.10249999999996,
     "senkouSpanB": 259.825,
     "chikouSpan": 257.24
   },
@@ -2491,70 +2330,70 @@
     "timestamp": "2018-03-29T00:00:00",
     "tenkanSen": 257.33,
     "kijunSen": 259.695,
-    "senkouSpanA": 257.1025,
+    "senkouSpanA": 257.10249999999996,
     "senkouSpanB": 259.825,
     "chikouSpan": 258.11
   },
   {
     "timestamp": "2018-04-02T00:00:00",
     "tenkanSen": 255.255,
-    "kijunSen": 258.165,
-    "senkouSpanA": 257.1025,
+    "kijunSen": 258.16499999999996,
+    "senkouSpanA": 257.10249999999996,
     "senkouSpanB": 259.825,
     "chikouSpan": 258.11
   },
   {
     "timestamp": "2018-04-03T00:00:00",
     "tenkanSen": 255.255,
-    "kijunSen": 258.165,
-    "senkouSpanA": 259.210,
+    "kijunSen": 258.16499999999996,
+    "senkouSpanA": 259.21000000000004,
     "senkouSpanB": 259.825,
     "chikouSpan": 260.6
   },
   {
     "timestamp": "2018-04-04T00:00:00",
     "tenkanSen": 253.125,
-    "kijunSen": 258.165,
+    "kijunSen": 258.16499999999996,
     "senkouSpanA": 260.2525,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.04
   },
   {
     "timestamp": "2018-04-05T00:00:00",
-    "tenkanSen": 252.11,
-    "kijunSen": 258.165,
+    "tenkanSen": 252.10999999999999,
+    "kijunSen": 258.16499999999996,
     "senkouSpanA": 260.7075,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.84
   },
   {
     "timestamp": "2018-04-06T00:00:00",
-    "tenkanSen": 252.11,
-    "kijunSen": 258.165,
-    "senkouSpanA": 261.785,
+    "tenkanSen": 252.10999999999999,
+    "kijunSen": 258.16499999999996,
+    "senkouSpanA": 261.78499999999997,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.97
   },
   {
     "timestamp": "2018-04-09T00:00:00",
-    "tenkanSen": 252.11,
-    "kijunSen": 258.165,
-    "senkouSpanA": 261.1175,
+    "tenkanSen": 252.10999999999999,
+    "kijunSen": 258.16499999999996,
+    "senkouSpanA": 261.11749999999995,
     "senkouSpanB": 259.825,
     "chikouSpan": 262.15
   },
   {
     "timestamp": "2018-04-10T00:00:00",
-    "tenkanSen": 252.05,
-    "kijunSen": 258.165,
+    "tenkanSen": 252.04999999999998,
+    "kijunSen": 258.16499999999996,
     "senkouSpanA": 260.8325,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.25
   },
   {
     "timestamp": "2018-04-11T00:00:00",
-    "tenkanSen": 252.05,
-    "kijunSen": 258.165,
+    "tenkanSen": 252.04999999999998,
+    "kijunSen": 258.16499999999996,
     "senkouSpanA": 260.8325,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.03
@@ -2562,7 +2401,7 @@
   {
     "timestamp": "2018-04-12T00:00:00",
     "tenkanSen": 252.22,
-    "kijunSen": 258.165,
+    "kijunSen": 258.16499999999996,
     "senkouSpanA": 260.785,
     "senkouSpanB": 259.825,
     "chikouSpan": 262.37
@@ -2570,38 +2409,38 @@
   {
     "timestamp": "2018-04-13T00:00:00",
     "tenkanSen": 253.42,
-    "kijunSen": 258.165,
-    "senkouSpanA": 260.3775,
+    "kijunSen": 258.16499999999996,
+    "senkouSpanA": 260.37750000000005,
     "senkouSpanB": 259.825,
     "chikouSpan": 264.34
   },
   {
     "timestamp": "2018-04-16T00:00:00",
-    "tenkanSen": 253.735,
-    "kijunSen": 258.165,
-    "senkouSpanA": 260.03,
+    "tenkanSen": 253.73499999999999,
+    "kijunSen": 258.16499999999996,
+    "senkouSpanA": 260.03000000000003,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.61
   },
   {
     "timestamp": "2018-04-17T00:00:00",
-    "tenkanSen": 255.705,
-    "kijunSen": 258.165,
+    "tenkanSen": 255.70499999999998,
+    "kijunSen": 258.16499999999996,
     "senkouSpanA": 259.9725,
     "senkouSpanB": 259.825,
     "chikouSpan": 264.33
   },
   {
     "timestamp": "2018-04-18T00:00:00",
-    "tenkanSen": 255.91,
-    "kijunSen": 258.165,
+    "tenkanSen": 255.90999999999997,
+    "kijunSen": 258.16499999999996,
     "senkouSpanA": 259.5325,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.79
   },
   {
     "timestamp": "2018-04-19T00:00:00",
-    "tenkanSen": 256.845,
+    "tenkanSen": 256.84499999999997,
     "kijunSen": 257.015,
     "senkouSpanA": 259.695,
     "senkouSpanB": 259.825,
@@ -2610,7 +2449,7 @@
   {
     "timestamp": "2018-04-20T00:00:00",
     "tenkanSen": 258.32,
-    "kijunSen": 256.335,
+    "kijunSen": 256.33500000000004,
     "senkouSpanA": 259.695,
     "senkouSpanB": 259.825,
     "chikouSpan": 260.14
@@ -2619,21 +2458,21 @@
     "timestamp": "2018-04-23T00:00:00",
     "tenkanSen": 258.515,
     "kijunSen": 256.28,
-    "senkouSpanA": 260.3675,
+    "senkouSpanA": 260.36749999999995,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.61
   },
   {
     "timestamp": "2018-04-24T00:00:00",
     "tenkanSen": 257.495,
-    "kijunSen": 255.80,
-    "senkouSpanA": 260.9925,
+    "kijunSen": 255.79999999999998,
+    "senkouSpanA": 260.99249999999995,
     "senkouSpanB": 259.825,
     "chikouSpan": 261.99
   },
   {
     "timestamp": "2018-04-25T00:00:00",
-    "tenkanSen": 257.29,
+    "tenkanSen": 257.28999999999996,
     "kijunSen": 255.255,
     "senkouSpanA": 260.87,
     "senkouSpanB": 259.825,
@@ -2641,24 +2480,24 @@
   },
   {
     "timestamp": "2018-04-26T00:00:00",
-    "tenkanSen": 257.29,
+    "tenkanSen": 257.28999999999996,
     "kijunSen": 255.255,
-    "senkouSpanA": 262.9775,
+    "senkouSpanA": 262.97749999999996,
     "senkouSpanB": 259.825,
     "chikouSpan": 265.82
   },
   {
     "timestamp": "2018-04-27T00:00:00",
-    "tenkanSen": 257.29,
-    "kijunSen": 254.30,
-    "senkouSpanA": 263.3725,
+    "tenkanSen": 257.28999999999996,
+    "kijunSen": 254.29999999999998,
+    "senkouSpanA": 263.37249999999995,
     "senkouSpanB": 259.825,
     "chikouSpan": 266.02
   },
   {
     "timestamp": "2018-04-30T00:00:00",
-    "tenkanSen": 257.29,
-    "kijunSen": 254.30,
+    "tenkanSen": 257.28999999999996,
+    "kijunSen": 254.29999999999998,
     "senkouSpanA": 262.3375,
     "senkouSpanB": 259.825,
     "chikouSpan": 268.24
@@ -2666,31 +2505,31 @@
   {
     "timestamp": "2018-05-01T00:00:00",
     "tenkanSen": 256.605,
-    "kijunSen": 254.30,
+    "kijunSen": 254.29999999999998,
     "senkouSpanA": 259.695,
     "senkouSpanB": 259.825,
     "chikouSpan": 268.21
   },
   {
     "timestamp": "2018-05-02T00:00:00",
-    "tenkanSen": 256.21,
-    "kijunSen": 254.30,
-    "senkouSpanA": 259.120,
+    "tenkanSen": 256.21000000000004,
+    "kijunSen": 254.29999999999998,
+    "senkouSpanA": 259.12,
     "senkouSpanB": 259.825,
     "chikouSpan": 269
   },
   {
     "timestamp": "2018-05-03T00:00:00",
     "tenkanSen": 254.815,
-    "kijunSen": 254.30,
-    "senkouSpanA": 258.780,
+    "kijunSen": 254.29999999999998,
+    "senkouSpanA": 258.78,
     "senkouSpanB": 259.825,
     "chikouSpan": 269.36
   },
   {
     "timestamp": "2018-05-04T00:00:00",
     "tenkanSen": 254.815,
-    "kijunSen": 254.30,
+    "kijunSen": 254.29999999999998,
     "senkouSpanA": 258.7525,
     "senkouSpanB": 259.825,
     "chikouSpan": 269.71
@@ -2698,7 +2537,7 @@
   {
     "timestamp": "2018-05-07T00:00:00",
     "tenkanSen": 254.835,
-    "kijunSen": 254.30,
+    "kijunSen": 254.29999999999998,
     "senkouSpanA": 258.5125,
     "senkouSpanB": 259.825,
     "chikouSpan": 268.85
@@ -2706,16 +2545,16 @@
   {
     "timestamp": "2018-05-08T00:00:00",
     "tenkanSen": 254.835,
-    "kijunSen": 255.235,
-    "senkouSpanA": 256.710,
+    "kijunSen": 255.23499999999999,
+    "senkouSpanA": 256.71,
     "senkouSpanB": 259.825,
     "chikouSpan": 269.53
   },
   {
     "timestamp": "2018-05-09T00:00:00",
     "tenkanSen": 255.725,
-    "kijunSen": 255.235,
-    "senkouSpanA": 256.710,
+    "kijunSen": 255.23499999999999,
+    "senkouSpanA": 256.71,
     "senkouSpanB": 259.825,
     "chikouSpan": 269.18
   },
@@ -2723,7 +2562,7 @@
     "timestamp": "2018-05-10T00:00:00",
     "tenkanSen": 256.95,
     "kijunSen": 256.44,
-    "senkouSpanA": 255.645,
+    "senkouSpanA": 255.64499999999998,
     "senkouSpanB": 259.825,
     "chikouSpan": 268.63
   },
@@ -2755,7 +2594,7 @@
     "timestamp": "2018-05-16T00:00:00",
     "tenkanSen": 258.78,
     "kijunSen": 257.765,
-    "senkouSpanA": 255.1075,
+    "senkouSpanA": 255.10749999999996,
     "senkouSpanB": 259.825,
     "chikouSpan": 266.86
   },
@@ -2763,7 +2602,7 @@
     "timestamp": "2018-05-17T00:00:00",
     "tenkanSen": 260.715,
     "kijunSen": 257.765,
-    "senkouSpanA": 255.1075,
+    "senkouSpanA": 255.10749999999996,
     "senkouSpanB": 259.825,
     "chikouSpan": 263.23
   },
@@ -2779,7 +2618,7 @@
     "timestamp": "2018-05-21T00:00:00",
     "tenkanSen": 261.65,
     "kijunSen": 257.765,
-    "senkouSpanA": 255.7925,
+    "senkouSpanA": 255.79249999999996,
     "senkouSpanB": 258.915,
     "chikouSpan": 261.63
   },
@@ -2787,7 +2626,7 @@
     "timestamp": "2018-05-22T00:00:00",
     "tenkanSen": 263.155,
     "kijunSen": 257.85,
-    "senkouSpanA": 255.950,
+    "senkouSpanA": 255.95,
     "senkouSpanB": 258.22,
     "chikouSpan": 263.12
   },
@@ -2795,7 +2634,7 @@
     "timestamp": "2018-05-23T00:00:00",
     "tenkanSen": 263.155,
     "kijunSen": 257.85,
-    "senkouSpanA": 256.935,
+    "senkouSpanA": 256.93499999999995,
     "senkouSpanB": 258.105,
     "chikouSpan": 263.5
   },
@@ -2803,7 +2642,7 @@
     "timestamp": "2018-05-24T00:00:00",
     "tenkanSen": 263.155,
     "kijunSen": 257.85,
-    "senkouSpanA": 257.0375,
+    "senkouSpanA": 257.03749999999997,
     "senkouSpanB": 256.83,
     "chikouSpan": 264.06
   },
@@ -2811,7 +2650,7 @@
     "timestamp": "2018-05-25T00:00:00",
     "tenkanSen": 263.155,
     "kijunSen": 257.85,
-    "senkouSpanA": 256.930,
+    "senkouSpanA": 256.92999999999995,
     "senkouSpanB": 256.83,
     "chikouSpan": 263.13
   },
@@ -2852,39 +2691,39 @@
     "tenkanSen": 262.51,
     "kijunSen": 258.3,
     "senkouSpanA": 256.2725,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 268.92
   },
   {
     "timestamp": "2018-06-05T00:00:00",
     "tenkanSen": 262.675,
-    "kijunSen": 258.465,
-    "senkouSpanA": 255.795,
-    "senkouSpanB": 258.165,
+    "kijunSen": 258.46500000000003,
+    "senkouSpanA": 255.79499999999996,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 271.36
   },
   {
     "timestamp": "2018-06-06T00:00:00",
     "tenkanSen": 263.64,
     "kijunSen": 259.43,
-    "senkouSpanA": 255.795,
-    "senkouSpanB": 258.165,
+    "senkouSpanA": 255.79499999999996,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 271.57
   },
   {
     "timestamp": "2018-06-07T00:00:00",
     "tenkanSen": 264.005,
-    "kijunSen": 259.795,
+    "kijunSen": 259.79499999999996,
     "senkouSpanA": 255.4525,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 271.33
   },
   {
     "timestamp": "2018-06-08T00:00:00",
     "tenkanSen": 264.005,
-    "kijunSen": 259.795,
+    "kijunSen": 259.79499999999996,
     "senkouSpanA": 255.255,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 272.43
   },
   {
@@ -2892,7 +2731,7 @@
     "tenkanSen": 265.74,
     "kijunSen": 261.34,
     "senkouSpanA": 254.5575,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 273
   },
   {
@@ -2900,15 +2739,15 @@
     "tenkanSen": 265.74,
     "kijunSen": 263.275,
     "senkouSpanA": 254.5575,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 271.97
   },
   {
     "timestamp": "2018-06-13T00:00:00",
-    "tenkanSen": 266.795,
+    "tenkanSen": 266.79499999999996,
     "kijunSen": 263.325,
     "senkouSpanA": 254.5675,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 271.66
   },
   {
@@ -2916,126 +2755,126 @@
     "tenkanSen": 267.69,
     "kijunSen": 264.26,
     "senkouSpanA": 255.035,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 272.16
   },
   {
     "timestamp": "2018-06-15T00:00:00",
     "tenkanSen": 267.69,
-    "kijunSen": 264.585,
-    "senkouSpanA": 255.480,
-    "senkouSpanB": 258.165,
+    "kijunSen": 264.58500000000004,
+    "senkouSpanA": 255.48,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 273.53
   },
   {
     "timestamp": "2018-06-18T00:00:00",
     "tenkanSen": 268.13,
-    "kijunSen": 264.585,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 256.695,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 275.87
   },
   {
     "timestamp": "2018-06-19T00:00:00",
     "tenkanSen": 267.97,
-    "kijunSen": 264.585,
-    "senkouSpanA": 257.060,
-    "senkouSpanB": 258.165,
+    "kijunSen": 264.58500000000004,
+    "senkouSpanA": 257.06,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 275.21
   },
   {
     "timestamp": "2018-06-20T00:00:00",
     "tenkanSen": 267.97,
-    "kijunSen": 264.585,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 257.765,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 273.35
   },
   {
     "timestamp": "2018-06-21T00:00:00",
     "tenkanSen": 267.97,
-    "kijunSen": 264.585,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 257.765,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 271.92
   },
   {
     "timestamp": "2018-06-22T00:00:00",
     "tenkanSen": 267.97,
-    "kijunSen": 264.585,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 258.2725,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 273.26
   },
   {
     "timestamp": "2018-06-25T00:00:00",
     "tenkanSen": 265.815,
-    "kijunSen": 264.585,
-    "senkouSpanA": 259.240,
-    "senkouSpanB": 258.165,
+    "kijunSen": 264.58500000000004,
+    "senkouSpanA": 259.24,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 272.81
   },
   {
     "timestamp": "2018-06-26T00:00:00",
     "tenkanSen": 265.745,
-    "kijunSen": 264.585,
-    "senkouSpanA": 259.240,
-    "senkouSpanB": 258.165,
+    "kijunSen": 264.58500000000004,
+    "senkouSpanA": 259.24,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 274.29
   },
   {
     "timestamp": "2018-06-27T00:00:00",
-    "tenkanSen": 265.465,
-    "kijunSen": 264.585,
+    "tenkanSen": 265.46500000000003,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 259.7075,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 275.47
   },
   {
     "timestamp": "2018-06-28T00:00:00",
-    "tenkanSen": 264.785,
-    "kijunSen": 264.585,
+    "tenkanSen": 264.78499999999997,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 260.5025,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 276.48
   },
   {
     "timestamp": "2018-06-29T00:00:00",
-    "tenkanSen": 264.785,
-    "kijunSen": 264.585,
+    "tenkanSen": 264.78499999999997,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 260.5025,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 277.39
   },
   {
     "timestamp": "2018-07-02T00:00:00",
-    "tenkanSen": 264.785,
-    "kijunSen": 264.585,
+    "tenkanSen": 264.78499999999997,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 260.5025,
-    "senkouSpanB": 258.165,
+    "senkouSpanB": 258.16499999999996,
     "chikouSpan": 277.27
   },
   {
     "timestamp": "2018-07-03T00:00:00",
     "tenkanSen": 264.43,
-    "kijunSen": 264.585,
+    "kijunSen": 264.58500000000004,
     "senkouSpanA": 260.5025,
     "senkouSpanB": 257.015,
     "chikouSpan": 276.9
   },
   {
     "timestamp": "2018-07-05T00:00:00",
-    "tenkanSen": 264.335,
+    "tenkanSen": 264.33500000000004,
     "kijunSen": 265.52,
-    "senkouSpanA": 259.955,
-    "senkouSpanB": 256.335,
+    "senkouSpanA": 259.95500000000004,
+    "senkouSpanB": 256.33500000000004,
     "chikouSpan": 275.04
   },
   {
     "timestamp": "2018-07-06T00:00:00",
     "tenkanSen": 264.36,
     "kijunSen": 265.52,
-    "senkouSpanA": 259.955,
+    "senkouSpanA": 259.95500000000004,
     "senkouSpanB": 256.28,
     "chikouSpan": 274.01
   },
@@ -3043,22 +2882,22 @@
     "timestamp": "2018-07-09T00:00:00",
     "tenkanSen": 265.39,
     "kijunSen": 265.52,
-    "senkouSpanA": 259.955,
-    "senkouSpanB": 255.80,
+    "senkouSpanA": 259.95500000000004,
+    "senkouSpanB": 255.79999999999998,
     "chikouSpan": 275.76
   },
   {
     "timestamp": "2018-07-10T00:00:00",
-    "tenkanSen": 265.90,
-    "kijunSen": 265.90,
-    "senkouSpanA": 259.955,
+    "tenkanSen": 265.9,
+    "kijunSen": 265.9,
+    "senkouSpanA": 259.95500000000004,
     "senkouSpanB": 255.73,
     "chikouSpan": 273.7
   },
   {
     "timestamp": "2018-07-11T00:00:00",
-    "tenkanSen": 265.90,
-    "kijunSen": 265.90,
+    "tenkanSen": 265.9,
+    "kijunSen": 265.9,
     "senkouSpanA": 260.405,
     "senkouSpanB": 256.18,
     "chikouSpan": 275.91
@@ -3067,7 +2906,7 @@
     "timestamp": "2018-07-12T00:00:00",
     "tenkanSen": 266.47,
     "kijunSen": 266.105,
-    "senkouSpanA": 260.570,
+    "senkouSpanA": 260.57000000000005,
     "senkouSpanB": 256.345,
     "chikouSpan": 276.89
   },
@@ -3075,38 +2914,38 @@
     "timestamp": "2018-07-13T00:00:00",
     "tenkanSen": 266.71,
     "kijunSen": 266.345,
-    "senkouSpanA": 261.535,
+    "senkouSpanA": 261.53499999999997,
     "senkouSpanB": 257.31,
     "chikouSpan": 277.48
   },
   {
     "timestamp": "2018-07-16T00:00:00",
-    "tenkanSen": 267.285,
+    "tenkanSen": 267.28499999999997,
     "kijunSen": 266.345,
-    "senkouSpanA": 261.900,
-    "senkouSpanB": 257.675,
+    "senkouSpanA": 261.9,
+    "senkouSpanB": 257.67499999999995,
     "chikouSpan": 278.13
   },
   {
     "timestamp": "2018-07-17T00:00:00",
     "tenkanSen": 268.02,
-    "kijunSen": 266.82,
-    "senkouSpanA": 261.900,
-    "senkouSpanB": 257.675,
+    "kijunSen": 266.82000000000005,
+    "senkouSpanA": 261.9,
+    "senkouSpanB": 257.67499999999995,
     "chikouSpan": 277.96
   },
   {
     "timestamp": "2018-07-18T00:00:00",
     "tenkanSen": 269.005,
-    "kijunSen": 266.955,
-    "senkouSpanA": 263.54,
+    "kijunSen": 266.95500000000004,
+    "senkouSpanA": 263.53999999999996,
     "senkouSpanB": 258.205,
     "chikouSpan": 277.59
   },
   {
     "timestamp": "2018-07-19T00:00:00",
     "tenkanSen": 270.845,
-    "kijunSen": 266.955,
+    "kijunSen": 266.95500000000004,
     "senkouSpanA": 264.5075,
     "senkouSpanB": 258.205,
     "chikouSpan": 279.27
@@ -3114,30 +2953,30 @@
   {
     "timestamp": "2018-07-20T00:00:00",
     "tenkanSen": 270.855,
-    "kijunSen": 266.955,
-    "senkouSpanA": 265.060,
+    "kijunSen": 266.95500000000004,
+    "senkouSpanA": 265.05999999999995,
     "senkouSpanB": 258.255,
     "chikouSpan": 281.47
   },
   {
     "timestamp": "2018-07-23T00:00:00",
     "tenkanSen": 270.855,
-    "kijunSen": 266.955,
+    "kijunSen": 266.95500000000004,
     "senkouSpanA": 265.975,
     "senkouSpanB": 259.19,
     "chikouSpan": 281.61
   },
   {
     "timestamp": "2018-07-24T00:00:00",
-    "tenkanSen": 272.05,
+    "tenkanSen": 272.04999999999995,
     "kijunSen": 267.625,
-    "senkouSpanA": 266.1375,
+    "senkouSpanA": 266.13750000000005,
     "senkouSpanB": 259.19,
     "chikouSpan": 283.12
   },
   {
     "timestamp": "2018-07-25T00:00:00",
-    "tenkanSen": 273.325,
+    "tenkanSen": 273.32500000000005,
     "kijunSen": 268.505,
     "senkouSpanA": 266.3575,
     "senkouSpanB": 259.865,
@@ -3145,17 +2984,17 @@
   },
   {
     "timestamp": "2018-07-26T00:00:00",
-    "tenkanSen": 273.325,
+    "tenkanSen": 273.32500000000005,
     "kijunSen": 268.505,
-    "senkouSpanA": 266.2775,
+    "senkouSpanA": 266.27750000000003,
     "senkouSpanB": 259.865,
     "chikouSpan": 281.98
   },
   {
     "timestamp": "2018-07-27T00:00:00",
-    "tenkanSen": 273.325,
+    "tenkanSen": 273.32500000000005,
     "kijunSen": 268.505,
-    "senkouSpanA": 266.2775,
+    "senkouSpanA": 266.27750000000003,
     "senkouSpanB": 260.375,
     "chikouSpan": 281.5
   },
@@ -3163,7 +3002,7 @@
     "timestamp": "2018-07-30T00:00:00",
     "tenkanSen": 273.64,
     "kijunSen": 268.505,
-    "senkouSpanA": 266.2775,
+    "senkouSpanA": 266.27750000000003,
     "senkouSpanB": 260.375,
     "chikouSpan": 280.74
   },
@@ -3171,7 +3010,7 @@
     "timestamp": "2018-07-31T00:00:00",
     "tenkanSen": 273.64,
     "kijunSen": 268.505,
-    "senkouSpanA": 266.2775,
+    "senkouSpanA": 266.27750000000003,
     "senkouSpanB": 260.375,
     "chikouSpan": 279.9
   },
@@ -3179,7 +3018,7 @@
     "timestamp": "2018-08-01T00:00:00",
     "tenkanSen": 273.64,
     "kijunSen": 268.505,
-    "senkouSpanA": 265.200,
+    "senkouSpanA": 265.20000000000005,
     "senkouSpanB": 260.375,
     "chikouSpan": 279.35
   },
@@ -3195,14 +3034,14 @@
     "timestamp": "2018-08-03T00:00:00",
     "tenkanSen": 273.685,
     "kijunSen": 268.505,
-    "senkouSpanA": 265.025,
+    "senkouSpanA": 265.02500000000003,
     "senkouSpanB": 260.375,
     "chikouSpan": 280.76
   },
   {
     "timestamp": "2018-08-06T00:00:00",
     "tenkanSen": 273.985,
-    "kijunSen": 269.17,
+    "kijunSen": 269.16999999999996,
     "senkouSpanA": 264.685,
     "senkouSpanB": 260.375,
     "chikouSpan": 280.83
@@ -3210,7 +3049,7 @@
   {
     "timestamp": "2018-08-07T00:00:00",
     "tenkanSen": 274.48,
-    "kijunSen": 269.665,
+    "kijunSen": 269.66499999999996,
     "senkouSpanA": 264.685,
     "senkouSpanB": 260.375,
     "chikouSpan": 282.49
@@ -3226,8 +3065,8 @@
   {
     "timestamp": "2018-08-09T00:00:00",
     "tenkanSen": 274.48,
-    "kijunSen": 270.50,
-    "senkouSpanA": 264.5075,
+    "kijunSen": 270.5,
+    "senkouSpanA": 264.50750000000005,
     "senkouSpanB": 260.375,
     "chikouSpan": 281.04
   },
@@ -3250,7 +3089,7 @@
   {
     "timestamp": "2018-08-14T00:00:00",
     "tenkanSen": 274.48,
-    "kijunSen": 273.20,
+    "kijunSen": 273.2,
     "senkouSpanA": 265.455,
     "senkouSpanB": 260.375,
     "chikouSpan": 285.16
@@ -3258,8 +3097,8 @@
   {
     "timestamp": "2018-08-15T00:00:00",
     "tenkanSen": 274.97,
-    "kijunSen": 273.20,
-    "senkouSpanA": 265.90,
+    "kijunSen": 273.2,
+    "senkouSpanA": 265.9,
     "senkouSpanB": 260.755,
     "chikouSpan": 284.9
   },
@@ -3267,7 +3106,7 @@
     "timestamp": "2018-08-16T00:00:00",
     "tenkanSen": 274.97,
     "kijunSen": 273.725,
-    "senkouSpanA": 265.90,
+    "senkouSpanA": 265.9,
     "senkouSpanB": 260.755,
     "chikouSpan": 283.95
   },
@@ -3276,20 +3115,20 @@
     "tenkanSen": 274.97,
     "kijunSen": 274.12,
     "senkouSpanA": 266.2875,
-    "senkouSpanB": 260.96,
+    "senkouSpanB": 260.96000000000004,
     "chikouSpan": 283.69
   },
   {
     "timestamp": "2018-08-20T00:00:00",
     "tenkanSen": 274.95,
     "kijunSen": 274.12,
-    "senkouSpanA": 266.5275,
+    "senkouSpanA": 266.52750000000003,
     "senkouSpanB": 261.2,
     "chikouSpan": 282.84
   },
   {
     "timestamp": "2018-08-21T00:00:00",
-    "tenkanSen": 275.60,
+    "tenkanSen": 275.6,
     "kijunSen": 274.75,
     "senkouSpanA": 266.815,
     "senkouSpanB": 261.2,
@@ -3297,7 +3136,7 @@
   },
   {
     "timestamp": "2018-08-22T00:00:00",
-    "tenkanSen": 275.60,
+    "tenkanSen": 275.6,
     "kijunSen": 275.065,
     "senkouSpanA": 267.42,
     "senkouSpanB": 261.675,
@@ -3305,9 +3144,9 @@
   },
   {
     "timestamp": "2018-08-23T00:00:00",
-    "tenkanSen": 275.60,
+    "tenkanSen": 275.6,
     "kijunSen": 275.065,
-    "senkouSpanA": 267.980,
+    "senkouSpanA": 267.98,
     "senkouSpanB": 262.825,
     "chikouSpan": 284.65
   },
@@ -3315,7 +3154,7 @@
     "timestamp": "2018-08-24T00:00:00",
     "tenkanSen": 275.775,
     "kijunSen": 275.24,
-    "senkouSpanA": 268.900,
+    "senkouSpanA": 268.90000000000003,
     "senkouSpanB": 264.76,
     "chikouSpan": 284.48
   },
@@ -3323,15 +3162,15 @@
     "timestamp": "2018-08-27T00:00:00",
     "tenkanSen": 276.86,
     "kijunSen": 276.325,
-    "senkouSpanA": 268.905,
+    "senkouSpanA": 268.90500000000003,
     "senkouSpanB": 264.76,
     "chikouSpan": 284.64
   },
   {
     "timestamp": "2018-08-28T00:00:00",
-    "tenkanSen": 278.66,
+    "tenkanSen": 278.65999999999997,
     "kijunSen": 276.62,
-    "senkouSpanA": 268.905,
+    "senkouSpanA": 268.90500000000003,
     "senkouSpanB": 265.695,
     "chikouSpan": 282.41
   },
@@ -3348,7 +3187,7 @@
     "tenkanSen": 280.13,
     "kijunSen": 277.26,
     "senkouSpanA": 270.915,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 280.83
   },
   {
@@ -3356,7 +3195,7 @@
     "tenkanSen": 280.305,
     "kijunSen": 277.26,
     "senkouSpanA": 270.915,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 280.42
   },
   {
@@ -3364,7 +3203,7 @@
     "tenkanSen": 280.305,
     "kijunSen": 277.26,
     "senkouSpanA": 270.915,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 271.54
   },
   {
@@ -3372,7 +3211,7 @@
     "tenkanSen": 280.305,
     "kijunSen": 277.26,
     "senkouSpanA": 271.0725,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 265.56
   },
   {
@@ -3380,7 +3219,7 @@
     "tenkanSen": 280.77,
     "kijunSen": 277.26,
     "senkouSpanA": 271.0725,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 269.25
   },
   {
@@ -3388,7 +3227,7 @@
     "tenkanSen": 280.93,
     "kijunSen": 277.26,
     "senkouSpanA": 271.0725,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 267.74
   },
   {
@@ -3396,7 +3235,7 @@
     "tenkanSen": 280.93,
     "kijunSen": 277.75,
     "senkouSpanA": 271.0725,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 273.59
   },
   {
@@ -3404,7 +3243,7 @@
     "tenkanSen": 280.93,
     "kijunSen": 277.75,
     "senkouSpanA": 271.095,
-    "senkouSpanB": 267.57,
+    "senkouSpanB": 267.57000000000005,
     "chikouSpan": 273.64
   },
   {
@@ -3417,7 +3256,7 @@
   },
   {
     "timestamp": "2018-09-13T00:00:00",
-    "tenkanSen": 280.59,
+    "tenkanSen": 280.59000000000003,
     "kijunSen": 277.75,
     "senkouSpanA": 272.0725,
     "senkouSpanB": 268.365,
@@ -3425,7 +3264,7 @@
   },
   {
     "timestamp": "2018-09-14T00:00:00",
-    "tenkanSen": 280.705,
+    "tenkanSen": 280.70500000000004,
     "kijunSen": 277.75,
     "senkouSpanA": 272.36,
     "senkouSpanB": 268.365,
@@ -3433,7 +3272,7 @@
   },
   {
     "timestamp": "2018-09-17T00:00:00",
-    "tenkanSen": 280.705,
+    "tenkanSen": 280.70500000000004,
     "kijunSen": 277.75,
     "senkouSpanA": 272.49,
     "senkouSpanB": 268.365,
@@ -3444,31 +3283,31 @@
     "tenkanSen": 280.855,
     "kijunSen": 277.75,
     "senkouSpanA": 272.915,
-    "senkouSpanB": 269.30,
+    "senkouSpanB": 269.3,
     "chikouSpan": 258.88
   },
   {
     "timestamp": "2018-09-19T00:00:00",
-    "tenkanSen": 280.91,
+    "tenkanSen": 280.90999999999997,
     "kijunSen": 277.75,
-    "senkouSpanA": 273.835,
-    "senkouSpanB": 269.30,
+    "senkouSpanA": 273.83500000000004,
+    "senkouSpanB": 269.3,
     "chikouSpan": 263.52
   },
   {
     "timestamp": "2018-09-20T00:00:00",
     "tenkanSen": 282.13,
     "kijunSen": 278.82,
-    "senkouSpanA": 273.84,
-    "senkouSpanB": 269.30,
+    "senkouSpanA": 273.84000000000003,
+    "senkouSpanB": 269.3,
     "chikouSpan": 258.89
   },
   {
     "timestamp": "2018-09-21T00:00:00",
     "tenkanSen": 282.425,
     "kijunSen": 280.665,
-    "senkouSpanA": 274.085,
-    "senkouSpanB": 269.30,
+    "senkouSpanA": 274.08500000000004,
+    "senkouSpanB": 269.3,
     "chikouSpan": 257.45
   },
   {
@@ -3476,7 +3315,7 @@
     "tenkanSen": 283.03,
     "kijunSen": 280.67,
     "senkouSpanA": 274.3475,
-    "senkouSpanB": 269.30,
+    "senkouSpanB": 269.3,
     "chikouSpan": 261.27
   },
   {
@@ -3484,15 +3323,15 @@
     "tenkanSen": 283.42,
     "kijunSen": 281.495,
     "senkouSpanA": 274.545,
-    "senkouSpanB": 269.30,
+    "senkouSpanB": 269.3,
     "chikouSpan": 264.06
   },
   {
     "timestamp": "2018-09-26T00:00:00",
     "tenkanSen": 283.42,
     "kijunSen": 281.67,
-    "senkouSpanA": 274.535,
-    "senkouSpanB": 269.30,
+    "senkouSpanA": 274.53499999999997,
+    "senkouSpanB": 269.3,
     "chikouSpan": 266.87
   },
   {
@@ -3545,10 +3384,10 @@
   },
   {
     "timestamp": "2018-10-05T00:00:00",
-    "tenkanSen": 282.68,
+    "tenkanSen": 282.67999999999995,
     "kijunSen": 282.295,
     "senkouSpanA": 278.2825,
-    "senkouSpanB": 272.08,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 265.95
   },
   {
@@ -3556,7 +3395,7 @@
     "tenkanSen": 282.33,
     "kijunSen": 282.295,
     "senkouSpanA": 278.695,
-    "senkouSpanB": 272.08,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 265.45
   },
   {
@@ -3564,7 +3403,7 @@
     "tenkanSen": 282.33,
     "kijunSen": 282.295,
     "senkouSpanA": 278.7825,
-    "senkouSpanB": 272.08,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 263.64
   },
   {
@@ -3572,61 +3411,61 @@
     "tenkanSen": 278.61,
     "kijunSen": 278.615,
     "senkouSpanA": 278.7825,
-    "senkouSpanB": 272.08,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 266.39
   },
   {
     "timestamp": "2018-10-11T00:00:00",
     "tenkanSen": 274.945,
-    "kijunSen": 274.95,
+    "kijunSen": 274.95000000000005,
     "senkouSpanA": 278.7825,
-    "senkouSpanB": 272.08,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 267.08
   },
   {
     "timestamp": "2018-10-12T00:00:00",
     "tenkanSen": 274.945,
-    "kijunSen": 274.95,
+    "kijunSen": 274.95000000000005,
     "senkouSpanA": 279.015,
-    "senkouSpanB": 272.08,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 262.57
   },
   {
     "timestamp": "2018-10-15T00:00:00",
     "tenkanSen": 274.945,
-    "kijunSen": 274.95,
+    "kijunSen": 274.95000000000005,
     "senkouSpanA": 279.095,
-    "senkouSpanB": 272.08,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 257.71
   },
   {
     "timestamp": "2018-10-16T00:00:00",
     "tenkanSen": 273.985,
-    "kijunSen": 274.95,
-    "senkouSpanA": 279.34,
-    "senkouSpanB": 272.08,
+    "kijunSen": 274.95000000000005,
+    "senkouSpanA": 279.34000000000003,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 258.58
   },
   {
     "timestamp": "2018-10-17T00:00:00",
     "tenkanSen": 273.51,
-    "kijunSen": 274.95,
-    "senkouSpanA": 279.34,
-    "senkouSpanB": 272.08,
+    "kijunSen": 274.95000000000005,
+    "senkouSpanA": 279.34000000000003,
+    "senkouSpanB": 272.08000000000004,
     "chikouSpan": 256.86
   },
   {
     "timestamp": "2018-10-18T00:00:00",
-    "tenkanSen": 272.825,
-    "kijunSen": 274.95,
+    "tenkanSen": 272.82500000000005,
+    "kijunSen": 274.95000000000005,
     "senkouSpanA": 279.2475,
     "senkouSpanB": 272.445,
     "chikouSpan": 261
   },
   {
     "timestamp": "2018-10-19T00:00:00",
-    "tenkanSen": 272.825,
-    "kijunSen": 274.95,
+    "tenkanSen": 272.82500000000005,
+    "kijunSen": 274.95000000000005,
     "senkouSpanA": 279.17,
     "senkouSpanB": 272.445,
     "chikouSpan": 261.88
@@ -3634,7 +3473,7 @@
   {
     "timestamp": "2018-10-22T00:00:00",
     "tenkanSen": 271.87,
-    "kijunSen": 274.95,
+    "kijunSen": 274.95000000000005,
     "senkouSpanA": 279.2275,
     "senkouSpanB": 273.02,
     "chikouSpan": 267.91
@@ -3649,7 +3488,7 @@
   },
   {
     "timestamp": "2018-10-24T00:00:00",
-    "tenkanSen": 266.295,
+    "tenkanSen": 266.29499999999996,
     "kijunSen": 272.185,
     "senkouSpanA": 279.3025,
     "senkouSpanB": 274.13,
@@ -3657,7 +3496,7 @@
   },
   {
     "timestamp": "2018-10-25T00:00:00",
-    "tenkanSen": 266.295,
+    "tenkanSen": 266.29499999999996,
     "kijunSen": 272.185,
     "senkouSpanA": 279.33,
     "senkouSpanB": 275.97,
@@ -3668,7 +3507,7 @@
     "tenkanSen": 265.12,
     "kijunSen": 271.01,
     "senkouSpanA": 280.475,
-    "senkouSpanB": 277.05,
+    "senkouSpanB": 277.04999999999995,
     "chikouSpan": 263.69
   },
   {
@@ -3716,7 +3555,7 @@
     "tenkanSen": 261.045,
     "kijunSen": 269.815,
     "senkouSpanA": 282.6725,
-    "senkouSpanB": 278.58,
+    "senkouSpanB": 278.58000000000004,
     "chikouSpan": 258.93
   },
   {
@@ -3724,44 +3563,44 @@
     "tenkanSen": 261.08,
     "kijunSen": 269.815,
     "senkouSpanA": 283.1875,
-    "senkouSpanB": 278.58,
+    "senkouSpanB": 278.58000000000004,
     "chikouSpan": 254.15
   },
   {
     "timestamp": "2018-11-07T00:00:00",
     "tenkanSen": 263.905,
     "kijunSen": 269.815,
-    "senkouSpanA": 283.2675,
-    "senkouSpanB": 278.58,
+    "senkouSpanA": 283.26750000000004,
+    "senkouSpanB": 278.58000000000004,
     "chikouSpan": 249.16
   },
   {
     "timestamp": "2018-11-08T00:00:00",
     "tenkanSen": 263.965,
     "kijunSen": 268.855,
-    "senkouSpanA": 283.2675,
-    "senkouSpanB": 278.58,
+    "senkouSpanA": 283.26750000000004,
+    "senkouSpanB": 278.58000000000004,
     "chikouSpan": 248.89
   },
   {
     "timestamp": "2018-11-09T00:00:00",
     "tenkanSen": 265.56,
     "kijunSen": 268.38,
-    "senkouSpanA": 282.840,
+    "senkouSpanA": 282.84000000000003,
     "senkouSpanB": 278.625,
     "chikouSpan": 245.16
   },
   {
     "timestamp": "2018-11-12T00:00:00",
-    "tenkanSen": 268.715,
+    "tenkanSen": 268.71500000000003,
     "kijunSen": 267.695,
-    "senkouSpanA": 282.4875,
+    "senkouSpanA": 282.48749999999995,
     "senkouSpanB": 278.625,
     "chikouSpan": 241.17
   },
   {
     "timestamp": "2018-11-13T00:00:00",
-    "tenkanSen": 268.715,
+    "tenkanSen": 268.71500000000003,
     "kijunSen": 267.695,
     "senkouSpanA": 282.3125,
     "senkouSpanB": 278.625,
@@ -3769,7 +3608,7 @@
   },
   {
     "timestamp": "2018-11-14T00:00:00",
-    "tenkanSen": 268.16,
+    "tenkanSen": 268.15999999999997,
     "kijunSen": 266.74,
     "senkouSpanA": 282.3125,
     "senkouSpanB": 278.625,
@@ -3788,7 +3627,7 @@
     "tenkanSen": 267.46,
     "kijunSen": 263.965,
     "senkouSpanA": 274.9475,
-    "senkouSpanB": 274.95,
+    "senkouSpanB": 274.95000000000005,
     "chikouSpan": 243.46
   },
   {
@@ -3796,7 +3635,7 @@
     "tenkanSen": 267.46,
     "kijunSen": 263.965,
     "senkouSpanA": 274.9475,
-    "senkouSpanB": 274.95,
+    "senkouSpanB": 274.95000000000005,
     "chikouSpan": 243.15
   },
   {
@@ -3804,215 +3643,189 @@
     "tenkanSen": 265.575,
     "kijunSen": 263.965,
     "senkouSpanA": 274.9475,
-    "senkouSpanB": 274.95,
+    "senkouSpanB": 274.95000000000005,
     "chikouSpan": 245.28
   },
   {
     "timestamp": "2018-11-21T00:00:00",
     "tenkanSen": 264.61,
     "kijunSen": 263.965,
-    "senkouSpanA": 274.4675,
-    "senkouSpanB": 274.95,
-    "chikouSpan": null
+    "senkouSpanA": 274.46750000000003,
+    "senkouSpanB": 274.95000000000005
   },
   {
     "timestamp": "2018-11-23T00:00:00",
-    "tenkanSen": 263.70,
+    "tenkanSen": 263.70000000000005,
     "kijunSen": 263.965,
     "senkouSpanA": 274.23,
-    "senkouSpanB": 274.95,
-    "chikouSpan": null
+    "senkouSpanB": 274.95000000000005
   },
   {
     "timestamp": "2018-11-26T00:00:00",
-    "tenkanSen": 262.66,
+    "tenkanSen": 262.65999999999997,
     "kijunSen": 263.965,
-    "senkouSpanA": 273.8875,
-    "senkouSpanB": 274.95,
-    "chikouSpan": null
+    "senkouSpanA": 273.88750000000005,
+    "senkouSpanB": 274.95000000000005
   },
   {
     "timestamp": "2018-11-27T00:00:00",
     "tenkanSen": 262.38,
     "kijunSen": 263.965,
-    "senkouSpanA": 273.8875,
-    "senkouSpanB": 274.95,
-    "chikouSpan": null
+    "senkouSpanA": 273.88750000000005,
+    "senkouSpanB": 274.95000000000005
   },
   {
     "timestamp": "2018-11-28T00:00:00",
     "tenkanSen": 262.38,
     "kijunSen": 263.965,
     "senkouSpanA": 273.41,
-    "senkouSpanB": 274.95,
-    "chikouSpan": null
+    "senkouSpanB": 274.95000000000005
   },
   {
     "timestamp": "2018-11-29T00:00:00",
     "tenkanSen": 262.77,
     "kijunSen": 263.965,
-    "senkouSpanA": 271.150,
-    "senkouSpanB": 274.095,
-    "chikouSpan": null
+    "senkouSpanA": 271.15,
+    "senkouSpanB": 274.095
   },
   {
     "timestamp": "2018-11-30T00:00:00",
     "tenkanSen": 263.125,
     "kijunSen": 263.965,
-    "senkouSpanA": 269.240,
-    "senkouSpanB": 272.185,
-    "chikouSpan": null
+    "senkouSpanA": 269.24,
+    "senkouSpanB": 272.185
   },
   {
     "timestamp": "2018-12-03T00:00:00",
     "tenkanSen": 265.135,
     "kijunSen": 263.965,
-    "senkouSpanA": 269.240,
-    "senkouSpanB": 272.185,
-    "chikouSpan": null
+    "senkouSpanA": 269.24,
+    "senkouSpanB": 272.185
   },
   {
     "timestamp": "2018-12-04T00:00:00",
     "tenkanSen": 265.135,
     "kijunSen": 263.965,
     "senkouSpanA": 268.065,
-    "senkouSpanB": 271.01,
-    "chikouSpan": null
+    "senkouSpanB": 271.01
   },
   {
     "timestamp": "2018-12-06T00:00:00",
     "tenkanSen": 264.83,
     "kijunSen": 265.23,
     "senkouSpanA": 266.8725,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-07T00:00:00",
     "tenkanSen": 264.83,
     "kijunSen": 265.23,
-    "senkouSpanA": 266.610,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 266.61,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-10T00:00:00",
     "tenkanSen": 262.965,
     "kijunSen": 263.365,
     "senkouSpanA": 266.4225,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-11T00:00:00",
     "tenkanSen": 262.965,
     "kijunSen": 263.365,
-    "senkouSpanA": 265.950,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 265.95,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-12T00:00:00",
     "tenkanSen": 262.965,
     "kijunSen": 263.365,
-    "senkouSpanA": 265.430,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 265.43,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-13T00:00:00",
     "tenkanSen": 262.965,
     "kijunSen": 263.365,
-    "senkouSpanA": 265.430,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 265.43,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-14T00:00:00",
     "tenkanSen": 262.965,
     "kijunSen": 263.365,
     "senkouSpanA": 265.4475,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-17T00:00:00",
     "tenkanSen": 259.725,
     "kijunSen": 260.88,
-    "senkouSpanA": 266.860,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 266.86,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-18T00:00:00",
     "tenkanSen": 255.88,
     "kijunSen": 260.36,
-    "senkouSpanA": 266.410,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 266.40999999999997,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-19T00:00:00",
     "tenkanSen": 253.965,
     "kijunSen": 258.445,
     "senkouSpanA": 266.97,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-20T00:00:00",
-    "tenkanSen": 250.59,
+    "tenkanSen": 250.59000000000003,
     "kijunSen": 256.15,
-    "senkouSpanA": 268.205,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 268.20500000000004,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-21T00:00:00",
     "tenkanSen": 248.995,
     "kijunSen": 254.555,
-    "senkouSpanA": 268.205,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 268.20500000000004,
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-24T00:00:00",
     "tenkanSen": 246.195,
     "kijunSen": 251.755,
     "senkouSpanA": 267.45,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-26T00:00:00",
-    "tenkanSen": 245.205,
+    "tenkanSen": 245.20499999999998,
     "kijunSen": 251.505,
     "senkouSpanA": 265.7125,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-27T00:00:00",
-    "tenkanSen": 243.52,
+    "tenkanSen": 243.51999999999998,
     "kijunSen": 251.505,
     "senkouSpanA": 265.7125,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-28T00:00:00",
     "tenkanSen": 241.87,
     "kijunSen": 251.505,
     "senkouSpanA": 265.7125,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanB": 269.82
   },
   {
     "timestamp": "2018-12-31T00:00:00",
     "tenkanSen": 241.26,
     "kijunSen": 251.505,
-    "senkouSpanA": 264.770,
-    "senkouSpanB": 269.82,
-    "chikouSpan": null
+    "senkouSpanA": 264.77,
+    "senkouSpanB": 269.82
   }
 ]

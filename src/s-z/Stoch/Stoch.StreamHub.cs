@@ -7,8 +7,8 @@ public class StochHub
     : StreamHub<IQuote, StochResult>, IStoch
 {
 
-    private readonly RollingWindowMax<double> _highWindow;
-    private readonly RollingWindowMin<double> _lowWindow;
+    private CircularDoubleBuffer _highBuffer;
+    private CircularDoubleBuffer _lowBuffer;
     private readonly Queue<double> _rawKBuffer;
 
     internal StochHub(
@@ -49,9 +49,8 @@ public class StochHub
 
         Name = $"STOCH({lookbackPeriods},{signalPeriods},{smoothPeriods})";
 
-        // Initialize rolling windows for O(1) amortized max/min tracking
-        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
+        _highBuffer = new CircularDoubleBuffer(lookbackPeriods);
+        _lowBuffer = new CircularDoubleBuffer(lookbackPeriods);
 
         // Initialize buffer for raw K values (needed for SMA smoothing)
         _rawKBuffer = new Queue<double>(smoothPeriods);
@@ -94,18 +93,18 @@ public class StochHub
         double close = (double)item.Close;
 
         // Normal incremental update - O(1) amortized operation
-        // Using monotonic deque pattern eliminates nested O(n) linear scans
+        // Using circular buffer eliminates monotonic deque overhead
         // NaN values are allowed and will propagate naturally through calculations
-        _highWindow.Add(high);
-        _lowWindow.Add(low);
+        _highBuffer.Add(high);
+        _lowBuffer.Add(low);
 
         // Calculate raw %K oscillator
         double rawK = double.NaN;
         if (i >= LookbackPeriods - 1)
         {
-            // Use O(1) max/min retrieval from rolling windows
-            double highHigh = _highWindow.GetMax();
-            double lowLow = _lowWindow.GetMin();
+            // Use O(1) max/min retrieval from circular buffers
+            double highHigh = _highBuffer.GetMax();
+            double lowLow = _lowBuffer.GetMin();
 
             // Boundary detection to avoid floating-point precision errors at 0 and 100
             if (highHigh == lowLow)
@@ -301,9 +300,9 @@ public class StochHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows and buffer
-        _highWindow.Clear();
-        _lowWindow.Clear();
+        // Clear rolling buffers and buffer
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
         _rawKBuffer.Clear();
 
         if (restoreIndex < 0)
@@ -319,8 +318,8 @@ public class StochHub
             double cachedHigh = (double)quote.High;
             double cachedLow = (double)quote.Low;
 
-            _highWindow.Add(cachedHigh);
-            _lowWindow.Add(cachedLow);
+            _highBuffer.Add(cachedHigh);
+            _lowBuffer.Add(cachedLow);
         }
 
         // Prefill raw-%K buffer for SMA smoothing so the next tick uses a full window

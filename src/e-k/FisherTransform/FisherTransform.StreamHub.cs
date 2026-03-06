@@ -7,17 +7,8 @@ public class FisherTransformHub
     : ChainHub<IReusable, FisherTransformResult>, IFisherTransform
 {
 
-    /// <summary>
-    /// State arrays for Fisher Transform algorithm
-    /// These arrays grow with each added value to support indexed lookback access
-    /// </summary>
     private readonly List<double> xv = []; // value transform (intermediate state)
-
-    /// <summary>
-    /// Rolling windows for O(1) price min/max tracking
-    /// </summary>
-    private readonly RollingWindowMax<double> _priceMaxWindow;
-    private readonly RollingWindowMin<double> _priceMinWindow;
+    private CircularDoubleBuffer _priceBuffer;
 
     internal FisherTransformHub(
         IChainProvider<IReusable> provider,
@@ -25,8 +16,7 @@ public class FisherTransformHub
     {
         FisherTransform.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        _priceMaxWindow = new RollingWindowMax<double>(lookbackPeriods);
-        _priceMinWindow = new RollingWindowMin<double>(lookbackPeriods);
+        _priceBuffer = new CircularDoubleBuffer(lookbackPeriods);
         Name = $"FISHER({lookbackPeriods})";
 
         // Validate cache size for warmup requirements
@@ -43,39 +33,30 @@ public class FisherTransformHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        // NOTE: Fisher Transform has internal state (xv).  We maintain state arrays that are
-        // truncated on rebuild events.  See RollbackState() override below.
-
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Ensure arrays have enough capacity
         while (xv.Count <= i)
         {
             xv.Add(0);
         }
 
-        // prefer HL2 when source is an IQuote
         double currentValue = item.Hl2OrValue();
 
-        // Add current price to rolling windows (skip NaN values)
         if (!double.IsNaN(currentValue))
         {
-            _priceMaxWindow.Add(currentValue);
-            _priceMinWindow.Add(currentValue);
+            _priceBuffer.Add(currentValue);
         }
 
-        // Get min/max from rolling windows (O(1)), or fallback to currentValue if window empty
         double maxPrice;
         double minPrice;
 
-        if (_priceMaxWindow.Count > 0)
+        if (!_priceBuffer.IsEmpty)
         {
-            maxPrice = _priceMaxWindow.GetMax();
-            minPrice = _priceMinWindow.GetMin();
+            maxPrice = _priceBuffer.GetMax();
+            minPrice = _priceBuffer.GetMin();
         }
         else
         {
-            // Fallback when all values in warmup are NaN
             maxPrice = currentValue;
             minPrice = currentValue;
         }
@@ -85,17 +66,14 @@ public class FisherTransformHub
 
         if (i > 0)
         {
-            // calculate current xv
             xv[i] = maxPrice - minPrice != 0
                 ? (0.33 * 2 * (((currentValue - minPrice) / (maxPrice - minPrice)) - 0.5))
                       + (0.67 * xv[i - 1])
                 : 0d;
 
-            // limit xv to prevent log issues
             xv[i] = xv[i] > 0.99 ? 0.999 : xv[i];
             xv[i] = xv[i] < -0.99 ? -0.999 : xv[i];
 
-            // calculate Fisher Transform
             fisher = DeMath.Atanh(xv[i]) + (0.5d * Cache[i - 1].Fisher);
 
             trigger = Cache[i - 1].Fisher;
@@ -106,7 +84,6 @@ public class FisherTransformHub
             fisher = 0;
         }
 
-        // candidate result
         FisherTransformResult r = new(
             Timestamp: item.Timestamp,
             Fisher: fisher,
@@ -117,14 +94,11 @@ public class FisherTransformHub
 
     /// <summary>
     /// Restores the rolling window and xv state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows and xv array from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows
-        _priceMaxWindow.Clear();
-        _priceMinWindow.Clear();
+        _priceBuffer.Clear();
 
         if (restoreIndex < 0)
         {
@@ -132,25 +106,21 @@ public class FisherTransformHub
             return;
         }
 
-        // Truncate xv array to keep entries up to restoreIndex
         int keepCount = restoreIndex + 1;
         if (keepCount < xv.Count)
         {
             xv.RemoveRange(keepCount, xv.Count - keepCount);
         }
 
-        // Rebuild rolling windows from ProviderCache
         int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
             double priceValue = ProviderCache[p].Hl2OrValue();
 
-            // Only add non-NaN values to windows
             if (!double.IsNaN(priceValue))
             {
-                _priceMaxWindow.Add(priceValue);
-                _priceMinWindow.Add(priceValue);
+                _priceBuffer.Add(priceValue);
             }
         }
     }
@@ -158,18 +128,12 @@ public class FisherTransformHub
     /// <inheritdoc/>
     protected override void PruneState(DateTime toTimestamp)
     {
-        // Keep xv aligned with Cache by ensuring same count.
-        // Use Cache.Count directly rather than relying on timestamps since
-        // xv doesn't store timestamps.
         int targetSize = Cache.Count;
         if (xv.Count > targetSize)
         {
             int excessCount = xv.Count - targetSize;
             xv.RemoveRange(0, excessCount);
         }
-
-        // Rolling windows are self-pruning and maintain only LookbackPeriods items,
-        // so they don't need explicit pruning
     }
 }
 

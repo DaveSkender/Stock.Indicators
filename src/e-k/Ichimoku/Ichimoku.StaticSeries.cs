@@ -92,15 +92,15 @@ public static partial class Ichimoku
             IQuote q = quotes[i];
 
             // tenkan-sen conversion line
-            decimal? tenkanSen = CalcIchimokuTenkanSen(
+            double? tenkanSen = CalcIchimokuTenkanSen(
                 i, quotes, tenkanPeriods);
 
             // kijun-sen base line
-            decimal? kijunSen = CalcIchimokuKijunSen(
+            double? kijunSen = CalcIchimokuKijunSen(
                 i, quotes, kijunPeriods);
 
             // senkou span A
-            decimal? senkouSpanA = null;
+            double? senkouSpanA = null;
 
             if (i >= senkouStartPeriod)
             {
@@ -116,15 +116,15 @@ public static partial class Ichimoku
             }
 
             // senkou span B
-            decimal? senkouSpanB = CalcIchimokuSenkouB(
+            double? senkouSpanB = CalcIchimokuSenkouB(
                 i, quotes, senkouOffset, senkouBPeriods);
 
             // chikou line
-            decimal? chikouSpan = null;
+            double? chikouSpan = null;
 
             if (i + chikouOffset < quotes.Count)
             {
-                chikouSpan = quotes[i + chikouOffset].Close;
+                chikouSpan = (double)quotes[i + chikouOffset].Close;
             }
 
             results.Add(new(
@@ -146,7 +146,7 @@ public static partial class Ichimoku
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <returns>Tenkan-sen value.</returns>
-    private static decimal? CalcIchimokuTenkanSen(
+    private static double? CalcIchimokuTenkanSen(
         int i, IReadOnlyList<IQuote> quotes, int tenkanPeriods)
     {
         if (i < tenkanPeriods - 1)
@@ -154,25 +154,25 @@ public static partial class Ichimoku
             return null;
         }
 
-        decimal max = 0;
-        decimal min = decimal.MaxValue;
+        double max = 0;
+        double min = double.MaxValue;
 
         for (int p = i - tenkanPeriods + 1; p <= i; p++)
         {
             IQuote d = quotes[p];
 
-            if (d.High > max)
+            if ((double)d.High > max)
             {
-                max = d.High;
+                max = (double)d.High;
             }
 
-            if (d.Low < min)
+            if ((double)d.Low < min)
             {
-                min = d.Low;
+                min = (double)d.Low;
             }
         }
 
-        return min == decimal.MaxValue ? null : (min + max) / 2;
+        return min == double.MaxValue ? null : (double?)((min + max) / 2d);
 
     }
 
@@ -183,7 +183,7 @@ public static partial class Ichimoku
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <returns>Kijun-sen value.</returns>
-    private static decimal? CalcIchimokuKijunSen(
+    private static double? CalcIchimokuKijunSen(
         int i,
         IReadOnlyList<IQuote> quotes,
         int kijunPeriods)
@@ -193,25 +193,25 @@ public static partial class Ichimoku
             return null;
         }
 
-        decimal max = 0;
-        decimal min = decimal.MaxValue;
+        double max = 0;
+        double min = double.MaxValue;
 
         for (int p = i - kijunPeriods + 1; p <= i; p++)
         {
             IQuote d = quotes[p];
 
-            if (d.High > max)
+            if ((double)d.High > max)
             {
-                max = d.High;
+                max = (double)d.High;
             }
 
-            if (d.Low < min)
+            if ((double)d.Low < min)
             {
-                min = d.Low;
+                min = (double)d.Low;
             }
         }
 
-        return min == decimal.MaxValue ? null : (min + max) / 2;
+        return min == double.MaxValue ? null : (double?)((min + max) / 2d);
     }
 
     /// <summary>
@@ -222,7 +222,7 @@ public static partial class Ichimoku
     /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <returns>Senkou Span B value.</returns>
-    private static decimal? CalcIchimokuSenkouB(
+    private static double? CalcIchimokuSenkouB(
         int i,
         IReadOnlyList<IQuote> quotes,
         int senkouOffset,
@@ -233,25 +233,25 @@ public static partial class Ichimoku
             return null;
         }
 
-        decimal max = 0;
-        decimal min = decimal.MaxValue;
+        double max = 0;
+        double min = double.MaxValue;
 
         for (int p = i - senkouOffset - senkouBPeriods + 1;
              p <= i - senkouOffset; p++)
         {
             IQuote d = quotes[p];
 
-            if (d.High > max)
+            if ((double)d.High > max)
             {
-                max = d.High;
+                max = (double)d.High;
             }
 
-            if (d.Low < min)
+            if ((double)d.Low < min)
             {
-                min = d.Low;
+                min = (double)d.Low;
             }
         }
 
-        return min == decimal.MaxValue ? null : (min + max) / 2;
+        return min == double.MaxValue ? null : (double?)((min + max) / 2d);
     }
 }

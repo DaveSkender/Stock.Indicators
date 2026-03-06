@@ -7,8 +7,8 @@ public class ChandelierHub
     : ChainHub<AtrResult, ChandelierResult>, IChandelier
 {
     private readonly IQuoteProvider<IQuote> _quoteProvider;
-    private readonly RollingWindowMax<double> _highWindow;
-    private readonly RollingWindowMin<double> _lowWindow;
+    private CircularDoubleBuffer _highBuffer;
+    private CircularDoubleBuffer _lowBuffer;
 
     internal ChandelierHub(
         IQuoteProvider<IQuote> provider,
@@ -44,9 +44,8 @@ public class ChandelierHub
         Name = FormattableString.Invariant(
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
 
-        // Initialize rolling windows for O(1) amortized max/min tracking
-        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
+        _highBuffer = new CircularDoubleBuffer(lookbackPeriods);
+        _lowBuffer = new CircularDoubleBuffer(lookbackPeriods);
 
         // Validate cache size for warmup requirements
         ValidateCacheSize(lookbackPeriods + 1, Name);
@@ -70,15 +69,9 @@ public class ChandelierHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Get the quote from the underlying quote provider's cache
-        // to access High/Low values for rolling windows.
-        // System invariant: _quoteProvider.Results[i] must exist because the ATR hub
-        // is chained to this quote provider and processes quotes synchronously.
-        // The index i from ProviderCache (ATR results) maps 1:1 to quote provider indices.
         IQuote quote = _quoteProvider.Results[i];
 
-        // Add current quote to rolling windows
-        AddCurrentQuoteToWindows(quote);
+        AddToBuffers(quote);
 
         // handle warmup periods
         if (i < LookbackPeriods)
@@ -86,7 +79,6 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // Use ATR from the compound hub's input
         double? atr = item.Atr;
 
         if (atr is null)
@@ -94,10 +86,9 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // Calculate exit using O(1) max/min retrieval from rolling windows
         double? exit = Type switch {
-            Direction.Long => _highWindow.GetMax() - (atr.Value * Multiplier),
-            Direction.Short => _lowWindow.GetMin() + (atr.Value * Multiplier),
+            Direction.Long => _highBuffer.GetMax() - (atr.Value * Multiplier),
+            Direction.Short => _lowBuffer.GetMin() + (atr.Value * Multiplier),
             _ => throw new InvalidOperationException($"Unknown direction type: {Type}")
         };
 
@@ -108,16 +99,10 @@ public class ChandelierHub
         return (r, i);
     }
 
-    private void AddCurrentQuoteToWindows(IQuote item)
+    private void AddToBuffers(IQuote item)
     {
-        double high = (double)item.High;
-        double low = (double)item.Low;
-
-        // Normal incremental update - O(1) amortized operation
-        // Using monotonic deque pattern eliminates O(n) linear scans on every quote
-        // NaN values are allowed and will propagate naturally through calculations
-        _highWindow.Add(high);
-        _lowWindow.Add(low);
+        _highBuffer.Add((double)item.High);
+        _lowBuffer.Add((double)item.Low);
     }
 
     /// <summary>
@@ -126,16 +111,14 @@ public class ChandelierHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows
-        _highWindow.Clear();
-        _lowWindow.Clear();
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
 
         if (restoreIndex < 0)
         {
             return;
         }
 
-        // Derive quote-cache index from ATR-cache timestamp
         DateTime ts = ProviderCache[restoreIndex].Timestamp;
         int quoteIndex = _quoteProvider.Results.IndexGte(ts);
 
@@ -144,17 +127,13 @@ public class ChandelierHub
             return;
         }
 
-        // Rebuild up to the matching quote
         int startIdx = Math.Max(0, quoteIndex + 1 - LookbackPeriods);
 
         for (int p = startIdx; p <= quoteIndex; p++)
         {
             IQuote quote = _quoteProvider.Results[p];
-            double cachedHigh = (double)quote.High;
-            double cachedLow = (double)quote.Low;
-
-            _highWindow.Add(cachedHigh);
-            _lowWindow.Add(cachedLow);
+            _highBuffer.Add((double)quote.High);
+            _lowBuffer.Add((double)quote.Low);
         }
     }
 }
