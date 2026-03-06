@@ -353,7 +353,7 @@ Popular indicators with complete streaming documentation:
 
 ## Need help?
 
-- [Guide and Pro tips](/guide) - Getting started with v3
+- [Guide and Pro tips](/guide/getting-started) - Getting started with v3
 - [Indicators](/indicators) - Indicator-specific documentation
 - [GitHub Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) - Ask questions and share ideas
 - [GitHub Issues](https://github.com/DaveSkender/Stock.Indicators/issues) - Report bugs or request features

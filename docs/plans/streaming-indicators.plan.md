@@ -136,10 +136,11 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Action**: Optimize window operations and EMA layering
   - **Priority**: 🔴 HIGH
 
-- [ ] **P014** - Chandelier StreamHub performance optimization (3-4 hours)
-  - **Current**: 5.35x slower than Series (120,072 ns vs 22,454 ns)
-  - **Problem**: ATR-based trailing stop calculations
-  - **Action**: Review ATR provider subscription efficiency
+- [x] **P014** - Chandelier StreamHub performance optimization (3-4 hours)
+  - **Previous**: 5.35x slower than Series (120,072 ns vs 22,454 ns)
+  - **Problem**: Double-chain architecture (QuoteHub→AtrHub→ChandelierHub) with two notification cycles per quote and extra `_quoteProvider.Results[i]` lookup
+  - **Fix**: Refactored `ChandelierHub` from `ChainHub<AtrResult, ChandelierResult>` to `ChainHub<IQuote, ChandelierResult>` — eliminating the intermediate AtrHub subscription layer and computing ATR incrementally (SMMA, lazy SMA re-init on rollback) with O(1) updates
+  - **Status**: COMPLETE - Removed AtrHub compound dependency; all Series-parity tests pass
   - **Priority**: 🔴 HIGH
 
 ### Critical BufferList Performance Issues
@@ -171,11 +172,12 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Action**: Include performance considerations
   - **Status**: COMPLETE - `docs/migration.md` has comprehensive streaming capabilities section with BufferList/StreamHub examples, migration patterns, and performance guidance
 
-- [ ] **D008** - Add missing streaming docs for SmaAnalysis and Tr (1-2 hours)
+- [x] **D008** - Add missing streaming docs for SmaAnalysis and Tr (1-2 hours)
   - **Files**: `docs/indicators/SmaAnalysis.md`, `docs/indicators/Tr.md` (both missing)
   - **Problem**: SmaAnalysis and Tr have complete StreamHub + BufferList implementations but no documentation pages
   - **Action**: Create indicator doc pages with streaming sections
   - **Priority**: 🟡 MEDIUM
+  - **Status**: COMPLETE - Created `docs/indicators/SmaAnalysis.md` and `docs/indicators/Tr.md` with full streaming sections; updated config.mts to point to dedicated pages
 
 ### Medium Priority - Code Quality & Cleanup
 

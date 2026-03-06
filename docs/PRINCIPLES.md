@@ -104,6 +104,3 @@ Quality gates are enforced via the code-completion skill - agents execute all ga
 - **Authority**: Supersedes ad-hoc conventions
 - **Review**: Quarterly (Jan/Apr/Jul/Oct); deviations >1 release require escalation
 - **Enforcement**: PR reviewers cite specific principles; violations require immediate follow-up
-
----
-Last updated: December 30, 2025

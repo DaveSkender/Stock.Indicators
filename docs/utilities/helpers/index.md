@@ -36,6 +36,3 @@ decimal? rounded = NullMath.Round(value, 2);
 [See more →](/utilities/helpers/nullmath)
 
 </div>
-
----
-Last updated: 2026-01-26

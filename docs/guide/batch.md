@@ -19,8 +19,8 @@ Series batch style is the fastest and simplest way to calculate indicators from 
 
 **Not ideal for:**
 
-- Real-time or streaming data (use [Stream hubs](/features/stream))
-- Incremental quote-by-quote processing (use [Buffer lists](/features/buffer))
+- Real-time or streaming data (use [Stream hubs](/guide/stream))
+- Incremental quote-by-quote processing (use [Buffer lists](/guide/buffer))
 - Live data feeds requiring continuous updates
 
 ## Basic usage
@@ -103,7 +103,7 @@ IReadOnlyList<CandleResult> signals = quotes
 
 ## See also
 
-- [Buffer lists](/features/buffer) for incremental processing
-- [Stream hubs](/features/stream) for real-time data
-- [Guide](/guide) for detailed examples
+- [Buffer lists](/guide/buffer) for incremental processing
+- [Stream hubs](/guide/stream) for real-time data
+- [Guide](/guide/) for detailed examples
 - [Indicators](/indicators) for available indicators

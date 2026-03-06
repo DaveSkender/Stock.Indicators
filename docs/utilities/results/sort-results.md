@@ -5,7 +5,7 @@ description: Sort indicator results by timestamp.
 
 # Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/customization).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/guide/customization).
 
 ## Syntax
 
@@ -134,4 +134,4 @@ Both approaches work, but `.ToSortedList()` is the library's convention and retu
 
 - [Result utilities overview](/utilities/results/)
 - [Sort quotes](/utilities/quotes/sort-quotes) - Sort quote data
-- [Customization guide](/customization) - Build custom indicators
+- [Customization guide](/guide/customization) - Build custom indicators

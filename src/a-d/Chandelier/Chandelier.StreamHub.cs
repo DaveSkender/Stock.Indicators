@@ -4,38 +4,23 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Chandelier Exit.
 /// </summary>
 public class ChandelierHub
-    : ChainHub<AtrResult, ChandelierResult>, IChandelier
+    : ChainHub<IQuote, ChandelierResult>, IChandelier
 {
-    private readonly IQuoteProvider<IQuote> _quoteProvider;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
+    private double _prevClose = double.NaN;
+    private double _prevAtr = double.NaN;
 
     internal ChandelierHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
         double multiplier,
         Direction type)
-        : this(
-            provider.ToAtrHub(lookbackPeriods),
-            provider,
-            lookbackPeriods,
-            multiplier,
-            type)
-    { }
-
-    internal ChandelierHub(
-        AtrHub atrHub,
-        IQuoteProvider<IQuote> quoteProvider,
-        int lookbackPeriods,
-        double multiplier,
-        Direction type)
-        : base(atrHub)
+        : base(provider)
     {
-        ArgumentNullException.ThrowIfNull(atrHub);
-        ArgumentNullException.ThrowIfNull(quoteProvider);
+        ArgumentNullException.ThrowIfNull(provider);
         Chandelier.Validate(lookbackPeriods, multiplier);
 
-        _quoteProvider = quoteProvider;
         LookbackPeriods = lookbackPeriods;
         Multiplier = multiplier;
         Type = type;
@@ -65,20 +50,28 @@ public class ChandelierHub
 
     /// <inheritdoc/>
     protected override (ChandelierResult result, int index)
-        ToIndicator(AtrResult item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Get the quote from the underlying quote provider's cache
-        // to access High/Low values for rolling windows.
-        // System invariant: _quoteProvider.Results[i] must exist because the ATR hub
-        // is chained to this quote provider and processes quotes synchronously.
-        // The index i from ProviderCache (ATR results) maps 1:1 to quote provider indices.
-        IQuote quote = _quoteProvider.Results[i];
+        double high = (double)item.High;
+        double low = (double)item.Low;
+        double close = (double)item.Close;
 
-        // Add current quote to rolling windows
-        AddCurrentQuoteToWindows(quote);
+        // Add current High/Low to rolling windows for O(1) max/min retrieval
+        _highWindow.Add(high);
+        _lowWindow.Add(low);
+
+        // first period: store previous close for TR calculation; no result yet
+        if (i == 0)
+        {
+            _prevClose = close;
+            return (new ChandelierResult(item.Timestamp, null), i);
+        }
+
+        double prevClose = _prevClose;
+        _prevClose = close;
 
         // handle warmup periods
         if (i < LookbackPeriods)
@@ -86,75 +79,105 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // Use ATR from the compound hub's input
-        double? atr = item.Atr;
+        // compute ATR: re/initialize as SMA when no prior value, else use SMMA
+        double atr;
 
-        if (atr is null)
+        if (double.IsNaN(_prevAtr))
         {
-            return (new ChandelierResult(item.Timestamp, null), i);
+            // Lazy initialization: compute SMA of the last LookbackPeriods true ranges.
+            // This handles both the initial warmup completion and post-rollback re-init,
+            // matching the approach used in AtrHub and VolatilityStopHub.
+            double sumTr = 0;
+            for (int p = i + 1 - LookbackPeriods; p <= i; p++)
+            {
+                sumTr += Tr.Increment(
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
+            }
+
+            atr = sumTr / LookbackPeriods;
+        }
+        else
+        {
+            atr = Atr.Increment(LookbackPeriods, high, low, prevClose, _prevAtr);
         }
 
-        // Calculate exit using O(1) max/min retrieval from rolling windows
+        _prevAtr = atr;
+
         double? exit = Type switch {
-            Direction.Long => _highWindow.GetMax() - (atr.Value * Multiplier),
-            Direction.Short => _lowWindow.GetMin() + (atr.Value * Multiplier),
+            Direction.Long => _highWindow.GetMax() - (atr * Multiplier),
+            Direction.Short => _lowWindow.GetMin() + (atr * Multiplier),
             _ => throw new InvalidOperationException($"Unknown direction type: {Type}")
         };
 
-        ChandelierResult r = new(
-            Timestamp: item.Timestamp,
-            ChandelierExit: exit);
-
-        return (r, i);
-    }
-
-    private void AddCurrentQuoteToWindows(IQuote item)
-    {
-        double high = (double)item.High;
-        double low = (double)item.Low;
-
-        // Normal incremental update - O(1) amortized operation
-        // Using monotonic deque pattern eliminates O(n) linear scans on every quote
-        // NaN values are allowed and will propagate naturally through calculations
-        _highWindow.Add(high);
-        _lowWindow.Add(low);
+        return (new ChandelierResult(item.Timestamp, exit), i);
     }
 
     /// <summary>
-    /// Restores the rolling window state up to the specified timestamp.
+    /// Restores rolling window and ATR state to the point just before the rollback timestamp.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows
+        // Reset all state
         _highWindow.Clear();
         _lowWindow.Clear();
+        _prevClose = double.NaN;
+        _prevAtr = double.NaN;
 
         if (restoreIndex < 0)
         {
             return;
         }
 
-        // Derive quote-cache index from ATR-cache timestamp
-        DateTime ts = ProviderCache[restoreIndex].Timestamp;
-        int quoteIndex = _quoteProvider.Results.IndexGte(ts);
+        // Rebuild rolling windows from the last LookbackPeriods items
+        int windowStart = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+        for (int p = windowStart; p <= restoreIndex; p++)
+        {
+            IQuote q = ProviderCache[p];
+            _highWindow.Add((double)q.High);
+            _lowWindow.Add((double)q.Low);
+        }
 
-        if (quoteIndex < 0)
+        // Set prevClose to the last retained quote's close
+        _prevClose = (double)ProviderCache[restoreIndex].Close;
+
+        // Rebuild ATR state from LookbackPeriods to restoreIndex.
+        // Lazy SMA init fires at the first eligible index; SMMA increments thereafter.
+        if (restoreIndex < LookbackPeriods)
         {
             return;
         }
 
-        // Rebuild up to the matching quote
-        int startIdx = Math.Max(0, quoteIndex + 1 - LookbackPeriods);
-
-        for (int p = startIdx; p <= quoteIndex; p++)
+        for (int p = LookbackPeriods; p <= restoreIndex; p++)
         {
-            IQuote quote = _quoteProvider.Results[p];
-            double cachedHigh = (double)quote.High;
-            double cachedLow = (double)quote.Low;
+            double atr;
 
-            _highWindow.Add(cachedHigh);
-            _lowWindow.Add(cachedLow);
+            if (double.IsNaN(_prevAtr))
+            {
+                double sumTr = 0;
+                for (int q = p + 1 - LookbackPeriods; q <= p; q++)
+                {
+                    sumTr += Tr.Increment(
+                        (double)ProviderCache[q].High,
+                        (double)ProviderCache[q].Low,
+                        (double)ProviderCache[q - 1].Close);
+                }
+
+                atr = sumTr / LookbackPeriods;
+            }
+            else
+            {
+                atr = Atr.Increment(
+                    LookbackPeriods,
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close,
+                    _prevAtr);
+            }
+
+            _prevAtr = atr;
         }
     }
 }
@@ -178,29 +201,4 @@ public static partial class Chandelier
         double multiplier = 3,
         Direction type = Direction.Long)
              => new(quoteProvider, lookbackPeriods, multiplier, type);
-
-    /// <summary>
-    /// Creates a new Chandelier Exit hub, using ATR values from an existing ATR hub.
-    /// </summary>
-    /// <param name="atrHub">Existing ATR hub.</param>
-    /// <param name="quoteProvider">Quote provider (must be the same provider used by the ATR hub).</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">Multiplier to apply to the ATR.</param>
-    /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
-    /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
-    /// <remarks>
-    /// <para>IMPORTANT: This is not a normal chaining approach.</para>
-    /// This extension overrides the standard chaining pattern to specifically
-    /// reuse an existing <see cref="AtrHub"/> internally, avoiding duplicate ATR calculations
-    /// when multiple indicators need the same ATR values.
-    /// The quote provider must be the same provider used to create the ATR hub;
-    /// providing a different provider may result in index misalignment and incorrect calculations.
-    /// </remarks>
-    public static ChandelierHub ToChandelierHub(
-        this AtrHub atrHub,
-        IQuoteProvider<IQuote> quoteProvider,
-        int lookbackPeriods = 22,
-        double multiplier = 3,
-        Direction type = Direction.Long)
-             => new(atrHub, quoteProvider, lookbackPeriods, multiplier, type);
 }
