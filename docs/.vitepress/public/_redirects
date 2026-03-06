@@ -82,14 +82,5 @@
 
 # Guide restructure (v3 site reorganization)
 /guide /guide/getting-started 301
-/features /guide/ 301
-/features/ /guide/ 301
-/features/batch /guide/batch 301
-/features/batch/ /guide/batch 301
-/features/buffer /guide/buffer 301
-/features/buffer/ /guide/buffer 301
-/features/stream /guide/stream 301
-/features/stream/ /guide/stream 301
-/features/index /guide/ 301
 /customization /guide/customization 301
 /customization/ /guide/customization 301
