@@ -6,8 +6,8 @@ namespace Skender.Stock.Indicators;
 public class ChandelierHub
     : ChainHub<IQuote, ChandelierResult>, IChandelier
 {
-    private readonly RollingWindowMax<double> _highWindow;
-    private readonly RollingWindowMin<double> _lowWindow;
+    private CircularDoubleBuffer _highBuffer;
+    private CircularDoubleBuffer _lowBuffer;
     private double _prevClose = double.NaN;
     private double _prevAtr = double.NaN;
 
@@ -58,9 +58,9 @@ public class ChandelierHub
         double low = (double)item.Low;
         double close = (double)item.Close;
 
-        // Add current High/Low to rolling windows for O(1) max/min retrieval
-        _highWindow.Add(high);
-        _lowWindow.Add(low);
+        // Add current High/Low to circular buffers for O(capacity) max/min scan
+        _highBuffer.Add(high);
+        _lowBuffer.Add(low);
 
         // first period: store previous close for TR calculation; no result yet
         if (i == 0)
@@ -105,8 +105,8 @@ public class ChandelierHub
         _prevAtr = atr;
 
         double? exit = Type switch {
-            Direction.Long => _highWindow.GetMax() - (atr * Multiplier),
-            Direction.Short => _lowWindow.GetMin() + (atr * Multiplier),
+            Direction.Long => _highBuffer.GetMax() - (atr * Multiplier),
+            Direction.Short => _lowBuffer.GetMin() + (atr * Multiplier),
             _ => throw new InvalidOperationException($"Unknown direction type: {Type}")
         };
 
@@ -120,8 +120,8 @@ public class ChandelierHub
     protected override void RollbackState(int restoreIndex)
     {
         // Reset all state
-        _highWindow.Clear();
-        _lowWindow.Clear();
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
         _prevClose = double.NaN;
         _prevAtr = double.NaN;
 
@@ -130,13 +130,13 @@ public class ChandelierHub
             return;
         }
 
-        // Rebuild rolling windows from the last LookbackPeriods items
+        // Rebuild circular buffers from the last LookbackPeriods items
         int windowStart = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
         for (int p = windowStart; p <= restoreIndex; p++)
         {
             IQuote q = ProviderCache[p];
-            _highWindow.Add((double)q.High);
-            _lowWindow.Add((double)q.Low);
+            _highBuffer.Add((double)q.High);
+            _lowBuffer.Add((double)q.Low);
         }
 
         // Set prevClose to the last retained quote's close
