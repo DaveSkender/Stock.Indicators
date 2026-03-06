@@ -64,13 +64,15 @@ Historical results are a function of the rolling window position and will shift 
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `R3` | decimal | Resistance level 3 |
-| `R2` | decimal | Resistance level 2 |
-| `R1` | decimal | Resistance level 1 |
-| `PP` | decimal | Pivot Point |
-| `S1` | decimal | Support level 1 |
-| `S2` | decimal | Support level 2 |
-| `S3` | decimal | Support level 3 |
+| `R4` | double | Resistance level 4 (Camarilla only) |
+| `R3` | double | Resistance level 3 |
+| `R2` | double | Resistance level 2 |
+| `R1` | double | Resistance level 1 |
+| `PP` | double | Pivot Point |
+| `S1` | double | Support level 1 |
+| `S2` | double | Support level 2 |
+| `S3` | double | Support level 3 |
+| `S4` | double | Support level 4 (Camarilla only) |
 
 ### Utilities
 

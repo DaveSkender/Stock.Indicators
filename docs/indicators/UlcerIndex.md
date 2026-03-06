@@ -44,7 +44,7 @@ IReadOnlyList<UlcerIndexResult>
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `UI` | double | Ulcer Index |
+| `UlcerIndex` | double | Ulcer Index |
 
 ### Utilities
 
@@ -66,7 +66,7 @@ var results = quotes
     .ToUlcerIndex(..);
 ```
 
-Results can be further processed on `UI` with additional chain-enabled indicators.
+Results can be further processed on `UlcerIndex` with additional chain-enabled indicators.
 
 ```csharp
 // example
