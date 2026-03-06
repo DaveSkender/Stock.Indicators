@@ -170,11 +170,12 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Action**: Include performance considerations
   - **Status**: COMPLETE - `docs/migration.md` has comprehensive streaming capabilities section with BufferList/StreamHub examples, migration patterns, and performance guidance
 
-- [ ] **D008** - Add missing streaming docs for SmaAnalysis and Tr (1-2 hours)
+- [x] **D008** - Add missing streaming docs for SmaAnalysis and Tr (1-2 hours)
   - **Files**: `docs/indicators/SmaAnalysis.md`, `docs/indicators/Tr.md` (both missing)
   - **Problem**: SmaAnalysis and Tr have complete StreamHub + BufferList implementations but no documentation pages
   - **Action**: Create indicator doc pages with streaming sections
   - **Priority**: 🟡 MEDIUM
+  - **Status**: COMPLETE - Created `docs/indicators/SmaAnalysis.md` and `docs/indicators/Tr.md` with full streaming sections; updated config.mts to point to dedicated pages
 
 ### Medium Priority - Code Quality & Cleanup
 
