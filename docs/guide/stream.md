@@ -19,8 +19,8 @@ Stream hub style provides real-time processing with observable patterns and stat
 
 **Not ideal for:**
 
-- One-time historical analysis (use [Batch style](/features/batch))
-- Simple incremental processing (use [Buffer lists](/features/buffer))
+- One-time historical analysis (use [Batch style](/guide/batch))
+- Simple incremental processing (use [Buffer lists](/guide/buffer))
 - Scenarios without real-time requirements
 
 ## Basic usage
@@ -288,7 +288,7 @@ SmaHub smaHub = limitedHub.ToSmaHub(20);
 
 ## See also
 
-- [Batch style](/features/batch) for one-time calculations
-- [Buffer lists](/features/buffer) for simple incremental processing
-- [Guide](/guide#streaming-hub-style-indicators) for detailed examples
+- [Batch style](/guide/batch) for one-time calculations
+- [Buffer lists](/guide/buffer) for simple incremental processing
+- [Stream hubs](/guide/stream) for detailed examples
 - [Indicators](/indicators) for available stream hub indicators

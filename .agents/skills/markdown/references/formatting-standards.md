@@ -93,7 +93,7 @@ Most files should end with:
 - `AGENTS.md` (all)
 - `.agents/**/*.md`
 - `.github/**/*.md`
-- `docs/adr/*.md` (uses its own form)
+- `docs/**/*.md` (VitePress documentation website)
 
 ## Common patterns to fix
 

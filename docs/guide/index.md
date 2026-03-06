@@ -1,33 +1,33 @@
 ---
-title: Features
+title: Guide
 description: Learn about the different indicator styles, capabilities, and utilities
 layout: home
 hero:
-  name: Features
+  name: Guide
   tagline: Three distinct indicator styles to support different use cases
 features:
-  - title: Series batch (style)
+  - title: Batch (Series) style
     details: One-time bulk conversions of complete historical datasets
-    link: /features/batch
+    link: /guide/batch
     linkText: Learn more
-  - title: Buffer list (style)
+  - title: Buffer list style
     details: Self-managed incremental data without hub infrastructure
-    link: /features/buffer
+    link: /guide/buffer
     linkText: Learn more
-  - title: Stream hub (style)
+  - title: Stream hub style
     details: Live data feeds with coordinated multi-indicator updates
-    link: /features/stream
+    link: /guide/stream
     linkText: Learn more
   - title: Chaining
     details: Build sophisticated analysis by chaining indicators together, creating indicators of indicators
-    link: /guide#chaining-indicator-of-indicators
+    link: /guide/batch#chaining-indicators
     linkText: Learn more
-  - title: Customization
-    details: Create your own indicators that integrate seamlessly with the library    
-    link: /customization
+  - title: Custom indicators
+    details: Create your own indicators that integrate seamlessly with the library
+    link: /guide/customization
     linkText: Learn more
   - title: Utilities
-    details: Helper functions for quote manipulation, result processing, and numerical analysis    
+    details: Helper functions for quote manipulation, result processing, and numerical analysis
     link: /utilities
     linkText: Learn more
   - title: Code samples
@@ -58,5 +58,3 @@ This library has three indicator styles available to support different uses case
 | Complexity     | lowest          | moderate      | highest      |
 | Chainable      | yes             | yes           | yes          |
 | Pruning        | with utility    | auto-preset   | auto-preset  |
-
-<!-- TODO: deduplicate from Guide -->

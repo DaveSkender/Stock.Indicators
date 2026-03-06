@@ -4,6 +4,20 @@ import { defineConfig } from 'vitepress'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+// Shared top-level navigation — referenced once and reused in every sidebar context
+const siteNav = {
+  text: 'Documentation',
+  items: [
+    { text: 'Getting started', link: '/guide/getting-started' },
+    { text: 'Guide', link: '/guide/' },
+    { text: 'Indicators', link: '/indicators' },
+    { text: 'Utilities', link: '/utilities/' },
+    { text: 'Migration (v2→v3)', link: '/migration' },
+    { text: 'Contributing', link: '/contributing' },
+    { text: 'About', link: '/about' },
+  ]
+}
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "stock indicators",
@@ -41,73 +55,53 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Indicators', link: '/indicators' },
-      { text: 'Guide', link: '/guide' },
+      { text: 'Getting started', link: '/guide/getting-started' },
+      {
+        text: 'Guide',
+        items: [
+          { text: 'Overview', link: '/guide/' },
+          { text: 'Batch (Series)', link: '/guide/batch' },
+          { text: 'Buffer lists', link: '/guide/buffer' },
+          { text: 'Stream hubs', link: '/guide/stream' },
+          { text: 'Custom indicators', link: '/guide/customization' },
+        ]
+      },
+      {
+        text: 'Reference',
+        items: [
+          { text: 'Indicators', link: '/indicators' },
+          { text: 'Utilities', link: '/utilities/' },
+          { text: 'Performance', link: '/performance' },
+        ]
+      },
       {
         text: 'More',
         items: [
           { text: 'Migration (v2→v3)', link: '/migration' },
+          { text: 'Contributing', link: '/contributing' },
+          { text: 'About', link: '/about' },
           { text: 'v2 Docs', link: 'https://dotnet.stockindicators.dev' }
         ]
       }
     ],
 
     sidebar: {
-      '/features': [
+      '/guide/': [
+        siteNav,
         {
+          text: 'Guide',
           items: [
-            { text: 'Getting started', link: '/guide' },
-            {
-              text: 'Features',
-              items: [
-                { text: 'Overview', link: '/features/' },
-                { text: 'Batch (Series)', link: '/features/batch' },
-                { text: 'Buffer lists', link: '/features/buffer' },
-                { text: 'Stream hubs', link: '/features/stream' },
-                { text: 'Utilities', link: '/utilities/' },
-              ]
-            },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Examples', link: '/examples/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        }
-      ],
-      '/guide': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Examples', link: '/examples/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
+            { text: 'Overview', link: '/guide/' },
+            { text: 'Getting started', link: '/guide/getting-started' },
+            { text: 'Batch (Series)', link: '/guide/batch' },
+            { text: 'Buffer lists', link: '/guide/buffer' },
+            { text: 'Stream hubs', link: '/guide/stream' },
+            { text: 'Custom indicators', link: '/guide/customization' },
           ]
         }
       ],
       '/utilities': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Examples', link: '/examples/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        },
+        siteNav,
         {
           text: 'Utilities',
           items: [
@@ -149,20 +143,7 @@ export default defineConfig({
         }
       ],
       '/examples': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Examples', link: '/examples/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        },
+        siteNav,
         {
           text: 'Examples',
           items: [
@@ -170,80 +151,12 @@ export default defineConfig({
           ]
         }
       ],
-      '/performance': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        }
-      ],
-      '/migration': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        }
-      ],
-      '/contributing': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        }
-      ],
-      '/about': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        }
-      ],
+      '/performance': [ siteNav ],
+      '/migration': [ siteNav ],
+      '/contributing': [ siteNav ],
+      '/about': [ siteNav ],
       '/indicators': [
-        {
-          text: 'Documentation',
-          items: [
-            { text: 'Getting started', link: '/guide' },
-            { text: 'Features', link: '/features/' },
-            { text: 'Indicators', link: '/indicators' },
-            { text: 'Utilities', link: '/utilities/' },
-            { text: 'Performance', link: '/performance' },
-            { text: 'Migration (v2→v3)', link: '/migration' },
-            { text: 'Contributing', link: '/contributing' },
-            { text: 'About', link: '/about' },
-          ]
-        },
+        siteNav,
         {
           text: 'Price trends',
           collapsed: true,

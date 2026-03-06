@@ -54,15 +54,13 @@ IPage<IBar> barSet = await client.ListHistoricalBarsAsync(request);
 // convert library compatible quotes
 List<Quote> quotes = barSet
     .Items
-    .Select(bar => new Quote
-    {
-        Timestamp = bar.TimeUtc,
-        Open = bar.Open,
-        High = bar.High,
-        Low = bar.Low,
-        Close = bar.Close,
-        Volume = bar.Volume
-    })
+    .Select(bar => new Quote(
+        Timestamp: bar.TimeUtc,
+        Open: bar.Open,
+        High: bar.High,
+        Low: bar.Low,
+        Close: bar.Close,
+        Volume: bar.Volume))
     .OrderBy(x => x.Timestamp)
     .ToList();
 

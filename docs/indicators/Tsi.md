@@ -28,7 +28,7 @@ IReadOnlyList<TsiResult> results =
 
 You must have at least `N+M+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a two-stage EMA smoothing technique, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -65,7 +65,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Streaming
 
-This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide](/guide) for more information.
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide](/guide/stream) for more information.
 
 ```csharp
 // buffer-style streaming
@@ -80,6 +80,8 @@ foreach (IQuote quote in quotes)  // simulating stream
 // or initialize with historical quotes
 TsiList buffer = quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
 
 ## Chaining
 
@@ -100,3 +102,5 @@ var results = quotes
     .ToTsi(..)
     .ToSlope(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.

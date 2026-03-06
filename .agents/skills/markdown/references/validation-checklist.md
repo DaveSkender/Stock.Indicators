@@ -33,7 +33,7 @@ Complete validation checklist for Markdown files before committing.
 - [ ] Headers follow sequential hierarchy (no skipping levels)
 - [ ] Lists use proper indentation
 - [ ] End-of-file formatting applied (if required)
-  - Except: README.md (root), AGENTS.md (all), .agents/**/*.md, .github/**/*.md, docs/adr/*.md — do NOT include 'Last updated' or other end-of-file footers for these paths
+  - Except: README.md (root), AGENTS.md (all), .agents/**/*.md, .github/**/*.md, docs/**/*.md — do NOT include 'Last updated' or other end-of-file footers for these paths
 - [ ] Mermaid diagrams use stroke styling (no fill colors)
 - [ ] HTML uses only allowed elements
 - [ ] All images have alt text
