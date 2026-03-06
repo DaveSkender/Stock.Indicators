@@ -210,4 +210,4 @@ public static IReadOnlyList<MyResult> ToMyIndicator(
 
 - [Helper utilities overview](/utilities/helpers/)
 - [Numerical methods](/utilities/helpers/numerical-methods) - Slope and standard deviation
-- [Customization guide](/customization) - Build custom indicators
+- [Customization guide](/guide/customization) - Build custom indicators

@@ -37,19 +37,24 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
-      - name: Build (package sources)
+      - name: Install .NET tools
+        run: dotnet tool restore
+
+      - name: Build core project
+        # note: Roslynator cannot use cached bin/obj
         run: >
           dotnet build src/Indicators.csproj
           --configuration Release
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-      - name: Lint .NET (core package only)
+      - name: Run Roslynator analysis
+        # note: this is faster than format check
         run: >
-          dotnet format src/Indicators.csproj
-          --verify-no-changes
-          --severity info
-          --no-restore
+          dotnet tool run roslynator analyze src/Indicators.csproj
+          --properties TargetFramework=net10.0
+          --severity-level hidden
+          --verbosity normal
 
       - name: Lint markdown
         run: echo y | npx markdownlint-cli2
