@@ -25,9 +25,17 @@ The site is built with [VitePress](https://vitepress.dev) and Vue 3.
 | `docs/.vitepress/components/` | Vue components used inside Markdown |
 | `docs/.vitepress/public/assets/` | Static images (webp, optimized) |
 | `docs/.vitepress/public/data/` | Chart JSON files (one per indicator key) |
-| `docs/guide.md` | Getting started guide |
+| `docs/guide/getting-started.md` | Get started: install + first call |
+| `docs/guide/index.md` | Guide overview + style comparison |
+| `docs/guide/batch.md` | Batch (Series) style guide |
+| `docs/guide/buffer.md` | Buffer list style guide |
+| `docs/guide/stream.md` | Stream hub style guide |
+| `docs/guide/customization.md` | Custom indicators guide |
 | `docs/indicators.md` | Indicators landing/index page |
 | `docs/utilities/` | Utility API reference pages |
+| `docs/performance.md` | Performance benchmarks reference |
+
+**Excluded from build**: `AGENTS.md`, `PRINCIPLES.md`, and `README.md` are excluded via `srcExclude` in `config.mts` and must not be linked from indicator pages.
 
 ### Local development
 
@@ -114,7 +122,7 @@ Always present, even for parameter-free indicators:
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 ```
 
 - Express the minimum in terms of formula variables (e.g., `N`, `2×(S+P)`, `S+P+100`)
@@ -212,7 +220,7 @@ Variations:
 End the section with a cross-reference to the usage guide:
 
 ```markdown
-See [Chaining indicators](/features/batch#chaining) for more.
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 ```
 
 ### 7. Streaming section
@@ -254,7 +262,7 @@ When the hub subscribes to an upstream chain-enabled hub (not a `QuoteHub`), adj
 End the section with a cross-reference to the usage guides:
 
 ```markdown
-See [Buffer lists](/features/buffer) and [Stream hubs](/features/stream) for full usage guides.
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
 ```
 
 ### 7a. Streaming not applicable

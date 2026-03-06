@@ -10,38 +10,26 @@ hero:
   actions:
     - theme: brand
       text: get started
-      link: /guide/
+      link: /guide/getting-started
     - theme: alt
-      text: features
-      link: /features/
+      text: guide
+      link: /guide/
     - theme: alt
       text: indicators
       link: /indicators/
 features:
-  - title: Indicators and overlays
+  - title: New here?
+    details: Install and run your first indicator in minutes.
+    link: /guide/getting-started
+    linkText: Get started
+  - title: Learning the API?
+    details: Batch, buffer, stream, chaining, and custom indicators.
+    link: /guide/
+    linkText: Read the guide
+  - title: Looking something up?
+    details: 84 indicators with parameters, result types, and examples.
     link: /indicators
-    details: Reference documentation
-  - title: Guide and Pro tips
-    link: /guide
-    details: Getting started usage guide
-  - title: Utilities
-    link: /utilities
-    details: and helper functions
-  - title: Demo site
-    link: https://charts.stockindicators.dev
-    details: An interactive stock chart
-  - title: Examples
-    link: /examples
-    details: Runnable code samples
-  - title: Release notes
-    link: https://github.com/DaveSkender/Stock.Indicators/releases
-    details: Version changelog
-  - title: Discussions
-    link: https://github.com/DaveSkender/Stock.Indicators/discussions
-    details: Community conversations
-  - title: Contributing guide
-    link: /contributing
-    details: Repo developer guide
+    linkText: Browse indicators
 ---
 
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
@@ -51,11 +39,11 @@ features:
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price quotes into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
 
-Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide#historical-quotes) price quotes from any market: equities, commodities, forex, or cryptocurrencies. A [Python version](https://python.stockindicators.dev/) is also available.
+Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-quotes) price quotes from any market: equities, commodities, forex, or cryptocurrencies. A [Python version](https://python.stockindicators.dev/) is also available.
 
 ## Industry-standard indicators with extensibility
 
-Access a comprehensive library of battle-tested technical indicators used by traders worldwide. Extend functionality by creating your own [custom indicators](/customization) that integrate seamlessly with the library.
+Access a comprehensive library of battle-tested technical indicators used by traders worldwide. Extend functionality by creating your own [custom indicators](/guide/customization) that integrate seamlessly with the library.
 
 <ClientOnly>
   <div class="home-charts-stack">
@@ -72,7 +60,7 @@ Access a comprehensive library of battle-tested technical indicators used by tra
 IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 ```
 
-See more [usage examples](/guide#example-usage).
+See more [usage examples](/guide/getting-started#example-usage).
 
 ## Powerful chaining for advanced analysis
 
@@ -142,7 +130,7 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 
 The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.
 
-See the [guide](/guide) and the [full list of indicators and overlays](/indicators) for more information.
+See the [guide](/guide/getting-started) and the [full list of indicators and overlays](/indicators) for more information.
 
 ## Optimized for modern .NET frameworks
 

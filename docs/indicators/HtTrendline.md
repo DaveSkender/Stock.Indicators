@@ -22,7 +22,7 @@ IReadOnlyList<HtlResult> results =
 
 You must have at least `100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -92,6 +92,8 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<HtlResult> results = htlList;
 ```
 
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -111,3 +113,5 @@ var results = quotes
     .ToHtTrendline(..)
     .ToRsi(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.

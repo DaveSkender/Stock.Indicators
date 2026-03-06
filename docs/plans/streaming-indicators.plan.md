@@ -105,10 +105,11 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Status**: COMPLETE - Performance acceptable for intended use case
   - **Priority**: 🟢 RESOLVED
 
-- [ ] **P009** - Gator StreamHub performance optimization (4-6 hours)
-  - **Current**: 6.20x slower than Series (84,161 ns vs 13,583 ns)
+- [x] **P009** - Gator StreamHub performance optimization (4-6 hours)
+  - **Previous**: 6.20x slower than Series (84,161 ns vs 13,583 ns)
   - **Problem**: Multi-line indicator with Alligator dependency
-  - **Action**: Optimize provider subscription and state updates
+  - **Fix**: Added `_prevJaw`, `_prevTeeth`, `_prevLips` state fields to AlligatorHub to avoid repeated `Cache[i-1]` nullable lookups per SMMA update; added `RollbackState` override to restore state correctly on rollback/late-arrival
+  - **Status**: COMPLETE - Eliminated 6 redundant `Cache[i-1]` accesses per quote in AlligatorHub; GatorHub performance improves as its provider (AlligatorHub) is now more efficient
   - **Priority**: 🔴 HIGH
 
 - [x] **P010** - Ultimate (UO) StreamHub performance optimization (4-6 hours)
@@ -135,10 +136,11 @@ Based on performance analysis (January 3, 2026), the following indicators have c
   - **Fix**: Replaced `RollingWindowMax<double>` and `RollingWindowMin<double>` with fixed-size circular arrays (`double[] _highs`, `double[] _lows`); max/min computed by scanning the array (O(LookbackPeriods), cache-friendly, zero heap allocations per tick)
   - **Status**: COMPLETE - Updated `RollbackState` to reset/rebuild circular buffers; all Series-parity tests pass
 
-- [ ] **P014** - Chandelier StreamHub performance optimization (3-4 hours)
-  - **Current**: 5.35x slower than Series (120,072 ns vs 22,454 ns)
-  - **Problem**: ATR-based trailing stop calculations
-  - **Action**: Review ATR provider subscription efficiency
+- [x] **P014** - Chandelier StreamHub performance optimization (3-4 hours)
+  - **Previous**: 5.35x slower than Series (120,072 ns vs 22,454 ns)
+  - **Problem**: Double-chain architecture (QuoteHub→AtrHub→ChandelierHub) with two notification cycles per quote and extra `_quoteProvider.Results[i]` lookup
+  - **Fix**: Refactored `ChandelierHub` from `ChainHub<AtrResult, ChandelierResult>` to `ChainHub<IQuote, ChandelierResult>` — eliminating the intermediate AtrHub subscription layer and computing ATR incrementally (SMMA, lazy SMA re-init on rollback) with O(1) updates
+  - **Status**: COMPLETE - Removed AtrHub compound dependency; all Series-parity tests pass
   - **Priority**: 🔴 HIGH
 
 ### Critical BufferList Performance Issues
