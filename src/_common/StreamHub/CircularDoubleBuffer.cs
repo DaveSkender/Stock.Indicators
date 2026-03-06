@@ -17,9 +17,9 @@ internal struct CircularDoubleBuffer
         _fill = 0;
     }
 
-    internal int Capacity => _values.Length;
-    internal bool IsFull => _fill == _values.Length;
-    internal bool IsEmpty => _fill == 0;
+    internal readonly int Capacity => _values.Length;
+    internal readonly bool IsFull => _fill == _values.Length;
+    internal readonly bool IsEmpty => _fill == 0;
 
     internal void Add(double value)
     {
@@ -41,7 +41,7 @@ internal struct CircularDoubleBuffer
         _fill = 0;
     }
 
-    internal double GetMax()
+    internal readonly double GetMax()
     {
         if (_fill == 0)
         {
@@ -60,7 +60,7 @@ internal struct CircularDoubleBuffer
         return max;
     }
 
-    internal double GetMin()
+    internal readonly double GetMin()
     {
         if (_fill == 0)
         {
