@@ -84,20 +84,20 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
             int windowEndIndex = bufferCount - 2 - OffsetPeriods;
             int windowStartIndex = windowEndIndex - WindowPeriods + 1;
 
-            decimal windowHigh = bufferArray[windowStartIndex].High;
-            decimal windowLow = bufferArray[windowStartIndex].Low;
-            decimal windowClose = bufferArray[windowEndIndex].Close;
+            double windowHigh = (double)bufferArray[windowStartIndex].High;
+            double windowLow = (double)bufferArray[windowStartIndex].Low;
+            double windowClose = (double)bufferArray[windowEndIndex].Close;
 
             for (int p = windowStartIndex; p <= windowEndIndex; p++)
             {
                 IQuote d = bufferArray[p];
-                windowHigh = d.High > windowHigh ? d.High : windowHigh;
-                windowLow = d.Low < windowLow ? d.Low : windowLow;
+                windowHigh = (double)d.High > windowHigh ? (double)d.High : windowHigh;
+                windowLow = (double)d.Low < windowLow ? (double)d.Low : windowLow;
             }
 
             // Calculate pivot points
             WindowPoint wp = PivotPoints.GetPivotPoint(
-                PointType, quote.Open, windowHigh, windowLow, windowClose);
+                PointType, (double)quote.Open, windowHigh, windowLow, windowClose);
 
             result = new RollingPivotsResult {
                 Timestamp = quote.Timestamp,

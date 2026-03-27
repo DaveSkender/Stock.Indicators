@@ -20,14 +20,14 @@ IReadOnlyList<PrsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `quotesBase` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`. |
+| `quotesBase` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide/getting-started#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`. |
 | `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`. |
 
 ### Historical quotes requirements
 
 You must have at least `N` periods of `quotesEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesEval` is an `IReadOnlyList\<TQuote\>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotesEval` is an `IReadOnlyList\<TQuote\>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -79,3 +79,11 @@ var results = quotesEval
     .ToPrs(quotesBase, ..)
     .ToSlope(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
+## Streaming
+
+Streaming is not supported for this indicator.
+This indicator requires a second synchronized quote series, which cannot be expressed in the single-series streaming model.
+Use the Series (batch) implementation with periodic recalculation instead.

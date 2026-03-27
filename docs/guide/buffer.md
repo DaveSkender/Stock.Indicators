@@ -19,9 +19,9 @@ Buffer list style provides efficient incremental processing for growing datasets
 
 **Not ideal for:**
 
-- Complete historical datasets (use [Batch style](/features/batch))
-- Multiple indicators needing coordinated updates (use [Stream hubs](/features/stream))
-- One-time calculations (use [Batch style](/features/batch))
+- Complete historical datasets (use [Batch style](/guide/batch))
+- Multiple indicators needing coordinated updates (use [Stream hubs](/guide/stream))
+- One-time calculations (use [Batch style](/guide/batch))
 
 ## Basic usage
 
@@ -174,7 +174,7 @@ while (newQuote = GetNextQuote())
 
 ## See also
 
-- [Batch style](/features/batch) for one-time calculations
-- [Stream hubs](/features/stream) for coordinated real-time updates
-- [Guide](/guide#incremental-buffer-style-indicators) for detailed patterns
+- [Batch style](/guide/batch) for one-time calculations
+- [Stream hubs](/guide/stream) for coordinated real-time updates
+- [Buffer lists](/guide/buffer) for detailed patterns
 - [Indicators](/indicators) for available buffer list indicators

@@ -7,9 +7,9 @@ public sealed class SmiHub
     : ChainHub<IQuote, SmiResult>, ISmi
 {
 
-    // Rolling windows for O(1) high/low tracking
-    private readonly RollingWindowMax<double> _highWindow;
-    private readonly RollingWindowMin<double> _lowWindow;
+    // Circular buffers for high/low tracking — zero heap allocation per tick
+    private CircularDoubleBuffer _highBuffer;
+    private CircularDoubleBuffer _lowBuffer;
 
     // State for EMA smoothing
     private double _lastSmEma1 = double.NaN;
@@ -38,12 +38,12 @@ public sealed class SmiHub
 
         Name = $"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})";
 
-        // Validate cache size for warmup requirements (before allocating rolling windows)
+        // Validate cache size for warmup requirements
         ValidateCacheSize(lookbackPeriods, Name);
 
-        // Initialize rolling windows for O(1) amortized max/min tracking
-        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
+        // Allocate circular buffers — fixed size, no per-tick heap allocations
+        _highBuffer = new CircularDoubleBuffer(lookbackPeriods);
+        _lowBuffer = new CircularDoubleBuffer(lookbackPeriods);
 
         Reinitialize();
     }
@@ -75,21 +75,15 @@ public sealed class SmiHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double high = (double)item.High;
-        double low = (double)item.Low;
-        double close = (double)item.Close;
-
-        // Normal incremental update - O(1) amortized operation
-        // Using monotonic deque pattern eliminates O(n) linear scans on every quote
-        _highWindow.Add(high);
-        _lowWindow.Add(low);
+        _highBuffer.Add((double)item.High);
+        _lowBuffer.Add((double)item.Low);
 
         double smi = double.NaN;
         double signal = double.NaN;
 
-        if (i >= LookbackPeriods - 1)
+        if (_highBuffer.IsFull)
         {
-            (smi, signal) = CalculateSmi(close);
+            (smi, signal) = CalculateSmi((double)item.Close);
         }
 
         SmiResult result = new(
@@ -102,9 +96,8 @@ public sealed class SmiHub
 
     private (double smi, double signal) CalculateSmi(double close)
     {
-        // Use O(1) max/min retrieval from rolling windows
-        double hH = _highWindow.GetMax();
-        double lL = _lowWindow.GetMin();
+        double hH = _highBuffer.GetMax();
+        double lL = _lowBuffer.GetMin();
 
         // Calculate distance from midpoint and range
         double sm = close - (0.5d * (hH + lL));
@@ -162,9 +155,9 @@ public sealed class SmiHub
         _lastHlEma2 = double.NaN;
         _lastSignal = double.NaN;
 
-        // Clear rolling windows
-        _highWindow.Clear();
-        _lowWindow.Clear();
+        // Reset circular buffers
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
 
         if (restoreIndex < LookbackPeriods - 1)
         {
@@ -172,22 +165,16 @@ public sealed class SmiHub
         }
 
         // Rebuild state from cache up to the rollback point
-        // Process each period to rebuild both windows and EMA state
         for (int p = 0; p <= restoreIndex; p++)
         {
             IQuote q = ProviderCache[p];
-            double high = (double)q.High;
-            double low = (double)q.Low;
-            double close = (double)q.Close;
-
-            // Add to rolling windows (maintains O(1) amortized operation)
-            _highWindow.Add(high);
-            _lowWindow.Add(low);
+            _highBuffer.Add((double)q.High);
+            _lowBuffer.Add((double)q.Low);
 
             // Calculate EMA state only after warmup
             if (p >= LookbackPeriods - 1)
             {
-                CalculateSmi(close);
+                CalculateSmi((double)q.Close);
             }
         }
     }

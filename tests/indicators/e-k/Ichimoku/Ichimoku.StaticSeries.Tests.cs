@@ -23,31 +23,31 @@ public class Ichimoku : StaticSeriesTestBase
 
         // sample values
         IchimokuResult r1 = sut[51];
-        r1.TenkanSen.Should().Be(224.465m);
-        r1.KijunSen.Should().Be(221.94m);
-        r1.SenkouSpanA.Should().Be(214.8325m);
+        r1.TenkanSen.Should().Be(224.465);
+        r1.KijunSen.Should().Be(221.94);
+        r1.SenkouSpanA.Should().Be(214.83249999999998);
         r1.SenkouSpanB.Should().BeNull();
-        r1.ChikouSpan.Should().Be(226.35m);
+        r1.ChikouSpan.Should().Be(226.35);
 
         IchimokuResult r2 = sut[249];
-        r2.TenkanSen.Should().Be(257.15m);
-        r2.KijunSen.Should().Be(253.085m);
-        r2.SenkouSpanA.Should().Be(246.3125m);
-        r2.SenkouSpanB.Should().Be(241.685m);
-        r2.ChikouSpan.Should().Be(259.21m);
+        r2.TenkanSen.Should().Be(257.15);
+        r2.KijunSen.Should().Be(253.08499999999998);
+        r2.SenkouSpanA.Should().Be(246.3125);
+        r2.SenkouSpanB.Should().Be(241.685);
+        r2.ChikouSpan.Should().Be(259.21);
 
         IchimokuResult r3 = sut[475];
-        r3.TenkanSen.Should().Be(265.575m);
-        r3.KijunSen.Should().Be(263.965m);
-        r3.SenkouSpanA.Should().Be(274.9475m);
-        r3.SenkouSpanB.Should().Be(274.95m);
-        r3.ChikouSpan.Should().Be(245.28m);
+        r3.TenkanSen.Should().Be(265.575);
+        r3.KijunSen.Should().Be(263.965);
+        r3.SenkouSpanA.Should().Be(274.9475);
+        r3.SenkouSpanB.Should().Be(274.95000000000005);
+        r3.ChikouSpan.Should().Be(245.28);
 
         IchimokuResult r4 = sut[501];
-        r4.TenkanSen.Should().Be(241.26m);
-        r4.KijunSen.Should().Be(251.505m);
-        r4.SenkouSpanA.Should().Be(264.77m);
-        r4.SenkouSpanB.Should().Be(269.82m);
+        r4.TenkanSen.Should().Be(241.26);
+        r4.KijunSen.Should().Be(251.505);
+        r4.SenkouSpanA.Should().Be(264.77);
+        r4.SenkouSpanB.Should().Be(269.82);
         r4.ChikouSpan.Should().BeNull();
     }
 

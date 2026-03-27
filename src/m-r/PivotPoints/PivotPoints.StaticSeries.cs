@@ -38,10 +38,10 @@ public static partial class PivotPoints
 
         bool firstWindow = true;
 
-        decimal windowHigh = h0.High;
-        decimal windowLow = h0.Low;
-        decimal windowOpen = h0.Open;
-        decimal windowClose = h0.Close;
+        double windowHigh = (double)h0.High;
+        double windowLow = (double)h0.Low;
+        double windowOpen = (double)h0.Open;
+        double windowClose = (double)h0.Close;
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -59,16 +59,16 @@ public static partial class PivotPoints
                 // set new levels
                 if (pointType == PivotPointType.Woodie)
                 {
-                    windowOpen = q.Open;
+                    windowOpen = (double)q.Open;
                 }
 
                 windowPoint = GetPivotPoint(
                     pointType, windowOpen, windowHigh, windowLow, windowClose);
 
                 // reset window min/max thresholds
-                windowOpen = q.Open;
-                windowHigh = q.High;
-                windowLow = q.Low;
+                windowOpen = (double)q.Open;
+                windowHigh = (double)q.High;
+                windowLow = (double)q.Low;
             }
 
             // add levels
@@ -100,9 +100,9 @@ public static partial class PivotPoints
             results.Add(r);
 
             // capture window threholds (for next iteration)
-            windowHigh = q.High > windowHigh ? q.High : windowHigh;
-            windowLow = q.Low < windowLow ? q.Low : windowLow;
-            windowClose = q.Close;
+            windowHigh = (double)q.High > windowHigh ? (double)q.High : windowHigh;
+            windowLow = (double)q.Low < windowLow ? (double)q.Low : windowLow;
+            windowClose = (double)q.Close;
         }
 
         return results;
@@ -119,7 +119,7 @@ public static partial class PivotPoints
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static WindowPoint GetPivotPoint(
-        PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
+        PivotPointType pointType, double open, double high, double low, double close)
         => pointType switch {
 
             PivotPointType.Standard => GetPivotPointStandard(high, low, close),
@@ -168,9 +168,9 @@ public static partial class PivotPoints
     /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointStandard(
-        decimal high, decimal low, decimal close)
+        double high, double low, double close)
     {
-        decimal pp = (high + low + close) / 3;
+        double pp = (high + low + close) / 3d;
 
         return new() {
             PP = pp,
@@ -191,17 +191,17 @@ public static partial class PivotPoints
     /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointCamarilla(
-        decimal high, decimal low, decimal close)
+        double high, double low, double close)
         => new() {
             PP = close,
-            S1 = close - (1.1m / 12 * (high - low)),
-            S2 = close - (1.1m / 6 * (high - low)),
-            S3 = close - (1.1m / 4 * (high - low)),
-            S4 = close - (1.1m / 2 * (high - low)),
-            R1 = close + (1.1m / 12 * (high - low)),
-            R2 = close + (1.1m / 6 * (high - low)),
-            R3 = close + (1.1m / 4 * (high - low)),
-            R4 = close + (1.1m / 2 * (high - low))
+            S1 = close - (1.1d / 12 * (high - low)),
+            S2 = close - (1.1d / 6 * (high - low)),
+            S3 = close - (1.1d / 4 * (high - low)),
+            S4 = close - (1.1d / 2 * (high - low)),
+            R1 = close + (1.1d / 12 * (high - low)),
+            R2 = close + (1.1d / 6 * (high - low)),
+            R3 = close + (1.1d / 4 * (high - low)),
+            R4 = close + (1.1d / 2 * (high - low))
         };
 
     /// <summary>
@@ -213,18 +213,18 @@ public static partial class PivotPoints
     /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     internal static WindowPoint GetPivotPointDemark(
-        decimal open, decimal high, decimal low, decimal close)
+        double open, double high, double low, double close)
     {
-        decimal x = close < open
+        double x = close < open
             ? high + (2 * low) + close
             : close > open
             ? (2 * high) + low + close
             : high + low + (2 * close);
 
         return new() {
-            PP = x / 4,
-            S1 = (x / 2) - high,
-            R1 = (x / 2) - low
+            PP = x / 4d,
+            S1 = (x / 2d) - high,
+            R1 = (x / 2d) - low
         };
     }
 
@@ -236,18 +236,18 @@ public static partial class PivotPoints
     /// <param name="close">Closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointFibonacci(
-        decimal high, decimal low, decimal close)
+        double high, double low, double close)
     {
-        decimal pp = (high + low + close) / 3;
+        double pp = (high + low + close) / 3d;
 
         return new() {
             PP = pp,
-            S1 = pp - (0.382m * (high - low)),
-            S2 = pp - (0.618m * (high - low)),
-            S3 = pp - (1.000m * (high - low)),
-            R1 = pp + (0.382m * (high - low)),
-            R2 = pp + (0.618m * (high - low)),
-            R3 = pp + (1.000m * (high - low))
+            S1 = pp - (0.382d * (high - low)),
+            S2 = pp - (0.618d * (high - low)),
+            S3 = pp - (1.000d * (high - low)),
+            R1 = pp + (0.382d * (high - low)),
+            R2 = pp + (0.618d * (high - low)),
+            R3 = pp + (1.000d * (high - low))
         };
     }
 
@@ -259,9 +259,9 @@ public static partial class PivotPoints
     /// <param name="low">Lowest price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
     private static WindowPoint GetPivotPointWoodie(
-        decimal currentOpen, decimal high, decimal low)
+        double currentOpen, double high, double low)
     {
-        decimal pp = (high + low + (2 * currentOpen)) / 4;
+        double pp = (high + low + (2 * currentOpen)) / 4d;
 
         return new() {
             PP = pp,

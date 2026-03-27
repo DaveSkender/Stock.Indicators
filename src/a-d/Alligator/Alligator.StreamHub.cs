@@ -6,6 +6,10 @@ namespace Skender.Stock.Indicators;
 public class AlligatorHub
    : StreamHub<IReusable, AlligatorResult>, IAlligator
 {
+    private double _prevJaw = double.NaN;
+    private double _prevTeeth = double.NaN;
+    private double _prevLips = double.NaN;
+
     internal AlligatorHub(
         IChainProvider<IReusable> provider,
         int jawPeriods, int jawOffset,
@@ -69,7 +73,7 @@ public class AlligatorHub
         if (i >= JawPeriods + JawOffset - 1)
         {
             // first/reset value: calculate SMA
-            if (Cache[i - 1].Jaw is null)
+            if (double.IsNaN(_prevJaw))
             {
                 double sum = 0;
                 for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
@@ -83,18 +87,18 @@ public class AlligatorHub
             // remaining values: SMMA
             else
             {
-                double prevJaw = Cache[i - 1].Jaw.Null2NaN();
                 double newVal = ProviderCache[i - JawOffset].Hl2OrValue();
-
-                jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
+                jaw = ((_prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
             }
+
+            _prevJaw = jaw;
         }
 
         // calculate alligator's teeth, when in range
         if (i >= TeethPeriods + TeethOffset - 1)
         {
             // first/reset value: calculate SMA
-            if (Cache[i - 1].Teeth is null)
+            if (double.IsNaN(_prevTeeth))
             {
                 double sum = 0;
                 for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
@@ -108,18 +112,18 @@ public class AlligatorHub
             // remaining values: SMMA
             else
             {
-                double prevTooth = Cache[i - 1].Teeth.Null2NaN();
                 double newVal = ProviderCache[i - TeethOffset].Hl2OrValue();
-
-                teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
+                teeth = ((_prevTeeth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
             }
+
+            _prevTeeth = teeth;
         }
 
         // calculate alligator's lips, when in range
         if (i >= LipsPeriods + LipsOffset - 1)
         {
             // first/reset value: calculate SMA
-            if (Cache[i - 1].Lips is null)
+            if (double.IsNaN(_prevLips))
             {
                 double sum = 0;
                 for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
@@ -133,11 +137,11 @@ public class AlligatorHub
             // remaining values: SMMA
             else
             {
-                double prevLips = Cache[i - 1].Lips.Null2NaN();
                 double newVal = ProviderCache[i - LipsOffset].Hl2OrValue();
-
-                lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
+                lips = ((_prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
             }
+
+            _prevLips = lips;
         }
 
         // candidate result
@@ -148,6 +152,22 @@ public class AlligatorHub
             lips.NaN2Null());
 
         return (r, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(int restoreIndex)
+    {
+        if (restoreIndex < 0)
+        {
+            _prevJaw = double.NaN;
+            _prevTeeth = double.NaN;
+            _prevLips = double.NaN;
+            return;
+        }
+
+        _prevJaw = Cache[restoreIndex].Jaw ?? double.NaN;
+        _prevTeeth = Cache[restoreIndex].Teeth ?? double.NaN;
+        _prevLips = Cache[restoreIndex].Lips ?? double.NaN;
     }
 }
 

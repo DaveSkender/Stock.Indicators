@@ -30,7 +30,7 @@ For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W 
 
 You must have at least `W+F` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ### PivotPointType options
 
@@ -64,13 +64,15 @@ Historical results are a function of the rolling window position and will shift 
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `R3` | decimal | Resistance level 3 |
-| `R2` | decimal | Resistance level 2 |
-| `R1` | decimal | Resistance level 1 |
-| `PP` | decimal | Pivot Point |
-| `S1` | decimal | Support level 1 |
-| `S2` | decimal | Support level 2 |
-| `S3` | decimal | Support level 3 |
+| `R4` | double | Resistance level 4 (Camarilla only) |
+| `R3` | double | Resistance level 3 |
+| `R2` | double | Resistance level 2 |
+| `R1` | double | Resistance level 1 |
+| `PP` | double | Pivot Point |
+| `S1` | double | Support level 1 |
+| `S2` | double | Support level 2 |
+| `S3` | double | Support level 3 |
+| `S4` | double | Support level 4 (Camarilla only) |
 
 ### Utilities
 
@@ -83,6 +85,8 @@ See [Utilities and helpers](/utilities/results/) for more information.
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -113,3 +117,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<RollingPivotsResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

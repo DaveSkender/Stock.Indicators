@@ -12,7 +12,7 @@ Use the indicator catalog to discover indicators, build simple pickers, or expor
 - Optionally execute an indicator by ID (no compile-time generics required)
 
 ::: info Non-idiomatic
-_The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide) for normal syntax examples.
+_The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide/getting-started) for normal syntax examples.
 :::
 
 ## Browse or export the catalog

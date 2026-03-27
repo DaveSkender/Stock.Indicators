@@ -1,124 +1,86 @@
 namespace StreamHubs;
 
 [TestClass]
-public class RollingWindowTests : TestBase
+public class CircularDoubleBufferTests : TestBase
 {
     [TestMethod]
-    public void RollingWindowMax_WithNaN_ReturnsNaN()
+    public void CircularDoubleBuffer_GetMax_ReturnsCorrectMax()
     {
-        // Arrange
-        RollingWindowMax<double> window = new(3);
+        CircularDoubleBuffer buf = new(3);
+        buf.Add(10.0);
+        buf.Add(30.0);
+        buf.Add(20.0);
 
-        // Act: Add normal values, then NaN
-        window.Add(10.0);
-        window.Add(20.0);
-        window.Add(double.NaN);
-
-        // Assert: Max should return NaN when NaN is in window
-        double max = window.GetMax();
-        max.Should().Be(double.NaN);
+        buf.GetMax().Should().Be(30.0);
     }
 
     [TestMethod]
-    public void RollingWindowMax_NaNEvicted_ReturnsNormalMax()
+    public void CircularDoubleBuffer_GetMin_ReturnsCorrectMin()
     {
-        // Arrange
-        RollingWindowMax<double> window = new(3);
+        CircularDoubleBuffer buf = new(3);
+        buf.Add(10.0);
+        buf.Add(30.0);
+        buf.Add(20.0);
 
-        // Act: Add NaN, then normal values to evict it
-        window.Add(double.NaN);
-        window.Add(10.0);
-        window.Add(20.0);
-        window.Add(30.0); // This evicts the NaN
-
-        // Assert: Max should return normal value after NaN is evicted
-        double max = window.GetMax();
-        max.Should().Be(30.0);
+        buf.GetMin().Should().Be(10.0);
     }
 
     [TestMethod]
-    public void RollingWindowMin_WithNaN_ReturnsNaN()
+    public void CircularDoubleBuffer_WrapsAround_MaxMinCorrect()
     {
-        // Arrange
-        RollingWindowMin<double> window = new(3);
+        CircularDoubleBuffer buf = new(3);
+        buf.Add(10.0);
+        buf.Add(20.0);
+        buf.Add(30.0);
+        buf.Add(5.0); // evicts 10, window = [20, 30, 5]
 
-        // Act: Add normal values, then NaN
-        window.Add(10.0);
-        window.Add(20.0);
-        window.Add(double.NaN);
-
-        // Assert: Min should return NaN when NaN is in window
-        double min = window.GetMin();
-        min.Should().Be(double.NaN);
+        buf.GetMax().Should().Be(30.0);
+        buf.GetMin().Should().Be(5.0);
     }
 
     [TestMethod]
-    public void RollingWindowMin_NaNEvicted_ReturnsNormalMin()
+    public void CircularDoubleBuffer_IsFull_TrueWhenFull()
     {
-        // Arrange
-        RollingWindowMin<double> window = new(3);
-
-        // Act: Add NaN, then normal values to evict it
-        window.Add(double.NaN);
-        window.Add(10.0);
-        window.Add(20.0);
-        window.Add(30.0); // This evicts the NaN
-
-        // Assert: Min should return normal value after NaN is evicted
-        double min = window.GetMin();
-        min.Should().Be(10.0);
+        CircularDoubleBuffer buf = new(2);
+        buf.Add(1.0);
+        buf.IsFull.Should().BeFalse();
+        buf.Add(2.0);
+        buf.IsFull.Should().BeTrue();
     }
 
     [TestMethod]
-    public void RollingWindowMax_MultipleNaN_ReturnsNaN()
+    public void CircularDoubleBuffer_IsEmpty_TrueAfterClear()
     {
-        // Arrange
-        RollingWindowMax<double> window = new(5);
-
-        // Act: Add multiple NaN values
-        window.Add(10.0);
-        window.Add(double.NaN);
-        window.Add(20.0);
-        window.Add(double.NaN);
-        window.Add(30.0);
-
-        // Assert: Max should return NaN when multiple NaN values are in window
-        double max = window.GetMax();
-        max.Should().Be(double.NaN);
+        CircularDoubleBuffer buf = new(3);
+        buf.Add(1.0);
+        buf.Clear();
+        buf.IsEmpty.Should().BeTrue();
     }
 
     [TestMethod]
-    public void RollingWindowMin_AllNaN_Evicted_ReturnsNormalMin()
+    public void CircularDoubleBuffer_GetMax_ReturnsNaN_WhenEmpty()
     {
-        // Arrange
-        RollingWindowMin<double> window = new(2);
-
-        // Act: Fill with NaN, then replace with normal values
-        window.Add(double.NaN);
-        window.Add(double.NaN);
-        window.Add(5.0);  // Evicts first NaN
-        window.Add(3.0);  // Evicts second NaN
-
-        // Assert: Min should work normally after all NaN values evicted
-        double min = window.GetMin();
-        min.Should().Be(3.0);
+        CircularDoubleBuffer buf = new(3);
+        buf.GetMax().Should().Be(double.NaN);
     }
 
     [TestMethod]
-    public void RollingWindowMax_Clear_ResetsNaNTracking()
+    public void CircularDoubleBuffer_GetMin_ReturnsNaN_WhenEmpty()
     {
-        // Arrange
-        RollingWindowMax<double> window = new(3);
-        window.Add(double.NaN);
-        window.Add(10.0);
+        CircularDoubleBuffer buf = new(3);
+        buf.GetMin().Should().Be(double.NaN);
+    }
 
-        // Act: Clear and add normal values
-        window.Clear();
-        window.Add(5.0);
-        window.Add(15.0);
+    [TestMethod]
+    public void CircularDoubleBuffer_Clear_ResetsState()
+    {
+        CircularDoubleBuffer buf = new(3);
+        buf.Add(5.0);
+        buf.Add(15.0);
+        buf.Clear();
+        buf.Add(7.0);
 
-        // Assert: Max should work normally after clear
-        double max = window.GetMax();
-        max.Should().Be(15.0);
+        buf.GetMax().Should().Be(7.0);
+        buf.GetMin().Should().Be(7.0);
     }
 }

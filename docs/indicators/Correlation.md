@@ -20,14 +20,14 @@ IReadOnlyList<CorrResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `quotesB` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide#historical-quotes) (B) must have at least the same matching date elements of `quotesA`. |
+| `quotesB` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide/getting-started#historical-quotes) (B) must have at least the same matching date elements of `quotesA`. |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical quotes requirements
 
 You must have at least `N` periods for both versions of `quotes` to cover the warmup periods.  Mismatch histories will produce a `InvalidQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesA` is an `IReadOnlyList\<TQuote\>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotesA` is an `IReadOnlyList\<TQuote\>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -83,3 +83,11 @@ var results = quotes
     .ToCorrelation(..)
     .ToSlope(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
+## Streaming
+
+Streaming is not supported for this indicator.
+This indicator requires a second synchronized quote series, which cannot be expressed in the single-series streaming model.
+Use the Series (batch) implementation with periodic recalculation instead.

@@ -20,13 +20,13 @@ IReadOnlyList<BetaResult> results = quotesEval
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `quotesMarket` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline. |
+| `quotesMarket` | IReadOnlyList\<TQuote\> | [Historical quotes](/guide/getting-started#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline. |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below. |
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotesEval` to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  An `InvalidQuotesException` will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+You must have at least `N` periods of `quotesEval` to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  An `InvalidQuotesException` will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 #### BetaType options
 
@@ -100,3 +100,11 @@ var results = quotesEval
     .ToBeta(quotesMarket, ..)
     .ToSlope(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
+## Streaming
+
+Streaming is not supported for this indicator.
+This indicator requires a second synchronized quote series, which cannot be expressed in the single-series streaming model.
+Use the Series (batch) implementation with periodic recalculation instead.

@@ -1,6 +1,6 @@
 # Documentation site reorganization plan
 
-**Status**: Draft
+**Status**: ✅ Complete
 
 ## Objective
 
@@ -146,7 +146,7 @@ Phases are ordered by execution dependency. Complete each phase before starting 
 
 ---
 
-### Phase 1: Consolidate sidebar configuration
+### ✅ Phase 1: Consolidate sidebar configuration
 
 **Goal**: Extract the repeated documentation navigation section into a single shared constant so it only needs to be maintained in one place.
 
@@ -189,7 +189,7 @@ export default defineConfig({
 
 ---
 
-### Phase 2: Rename features/ to guide/ and restructure top nav
+### ✅ Phase 2: Rename features/ to guide/ and restructure top nav
 
 **Goal**: The Guide pillar has a URL and navigation label that matches its content, appears in the top navigation, and the Get started page moves inside it with its own top-nav entry.
 
@@ -217,7 +217,7 @@ export default defineConfig({
 
 ---
 
-### Phase 3: Slim guide/getting-started.md to a true Get started page
+### ✅ Phase 3: Slim guide/getting-started.md to a true Get started page
 
 **Goal**: A developer can install the library and get a working first result by following `guide/getting-started.md` alone, in under five minutes. Deeper conceptual content belongs in the Guide (`/guide/`).
 
@@ -247,7 +247,7 @@ Before removing any section, verify the corresponding `/guide/` page already cov
 
 ---
 
-### Phase 4: Establish the 3-pillar home page
+### ✅ Phase 4: Establish the 3-pillar home page
 
 **Goal**: A visitor landing on the home page immediately sees three clear paths and understands which one is for them.
 
@@ -279,7 +279,7 @@ VitePress home pages support `features:` arrays in frontmatter. Use three featur
 
 ---
 
-### Phase 5: Add cross-references from Reference to Documentation
+### ✅ Phase 5: Add cross-references from Reference to Documentation
 
 **Goal**: A developer reading an indicator page can reach the relevant conceptual guide in one click.
 
@@ -297,7 +297,7 @@ The documentation skill template already includes these cross-references using `
 
 ---
 
-### Phase 6: Standardize indicator pages — streaming not applicable
+### ✅ Phase 6: Standardize indicator pages — streaming not applicable
 
 **Goal**: Every indicator page has `## Streaming` — either full examples or a clear explanation of why streaming is not supported.
 
@@ -331,7 +331,7 @@ Use the Series (batch) implementation with periodic recalculation instead.
 
 ---
 
-### Phase 7: Standardize Renko multi-overload structure
+### ✅ Phase 7: Standardize Renko multi-overload structure
 
 **Goal**: Renko documents two distinct overloads using ad-hoc H2/H3 headings that break the standard page structure. Restructure it to match the multi-variant pattern documented in the documentation skill.
 
@@ -401,7 +401,7 @@ Note: the two variants have different historical quotes requirements and must be
 
 ---
 
-### Phase 8: Exclude internal files from site build
+### ✅ Phase 8: Exclude internal files from site build
 
 **Goal**: AGENTS.md, PRINCIPLES.md, and README.md are not user documentation and should not be built as public pages.
 
@@ -417,7 +417,7 @@ srcExclude: ['**/AGENTS.md', '**/PRINCIPLES.md', '**/README.md'],
 
 ---
 
-### Phase 9: Update documentation skill
+### ✅ Phase 9: Update documentation skill
 
 **Goal**: The `.agents/skills/documentation/SKILL.md` reflects all structural decisions in this plan.
 
@@ -462,15 +462,15 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 9
 
 ## Success criteria
 
-- [ ] Home page has three orientation cards pointing to Getting started, Guide, and Indicators
-- [ ] Top navigation has "Getting started" as a top-level link and "Guide" as a dropdown; both top nav and sidebar surface Getting started prominently
-- [ ] `/features/*`, `/customization`, and `/guide` (old) redirect cleanly to `/guide/*`; no broken internal links
-- [ ] `guide/getting-started.md` is under 250 lines and reads as a standalone quick-start
-- [ ] All indicator pages have `## Streaming` (full examples or standard "not applicable" note)
-- [ ] Indicator `## Streaming` and `## Chaining` sections end with a cross-reference link to the relevant Guide page (`/guide/batch`, `/guide/buffer`, `/guide/stream`)
-- [ ] Sidebar config has a single shared navigation constant — zero copy-paste repetition
-- [ ] AGENTS.md, PRINCIPLES.md, README.md are not accessible as site pages
-- [ ] CONTRIBUTING.md remains accessible and linked from the sidebar
-- [ ] Site builds without errors: `pnpm run docs:dev` from `docs/`
-- [ ] All internal links resolve: `bash .vitepress/test-links.sh`
+- [x] Home page has three orientation cards pointing to Getting started, Guide, and Indicators
+- [x] Top navigation has "Getting started" as a top-level link and "Guide" as a dropdown; both top nav and sidebar surface Getting started prominently
+- [x] `/features/*`, `/customization`, and `/guide` (old) redirect cleanly to `/guide/*`; no broken internal links
+- [x] `guide/getting-started.md` is under 250 lines and reads as a standalone quick-start
+- [x] All indicator pages have `## Streaming` (full examples or standard "not applicable" note)
+- [x] Indicator `## Streaming` and `## Chaining` sections end with a cross-reference link to the relevant Guide page (`/guide/batch`, `/guide/buffer`, `/guide/stream`)
+- [x] Sidebar config has a single shared navigation constant — zero copy-paste repetition
+- [x] AGENTS.md, PRINCIPLES.md, README.md are not accessible as site pages
+- [x] CONTRIBUTING.md remains accessible and linked from the sidebar
+- [x] Site builds without errors: `pnpm run docs:build` from `docs/`
+- [x] All internal links resolve (verified via VitePress dead-link checker during build)
 - [ ] Accessibility tests pass: `bash .vitepress/test-a11y.sh`

@@ -6,11 +6,7 @@ namespace Skender.Stock.Indicators;
 public sealed class StochRsiHub
     : ChainHub<IReusable, StochRsiResult>
 {
-    /// <summary>
-    /// Rolling windows for O(1) RSI max/min tracking
-    /// </summary>
-    private readonly RollingWindowMax<double> _rsiMaxWindow;
-    private readonly RollingWindowMin<double> _rsiMinWindow;
+    private CircularDoubleBuffer _rsiBuffer;
 
     /// <summary>
     /// Rolling window for %K smoothing
@@ -51,9 +47,7 @@ public sealed class StochRsiHub
 
         Name = $"STOCH-RSI({RsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
 
-        // Rolling windows for O(1) RSI max/min tracking
-        _rsiMaxWindow = new RollingWindowMax<double>(stochPeriods);
-        _rsiMinWindow = new RollingWindowMin<double>(stochPeriods);
+        _rsiBuffer = new CircularDoubleBuffer(stochPeriods);
 
         // Buffers for rolling windows
         kBuffer = new Queue<double>(smoothPeriods);
@@ -115,8 +109,7 @@ public sealed class StochRsiHub
     protected override void RollbackState(int restoreIndex)
     {
         // Reset state and replay historical RSI values up to the rebuild index
-        _rsiMaxWindow.Clear();
-        _rsiMinWindow.Clear();
+        _rsiBuffer.Clear();
         kBuffer.Clear();
         signalBuffer.Clear();
 
@@ -137,18 +130,15 @@ public sealed class StochRsiHub
 
     private (double? stochRsi, double? signal) UpdateOscillatorState(double rsiValue)
     {
-        // Add RSI value to rolling windows
-        _rsiMaxWindow.Add(rsiValue);
-        _rsiMinWindow.Add(rsiValue);
+        _rsiBuffer.Add(rsiValue);
 
-        if (_rsiMaxWindow.Count != StochPeriods)
+        if (!_rsiBuffer.IsFull)
         {
             return (null, null);
         }
 
-        // Get high/low RSI from rolling windows (O(1))
-        double highRsi = _rsiMaxWindow.GetMax();
-        double lowRsi = _rsiMinWindow.GetMin();
+        double highRsi = _rsiBuffer.GetMax();
+        double lowRsi = _rsiBuffer.GetMin();
 
         // Boundary detection to avoid floating-point precision errors at 0 and 100
         double k;
