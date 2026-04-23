@@ -300,8 +300,19 @@ function getLineStyle(style?: string): LineStyle {
   }
 }
 
+// Green color variants used in ChartColors (for pointer direction detection)
+const GREEN_COLORS = new Set([
+  ChartColors.StandardGreen,
+  ChartColors.ThresholdGreen,
+  ChartColors.ThresholdGreenTransparent
+])
+
+function isGreenColor(color: string): boolean {
+  return GREEN_COLORS.has(color) || color.toLowerCase().includes('green')
+}
+
 function resolveMarkerPosition(
-  configured: string | undefined,
+  configured: SeriesStyle['markerPosition'],
   value: number,
   timestamp: string,
   closeMap: Map<string, number>
@@ -309,7 +320,7 @@ function resolveMarkerPosition(
   if (configured === 'aboveBar') return 'aboveBar'
   if (configured === 'belowBar') return 'belowBar'
   if (configured === 'atPrice') return 'atPriceMiddle'
-  if (configured === 'atPrice') return 'atPriceMiddle'
+  if (configured === 'inBar') return 'inBar'
   // 'auto' or unset: compare value against candle close
   const close = closeMap.get(parseTimestamp(timestamp))
   if (close !== undefined) {
@@ -327,7 +338,7 @@ function setupIndicatorSeries(
   candles?: ChartData['candles']
 ) {
   const targetArray = isOscillator ? oscillatorSeries : overlaySeries
-  const allMarkers: any[] = []  // Collect markers from all series
+const allMarkers: any[] = []
 
   // Build close-price lookup for auto marker positioning
   const closeLookup = new Map<string, number>()
@@ -379,17 +390,8 @@ function setupIndicatorSeries(
         })
         break
       case 'dots':
-        // For dots, create line series with invisible line, then add markers
-        series = chart.addSeries(LineSeries, {
-          color: 'rgba(0,0,0,0)',
-          lineWidth: 0,
-          priceLineVisible: false,
-          lastValueVisible: false,
-          crosshairMarkerVisible: false
-        })
-        break
       case 'pointer':
-        // For pointers (triangular markers), create line series with invisible line
+        // Invisible line series — markers are added separately
         series = chart.addSeries(LineSeries, {
           color: 'rgba(0,0,0,0)',
           lineWidth: 0,
@@ -428,9 +430,8 @@ function setupIndicatorSeries(
     // Set data for all series types (markers need the data points to position correctly)
     series.setData(filteredData)
 
-    // For dots type, add circular markers for each data point
-    if (seriesConfig.type === 'dots') {
-      // Get original colors and timestamps from source data for markers
+    // For dots and pointer types, build markers from each data point
+    if (seriesConfig.type === 'dots' || seriesConfig.type === 'pointer') {
       const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
       const markers = filteredData.map((d, idx) => {
         const src = sourceData[idx]
@@ -441,44 +442,12 @@ function setupIndicatorSeries(
           src?.timestamp ?? '',
           closeLookup
         )
-        const marker: any = {
-          time: d.time,
-          position,
-          color: markerColor,
-          shape: 'circle' as const,
-          size: 0.5
-        }
-        if (position === 'atPriceMiddle') {
-          marker.price = d.value
-        }
-        return marker
-      })
-      allMarkers.push(...markers)
-    }
-
-    // For pointer type, add arrow markers (up for green/bullish, down for red/bearish)
-    if (seriesConfig.type === 'pointer') {
-      const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
-      const markers = filteredData.map((d, idx) => {
-        const src = sourceData[idx]
-        const markerColor = src?.color || color
-        const isGreen = markerColor === '#2E7D32' || markerColor.toLowerCase().includes('green')
-        const position = resolveMarkerPosition(
-          seriesConfig.markerPosition,
-          d.value as number,
-          src?.timestamp ?? '',
-          closeLookup
-        )
-        const marker: any = {
-          time: d.time,
-          position,
-          color: markerColor,
-          shape: (isGreen ? 'arrowUp' : 'arrowDown') as const,
-          size: 1
-        }
-        if (position === 'atPriceMiddle') {
-          marker.price = d.value
-        }
+        const shape = seriesConfig.type === 'pointer'
+          ? (isGreenColor(markerColor) ? 'arrowUp' : 'arrowDown') as const
+          : 'circle' as const
+        const size = seriesConfig.type === 'pointer' ? 1 : 0.5
+        const marker: any = { time: d.time, position, color: markerColor, shape, size }
+        if (position === 'atPriceMiddle') marker.price = d.value
         return marker
       })
       allMarkers.push(...markers)
@@ -683,7 +652,10 @@ function destroyChart() {
     resizeObserver.disconnect()
     resizeObserver = null
   }
-  seriesMarkersPlugin = null
+  if (seriesMarkersPlugin) {
+    seriesMarkersPlugin.detach()
+    seriesMarkersPlugin = null
+  }
   if (overlayChart) {
     overlayChart.remove()
     overlayChart = null
