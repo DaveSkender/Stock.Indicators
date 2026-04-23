@@ -445,7 +445,7 @@ const allMarkers: any[] = []
         const shape = seriesConfig.type === 'pointer'
           ? (isGreenColor(markerColor) ? 'arrowUp' : 'arrowDown') as const
           : 'circle' as const
-        const size = seriesConfig.type === 'pointer' ? 1 : 0.5
+        const size = seriesConfig.type === 'pointer' ? 1 : 0.25
         const marker: any = { time: d.time, position, color: markerColor, shape, size }
         if (position === 'atPriceMiddle') marker.price = d.value
         return marker
