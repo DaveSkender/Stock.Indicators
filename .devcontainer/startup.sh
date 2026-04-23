@@ -31,6 +31,9 @@ elif command -v rbenv &>/dev/null; then
     echo "   Installing Ruby $RUBY_VERSION via rbenv..."
     rbenv install "$RUBY_VERSION"
   fi
+else
+  echo "❌ Neither Homebrew nor rbenv is available. Install one to manage Ruby." >&2
+  exit 1
 fi
 
 echo "   Ruby: $(ruby --version)"
@@ -58,7 +61,7 @@ dotnet tool restore
 
 # Refresh git repo
 echo "🗂️ Fetching from git..."
-git fetch && git pull || echo "   (No remote branch or already up to date)"
+git fetch 2>&1 && git pull 2>&1 || echo "   (No remote branch or already up to date)"
 
 # Restore .NET packages
 echo "📦 Restoring .NET packages..."
