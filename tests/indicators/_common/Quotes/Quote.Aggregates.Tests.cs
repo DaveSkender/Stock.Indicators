@@ -44,7 +44,7 @@ public partial class Quotes : TestBase
         // no history scenario
         IReadOnlyList<Quote> noQuotes = [];
         IReadOnlyList<Quote> noResults = noQuotes.Aggregate(PeriodSize.Day);
-        Assert.IsFalse(noResults.Any());
+        Assert.IsEmpty(noResults);
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public partial class Quotes : TestBase
         // no history scenario
         IReadOnlyList<Quote> noQuotes = [];
         IReadOnlyList<Quote> noResults = noQuotes.Aggregate(TimeSpan.FromDays(1));
-        Assert.IsFalse(noResults.Any());
+        Assert.IsEmpty(noResults);
     }
 
     [TestMethod]

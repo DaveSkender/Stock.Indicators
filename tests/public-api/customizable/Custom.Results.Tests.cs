@@ -42,7 +42,7 @@ public class CustomResults
                 MyProperty = false
             });
 
-        Assert.IsTrue(myIndicatorResults.Any());
+        Assert.IsNotEmpty(myIndicatorResults);
     }
 
     [TestMethod]
