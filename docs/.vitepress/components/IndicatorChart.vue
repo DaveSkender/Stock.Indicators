@@ -390,8 +390,20 @@ const allMarkers: any[] = []
         })
         break
       case 'dots':
+        // Line series with point markers — exact radius control, no line connecting dots
+        series = chart.addSeries(LineSeries, {
+          color: color,
+          lineWidth: 0,
+          lineVisible: false,
+          pointMarkersVisible: true,
+          pointMarkersRadius: 3,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
       case 'pointer':
-        // Invisible line series — markers are added separately
+        // Invisible line series — arrow markers are added separately
         series = chart.addSeries(LineSeries, {
           color: 'rgba(0,0,0,0)',
           lineWidth: 0,
@@ -419,9 +431,9 @@ const allMarkers: any[] = []
           time: resolveSeriesTime(d.timestamp, idx),
           value: d.value as number
         }
-        // For dots and pointer types, don't add color to data points (only use for markers)
-        // For other types, preserve per-bar color if present
-        if (seriesConfig.type !== 'dots' && seriesConfig.type !== 'pointer' && d.color) {
+        // For pointer type, don't add color to data points (only used for markers)
+        // For all other types (including dots), preserve per-bar color if present
+        if (seriesConfig.type !== 'pointer' && d.color) {
           point.color = d.color
         }
         return point
@@ -430,8 +442,9 @@ const allMarkers: any[] = []
     // Set data for all series types (markers need the data points to position correctly)
     series.setData(filteredData)
 
-    // For dots and pointer types, build markers from each data point
-    if (seriesConfig.type === 'dots' || seriesConfig.type === 'pointer') {
+    // For pointer type, build arrow markers from each data point
+    // (dots use pointMarkersVisible on the series instead)
+    if (seriesConfig.type === 'pointer') {
       const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
       const markers = filteredData.map((d, idx) => {
         const src = sourceData[idx]
@@ -442,10 +455,8 @@ const allMarkers: any[] = []
           src?.timestamp ?? '',
           closeLookup
         )
-        const shape = seriesConfig.type === 'pointer'
-          ? (isGreenColor(markerColor) ? 'arrowUp' : 'arrowDown') as const
-          : 'circle' as const
-        const size = seriesConfig.type === 'pointer' ? 1 : 0.25
+        const shape = (isGreenColor(markerColor) ? 'arrowUp' : 'arrowDown') as const
+        const size = 1
         const marker: any = { time: d.time, position, color: markerColor, shape, size }
         if (position === 'atPriceMiddle') marker.price = d.value
         return marker

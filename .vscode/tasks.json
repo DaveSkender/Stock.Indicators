@@ -188,7 +188,7 @@
       "type": "shell",
       "command": "npx npm-check-updates --deep --peer --upgrade && pnpm install",
       "dependsOn": "Install: Node packages (pnpm)",
-      "dependsOrder": "sequence"
+      "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       }
