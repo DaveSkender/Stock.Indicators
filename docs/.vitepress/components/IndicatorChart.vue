@@ -697,7 +697,7 @@ onUnmounted(() => {
   destroyChart()
 })
 
-watch(() => [props.src, props.indicatorKey], () => {
+watch(() => [props.src, props.indicatorKey, props.subPanel], () => {
   destroyChart()
   initChart()
 })
