@@ -59,8 +59,8 @@ foreach (IQuote quote in quotes)  // simulating stream
   marubozuList.Add(quote);
 }
 
-// based on `ICollection<MarubozuResult>`
-IReadOnlyList<MarubozuResult> results = marubozuList;
+// based on `ICollection<CandleResult>`
+IReadOnlyList<CandleResult> results = marubozuList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
@@ -74,7 +74,7 @@ foreach (IQuote quote in quotes)  // simulating stream
   quoteHub.Add(quote);
 }
 
-IReadOnlyList<MarubozuResult> results = observer.Results;
+IReadOnlyList<CandleResult> results = observer.Results;
 ```
 
 See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

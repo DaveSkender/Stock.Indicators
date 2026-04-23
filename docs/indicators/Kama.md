@@ -50,7 +50,7 @@ The first `10×E` periods will have decreasing magnitude, convergence-related pr
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `ER` | double | Efficiency Ratio is the fractal efficiency of price changes |
+| `Er` | double | Efficiency Ratio is the fractal efficiency of price changes |
 | `Kama` | double | Kaufman's adaptive moving average |
 
 More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` window. ER would be zero if prices are unchanged over the `erPeriods` window.

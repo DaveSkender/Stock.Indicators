@@ -8,8 +8,8 @@ public class WilliamsRHub
 {
     #region constructors
 
-    private readonly RollingWindowMax<decimal> _highWindow;
-    private readonly RollingWindowMin<decimal> _lowWindow;
+    private CircularDoubleBuffer _highBuffer;
+    private CircularDoubleBuffer _lowBuffer;
 
     internal WilliamsRHub(
         IStreamObservable<IQuote> provider,
@@ -18,8 +18,8 @@ public class WilliamsRHub
         WilliamsR.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
+        _highBuffer = new CircularDoubleBuffer(lookbackPeriods);
+        _lowBuffer = new CircularDoubleBuffer(lookbackPeriods);
 
         Name = $"WILLR({lookbackPeriods})";
 
@@ -53,17 +53,17 @@ public class WilliamsRHub
 
         if (hasHL)
         {
-            _highWindow.Add(item.High);
-            _lowWindow.Add(item.Low);
+            _highBuffer.Add((double)item.High);
+            _lowBuffer.Add((double)item.Low);
         }
 
         // Calculate Williams %R
         double williamsR = double.NaN;
         if (i >= LookbackPeriods - 1 && hasHL && hasClose)
         {
-            // Get highest high and lowest low from rolling windows (O(1))
-            decimal highHigh = _highWindow.GetMax();
-            decimal lowLow = _lowWindow.GetMin();
+            // Get highest high and lowest low from circular buffers
+            double highHigh = _highBuffer.GetMax();
+            double lowLow = _lowBuffer.GetMin();
 
             // Apply boundary clamping to ensure -100 ≤ WilliamsR ≤ 0
             // This prevents floating-point precision errors at boundaries
@@ -71,17 +71,17 @@ public class WilliamsRHub
             {
                 williamsR = -100.0;
             }
-            else if (item.Close >= highHigh)
+            else if ((double)item.Close >= highHigh)
             {
                 williamsR = 0.0;
             }
-            else if (item.Close <= lowLow)
+            else if ((double)item.Close <= lowLow)
             {
                 williamsR = -100.0;
             }
             else
             {
-                williamsR = (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
+                williamsR = (100 * ((double)item.Close - lowLow) / (highHigh - lowLow)) - 100;
             }
         }
 
@@ -99,9 +99,9 @@ public class WilliamsRHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows
-        _highWindow.Clear();
-        _lowWindow.Clear();
+        // Clear circular buffers
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
 
         if (restoreIndex < 0)
         {
@@ -115,12 +115,11 @@ public class WilliamsRHub
         {
             IQuote quote = ProviderCache[p];
 
-            // Only require High/Low to rebuild windows (not Close)
             if (!double.IsNaN((double)quote.High) &&
                 !double.IsNaN((double)quote.Low))
             {
-                _highWindow.Add(quote.High);
-                _lowWindow.Add(quote.Low);
+                _highBuffer.Add((double)quote.High);
+                _lowBuffer.Add((double)quote.Low);
             }
         }
     }

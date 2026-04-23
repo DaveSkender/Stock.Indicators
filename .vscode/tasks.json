@@ -140,7 +140,7 @@
       "label": "Install: .NET packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
-      "command": "dotnet restore && dotnet restore docs/Examples && dotnet tool run dotnet-outdated --exclude FluentAssertions",
+      "command": "dotnet restore && dotnet restore docs/examples && dotnet tool run dotnet-outdated --exclude FluentAssertions",
       "dependsOn": "Install: .NET tools",
       "dependsOrder": "sequence",
       "problemMatcher": "$msCompile"
@@ -160,7 +160,7 @@
       "label": "Inspect: .NET packages",
       "detail": "List outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
-      "command": "dotnet tool run dotnet-outdated --exclude FluentAssertions && dotnet tool run dotnet-outdated docs/Examples",
+      "command": "dotnet tool run dotnet-outdated --exclude FluentAssertions && dotnet tool run dotnet-outdated docs/examples",
       "dependsOn": "Install: .NET tools",
       "dependsOrder": "sequence"
     },
@@ -168,7 +168,7 @@
       "label": "Update: .NET packages (outdated --upgrade)",
       "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
-      "command": "dotnet tool run dotnet-outdated --upgrade --exclude FluentAssertions && dotnet tool run dotnet-outdated --upgrade docs/Examples",
+      "command": "dotnet tool run dotnet-outdated --upgrade --exclude FluentAssertions && dotnet tool run dotnet-outdated --upgrade docs/examples",
       "dependsOn": "Install: .NET tools",
       "dependsOrder": "sequence"
     },

@@ -68,11 +68,11 @@ IReadOnlyList<IchimokuResult>
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `TenkanSen` | decimal | Conversion / signal line |
-| `KijunSen` | decimal | Base line |
-| `SenkouSpanA` | decimal | Leading span A |
-| `SenkouSpanB` | decimal | Leading span B |
-| `ChikouSpan` | decimal | Lagging span |
+| `TenkanSen` | double | Conversion / signal line |
+| `KijunSen` | double | Base line |
+| `SenkouSpanA` | double | Leading span A |
+| `SenkouSpanB` | double | Leading span B |
+| `ChikouSpan` | double | Lagging span |
 
 ### Utilities
 

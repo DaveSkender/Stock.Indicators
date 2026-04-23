@@ -44,10 +44,10 @@ IReadOnlyList<DonchianResult>
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `UpperBand` | decimal | Upper line is the highest High over `N` periods |
-| `Centerline` | decimal | Simple average of Upper and Lower bands |
-| `LowerBand` | decimal | Lower line is the lowest Low over `N` periods |
-| `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
+| `UpperBand` | double | Upper line is the highest High over `N` periods |
+| `Centerline` | double | Simple average of Upper and Lower bands |
+| `LowerBand` | double | Lower line is the lowest Low over `N` periods |
+| `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 

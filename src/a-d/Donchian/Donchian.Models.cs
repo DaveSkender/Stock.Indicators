@@ -12,8 +12,8 @@ namespace Skender.Stock.Indicators;
 public record DonchianResult
 (
     DateTime Timestamp,
-    decimal? UpperBand = null,
-    decimal? Centerline = null,
-    decimal? LowerBand = null,
-    decimal? Width = null
+    double? UpperBand = null,
+    double? Centerline = null,
+    double? LowerBand = null,
+    double? Width = null
 ) : ISeries;

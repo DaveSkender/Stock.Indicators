@@ -236,7 +236,7 @@ public class PivotPointz : StaticSeriesTestBase
 
         // special Demark case: test close = open
         WindowPoint d1 = PivotPoints.GetPivotPointDemark(125, 200, 100, 125);
-        d1.PP.Should().Be(550m / 4);
+        d1.PP.Should().Be(550d / 4);
     }
 
     [TestMethod]

@@ -22,7 +22,7 @@ IReadOnlyList<ChandelierResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
 | `multiplier` | double | Multiplier number must be a positive value.  Default is 3. |
-| `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`. |
+| `type` | Direction | Direction of exit.  See [Direction options](#direction-options) below.  Default is `Direction.Long`. |
 
 ### Historical quotes requirements
 
@@ -30,11 +30,11 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
-### ChandelierType options
+### Direction options
 
-**`ChandelierType.Long`** - Intended as stop loss value for long positions. (default)
+**`Direction.Long`** - Intended as stop loss value for long positions. (default)
 
-**`ChandelierType.Short`** - Intended as stop loss value for short positions.
+**`Direction.Short`** - Intended as stop loss value for short positions.
 
 ## Response
 

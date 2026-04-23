@@ -41,20 +41,20 @@ public static partial class RollingPivots
                 int s = i - windowPeriods - offsetPeriods;
                 IQuote hi = quotes[s];
 
-                decimal windowHigh = hi.High;
-                decimal windowLow = hi.Low;
-                decimal windowClose = quotes[i - offsetPeriods - 1].Close;
+                double windowHigh = (double)hi.High;
+                double windowLow = (double)hi.Low;
+                double windowClose = (double)quotes[i - offsetPeriods - 1].Close;
 
                 for (int p = s; p <= i - offsetPeriods - 1; p++)
                 {
                     IQuote d = quotes[p];
-                    windowHigh = d.High > windowHigh ? d.High : windowHigh;
-                    windowLow = d.Low < windowLow ? d.Low : windowLow;
+                    windowHigh = (double)d.High > windowHigh ? (double)d.High : windowHigh;
+                    windowLow = (double)d.Low < windowLow ? (double)d.Low : windowLow;
                 }
 
                 // pivot points
                 WindowPoint wp = PivotPoints.GetPivotPoint(
-                        pointType, q.Open, windowHigh, windowLow, windowClose);
+                        pointType, (double)q.Open, windowHigh, windowLow, windowClose);
 
                 r = new() {
 

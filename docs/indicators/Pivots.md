@@ -72,13 +72,13 @@ This price pattern looks forward and backward in the historical quotes so it wil
 
 #### PivotTrend values
 
-**`PivotTrend.HH`** - Higher high
+**`PivotTrend.Hh`** - Higher high
 
-**`PivotTrend.LH`** - Lower high
+**`PivotTrend.Lh`** - Lower high
 
-**`PivotTrend.HL`** - Higher low
+**`PivotTrend.Hl`** - Higher low
 
-**`PivotTrend.LL`** - Lower low
+**`PivotTrend.Ll`** - Lower low
 
 #### Filtering results
 
@@ -97,7 +97,7 @@ var recentPivots = results.TakeLast(period);
 
 // get only high pivot points with Higher High trend
 var higherHighs = results
-    .Where(x => x.HighPoint != null && x.HighTrend == PivotTrend.HH);
+    .Where(x => x.HighPoint != null && x.HighTrend == PivotTrend.Hh);
 
 // combine filters: recent periods with trends
 var recentTrends = results

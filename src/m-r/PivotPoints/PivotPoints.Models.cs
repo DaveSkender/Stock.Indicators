@@ -8,47 +8,47 @@ internal interface IPivotPoint
     /// <summary>
     /// Gets the fourth resistance level.
     /// </summary>
-    decimal? R4 { get; }
+    double? R4 { get; }
 
     /// <summary>
     /// Gets the third resistance level.
     /// </summary>
-    decimal? R3 { get; }
+    double? R3 { get; }
 
     /// <summary>
     /// Gets the second resistance level.
     /// </summary>
-    decimal? R2 { get; }
+    double? R2 { get; }
 
     /// <summary>
     /// Gets the first resistance level.
     /// </summary>
-    decimal? R1 { get; }
+    double? R1 { get; }
 
     /// <summary>
     /// Gets the pivot point.
     /// </summary>
-    decimal? PP { get; }
+    double? PP { get; }
 
     /// <summary>
     /// Gets the first support level.
     /// </summary>
-    decimal? S1 { get; }
+    double? S1 { get; }
 
     /// <summary>
     /// Gets the second support level.
     /// </summary>
-    decimal? S2 { get; }
+    double? S2 { get; }
 
     /// <summary>
     /// Gets the third support level.
     /// </summary>
-    decimal? S3 { get; }
+    double? S3 { get; }
 
     /// <summary>
     /// Gets the fourth support level.
     /// </summary>
-    decimal? S4 { get; }
+    double? S4 { get; }
 }
 
 /// <summary>
@@ -63,25 +63,25 @@ public record PivotPointsResult : IPivotPoint, IReusable
     public DateTime Timestamp { get; init; }
 
     /// <inheritdoc/>
-    public decimal? PP { get; init; }
+    public double? PP { get; init; }
 
     /// <inheritdoc/>
-    public decimal? S1 { get; init; }
+    public double? S1 { get; init; }
     /// <inheritdoc/>
-    public decimal? S2 { get; init; }
+    public double? S2 { get; init; }
     /// <inheritdoc/>
-    public decimal? S3 { get; init; }
+    public double? S3 { get; init; }
     /// <inheritdoc/>
-    public decimal? S4 { get; init; }
+    public double? S4 { get; init; }
 
     /// <inheritdoc/>
-    public decimal? R1 { get; init; }
+    public double? R1 { get; init; }
     /// <inheritdoc/>
-    public decimal? R2 { get; init; }
+    public double? R2 { get; init; }
     /// <inheritdoc/>
-    public decimal? R3 { get; init; }
+    public double? R3 { get; init; }
     /// <inheritdoc/>
-    public decimal? R4 { get; init; }
+    public double? R4 { get; init; }
 
     /// <inheritdoc/>
     [JsonIgnore]
@@ -94,25 +94,25 @@ public record PivotPointsResult : IPivotPoint, IReusable
 internal record WindowPoint : IPivotPoint
 {
     /// <inheritdoc/>
-    public decimal? PP { get; init; }
+    public double? PP { get; init; }
 
     /// <inheritdoc/>
-    public decimal? S1 { get; init; }
+    public double? S1 { get; init; }
     /// <inheritdoc/>
-    public decimal? S2 { get; init; }
+    public double? S2 { get; init; }
     /// <inheritdoc/>
-    public decimal? S3 { get; init; }
+    public double? S3 { get; init; }
     /// <inheritdoc/>
-    public decimal? S4 { get; init; }
+    public double? S4 { get; init; }
 
     /// <inheritdoc/>
-    public decimal? R1 { get; init; }
+    public double? R1 { get; init; }
     /// <inheritdoc/>
-    public decimal? R2 { get; init; }
+    public double? R2 { get; init; }
     /// <inheritdoc/>
-    public decimal? R3 { get; init; }
+    public double? R3 { get; init; }
     /// <inheritdoc/>
-    public decimal? R4 { get; init; }
+    public double? R4 { get; init; }
 }
 
 /// <summary>

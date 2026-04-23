@@ -23,8 +23,8 @@ public static partial class Donchian
 public class DonchianHub
     : StreamHub<IQuote, DonchianResult>, IDonchian
 {
-    private readonly RollingWindowMax<decimal> _highWindow;
-    private readonly RollingWindowMin<decimal> _lowWindow;
+    private CircularDoubleBuffer _highBuffer;
+    private CircularDoubleBuffer _lowBuffer;
 
     internal DonchianHub(
         IQuoteProvider<IQuote> provider,
@@ -34,8 +34,8 @@ public class DonchianHub
 
         LookbackPeriods = lookbackPeriods;
         Name = $"DONCHIAN({lookbackPeriods})";
-        _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
+        _highBuffer = new CircularDoubleBuffer(lookbackPeriods);
+        _lowBuffer = new CircularDoubleBuffer(lookbackPeriods);
 
         // Validate cache size for warmup requirements
         ValidateCacheSize(lookbackPeriods, Name);
@@ -57,23 +57,18 @@ public class DonchianHub
         // We need LookbackPeriods items in the window before we can calculate
         if (i < LookbackPeriods)
         {
-            // Build up the window during warmup
-            _highWindow.Add(item.High);
-            _lowWindow.Add(item.Low);
+            _highBuffer.Add((double)item.High);
+            _lowBuffer.Add((double)item.Low);
             return (new DonchianResult(item.Timestamp), i);
         }
 
-        // Get highest high and lowest low from rolling windows (O(1))
-        // This gives us the max/min of the PRIOR LookbackPeriods items
-        decimal upperBand = _highWindow.GetMax();
-        decimal lowerBand = _lowWindow.GetMin();
-        decimal centerline = (upperBand + lowerBand) / 2m;
-        decimal? width = centerline == 0 ? null : (upperBand - lowerBand) / centerline;
+        double upperBand = _highBuffer.GetMax();
+        double lowerBand = _lowBuffer.GetMin();
+        double centerline = (upperBand + lowerBand) / 2d;
+        double? width = centerline == 0 ? null : (double?)((upperBand - lowerBand) / centerline);
 
-        // Add current item to windows AFTER getting the result
-        // This maintains the invariant that windows contain the prior LookbackPeriods items
-        _highWindow.Add(item.High);
-        _lowWindow.Add(item.Low);
+        _highBuffer.Add((double)item.High);
+        _lowBuffer.Add((double)item.Low);
 
         DonchianResult r = new(
             Timestamp: item.Timestamp,
@@ -92,9 +87,9 @@ public class DonchianHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows
-        _highWindow.Clear();
-        _lowWindow.Clear();
+        // Clear circular buffers
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
 
         if (restoreIndex < 0)
         {
@@ -107,8 +102,8 @@ public class DonchianHub
         for (int p = startIdx; p <= restoreIndex; p++)
         {
             IQuote quote = ProviderCache[p];
-            _highWindow.Add(quote.High);
-            _lowWindow.Add(quote.Low);
+            _highBuffer.Add((double)quote.High);
+            _lowBuffer.Add((double)quote.Low);
         }
     }
 }

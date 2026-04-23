@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
 {
-    private readonly Queue<(decimal High, decimal Low)> _buffer;
+    private readonly Queue<(double High, double Low)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DonchianList"/> class.
@@ -17,7 +17,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
         Donchian.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _buffer = new Queue<(decimal, decimal)>(lookbackPeriods);
+        _buffer = new Queue<(double, double)>(lookbackPeriods);
 
         Name = $"DONCHIAN({lookbackPeriods})";
     }
@@ -43,18 +43,18 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
 
         // Calculate Donchian when we have enough prior data
         // Note: Donchian looks at PRIOR periods (not including current)
-        decimal? upperBand = null;
-        decimal? lowerBand = null;
-        decimal? centerline = null;
-        decimal? width = null;
+        double? upperBand = null;
+        double? lowerBand = null;
+        double? centerline = null;
+        double? width = null;
 
         if (_buffer.Count == LookbackPeriods)
         {
-            decimal highHigh = decimal.MinValue;
-            decimal lowLow = decimal.MaxValue;
+            double highHigh = double.MinValue;
+            double lowLow = double.MaxValue;
 
             // Find highest high and lowest low in the buffer
-            foreach ((decimal High, decimal Low) in _buffer)
+            foreach ((double High, double Low) in _buffer)
             {
                 if (High > highHigh)
                 {
@@ -69,12 +69,12 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
 
             upperBand = highHigh;
             lowerBand = lowLow;
-            centerline = (upperBand + lowerBand) / 2m;
-            width = centerline == 0 ? null : (upperBand - lowerBand) / centerline;
+            centerline = (upperBand + lowerBand) / 2d;
+            width = centerline == 0 ? null : (double?)((upperBand - lowerBand) / centerline);
         }
 
         // Update buffer AFTER calculating (since we look at prior periods)
-        _buffer.Update(LookbackPeriods, (quote.High, quote.Low));
+        _buffer.Update(LookbackPeriods, ((double)quote.High, (double)quote.Low));
 
         AddInternal(new DonchianResult(
             Timestamp: timestamp,
