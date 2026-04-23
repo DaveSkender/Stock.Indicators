@@ -397,7 +397,7 @@ const allMarkers: any[] = []
           lineWidth: 0,
           lineVisible: false,
           pointMarkersVisible: true,
-          pointMarkersRadius: 3,
+          pointMarkersRadius: 2,
           priceLineVisible: false,
           lastValueVisible: false,
           crosshairMarkerVisible: false
