@@ -305,10 +305,11 @@ const GREEN_COLORS = new Set([
   ChartColors.StandardGreen,
   ChartColors.ThresholdGreen,
   ChartColors.ThresholdGreenTransparent
-])
+].map(c => c.toLowerCase()))
 
 function isGreenColor(color: string): boolean {
-  return GREEN_COLORS.has(color) || color.toLowerCase().includes('green')
+  const normalized = color.trim().toLowerCase()
+  return GREEN_COLORS.has(normalized) || normalized.includes('green')
 }
 
 function resolveMarkerPosition(
