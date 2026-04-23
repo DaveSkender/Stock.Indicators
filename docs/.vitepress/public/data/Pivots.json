@@ -6038,7 +6038,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "markerPosition": "atPrice"
     },
     {
       "name": "Low Point",
@@ -8054,7 +8055,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "markerPosition": "atPrice"
     }
   ]
 }

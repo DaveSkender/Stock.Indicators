@@ -12,6 +12,7 @@ export interface SeriesStyle {
   color?: string
   lineWidth?: number
   lineStyle?: 'solid' | 'dash' | 'dots'
+  markerPosition?: 'inBar' | 'aboveBar' | 'belowBar' | 'auto' | 'atPrice' | 'atPrice'
   data: Array<{
     timestamp: string
     value: number | null

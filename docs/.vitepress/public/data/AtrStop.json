@@ -6037,7 +6037,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 246.32321711383088
         }
-      ]
+      ],
+      "markerPosition": "atPrice"
     }
   ]
 }

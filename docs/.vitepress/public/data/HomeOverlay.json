@@ -12086,7 +12086,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "markerPosition": "atPrice"
     },
     {
       "name": "ATR-STOP(21,3,CLOSE)",
@@ -14102,7 +14103,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 246.32321711383088
         }
-      ]
+      ],
+      "markerPosition": "atPrice"
     }
   ]
 }

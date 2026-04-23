@@ -4027,7 +4027,7 @@
     {
       "name": "Bull",
       "type": "dots",
-      "color": "#DD2C00",
+      "color": "#2E7D32",
       "lineWidth": 3,
       "data": [
         {
@@ -6038,12 +6038,13 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "markerPosition": "atPrice"
     },
     {
       "name": "Bear",
       "type": "dots",
-      "color": "#2E7D32",
+      "color": "#DD2C00",
       "lineWidth": 3,
       "data": [
         {
@@ -8054,7 +8055,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "markerPosition": "atPrice"
     }
   ]
 }

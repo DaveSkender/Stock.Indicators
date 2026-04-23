@@ -3,8 +3,10 @@ import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useData } from 'vitepress'
 import {
   createChart,
+  createSeriesMarkers,
   type IChartApi,
   type ISeriesApi,
+  type ISeriesMarkersPluginApi,
   CrosshairMode,
   CandlestickSeries,
   LineSeries,
@@ -14,7 +16,7 @@ import {
   LineStyle,
   LineWidth
 } from 'lightweight-charts'
-import { createTimeContext } from '../lib/chart-time'
+import { createTimeContext, parseTimestamp } from '../lib/chart-time'
 import { getChartData } from '../lib/chart-data-provider'
 import type { ChartData, SeriesStyle, TimeContext } from '../lib/chart-types'
 
@@ -32,7 +34,10 @@ const RESIZE_DEBOUNCE_MS = 100
 const props = withDefaults(defineProps<{
   src: string
   indicatorKey?: string
-}>(), {})
+  subPanel?: boolean
+}>(), {
+  subPanel: false
+})
 
 // Get VitePress theme state
 const { isDark } = useData()
@@ -48,6 +53,7 @@ let overlayChart: IChartApi | null = null
 let oscillatorChart: IChartApi | null = null
 let candleSeries: ISeriesApi<'Candlestick'> | null = null
 let volumeSeries: ISeriesApi<'Histogram'> | null = null
+let seriesMarkersPlugin: ISeriesMarkersPluginApi<any> | null = null
 const overlaySeries: ISeriesApi<any>[] = []
 const oscillatorSeries: ISeriesApi<any>[] = []
 let resizeObserver: ResizeObserver | null = null
@@ -294,9 +300,42 @@ function getLineStyle(style?: string): LineStyle {
   }
 }
 
-function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOscillator: boolean, timeContext: TimeContext) {
+function resolveMarkerPosition(
+  configured: string | undefined,
+  value: number,
+  timestamp: string,
+  closeMap: Map<string, number>
+): 'inBar' | 'aboveBar' | 'belowBar' | 'atPriceMiddle' {
+  if (configured === 'aboveBar') return 'aboveBar'
+  if (configured === 'belowBar') return 'belowBar'
+  if (configured === 'atPrice') return 'atPriceMiddle'
+  if (configured === 'atPrice') return 'atPriceMiddle'
+  // 'auto' or unset: compare value against candle close
+  const close = closeMap.get(parseTimestamp(timestamp))
+  if (close !== undefined) {
+    if (value > close) return 'aboveBar'
+    if (value < close) return 'belowBar'
+  }
+  return 'inBar'
+}
+
+function setupIndicatorSeries(
+  chart: IChartApi,
+  seriesData: SeriesStyle[],
+  isOscillator: boolean,
+  timeContext: TimeContext,
+  candles?: ChartData['candles']
+) {
   const targetArray = isOscillator ? oscillatorSeries : overlaySeries
   const allMarkers: any[] = []  // Collect markers from all series
+
+  // Build close-price lookup for auto marker positioning
+  const closeLookup = new Map<string, number>()
+  if (candles) {
+    for (const c of candles) {
+      closeLookup.set(parseTimestamp(c.timestamp), c.close)
+    }
+  }
 
   seriesData.forEach((seriesConfig, index) => {
     const color = seriesConfig.color || indicatorColors[index % indicatorColors.length]
@@ -391,41 +430,64 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
 
     // For dots type, add circular markers for each data point
     if (seriesConfig.type === 'dots') {
-      // Get original colors from source data for markers
-      const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
-      const markers = filteredData.map((d, idx) => ({
-        time: d.time,
-        position: 'inBar' as const,
-        color: sourceData[idx]?.color || color,
-        shape: 'circle' as const,
-        size: lineWidth || 3
-      }))
-      allMarkers.push(...markers)  // Collect markers instead of setting directly
-    }
-
-    // For pointer type, add arrow markers (up for green, down for red)
-    if (seriesConfig.type === 'pointer') {
-      // Get original colors from source data for markers
+      // Get original colors and timestamps from source data for markers
       const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
       const markers = filteredData.map((d, idx) => {
-        const markerColor = sourceData[idx]?.color || color
-        // Use arrowUp for green (bullish), arrowDown for red (bearish)
-        const isGreen = markerColor === '#2E7D32' || markerColor.toLowerCase().includes('green')
-        return {
+        const src = sourceData[idx]
+        const markerColor = src?.color || color
+        const position = resolveMarkerPosition(
+          seriesConfig.markerPosition,
+          d.value as number,
+          src?.timestamp ?? '',
+          closeLookup
+        )
+        const marker: any = {
           time: d.time,
-          position: 'inBar' as const,
+          position,
+          color: markerColor,
+          shape: 'circle' as const,
+          size: 0.5
+        }
+        if (position === 'atPriceMiddle') {
+          marker.price = d.value
+        }
+        return marker
+      })
+      allMarkers.push(...markers)
+    }
+
+    // For pointer type, add arrow markers (up for green/bullish, down for red/bearish)
+    if (seriesConfig.type === 'pointer') {
+      const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
+      const markers = filteredData.map((d, idx) => {
+        const src = sourceData[idx]
+        const markerColor = src?.color || color
+        const isGreen = markerColor === '#2E7D32' || markerColor.toLowerCase().includes('green')
+        const position = resolveMarkerPosition(
+          seriesConfig.markerPosition,
+          d.value as number,
+          src?.timestamp ?? '',
+          closeLookup
+        )
+        const marker: any = {
+          time: d.time,
+          position,
           color: markerColor,
           shape: (isGreen ? 'arrowUp' : 'arrowDown') as const,
-          size: 3
+          size: 1
         }
+        if (position === 'atPriceMiddle') {
+          marker.price = d.value
+        }
+        return marker
       })
-      allMarkers.push(...markers)  // Collect markers instead of setting directly
+      allMarkers.push(...markers)
     }
 
     targetArray.push(series)
   })
 
-  // Set all markers on the candlestick series (only for overlay charts)
+  // Set all markers on the candlestick series (only for overlay/price-context charts)
   if (!isOscillator && allMarkers.length > 0 && candleSeries) {
     // Sort markers by time to ensure correct rendering order
     allMarkers.sort((a, b) => {
@@ -433,7 +495,8 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
       const timeB = typeof b.time === 'string' ? new Date(b.time).getTime() : b.time
       return timeA - timeB
     })
-    candleSeries.setMarkers(allMarkers)
+    // LWC v5: use createSeriesMarkers() instead of deprecated series.setMarkers()
+    seriesMarkersPlugin = createSeriesMarkers(candleSeries, allMarkers)
   }
 }
 
@@ -485,8 +548,10 @@ async function initChart() {
   if (runId !== chartRunId) return
 
   // Wait for container to have a valid width (may take a few frames)
-  // Check the appropriate container based on chart type
-  const containerToCheck = isOscillatorType ? oscillatorChartContainer.value : overlayChartContainer.value
+  // For oscillator with price chart, check overlay container; for sub-panel, check oscillator container
+  const containerToCheck = (isOscillatorType && props.subPanel)
+    ? oscillatorChartContainer.value
+    : overlayChartContainer.value
   let attempts = 0
   while (containerToCheck && containerToCheck.clientWidth === 0 && attempts < INIT_POLL_MAX_ATTEMPTS) {
     await new Promise(resolve => setTimeout(resolve, INIT_POLL_INTERVAL_MS))
@@ -503,9 +568,17 @@ async function initChart() {
 
     // For overlay indicators, add series to overlay chart
     if (data.series.length > 0) {
-      setupIndicatorSeries(overlayChart, data.series, false, timeContext)
+      setupIndicatorSeries(overlayChart, data.series, false, timeContext, data.candles)
     }
 
+    overlayChart.timeScale().fitContent()
+  }
+
+  // For oscillator indicators with price context (non-sub-panel), create overlay chart with candles/volume only
+  if (isOscillatorType && !props.subPanel && overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
+    overlayChart = createOverlayChart(overlayChartContainer.value)
+    setupCandlestickSeries(overlayChart, data, timeContext)
+    setupVolumeSeries(overlayChart, data, timeContext)
     overlayChart.timeScale().fitContent()
   }
 
@@ -569,12 +642,13 @@ async function initChart() {
     }
 
     // Add oscillator series
-    setupIndicatorSeries(oscillatorChart, data.series, true, timeContext)
+    setupIndicatorSeries(oscillatorChart, data.series, true, timeContext, data.candles)
     oscillatorChart.timeScale().fitContent()
   }
 
   // Setup resize observer with debouncing to handle container resizing
-  const observerContainer = isOscillatorType ? oscillatorChartContainer.value : overlayChartContainer.value
+  // Observe the overlay container if present (both charts have same width), else oscillator
+  const observerContainer = overlayChartContainer.value ?? oscillatorChartContainer.value
   if (observerContainer) {
     resizeObserver = new ResizeObserver(entries => {
       // Debounce resize events to avoid excessive updates during rapid resizing
@@ -609,6 +683,7 @@ function destroyChart() {
     resizeObserver.disconnect()
     resizeObserver = null
   }
+  seriesMarkersPlugin = null
   if (overlayChart) {
     overlayChart.remove()
     overlayChart = null
@@ -670,11 +745,12 @@ watch(isMobileViewport, () => {
     </div>
 
     <div v-show="!isLoading && !hasError" class="charts-container">
-      <!-- Overlay Chart (shown for overlay type indicators) -->
-      <div v-if="chartType === 'overlay'" ref="overlayChartContainer" class="chart-container overlay-chart" role="img"
-        aria-label="Price chart with indicator overlay"></div>
+      <!-- Overlay chart: shown for overlay indicators, or as price context above oscillators (when not sub-panel) -->
+      <div v-if="chartType === 'overlay' || (chartType === 'oscillator' && !props.subPanel)" ref="overlayChartContainer"
+        class="chart-container overlay-chart" role="img"
+        :aria-label="chartType === 'overlay' ? 'Price chart with indicator overlay' : 'Price chart context'"></div>
 
-      <!-- Oscillator Chart (shown only for oscillator type) -->
+      <!-- Oscillator Chart (shown for oscillator type) -->
       <div v-if="chartType === 'oscillator'" ref="oscillatorChartContainer" class="chart-container oscillator-chart"
         role="img" aria-label="Oscillator indicator chart"></div>
     </div>
