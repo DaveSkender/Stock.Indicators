@@ -4,7 +4,7 @@
 # This no-op restores the method so Jekyll can build normally.
 # See: https://github.com/jekyll/jekyll/issues/9451
 
-return unless RUBY_VERSION >= '3.2'
+return if Object.method_defined?(:tainted?)
 
 class Object
   def tainted?
