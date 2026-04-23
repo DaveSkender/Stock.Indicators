@@ -58,12 +58,14 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           JEKYLL_ENV: production
+          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
         run: bundle exec jekyll build
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
         env:
           JEKYLL_ENV: preview
+          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
         run: bundle exec jekyll build
 
       - name: Publish to Cloudflare Pages

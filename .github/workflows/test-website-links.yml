@@ -53,9 +53,13 @@ jobs:
           regex: false
 
       - name: Build site
+        env:
+          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
         run: bundle exec jekyll build
 
       - name: Serve site
+        env:
+          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
         run: bundle exec jekyll serve --port 4000 --detach
 
       - name: Test for broken URLs
