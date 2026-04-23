@@ -11,7 +11,7 @@ group :jekyll_plugins do
   gem 'jekyll-minifier'
 end
 
-platforms :mingw, :mswin, :x64_mingw do
+platforms :windows do
   gem 'wdm', '>= 0.2.0' # windows compatibility pack
 end
 
