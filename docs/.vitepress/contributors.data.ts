@@ -48,6 +48,8 @@ export default {
       const isBotUser = (login: string): boolean => {
         const lowerLogin = login.toLowerCase()
         return lowerLogin.includes('[bot]') ||
+               lowerLogin.startsWith('claude') ||
+               lowerLogin.startsWith('codex') ||
                lowerLogin.startsWith('copilot') ||
                lowerLogin.includes('dependabot') ||
                lowerLogin.includes('imgbot')
