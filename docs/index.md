@@ -48,8 +48,8 @@ Access a comprehensive library of battle-tested technical indicators used by tra
 <ClientOnly>
   <div class="home-charts-stack">
     <IndicatorChart src="/data/HomeOverlay.json" />
-    <IndicatorChart src="/data/HomeMacd.json" />
-    <IndicatorChart src="/data/HomeStc.json" />
+    <IndicatorChart src="/data/HomeMacd.json" :sub-panel="true" />
+    <IndicatorChart src="/data/HomeStc.json" :sub-panel="true" />
   </div>
 </ClientOnly>
 
