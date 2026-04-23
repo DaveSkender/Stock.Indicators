@@ -91,8 +91,8 @@ public class Syncing : TestBase
         IEnumerable<EmaResult> noBaseResults = eval.SyncIndex(noBaseline);
         IEnumerable<EmaResult> noEvalResults = noEval.SyncIndex(baseline);
 
-        Assert.IsFalse(noBaseResults.Any());
-        Assert.IsFalse(noEvalResults.Any());
+        Assert.IsEmpty(noBaseResults);
+        Assert.IsEmpty(noEvalResults);
 
         // bad sync type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

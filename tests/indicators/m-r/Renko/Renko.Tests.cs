@@ -122,7 +122,7 @@ public class RenkoTests : TestBase
             .GetRenko(100m)
             .ToList();
 
-        Assert.AreNotEqual(0, r.Count);
+        Assert.IsNotEmpty(r);
     }
 
     [TestMethod]

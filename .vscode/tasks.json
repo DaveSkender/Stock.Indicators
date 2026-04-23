@@ -112,7 +112,7 @@
       "label": "Install: Website Ruby packages",
       "detail": "Install Ruby gems for docs site (Jekyll)",
       "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
+      "command": "export PATH=\"$(brew --prefix ruby@3.3 2>/dev/null)/bin:$(brew --prefix ruby 2>/dev/null)/bin:/opt/homebrew/opt/ruby@3.3/bin:/usr/local/opt/ruby@3.3/bin:$PATH\" && eval \"$(rbenv init - zsh 2>/dev/null || true)\" && gem install bundler --no-document && bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {
@@ -135,7 +135,7 @@
       "label": "Update: Website Ruby packages",
       "detail": "Install then update Ruby gems conservatively and clean",
       "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle install && bundle update --conservative && bundle clean --force && echo '✓ Update complete!'",
+      "command": "export PATH=\"$(brew --prefix ruby@3.3 2>/dev/null)/bin:$(brew --prefix ruby 2>/dev/null)/bin:/opt/homebrew/opt/ruby@3.3/bin:/usr/local/opt/ruby@3.3/bin:$PATH\" && eval \"$(rbenv init - zsh 2>/dev/null || true)\" && gem install bundler --no-document && rm -f Gemfile.lock && rm -rf vendor/bundle && bundle lock --add-platform x86_64-linux x64-mingw-ucrt arm64-darwin x86_64-darwin && bundle install && bundle clean --force && echo '✓ Update complete!'",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {

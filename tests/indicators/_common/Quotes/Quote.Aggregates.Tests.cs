@@ -44,7 +44,7 @@ public class QuoteHistory : TestBase
         // no history scenario
         List<Quote> noQuotes = [];
         IEnumerable<Quote> noResults = noQuotes.Aggregate(PeriodSize.Day);
-        Assert.IsFalse(noResults.Any());
+        Assert.IsEmpty(noResults);
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public class QuoteHistory : TestBase
         // no history scenario
         List<Quote> noQuotes = [];
         IEnumerable<Quote> noResults = noQuotes.Aggregate(TimeSpan.FromDays(1));
-        Assert.IsFalse(noResults.Any());
+        Assert.IsEmpty(noResults);
     }
 
     [TestMethod]

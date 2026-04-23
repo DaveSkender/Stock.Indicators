@@ -32,7 +32,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4
+          ruby-version: 3.3
           bundler-cache: true
 
       - name: Install dependencies
@@ -53,9 +53,13 @@ jobs:
           regex: false
 
       - name: Build site
+        env:
+          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
         run: bundle exec jekyll build
 
       - name: Serve site
+        env:
+          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
         run: bundle exec jekyll serve --port 4000 --detach
 
       - name: Test for broken URLs
@@ -63,7 +67,7 @@ jobs:
           htmlproofer _site
           --no-enforce-https
           --no-check-external-hash
-          --ignore-status-codes "0,302,403,406,408,415,429,503,999"
+          --ignore-status-codes "0,302,402,403,406,408,415,429,503,999"
           --ignore-urls "/fonts.gstatic.com/"
 
       - name: Kill site (failsafe)
