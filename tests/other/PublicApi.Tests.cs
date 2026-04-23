@@ -84,7 +84,7 @@ public class PublicClasses
                 MyProperty = false
             });
 
-        Assert.IsTrue(myHistory.Any());
+        Assert.IsNotEmpty(myHistory);
     }
 
     [TestMethod]
@@ -203,7 +203,7 @@ public class PublicClasses
                 MyProperty = false
             });
 
-        Assert.IsTrue(myIndicatorResults.Any());
+        Assert.IsNotEmpty(myIndicatorResults);
     }
 
     [TestMethod]
@@ -223,7 +223,7 @@ public class PublicClasses
                 MyProperty = false
             });
 
-        Assert.IsTrue(myIndicatorResults.Any());
+        Assert.IsNotEmpty(myIndicatorResults);
 
         // find specific date
         DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
