@@ -1,1 +1,0 @@
-{"version":3,"file":"ohlc.controller.d.ts","sourceRoot":"","sources":["../../controllers/ohlc.controller.ts"],"names":[],"mappings":"AAUA,OAAO,EAAE,mBAAmB,EAAE,MAAM,wBAAwB,CAAC;AAwB7D,qBAAa,cAAe,SAAQ,mBAAmB;IACrD,OAAgB,EAAE,SAAU;IAE5B,OAAgB,QAAQ;;;;;;gCAStB;IAEO,cAAc,CAAC,QAAQ,EAAE,OAAO,EAAE,EAAE,KAAK,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,EAAE,IAAI,EAAE,MAAM,GAAG,IAAI;CAiC/F"}

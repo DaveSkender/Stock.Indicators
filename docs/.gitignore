@@ -11,5 +11,4 @@ vendor/
 .bundle/
 .temp/
 
-# Exclude local package dist files from root gitignore pattern
-!local-packages/**/dist/
+local-packages/**/dist/

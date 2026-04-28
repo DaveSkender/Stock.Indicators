@@ -1,1 +1,0 @@
-{"version":3,"file":"candlestick.element.d.ts","sourceRoot":"","sources":["../../elements/candlestick.element.ts"],"names":[],"mappings":"AASA,OAAO,EAAE,gBAAgB,EAAE,MAAM,qBAAqB,CAAC;AASvD,qBAAa,kBAAmB,SAAQ,gBAAgB;IACtD,MAAM,CAAC,EAAE,SAAiB;IAE1B,IAAI,CAAC,GAAG,EAAE,wBAAwB,GAAG,IAAI;CA2E1C"}

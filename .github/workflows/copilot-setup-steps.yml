@@ -32,6 +32,12 @@ jobs:
           cache-dependency-path: docs/pnpm-lock.yaml
         continue-on-error: true
 
+      - name: Build local packages from source
+        working-directory: docs
+        run: bash build-local-packages.sh
+        continue-on-error: true
+        timeout-minutes: 10
+
       - name: Install pnpm packages
         working-directory: docs
         run: pnpm install --frozen-lockfile --config.confirmModulesPurge=false
