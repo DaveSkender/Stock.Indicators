@@ -430,6 +430,5 @@ export default defineConfig({
     'README.md',
     'AGENTS.md',
     'PRINCIPLES.md',
-    'local-packages/**'
   ]
 })

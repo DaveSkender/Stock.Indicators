@@ -10,5 +10,3 @@ _site/
 vendor/
 .bundle/
 .temp/
-
-local-packages/**/dist/
