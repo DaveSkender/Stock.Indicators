@@ -8,8 +8,6 @@ description: Created by Karl Pearson, the Correlation Coefficient depicts the li
 Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear statistical correlation between two quote histories.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/259 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Correlation" />
-
 ```csharp
 // C# usage syntax
 IReadOnlyList<CorrResult> results =

@@ -11,8 +11,7 @@
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview",
-    "generate:charts": "node .vitepress/scripts/generate-chart-data.mjs"
+    "docs:preview": "vitepress preview"
   },
   "devDependencies": {
     "@octokit/rest": "^22.0.1",
