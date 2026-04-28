@@ -3,9 +3,9 @@ import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './custom.scss'
-import IndicatorChart from '../components/IndicatorChart.vue'
 import Contributors from '../components/Contributors.vue'
 import IndicatorChartPanel from '../components/IndicatorChartPanel.vue'
+import { setupIndyChartsForVitePress } from '@facioquo/indy-charts/vitepress'
 
 export default {
   extends: DefaultTheme,
@@ -16,8 +16,16 @@ export default {
     })
   },
   enhanceApp({ app }) {
+    setupIndyChartsForVitePress(app, {
+      api: { baseUrl: 'https://stock-charts-api.azurewebsites.net' },
+      defaults: {
+        barCount: 250,
+        quoteCount: 250,
+        showTooltips: true
+      }
+    })
+
     // Register global components
-    app.component('IndicatorChart', IndicatorChart)
     app.component('Contributors', Contributors)
     app.component('IndicatorChartPanel', IndicatorChartPanel)
   }

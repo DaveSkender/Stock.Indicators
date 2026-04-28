@@ -393,7 +393,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: true
+      noExternal: ['@facioquo/indy-charts', '@facioquo/chartjs-chart-financial', 'chartjs-adapter-date-fns', 'chart.js', 'date-fns']
     },
     build: {
       // Local search index grows with docs; raise threshold to suppress false warning
@@ -429,6 +429,7 @@ export default defineConfig({
     '_headers',
     'README.md',
     'AGENTS.md',
-    'PRINCIPLES.md'
+    'PRINCIPLES.md',
+    'local-packages/**'
   ]
 })
