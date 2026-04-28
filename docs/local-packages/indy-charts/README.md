@@ -68,5 +68,5 @@ Apache-2.0 License - see the repository LICENSE file for details.
 
 ## Related Projects
 
-- [@facioquo/chartjs-chart-financial](../chartjs-financial) - Chart.js financial chart types
+- [@facioquo/chartjs-chart-financial](../chartjs-chart-financial) - Chart.js financial chart types
 - [stock-charts](https://github.com/facioquo/stock-charts) - Full-featured Angular application
