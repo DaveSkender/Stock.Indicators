@@ -49,6 +49,7 @@ jobs:
           cache-dependency-path: docs/pnpm-lock.yaml
 
       - name: Build local packages from source
+        working-directory: docs
         run: bash build-local-packages.sh
 
       - name: Install pnpm packages
