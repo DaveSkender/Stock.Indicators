@@ -19,7 +19,7 @@ This is a modernized Chart.js financial plugin based on the original [chartjs-ch
 npm install @facioquo/chartjs-chart-financial chart.js
 ```
 
-## Quick Start
+## Quick start
 
 ```typescript
 import { Chart, registerables } from "chart.js";
@@ -47,7 +47,7 @@ const chart = new Chart(ctx, {
 });
 ```
 
-## Chart Types
+## Chart types
 
 ### Candlestick
 
@@ -79,7 +79,7 @@ const chart = new Chart(ctx, {
 
 Use the `buildVolumeDataset()` helper to create properly configured volume datasets.
 
-## API Reference
+## API reference
 
 ### Registration
 

@@ -49,6 +49,8 @@ jobs:
 
       - name: Install pnpm packages
         run: pnpm install --frozen-lockfile
+        env:
+          NPM_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
 
       - name: Build site
         run: pnpm run docs:build

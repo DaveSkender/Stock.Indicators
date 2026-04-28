@@ -19,7 +19,7 @@ git clone --depth 1 --branch "$STOCK_CHARTS_REF" \
 
 echo "→ Installing workspace dependencies (ignore-scripts skips postinstall)"
 cd "$WORK_DIR"
-pnpm install --frozen-lockfile --ignore-scripts
+pnpm install --ignore-scripts
 
 echo "→ Building @facioquo/chartjs-chart-financial"
 pnpm --filter @facioquo/chartjs-chart-financial build
