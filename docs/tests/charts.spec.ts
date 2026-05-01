@@ -27,6 +27,11 @@ async function mockStockChartsApi(page: Page): Promise<void> {
     route.fulfill({ contentType: 'application/json', body: indicatorsJson })
   )
 
+  // Any other indicator endpoint: return empty array (chart shows empty state)
+  await page.route(`${API_BASE}/indicators/**`, (route: Route) =>
+    route.fulfill({ contentType: 'application/json', body: '[]' })
+  )
+
   // SMA indicator data
   await page.route(`${API_BASE}/indicators/sma**`, (route: Route) =>
     route.fulfill({ contentType: 'application/json', body: smaJson })
@@ -35,11 +40,6 @@ async function mockStockChartsApi(page: Page): Promise<void> {
   // RSI indicator data
   await page.route(`${API_BASE}/indicators/rsi**`, (route: Route) =>
     route.fulfill({ contentType: 'application/json', body: rsiJson })
-  )
-
-  // Any other indicator endpoint: return empty array (chart shows empty state)
-  await page.route(`${API_BASE}/indicators/**`, (route: Route) =>
-    route.fulfill({ contentType: 'application/json', body: '[]' })
   )
 }
 
