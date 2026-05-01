@@ -4,8 +4,7 @@ import { defineConfig, devices } from '@playwright/test'
  * Playwright configuration for visual chart inspection.
  *
  * Run after building and serving the docs site:
- *   pnpm run docs:build && pnpm run docs:preview &
- *   pnpm exec playwright test
+ *   corepack pnpm run test:charts
  *
  * The tests mock all stock-charts API requests with static fixture data so
  * visual results are deterministic and do not require a live API service.
@@ -32,7 +31,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm run docs:build && pnpm run docs:preview',
+    command: 'corepack pnpm run docs:build && corepack pnpm run docs:preview',
     url: 'http://localhost:4173',
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  packages: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -52,8 +51,6 @@ jobs:
 
       - name: Install pnpm packages
         run: pnpm install
-        env:
-          NPM_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
 
       - name: Define tag
         id: tag

@@ -1,0 +1,74 @@
+{
+  "name": "@facioquo/indy-charts",
+  "version": "0.1.0",
+  "description": "Framework-agnostic financial charting library with technical indicators and stock market data visualization",
+  "author": "facioquo",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facioquo/stock-charts.git",
+    "directory": "libs/indy-charts"
+  },
+  "homepage": "https://github.com/facioquo/stock-charts/tree/main/libs/indy-charts#readme",
+  "bugs": {
+    "url": "https://github.com/facioquo/stock-charts/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vitepress": {
+      "types": "./dist/vitepress/index.d.ts",
+      "import": "./dist/vitepress/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,json,md}\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@facioquo/chartjs-chart-financial": "file:../chartjs-chart-financial"
+  },
+  "peerDependencies": {
+    "chart.js": "^4.5.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-annotation": "^3.1.0",
+    "date-fns": ">=2.19.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitest/eslint-plugin": "^1.6.16",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "jiti": "^2.6.1",
+    "typescript-eslint": "^8.59.1",
+    "vitest": "^4.1.5",
+    "vue": "3.5.33"
+  }
+}

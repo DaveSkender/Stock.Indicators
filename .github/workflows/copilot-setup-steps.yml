@@ -37,8 +37,6 @@ jobs:
         run: pnpm install --config.confirmModulesPurge=false
         continue-on-error: true
         timeout-minutes: 5
-        env:
-          NPM_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5

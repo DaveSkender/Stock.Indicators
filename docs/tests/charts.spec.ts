@@ -1,10 +1,10 @@
 import { test, expect, type Page, type Route } from '@playwright/test'
-import { readFileSync } from 'fs'
+import { readdirSync, readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const FIXTURES = join(__dirname, 'fixtures')
+const FIXTURES = join(__dirname, '../.vitepress/public/data/chart-api')
 
 const API_BASE = 'https://stock-charts-api.azurewebsites.net'
 
@@ -52,23 +52,32 @@ async function waitForChartPhase(page: Page, testId: string): Promise<string> {
   await expect(root).toBeVisible({ timeout: 15_000 })
 
   const readyOverlay = root.locator('[data-testid$="-overlay-canvas"]')
-  const errorState = root.locator('.indy-demo__status--error')
   const emptyState = root.locator('[data-testid$="-empty"]')
+  const errorState = root.locator('[data-testid$="-error"]')
 
-  // Wait for loading to finish
+  // Wait until one terminal UI marker is painted. Loading can disappear before
+  // Vue renders the ready/empty/error branch, so polling only for loading
+  // removal can produce intermittent "unknown" results.
   await page.waitForFunction(
     (id) => {
-      const el = document.querySelector(`[data-testid="${id}-loading"]`)
-      return el === null
+      const root = document.querySelector(`[data-testid="${id}-root"]`)
+      if (!root) return false
+
+      return Boolean(
+        root.querySelector('[data-testid$="-overlay-canvas"]') ||
+          root.querySelector('[data-testid$="-empty"]') ||
+          root.querySelector('[data-testid$="-error"]')
+      )
     },
     testId,
     { timeout: 20_000 }
   )
 
   if (await readyOverlay.isVisible()) return 'ready'
-  if (await emptyState.isVisible()) return 'empty'
   if (await errorState.isVisible()) return 'error'
-  return 'unknown'
+  if (await emptyState.isVisible()) return 'empty'
+
+  throw new Error(`Chart ${testId} did not reach a terminal state`)
 }
 
 // ---------------------------------------------------------------------------
@@ -106,8 +115,12 @@ test('RSI oscillator chart renders from static fixture data', async ({ page }) =
   expect(phase, `Expected chart to be ready but got "${phase}"`).toBe('ready')
 
   // Oscillator must show both overlay (price) and oscillator (RSI) canvases
-  await expect(root.locator('[data-testid="stock-indicator-chart-rsi-overlay-canvas"]')).toBeVisible()
-  await expect(root.locator('[data-testid="stock-indicator-chart-rsi-oscillator-canvas"]')).toBeVisible()
+  await expect(
+    root.locator('[data-testid="stock-indicator-chart-rsi-overlay-canvas"]')
+  ).toBeVisible()
+  await expect(
+    root.locator('[data-testid="stock-indicator-chart-rsi-oscillator-canvas"]')
+  ).toBeVisible()
 })
 
 // ---------------------------------------------------------------------------
@@ -124,8 +137,8 @@ test('Home page charts reach a terminal state', async ({ page }) => {
     const root = page.locator(`[data-testid="stock-indicator-chart-${id}-root"]`)
     await expect(root).toBeVisible({ timeout: 15_000 })
     const phase = await waitForChartPhase(page, `stock-indicator-chart-${id}`)
-    // Charts may show error (API fallback) or ready (with data), but must not hang
-    expect(['ready', 'empty', 'error']).toContain(phase)
+    // Fixture-backed charts either render data or show a controlled empty state.
+    expect(['ready', 'empty']).toContain(phase)
   }
 })
 
@@ -133,15 +146,56 @@ test('Home page charts reach a terminal state', async ({ page }) => {
 // Bulk smoke test — all indicator pages with IndicatorChartPanel must load
 // ---------------------------------------------------------------------------
 
-const INDICATOR_PAGES: Array<{ page: string; uiid: string }> = [
-  { page: 'Adx', uiid: 'adx' },
-  { page: 'BollingerBands', uiid: 'bb' },
-  { page: 'Ema', uiid: 'ema' },
-  { page: 'Macd', uiid: 'macd' },
-  { page: 'Rsi', uiid: 'rsi' },
-  { page: 'Sma', uiid: 'sma' },
-  { page: 'Stoch', uiid: 'sto' },
-]
+const UIID_MAP: Record<string, string> = {
+  Aroon: 'AROON UP/DOWN',
+  AtrStop: 'ATR-STOP-HL',
+  Awesome: 'AO',
+  BollingerBands: 'BB',
+  Chandelier: 'CHEXIT-LONG',
+  ChaikinOsc: 'CHAIKIN',
+  ConnorsRsi: 'CRSI',
+  DcPeriods: 'DCPERIOD',
+  Dynamic: 'DYN',
+  ElderRay: 'ELDER-RAY',
+  FisherTransform: 'FISHER',
+  ForceIndex: 'FORCE',
+  HtTrendline: 'HT Trendline',
+  MaEnvelopes: 'MA-ENV',
+  ParabolicSar: 'PSAR',
+  StarcBands: 'STARC',
+  StdDev: 'STDEV',
+  StdDevChannels: 'STDEV-CH',
+  Stoch: 'STO',
+  UlcerIndex: 'ULCER',
+  VolatilityStop: 'VOL-STOP',
+  ZigZag: 'ZIGZAG-HL',
+}
+
+function toSlug(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+function indicatorPages(): Array<{ page: string; uiid: string }> {
+  const indicatorsDir = join(__dirname, '../indicators')
+  const files = readdirSync(indicatorsDir)
+
+  return files
+    .filter((file) => file.endsWith('.md'))
+    .flatMap((file) => {
+      const body = readFileSync(join(indicatorsDir, file), 'utf8')
+      const match = body.match(/<IndicatorChartPanel indicator-key="([^"]+)" \/>/)
+      if (!match) return []
+
+      const page = file.replace(/\.md$/, '')
+      const uiid = UIID_MAP[match[1]] ?? match[1]
+      return [{ page, uiid: toSlug(uiid) }]
+    })
+}
+
+const INDICATOR_PAGES = indicatorPages()
 
 for (const { page: pageName, uiid } of INDICATOR_PAGES) {
   test(`${pageName} indicator page chart reaches terminal state`, async ({ page }) => {
@@ -152,6 +206,6 @@ for (const { page: pageName, uiid } of INDICATOR_PAGES) {
     await expect(root).toBeVisible({ timeout: 15_000 })
 
     const phase = await waitForChartPhase(page, `stock-indicator-chart-${uiid}`)
-    expect(['ready', 'empty', 'error']).toContain(phase)
+    expect(['ready', 'empty']).toContain(phase)
   })
 }

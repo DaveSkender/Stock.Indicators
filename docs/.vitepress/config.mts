@@ -1,63 +1,8 @@
 import path from 'path'
-import { readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { defineConfig } from 'vitepress'
-import type { Plugin } from 'vite'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-/**
- * Vite dev-server plugin that serves static fixture data as a mock API when
- * the live stock-charts API is unreachable.  Active only in development and
- * preview modes (not included in production builds).
- *
- * Endpoints served from docs/tests/fixtures/:
- *   GET /mock-api/quotes      → quotes.json   (OHLCV data)
- *   GET /mock-api/indicators  → indicators.json (listing)
- *   GET /mock-api/indicators/sma  → sma.json
- *   GET /mock-api/indicators/rsi  → rsi.json
- */
-function staticApiFallbackPlugin(): Plugin {
-  const fixturesDir = path.resolve(__dirname, '../tests/fixtures')
-
-  function serveJson(filepath: string, res: import('http').ServerResponse): void {
-    try {
-      const body = readFileSync(filepath, 'utf8')
-      res.setHeader('Content-Type', 'application/json')
-      res.setHeader('Access-Control-Allow-Origin', '*')
-      res.end(body)
-    } catch {
-      res.statusCode = 404
-      res.end('Not found')
-    }
-  }
-
-  return {
-    name: 'static-api-fallback',
-    apply: 'serve',
-    configureServer(server) {
-      server.middlewares.use('/mock-api', (req, res, next) => {
-        const url = req.url ?? '/'
-        if (url === '/quotes' || url === '/quotes/') {
-          serveJson(path.join(fixturesDir, 'quotes.json'), res)
-        } else if (url === '/indicators' || url === '/indicators/') {
-          serveJson(path.join(fixturesDir, 'indicators.json'), res)
-        } else if (url.startsWith('/indicators/sma')) {
-          serveJson(path.join(fixturesDir, 'sma.json'), res)
-        } else if (url.startsWith('/indicators/rsi')) {
-          serveJson(path.join(fixturesDir, 'rsi.json'), res)
-        } else if (url.startsWith('/indicators/')) {
-          // Unknown indicator endpoint — return empty array
-          res.setHeader('Content-Type', 'application/json')
-          res.setHeader('Access-Control-Allow-Origin', '*')
-          res.end('[]')
-        } else {
-          next()
-        }
-      })
-    },
-  }
-}
 
 // Shared top-level navigation — referenced once and reused in every sidebar context
 const siteNav = {
@@ -442,7 +387,6 @@ export default defineConfig({
 
   vite: {
     publicDir: path.resolve(__dirname, 'public'),
-    plugins: [staticApiFallbackPlugin()],
     server: {
       fs: {
         allow: ['..']
@@ -479,6 +423,7 @@ export default defineConfig({
     'examples/UseQuoteApi/**',
     'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
+    'local-packages/**',
     'tests/**',
     'Gemfile*',
     '.pa11yci',

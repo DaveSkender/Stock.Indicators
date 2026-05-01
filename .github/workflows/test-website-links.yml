@@ -50,8 +50,6 @@ jobs:
 
       - name: Install pnpm packages
         run: pnpm install
-        env:
-          NPM_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
 
       - name: Build site
         run: pnpm run docs:build

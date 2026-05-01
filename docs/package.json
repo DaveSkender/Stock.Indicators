@@ -24,8 +24,8 @@
     "vue": "^3.5.33"
   },
   "dependencies": {
-    "@facioquo/chartjs-chart-financial": "^0.1.0",
-    "@facioquo/indy-charts": "^0.1.0",
+    "@facioquo/chartjs-chart-financial": "file:local-packages/chartjs-chart-financial",
+    "@facioquo/indy-charts": "file:local-packages/indy-charts",
     "chart.js": "^4.5.1",
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-plugin-annotation": "^3.1.0",
