@@ -32,9 +32,9 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm run docs:preview',
+    command: 'pnpm run docs:build && pnpm run docs:preview',
     url: 'http://localhost:4173',
     reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
+    timeout: 180_000,
   },
 })
