@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Simple Moving Average",
+    "uiid": "SMA",
+    "legendTemplate": "SMA({p0})",
+    "endpoint": "indicators/sma",
+    "category": "trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "defaultValue": 20,
+        "minimum": 1,
+        "maximum": 500
+      }
+    ],
+    "results": [
+      {
+        "displayName": "SMA",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "sma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Relative Strength Index",
+    "uiid": "RSI",
+    "legendTemplate": "RSI({p0})",
+    "endpoint": "indicators/rsi",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 2,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        { "value": 70, "color": "#ef5350", "style": "solid", "fill": null },
+        { "value": 30, "color": "#26a69a", "style": "solid", "fill": null }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "defaultValue": 14,
+        "minimum": 1,
+        "maximum": 500
+      }
+    ],
+    "results": [
+      {
+        "displayName": "RSI",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "rsi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  }
+]

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const props = defineProps<{
   indicatorKey: string
 }>()
@@ -29,7 +31,7 @@ const UIID_MAP: Record<string, string> = {
   ZigZag: 'ZIGZAG-HL',
 }
 
-const uiid = UIID_MAP[props.indicatorKey] ?? props.indicatorKey
+const uiid = computed(() => UIID_MAP[props.indicatorKey] ?? props.indicatorKey)
 </script>
 
 <template>
