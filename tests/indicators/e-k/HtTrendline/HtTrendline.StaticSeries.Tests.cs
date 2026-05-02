@@ -57,7 +57,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<HtlResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -68,7 +68,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<HtlResult> sut = Quotes
             .ToSma(2)
@@ -79,7 +79,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToHtTrendline()
@@ -100,7 +100,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<HtlResult> sut = Quotes
             .ToHtTrendline()
@@ -115,7 +115,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void PennyData()
+    public void PennyData_WithSmallPrices_ReturnsExpectedResult()
     {
         IReadOnlyList<Quote> penny = Data.GetPenny();
 

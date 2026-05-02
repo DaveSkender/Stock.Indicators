@@ -9,7 +9,7 @@ namespace Catalogging;
 public class EmaTests : TestBase
 {
     [TestMethod]
-    public void EmaExecuteByIdMatchesDirect()
+    public void EmaExecuteById_WithValidId_MatchesDirectCall()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
@@ -31,7 +31,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaExecuteFromJsonMatchesDirect()
+    public void EmaExecuteFromJson_WithValidJson_MatchesDirectCall()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
@@ -55,7 +55,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void CatalogBrowsingIncludesEmaSeries()
+    public void CatalogBrowsing_WithEmaSeries_IncludesEmaSeries()
     {
         // Act
         IReadOnlyCollection<IndicatorListing> catalog = Catalog.Get();
@@ -69,7 +69,7 @@ public class EmaTests : TestBase
         seriesListings.Should().Contain(static l => l.Uiid == "EMA" && l.Style == Style.Series);
     }
     [TestMethod]
-    public void EmaSeriesListing()
+    public void EmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
@@ -105,7 +105,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaSeriesExecutesFromRegistry()
+    public void EmaSeries_ExecutedFromRegistry_ReturnsExpectedResult()
     {
         IndicatorListing listing = Catalog.Get("EMA", Style.Series);
 
@@ -120,7 +120,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaSeriesListingWithCustomParameters()
+    public void EmaSeries_WithCustomParameters_ListsAllVariants()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
@@ -147,7 +147,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaSeriesFromCatalogMatchesDirectCall()
+    public void EmaSeries_FromCatalog_MatchesDirectCall()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
@@ -168,7 +168,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaFluentApiAlternativeSyntax()
+    public void EmaFluentApi_AlternativeSyntax_ReturnsExpectedResult()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
@@ -197,7 +197,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaCatalogExecutionBuilderProperties()
+    public void EmaCatalog_ExecutionBuilderProperties_AreCorrect()
     {
         // Arrange
         IndicatorListing listing = Ema.SeriesListing;
@@ -222,7 +222,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaSeriesChainingSupportTest()
+    public void EmaSeries_WithChaining_ReturnsExpectedResult()
     {
         // Arrange - Test the new series chaining functionality using a realistic scenario
         IReadOnlyList<Quote> quotes = Quotes;
@@ -267,7 +267,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaFluentApiNewSeriesFunctionality()
+    public void EmaFluentApi_NewSeriesFunctionality_ReturnsExpectedResult()
     {
         // Arrange - Demonstrate the new FromSource<T> functionality with a realistic chaining scenario
         IReadOnlyList<Quote> quotes = Quotes;
@@ -307,7 +307,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaConfigurationSerialization()
+    public void EmaConfiguration_OnSerialization_RoundTripsCorrectly()
     {
         // Arrange - Create indicator configurations that could be stored as JSON
         IndicatorConfig[] configs =
@@ -357,7 +357,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaStreamListing()
+    public void EmaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ema.StreamListing;
@@ -389,7 +389,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaBufferListing()
+    public void EmaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ema.BufferListing;

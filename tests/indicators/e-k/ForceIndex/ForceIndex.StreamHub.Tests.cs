@@ -146,7 +146,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void EmptyProvider()
+    public void EmptyProvider_OnInstantiation_HasEmptyResults()
     {
         QuoteHub quoteHub = new();
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
@@ -156,7 +156,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void InsufficientQuotes()
+    public void InsufficientQuotes_BelowMinimum_ThrowsInvalidOperationException()
     {
         QuoteHub quoteHub = new();
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
@@ -173,7 +173,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void ZeroVolume()
+    public void ZeroVolume_WithZeroVolumeQuotes_ReturnsExpectedResult()
     {
         QuoteHub quoteHub = new();
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
@@ -200,7 +200,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void NoPriceChange()
+    public void NoPriceChange_WithFlatQuotes_ReturnsExpectedResult()
     {
         QuoteHub quoteHub = new();
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);

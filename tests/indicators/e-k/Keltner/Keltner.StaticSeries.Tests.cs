@@ -61,7 +61,7 @@ public class Keltner : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_WithNoThreshold_RemovesNullValues()
     {
         const int emaPeriods = 20;
         const int multiplier = 2;
@@ -82,7 +82,7 @@ public class Keltner : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int emaPeriods = 20;
         const int multiplier = 2;
@@ -104,7 +104,7 @@ public class Keltner : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
     {
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

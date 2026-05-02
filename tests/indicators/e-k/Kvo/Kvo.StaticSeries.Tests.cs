@@ -45,7 +45,7 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToKvo()
@@ -80,7 +80,7 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<KvoResult> sut = Quotes
             .ToKvo()
@@ -95,7 +95,7 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

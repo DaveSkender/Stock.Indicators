@@ -7,7 +7,7 @@ namespace Catalogging;
 public class HeikinAshiTests : TestBase
 {
     [TestMethod]
-    public void HeikinAshiSeriesListing()
+    public void HeikinAshiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = HeikinAshi.SeriesListing;
@@ -49,7 +49,7 @@ public class HeikinAshiTests : TestBase
     }
 
     [TestMethod]
-    public void HeikinAshiStreamListing()
+    public void HeikinAshiStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = HeikinAshi.StreamListing;

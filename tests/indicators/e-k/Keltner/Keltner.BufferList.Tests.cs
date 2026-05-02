@@ -11,7 +11,7 @@ public class Keltner : BufferListTestBase
        = Quotes.ToKeltner(emaPeriods, multiplier, atrPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         KeltnerList sut = new(emaPeriods, multiplier, atrPeriods);
 
@@ -25,7 +25,7 @@ public class Keltner : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         KeltnerList sut = Quotes.ToKeltnerList(emaPeriods, multiplier, atrPeriods);
 
@@ -34,7 +34,7 @@ public class Keltner : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         KeltnerList sut = new(emaPeriods, multiplier, atrPeriods, Quotes);
 

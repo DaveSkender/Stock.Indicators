@@ -44,7 +44,7 @@ public class Fractal : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void StandardSpan4()
+    public void StandardSpan4_WithSpanFour_ReturnsExpectedResult()
     {
         IReadOnlyList<FractalResult> sut = Quotes
             .ToFractal(4, 4);
@@ -104,7 +104,7 @@ public class Fractal : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_WithNoThreshold_RemovesNullValues()
     {
         IReadOnlyList<FractalResult> sut = Quotes
             .ToFractal()
@@ -117,7 +117,7 @@ public class Fractal : StaticSeriesTestBase
     /// bad window span
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToFractal(1))
             .Should()

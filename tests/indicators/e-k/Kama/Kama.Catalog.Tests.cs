@@ -7,7 +7,7 @@ namespace Catalogging;
 public class KamaTests : TestBase
 {
     [TestMethod]
-    public void KamaSeriesListing()
+    public void KamaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Kama.SeriesListing;

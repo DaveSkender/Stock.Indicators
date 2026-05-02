@@ -7,7 +7,7 @@ namespace Catalogging;
 public class GatorTests : TestBase
 {
     [TestMethod]
-    public void GatorSeriesListing()
+    public void GatorSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Gator.SeriesListing;
@@ -29,7 +29,7 @@ public class GatorTests : TestBase
     }
 
     [TestMethod]
-    public void GatorStreamListing()
+    public void GatorStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Gator.StreamListing;

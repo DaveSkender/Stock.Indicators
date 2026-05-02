@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ElderRayTests : TestBase
 {
     [TestMethod]
-    public void ElderRaySeriesListing()
+    public void ElderRaySeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ElderRay.SeriesListing;
@@ -48,7 +48,7 @@ public class ElderRayTests : TestBase
     }
 
     [TestMethod]
-    public void ElderRayStreamListing()
+    public void ElderRayStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ElderRay.StreamListing;
@@ -89,7 +89,7 @@ public class ElderRayTests : TestBase
     }
 
     [TestMethod]
-    public void ElderRayBufferListing()
+    public void ElderRayBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ElderRay.BufferListing;
