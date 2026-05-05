@@ -159,6 +159,7 @@ export default defineConfig({
         siteNav,
         {
           text: 'Price trends',
+          link: '/indicators/price-trends',
           collapsed: true,
           items: [
             { text: 'Average Directional Index (ADX)', link: '/indicators/Adx' },
@@ -178,6 +179,7 @@ export default defineConfig({
         },
         {
           text: 'Price channels',
+          link: '/indicators/price-channels',
           collapsed: true,
           items: [
             { text: 'Bollinger Bands®', link: '/indicators/BollingerBands' },
@@ -194,6 +196,7 @@ export default defineConfig({
         },
         {
           text: 'Oscillators',
+          link: '/indicators/oscillators',
           collapsed: true,
           items: [
             { text: 'Awesome Oscillator', link: '/indicators/Awesome' },
@@ -217,6 +220,7 @@ export default defineConfig({
         },
         {
           text: 'Stop and reverse',
+          link: '/indicators/stop-and-reverse',
           collapsed: true,
           items: [
             { text: 'ATR Trailing Stop', link: '/indicators/AtrStop' },
@@ -227,7 +231,8 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Candlestick Patterns',
+          text: 'Candlestick patterns',
+          link: '/indicators/candlestick-patterns',
           collapsed: true,
           items: [
             { text: 'Doji', link: '/indicators/Doji' },
@@ -244,6 +249,7 @@ export default defineConfig({
         },
         {
           text: 'Volume based',
+          link: '/indicators/volume-based',
           collapsed: true,
           items: [
             { text: 'Accumulation Distribution Line', link: '/indicators/Adl' },
@@ -261,6 +267,7 @@ export default defineConfig({
         },
         {
           text: 'Moving averages',
+          link: '/indicators/moving-averages',
           collapsed: true,
           items: [
             { text: 'Arnaud Legoux Moving Average', link: '/indicators/Alma' },
@@ -286,6 +293,7 @@ export default defineConfig({
         },
         {
           text: 'Price transforms',
+          link: '/indicators/price-transforms',
           collapsed: true,
           items: [
             { text: 'Basic quote transforms', link: '/indicators/QuotePart' },
@@ -298,6 +306,7 @@ export default defineConfig({
         },
         {
           text: 'Price characteristics',
+          link: '/indicators/price-characteristics',
           collapsed: true,
           items: [
             { text: 'Average True Range', link: '/indicators/Atr' },

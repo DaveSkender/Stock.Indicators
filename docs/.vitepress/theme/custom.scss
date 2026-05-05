@@ -232,6 +232,15 @@ pre.shiki {
     object-position: top;
     border-radius: 5px;
   }
+
+  // Force 3-column grid to match the main indicators index layout.
+  // VitePress uses grid-4 (25% / 4 cols) for non-multiples-of-3 feature counts;
+  // override to grid-6 behavior (33.33% / 3 cols) at the wide breakpoint.
+  @media (min-width: 960px) {
+    .item.grid-4 {
+      width: calc(33.3333%);
+    }
+  }
 }
 
 /* Navbar site title - grid layout with icon left, text stacked right */
