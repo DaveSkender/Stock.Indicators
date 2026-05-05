@@ -4,7 +4,7 @@ description: The Stock Indicators for .NET library contains financial market tec
 layout: home
 hero:
   name: Indicators and overlays
-  tagline: Price trends, channels, oscillator, and more.
+  tagline: Price trends, channels, oscillators, and more.
 features:
   - title: Moving averages
     icon:

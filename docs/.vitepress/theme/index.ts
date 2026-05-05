@@ -27,6 +27,11 @@ function emptyIndicatorData(): Response {
   })
 }
 
+// In dev, the Vite server proxy at /chart-api-proxy forwards requests to the
+// stock-charts API server-side, avoiding CORS restrictions. We detect dev mode
+// by checking for the proxy path having been configured (import.meta.env.DEV).
+const DEV_PROXY_PATH = '/chart-api-proxy'
+
 function installStockChartsApiFallback(): void {
   if (typeof window === 'undefined' || typeof window.fetch !== 'function') return
 
@@ -39,6 +44,13 @@ function installStockChartsApiFallback(): void {
     )
     if (requestUrl.hostname !== STOCK_CHARTS_API_HOST) {
       return originalFetch(input, init)
+    }
+
+    // In dev, rewrite absolute API URLs to use the local Vite proxy to avoid CORS.
+    if (import.meta.env.DEV) {
+      const proxyUrl = requestUrl.pathname + requestUrl.search
+      const proxied = DEV_PROXY_PATH + proxyUrl
+      return originalFetch(proxied, init)
     }
 
     try {

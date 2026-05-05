@@ -55,10 +55,10 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Getting started', link: '/guide/getting-started' },
       {
         text: 'Guide',
         items: [
+          { text: 'Getting started', link: '/guide/getting-started' },
           { text: 'Overview', link: '/guide/' },
           { text: 'Batch (Series)', link: '/guide/batch' },
           { text: 'Buffer lists', link: '/guide/buffer' },
@@ -80,7 +80,7 @@ export default defineConfig({
           { text: 'Migration (v2→v3)', link: '/migration' },
           { text: 'Contributing', link: '/contributing' },
           { text: 'About', link: '/about' },
-          { text: 'v2 Docs', link: 'https://dotnet.stockindicators.dev' }
+          { text: 'Legacy docs (v2)', link: 'https://dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -91,8 +91,8 @@ export default defineConfig({
         {
           text: 'Guide',
           items: [
-            { text: 'Overview', link: '/guide/' },
             { text: 'Getting started', link: '/guide/getting-started' },
+            { text: 'Overview', link: '/guide/' },
             { text: 'Batch (Series)', link: '/guide/batch' },
             { text: 'Buffer lists', link: '/guide/buffer' },
             { text: 'Stream hubs', link: '/guide/stream' },
@@ -390,6 +390,15 @@ export default defineConfig({
     server: {
       fs: {
         allow: ['..']
+      },
+      proxy: {
+        // Proxy chart API calls to avoid CORS in local development.
+        // The browser calls /chart-api-proxy/* and Vite forwards server-side.
+        '/chart-api-proxy': {
+          target: 'https://stock-charts-api.azurewebsites.net',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/chart-api-proxy/, '')
+        }
       }
     },
     ssr: {
