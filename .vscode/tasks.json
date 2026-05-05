@@ -592,25 +592,10 @@
       }
     },
     {
-      "label": "Run: Website (Simple Browser)",
-      "detail": "Serve VitePress website with hot reload on port 5174 (VS Code Simple Browser)",
-      "type": "shell",
-      "command": "pnpm run docs:dev -- --port 5174",
-      "dependsOn": "Install: Node packages (pnpm)",
-      "dependsOrder": "sequence",
-      "isBackground": true,
-      "runOptions": {
-        "instanceLimit": 1
-      },
-      "options": {
-        "cwd": "${workspaceFolder}/docs"
-      }
-    },
-    {
       "label": "Run: Website (prod preview)",
       "detail": "Preview production build of VitePress website",
       "type": "shell",
-      "command": "pnpm run docs:preview -- --open",
+      "command": "pnpm run docs:preview",
       "dependsOn": "Build: Website",
       "isBackground": true,
       "options": {
