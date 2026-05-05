@@ -342,11 +342,6 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/DaveSkender/Stock.Indicators' },
     ],
 
-    footer: {
-      message: 'Licensed under Apache 2.0',
-      copyright: 'Copyright © Dave Skender'
-    },
-
     search: {
       provider: 'local'
     },
@@ -356,13 +351,6 @@ export default defineConfig({
       text: 'Edit this page on GitHub'
     },
 
-    lastUpdated: {
-      text: 'Last updated',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'short'
-      }
-    }
   },
 
   srcDir: '.',
