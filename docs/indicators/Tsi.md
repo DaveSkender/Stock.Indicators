@@ -65,32 +65,20 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Streaming
 
-Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide](/guide/stream) for more information.
 
 ```csharp
-TsiList tsiList = new(lookbackPeriods, smoothPeriods, signalPeriods);
+// buffer-style streaming
+TsiList buffer = new(lookbackPeriods, smoothPeriods, signalPeriods);
 
 foreach (IQuote quote in quotes)  // simulating stream
 {
-  tsiList.Add(quote);
+    buffer.Add(quote);
+    TsiResult result = buffer[^1];
 }
 
-// based on `ICollection<TsiResult>`
-IReadOnlyList<TsiResult> results = tsiList;
-```
-
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
-
-```csharp
-QuoteHub quoteHub = new();
-TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
-
-foreach (IQuote quote in quotes)  // simulating stream
-{
-  quoteHub.Add(quote);
-}
-
-IReadOnlyList<TsiResult> results = observer.Results;
+// or initialize with historical quotes
+TsiList buffer = quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
 
 See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
