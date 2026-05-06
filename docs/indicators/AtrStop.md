@@ -80,7 +80,21 @@ See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
-Subscribe to a `QuoteHub` for streaming scenarios:
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AtrStopList atrStopList = new(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  atrStopList.Add(quote);
+}
+
+// based on `ICollection<AtrStopResult>`
+IReadOnlyList<AtrStopResult> results = atrStopList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
 QuoteHub quoteHub = new();
