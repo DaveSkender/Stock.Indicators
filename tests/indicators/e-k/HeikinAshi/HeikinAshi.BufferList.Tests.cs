@@ -7,7 +7,7 @@ public class HeikinAshi : BufferListTestBase
        = Quotes.ToHeikinAshi();
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         HeikinAshiList sut = [];
 
@@ -21,7 +21,7 @@ public class HeikinAshi : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         HeikinAshiList sut = Quotes.ToHeikinAshiList();
 
@@ -30,7 +30,7 @@ public class HeikinAshi : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         HeikinAshiList sut = new(Quotes);
 

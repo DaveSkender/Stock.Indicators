@@ -73,7 +73,7 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void FromAlligator()
+    public void FromAlligator_WithStandardQuotes_ReturnsExpectedResult()
     {
         IReadOnlyList<GatorResult> sut = Quotes
             .ToAlligator()
@@ -143,7 +143,7 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<GatorResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -154,7 +154,7 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<GatorResult> sut = Quotes
             .ToSma(2)
@@ -189,7 +189,7 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_WithNoThreshold_RemovesNullValues()
     {
         IReadOnlyList<GatorResult> sut = Quotes
             .ToGator()
@@ -206,7 +206,7 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<GatorResult> sut = Quotes
             .ToGator()

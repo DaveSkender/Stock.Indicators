@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ForceIndexTests : TestBase
 {
     [TestMethod]
-    public void ForceIndexSeriesListing()
+    public void ForceIndexSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ForceIndex.SeriesListing;
@@ -36,7 +36,7 @@ public class ForceIndexTests : TestBase
     }
 
     [TestMethod]
-    public void ForceIndexBufferListing()
+    public void ForceIndexBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ForceIndex.BufferListing;
@@ -65,7 +65,7 @@ public class ForceIndexTests : TestBase
     }
 
     [TestMethod]
-    public void ForceIndexStreamListing()
+    public void ForceIndexStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ForceIndex.StreamListing;

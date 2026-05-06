@@ -9,7 +9,7 @@ public class ElderRay : BufferListTestBase
        = Quotes.ToElderRay(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         ElderRayList sut = new(lookbackPeriods);
 
@@ -20,7 +20,7 @@ public class ElderRay : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         ElderRayList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class ElderRay : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         ElderRayList sut = new(lookbackPeriods, Quotes);
 

@@ -96,7 +96,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ConsistencyWithSeries()
+    public void ConsistencyWithSeries_StreamVsSeries_MatchesExactly()
     {
         // Compare stream results with series results
         QuoteHub quoteHub = new();
@@ -115,7 +115,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void RealTimeSimulation()
+    public void RealTimeSimulation_WithIncrementalQuotes_MatchesSeriesExactly()
     {
         // Simulate real-time data processing
         QuoteHub quoteHub = new();
@@ -212,7 +212,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainableWithOtherIndicators()
+    public void Chainable_WithOtherIndicators_ReturnsExpectedResult()
     {
         // Test EPMA chaining with other indicators
         QuoteHub quoteHub = new();
@@ -237,7 +237,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void Add()
+    public void Add_WithValidQuote_IncrementsResults()
     {
         // Additional test for streaming functionality
         QuoteHub quoteHub = new();

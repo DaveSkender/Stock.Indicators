@@ -7,7 +7,7 @@ namespace Catalogging;
 public class HmaTests : TestBase
 {
     [TestMethod]
-    public void HmaSeriesListing()
+    public void HmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Hma.SeriesListing;
@@ -36,7 +36,7 @@ public class HmaTests : TestBase
     }
 
     [TestMethod]
-    public void HmaStreamListing()
+    public void HmaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Hma.StreamListing;
@@ -65,7 +65,7 @@ public class HmaTests : TestBase
     }
 
     [TestMethod]
-    public void HmaBufferListing()
+    public void HmaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Hma.BufferListing;

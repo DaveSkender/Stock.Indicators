@@ -7,7 +7,7 @@ namespace Catalogging;
 public class KeltnerTests : TestBase
 {
     [TestMethod]
-    public void KeltnerSeriesListing()
+    public void KeltnerSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Keltner.SeriesListing;
@@ -52,7 +52,7 @@ public class KeltnerTests : TestBase
     }
 
     [TestMethod]
-    public void KeltnerStreamListing()
+    public void KeltnerStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Keltner.StreamListing;

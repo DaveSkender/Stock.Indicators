@@ -7,7 +7,7 @@ namespace Catalogging;
 public class EpmaTests : TestBase
 {
     [TestMethod]
-    public void EpmaSeriesListing()
+    public void EpmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Epma.SeriesListing;
@@ -36,7 +36,7 @@ public class EpmaTests : TestBase
     }
 
     [TestMethod]
-    public void EpmaStreamListing()
+    public void EpmaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Epma.StreamListing;
@@ -57,7 +57,7 @@ public class EpmaTests : TestBase
     }
 
     [TestMethod]
-    public void EpmaBufferListing()
+    public void EpmaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Epma.BufferListing;

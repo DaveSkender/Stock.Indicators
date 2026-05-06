@@ -21,14 +21,14 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public void Results_WithAnyInput_AreAlwaysBounded()
     {
         IReadOnlyList<HurstResult> sut = Quotes.ToHurst(100);
         sut.IsBetween(static x => x.HurstExponent, 0, 1);
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<HurstResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -39,7 +39,7 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToHurst()
@@ -50,7 +50,7 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<HurstResult> sut = Quotes
             .ToSma(10)
@@ -85,7 +85,7 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<HurstResult> sut = LongestQuotes.ToHurst(LongestQuotes.Count - 1)
             .RemoveWarmupPeriods();
@@ -101,7 +101,7 @@ public class Hurst : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToHurst(19))
             .Should()

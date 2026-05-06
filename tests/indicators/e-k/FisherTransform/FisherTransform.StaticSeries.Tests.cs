@@ -46,7 +46,7 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<FisherTransformResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -57,7 +57,7 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<FisherTransformResult> sut = Quotes
             .ToSma(2)
@@ -68,7 +68,7 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToFisherTransform()
@@ -106,7 +106,7 @@ public class FisherTransform : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToFisherTransform(0))
             .Should()

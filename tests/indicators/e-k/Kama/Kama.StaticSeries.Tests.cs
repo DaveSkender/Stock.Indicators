@@ -49,14 +49,14 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public void Results_WithAnyInput_AreAlwaysBounded()
     {
         IReadOnlyList<KamaResult> sut = Quotes.ToKama(10, 2, 30);
         sut.IsBetween(static x => x.Er, 0, 1);
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<KamaResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -67,7 +67,7 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<KamaResult> sut = Quotes
             .ToSma(2)
@@ -78,7 +78,7 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToKama()
@@ -113,7 +113,7 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int erPeriods = 10;
         const int fastPeriods = 2;
@@ -132,7 +132,7 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
     {
         // bad ER period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
