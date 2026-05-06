@@ -83,7 +83,21 @@ See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
-Subscribe to a `QuoteHub` for streaming scenarios:
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AlligatorList alligatorList = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  alligatorList.Add(quote);
+}
+
+// based on `ICollection<AlligatorResult>`
+IReadOnlyList<AlligatorResult> results = alligatorList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
 QuoteHub quoteHub = new();
