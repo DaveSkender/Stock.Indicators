@@ -102,8 +102,9 @@ public static partial class Indicator
                 // chunk mean diff
                 double sumY = 0;
                 double sumSq = 0;
-                double maxY = values[startIndex] - chunkMean;
-                double minY = values[startIndex] - chunkMean;
+                double maxY = double.MinValue;
+                double minY = double.MaxValue;
+
                 for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
                     double y = values[i] - chunkMean;
