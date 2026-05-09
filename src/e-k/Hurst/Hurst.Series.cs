@@ -35,7 +35,7 @@ public static partial class Indicator
                     (DateTime _, double c) = tpList[p];
 
                     // return values
-                    values[x] = l != 0 ? (c / l) - 1 : double.NaN;
+                    values[x] = l != 0 ? Math.Log(c / l) : double.NaN;
 
                     l = c;
                     x++;
