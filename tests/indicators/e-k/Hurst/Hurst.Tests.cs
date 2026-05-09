@@ -18,7 +18,8 @@ public class HurstTests : TestBase
 
         // sample value
         HurstResult r15820 = results[15820];
-        Assert.AreEqual(0.483563, r15820.HurstExponent.Round(6));
+        Assert.AreEqual(0.479755, r15820.HurstExponent.Round(6));
+        Assert.AreEqual(0.470697, r15820.HurstExponentAL.Round(6));
     }
 
     [TestMethod]
@@ -31,6 +32,11 @@ public class HurstTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(402, results.Count(static x => x.HurstExponent != null));
+
+        // sample value: last result
+        HurstResult last = results[501];
+        Assert.AreEqual(0.564643, last.HurstExponent.Round(6));
+        Assert.AreEqual(0.485145, last.HurstExponentAL.Round(6));
     }
 
     [TestMethod]
@@ -42,6 +48,7 @@ public class HurstTests : TestBase
 
         Assert.HasCount(200, r);
         Assert.IsEmpty(r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.HurstExponentAL is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -77,6 +84,7 @@ public class HurstTests : TestBase
 
         Assert.HasCount(502, r);
         Assert.IsEmpty(r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.HurstExponentAL is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -106,7 +114,8 @@ public class HurstTests : TestBase
         Assert.HasCount(1, results);
 
         HurstResult last = results.LastOrDefault();
-        Assert.AreEqual(0.483563, last.HurstExponent.Round(6));
+        Assert.AreEqual(0.479755, last.HurstExponent.Round(6));
+        Assert.AreEqual(0.470697, last.HurstExponentAL.Round(6));
     }
 
     // bad lookback period
