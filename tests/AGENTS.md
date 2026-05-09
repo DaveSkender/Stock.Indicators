@@ -4,30 +4,36 @@ This folder contains unit tests, integration tests, and performance benchmarks.
 
 ## Test organization
 
-- `indicators/`: Unit tests for all indicators
-- `other/`: Integration and utility tests
-- `performance/`: Performance benchmarks
+- `indicators/` — unit tests for all indicators
+- `other/` — integration and utility tests
+- `performance/` — performance benchmarks
 
-## Running tests
+## Commands
 
 ```bash
-# Run all tests from solution root
+# Unit tests only
+dotnet test tests/indicators/ --settings tests/tests.unit.runsettings
+
+# Regression tests only
+dotnet test tests/indicators/ --settings tests/tests.regression.runsettings
+
+# Integration tests only
+dotnet test tests/integration/ --settings tests/tests.integration.runsettings
+
+# All tests
 dotnet test
-
-# Run specific test project
-dotnet test tests/indicators/
-
-# Run with coverage
-dotnet test --collect:"XPlat Code Coverage"
 ```
 
-## Writing tests
+Load #skill:testing-standards for test naming conventions, FluentAssertions patterns, precision requirements, and test base class selection.
 
-- Write tests for all public methods
-- Cover edge cases: empty input, minimum/maximum values, boundary conditions
-- Use descriptive test names that explain the scenario
-- Keep tests focused on single behaviors
-- Maintain baseline data for indicator validation
+## Boundaries
 
----
-Last updated: December 30, 2025
+✅ Always write tests before marking an indicator implementation complete
+
+✅ Always verify Stream/Buffer results match Series results for the same inputs
+
+⚠️ Ask before changing baseline test data — run the baseline generation task and review the diff
+
+🚫 Never skip or exclude a failing test without fixing the root cause
+
+🚫 Never add `[Ignore]` attributes without a tracked issue and justification

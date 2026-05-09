@@ -14,10 +14,7 @@
       "additionalVersions": "9.0,8.0"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/copilot-cli:1": {},
-    "ghcr.io/devcontainers/features/ruby:1": {
-      "version": "3.3"
-    }
+    "ghcr.io/devcontainers/features/copilot-cli:1": {}
   },
   "customizations": {
     "vscode": {
@@ -41,12 +38,17 @@
       ]
     }
   },
+  "containerEnv": {
+    "DISABLE_TELEMETRY": "1",
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
+  },
   "forwardPorts": [
-    4000
+    5173,
+    5174
   ],
   "portsAttributes": {
-    "4000": {
-      "label": "Jekyll Doc Site",
+    "5173": {
+      "label": "VitePress Doc Site",
       "onAutoForward": "notify"
     }
   },

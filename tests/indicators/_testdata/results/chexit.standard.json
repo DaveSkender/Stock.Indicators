@@ -1,0 +1,2010 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "chandelierExit": null
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "chandelierExit": 212.91545454545457
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "chandelierExit": 212.99975206611572
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "chandelierExit": 213.062490608565
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "chandelierExit": 213.10328648999388
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "chandelierExit": 214.2317734677214
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "chandelierExit": 215.04032921918864
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "chandelierExit": 216.23849607286186
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "chandelierExit": 216.82765534227724
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "chandelierExit": 218.13321646308282
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "chandelierExit": 218.15807026021542
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "chandelierExit": 218.191339793842
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "chandelierExit": 219.62446071230372
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "chandelierExit": 219.7147124981081
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "chandelierExit": 219.91040738455774
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "chandelierExit": 219.91038886707784
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "chandelierExit": 220.35355300948336
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "chandelierExit": 220.38793696359775
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "chandelierExit": 222.9062125561615
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "chandelierExit": 222.8922938036087
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "chandelierExit": 222.96764408526286
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "chandelierExit": 222.97138753593273
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "chandelierExit": 223.02541537520852
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "chandelierExit": 223.04835103997178
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "chandelierExit": 223.03751690179124
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "chandelierExit": 223.0353570426189
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "chandelierExit": 223.13693172249987
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "chandelierExit": 223.10570755329533
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "chandelierExit": 222.95726630087282
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "chandelierExit": 223.0010269235604
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "chandelierExit": 223.06325297248947
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "chandelierExit": 223.11037783737632
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "chandelierExit": 222.76808793567739
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "chandelierExit": 222.7604475749648
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "chandelierExit": 222.72997268519364
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "chandelierExit": 222.6572466540485
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "chandelierExit": 222.55782635159173
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "chandelierExit": 222.41656151742848
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "chandelierExit": 222.48626326663626
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "chandelierExit": 222.53097857269825
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "chandelierExit": 221.9282068193938
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "chandelierExit": 221.7246519639668
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "chandelierExit": 221.79625869287742
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "chandelierExit": 221.6287014795648
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "chandelierExit": 221.6283059577664
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "chandelierExit": 221.66065568695885
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "chandelierExit": 221.66971679209706
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "chandelierExit": 221.6170023924563
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "chandelierExit": 221.65941137461738
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "chandelierExit": 221.60989267577114
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "chandelierExit": 221.33171573596334
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "chandelierExit": 221.15981956614684
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "chandelierExit": 220.8016459495038
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "chandelierExit": 220.7011165881627
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "chandelierExit": 220.55061128870076
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "chandelierExit": 220.4160380483053
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "chandelierExit": 221.86621813701865
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "chandelierExit": 222.48457185806328
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "chandelierExit": 222.5770913190604
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "chandelierExit": 222.6613144409213
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "chandelierExit": 222.73080014815213
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "chandelierExit": 222.85030923232705
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "chandelierExit": 222.90029517631217
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "chandelierExit": 222.95073630466163
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "chandelierExit": 223.19388465444973
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "chandelierExit": 223.4809808065202
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "chandelierExit": 223.78184531531474
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "chandelierExit": 223.87539780098223
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "chandelierExit": 223.83242517366486
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "chandelierExit": 223.919587665771
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "chandelierExit": 224.15142459005415
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "chandelierExit": 224.4095416541426
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "chandelierExit": 224.03001703349975
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "chandelierExit": 223.92683444106794
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "chandelierExit": 223.82834196647394
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "chandelierExit": 223.8529627861797
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "chandelierExit": 223.96237356862605
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "chandelierExit": 224.11862931550667
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "chandelierExit": 225.40460071025637
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "chandelierExit": 225.54120976888106
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "chandelierExit": 225.6484275066592
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "chandelierExit": 225.67304443817468
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "chandelierExit": 226.8438151455304
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "chandelierExit": 227.78500536618813
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "chandelierExit": 227.90068694045232
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "chandelierExit": 227.96883753406811
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "chandelierExit": 228.00389037342865
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "chandelierExit": 228.02916808372734
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "chandelierExit": 228.42784226173973
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "chandelierExit": 228.4783948862061
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "chandelierExit": 228.4993769368331
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "chandelierExit": 228.47576889424977
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "chandelierExit": 228.41505212632933
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "chandelierExit": 228.4443679387689
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "chandelierExit": 229.22644212337033
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "chandelierExit": 229.19705839048984
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "chandelierExit": 229.23310119092213
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "chandelierExit": 229.30432386406204
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "chandelierExit": 229.35185459751375
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "chandelierExit": 229.3590430248995
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "chandelierExit": 229.27181379649497
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "chandelierExit": 229.14764044210884
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "chandelierExit": 228.8491113311039
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "chandelierExit": 228.877788088781
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "chandelierExit": 228.8765249938364
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "chandelierExit": 228.9094102213893
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "chandelierExit": 228.79489157496252
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "chandelierExit": 228.77694195791875
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "chandelierExit": 228.84980823255881
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "chandelierExit": 228.83345331289706
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "chandelierExit": 228.77829634412902
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "chandelierExit": 228.88246469212314
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "chandelierExit": 230.05007993339026
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "chandelierExit": 230.1787126636907
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "chandelierExit": 230.24013481534115
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "chandelierExit": 231.24194686918926
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "chandelierExit": 231.71322201149886
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "chandelierExit": 231.7839846473398
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "chandelierExit": 231.88153079973344
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "chandelierExit": 232.3064612179274
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "chandelierExit": 232.4011675262034
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "chandelierExit": 232.46611445683052
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "chandelierExit": 232.50901834515642
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "chandelierExit": 232.56633569310384
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "chandelierExit": 232.64150225250822
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "chandelierExit": 232.65461578648512
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "chandelierExit": 232.72440597800852
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "chandelierExit": 232.78693297900813
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "chandelierExit": 232.89025420723505
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "chandelierExit": 233.64296992508798
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "chandelierExit": 233.64828947394764
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "chandelierExit": 233.35473086149548
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "chandelierExit": 233.3976976405184
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "chandelierExit": 233.23007502049484
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "chandelierExit": 233.3073443377451
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "chandelierExit": 233.34428323148393
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "chandelierExit": 233.02499763005284
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "chandelierExit": 232.96295228323226
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "chandelierExit": 232.9828180885399
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "chandelierExit": 232.8258718117881
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "chandelierExit": 232.86424127488863
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "chandelierExit": 232.88041212603005
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "chandelierExit": 232.87130248393777
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "chandelierExit": 232.92942509830425
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "chandelierExit": 232.8403603211086
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "chandelierExit": 232.82216212469456
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "chandelierExit": 232.79797293720844
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "chandelierExit": 232.89488325824442
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "chandelierExit": 232.72147947377877
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "chandelierExit": 232.77277586133428
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "chandelierExit": 232.86674059491
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "chandelierExit": 232.41461602241407
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "chandelierExit": 233.18849711230436
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "chandelierExit": 234.02947451629052
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "chandelierExit": 234.26040749282276
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "chandelierExit": 234.47220715223992
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "chandelierExit": 234.76937955441082
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "chandelierExit": 235.62486230193758
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "chandelierExit": 235.74736856094043
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "chandelierExit": 235.829306353625
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "chandelierExit": 235.8938833375511
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "chandelierExit": 235.98961591311698
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "chandelierExit": 235.96781518979347
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "chandelierExit": 236.0220054084392
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "chandelierExit": 236.2682778898738
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "chandelierExit": 236.33290162215226
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "chandelierExit": 237.13549700296352
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "chandelierExit": 238.12115623010155
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "chandelierExit": 238.75019458327876
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "chandelierExit": 239.31836755676608
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "chandelierExit": 240.46980539509488
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "chandelierExit": 240.54163242259057
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "chandelierExit": 240.56383094883645
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "chandelierExit": 240.9182022693439
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "chandelierExit": 240.9851021661919
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "chandelierExit": 241.05896115863771
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "chandelierExit": 241.32809928779056
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "chandelierExit": 241.617276592891
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "chandelierExit": 241.70285492957774
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "chandelierExit": 242.19317970550603
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "chandelierExit": 242.13894426434666
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "chandelierExit": 243.24217407051273
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "chandelierExit": 243.5420752491258
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "chandelierExit": 243.59379910143826
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "chandelierExit": 243.4031718695547
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "chandelierExit": 243.4243913300295
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "chandelierExit": 243.64828263320996
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "chandelierExit": 243.63699705897315
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "chandelierExit": 243.70395173811073
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "chandelierExit": 244.19195393183296
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "chandelierExit": 244.1450469349315
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "chandelierExit": 244.2166357106164
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "chandelierExit": 244.7526977237702
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "chandelierExit": 245.0834841908716
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "chandelierExit": 245.10059854583196
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "chandelierExit": 244.89602588465777
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "chandelierExit": 244.9407519808097
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "chandelierExit": 244.93026325440925
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "chandelierExit": 244.85616037920886
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "chandelierExit": 244.74860763469934
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "chandelierExit": 244.58048910584938
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "chandelierExit": 244.64773960103804
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "chandelierExit": 244.73647871008177
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "chandelierExit": 245.46482058689625
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "chandelierExit": 245.56551056021914
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "chandelierExit": 245.91253280748188
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "chandelierExit": 246.24196313441453
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "chandelierExit": 248.1173284464866
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "chandelierExit": 248.8033589716463
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "chandelierExit": 250.86047901838964
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "chandelierExit": 250.45136633573557
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "chandelierExit": 251.01084968411124
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "chandelierExit": 250.94626560756072
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "chandelierExit": 251.02779898903523
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "chandelierExit": 251.04426267135182
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "chandelierExit": 251.05861436810855
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "chandelierExit": 251.15004098774
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "chandelierExit": 251.72367548829723
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "chandelierExit": 252.03623569337466
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "chandelierExit": 252.02231588913034
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "chandelierExit": 252.67175607598807
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "chandelierExit": 254.11167625435223
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "chandelierExit": 254.13069097006348
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "chandelierExit": 254.12293228960607
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "chandelierExit": 254.15234445826033
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "chandelierExit": 254.2622378919758
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "chandelierExit": 254.3807725332496
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "chandelierExit": 254.481646509011
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "chandelierExit": 254.59429894041958
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "chandelierExit": 254.53001262494595
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "chandelierExit": 254.6631938692666
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "chandelierExit": 256.37032142066363
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "chandelierExit": 257.8043977197243
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "chandelierExit": 259.09419782337324
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "chandelierExit": 259.66582519503805
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "chandelierExit": 260.7978331407182
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "chandelierExit": 260.78065890704914
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "chandelierExit": 261.5538107749106
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "chandelierExit": 263.4059102851419
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "chandelierExit": 264.99564163581726
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "chandelierExit": 264.8085670160074
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "chandelierExit": 264.8522685152798
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "chandelierExit": 265.21898358276707
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "chandelierExit": 267.29993887445943
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "chandelierExit": 268.25221438016587
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "chandelierExit": 269.14029554470375
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "chandelierExit": 269.124827565399
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "chandelierExit": 270.77778994879
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "chandelierExit": 270.7451631329359
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "chandelierExit": 270.52447389962066
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "chandelierExit": 270.43245235872877
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "chandelierExit": 270.37597725151386
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "chandelierExit": 269.82297828553595
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "chandelierExit": 268.4592065452843
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "chandelierExit": 267.35924261140775
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "chandelierExit": 267.12609521998013
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "chandelierExit": 266.14263634634466
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "chandelierExit": 265.18888014878354
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "chandelierExit": 264.9602946874752
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "chandelierExit": 265.0298267471354
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "chandelierExit": 264.7825618949929
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "chandelierExit": 264.7347181724932
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "chandelierExit": 264.8485946191981
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "chandelierExit": 264.94229486378
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "chandelierExit": 264.8203723699718
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "chandelierExit": 264.88399180770034
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "chandelierExit": 264.82608308916855
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "chandelierExit": 264.9030793123881
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "chandelierExit": 264.8115757072796
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "chandelierExit": 264.4892313569487
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "chandelierExit": 262.4342662952692
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "chandelierExit": 260.9372541909388
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "chandelierExit": 260.5546517277143
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "chandelierExit": 258.09262210372725
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "chandelierExit": 256.96795746264877
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "chandelierExit": 257.25805030525567
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "chandelierExit": 257.14768438228947
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "chandelierExit": 258.38960781945815
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "chandelierExit": 258.8032620094828
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "chandelierExit": 258.87493191814264
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "chandelierExit": 259.0974350127725
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "chandelierExit": 259.3998243303738
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "chandelierExit": 259.1225595880841
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "chandelierExit": 259.42380687953477
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "chandelierExit": 259.50136111228323
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "chandelierExit": 259.0490265162703
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "chandelierExit": 258.6022525837126
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "chandelierExit": 258.1498774662711
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "chandelierExit": 257.6457921268952
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "chandelierExit": 257.6746197574908
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "chandelierExit": 257.52213704124125
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "chandelierExit": 256.97431263027573
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "chandelierExit": 256.9804802379905
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "chandelierExit": 256.5527311362636
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "chandelierExit": 256.760788811888
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "chandelierExit": 256.3580256840749
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "chandelierExit": 256.30493360752604
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "chandelierExit": 256.2651638980931
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "chandelierExit": 256.595383720907
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "chandelierExit": 256.7810480972294
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "chandelierExit": 254.61872772917351
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "chandelierExit": 253.45560374148386
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "chandelierExit": 253.4667126623255
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "chandelierExit": 252.90186208676522
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "chandelierExit": 252.02541381009408
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "chandelierExit": 252.12562227327163
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "chandelierExit": 250.43263944266835
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "chandelierExit": 250.09024674072887
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "chandelierExit": 250.21478097978664
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "chandelierExit": 250.29001820797816
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "chandelierExit": 250.5950173803428
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "chandelierExit": 250.6734256812363
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "chandelierExit": 250.80963360481647
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "chandelierExit": 250.9478320773248
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "chandelierExit": 250.89838516471912
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "chandelierExit": 250.675276748141
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "chandelierExit": 250.94230962322547
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "chandelierExit": 251.17402282216977
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "chandelierExit": 251.29429451207113
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "chandelierExit": 252.47455385243157
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "chandelierExit": 253.49389231368468
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "chandelierExit": 254.6509881176081
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "chandelierExit": 254.73276138498954
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "chandelierExit": 254.98263586749002
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "chandelierExit": 255.16251605533137
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "chandelierExit": 255.46512896190723
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "chandelierExit": 255.55080491818416
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "chandelierExit": 255.88576833099398
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "chandelierExit": 255.99277886140337
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "chandelierExit": 256.0717434586123
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "chandelierExit": 256.31757330140266
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "chandelierExit": 256.14313815133886
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "chandelierExit": 256.016177326278
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "chandelierExit": 256.1227147205381
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "chandelierExit": 256.1385004150591
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "chandelierExit": 257.2417503961928
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "chandelierExit": 257.79712537818403
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "chandelierExit": 259.7990742246302
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "chandelierExit": 260.66320721441974
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "chandelierExit": 260.8376068864915
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "chandelierExit": 262.1158974825601
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "chandelierExit": 262.3297203242619
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "chandelierExit": 262.56427849134093
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "chandelierExit": 262.7418112871891
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "chandelierExit": 262.7967289559532
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "chandelierExit": 262.8477867306826
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "chandelierExit": 262.78334187928795
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "chandelierExit": 262.96182633932034
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "chandelierExit": 262.9876524148058
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "chandelierExit": 263.1132136686782
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "chandelierExit": 262.69034032010194
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "chandelierExit": 262.7994157600973
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "chandelierExit": 262.5176241346383
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "chandelierExit": 262.4368230376093
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "chandelierExit": 262.42514926317256
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "chandelierExit": 262.4099152057556
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "chandelierExit": 262.42810087822124
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "chandelierExit": 262.4809144746657
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "chandelierExit": 262.41950927127186
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "chandelierExit": 262.43862248621406
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "chandelierExit": 263.4064123732043
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "chandelierExit": 263.4370299926041
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "chandelierExit": 263.8503468111221
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "chandelierExit": 264.5066946833438
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "chandelierExit": 264.71457219773725
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "chandelierExit": 265.66118255238564
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "chandelierExit": 266.10931061818627
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "chandelierExit": 266.216614680996
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "chandelierExit": 266.3994958318598
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "chandelierExit": 266.52360965768435
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "chandelierExit": 267.8498092186987
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "chandelierExit": 269.499817890576
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "chandelierExit": 269.6702807137317
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "chandelierExit": 269.51254068128935
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "chandelierExit": 269.5092433775944
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "chandelierExit": 269.540186860431
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "chandelierExit": 269.57926927586595
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "chandelierExit": 269.4270297633266
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "chandelierExit": 269.55989204681174
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "chandelierExit": 270.22535149922936
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "chandelierExit": 271.3337446129008
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "chandelierExit": 271.4999380395871
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "chandelierExit": 271.6463044923331
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "chandelierExit": 271.56647246995436
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "chandelierExit": 271.5339055395019
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "chandelierExit": 271.5450916513427
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "chandelierExit": 271.3348602126453
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "chandelierExit": 271.19691202116144
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "chandelierExit": 271.2070523838359
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "chandelierExit": 271.38718636638885
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "chandelierExit": 272.7223142588257
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "chandelierExit": 272.8540272470609
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "chandelierExit": 272.93611691764903
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "chandelierExit": 273.3153843304832
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "chandelierExit": 275.4465032245521
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "chandelierExit": 276.09075307798156
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "chandelierExit": 277.39799157443696
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "chandelierExit": 277.4239919574171
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "chandelierExit": 277.4924468684436
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "chandelierExit": 277.5441538289689
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "chandelierExit": 277.5539650185612
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "chandelierExit": 277.4883302449902
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "chandelierExit": 277.49249705203613
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "chandelierExit": 277.5687471860345
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "chandelierExit": 277.4915314048511
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "chandelierExit": 277.55009815917606
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "chandelierExit": 277.5610027883044
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "chandelierExit": 277.6559572070179
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "chandelierExit": 277.6702318794261
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "chandelierExit": 277.63203952127037
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "chandelierExit": 277.7769468157581
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "chandelierExit": 279.8111765059509
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "chandelierExit": 280.4720321193168
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "chandelierExit": 280.5123942957115
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "chandelierExit": 280.6109218277246
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "chandelierExit": 280.4840617446462
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "chandelierExit": 280.4693316653441
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "chandelierExit": 280.5479984078285
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "chandelierExit": 280.5058166620181
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "chandelierExit": 280.59782499556275
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "chandelierExit": 280.5970147684917
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "chandelierExit": 280.307150460833
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "chandelierExit": 280.03182543988606
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "chandelierExit": 279.94628791989123
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "chandelierExit": 279.9478202871689
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "chandelierExit": 278.9606466377521
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "chandelierExit": 278.1492536087634
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "chandelierExit": 277.856105717456
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "chandelierExit": 277.8667372757534
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "chandelierExit": 277.3873401268555
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "chandelierExit": 277.30609739381663
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "chandelierExit": 276.9762747850068
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "chandelierExit": 276.8809895675065
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "chandelierExit": 276.90730822352896
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "chandelierExit": 276.46424875882303
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "chandelierExit": 275.6963283606947
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "chandelierExit": 275.3055861624813
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "chandelierExit": 274.6366958823685
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "chandelierExit": 273.7732097058972
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "chandelierExit": 273.66760926472006
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "chandelierExit": 273.5054452072328
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "chandelierExit": 273.63156133417675
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "chandelierExit": 271.5264903644415
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "chandelierExit": 270.79664989333054
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "chandelierExit": 269.7186203527246
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "chandelierExit": 269.475046700328
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "chandelierExit": 267.86163548667673
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "chandelierExit": 262.2851975100096
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "chandelierExit": 262.06768853228186
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "chandelierExit": 262.08506632626904
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "chandelierExit": 261.8248360387114
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "chandelierExit": 261.5273434914972
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "chandelierExit": 261.640191514611
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "chandelierExit": 261.4670009912196
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "chandelierExit": 261.2621373098005
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "chandelierExit": 261.4565856139005
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "chandelierExit": 261.785377176905
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "chandelierExit": 261.7596782143184
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "chandelierExit": 261.9696928409403
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "chandelierExit": 261.702434075443
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "chandelierExit": 261.86459616292285
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "chandelierExit": 262.0575690646082
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "chandelierExit": 261.9867704707624
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "chandelierExit": 261.3000990857277
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "chandelierExit": 260.8560036727401
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "chandelierExit": 260.3284580512519
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "chandelierExit": 260.0976190489223
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "chandelierExit": 260.030000001244
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "chandelierExit": 259.2350000011874
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "chandelierExit": 259.4402272738607
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "chandelierExit": 259.3483987614125
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "chandelierExit": 259.04801699953015
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "chandelierExit": 259.087198045006
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "chandelierExit": 258.41005267932394
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "chandelierExit": 258.1727775575365
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "chandelierExit": 257.57128766855755
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "chandelierExit": 257.42122913816854
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "chandelierExit": 256.4939005409791
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "chandelierExit": 256.02190506184365
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "chandelierExit": 256.1577275590326
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "chandelierExit": 256.5860126699857
+  }
+]

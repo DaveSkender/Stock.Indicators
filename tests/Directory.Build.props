@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!-- Additional warnings suppression specific to test projects -->
     <!-- CA1303: Do not pass literals as localized parameters (tests use hardcoded strings) -->
-    <!-- CA1707: Identifiers should not contain underscores (allow underscores in test method names, see tests/agents.md) -->
+    <!-- CA1707: Identifiers should not contain underscores (allow underscores in test method names, see tests/AGENTS.md) -->
     <!-- CS1591: Missing XML documentation comments (not required for tests) -->
     <NoWarn>$(NoWarn);CA1303;CA1707;CS1591</NoWarn>
   </PropertyGroup>

@@ -84,9 +84,9 @@ jobs:
       - name: Generate version info
         id: gitversion
         run: |
-          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+          dotnet tool run dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
           # Export GitVersion variables to environment
-          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+          dotnet tool run dotnet-gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
       - name: Compose CI version
         id: version_info
@@ -137,7 +137,6 @@ jobs:
           name: packages
           path: NuGet
           include-hidden-files: true
-
       - name: Summary output
         if: always()
         run: |
@@ -177,7 +176,6 @@ jobs:
     environment:
       name: pkg.github.com
       url: ${{ needs.package.outputs.url }}
-
     steps:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -250,7 +248,6 @@ jobs:
                   per_page: 100,
                 }
               );
-
               console.log(`📦 Found ${versions.length} total package versions`);
 
               if (versions.length === 0) {

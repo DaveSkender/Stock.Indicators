@@ -1,18 +1,26 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of the correlation calculation.
+/// </summary>
+/// <param name="Timestamp">Timestamp of the result.</param>
+/// <param name="VarianceA">Variance of series A.</param>
+/// <param name="VarianceB">Variance of series B.</param>
+/// <param name="Covariance">Covariance between series A and B.</param>
+/// <param name="Correlation">Correlation coefficient between series A and B.</param>
+/// <param name="RSquared">R-squared value of the correlation.</param>
 [Serializable]
-public sealed class CorrResult : ResultBase, IReusableResult
+public record CorrResult
+(
+    DateTime Timestamp,
+    double? VarianceA = null,
+    double? VarianceB = null,
+    double? Covariance = null,
+    double? Correlation = null,
+    double? RSquared = null
+) : IReusable
 {
-    public CorrResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? VarianceA { get; set; }
-    public double? VarianceB { get; set; }
-    public double? Covariance { get; set; }
-    public double? Correlation { get; set; }
-    public double? RSquared { get; set; }
-
-    double? IReusableResult.Value => Correlation;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Correlation.Null2NaN();
 }

@@ -1,0 +1,52 @@
+name: Assign pull request
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Assign PR author
+        uses: actions/github-script@v8
+        continue-on-error: true
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.info('No pull_request payload found; exiting.');
+              return;
+            }
+
+            const author = pr.user;
+            if (!author || !author.login) {
+              core.info('No PR author found; exiting.');
+              return;
+            }
+
+            // Skip bot accounts (e.g., 'dependabot[bot]')
+            if (/\[bot\]$/.test(author.login)) {
+              core.info(`PR author ${author.login} appears to be a bot; skipping assignment.`);
+              return;
+            }
+
+            const assignee = author.login;
+            const existing = (pr.assignees || []).map(a => a.login);
+            if (existing.includes(assignee)) {
+              core.info(`${assignee} already assigned to #${pr.number}.`);
+              return;
+            }
+
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              assignees: [assignee],
+            });
+
+            core.info(`Assigned ${assignee} to PR #${pr.number}`);

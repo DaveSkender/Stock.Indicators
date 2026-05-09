@@ -1,0 +1,3014 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "centerline": null,
+    "upperEnvelope": null,
+    "lowerEnvelope": null
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "centerline": 214.52499999999995,
+    "upperEnvelope": 219.88812499999995,
+    "lowerEnvelope": 209.16187499999995
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "centerline": 214.6375,
+    "upperEnvelope": 220.0034375,
+    "lowerEnvelope": 209.2715625
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "centerline": 214.69400000000002,
+    "upperEnvelope": 220.06135,
+    "lowerEnvelope": 209.32665000000003
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "centerline": 214.833,
+    "upperEnvelope": 220.203825,
+    "lowerEnvelope": 209.462175
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "centerline": 214.91400000000004,
+    "upperEnvelope": 220.28685000000004,
+    "lowerEnvelope": 209.54115000000004
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "centerline": 215.03100000000003,
+    "upperEnvelope": 220.40677500000004,
+    "lowerEnvelope": 209.65522500000003
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "centerline": 215.16250000000005,
+    "upperEnvelope": 220.54156250000005,
+    "lowerEnvelope": 209.78343750000005
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "centerline": 215.32800000000003,
+    "upperEnvelope": 220.71120000000002,
+    "lowerEnvelope": 209.94480000000004
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "centerline": 215.56300000000005,
+    "upperEnvelope": 220.95207500000004,
+    "lowerEnvelope": 210.17392500000005
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "centerline": 215.83300000000003,
+    "upperEnvelope": 221.22882500000003,
+    "lowerEnvelope": 210.43717500000002
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "centerline": 216.18500000000003,
+    "upperEnvelope": 221.58962500000004,
+    "lowerEnvelope": 210.78037500000002
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "centerline": 216.571,
+    "upperEnvelope": 221.985275,
+    "lowerEnvelope": 211.156725
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "centerline": 216.987,
+    "upperEnvelope": 222.411675,
+    "lowerEnvelope": 211.562325
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "centerline": 217.38150000000002,
+    "upperEnvelope": 222.81603750000002,
+    "lowerEnvelope": 211.9469625
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "centerline": 217.87000000000003,
+    "upperEnvelope": 223.31675000000004,
+    "lowerEnvelope": 212.42325000000002
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "centerline": 218.27999999999997,
+    "upperEnvelope": 223.73699999999997,
+    "lowerEnvelope": 212.82299999999998
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "centerline": 218.60449999999997,
+    "upperEnvelope": 224.06961249999998,
+    "lowerEnvelope": 213.13938749999997
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "centerline": 218.95449999999997,
+    "upperEnvelope": 224.42836249999996,
+    "lowerEnvelope": 213.48063749999997
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "centerline": 219.339,
+    "upperEnvelope": 224.822475,
+    "lowerEnvelope": 213.855525
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "centerline": 219.7605,
+    "upperEnvelope": 225.2545125,
+    "lowerEnvelope": 214.2664875
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "centerline": 220.339,
+    "upperEnvelope": 225.847475,
+    "lowerEnvelope": 214.830525
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "centerline": 220.84199999999996,
+    "upperEnvelope": 226.36304999999996,
+    "lowerEnvelope": 215.32094999999995
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "centerline": 221.34499999999997,
+    "upperEnvelope": 226.87862499999997,
+    "lowerEnvelope": 215.81137499999997
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "centerline": 221.74050000000003,
+    "upperEnvelope": 227.28401250000002,
+    "lowerEnvelope": 216.19698750000003
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "centerline": 222.12199999999999,
+    "upperEnvelope": 227.67505,
+    "lowerEnvelope": 216.56894999999997
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "centerline": 222.48199999999997,
+    "upperEnvelope": 228.04404999999997,
+    "lowerEnvelope": 216.91994999999997
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "centerline": 222.84199999999996,
+    "upperEnvelope": 228.41304999999994,
+    "lowerEnvelope": 217.27094999999997
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "centerline": 223.177,
+    "upperEnvelope": 228.75642499999998,
+    "lowerEnvelope": 217.597575
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "centerline": 223.47450000000003,
+    "upperEnvelope": 229.06136250000003,
+    "lowerEnvelope": 217.88763750000004
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "centerline": 223.66950000000003,
+    "upperEnvelope": 229.26123750000002,
+    "lowerEnvelope": 218.07776250000003
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "centerline": 223.91750000000002,
+    "upperEnvelope": 229.51543750000002,
+    "lowerEnvelope": 218.31956250000002
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "centerline": 224.086,
+    "upperEnvelope": 229.68815,
+    "lowerEnvelope": 218.48385000000002
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "centerline": 224.244,
+    "upperEnvelope": 229.8501,
+    "lowerEnvelope": 218.6379
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "centerline": 224.37199999999999,
+    "upperEnvelope": 229.98129999999998,
+    "lowerEnvelope": 218.7627
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "centerline": 224.28949999999995,
+    "upperEnvelope": 229.89673749999994,
+    "lowerEnvelope": 218.68226249999995
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "centerline": 224.243,
+    "upperEnvelope": 229.849075,
+    "lowerEnvelope": 218.636925
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "centerline": 224.177,
+    "upperEnvelope": 229.78142499999998,
+    "lowerEnvelope": 218.572575
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "centerline": 224.089,
+    "upperEnvelope": 229.691225,
+    "lowerEnvelope": 218.486775
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "centerline": 223.97199999999998,
+    "upperEnvelope": 229.57129999999998,
+    "lowerEnvelope": 218.37269999999998
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "centerline": 223.96599999999998,
+    "upperEnvelope": 229.56515,
+    "lowerEnvelope": 218.36684999999997
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "centerline": 223.8145,
+    "upperEnvelope": 229.4098625,
+    "lowerEnvelope": 218.21913750000002
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "centerline": 223.76950000000002,
+    "upperEnvelope": 229.3637375,
+    "lowerEnvelope": 218.17526250000003
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "centerline": 223.6915,
+    "upperEnvelope": 229.2837875,
+    "lowerEnvelope": 218.0992125
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "centerline": 223.6275,
+    "upperEnvelope": 229.2181875,
+    "lowerEnvelope": 218.0368125
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "centerline": 223.60399999999998,
+    "upperEnvelope": 229.1941,
+    "lowerEnvelope": 218.01389999999998
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "centerline": 223.5685,
+    "upperEnvelope": 229.1577125,
+    "lowerEnvelope": 217.9792875
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "centerline": 223.5495,
+    "upperEnvelope": 229.1382375,
+    "lowerEnvelope": 217.9607625
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "centerline": 223.48000000000002,
+    "upperEnvelope": 229.067,
+    "lowerEnvelope": 217.89300000000003
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "centerline": 223.41200000000003,
+    "upperEnvelope": 228.99730000000002,
+    "lowerEnvelope": 217.82670000000005
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "centerline": 223.37350000000006,
+    "upperEnvelope": 228.95783750000007,
+    "lowerEnvelope": 217.78916250000006
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "centerline": 223.18900000000008,
+    "upperEnvelope": 228.76872500000007,
+    "lowerEnvelope": 217.60927500000008
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "centerline": 222.95450000000005,
+    "upperEnvelope": 228.52836250000004,
+    "lowerEnvelope": 217.38063750000006
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "centerline": 222.83800000000002,
+    "upperEnvelope": 228.40895000000003,
+    "lowerEnvelope": 217.26705
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "centerline": 222.7005,
+    "upperEnvelope": 228.2680125,
+    "lowerEnvelope": 217.1329875
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "centerline": 222.68650000000002,
+    "upperEnvelope": 228.25366250000002,
+    "lowerEnvelope": 217.11933750000003
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "centerline": 222.73700000000002,
+    "upperEnvelope": 228.305425,
+    "lowerEnvelope": 217.16857500000003
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "centerline": 222.76399999999998,
+    "upperEnvelope": 228.33309999999997,
+    "lowerEnvelope": 217.1949
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "centerline": 222.921,
+    "upperEnvelope": 228.494025,
+    "lowerEnvelope": 217.347975
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "centerline": 223.15500000000003,
+    "upperEnvelope": 228.73387500000004,
+    "lowerEnvelope": 217.57612500000002
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "centerline": 223.301,
+    "upperEnvelope": 228.883525,
+    "lowerEnvelope": 217.71847499999998
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "centerline": 223.44599999999997,
+    "upperEnvelope": 229.03214999999997,
+    "lowerEnvelope": 217.85984999999997
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "centerline": 223.53099999999995,
+    "upperEnvelope": 229.11927499999996,
+    "lowerEnvelope": 217.94272499999994
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "centerline": 223.67049999999995,
+    "upperEnvelope": 229.26226249999993,
+    "lowerEnvelope": 218.07873749999996
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "centerline": 223.83349999999996,
+    "upperEnvelope": 229.42933749999995,
+    "lowerEnvelope": 218.23766249999997
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "centerline": 223.97599999999997,
+    "upperEnvelope": 229.57539999999997,
+    "lowerEnvelope": 218.37659999999997
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "centerline": 224.1645,
+    "upperEnvelope": 229.76861250000002,
+    "lowerEnvelope": 218.5603875
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "centerline": 224.36649999999995,
+    "upperEnvelope": 229.97566249999994,
+    "lowerEnvelope": 218.75733749999995
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "centerline": 224.5785,
+    "upperEnvelope": 230.1929625,
+    "lowerEnvelope": 218.9640375
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "centerline": 224.773,
+    "upperEnvelope": 230.392325,
+    "lowerEnvelope": 219.153675
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "centerline": 225.0015,
+    "upperEnvelope": 230.62653749999998,
+    "lowerEnvelope": 219.3764625
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "centerline": 225.25549999999998,
+    "upperEnvelope": 230.88688749999997,
+    "lowerEnvelope": 219.6241125
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "centerline": 225.5625,
+    "upperEnvelope": 231.2015625,
+    "lowerEnvelope": 219.9234375
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "centerline": 225.834,
+    "upperEnvelope": 231.47985,
+    "lowerEnvelope": 220.18815
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "centerline": 226.12850000000003,
+    "upperEnvelope": 231.78171250000003,
+    "lowerEnvelope": 220.47528750000004
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "centerline": 226.24150000000003,
+    "upperEnvelope": 231.89753750000003,
+    "lowerEnvelope": 220.58546250000003
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "centerline": 226.30900000000003,
+    "upperEnvelope": 231.96672500000003,
+    "lowerEnvelope": 220.65127500000003
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "centerline": 226.48499999999999,
+    "upperEnvelope": 232.147125,
+    "lowerEnvelope": 220.82287499999998
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "centerline": 226.59650000000002,
+    "upperEnvelope": 232.26141250000003,
+    "lowerEnvelope": 220.9315875
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "centerline": 226.66800000000003,
+    "upperEnvelope": 232.33470000000003,
+    "lowerEnvelope": 221.00130000000004
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "centerline": 226.77300000000005,
+    "upperEnvelope": 232.44232500000007,
+    "lowerEnvelope": 221.10367500000004
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "centerline": 226.92300000000006,
+    "upperEnvelope": 232.59607500000007,
+    "lowerEnvelope": 221.24992500000005
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "centerline": 227.09500000000003,
+    "upperEnvelope": 232.77237500000004,
+    "lowerEnvelope": 221.41762500000002
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "centerline": 227.22850000000003,
+    "upperEnvelope": 232.90921250000002,
+    "lowerEnvelope": 221.54778750000003
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "centerline": 227.35500000000002,
+    "upperEnvelope": 233.03887500000002,
+    "lowerEnvelope": 221.67112500000002
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "centerline": 227.58649999999997,
+    "upperEnvelope": 233.27616249999997,
+    "lowerEnvelope": 221.89683749999998
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "centerline": 227.8435,
+    "upperEnvelope": 233.5395875,
+    "lowerEnvelope": 222.1474125
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "centerline": 228.04699999999997,
+    "upperEnvelope": 233.74817499999997,
+    "lowerEnvelope": 222.34582499999996
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "centerline": 228.21500000000006,
+    "upperEnvelope": 233.92037500000006,
+    "lowerEnvelope": 222.50962500000006
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "centerline": 228.41500000000005,
+    "upperEnvelope": 234.12537500000005,
+    "lowerEnvelope": 222.70462500000005
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "centerline": 228.6005,
+    "upperEnvelope": 234.3155125,
+    "lowerEnvelope": 222.8854875
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "centerline": 228.79149999999998,
+    "upperEnvelope": 234.51128749999998,
+    "lowerEnvelope": 223.0717125
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "centerline": 228.99950000000004,
+    "upperEnvelope": 234.72448750000004,
+    "lowerEnvelope": 223.27451250000004
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "centerline": 229.20150000000004,
+    "upperEnvelope": 234.93153750000005,
+    "lowerEnvelope": 223.47146250000003
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "centerline": 229.39900000000003,
+    "upperEnvelope": 235.13397500000002,
+    "lowerEnvelope": 223.66402500000004
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "centerline": 229.77650000000003,
+    "upperEnvelope": 235.52091250000004,
+    "lowerEnvelope": 224.03208750000002
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "centerline": 230.11150000000004,
+    "upperEnvelope": 235.86428750000005,
+    "lowerEnvelope": 224.35871250000002
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "centerline": 230.4695,
+    "upperEnvelope": 236.23123750000002,
+    "lowerEnvelope": 224.7077625
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "centerline": 230.6915,
+    "upperEnvelope": 236.4587875,
+    "lowerEnvelope": 224.92421249999998
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "centerline": 230.885,
+    "upperEnvelope": 236.65712499999998,
+    "lowerEnvelope": 225.112875
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "centerline": 231.04700000000003,
+    "upperEnvelope": 236.82317500000002,
+    "lowerEnvelope": 225.27082500000003
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "centerline": 231.16800000000003,
+    "upperEnvelope": 236.94720000000004,
+    "lowerEnvelope": 225.38880000000003
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "centerline": 231.2995,
+    "upperEnvelope": 237.0819875,
+    "lowerEnvelope": 225.5170125
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "centerline": 231.3475,
+    "upperEnvelope": 237.1311875,
+    "lowerEnvelope": 225.56381249999998
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "centerline": 231.50150000000002,
+    "upperEnvelope": 237.28903750000003,
+    "lowerEnvelope": 225.7139625
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "centerline": 231.46200000000005,
+    "upperEnvelope": 237.24855000000005,
+    "lowerEnvelope": 225.67545000000004
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "centerline": 231.40550000000007,
+    "upperEnvelope": 237.19063750000007,
+    "lowerEnvelope": 225.62036250000008
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "centerline": 231.37750000000005,
+    "upperEnvelope": 237.16193750000005,
+    "lowerEnvelope": 225.59306250000006
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "centerline": 231.413,
+    "upperEnvelope": 237.198325,
+    "lowerEnvelope": 225.627675
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "centerline": 231.321,
+    "upperEnvelope": 237.104025,
+    "lowerEnvelope": 225.537975
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "centerline": 231.29749999999999,
+    "upperEnvelope": 237.07993749999997,
+    "lowerEnvelope": 225.5150625
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "centerline": 231.30450000000005,
+    "upperEnvelope": 237.08711250000005,
+    "lowerEnvelope": 225.52188750000005
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "centerline": 231.30500000000006,
+    "upperEnvelope": 237.08762500000006,
+    "lowerEnvelope": 225.52237500000007
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "centerline": 231.3355,
+    "upperEnvelope": 237.1188875,
+    "lowerEnvelope": 225.5521125
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "centerline": 231.40050000000002,
+    "upperEnvelope": 237.18551250000002,
+    "lowerEnvelope": 225.61548750000003
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "centerline": 231.542,
+    "upperEnvelope": 237.33055000000002,
+    "lowerEnvelope": 225.75345
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "centerline": 231.67949999999996,
+    "upperEnvelope": 237.47148749999997,
+    "lowerEnvelope": 225.88751249999996
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "centerline": 231.72749999999996,
+    "upperEnvelope": 237.52068749999995,
+    "lowerEnvelope": 225.93431249999998
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "centerline": 231.91699999999997,
+    "upperEnvelope": 237.71492499999997,
+    "lowerEnvelope": 226.11907499999998
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "centerline": 232.11499999999995,
+    "upperEnvelope": 237.91787499999995,
+    "lowerEnvelope": 226.31212499999995
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "centerline": 232.30749999999995,
+    "upperEnvelope": 238.11518749999993,
+    "lowerEnvelope": 226.49981249999996
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "centerline": 232.48349999999996,
+    "upperEnvelope": 238.29558749999995,
+    "lowerEnvelope": 226.67141249999997
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "centerline": 232.68,
+    "upperEnvelope": 238.497,
+    "lowerEnvelope": 226.863
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "centerline": 232.9705,
+    "upperEnvelope": 238.7947625,
+    "lowerEnvelope": 227.14623749999998
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "centerline": 233.14700000000002,
+    "upperEnvelope": 238.97567500000002,
+    "lowerEnvelope": 227.31832500000002
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "centerline": 233.41200000000003,
+    "upperEnvelope": 239.24730000000002,
+    "lowerEnvelope": 227.57670000000005
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "centerline": 233.6485,
+    "upperEnvelope": 239.48971250000002,
+    "lowerEnvelope": 227.8072875
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "centerline": 233.892,
+    "upperEnvelope": 239.7393,
+    "lowerEnvelope": 228.0447
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "centerline": 234.11450000000005,
+    "upperEnvelope": 239.96736250000006,
+    "lowerEnvelope": 228.26163750000003
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "centerline": 234.4205,
+    "upperEnvelope": 240.2810125,
+    "lowerEnvelope": 228.5599875
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "centerline": 234.67299999999994,
+    "upperEnvelope": 240.53982499999995,
+    "lowerEnvelope": 228.80617499999994
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "centerline": 234.935,
+    "upperEnvelope": 240.808375,
+    "lowerEnvelope": 229.061625
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "centerline": 235.17649999999998,
+    "upperEnvelope": 241.05591249999998,
+    "lowerEnvelope": 229.29708749999998
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "centerline": 235.331,
+    "upperEnvelope": 241.214275,
+    "lowerEnvelope": 229.447725
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "centerline": 235.2995,
+    "upperEnvelope": 241.1819875,
+    "lowerEnvelope": 229.4170125
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "centerline": 235.23100000000005,
+    "upperEnvelope": 241.11177500000005,
+    "lowerEnvelope": 229.35022500000005
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "centerline": 235.27900000000005,
+    "upperEnvelope": 241.16097500000006,
+    "lowerEnvelope": 229.39702500000004
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "centerline": 235.31950000000006,
+    "upperEnvelope": 241.20248750000007,
+    "lowerEnvelope": 229.43651250000005
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "centerline": 235.31750000000002,
+    "upperEnvelope": 241.20043750000002,
+    "lowerEnvelope": 229.43456250000003
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "centerline": 235.12650000000002,
+    "upperEnvelope": 241.00466250000002,
+    "lowerEnvelope": 229.24833750000002
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "centerline": 234.9275,
+    "upperEnvelope": 240.8006875,
+    "lowerEnvelope": 229.0543125
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "centerline": 234.74050000000005,
+    "upperEnvelope": 240.60901250000006,
+    "lowerEnvelope": 228.87198750000005
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "centerline": 234.6465,
+    "upperEnvelope": 240.5126625,
+    "lowerEnvelope": 228.7803375
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "centerline": 234.51,
+    "upperEnvelope": 240.37275,
+    "lowerEnvelope": 228.64724999999999
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "centerline": 234.35700000000003,
+    "upperEnvelope": 240.21592500000003,
+    "lowerEnvelope": 228.49807500000003
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "centerline": 234.24500000000003,
+    "upperEnvelope": 240.10112500000002,
+    "lowerEnvelope": 228.38887500000004
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "centerline": 234.14050000000003,
+    "upperEnvelope": 239.99401250000003,
+    "lowerEnvelope": 228.28698750000004
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "centerline": 234.02249999999998,
+    "upperEnvelope": 239.87306249999997,
+    "lowerEnvelope": 228.17193749999998
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "centerline": 233.9545,
+    "upperEnvelope": 239.8033625,
+    "lowerEnvelope": 228.1056375
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "centerline": 233.97949999999997,
+    "upperEnvelope": 239.82898749999998,
+    "lowerEnvelope": 228.13001249999996
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "centerline": 234,
+    "upperEnvelope": 239.85,
+    "lowerEnvelope": 228.15
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "centerline": 233.914,
+    "upperEnvelope": 239.76184999999998,
+    "lowerEnvelope": 228.06615
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "centerline": 233.89700000000002,
+    "upperEnvelope": 239.74442500000004,
+    "lowerEnvelope": 228.049575
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "centerline": 233.87900000000005,
+    "upperEnvelope": 239.72597500000006,
+    "lowerEnvelope": 228.03202500000003
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "centerline": 234.01349999999996,
+    "upperEnvelope": 239.86383749999996,
+    "lowerEnvelope": 228.16316249999997
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "centerline": 234.256,
+    "upperEnvelope": 240.1124,
+    "lowerEnvelope": 228.3996
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "centerline": 234.42349999999996,
+    "upperEnvelope": 240.28408749999997,
+    "lowerEnvelope": 228.56291249999995
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "centerline": 234.598,
+    "upperEnvelope": 240.46295,
+    "lowerEnvelope": 228.73305000000002
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "centerline": 234.748,
+    "upperEnvelope": 240.61669999999998,
+    "lowerEnvelope": 228.8793
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "centerline": 235.0975,
+    "upperEnvelope": 240.9749375,
+    "lowerEnvelope": 229.22006249999998
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "centerline": 235.49099999999993,
+    "upperEnvelope": 241.37827499999992,
+    "lowerEnvelope": 229.60372499999994
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "centerline": 235.8875,
+    "upperEnvelope": 241.7846875,
+    "lowerEnvelope": 229.9903125
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "centerline": 236.16649999999998,
+    "upperEnvelope": 242.0706625,
+    "lowerEnvelope": 230.26233749999997
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "centerline": 236.45549999999997,
+    "upperEnvelope": 242.36688749999996,
+    "lowerEnvelope": 230.54411249999998
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "centerline": 236.77450000000005,
+    "upperEnvelope": 242.69386250000005,
+    "lowerEnvelope": 230.85513750000004
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "centerline": 237.04150000000004,
+    "upperEnvelope": 242.96753750000005,
+    "lowerEnvelope": 231.11546250000004
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "centerline": 237.31550000000001,
+    "upperEnvelope": 243.2483875,
+    "lowerEnvelope": 231.38261250000002
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "centerline": 237.62250000000003,
+    "upperEnvelope": 243.56306250000003,
+    "lowerEnvelope": 231.68193750000003
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "centerline": 237.88850000000008,
+    "upperEnvelope": 243.83571250000008,
+    "lowerEnvelope": 231.94128750000007
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "centerline": 238.12650000000002,
+    "upperEnvelope": 244.0796625,
+    "lowerEnvelope": 232.17333750000003
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "centerline": 238.4,
+    "upperEnvelope": 244.36,
+    "lowerEnvelope": 232.44
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "centerline": 238.78400000000002,
+    "upperEnvelope": 244.75360000000003,
+    "lowerEnvelope": 232.8144
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "centerline": 239.14199999999997,
+    "upperEnvelope": 245.12054999999998,
+    "lowerEnvelope": 233.16344999999995
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "centerline": 239.57349999999997,
+    "upperEnvelope": 245.56283749999997,
+    "lowerEnvelope": 233.58416249999996
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "centerline": 240.00500000000002,
+    "upperEnvelope": 246.00512500000002,
+    "lowerEnvelope": 234.00487500000003
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "centerline": 240.29100000000003,
+    "upperEnvelope": 246.29827500000002,
+    "lowerEnvelope": 234.28372500000003
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "centerline": 240.56899999999996,
+    "upperEnvelope": 246.58322499999997,
+    "lowerEnvelope": 234.55477499999995
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "centerline": 240.86049999999994,
+    "upperEnvelope": 246.88201249999995,
+    "lowerEnvelope": 234.83898749999994
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "centerline": 241.1375,
+    "upperEnvelope": 247.16593749999998,
+    "lowerEnvelope": 235.1090625
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "centerline": 241.41350000000003,
+    "upperEnvelope": 247.44883750000002,
+    "lowerEnvelope": 235.37816250000003
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "centerline": 241.68050000000002,
+    "upperEnvelope": 247.72251250000002,
+    "lowerEnvelope": 235.63848750000002
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "centerline": 241.94400000000002,
+    "upperEnvelope": 247.9926,
+    "lowerEnvelope": 235.89540000000002
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "centerline": 242.21550000000002,
+    "upperEnvelope": 248.27088750000001,
+    "lowerEnvelope": 236.16011250000003
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "centerline": 242.52200000000002,
+    "upperEnvelope": 248.58505000000002,
+    "lowerEnvelope": 236.45895000000002
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "centerline": 242.8895,
+    "upperEnvelope": 248.9617375,
+    "lowerEnvelope": 236.8172625
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "centerline": 243.23350000000005,
+    "upperEnvelope": 249.31433750000005,
+    "lowerEnvelope": 237.15266250000005
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "centerline": 243.5915,
+    "upperEnvelope": 249.6812875,
+    "lowerEnvelope": 237.5017125
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "centerline": 243.84300000000002,
+    "upperEnvelope": 249.93907500000003,
+    "lowerEnvelope": 237.746925
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "centerline": 244.0955,
+    "upperEnvelope": 250.19788749999998,
+    "lowerEnvelope": 237.9931125
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "centerline": 244.4055,
+    "upperEnvelope": 250.5156375,
+    "lowerEnvelope": 238.29536249999998
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "centerline": 244.61749999999998,
+    "upperEnvelope": 250.7329375,
+    "lowerEnvelope": 238.50206249999997
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "centerline": 244.823,
+    "upperEnvelope": 250.943575,
+    "lowerEnvelope": 238.702425
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "centerline": 245.0305,
+    "upperEnvelope": 251.1562625,
+    "lowerEnvelope": 238.90473749999998
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "centerline": 245.171,
+    "upperEnvelope": 251.300275,
+    "lowerEnvelope": 239.04172499999999
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "centerline": 245.36649999999995,
+    "upperEnvelope": 251.50066249999995,
+    "lowerEnvelope": 239.23233749999994
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "centerline": 245.6015,
+    "upperEnvelope": 251.7415375,
+    "lowerEnvelope": 239.46146249999998
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "centerline": 245.7955,
+    "upperEnvelope": 251.9403875,
+    "lowerEnvelope": 239.6506125
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "centerline": 245.99149999999995,
+    "upperEnvelope": 252.14128749999995,
+    "lowerEnvelope": 239.84171249999994
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "centerline": 246.161,
+    "upperEnvelope": 252.315025,
+    "lowerEnvelope": 240.006975
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "centerline": 246.31150000000002,
+    "upperEnvelope": 252.46928750000004,
+    "lowerEnvelope": 240.1537125
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "centerline": 246.45700000000005,
+    "upperEnvelope": 252.61842500000006,
+    "lowerEnvelope": 240.29557500000004
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "centerline": 246.565,
+    "upperEnvelope": 252.729125,
+    "lowerEnvelope": 240.40087499999998
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "centerline": 246.59949999999998,
+    "upperEnvelope": 252.76448749999997,
+    "lowerEnvelope": 240.43451249999998
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "centerline": 246.73549999999994,
+    "upperEnvelope": 252.90388749999994,
+    "lowerEnvelope": 240.56711249999995
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "centerline": 246.77149999999997,
+    "upperEnvelope": 252.94078749999997,
+    "lowerEnvelope": 240.60221249999998
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "centerline": 246.8765,
+    "upperEnvelope": 253.04841249999998,
+    "lowerEnvelope": 240.7045875
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "centerline": 247.04100000000003,
+    "upperEnvelope": 253.21702500000004,
+    "lowerEnvelope": 240.86497500000002
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "centerline": 247.25500000000002,
+    "upperEnvelope": 253.43637500000003,
+    "lowerEnvelope": 241.07362500000002
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "centerline": 247.48199999999997,
+    "upperEnvelope": 253.66904999999997,
+    "lowerEnvelope": 241.29494999999997
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "centerline": 247.60299999999998,
+    "upperEnvelope": 253.793075,
+    "lowerEnvelope": 241.41292499999997
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "centerline": 247.89649999999997,
+    "upperEnvelope": 254.0939125,
+    "lowerEnvelope": 241.69908749999996
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "centerline": 248.16299999999995,
+    "upperEnvelope": 254.36707499999994,
+    "lowerEnvelope": 241.95892499999997
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "centerline": 248.5235,
+    "upperEnvelope": 254.7365875,
+    "lowerEnvelope": 242.3104125
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "centerline": 248.85250000000002,
+    "upperEnvelope": 255.07381250000003,
+    "lowerEnvelope": 242.6311875
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "centerline": 249.12549999999996,
+    "upperEnvelope": 255.35363749999996,
+    "lowerEnvelope": 242.89736249999996
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "centerline": 249.33349999999996,
+    "upperEnvelope": 255.56683749999996,
+    "lowerEnvelope": 243.10016249999995
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "centerline": 249.55249999999995,
+    "upperEnvelope": 255.79131249999995,
+    "lowerEnvelope": 243.31368749999996
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "centerline": 249.78999999999996,
+    "upperEnvelope": 256.03475,
+    "lowerEnvelope": 243.54524999999995
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "centerline": 250.1415,
+    "upperEnvelope": 256.3950375,
+    "lowerEnvelope": 243.88796250000001
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "centerline": 250.53549999999996,
+    "upperEnvelope": 256.7988875,
+    "lowerEnvelope": 244.27211249999996
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "centerline": 250.9405,
+    "upperEnvelope": 257.21401249999997,
+    "lowerEnvelope": 244.66698749999998
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "centerline": 251.37299999999996,
+    "upperEnvelope": 257.65732499999996,
+    "lowerEnvelope": 245.08867499999997
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "centerline": 251.8145,
+    "upperEnvelope": 258.1098625,
+    "lowerEnvelope": 245.5191375
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "centerline": 252.2575,
+    "upperEnvelope": 258.5639375,
+    "lowerEnvelope": 245.9510625
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "centerline": 252.81850000000003,
+    "upperEnvelope": 259.13896250000005,
+    "lowerEnvelope": 246.49803750000004
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "centerline": 253.30900000000003,
+    "upperEnvelope": 259.641725,
+    "lowerEnvelope": 246.97627500000002
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "centerline": 253.71150000000003,
+    "upperEnvelope": 260.05428750000004,
+    "lowerEnvelope": 247.36871250000002
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "centerline": 254.15150000000003,
+    "upperEnvelope": 260.5052875,
+    "lowerEnvelope": 247.79771250000002
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "centerline": 254.56,
+    "upperEnvelope": 260.924,
+    "lowerEnvelope": 248.196
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "centerline": 254.95899999999997,
+    "upperEnvelope": 261.332975,
+    "lowerEnvelope": 248.58502499999997
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "centerline": 255.23749999999995,
+    "upperEnvelope": 261.61843749999997,
+    "lowerEnvelope": 248.85656249999997
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "centerline": 255.55,
+    "upperEnvelope": 261.93875,
+    "lowerEnvelope": 249.16125000000002
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "centerline": 255.704,
+    "upperEnvelope": 262.0966,
+    "lowerEnvelope": 249.31140000000002
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "centerline": 255.9765,
+    "upperEnvelope": 262.37591249999997,
+    "lowerEnvelope": 249.57708749999998
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "centerline": 256.34599999999995,
+    "upperEnvelope": 262.75464999999997,
+    "lowerEnvelope": 249.93734999999995
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "centerline": 256.81550000000004,
+    "upperEnvelope": 263.23588750000005,
+    "lowerEnvelope": 250.39511250000004
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "centerline": 257.37050000000005,
+    "upperEnvelope": 263.80476250000004,
+    "lowerEnvelope": 250.93623750000006
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "centerline": 257.90950000000004,
+    "upperEnvelope": 264.35723750000005,
+    "lowerEnvelope": 251.46176250000005
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "centerline": 258.40950000000004,
+    "upperEnvelope": 264.86973750000004,
+    "lowerEnvelope": 251.94926250000003
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "centerline": 258.8505,
+    "upperEnvelope": 265.32176250000003,
+    "lowerEnvelope": 252.37923750000002
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "centerline": 259.3655,
+    "upperEnvelope": 265.8496375,
+    "lowerEnvelope": 252.8813625
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "centerline": 259.9685,
+    "upperEnvelope": 266.4677125,
+    "lowerEnvelope": 253.4692875
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "centerline": 260.57849999999996,
+    "upperEnvelope": 267.09296249999994,
+    "lowerEnvelope": 254.06403749999996
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "centerline": 261.20950000000005,
+    "upperEnvelope": 267.73973750000005,
+    "lowerEnvelope": 254.67926250000005
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "centerline": 261.7365000000001,
+    "upperEnvelope": 268.2799125000001,
+    "lowerEnvelope": 255.1930875000001
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "centerline": 262.374,
+    "upperEnvelope": 268.93335,
+    "lowerEnvelope": 255.81465000000003
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "centerline": 263.1285,
+    "upperEnvelope": 269.7067125,
+    "lowerEnvelope": 256.55028749999997
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "centerline": 263.88500000000005,
+    "upperEnvelope": 270.48212500000005,
+    "lowerEnvelope": 257.28787500000004
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "centerline": 264.63950000000006,
+    "upperEnvelope": 271.2554875000001,
+    "lowerEnvelope": 258.02351250000004
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "centerline": 265.4150000000001,
+    "upperEnvelope": 272.0503750000001,
+    "lowerEnvelope": 258.77962500000007
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "centerline": 266.34250000000003,
+    "upperEnvelope": 273.00106250000005,
+    "lowerEnvelope": 259.6839375
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "centerline": 267.15200000000004,
+    "upperEnvelope": 273.83080000000007,
+    "lowerEnvelope": 260.4732
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "centerline": 267.8695000000001,
+    "upperEnvelope": 274.56623750000006,
+    "lowerEnvelope": 261.1727625000001
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "centerline": 268.50200000000007,
+    "upperEnvelope": 275.2145500000001,
+    "lowerEnvelope": 261.78945000000004
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "centerline": 269.03700000000003,
+    "upperEnvelope": 275.76292500000005,
+    "lowerEnvelope": 262.311075
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "centerline": 269.22200000000004,
+    "upperEnvelope": 275.95255000000003,
+    "lowerEnvelope": 262.49145000000004
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "centerline": 268.765,
+    "upperEnvelope": 275.484125,
+    "lowerEnvelope": 262.04587499999997
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "centerline": 268.5345,
+    "upperEnvelope": 275.2478625,
+    "lowerEnvelope": 261.82113749999996
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "centerline": 268.20349999999996,
+    "upperEnvelope": 274.90858749999995,
+    "lowerEnvelope": 261.4984125
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "centerline": 267.4094999999999,
+    "upperEnvelope": 274.0947374999999,
+    "lowerEnvelope": 260.72426249999995
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "centerline": 266.7054999999999,
+    "upperEnvelope": 273.3731374999999,
+    "lowerEnvelope": 260.0378624999999
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "centerline": 266.09999999999997,
+    "upperEnvelope": 272.75249999999994,
+    "lowerEnvelope": 259.4475
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "centerline": 265.57149999999996,
+    "upperEnvelope": 272.2107875,
+    "lowerEnvelope": 258.93221249999993
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "centerline": 265.08899999999994,
+    "upperEnvelope": 271.71622499999995,
+    "lowerEnvelope": 258.46177499999993
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "centerline": 264.79449999999997,
+    "upperEnvelope": 271.4143625,
+    "lowerEnvelope": 258.17463749999996
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "centerline": 264.4429999999999,
+    "upperEnvelope": 271.0540749999999,
+    "lowerEnvelope": 257.83192499999996
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "centerline": 263.899,
+    "upperEnvelope": 270.496475,
+    "lowerEnvelope": 257.301525
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "centerline": 263.2615,
+    "upperEnvelope": 269.84303750000004,
+    "lowerEnvelope": 256.6799625
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "centerline": 262.6460000000001,
+    "upperEnvelope": 269.21215000000007,
+    "lowerEnvelope": 256.0798500000001
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "centerline": 262.2325000000001,
+    "upperEnvelope": 268.7883125000001,
+    "lowerEnvelope": 255.67668750000007
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "centerline": 261.81450000000007,
+    "upperEnvelope": 268.3598625000001,
+    "lowerEnvelope": 255.26913750000006
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "centerline": 261.321,
+    "upperEnvelope": 267.85402500000004,
+    "lowerEnvelope": 254.78797500000002
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "centerline": 260.834,
+    "upperEnvelope": 267.35485,
+    "lowerEnvelope": 254.31315
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "centerline": 260.15,
+    "upperEnvelope": 266.65375,
+    "lowerEnvelope": 253.64624999999998
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "centerline": 259.548,
+    "upperEnvelope": 266.0367,
+    "lowerEnvelope": 253.0593
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "centerline": 259.39099999999996,
+    "upperEnvelope": 265.875775,
+    "lowerEnvelope": 252.90622499999995
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "centerline": 259.82199999999995,
+    "upperEnvelope": 266.3175499999999,
+    "lowerEnvelope": 253.32644999999994
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "centerline": 259.9975,
+    "upperEnvelope": 266.4974375,
+    "lowerEnvelope": 253.49756250000002
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "centerline": 260.30699999999996,
+    "upperEnvelope": 266.81467499999997,
+    "lowerEnvelope": 253.79932499999995
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "centerline": 261.33,
+    "upperEnvelope": 267.86325,
+    "lowerEnvelope": 254.79674999999997
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "centerline": 262.1495,
+    "upperEnvelope": 268.7032375,
+    "lowerEnvelope": 255.59576249999998
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "centerline": 262.69750000000005,
+    "upperEnvelope": 269.26493750000003,
+    "lowerEnvelope": 256.13006250000007
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "centerline": 263.14549999999997,
+    "upperEnvelope": 269.7241375,
+    "lowerEnvelope": 256.56686249999996
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "centerline": 263.406,
+    "upperEnvelope": 269.99115,
+    "lowerEnvelope": 256.82085
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "centerline": 263.5154999999999,
+    "upperEnvelope": 270.10338749999994,
+    "lowerEnvelope": 256.9276124999999
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "centerline": 263.4415,
+    "upperEnvelope": 270.0275375,
+    "lowerEnvelope": 256.85546250000004
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "centerline": 263.472,
+    "upperEnvelope": 270.05879999999996,
+    "lowerEnvelope": 256.8852
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "centerline": 263.54249999999996,
+    "upperEnvelope": 270.1310625,
+    "lowerEnvelope": 256.95393749999994
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "centerline": 263.26900000000006,
+    "upperEnvelope": 269.85072500000007,
+    "lowerEnvelope": 256.68727500000006
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "centerline": 262.51650000000006,
+    "upperEnvelope": 269.07941250000005,
+    "lowerEnvelope": 255.95358750000005
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "centerline": 261.952,
+    "upperEnvelope": 268.5008,
+    "lowerEnvelope": 255.4032
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "centerline": 261.3365,
+    "upperEnvelope": 267.8699125,
+    "lowerEnvelope": 254.8030875
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "centerline": 260.8175,
+    "upperEnvelope": 267.3379375,
+    "lowerEnvelope": 254.29706249999998
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "centerline": 260.649,
+    "upperEnvelope": 267.165225,
+    "lowerEnvelope": 254.132775
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "centerline": 260.13950000000006,
+    "upperEnvelope": 266.64298750000006,
+    "lowerEnvelope": 253.63601250000005
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "centerline": 259.64000000000004,
+    "upperEnvelope": 266.13100000000003,
+    "lowerEnvelope": 253.14900000000003
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "centerline": 259.242,
+    "upperEnvelope": 265.72305,
+    "lowerEnvelope": 252.76095
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "centerline": 258.9495,
+    "upperEnvelope": 265.4232375,
+    "lowerEnvelope": 252.4757625
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "centerline": 258.307,
+    "upperEnvelope": 264.764675,
+    "lowerEnvelope": 251.84932500000002
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "centerline": 257.4965,
+    "upperEnvelope": 263.9339125,
+    "lowerEnvelope": 251.05908750000003
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "centerline": 256.904,
+    "upperEnvelope": 263.3266,
+    "lowerEnvelope": 250.4814
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "centerline": 256.33050000000003,
+    "upperEnvelope": 262.7387625,
+    "lowerEnvelope": 249.92223750000002
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "centerline": 255.9305,
+    "upperEnvelope": 262.3287625,
+    "lowerEnvelope": 249.5322375
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "centerline": 255.50749999999994,
+    "upperEnvelope": 261.8951874999999,
+    "lowerEnvelope": 249.11981249999994
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "centerline": 255.17499999999995,
+    "upperEnvelope": 261.55437499999994,
+    "lowerEnvelope": 248.79562499999994
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "centerline": 255.16049999999996,
+    "upperEnvelope": 261.53951249999994,
+    "lowerEnvelope": 248.78148749999997
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "centerline": 255.13350000000005,
+    "upperEnvelope": 261.51183750000007,
+    "lowerEnvelope": 248.75516250000004
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "centerline": 255.05900000000005,
+    "upperEnvelope": 261.43547500000005,
+    "lowerEnvelope": 248.68252500000006
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "centerline": 255.20150000000004,
+    "upperEnvelope": 261.5815375,
+    "lowerEnvelope": 248.82146250000002
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "centerline": 255.61350000000002,
+    "upperEnvelope": 262.00383750000003,
+    "lowerEnvelope": 249.2231625
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "centerline": 255.5105000000001,
+    "upperEnvelope": 261.8982625000001,
+    "lowerEnvelope": 249.12273750000008
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "centerline": 255.6570000000001,
+    "upperEnvelope": 262.0484250000001,
+    "lowerEnvelope": 249.2655750000001
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "centerline": 255.97050000000007,
+    "upperEnvelope": 262.3697625000001,
+    "lowerEnvelope": 249.57123750000008
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "centerline": 256.13550000000004,
+    "upperEnvelope": 262.53888750000004,
+    "lowerEnvelope": 249.73211250000003
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "centerline": 256.476,
+    "upperEnvelope": 262.8879,
+    "lowerEnvelope": 250.0641
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "centerline": 256.6795,
+    "upperEnvelope": 263.0964875,
+    "lowerEnvelope": 250.2625125
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "centerline": 256.662,
+    "upperEnvelope": 263.07854999999995,
+    "lowerEnvelope": 250.24544999999998
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "centerline": 256.516,
+    "upperEnvelope": 262.9289,
+    "lowerEnvelope": 250.1031
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "centerline": 256.82099999999997,
+    "upperEnvelope": 263.24152499999997,
+    "lowerEnvelope": 250.40047499999997
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "centerline": 257.10749999999996,
+    "upperEnvelope": 263.53518749999995,
+    "lowerEnvelope": 250.67981249999997
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "centerline": 257.193,
+    "upperEnvelope": 263.622825,
+    "lowerEnvelope": 250.763175
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "centerline": 257.4705,
+    "upperEnvelope": 263.9072625,
+    "lowerEnvelope": 251.03373750000003
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "centerline": 257.765,
+    "upperEnvelope": 264.209125,
+    "lowerEnvelope": 251.320875
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "centerline": 258.137,
+    "upperEnvelope": 264.590425,
+    "lowerEnvelope": 251.683575
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "centerline": 258.41050000000007,
+    "upperEnvelope": 264.87076250000007,
+    "lowerEnvelope": 251.95023750000007
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "centerline": 258.4545,
+    "upperEnvelope": 264.9158625,
+    "lowerEnvelope": 251.9931375
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "centerline": 258.544,
+    "upperEnvelope": 265.00759999999997,
+    "lowerEnvelope": 252.0804
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "centerline": 258.69499999999994,
+    "upperEnvelope": 265.16237499999994,
+    "lowerEnvelope": 252.22762499999993
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "centerline": 258.92299999999994,
+    "upperEnvelope": 265.39607499999994,
+    "lowerEnvelope": 252.44992499999995
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "centerline": 259.25149999999996,
+    "upperEnvelope": 265.7327875,
+    "lowerEnvelope": 252.77021249999996
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "centerline": 259.717,
+    "upperEnvelope": 266.209925,
+    "lowerEnvelope": 253.22407499999997
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "centerline": 260.187,
+    "upperEnvelope": 266.69167500000003,
+    "lowerEnvelope": 253.68232500000002
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "centerline": 260.5005,
+    "upperEnvelope": 267.0130125,
+    "lowerEnvelope": 253.98798749999997
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "centerline": 260.77049999999997,
+    "upperEnvelope": 267.2897625,
+    "lowerEnvelope": 254.25123749999997
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "centerline": 260.98850000000004,
+    "upperEnvelope": 267.51321250000007,
+    "lowerEnvelope": 254.46378750000005
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "centerline": 261.3575,
+    "upperEnvelope": 267.8914375,
+    "lowerEnvelope": 254.8235625
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "centerline": 261.7315,
+    "upperEnvelope": 268.2747875,
+    "lowerEnvelope": 255.1882125
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "centerline": 262.2625,
+    "upperEnvelope": 268.8190625,
+    "lowerEnvelope": 255.70593749999998
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "centerline": 262.69149999999996,
+    "upperEnvelope": 269.2587875,
+    "lowerEnvelope": 256.12421249999994
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "centerline": 263.0869999999999,
+    "upperEnvelope": 269.6641749999999,
+    "lowerEnvelope": 256.50982499999986
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "centerline": 263.59349999999995,
+    "upperEnvelope": 270.18333749999994,
+    "lowerEnvelope": 257.00366249999996
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "centerline": 263.97399999999993,
+    "upperEnvelope": 270.57334999999995,
+    "lowerEnvelope": 257.3746499999999
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "centerline": 264.272,
+    "upperEnvelope": 270.8788,
+    "lowerEnvelope": 257.66519999999997
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "centerline": 264.54799999999994,
+    "upperEnvelope": 271.16169999999994,
+    "lowerEnvelope": 257.93429999999995
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "centerline": 264.835,
+    "upperEnvelope": 271.455875,
+    "lowerEnvelope": 258.21412499999997
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "centerline": 265.17,
+    "upperEnvelope": 271.79925000000003,
+    "lowerEnvelope": 258.54075
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "centerline": 265.48400000000004,
+    "upperEnvelope": 272.1211,
+    "lowerEnvelope": 258.84690000000006
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "centerline": 265.79150000000004,
+    "upperEnvelope": 272.43628750000005,
+    "lowerEnvelope": 259.14671250000004
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "centerline": 266.10450000000003,
+    "upperEnvelope": 272.7571125,
+    "lowerEnvelope": 259.45188750000005
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "centerline": 266.26750000000004,
+    "upperEnvelope": 272.9241875,
+    "lowerEnvelope": 259.61081250000007
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "centerline": 266.49000000000007,
+    "upperEnvelope": 273.1522500000001,
+    "lowerEnvelope": 259.82775000000004
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "centerline": 266.5925000000001,
+    "upperEnvelope": 273.25731250000007,
+    "lowerEnvelope": 259.9276875000001
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "centerline": 266.746,
+    "upperEnvelope": 273.41465,
+    "lowerEnvelope": 260.07734999999997
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "centerline": 266.7495,
+    "upperEnvelope": 273.41823750000003,
+    "lowerEnvelope": 260.0807625
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "centerline": 266.93300000000005,
+    "upperEnvelope": 273.606325,
+    "lowerEnvelope": 260.2596750000001
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "centerline": 266.834,
+    "upperEnvelope": 273.50485,
+    "lowerEnvelope": 260.16315000000003
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "centerline": 266.89050000000003,
+    "upperEnvelope": 273.5627625,
+    "lowerEnvelope": 260.21823750000004
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "centerline": 266.83700000000005,
+    "upperEnvelope": 273.50792500000006,
+    "lowerEnvelope": 260.16607500000003
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "centerline": 266.749,
+    "upperEnvelope": 273.417725,
+    "lowerEnvelope": 260.08027500000003
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "centerline": 266.60450000000003,
+    "upperEnvelope": 273.26961250000005,
+    "lowerEnvelope": 259.9393875
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "centerline": 266.45650000000006,
+    "upperEnvelope": 273.11791250000005,
+    "lowerEnvelope": 259.7950875000001
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "centerline": 266.422,
+    "upperEnvelope": 273.08255,
+    "lowerEnvelope": 259.76145
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "centerline": 266.46850000000006,
+    "upperEnvelope": 273.1302125000001,
+    "lowerEnvelope": 259.80678750000004
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "centerline": 266.5455,
+    "upperEnvelope": 273.2091375,
+    "lowerEnvelope": 259.8818625
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "centerline": 266.50600000000003,
+    "upperEnvelope": 273.16865,
+    "lowerEnvelope": 259.84335000000004
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "centerline": 266.6315,
+    "upperEnvelope": 273.29728750000004,
+    "lowerEnvelope": 259.9657125
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "centerline": 266.73349999999994,
+    "upperEnvelope": 273.40183749999994,
+    "lowerEnvelope": 260.06516249999993
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "centerline": 266.84099999999995,
+    "upperEnvelope": 273.51202499999994,
+    "lowerEnvelope": 260.16997499999997
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "centerline": 267.03099999999995,
+    "upperEnvelope": 273.70677499999994,
+    "lowerEnvelope": 260.35522499999996
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "centerline": 267.30100000000004,
+    "upperEnvelope": 273.98352500000004,
+    "lowerEnvelope": 260.61847500000005
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "centerline": 267.4965,
+    "upperEnvelope": 274.1839125,
+    "lowerEnvelope": 260.80908750000003
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "centerline": 267.76050000000004,
+    "upperEnvelope": 274.4545125,
+    "lowerEnvelope": 261.06648750000005
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "centerline": 268.0255,
+    "upperEnvelope": 274.72613750000005,
+    "lowerEnvelope": 261.3248625
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "centerline": 268.54049999999995,
+    "upperEnvelope": 275.25401249999993,
+    "lowerEnvelope": 261.8269875
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "centerline": 269.1435,
+    "upperEnvelope": 275.8720875,
+    "lowerEnvelope": 262.4149125
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "centerline": 269.8225,
+    "upperEnvelope": 276.5680625,
+    "lowerEnvelope": 263.0769375
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "centerline": 270.33399999999995,
+    "upperEnvelope": 277.09234999999995,
+    "lowerEnvelope": 263.57564999999994
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "centerline": 270.755,
+    "upperEnvelope": 277.523875,
+    "lowerEnvelope": 263.986125
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "centerline": 271.21500000000003,
+    "upperEnvelope": 277.995375,
+    "lowerEnvelope": 264.43462500000004
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "centerline": 271.699,
+    "upperEnvelope": 278.49147500000004,
+    "lowerEnvelope": 264.906525
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "centerline": 272.14950000000005,
+    "upperEnvelope": 278.95323750000006,
+    "lowerEnvelope": 265.34576250000003
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "centerline": 272.54699999999997,
+    "upperEnvelope": 279.36067499999996,
+    "lowerEnvelope": 265.733325
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "centerline": 272.8745,
+    "upperEnvelope": 279.6963625,
+    "lowerEnvelope": 266.0526375
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "centerline": 273.199,
+    "upperEnvelope": 280.028975,
+    "lowerEnvelope": 266.369025
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "centerline": 273.6165,
+    "upperEnvelope": 280.4569125,
+    "lowerEnvelope": 266.77608749999996
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "centerline": 273.89349999999996,
+    "upperEnvelope": 280.74083749999994,
+    "lowerEnvelope": 267.0461625
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "centerline": 274.06699999999995,
+    "upperEnvelope": 280.91867499999995,
+    "lowerEnvelope": 267.21532499999995
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "centerline": 274.20099999999996,
+    "upperEnvelope": 281.056025,
+    "lowerEnvelope": 267.34597499999995
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "centerline": 274.36749999999995,
+    "upperEnvelope": 281.22668749999997,
+    "lowerEnvelope": 267.50831249999993
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "centerline": 274.4025,
+    "upperEnvelope": 281.2625625,
+    "lowerEnvelope": 267.54243749999995
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "centerline": 274.5995,
+    "upperEnvelope": 281.46448749999996,
+    "lowerEnvelope": 267.7345125
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "centerline": 274.861,
+    "upperEnvelope": 281.732525,
+    "lowerEnvelope": 267.98947499999997
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "centerline": 275.12700000000007,
+    "upperEnvelope": 282.00517500000007,
+    "lowerEnvelope": 268.24882500000007
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "centerline": 275.357,
+    "upperEnvelope": 282.240925,
+    "lowerEnvelope": 268.47307500000005
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "centerline": 275.4615,
+    "upperEnvelope": 282.3480375,
+    "lowerEnvelope": 268.5749625
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "centerline": 275.58050000000003,
+    "upperEnvelope": 282.47001250000005,
+    "lowerEnvelope": 268.6909875
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "centerline": 275.8765,
+    "upperEnvelope": 282.7734125,
+    "lowerEnvelope": 268.97958750000004
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "centerline": 276.35400000000004,
+    "upperEnvelope": 283.26285000000007,
+    "lowerEnvelope": 269.44515
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "centerline": 276.7715,
+    "upperEnvelope": 283.6907875,
+    "lowerEnvelope": 269.8522125
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "centerline": 277.28700000000003,
+    "upperEnvelope": 284.21917500000006,
+    "lowerEnvelope": 270.354825
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "centerline": 277.67150000000004,
+    "upperEnvelope": 284.6132875,
+    "lowerEnvelope": 270.72971250000006
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "centerline": 277.99699999999996,
+    "upperEnvelope": 284.94692499999996,
+    "lowerEnvelope": 271.04707499999995
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "centerline": 278.24799999999993,
+    "upperEnvelope": 285.20419999999996,
+    "lowerEnvelope": 271.2917999999999
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "centerline": 278.41549999999995,
+    "upperEnvelope": 285.3758875,
+    "lowerEnvelope": 271.4551124999999
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "centerline": 278.547,
+    "upperEnvelope": 285.51067500000005,
+    "lowerEnvelope": 271.583325
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "centerline": 278.66949999999997,
+    "upperEnvelope": 285.6362375,
+    "lowerEnvelope": 271.70276249999995
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "centerline": 278.90950000000004,
+    "upperEnvelope": 285.88223750000003,
+    "lowerEnvelope": 271.93676250000004
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "centerline": 279.247,
+    "upperEnvelope": 286.228175,
+    "lowerEnvelope": 272.265825
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "centerline": 279.50050000000005,
+    "upperEnvelope": 286.4880125,
+    "lowerEnvelope": 272.51298750000007
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "centerline": 279.94,
+    "upperEnvelope": 286.9385,
+    "lowerEnvelope": 272.9415
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "centerline": 280.2715,
+    "upperEnvelope": 287.2782875,
+    "lowerEnvelope": 273.26471250000003
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "centerline": 280.479,
+    "upperEnvelope": 287.490975,
+    "lowerEnvelope": 273.467025
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "centerline": 280.73349999999994,
+    "upperEnvelope": 287.7518374999999,
+    "lowerEnvelope": 273.71516249999996
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "centerline": 280.9705,
+    "upperEnvelope": 287.99476250000004,
+    "lowerEnvelope": 273.9462375
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "centerline": 281.3305,
+    "upperEnvelope": 288.36376249999995,
+    "lowerEnvelope": 274.2972375
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "centerline": 281.69599999999997,
+    "upperEnvelope": 288.73839999999996,
+    "lowerEnvelope": 274.6536
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "centerline": 281.92999999999995,
+    "upperEnvelope": 288.97824999999995,
+    "lowerEnvelope": 274.88174999999995
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "centerline": 282.0409999999999,
+    "upperEnvelope": 289.09202499999986,
+    "lowerEnvelope": 274.9899749999999
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "centerline": 282.10249999999996,
+    "upperEnvelope": 289.1550625,
+    "lowerEnvelope": 275.04993749999994
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "centerline": 282.128,
+    "upperEnvelope": 289.1812,
+    "lowerEnvelope": 275.0748
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "centerline": 282.21199999999993,
+    "upperEnvelope": 289.2672999999999,
+    "lowerEnvelope": 275.15669999999994
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "centerline": 282.34549999999996,
+    "upperEnvelope": 289.40413749999993,
+    "lowerEnvelope": 275.2868625
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "centerline": 282.49449999999996,
+    "upperEnvelope": 289.55686249999997,
+    "lowerEnvelope": 275.43213749999995
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "centerline": 282.6895,
+    "upperEnvelope": 289.7567375,
+    "lowerEnvelope": 275.62226250000003
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "centerline": 282.815,
+    "upperEnvelope": 289.885375,
+    "lowerEnvelope": 275.744625
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "centerline": 282.889,
+    "upperEnvelope": 289.961225,
+    "lowerEnvelope": 275.816775
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "centerline": 282.9385,
+    "upperEnvelope": 290.0119625,
+    "lowerEnvelope": 275.86503749999997
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "centerline": 282.9215,
+    "upperEnvelope": 289.9945375,
+    "lowerEnvelope": 275.8484625
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "centerline": 282.457,
+    "upperEnvelope": 289.518425,
+    "lowerEnvelope": 275.395575
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "centerline": 281.6105,
+    "upperEnvelope": 288.6507625,
+    "lowerEnvelope": 274.5702375
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "centerline": 280.946,
+    "upperEnvelope": 287.96965,
+    "lowerEnvelope": 273.92235000000005
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "centerline": 280.281,
+    "upperEnvelope": 287.288025,
+    "lowerEnvelope": 273.273975
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "centerline": 279.832,
+    "upperEnvelope": 286.82779999999997,
+    "lowerEnvelope": 272.8362
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "centerline": 279.37050000000005,
+    "upperEnvelope": 286.35476250000005,
+    "lowerEnvelope": 272.38623750000005
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "centerline": 278.597,
+    "upperEnvelope": 285.561925,
+    "lowerEnvelope": 271.632075
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "centerline": 277.82899999999995,
+    "upperEnvelope": 284.77472499999993,
+    "lowerEnvelope": 270.88327499999997
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "centerline": 277.04799999999994,
+    "upperEnvelope": 283.97419999999994,
+    "lowerEnvelope": 270.12179999999995
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "centerline": 276.21200000000005,
+    "upperEnvelope": 283.11730000000006,
+    "lowerEnvelope": 269.30670000000003
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "centerline": 275.014,
+    "upperEnvelope": 281.88935000000004,
+    "lowerEnvelope": 268.13865
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "centerline": 274.0085,
+    "upperEnvelope": 280.8587125,
+    "lowerEnvelope": 267.15828750000003
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "centerline": 272.77000000000004,
+    "upperEnvelope": 279.58925000000005,
+    "lowerEnvelope": 265.95075
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "centerline": 271.41,
+    "upperEnvelope": 278.19525000000004,
+    "lowerEnvelope": 264.62475
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "centerline": 270.2495,
+    "upperEnvelope": 277.0057375,
+    "lowerEnvelope": 263.4932625
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "centerline": 269.2205,
+    "upperEnvelope": 275.9510125,
+    "lowerEnvelope": 262.48998750000004
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "centerline": 268.4435,
+    "upperEnvelope": 275.1545875,
+    "lowerEnvelope": 261.73241249999995
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "centerline": 267.6664999999999,
+    "upperEnvelope": 274.35816249999993,
+    "lowerEnvelope": 260.9748374999999
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "centerline": 266.9625,
+    "upperEnvelope": 273.63656249999997,
+    "lowerEnvelope": 260.2884375
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "centerline": 266.3635,
+    "upperEnvelope": 273.0225875,
+    "lowerEnvelope": 259.7044125
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "centerline": 266.4959999999999,
+    "upperEnvelope": 273.1583999999999,
+    "lowerEnvelope": 259.83359999999993
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "centerline": 266.9024999999999,
+    "upperEnvelope": 273.57506249999994,
+    "lowerEnvelope": 260.2299374999999
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "centerline": 266.9909999999999,
+    "upperEnvelope": 273.6657749999999,
+    "lowerEnvelope": 260.31622499999986
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "centerline": 266.9014999999999,
+    "upperEnvelope": 273.57403749999986,
+    "lowerEnvelope": 260.2289624999999
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "centerline": 266.4944999999999,
+    "upperEnvelope": 273.1568624999999,
+    "lowerEnvelope": 259.83213749999993
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "centerline": 265.9944999999999,
+    "upperEnvelope": 272.6443624999999,
+    "lowerEnvelope": 259.3446374999999
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "centerline": 265.8295,
+    "upperEnvelope": 272.4752375,
+    "lowerEnvelope": 259.1837625
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "centerline": 265.7065,
+    "upperEnvelope": 272.34916250000003,
+    "lowerEnvelope": 259.0638375
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "centerline": 265.4185,
+    "upperEnvelope": 272.0539625,
+    "lowerEnvelope": 258.7830375
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "centerline": 264.9555,
+    "upperEnvelope": 271.5793875,
+    "lowerEnvelope": 258.33161249999995
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "centerline": 264.9405,
+    "upperEnvelope": 271.5640125,
+    "lowerEnvelope": 258.3169875
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "centerline": 264.60749999999996,
+    "upperEnvelope": 271.22268749999995,
+    "lowerEnvelope": 257.99231249999997
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "centerline": 264.71299999999997,
+    "upperEnvelope": 271.33082499999995,
+    "lowerEnvelope": 258.095175
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "centerline": 264.93449999999996,
+    "upperEnvelope": 271.55786249999994,
+    "lowerEnvelope": 258.3111375
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "centerline": 265.2665,
+    "upperEnvelope": 271.8981625,
+    "lowerEnvelope": 258.6348375
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "centerline": 265.42999999999995,
+    "upperEnvelope": 272.0657499999999,
+    "lowerEnvelope": 258.79425
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "centerline": 265.53450000000004,
+    "upperEnvelope": 272.17286250000006,
+    "lowerEnvelope": 258.8961375
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "centerline": 265.896,
+    "upperEnvelope": 272.5434,
+    "lowerEnvelope": 259.2486
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "centerline": 265.743,
+    "upperEnvelope": 272.386575,
+    "lowerEnvelope": 259.099425
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "centerline": 265.48549999999994,
+    "upperEnvelope": 272.12263749999994,
+    "lowerEnvelope": 258.84836249999995
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "centerline": 264.63449999999995,
+    "upperEnvelope": 271.25036249999994,
+    "lowerEnvelope": 258.01863749999995
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "centerline": 263.83299999999997,
+    "upperEnvelope": 270.42882499999996,
+    "lowerEnvelope": 257.237175
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "centerline": 263.168,
+    "upperEnvelope": 269.7472,
+    "lowerEnvelope": 256.5888
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "centerline": 262.821,
+    "upperEnvelope": 269.391525,
+    "lowerEnvelope": 256.25047500000005
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "centerline": 262.495,
+    "upperEnvelope": 269.057375,
+    "lowerEnvelope": 255.932625
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "centerline": 262.0205,
+    "upperEnvelope": 268.57101250000005,
+    "lowerEnvelope": 255.46998750000003
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "centerline": 261.159,
+    "upperEnvelope": 267.687975,
+    "lowerEnvelope": 254.630025
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "centerline": 260.2495,
+    "upperEnvelope": 266.7557375,
+    "lowerEnvelope": 253.74326250000001
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "centerline": 259.379,
+    "upperEnvelope": 265.863475,
+    "lowerEnvelope": 252.89452500000002
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "centerline": 258.552,
+    "upperEnvelope": 265.0158,
+    "lowerEnvelope": 252.08820000000003
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "centerline": 257.43449999999996,
+    "upperEnvelope": 263.87036249999994,
+    "lowerEnvelope": 250.99863749999997
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "centerline": 256.091,
+    "upperEnvelope": 262.493275,
+    "lowerEnvelope": 249.688725
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "centerline": 255.12149999999997,
+    "upperEnvelope": 261.4995375,
+    "lowerEnvelope": 248.74346249999996
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "centerline": 254.20049999999992,
+    "upperEnvelope": 260.5555124999999,
+    "lowerEnvelope": 247.84548749999993
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "centerline": 252.96249999999995,
+    "upperEnvelope": 259.28656249999995,
+    "lowerEnvelope": 246.63843749999995
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "centerline": 251.85999999999996,
+    "upperEnvelope": 258.15649999999994,
+    "lowerEnvelope": 245.56349999999995
+  }
+]

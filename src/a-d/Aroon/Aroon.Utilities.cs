@@ -1,17 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+public static partial class Aroon
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<AroonResult> RemoveWarmupPeriods(
-        this IEnumerable<AroonResult> results)
+    /// <summary>
+    /// parameter validation
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
+    internal static void Validate(
+        int lookbackPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Oscillator != null);
-
-        return results.Remove(removePeriods);
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Aroon.");
+        }
     }
 }

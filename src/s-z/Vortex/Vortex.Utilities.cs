@@ -1,12 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Vortex indicator.
+/// </summary>
+public static partial class Vortex
 {
-    // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<VortexResult> Condense(
-        this IEnumerable<VortexResult> results)
+    // remove empty (null) periods
+    /// <summary>
+    /// Condenses the Vortex results by removing periods with null values.
+    /// </summary>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<VortexResult> Condense(
+        this IReadOnlyList<VortexResult> results)
     {
         List<VortexResult> resultsList = results
             .ToList();
@@ -19,15 +24,37 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<VortexResult> RemoveWarmupPeriods(
-        this IEnumerable<VortexResult> results)
+    /// <summary>
+    /// Removes the warmup periods from the Vortex results.
+    /// </summary>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<VortexResult> RemoveWarmupPeriods(
+        this IReadOnlyList<VortexResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
-            .ToList()
             .FindIndex(static x => x.Pvi != null || x.Nvi != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Vortex calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 1.
+    /// </exception>
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for VI.");
+        }
     }
 }

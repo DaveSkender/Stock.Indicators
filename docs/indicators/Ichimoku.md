@@ -1,0 +1,130 @@
+---
+title: Ichimoku Cloud
+description: Created by Goichi Hosoda (細田悟一, Hosoda Goichi), Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
+---
+
+# Ichimoku Cloud
+
+Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D), also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/251 "Community discussion about this indicator")
+
+<IndicatorChartPanel indicator-key="Ichimoku" />
+
+```csharp
+// C# usage syntax (batch)
+IReadOnlyList<IchimokuResult> results =
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
+// usage with custom offset
+IReadOnlyList<IchimokuResult> results =
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
+
+// usage with different custom offsets
+IReadOnlyList<IchimokuResult> results =
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
+
+// buffered usage (incremental)
+IchimokuList buffer = quotes.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IReadOnlyList<IchimokuResult> results = buffer;
+
+// streaming usage (real-time)
+QuoteHub quoteHub = new();
+IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IReadOnlyList<IchimokuResult> results = observer.Results;
+```
+
+## Parameters
+
+| param | type | description |
+| ----- | ---- | ----------- |
+| `tenkanPeriods` | int | Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9. |
+| `kijunPeriods` | int | Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26. |
+| `senkouBPeriods` | int | Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52. |
+| `offsetPeriods` | int | Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`. |
+| `senkouOffset` | int | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`. |
+| `chikouOffset` | int | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`. |
+
+See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
+
+### Historical quotes requirements
+
+You must have at least the greater of `T`,`K`, `S`, and offset periods for `quotes` to cover the warmup periods; though, given the leading and lagging nature, we recommend notably more.
+
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+
+## Response
+
+```csharp
+IReadOnlyList<IchimokuResult>
+```
+
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `T-1`, `K-1`, and `S-1` periods will have various `null` values since there's not enough data to calculate.  Custom offset periods may also increase `null` results for warmup periods.
+
+### `IchimokuResult`
+
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `TenkanSen` | double | Conversion / signal line |
+| `KijunSen` | double | Base line |
+| `SenkouSpanA` | double | Leading span A |
+| `SenkouSpanB` | double | Leading span B |
+| `ChikouSpan` | double | Lagging span |
+
+### Utilities
+
+- [.Condense()](/utilities/results/condense)
+- [.Find(lookupDate)](/utilities/results/find-by-date)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
+
+See [Utilities and helpers](/utilities/results/) for more information.
+
+## Chaining
+
+Results can be used for chaining in subsequent indicators when streaming.
+
+```csharp
+// example: chain to another indicator (streaming)
+var emaHub = quotes
+    .ToIchimokuHub()
+    .ToEmaHub(14);
+```
+
+Note: `TenkanSen` is the primary reusable value for chaining purposes.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+IchimokuList ichimokuList = new(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  ichimokuList.Add(quote);
+}
+
+// based on `ICollection<IchimokuResult>`
+IReadOnlyList<IchimokuResult> results = ichimokuList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<IchimokuResult> results = observer.Results;
+```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

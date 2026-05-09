@@ -6,6 +6,9 @@ on:
 permissions:
   contents: read
 
+env:
+  NODE_VERSION: 24
+
 jobs:
   copilot-setup-steps:
     runs-on: ubuntu-latest
@@ -14,12 +17,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.287.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          ruby-version: 3.3
-          bundler-cache: true
-          working-directory: docs
+          run_install: false
+        continue-on-error: true
+        timeout-minutes: 5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: docs/pnpm-lock.yaml
+        continue-on-error: true
+
+      - name: Install pnpm packages
+        working-directory: docs
+        run: pnpm install --frozen-lockfile --config.confirmModulesPurge=false
+        continue-on-error: true
+        timeout-minutes: 5
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
@@ -47,7 +64,7 @@ jobs:
           echo "### Development Tools" >> $GITHUB_STEP_SUMMARY
           echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDKs: $(dotnet --list-sdks | wc -l) versions available" >> $GITHUB_STEP_SUMMARY
-          echo "- .NET Tools: $(dotnet tool list --local | tail -n +3 | wc -l) installed" >> $GITHUB_STEP_SUMMARY
+          echo "- .NET Tools: $(dotnet tool list | tail -n +3 | wc -l) installed" >> $GITHUB_STEP_SUMMARY
           echo "- Node.js: $(node --version 2>/dev/null || echo 'Not available')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
         continue-on-error: true

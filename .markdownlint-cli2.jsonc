@@ -42,9 +42,18 @@
         "kbd",
         "abbr",
         "img",
-        "br"
+        "br",
+        "div",
+        "p",
+        "ClientOnly",
+        "IndicatorChart",
+        "clientonly",
+        "indicatorchart",
+        "IndicatorChartPanel",
+        "indicatorchartpanel"
       ]
     },
+    "MD041": false,
     "MD046": {
       "style": "fenced"
     },

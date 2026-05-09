@@ -1,17 +1,35 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+public static partial class Correlation
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<CorrResult> RemoveWarmupPeriods(
-        this IEnumerable<CorrResult> results)
+    /// <summary>
+    /// parameter validation
+    /// </summary>
+    /// <typeparam name="T">Type of record</typeparam>
+    /// <param name="sourceA">First series of values</param>
+    /// <param name="sourceB">Second series of values</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
+    /// <exception cref="InvalidQuotesException">Thrown when quotes are invalid or insufficient</exception>
+    internal static void Validate<T>(
+        IReadOnlyList<T> sourceA,
+        IReadOnlyList<T> sourceB,
+        int lookbackPeriods)
+        where T : ISeries
     {
-        int removePeriods = results
-          .ToList()
-          .FindIndex(static x => x.Correlation != null);
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Correlation.");
+        }
 
-        return results.Remove(removePeriods);
+        // check quotes
+        if (sourceA.Count != sourceB.Count)
+        {
+            throw new InvalidQuotesException(
+                nameof(sourceB),
+                "B quotes should have at least as many records as A quotes for Correlation.");
+        }
     }
 }

@@ -1,4 +1,4 @@
-namespace Tests.Common;
+namespace Utilities;
 
 #pragma warning disable CA1805 // Do not initialize unnecessarily
 
@@ -18,26 +18,6 @@ public class NullMaths : TestBase
         dblPos.Abs().Should().Be(100.12345d);
         dblNeg.Abs().Should().Be(200.98765d);
         dblNul.Abs().Should().BeNull();
-    }
-
-    [TestMethod]
-    public void RoundDecimal()
-    {
-        decPos.Round(2).Should().Be(10.12m);
-        decNeg.Round(2).Should().Be(-20.99m);
-        decNul.Round(2).Should().BeNull();
-
-        10.12345m.Round(2).Should().Be(10.12m);
-    }
-
-    [TestMethod]
-    public void RoundDouble()
-    {
-        dblPos.Round(2).Should().Be(100.12d);
-        dblNeg.Round(2).Should().Be(-200.99d);
-        dblNul.Round(2).Should().BeNull();
-
-        100.12345d.Round(2).Should().Be(100.12d);
     }
 
     [TestMethod]
@@ -64,7 +44,7 @@ public class NullMaths : TestBase
         dblNeg.NaN2Null().Should().Be(-200.98765d);
 
         // double (non-nullable)
-        double dblNaN = double.NaN;
+        const double dblNaN = double.NaN;
         dblNaN.NaN2Null().Should().BeNull();
         100.12345d.NaN2Null().Should().Be(100.12345d);
         (-200.98765d).NaN2Null().Should().Be(-200.98765d);

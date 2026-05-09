@@ -119,9 +119,6 @@ reviews:
     - "!*-lock.json"         # NPM/PNPM lock files
     - "!packages.lock.json"  # NuGet lock file
     - "!packages/"           # NuGet packages cache
-    - "!.jekyll-cache/"      # Jekyll cache
-    - "!vendor/"             # Ruby vendor and gem files
-    - "!Gemfile.lock"        # Ruby dependencies lock
     - "!docs/.vitepress/cache/"  # VitePress cache
     - "!docs/.vitepress/dist/"   # VitePress build output
     - "!bin/"                # .NET build output

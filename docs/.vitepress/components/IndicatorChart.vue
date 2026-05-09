@@ -1,0 +1,877 @@
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { useData } from 'vitepress'
+import {
+  createChart,
+  createSeriesMarkers,
+  type IChartApi,
+  type ISeriesApi,
+  type ISeriesMarkersPluginApi,
+  CrosshairMode,
+  CandlestickSeries,
+  LineSeries,
+  AreaSeries,
+  HistogramSeries,
+  BaselineSeries,
+  LineStyle,
+  LineWidth
+} from 'lightweight-charts'
+import { createTimeContext, parseTimestamp } from '../lib/chart-time'
+import { getChartData } from '../lib/chart-data-provider'
+import type { ChartData, SeriesStyle, TimeContext } from '../lib/chart-types'
+
+// Maximum number of bars to display (tail view)
+const MAX_BARS_WIDE = 100
+const MAX_BARS_MOBILE = 80
+
+// Container width initialization polling settings
+const INIT_POLL_MAX_ATTEMPTS = 10
+const INIT_POLL_INTERVAL_MS = 50
+
+// Debounce delay for resize events (ms)
+const RESIZE_DEBOUNCE_MS = 100
+
+const props = withDefaults(defineProps<{
+  src: string
+  indicatorKey?: string
+  subPanel?: boolean
+}>(), {
+  subPanel: false
+})
+
+// Get VitePress theme state
+const { isDark } = useData()
+
+const overlayChartContainer = ref<HTMLDivElement | null>(null)
+const oscillatorChartContainer = ref<HTMLDivElement | null>(null)
+const isLoading = ref(true)
+const hasError = ref(false)
+const errorMessage = ref('')
+const chartType = ref<'overlay' | 'oscillator'>('overlay')
+
+let overlayChart: IChartApi | null = null
+let oscillatorChart: IChartApi | null = null
+let candleSeries: ISeriesApi<'Candlestick'> | null = null
+let volumeSeries: ISeriesApi<'Histogram'> | null = null
+let seriesMarkersPlugin: ISeriesMarkersPluginApi<any> | null = null
+const overlaySeries: ISeriesApi<any>[] = []
+const oscillatorSeries: ISeriesApi<any>[] = []
+let resizeObserver: ResizeObserver | null = null
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null
+let chartRunId = 0
+
+// Stock.Charts color scheme (Material Design M2)
+const ChartColors = {
+  StandardRed: '#DD2C00',
+  StandardOrange: '#EF6C00',
+  StandardGreen: '#2E7D32',
+  StandardBlue: '#1E88E5',
+  StandardPurple: '#8E24AA',
+  StandardGrayTransparent: '#9E9E9E50',
+  DarkGray: '#616161CC',
+  DarkGrayTransparent: '#61616110',
+  ThresholdGrayTransparent: '#42424280',
+  ThresholdRed: '#B71C1C70',
+  ThresholdRedTransparent: '#B71C1C20',
+  ThresholdGreen: '#1B5E2070',
+  ThresholdGreenTransparent: '#1B5E2020'
+}
+
+// Color palette for multiple indicator series
+const indicatorColors = [
+  ChartColors.StandardBlue,
+  ChartColors.StandardGreen,
+  ChartColors.StandardRed,
+  ChartColors.StandardPurple,
+  ChartColors.StandardOrange
+]
+
+// Fixed price scale width for alignment between charts
+const PRICE_SCALE_WIDTH = 50
+
+// Dark theme colors (GitHub Primer dark-dimmed)
+const darkTheme = {
+  bgColor: 'transparent',
+  textColor: '#768390',
+  gridColor: '#30363d',
+  borderColor: 'transparent'
+}
+
+// Light theme colors (GitHub Primer light)
+const lightTheme = {
+  bgColor: 'transparent',
+  textColor: '#57606a',
+  gridColor: '#d0d7de',
+  borderColor: 'transparent'
+}
+
+// Reactive chart theme based on VitePress dark mode
+const chartTheme = computed(() => isDark.value ? darkTheme : lightTheme)
+
+// Track viewport width for responsive behavior
+const viewportWidth = ref(0)
+// Use standard mobile breakpoint (480px) - aligns with project breakpoints in style.scss
+const isMobileViewport = computed(() => viewportWidth.value > 0 && viewportWidth.value < 480)
+
+// Responsive bar count based on viewport width
+const maxBars = computed(() => isMobileViewport.value ? MAX_BARS_MOBILE : MAX_BARS_WIDE)
+
+async function loadChartData(): Promise<ChartData | null> {
+  try {
+    const data = await getChartData({
+      src: props.src,
+      indicatorKey: props.indicatorKey,
+      maxBars: maxBars.value
+    })
+
+    chartType.value = data.metadata?.chartType === 'oscillator' ? 'oscillator' : 'overlay'
+    return data
+  } catch (error) {
+    console.error('Error loading chart data:', error)
+    hasError.value = true
+    errorMessage.value = error instanceof Error ? error.message : 'Failed to load chart data'
+    return null
+  }
+}
+
+function createOverlayChart(container: HTMLDivElement): IChartApi {
+  const theme = chartTheme.value
+  return createChart(container, {
+    // width: container.clientWidth,
+    // height: container.clientHeight,
+    autoSize: true,
+    layout: {
+      background: { color: theme.bgColor },
+      textColor: theme.textColor,
+      fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      fontSize: 11,
+      attributionLogo: false
+    },
+    grid: {
+      vertLines: { visible: false },
+      horzLines: { color: theme.gridColor, style: LineStyle.Dotted, visible: true }
+    },
+    crosshair: {
+      mode: CrosshairMode.Normal,
+      vertLine: { visible: false, labelVisible: false },
+      horzLine: { visible: false, labelVisible: false }
+    },
+    rightPriceScale: {
+      visible: !isMobileViewport.value,
+      borderVisible: false,
+      scaleMargins: { top: 0.1, bottom: 0.1 },
+      autoScale: true,
+      minimumWidth: isMobileViewport.value ? 0 : PRICE_SCALE_WIDTH
+    },
+    localization: {
+      priceFormatter: (price: number) => `$${Math.round(price)}`
+    },
+    leftPriceScale: { visible: false, borderVisible: false },
+    timeScale: {
+      visible: false,
+      borderVisible: false,
+      fixLeftEdge: true,
+      fixRightEdge: true
+    },
+    handleScroll: false,
+    handleScale: false,
+    kineticScroll: { touch: false, mouse: false },
+    trackingMode: { exitMode: 0 }
+  })
+}
+
+function createOscillatorChart(container: HTMLDivElement): IChartApi {
+  const theme = chartTheme.value
+  return createChart(container, {
+    // width: container.clientWidth,
+    // height: container.clientHeight,
+    autoSize: true,
+    layout: {
+      background: { color: theme.bgColor },
+      textColor: theme.textColor,
+      fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      fontSize: 11,
+      attributionLogo: false
+    },
+    grid: {
+      vertLines: { visible: false },
+      horzLines: { color: theme.gridColor, style: LineStyle.Dotted, visible: true }
+    },
+    crosshair: {
+      mode: CrosshairMode.Normal,
+      vertLine: { visible: false, labelVisible: false },
+      horzLine: { visible: false, labelVisible: false }
+    },
+    rightPriceScale: {
+      visible: !isMobileViewport.value,
+      borderVisible: false,
+      scaleMargins: { top: 0.12, bottom: 0.12 },
+      autoScale: true,
+      minimumWidth: isMobileViewport.value ? 0 : PRICE_SCALE_WIDTH
+    },
+    localization: {
+      priceFormatter: (price: number) => {
+        if (Math.abs(price) >= 1000000) {
+          return `${(price / 1000000).toFixed(1)}M`
+        } else if (Math.abs(price) >= 1000) {
+          return `${(price / 1000).toFixed(1)}K`
+        } else if (Math.abs(price) >= 100 || Number.isInteger(price)) {
+          return Math.round(price).toString()
+        } else if (Math.abs(price) >= 1) {
+          return price.toFixed(1)
+        } else {
+          return price.toFixed(2)
+        }
+      }
+    },
+    leftPriceScale: { visible: false, borderVisible: false },
+    timeScale: {
+      visible: false,
+      borderVisible: false,
+      fixLeftEdge: true,
+      fixRightEdge: true
+    },
+    handleScroll: false,
+    handleScale: false,
+    kineticScroll: { touch: false, mouse: false },
+    trackingMode: { exitMode: 0 }
+  })
+}
+
+function setupCandlestickSeries(chart: IChartApi, data: ChartData, timeContext: TimeContext) {
+  const upColor = ChartColors.StandardGreen
+  const downColor = ChartColors.StandardRed
+
+  candleSeries = chart.addSeries(CandlestickSeries, {
+    upColor: upColor,
+    downColor: downColor,
+    borderUpColor: upColor,
+    borderDownColor: downColor,
+    wickUpColor: upColor,
+    wickDownColor: downColor,
+    priceLineVisible: false,
+    lastValueVisible: false
+  })
+
+  const candleData = data.candles.map((c, index) => ({
+    time: timeContext.candleTimes[index],
+    open: c.open,
+    high: c.high,
+    low: c.low,
+    close: c.close
+  }))
+
+  candleSeries.setData(candleData)
+}
+
+function setupVolumeSeries(chart: IChartApi, data: ChartData, timeContext: TimeContext) {
+  const upVolumeColor = 'rgba(46, 125, 50, 0.4)'
+  const downVolumeColor = 'rgba(221, 44, 0, 0.4)'
+
+  volumeSeries = chart.addSeries(HistogramSeries, {
+    priceFormat: { type: 'volume' },
+    priceScaleId: '',
+    priceLineVisible: false,
+    lastValueVisible: false
+  })
+
+  // Position volume at bottom 30% of the chart (top: 0.7 means 70% from top, leaving bottom 30%)
+  volumeSeries.priceScale().applyOptions({
+    scaleMargins: { top: 0.8, bottom: 0 },
+  })
+
+  const volumeData = data.candles.map((c, index) => ({
+    time: timeContext.candleTimes[index],
+    value: c.volume || 0,
+    color: c.close >= c.open ? upVolumeColor : downVolumeColor
+  }))
+
+  volumeSeries.setData(volumeData)
+}
+
+function getLineStyle(style?: string): LineStyle {
+  switch (style) {
+    case 'dash':
+      return LineStyle.Dashed
+    case 'dots':
+      return LineStyle.Dotted
+    default:
+      return LineStyle.Solid
+  }
+}
+
+// Green color variants used in ChartColors (for pointer direction detection)
+const GREEN_COLORS = new Set([
+  ChartColors.StandardGreen,
+  ChartColors.ThresholdGreen,
+  ChartColors.ThresholdGreenTransparent
+].map(c => c.toLowerCase()))
+
+function isGreenColor(color: string): boolean {
+  const normalized = color.trim().toLowerCase()
+  return GREEN_COLORS.has(normalized) || normalized.includes('green')
+}
+
+function resolveMarkerPosition(
+  configured: SeriesStyle['markerPosition'],
+  value: number,
+  timestamp: string,
+  closeMap: Map<string, number>
+): 'inBar' | 'aboveBar' | 'belowBar' | 'atPriceMiddle' {
+  if (configured === 'aboveBar') return 'aboveBar'
+  if (configured === 'belowBar') return 'belowBar'
+  if (configured === 'atPrice') return 'atPriceMiddle'
+  if (configured === 'inBar') return 'inBar'
+  // 'auto' or unset: compare value against candle close
+  const close = closeMap.get(parseTimestamp(timestamp))
+  if (close !== undefined) {
+    if (value > close) return 'aboveBar'
+    if (value < close) return 'belowBar'
+  }
+  return 'inBar'
+}
+
+function setupIndicatorSeries(
+  chart: IChartApi,
+  seriesData: SeriesStyle[],
+  isOscillator: boolean,
+  timeContext: TimeContext,
+  candles?: ChartData['candles']
+) {
+  const targetArray = isOscillator ? oscillatorSeries : overlaySeries
+const allMarkers: any[] = []
+
+  // Build close-price lookup for auto marker positioning
+  const closeLookup = new Map<string, number>()
+  if (candles) {
+    for (const c of candles) {
+      closeLookup.set(parseTimestamp(c.timestamp), c.close)
+    }
+  }
+
+  seriesData.forEach((seriesConfig, index) => {
+    const color = seriesConfig.color || indicatorColors[index % indicatorColors.length]
+    const lineWidth = (seriesConfig.lineWidth || 2) as LineWidth
+    const lineStyle = getLineStyle(seriesConfig.lineStyle)
+
+    let series: ISeriesApi<any>
+
+    switch (seriesConfig.type) {
+      case 'area':
+        series = chart.addSeries(AreaSeries, {
+          lineColor: color,
+          topColor: `${color}40`,
+          bottomColor: `${color}05`,
+          lineWidth: lineWidth,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
+      case 'histogram':
+        series = chart.addSeries(HistogramSeries, {
+          color: color,
+          priceLineVisible: false,
+          lastValueVisible: false
+        })
+        break
+      case 'baseline':
+        series = chart.addSeries(BaselineSeries, {
+          baseValue: { type: 'price', price: 0 },
+          topLineColor: ChartColors.StandardGreen,
+          topFillColor1: ChartColors.ThresholdGreenTransparent,
+          topFillColor2: ChartColors.ThresholdGreenTransparent,
+          bottomLineColor: ChartColors.StandardRed,
+          bottomFillColor1: ChartColors.ThresholdRedTransparent,
+          bottomFillColor2: ChartColors.ThresholdRedTransparent,
+          lineWidth: lineWidth,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
+      case 'dots':
+        // Line series with point markers — exact radius control, no line connecting dots
+        series = chart.addSeries(LineSeries, {
+          color: color,
+          lineWidth: 0,
+          lineVisible: false,
+          pointMarkersVisible: true,
+          pointMarkersRadius: 2,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
+      case 'pointer':
+        // Invisible line series — arrow markers are added separately
+        series = chart.addSeries(LineSeries, {
+          color: 'rgba(0,0,0,0)',
+          lineWidth: 0,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
+      default:
+        series = chart.addSeries(LineSeries, {
+          color: color,
+          lineWidth: lineWidth,
+          lineStyle: lineStyle,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+    }
+
+    const resolveSeriesTime = timeContext.createResolveSeriesTime()
+    const filteredData = seriesConfig.data
+      .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
+      .map((d, idx) => {
+        const point = {
+          time: resolveSeriesTime(d.timestamp, idx),
+          value: d.value as number
+        }
+        // For pointer type, don't add color to data points (only used for markers)
+        // For all other types (including dots), preserve per-bar color if present
+        if (seriesConfig.type !== 'pointer' && d.color) {
+          point.color = d.color
+        }
+        return point
+      })
+
+    // Set data for all series types (markers need the data points to position correctly)
+    series.setData(filteredData)
+
+    // For pointer type, build arrow markers from each data point
+    // (dots use pointMarkersVisible on the series instead)
+    if (seriesConfig.type === 'pointer') {
+      const sourceData = seriesConfig.data.filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
+      const markers = filteredData.map((d, idx) => {
+        const src = sourceData[idx]
+        const markerColor = src?.color || color
+        const position = resolveMarkerPosition(
+          seriesConfig.markerPosition,
+          d.value as number,
+          src?.timestamp ?? '',
+          closeLookup
+        )
+        const shape = (isGreenColor(markerColor) ? 'arrowUp' : 'arrowDown') as const
+        const size = 1
+        const marker: any = { time: d.time, position, color: markerColor, shape, size }
+        if (position === 'atPriceMiddle') marker.price = d.value
+        return marker
+      })
+      allMarkers.push(...markers)
+    }
+
+    targetArray.push(series)
+  })
+
+  // Set all markers on the candlestick series (only for overlay/price-context charts)
+  if (!isOscillator && allMarkers.length > 0 && candleSeries) {
+    // Sort markers by time to ensure correct rendering order
+    allMarkers.sort((a, b) => {
+      const timeA = typeof a.time === 'string' ? new Date(a.time).getTime() : a.time
+      const timeB = typeof b.time === 'string' ? new Date(b.time).getTime() : b.time
+      return timeA - timeB
+    })
+    // LWC v5: use createSeriesMarkers() instead of deprecated series.setMarkers()
+    seriesMarkersPlugin = createSeriesMarkers(candleSeries, allMarkers)
+  }
+}
+
+function updateViewportWidth() {
+  if (typeof window !== 'undefined') {
+    viewportWidth.value = window.innerWidth
+  }
+}
+
+function updatePriceScaleVisibility() {
+  const visible = !isMobileViewport.value
+  if (overlayChart) {
+    overlayChart.priceScale('right').applyOptions({ visible })
+  }
+  if (oscillatorChart) {
+    oscillatorChart.priceScale('right').applyOptions({ visible })
+  }
+}
+
+async function initChart() {
+  isLoading.value = true
+  hasError.value = false
+  const runId = chartRunId
+
+  const data = await loadChartData()
+  if (!data) {
+    isLoading.value = false
+    return
+  }
+
+  if (runId !== chartRunId) return
+
+  // Determine chart type from data
+  const isOscillatorType = data.metadata?.chartType === 'oscillator'
+  const timeContext = createTimeContext(data)
+
+  // Hide loading BEFORE creating chart so container becomes visible.
+  // This is critical because v-show hides the container while loading,
+  // and clientWidth is 0 when the container is hidden.
+  isLoading.value = false
+  chartType.value = isOscillatorType ? 'oscillator' : 'overlay'
+
+  // Wait for Vue to update the DOM after state changes.
+  // Two requestAnimationFrame calls ensure: (1) Vue processes the reactive update,
+  // and (2) the browser completes layout/paint so clientWidth is accurate.
+  await new Promise(resolve => requestAnimationFrame(resolve))
+  await new Promise(resolve => requestAnimationFrame(resolve))
+
+  if (runId !== chartRunId) return
+
+  // Wait for container to have a valid width (may take a few frames)
+  // For oscillator with price chart, check overlay container; for sub-panel, check oscillator container
+  const containerToCheck = (isOscillatorType && props.subPanel)
+    ? oscillatorChartContainer.value
+    : overlayChartContainer.value
+  let attempts = 0
+  while (containerToCheck && containerToCheck.clientWidth === 0 && attempts < INIT_POLL_MAX_ATTEMPTS) {
+    await new Promise(resolve => setTimeout(resolve, INIT_POLL_INTERVAL_MS))
+    attempts++
+  }
+
+  if (runId !== chartRunId) return
+
+  // For overlay indicators, create overlay chart with candlesticks
+  if (!isOscillatorType && overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
+    overlayChart = createOverlayChart(overlayChartContainer.value)
+    setupCandlestickSeries(overlayChart, data, timeContext)
+    setupVolumeSeries(overlayChart, data, timeContext)
+
+    // For overlay indicators, add series to overlay chart
+    if (data.series.length > 0) {
+      setupIndicatorSeries(overlayChart, data.series, false, timeContext, data.candles)
+    }
+
+    overlayChart.timeScale().fitContent()
+  }
+
+  // For oscillator indicators with price context (non-sub-panel), create overlay chart with candles/volume only
+  if (isOscillatorType && !props.subPanel && overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
+    overlayChart = createOverlayChart(overlayChartContainer.value)
+    setupCandlestickSeries(overlayChart, data, timeContext)
+    setupVolumeSeries(overlayChart, data, timeContext)
+    overlayChart.timeScale().fitContent()
+  }
+
+  // For oscillator indicators, create separate oscillator chart
+  if (isOscillatorType && oscillatorChartContainer.value && oscillatorChartContainer.value.clientWidth > 0) {
+    oscillatorChart = createOscillatorChart(oscillatorChartContainer.value)
+
+    // Store thresholds info for later use with indicator data
+    const thresholds = data.metadata?.thresholds || []
+
+    // Add threshold lines first (behind indicator data)
+    for (const threshold of thresholds) {
+      // Add threshold line
+      const series = oscillatorChart.addSeries(LineSeries, {
+        color: threshold.color,
+        lineWidth: 2 as LineWidth,
+        lineStyle: threshold.style === 'dash' ? LineStyle.Dashed : LineStyle.Solid,
+        priceLineVisible: false,
+        lastValueVisible: false,
+        crosshairMarkerVisible: false
+      })
+
+      // Create horizontal line across all candle timestamps
+      const thresholdData = data.candles.map((c, index) => ({
+        time: timeContext.candleTimes[index],
+        value: threshold.value
+      }))
+      series.setData(thresholdData)
+    }
+
+    // Add threshold zone fills using baseline series with indicator data
+    // This creates colored fills when indicator exceeds threshold values
+    // Supports bidirectional fills (fillAbove/fillBelow) for richer visualizations
+    if (data.series.length > 0) {
+      const resolveSeriesTime = timeContext.createResolveSeriesTime()
+      const indicatorData = data.series[0].data
+        .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
+        .map((d, idx) => ({
+          time: resolveSeriesTime(d.timestamp, idx),
+          value: d.value as number
+        }))
+
+      // Create fills for each threshold using BaselineSeries
+      for (const threshold of thresholds) {
+        if (threshold.fill && threshold.fillColor) {
+          const baselineSeries = oscillatorChart.addSeries(BaselineSeries, {
+            baseValue: { type: 'price', price: threshold.value },
+            topLineColor: 'transparent',
+            topFillColor1: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
+            topFillColor2: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
+            bottomLineColor: 'transparent',
+            bottomFillColor1: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
+            bottomFillColor2: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false
+          })
+          baselineSeries.setData(indicatorData)
+        }
+      }
+    }
+
+    // Add oscillator series
+    setupIndicatorSeries(oscillatorChart, data.series, true, timeContext, data.candles)
+    oscillatorChart.timeScale().fitContent()
+  }
+
+  // Setup resize observer with debouncing to handle container resizing
+  // Observe the overlay container if present (both charts have same width), else oscillator
+  const observerContainer = overlayChartContainer.value ?? oscillatorChartContainer.value
+  if (observerContainer) {
+    resizeObserver = new ResizeObserver(entries => {
+      // Debounce resize events to avoid excessive updates during rapid resizing
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+      }
+      resizeTimeout = setTimeout(() => {
+        // Use the last entry since ResizeObserver batches multiple changes
+        const entry = entries[entries.length - 1]
+        const width = entry.contentRect.width
+        if (width > 0) {
+          if (overlayChart && overlayChartContainer.value) {
+            overlayChart.resize(width, overlayChartContainer.value.clientHeight)
+          }
+          if (oscillatorChart && oscillatorChartContainer.value) {
+            oscillatorChart.resize(width, oscillatorChartContainer.value.clientHeight)
+          }
+        }
+      }, RESIZE_DEBOUNCE_MS)
+    })
+    resizeObserver.observe(observerContainer)
+  }
+}
+
+function destroyChart() {
+  chartRunId++
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout)
+    resizeTimeout = null
+  }
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+    resizeObserver = null
+  }
+  if (seriesMarkersPlugin) {
+    seriesMarkersPlugin.detach()
+    seriesMarkersPlugin = null
+  }
+  if (overlayChart) {
+    overlayChart.remove()
+    overlayChart = null
+    candleSeries = null
+    volumeSeries = null
+    overlaySeries.length = 0
+  }
+  if (oscillatorChart) {
+    oscillatorChart.remove()
+    oscillatorChart = null
+    oscillatorSeries.length = 0
+  }
+}
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    updateViewportWidth()
+    window.addEventListener('resize', updateViewportWidth)
+    initChart()
+  }
+})
+
+onUnmounted(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', updateViewportWidth)
+  }
+  destroyChart()
+})
+
+watch(() => [props.src, props.indicatorKey, props.subPanel], () => {
+  destroyChart()
+  initChart()
+})
+
+// Watch for theme changes and reinitialize charts
+watch(isDark, () => {
+  destroyChart()
+  initChart()
+})
+
+// Watch for viewport width changes and update price scale visibility
+watch(isMobileViewport, () => {
+  updatePriceScaleVisibility()
+  // Reload chart data to adjust number of bars shown
+  destroyChart()
+  initChart()
+})
+</script>
+
+<template>
+  <div class="indicator-chart-wrapper">
+    <div v-if="isLoading" class="chart-loading">
+      <span class="loading-spinner"></span>
+      <span>Loading chart...</span>
+    </div>
+
+    <div v-else-if="hasError" class="chart-error">
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <div v-show="!isLoading && !hasError" class="charts-container">
+      <!-- Overlay chart: shown for overlay indicators, or as price context above oscillators (when not sub-panel) -->
+      <div v-if="chartType === 'overlay' || (chartType === 'oscillator' && !props.subPanel)" ref="overlayChartContainer"
+        class="chart-container overlay-chart" role="img"
+        :aria-label="chartType === 'overlay' ? 'Price chart with indicator overlay' : 'Price chart context'"></div>
+
+      <!-- Oscillator Chart (shown for oscillator type) -->
+      <div v-if="chartType === 'oscillator'" ref="oscillatorChartContainer" class="chart-container oscillator-chart"
+        role="img" aria-label="Oscillator indicator chart"></div>
+    </div>
+
+    <noscript>
+      <div class="chart-noscript">
+        <p>JavaScript is required to display interactive charts.</p>
+      </div>
+    </noscript>
+  </div>
+</template>
+
+<style scoped lang="scss">
+// Breakpoints aligned with project standards
+// See: docs/.vitepress/public/assets/css/style.scss
+$large-breakpoint: 1024px;
+$medium-breakpoint: 768px;
+$small-breakpoint: 480px; // Mobile breakpoint
+$landscape-height-sm: 400px;
+$landscape-height-md: 600px;
+
+.indicator-chart-wrapper {
+  width: 100%;
+
+  .charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-align: center;
+  }
+
+  .chart-container {
+    width: 100%;
+    overflow: hidden;
+    padding-left: 5px;
+
+    /* Hide the TradingView attribution link via CSS as backup */
+    :deep(a[href*="tradingview"]) {
+      display: none !important;
+    }
+  }
+
+  .overlay-chart {
+    aspect-ratio: 2.5;
+
+    /* Medium breakpoint (768px-1024px) */
+    @media (max-width: $large-breakpoint) {
+      aspect-ratio: 2.5;
+    }
+
+    /* Mobile breakpoint (<480px) - matches JavaScript isMobileViewport */
+    @media (max-width: $small-breakpoint) {
+      aspect-ratio: 5/4;
+    }
+
+    /* Landscape optimizations */
+    @media (max-height: $landscape-height-sm) and (orientation: landscape) {
+      aspect-ratio: unset;
+      height: 100vh;
+    }
+  }
+
+  .oscillator-chart {
+    aspect-ratio: 7;
+
+    /* Medium breakpoint (768px-1024px) */
+    @media (max-width: $large-breakpoint) {
+      aspect-ratio: 7;
+    }
+
+    /* Landscape optimizations */
+    @media (max-width: $large-breakpoint) and (orientation: landscape) {
+      aspect-ratio: unset;
+      height: 25vh;
+    }
+
+    @media (max-height: $landscape-height-md) and (orientation: landscape) {
+      aspect-ratio: unset;
+      height: 33.33vh;
+    }
+
+    @media (max-height: $landscape-height-sm) {
+      aspect-ratio: unset;
+      height: 50vh;
+    }
+  }
+
+  .chart-loading,
+  .chart-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--vp-c-bg);
+    border: none;
+    color: var(--vp-c-text-2);
+  }
+
+  .chart-error {
+    color: var(--vp-c-danger-1);
+  }
+
+  .loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--vp-c-divider);
+    border-top-color: var(--vp-c-brand-1);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .chart-noscript {
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--vp-c-bg);
+    border: none;
+    color: var(--vp-c-text-2);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Chart library overrides (unset VitePress table styles) */
+:deep(.tv-lightweight-charts) {
+
+  table,
+  tr,
+  td,
+  th {
+    border: none;
+    margin: 0;
+    overflow: unset;
+  }
+}
+</style>
