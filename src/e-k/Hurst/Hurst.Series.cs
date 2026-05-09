@@ -35,7 +35,7 @@ public static partial class Indicator
                     (DateTime _, double c) = tpList[p];
 
                     // return values
-                    values[x] = l != 0 ? (c / l) - 1 : double.NaN;
+                    values[x] = l != 0 ? Math.Log(c / l) : double.NaN;
 
                     l = c;
                     x++;
@@ -102,8 +102,9 @@ public static partial class Indicator
                 // chunk mean diff
                 double sumY = 0;
                 double sumSq = 0;
-                double maxY = values[startIndex] - chunkMean;
-                double minY = values[startIndex] - chunkMean;
+                double maxY = double.MinValue;
+                double minY = double.MaxValue;
+
                 for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
                     double y = values[i] - chunkMean;
