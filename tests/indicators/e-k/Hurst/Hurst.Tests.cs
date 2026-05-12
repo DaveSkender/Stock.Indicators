@@ -32,6 +32,7 @@ public class HurstTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(402, results.Count(static x => x.HurstExponent != null));
+        Assert.AreEqual(402, results.Count(static x => x.HurstExponentAL != null));
 
         // sample value: last result
         HurstResult last = results[501];
