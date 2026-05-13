@@ -17,7 +17,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "type": "module",
   "main": "./dist/index.js",
