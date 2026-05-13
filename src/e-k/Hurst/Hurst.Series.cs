@@ -147,11 +147,11 @@ public static partial class Indicator
             logSize[setNum] = Math.Log10(chunkSize);
             logRs[setNum] = Math.Log10(avgRs);
 
-            // fall back to uncorrected value if corrected R/S is non-positive
+            // use NaN if corrected R/S is non-positive
             // (rare edge case: only occurs when avgRs is near zero, e.g. bad data)
             logRsAL[setNum] = rsAL > 0
                 ? Math.Log10(rsAL)
-                : logRs[setNum];
+                : double.NaN;
 
             // increment set
             setNum++;
