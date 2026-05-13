@@ -80,7 +80,7 @@ export default defineConfig({
           { text: 'Migration (v2→v3)', link: '/migration' },
           { text: 'Contributing', link: '/contributing' },
           { text: 'About', link: '/about' },
-          { text: 'Legacy docs (v2)', link: 'https://dotnet.stockindicators.dev' }
+          { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -399,7 +399,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['@facioquo/indy-charts', '@facioquo/chartjs-chart-financial', 'chartjs-adapter-date-fns', 'chart.js', 'date-fns']
+      noExternal: ['@facioquo/indy-charts', '@facioquo/chartjs-chart-financial', 'chartjs-adapter-date-fns', 'chartjs-plugin-annotation', 'chart.js', 'date-fns']
     },
     build: {
       // Local search index grows with docs; raise threshold to suppress false warning
@@ -429,7 +429,6 @@ export default defineConfig({
     'examples/UseQuoteApi/**',
     'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
-    'local-packages/**',
     'tests/**',
     'Gemfile*',
     '.pa11yci',

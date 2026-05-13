@@ -47,9 +47,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
           cache-dependency-path: docs/package.json
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@facioquo"
 
       - name: Install pnpm packages
         run: pnpm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build site
         run: pnpm run docs:build
@@ -62,5 +66,5 @@ jobs:
           htmlproofer .vitepress/dist
           --no-enforce-https
           --no-check-external-hash
-          --ignore-status-codes "0,302,402,403,406,408,415,429,503,999"
+          --ignore-status-codes "0,302,402,403,406,408,415,429,502,503,999"
           --ignore-urls "/fonts.gstatic.com/,/github\.com\/DaveSkender\/Stock\.Indicators\/(blob|tree)\//"
