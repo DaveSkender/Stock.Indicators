@@ -10,5 +10,7 @@ public sealed class HurstResult : ResultBase, IReusableResult
 
     public double? HurstExponent { get; set; }
 
+    public double? HurstExponentAL { get; set; }
+
     double? IReusableResult.Value => HurstExponent;
 }

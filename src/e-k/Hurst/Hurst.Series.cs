@@ -35,21 +35,23 @@ public static partial class Indicator
                     (DateTime _, double c) = tpList[p];
 
                     // return values
-                    values[x] = l != 0 ? (c / l) - 1 : double.NaN;
+                    values[x] = l != 0 ? Math.Log(c / l) : double.NaN;
 
                     l = c;
                     x++;
                 }
 
                 // calculate hurst exponent
-                r.HurstExponent = CalcHurstWindow(values).NaN2Null();
+                (double h, double hAl) = CalcHurstWindow(values);
+                r.HurstExponent = h.NaN2Null();
+                r.HurstExponentAL = hAl.NaN2Null();
             }
         }
 
         return results;
     }
 
-    private static double CalcHurstWindow(double[] values)
+    private static (double H, double HAL) CalcHurstWindow(double[] values)
     {
         int totalSize = values.Length;
         int maxChunks = 0;
@@ -73,6 +75,7 @@ public static partial class Indicator
 
         // initialize result sets
         double[] logRs = new double[setQty];
+        double[] logRsAL = new double[setQty];
         double[] logSize = new double[setQty];
         int setNum = 0;
 
@@ -102,8 +105,9 @@ public static partial class Indicator
                 // chunk mean diff
                 double sumY = 0;
                 double sumSq = 0;
-                double maxY = values[startIndex] - chunkMean;
-                double minY = values[startIndex] - chunkMean;
+                double maxY = double.MinValue;
+                double minY = double.MaxValue;
+
                 for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
                     double y = values[i] - chunkMean;
@@ -125,17 +129,67 @@ public static partial class Indicator
                 startIndex += chunkSize;
             }
 
+            // average R/S for this chunk size
+            double avgRs = sumChunkRs / chunkQty;
+
+            // Anis-Lloyd finite-sample expected R/S
+            double eRs = HurstExpectedRS(chunkSize);
+
+            // asymptotic expected R/S: √(π×n/2)
+            double eRsAsymptotic = Math.Sqrt(Math.PI * chunkSize / 2.0);
+
+            // Anis-Lloyd corrected R/S:
+            // subtract finite-sample bias, add back asymptotic expectation
+            // RS_corrected = RS_observed − E[R/S]_AL + √(π×n/2)
+            double rsAL = avgRs - eRs + eRsAsymptotic;
+
             // set results
             logSize[setNum] = Math.Log10(chunkSize);
-            logRs[setNum] = Math.Log10(sumChunkRs / chunkQty);
+            logRs[setNum] = Math.Log10(avgRs);
+
+            // use NaN if corrected R/S is non-positive
+            // (rare edge case: only occurs when avgRs is near zero, e.g. bad data)
+            logRsAL[setNum] = rsAL > 0
+                ? Math.Log10(rsAL)
+                : double.NaN;
 
             // increment set
             setNum++;
         }
 
-        // hurst exponent
-        // TODO: apply Anis-Lloyd corrected R/S Hurst?
-        return Numerix.Slope(logSize, logRs);
+        // hurst exponents: raw and Anis-Lloyd corrected
+        return (
+            Numerix.Slope(logSize, logRs),
+            Numerix.Slope(logSize, logRsAL));
+    }
+
+    // Anis-Lloyd expected R/S for a random series of length n
+    // Reference: Anis and Lloyd (1976), Peters (1994)
+    private static double HurstExpectedRS(int n)
+    {
+        // inner sum: Σ_{j=1}^{n-1} √((n-j)/j)
+        double innerSum = 0;
+        for (int j = 1; j < n; j++)
+        {
+            innerSum += Math.Sqrt((double)(n - j) / j);
+        }
+
+        double gammaFactor;
+        if (n <= 340)
+        {
+            // exact: Γ((n-1)/2) / (√π × Γ(n/2))
+            gammaFactor = Math.Exp(
+                Numerix.LogGamma((n - 1.0) / 2.0)
+                - 0.5 * Math.Log(Math.PI)
+                - Numerix.LogGamma(n / 2.0));
+        }
+        else
+        {
+            // Stirling approximation: √(2 / (π × n))
+            gammaFactor = Math.Sqrt(2.0 / (Math.PI * n));
+        }
+
+        return (n - 0.5) / n * gammaFactor * innerSum;
     }
 
     // parameter validation

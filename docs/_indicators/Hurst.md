@@ -45,7 +45,9 @@ IEnumerable<HurstResult>
 
 **`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
-**`HurstExponent`** _`double`_ - Hurst Exponent (`H`)
+**`HurstExponent`** _`double`_ - Hurst Exponent (`H`) from raw rescaled range (R/S) analysis
+
+**`HurstExponentAL`** _`double`_ - [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. Like `HurstExponent`, values near 0.5 represent a random walk, greater than 0.5 depict trending, and less than 0.5 indicate mean-reverting behavior. This corrected value is generally preferred for smaller lookback periods.
 
 ### Utilities
 
