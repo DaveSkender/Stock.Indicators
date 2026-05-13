@@ -181,7 +181,7 @@ If you want to contribute administratively, do code reviews, or provide general 
 This repository is optimized for AI coding agents with:
 
 - **AGENTS.md files** (root and subdirectories) providing repository context, coding patterns, and domain knowledge
-- **Agent Skills** in `.agents/skills/` with domain-specific expertise for indicator development, testing, and performance
+- **Agent skills** in `.agents/skills/` with domain-specific expertise for indicator development, testing, and performance
 - **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
 - **MCP server configurations** in `.vscode/mcp.json` for extended AI tools with financial mathematics and .NET performance analysis
 
