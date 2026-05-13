@@ -46,15 +46,13 @@ function installStockChartsApiFallback(): void {
       return originalFetch(input, init)
     }
 
-    // In dev, rewrite absolute API URLs to use the local Vite proxy to avoid CORS.
-    if (import.meta.env.DEV) {
-      const proxyUrl = requestUrl.pathname + requestUrl.search
-      const proxied = DEV_PROXY_PATH + proxyUrl
-      return originalFetch(proxied, init)
-    }
+    const fetchTarget =
+      import.meta.env.DEV
+        ? `${DEV_PROXY_PATH}${requestUrl.pathname}${requestUrl.search}`
+        : input
 
     try {
-      const response = await originalFetch(input, init)
+      const response = await originalFetch(fetchTarget, init)
       if (response.ok) return response
     } catch {
       // fall through to static fixture fallback
