@@ -48,7 +48,7 @@ jobs:
       - name: Install pnpm packages
         run: pnpm install
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
 
       - name: Build site
         run: pnpm run docs:build
