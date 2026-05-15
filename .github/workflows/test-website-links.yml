@@ -16,7 +16,6 @@ concurrency:
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: "latest"
 
 jobs:
   test:
@@ -36,9 +35,8 @@ jobs:
           ruby-version: 3.4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
-          version: ${{ env.PNPM_VERSION }}
           run_install: false
 
       - name: Setup Node.js

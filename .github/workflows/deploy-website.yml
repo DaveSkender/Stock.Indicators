@@ -15,7 +15,6 @@ concurrency:
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: "latest"
 
 jobs:
   deploy:
@@ -37,9 +36,8 @@ jobs:
           fetch-depth: 0 # required for proper Last Updated page dates
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
-          version: ${{ env.PNPM_VERSION }}
           run_install: false
 
       - name: Setup Node.js
