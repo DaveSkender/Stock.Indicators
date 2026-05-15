@@ -1,35 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { UIID_MAP } from '../utils/uiid-map'
 
 const props = defineProps<{
   indicatorKey: string
 }>()
-
-// Maps PascalCase doc indicator keys to stock-charts API uiids where they differ
-const UIID_MAP: Record<string, string> = {
-  Aroon: 'AROON UP/DOWN',
-  AtrStop: 'ATR-STOP-HL',
-  Awesome: 'AO',
-  BollingerBands: 'BB',
-  Chandelier: 'CHEXIT-LONG',
-  ChaikinOsc: 'CHAIKIN',
-  ConnorsRsi: 'CRSI',
-  DcPeriods: 'DCPERIOD',
-  Dynamic: 'DYN',
-  ElderRay: 'ELDER-RAY',
-  FisherTransform: 'FISHER',
-  ForceIndex: 'FORCE',
-  HtTrendline: 'HT Trendline',
-  MaEnvelopes: 'MA-ENV',
-  ParabolicSar: 'PSAR',
-  StarcBands: 'STARC',
-  StdDev: 'STDEV',
-  StdDevChannels: 'STDEV-CH',
-  Stoch: 'STO',
-  UlcerIndex: 'ULCER',
-  VolatilityStop: 'VOL-STOP',
-  ZigZag: 'ZIGZAG-HL',
-}
 
 const uiid = computed(() => UIID_MAP[props.indicatorKey] ?? props.indicatorKey)
 </script>

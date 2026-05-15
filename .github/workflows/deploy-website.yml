@@ -51,7 +51,7 @@ jobs:
           scope: "@facioquo"
 
       - name: Install pnpm packages
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
 
@@ -78,7 +78,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "latest"
           command: >
             pages deploy docs/.vitepress/dist
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}

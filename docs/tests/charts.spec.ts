@@ -2,6 +2,7 @@ import { test, expect, type Page, type Route } from '@playwright/test'
 import { readdirSync, readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import { UIID_MAP } from '../.vitepress/utils/uiid-map'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const FIXTURES = join(__dirname, '../.vitepress/public/data/chart-api')
@@ -27,6 +28,8 @@ async function mockStockChartsApi(page: Page): Promise<void> {
     route.fulfill({ contentType: 'application/json', body: indicatorsJson })
   )
 
+  // Routes are matched LIFO (last-registered = highest priority). The catch-all
+  // below is registered before sma** and rsi**, so specific routes shadow it.
   // Any other indicator endpoint: return empty array (chart shows empty state)
   await page.route(`${API_BASE}/indicators/**`, (route: Route) =>
     route.fulfill({ contentType: 'application/json', body: '[]' })
@@ -55,27 +58,15 @@ async function waitForChartPhase(page: Page, testId: string): Promise<string> {
   const emptyState = root.locator('[data-testid$="-empty"]')
   const errorState = root.locator('[data-testid$="-error"]')
 
-  // Wait until one terminal UI marker is painted. Loading can disappear before
-  // Vue renders the ready/empty/error branch, so polling only for loading
-  // removal can produce intermittent "unknown" results.
-  await page.waitForFunction(
-    (id) => {
-      const root = document.querySelector(`[data-testid="${id}-root"]`)
-      if (!root) return false
+  // Wait for one terminal UI marker to become visible — atomic, avoids the DOM-present
+  // but not-yet-visible race that `waitForFunction` with querySelector can hit.
+  const terminal = readyOverlay.or(emptyState).or(errorState)
+  await terminal.first().waitFor({ state: 'visible', timeout: 20_000 })
 
-      return Boolean(
-        root.querySelector('[data-testid$="-overlay-canvas"]') ||
-          root.querySelector('[data-testid$="-empty"]') ||
-          root.querySelector('[data-testid$="-error"]')
-      )
-    },
-    testId,
-    { timeout: 20_000 }
-  )
-
-  if (await readyOverlay.isVisible()) return 'ready'
+  // Check error before ready: prevents a residual canvas from masking an error state.
   if (await errorState.isVisible()) return 'error'
   if (await emptyState.isVisible()) return 'empty'
+  if (await readyOverlay.isVisible()) return 'ready'
 
   throw new Error(`Chart ${testId} did not reach a terminal state`)
 }
@@ -146,31 +137,6 @@ test('Home page charts reach a terminal state', async ({ page }) => {
 // Bulk smoke test — all indicator pages with IndicatorChartPanel must load
 // ---------------------------------------------------------------------------
 
-const UIID_MAP: Record<string, string> = {
-  Aroon: 'AROON UP/DOWN',
-  AtrStop: 'ATR-STOP-HL',
-  Awesome: 'AO',
-  BollingerBands: 'BB',
-  Chandelier: 'CHEXIT-LONG',
-  ChaikinOsc: 'CHAIKIN',
-  ConnorsRsi: 'CRSI',
-  DcPeriods: 'DCPERIOD',
-  Dynamic: 'DYN',
-  ElderRay: 'ELDER-RAY',
-  FisherTransform: 'FISHER',
-  ForceIndex: 'FORCE',
-  HtTrendline: 'HT Trendline',
-  MaEnvelopes: 'MA-ENV',
-  ParabolicSar: 'PSAR',
-  StarcBands: 'STARC',
-  StdDev: 'STDEV',
-  StdDevChannels: 'STDEV-CH',
-  Stoch: 'STO',
-  UlcerIndex: 'ULCER',
-  VolatilityStop: 'VOL-STOP',
-  ZigZag: 'ZIGZAG-HL',
-}
-
 function toSlug(value: string): string {
   return value
     .toLowerCase()
@@ -186,12 +152,14 @@ function indicatorPages(): Array<{ page: string; uiid: string }> {
     .filter((file) => file.endsWith('.md'))
     .flatMap((file) => {
       const body = readFileSync(join(indicatorsDir, file), 'utf8')
-      const match = body.match(/<IndicatorChartPanel indicator-key="([^"]+)" \/>/)
-      if (!match) return []
+      const matches = [...body.matchAll(/<IndicatorChartPanel indicator-key="([^"]+)" \/>/g)]
+      if (matches.length === 0) return []
 
       const page = file.replace(/\.md$/, '')
-      const uiid = UIID_MAP[match[1]] ?? match[1]
-      return [{ page, uiid: toSlug(uiid) }]
+      return matches.map((m) => {
+        const uiid = UIID_MAP[m[1]] ?? m[1]
+        return { page, uiid: toSlug(uiid) }
+      })
     })
 }
 

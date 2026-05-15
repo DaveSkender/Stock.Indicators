@@ -7,7 +7,8 @@ import Contributors from '../components/Contributors.vue'
 import IndicatorChartPanel from '../components/IndicatorChartPanel.vue'
 import { setupIndyChartsForVitePress } from '@facioquo/indy-charts/vitepress'
 
-const STOCK_CHARTS_API_HOST = 'stock-charts-api.azurewebsites.net'
+const STOCK_CHARTS_API_BASE_URL = 'https://stock-charts-api.azurewebsites.net'
+const STOCK_CHARTS_API_HOST = new URL(STOCK_CHARTS_API_BASE_URL).hostname
 const CHART_API_FALLBACK_PATH = '/data/chart-api'
 
 function fallbackUrl(url: URL): string | undefined {
@@ -83,7 +84,7 @@ export default {
     installStockChartsApiFallback()
 
     setupIndyChartsForVitePress(app, {
-      api: { baseUrl: 'https://stock-charts-api.azurewebsites.net' },
+      api: { baseUrl: STOCK_CHARTS_API_BASE_URL },
       defaults: {
         barCount: 250,
         quoteCount: 250,
