@@ -132,7 +132,7 @@
       "detail": "Restore .NET and NPM packages",
       "dependsOn": [
         "Install: .NET packages",
-        "Install: Node packages (pnpm)"
+        "Install: Node packages (pnpm) (pnpm)"
       ],
       "dependsOrder": "parallel"
     },
@@ -176,22 +176,39 @@
       "label": "Install: Node packages (pnpm)",
       "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
-      "command": "pnpm install",
+      "command": "pnpm install --config.confirmModulesPurge=false",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": []
     },
     {
-      "label": "Update: NPM (pnpm) packages",
-      "detail": "Update pnpm packages for website",
+      "label": "Clean: Node packages",
+      "detail": "Delete node_modules and lock files",
       "type": "shell",
-      "command": "npx npm-check-updates --deep --peer --upgrade && pnpm install",
+      "command": "pnpm run clean",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+    },
+    {
+      "label": "Check: Node packages",
+      "detail": "Check for dependency updates in root and all workspace packages",
+      "type": "shell",
+      "command": "npx npm-check-updates --deep --peer",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+    },
+    {
+      "label": "Update: Node packages",
+      "detail": "Update dependencies in root and all workspace packages to latest versions",
+      "type": "shell",
+      "command": "npx npm-check-updates --deep --peer --upgrade && pnpm install --config.confirmModulesPurge=false",
       "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      }
+      },
     },
     {
       "label": "Clean: Website build cache",
@@ -254,7 +271,7 @@
       "detail": "Build VitePress website for production",
       "type": "shell",
       "command": "pnpm run docs:build",
-      "dependsOn": "Install: Node packages (pnpm)",
+      "dependsOn": "Install: Node packages (pnpm) (pnpm)",
       "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -581,7 +598,7 @@
       "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
       "command": "pnpm run docs:dev",
-      "dependsOn": "Install: Node packages (pnpm)",
+      "dependsOn": "Install: Node packages (pnpm) (pnpm)",
       "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
