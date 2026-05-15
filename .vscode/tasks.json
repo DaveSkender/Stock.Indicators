@@ -132,7 +132,7 @@
       "detail": "Restore .NET and NPM packages",
       "dependsOn": [
         "Install: .NET packages",
-        "Install: Node packages (pnpm) (pnpm)"
+        "Install: Node packages (pnpm)"
       ],
       "dependsOrder": "parallel"
     },
@@ -271,7 +271,7 @@
       "detail": "Build VitePress website for production",
       "type": "shell",
       "command": "pnpm run docs:build",
-      "dependsOn": "Install: Node packages (pnpm) (pnpm)",
+      "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -598,7 +598,7 @@
       "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
       "command": "pnpm run docs:dev",
-      "dependsOn": "Install: Node packages (pnpm) (pnpm)",
+      "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
