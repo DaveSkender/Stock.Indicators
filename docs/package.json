@@ -9,6 +9,7 @@
     "pnpm": ">=10"
   },
   "scripts": {
+    "clean": "rm -rf node_modules && rm -f pnpm-lock.yaml package-lock.json yarn.lock",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
