@@ -399,7 +399,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['@facioquo/indy-charts', '@facioquo/chartjs-chart-financial', 'chartjs-adapter-date-fns', 'chartjs-plugin-annotation', 'chart.js', 'date-fns']
+      noExternal: ['@facioquo/indy-charts', 'chartjs-adapter-date-fns', 'chartjs-plugin-annotation', 'chart.js', 'date-fns']
     },
     build: {
       // Local search index grows with docs; raise threshold to suppress false warning

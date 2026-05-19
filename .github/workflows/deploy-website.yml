@@ -51,7 +51,7 @@ jobs:
           scope: "@facioquo"
 
       - name: Install pnpm packages
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
 
