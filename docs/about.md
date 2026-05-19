@@ -36,7 +36,7 @@ The `Skender.Stock.Indicators` NuGet library itself does not contain work produc
 ### Chart libraries
 
 - **[indy-charts](https://github.com/facioquo/stock-charts)** - Reusable stock indicator chart components used throughout this documentation. Developed by [facioquo](https://github.com/facioquo) and licensed under the MIT License.
-- **[Chart.js](https://www.chartjs.org)** - Charting library powering the indicator charts and our [demo site](https://charts.stockindicators.dev). Licensed under the MIT License.
+- **[Chart.js](https://www.chartjs.org)** - Underlying charting library used by chart components (including our [demo site](https://charts.stockindicators.dev)). Licensed under the MIT License.
 
 ### Data providers and SDK libraries
 
