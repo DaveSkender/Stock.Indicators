@@ -67,8 +67,6 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `quotes`.
 
-<IndicatorChartPanel indicator-key="StdDevChannels" />
-
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.

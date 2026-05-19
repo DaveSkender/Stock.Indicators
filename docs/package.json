@@ -3,27 +3,31 @@
   "version": "1.0.0",
   "description": "Stock Indicators for .NET documentation",
   "type": "module",
-  "packageManager": "pnpm@10.33.1",
+  "packageManager": "pnpm@11.1.2",
   "engines": {
-    "node": ">=24 <25",
-    "pnpm": ">=10"
+    "node": ">=24"
   },
   "scripts": {
+    "clean": "rm -rf node_modules && rm -f pnpm-lock.yaml package-lock.json yarn.lock",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "generate:charts": "node .vitepress/scripts/generate-chart-data.mjs"
+    "test:charts": "playwright test"
   },
   "devDependencies": {
     "@octokit/rest": "^22.0.1",
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "^1.60.0",
     "@types/node": "^25",
     "sass-embedded": "^1.99.0",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.0",
     "vitepress": "2.0.0-alpha.16",
-    "vue": "^3.5.33"
+    "vue": "^3.5.34"
   },
   "dependencies": {
-    "lightweight-charts": "^5.1.0"
+    "@facioquo/indy-charts": "^0.2.0",
+    "chart.js": "^4.5.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-annotation": "^3.1.0",
+    "date-fns": "^4.1.0"
   }
 }

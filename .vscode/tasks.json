@@ -176,22 +176,39 @@
       "label": "Install: Node packages (pnpm)",
       "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
-      "command": "pnpm install",
+      "command": "pnpm install --config.confirmModulesPurge=false",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": []
     },
     {
-      "label": "Update: NPM (pnpm) packages",
-      "detail": "Update pnpm packages for website",
+      "label": "Clean: Node packages",
+      "detail": "Delete node_modules and lock files",
       "type": "shell",
-      "command": "npx npm-check-updates --deep --peer --upgrade && pnpm install",
+      "command": "pnpm run clean",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+    },
+    {
+      "label": "Check: Node packages",
+      "detail": "Check for dependency updates in root and all workspace packages",
+      "type": "shell",
+      "command": "npx npm-check-updates --deep --peer",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+    },
+    {
+      "label": "Update: Node packages",
+      "detail": "Update dependencies in root and all workspace packages to latest versions",
+      "type": "shell",
+      "command": "npx npm-check-updates --deep --peer --upgrade && pnpm install --config.confirmModulesPurge=false",
       "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      }
+      },
     },
     {
       "label": "Clean: Website build cache",
@@ -592,25 +609,10 @@
       }
     },
     {
-      "label": "Run: Website (Simple Browser)",
-      "detail": "Serve VitePress website with hot reload on port 5174 (VS Code Simple Browser)",
-      "type": "shell",
-      "command": "pnpm run docs:dev -- --port 5174",
-      "dependsOn": "Install: Node packages (pnpm)",
-      "dependsOrder": "sequence",
-      "isBackground": true,
-      "runOptions": {
-        "instanceLimit": 1
-      },
-      "options": {
-        "cwd": "${workspaceFolder}/docs"
-      }
-    },
-    {
       "label": "Run: Website (prod preview)",
       "detail": "Preview production build of VitePress website",
       "type": "shell",
-      "command": "pnpm run docs:preview -- --open",
+      "command": "pnpm run docs:preview",
       "dependsOn": "Build: Website",
       "isBackground": true,
       "options": {

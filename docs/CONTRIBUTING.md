@@ -176,17 +176,16 @@ If you want to contribute administratively, do code reviews, or provide general 
 - [NuGet Best Practices](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
 
-## GitHub Copilot and AI development
+## AI coding agents
 
-This repository is optimized for GitHub Copilot and coding agents with:
+This repository is optimized for AI coding agents with:
 
 - **AGENTS.md files** (root and subdirectories) providing repository context, coding patterns, and domain knowledge
-- **Agent Skills** in `.agents/skills/` with domain-specific expertise for indicator development, testing, and performance
-- **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
+- **Agent skills** in `.agents/skills/` with domain-specific expertise for indicator development, testing, and performance
 - **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
-- **MCP server configurations** in `.vscode/mcp.json` for extended AI tools for developing capabilities with financial mathematics and .NET performance analysis
+- **MCP server configurations** in `.vscode/mcp.json` for extended AI tools with financial mathematics and .NET performance analysis
 
-When using GitHub Copilot:
+When using AI coding agents:
 
 - Follow the established patterns documented in the `AGENTS.md` files and skills
 - Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in `AGENTS.md`)

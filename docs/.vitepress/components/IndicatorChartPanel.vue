@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { UIID_MAP } from '../utils/uiid-map'
 
 const props = defineProps<{
   indicatorKey: string
 }>()
 
-const src = computed(() => `/data/${props.indicatorKey}.json`)
+const uiid = computed(() => UIID_MAP[props.indicatorKey] ?? props.indicatorKey)
 </script>
 
 <template>
   <ClientOnly>
-    <IndicatorChart :src="src" :indicator-key="indicatorKey" />
+    <StockIndicatorChart :indicator="uiid" />
   </ClientOnly>
 </template>

@@ -9,7 +9,7 @@ description: Install the Stock Indicators for .NET library and calculate your fi
 
 Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
 
-```powershell
+```bash
 # dotnet CLI example
 dotnet add package Skender.Stock.Indicators
 

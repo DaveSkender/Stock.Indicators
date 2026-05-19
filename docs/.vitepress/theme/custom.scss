@@ -5,21 +5,11 @@
 
 /* ===== Dark Theme (default) ===== */
 :root {
-  /* Chart colors for dark theme */
-  --si-chart-bg: transparent;
-  --si-chart-text: #adbac7;
-  --si-chart-grid: #2d333b;
-  --si-chart-border: #444c56;
-  --si-chart-crosshair: #768390;
-  --si-candle-up: #57ab5a;
-  --si-candle-down: #e5534b;
-  --si-volume-up: rgba(87, 171, 90, 0.3);
-  --si-volume-down: rgba(229, 83, 75, 0.3);
-  --si-indicator-1: #539bf5;
-  --si-indicator-2: #c69026;
-  --si-indicator-3: #986ee2;
-  --si-indicator-4: #57ab5a;
-  --si-indicator-5: #e5534b;
+  --indy-demo-border: color-mix(in srgb, var(--vp-c-divider) 72%, transparent);
+  --indy-demo-bg: color-mix(in srgb, var(--vp-c-bg-soft) 85%, white 15%);
+  --indy-demo-bg-alt: color-mix(in srgb, var(--vp-c-bg) 90%, var(--vp-c-bg-soft) 10%);
+  --indy-demo-shadow: 0 18px 42px rgb(15 23 42 / 8%);
+  --indy-demo-radius: 16px;
 }
 
 /* Dark theme colors (GitHub Primer dark-dimmed) */
@@ -81,11 +71,9 @@
   --vp-c-brand-light: #6cb6ff;
   --vp-c-brand-lighter: #96d0ff;
 
-  /* Chart colors for dark theme */
-  --si-chart-bg: transparent;
-  --si-chart-text: #adbac7;
-  --si-chart-grid: #2d333b;
-  --si-chart-border: #444c56;
+  --indy-demo-bg: color-mix(in srgb, var(--vp-c-bg-soft) 82%, black 18%);
+  --indy-demo-bg-alt: color-mix(in srgb, var(--vp-c-bg) 88%, black 12%);
+  --indy-demo-shadow: 0 16px 36px rgb(0 0 0 / 28%);
 }
 
 /* ===== Light Theme ===== */
@@ -146,12 +134,6 @@ html:not(.dark) {
   --vp-c-brand-darker: #033d8b;
   --vp-c-brand-light: #218bff;
   --vp-c-brand-lighter: #54aeff;
-
-  /* Chart colors for light theme */
-  --si-chart-bg: transparent;
-  --si-chart-text: #24292f;
-  --si-chart-grid: #d0d7de;
-  --si-chart-border: #d0d7de;
 }
 
 /* Custom styles for better readability */
@@ -250,6 +232,15 @@ pre.shiki {
     object-position: top;
     border-radius: 5px;
   }
+
+  // Force 3-column grid to match the main indicators index layout.
+  // VitePress uses grid-4 (25% / 4 cols) for non-multiples-of-3 feature counts;
+  // override to grid-6 behavior (33.33% / 3 cols) at the wide breakpoint.
+  @media (min-width: 960px) {
+    .item.grid-4 {
+      width: calc(33.3333%);
+    }
+  }
 }
 
 /* Navbar site title - grid layout with icon left, text stacked right */
@@ -299,14 +290,130 @@ pre.shiki {
   max-width: 1024px;
 }
 
-/* Optimize chart sizing for medium viewports (768px-1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .home-charts-stack {
-    height: auto;
-  }
+/* StockIndicatorChart component styles */
+.indy-demo {
+  border: 1px solid var(--indy-demo-border);
+  border-radius: var(--indy-demo-radius);
+  background: linear-gradient(180deg, var(--indy-demo-bg), var(--indy-demo-bg-alt));
+  box-shadow: var(--indy-demo-shadow);
+  padding: 14px;
+  margin: 18px 0 24px;
+  overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+}
 
-  /* Ensure indicator charts scale appropriately */
-  .vp-doc img {
-    height: auto;
+.indy-demo__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.indy-demo__title {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-2);
+}
+
+.indy-demo__hint {
+  display: none;
+}
+
+.indy-demo__status {
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.indy-demo__status--loading {
+  border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 35%, var(--vp-c-divider));
+  background: color-mix(in srgb, var(--vp-c-brand-1) 8%, var(--vp-c-bg-soft));
+  color: var(--vp-c-text-1);
+}
+
+.indy-demo__status--error {
+  border: 1px solid color-mix(in srgb, #d97706 55%, var(--vp-c-divider));
+  background: color-mix(in srgb, #f59e0b 16%, var(--vp-c-bg-soft));
+  color: var(--vp-c-text-1);
+}
+
+.indy-demo__status-actions {
+  margin-top: 10px;
+}
+
+.indy-demo__retry {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  cursor: pointer;
+}
+
+.indy-demo__retry:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.indy-demo__panel {
+  border: 1px solid var(--indy-demo-border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--vp-c-bg) 94%, transparent);
+  padding: 10px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.indy-demo__panel-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.indy-demo__canvas-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 120px;
+}
+
+.indy-demo__canvas-wrap--overlay {
+  aspect-ratio: 2.5;
+}
+
+@media (width <= 880px) {
+  .indy-demo__canvas-wrap--overlay {
+    aspect-ratio: 2;
   }
+}
+
+.indy-demo__canvas-wrap--oscillator {
+  aspect-ratio: 10;
+}
+
+@media (width <= 880px) {
+  .indy-demo__canvas-wrap--oscillator {
+    aspect-ratio: 8;
+  }
+}
+
+.indy-demo__canvas-wrap--placeholder {
+  background: color-mix(in srgb, var(--vp-c-bg-soft) 60%, transparent);
+  border-radius: 8px;
+}
+
+.indy-demo__canvas {
+  display: block;
+}
+
+.indy-demo__stack {
+  display: grid;
+  gap: 12px;
 }
