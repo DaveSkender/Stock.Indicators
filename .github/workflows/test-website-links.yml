@@ -44,8 +44,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
-          cache-dependency-path: docs/pnpm-lock.yaml
           registry-url: "https://npm.pkg.github.com"
           scope: "@facioquo"
 
