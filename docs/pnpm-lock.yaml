@@ -21,7 +21,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0(chart.js@4.5.1)
       date-fns:
-        specifier: ^4.1.0
+        specifier: ^4.2.1
         version: 4.2.1
     devDependencies:
       '@octokit/rest':
@@ -37,7 +37,7 @@ importers:
         specifier: ^1.99.0
         version: 1.99.0
       tsx:
-        specifier: ^4.22.0
+        specifier: ^4.22.3
         version: 4.22.3
       vitepress:
         specifier: 2.0.0-alpha.16

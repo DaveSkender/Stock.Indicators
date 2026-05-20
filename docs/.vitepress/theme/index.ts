@@ -5,7 +5,7 @@ import DefaultTheme from 'vitepress/theme'
 import './custom.scss'
 import Contributors from '../components/Contributors.vue'
 import IndicatorChartPanel from '../components/IndicatorChartPanel.vue'
-import { setupIndyChartsForVitePress } from '@facioquo/indy-charts/vitepress'
+import { setupIndyChartsForVue } from '@facioquo/indy-charts/vue'
 
 const STOCK_CHARTS_API_BASE_URL = 'https://stock-charts-api.azurewebsites.net'
 const STOCK_CHARTS_API_HOST = new URL(STOCK_CHARTS_API_BASE_URL).hostname
@@ -83,7 +83,7 @@ export default {
   enhanceApp({ app }) {
     installStockChartsApiFallback()
 
-    setupIndyChartsForVitePress(app, {
+    setupIndyChartsForVue(app, {
       api: { baseUrl: STOCK_CHARTS_API_BASE_URL },
       defaults: {
         barCount: 250,

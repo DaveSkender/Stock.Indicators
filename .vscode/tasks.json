@@ -182,8 +182,12 @@
       "type": "shell",
       "command": "pnpm install --config.confirmModulesPurge=false",
       "options": {
-        "cwd": "${workspaceFolder}/docs"
-      },
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          // TODO: likely not needed after move to facioquo
+          "NODE_AUTH_TOKEN": "$(gh auth token)"
+        }
+      }
     },
     {
       "label": "Clean: Node packages",
@@ -191,8 +195,13 @@
       "type": "shell",
       "command": "pnpm run clean",
       "options": {
-        "cwd": "${workspaceFolder}/docs"
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "NODE_AUTH_TOKEN": "$(gh auth token)"
+        }
       },
+      "dependsOn": "Stop: All hosted servers",
+      "dependsOrder": "sequence"
     },
     {
       "label": "Check: Node packages",
@@ -200,7 +209,10 @@
       "type": "shell",
       "command": "npx npm-check-updates --deep --peer",
       "options": {
-        "cwd": "${workspaceFolder}/docs"
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "NODE_AUTH_TOKEN": "$(gh auth token)"
+        }
       },
     },
     {
@@ -211,7 +223,10 @@
       "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "options": {
-        "cwd": "${workspaceFolder}/docs"
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "NODE_AUTH_TOKEN": "$(gh auth token)"
+        }
       },
     },
     {
@@ -220,7 +235,10 @@
       "type": "shell",
       "command": "rm -rf dist",
       "options": {
-        "cwd": "${workspaceFolder}/docs"
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "NODE_AUTH_TOKEN": "$(gh auth token)"
+        }
       }
     },
     {
