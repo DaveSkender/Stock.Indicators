@@ -90,6 +90,24 @@
   "problemMatcher": [],
   // tasks
   "tasks": [
+    // ===================================
+    // Install and update dependencies
+    // ===================================
+    {
+      "label": "Initialize: Pull, rebuild, fixers, and unit test",
+      "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
+      "group": "build",
+      "dependsOn": [
+        "Setup: Dev tools",
+        "Git: pull",
+        "Clean: .NET Solution (dotnet clean)",
+        "Install: All code dependencies",
+        "Build: .NET Solution (not incremental)",
+        "Lint: .NET code & markdown files (fix)",
+        "Test: Unit tests"
+      ],
+      "dependsOrder": "sequence"
+    },
     {
       "label": "Setup: Dev tools",
       "detail": "Complete one-time environment setup (global tools and packages)",
@@ -99,20 +117,6 @@
         "$msCompile",
         "$eslint-compact"
       ]
-    },
-    {
-      "label": "Initialize: Pull, rebuild, fixers, and unit test",
-      "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
-      "group": "build",
-      "dependsOn": [
-        "Setup: Dev tools",
-        "Git: pull",
-        "Clean: .NET Solution (dotnet clean)",
-        "Build: .NET Solution (not incremental)",
-        "Lint: .NET code & markdown files (fix)",
-        "Test: Unit tests"
-      ],
-      "dependsOrder": "sequence"
     },
     {
       "label": "Git: pull",
@@ -247,6 +251,9 @@
       "command": "bash tools/scripts/dotnet-clean.sh && dotnet build --no-incremental",
       "problemMatcher": "$msCompile"
     },
+    // ===================================
+    // Build
+    // ===================================
     {
       "label": "Build: .NET Solution (incremental)",
       "detail": "Incremental build of solution (default)",
@@ -277,6 +284,9 @@
         "cwd": "${workspaceFolder}/docs"
       }
     },
+    // ===================================
+    // Test, lint, and format
+    // ===================================
     {
       "label": "Lint: .NET format",
       "detail": "Verify code formatting and style with 'dotnet format'",
@@ -534,6 +544,9 @@
       "dependsOn": "Install: Chrome for Puppeteer",
       "dependsOrder": "sequence"
     },
+    // ===================================
+    // Code review and verification
+    // ===================================
     {
       "label": "Review: CodeRabbit CLI (plain)",
       "detail": "Perform a full code review with CodeRabbit CLI in plain text response mode",
@@ -585,6 +598,9 @@
       ],
       "dependsOrder": "sequence"
     },
+    // ===================================
+    // Serve, run, and generate
+    // ===================================
     {
       "label": "Generate: Test baseline data (all)",
       "detail": "Generate all regression test baseline JSON files",
