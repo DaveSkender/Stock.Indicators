@@ -8,7 +8,7 @@ description: Created by Tushar Chande, Aroon is a oscillator view of how long ag
 Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a oscillator view of how long ago the new high or low price occurred.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/266 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Aroon" />
+<StockIndicatorChart indicator="Aroon" />
 
 ```csharp
 // C# usage syntax

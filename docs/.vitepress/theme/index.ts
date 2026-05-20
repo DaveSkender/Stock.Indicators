@@ -4,7 +4,6 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './custom.scss'
 import Contributors from '../components/Contributors.vue'
-import IndicatorChartPanel from '../components/IndicatorChartPanel.vue'
 import { setupIndyChartsForVue } from '@facioquo/indy-charts/vue'
 
 const STOCK_CHARTS_API_BASE_URL = 'https://stock-charts-api.azurewebsites.net'
@@ -89,11 +88,37 @@ export default {
         barCount: 250,
         quoteCount: 250,
         showTooltips: true
+      },
+      theme: {
+        observeVitePressDarkMode: true
+      },
+      indicators: {
+        Aroon:           { uiid: 'AROON UP/DOWN' },
+        AtrStop:         { uiid: 'ATR-STOP-HL' },
+        Awesome:         { uiid: 'AO' },
+        BollingerBands:  { uiid: 'BB' },
+        Chandelier:      { uiid: 'CHEXIT-LONG' },
+        ChaikinOsc:      { uiid: 'CHAIKIN' },
+        ConnorsRsi:      { uiid: 'CRSI' },
+        DcPeriods:       { uiid: 'DCPERIOD' },
+        Dynamic:         { uiid: 'DYN' },
+        ElderRay:        { uiid: 'ELDER-RAY' },
+        FisherTransform: { uiid: 'FISHER' },
+        ForceIndex:      { uiid: 'FORCE' },
+        HtTrendline:     { uiid: 'HT Trendline' },
+        MaEnvelopes:     { uiid: 'MA-ENV' },
+        ParabolicSar:    { uiid: 'PSAR' },
+        StarcBands:      { uiid: 'STARC' },
+        StdDev:          { uiid: 'STDEV' },
+        StdDevChannels:  { uiid: 'STDEV-CH' },
+        Stoch:           { uiid: 'STO' },
+        UlcerIndex:      { uiid: 'ULCER' },
+        VolatilityStop:  { uiid: 'VOL-STOP' },
+        ZigZag:          { uiid: 'ZIGZAG-HL' }
       }
     })
 
     // Register global components
     app.component('Contributors', Contributors)
-    app.component('IndicatorChartPanel', IndicatorChartPanel)
   }
 } satisfies Theme

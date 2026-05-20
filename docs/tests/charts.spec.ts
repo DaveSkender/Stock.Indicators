@@ -2,7 +2,6 @@ import { test, expect, type Page, type Route } from '@playwright/test'
 import { readdirSync, readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
-import { UIID_MAP } from '../.vitepress/utils/uiid-map'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const FIXTURES = join(__dirname, '../.vitepress/public/data/chart-api')
@@ -79,7 +78,6 @@ test('SMA overlay chart renders from static fixture data', async ({ page }) => {
   await mockStockChartsApi(page)
   await page.goto('/indicators/Sma')
 
-  // The IndicatorChartPanel uses uiid = 'SMA'
   const root = page.locator('[data-testid="stock-indicator-chart-sma-root"]')
   await expect(root).toBeVisible({ timeout: 15_000 })
 
@@ -134,7 +132,7 @@ test('Home page charts reach a terminal state', async ({ page }) => {
 })
 
 // ---------------------------------------------------------------------------
-// Bulk smoke test — all indicator pages with IndicatorChartPanel must load
+// Bulk smoke test — all indicator pages with StockIndicatorChart must load
 // ---------------------------------------------------------------------------
 
 function toSlug(value: string): string {
@@ -144,7 +142,7 @@ function toSlug(value: string): string {
     .replace(/^-|-$/g, '')
 }
 
-function indicatorPages(): Array<{ page: string; uiid: string }> {
+function indicatorPages(): Array<{ page: string; indicatorSlug: string }> {
   const indicatorsDir = join(__dirname, '../indicators')
   const files = readdirSync(indicatorsDir)
 
@@ -152,28 +150,28 @@ function indicatorPages(): Array<{ page: string; uiid: string }> {
     .filter((file) => file.endsWith('.md'))
     .flatMap((file) => {
       const body = readFileSync(join(indicatorsDir, file), 'utf8')
-      const matches = [...body.matchAll(/<IndicatorChartPanel indicator-key="([^"]+)" \/>/g)]
+      const matches = [...body.matchAll(/<StockIndicatorChart indicator="([^"]+)"[^/]*\/>/g)]
       if (matches.length === 0) return []
 
       const page = file.replace(/\.md$/, '')
-      return matches.map((m) => {
-        const uiid = UIID_MAP[m[1]] ?? m[1]
-        return { page, uiid: toSlug(uiid) }
-      })
+      return matches.map((m) => ({
+        page,
+        indicatorSlug: toSlug(m[1])
+      }))
     })
 }
 
 const INDICATOR_PAGES = indicatorPages()
 
-for (const { page: pageName, uiid } of INDICATOR_PAGES) {
+for (const { page: pageName, indicatorSlug } of INDICATOR_PAGES) {
   test(`${pageName} indicator page chart reaches terminal state`, async ({ page }) => {
     await mockStockChartsApi(page)
     await page.goto(`/indicators/${pageName}`)
 
-    const root = page.locator(`[data-testid="stock-indicator-chart-${uiid}-root"]`)
+    const root = page.locator(`[data-testid="stock-indicator-chart-${indicatorSlug}-root"]`)
     await expect(root).toBeVisible({ timeout: 15_000 })
 
-    const phase = await waitForChartPhase(page, `stock-indicator-chart-${uiid}`)
+    const phase = await waitForChartPhase(page, `stock-indicator-chart-${indicatorSlug}`)
     expect(['ready', 'empty']).toContain(phase)
   })
 }
