@@ -6,31 +6,18 @@ This site is built with [VitePress](https://vitepress.dev) and deployed to Cloud
 
 ## Local Development
 
+The site renders charts via [`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts) from GitHub Packages, which needs an authenticated install. Add the `read:packages` scope to your gh CLI token once, then install and run:
+
 ```bash
+gh auth refresh --scopes read:packages       # one-time per token
 cd docs
 NODE_AUTH_TOKEN=$(gh auth token) pnpm install
 pnpm run docs:dev
 ```
 
-The site will open at `http://localhost:5173/`
+The site will open at `http://localhost:5173/`. The `NODE_AUTH_TOKEN` prefix is wired into `docs/.npmrc` to authenticate the `@facioquo` scope. VS Code's `Install: Node packages (pnpm)` task does the same — pick whichever fits your flow.
 
-### GitHub Packages authentication (required for install)
-
-This site renders interactive charts via [`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts), a restricted-access package on [GitHub Packages](https://github.com/features/packages). `pnpm install` needs an authenticated token with `read:packages` scope to fetch it.
-
-The simplest way to provide one is via the [GitHub CLI](https://cli.github.com):
-
-```bash
-# one-time per machine — be sure to grant `read:packages` when prompted
-gh auth login
-
-# every install — export the token for the @facioquo registry in .npmrc
-NODE_AUTH_TOKEN=$(gh auth token) pnpm install
-```
-
-Alternatively, [create a personal access token (classic)](https://github.com/settings/tokens/new?scopes=read:packages) with `read:packages` and export it as `NODE_AUTH_TOKEN` in your shell profile. The repo-root `docs/.npmrc` wires the token into the `@facioquo` scope automatically.
-
-CI workflows authenticate via the `FACIOQUO_PACKAGES_TOKEN` repository secret — already configured in `.github/workflows/*.yml`.
+CI workflows authenticate via the `FACIOQUO_PACKAGES_TOKEN` repository secret; nothing to set up there.
 
 ### GitHub token (optional)
 

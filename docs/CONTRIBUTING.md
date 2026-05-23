@@ -128,14 +128,15 @@ Our documentation site code is in the `docs` folder.
 Build the site locally to test that it works properly.
 
 ```bash
-# from /docs folder
-# NODE_AUTH_TOKEN required: the @facioquo/indy-charts package is hosted
-# on GitHub Packages with read:packages scope. See docs/README.md for details.
+# one-time: grant your gh CLI token read:packages access
+gh auth refresh --scopes read:packages
+
+# from /docs folder — site opens at http://localhost:5173/
 NODE_AUTH_TOKEN=$(gh auth token) pnpm install
 pnpm run docs:dev
-
-# the site will open at http://localhost:5173/
 ```
+
+See `docs/README.md` if you need the longer rationale for the `NODE_AUTH_TOKEN` prefix.
 
 When adding or updating indicators:
 

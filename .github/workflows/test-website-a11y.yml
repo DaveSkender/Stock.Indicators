@@ -19,6 +19,8 @@ env:
 
 jobs:
   test:
+    # Skip on fork PRs — FACIOQUO_PACKAGES_TOKEN secret isn't available there.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
