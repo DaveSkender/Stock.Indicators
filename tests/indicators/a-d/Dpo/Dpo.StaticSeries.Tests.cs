@@ -42,7 +42,7 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<DpoResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -53,7 +53,7 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<DpoResult> sut = Quotes
             .ToSma(2)
@@ -64,7 +64,7 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToDpo(14)
@@ -102,7 +102,7 @@ public class Dpo : StaticSeriesTestBase
     /// bad SMA period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToDpo(0))
             .Should()

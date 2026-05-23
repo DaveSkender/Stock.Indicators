@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ChandelierTests : TestBase
 {
     [TestMethod]
-    public void ChandelierSeriesListing()
+    public void ChandelierSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Chandelier.SeriesListing;

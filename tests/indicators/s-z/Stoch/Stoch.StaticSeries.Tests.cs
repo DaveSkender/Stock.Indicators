@@ -60,7 +60,7 @@ public class Stoch : StaticSeriesTestBase
     /// with extra parameters
     /// </summary>
     [TestMethod]
-    public void Extended()
+    public void Extended_WithExtraParameters_ReturnsExpectedResult()
     {
         IReadOnlyList<StochResult> sut =
             Quotes.ToStoch(9, 3, 3, 5, 4, MaType.SMMA);
@@ -103,7 +103,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToStoch()
@@ -114,7 +114,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NoSignal()
+    public void NoSignal_WithSignalPeriodOne_EqualsOscillator()
     {
         const int lookbackPeriods = 5;
         const int signalPeriods = 1;
@@ -132,7 +132,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Fast()
+    public void Fast_WithSmoothPeriodOne_ReturnsFastStochastic()
     {
         const int lookbackPeriods = 5;
         const int signalPeriods = 10;
@@ -152,7 +152,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void FastSmall()
+    public void FastSmall_WithMinimalLookback_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 1;
         const int signalPeriods = 10;
@@ -195,7 +195,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
@@ -215,7 +215,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Boundary()
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
@@ -268,7 +268,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

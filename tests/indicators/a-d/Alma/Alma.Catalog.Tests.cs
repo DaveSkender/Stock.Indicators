@@ -7,7 +7,7 @@ namespace Catalogging;
 public class AlmaTests : TestBase
 {
     [TestMethod]
-    public void AlmaSeriesListing()
+    public void AlmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Alma.SeriesListing;
@@ -40,7 +40,7 @@ public class AlmaTests : TestBase
     }
 
     [TestMethod]
-    public void AlmaStreamListing()
+    public void AlmaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Alma.StreamListing;
@@ -73,7 +73,7 @@ public class AlmaTests : TestBase
     }
 
     [TestMethod]
-    public void AlmaBufferListing()
+    public void AlmaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Alma.BufferListing;

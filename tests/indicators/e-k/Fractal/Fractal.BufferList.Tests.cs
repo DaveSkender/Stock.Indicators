@@ -82,7 +82,7 @@ public class Fractal : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void DifferentSpans_ProducesCorrectResults()
+    public void DifferentSpans_WithMultipleSpanValues_ProducesCorrectResults()
     {
         const int leftSpan = 2;
         const int rightSpan = 4;
@@ -95,7 +95,7 @@ public class Fractal : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void CloseEndType_ProducesCorrectResults()
+    public void CloseEndType_WithCloseTypeSetting_ProducesCorrectResults()
     {
         const EndType closeType = EndType.Close;
 

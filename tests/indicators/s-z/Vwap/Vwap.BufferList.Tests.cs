@@ -44,7 +44,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void DefaultStartDate()
+    public void DefaultStartDate_OnExtensionInvocation_IncrementsResults()
     {
         VwapList sut = Quotes.ToVwapList();
 

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class RollingPivotsTests : TestBase
 {
     [TestMethod]
-    public void RollingPivotsSeriesListing()
+    public void RollingPivotsSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = RollingPivots.SeriesListing;

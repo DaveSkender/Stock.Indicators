@@ -72,7 +72,7 @@ public class Donchian : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<DonchianResult> sut = Quotes
             .ToDonchian()
@@ -89,7 +89,7 @@ public class Donchian : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<DonchianResult> sut = Quotes
             .ToDonchian()
@@ -109,7 +109,7 @@ public class Donchian : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToDonchian(0))
             .Should()

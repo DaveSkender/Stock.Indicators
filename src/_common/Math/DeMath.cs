@@ -6,8 +6,21 @@ namespace Skender.Stock.Indicators;
 internal static class DeMath
 {
     private const double Ln2 = 0.693147180559945309417232121458176568;
+    private const double InvLn2 = 1.442695040888963407359924681001892137;
+
+    // ln(2) split into high (~32 leading bits exact) and low residual parts,
+    // used to reduce cancellation error when computing r = x - k*ln(2).
+    private const double Ln2Hi = 6.93147180369123816490e-01;
+    private const double Ln2Lo = 1.90821492927058770002e-10;
+
+    // Overflow and underflow thresholds for Exp on IEEE 754 doubles.
+    private const double ExpOverflow = 709.782712893383973096d;   // ln(double.MaxValue)
+    private const double ExpUnderflow = -745.133219101941108420d; // ln(double.Epsilon)
+
     private const double InvLn10 = 0.434294481903251827651128918916605082;
     private const double TwoPow52 = 4503599627370496d; // 2^52
+    private const double TwoPow54 = 18014398509481984d; // 2^54
+    private const double TwoPowNeg54 = 5.551115123125783e-17; // 2^-54
     private const double HalfPi = Math.PI / 2d;
     private const double Pi = Math.PI;
 
@@ -122,6 +135,87 @@ internal static class DeMath
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static double Log10(double x)
         => Log(x) * InvLn10;
+
+    /// <summary>
+    /// Deterministic natural exponential implementation that avoids
+    /// platform-specific drift.
+    /// </summary>
+    /// <remarks>
+    /// Range reduction: exp(x) = 2^k * exp(r), where k = round(x / ln(2))
+    /// and r = x - k*ln(2) with |r| &lt;= ln(2)/2 ≈ 0.347. The reduced
+    /// value is evaluated by a Taylor series; the 2^k scale is applied
+    /// by direct exponent-bit manipulation. ln(2) is carried as a hi/lo
+    /// split to suppress cancellation when subtracting k*ln(2) from x.
+    /// </remarks>
+    /// <param name="x">Input value.</param>
+    /// <returns>e raised to the power of <paramref name="x"/>.</returns>
+    internal static double Exp(double x)
+    {
+        if (double.IsNaN(x))
+        {
+            return double.NaN;
+        }
+
+        if (x >= ExpOverflow)
+        {
+            return double.PositiveInfinity;
+        }
+
+        if (x <= ExpUnderflow)
+        {
+            return 0d;
+        }
+
+        if (x == 0d)
+        {
+            return 1d;
+        }
+
+        // Range reduction: choose integer k closest to x / ln(2),
+        // using round-half-away-from-zero (deterministic across platforms).
+        double kReal = x * InvLn2;
+        long k = (long)(kReal >= 0d ? kReal + 0.5d : kReal - 0.5d);
+
+        // Compute r = x - k*ln(2) using the hi/lo split of ln(2).
+        double kDouble = k;
+        double r = x - (kDouble * Ln2Hi) - (kDouble * Ln2Lo);
+
+        // Taylor series for exp(r): sum_{n>=0} r^n / n!
+        // With |r| <= ln(2)/2, 17 terms give well under 1 ulp error.
+        double term = 1d;
+        double sum = 1d;
+
+        for (int n = 1; n <= 17; n++)
+        {
+            term *= r / n;
+            sum += term;
+        }
+
+        // Multiply by 2^k. For k in [-1022, 1023] the result is normal
+        // and 2^k can be built by setting the biased exponent directly.
+        // Outside that range, split the scale so each factor remains
+        // representable as a normal double.
+        if (k >= -1022L && k <= 1023L)
+        {
+            long expBits = (k + 1023L) << 52;
+            return sum * BitConverter.Int64BitsToDouble(expBits);
+        }
+
+        if (k > 1023L)
+        {
+            // High-normal split: 2^k = 2^(k-54) * 2^54.
+            // Reachable near the overflow boundary (e.g. x close to ln(double.MaxValue))
+            // where round-to-nearest produces k = 1024 but exp(x) is still finite.
+            long highBits = (k - 54L + 1023L) << 52;
+            double pow2Lo = BitConverter.Int64BitsToDouble(highBits);
+            return sum * pow2Lo * TwoPow54;
+        }
+
+        // Subnormal split: 2^k = 2^(k+54) * 2^(-54).
+        long subBits = (k + 54L + 1023L) << 52;
+        double pow2Hi = BitConverter.Int64BitsToDouble(subBits);
+        return sum * pow2Hi * TwoPowNeg54;
+    }
 
     /// <summary>
     /// Deterministic inverse hyperbolic tangent.

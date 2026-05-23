@@ -83,7 +83,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AlternativeParameters()
+    public void AlternativeParameters_WithFibonacci_MatchesSeriesExactly()
     {
         const int altWindowPeriods = 10;
         const int altOffsetPeriods = 2;
@@ -97,7 +97,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void PropertiesAreCorrect()
+    public void PropertiesAreCorrect_AfterInstantiation_AreSetCorrectly()
     {
         RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType);
 

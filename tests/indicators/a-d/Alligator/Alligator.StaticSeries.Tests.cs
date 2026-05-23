@@ -43,7 +43,7 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<AlligatorResult> sut = Quotes
             .ToSma(2)
@@ -78,7 +78,7 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<AlligatorResult> sut = Quotes
             .ToAlligator()
@@ -93,7 +93,7 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<AlligatorResult> sut = Quotes
             .ToAlligator()
@@ -108,7 +108,7 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Equality()
+    public void Equality_BetweenInstances_ComparesCorrectly()
     {
         AlligatorResult r1 = new(EvalDate, 1d, null, null);
         AlligatorResult r2 = new(EvalDate, 1d, null, null);
@@ -119,7 +119,7 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad jaw lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class DpoTests : TestBase
 {
     [TestMethod]
-    public void DpoSeriesListing()
+    public void DpoSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Dpo.SeriesListing;

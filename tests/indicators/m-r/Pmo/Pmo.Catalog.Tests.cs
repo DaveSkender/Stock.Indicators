@@ -7,7 +7,7 @@ namespace Catalogging;
 public class PmoTests : TestBase
 {
     [TestMethod]
-    public void PmoSeriesListing()
+    public void PmoSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Pmo.SeriesListing;
@@ -44,7 +44,7 @@ public class PmoTests : TestBase
     }
 
     [TestMethod]
-    public void PmoBufferListing()
+    public void PmoBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Pmo.BufferListing;

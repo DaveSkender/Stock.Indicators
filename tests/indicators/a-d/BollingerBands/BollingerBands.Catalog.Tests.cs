@@ -7,7 +7,7 @@ namespace Catalogging;
 public class BollingerBandsTests : TestBase
 {
     [TestMethod]
-    public void BollingerBandsSeriesListing()
+    public void BollingerBandsSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = BollingerBands.SeriesListing;
@@ -58,7 +58,7 @@ public class BollingerBandsTests : TestBase
     }
 
     [TestMethod]
-    public void BollingerBandsStreamListing()
+    public void BollingerBandsStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = BollingerBands.StreamListing;
@@ -83,7 +83,7 @@ public class BollingerBandsTests : TestBase
     }
 
     [TestMethod]
-    public void BollingerBandsBufferListing()
+    public void BollingerBandsBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = BollingerBands.BufferListing;

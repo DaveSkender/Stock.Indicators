@@ -7,7 +7,7 @@ namespace Catalogging;
 public class FractalTests : TestBase
 {
     [TestMethod]
-    public void FractalSeriesListing()
+    public void FractalSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Fractal.SeriesListing;
@@ -40,7 +40,7 @@ public class FractalTests : TestBase
     }
 
     [TestMethod]
-    public void FractalBufferListing()
+    public void FractalBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Fractal.BufferListing;
@@ -61,7 +61,7 @@ public class FractalTests : TestBase
     }
 
     [TestMethod]
-    public void FractalStreamListing()
+    public void FractalStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Fractal.StreamListing;

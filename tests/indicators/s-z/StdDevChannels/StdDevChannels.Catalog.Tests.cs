@@ -7,7 +7,7 @@ namespace Catalogging;
 public class StdDevChannelsTests : TestBase
 {
     [TestMethod]
-    public void StdDevChannelsSeriesListing()
+    public void StdDevChannelsSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StdDevChannels.SeriesListing;

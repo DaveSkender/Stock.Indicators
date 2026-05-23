@@ -7,7 +7,7 @@ namespace Catalogging;
 public class CmfTests : TestBase
 {
     [TestMethod]
-    public void CmfSeriesListing()
+    public void CmfSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cmf.SeriesListing;
@@ -44,7 +44,7 @@ public class CmfTests : TestBase
     }
 
     [TestMethod]
-    public void CmfStreamListing()
+    public void CmfStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cmf.StreamListing;

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class SuperTrendTests : TestBase
 {
     [TestMethod]
-    public void SuperTrendSeriesListing()
+    public void SuperTrendSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = SuperTrend.SeriesListing;
@@ -46,7 +46,7 @@ public class SuperTrendTests : TestBase
     }
 
     [TestMethod]
-    public void SuperTrendStreamListing()
+    public void SuperTrendStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = SuperTrend.StreamListing;
@@ -85,7 +85,7 @@ public class SuperTrendTests : TestBase
     }
 
     [TestMethod]
-    public void SuperTrendBufferListing()
+    public void SuperTrendBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = SuperTrend.BufferListing;

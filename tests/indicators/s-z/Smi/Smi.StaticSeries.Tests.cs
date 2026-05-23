@@ -56,7 +56,7 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NoSignal()
+    public void NoSignal_WithSignalPeriodOne_EqualsOscillator()
     {
         IReadOnlyList<SmiResult> sut = Quotes
             .ToSmi(5, 20, 20, 1);
@@ -70,7 +70,7 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SmallPeriods()
+    public void SmallPeriods_WithMinimalParameters_ReturnsExpectedResult()
     {
         IReadOnlyList<SmiResult> sut = Quotes
             .ToSmi(1, 1, 1, 5);
@@ -114,7 +114,7 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<SmiResult> sut = Quotes
             .ToSmi(14, 20, 5)
@@ -129,7 +129,7 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

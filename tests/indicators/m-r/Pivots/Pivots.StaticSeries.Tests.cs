@@ -108,7 +108,7 @@ public class Pivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<PivotsResult> sut = Quotes
             .ToPivots(4, 4)
@@ -117,7 +117,7 @@ public class Pivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad left span
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
@@ -133,7 +133,7 @@ public class Pivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Issue1950()
+    public void Issue1950_WithKnownCsv_ProducesExpectedPivots()
     {
         IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1950.pivots.csv");
 

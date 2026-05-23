@@ -125,7 +125,7 @@ public static class Numerical
             // reflection formula: Gamma(x)Gamma(1-x) = pi/sin(pi*x)
             double sinPiX = Math.Sin(Math.PI * x);
             return sinPiX > 0
-                ? Math.Log(Math.PI / sinPiX) - LogGamma(1.0 - x)
+                ? DeMath.Log(Math.PI / sinPiX) - LogGamma(1.0 - x)
                 : double.NaN;
         }
 
@@ -138,7 +138,7 @@ public static class Numerical
             a += c[i] / (x + i);
         }
 
-        return (0.5 * Math.Log(2 * Math.PI)) + ((x + 0.5) * Math.Log(t)) - t + Math.Log(a);
+        return (0.5 * DeMath.Log(2 * Math.PI)) + ((x + 0.5) * DeMath.Log(t)) - t + DeMath.Log(a);
     }
 
     /// <summary>

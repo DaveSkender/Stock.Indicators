@@ -52,7 +52,7 @@ public class Ichimoku : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Extended()
+    public void Extended_WithMoreQuotes_ReturnsExpectedResult()
     {
         IReadOnlyList<IchimokuResult> sut = Quotes
             .ToIchimoku(3, 13, 40, 0, 0);
@@ -84,7 +84,7 @@ public class Ichimoku : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_WithNoThreshold_RemovesNullValues()
     {
         IReadOnlyList<IchimokuResult> sut = Quotes
             .ToIchimoku()
@@ -94,7 +94,7 @@ public class Ichimoku : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
     {
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

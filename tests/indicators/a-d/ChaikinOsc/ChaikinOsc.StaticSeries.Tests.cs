@@ -25,7 +25,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToChaikinOsc()
@@ -60,7 +60,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int fastPeriods = 3;
         const int slowPeriods = 10;
@@ -80,7 +80,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad fast lookback
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

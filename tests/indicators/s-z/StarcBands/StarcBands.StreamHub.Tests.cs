@@ -91,7 +91,7 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void PrefilledProviderRebuilds()
+    public void PrefilledProvider_OnRebuild_MatchesSeriesExactly()
     {
         QuoteHub quoteHub = new();
         List<Quote> quotes = Quotes.Take(25).ToList();

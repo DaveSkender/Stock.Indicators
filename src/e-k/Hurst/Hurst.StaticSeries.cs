@@ -46,7 +46,7 @@ public static partial class Hurst
                     IReusable ps = source[p];
 
                     // log returns require strictly positive prices on both ends
-                    values[x] = (l > 0 && ps.Value > 0) ? Math.Log(ps.Value / l) : double.NaN;
+                    values[x] = (l > 0 && ps.Value > 0) ? DeMath.Log(ps.Value / l) : double.NaN;
 
                     l = ps.Value;
                     x++;
@@ -157,16 +157,16 @@ public static partial class Hurst
             double rsAL = avgRs + alCorrections[setNum];
 
             // set results
-            logSize[setNum] = Math.Log10(chunkSize);
+            logSize[setNum] = DeMath.Log10(chunkSize);
             logRs[setNum] = avgRs > 0
-                ? Math.Log10(avgRs)
+                ? DeMath.Log10(avgRs)
                 : double.NaN;
 
             // NaN-guards: rsAL is non-negative for any finite avgRs (the
             // bias-correction term is positive across all chunk sizes used),
             // so this branch fires only when avgRs is NaN.
             logRsAL[setNum] = rsAL > 0
-                ? Math.Log10(rsAL)
+                ? DeMath.Log10(rsAL)
                 : double.NaN;
 
             // increment set
@@ -227,9 +227,9 @@ public static partial class Hurst
         if (n <= 340)
         {
             // exact: Gamma((n-1)/2) / (sqrt(pi) * Gamma(n/2))
-            gammaFactor = Math.Exp(
+            gammaFactor = DeMath.Exp(
                 Numerical.LogGamma((n - 1.0) / 2.0)
-                - (0.5 * Math.Log(Math.PI))
+                - (0.5 * DeMath.Log(Math.PI))
                 - Numerical.LogGamma(n / 2.0));
         }
         else

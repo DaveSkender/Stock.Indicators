@@ -121,7 +121,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void WithDemaType()
+    public void WithDemaType_AsMaType_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

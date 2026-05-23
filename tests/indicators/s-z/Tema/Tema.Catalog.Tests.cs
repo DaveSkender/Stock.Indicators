@@ -7,7 +7,7 @@ namespace Catalogging;
 public class TemaTests : TestBase
 {
     [TestMethod]
-    public void TemaSeriesListing()
+    public void TemaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tema.SeriesListing;
@@ -36,7 +36,7 @@ public class TemaTests : TestBase
     }
 
     [TestMethod]
-    public void TemaBufferListing()
+    public void TemaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tema.BufferListing;
@@ -65,7 +65,7 @@ public class TemaTests : TestBase
     }
 
     [TestMethod]
-    public void TemaStreamListing()
+    public void TemaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tema.StreamListing;

@@ -58,7 +58,7 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void StandardHighLow()
+    public void StandardHighLow_WithHighLowEndType_ReturnsExpectedResult()
     {
         IReadOnlyList<ZigZagResult> sut =
             Quotes.ToZigZag(EndType.HighLow, 3);
@@ -161,7 +161,7 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<ZigZagResult> sut = Quotes
             .ToZigZag(EndType.Close, 3)
@@ -172,7 +172,7 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

@@ -64,7 +64,7 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void CandlePartOpen()
+    public void CandlePartOpen_UseOpenPart_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .Use(CandlePart.Open)
@@ -83,7 +83,7 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void CandlePartVolume()
+    public void CandlePartVolume_UseVolumePart_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .Use(CandlePart.Volume)
@@ -105,7 +105,7 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToEma_ReturnsExpectedResult()
     {
         IReadOnlyList<EmaResult> sut = Quotes
             .ToSma(10)
@@ -116,7 +116,7 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NaN()
+    public void NaN_WithBtcUsdData_DoesNotProduceNaN()
     {
         IReadOnlyList<SmaResult> r = Data.GetBtcUsdNan()
             .ToSma(50);
@@ -149,7 +149,7 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToSma(20)
@@ -161,7 +161,7 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Equality()
+    public void Equality_BetweenInstances_ComparesCorrectly()
     {
         SmaResult r1 = new(Timestamp: EvalDate, Sma: 1d);
 
@@ -186,7 +186,7 @@ public partial class SmaTests : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToSma(0))
             .Should()

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class WmaTests : TestBase
 {
     [TestMethod]
-    public void WmaSeriesListing()
+    public void WmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Wma.SeriesListing;
@@ -36,7 +36,7 @@ public class WmaTests : TestBase
     }
 
     [TestMethod]
-    public void WmaStreamListing()
+    public void WmaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Wma.StreamListing;
@@ -57,7 +57,7 @@ public class WmaTests : TestBase
     }
 
     [TestMethod]
-    public void WmaBufferListing()
+    public void WmaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Wma.BufferListing;

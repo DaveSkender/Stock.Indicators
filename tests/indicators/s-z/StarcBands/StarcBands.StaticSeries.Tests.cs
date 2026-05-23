@@ -71,7 +71,7 @@ public class StarcBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         const int smaPeriods = 20;
         const int multiplier = 2;
@@ -92,7 +92,7 @@ public class StarcBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int smaPeriods = 20;
         const int multiplier = 2;
@@ -113,7 +113,7 @@ public class StarcBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

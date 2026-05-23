@@ -174,7 +174,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void SettingsInheritance()
+    public void SettingsInheritance_FromParentHubs_PropagatesCorrectly()
     {
         // setup quote hub (1st level)
         QuoteHub quoteHub = new();

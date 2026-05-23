@@ -7,7 +7,7 @@ namespace Catalogging;
 public class SmaAnalysisTests : TestBase
 {
     [TestMethod]
-    public void SmaAnalysisSeriesListing()
+    public void SmaAnalysisSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = SmaAnalysis.SeriesListing;
@@ -48,7 +48,7 @@ public class SmaAnalysisTests : TestBase
     }
 
     [TestMethod]
-    public void SmaAnalysisStreamListing()
+    public void SmaAnalysisStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = SmaAnalysis.StreamListing;
@@ -89,7 +89,7 @@ public class SmaAnalysisTests : TestBase
     }
 
     [TestMethod]
-    public void SmaAnalysisBufferListing()
+    public void SmaAnalysisBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = SmaAnalysis.BufferListing;

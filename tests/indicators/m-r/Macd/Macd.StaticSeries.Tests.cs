@@ -43,7 +43,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<MacdResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -54,7 +54,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<MacdResult> sut = Quotes
             .ToSma(2)
@@ -65,7 +65,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToMacd()
@@ -100,7 +100,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int fastPeriods = 12;
         const int slowPeriods = 26;
@@ -120,7 +120,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

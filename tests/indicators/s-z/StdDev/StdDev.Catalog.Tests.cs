@@ -7,7 +7,7 @@ namespace Catalogging;
 public class StdDevTests : TestBase
 {
     [TestMethod]
-    public void StdDevSeriesListing()
+    public void StdDevSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StdDev.SeriesListing;
@@ -36,7 +36,7 @@ public class StdDevTests : TestBase
     }
 
     [TestMethod]
-    public void StdDevStreamListing()
+    public void StdDevStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StdDev.StreamListing;
@@ -65,7 +65,7 @@ public class StdDevTests : TestBase
     }
 
     [TestMethod]
-    public void StdDevBufferListing()
+    public void StdDevBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StdDev.BufferListing;

@@ -34,7 +34,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Alma()
+    public void Alma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(10, 2.5, MaType.ALMA);
@@ -61,7 +61,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Dema()
+    public void Dema_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.DEMA);
@@ -88,7 +88,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Epma()
+    public void Epma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.EPMA);
@@ -115,7 +115,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Ema()
+    public void Ema_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.EMA);
@@ -142,7 +142,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Hma()
+    public void Hma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.HMA);
@@ -164,7 +164,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Smma()
+    public void Smma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.SMMA);
@@ -191,7 +191,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Tema()
+    public void Tema_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.TEMA);
@@ -218,7 +218,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Wma()
+    public void Wma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.WMA);
@@ -240,7 +240,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -251,7 +251,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut = Quotes
             .ToSma(2)
@@ -320,7 +320,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<MaEnvelopeResult> sut = Quotes
             .ToMaEnvelopes(20)
@@ -330,7 +330,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad offset period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

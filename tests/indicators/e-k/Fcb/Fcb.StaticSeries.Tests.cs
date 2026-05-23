@@ -64,7 +64,7 @@ public class Fcb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_WithNoThreshold_RemovesNullValues()
     {
         IReadOnlyList<FcbResult> sut = Quotes
             .ToFcb()
@@ -79,7 +79,7 @@ public class Fcb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<FcbResult> sut = Quotes
             .ToFcb()
@@ -97,7 +97,7 @@ public class Fcb : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToFcb(1))
             .Should()

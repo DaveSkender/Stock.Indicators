@@ -7,7 +7,7 @@ namespace Catalogging;
 public class CorrelationTests : TestBase
 {
     [TestMethod]
-    public void CorrelationSeriesListing()
+    public void CorrelationSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Correlation.SeriesListing;

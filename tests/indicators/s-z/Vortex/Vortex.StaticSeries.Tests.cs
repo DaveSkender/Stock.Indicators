@@ -60,7 +60,7 @@ public class Vortex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<VortexResult> sut = Quotes
             .ToVortex(14)
@@ -75,7 +75,7 @@ public class Vortex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<VortexResult> sut = Quotes
             .ToVortex(14)
@@ -93,7 +93,7 @@ public class Vortex : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToVortex(1))
             .Should()

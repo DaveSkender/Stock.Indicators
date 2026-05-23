@@ -43,7 +43,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void Extended()
+    public void Extended_WithInitialStep_ReturnsExpectedResult()
     {
         const double accelerationStepExt = 0.02;
         const double maxAccelerationFactorExt = 0.2;

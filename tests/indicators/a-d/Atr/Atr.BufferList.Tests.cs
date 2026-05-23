@@ -9,7 +9,7 @@ public class Atr : BufferListTestBase
        = Quotes.ToAtr(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         AtrList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Atr : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         AtrList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Atr : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         AtrList sut = new(lookbackPeriods, Quotes);
 

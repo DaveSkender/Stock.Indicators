@@ -14,7 +14,7 @@ public class Stoch : BufferListTestBase
        = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
 
@@ -28,7 +28,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 
@@ -37,7 +37,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
 
@@ -70,7 +70,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void ExtendedParameters()
+    public void ExtendedParameters_WithCustomMaType_ReturnsExpectedResult()
     {
         const double kFactor = 5;
         const double dFactor = 4;
@@ -93,7 +93,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void IncrementalConsistency()
+    public void IncrementalConsistency_VersusBatch_MatchesExactly()
     {
         // Test that incremental addition produces same sut as batch
         StochList incremental = new(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -109,7 +109,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void ParameterValidation()
+    public void ParameterValidation_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // Test parameter validation
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new StochList(0));
@@ -121,7 +121,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void BoundaryConditions()
+    public void BoundaryConditions_WithMinimalData_ReturnsExpectedResult()
     {
         // Test with minimal data
         StochList sut = new(5, 3, 3);
@@ -142,7 +142,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void BufferListExtension()
+    public void BufferListExtension_VersusConstructor_MatchesExactly()
     {
         // Test extension method
         StochList fromExtension = Quotes.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
