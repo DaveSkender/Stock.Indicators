@@ -22,7 +22,7 @@ IEnumerable<HurstResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100.
 
 ### Historical quotes requirements
 
@@ -45,7 +45,9 @@ IEnumerable<HurstResult>
 
 **`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
-**`HurstExponent`** _`double`_ - Hurst Exponent (`H`)
+**`HurstExponent`** _`double`_ - Hurst Exponent (`H`) from raw rescaled range (R/S) analysis
+
+**`HurstExponentAL`** _`double`_ - [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. Like `HurstExponent`, values near 0.5 represent a random walk, greater than 0.5 depict trending, and less than 0.5 indicate mean-reverting behavior. This corrected value is generally preferred for smaller lookback periods.
 
 ### Utilities
 
@@ -75,3 +77,9 @@ var results = quotes
     .GetHurst(..)
     .GetSlope(..);
 ```
+
+## References
+
+- Inputs are log returns `ln(c_t / c_{t-1})`, which provide additive, scale-consistent increments.
+- `HurstExponent` (raw `H`) is the slope of `log(R/S)` against `log(n)` across chunk sizes, following the rescaled-range analysis of Hurst (1951) and Mandelbrot & Wallis (1969).
+- `HurstExponentAL` applies the Anis & Lloyd (1976) finite-sample expectation `E[R/S]_n = Γ((n-1)/2) / (√π · Γ(n/2)) · Σ_{r=1}^{n-1} √((n-r)/r)`, then corrects each observed R/S as `R/S − E[R/S]_n + √(π·n/2)` before regressing. The expected value uses an exact `LogGamma` evaluation for `n ≤ 340` and Peters' (1994) Stirling approximation `√(2 / (π·(n-1)))` for larger `n`.

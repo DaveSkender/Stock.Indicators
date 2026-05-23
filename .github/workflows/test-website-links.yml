@@ -39,11 +39,7 @@ jobs:
         run: gem install html-proofer
 
       - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "data-src"
-          replace: "src"
-          regex: false
+        run: sed -i 's/data-src/src/g' pages/home.md
 
       - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@v3

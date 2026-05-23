@@ -88,6 +88,49 @@ public static class Numerix
         return slope;
     }
 
+    // LOG GAMMA (Lanczos approximation)
+    // Accurate for x > 0; valid range documented below.
+    // Uses reflection formula for 0 < x < 0.5, Lanczos for x >= 0.5.
+    internal static double LogGamma(double x)
+    {
+        if (x <= 0)
+        {
+            return double.NaN;
+        }
+
+        double[] c = [
+            0.99999999999980993,
+            676.5203681218851,
+            -1259.1392167224028,
+            771.32342877765313,
+            -176.61502916214059,
+            12.507343278686905,
+            -0.13857109526572012,
+            9.9843695780195716e-6,
+            1.5056327351493116e-7
+        ];
+
+        if (x < 0.5)
+        {
+            // reflection formula: Γ(x)Γ(1-x) = π/sin(πx)
+            double sinPiX = Math.Sin(Math.PI * x);
+            return sinPiX > 0
+                ? Math.Log(Math.PI / sinPiX) - LogGamma(1.0 - x)
+                : double.NaN;
+        }
+
+        x -= 1.0;
+        double a = c[0];
+        double t = x + 7.5; // g + 0.5, where g = 7
+
+        for (int i = 1; i <= 8; i++)
+        {
+            a += c[i] / (x + i);
+        }
+
+        return 0.5 * Math.Log(2 * Math.PI) + (x + 0.5) * Math.Log(t) - t + Math.Log(a);
+    }
+
     // DATE ROUNDING
     internal static DateTime RoundDown(this DateTime dateTime, TimeSpan interval)
         => interval == TimeSpan.Zero
