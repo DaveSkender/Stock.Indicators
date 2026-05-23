@@ -39,18 +39,10 @@ jobs:
         run: gem install html-proofer
 
       - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "data-src"
-          replace: "src"
-          regex: false
+        run: sed -i 's/data-src/src/g' pages/home.md
 
       - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
-          regex: false
+        run: grep -rl 'https://dotnet.stockindicators.dev' . | xargs --no-run-if-empty sed -i 's|https://dotnet.stockindicators.dev|http://127.0.0.1:4000|g'
 
       - name: Build site
         env:
