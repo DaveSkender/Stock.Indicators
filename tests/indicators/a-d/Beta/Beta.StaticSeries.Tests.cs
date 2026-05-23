@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Beta : StaticSeriesTestBase
 {
     [TestMethod]
-    public void All()
+    public void All_WithAllBetaType_ReturnsExpectedResult()
     {
         IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20, BetaType.All);
@@ -63,7 +63,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Up()
+    public void Up_WithUpBetaType_ReturnsExpectedResult()
     {
         IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20, BetaType.Up);
@@ -78,7 +78,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Down()
+    public void Down_WithDownBetaType_ReturnsExpectedResult()
     {
         IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20, BetaType.Down);
@@ -93,7 +93,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<BetaResult> sut = OtherQuotes
             .Use(CandlePart.Close)
@@ -104,7 +104,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20)
@@ -115,7 +115,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<BetaResult> sut = Quotes
             .ToSma(2)
@@ -158,7 +158,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BetaMsft()
+    public void BetaMsft_AgainstSpx_MatchesPublishedValue()
     {
         // should produce 0.91 for 5-yr monthly values
         // multiple reputable sites show this number
@@ -179,7 +179,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20)
@@ -193,7 +193,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SameSame()
+    public void SameSame_AgainstSelf_ReturnsBetaOne()
     {
         // Beta should be 1 if evaluating against self
         IReadOnlyList<BetaResult> sut = Quotes
@@ -223,7 +223,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NoMatch()
+    public void NoMatch_MismatchedTimestamps_ThrowsInvalidQuotesException()
     {
         IReadOnlyList<Quote> quoteA =
         [
@@ -256,7 +256,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsExpectedException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

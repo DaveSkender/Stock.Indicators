@@ -18,7 +18,7 @@ public class Aroon : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         AroonList sut = new(lookbackPeriods);
 
@@ -32,7 +32,7 @@ public class Aroon : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         AroonList sut = new(lookbackPeriods) { Quotes };
 
@@ -41,7 +41,7 @@ public class Aroon : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         AroonList sut = new(lookbackPeriods, Quotes);
 

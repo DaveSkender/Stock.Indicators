@@ -28,7 +28,7 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToChop()
@@ -39,7 +39,7 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SmallLookback()
+    public void SmallLookback_WithMinimalPeriods_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 2;
         IReadOnlyList<ChopResult> sut = Quotes
@@ -82,7 +82,7 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<ChopResult> sut = Quotes
             .ToChop()
@@ -99,7 +99,7 @@ public class Chop : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToChop(1))
             .Should()

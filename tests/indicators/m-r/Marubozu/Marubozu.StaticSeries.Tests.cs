@@ -63,7 +63,7 @@ public class Marubozu : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<CandleResult> sut = Quotes
             .ToMarubozu()
@@ -73,7 +73,7 @@ public class Marubozu : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidMinBodyPercent_ThrowsArgumentOutOfRangeException()
     {
         // bad minimum body percent values
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

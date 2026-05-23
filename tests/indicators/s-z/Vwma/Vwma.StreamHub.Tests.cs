@@ -146,7 +146,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void EmptyProvider()
+    public void EmptyProvider_NoQuotes_ReturnsEmptyResults()
     {
         QuoteHub quoteHub = new();
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
@@ -156,7 +156,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void InsufficientQuotes()
+    public void InsufficientQuotes_WithFewerThanLookback_ProducesNullResults()
     {
         QuoteHub quoteHub = new();
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
@@ -173,7 +173,7 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ZeroVolume()
+    public void ZeroVolume_WithZeroVolumeQuotes_HandlesGracefully()
     {
         QuoteHub quoteHub = new();
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);

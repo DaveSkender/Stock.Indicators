@@ -7,7 +7,7 @@ namespace Catalogging;
 public class UltimateTests : TestBase
 {
     [TestMethod]
-    public void UltimateSeriesListing()
+    public void UltimateSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ultimate.SeriesListing;
@@ -40,7 +40,7 @@ public class UltimateTests : TestBase
     }
 
     [TestMethod]
-    public void UltimateBufferListing()
+    public void UltimateBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ultimate.BufferListing;
@@ -65,7 +65,7 @@ public class UltimateTests : TestBase
     }
 
     [TestMethod]
-    public void UltimateStreamListing()
+    public void UltimateStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ultimate.StreamListing;

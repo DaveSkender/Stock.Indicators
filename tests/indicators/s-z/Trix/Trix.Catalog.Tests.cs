@@ -7,7 +7,7 @@ namespace Catalogging;
 public class TrixTests : TestBase
 {
     [TestMethod]
-    public void TrixSeriesListing()
+    public void TrixSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Trix.SeriesListing;
@@ -36,7 +36,7 @@ public class TrixTests : TestBase
     }
 
     [TestMethod]
-    public void TrixBufferListing()
+    public void TrixBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Trix.BufferListing;
@@ -65,7 +65,7 @@ public class TrixTests : TestBase
     }
 
     [TestMethod]
-    public void TrixStreamListing()
+    public void TrixStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Trix.StreamListing;

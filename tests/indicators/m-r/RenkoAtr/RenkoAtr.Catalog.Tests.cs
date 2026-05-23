@@ -7,7 +7,7 @@ namespace Catalogging;
 public class RenkoAtrTests : TestBase
 {
     [TestMethod]
-    public void RenkoAtrSeriesListing()
+    public void RenkoAtrSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = RenkoAtr.SeriesListing;

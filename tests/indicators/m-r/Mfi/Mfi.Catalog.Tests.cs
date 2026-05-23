@@ -7,7 +7,7 @@ namespace Catalogging;
 public class MfiTests : TestBase
 {
     [TestMethod]
-    public void MfiSeriesListing()
+    public void MfiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Mfi.SeriesListing;
@@ -36,7 +36,7 @@ public class MfiTests : TestBase
     }
 
     [TestMethod]
-    public void MfiStreamListing()
+    public void MfiStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Mfi.StreamListing;
@@ -65,7 +65,7 @@ public class MfiTests : TestBase
     }
 
     [TestMethod]
-    public void MfiBufferListing()
+    public void MfiBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Mfi.BufferListing;
@@ -94,7 +94,7 @@ public class MfiTests : TestBase
     }
 
     [TestMethod]
-    public void MfiSeriesFromCatalogMatchesDirectCall()
+    public void MfiSeries_FromCatalog_MatchesDirectCall()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;

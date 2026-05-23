@@ -36,7 +36,7 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void WithHighLowEndType()
+    public void WithHighLowEndType_AsEndType_ReturnsExpectedResult()
     {
         IReadOnlyList<RenkoResult> sut = Quotes
             .ToRenkoAtr(14, EndType.HighLow);
@@ -55,7 +55,7 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void WithCustomAtrPeriod()
+    public void WithCustomAtrPeriod_AsAtrPeriods_ReturnsExpectedResult()
     {
         IReadOnlyList<RenkoResult> sut = Quotes
             .ToRenkoAtr(20);
@@ -67,7 +67,7 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_HaveRequiredValues()
+    public void Results_WithDefaults_HaveRequiredValues()
     {
         IReadOnlyList<RenkoResult> results = Quotes
             .ToRenkoAtr();
@@ -86,7 +86,7 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public void Results_WithAnyInput_AreAlwaysBounded()
     {
         IReadOnlyList<RenkoResult> results = Quotes
             .ToRenkoAtr();
@@ -105,7 +105,7 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NullHistory_ThrowsException()
+    public void NullHistory_WithNullQuotes_ThrowsArgumentNullException()
         => FluentActions
             .Invoking(static () => ((IReadOnlyList<IQuote>)null!).ToRenkoAtr())
             .Should()
@@ -133,7 +133,7 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void InsufficientHistory_ReturnsEmpty()
+    public void InsufficientHistory_WithTooFewQuotes_ReturnsEmpty()
     {
         IReadOnlyList<RenkoResult> sut = Quotes
             .Take(10)

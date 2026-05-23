@@ -19,7 +19,7 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<UlcerIndexResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -30,7 +30,7 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<UlcerIndexResult> sut = Quotes
             .ToSma(2)
@@ -41,7 +41,7 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToUlcerIndex()
@@ -76,7 +76,7 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<UlcerIndexResult> sut = Quotes
             .ToUlcerIndex()
@@ -93,7 +93,7 @@ public class UlcerIndex : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToUlcerIndex(0))
             .Should()

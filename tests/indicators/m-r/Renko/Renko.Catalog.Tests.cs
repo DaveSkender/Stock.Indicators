@@ -7,7 +7,7 @@ namespace Catalogging;
 public class RenkoTests : TestBase
 {
     [TestMethod]
-    public void RenkoSeriesListing()
+    public void RenkoSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Renko.SeriesListing;
@@ -55,7 +55,7 @@ public class RenkoTests : TestBase
         isupResult5.IsReusable.Should().Be(false);
     }
     [TestMethod]
-    public void RenkoStreamListing()
+    public void RenkoStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Renko.StreamListing;

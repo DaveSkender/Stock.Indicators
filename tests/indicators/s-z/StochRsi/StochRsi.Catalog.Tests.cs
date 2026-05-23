@@ -7,7 +7,7 @@ namespace Catalogging;
 public class StochRsiTests : TestBase
 {
     [TestMethod]
-    public void StochRsiSeriesListing()
+    public void StochRsiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StochRsi.SeriesListing;
@@ -46,7 +46,7 @@ public class StochRsiTests : TestBase
     }
 
     [TestMethod]
-    public void StochRsiStreamListing()
+    public void StochRsiStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StochRsi.StreamListing;
@@ -67,7 +67,7 @@ public class StochRsiTests : TestBase
     }
 
     [TestMethod]
-    public void StochRsiBufferListing()
+    public void StochRsiBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StochRsi.BufferListing;

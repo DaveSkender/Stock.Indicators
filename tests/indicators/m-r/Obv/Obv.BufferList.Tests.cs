@@ -6,7 +6,7 @@ public class Obv : BufferListTestBase
     private static readonly IReadOnlyList<ObvResult> series = Quotes.ToObv();
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         ObvList sut = [];
 
@@ -20,7 +20,7 @@ public class Obv : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         ObvList sut = Quotes.ToObvList();
 
@@ -29,7 +29,7 @@ public class Obv : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         ObvList sut = new(Quotes);
 
@@ -38,7 +38,7 @@ public class Obv : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtorPartial()
+    public void QuotesCtor_WithPartialInitialization_IncrementsResults()
     {
         // Test split initialization: half on construction, half after
         int splitPoint = Quotes.Count / 2;

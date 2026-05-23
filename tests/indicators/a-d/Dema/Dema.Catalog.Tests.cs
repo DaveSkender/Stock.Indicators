@@ -7,7 +7,7 @@ namespace Catalogging;
 public class DemaTests : TestBase
 {
     [TestMethod]
-    public void DemaSeriesListing()
+    public void DemaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Dema.SeriesListing;
@@ -36,7 +36,7 @@ public class DemaTests : TestBase
     }
 
     [TestMethod]
-    public void DemaBufferListing()
+    public void DemaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Dema.BufferListing;
@@ -65,7 +65,7 @@ public class DemaTests : TestBase
     }
 
     [TestMethod]
-    public void DemaStreamListing()
+    public void DemaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Dema.StreamListing;

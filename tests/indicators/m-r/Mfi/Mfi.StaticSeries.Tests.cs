@@ -22,14 +22,14 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public void Results_WithAnyInput_AreAlwaysBounded()
     {
         IReadOnlyList<MfiResult> sut = Quotes.ToMfi(14);
         sut.IsBetween(static x => x.Mfi, 0, 100);
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToMfi()
@@ -40,7 +40,7 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SmallLookback()
+    public void SmallLookback_WithFourPeriods_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 4;
 
@@ -84,7 +84,7 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int lookbackPeriods = 14;
 
@@ -103,7 +103,7 @@ public class Mfi : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToMfi(1))
             .Should()

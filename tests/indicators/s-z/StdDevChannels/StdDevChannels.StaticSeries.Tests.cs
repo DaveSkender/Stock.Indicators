@@ -63,7 +63,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void FullHistory()
+    public void FullHistory_AsLookbackPeriods_ReturnsLinearRegression()
     {
         // full history linear regression
 
@@ -96,7 +96,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<StdDevChannelsResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -107,7 +107,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<StdDevChannelsResult> sut = Quotes
             .ToSma(2)
@@ -142,7 +142,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
@@ -161,7 +161,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
@@ -180,7 +180,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

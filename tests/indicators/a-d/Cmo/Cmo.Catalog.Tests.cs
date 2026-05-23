@@ -7,7 +7,7 @@ namespace Catalogging;
 public class CmoTests : TestBase
 {
     [TestMethod]
-    public void CmoSeriesListing()
+    public void CmoSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cmo.SeriesListing;
@@ -36,7 +36,7 @@ public class CmoTests : TestBase
     }
 
     [TestMethod]
-    public void CmoBufferListing()
+    public void CmoBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cmo.BufferListing;
@@ -65,7 +65,7 @@ public class CmoTests : TestBase
     }
 
     [TestMethod]
-    public void CmoStreamListing()
+    public void CmoStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cmo.StreamListing;

@@ -37,7 +37,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<StdDevResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -48,7 +48,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<StdDevResult> sut = Quotes
             .ToSma(2)
@@ -59,7 +59,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToStdDev(10)
@@ -103,7 +103,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<StdDevResult> sut = Quotes
             .ToStdDev(10)
@@ -119,7 +119,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod] // bad lookback period
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToStdDev(1))
             .Should()

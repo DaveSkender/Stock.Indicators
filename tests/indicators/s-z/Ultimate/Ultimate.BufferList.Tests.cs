@@ -18,7 +18,7 @@ public class Ultimate : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods);
 
@@ -32,7 +32,7 @@ public class Ultimate : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods) { Quotes };
 
@@ -41,7 +41,7 @@ public class Ultimate : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods, Quotes);
 

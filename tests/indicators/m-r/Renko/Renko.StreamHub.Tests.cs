@@ -166,7 +166,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void SettingsInheritance()
+    public void SettingsInheritance_InHubChain_PropagatesProperties()
     {
         // setup quote hub (1st level)
         QuoteHub quoteHub = new();

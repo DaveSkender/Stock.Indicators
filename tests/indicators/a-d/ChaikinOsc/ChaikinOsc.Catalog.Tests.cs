@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ChaikinOscTests : TestBase
 {
     [TestMethod]
-    public void ChaikinOscSeriesListing()
+    public void ChaikinOscSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ChaikinOsc.SeriesListing;

@@ -47,7 +47,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<MamaResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -58,7 +58,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<MamaResult> sut = Quotes
             .ToSma(2)
@@ -69,7 +69,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToMama()
@@ -102,7 +102,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const double fastLimit = 0.5;
         const double slowLimit = 0.05;
@@ -120,7 +120,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad fast period (same as slow period)
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

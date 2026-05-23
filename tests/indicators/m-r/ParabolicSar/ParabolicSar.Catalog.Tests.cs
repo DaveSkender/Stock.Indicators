@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ParabolicSarTests : TestBase
 {
     [TestMethod]
-    public void ParabolicSarSeriesListing()
+    public void ParabolicSarSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ParabolicSar.SeriesListing;
@@ -42,7 +42,7 @@ public class ParabolicSarTests : TestBase
     }
 
     [TestMethod]
-    public void ParabolicSarBufferListing()
+    public void ParabolicSarBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ParabolicSar.BufferListing;

@@ -36,7 +36,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Extended()
+    public void Extended_WithInitialStep_ReturnsExpectedResult()
     {
         const double acclerationStep = 0.02;
         const double maxAccelerationFactor = 0.2;
@@ -74,7 +74,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToParabolicSar()
@@ -85,7 +85,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void InsufficientQuotes()
+    public void InsufficientQuotes_WithTooFewQuotes_ReturnsEmptySar()
     {
         const double acclerationStep = 0.02;
         const double maxAccelerationFactor = 0.2;
@@ -131,7 +131,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const double acclerationStep = 0.02;
         const double maxAccelerationFactor = 0.2;
@@ -149,7 +149,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad acceleration step
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

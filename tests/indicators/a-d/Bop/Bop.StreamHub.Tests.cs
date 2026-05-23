@@ -98,7 +98,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_FromQuoteHub_MatchesSeriesExactly()
     {
         // BOP requires IQuote input (OHLC data), so we can't chain from EMA
         // Instead, test chaining from a quote converter that produces quotes

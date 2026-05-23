@@ -7,7 +7,7 @@ namespace Catalogging;
 public class T3Tests : TestBase
 {
     [TestMethod]
-    public void T3SeriesListing()
+    public void T3Series_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = T3.SeriesListing;
@@ -38,7 +38,7 @@ public class T3Tests : TestBase
     }
 
     [TestMethod]
-    public void T3StreamListing()
+    public void T3Stream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = T3.StreamListing;
@@ -59,7 +59,7 @@ public class T3Tests : TestBase
     }
 
     [TestMethod]
-    public void T3BufferListing()
+    public void T3Buffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = T3.BufferListing;

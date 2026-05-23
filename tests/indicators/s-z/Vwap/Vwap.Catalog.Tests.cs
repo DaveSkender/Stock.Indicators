@@ -7,7 +7,7 @@ namespace Catalogging;
 public class VwapTests : TestBase
 {
     [TestMethod]
-    public void VwapSeriesListing()
+    public void VwapSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Vwap.SeriesListing;
@@ -41,7 +41,7 @@ public class VwapTests : TestBase
     }
 
     [TestMethod]
-    public void VwapBufferListing()
+    public void VwapBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Vwap.BufferListing;
@@ -61,7 +61,7 @@ public class VwapTests : TestBase
     }
 
     [TestMethod]
-    public void VwapStreamListing()
+    public void VwapStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Vwap.StreamListing;

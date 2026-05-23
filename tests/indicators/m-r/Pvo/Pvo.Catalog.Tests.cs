@@ -7,7 +7,7 @@ namespace Catalogging;
 public class PvoTests : TestBase
 {
     [TestMethod]
-    public void PvoSeriesListing()
+    public void PvoSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Pvo.SeriesListing;
@@ -48,7 +48,7 @@ public class PvoTests : TestBase
     }
 
     [TestMethod]
-    public void PvoBufferListing()
+    public void PvoBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Pvo.BufferListing;

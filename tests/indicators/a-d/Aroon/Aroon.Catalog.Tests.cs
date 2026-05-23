@@ -7,7 +7,7 @@ namespace Catalogging;
 public class AroonTests : TestBase
 {
     [TestMethod]
-    public void AroonSeriesListing()
+    public void AroonSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Aroon.SeriesListing;
@@ -43,7 +43,7 @@ public class AroonTests : TestBase
         oscillatorResult2.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void AroonStreamListing()
+    public void AroonStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Aroon.StreamListing;
@@ -79,7 +79,7 @@ public class AroonTests : TestBase
         oscillatorResult2.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void AroonBufferListing()
+    public void AroonBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Aroon.BufferListing;

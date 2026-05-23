@@ -7,7 +7,7 @@ namespace Catalogging;
 public class PrsTests : TestBase
 {
     [TestMethod]
-    public void PrsSeriesListing()
+    public void PrsSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Prs.SeriesListing;

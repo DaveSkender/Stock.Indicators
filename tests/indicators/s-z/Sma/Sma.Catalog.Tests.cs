@@ -7,7 +7,7 @@ namespace Catalogging;
 public class SmaTests : TestBase
 {
     [TestMethod]
-    public void SmaSeriesListing()
+    public void SmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Sma.SeriesListing;
@@ -35,7 +35,7 @@ public class SmaTests : TestBase
         smaResult.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void SmaStreamListing()
+    public void SmaStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Sma.StreamListing;
@@ -64,7 +64,7 @@ public class SmaTests : TestBase
     }
 
     [TestMethod]
-    public void SmaBufferListing()
+    public void SmaBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Sma.BufferListing;

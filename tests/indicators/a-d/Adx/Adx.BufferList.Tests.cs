@@ -20,7 +20,7 @@ public class Adx : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         AdxList sut = new(lookbackPeriods);
 
@@ -34,7 +34,7 @@ public class Adx : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         AdxList sut = new(lookbackPeriods) { Quotes };
 
@@ -43,7 +43,7 @@ public class Adx : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         AdxList sut = new(lookbackPeriods, Quotes);
 

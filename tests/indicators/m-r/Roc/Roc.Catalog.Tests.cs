@@ -7,7 +7,7 @@ namespace Catalogging;
 public class RocTests : TestBase
 {
     [TestMethod]
-    public void RocSeriesListing()
+    public void RocSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Roc.SeriesListing;
@@ -36,7 +36,7 @@ public class RocTests : TestBase
     }
 
     [TestMethod]
-    public void RocStreamListing()
+    public void RocStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Roc.StreamListing;
@@ -65,7 +65,7 @@ public class RocTests : TestBase
     }
 
     [TestMethod]
-    public void RocBufferListing()
+    public void RocBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Roc.BufferListing;

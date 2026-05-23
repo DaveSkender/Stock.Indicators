@@ -10,7 +10,7 @@ public class ChaikinOsc : BufferListTestBase
        = Quotes.ToChaikinOsc(fastPeriods, slowPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         ChaikinOscList sut = new(fastPeriods, slowPeriods);
 
@@ -24,7 +24,7 @@ public class ChaikinOsc : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         ChaikinOscList sut = new(fastPeriods, slowPeriods) { Quotes };
 
@@ -33,7 +33,7 @@ public class ChaikinOsc : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         ChaikinOscList sut = new(fastPeriods, slowPeriods, Quotes);
 

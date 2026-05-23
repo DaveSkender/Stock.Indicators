@@ -7,7 +7,7 @@ namespace Catalogging;
 public class MacdTests : TestBase
 {
     [TestMethod]
-    public void MacdSeriesListing()
+    public void MacdSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Macd.SeriesListing;
@@ -44,7 +44,7 @@ public class MacdTests : TestBase
     }
 
     [TestMethod]
-    public void MacdBufferListing()
+    public void MacdBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Macd.BufferListing;
@@ -88,7 +88,7 @@ public class MacdTests : TestBase
     }
 
     [TestMethod]
-    public void MacdStreamListing()
+    public void MacdStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Macd.StreamListing;

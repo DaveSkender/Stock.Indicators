@@ -21,14 +21,14 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public void Results_WithAnyInput_AreAlwaysBounded()
     {
         IReadOnlyList<RsiResult> sut = Quotes.ToRsi(14);
         sut.IsBetween(static x => x.Rsi, 0, 100);
     }
 
     [TestMethod]
-    public void SmallLookback()
+    public void SmallLookback_WithOnePeriod_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 1;
         IReadOnlyList<RsiResult> sut = Quotes
@@ -44,7 +44,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void CryptoData()
+    public void CryptoData_WithBitcoinQuotes_ReturnsExpectedCount()
     {
         IReadOnlyList<Quote> btc = Data.GetBitcoin();
 
@@ -55,7 +55,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<RsiResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -66,7 +66,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<RsiResult> sut = Quotes
             .ToSma(2)
@@ -77,7 +77,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToRsi()
@@ -88,7 +88,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NaN()
+    public void NaN_WithNanInputs_DoesNotProduceNaN()
     {
         IReadOnlyList<RsiResult> sut = Data.GetBtcUsdNan()
             .ToRsi();
@@ -121,7 +121,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<RsiResult> sut = Quotes
             .ToRsi()
@@ -136,7 +136,7 @@ public class Rsi : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToRsi(0))
             .Should()

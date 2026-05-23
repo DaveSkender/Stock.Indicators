@@ -9,7 +9,7 @@ public class Doji : BufferListTestBase
        = Quotes.ToDoji(maxPriceChangePercent);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         DojiList sut = new(maxPriceChangePercent);
 
@@ -23,7 +23,7 @@ public class Doji : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         DojiList sut = Quotes.ToDojiList(maxPriceChangePercent);
 
@@ -32,7 +32,7 @@ public class Doji : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         DojiList sut = new(maxPriceChangePercent, Quotes);
 

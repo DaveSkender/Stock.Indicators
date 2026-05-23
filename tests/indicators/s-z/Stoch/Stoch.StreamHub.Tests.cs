@@ -106,7 +106,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ExtendedParameters()
+    public void ExtendedParameters_WithCustomMaType_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 9;
         const int signalPeriods = 5;
@@ -139,7 +139,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void IncrementalUpdates()
+    public void IncrementalUpdates_WithStreamedQuotes_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
@@ -166,7 +166,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void Properties()
+    public void Properties_OnHubInstantiation_ReflectInputParameters()
     {
         const int lookbackPeriods = 21;
         const int signalPeriods = 5;
@@ -191,7 +191,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void DefaultParameters()
+    public void DefaultParameters_OnHubInstantiation_UseExpectedDefaults()
     {
         QuoteHub quoteHub = new();
         StochHub observer = quoteHub.ToStochHub();
@@ -207,7 +207,7 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void StreamingAccuracy()
+    public void StreamingAccuracy_VersusBatch_MatchesExactly()
     {
         // Test that streaming produces accurate results compared to batch processing
         const int lookbackPeriods = 14;

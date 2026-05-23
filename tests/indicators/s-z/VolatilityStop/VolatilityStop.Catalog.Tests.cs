@@ -7,7 +7,7 @@ namespace Catalogging;
 public class VolatilityStopTests : TestBase
 {
     [TestMethod]
-    public void VolatilityStopSeriesListing()
+    public void VolatilityStopSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = VolatilityStop.SeriesListing;
@@ -42,7 +42,7 @@ public class VolatilityStopTests : TestBase
     }
 
     [TestMethod]
-    public void VolatilityStopBufferListing()
+    public void VolatilityStopBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = VolatilityStop.BufferListing;
@@ -63,7 +63,7 @@ public class VolatilityStopTests : TestBase
     }
 
     [TestMethod]
-    public void VolatilityStopStreamListing()
+    public void VolatilityStopStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = VolatilityStop.StreamListing;

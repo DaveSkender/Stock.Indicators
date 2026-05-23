@@ -7,7 +7,7 @@ namespace Catalogging;
 public class RocWbTests : TestBase
 {
     [TestMethod]
-    public void RocWbSeriesListing()
+    public void RocWbSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = RocWb.SeriesListing;
@@ -52,7 +52,7 @@ public class RocWbTests : TestBase
     }
 
     [TestMethod]
-    public void RocWbStreamListing()
+    public void RocWbStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = RocWb.StreamListing;
@@ -97,7 +97,7 @@ public class RocWbTests : TestBase
     }
 
     [TestMethod]
-    public void RocWbBufferListing()
+    public void RocWbBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = RocWb.BufferListing;

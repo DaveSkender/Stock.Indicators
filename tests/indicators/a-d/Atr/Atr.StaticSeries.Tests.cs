@@ -41,7 +41,7 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void MatchingTrueRange()
+    public void MatchingTrueRange_AgainstTrResults_ProducesSameTrValues()
     {
         IReadOnlyList<AtrResult> resultsAtr = Quotes
             .ToAtr(14);
@@ -62,7 +62,7 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToAtr(10)
@@ -97,7 +97,7 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<AtrResult> sut = Quotes
             .ToAtr()
@@ -116,7 +116,7 @@ public class Atr : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToAtr(1))
             .Should()
