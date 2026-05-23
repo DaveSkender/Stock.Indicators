@@ -42,7 +42,11 @@ jobs:
         run: sed -i 's/data-src/src/g' pages/home.md
 
       - name: Use 'localhost'
-        run: grep -rl 'https://dotnet.stockindicators.dev' . | xargs --no-run-if-empty sed -i 's|https://dotnet.stockindicators.dev|http://127.0.0.1:4000|g'
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "https://dotnet.stockindicators.dev"
+          replace: "http://127.0.0.1:4000"
+          regex: false
 
       - name: Build site
         env:
