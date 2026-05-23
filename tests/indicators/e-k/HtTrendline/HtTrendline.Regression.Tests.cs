@@ -6,11 +6,11 @@ public class HtTrendlineTests : RegressionTestBase<HtlResult>
     public HtTrendlineTests() : base("htl.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToHtTrendline().IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToHtTrendline().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToHtTrendlineList().IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToHtTrendlineList().IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Quotes.ToHtTrendlineHub().Results.IsExactly(Expected);
+    public override void Stream_AgainstBaseline_MatchesExactly() => Quotes.ToHtTrendlineHub().Results.IsExactly(Expected);
 }

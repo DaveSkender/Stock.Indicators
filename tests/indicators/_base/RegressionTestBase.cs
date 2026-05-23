@@ -20,7 +20,7 @@ public abstract class RegressionTestBase<TResult>(string filename) : TestBase
 
     protected static QuoteHub QuoteHub { get; } = CreateQuoteHub();
 
-    public abstract void Series();
-    public abstract void Buffer();
-    public abstract void Stream();
+    public abstract void Series_AgainstBaseline_MatchesExactly();
+    public abstract void Buffer_AgainstBaseline_MatchesExactly();
+    public abstract void Stream_AgainstBaseline_MatchesExactly();
 }

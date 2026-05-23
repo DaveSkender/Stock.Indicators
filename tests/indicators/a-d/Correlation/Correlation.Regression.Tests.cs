@@ -8,11 +8,11 @@ public class CorrelationTests : RegressionTestBase<CorrResult>
     private const int n = 20;
 
     [TestMethod]
-    public override void Series() => OtherQuotes.ToCorrelation(Quotes, n).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => OtherQuotes.ToCorrelation(Quotes, n).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Test not yet implemented");
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Test not yet implemented");
+    public override void Stream_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");
 }

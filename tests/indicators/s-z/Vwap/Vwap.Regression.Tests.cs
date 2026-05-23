@@ -6,11 +6,11 @@ public class VwapTests : RegressionTestBase<VwapResult>
     public VwapTests() : base("vwap.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToVwap().IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToVwap().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToVwapList().IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToVwapList().IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Quotes.ToVwapHub().Results.IsExactly(Expected);
+    public override void Stream_AgainstBaseline_MatchesExactly() => Quotes.ToVwapHub().Results.IsExactly(Expected);
 }
