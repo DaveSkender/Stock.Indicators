@@ -12,6 +12,10 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
   <StockIndicatorChart indicator="Aroon" />
 </ClientOnly>
 
+<ClientOnly>
+  <StockIndicatorChart indicator="AroonOsc" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<AroonResult> results =

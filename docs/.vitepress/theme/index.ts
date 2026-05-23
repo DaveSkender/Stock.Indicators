@@ -91,8 +91,10 @@ export default {
         Alligator:       { uiid: 'Alligator',       title: 'Williams Alligator' },
         Alma:            { uiid: 'Alma',            title: 'Arnaud Legoux Moving Average' },
         Aroon:           { uiid: 'AROON UP/DOWN',   title: 'Aroon' },
+        AroonOsc:        { uiid: 'AROON OSC',       title: 'Aroon Oscillator' },
         Atr:             { uiid: 'Atr',             title: 'Average True Range' },
-        AtrStop:         { uiid: 'ATR-STOP-HL',     title: 'ATR Trailing Stop' },
+        AtrStop:         { uiid: 'ATR-STOP-HL',     title: 'ATR Trailing Stop (High/Low)' },
+        AtrStopClose:    { uiid: 'ATR-STOP-CLOSE',  title: 'ATR Trailing Stop (Close)' },
         Awesome:         { uiid: 'AO',              title: 'Awesome Oscillator' },
         Beta:            { uiid: 'Beta',            title: 'Beta' },
         BollingerBands:  { uiid: 'BB',              title: 'Bollinger Bands®' },
@@ -100,12 +102,14 @@ export default {
         Cci:             { uiid: 'Cci',             title: 'Commodity Channel Index' },
         ChaikinOsc:      { uiid: 'CHAIKIN',         title: 'Chaikin Oscillator' },
         Chandelier:      { uiid: 'CHEXIT-LONG',     title: 'Chandelier Exit (long)' },
+        ChandelierShort: { uiid: 'CHEXIT-SHORT',    title: 'Chandelier Exit (short)' },
         Chop:            { uiid: 'Chop',            title: 'Choppiness Index' },
         Cmf:             { uiid: 'Cmf',             title: 'Chaikin Money Flow' },
         Cmo:             { uiid: 'Cmo',             title: 'Chande Momentum Oscillator' },
         ConnorsRsi:      { uiid: 'CRSI',            title: 'ConnorsRSI' },
         DcPeriods:       { uiid: 'DCPERIOD',        title: 'Dominant Cycle Periods' },
         Dema:            { uiid: 'Dema',            title: 'Double Exponential Moving Average' },
+        Doji:            { uiid: 'DOJI',            title: 'Doji' },
         Donchian:        { uiid: 'Donchian',        title: 'Donchian Channels' },
         Dpo:             { uiid: 'Dpo',             title: 'Detrended Price Oscillator' },
         Dynamic:         { uiid: 'DYN',             title: 'McGinley Dynamic' },
@@ -126,6 +130,7 @@ export default {
         Macd:            { uiid: 'Macd',            title: 'Moving Average Convergence Divergence' },
         MaEnvelopes:     { uiid: 'MA-ENV',          title: 'Moving Average Envelopes' },
         Mama:            { uiid: 'Mama',            title: 'MESA Adaptive Moving Average' },
+        Marubozu:        { uiid: 'MARUBOZU',        title: 'Marubozu' },
         Mfi:             { uiid: 'Mfi',             title: 'Money Flow Index' },
         Obv:             { uiid: 'Obv',             title: 'On-Balance Volume' },
         ParabolicSar:    { uiid: 'PSAR',            title: 'Parabolic SAR' },
@@ -147,6 +152,7 @@ export default {
         SuperTrend:      { uiid: 'SuperTrend',      title: 'SuperTrend' },
         T3:              { uiid: 'T3',              title: 'T3 Moving Average' },
         Tema:            { uiid: 'Tema',            title: 'Triple Exponential Moving Average' },
+        Tr:              { uiid: 'TR',              title: 'True Range' },
         Trix:            { uiid: 'Trix',            title: 'Triple EMA Oscillator (TRIX)' },
         Tsi:             { uiid: 'Tsi',             title: 'True Strength Index' },
         UlcerIndex:      { uiid: 'ULCER',           title: 'Ulcer Index' },
@@ -157,7 +163,8 @@ export default {
         Vwma:            { uiid: 'Vwma',            title: 'Volume Weighted Moving Average' },
         WilliamsR:       { uiid: 'WilliamsR',       title: 'Williams %R' },
         Wma:             { uiid: 'Wma',             title: 'Weighted Moving Average' },
-        ZigZag:          { uiid: 'ZIGZAG-HL',       title: 'ZigZag' }
+        ZigZag:          { uiid: 'ZIGZAG-HL',       title: 'ZigZag (High/Low)' },
+        ZigZagClose:     { uiid: 'ZIGZAG-CL',       title: 'ZigZag (Close)' }
       }
     })
 

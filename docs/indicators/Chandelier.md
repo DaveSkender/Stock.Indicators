@@ -12,6 +12,10 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
   <StockIndicatorChart indicator="Chandelier" />
 </ClientOnly>
 
+<ClientOnly>
+  <StockIndicatorChart indicator="ChandelierShort" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<ChandelierResult> results =

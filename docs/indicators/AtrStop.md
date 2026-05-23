@@ -12,6 +12,10 @@ Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine 
   <StockIndicatorChart indicator="AtrStop" />
 </ClientOnly>
 
+<ClientOnly>
+  <StockIndicatorChart indicator="AtrStopClose" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<AtrStopResult> results =

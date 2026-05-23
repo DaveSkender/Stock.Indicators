@@ -32,7 +32,7 @@ Alternatively, [create a personal access token (classic)](https://github.com/set
 
 CI workflows authenticate via the `FACIOQUO_PACKAGES_TOKEN` repository secret — already configured in `.github/workflows/*.yml`.
 
-### GitHub Token (Optional)
+### GitHub token (optional)
 
 The contributors list is automatically populated using the GitHub API. The build process will auto-detect your GitHub token from:
 

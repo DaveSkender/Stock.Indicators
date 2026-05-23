@@ -12,6 +12,10 @@ description: Zig Zag is a financial market price chart overlay that simplifies t
   <StockIndicatorChart indicator="ZigZag" />
 </ClientOnly>
 
+<ClientOnly>
+  <StockIndicatorChart indicator="ZigZagClose" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<ZigZagResult> results =
