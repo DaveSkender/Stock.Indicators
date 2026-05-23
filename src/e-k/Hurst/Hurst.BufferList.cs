@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
 {
     private readonly Queue<double> _buffer;
+    private readonly double[] _alCorrections;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HurstList"/> class.
@@ -17,6 +18,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
         Hurst.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods + 1);
+        _alCorrections = Hurst.PrecomputeAlCorrections(lookbackPeriods);
 
         Name = $"HURST({lookbackPeriods})";
     }
@@ -39,6 +41,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
         _buffer.Update(LookbackPeriods + 1, value);
 
         double? h = null;
+        double? hAl = null;
 
         // need enough periods to calculate Hurst (lookbackPeriods + 1 values to get lookbackPeriods returns)
         if (_buffer.Count == LookbackPeriods + 1)
@@ -55,18 +58,20 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
             {
                 double ps = bufferArray[p];
 
-                // return values
-                values[x] = l != 0 ? (ps / l) - 1 : double.NaN;
+                // log returns require strictly positive prices on both ends
+                values[x] = (l > 0 && ps > 0) ? Math.Log(ps / l) : double.NaN;
 
                 l = ps;
                 x++;
             }
 
             // calculate hurst exponent
-            h = Hurst.CalcHurstWindow(values).NaN2Null();
+            (double rawH, double correctedH) = Hurst.CalcHurstWindow(values, _alCorrections);
+            h = rawH.NaN2Null();
+            hAl = correctedH.NaN2Null();
         }
 
-        AddInternal(new HurstResult(timestamp, h));
+        AddInternal(new HurstResult(timestamp, h, hAl));
     }
 
     /// <inheritdoc />

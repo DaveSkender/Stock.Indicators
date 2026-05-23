@@ -1,2010 +1,2512 @@
 [
   {
     "timestamp": "2017-01-03T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-04T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-05T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-06T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-09T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-10T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-11T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-12T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-13T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-17T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-18T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-19T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-20T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-23T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-24T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-25T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-26T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-27T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-30T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-01-31T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-01T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-02T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-03T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-06T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-07T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-08T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-09T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-10T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-13T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-14T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-15T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-16T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-17T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-21T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-22T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-23T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-24T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-27T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-02-28T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-01T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-02T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-03T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-06T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-07T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-08T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-09T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-10T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-13T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-14T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-15T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-16T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-17T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-20T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-21T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-22T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-23T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-24T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-27T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-28T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-29T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-30T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-03-31T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-03T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-04T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-05T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-06T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-07T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-10T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-11T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-12T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-13T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-17T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-18T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-19T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-20T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-21T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-24T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-25T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-26T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-27T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-04-28T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-01T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-02T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-03T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-04T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-05T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-08T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-09T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-10T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-11T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-12T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-15T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-16T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-17T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-18T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-19T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-22T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-23T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-24T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-25T00:00:00",
-    "hurstExponent": null
+    "hurstExponent": null,
+    "hurstExponentAL": null
   },
   {
     "timestamp": "2017-05-26T00:00:00",
-    "hurstExponent": 0.6048772054053851
+    "hurstExponent": 0.6055156386781145,
+    "hurstExponentAL": 0.5245796904958374
   },
   {
     "timestamp": "2017-05-30T00:00:00",
-    "hurstExponent": 0.5875579433506691
+    "hurstExponent": 0.5885273471517266,
+    "hurstExponentAL": 0.5087894272595359
   },
   {
     "timestamp": "2017-05-31T00:00:00",
-    "hurstExponent": 0.5716113196483057
+    "hurstExponent": 0.5719446954545461,
+    "hurstExponentAL": 0.49614649124539484
   },
   {
     "timestamp": "2017-06-01T00:00:00",
-    "hurstExponent": 0.6012017778379246
+    "hurstExponent": 0.6015643790596281,
+    "hurstExponentAL": 0.5222164956413363
   },
   {
     "timestamp": "2017-06-02T00:00:00",
-    "hurstExponent": 0.6146615187773676
+    "hurstExponent": 0.6148931477386658,
+    "hurstExponentAL": 0.5361178706983374
   },
   {
     "timestamp": "2017-06-05T00:00:00",
-    "hurstExponent": 0.6286977802228213
+    "hurstExponent": 0.6289143910867669,
+    "hurstExponentAL": 0.5466874950578753
   },
   {
     "timestamp": "2017-06-06T00:00:00",
-    "hurstExponent": 0.5979440325693447
+    "hurstExponent": 0.5982170783253847,
+    "hurstExponentAL": 0.518816979566525
   },
   {
     "timestamp": "2017-06-07T00:00:00",
-    "hurstExponent": 0.6086627051389939
+    "hurstExponent": 0.6090510980171998,
+    "hurstExponentAL": 0.5304875643120104
   },
   {
     "timestamp": "2017-06-08T00:00:00",
-    "hurstExponent": 0.6016117533557892
+    "hurstExponent": 0.6026293782524251,
+    "hurstExponentAL": 0.5234372343456299
   },
   {
     "timestamp": "2017-06-09T00:00:00",
-    "hurstExponent": 0.5947732521786915
+    "hurstExponent": 0.5956499125438511,
+    "hurstExponentAL": 0.5193063703542579
   },
   {
     "timestamp": "2017-06-12T00:00:00",
-    "hurstExponent": 0.5794291552151276
+    "hurstExponent": 0.5799227068806915,
+    "hurstExponentAL": 0.5058015420433045
   },
   {
     "timestamp": "2017-06-13T00:00:00",
-    "hurstExponent": 0.6124637767913879
+    "hurstExponent": 0.6132580609624175,
+    "hurstExponentAL": 0.536646315280625
   },
   {
     "timestamp": "2017-06-14T00:00:00",
-    "hurstExponent": 0.6318016804679807
+    "hurstExponent": 0.6327437571805842,
+    "hurstExponentAL": 0.5487515922357594
   },
   {
     "timestamp": "2017-06-15T00:00:00",
-    "hurstExponent": 0.6269872578924363
+    "hurstExponent": 0.6280715442440736,
+    "hurstExponentAL": 0.545720553013832
   },
   {
     "timestamp": "2017-06-16T00:00:00",
-    "hurstExponent": 0.5987539981397801
+    "hurstExponent": 0.5992359405564965,
+    "hurstExponentAL": 0.5206318893185705
   },
   {
     "timestamp": "2017-06-19T00:00:00",
-    "hurstExponent": 0.608671236920778
+    "hurstExponent": 0.6089767256719362,
+    "hurstExponentAL": 0.5284392450373576
   },
   {
     "timestamp": "2017-06-20T00:00:00",
-    "hurstExponent": 0.5752950252246335
+    "hurstExponent": 0.5754076401894661,
+    "hurstExponentAL": 0.49817528562464825
   },
   {
     "timestamp": "2017-06-21T00:00:00",
-    "hurstExponent": 0.5921800781639175
+    "hurstExponent": 0.5922934848482588,
+    "hurstExponentAL": 0.5118123551253737
   },
   {
     "timestamp": "2017-06-22T00:00:00",
-    "hurstExponent": 0.6166273338272265
+    "hurstExponent": 0.616663707061817,
+    "hurstExponentAL": 0.5344628729385411
   },
   {
     "timestamp": "2017-06-23T00:00:00",
-    "hurstExponent": 0.6208569929262049
+    "hurstExponent": 0.6210453192213011,
+    "hurstExponentAL": 0.5393292806371286
   },
   {
     "timestamp": "2017-06-26T00:00:00",
-    "hurstExponent": 0.6410274655638648
+    "hurstExponent": 0.6419474983958787,
+    "hurstExponentAL": 0.5568337785082662
   },
   {
     "timestamp": "2017-06-27T00:00:00",
-    "hurstExponent": 0.5923726199033977
+    "hurstExponent": 0.5928385108004561,
+    "hurstExponentAL": 0.5130909828311224
   },
   {
     "timestamp": "2017-06-28T00:00:00",
-    "hurstExponent": 0.5571386183582271
+    "hurstExponent": 0.557621412094576,
+    "hurstExponentAL": 0.484342412402623
   },
   {
     "timestamp": "2017-06-29T00:00:00",
-    "hurstExponent": 0.5381720126492876
+    "hurstExponent": 0.5383989299666881,
+    "hurstExponentAL": 0.46400992993764445
   },
   {
     "timestamp": "2017-06-30T00:00:00",
-    "hurstExponent": 0.5991014385501915
+    "hurstExponent": 0.5995592175950769,
+    "hurstExponentAL": 0.5134439835033248
   },
   {
     "timestamp": "2017-07-03T00:00:00",
-    "hurstExponent": 0.574709166519547
+    "hurstExponent": 0.5751694931778614,
+    "hurstExponentAL": 0.4940001884218405
   },
   {
     "timestamp": "2017-07-05T00:00:00",
-    "hurstExponent": 0.5750177173136526
+    "hurstExponent": 0.5741233509336887,
+    "hurstExponentAL": 0.49313993108364806
   },
   {
     "timestamp": "2017-07-06T00:00:00",
-    "hurstExponent": 0.548113914203612
+    "hurstExponent": 0.5468788268127489,
+    "hurstExponentAL": 0.467429471598288
   },
   {
     "timestamp": "2017-07-07T00:00:00",
-    "hurstExponent": 0.5361242046719977
+    "hurstExponent": 0.5346288523155696,
+    "hurstExponentAL": 0.4563544548171804
   },
   {
     "timestamp": "2017-07-10T00:00:00",
-    "hurstExponent": 0.530266233892361
+    "hurstExponent": 0.5287903700646001,
+    "hurstExponentAL": 0.4505110921148259
   },
   {
     "timestamp": "2017-07-11T00:00:00",
-    "hurstExponent": 0.5258645494990621
+    "hurstExponent": 0.524376484451758,
+    "hurstExponentAL": 0.44403782652513957
   },
   {
     "timestamp": "2017-07-12T00:00:00",
-    "hurstExponent": 0.516447912897313
+    "hurstExponent": 0.5152712201483636,
+    "hurstExponentAL": 0.43916018421498193
   },
   {
     "timestamp": "2017-07-13T00:00:00",
-    "hurstExponent": 0.5202214602670081
+    "hurstExponent": 0.5197087412191731,
+    "hurstExponentAL": 0.4423667902108595
   },
   {
     "timestamp": "2017-07-14T00:00:00",
-    "hurstExponent": 0.47172426909455956
+    "hurstExponent": 0.47091963411237947,
+    "hurstExponentAL": 0.40341526788585524
   },
   {
     "timestamp": "2017-07-17T00:00:00",
-    "hurstExponent": 0.45797553428503834
+    "hurstExponent": 0.45712533585314213,
+    "hurstExponentAL": 0.3931332178393678
   },
   {
     "timestamp": "2017-07-18T00:00:00",
-    "hurstExponent": 0.48771098319493866
+    "hurstExponent": 0.48703680782852865,
+    "hurstExponentAL": 0.4164442009148265
   },
   {
     "timestamp": "2017-07-19T00:00:00",
-    "hurstExponent": 0.5185366535432233
+    "hurstExponent": 0.5176952338490471,
+    "hurstExponentAL": 0.44112408505638806
   },
   {
     "timestamp": "2017-07-20T00:00:00",
-    "hurstExponent": 0.49729324885399107
+    "hurstExponent": 0.49643684751673783,
+    "hurstExponentAL": 0.4242275894701234
   },
   {
     "timestamp": "2017-07-21T00:00:00",
-    "hurstExponent": 0.4937223622640825
+    "hurstExponent": 0.4927450370948655,
+    "hurstExponentAL": 0.42262255973435553
   },
   {
     "timestamp": "2017-07-24T00:00:00",
-    "hurstExponent": 0.5040834695666673
+    "hurstExponent": 0.5027731975025613,
+    "hurstExponentAL": 0.42854456031690963
   },
   {
     "timestamp": "2017-07-25T00:00:00",
-    "hurstExponent": 0.4485284769627479
+    "hurstExponent": 0.4469376041968217,
+    "hurstExponentAL": 0.3793124144003936
   },
   {
     "timestamp": "2017-07-26T00:00:00",
-    "hurstExponent": 0.44473445479146473
+    "hurstExponent": 0.44345683718813206,
+    "hurstExponentAL": 0.3766202010340368
   },
   {
     "timestamp": "2017-07-27T00:00:00",
-    "hurstExponent": 0.4575923032853571
+    "hurstExponent": 0.4563628453974747,
+    "hurstExponentAL": 0.3853148906869656
   },
   {
     "timestamp": "2017-07-28T00:00:00",
-    "hurstExponent": 0.45332105981184845
+    "hurstExponent": 0.4523811918025014,
+    "hurstExponentAL": 0.3840441425206067
   },
   {
     "timestamp": "2017-07-31T00:00:00",
-    "hurstExponent": 0.45400455767739933
+    "hurstExponent": 0.45353677710632406,
+    "hurstExponentAL": 0.3849480946746511
   },
   {
     "timestamp": "2017-08-01T00:00:00",
-    "hurstExponent": 0.43214029391181774
+    "hurstExponent": 0.43165880948159857,
+    "hurstExponentAL": 0.3677230600410078
   },
   {
     "timestamp": "2017-08-02T00:00:00",
-    "hurstExponent": 0.40966300133441425
+    "hurstExponent": 0.4085007209167822,
+    "hurstExponentAL": 0.3490233628619138
   },
   {
     "timestamp": "2017-08-03T00:00:00",
-    "hurstExponent": 0.4453982290445771
+    "hurstExponent": 0.44460994152818195,
+    "hurstExponentAL": 0.3768017948527723
   },
   {
     "timestamp": "2017-08-04T00:00:00",
-    "hurstExponent": 0.4689268983722017
+    "hurstExponent": 0.46820598855425816,
+    "hurstExponentAL": 0.39491631178040854
   },
   {
     "timestamp": "2017-08-07T00:00:00",
-    "hurstExponent": 0.47089563176882715
+    "hurstExponent": 0.46980113759313463,
+    "hurstExponentAL": 0.39843721073158717
   },
   {
     "timestamp": "2017-08-08T00:00:00",
-    "hurstExponent": 0.44336081258899446
+    "hurstExponent": 0.44182425048649093,
+    "hurstExponentAL": 0.37653870397512046
   },
   {
     "timestamp": "2017-08-09T00:00:00",
-    "hurstExponent": 0.46472048125394977
+    "hurstExponent": 0.4633447698129488,
+    "hurstExponentAL": 0.39196260838916386
   },
   {
     "timestamp": "2017-08-10T00:00:00",
-    "hurstExponent": 0.513001243618544
+    "hurstExponent": 0.5117151332783506,
+    "hurstExponentAL": 0.4373662350718874
   },
   {
     "timestamp": "2017-08-11T00:00:00",
-    "hurstExponent": 0.43673755888205695
+    "hurstExponent": 0.4353874405453669,
+    "hurstExponentAL": 0.3699450496128174
   },
   {
     "timestamp": "2017-08-14T00:00:00",
-    "hurstExponent": 0.39568950583319074
+    "hurstExponent": 0.3945647375444798,
+    "hurstExponentAL": 0.331979003729001
   },
   {
     "timestamp": "2017-08-15T00:00:00",
-    "hurstExponent": 0.3730928198740539
+    "hurstExponent": 0.37203808698318497,
+    "hurstExponentAL": 0.31436382256564166
   },
   {
     "timestamp": "2017-08-16T00:00:00",
-    "hurstExponent": 0.34821711169255304
+    "hurstExponent": 0.34740022765325185,
+    "hurstExponentAL": 0.2927983390913442
   },
   {
     "timestamp": "2017-08-17T00:00:00",
-    "hurstExponent": 0.42030434762243407
+    "hurstExponent": 0.41986380270330226,
+    "hurstExponentAL": 0.3564595668830364
   },
   {
     "timestamp": "2017-08-18T00:00:00",
-    "hurstExponent": 0.4697133220250665
+    "hurstExponent": 0.4693660555258392,
+    "hurstExponentAL": 0.4025389872927501
   },
   {
     "timestamp": "2017-08-21T00:00:00",
-    "hurstExponent": 0.5095892053990346
+    "hurstExponent": 0.5094847493234138,
+    "hurstExponentAL": 0.4329971255863125
   },
   {
     "timestamp": "2017-08-22T00:00:00",
-    "hurstExponent": 0.46621818820350625
+    "hurstExponent": 0.46543566890122806,
+    "hurstExponentAL": 0.39000659956209227
   },
   {
     "timestamp": "2017-08-23T00:00:00",
-    "hurstExponent": 0.4620072239172942
+    "hurstExponent": 0.4623108975783404,
+    "hurstExponentAL": 0.38977926644200755
   },
   {
     "timestamp": "2017-08-24T00:00:00",
-    "hurstExponent": 0.4544468996773437
+    "hurstExponent": 0.454620478352079,
+    "hurstExponentAL": 0.38466625369961943
   },
   {
     "timestamp": "2017-08-25T00:00:00",
-    "hurstExponent": 0.4634641653288517
+    "hurstExponent": 0.4632094208415635,
+    "hurstExponentAL": 0.38865709420487515
   },
   {
     "timestamp": "2017-08-28T00:00:00",
-    "hurstExponent": 0.4148041860573496
+    "hurstExponent": 0.4142938349685477,
+    "hurstExponentAL": 0.3494271023235292
   },
   {
     "timestamp": "2017-08-29T00:00:00",
-    "hurstExponent": 0.4334429546219931
+    "hurstExponent": 0.4327557803812474,
+    "hurstExponentAL": 0.3657899498286323
   },
   {
     "timestamp": "2017-08-30T00:00:00",
-    "hurstExponent": 0.4032771066129042
+    "hurstExponent": 0.4026896100100643,
+    "hurstExponentAL": 0.33791360012444194
   },
   {
     "timestamp": "2017-08-31T00:00:00",
-    "hurstExponent": 0.3584305996754823
+    "hurstExponent": 0.3582068013511319,
+    "hurstExponentAL": 0.30175885180910333
   },
   {
     "timestamp": "2017-09-01T00:00:00",
-    "hurstExponent": 0.36018545529950113
+    "hurstExponent": 0.3598418253725583,
+    "hurstExponentAL": 0.30405895731389515
   },
   {
     "timestamp": "2017-09-05T00:00:00",
-    "hurstExponent": 0.33856851742060107
+    "hurstExponent": 0.3384818924071278,
+    "hurstExponentAL": 0.28607179413993217
   },
   {
     "timestamp": "2017-09-06T00:00:00",
-    "hurstExponent": 0.39429868083904823
+    "hurstExponent": 0.39354167616859104,
+    "hurstExponentAL": 0.3348571665336453
   },
   {
     "timestamp": "2017-09-07T00:00:00",
-    "hurstExponent": 0.4097947996420819
+    "hurstExponent": 0.4101934687565641,
+    "hurstExponentAL": 0.3434670249271668
   },
   {
     "timestamp": "2017-09-08T00:00:00",
-    "hurstExponent": 0.3978661747284919
+    "hurstExponent": 0.3982089926791598,
+    "hurstExponentAL": 0.3334323357623967
   },
   {
     "timestamp": "2017-09-11T00:00:00",
-    "hurstExponent": 0.48726330890759667
+    "hurstExponent": 0.4864205204035791,
+    "hurstExponentAL": 0.4095092401518045
   },
   {
     "timestamp": "2017-09-12T00:00:00",
-    "hurstExponent": 0.44466543399401515
+    "hurstExponent": 0.4436967491239941,
+    "hurstExponentAL": 0.3751277450561136
   },
   {
     "timestamp": "2017-09-13T00:00:00",
-    "hurstExponent": 0.49401186207810005
+    "hurstExponent": 0.4928678135459797,
+    "hurstExponentAL": 0.41433923841877307
   },
   {
     "timestamp": "2017-09-14T00:00:00",
-    "hurstExponent": 0.42193944470673633
+    "hurstExponent": 0.42163497610030054,
+    "hurstExponentAL": 0.35502868981029573
   },
   {
     "timestamp": "2017-09-15T00:00:00",
-    "hurstExponent": 0.415222838588304
+    "hurstExponent": 0.4152348751299412,
+    "hurstExponentAL": 0.35104126399880287
   },
   {
     "timestamp": "2017-09-18T00:00:00",
-    "hurstExponent": 0.44287410299877467
+    "hurstExponent": 0.44283345905711985,
+    "hurstExponentAL": 0.3724958807896978
   },
   {
     "timestamp": "2017-09-19T00:00:00",
-    "hurstExponent": 0.43634317489820396
+    "hurstExponent": 0.43650162587599645,
+    "hurstExponentAL": 0.3674671277009383
   },
   {
     "timestamp": "2017-09-20T00:00:00",
-    "hurstExponent": 0.4404514051812085
+    "hurstExponent": 0.4406366024260198,
+    "hurstExponentAL": 0.37220498556931536
   },
   {
     "timestamp": "2017-09-21T00:00:00",
-    "hurstExponent": 0.37252542675498024
+    "hurstExponent": 0.373031664958558,
+    "hurstExponentAL": 0.31543644778451585
   },
   {
     "timestamp": "2017-09-22T00:00:00",
-    "hurstExponent": 0.37823803429666486
+    "hurstExponent": 0.37872013207161387,
+    "hurstExponentAL": 0.3207005043991831
   },
   {
     "timestamp": "2017-09-25T00:00:00",
-    "hurstExponent": 0.4134781688274202
+    "hurstExponent": 0.4139551411591355,
+    "hurstExponentAL": 0.34582663741537806
   },
   {
     "timestamp": "2017-09-26T00:00:00",
-    "hurstExponent": 0.3928282005691941
+    "hurstExponent": 0.3930614931599366,
+    "hurstExponentAL": 0.32962975626628643
   },
   {
     "timestamp": "2017-09-27T00:00:00",
-    "hurstExponent": 0.3857155029265668
+    "hurstExponent": 0.38642049113911947,
+    "hurstExponentAL": 0.3243050697540742
   },
   {
     "timestamp": "2017-09-28T00:00:00",
-    "hurstExponent": 0.3781178709767645
+    "hurstExponent": 0.3782230292720499,
+    "hurstExponentAL": 0.3190243382606945
   },
   {
     "timestamp": "2017-09-29T00:00:00",
-    "hurstExponent": 0.41572325919942205
+    "hurstExponent": 0.4155862266274073,
+    "hurstExponentAL": 0.3497731404162159
   },
   {
     "timestamp": "2017-10-02T00:00:00",
-    "hurstExponent": 0.3988803412342159
+    "hurstExponent": 0.39870466656200765,
+    "hurstExponentAL": 0.33849412979868976
   },
   {
     "timestamp": "2017-10-03T00:00:00",
-    "hurstExponent": 0.4113981880296856
+    "hurstExponent": 0.41034511377389765,
+    "hurstExponentAL": 0.3501763831326503
   },
   {
     "timestamp": "2017-10-04T00:00:00",
-    "hurstExponent": 0.46407173425065573
+    "hurstExponent": 0.4628060937901626,
+    "hurstExponentAL": 0.39317439380613706
   },
   {
     "timestamp": "2017-10-05T00:00:00",
-    "hurstExponent": 0.45699208288521764
+    "hurstExponent": 0.456104088418956,
+    "hurstExponentAL": 0.388001904746667
   },
   {
     "timestamp": "2017-10-06T00:00:00",
-    "hurstExponent": 0.4458565622037207
+    "hurstExponent": 0.4450992292461114,
+    "hurstExponentAL": 0.3795365289352927
   },
   {
     "timestamp": "2017-10-09T00:00:00",
-    "hurstExponent": 0.5790668985294128
+    "hurstExponent": 0.5795798375942244,
+    "hurstExponentAL": 0.5012970459548328
   },
   {
     "timestamp": "2017-10-10T00:00:00",
-    "hurstExponent": 0.5570480760578915
+    "hurstExponent": 0.5578928658670984,
+    "hurstExponentAL": 0.48263496624620233
   },
   {
     "timestamp": "2017-10-11T00:00:00",
-    "hurstExponent": 0.6018158057628699
+    "hurstExponent": 0.602916123898924,
+    "hurstExponentAL": 0.5140320752906167
   },
   {
     "timestamp": "2017-10-12T00:00:00",
-    "hurstExponent": 0.5516774192158781
+    "hurstExponent": 0.5527048475682468,
+    "hurstExponentAL": 0.4711457275567278
   },
   {
     "timestamp": "2017-10-13T00:00:00",
-    "hurstExponent": 0.5193832549982974
+    "hurstExponent": 0.5206712891169353,
+    "hurstExponentAL": 0.44398264933138326
   },
   {
     "timestamp": "2017-10-16T00:00:00",
-    "hurstExponent": 0.49288902591906125
+    "hurstExponent": 0.4940497176952404,
+    "hurstExponentAL": 0.42286713848882007
   },
   {
     "timestamp": "2017-10-17T00:00:00",
-    "hurstExponent": 0.4863301833577231
+    "hurstExponent": 0.48764438685849903,
+    "hurstExponentAL": 0.4147138023187031
   },
   {
     "timestamp": "2017-10-18T00:00:00",
-    "hurstExponent": 0.4653726040510161
+    "hurstExponent": 0.46645596156595864,
+    "hurstExponentAL": 0.3988192706379029
   },
   {
     "timestamp": "2017-10-19T00:00:00",
-    "hurstExponent": 0.46921587800262693
+    "hurstExponent": 0.4702915410865805,
+    "hurstExponentAL": 0.40243282668386493
   },
   {
     "timestamp": "2017-10-20T00:00:00",
-    "hurstExponent": 0.485710943110006
+    "hurstExponent": 0.48668984117806113,
+    "hurstExponentAL": 0.4181193079533224
   },
   {
     "timestamp": "2017-10-23T00:00:00",
-    "hurstExponent": 0.43951765590208547
+    "hurstExponent": 0.4408020268362323,
+    "hurstExponentAL": 0.37750613771342073
   },
   {
     "timestamp": "2017-10-24T00:00:00",
-    "hurstExponent": 0.46136381388022063
+    "hurstExponent": 0.4622231371724057,
+    "hurstExponentAL": 0.39525090404286806
   },
   {
     "timestamp": "2017-10-25T00:00:00",
-    "hurstExponent": 0.46864674932543526
+    "hurstExponent": 0.46969107540547056,
+    "hurstExponentAL": 0.40379799747558004
   },
   {
     "timestamp": "2017-10-26T00:00:00",
-    "hurstExponent": 0.44073042429517084
+    "hurstExponent": 0.44203127463008574,
+    "hurstExponentAL": 0.379596963174627
   },
   {
     "timestamp": "2017-10-27T00:00:00",
-    "hurstExponent": 0.502984575858257
+    "hurstExponent": 0.5045553359961661,
+    "hurstExponentAL": 0.4259174672411653
   },
   {
     "timestamp": "2017-10-30T00:00:00",
-    "hurstExponent": 0.480497824189029
+    "hurstExponent": 0.48171804319027384,
+    "hurstExponentAL": 0.40720996922872815
   },
   {
     "timestamp": "2017-10-31T00:00:00",
-    "hurstExponent": 0.4790176218742345
+    "hurstExponent": 0.4804460348129993,
+    "hurstExponentAL": 0.4065572403104135
   },
   {
     "timestamp": "2017-11-01T00:00:00",
-    "hurstExponent": 0.4594307944152299
+    "hurstExponent": 0.4608015293925182,
+    "hurstExponentAL": 0.39230118892914767
   },
   {
     "timestamp": "2017-11-02T00:00:00",
-    "hurstExponent": 0.48243673128626285
+    "hurstExponent": 0.48379926561068176,
+    "hurstExponentAL": 0.40904802029169357
   },
   {
     "timestamp": "2017-11-03T00:00:00",
-    "hurstExponent": 0.4644365899909804
+    "hurstExponent": 0.46584436748125363,
+    "hurstExponentAL": 0.3968902075419722
   },
   {
     "timestamp": "2017-11-06T00:00:00",
-    "hurstExponent": 0.4717011903553513
+    "hurstExponent": 0.47308577429503595,
+    "hurstExponentAL": 0.40421600280944536
   },
   {
     "timestamp": "2017-11-07T00:00:00",
-    "hurstExponent": 0.45399730909662117
+    "hurstExponent": 0.45522817786700026,
+    "hurstExponentAL": 0.3899224342173331
   },
   {
     "timestamp": "2017-11-08T00:00:00",
-    "hurstExponent": 0.4492896029816949
+    "hurstExponent": 0.45032585510935536,
+    "hurstExponentAL": 0.3843284671181855
   },
   {
     "timestamp": "2017-11-09T00:00:00",
-    "hurstExponent": 0.4374538763266201
+    "hurstExponent": 0.4382758596661727,
+    "hurstExponentAL": 0.373485895034092
   },
   {
     "timestamp": "2017-11-10T00:00:00",
-    "hurstExponent": 0.4452783617289437
+    "hurstExponent": 0.4462049904669851,
+    "hurstExponentAL": 0.38064768115439335
   },
   {
     "timestamp": "2017-11-13T00:00:00",
-    "hurstExponent": 0.44280905963351547
+    "hurstExponent": 0.4437978356953798,
+    "hurstExponentAL": 0.3779572892491769
   },
   {
     "timestamp": "2017-11-14T00:00:00",
-    "hurstExponent": 0.4531459627084369
+    "hurstExponent": 0.4543573242544718,
+    "hurstExponentAL": 0.38726982004016147
   },
   {
     "timestamp": "2017-11-15T00:00:00",
-    "hurstExponent": 0.4835756275892994
+    "hurstExponent": 0.4847151149523133,
+    "hurstExponentAL": 0.41490025025413324
   },
   {
     "timestamp": "2017-11-16T00:00:00",
-    "hurstExponent": 0.46885778438576986
+    "hurstExponent": 0.4694112840309941,
+    "hurstExponentAL": 0.39903439358388415
   },
   {
     "timestamp": "2017-11-17T00:00:00",
-    "hurstExponent": 0.4680019986032488
+    "hurstExponent": 0.4687336529827212,
+    "hurstExponentAL": 0.4000669539393098
   },
   {
     "timestamp": "2017-11-20T00:00:00",
-    "hurstExponent": 0.4694170023556084
+    "hurstExponent": 0.4703374287129432,
+    "hurstExponentAL": 0.39992155616603736
   },
   {
     "timestamp": "2017-11-21T00:00:00",
-    "hurstExponent": 0.43885978716395035
+    "hurstExponent": 0.4395185084729574,
+    "hurstExponentAL": 0.37719409586009833
   },
   {
     "timestamp": "2017-11-22T00:00:00",
-    "hurstExponent": 0.42958056246956267
+    "hurstExponent": 0.4305186103187454,
+    "hurstExponentAL": 0.369260926415425
   },
   {
     "timestamp": "2017-11-24T00:00:00",
-    "hurstExponent": 0.4125423135997415
+    "hurstExponent": 0.41326310213475986,
+    "hurstExponentAL": 0.35577362362770165
   },
   {
     "timestamp": "2017-11-27T00:00:00",
-    "hurstExponent": 0.48181131476904554
+    "hurstExponent": 0.48287291879737476,
+    "hurstExponentAL": 0.41575117487422
   },
   {
     "timestamp": "2017-11-28T00:00:00",
-    "hurstExponent": 0.4964370054259514
+    "hurstExponent": 0.49728712536870634,
+    "hurstExponentAL": 0.4274680333401322
   },
   {
     "timestamp": "2017-11-29T00:00:00",
-    "hurstExponent": 0.4981660909254164
+    "hurstExponent": 0.49920481564725605,
+    "hurstExponentAL": 0.4279468203493379
   },
   {
     "timestamp": "2017-11-30T00:00:00",
-    "hurstExponent": 0.5278628417437662
+    "hurstExponent": 0.5288931401330802,
+    "hurstExponentAL": 0.45324969604840554
   },
   {
     "timestamp": "2017-12-01T00:00:00",
-    "hurstExponent": 0.5060301500199592
+    "hurstExponent": 0.5072214151226514,
+    "hurstExponentAL": 0.43365485984640817
   },
   {
     "timestamp": "2017-12-04T00:00:00",
-    "hurstExponent": 0.50479351666452
+    "hurstExponent": 0.5056739250964216,
+    "hurstExponentAL": 0.43243211678971366
   },
   {
     "timestamp": "2017-12-05T00:00:00",
-    "hurstExponent": 0.5365765579994852
+    "hurstExponent": 0.5368656257585497,
+    "hurstExponentAL": 0.46106750676780994
   },
   {
     "timestamp": "2017-12-06T00:00:00",
-    "hurstExponent": 0.5394741441779615
+    "hurstExponent": 0.5398264570065643,
+    "hurstExponentAL": 0.4627534662311577
   },
   {
     "timestamp": "2017-12-07T00:00:00",
-    "hurstExponent": 0.5192282401705974
+    "hurstExponent": 0.5198010919458794,
+    "hurstExponentAL": 0.4444524852062281
   },
   {
     "timestamp": "2017-12-08T00:00:00",
-    "hurstExponent": 0.513684793019183
+    "hurstExponent": 0.5140400927324726,
+    "hurstExponentAL": 0.44102793610379615
   },
   {
     "timestamp": "2017-12-11T00:00:00",
-    "hurstExponent": 0.48586575013766137
+    "hurstExponent": 0.4864846073353304,
+    "hurstExponentAL": 0.4170432152476959
   },
   {
     "timestamp": "2017-12-12T00:00:00",
-    "hurstExponent": 0.45611175566211
+    "hurstExponent": 0.45728703967710466,
+    "hurstExponentAL": 0.3926410658035942
   },
   {
     "timestamp": "2017-12-13T00:00:00",
-    "hurstExponent": 0.46206592292771015
+    "hurstExponent": 0.4632513332382578,
+    "hurstExponentAL": 0.3971884683400404
   },
   {
     "timestamp": "2017-12-14T00:00:00",
-    "hurstExponent": 0.5288085914305822
+    "hurstExponent": 0.5296595371890427,
+    "hurstExponentAL": 0.4539011744085828
   },
   {
     "timestamp": "2017-12-15T00:00:00",
-    "hurstExponent": 0.46874490207876596
+    "hurstExponent": 0.4702096205852719,
+    "hurstExponentAL": 0.40049748596706575
   },
   {
     "timestamp": "2017-12-18T00:00:00",
-    "hurstExponent": 0.49036448279896155
+    "hurstExponent": 0.492029709218939,
+    "hurstExponentAL": 0.4166474814260715
   },
   {
     "timestamp": "2017-12-19T00:00:00",
-    "hurstExponent": 0.4930760611381546
+    "hurstExponent": 0.49452520317722093,
+    "hurstExponentAL": 0.4215929382246252
   },
   {
     "timestamp": "2017-12-20T00:00:00",
-    "hurstExponent": 0.47374623138694105
+    "hurstExponent": 0.4752784675647991,
+    "hurstExponentAL": 0.4064571589910887
   },
   {
     "timestamp": "2017-12-21T00:00:00",
-    "hurstExponent": 0.4723572821037044
+    "hurstExponent": 0.4737741469201248,
+    "hurstExponentAL": 0.4053618700617264
   },
   {
     "timestamp": "2017-12-22T00:00:00",
-    "hurstExponent": 0.4937240647927099
+    "hurstExponent": 0.49514085995619056,
+    "hurstExponentAL": 0.42299036888723573
   },
   {
     "timestamp": "2017-12-26T00:00:00",
-    "hurstExponent": 0.4877327137115658
+    "hurstExponent": 0.4891410293128345,
+    "hurstExponentAL": 0.4174589905747584
   },
   {
     "timestamp": "2017-12-27T00:00:00",
-    "hurstExponent": 0.47058126902303743
+    "hurstExponent": 0.4718668297370836,
+    "hurstExponentAL": 0.40522338232506605
   },
   {
     "timestamp": "2017-12-28T00:00:00",
-    "hurstExponent": 0.4554044233821363
+    "hurstExponent": 0.4568489896279239,
+    "hurstExponentAL": 0.3929673104322782
   },
   {
     "timestamp": "2017-12-29T00:00:00",
-    "hurstExponent": 0.4533786381139554
+    "hurstExponent": 0.45474826358417475,
+    "hurstExponentAL": 0.3926449499215087
   },
   {
     "timestamp": "2018-01-02T00:00:00",
-    "hurstExponent": 0.37410079482717945
+    "hurstExponent": 0.3762644360911356,
+    "hurstExponentAL": 0.3223651699867443
   },
   {
     "timestamp": "2018-01-03T00:00:00",
-    "hurstExponent": 0.3812262477184134
+    "hurstExponent": 0.3805869164883152,
+    "hurstExponentAL": 0.3266024217037199
   },
   {
     "timestamp": "2018-01-04T00:00:00",
-    "hurstExponent": 0.37847085189513974
+    "hurstExponent": 0.3779445182878421,
+    "hurstExponentAL": 0.325740182245425
   },
   {
     "timestamp": "2018-01-05T00:00:00",
-    "hurstExponent": 0.3860431954716915
+    "hurstExponent": 0.38539797388344127,
+    "hurstExponentAL": 0.330020479285389
   },
   {
     "timestamp": "2018-01-08T00:00:00",
-    "hurstExponent": 0.38999768445602845
+    "hurstExponent": 0.3896835662332292,
+    "hurstExponentAL": 0.3353339241669732
   },
   {
     "timestamp": "2018-01-09T00:00:00",
-    "hurstExponent": 0.3800852090684493
+    "hurstExponent": 0.37985245836475084,
+    "hurstExponentAL": 0.32835778022289486
   },
   {
     "timestamp": "2018-01-10T00:00:00",
-    "hurstExponent": 0.3960441103868642
+    "hurstExponent": 0.3955773372980185,
+    "hurstExponentAL": 0.34234320980833766
   },
   {
     "timestamp": "2018-01-11T00:00:00",
-    "hurstExponent": 0.44575451815651024
+    "hurstExponent": 0.4451261564019984,
+    "hurstExponentAL": 0.38529907556689585
   },
   {
     "timestamp": "2018-01-12T00:00:00",
-    "hurstExponent": 0.49926215707867905
+    "hurstExponent": 0.4985789589360331,
+    "hurstExponentAL": 0.4317699009720784
   },
   {
     "timestamp": "2018-01-16T00:00:00",
-    "hurstExponent": 0.4717605291817001
+    "hurstExponent": 0.4712307032389142,
+    "hurstExponentAL": 0.4076728480652896
   },
   {
     "timestamp": "2018-01-17T00:00:00",
-    "hurstExponent": 0.5067475999309821
+    "hurstExponent": 0.5057787373113163,
+    "hurstExponentAL": 0.43641471985423086
   },
   {
     "timestamp": "2018-01-18T00:00:00",
-    "hurstExponent": 0.48979952725432807
+    "hurstExponent": 0.4887403802750647,
+    "hurstExponentAL": 0.4233208794968646
   },
   {
     "timestamp": "2018-01-19T00:00:00",
-    "hurstExponent": 0.5199747789050417
+    "hurstExponent": 0.5191005649348689,
+    "hurstExponentAL": 0.4481650667306903
   },
   {
     "timestamp": "2018-01-22T00:00:00",
-    "hurstExponent": 0.5739383928841447
+    "hurstExponent": 0.573726049074966,
+    "hurstExponentAL": 0.4983536185526018
   },
   {
     "timestamp": "2018-01-23T00:00:00",
-    "hurstExponent": 0.5631118327744203
+    "hurstExponent": 0.5629823093653257,
+    "hurstExponentAL": 0.49067647558920885
   },
   {
     "timestamp": "2018-01-24T00:00:00",
-    "hurstExponent": 0.5490739095969935
+    "hurstExponent": 0.549056683059961,
+    "hurstExponentAL": 0.4753643570738015
   },
   {
     "timestamp": "2018-01-25T00:00:00",
-    "hurstExponent": 0.5400774636122397
+    "hurstExponent": 0.5394950785260081,
+    "hurstExponentAL": 0.4687029732701288
   },
   {
     "timestamp": "2018-01-26T00:00:00",
-    "hurstExponent": 0.5924202518972699
+    "hurstExponent": 0.5920744248130505,
+    "hurstExponentAL": 0.5134830987655795
   },
   {
     "timestamp": "2018-01-29T00:00:00",
-    "hurstExponent": 0.5706516780155088
+    "hurstExponent": 0.56973948616035,
+    "hurstExponentAL": 0.4957608842423709
   },
   {
     "timestamp": "2018-01-30T00:00:00",
-    "hurstExponent": 0.6016771706449925
+    "hurstExponent": 0.6012089094976096,
+    "hurstExponentAL": 0.5239070489148211
   },
   {
     "timestamp": "2018-01-31T00:00:00",
-    "hurstExponent": 0.6096635057714047
+    "hurstExponent": 0.6090417871450704,
+    "hurstExponentAL": 0.5308544839528333
   },
   {
     "timestamp": "2018-02-01T00:00:00",
-    "hurstExponent": 0.5944923361007698
+    "hurstExponent": 0.5938493127272517,
+    "hurstExponentAL": 0.5185133255526937
   },
   {
     "timestamp": "2018-02-02T00:00:00",
-    "hurstExponent": 0.6467993587183831
+    "hurstExponent": 0.6463971376840039,
+    "hurstExponentAL": 0.5672901385263862
   },
   {
     "timestamp": "2018-02-05T00:00:00",
-    "hurstExponent": 0.6588894868556684
+    "hurstExponent": 0.6587807093009578,
+    "hurstExponentAL": 0.5807551862174307
   },
   {
     "timestamp": "2018-02-06T00:00:00",
-    "hurstExponent": 0.6334837175229304
+    "hurstExponent": 0.6356695927423985,
+    "hurstExponentAL": 0.5567397204562216
   },
   {
     "timestamp": "2018-02-07T00:00:00",
-    "hurstExponent": 0.6317081761333644
+    "hurstExponent": 0.6332355625159538,
+    "hurstExponentAL": 0.5544926153366326
   },
   {
     "timestamp": "2018-02-08T00:00:00",
-    "hurstExponent": 0.6949267913788479
+    "hurstExponent": 0.6966926194745318,
+    "hurstExponentAL": 0.6115017668446219
   },
   {
     "timestamp": "2018-02-09T00:00:00",
-    "hurstExponent": 0.6905121706370839
+    "hurstExponent": 0.6933426208165084,
+    "hurstExponentAL": 0.6070360125231525
   },
   {
     "timestamp": "2018-02-12T00:00:00",
-    "hurstExponent": 0.6541012662096765
+    "hurstExponent": 0.657032025366153,
+    "hurstExponentAL": 0.5778110345629386
   },
   {
     "timestamp": "2018-02-13T00:00:00",
-    "hurstExponent": 0.6789989435134596
+    "hurstExponent": 0.681744119603298,
+    "hurstExponentAL": 0.5978212483978879
   },
   {
     "timestamp": "2018-02-14T00:00:00",
-    "hurstExponent": 0.6722173985678949
+    "hurstExponent": 0.674901103632383,
+    "hurstExponentAL": 0.5930481213068987
   },
   {
     "timestamp": "2018-02-15T00:00:00",
-    "hurstExponent": 0.6731042617773265
+    "hurstExponent": 0.6760221368442554,
+    "hurstExponentAL": 0.593680611316585
   },
   {
     "timestamp": "2018-02-16T00:00:00",
-    "hurstExponent": 0.6688549994488376
+    "hurstExponent": 0.6716902269919938,
+    "hurstExponentAL": 0.5900767784336473
   },
   {
     "timestamp": "2018-02-20T00:00:00",
-    "hurstExponent": 0.6580754539182874
+    "hurstExponent": 0.6611226947649848,
+    "hurstExponentAL": 0.5808244613262422
   },
   {
     "timestamp": "2018-02-21T00:00:00",
-    "hurstExponent": 0.6792952491014643
+    "hurstExponent": 0.6827662643925626,
+    "hurstExponentAL": 0.5974943605359089
   },
   {
     "timestamp": "2018-02-22T00:00:00",
-    "hurstExponent": 0.6745074836630514
+    "hurstExponent": 0.6778954199470425,
+    "hurstExponentAL": 0.5946441113854957
   },
   {
     "timestamp": "2018-02-23T00:00:00",
-    "hurstExponent": 0.6859623410014749
+    "hurstExponent": 0.6900253667975256,
+    "hurstExponentAL": 0.6034485273864459
   },
   {
     "timestamp": "2018-02-26T00:00:00",
-    "hurstExponent": 0.6990658960440366
+    "hurstExponent": 0.7024517020173341,
+    "hurstExponentAL": 0.6128983528618273
   },
   {
     "timestamp": "2018-02-27T00:00:00",
-    "hurstExponent": 0.6893032049743001
+    "hurstExponent": 0.6924965099649868,
+    "hurstExponentAL": 0.6031819187133952
   },
   {
     "timestamp": "2018-02-28T00:00:00",
-    "hurstExponent": 0.6736304125803988
+    "hurstExponent": 0.6771456401538353,
+    "hurstExponentAL": 0.5891045100952342
   },
   {
     "timestamp": "2018-03-01T00:00:00",
-    "hurstExponent": 0.6190824134718081
+    "hurstExponent": 0.6226001915855479,
+    "hurstExponentAL": 0.5449581243951692
   },
   {
     "timestamp": "2018-03-02T00:00:00",
-    "hurstExponent": 0.6475754137252038
+    "hurstExponent": 0.6509906121923605,
+    "hurstExponentAL": 0.5676808917973157
   },
   {
     "timestamp": "2018-03-05T00:00:00",
-    "hurstExponent": 0.650053171223937
+    "hurstExponent": 0.6531542363718494,
+    "hurstExponentAL": 0.5704139270422041
   },
   {
     "timestamp": "2018-03-06T00:00:00",
-    "hurstExponent": 0.6531633975532111
+    "hurstExponent": 0.656467738243954,
+    "hurstExponentAL": 0.5732365047972652
   },
   {
     "timestamp": "2018-03-07T00:00:00",
-    "hurstExponent": 0.6333015155604446
+    "hurstExponent": 0.6365905379445507,
+    "hurstExponentAL": 0.5569202823020601
   },
   {
     "timestamp": "2018-03-08T00:00:00",
-    "hurstExponent": 0.6214184573365277
+    "hurstExponent": 0.6247810977127648,
+    "hurstExponentAL": 0.5481200500979552
   },
   {
     "timestamp": "2018-03-09T00:00:00",
-    "hurstExponent": 0.636701698508522
+    "hurstExponent": 0.6400843195139886,
+    "hurstExponentAL": 0.5603940319772625
   },
   {
     "timestamp": "2018-03-12T00:00:00",
-    "hurstExponent": 0.6414385306219602
+    "hurstExponent": 0.6451315612604579,
+    "hurstExponentAL": 0.5643321290321179
   },
   {
     "timestamp": "2018-03-13T00:00:00",
-    "hurstExponent": 0.6506042310040702
+    "hurstExponent": 0.655195859821923,
+    "hurstExponentAL": 0.5711304999142273
   },
   {
     "timestamp": "2018-03-14T00:00:00",
-    "hurstExponent": 0.6277767375132077
+    "hurstExponent": 0.6318224007179227,
+    "hurstExponentAL": 0.5525990398133528
   },
   {
     "timestamp": "2018-03-15T00:00:00",
-    "hurstExponent": 0.630680517728596
+    "hurstExponent": 0.6345094523520621,
+    "hurstExponentAL": 0.5535372503436822
   },
   {
     "timestamp": "2018-03-16T00:00:00",
-    "hurstExponent": 0.6370585815422665
+    "hurstExponent": 0.6408610878186392,
+    "hurstExponentAL": 0.5581176148853022
   },
   {
     "timestamp": "2018-03-19T00:00:00",
-    "hurstExponent": 0.567079250251707
+    "hurstExponent": 0.5708375748420152,
+    "hurstExponentAL": 0.5009869519047585
   },
   {
     "timestamp": "2018-03-20T00:00:00",
-    "hurstExponent": 0.5829164634237846
+    "hurstExponent": 0.5864938674788397,
+    "hurstExponentAL": 0.5131545309450732
   },
   {
     "timestamp": "2018-03-21T00:00:00",
-    "hurstExponent": 0.5844969949123191
+    "hurstExponent": 0.5878637269476182,
+    "hurstExponentAL": 0.5148375710480754
   },
   {
     "timestamp": "2018-03-22T00:00:00",
-    "hurstExponent": 0.5639333980017112
+    "hurstExponent": 0.5678098875722677,
+    "hurstExponentAL": 0.49519234780550303
   },
   {
     "timestamp": "2018-03-23T00:00:00",
-    "hurstExponent": 0.5367735480203574
+    "hurstExponent": 0.5389978628961773,
+    "hurstExponentAL": 0.4711737914647909
   },
   {
     "timestamp": "2018-03-26T00:00:00",
-    "hurstExponent": 0.5052145465728284
+    "hurstExponent": 0.5105224345626511,
+    "hurstExponentAL": 0.44807488731035794
   },
   {
     "timestamp": "2018-03-27T00:00:00",
-    "hurstExponent": 0.5077096416397126
+    "hurstExponent": 0.5124036624773971,
+    "hurstExponentAL": 0.4463237096871382
   },
   {
     "timestamp": "2018-03-28T00:00:00",
-    "hurstExponent": 0.5154588855544503
+    "hurstExponent": 0.5190742786888578,
+    "hurstExponentAL": 0.4512906034223652
   },
   {
     "timestamp": "2018-03-29T00:00:00",
-    "hurstExponent": 0.5424775690141396
+    "hurstExponent": 0.5475849668180364,
+    "hurstExponentAL": 0.47585152804097125
   },
   {
     "timestamp": "2018-04-02T00:00:00",
-    "hurstExponent": 0.5344044018478877
+    "hurstExponent": 0.5394193660711233,
+    "hurstExponentAL": 0.46908854754624857
   },
   {
     "timestamp": "2018-04-03T00:00:00",
-    "hurstExponent": 0.52591273194813
+    "hurstExponent": 0.5322551917076058,
+    "hurstExponentAL": 0.4611365947483633
   },
   {
     "timestamp": "2018-04-04T00:00:00",
-    "hurstExponent": 0.5525492332024248
+    "hurstExponent": 0.5587662097503545,
+    "hurstExponentAL": 0.4844459074941879
   },
   {
     "timestamp": "2018-04-05T00:00:00",
-    "hurstExponent": 0.5298591804326207
+    "hurstExponent": 0.5356979527786692,
+    "hurstExponentAL": 0.4667910983831785
   },
   {
     "timestamp": "2018-04-06T00:00:00",
-    "hurstExponent": 0.5138801805333043
+    "hurstExponent": 0.5199089334516344,
+    "hurstExponentAL": 0.45042753230752774
   },
   {
     "timestamp": "2018-04-09T00:00:00",
-    "hurstExponent": 0.5167637730033561
+    "hurstExponent": 0.5224737768964519,
+    "hurstExponentAL": 0.4533458688384161
   },
   {
     "timestamp": "2018-04-10T00:00:00",
-    "hurstExponent": 0.5642352286437986
+    "hurstExponent": 0.5699805620979119,
+    "hurstExponentAL": 0.4933176846515856
   },
   {
     "timestamp": "2018-04-11T00:00:00",
-    "hurstExponent": 0.5410042001493821
+    "hurstExponent": 0.5464145599929238,
+    "hurstExponentAL": 0.4744420224406163
   },
   {
     "timestamp": "2018-04-12T00:00:00",
-    "hurstExponent": 0.5337989057843404
+    "hurstExponent": 0.5392146626153752,
+    "hurstExponentAL": 0.47048363430301504
   },
   {
     "timestamp": "2018-04-13T00:00:00",
-    "hurstExponent": 0.554768334475434
+    "hurstExponent": 0.5600959469801938,
+    "hurstExponentAL": 0.4857067602765332
   },
   {
     "timestamp": "2018-04-16T00:00:00",
-    "hurstExponent": 0.5819427077364743
+    "hurstExponent": 0.5863183130876937,
+    "hurstExponentAL": 0.5080451247650257
   },
   {
     "timestamp": "2018-04-17T00:00:00",
-    "hurstExponent": 0.5921313570664717
+    "hurstExponent": 0.5977216132355521,
+    "hurstExponentAL": 0.517578061688055
   },
   {
     "timestamp": "2018-04-18T00:00:00",
-    "hurstExponent": 0.585014201189842
+    "hurstExponent": 0.5898362285447699,
+    "hurstExponentAL": 0.5131282839507557
   },
   {
     "timestamp": "2018-04-19T00:00:00",
-    "hurstExponent": 0.5765342627390089
+    "hurstExponent": 0.5815028355492213,
+    "hurstExponentAL": 0.50434360402897
   },
   {
     "timestamp": "2018-04-20T00:00:00",
-    "hurstExponent": 0.5413009755621719
+    "hurstExponent": 0.546897980288892,
+    "hurstExponentAL": 0.47491712873060093
   },
   {
     "timestamp": "2018-04-23T00:00:00",
-    "hurstExponent": 0.5265835292344948
+    "hurstExponent": 0.5318802843541329,
+    "hurstExponentAL": 0.4647464576806783
   },
   {
     "timestamp": "2018-04-24T00:00:00",
-    "hurstExponent": 0.4926899872379025
+    "hurstExponent": 0.4967166435625686,
+    "hurstExponentAL": 0.4317260901931011
   },
   {
     "timestamp": "2018-04-25T00:00:00",
-    "hurstExponent": 0.5032303188743059
+    "hurstExponent": 0.5090074060405468,
+    "hurstExponentAL": 0.44146159180146655
   },
   {
     "timestamp": "2018-04-26T00:00:00",
-    "hurstExponent": 0.5289640992204576
+    "hurstExponent": 0.5351210725218681,
+    "hurstExponentAL": 0.4628514376995325
   },
   {
     "timestamp": "2018-04-27T00:00:00",
-    "hurstExponent": 0.5115680841027356
+    "hurstExponent": 0.5174023952873079,
+    "hurstExponentAL": 0.4496097831237106
   },
   {
     "timestamp": "2018-04-30T00:00:00",
-    "hurstExponent": 0.4876408739771194
+    "hurstExponent": 0.49305511388878526,
+    "hurstExponentAL": 0.4284792262593023
   },
   {
     "timestamp": "2018-05-01T00:00:00",
-    "hurstExponent": 0.5119467078049863
+    "hurstExponent": 0.517577347295667,
+    "hurstExponentAL": 0.4480849224772025
   },
   {
     "timestamp": "2018-05-02T00:00:00",
-    "hurstExponent": 0.524178682456622
+    "hurstExponent": 0.5278589575491118,
+    "hurstExponentAL": 0.4546902823242825
   },
   {
     "timestamp": "2018-05-03T00:00:00",
-    "hurstExponent": 0.5318517449342882
+    "hurstExponent": 0.5366425750938956,
+    "hurstExponentAL": 0.46149618328146863
   },
   {
     "timestamp": "2018-05-04T00:00:00",
-    "hurstExponent": 0.4987832298911939
+    "hurstExponent": 0.5052355243093083,
+    "hurstExponentAL": 0.4375757667529479
   },
   {
     "timestamp": "2018-05-07T00:00:00",
-    "hurstExponent": 0.5240443083105071
+    "hurstExponent": 0.5293982900614714,
+    "hurstExponentAL": 0.45607422428117544
   },
   {
     "timestamp": "2018-05-08T00:00:00",
-    "hurstExponent": 0.5174372500902318
+    "hurstExponent": 0.5216997171749288,
+    "hurstExponentAL": 0.4500370090215381
   },
   {
     "timestamp": "2018-05-09T00:00:00",
-    "hurstExponent": 0.4937448545623486
+    "hurstExponent": 0.4996883639143811,
+    "hurstExponentAL": 0.43473426023232614
   },
   {
     "timestamp": "2018-05-10T00:00:00",
-    "hurstExponent": 0.4962710005102642
+    "hurstExponent": 0.5017840848943911,
+    "hurstExponentAL": 0.43862863381190303
   },
   {
     "timestamp": "2018-05-11T00:00:00",
-    "hurstExponent": 0.4877569079374299
+    "hurstExponent": 0.49321090459020056,
+    "hurstExponentAL": 0.43041580384140726
   },
   {
     "timestamp": "2018-05-14T00:00:00",
-    "hurstExponent": 0.48872702164943577
+    "hurstExponent": 0.4948980036102564,
+    "hurstExponentAL": 0.43047779977468165
   },
   {
     "timestamp": "2018-05-15T00:00:00",
-    "hurstExponent": 0.4731630783949697
+    "hurstExponent": 0.4791597941492844,
+    "hurstExponentAL": 0.4182258643090593
   },
   {
     "timestamp": "2018-05-16T00:00:00",
-    "hurstExponent": 0.4872303480650146
+    "hurstExponent": 0.4934129443881952,
+    "hurstExponentAL": 0.4301586233122063
   },
   {
     "timestamp": "2018-05-17T00:00:00",
-    "hurstExponent": 0.5049449901048303
+    "hurstExponent": 0.5108348646977471,
+    "hurstExponentAL": 0.44308013046045036
   },
   {
     "timestamp": "2018-05-18T00:00:00",
-    "hurstExponent": 0.5230087609176615
+    "hurstExponent": 0.5287023996191101,
+    "hurstExponentAL": 0.4565198901606649
   },
   {
     "timestamp": "2018-05-21T00:00:00",
-    "hurstExponent": 0.5371359657560492
+    "hurstExponent": 0.5432168818991353,
+    "hurstExponentAL": 0.46962439716990345
   },
   {
     "timestamp": "2018-05-22T00:00:00",
-    "hurstExponent": 0.5433936728755495
+    "hurstExponent": 0.5494561438463842,
+    "hurstExponentAL": 0.4738850978638315
   },
   {
     "timestamp": "2018-05-23T00:00:00",
-    "hurstExponent": 0.5654122898697704
+    "hurstExponent": 0.5710953741689803,
+    "hurstExponentAL": 0.489945391064633
   },
   {
     "timestamp": "2018-05-24T00:00:00",
-    "hurstExponent": 0.5505432087645086
+    "hurstExponent": 0.5568853284415218,
+    "hurstExponentAL": 0.4788801021455228
   },
   {
     "timestamp": "2018-05-25T00:00:00",
-    "hurstExponent": 0.510922721272039
+    "hurstExponent": 0.5171717695854333,
+    "hurstExponentAL": 0.4463644371212229
   },
   {
     "timestamp": "2018-05-29T00:00:00",
-    "hurstExponent": 0.48141705018892017
+    "hurstExponent": 0.48565498598052426,
+    "hurstExponentAL": 0.4207137630324329
   },
   {
     "timestamp": "2018-05-30T00:00:00",
-    "hurstExponent": 0.4827413948931275
+    "hurstExponent": 0.4870977701194985,
+    "hurstExponentAL": 0.42018330033171714
   },
   {
     "timestamp": "2018-05-31T00:00:00",
-    "hurstExponent": 0.4872543335284138
+    "hurstExponent": 0.4920650776956409,
+    "hurstExponentAL": 0.4240177582691596
   },
   {
     "timestamp": "2018-06-01T00:00:00",
-    "hurstExponent": 0.4367197527394317
+    "hurstExponent": 0.4413930450798804,
+    "hurstExponentAL": 0.3838903341719094
   },
   {
     "timestamp": "2018-06-04T00:00:00",
-    "hurstExponent": 0.4394273921292003
+    "hurstExponent": 0.44370265546264337,
+    "hurstExponentAL": 0.3846519122108573
   },
   {
     "timestamp": "2018-06-05T00:00:00",
-    "hurstExponent": 0.44538696696568797
+    "hurstExponent": 0.4487365846912597,
+    "hurstExponentAL": 0.388847898798801
   },
   {
     "timestamp": "2018-06-06T00:00:00",
-    "hurstExponent": 0.4405430776317408
+    "hurstExponent": 0.44420296326184716,
+    "hurstExponentAL": 0.3842454764711121
   },
   {
     "timestamp": "2018-06-07T00:00:00",
-    "hurstExponent": 0.44852977930697596
+    "hurstExponent": 0.452735778225695,
+    "hurstExponentAL": 0.39161493345234555
   },
   {
     "timestamp": "2018-06-08T00:00:00",
-    "hurstExponent": 0.4673535377090194
+    "hurstExponent": 0.4709721754040619,
+    "hurstExponentAL": 0.4060667058975568
   },
   {
     "timestamp": "2018-06-11T00:00:00",
-    "hurstExponent": 0.4833435962407262
+    "hurstExponent": 0.4866021381073432,
+    "hurstExponentAL": 0.41774870598582947
   },
   {
     "timestamp": "2018-06-12T00:00:00",
-    "hurstExponent": 0.5075094325101573
+    "hurstExponent": 0.5112480833277445,
+    "hurstExponentAL": 0.4388494909331086
   },
   {
     "timestamp": "2018-06-13T00:00:00",
-    "hurstExponent": 0.47621016775575503
+    "hurstExponent": 0.4798962751166211,
+    "hurstExponentAL": 0.41358234677361694
   },
   {
     "timestamp": "2018-06-14T00:00:00",
-    "hurstExponent": 0.44956916232902805
+    "hurstExponent": 0.45337440152223285,
+    "hurstExponentAL": 0.3927761307686575
   },
   {
     "timestamp": "2018-06-15T00:00:00",
-    "hurstExponent": 0.43330357260594526
+    "hurstExponent": 0.43728263293552394,
+    "hurstExponentAL": 0.3795100004880573
   },
   {
     "timestamp": "2018-06-18T00:00:00",
-    "hurstExponent": 0.457682928654816
+    "hurstExponent": 0.46225665000678134,
+    "hurstExponentAL": 0.3996319568569809
   },
   {
     "timestamp": "2018-06-19T00:00:00",
-    "hurstExponent": 0.4198154302934119
+    "hurstExponent": 0.4241242575723418,
+    "hurstExponentAL": 0.36909343426353036
   },
   {
     "timestamp": "2018-06-20T00:00:00",
-    "hurstExponent": 0.45936436529663843
+    "hurstExponent": 0.46255893793231806,
+    "hurstExponentAL": 0.40144980507701317
   },
   {
     "timestamp": "2018-06-21T00:00:00",
-    "hurstExponent": 0.4611498979493334
+    "hurstExponent": 0.4638230904951456,
+    "hurstExponentAL": 0.4018859364832426
   },
   {
     "timestamp": "2018-06-22T00:00:00",
-    "hurstExponent": 0.43525853523518554
+    "hurstExponent": 0.43804063465250875,
+    "hurstExponentAL": 0.37724077555705854
   },
   {
     "timestamp": "2018-06-25T00:00:00",
-    "hurstExponent": 0.49652492398084785
+    "hurstExponent": 0.4996947621585323,
+    "hurstExponentAL": 0.4313394128001384
   },
   {
     "timestamp": "2018-06-26T00:00:00",
-    "hurstExponent": 0.500082057821837
+    "hurstExponent": 0.5030205212443148,
+    "hurstExponentAL": 0.432754492782716
   },
   {
     "timestamp": "2018-06-27T00:00:00",
-    "hurstExponent": 0.4810971729673188
+    "hurstExponent": 0.48389242717169095,
+    "hurstExponentAL": 0.4140854097362551
   },
   {
     "timestamp": "2018-06-28T00:00:00",
-    "hurstExponent": 0.45873651777803603
+    "hurstExponent": 0.4615882042024816,
+    "hurstExponentAL": 0.39349133751299487
   },
   {
     "timestamp": "2018-06-29T00:00:00",
-    "hurstExponent": 0.4120135477043009
+    "hurstExponent": 0.4150389648912154,
+    "hurstExponentAL": 0.355539879684182
   },
   {
     "timestamp": "2018-07-02T00:00:00",
-    "hurstExponent": 0.3837480185269525
+    "hurstExponent": 0.38664731667889574,
+    "hurstExponentAL": 0.33345395778054315
   },
   {
     "timestamp": "2018-07-03T00:00:00",
-    "hurstExponent": 0.46568369602818976
+    "hurstExponent": 0.47014184094131256,
+    "hurstExponentAL": 0.40763650245552535
   },
   {
     "timestamp": "2018-07-05T00:00:00",
-    "hurstExponent": 0.4681122374937659
+    "hurstExponent": 0.473256282905068,
+    "hurstExponentAL": 0.40785690275336445
   },
   {
     "timestamp": "2018-07-06T00:00:00",
-    "hurstExponent": 0.4165359444653761
+    "hurstExponent": 0.42132425512297245,
+    "hurstExponentAL": 0.366275304708174
   },
   {
     "timestamp": "2018-07-09T00:00:00",
-    "hurstExponent": 0.4431398941057769
+    "hurstExponent": 0.4480435746342258,
+    "hurstExponentAL": 0.3883748202155966
   },
   {
     "timestamp": "2018-07-10T00:00:00",
-    "hurstExponent": 0.4487032917008951
+    "hurstExponent": 0.4532525582264525,
+    "hurstExponentAL": 0.391753533087486
   },
   {
     "timestamp": "2018-07-11T00:00:00",
-    "hurstExponent": 0.42837743194394073
+    "hurstExponent": 0.43206997700559674,
+    "hurstExponentAL": 0.37316921310721063
   },
   {
     "timestamp": "2018-07-12T00:00:00",
-    "hurstExponent": 0.4540482319049816
+    "hurstExponent": 0.4581769052050898,
+    "hurstExponentAL": 0.39392913277664326
   },
   {
     "timestamp": "2018-07-13T00:00:00",
-    "hurstExponent": 0.47324429884814245
+    "hurstExponent": 0.4774166822068695,
+    "hurstExponentAL": 0.41054115615393955
   },
   {
     "timestamp": "2018-07-16T00:00:00",
-    "hurstExponent": 0.49651450217524223
+    "hurstExponent": 0.5011942284071389,
+    "hurstExponentAL": 0.42965356467813837
   },
   {
     "timestamp": "2018-07-17T00:00:00",
-    "hurstExponent": 0.4923565339932725
+    "hurstExponent": 0.49806058590063196,
+    "hurstExponentAL": 0.42719038241545365
   },
   {
     "timestamp": "2018-07-18T00:00:00",
-    "hurstExponent": 0.4714010382749815
+    "hurstExponent": 0.475839689773976,
+    "hurstExponentAL": 0.40887692844063983
   },
   {
     "timestamp": "2018-07-19T00:00:00",
-    "hurstExponent": 0.43985419853602004
+    "hurstExponent": 0.4447911448539691,
+    "hurstExponentAL": 0.38459421132807653
   },
   {
     "timestamp": "2018-07-20T00:00:00",
-    "hurstExponent": 0.4443201315069178
+    "hurstExponent": 0.4494677082100143,
+    "hurstExponentAL": 0.38878754624324247
   },
   {
     "timestamp": "2018-07-23T00:00:00",
-    "hurstExponent": 0.49342912362441865
+    "hurstExponent": 0.49895150600195576,
+    "hurstExponentAL": 0.4290605304517958
   },
   {
     "timestamp": "2018-07-24T00:00:00",
-    "hurstExponent": 0.4732313440503862
+    "hurstExponent": 0.47810161307190613,
+    "hurstExponentAL": 0.4152719996537064
   },
   {
     "timestamp": "2018-07-25T00:00:00",
-    "hurstExponent": 0.49931928071759457
+    "hurstExponent": 0.5043387161896584,
+    "hurstExponentAL": 0.43619591816231884
   },
   {
     "timestamp": "2018-07-26T00:00:00",
-    "hurstExponent": 0.509685054343279
+    "hurstExponent": 0.5142352349475509,
+    "hurstExponentAL": 0.44327813813029265
   },
   {
     "timestamp": "2018-07-27T00:00:00",
-    "hurstExponent": 0.48654009819934924
+    "hurstExponent": 0.49098955460862415,
+    "hurstExponentAL": 0.42319224711459513
   },
   {
     "timestamp": "2018-07-30T00:00:00",
-    "hurstExponent": 0.48658071737206954
+    "hurstExponent": 0.49179419812312525,
+    "hurstExponentAL": 0.42330714571866224
   },
   {
     "timestamp": "2018-07-31T00:00:00",
-    "hurstExponent": 0.5126773600683006
+    "hurstExponent": 0.5177842413997995,
+    "hurstExponentAL": 0.4437129035604687
   },
   {
     "timestamp": "2018-08-01T00:00:00",
-    "hurstExponent": 0.5789934902207817
+    "hurstExponent": 0.582902473502812,
+    "hurstExponentAL": 0.5006936096030411
   },
   {
     "timestamp": "2018-08-02T00:00:00",
-    "hurstExponent": 0.5424972192607629
+    "hurstExponent": 0.5472245396828389,
+    "hurstExponentAL": 0.469585747088898
   },
   {
     "timestamp": "2018-08-03T00:00:00",
-    "hurstExponent": 0.48452456400763017
+    "hurstExponent": 0.48955299475999414,
+    "hurstExponentAL": 0.4193602279913663
   },
   {
     "timestamp": "2018-08-06T00:00:00",
-    "hurstExponent": 0.40096668343292025
+    "hurstExponent": 0.40639102886496076,
+    "hurstExponentAL": 0.35031107305201586
   },
   {
     "timestamp": "2018-08-07T00:00:00",
-    "hurstExponent": 0.3781719078961969
+    "hurstExponent": 0.38537828705892013,
+    "hurstExponentAL": 0.333067019029659
   },
   {
     "timestamp": "2018-08-08T00:00:00",
-    "hurstExponent": 0.4207631036769365
+    "hurstExponent": 0.4275080196890147,
+    "hurstExponentAL": 0.3675831827243517
   },
   {
     "timestamp": "2018-08-09T00:00:00",
-    "hurstExponent": 0.3188933488791736
+    "hurstExponent": 0.3264633459810496,
+    "hurstExponentAL": 0.2811702843805902
   },
   {
     "timestamp": "2018-08-10T00:00:00",
-    "hurstExponent": 0.3765553937589367
+    "hurstExponent": 0.3833555487319442,
+    "hurstExponentAL": 0.33041151206454134
   },
   {
     "timestamp": "2018-08-13T00:00:00",
-    "hurstExponent": 0.37455038317350914
+    "hurstExponent": 0.38107801718762735,
+    "hurstExponentAL": 0.32883577514117296
   },
   {
     "timestamp": "2018-08-14T00:00:00",
-    "hurstExponent": 0.21100162474986994
+    "hurstExponent": 0.21089427654150159,
+    "hurstExponentAL": 0.18159351626642578
   },
   {
     "timestamp": "2018-08-15T00:00:00",
-    "hurstExponent": 0.30001791970231423
+    "hurstExponent": 0.295278876184456,
+    "hurstExponentAL": 0.25186924603069955
   },
   {
     "timestamp": "2018-08-16T00:00:00",
-    "hurstExponent": 0.3086780002052027
+    "hurstExponent": 0.30886034598191453,
+    "hurstExponentAL": 0.2626331188071158
   },
   {
     "timestamp": "2018-08-17T00:00:00",
-    "hurstExponent": 0.344150963331013
+    "hurstExponent": 0.34061140201418766,
+    "hurstExponentAL": 0.28968397754702596
   },
   {
     "timestamp": "2018-08-20T00:00:00",
-    "hurstExponent": 0.3650263594623666
+    "hurstExponent": 0.36206929552384287,
+    "hurstExponentAL": 0.3084008750859581
   },
   {
     "timestamp": "2018-08-21T00:00:00",
-    "hurstExponent": 0.3133519470581899
+    "hurstExponent": 0.3103191054406009,
+    "hurstExponentAL": 0.264691658509272
   },
   {
     "timestamp": "2018-08-22T00:00:00",
-    "hurstExponent": 0.4195777956635734
+    "hurstExponent": 0.41831300354674067,
+    "hurstExponentAL": 0.3609853089851689
   },
   {
     "timestamp": "2018-08-23T00:00:00",
-    "hurstExponent": 0.34224797900197346
+    "hurstExponent": 0.3413525251633282,
+    "hurstExponentAL": 0.294955310708831
   },
   {
     "timestamp": "2018-08-24T00:00:00",
-    "hurstExponent": 0.32615381292184786
+    "hurstExponent": 0.325203727352769,
+    "hurstExponentAL": 0.28008547883596624
   },
   {
     "timestamp": "2018-08-27T00:00:00",
-    "hurstExponent": 0.2969851240452841
+    "hurstExponent": 0.2960589147847952,
+    "hurstExponentAL": 0.2562026226066881
   },
   {
     "timestamp": "2018-08-28T00:00:00",
-    "hurstExponent": 0.44176547282760764
+    "hurstExponent": 0.4426316157357639,
+    "hurstExponentAL": 0.3844626756176309
   },
   {
     "timestamp": "2018-08-29T00:00:00",
-    "hurstExponent": 0.42872446069159215
+    "hurstExponent": 0.42951793871826605,
+    "hurstExponentAL": 0.37372894771409826
   },
   {
     "timestamp": "2018-08-30T00:00:00",
-    "hurstExponent": 0.37775319027954457
+    "hurstExponent": 0.37911685068205814,
+    "hurstExponentAL": 0.3274723805658567
   },
   {
     "timestamp": "2018-08-31T00:00:00",
-    "hurstExponent": 0.40897456194124066
+    "hurstExponent": 0.41051306074004723,
+    "hurstExponentAL": 0.35385326369042225
   },
   {
     "timestamp": "2018-09-04T00:00:00",
-    "hurstExponent": 0.3757626820376996
+    "hurstExponent": 0.37715308086103666,
+    "hurstExponentAL": 0.32381954122243484
   },
   {
     "timestamp": "2018-09-05T00:00:00",
-    "hurstExponent": 0.3803353262453797
+    "hurstExponent": 0.38194574735896963,
+    "hurstExponentAL": 0.32844118176834586
   },
   {
     "timestamp": "2018-09-06T00:00:00",
-    "hurstExponent": 0.392386076696201
+    "hurstExponent": 0.3940811284764662,
+    "hurstExponentAL": 0.33860872886203547
   },
   {
     "timestamp": "2018-09-07T00:00:00",
-    "hurstExponent": 0.493445042745479
+    "hurstExponent": 0.49361861604826474,
+    "hurstExponentAL": 0.4276772001514152
   },
   {
     "timestamp": "2018-09-10T00:00:00",
-    "hurstExponent": 0.4643071877512183
+    "hurstExponent": 0.4643612624070144,
+    "hurstExponentAL": 0.40375555405804625
   },
   {
     "timestamp": "2018-09-11T00:00:00",
-    "hurstExponent": 0.37353220186692615
+    "hurstExponent": 0.37354708892935745,
+    "hurstExponentAL": 0.32521189442052206
   },
   {
     "timestamp": "2018-09-12T00:00:00",
-    "hurstExponent": 0.34655418004562755
+    "hurstExponent": 0.34753246792078313,
+    "hurstExponentAL": 0.30076259517241843
   },
   {
     "timestamp": "2018-09-13T00:00:00",
-    "hurstExponent": 0.3313118116353642
+    "hurstExponent": 0.33123343375455566,
+    "hurstExponentAL": 0.287570581439515
   },
   {
     "timestamp": "2018-09-14T00:00:00",
-    "hurstExponent": 0.355170099691404
+    "hurstExponent": 0.35620657620654245,
+    "hurstExponentAL": 0.3091269489390347
   },
   {
     "timestamp": "2018-09-17T00:00:00",
-    "hurstExponent": 0.33102738690270506
+    "hurstExponent": 0.3314499339875944,
+    "hurstExponentAL": 0.2878190753018505
   },
   {
     "timestamp": "2018-09-18T00:00:00",
-    "hurstExponent": 0.35816257289894204
+    "hurstExponent": 0.35850558056827514,
+    "hurstExponentAL": 0.30945661260836727
   },
   {
     "timestamp": "2018-09-19T00:00:00",
-    "hurstExponent": 0.3824072625361296
+    "hurstExponent": 0.3829890299732747,
+    "hurstExponentAL": 0.3288334313109289
   },
   {
     "timestamp": "2018-09-20T00:00:00",
-    "hurstExponent": 0.41070376404063696
+    "hurstExponent": 0.41191330461982945,
+    "hurstExponentAL": 0.35418641843931736
   },
   {
     "timestamp": "2018-09-21T00:00:00",
-    "hurstExponent": 0.39838402636095077
+    "hurstExponent": 0.39953137649525594,
+    "hurstExponentAL": 0.34414832943818746
   },
   {
     "timestamp": "2018-09-24T00:00:00",
-    "hurstExponent": 0.42182250057406107
+    "hurstExponent": 0.42307967589479484,
+    "hurstExponentAL": 0.3649625477696119
   },
   {
     "timestamp": "2018-09-25T00:00:00",
-    "hurstExponent": 0.43184805981157787
+    "hurstExponent": 0.43307580079187596,
+    "hurstExponentAL": 0.3732739702919746
   },
   {
     "timestamp": "2018-09-26T00:00:00",
-    "hurstExponent": 0.4133575562423804
+    "hurstExponent": 0.41398566642941237,
+    "hurstExponentAL": 0.3563484111393763
   },
   {
     "timestamp": "2018-09-27T00:00:00",
-    "hurstExponent": 0.3868653417286929
+    "hurstExponent": 0.3875281576782998,
+    "hurstExponentAL": 0.33544565917759916
   },
   {
     "timestamp": "2018-09-28T00:00:00",
-    "hurstExponent": 0.39703184579291106
+    "hurstExponent": 0.3975019396996757,
+    "hurstExponentAL": 0.3427474650160758
   },
   {
     "timestamp": "2018-10-01T00:00:00",
-    "hurstExponent": 0.37093723060211553
+    "hurstExponent": 0.3712509664213946,
+    "hurstExponentAL": 0.32127025633703277
   },
   {
     "timestamp": "2018-10-02T00:00:00",
-    "hurstExponent": 0.41365576749354727
+    "hurstExponent": 0.4136446798593508,
+    "hurstExponentAL": 0.3595837542636556
   },
   {
     "timestamp": "2018-10-03T00:00:00",
-    "hurstExponent": 0.428209994252371
+    "hurstExponent": 0.42808825327420374,
+    "hurstExponentAL": 0.3726653771115588
   },
   {
     "timestamp": "2018-10-04T00:00:00",
-    "hurstExponent": 0.5082838031756564
+    "hurstExponent": 0.5081657030335411,
+    "hurstExponentAL": 0.43937618450609345
   },
   {
     "timestamp": "2018-10-05T00:00:00",
-    "hurstExponent": 0.524152506033107
+    "hurstExponent": 0.5241362179124773,
+    "hurstExponentAL": 0.452005347142913
   },
   {
     "timestamp": "2018-10-08T00:00:00",
-    "hurstExponent": 0.49675261839868173
+    "hurstExponent": 0.49664112634363083,
+    "hurstExponentAL": 0.4313350817044447
   },
   {
     "timestamp": "2018-10-09T00:00:00",
-    "hurstExponent": 0.48448278960855157
+    "hurstExponent": 0.4845602035605675,
+    "hurstExponentAL": 0.4219169162868827
   },
   {
     "timestamp": "2018-10-10T00:00:00",
-    "hurstExponent": 0.5497584676046697
+    "hurstExponent": 0.5503826304893418,
+    "hurstExponentAL": 0.4790009653323655
   },
   {
     "timestamp": "2018-10-11T00:00:00",
-    "hurstExponent": 0.6290291883996569
+    "hurstExponent": 0.6294920765028634,
+    "hurstExponentAL": 0.5553233318468964
   },
   {
     "timestamp": "2018-10-12T00:00:00",
-    "hurstExponent": 0.5514357693779426
+    "hurstExponent": 0.5528527974897891,
+    "hurstExponentAL": 0.4838039674388804
   },
   {
     "timestamp": "2018-10-15T00:00:00",
-    "hurstExponent": 0.5586317878264748
+    "hurstExponent": 0.5599275151985357,
+    "hurstExponentAL": 0.49377035742310743
   },
   {
     "timestamp": "2018-10-16T00:00:00",
-    "hurstExponent": 0.5224292403150083
+    "hurstExponent": 0.5238282041826517,
+    "hurstExponentAL": 0.45903449821769193
   },
   {
     "timestamp": "2018-10-17T00:00:00",
-    "hurstExponent": 0.5241439311220575
+    "hurstExponent": 0.525588021331395,
+    "hurstExponentAL": 0.4608227906579887
   },
   {
     "timestamp": "2018-10-18T00:00:00",
-    "hurstExponent": 0.5207795142410787
+    "hurstExponent": 0.5223517615377177,
+    "hurstExponentAL": 0.45794716111366607
   },
   {
     "timestamp": "2018-10-19T00:00:00",
-    "hurstExponent": 0.5187261519283514
+    "hurstExponent": 0.5202274901438741,
+    "hurstExponentAL": 0.4560844003172394
   },
   {
     "timestamp": "2018-10-22T00:00:00",
-    "hurstExponent": 0.5726682508099153
+    "hurstExponent": 0.574188143000796,
+    "hurstExponentAL": 0.49859109061372536
   },
   {
     "timestamp": "2018-10-23T00:00:00",
-    "hurstExponent": 0.618971716138077
+    "hurstExponent": 0.6209128181664036,
+    "hurstExponentAL": 0.5398155586381835
   },
   {
     "timestamp": "2018-10-24T00:00:00",
-    "hurstExponent": 0.6502929294843087
+    "hurstExponent": 0.6527311502815866,
+    "hurstExponentAL": 0.5743015907709008
   },
   {
     "timestamp": "2018-10-25T00:00:00",
-    "hurstExponent": 0.606882587833015
+    "hurstExponent": 0.6102266634667789,
+    "hurstExponentAL": 0.5346632832018949
   },
   {
     "timestamp": "2018-10-26T00:00:00",
-    "hurstExponent": 0.668503975424485
+    "hurstExponent": 0.6719239311917539,
+    "hurstExponentAL": 0.589624627015239
   },
   {
     "timestamp": "2018-10-29T00:00:00",
-    "hurstExponent": 0.6576434430497267
+    "hurstExponent": 0.6609791348728257,
+    "hurstExponentAL": 0.5826635207579931
   },
   {
     "timestamp": "2018-10-30T00:00:00",
-    "hurstExponent": 0.6211376450536893
+    "hurstExponent": 0.6252638227081104,
+    "hurstExponentAL": 0.5493558418904059
   },
   {
     "timestamp": "2018-10-31T00:00:00",
-    "hurstExponent": 0.5787538740686444
+    "hurstExponent": 0.5824753921924112,
+    "hurstExponentAL": 0.511658429461888
   },
   {
     "timestamp": "2018-11-01T00:00:00",
-    "hurstExponent": 0.6026169780770688
+    "hurstExponent": 0.6067815698311305,
+    "hurstExponentAL": 0.5315909633375415
   },
   {
     "timestamp": "2018-11-02T00:00:00",
-    "hurstExponent": 0.5885792600896156
+    "hurstExponent": 0.5927378918521158,
+    "hurstExponentAL": 0.5196426188854295
   },
   {
     "timestamp": "2018-11-05T00:00:00",
-    "hurstExponent": 0.5796105641492912
+    "hurstExponent": 0.5837074107381255,
+    "hurstExponentAL": 0.5121639671705215
   },
   {
     "timestamp": "2018-11-06T00:00:00",
-    "hurstExponent": 0.5677707204566882
+    "hurstExponent": 0.5717807242700558,
+    "hurstExponentAL": 0.5027952701694153
   },
   {
     "timestamp": "2018-11-07T00:00:00",
-    "hurstExponent": 0.6341315602343909
+    "hurstExponent": 0.6379008061877037,
+    "hurstExponentAL": 0.556591916829933
   },
   {
     "timestamp": "2018-11-08T00:00:00",
-    "hurstExponent": 0.6300651132274869
+    "hurstExponent": 0.6339191097026307,
+    "hurstExponentAL": 0.5529207681933132
   },
   {
     "timestamp": "2018-11-09T00:00:00",
-    "hurstExponent": 0.5760644640299122
+    "hurstExponent": 0.579822052031223,
+    "hurstExponentAL": 0.5084986451774643
   },
   {
     "timestamp": "2018-11-12T00:00:00",
-    "hurstExponent": 0.5139180307698958
+    "hurstExponent": 0.5176784192274,
+    "hurstExponentAL": 0.45521676507693554
   },
   {
     "timestamp": "2018-11-13T00:00:00",
-    "hurstExponent": 0.5226050628314359
+    "hurstExponent": 0.5264799591535073,
+    "hurstExponentAL": 0.4615542535171664
   },
   {
     "timestamp": "2018-11-14T00:00:00",
-    "hurstExponent": 0.5213516958840415
+    "hurstExponent": 0.5252794828392028,
+    "hurstExponentAL": 0.46221580216521724
   },
   {
     "timestamp": "2018-11-15T00:00:00",
-    "hurstExponent": 0.5295571905257079
+    "hurstExponent": 0.5330478764461264,
+    "hurstExponentAL": 0.46938418776696095
   },
   {
     "timestamp": "2018-11-16T00:00:00",
-    "hurstExponent": 0.5237865594673095
+    "hurstExponent": 0.527221536908004,
+    "hurstExponentAL": 0.4660668372162781
   },
   {
     "timestamp": "2018-11-19T00:00:00",
-    "hurstExponent": 0.5215193669428817
+    "hurstExponent": 0.5252147716069007,
+    "hurstExponentAL": 0.4601037995611752
   },
   {
     "timestamp": "2018-11-20T00:00:00",
-    "hurstExponent": 0.4791738158356436
+    "hurstExponent": 0.48262306568599467,
+    "hurstExponentAL": 0.4216572282417565
   },
   {
     "timestamp": "2018-11-21T00:00:00",
-    "hurstExponent": 0.4833724522141066
+    "hurstExponent": 0.48623063900782393,
+    "hurstExponentAL": 0.4245128370655554
   },
   {
     "timestamp": "2018-11-23T00:00:00",
-    "hurstExponent": 0.49062034510616453
+    "hurstExponent": 0.4946372470218194,
+    "hurstExponentAL": 0.4317897539562201
   },
   {
     "timestamp": "2018-11-26T00:00:00",
-    "hurstExponent": 0.5554292905902406
+    "hurstExponent": 0.5578534768656583,
+    "hurstExponentAL": 0.48085640046623307
   },
   {
     "timestamp": "2018-11-27T00:00:00",
-    "hurstExponent": 0.5307528177768023
+    "hurstExponent": 0.5346892187669149,
+    "hurstExponentAL": 0.46236418469500307
   },
   {
     "timestamp": "2018-11-28T00:00:00",
-    "hurstExponent": 0.5030313310368145
+    "hurstExponent": 0.5081126382635341,
+    "hurstExponentAL": 0.44348079820209396
   },
   {
     "timestamp": "2018-11-29T00:00:00",
-    "hurstExponent": 0.46711354352585743
+    "hurstExponent": 0.47082677143340945,
+    "hurstExponentAL": 0.4125709571575923
   },
   {
     "timestamp": "2018-11-30T00:00:00",
-    "hurstExponent": 0.5014546524757088
+    "hurstExponent": 0.5064589498974666,
+    "hurstExponentAL": 0.44361468478279903
   },
   {
     "timestamp": "2018-12-03T00:00:00",
-    "hurstExponent": 0.48254227523585724
+    "hurstExponent": 0.48699733965275144,
+    "hurstExponentAL": 0.42877831960448576
   },
   {
     "timestamp": "2018-12-04T00:00:00",
-    "hurstExponent": 0.43392866009597675
+    "hurstExponent": 0.43768091778181745,
+    "hurstExponentAL": 0.3823223446916942
   },
   {
     "timestamp": "2018-12-06T00:00:00",
-    "hurstExponent": 0.4182937506491207
+    "hurstExponent": 0.4222515566141446,
+    "hurstExponentAL": 0.36989201444453285
   },
   {
     "timestamp": "2018-12-07T00:00:00",
-    "hurstExponent": 0.4269409320802674
+    "hurstExponent": 0.43074940494846947,
+    "hurstExponentAL": 0.37425451094552564
   },
   {
     "timestamp": "2018-12-10T00:00:00",
-    "hurstExponent": 0.4271267756145974
+    "hurstExponent": 0.4311747999684178,
+    "hurstExponentAL": 0.37452350195006207
   },
   {
     "timestamp": "2018-12-11T00:00:00",
-    "hurstExponent": 0.4302476188264668
+    "hurstExponent": 0.4341923613575334,
+    "hurstExponentAL": 0.3771602346459987
   },
   {
     "timestamp": "2018-12-12T00:00:00",
-    "hurstExponent": 0.4243470767347955
+    "hurstExponent": 0.42794821589587057,
+    "hurstExponentAL": 0.37222089231759614
   },
   {
     "timestamp": "2018-12-13T00:00:00",
-    "hurstExponent": 0.4773253374340744
+    "hurstExponent": 0.4807881127495092,
+    "hurstExponentAL": 0.41326463685391535
   },
   {
     "timestamp": "2018-12-14T00:00:00",
-    "hurstExponent": 0.4606100914279857
+    "hurstExponent": 0.46434966789478793,
+    "hurstExponentAL": 0.3978005873030432
   },
   {
     "timestamp": "2018-12-17T00:00:00",
-    "hurstExponent": 0.4456333764047922
+    "hurstExponent": 0.4498121998732273,
+    "hurstExponentAL": 0.38963724442265213
   },
   {
     "timestamp": "2018-12-18T00:00:00",
-    "hurstExponent": 0.41688264192175545
+    "hurstExponent": 0.42403136891420457,
+    "hurstExponentAL": 0.3692152158190407
   },
   {
     "timestamp": "2018-12-19T00:00:00",
-    "hurstExponent": 0.4620492763997049
+    "hurstExponent": 0.46305652240836226,
+    "hurstExponentAL": 0.4023470542007876
   },
   {
     "timestamp": "2018-12-20T00:00:00",
-    "hurstExponent": 0.45744389664162355
+    "hurstExponent": 0.45876171819624306,
+    "hurstExponentAL": 0.4029593958987451
   },
   {
     "timestamp": "2018-12-21T00:00:00",
-    "hurstExponent": 0.5229513952642244
+    "hurstExponent": 0.5239890881950264,
+    "hurstExponentAL": 0.4616162516619966
   },
   {
     "timestamp": "2018-12-24T00:00:00",
-    "hurstExponent": 0.5680540562650545
+    "hurstExponent": 0.5695564827204066,
+    "hurstExponentAL": 0.5057100177099336
   },
   {
     "timestamp": "2018-12-26T00:00:00",
-    "hurstExponent": 0.5686255735899417
+    "hurstExponent": 0.5713827338720178,
+    "hurstExponentAL": 0.5039493664972442
   },
   {
     "timestamp": "2018-12-27T00:00:00",
-    "hurstExponent": 0.5611638269695421
+    "hurstExponent": 0.5640920826474229,
+    "hurstExponentAL": 0.497875926465697
   },
   {
     "timestamp": "2018-12-28T00:00:00",
-    "hurstExponent": 0.5629723350504933
+    "hurstExponent": 0.5657401662557017,
+    "hurstExponentAL": 0.49781789335777493
   },
   {
     "timestamp": "2018-12-31T00:00:00",
-    "hurstExponent": 0.5619869693663025
+    "hurstExponent": 0.5646426288222877,
+    "hurstExponentAL": 0.4970040299350103
   }
 ]

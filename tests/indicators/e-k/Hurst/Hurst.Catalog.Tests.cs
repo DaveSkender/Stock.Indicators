@@ -25,14 +25,20 @@ public class HurstTests : TestBase
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
+        lookbackPeriodsParam?.Minimum.Should().Be(20);
 
         listing.Results.Should().NotBeNull();
-        listing.Results.Should().HaveCount(1);
+        listing.Results.Should().HaveCount(2);
 
         IndicatorResult hurstexponentResult = listing.Results.SingleOrDefault(static r => r.DataName == "HurstExponent");
         hurstexponentResult.Should().NotBeNull();
         hurstexponentResult?.DisplayName.Should().Be("Hurst Exponent");
         hurstexponentResult.IsReusable.Should().Be(true);
+
+        IndicatorResult hurstExponentAlResult = listing.Results.SingleOrDefault(static r => r.DataName == "HurstExponentAL");
+        hurstExponentAlResult.Should().NotBeNull();
+        hurstExponentAlResult?.DisplayName.Should().Be("Hurst Exponent AL");
+        hurstExponentAlResult?.IsReusable.Should().Be(false);
     }
 
     [TestMethod]
@@ -54,13 +60,19 @@ public class HurstTests : TestBase
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
+        lookbackPeriodsParam?.Minimum.Should().Be(20);
 
         listing.Results.Should().NotBeNull();
-        listing.Results.Should().HaveCount(1);
+        listing.Results.Should().HaveCount(2);
 
         IndicatorResult hurstexponentResult = listing.Results.SingleOrDefault(static r => r.DataName == "HurstExponent");
         hurstexponentResult.Should().NotBeNull();
         hurstexponentResult?.DisplayName.Should().Be("Hurst Exponent");
         hurstexponentResult.IsReusable.Should().Be(true);
+
+        IndicatorResult hurstExponentAlResult = listing.Results.SingleOrDefault(static r => r.DataName == "HurstExponentAL");
+        hurstExponentAlResult.Should().NotBeNull();
+        hurstExponentAlResult?.DisplayName.Should().Be("Hurst Exponent AL");
+        hurstExponentAlResult?.IsReusable.Should().Be(false);
     }
 }
