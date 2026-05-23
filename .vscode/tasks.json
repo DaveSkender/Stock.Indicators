@@ -181,6 +181,9 @@
       "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
       "command": "NODE_AUTH_TOKEN=$(gh auth token) pnpm install --config.confirmModulesPurge=false",
+      "windows": {
+        "command": "$env:NODE_AUTH_TOKEN=(gh auth token); pnpm install --config.confirmModulesPurge=false"
+      },
       "options": {
         "cwd": "${workspaceFolder}/docs"
       }
@@ -190,6 +193,9 @@
       "detail": "Delete node_modules and lock files",
       "type": "shell",
       "command": "NODE_AUTH_TOKEN=$(gh auth token) pnpm run clean",
+      "windows": {
+        "command": "$env:NODE_AUTH_TOKEN=(gh auth token); pnpm run clean"
+      },
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -201,6 +207,9 @@
       "detail": "Check for dependency updates in root and all workspace packages",
       "type": "shell",
       "command": "NODE_AUTH_TOKEN=$(gh auth token) npx npm-check-updates --deep --peer",
+      "windows": {
+        "command": "$env:NODE_AUTH_TOKEN=(gh auth token); npx npm-check-updates --deep --peer"
+      },
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -210,6 +219,9 @@
       "detail": "Update dependencies in root and all workspace packages to latest versions",
       "type": "shell",
       "command": "NODE_AUTH_TOKEN=$(gh auth token) npx npm-check-updates --deep --peer --upgrade && pnpm install --config.confirmModulesPurge=false",
+      "windows": {
+        "command": "$env:NODE_AUTH_TOKEN=(gh auth token); npx npm-check-updates --deep --peer --upgrade; if ($LASTEXITCODE -eq 0) { pnpm install --config.confirmModulesPurge=false }"
+      },
       "dependsOn": "Install: Node packages (pnpm)",
       "dependsOrder": "sequence",
       "options": {
