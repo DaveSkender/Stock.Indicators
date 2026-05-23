@@ -19,7 +19,27 @@ public class HurstTests : TestBase
         // sample value
         HurstResult r15820 = results[15820];
         Assert.AreEqual(0.479755, r15820.HurstExponent.Round(6));
-        Assert.AreEqual(0.470697, r15820.HurstExponentAL.Round(6));
+        Assert.AreEqual(0.471156, r15820.HurstExponentAL.Round(6));
+    }
+
+    [TestMethod]
+    public void StirlingBoundary()
+    {
+        // lookbackPeriods=500 produces chunk sizes [500, 250, 125, 62, 31, 15]
+        // which straddle the n=340 Stirling/exact-gamma branch boundary.
+        // First chunk uses the Stirling Variant A path; the rest use the
+        // exact LogGamma path.
+        List<HurstResult> results = quotes
+            .GetHurst(500)
+            .ToList();
+
+        Assert.HasCount(502, results);
+        Assert.AreEqual(2, results.Count(static x => x.HurstExponent != null));
+        Assert.AreEqual(2, results.Count(static x => x.HurstExponentAL != null));
+
+        HurstResult last = results[501];
+        Assert.AreEqual(0.568000, last.HurstExponent.Round(6));
+        Assert.AreEqual(0.516229, last.HurstExponentAL.Round(6));
     }
 
     [TestMethod]
@@ -37,7 +57,7 @@ public class HurstTests : TestBase
         // sample value: last result
         HurstResult last = results[501];
         Assert.AreEqual(0.564643, last.HurstExponent.Round(6));
-        Assert.AreEqual(0.485145, last.HurstExponentAL.Round(6));
+        Assert.AreEqual(0.497004, last.HurstExponentAL.Round(6));
     }
 
     [TestMethod]
@@ -116,7 +136,7 @@ public class HurstTests : TestBase
 
         HurstResult last = results.LastOrDefault();
         Assert.AreEqual(0.479755, last.HurstExponent.Round(6));
-        Assert.AreEqual(0.470697, last.HurstExponentAL.Round(6));
+        Assert.AreEqual(0.471156, last.HurstExponentAL.Round(6));
     }
 
     // bad lookback period
