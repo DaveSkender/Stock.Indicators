@@ -102,7 +102,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void IncrementalUpdates()
+    public void IncrementalUpdates_WithStreamedQuotes_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
 
@@ -128,7 +128,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void Properties()
+    public void Properties_OnHubInstantiation_ReflectInputParameters()
     {
         const int lookbackPeriods = 21;
 
@@ -141,7 +141,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void DefaultParameters()
+    public void DefaultParameters_OnHubInstantiation_UseExpectedDefaults()
     {
         QuoteHub quoteHub = new();
         WilliamsRHub observer = quoteHub.ToWilliamsRHub();
@@ -152,7 +152,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void StreamingAccuracy()
+    public void StreamingAccuracy_VersusBatch_MatchesExactly()
     {
         // Test that streaming produces accurate results compared to batch processing
         const int lookbackPeriods = 14;
@@ -179,7 +179,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void ParameterValidation()
+    public void ParameterValidation_InvalidLookback_ThrowsArgumentOutOfRangeException()
     {
         QuoteHub quoteHub = new();
 

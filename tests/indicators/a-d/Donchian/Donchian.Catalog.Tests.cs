@@ -7,7 +7,7 @@ namespace Catalogging;
 public class DonchianTests : TestBase
 {
     [TestMethod]
-    public void DonchianSeriesListing()
+    public void DonchianSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Donchian.SeriesListing;
@@ -48,7 +48,7 @@ public class DonchianTests : TestBase
     }
 
     [TestMethod]
-    public void DonchianStreamListing()
+    public void DonchianStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Donchian.StreamListing;
@@ -89,7 +89,7 @@ public class DonchianTests : TestBase
     }
 
     [TestMethod]
-    public void DonchianBufferListing()
+    public void DonchianBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Donchian.BufferListing;

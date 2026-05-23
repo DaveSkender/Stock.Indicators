@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ObvTests : TestBase
 {
     [TestMethod]
-    public void ObvSeriesListing()
+    public void ObvSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Obv.SeriesListing;
@@ -33,7 +33,7 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void ObvStreamListing()
+    public void ObvStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Obv.StreamListing;
@@ -53,7 +53,7 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void ObvBufferListing()
+    public void ObvBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Obv.BufferListing;

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class CciTests : TestBase
 {
     [TestMethod]
-    public void CciSeriesListing()
+    public void CciSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cci.SeriesListing;
@@ -36,7 +36,7 @@ public class CciTests : TestBase
     }
 
     [TestMethod]
-    public void CciBufferListing()
+    public void CciBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cci.BufferListing;
@@ -65,7 +65,7 @@ public class CciTests : TestBase
     }
 
     [TestMethod]
-    public void CciStreamListing()
+    public void CciStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Cci.StreamListing;

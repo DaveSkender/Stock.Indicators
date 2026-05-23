@@ -7,7 +7,7 @@ namespace Catalogging;
 public class FisherTransformTests : TestBase
 {
     [TestMethod]
-    public void FisherTransformSeriesListing()
+    public void FisherTransformSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = FisherTransform.SeriesListing;
@@ -40,7 +40,7 @@ public class FisherTransformTests : TestBase
     }
 
     [TestMethod]
-    public void FisherTransformStreamListing()
+    public void FisherTransformStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = FisherTransform.StreamListing;
@@ -73,7 +73,7 @@ public class FisherTransformTests : TestBase
     }
 
     [TestMethod]
-    public void FisherTransformBufferListing()
+    public void FisherTransformBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = FisherTransform.BufferListing;

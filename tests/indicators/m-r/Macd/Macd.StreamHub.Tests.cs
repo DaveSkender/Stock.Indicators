@@ -209,7 +209,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void StreamingAccuracy()
+    public void StreamingAccuracy_PartialQuotes_MatchesSeriesExactly()
     {
         const int fastPeriods = 12;
         const int slowPeriods = 26;
@@ -252,7 +252,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void Parameters()
+    public void Parameters_WithCustomValues_AreSetCorrectly()
     {
         List<Quote> quotesList = Quotes.ToList();
 

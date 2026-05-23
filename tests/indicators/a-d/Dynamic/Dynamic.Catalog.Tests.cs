@@ -7,7 +7,7 @@ namespace Catalogging;
 public class DynamicTests : TestBase
 {
     [TestMethod]
-    public void DynamicSeriesListing()
+    public void DynamicSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = MgDynamic.SeriesListing;
@@ -38,7 +38,7 @@ public class DynamicTests : TestBase
     }
 
     [TestMethod]
-    public void DynamicStreamListing()
+    public void DynamicStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = MgDynamic.StreamListing;
@@ -69,7 +69,7 @@ public class DynamicTests : TestBase
     }
 
     [TestMethod]
-    public void DynamicBufferListing()
+    public void DynamicBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = MgDynamic.BufferListing;

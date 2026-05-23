@@ -7,7 +7,7 @@ namespace Catalogging;
 public class PivotPointsTests : TestBase
 {
     [TestMethod]
-    public void PivotPointsSeriesListing()
+    public void PivotPointsSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = PivotPoints.SeriesListing;
@@ -62,7 +62,7 @@ public class PivotPointsTests : TestBase
     }
 
     [TestMethod]
-    public void PivotPointsBufferListing()
+    public void PivotPointsBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = PivotPoints.BufferListing;

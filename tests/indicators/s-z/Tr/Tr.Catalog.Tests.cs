@@ -7,7 +7,7 @@ namespace Catalogging;
 public class TrTests : TestBase
 {
     [TestMethod]
-    public void TrSeriesListing()
+    public void TrSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tr.SeriesListing;
@@ -32,7 +32,7 @@ public class TrTests : TestBase
         trResult.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void TrStreamListing()
+    public void TrStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tr.StreamListing;
@@ -58,7 +58,7 @@ public class TrTests : TestBase
     }
 
     [TestMethod]
-    public void TrBufferListing()
+    public void TrBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tr.BufferListing;

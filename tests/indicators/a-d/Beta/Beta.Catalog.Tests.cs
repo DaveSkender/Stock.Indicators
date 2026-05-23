@@ -7,7 +7,7 @@ namespace Catalogging;
 public class BetaTests : TestBase
 {
     [TestMethod]
-    public void BetaSeriesListing()
+    public void BetaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Beta.SeriesListing;

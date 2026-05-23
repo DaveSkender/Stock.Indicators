@@ -21,7 +21,7 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToObv()
@@ -42,7 +42,7 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigQuoteValues_WithLargeNumbers_DoesNotFail()
     {
         IReadOnlyList<ObvResult> r = BigQuotes
             .ToObv();

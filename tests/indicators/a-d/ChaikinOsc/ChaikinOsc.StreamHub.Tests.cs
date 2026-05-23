@@ -91,7 +91,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_FromQuoteHub_MatchesSeriesExactly()
     {
         // ChaikinOsc requires IQuote input, so similar to BOP pattern
         const int fastPeriods = 3;

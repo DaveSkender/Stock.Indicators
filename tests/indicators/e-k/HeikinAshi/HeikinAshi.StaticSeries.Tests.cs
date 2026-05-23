@@ -22,7 +22,7 @@ public class HeikinAshi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseAsQuotes()
+    public void UseAsQuotes_WhenChained_ReturnsExpectedResult()
     {
         IReadOnlyList<HeikinAshiResult> haQuotes = Quotes.ToHeikinAshi();
         IReadOnlyList<SmaResult> haSma = haQuotes.ToSma(5);

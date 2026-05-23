@@ -7,7 +7,7 @@ namespace Catalogging;
 public class RsiTests : TestBase
 {
     [TestMethod]
-    public void RsiSeriesListing()
+    public void RsiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Rsi.SeriesListing;
@@ -36,7 +36,7 @@ public class RsiTests : TestBase
     }
 
     [TestMethod]
-    public void RsiBufferListing()
+    public void RsiBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Rsi.BufferListing;
@@ -65,7 +65,7 @@ public class RsiTests : TestBase
     }
 
     [TestMethod]
-    public void RsiStreamListing()
+    public void RsiStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Rsi.StreamListing;

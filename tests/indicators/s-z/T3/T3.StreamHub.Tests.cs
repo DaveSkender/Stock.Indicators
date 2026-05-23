@@ -178,7 +178,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void SettingsInheritance()
+    public void SettingsInheritance_FromParentHubs_PropagatesCorrectly()
     {
         // setup quote hub (1st level)
         QuoteHub quoteHub = new();

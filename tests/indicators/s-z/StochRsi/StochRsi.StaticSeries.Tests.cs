@@ -51,7 +51,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SlowRsi()
+    public void SlowRsi_WithLargerSmoothPeriods_ReturnsExpectedResult()
     {
         const int rsiPeriods = 14;
         const int stochPeriods = 14;
@@ -87,7 +87,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<StochRsiResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -99,7 +99,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<StochRsiResult> sut = Quotes
             .ToSma(2)
@@ -110,7 +110,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToStochRsi(14, 14, 3, 3)
@@ -145,7 +145,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int rsiPeriods = 14;
         const int stochPeriods = 14;
@@ -196,7 +196,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad RSI period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

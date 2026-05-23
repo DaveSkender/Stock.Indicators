@@ -7,7 +7,7 @@ namespace Catalogging;
 public class MaEnvelopesTests : TestBase
 {
     [TestMethod]
-    public void MaEnvelopesSeriesListing()
+    public void MaEnvelopesSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = MaEnvelopes.SeriesListing;
@@ -46,7 +46,7 @@ public class MaEnvelopesTests : TestBase
     }
 
     [TestMethod]
-    public void MaEnvelopesStreamListing()
+    public void MaEnvelopesStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = MaEnvelopes.StreamListing;

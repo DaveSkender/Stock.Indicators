@@ -7,7 +7,7 @@ namespace Catalogging;
 public class AtrTests : TestBase
 {
     [TestMethod]
-    public void AtrSeriesListing()
+    public void AtrSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Atr.SeriesListing;
@@ -43,7 +43,7 @@ public class AtrTests : TestBase
         atrpResult2.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void AtrStreamListing()
+    public void AtrStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Atr.StreamListing;
@@ -80,7 +80,7 @@ public class AtrTests : TestBase
     }
 
     [TestMethod]
-    public void AtrBufferListing()
+    public void AtrBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Atr.BufferListing;

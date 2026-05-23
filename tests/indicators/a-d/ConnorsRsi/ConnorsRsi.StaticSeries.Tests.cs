@@ -35,7 +35,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<ConnorsRsiResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -46,7 +46,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<ConnorsRsiResult> sut = Quotes
             .ToSma(2)
@@ -57,7 +57,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToConnorsRsi()
@@ -99,7 +99,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int rsiPeriods = 3;
         const int streakPeriods = 2;
@@ -123,7 +123,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad RSI period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class HtTrendlineTests : TestBase
 {
     [TestMethod]
-    public void HtTrendlineSeriesListing()
+    public void HtTrendlineSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = HtTrendline.SeriesListing;
@@ -41,7 +41,7 @@ public class HtTrendlineTests : TestBase
     }
 
     [TestMethod]
-    public void HtTrendlineBufferListing()
+    public void HtTrendlineBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = HtTrendline.BufferListing;

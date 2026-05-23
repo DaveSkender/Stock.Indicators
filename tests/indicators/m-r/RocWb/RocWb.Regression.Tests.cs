@@ -6,11 +6,11 @@ public class RocWbTests : RegressionTestBase<RocWbResult>
     public RocWbTests() : base("roc-wb.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToRocWb().IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToRocWb().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToRocWbList().IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToRocWbList().IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Quotes.ToRocWbHub().Results.IsExactly(Expected);
+    public override void Stream_AgainstBaseline_MatchesExactly() => Quotes.ToRocWbHub().Results.IsExactly(Expected);
 }

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class AlligatorTests : TestBase
 {
     [TestMethod]
-    public void AlligatorSeriesListing()
+    public void AlligatorSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Alligator.SeriesListing;
@@ -53,7 +53,7 @@ public class AlligatorTests : TestBase
         lipsResult2.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void AlligatorStreamListing()
+    public void AlligatorStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Alligator.StreamListing;
@@ -99,7 +99,7 @@ public class AlligatorTests : TestBase
         lipsResult2.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void AlligatorBufferListing()
+    public void AlligatorBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Alligator.BufferListing;

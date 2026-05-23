@@ -7,7 +7,7 @@ namespace Catalogging;
 public class UlcerIndexTests : TestBase
 {
     [TestMethod]
-    public void UlcerIndexSeriesListing()
+    public void UlcerIndexSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = UlcerIndex.SeriesListing;

@@ -59,7 +59,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
                 double ps = bufferArray[p];
 
                 // log returns require strictly positive prices on both ends
-                values[x] = (l > 0 && ps > 0) ? Math.Log(ps / l) : double.NaN;
+                values[x] = (l > 0 && ps > 0) ? DeMath.Log(ps / l) : double.NaN;
 
                 l = ps;
                 x++;

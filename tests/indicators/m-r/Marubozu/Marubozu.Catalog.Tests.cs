@@ -7,7 +7,7 @@ namespace Catalogging;
 public class MarubozuTests : TestBase
 {
     [TestMethod]
-    public void MarubozuSeriesListing()
+    public void MarubozuSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Marubozu.SeriesListing;
@@ -36,7 +36,7 @@ public class MarubozuTests : TestBase
     }
 
     [TestMethod]
-    public void MarubozuStreamListing()
+    public void MarubozuStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Marubozu.StreamListing;

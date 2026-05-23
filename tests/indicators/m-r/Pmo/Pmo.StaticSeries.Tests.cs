@@ -25,7 +25,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<PmoResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -36,7 +36,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<PmoResult> sut = Quotes
             .ToSma(2)
@@ -47,7 +47,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToPmo()
@@ -82,7 +82,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<PmoResult> sut = Quotes
             .ToPmo()
@@ -97,7 +97,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad time period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

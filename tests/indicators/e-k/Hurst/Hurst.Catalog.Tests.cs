@@ -7,7 +7,7 @@ namespace Catalogging;
 public class HurstTests : TestBase
 {
     [TestMethod]
-    public void HurstSeriesListing()
+    public void HurstSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Hurst.SeriesListing;
@@ -42,7 +42,7 @@ public class HurstTests : TestBase
     }
 
     [TestMethod]
-    public void HurstBufferListing()
+    public void HurstBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Hurst.BufferListing;

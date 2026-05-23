@@ -45,7 +45,7 @@ public class Renko : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void StandardHighLow()
+    public void StandardHighLow_AsEndType_ReturnsExpectedResult()
     {
         IReadOnlyList<RenkoResult> sut = Quotes
             .ToRenko(2.5m, EndType.HighLow);
@@ -81,7 +81,7 @@ public class Renko : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Atr()
+    public void Atr_WithAtrBrickSize_ReturnsExpectedResult()
     {
         IReadOnlyList<RenkoResult> sut = Quotes
             .ToRenkoAtr(14);
@@ -108,7 +108,7 @@ public class Renko : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseAsQuotes()
+    public void UseAsQuotes_AsSmaInput_ReturnsExpectedResult()
     {
         IReadOnlyList<RenkoResult> renkoQuotes = Quotes.ToRenko(2.5m);
         IReadOnlyList<SmaResult> renkoSma = renkoQuotes.ToSma(5);
@@ -134,7 +134,7 @@ public class Renko : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad arguments
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

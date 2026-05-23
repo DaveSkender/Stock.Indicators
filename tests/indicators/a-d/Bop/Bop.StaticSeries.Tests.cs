@@ -38,7 +38,7 @@ public class Bop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToBop()
@@ -49,7 +49,7 @@ public class Bop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NaN()
+    public void NaN_WithNaNInputs_HandlesGracefully()
     {
         IReadOnlyList<BopResult> r = Data.GetBtcUsdNan()
             .ToBop(50);
@@ -80,7 +80,7 @@ public class Bop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<BopResult> sut = Quotes
             .ToBop()
@@ -97,7 +97,7 @@ public class Bop : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToBop(0))
             .Should()

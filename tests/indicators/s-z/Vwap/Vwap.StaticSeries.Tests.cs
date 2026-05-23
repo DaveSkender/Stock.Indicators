@@ -32,7 +32,7 @@ public class Vwap : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void WithStartDate()
+    public void WithStartDate_AsAnchorDate_ReturnsExpectedResult()
     {
         DateTime startDate =
             DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", invariantCulture);
@@ -59,7 +59,7 @@ public class Vwap : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToVwap()
@@ -94,7 +94,7 @@ public class Vwap : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         // no start date
         IReadOnlyList<VwapResult> sut = intraday
@@ -123,7 +123,7 @@ public class Vwap : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidStartDate_ThrowsArgumentOutOfRangeException()
     {
         // bad SMA period
         DateTime startDate =

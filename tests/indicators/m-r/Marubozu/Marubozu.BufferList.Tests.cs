@@ -9,7 +9,7 @@ public class Marubozu : BufferListTestBase
        = Quotes.ToMarubozu(minBodyPercent);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         MarubozuList sut = new(minBodyPercent);
 
@@ -23,7 +23,7 @@ public class Marubozu : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         MarubozuList sut = new(minBodyPercent) { Quotes };
 
@@ -32,7 +32,7 @@ public class Marubozu : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         MarubozuList sut = new(minBodyPercent, Quotes);
 

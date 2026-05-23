@@ -7,7 +7,7 @@ namespace Catalogging;
 public class MamaTests : TestBase
 {
     [TestMethod]
-    public void MamaSeriesListing()
+    public void MamaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Mama.SeriesListing;

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ZigZagTests : TestBase
 {
     [TestMethod]
-    public void ZigZagSeriesListing()
+    public void ZigZagSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ZigZag.SeriesListing;

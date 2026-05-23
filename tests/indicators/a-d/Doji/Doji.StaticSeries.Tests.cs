@@ -63,7 +63,7 @@ public class Doji : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         IReadOnlyList<CandleResult> sut = Quotes
             .ToDoji()
@@ -73,7 +73,7 @@ public class Doji : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidMaxPriceChange_ThrowsArgumentOutOfRangeException()
     {
         // bad maximum change value
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

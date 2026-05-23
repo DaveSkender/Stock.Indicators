@@ -604,7 +604,7 @@
     // Serve, run, and generate
     // ===================================
     {
-      "label": "Generate: Test baseline data (all)",
+      "label": "Run: Generate test baseline data (all)",
       "detail": "Generate all regression test baseline JSON files",
       "type": "shell",
       "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",

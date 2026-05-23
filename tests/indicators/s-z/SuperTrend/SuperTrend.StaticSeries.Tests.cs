@@ -49,7 +49,7 @@ public class SuperTrend : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Bitcoin()
+    public void Bitcoin_WithBtcData_ReturnsExpectedResult()
     {
         IReadOnlyList<Quote> h = Data.GetBitcoin();
 
@@ -86,7 +86,7 @@ public class SuperTrend : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         const int lookbackPeriods = 14;
         const double multiplier = 3;
@@ -105,7 +105,7 @@ public class SuperTrend : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int lookbackPeriods = 14;
         const double multiplier = 3;
@@ -124,7 +124,7 @@ public class SuperTrend : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

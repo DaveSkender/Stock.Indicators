@@ -7,7 +7,7 @@ namespace Catalogging;
 public class AwesomeTests : TestBase
 {
     [TestMethod]
-    public void AwesomeSeriesListing()
+    public void AwesomeSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Awesome.SeriesListing;

@@ -183,7 +183,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void AlmaHubParameters()
+    public void AlmaHub_ParameterCombinations_MatchesSeriesExactly()
     {
         // Test various parameter combinations
         (int lookback, double offset, double sigma)[] parameters =
@@ -228,7 +228,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void Reset()
+    public void Reset_OnReinitialize_RebuildsFromProvider()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -273,7 +273,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void AlmaHubExceptions()
+    public void AlmaHub_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         QuoteHub quoteHub = new();
 

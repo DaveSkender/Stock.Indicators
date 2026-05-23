@@ -7,7 +7,7 @@ namespace Catalogging;
 public class BopTests : TestBase
 {
     [TestMethod]
-    public void BopSeriesListing()
+    public void BopSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Bop.SeriesListing;

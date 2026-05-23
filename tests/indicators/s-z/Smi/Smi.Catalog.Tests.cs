@@ -7,7 +7,7 @@ namespace Catalogging;
 public class SmiTests : TestBase
 {
     [TestMethod]
-    public void SmiSeriesListing()
+    public void SmiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Smi.SeriesListing;
@@ -46,7 +46,7 @@ public class SmiTests : TestBase
     }
 
     [TestMethod]
-    public void SmiBufferListing()
+    public void SmiBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Smi.BufferListing;
@@ -67,7 +67,7 @@ public class SmiTests : TestBase
     }
 
     [TestMethod]
-    public void SmiStreamListing()
+    public void SmiStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Smi.StreamListing;

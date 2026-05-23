@@ -67,7 +67,7 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<UltimateResult> sut = Quotes
             .ToUltimate()
@@ -81,7 +81,7 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad short period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

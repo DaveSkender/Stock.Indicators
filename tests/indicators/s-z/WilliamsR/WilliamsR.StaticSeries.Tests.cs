@@ -64,7 +64,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<WilliamsResult> sut = Quotes
             .ToWilliamsR()
@@ -78,7 +78,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Boundary()
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
     {
         IReadOnlyList<WilliamsResult> sut = Data
             .GetRandom(2500)
@@ -121,7 +121,7 @@ public class WilliamsR : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToWilliamsR(0))
             .Should()
