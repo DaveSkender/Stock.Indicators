@@ -5,11 +5,13 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <param name="Timestamp">Timestamp of the result.</param>
 /// <param name="HurstExponent">Value of the Hurst Exponent.</param>
+/// <param name="HurstExponentAL">Value of the Anis-Lloyd corrected Hurst Exponent.</param>
 [Serializable]
 public record HurstResult
 (
     DateTime Timestamp,
-    double? HurstExponent
+    double? HurstExponent,
+    double? HurstExponentAL
 ) : IReusable
 {
     /// <inheritdoc/>
