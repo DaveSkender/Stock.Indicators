@@ -129,7 +129,9 @@ Build the site locally to test that it works properly.
 
 ```bash
 # from /docs folder
-pnpm install
+# NODE_AUTH_TOKEN required: the @facioquo/indy-charts package is hosted
+# on GitHub Packages with read:packages scope. See docs/README.md for details.
+NODE_AUTH_TOKEN=$(gh auth token) pnpm install
 pnpm run docs:dev
 
 # the site will open at http://localhost:5173/

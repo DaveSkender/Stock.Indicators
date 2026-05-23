@@ -148,6 +148,7 @@ export default defineConfig({
           text: 'Examples',
           items: [
             { text: 'Getting started', link: '/examples/' },
+            { text: 'Custom chart (bring your own data)', link: '/examples/custom-chart' },
           ]
         }
       ],
@@ -399,7 +400,10 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['@facioquo/indy-charts', 'chartjs-adapter-date-fns', 'chartjs-plugin-annotation', 'chart.js', 'date-fns']
+      // `@facioquo/indy-charts` and its bundled deps must execute in the server
+      // bundle (rather than via dynamic import) so VitePress SSG can build pages
+      // that mount <StockIndicatorChart> behind <ClientOnly>.
+      noExternal: ['@facioquo/indy-charts', 'chartjs-plugin-annotation', 'chart.js']
     },
     build: {
       // Local search index grows with docs; raise threshold to suppress false warning

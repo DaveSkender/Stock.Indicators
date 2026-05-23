@@ -1,4 +1,3 @@
-// .vitepress/theme/index.ts
 import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
@@ -9,29 +8,27 @@ import { setupIndyChartsForVue } from '@facioquo/indy-charts/vue'
 const STOCK_CHARTS_API_BASE_URL = 'https://stock-charts-api.azurewebsites.net'
 const STOCK_CHARTS_API_HOST = new URL(STOCK_CHARTS_API_BASE_URL).hostname
 const CHART_API_FALLBACK_PATH = '/data/chart-api'
+const DEV_PROXY_PATH = '/chart-api-proxy'
+
+// Site palette for chart annotation/axis-label backdrops (matches custom.scss).
+const DARK_SURFACE = '#22272e'
+const LIGHT_SURFACE = '#f3f4f6'
 
 function fallbackUrl(url: URL): string | undefined {
   if (url.pathname === '/quotes') return `${CHART_API_FALLBACK_PATH}/quotes.json`
   if (url.pathname === '/indicators') return `${CHART_API_FALLBACK_PATH}/indicators.json`
   if (url.pathname.startsWith('/indicators/sma')) return `${CHART_API_FALLBACK_PATH}/sma.json`
   if (url.pathname.startsWith('/indicators/rsi')) return `${CHART_API_FALLBACK_PATH}/rsi.json`
-
   return undefined
 }
 
 function emptyIndicatorData(): Response {
   return new Response('[]', {
-    headers: {
-      'content-type': 'application/json'
-    }
+    headers: { 'content-type': 'application/json' }
   })
 }
 
-// In dev, the Vite server proxy at /chart-api-proxy forwards requests to the
-// stock-charts API server-side, avoiding CORS restrictions. We detect dev mode
-// by checking for the proxy path having been configured (import.meta.env.DEV).
-const DEV_PROXY_PATH = '/chart-api-proxy'
-
+// In dev, Vite's proxy at /chart-api-proxy forwards requests server-side to avoid CORS.
 function installStockChartsApiFallback(): void {
   if (typeof window === 'undefined' || typeof window.fetch !== 'function') return
 
@@ -46,10 +43,9 @@ function installStockChartsApiFallback(): void {
       return originalFetch(input, init)
     }
 
-    const fetchTarget =
-      import.meta.env.DEV
-        ? `${DEV_PROXY_PATH}${requestUrl.pathname}${requestUrl.search}`
-        : input
+    const fetchTarget = import.meta.env.DEV
+      ? `${DEV_PROXY_PATH}${requestUrl.pathname}${requestUrl.search}`
+      : input
 
     try {
       const response = await originalFetch(fetchTarget, init)
@@ -59,14 +55,8 @@ function installStockChartsApiFallback(): void {
     }
 
     const fallback = fallbackUrl(requestUrl)
-    if (fallback) {
-      return originalFetch(fallback, init)
-    }
-
-    if (requestUrl.pathname.startsWith('/indicators/')) {
-      return emptyIndicatorData()
-    }
-
+    if (fallback) return originalFetch(fallback, init)
+    if (requestUrl.pathname.startsWith('/indicators/')) return emptyIndicatorData()
     return originalFetch(input, init)
   }
 }
@@ -75,7 +65,6 @@ export default {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
       'nav-bar-title-after': () => h('span', { class: 'nav-title-below' }, 'for .NET')
     })
   },
@@ -90,35 +79,88 @@ export default {
         showTooltips: true
       },
       theme: {
-        observeVitePressDarkMode: true
+        observeVitePressDarkMode: true,
+        darkBackground: DARK_SURFACE,
+        lightBackground: LIGHT_SURFACE
       },
+      // Every indicator referenced from a .md page must be keyed here.
+      // Keys are the slug used in `<StockIndicatorChart indicator="...">`.
       indicators: {
-        Aroon:           { uiid: 'AROON UP/DOWN' },
-        AtrStop:         { uiid: 'ATR-STOP-HL' },
-        Awesome:         { uiid: 'AO' },
-        BollingerBands:  { uiid: 'BB' },
-        Chandelier:      { uiid: 'CHEXIT-LONG' },
-        ChaikinOsc:      { uiid: 'CHAIKIN' },
-        ConnorsRsi:      { uiid: 'CRSI' },
-        DcPeriods:       { uiid: 'DCPERIOD' },
-        Dynamic:         { uiid: 'DYN' },
-        ElderRay:        { uiid: 'ELDER-RAY' },
-        FisherTransform: { uiid: 'FISHER' },
-        ForceIndex:      { uiid: 'FORCE' },
-        HtTrendline:     { uiid: 'HT Trendline' },
-        MaEnvelopes:     { uiid: 'MA-ENV' },
-        ParabolicSar:    { uiid: 'PSAR' },
-        StarcBands:      { uiid: 'STARC' },
-        StdDev:          { uiid: 'STDEV' },
-        StdDevChannels:  { uiid: 'STDEV-CH' },
-        Stoch:           { uiid: 'STO' },
-        UlcerIndex:      { uiid: 'ULCER' },
-        VolatilityStop:  { uiid: 'VOL-STOP' },
-        ZigZag:          { uiid: 'ZIGZAG-HL' }
+        Adl:             { uiid: 'Adl',             title: 'Accumulation Distribution Line' },
+        Adx:             { uiid: 'Adx',             title: 'Average Directional Index' },
+        Alligator:       { uiid: 'Alligator',       title: 'Williams Alligator' },
+        Alma:            { uiid: 'Alma',            title: 'Arnaud Legoux Moving Average' },
+        Aroon:           { uiid: 'AROON UP/DOWN',   title: 'Aroon' },
+        Atr:             { uiid: 'Atr',             title: 'Average True Range' },
+        AtrStop:         { uiid: 'ATR-STOP-HL',     title: 'ATR Trailing Stop' },
+        Awesome:         { uiid: 'AO',              title: 'Awesome Oscillator' },
+        Beta:            { uiid: 'Beta',            title: 'Beta' },
+        BollingerBands:  { uiid: 'BB',              title: 'Bollinger Bands®' },
+        Bop:             { uiid: 'Bop',             title: 'Balance of Power' },
+        Cci:             { uiid: 'Cci',             title: 'Commodity Channel Index' },
+        ChaikinOsc:      { uiid: 'CHAIKIN',         title: 'Chaikin Oscillator' },
+        Chandelier:      { uiid: 'CHEXIT-LONG',     title: 'Chandelier Exit (long)' },
+        Chop:            { uiid: 'Chop',            title: 'Choppiness Index' },
+        Cmf:             { uiid: 'Cmf',             title: 'Chaikin Money Flow' },
+        Cmo:             { uiid: 'Cmo',             title: 'Chande Momentum Oscillator' },
+        ConnorsRsi:      { uiid: 'CRSI',            title: 'ConnorsRSI' },
+        DcPeriods:       { uiid: 'DCPERIOD',        title: 'Dominant Cycle Periods' },
+        Dema:            { uiid: 'Dema',            title: 'Double Exponential Moving Average' },
+        Donchian:        { uiid: 'Donchian',        title: 'Donchian Channels' },
+        Dpo:             { uiid: 'Dpo',             title: 'Detrended Price Oscillator' },
+        Dynamic:         { uiid: 'DYN',             title: 'McGinley Dynamic' },
+        ElderRay:        { uiid: 'ELDER-RAY',       title: 'Elder-ray Index' },
+        Ema:             { uiid: 'Ema',             title: 'Exponential Moving Average' },
+        Epma:            { uiid: 'Epma',            title: 'Endpoint Moving Average' },
+        Fcb:             { uiid: 'Fcb',             title: 'Fractal Chaos Bands' },
+        FisherTransform: { uiid: 'FISHER',          title: 'Ehlers Fisher Transform' },
+        ForceIndex:      { uiid: 'FORCE',           title: 'Force Index' },
+        Fractal:         { uiid: 'Fractal',         title: 'Williams Fractal' },
+        Hma:             { uiid: 'Hma',             title: 'Hull Moving Average' },
+        HtTrendline:     { uiid: 'HT Trendline',    title: 'Hilbert Transform Instantaneous Trendline' },
+        Hurst:           { uiid: 'Hurst',           title: 'Hurst Exponent' },
+        Ichimoku:        { uiid: 'Ichimoku',        title: 'Ichimoku Cloud' },
+        Kama:            { uiid: 'Kama',            title: "Kaufman's Adaptive Moving Average" },
+        Keltner:         { uiid: 'Keltner',         title: 'Keltner Channels' },
+        Kvo:             { uiid: 'Kvo',             title: 'Klinger Volume Oscillator' },
+        Macd:            { uiid: 'Macd',            title: 'Moving Average Convergence Divergence' },
+        MaEnvelopes:     { uiid: 'MA-ENV',          title: 'Moving Average Envelopes' },
+        Mama:            { uiid: 'Mama',            title: 'MESA Adaptive Moving Average' },
+        Mfi:             { uiid: 'Mfi',             title: 'Money Flow Index' },
+        Obv:             { uiid: 'Obv',             title: 'On-Balance Volume' },
+        ParabolicSar:    { uiid: 'PSAR',            title: 'Parabolic SAR' },
+        Pmo:             { uiid: 'Pmo',             title: 'Price Momentum Oscillator' },
+        Pvo:             { uiid: 'Pvo',             title: 'Price Volume Oscillator' },
+        Roc:             { uiid: 'Roc',             title: 'Rate of Change' },
+        RocWb:           { uiid: 'RocWb',           title: 'Rate of Change with Bands' },
+        Rsi:             { uiid: 'RSI',             title: 'Relative Strength Index' },
+        Slope:           { uiid: 'Slope',           title: 'Slope and Linear Regression' },
+        Sma:             { uiid: 'SMA',             title: 'Simple Moving Average' },
+        Smi:             { uiid: 'Smi',             title: 'Stochastic Momentum Index' },
+        Smma:            { uiid: 'Smma',            title: 'Smoothed Moving Average' },
+        StarcBands:      { uiid: 'STARC',           title: 'STARC Bands' },
+        Stc:             { uiid: 'Stc',             title: 'Schaff Trend Cycle' },
+        StdDev:          { uiid: 'STDEV',           title: 'Standard Deviation' },
+        StdDevChannels:  { uiid: 'STDEV-CH',        title: 'Standard Deviation Channels' },
+        Stoch:           { uiid: 'STO',             title: 'Stochastic Oscillator' },
+        StochRsi:        { uiid: 'StochRsi',        title: 'Stochastic RSI' },
+        SuperTrend:      { uiid: 'SuperTrend',      title: 'SuperTrend' },
+        T3:              { uiid: 'T3',              title: 'T3 Moving Average' },
+        Tema:            { uiid: 'Tema',            title: 'Triple Exponential Moving Average' },
+        Trix:            { uiid: 'Trix',            title: 'Triple EMA Oscillator (TRIX)' },
+        Tsi:             { uiid: 'Tsi',             title: 'True Strength Index' },
+        UlcerIndex:      { uiid: 'ULCER',           title: 'Ulcer Index' },
+        Ultimate:        { uiid: 'Ultimate',        title: 'Ultimate Oscillator' },
+        VolatilityStop:  { uiid: 'VOL-STOP',        title: 'Volatility Stop' },
+        Vortex:          { uiid: 'Vortex',          title: 'Vortex Indicator' },
+        Vwap:            { uiid: 'Vwap',            title: 'Volume Weighted Average Price' },
+        Vwma:            { uiid: 'Vwma',            title: 'Volume Weighted Moving Average' },
+        WilliamsR:       { uiid: 'WilliamsR',       title: 'Williams %R' },
+        Wma:             { uiid: 'Wma',             title: 'Weighted Moving Average' },
+        ZigZag:          { uiid: 'ZIGZAG-HL',       title: 'ZigZag' }
       }
     })
 
-    // Register global components
     app.component('Contributors', Contributors)
   }
 } satisfies Theme

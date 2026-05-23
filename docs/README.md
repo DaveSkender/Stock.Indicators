@@ -8,11 +8,29 @@ This site is built with [VitePress](https://vitepress.dev) and deployed to Cloud
 
 ```bash
 cd docs
-pnpm install
+NODE_AUTH_TOKEN=$(gh auth token) pnpm install
 pnpm run docs:dev
 ```
 
 The site will open at `http://localhost:5173/`
+
+### GitHub Packages authentication (required for install)
+
+This site renders interactive charts via [`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts), a restricted-access package on [GitHub Packages](https://github.com/features/packages). `pnpm install` needs an authenticated token with `read:packages` scope to fetch it.
+
+The simplest way to provide one is via the [GitHub CLI](https://cli.github.com):
+
+```bash
+# one-time per machine — be sure to grant `read:packages` when prompted
+gh auth login
+
+# every install — export the token for the @facioquo registry in .npmrc
+NODE_AUTH_TOKEN=$(gh auth token) pnpm install
+```
+
+Alternatively, [create a personal access token (classic)](https://github.com/settings/tokens/new?scopes=read:packages) with `read:packages` and export it as `NODE_AUTH_TOKEN` in your shell profile. The repo-root `docs/.npmrc` wires the token into the `@facioquo` scope automatically.
+
+CI workflows authenticate via the `FACIOQUO_PACKAGES_TOKEN` repository secret — already configured in `.github/workflows/*.yml`.
 
 ### GitHub Token (Optional)
 

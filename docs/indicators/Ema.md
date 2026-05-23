@@ -8,7 +8,9 @@ description: Exponentially [weighted] Moving Average is a rolling moving average
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) is a rolling moving average that puts more weight on current price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
-<StockIndicatorChart indicator="Ema" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Ema" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax (with Close price)

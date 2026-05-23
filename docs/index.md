@@ -45,11 +45,13 @@ Build trading algorithms, charting applications, machine learning models, or mar
 
 Access a comprehensive library of battle-tested technical indicators used by traders worldwide. Extend functionality by creating your own [custom indicators](/guide/customization) that integrate seamlessly with the library.
 
-<div class="home-charts-stack">
-  <StockIndicatorChart indicator="BB" />
-  <StockIndicatorChart indicator="MACD" />
-  <StockIndicatorChart indicator="STC" />
-</div>
+<ClientOnly>
+  <div class="home-charts-stack">
+    <StockIndicatorChart indicator="BollingerBands" />
+    <StockIndicatorChart indicator="Macd" />
+    <StockIndicatorChart indicator="Stc" />
+  </div>
+</ClientOnly>
 
 ## Simple, intuitive API
 

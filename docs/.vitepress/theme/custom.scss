@@ -280,15 +280,10 @@ pre.shiki {
   max-width: 1024px;
 }
 
-/* StockIndicatorChart component */
+/* StockIndicatorChart component (from @facioquo/indy-charts/vue) */
 .indy-demo {
   margin: 1rem 0 1.5rem;
   overflow: hidden;
-}
-
-.indy-demo__header,
-.indy-demo__panel-title {
-  display: none;
 }
 
 .indy-demo__status {
@@ -318,11 +313,6 @@ pre.shiki {
 .indy-demo__stack {
   display: grid;
   gap: 12px;
-}
-
-.indy-demo__panel {
-  overflow: hidden;
-  min-width: 0;
 }
 
 .indy-demo__canvas-wrap {
