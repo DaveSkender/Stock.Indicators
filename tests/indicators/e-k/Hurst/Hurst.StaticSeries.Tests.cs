@@ -14,10 +14,12 @@ public class Hurst : StaticSeriesTestBase
         // proper quantities
         sut.Should().HaveCount(15821);
         sut.Where(static x => x.HurstExponent != null).Should().HaveCount(1);
+        sut.Where(static x => x.HurstExponentAL != null).Should().HaveCount(1);
 
         // sample value
         HurstResult r15820 = sut[15820];
-        r15820.HurstExponent.Should().BeApproximately(0.483563, Money6);
+        r15820.HurstExponent.Should().BeApproximately(0.479755, Money6);
+        r15820.HurstExponentAL.Should().BeApproximately(0.471156, Money6);
     }
 
     [TestMethod]
@@ -25,6 +27,23 @@ public class Hurst : StaticSeriesTestBase
     {
         IReadOnlyList<HurstResult> sut = Quotes.ToHurst(100);
         sut.IsBetween(static x => x.HurstExponent, 0, 1);
+        sut.IsBetween(static x => x.HurstExponentAL, 0, 1);
+    }
+
+    [TestMethod]
+    public void StirlingBoundary_ReturnsExpectedResults()
+    {
+        // lookbackPeriods=500 produces chunk sizes [500, 250, 125, 62, 31, 15]
+        // that straddle the n=340 Stirling/exact-gamma branch boundary.
+        IReadOnlyList<HurstResult> sut = Quotes.ToHurst(500);
+
+        sut.Should().HaveCount(502);
+        sut.Count(static x => x.HurstExponent != null).Should().Be(2);
+        sut.Count(static x => x.HurstExponentAL != null).Should().Be(2);
+
+        HurstResult last = sut[^1];
+        last.HurstExponent.Should().BeApproximately(0.568000, Money6);
+        last.HurstExponentAL.Should().BeApproximately(0.516229, Money6);
     }
 
     [TestMethod]
@@ -35,7 +54,12 @@ public class Hurst : StaticSeriesTestBase
             .ToHurst();
 
         sut.Should().HaveCount(502);
-        Assert.AreEqual(402, sut.Count(static x => x.HurstExponent != null));
+        sut.Count(static x => x.HurstExponent != null).Should().Be(402);
+        sut.Count(static x => x.HurstExponentAL != null).Should().Be(402);
+
+        HurstResult last = sut[^1];
+        last.HurstExponent.Should().BeApproximately(0.564643, Money6);
+        last.HurstExponentAL.Should().BeApproximately(0.497004, Money6);
     }
 
     [TestMethod]
@@ -68,6 +92,7 @@ public class Hurst : StaticSeriesTestBase
 
         r.Should().HaveCount(502);
         r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)).Should().BeEmpty();
+        r.Where(static x => x.HurstExponentAL is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -94,7 +119,8 @@ public class Hurst : StaticSeriesTestBase
         sut.Should().HaveCount(1);
 
         HurstResult last = sut[^1];
-        last.HurstExponent.Should().BeApproximately(0.483563, Money6);
+        last.HurstExponent.Should().BeApproximately(0.479755, Money6);
+        last.HurstExponentAL.Should().BeApproximately(0.471156, Money6);
     }
 
     /// <summary>

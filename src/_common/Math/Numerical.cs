@@ -97,6 +97,51 @@ public static class Numerical
     }
 
     /// <summary>
+    /// Calculates the natural logarithm of the gamma function.
+    /// </summary>
+    /// <param name="x">Positive input value.</param>
+    /// <returns>Natural logarithm of the gamma function, or NaN for invalid input.</returns>
+    internal static double LogGamma(double x)
+    {
+        if (x <= 0)
+        {
+            return double.NaN;
+        }
+
+        double[] c = [
+            0.99999999999980993,
+            676.5203681218851,
+            -1259.1392167224028,
+            771.32342877765313,
+            -176.61502916214059,
+            12.507343278686905,
+            -0.13857109526572012,
+            9.9843695780195716e-6,
+            1.5056327351493116e-7
+        ];
+
+        if (x < 0.5)
+        {
+            // reflection formula: Gamma(x)Gamma(1-x) = pi/sin(pi*x)
+            double sinPiX = Math.Sin(Math.PI * x);
+            return sinPiX > 0
+                ? Math.Log(Math.PI / sinPiX) - LogGamma(1.0 - x)
+                : double.NaN;
+        }
+
+        x--;
+        double a = c[0];
+        double t = x + 7.5; // g + 0.5, where g = 7
+
+        for (int i = 1; i <= 8; i++)
+        {
+            a += c[i] / (x + i);
+        }
+
+        return (0.5 * Math.Log(2 * Math.PI)) + ((x + 0.5) * Math.Log(t)) - t + Math.Log(a);
+    }
+
+    /// <summary>
     /// Rounds down a DateTime to the nearest interval.
     /// </summary>
     /// <param name="dateTime">DateTime value.</param>
