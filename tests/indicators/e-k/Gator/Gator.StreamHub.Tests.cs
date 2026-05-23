@@ -168,7 +168,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void Reset_AfterData_ClearsResults()
+    public void Reset_AfterData_ReinitializesAndPreservesResults()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -219,7 +219,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void GatorHub_InvalidParameters_ThrowsArgumentException()
+    public void GatorHub_InvalidParameters_ThrowsExpectedExceptions()
     {
         QuoteHub quoteHub = new();
         AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
