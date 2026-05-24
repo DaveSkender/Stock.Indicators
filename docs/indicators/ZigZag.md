@@ -8,7 +8,17 @@ description: Zig Zag is a financial market price chart overlay that simplifies t
 [Zig Zag](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag) is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/226 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="ZigZag" />
+**High/Low pivots** (default `EndType.HighLow`) — turning points are detected on intrabar extremes.
+
+<ClientOnly>
+  <StockIndicatorChart indicator="ZigZag" />
+</ClientOnly>
+
+**Close pivots** (`EndType.Close`) — turning points are detected on close price; produces smoother, less-frequent reversals.
+
+<ClientOnly>
+  <StockIndicatorChart indicator="ZigZagClose" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

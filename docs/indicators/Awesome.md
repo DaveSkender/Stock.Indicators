@@ -8,7 +8,9 @@ description: Created by Bill Williams, the Awesome Oscillator (AO), also known a
 Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of the gap between a fast and slow period modified moving average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/282 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Awesome" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Awesome" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

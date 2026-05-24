@@ -55,10 +55,10 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Getting started', link: '/guide/getting-started' },
       {
         text: 'Guide',
         items: [
+          { text: 'Getting started', link: '/guide/getting-started' },
           { text: 'Overview', link: '/guide/' },
           { text: 'Batch (Series)', link: '/guide/batch' },
           { text: 'Buffer lists', link: '/guide/buffer' },
@@ -80,7 +80,7 @@ export default defineConfig({
           { text: 'Migration (v2→v3)', link: '/migration' },
           { text: 'Contributing', link: '/contributing' },
           { text: 'About', link: '/about' },
-          { text: 'v2 Docs', link: 'https://dotnet.stockindicators.dev' }
+          { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -91,8 +91,8 @@ export default defineConfig({
         {
           text: 'Guide',
           items: [
-            { text: 'Overview', link: '/guide/' },
             { text: 'Getting started', link: '/guide/getting-started' },
+            { text: 'Overview', link: '/guide/' },
             { text: 'Batch (Series)', link: '/guide/batch' },
             { text: 'Buffer lists', link: '/guide/buffer' },
             { text: 'Stream hubs', link: '/guide/stream' },
@@ -148,6 +148,7 @@ export default defineConfig({
           text: 'Examples',
           items: [
             { text: 'Getting started', link: '/examples/' },
+            { text: 'Custom chart (bring your own data)', link: '/examples/custom-chart' },
           ]
         }
       ],
@@ -159,6 +160,7 @@ export default defineConfig({
         siteNav,
         {
           text: 'Price trends',
+          link: '/indicators/price-trends',
           collapsed: true,
           items: [
             { text: 'Average Directional Index (ADX)', link: '/indicators/Adx' },
@@ -178,6 +180,7 @@ export default defineConfig({
         },
         {
           text: 'Price channels',
+          link: '/indicators/price-channels',
           collapsed: true,
           items: [
             { text: 'Bollinger Bands®', link: '/indicators/BollingerBands' },
@@ -194,6 +197,7 @@ export default defineConfig({
         },
         {
           text: 'Oscillators',
+          link: '/indicators/oscillators',
           collapsed: true,
           items: [
             { text: 'Awesome Oscillator', link: '/indicators/Awesome' },
@@ -217,6 +221,7 @@ export default defineConfig({
         },
         {
           text: 'Stop and reverse',
+          link: '/indicators/stop-and-reverse',
           collapsed: true,
           items: [
             { text: 'ATR Trailing Stop', link: '/indicators/AtrStop' },
@@ -227,7 +232,8 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Candlestick Patterns',
+          text: 'Candlestick patterns',
+          link: '/indicators/candlestick-patterns',
           collapsed: true,
           items: [
             { text: 'Doji', link: '/indicators/Doji' },
@@ -244,6 +250,7 @@ export default defineConfig({
         },
         {
           text: 'Volume based',
+          link: '/indicators/volume-based',
           collapsed: true,
           items: [
             { text: 'Accumulation Distribution Line', link: '/indicators/Adl' },
@@ -261,6 +268,7 @@ export default defineConfig({
         },
         {
           text: 'Moving averages',
+          link: '/indicators/moving-averages',
           collapsed: true,
           items: [
             { text: 'Arnaud Legoux Moving Average', link: '/indicators/Alma' },
@@ -286,6 +294,7 @@ export default defineConfig({
         },
         {
           text: 'Price transforms',
+          link: '/indicators/price-transforms',
           collapsed: true,
           items: [
             { text: 'Basic quote transforms', link: '/indicators/QuotePart' },
@@ -298,6 +307,7 @@ export default defineConfig({
         },
         {
           text: 'Price characteristics',
+          link: '/indicators/price-characteristics',
           collapsed: true,
           items: [
             { text: 'Average True Range', link: '/indicators/Atr' },
@@ -342,11 +352,6 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/DaveSkender/Stock.Indicators' },
     ],
 
-    footer: {
-      message: 'Licensed under Apache 2.0',
-      copyright: 'Copyright © Dave Skender'
-    },
-
     search: {
       provider: 'local'
     },
@@ -356,13 +361,6 @@ export default defineConfig({
       text: 'Edit this page on GitHub'
     },
 
-    lastUpdated: {
-      text: 'Last updated',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'short'
-      }
-    }
   },
 
   srcDir: '.',
@@ -390,10 +388,22 @@ export default defineConfig({
     server: {
       fs: {
         allow: ['..']
+      },
+      proxy: {
+        // Proxy chart API calls to avoid CORS in local development.
+        // The browser calls /chart-api-proxy/* and Vite forwards server-side.
+        '/chart-api-proxy': {
+          target: 'https://stock-charts-api.azurewebsites.net',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/chart-api-proxy/, '')
+        }
       }
     },
     ssr: {
-      noExternal: true
+      // `@facioquo/indy-charts` and its bundled deps must execute in the server
+      // bundle (rather than via dynamic import) so VitePress SSG can build pages
+      // that mount <StockIndicatorChart> behind <ClientOnly>.
+      noExternal: ['@facioquo/indy-charts', 'chartjs-plugin-annotation', 'chart.js']
     },
     build: {
       // Local search index grows with docs; raise threshold to suppress false warning
@@ -423,12 +433,13 @@ export default defineConfig({
     'examples/UseQuoteApi/**',
     'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
+    'tests/**',
     'Gemfile*',
     '.pa11yci',
     '.offline/**',
     '_headers',
     'README.md',
     'AGENTS.md',
-    'PRINCIPLES.md'
+    'PRINCIPLES.md',
   ]
 })

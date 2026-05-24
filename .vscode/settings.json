@@ -36,7 +36,6 @@
     "tests/**/*.csv": true,
     "docs/examples/**/*.json": true,
     "docs/.vitepress/cache": true,
-    "docs/.vitepress/dist": true,
-    "docs/.vitepress/public/data/**/*.json": true
+    "docs/.vitepress/dist": true
   }
 }

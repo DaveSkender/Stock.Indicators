@@ -4,23 +4,6 @@
  */
 
 /* ===== Dark Theme (default) ===== */
-:root {
-  /* Chart colors for dark theme */
-  --si-chart-bg: transparent;
-  --si-chart-text: #adbac7;
-  --si-chart-grid: #2d333b;
-  --si-chart-border: #444c56;
-  --si-chart-crosshair: #768390;
-  --si-candle-up: #57ab5a;
-  --si-candle-down: #e5534b;
-  --si-volume-up: rgba(87, 171, 90, 0.3);
-  --si-volume-down: rgba(229, 83, 75, 0.3);
-  --si-indicator-1: #539bf5;
-  --si-indicator-2: #c69026;
-  --si-indicator-3: #986ee2;
-  --si-indicator-4: #57ab5a;
-  --si-indicator-5: #e5534b;
-}
 
 /* Dark theme colors (GitHub Primer dark-dimmed) */
 .dark {
@@ -81,11 +64,6 @@
   --vp-c-brand-light: #6cb6ff;
   --vp-c-brand-lighter: #96d0ff;
 
-  /* Chart colors for dark theme */
-  --si-chart-bg: transparent;
-  --si-chart-text: #adbac7;
-  --si-chart-grid: #2d333b;
-  --si-chart-border: #444c56;
 }
 
 /* ===== Light Theme ===== */
@@ -146,12 +124,6 @@ html:not(.dark) {
   --vp-c-brand-darker: #033d8b;
   --vp-c-brand-light: #218bff;
   --vp-c-brand-lighter: #54aeff;
-
-  /* Chart colors for light theme */
-  --si-chart-bg: transparent;
-  --si-chart-text: #24292f;
-  --si-chart-grid: #d0d7de;
-  --si-chart-border: #d0d7de;
 }
 
 /* Custom styles for better readability */
@@ -250,6 +222,15 @@ pre.shiki {
     object-position: top;
     border-radius: 5px;
   }
+
+  // Force 3-column grid to match the main indicators index layout.
+  // VitePress uses grid-4 (25% / 4 cols) for non-multiples-of-3 feature counts;
+  // override to grid-6 behavior (33.33% / 3 cols) at the wide breakpoint.
+  @media (min-width: 960px) {
+    .item.grid-4 {
+      width: calc(33.3333%);
+    }
+  }
 }
 
 /* Navbar site title - grid layout with icon left, text stacked right */
@@ -299,14 +280,68 @@ pre.shiki {
   max-width: 1024px;
 }
 
-/* Optimize chart sizing for medium viewports (768px-1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .home-charts-stack {
-    height: auto;
-  }
+/* StockIndicatorChart component (from @facioquo/indy-charts/vue) */
+.indy-demo {
+  margin: 1rem 0 1.5rem;
+  overflow: hidden;
+}
 
-  /* Ensure indicator charts scale appropriately */
-  .vp-doc img {
-    height: auto;
+.indy-demo__status {
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.indy-demo__status--error {
+  color: var(--vp-c-warning-1);
+}
+
+.indy-demo__retry {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--vp-c-brand-1);
   }
+}
+
+.indy-demo__stack {
+  display: grid;
+  gap: 12px;
+}
+
+.indy-demo__canvas-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 120px;
+  background: var(--vp-c-bg);
+}
+
+.indy-demo__canvas-wrap--overlay {
+  aspect-ratio: 2.5;
+}
+
+@media (width <= 880px) {
+  .indy-demo__canvas-wrap--overlay {
+    aspect-ratio: 2;
+  }
+}
+
+.indy-demo__canvas-wrap--oscillator {
+  aspect-ratio: 10;
+}
+
+@media (width <= 880px) {
+  .indy-demo__canvas-wrap--oscillator {
+    aspect-ratio: 8;
+  }
+}
+
+.indy-demo__canvas {
+  display: block;
 }

@@ -1,0 +1,2016 @@
+[
+  {
+    "name": "Simple Moving Average",
+    "uiid": "SMA",
+    "legendTemplate": "SMA([P1])",
+    "endpoint": "indicators/sma",
+    "category": "trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "defaultValue": 20,
+        "minimum": 1,
+        "maximum": 500
+      }
+    ],
+    "results": [
+      {
+        "displayName": "SMA",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "sma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Relative Strength Index",
+    "uiid": "RSI",
+    "legendTemplate": "RSI([P1])",
+    "endpoint": "indicators/rsi",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 2,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 70,
+          "color": "#ef5350",
+          "style": "solid",
+          "fill": null
+        },
+        {
+          "value": 30,
+          "color": "#26a69a",
+          "style": "solid",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "defaultValue": 14,
+        "minimum": 1,
+        "maximum": 500
+      }
+    ],
+    "results": [
+      {
+        "displayName": "RSI",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "rsi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Adl",
+    "uiid": "Adl",
+    "legendTemplate": "Adl",
+    "endpoint": "indicators/adl",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 3,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Adl",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Adx",
+    "uiid": "Adx",
+    "legendTemplate": "Adx",
+    "endpoint": "indicators/adx",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 4,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Adx",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Alligator",
+    "uiid": "Alligator",
+    "legendTemplate": "Alligator",
+    "endpoint": "indicators/alligator",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 5,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Alligator",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Alma",
+    "uiid": "Alma",
+    "legendTemplate": "Alma",
+    "endpoint": "indicators/alma",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 6,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Alma",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Aroon",
+    "uiid": "AROON UP/DOWN",
+    "legendTemplate": "AROON UP/DOWN",
+    "endpoint": "indicators/aroon-up-down",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 7,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "AROON UP/DOWN",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Atr",
+    "uiid": "Atr",
+    "legendTemplate": "Atr",
+    "endpoint": "indicators/atr",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 8,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Atr",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "AtrStop",
+    "uiid": "ATR-STOP-HL",
+    "legendTemplate": "ATR-STOP-HL",
+    "endpoint": "indicators/atr-stop-hl",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 9,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ATR-STOP-HL",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Awesome",
+    "uiid": "AO",
+    "legendTemplate": "AO",
+    "endpoint": "indicators/ao",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 10,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "AO",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Beta",
+    "uiid": "Beta",
+    "legendTemplate": "Beta",
+    "endpoint": "indicators/beta",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 11,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Beta",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "BollingerBands",
+    "uiid": "BB",
+    "legendTemplate": "BB",
+    "endpoint": "indicators/bb",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 12,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "BB",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Bop",
+    "uiid": "Bop",
+    "legendTemplate": "Bop",
+    "endpoint": "indicators/bop",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 13,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Bop",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Cci",
+    "uiid": "Cci",
+    "legendTemplate": "Cci",
+    "endpoint": "indicators/cci",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 14,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Cci",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ChaikinOsc",
+    "uiid": "CHAIKIN",
+    "legendTemplate": "CHAIKIN",
+    "endpoint": "indicators/chaikin",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 15,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "CHAIKIN",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Chandelier",
+    "uiid": "CHEXIT-LONG",
+    "legendTemplate": "CHEXIT-LONG",
+    "endpoint": "indicators/chexit-long",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 16,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "CHEXIT-LONG",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Chop",
+    "uiid": "Chop",
+    "legendTemplate": "Chop",
+    "endpoint": "indicators/chop",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 17,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Chop",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Cmf",
+    "uiid": "Cmf",
+    "legendTemplate": "Cmf",
+    "endpoint": "indicators/cmf",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 18,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Cmf",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Cmo",
+    "uiid": "Cmo",
+    "legendTemplate": "Cmo",
+    "endpoint": "indicators/cmo",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 19,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Cmo",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ConnorsRsi",
+    "uiid": "CRSI",
+    "legendTemplate": "CRSI",
+    "endpoint": "indicators/crsi",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 20,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "CRSI",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Dema",
+    "uiid": "Dema",
+    "legendTemplate": "Dema",
+    "endpoint": "indicators/dema",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 21,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Dema",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Donchian",
+    "uiid": "Donchian",
+    "legendTemplate": "Donchian",
+    "endpoint": "indicators/donchian",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 22,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Donchian",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Dpo",
+    "uiid": "Dpo",
+    "legendTemplate": "Dpo",
+    "endpoint": "indicators/dpo",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 23,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Dpo",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Dynamic",
+    "uiid": "DYN",
+    "legendTemplate": "DYN",
+    "endpoint": "indicators/dyn",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 24,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "DYN",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ElderRay",
+    "uiid": "ELDER-RAY",
+    "legendTemplate": "ELDER-RAY",
+    "endpoint": "indicators/elder-ray",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 25,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ELDER-RAY",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Ema",
+    "uiid": "Ema",
+    "legendTemplate": "Ema",
+    "endpoint": "indicators/ema",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 26,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Ema",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Epma",
+    "uiid": "Epma",
+    "legendTemplate": "Epma",
+    "endpoint": "indicators/epma",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 27,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Epma",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Fcb",
+    "uiid": "Fcb",
+    "legendTemplate": "Fcb",
+    "endpoint": "indicators/fcb",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 28,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Fcb",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "FisherTransform",
+    "uiid": "FISHER",
+    "legendTemplate": "FISHER",
+    "endpoint": "indicators/fisher",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 29,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "FISHER",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ForceIndex",
+    "uiid": "FORCE",
+    "legendTemplate": "FORCE",
+    "endpoint": "indicators/force",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 30,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "FORCE",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Fractal",
+    "uiid": "Fractal",
+    "legendTemplate": "Fractal",
+    "endpoint": "indicators/fractal",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 31,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Fractal",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Hma",
+    "uiid": "Hma",
+    "legendTemplate": "Hma",
+    "endpoint": "indicators/hma",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 32,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Hma",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "HtTrendline",
+    "uiid": "HT Trendline",
+    "legendTemplate": "HT Trendline",
+    "endpoint": "indicators/ht-trendline",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 33,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "HT Trendline",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Dominant Cycle Periods",
+    "uiid": "DCPERIOD",
+    "legendTemplate": "DC PERIODS",
+    "endpoint": "indicators/dcperiod",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 99,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": null,
+      "thresholds": null
+    },
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "DC PERIODS",
+        "tooltipTemplate": "DC PERIODS",
+        "dataName": "dcPeriods",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Hurst",
+    "uiid": "Hurst",
+    "legendTemplate": "Hurst",
+    "endpoint": "indicators/hurst",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 34,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Hurst",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Ichimoku",
+    "uiid": "Ichimoku",
+    "legendTemplate": "Ichimoku",
+    "endpoint": "indicators/ichimoku",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 35,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Ichimoku",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Kama",
+    "uiid": "Kama",
+    "legendTemplate": "Kama",
+    "endpoint": "indicators/kama",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 36,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Kama",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Keltner",
+    "uiid": "Keltner",
+    "legendTemplate": "Keltner",
+    "endpoint": "indicators/keltner",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 37,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Keltner",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Kvo",
+    "uiid": "Kvo",
+    "legendTemplate": "Kvo",
+    "endpoint": "indicators/kvo",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 38,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Kvo",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "MaEnvelopes",
+    "uiid": "MA-ENV",
+    "legendTemplate": "MA-ENV",
+    "endpoint": "indicators/ma-env",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 39,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "MA-ENV",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Macd",
+    "uiid": "Macd",
+    "legendTemplate": "Macd",
+    "endpoint": "indicators/macd",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 40,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Macd",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Mama",
+    "uiid": "Mama",
+    "legendTemplate": "Mama",
+    "endpoint": "indicators/mama",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 41,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Mama",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Mfi",
+    "uiid": "Mfi",
+    "legendTemplate": "Mfi",
+    "endpoint": "indicators/mfi",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 42,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Mfi",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Obv",
+    "uiid": "Obv",
+    "legendTemplate": "Obv",
+    "endpoint": "indicators/obv",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 43,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Obv",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ParabolicSar",
+    "uiid": "PSAR",
+    "legendTemplate": "PSAR",
+    "endpoint": "indicators/psar",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 44,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "PSAR",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Pmo",
+    "uiid": "Pmo",
+    "legendTemplate": "Pmo",
+    "endpoint": "indicators/pmo",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 45,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Pmo",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Pvo",
+    "uiid": "Pvo",
+    "legendTemplate": "Pvo",
+    "endpoint": "indicators/pvo",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 46,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Pvo",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Roc",
+    "uiid": "Roc",
+    "legendTemplate": "Roc",
+    "endpoint": "indicators/roc",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 47,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Roc",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "RocWb",
+    "uiid": "RocWb",
+    "legendTemplate": "RocWb",
+    "endpoint": "indicators/rocwb",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 48,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "RocWb",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Slope",
+    "uiid": "Slope",
+    "legendTemplate": "Slope",
+    "endpoint": "indicators/slope",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 49,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Slope",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Smi",
+    "uiid": "Smi",
+    "legendTemplate": "Smi",
+    "endpoint": "indicators/smi",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 50,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Smi",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Smma",
+    "uiid": "Smma",
+    "legendTemplate": "Smma",
+    "endpoint": "indicators/smma",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 51,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Smma",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "StarcBands",
+    "uiid": "STARC",
+    "legendTemplate": "STARC",
+    "endpoint": "indicators/starc",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 52,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "STARC",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Stc",
+    "uiid": "Stc",
+    "legendTemplate": "Stc",
+    "endpoint": "indicators/stc",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 53,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Stc",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "StdDev",
+    "uiid": "STDEV",
+    "legendTemplate": "STDEV",
+    "endpoint": "indicators/stdev",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 54,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "STDEV",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "StdDevChannels",
+    "uiid": "STDEV-CH",
+    "legendTemplate": "STDEV-CH",
+    "endpoint": "indicators/stdev-ch",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 55,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "STDEV-CH",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Stoch",
+    "uiid": "STO",
+    "legendTemplate": "STO",
+    "endpoint": "indicators/sto",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 56,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "STO",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "StochRsi",
+    "uiid": "StochRsi",
+    "legendTemplate": "StochRsi",
+    "endpoint": "indicators/stochrsi",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 57,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "StochRsi",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "SuperTrend",
+    "uiid": "SuperTrend",
+    "legendTemplate": "SuperTrend",
+    "endpoint": "indicators/supertrend",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 58,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "SuperTrend",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "T3",
+    "uiid": "T3",
+    "legendTemplate": "T3",
+    "endpoint": "indicators/t3",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 59,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "T3",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Tema",
+    "uiid": "Tema",
+    "legendTemplate": "Tema",
+    "endpoint": "indicators/tema",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 60,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Tema",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Trix",
+    "uiid": "Trix",
+    "legendTemplate": "Trix",
+    "endpoint": "indicators/trix",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 61,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Trix",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Tsi",
+    "uiid": "Tsi",
+    "legendTemplate": "Tsi",
+    "endpoint": "indicators/tsi",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 62,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Tsi",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "UlcerIndex",
+    "uiid": "ULCER",
+    "legendTemplate": "ULCER",
+    "endpoint": "indicators/ulcer",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 63,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ULCER",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Ultimate",
+    "uiid": "Ultimate",
+    "legendTemplate": "Ultimate",
+    "endpoint": "indicators/ultimate",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 64,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Ultimate",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "VolatilityStop",
+    "uiid": "VOL-STOP",
+    "legendTemplate": "VOL-STOP",
+    "endpoint": "indicators/vol-stop",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 65,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "VOL-STOP",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Vortex",
+    "uiid": "Vortex",
+    "legendTemplate": "Vortex",
+    "endpoint": "indicators/vortex",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 66,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Vortex",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Vwap",
+    "uiid": "Vwap",
+    "legendTemplate": "Vwap",
+    "endpoint": "indicators/vwap",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 67,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Vwap",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Vwma",
+    "uiid": "Vwma",
+    "legendTemplate": "Vwma",
+    "endpoint": "indicators/vwma",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 68,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Vwma",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "WilliamsR",
+    "uiid": "WilliamsR",
+    "legendTemplate": "WilliamsR",
+    "endpoint": "indicators/williamsr",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 69,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "WilliamsR",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Wma",
+    "uiid": "Wma",
+    "legendTemplate": "Wma",
+    "endpoint": "indicators/wma",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 70,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Wma",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ZigZag",
+    "uiid": "ZIGZAG-HL",
+    "legendTemplate": "ZIGZAG-HL",
+    "endpoint": "indicators/zigzag-hl",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 71,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ZIGZAG-HL",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "AroonOsc",
+    "uiid": "AROON OSC",
+    "legendTemplate": "AROON OSC",
+    "endpoint": "indicators/aroon-osc",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 72,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "AROON OSC",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "AtrStopClose",
+    "uiid": "ATR-STOP-CLOSE",
+    "legendTemplate": "ATR-STOP-CLOSE",
+    "endpoint": "indicators/atr-stop-close",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 73,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ATR-STOP-CLOSE",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ChandelierShort",
+    "uiid": "CHEXIT-SHORT",
+    "legendTemplate": "CHEXIT-SHORT",
+    "endpoint": "indicators/chexit-short",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 74,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "CHEXIT-SHORT",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Doji",
+    "uiid": "DOJI",
+    "legendTemplate": "DOJI",
+    "endpoint": "indicators/doji",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 75,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "DOJI",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Marubozu",
+    "uiid": "MARUBOZU",
+    "legendTemplate": "MARUBOZU",
+    "endpoint": "indicators/marubozu",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 76,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "MARUBOZU",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Tr",
+    "uiid": "TR",
+    "legendTemplate": "TR",
+    "endpoint": "indicators/tr",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 77,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "TR",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ZigZagClose",
+    "uiid": "ZIGZAG-CL",
+    "legendTemplate": "ZIGZAG-CL",
+    "endpoint": "indicators/zigzag-cl",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 78,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ZIGZAG-CL",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  }
+]

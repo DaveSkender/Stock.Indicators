@@ -8,6 +8,10 @@ description: Marubozu is a single-bar candlestick pattern that has no wicks, rep
 [Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single-bar candlestick pattern that has no wicks, representing consistent directional movement.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/512 "Community discussion about this indicator")
 
+<ClientOnly>
+  <StockIndicatorChart indicator="Marubozu" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<CandleResult> results =

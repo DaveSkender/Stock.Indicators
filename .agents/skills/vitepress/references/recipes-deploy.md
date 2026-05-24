@@ -84,7 +84,7 @@ Enable GitHub Pages in repository settings → Pages → Source: "GitHub Actions
 For pnpm, add before setup-node:
 
 ```yaml
-- uses: pnpm/action-setup@v4
+- uses: pnpm/action-setup@v6
   with:
     version: 9
 ```

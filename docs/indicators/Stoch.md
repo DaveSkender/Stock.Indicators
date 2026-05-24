@@ -8,7 +8,9 @@ description: Created by George Lane, the Stochastic Oscillator, also known as KD
 Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator), also known as KDJ Index, is a momentum oscillator that compares current price with recent highs and lows and is presented on a scale of 0 to 100.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/237 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Stoch" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Stoch" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax (standard)

@@ -10,3 +10,7 @@ _site/
 vendor/
 .bundle/
 .temp/
+
+# Playwright test artifacts
+tests/results/
+playwright-report/

@@ -8,7 +8,9 @@ description: Created by John R. McGinley, the McGinley Dynamic is a more respons
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/866 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Dynamic" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Dynamic" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax (with Close price)

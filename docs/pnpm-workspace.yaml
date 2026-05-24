@@ -1,2 +1,5 @@
-onlyBuiltDependencies:
-  - esbuild
+allowBuilds:
+  esbuild: false
+
+minimumReleaseAge: 0
+minimumReleaseAgeStrict: false

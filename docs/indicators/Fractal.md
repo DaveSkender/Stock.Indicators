@@ -8,7 +8,9 @@ description: Created by Larry Williams, Fractal is a retrospective price pattern
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point chevron.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Fractal" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Fractal" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
