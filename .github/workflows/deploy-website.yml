@@ -20,8 +20,6 @@ env:
 jobs:
   deploy:
     name: Cloudflare Pages
-    # Skip on fork PRs — Cloudflare deploy secrets aren't available there.
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 30
     defaults:
