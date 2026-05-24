@@ -17,7 +17,7 @@ pnpm run docs:dev
 
 The site will open at `http://localhost:5173/`. The `NODE_AUTH_TOKEN` prefix is wired into `docs/.npmrc` to authenticate the `@facioquo` scope. VS Code's `Install: Node packages (pnpm)` task does the same — pick whichever fits your flow.
 
-CI workflows authenticate via the auto-generated `GITHUB_TOKEN` with `packages: read` permission — no repository secret needed.
+CI workflows authenticate using the auto-generated `GITHUB_TOKEN` with a `packages: read` permission granted at the workflow's `permissions:` block.
 
 ### GitHub token (optional)
 

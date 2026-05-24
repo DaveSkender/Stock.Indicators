@@ -56,8 +56,6 @@ jobs:
       - name: Install pnpm packages
         run: pnpm install --frozen-lockfile
         env:
-          # GITHUB_TOKEN + packages: read permission is sufficient for public
-          # cross-org packages per https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Define tag

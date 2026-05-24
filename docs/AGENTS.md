@@ -21,7 +21,7 @@ pnpm run docs:dev
 
 Indy Charts ([`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts/pkgs/npm/indy-charts)) is a public npm package hosted in the facioquo GitHub org's [GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package) registry, with source code in the [`facioquo/stock-charts`](https://github.com/facioquo/stock-charts) repository. It is not, and must not be, published to the npmjs.org public registry.
 
-- **CI**: GitHub Actions workflows authenticate using the auto-generated `GITHUB_TOKEN` plus a `packages: read` permission in the workflow's `permissions:` block — no custom secret required for cross-org public package reads.
+- **CI**: GitHub Actions workflows authenticate using the auto-generated `GITHUB_TOKEN` plus a `packages: read` permission in the workflow's `permissions:` block.
 - **Local development**: developers extend their normal `gh` CLI session token with the `read:packages` scope once per token lifetime:
 
   ```bash

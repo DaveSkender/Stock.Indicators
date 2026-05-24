@@ -425,7 +425,7 @@ srcExclude: ['**/AGENTS.md', '**/PRINCIPLES.md', '**/README.md'],
 
 - Streaming not applicable pattern and standard wording
 - Multi-variant overload pattern (Renko-style)
-- Dual `<IndicatorChartPanel>` convention for distinct behavioral modes (historical: the `<IndicatorChartPanel>` component has since been replaced by `<StockIndicatorChart>` from `@facioquo/indy-charts/vue`; the dual-chart convention persists, e.g. HtTrendline + DcPeriods)
+- Dual `<StockIndicatorChart>` convention for distinct behavioral modes (e.g. HtTrendline + DcPeriods)
 - Cross-reference links at end of Chaining and Streaming sections (currently using `/features/` URLs)
 
 **Remaining tasks** (depend on prior phases completing):
