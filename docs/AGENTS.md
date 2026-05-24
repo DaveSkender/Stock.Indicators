@@ -9,10 +9,12 @@ Load #skill:markdown for general Markdown authoring standards, linting workflow,
 ## Quick start
 
 ```bash
-# from /docs folder
-pnpm install
+# one-time per gh CLI token (see "Indy Charts" below for why)
+gh auth refresh --scopes read:packages
+
+# from /docs folder — opens at http://localhost:5173/
+NODE_AUTH_TOKEN=$(gh auth token) pnpm install
 pnpm run docs:dev
-# Opens at http://localhost:5173/
 ```
 
 ## Indy Charts
