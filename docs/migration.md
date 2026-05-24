@@ -17,7 +17,7 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 ### Quote types and interfaces
 
 - **`Quote` type**: Changed to immutable `record` type
-- **`IQuote.Date` property**: Renamed to `IQuote.Timestamp`
+- **`IQuote.Date` property**: Renamed to `IQuote.Timestamp`. `Date` remains as an `[Obsolete]` alias in v3.x for backward compatibility and will be removed in v3.1 — update consumers to `Timestamp` now.
 - **`IQuote` interface**: Now a reusable (chainable) type
 - **Custom quote types**: Must implement the `IReusable` interface
 - **`IReusableResult`**: Renamed to `IReusable`
