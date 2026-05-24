@@ -49,7 +49,7 @@ function buildEmaDataset(
   return {
     type: 'line',
     label: `EMA(${period})`,
-    data: quotes.map((q, i) => ({ x: q.timestamp.valueOf(), y: ema[i] })),
+    data: quotes.map((q, i) => ({ x: new Date(q.timestamp).valueOf(), y: ema[i] })),
     yAxisID: 'y',
     borderColor: '#FFA726',
     backgroundColor: '#FFA726',

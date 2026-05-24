@@ -1837,5 +1837,180 @@
         "order": 1
       }
     ]
+  },
+  {
+    "name": "AroonOsc",
+    "uiid": "AROON OSC",
+    "legendTemplate": "AROON OSC",
+    "endpoint": "indicators/aroon-osc",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 72,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "AROON OSC",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "AtrStopClose",
+    "uiid": "ATR-STOP-CLOSE",
+    "legendTemplate": "ATR-STOP-CLOSE",
+    "endpoint": "indicators/atr-stop-close",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 73,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ATR-STOP-CLOSE",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ChandelierShort",
+    "uiid": "CHEXIT-SHORT",
+    "legendTemplate": "CHEXIT-SHORT",
+    "endpoint": "indicators/chexit-short",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 74,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "CHEXIT-SHORT",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Doji",
+    "uiid": "DOJI",
+    "legendTemplate": "DOJI",
+    "endpoint": "indicators/doji",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 75,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "DOJI",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Marubozu",
+    "uiid": "MARUBOZU",
+    "legendTemplate": "MARUBOZU",
+    "endpoint": "indicators/marubozu",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 76,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "MARUBOZU",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Tr",
+    "uiid": "TR",
+    "legendTemplate": "TR",
+    "endpoint": "indicators/tr",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 77,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "TR",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "ZigZagClose",
+    "uiid": "ZIGZAG-CL",
+    "legendTemplate": "ZIGZAG-CL",
+    "endpoint": "indicators/zigzag-cl",
+    "category": "fallback",
+    "chartType": "overlay",
+    "order": 78,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ZIGZAG-CL",
+        "tooltipTemplate": "{v:f2}",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#2962FF",
+        "fill": null,
+        "order": 1
+      }
+    ]
   }
 ]

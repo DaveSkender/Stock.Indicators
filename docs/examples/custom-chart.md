@@ -87,7 +87,7 @@ function buildEmaDataset(quotes: Quote[], period: number): ChartDataset<'line', 
   return {
     type: 'line',
     label: `EMA(${period})`,
-    data: quotes.map((q, i) => ({ x: q.timestamp.valueOf(), y: ema[i] })),
+    data: quotes.map((q, i) => ({ x: new Date(q.timestamp).valueOf(), y: ema[i] })),
     yAxisID: 'y',
     borderColor: '#FFA726',
     backgroundColor: '#FFA726',
@@ -106,7 +106,7 @@ The full Vue 3 SFC that drives the live demo is at [`docs/examples/StaticChart.v
 
 ## Key points
 
-- **`Quote`** — the normalized shape returned by `loadStaticQuotes`: numeric OHLCV fields plus `timestamp: Date`.
+- **`Quote`** — the OHLCV bar shape from `@facioquo/indy-charts`: numeric `open`, `high`, `low`, `close`, `volume`, plus `timestamp: Date | string`. `loadStaticQuotes` normalizes any string timestamps to `Date` instances.
 - **`loadStaticQuotes(raw)`** — accepts raw bars whose `timestamp` is an ISO 8601 string or `Date`, normalizes them to `Date`, and returns `Quote[]`.
 - **`setupIndyCharts()`** — one-time global Chart.js + financial-chart-type registration; safe to call multiple times.
 - **`OverlayChart`** — renders candlestick + volume directly onto a `<canvas>` element.
