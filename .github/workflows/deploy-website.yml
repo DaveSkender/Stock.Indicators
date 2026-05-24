@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,7 +20,7 @@ env:
 jobs:
   deploy:
     name: Cloudflare Pages
-    # Skip on fork PRs — repo secrets (FACIOQUO_PACKAGES_TOKEN, Cloudflare keys) aren't available.
+    # Skip on fork PRs — Cloudflare deploy secrets aren't available there.
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -55,7 +56,9 @@ jobs:
       - name: Install pnpm packages
         run: pnpm install --frozen-lockfile
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
+          # GITHUB_TOKEN + packages: read permission is sufficient for public
+          # cross-org packages per https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Define tag
         id: tag

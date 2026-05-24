@@ -17,7 +17,16 @@ pnpm run docs:dev
 
 ## Indy Charts
 
-Indy Charts is a public npm package hosted in the facioquo GitHub org GitHub Packages registry and has source code in the facioquo/stock-charts repository. As such it requires [setup and general GitHub authentication through a personal access token](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package), which is stored in this repos FACIOQUO_PACKAGE_TOKEN secret for use in GitHub Action workflows that build, test, and deploy this documentation site. For local environments, developers must extend their normal GitHub session token with `gh auth refresh --scopes read:packages`.
+Indy Charts ([`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts/pkgs/npm/indy-charts)) is a public npm package hosted in the facioquo GitHub org's [GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package) registry, with source code in the [`facioquo/stock-charts`](https://github.com/facioquo/stock-charts) repository. It is not, and must not be, published to the npmjs.org public registry.
+
+- **CI**: GitHub Actions workflows authenticate using the auto-generated `GITHUB_TOKEN` plus a `packages: read` permission in the workflow's `permissions:` block — no custom secret required for cross-org public package reads.
+- **Local development**: developers extend their normal `gh` CLI session token with the `read:packages` scope once per token lifetime:
+
+  ```bash
+  gh auth refresh --scopes read:packages
+  ```
+
+  Then `NODE_AUTH_TOKEN=$(gh auth token) pnpm install` (or the equivalent VS Code task) pulls the package.
 
 ## Build and preview
 

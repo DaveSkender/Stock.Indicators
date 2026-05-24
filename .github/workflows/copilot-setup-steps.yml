@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 env:
   NODE_VERSION: 24
@@ -39,7 +40,7 @@ jobs:
         working-directory: docs
         run: pnpm install
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.FACIOQUO_PACKAGES_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
         timeout-minutes: 5
 
