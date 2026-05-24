@@ -168,7 +168,7 @@ function indicatorPages(): Array<{ page: string; indicator: string }> {
 const INDICATOR_PAGES = indicatorPages()
 
 for (const { page: pageName, indicator } of INDICATOR_PAGES) {
-  test(`${pageName} indicator page chart reaches terminal state`, async ({ page }) => {
+  test(`${pageName} - ${indicator} indicator page chart reaches terminal state`, async ({ page }) => {
     await mockStockChartsApi(page)
     await page.goto(`/indicators/${pageName}`)
 
