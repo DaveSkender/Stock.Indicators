@@ -3,6 +3,8 @@ import { readdirSync, readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 
+import { getTestIdPrefix } from '@facioquo/indy-charts/vue'
+
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const FIXTURES = join(__dirname, '../.vitepress/public/data/chart-api')
 
@@ -70,6 +72,17 @@ async function waitForChartPhase(page: Page, testId: string): Promise<string> {
   throw new Error(`Chart ${testId} did not reach a terminal state`)
 }
 
+/**
+ * Read the data-error-kind attribute on the error block, when phase === 'error'.
+ * Returns 'author' for misconfigured registries / missing uiids / missing setup,
+ * 'data' for upstream API or fixture issues.
+ */
+async function getErrorKind(page: Page, testId: string): Promise<string | null> {
+  return page
+    .locator(`[data-testid="${testId}-error"]`)
+    .getAttribute('data-error-kind')
+}
+
 // ---------------------------------------------------------------------------
 // Overlay chart — SMA on the SMA indicator page
 // ---------------------------------------------------------------------------
@@ -78,13 +91,14 @@ test('SMA overlay chart renders from static fixture data', async ({ page }) => {
   await mockStockChartsApi(page)
   await page.goto('/indicators/Sma')
 
-  const root = page.locator('[data-testid="stock-indicator-chart-sma-root"]')
+  const prefix = getTestIdPrefix('Sma')
+  const root = page.locator(`[data-testid="${prefix}-root"]`)
   await expect(root).toBeVisible({ timeout: 15_000 })
 
-  const phase = await waitForChartPhase(page, 'stock-indicator-chart-sma')
+  const phase = await waitForChartPhase(page, prefix)
   expect(phase, `Expected chart to be ready but got "${phase}"`).toBe('ready')
 
-  const canvas = root.locator('[data-testid="stock-indicator-chart-sma-overlay-canvas"]')
+  const canvas = root.locator(`[data-testid="${prefix}-overlay-canvas"]`)
   await expect(canvas).toBeVisible()
   await expect(canvas).toHaveAttribute('width')
 })
@@ -97,53 +111,42 @@ test('RSI oscillator chart renders from static fixture data', async ({ page }) =
   await mockStockChartsApi(page)
   await page.goto('/indicators/Rsi')
 
-  const root = page.locator('[data-testid="stock-indicator-chart-rsi-root"]')
+  const prefix = getTestIdPrefix('Rsi')
+  const root = page.locator(`[data-testid="${prefix}-root"]`)
   await expect(root).toBeVisible({ timeout: 15_000 })
 
-  const phase = await waitForChartPhase(page, 'stock-indicator-chart-rsi')
+  const phase = await waitForChartPhase(page, prefix)
   expect(phase, `Expected chart to be ready but got "${phase}"`).toBe('ready')
 
   // Oscillator must show both overlay (price) and oscillator (RSI) canvases
-  await expect(
-    root.locator('[data-testid="stock-indicator-chart-rsi-overlay-canvas"]')
-  ).toBeVisible()
-  await expect(
-    root.locator('[data-testid="stock-indicator-chart-rsi-oscillator-canvas"]')
-  ).toBeVisible()
+  await expect(root.locator(`[data-testid="${prefix}-overlay-canvas"]`)).toBeVisible()
+  await expect(root.locator(`[data-testid="${prefix}-oscillator-canvas"]`)).toBeVisible()
 })
 
 // ---------------------------------------------------------------------------
-// Home page charts — BB, MACD, STC
+// Home page charts — BollingerBands, Macd, Stc
 // ---------------------------------------------------------------------------
 
 test('Home page charts reach a terminal state', async ({ page }) => {
   await mockStockChartsApi(page)
   await page.goto('/')
 
-  // Wait for all three charts on the home page to finish loading.
-  // Slugs are derived from the registry keys in `.vitepress/theme/index.ts`.
-  const chartIds = ['bollingerbands', 'macd', 'stc']
-  for (const id of chartIds) {
-    const root = page.locator(`[data-testid="stock-indicator-chart-${id}-root"]`)
+  // Slugs derive from the registry keys in `.vitepress/theme/index.ts` via
+  // the library's own slugifier; getTestIdPrefix guarantees parity.
+  for (const indicator of ['BollingerBands', 'Macd', 'Stc']) {
+    const prefix = getTestIdPrefix(indicator)
+    const root = page.locator(`[data-testid="${prefix}-root"]`)
     await expect(root).toBeVisible({ timeout: 15_000 })
-    const phase = await waitForChartPhase(page, `stock-indicator-chart-${id}`)
-    // Fixture-backed charts either render data or show a controlled empty state.
+    const phase = await waitForChartPhase(page, prefix)
     expect(['ready', 'empty']).toContain(phase)
   }
 })
 
 // ---------------------------------------------------------------------------
-// Bulk smoke test — all indicator pages with StockIndicatorChart must load
+// Bulk smoke test — every indicator page must reach a non-author terminal state
 // ---------------------------------------------------------------------------
 
-function toSlug(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-}
-
-function indicatorPages(): Array<{ page: string; indicatorSlug: string }> {
+function indicatorPages(): Array<{ page: string; indicator: string }> {
   const indicatorsDir = join(__dirname, '../indicators')
   const files = readdirSync(indicatorsDir)
 
@@ -152,36 +155,39 @@ function indicatorPages(): Array<{ page: string; indicatorSlug: string }> {
     .flatMap((file) => {
       const body = readFileSync(join(indicatorsDir, file), 'utf8')
       // Matches only self-closing <StockIndicatorChart indicator="..." ... />
-      // forms; all current pages use this form. A future page that uses the
-      // <StockIndicatorChart ...></StockIndicatorChart> long form would be
-      // silently skipped - broaden the regex if/when that pattern appears.
+      // forms; all current pages use this form. Broaden the regex if the
+      // long form <StockIndicatorChart ...></StockIndicatorChart> ever appears.
       const matches = [...body.matchAll(/<StockIndicatorChart indicator="([^"]+)"[^/]*\/>/g)]
       if (matches.length === 0) return []
 
       const page = file.replace(/\.md$/, '')
-      return matches.map((m) => ({
-        page,
-        indicatorSlug: toSlug(m[1])
-      }))
+      return matches.map((m) => ({ page, indicator: m[1] }))
     })
 }
 
 const INDICATOR_PAGES = indicatorPages()
 
-for (const { page: pageName, indicatorSlug } of INDICATOR_PAGES) {
+for (const { page: pageName, indicator } of INDICATOR_PAGES) {
   test(`${pageName} indicator page chart reaches terminal state`, async ({ page }) => {
     await mockStockChartsApi(page)
     await page.goto(`/indicators/${pageName}`)
 
-    const root = page.locator(`[data-testid="stock-indicator-chart-${indicatorSlug}-root"]`)
+    const prefix = getTestIdPrefix(indicator)
+    const root = page.locator(`[data-testid="${prefix}-root"]`)
     await expect(root).toBeVisible({ timeout: 15_000 })
 
-    const phase = await waitForChartPhase(page, `stock-indicator-chart-${indicatorSlug}`)
-    // Accept 'error' too: the static indicators.json fixture intentionally
-    // does not cover every uiid the live API exposes (e.g. DCPERIOD on the
-    // HtTrendline page), so the library's listing-not-found error path is a
-    // valid terminal state under fixture mocking - what matters is that the
-    // chart root mounts and reaches a phase rather than hanging.
-    expect(['ready', 'empty', 'error']).toContain(phase)
+    const phase = await waitForChartPhase(page, prefix)
+
+    if (phase === 'error') {
+      // Author-facing errors (typoed catalog, missing uiid, missing setup) must
+      // never reach CI. Data errors (offline fixture gap) are tolerated.
+      const kind = await getErrorKind(page, prefix)
+      expect(
+        kind,
+        `Author-facing error on ${pageName} — fix the catalog entry or fixture`
+      ).toBe('data')
+    } else {
+      expect(['ready', 'empty']).toContain(phase)
+    }
   })
 }

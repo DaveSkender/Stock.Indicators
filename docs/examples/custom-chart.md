@@ -112,7 +112,7 @@ The full Vue 3 SFC that drives the live demo is at [`docs/examples/StaticChart.v
 - **`OverlayChart`** — renders candlestick + volume directly onto a `<canvas>` element.
 - **Custom indicators** — push your own `ChartDataset` onto `chart.data.datasets` after `render()`, then call `chart.update('none')`. Any Chart.js dataset shape works (line, bar, scatter, etc.).
 - **Theme sync** — re-render the chart on `document.documentElement` class changes to follow the page's dark/light mode. Guard against re-rendering for unrelated `<html>` class mutations (VitePress toggles other classes too).
-- **Cleanup** — call `overlayChart.destroy()` (the wrapper's own teardown) from your unmount hook, **not** `chart.chart?.destroy()` — the latter only tears down the Chart.js instance and leaks the OverlayChart wrapper's internal state.
+- **Cleanup** — call `overlayChart.destroy()` from your unmount hook; it releases the wrapper state and the underlying Chart.js instance in one call.
 
 ::: tip Direct lower-level use is opt-in
 For most pages you should use the higher-level `<StockIndicatorChart>` from `@facioquo/indy-charts/vue` (registered globally in `.vitepress/theme/index.ts`). It fetches quotes + indicators from the configured API, manages its own lifecycle, and respects the central indicator catalog. Drop down to `OverlayChart` only when you genuinely need to ship data inline.

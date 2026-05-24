@@ -64,8 +64,7 @@ function buildEmaDataset(
 function renderChart(): void {
   if (!canvasEl.value) return
   setupIndyCharts()
-  // Use OverlayChart's own destroy() so internal state and instance references
-  // are released — chart.destroy() alone leaks the OverlayChart wrapper's state.
+  // OverlayChart.destroy() releases the wrapper state and the underlying Chart.js instance.
   overlayChart?.destroy()
   const dark = isDark()
   overlayChart = new OverlayChart(canvasEl.value, {

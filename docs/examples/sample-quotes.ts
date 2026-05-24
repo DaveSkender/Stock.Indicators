@@ -1,19 +1,12 @@
-import type { loadStaticQuotes } from '@facioquo/indy-charts'
+import type { Quote } from '@facioquo/indy-charts'
 
 /**
  * Forty synthetic daily OHLCV bars (Jan 2 - Feb 28, 2025).
  *
- * Ideally these would be typed as a public `RawQuote` (or equivalent) export
- * from `@facioquo/indy-charts`. The library exposes the post-normalization
- * `Quote` type (where `timestamp: Date`) but not the pre-normalization input
- * shape that `loadStaticQuotes` accepts (`timestamp: string | Date`).
- *
- * TODO: replace this with the upstream export once
- * https://github.com/facioquo/stock-charts/issues/482 lands.
+ * `Quote.timestamp` accepts either an ISO 8601 string or a `Date` instance;
+ * `loadStaticQuotes` normalizes string timestamps to `Date` at load time.
  */
-type RawQuote = Parameters<typeof loadStaticQuotes>[0][number]
-
-export const SAMPLE_QUOTES: RawQuote[] = [
+export const SAMPLE_QUOTES: Quote[] = [
   { timestamp: '2025-01-02', open: 180.0, high: 182.5, low: 179.2, close: 181.8, volume: 38500000 },
   { timestamp: '2025-01-03', open: 181.8, high: 183.4, low: 180.5, close: 182.6, volume: 32100000 },
   { timestamp: '2025-01-06', open: 182.6, high: 184.2, low: 181.0, close: 183.4, volume: 29800000 },

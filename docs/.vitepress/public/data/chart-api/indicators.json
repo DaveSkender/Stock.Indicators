@@ -860,6 +860,35 @@
     ]
   },
   {
+    "name": "Dominant Cycle Periods",
+    "uiid": "DCPERIOD",
+    "legendTemplate": "DC PERIODS",
+    "endpoint": "indicators/dcperiod",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 99,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": null,
+      "thresholds": null
+    },
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "DC PERIODS",
+        "tooltipTemplate": "DC PERIODS",
+        "dataName": "dcPeriods",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
     "name": "Hurst",
     "uiid": "Hurst",
     "legendTemplate": "Hurst",
