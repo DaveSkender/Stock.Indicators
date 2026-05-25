@@ -123,9 +123,11 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
     - The plan's own "Related guidance" header lists the skills and AGENTS files.
   - **Portability correction**: the original action proposed adding pointers inside the three `*.SKILL.md` files. That was attempted in this pass and reverted on review — `.agents/skills/AGENTS.md:69` forbids skills from referencing workspace files outside their own directory (skills must remain portable when installed into other repos). The repo-specific cross-link belongs in `AGENTS.md`, not in skills, and that side of the link is already in place. No further code change needed.
 
-- [ ] **G008 — Document `Quote.AggregatorHub` gap-fill behavior** (30 min). **Source: Discussion #1018, @elAndyG (2023-10-10).**
-  - **Evidence**: `elAndyG` raised that premarket/low-volume periods produce missing candles (e.g., bars for 10:01, 10:02, 10:04, 10:05 with 10:03 missing) and asked how the aggregator should handle gaps — forward-fill last value, interpolate, or leave gap. Today the aggregator's behavior in this scenario is unspecified in public docs. Companion v3.1+ work tracked as T236 (`GapFillMode` enum) and TC-V31-6 (test coverage).
-  - **Action**: Document the current default behavior (no gap-fill — emits whatever ticks arrive) on the `Quote.AggregatorHub` docs page and in XML doc on the type. State explicitly that consumers needing fill semantics should pre-process input ticks; foreshadow that a `GapFillMode` enum may land in v3.1 (link T236).
+- [x] **G008 — Document `Quote.AggregatorHub` gap-fill behavior**. **Source: Discussion #1018, @elAndyG (2023-10-10).**
+  - Documented the existing `fillGaps` boolean (default `false`) on both `QuoteAggregatorHub` and `TickAggregatorHub`:
+    - Type-level xmldoc explains the default-omit vs. carry-forward synthesis behavior on both aggregator classes.
+    - Property-level xmldoc on `FillGaps` describes the semantics of the two states explicitly.
+    - `docs/utilities/quotes/resize-quote-history.md` gained a "Streaming aggregation" section covering both hubs, the `PeriodSize.Month` streaming-mode constraint, and the gap-fill behavior with a working example. The `GapFillMode` enum roadmap is mentioned as v3.1 (links T236).
 
 ### C. Pre-v3.0 cleanup pass
 
