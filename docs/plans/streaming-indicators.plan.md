@@ -150,9 +150,22 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: 7 occurrences in `src/`. After API churn (renames in `Obsolete.V3.*`), some pragmas may protect already-deleted code paths.
   - **Action**: For each pragma, verify the warning still fires without it; remove unneeded pragmas.
 
-- [ ] **T234 — TODO triage in `src/`** (30 min).
-  - **Evidence**: Grep finds multiple TODOs including two in `src/_common/StreamHub/StreamHub.cs:230,234` ("make reinitialization abstract", "race condition between rebuild and subscribe").
-  - **Action**: For each TODO, either close (delete the comment if no longer relevant), promote to a plan item, or convert to an `#if DEBUG` assertion. Specifically: `StreamHub.cs:230` is already represented by T205 in v3.1+ — link or remove the TODO; `StreamHub.cs:234` race-condition concern needs to either be closed (with explanation) or filed as a Tester investigation.
+- [x] **T234 — TODO triage in `src/`** *(audit + reconciliation complete)*.
+  - 12 TODOs across 11 files audited. Outcome breakdown:
+    - **3 removed as obsolete** — stylistic-rename suggestions that conflict with shipped v3 public-API naming:
+      - `IChainProvider.cs` and `IQuoteProvider.cs` "rename to *Observable" — the `*Provider` naming has shipped in the v3 public API and a rename would be a breaking change for consumers without enough benefit to justify the churn.
+      - `BaseProvider.cs` "rename to BaseObservable" — superseded by `ARCH-V31-1`, which chose retirement-via-`StreamSource<T>` over a rename. The workaround-for-self-rooted-hubs context the TODO carried is folded into the type's xmldoc remarks.
+    - **9 retained as legitimate in-source pointers** — each encodes clear intent without leaking plan IDs, and most map to existing plan items:
+      - `_common/StreamHub/StreamHub.cs:230` (`make reinitialization abstract`) ↔ T205.
+      - `_common/StreamHub/StreamHub.cs:233` (`evaluate race condition between rebuild and subscribe`) — not promoted to a plan item. Race window is microseconds inside `Reinitialize()`, which is a rarely-called manual fault-recovery method; a missed item is recoverable via a subsequent `Rebuild()`. Left as an in-source open-question marker; the TODO is its own ticket.
+      - `_common/ISeries.cs:20` (`UnixDate`) ↔ T226.
+      - `_common/QuotePart/IQuotePart.cs:13` (`IQuotePart → IBarPartHub`) ↔ T228.
+      - `_common/QuotePart/QuotePart.StaticSeries.cs:41` (`deprecate Use`) ↔ T227.
+      - `_common/Catalog/Catalog.cs:353` (`alternative without NotImplementedException`) ↔ T212.
+      - `m-r/Pivots/Pivots.StaticSeries.cs:124` (`may need rewrite for streaming`) ↔ T210.
+      - `m-r/Pivots/Pivots.StreamHub.cs:78` (`incremental trend line update`) — optimization opportunity inside whatever T210 ends up doing; T210's scope intentionally not pre-committed to this specific micro-optimization.
+      - `m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs:77` (`remaining MA types`) ↔ T214.
+  - Standing rule on TODOs: in-source TODOs are allowed when they encode clear intent without leaking transient plan IDs. Don't promote TODOs to the plan unless there is concrete value in doing so — a TODO is itself a perfectly valid lightweight tracker.
 
 ### D. Test coverage hardening (new section — Tester swarm finding)
 
