@@ -44,7 +44,17 @@ public interface IStreamObservable<out T>
     /// <summary>
     /// Read-only list of the stored cache values.
     /// </summary>
-    /// <remarks>This is read-only access to internal <see cref="StreamHub{TIn, TOut}.Cache"/></remarks>
+    /// <remarks>
+    /// This is a <strong>live read-only view</strong> over the internal
+    /// <see cref="StreamHub{TIn, TOut}.Cache"/>, not an immutable snapshot.
+    /// Mutation is forbidden, but enumeration during a concurrent <c>Add</c>
+    /// or <c>Rebuild</c> on the source hub will throw
+    /// <see cref="InvalidOperationException"/>.
+    /// <para>
+    /// Consumers that iterate while upstream may emit must snapshot first
+    /// (e.g. <c>Results.ToList()</c>).
+    /// </para>
+    /// </remarks>
     IReadOnlyList<T> Results { get; }
 
     /// <summary>

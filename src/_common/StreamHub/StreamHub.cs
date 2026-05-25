@@ -364,15 +364,48 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Restores internal state to match entries through restoreIndex.
+    /// Restores internal state to match entries through <paramref name="restoreIndex"/>.
     /// </summary>
     /// <remarks>
-    /// Override when indicator maintains stateful fields.
-    /// Called before cache entries are removed during rollback.
+    /// Override when an indicator maintains stateful fields outside the
+    /// result cache (rolling sums, EMAs, deques, last-seen timestamps,
+    /// etc.).
+    /// <para>
+    /// Contract:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <paramref name="restoreIndex"/> is the last
+    /// <see cref="ProviderCache"/> index whose state must be retained.
+    /// Implementations should rebuild their internal state to be
+    /// equivalent to having processed inputs <c>[0..restoreIndex]</c>
+    /// in order, so the next item at <c>restoreIndex + 1</c> can be
+    /// computed correctly.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <c>-1</c> signals that no entries precede the rollback point;
+    /// reset all internal state to its initial post-construction values.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// Called by the base <em>before</em> result-cache entries beyond
+    /// <c>restoreIndex</c> are removed and <em>before</em> the replay
+    /// loop re-emits items at <c>restoreIndex + 1</c> onward.
+    /// Implementations may safely read <see cref="ProviderCache"/>
+    /// entries <c>[0..restoreIndex]</c> while rebuilding internal
+    /// state. Do not re-emit or mutate the result cache from this
+    /// method; the base handles that immediately after this call returns.
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     /// <param name="restoreIndex">
-    /// Last ProviderCache index to retain, or -1 when no entries
-    /// precede the rollback point (reset to initial state).
+    /// Last ProviderCache index to retain, or -1 to reset to initial
+    /// state.
     /// </param>
     protected virtual void RollbackState(int restoreIndex)
     {
