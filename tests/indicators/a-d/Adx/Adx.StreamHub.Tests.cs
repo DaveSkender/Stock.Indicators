@@ -150,7 +150,6 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
 
@@ -181,7 +180,6 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void LateArrival_AtDmiWarmupBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the ADX warmup boundary.
         // ADX requires 2 * lookback periods (= 28) before the first
         // non-null ADX value; the late arrival at index 33 forces the
         // rollback path to replay across the SMMA / Wilder smoothing

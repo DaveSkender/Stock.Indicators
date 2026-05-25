@@ -129,7 +129,6 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
 
@@ -160,7 +159,6 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void LateArrival_AtAtrSeedBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the ATR seeding boundary.
         // ATR emits first non-null at lookback (= 14); index 20 forces
         // replay across the simple-average-to-SMMA seeding transition
         // that pins the running average.

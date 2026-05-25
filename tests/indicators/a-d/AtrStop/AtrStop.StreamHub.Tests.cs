@@ -127,7 +127,6 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         // ATR-Stop carries reversal state across bars; a late arrival
         // landing inside an established trend must rebuild the same
         // stop sequence as the fresh stream.
@@ -161,7 +160,6 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_AtAtrStopSeedBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the ATR-Stop seeding boundary.
         // ATR-Stop emits first non-null result at lookback (= 14); index
         // 20 forces replay across the ATR seed + initial direction
         // transition that anchors the trailing-stop level.

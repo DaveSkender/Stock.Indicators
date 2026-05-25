@@ -37,3 +37,5 @@ Load #skill:testing-standards for test naming conventions, FluentAssertions patt
 🚫 Never skip or exclude a failing test without fixing the root cause
 
 🚫 Never add `[Ignore]` attributes without a tracked issue and justification
+
+🚫 Never embed transient plan-item IDs (e.g. `TC001`, `T203`, `G005`) in source, tests, comments, or PR titles. Plan IDs are short-lived working-memory pointers — they get removed when items ship and the section is pruned, leaving dead references behind. Encode the *intent* (test name, comment about a non-obvious constraint) instead. The PR description can reference the plan ID once for traceability, but the committed code should not.

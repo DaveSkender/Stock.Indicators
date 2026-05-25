@@ -87,7 +87,6 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
 
@@ -118,7 +117,6 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_AtVmTrSumBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the Vortex warmup boundary.
         // Vortex emits first non-null result at lookback (= 14); index
         // 20 forces replay across the VM+ / VM- / TR rolling-sum
         // window transition that gates VI+/VI- emission.
