@@ -2,6 +2,8 @@
 
 This document outlines the migration from the current dual-branch model to a production-ready branching strategy with `main` as the primary development branch.
 
+**Related plans**: [streaming-indicators.plan.md](streaming-indicators.plan.md) is the v3.0 source of truth. This plan covers the operational mechanics referenced by **RG003** (release gate) and **§K Release mechanics — K007, K008** (FacioQuo rebrand sequencing) in the streaming plan. The package rename (`Skender.Stock.Indicators` → `FacioQuo.Stock.Indicators`) and repo transfer to `facioquo/stock-indicators-dotnet` are sequenced in §K of the streaming plan; the mechanical branch-and-CI steps below remain authoritative for the merge itself.
+
 ## Current State
 
 **Branch structure:**
@@ -23,13 +25,15 @@ This document outlines the migration from the current dual-branch model to a pro
 
 - `main` - v3 stable sources (new primary development branch)
 - `v3` - **DELETED** (merged into main, no longer needed)
-- `v2` - v2 maintenance sources (legacy support)
+- `v2` - v2 maintenance sources (netstandard2.x maintenance line per streaming plan RG005)
 
 **Deployment configuration:**
 
-- v2 patches: Deploy from `v2` branch to NuGet.org (maintenance releases only)
-- v3 stable: Deploy from `main` branch to NuGet.org (stable releases)
-- v3 previews: Deploy from `main` branch to NuGet.org (preview releases until v3.0.0)
+- v2 patches: Deploy from `v2` branch to **`Skender.Stock.Indicators`** on NuGet.org (security/compat maintenance releases only)
+- v3 stable: Deploy from `main` branch to **`FacioQuo.Stock.Indicators`** on NuGet.org (new package identity per streaming plan §K)
+- v3 previews: Continue on `Skender.Stock.Indicators` until cut-over; first listed version on `FacioQuo.Stock.Indicators` is `3.0.0` stable (streaming plan K001 + K003)
+
+> The two NuGet package identities split permanently at cut-over. `main` never publishes to the legacy package; `v2` never publishes to FacioQuo. See streaming plan §K and `CLAUDE.local.md` for the full multi-phase rebrand sequence.
 
 **GitHub repository settings:**
 
@@ -424,4 +428,4 @@ git push origin main --force
 - **Related**: File reorganization (#1810-#1813) - should happen AFTER branching migration
 
 ---
-Last updated: January 3, 2026
+Last updated: 2026-05-25
