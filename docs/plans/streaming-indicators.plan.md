@@ -19,7 +19,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 ---
 
-## Recommendation — Ship v3.0 stable after a 2–3 day quality pass
+## Recommendation — Ship v3.0 stable after a 3–4 day quality pass
 
 After the swarm review, the recommendation upgrades from "ship as-is after release gates" to **"ship after a focused quality pass"**. The architecture is sound (Architect verdict: no blockers, four v3.1 refactors queued). The implementation is correct (Tester verdict: parity is strong; rigor gaps are addressable). But:
 
@@ -266,31 +266,31 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
 
 > **Cross-cutting decision (already made)**: v3 ships under a new package identity `FacioQuo.Stock.Indicators` with the repo transferring to a FacioQuo org as `stock-indicators-dotnet`. K-items below assume that transition; if the rebrand is cancelled or postponed, items K001–K006 and K009–K011 collapse to a single "tag and release on existing `Skender.Stock.Indicators` package" item.
 
-**Package and naming**
+#### Package and naming
 
 - [ ] **K001 — Reserve and publish `FacioQuo.Stock.Indicators` package** (1 hour active + NuGet indexing). Cut the v3.0 stable as the first listed version on this package ID; do not publish previews here (previews remain on `Skender.Stock.Indicators` for continuity per K003).
 - [ ] **K002 — Add "previously known as Skender.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
 - [ ] **K003 — Unlist all `3.0.0-preview.*` versions on `Skender.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
 - [ ] **K004 — Release final `Skender.Stock.Indicators` v2.x patch with "we moved" notice** (1–2 hours). Stays in draft until cut-over. Release note: "We moved to `FacioQuo.Stock.Indicators` — install that package for v3+. This v2 line remains on `v2` branch for netstandard2.x compatibility maintenance only (per RG005)."
 
-**Source repo and project transfer**
+#### Source repo and project transfer
 
 - [ ] **K005 — Transfer `DaveSkender/Stock.Indicators` → `facioquo/stock-indicators-dotnet`** (1 hour + GitHub's auto-forwarding propagation). Confirms GitHub's HTTP redirect from old to new URLs; verify a few links from external blog posts continue resolving. Audit and prune obsolete contributors during transfer. **Companion repos already transferred** per project board: `Stock.Indicators.Python` → `stock-indicators-python`, `Stock.Indicators.Python.QuickStart` → `stock-indicators-python-quickstart`, `Stock.Charts` → `stock-charts`. Re-verify before cut-over.
 - [ ] **K006 — Transfer or reconnect Stock.Indicators project boards** (30 min). The public Stock.Indicators project, if any, plus link the private `DaveSkender/projects/6` to the new repo location.
 
-**Branching and v2 maintenance**
+#### Branching and v2 maintenance
 
 - [ ] **K007 — Execute branching-strategy migration** (cross-reference: §A RG003). [branching-strategy.plan.md](branching-strategy.plan.md). Merge `v3 → main`, create `v2` branch from prior `main`, retire `v3` branch. This is the irreversible cut-over; do not start until K001–K006 are queued and the §A RG004 decision is final.
 - [ ] **K008 — Document `v2` branch role as netstandard2.x maintenance line** (15 min). One paragraph in `branching-strategy.plan.md` (and a reciprocal pointer in README) confirming v2 branch accepts security/compat patches only; no new features. Per §A RG005.
 
-**Documentation and URL/DNS**
+#### Documentation and URL/DNS
 
 - [ ] **K009 — Lowercase all doc-site page URLs + Jekyll/VitePress redirects for old casing** (1–2 hours). Required because GitHub Pages canonical URLs and external inbound links may be case-sensitive depending on the docs platform. Audit `docs/` page paths; add redirect rules for any URL that changes case. Verify a sample of external blog post inbound links continue resolving.
 - [ ] **K010 — Cut `dotnet.stockindicators.dev` DNS to production doc site; remove `/v3` preview pointer** (15 min + DNS TTL). Update CloudFlare CNAME/A records; remove the temporary `dotnet.stockindicators.dev/v3` pointer added during preview phase per PR #1014 comment 3.
 - [ ] **K011 — Update NuGet release-notes URL and release-deployer URL references to new package name** (30 min). Search source/build pipelines for `Skender.Stock.Indicators` references in release-note URLs, deployer config, badge URLs; replace with `FacioQuo.Stock.Indicators` equivalents. Per PR #1014 comment 3.
 - [ ] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/DaveSkender/Stock.Indicators` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
 
-**Cut-over and finalize**
+#### Cut-over and finalize
 
 - [ ] **K013 — Tag `3.0.0` and publish stable release** (1 hour). Tag on the post-migration `main` branch. Publish GitHub Release with full release notes (consolidated from v3 preview release notes + post-preview changes). Push NuGet package to `FacioQuo.Stock.Indicators`. Close PR #1014; post the locked summary comment in Discussion #1018.
 - [ ] **K014 — Deploy doc site with v3.0.0 link refs** (30 min + CDN propagation). VitePress build with updated URLs, NuGet badges pointing to new package, examples updated to install command for `FacioQuo.Stock.Indicators`.
