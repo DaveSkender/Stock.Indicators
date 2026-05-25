@@ -19,7 +19,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 ---
 
-## Recommendation — Ship v3.0 stable after a 3–4 day quality pass
+## Recommendation — ship v3.0 stable after a 3–4 day quality pass
 
 After the swarm review, the recommendation upgrades from "ship as-is after release gates" to **"ship after a focused quality pass"**. The architecture is sound (Architect verdict: no blockers, four v3.1 refactors queued). The implementation is correct (Tester verdict: parity is strong; rigor gaps are addressable). But:
 
