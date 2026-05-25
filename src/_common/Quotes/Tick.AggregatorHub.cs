@@ -3,6 +3,15 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Streaming hub for aggregating raw tick data into OHLCV quote bars.
 /// </summary>
+/// <remarks>
+/// Gap behavior: by default (<c>fillGaps: false</c>) the hub emits only
+/// the bars that incoming ticks actually populate — buckets with no
+/// upstream activity are not synthesized. Set <c>fillGaps: true</c> to
+/// synthesize zero-volume bars carrying the prior bar's close as
+/// O/H/L/C through the silent period. Consumers that need a different
+/// fill policy (e.g. interpolation) should pre-process the input stream
+/// before subscribing this hub.
+/// </remarks>
 public class TickAggregatorHub
     : QuoteProvider<ITick, IQuote>
 {
@@ -85,6 +94,13 @@ public class TickAggregatorHub
     /// <summary>
     /// Gets a value indicating whether gap filling is enabled.
     /// </summary>
+    /// <remarks>
+    /// When <c>true</c>, buckets that have no upstream activity between
+    /// the last emitted bar and the next active bucket are filled with
+    /// zero-volume synthetic bars whose O/H/L/C all carry forward the
+    /// prior bar's close. When <c>false</c> (default), silent buckets
+    /// are simply omitted from the output stream.
+    /// </remarks>
     public bool FillGaps { get; }
 
     /// <summary>

@@ -74,6 +74,50 @@ Some indicators require the full OHLCV quote profile and cannot be used with `.U
 Attempting to use `.Use()` with incompatible indicators may produce unexpected results.
 :::
 
+## Streaming
+
+Both incremental and live streaming variants of the quote-part selector are available and produce `TimeValue` results (the same `IReusable` type the Series form emits).
+
+### BufferList
+
+Use `ToQuotePartList()` when you need incremental, single-threaded selection without a hub:
+
+```csharp
+QuotePartList parts = quotes.ToQuotePartList(CandlePart.HL2);
+
+// or, build incrementally
+QuotePartList parts = new(CandlePart.HL2);
+
+foreach (IQuote quote in quotes)
+{
+  parts.Add(quote);
+}
+
+IReadOnlyList<TimeValue> results = parts;
+```
+
+### StreamHub
+
+Subscribe to a `QuoteHub` to chain the quote-part selector into a live pipeline:
+
+```csharp
+QuoteHub quoteHub = new();
+QuotePartHub partHub = quoteHub.ToQuotePartHub(CandlePart.HLC3);
+
+// chain downstream indicators off the part selector
+EmaHub emaHub = partHub.ToEmaHub(20);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<TimeValue> selected = partHub.Results;
+IReadOnlyList<EmaResult> emaResults = emaHub.Results;
+```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+
 ## Related utilities
 
 - [Quote utilities overview](/utilities/quotes/)

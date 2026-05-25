@@ -9,7 +9,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 - Series listings: 85 (84 indicators + `QuotePart`)
 - BufferList listings: 79 (78 indicators + `QuotePart`)
 - StreamHub listings: 79 (78 indicators + `QuotePart`)
-- Streaming docs coverage: 78 of 79 (`QuotePart` BufferList/StreamHub variants not yet documented on the utilities page — see D009)
+- Streaming docs coverage: 79 of 79 (D009 closed the `QuotePart` gap)
 - Non-streamable (Series only): Beta, Correlation, Prs, RenkoAtr, StdDevChannels, ZigZag
 
 **Related plans**: [Branching Strategy Migration](branching-strategy.plan.md) (required for v3.0 stable release), [File Reorganization](file-reorg.plan.md) (deferred to v3.1).
@@ -99,33 +99,35 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: `.agents/skills/indicator-catalog/SKILL.md:105–107` instructs `_catalog.Add(Ema.SeriesListing);` but `src/_common/Catalog/Catalog.Listings.cs:58–63` uses `_listings.Add(...)`. Grep confirms `_catalog.Add` exists in exactly one file in the repo — the SKILL.md itself.
   - **Action**: Replace `_catalog.Add` with `_listings.Add`; correct registration order to `Buffer → Series → Stream` per indicator (alphabetical grouping); add a one-line note about the ordering convention.
 
-- [ ] **G002 — Remove `.specify/` reference from root `AGENTS.md`** (15 min).
-  - **Evidence**: `AGENTS.md:48` lists `.specify/` in repo layout; directory does not exist (`ls .specify` fails).
-  - **Action**: Remove the line. Replace any "consult open specs" guidance with a pointer to `docs/plans/streaming-indicators.plan.md`. Add `docs/plans/` to the repo-layout block with a one-line description.
+- [x] **G002 — Remove `.specify/` reference from root `AGENTS.md`** *(verified done, no-op)*.
+  - **Re-verification (2026-05-25)**: `AGENTS.md` no longer references `.specify/`. The repo-layout block at `AGENTS.md:36-48` already includes `docs/plans/` with a description. Grep across the repo finds `.specify` only in this plan file's own (now-stale) evidence line. No code change needed.
 
-- [ ] **G003 — Document AggregatorHub, TickHub, BaseProvider, thread-safety in `indicator-stream` skill** (2–3 hours).
-  - **Evidence**: Grep of `.agents/skills/**/SKILL.md` for `Aggregator|TickHub|BaseProvider|CacheLock` returns nothing. Yet `src/_common/Quotes/Quote.AggregatorHub.cs`, `Tick.AggregatorHub.cs`, `Tick.StreamHub.cs` exist as v3-new features (PR #1875); `BaseProvider<T>` is the bootstrap pattern for self-rooted hubs.
-  - **Action**: Add an "Aggregator hubs" subsection to `.agents/skills/indicator-stream/SKILL.md` (or `references/aggregator-hubs.md`). Add a `BaseProvider`/self-rooted-hub row to the provider-selection table. Add a one-paragraph "Thread safety contract" noting `CacheLock` and `_isRebuilding` invariants. Pairs naturally with D009 (QuotePart streaming docs).
+- [x] **G003 — Document aggregator pattern + thread safety in `indicator-stream` skill** *(scope clarified)*.
+  - Closing pass (2026-05-25): the SKILL.md already carried (a) a self-rooted-hub row in the provider-selection table and (b) a "Thread safety contract" section covering the cache-monitor and rebuild-flag invariants. Added a new "Aggregator / quantizer hubs" subsection codifying the portable pattern: `PeriodSize` + `TimeSpan` overload conventions, optional `fillGaps` semantics, bucket-down on `OnAdd`, `Rebuild(DateTime)` bucket-boundary alignment, and `RollbackState` per-input tracker pruning. Late-arrival re-aggregation semantics are stated explicitly.
+  - **Portability correction**: the original action proposed naming `BaseProvider<T>`, `CacheLock`, and `_isRebuilding` in the SKILL. Per `.agents/skills/AGENTS.md:69` skills cannot reference repo-specific symbols; those internals are documented in `src/_common/AGENTS.md` (which is repo-specific) and remain there. The SKILL describes the contract; AGENTS.md describes the implementation.
 
-- [ ] **G004 — Regenerate `src/_common/README.md` directory listing from reality** (30 min).
-  - **Evidence**: `src/_common/README.md:14` lists `BufferLists/IIncrementFrom.cs` (does not exist; actual files are `IIncrementFromChain.cs` + `IIncrementFromQuote.cs`); the `StreamHub/` listing omits `CircularDoubleBuffer.cs`, `HubCollection.cs`, `IChainProvider.cs`, `IQuoteProvider.cs`, `IStreamObservable.cs`, `IStreamObserver.cs`, `StreamHub.Observable.cs`, `StreamHub.Observer.cs`.
-  - **Action**: Refresh tree; add one-line purpose for each new entry.
+- [x] **G004 — Regenerate `src/_common/README.md` directory listing from reality**.
+  - **Re-verification (2026-05-25)**: The README is dated 2026-05-24 and already lists `IIncrementFromChain.cs` + `IIncrementFromQuote.cs` (not the old `IIncrementFrom.cs`), plus `CircularDoubleBuffer.cs`, `HubCollection.cs`, `IChainProvider.cs`, `IQuoteProvider.cs`, `IStreamObservable.cs`, `IStreamObserver.cs`, `StreamHub.Observable.cs`, `StreamHub.Observer.cs`. The two remaining gaps closed in this pass: `Catalog/ListingExecutionBuilderExtensions.cs` and `Catalog/Schema/Enums/`.
 
 - [ ] **G005 — Prune unused community skills and reconcile `skills-lock.json`** (1–2 hours).
   - **Evidence**: `skills-lock.json` tracks 1 skill (`vitepress`). `ls .agents/skills/` shows 27 entries including `nuxt/`, `pinia/`, `slidev/`, `turborepo/`, `unocss/`, `vue/`, `vueuse-functions/`, `vue-router-best-practices/`, `vue-testing-best-practices/`, `tsdown/`, `pnpm/`, `web-design-guidelines/`. This is a .NET library with a VitePress docs site — no Nuxt app, no Pinia store, no Slidev decks, no Turborepo monorepo.
   - **Action**: Prune skills irrelevant to a .NET library + VitePress docs site (keep `vitepress`, `vite`, `vitest`, `markdown`, `code-completion`, `documentation`, `indicator-*`, `performance-testing`, `testing-standards`). Reconcile `skills-lock.json` to track what remains. Update root `AGENTS.md` skills index to match. Agents currently waste context loading irrelevant framework guidance.
 
-- [ ] **G006 — Align `indicator-stream` SKILL performance target with measured reality** (15 min).
-  - **Evidence**: `.agents/skills/indicator-stream/SKILL.md:18` asserts "Target: StreamHub ≤ 1.5x slower than Series" but `tools/performance/PERFORMANCE_ANALYSIS.md` documents real 1.5x–11x range, and the MA family is acceptable at 7–11x per PERFORMANCE_ANALYSIS.md ("Pattern 2").
-  - **Action**: Replace the bare target with the tiered targets/acceptable/critical bands from PERFORMANCE_ANALYSIS.md, citing it as the source of truth.
+- [x] **G006 — Align `indicator-stream` SKILL performance target with measured reality** *(verified done, no-op)*.
+  - **Re-verification (2026-05-25)**: `.agents/skills/indicator-stream/SKILL.md:20-31` already carries the tiered Target/Acceptable/Review/Critical bands and cites the performance-analysis document as the source of truth. No code change needed.
 
-- [ ] **G007 — Add cross-references between plan and guidance** (30 min).
-  - **Evidence**: `docs/plans/streaming-indicators.plan.md` does not reference any skill or `AGENTS.md`; conversely no skill or `AGENTS.md` references this plan. This document is the design source of truth but is invisible from the contributor entry points.
-  - **Action**: This file already added a "Related guidance" section at the top. Reciprocate by adding one line each to `indicator-stream/SKILL.md`, `indicator-buffer/SKILL.md`, and `indicator-catalog/SKILL.md` pointing here. Root `AGENTS.md` should mention `docs/plans/` exists.
+- [x] **G007 — Add cross-references between plan and guidance** *(scope revised, verified done)*.
+  - **Re-verification (2026-05-25)**: The reciprocal cross-references already exist via `AGENTS.md`:
+    - Root `AGENTS.md:6` and `AGENTS.md:53` point to `docs/plans/streaming-indicators.plan.md`.
+    - `src/_common/AGENTS.md:9` instructs contributors editing stateful code to consult the plan before changing anything.
+    - The plan's own "Related guidance" header lists the skills and AGENTS files.
+  - **Portability correction**: the original action proposed adding pointers inside the three `*.SKILL.md` files. That was attempted in this pass and reverted on review — `.agents/skills/AGENTS.md:69` forbids skills from referencing workspace files outside their own directory (skills must remain portable when installed into other repos). The repo-specific cross-link belongs in `AGENTS.md`, not in skills, and that side of the link is already in place. No further code change needed.
 
-- [ ] **G008 — Document `Quote.AggregatorHub` gap-fill behavior** (30 min). **Source: Discussion #1018, @elAndyG (2023-10-10).**
-  - **Evidence**: `elAndyG` raised that premarket/low-volume periods produce missing candles (e.g., bars for 10:01, 10:02, 10:04, 10:05 with 10:03 missing) and asked how the aggregator should handle gaps — forward-fill last value, interpolate, or leave gap. Today the aggregator's behavior in this scenario is unspecified in public docs. Companion v3.1+ work tracked as T236 (`GapFillMode` enum) and TC-V31-6 (test coverage).
-  - **Action**: Document the current default behavior (no gap-fill — emits whatever ticks arrive) on the `Quote.AggregatorHub` docs page and in XML doc on the type. State explicitly that consumers needing fill semantics should pre-process input ticks; foreshadow that a `GapFillMode` enum may land in v3.1 (link T236).
+- [x] **G008 — Document `Quote.AggregatorHub` gap-fill behavior**. **Source: Discussion #1018, @elAndyG (2023-10-10).**
+  - Documented the existing `fillGaps` boolean (default `false`) on both `QuoteAggregatorHub` and `TickAggregatorHub`:
+    - Type-level xmldoc explains the default-omit vs. carry-forward synthesis behavior on both aggregator classes.
+    - Property-level xmldoc on `FillGaps` describes the semantics of the two states explicitly.
+    - `docs/utilities/quotes/resize-quote-history.md` gained a "Streaming aggregation" section covering both hubs, the `PeriodSize.Month` streaming-mode constraint, and the gap-fill behavior with a working example. The `GapFillMode` enum roadmap is mentioned as v3.1 (links T236).
 
 ### C. Pre-v3.0 cleanup pass
 
@@ -133,17 +135,16 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: `src/Indicators.csproj:11` enables preview features for the `field` keyword used at `src/_common/BufferLists/BufferList.cs:54,56`. `field` shipped GA in C# 14 / .NET 10 (project targets `net10.0;net9.0;net8.0` with `LangVersion=latest`).
   - **Action**: Remove `<EnablePreviewFeatures>` and `<GenerateRequiresPreviewFeaturesAttribute>`; verify full build across all three target frameworks (with .NET 10 SDK installed, `LangVersion=latest` = C# 14 and `field` works regardless of TFM). Removal eliminates preview-feature noise propagating to downstream consumers.
 
-- [ ] **T230 — Untrack `Stock.Indicators.sln.DotSettings.user`** (5 min).
-  - **Evidence**: `Stock.Indicators.sln.DotSettings.user` is checked in at repo root (4 KB ReSharper user state with recent-files list). `.gitignore:47` already contains `*.user`, so future per-developer files are correctly ignored — only the legacy committed file needs removal from the index.
-  - **Action**: Run `git rm --cached Stock.Indicators.sln.DotSettings.user`.
+- [x] **T230 — Untrack `Stock.Indicators.sln.DotSettings.user`** *(verified done, no-op)*.
+  - **Re-verification (2026-05-25)**: `git ls-files Stock.Indicators.sln.DotSettings.user` returns nothing; `git status --ignored` confirms the local file is ignored. `.gitignore:43` (`*.DotSettings.user`) and `.gitignore:47` (`*.user`) both match. No code change needed.
 
 - [ ] **T231 — Delete `tools/performance/baselines/before-fixes/`** (10 min, decision needed).
   - **Evidence**: 22 historical JSON snapshots tracked in git. Their value (regression detection against pre-v3-fixes baseline) ends when v3.0 ships.
   - **Action**: Two options — (a) delete and rely on git history + tagged commit `baseline/v3-streaming-prefixes`; (b) keep through v3.0 release and delete in first v3.1 patch. Pick (a) unless there's an external CI dependency.
 
-- [ ] **T232 — Delete empty `src/GlobalSuppressions.cs`** (5 min).
-  - **Evidence**: 9-line file with only a `using` directive, no `[assembly: SuppressMessage(...)]` declarations. Triggers `IDE0005` (unused) under aggressive analyzer settings.
-  - **Action**: Delete the file. Re-add only when a real suppression is needed.
+- [ ] **T232 — Audit `src/GlobalSuppressions.cs` for stale suppressions** (30 min, **scope revised**).
+  - **Re-evaluation (2026-05-25)**: The original "delete empty file" premise was wrong. The file contains five real `[assembly: SuppressMessage(...)]` declarations (CA1510, CA1710 BufferList, three CA1720 Direction, CA1716 ISeries.Date). Most are still load-bearing, but CA1510 (`"Use ArgumentNullException throw helper"`) carries the justification "Does not support .NET Standard and before .NET 6" — the project no longer targets netstandard (min is `net8.0`), and the codebase already uses `ArgumentNullException.ThrowIfNull` in ~373 sites versus only ~13 legacy `throw new ArgumentNullException` sites across 6 files.
+  - **Action**: Migrate the 13 legacy `throw new ArgumentNullException` sites to `ArgumentNullException.ThrowIfNull`, then remove the CA1510 suppression. Re-verify CA1710 / CA1716 / CA1720 are still load-bearing under current analyzer rules. Track removal candidates as v3.1 if any prove unnecessary.
 
 - [ ] **T233 — Audit `#pragma warning disable` for staleness** (30 min).
   - **Evidence**: 7 occurrences in `src/`. After API churn (renames in `Obsolete.V3.*`), some pragmas may protect already-deleted code paths.
@@ -226,10 +227,8 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 
 ### G. Documentation gaps (existing)
 
-- [ ] **D009 — Document QuotePart streaming variants** (1–2 hours).
-  - **File**: `docs/utilities/quotes/use-alternate-price.md` (or new page under `docs/utilities/quotes/`).
-  - **Problem**: `QuotePart` has full StreamHub + BufferList implementations (`QuotePart.StreamHub.cs`, `QuotePart.BufferList.cs`) but the utilities page documents only the Series form. Sole gap making coverage 78/79 instead of 79/79.
-  - **Action**: Add BufferList (`.ToQuotePartList(...)`) and StreamHub (`.ToQuotePartHub(...)`) sections following the same pattern as indicator pages.
+- [x] **D009 — Document QuotePart streaming variants**.
+  - `docs/utilities/quotes/use-alternate-price.md` gained a "Streaming" section with BufferList (`ToQuotePartList`) and StreamHub (`ToQuotePartHub`) sub-sections following the indicator-page pattern. The StreamHub example also demonstrates the canonical "select then chain" composition (`partHub.ToEmaHub(20)`) that the part selector enables. Streaming docs coverage now 79 of 79.
 
 - [ ] **D010 — Document hub `Subscribe()` extensibility** (1–2 hours). **Source: Discussion #1018, @JGronholz; resolves open Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895).**
   - **Problem**: `ReusableObserver<T>` shipped via PR #1894 (MERGED), but the broader extensibility story — how external consumers wrap a hub for UI/persistence/logging via `IStreamObserver<T>` — is not documented. JGronholz spent significant time discovering this pattern by reading source; a single docs page would have removed the friction.
@@ -501,7 +500,3 @@ All items implemented in source; baselines pending refresh (RG001).
 - **PRs #1981, #1991, #1992** — Website 3-pillar IA reorganization; VitePress with Vue chart components
 - **PRs #1976, #2005** — Streaming plan updates and missing BufferList/StreamHub doc sections for Alligator, AtrStop, Tsi
 - **T213** — Performance documentation consolidated into single `tools/performance/PERFORMANCE_ANALYSIS.md`
-
----
-
-Last updated: 2026-05-25

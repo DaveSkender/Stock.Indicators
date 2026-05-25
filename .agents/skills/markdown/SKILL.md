@@ -106,9 +106,8 @@ Verify content-level requirements:
 2. **Code fences:** All blocks have language identifiers
 3. **Headers:** Sentence case, ATX style, sequential hierarchy (no skipping levels)
 4. **Lists:** Hyphen bullets only, proper indentation
-5. **End of file:** Blank line, `---` separator, "Last updated: {date}" footer (see [formatting-standards](references/formatting-standards.md) for exclusions: .github/**/*.md, README.md, AGENTS.md, .agents/**/*.md, docs/adr/*.md)
-6. **Diagrams:** Mermaid diagrams use stroke styling (not fill colors)
-7. **HTML:** Only allowed elements, all images have alt text
+5. **Diagrams:** Mermaid diagrams use stroke styling (not fill colors)
+6. **HTML:** Only allowed elements, all images have alt text
 
 See [validation checklist](references/validation-checklist.md) for complete quality checks.
 
@@ -141,7 +140,6 @@ See [setup guide](references/setup-guide.md) for step-by-step configuration.
 - [ ] All semantic issues fixed (sentence case headers, bold labels)
 - [ ] All reference syntax corrected (#file:, markdown links)
 - [ ] All content quality checks passed (links, fences, hierarchy)
-- [ ] End-of-file formatting applied where required
 - [ ] File committed to repository
 
 ## Common pitfalls
