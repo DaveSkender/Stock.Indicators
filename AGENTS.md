@@ -50,10 +50,9 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 
 Active plans tracked in `docs/plans/`:
 
-- [streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) — source of truth for v3 streaming work (BufferList + StreamHub coverage, performance, test hardening)
-- [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) — v2 → v3 branch migration (gate for v3.0 stable release)
-- [file-reorg.plan.md](docs/plans/file-reorg.plan.md) — deferred to v3.1
-- [documentation-site.plan.md](docs/plans/documentation-site.plan.md) — VitePress docs site work
+- [streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) — source of truth for v3.0 release; cross-references the two operational plans below
+- [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) — v2 → v3 branch migration mechanics (gate RG003 in the streaming plan)
+- [file-reorg.plan.md](docs/plans/file-reorg.plan.md) — file/directory rename catalog, deferred to v3.1
 
 ## Commands
 
