@@ -9,7 +9,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 - Series listings: 85 (84 indicators + `QuotePart`)
 - BufferList listings: 79 (78 indicators + `QuotePart`)
 - StreamHub listings: 79 (78 indicators + `QuotePart`)
-- Streaming docs coverage: 78 of 79 (`QuotePart` BufferList/StreamHub variants not yet documented on the utilities page — see D009)
+- Streaming docs coverage: 79 of 79 (D009 closed the `QuotePart` gap)
 - Non-streamable (Series only): Beta, Correlation, Prs, RenkoAtr, StdDevChannels, ZigZag
 
 **Related plans**: [Branching Strategy Migration](branching-strategy.plan.md) (required for v3.0 stable release), [File Reorganization](file-reorg.plan.md) (deferred to v3.1).
@@ -229,10 +229,8 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 
 ### G. Documentation gaps (existing)
 
-- [ ] **D009 — Document QuotePart streaming variants** (1–2 hours).
-  - **File**: `docs/utilities/quotes/use-alternate-price.md` (or new page under `docs/utilities/quotes/`).
-  - **Problem**: `QuotePart` has full StreamHub + BufferList implementations (`QuotePart.StreamHub.cs`, `QuotePart.BufferList.cs`) but the utilities page documents only the Series form. Sole gap making coverage 78/79 instead of 79/79.
-  - **Action**: Add BufferList (`.ToQuotePartList(...)`) and StreamHub (`.ToQuotePartHub(...)`) sections following the same pattern as indicator pages.
+- [x] **D009 — Document QuotePart streaming variants**.
+  - `docs/utilities/quotes/use-alternate-price.md` gained a "Streaming" section with BufferList (`ToQuotePartList`) and StreamHub (`ToQuotePartHub`) sub-sections following the indicator-page pattern. The StreamHub example also demonstrates the canonical "select then chain" composition (`partHub.ToEmaHub(20)`) that the part selector enables. Streaming docs coverage now 79 of 79.
 
 - [ ] **D010 — Document hub `Subscribe()` extensibility** (1–2 hours). **Source: Discussion #1018, @JGronholz; resolves open Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895).**
   - **Problem**: `ReusableObserver<T>` shipped via PR #1894 (MERGED), but the broader extensibility story — how external consumers wrap a hub for UI/persistence/logging via `IStreamObserver<T>` — is not documented. JGronholz spent significant time discovering this pattern by reading source; a single docs page would have removed the friction.
