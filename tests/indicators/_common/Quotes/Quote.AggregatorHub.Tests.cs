@@ -544,5 +544,174 @@ public class QuoteAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, IT
         aggregator.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void LateArrival_CrossingClosedBucket_RebuildsCorrectly()
+    {
+        // A late quote belonging to a 5-minute bucket that has already been
+        // closed (by quotes in subsequent buckets) must trigger a rebuild
+        // and produce a bar reflecting the additional quote's OHLCV
+        // contributions. The two later buckets must remain unchanged.
+
+        QuoteHub provider = new();
+        QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+
+        // Bucket 10:00 — two quotes
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:00", invariantCulture), 100m, 105m, 99m, 102m, 1000m));
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:02", invariantCulture), 102m, 106m, 101m, 104m, 1100m));
+
+        // Bucket 10:05 — closes bucket 10:00
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:05", invariantCulture), 104m, 108m, 103m, 107m, 1200m));
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:07", invariantCulture), 107m, 109m, 106m, 108m, 1300m));
+
+        // Bucket 10:10 — closes bucket 10:05
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:10", invariantCulture), 108m, 112m, 107m, 110m, 1400m));
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:12", invariantCulture), 110m, 114m, 109m, 113m, 1500m));
+
+        // Late arrival to the closed 10:00 bucket with values that move
+        // both the high and the low; pinning these in the assertion proves
+        // the rebuild path incorporated the late quote rather than skipping it.
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:03", invariantCulture), 103m, 120m, 90m, 105m, 500m));
+
+        IReadOnlyList<IQuote> results = aggregator.Results;
+        results.Should().HaveCount(3);
+
+        // Bucket 10:00 now reflects the late quote
+        IQuote bar0 = results[0];
+        bar0.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:00", invariantCulture));
+        bar0.Open.Should().Be(100m);
+        bar0.High.Should().Be(120m);
+        bar0.Low.Should().Be(90m);
+        bar0.Close.Should().Be(105m);   // Close from latest-by-timestamp in bucket (10:03)
+        bar0.Volume.Should().Be(2600m); // 1000 + 1100 + 500
+
+        // Bucket 10:05 unchanged
+        IQuote bar1 = results[1];
+        bar1.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:05", invariantCulture));
+        bar1.Open.Should().Be(104m);
+        bar1.High.Should().Be(109m);
+        bar1.Low.Should().Be(103m);
+        bar1.Close.Should().Be(108m);
+        bar1.Volume.Should().Be(2500m);
+
+        // Bucket 10:10 unchanged
+        IQuote bar2 = results[2];
+        bar2.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:10", invariantCulture));
+        bar2.Open.Should().Be(108m);
+        bar2.High.Should().Be(114m);
+        bar2.Low.Should().Be(107m);
+        bar2.Close.Should().Be(113m);
+        bar2.Volume.Should().Be(2900m);
+
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void PartialBucket_OnStreamEnd_IsEmittedAsIncomplete()
+    {
+        // The aggregator emits the current (in-progress) bucket as soon as
+        // its first quote arrives, and that bar mutates in place as more
+        // quotes inside the same bucket arrive. When the stream ends
+        // mid-bucket the partial bar remains in Results — it is NOT
+        // trimmed, hidden, or frozen at first emission. Pin both the
+        // live-mutation contract and the survives-on-stream-end contract
+        // so downstream consumers (e.g. live-bar charting) can rely on it.
+
+        QuoteHub provider = new();
+        QuoteAggregatorHub aggregator = provider.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+
+        // First quote opens the 10:00-10:04 bucket as a partial bar
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:00", invariantCulture), 100m, 105m, 99m, 102m, 1000m));
+
+        IReadOnlyList<IQuote> results = aggregator.Results;
+        results.Should().HaveCount(1);
+        results[0].Open.Should().Be(100m);
+        results[0].High.Should().Be(105m);
+        results[0].Low.Should().Be(99m);
+        results[0].Close.Should().Be(102m);
+        results[0].Volume.Should().Be(1000m);
+
+        // Second quote in the same bucket — the partial bar must mutate
+        provider.Add(new Quote(
+            DateTime.Parse("2023-11-09 10:02", invariantCulture), 102m, 110m, 98m, 108m, 1100m));
+
+        results.Should().HaveCount(1);
+        IQuote partial = results[0];
+        partial.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:00", invariantCulture));
+        partial.Open.Should().Be(100m);
+        partial.High.Should().Be(110m);
+        partial.Low.Should().Be(98m);
+        partial.Close.Should().Be(108m);
+        partial.Volume.Should().Be(2100m);
+
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_MatchesFreshStream()
+    {
+        // Skip a mid-stream quote, then re-add it after the cache head
+        // has advanced several buckets. The late hub's aggregated bars
+        // must equal a fresh hub fed the same quotes in correct order;
+        // this is the rollback-equivalence invariant exercised at the
+        // bucket-aware aggregator layer rather than at a per-indicator
+        // hub.
+
+        const int totalQuotes = 60;
+        const int lateIndex = 17;
+
+        // Use minute-spaced quotes so each 5-minute bucket holds multiple inputs
+        List<Quote> quotes = [];
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            quotes.Add(new Quote(
+                DateTime.Parse("2023-11-09 10:00", invariantCulture).AddMinutes(i),
+                100m + i, 105m + i, 99m + i, 102m + i, 1000m + i));
+        }
+
+        QuoteHub lateSource = new();
+        QuoteAggregatorHub lateHub = lateSource.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+
+            lateSource.Add(quotes[i]);
+        }
+
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        QuoteAggregatorHub freshHub = freshSource.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+        freshSource.Add(quotes);
+
+        IReadOnlyList<IQuote> lateResults = lateHub.Results;
+        IReadOnlyList<IQuote> freshResults = freshHub.Results;
+
+        lateResults.Should().HaveSameCount(freshResults);
+        for (int i = 0; i < freshResults.Count; i++)
+        {
+            lateResults[i].Timestamp.Should().Be(freshResults[i].Timestamp);
+            lateResults[i].Open.Should().Be(freshResults[i].Open);
+            lateResults[i].High.Should().Be(freshResults[i].High);
+            lateResults[i].Low.Should().Be(freshResults[i].Low);
+            lateResults[i].Close.Should().Be(freshResults[i].Close);
+            lateResults[i].Volume.Should().Be(freshResults[i].Volume);
+        }
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
 }
 

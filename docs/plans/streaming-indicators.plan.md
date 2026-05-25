@@ -171,13 +171,15 @@ Together ~1 working day. Some items can be parallelized across multiple test PRs
   - **Why**: WilliamsR boundary clamping (T202) was added with tests, but the pattern wasn't generalized. RSI, Stoch %K/%D, Aroon, AroonOsc, MFI, UltimateOscillator, ConnorsRsi all have documented value ranges that are not systematically asserted.
   - **Action**: Add a `BoundedIndicatorInvariant.Tests.cs` enumerating indicators with documented ranges; assert every non-null result is in range across the standard quote set.
 
-- [ ] **TC004 — Expand Macd StreamHub coverage to match Ema** (2 hours).
-  - **Evidence**: Macd has 3 StreamHub tests; Ema has 11. Macd is structurally more complex.
+- [x] **TC004 — Expand Macd StreamHub coverage to match Ema** (verified 2026-05-25, no new code needed).
+  - **Evidence (original, now stale)**: Macd has 3 StreamHub tests; Ema has 11. Macd is structurally more complex.
   - **Action**: Add `LateInbound`, `Reset`, `MaxCacheSize`, `ChainObserver`, and parameter-variant tests to Macd. Audit all cascaded-state indicators for similar gaps.
+  - Re-verification (2026-05-25): `Macd.StreamHub.Tests.cs` now has 8 `[TestMethod]`s — more than Ema's 5 — including `QuoteObserver_WithWarmupLateArrivalAndRemoval`, `WithCachePruning`, `ChainObserver_ChainedProvider`, `ChainProvider`, `StreamingAccuracy_PartialQuotes`, the two TC002-added `LateArrival_*` variants, and `Parameters_WithCustomValues`. Counterparts for the other multi-stage hubs (Stoch=12, Adx=7, SuperTrend=5, Keltner=6, BollingerBands=7, Atr=6, AtrStop=6, Vortex=5, Chandelier=6, Renko=7) all carry comparable coverage after TC002 shipped. The cascaded-state audit is therefore complete. Any further per-indicator depth (e.g., the `Reset` semantics originally listed) belongs in v3.1 alongside the `Reinitialize()` work (T205).
 
-- [ ] **TC005 — Quote aggregator boundary tests** (2 hours).
+- [x] **TC005 — Quote aggregator boundary tests** (2 hours).
   - **Evidence**: `tests/indicators/_common/Quotes/Quote.Aggregate.Tests.cs` covers happy-path bucketing and invalid-period rejection. Missing: gap-fill on/off variants, late tick crossing a closed bucket boundary, partial-bucket emission on stream end.
   - **Action**: Add `Quote.Aggregate.LateArrival`, `Quote.Aggregate.GapFill`, `Quote.Aggregate.PartialBucket` tests. Pattern-match `TickHub.Tests.cs:60` (`WithCachePruning`) for consistency.
+  - Shipped scope: 3 new tests per aggregator hub (Quote + Tick = 6 tests total) covering late-arrival across closed multi-input buckets, partial-bucket-on-stream-end contract, and late-vs-fresh oracle parity. Gap-fill on/off variants were already covered. The late-arrival tests caught a latent bug: when an upstream `NotifyObserversOnRebuild` passed a mid-bucket timestamp (the input quote/tick's own timestamp, not the bucket boundary), the aggregator's `Rebuild` did not clear the partial in-cache bar, and the replay appended a duplicate bar at the bucket start. Fix landed alongside the tests: both aggregator hubs override `Rebuild(DateTime)` to round the timestamp down to `AggregationPeriod` before delegating to base.
 
 - [ ] **TC006 — Sharpen catalog assertions (consolidates T219)** (1 hour).
   - **Evidence**: `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:33–34` uses `bufferCount.Should().BeGreaterThan(5)` and `streamCount.Should().BeGreaterThan(10)` while `seriesCount.Should().Be(85)` is exact.
@@ -364,6 +366,12 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
 - [ ] **TC-V31-5 — Compound-hub inner↔outer rollback interaction** (3 hours).
   - Source: TC001 follow-up. For compound hubs (StochRsi, Stc, ConnorsRsi, Gator, etc.) `Rebuild` on the outer hub does not exercise the inner hub's `RollbackState`. Inner is still validated via its own listing's TC001 row; the cross-hub interaction is not. Add a targeted test only if a real compound-hub rollback bug surfaces.
 
+- [ ] **TC-V31-8 — Chained-downstream late-arrival aggregator coverage** (1–2 hours).
+  - Source: TC005 self-review (Tester finding). The new TC005 tests exercise the aggregator hub in isolation. A `QuoteHub → AggregatorHub → EmaHub` (and tick analog) late-arrival test would additionally pin that the aggregator's upstream-triggered rebuild propagates downstream observer notifications correctly, catching a hypothetical regression where the rebuild silently dropped one notification per replay. Inline test per pattern; assert downstream `EmaHub.Results` bit-equality between late and fresh chains.
+
+- [ ] **TC-V31-9 — Aggregator late-arrival × gap-fill interaction** (1–2 hours).
+  - Source: TC005 self-review (Tester observation). Late quote arriving into a bucket that was previously gap-filled should replace the gap bar with a real one rather than leave or duplicate it. Add `LateArrival_IntoGapFilledBucket_ReplacesGapBar` to both aggregator test files.
+
 - [ ] **TC-V31-6 — Aggregator gap-fill / missing-candle test variants** (2–3 hours).
   - Source: Discussion #1018 @elAndyG. Companion to T236 (`GapFillMode` enum) and G008 (docs).
   - Add tests under `tests/indicators/_common/Quotes/Quote.AggregatorHub.Tests.cs`: synthesized tick sequences with intentional gaps (e.g., missing 1-minute bars during low-volume periods); assert behavior under each future `GapFillMode` value (None/ForwardFill/Interpolate). Today the test gap is in §D TC005 (boundary tests) — TC-V31-6 extends that pattern once T236 ships. Distinct from TC-V31-4 (which covers rollback equivalence on the aggregator hubs themselves).
@@ -496,4 +504,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-25
+Last updated: 2026-05-25 (TC005 shipped + aggregator Rebuild fix; TC004 verified done)
