@@ -32,6 +32,16 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<UltimateResult> sut = Data
+            .GetRandom(2500)
+            .ToUltimate(7, 14, 28);
+
+        sut.IsBetween(static x => x.Ultimate, 0d, 100d);
+    }
+
+    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> sut = Quotes

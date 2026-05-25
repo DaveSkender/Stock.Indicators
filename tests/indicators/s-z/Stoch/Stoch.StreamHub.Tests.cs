@@ -100,7 +100,6 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
         const int lookbackPeriods = 14;
@@ -134,7 +133,6 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_AtSmoothingWarmupBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past Stoch %K + %D warmup boundary.
         // %K emits at lookback + smooth - 1 (= 14 + 3 - 1 = 16), %D after
         // signal SMA over %K (~18). Index 22 forces replay across both
         // smoothing-stage transitions.
@@ -174,6 +172,19 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<StochResult> sut = Quotes.ToStochHub(14, 3, 3).Results;
         sut.IsBetween(static x => x.Oscillator, 0, 100);
         sut.IsBetween(static x => x.Signal, 0, 100);
+    }
+
+    [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        // %J is unbounded by design so not asserted.
+        IReadOnlyList<StochResult> sut = Data
+            .GetRandom(2500)
+            .ToStochHub(14, 3, 3)
+            .Results;
+
+        sut.IsBetween(static x => x.Oscillator, 0d, 100d);
+        sut.IsBetween(static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

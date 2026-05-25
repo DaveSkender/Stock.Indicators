@@ -11,6 +11,17 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<WilliamsResult> sut = Data
+            .GetRandom(2500)
+            .ToWilliamsRHub(14)
+            .Results;
+
+        sut.IsBetween(static x => x.WilliamsR, -100d, 0d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
