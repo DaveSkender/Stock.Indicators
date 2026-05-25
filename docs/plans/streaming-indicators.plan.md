@@ -368,6 +368,14 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
   - Source: Discussion #1018 @elAndyG. Companion to T236 (`GapFillMode` enum) and G008 (docs).
   - Add tests under `tests/indicators/_common/Quotes/Quote.AggregatorHub.Tests.cs`: synthesized tick sequences with intentional gaps (e.g., missing 1-minute bars during low-volume periods); assert behavior under each future `GapFillMode` value (None/ForwardFill/Interpolate). Today the test gap is in §D TC005 (boundary tests) — TC-V31-6 extends that pattern once T236 ships. Distinct from TC-V31-4 (which covers rollback equivalence on the aggregator hubs themselves).
 
+- [ ] **TC-V31-7 — Deterministic seed for `Data.GetRandom`** (2–3 hours).
+  - Source: PR #2021 self-review (bounded-value invariants). `tests/indicators/_testdata/TestData.Random.cs:12` seeds the random generator from `DateTime.UtcNow.Ticks`, so every `Boundary_WithRandomQuotes_StaysWithinBounds` test in the suite is flaky-by-construction in principle. The boundedness assertions are mathematically inherent today (no observed failures), but a seeded overload removes the latent risk and makes any future failure reproducible.
+  - Add a `Data.GetRandom(count, int seed)` overload threading the seed through; convert existing callers in `Stoch.StaticSeries.Tests.cs:218`, `WilliamsR.StaticSeries.Tests.cs:81`, and all eleven `Boundary_WithRandomQuotes_StaysWithinBounds` callers added in PR #2021 to use a fixed constant (e.g. `seed: 1`).
+
+- [ ] **TC-V31-8 — BufferList parity for bounded-value invariant tests** (1–2 hours).
+  - Source: PR #2021 scope decision. The bounded-value invariant work (RSI, Stoch, Aroon, MFI, Ultimate, ConnorsRSI, WilliamsR) shipped Series + StreamHub coverage but skipped BufferList. The math is identical across all three styles, so a BufferList violation would be a regression bug rather than an algorithmic edge case; still, a symmetry pass closes the contract.
+  - Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each `*.BufferList.Tests.cs` sibling; reuse the same fixture/seed once TC-V31-7 lands so the three styles assert identical input → identical output ranges.
+
 ### Framework / performance
 
 - [ ] **T205 — `Reinitialize()` optimization** (6–8 hours) **[highest leverage]**.
@@ -490,4 +498,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-25 (post-swarm review + TC001 + TC002 multi-stage late-arrival tests shipped + PR #1014 / Discussion #1018 / project board consolidation + plans-folder housekeeping: documentation-site retired, branching-strategy and file-reorg cross-references refreshed)
+Last updated: 2026-05-25
