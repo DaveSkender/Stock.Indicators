@@ -8,7 +8,9 @@ description: Created by Quong and Soudack, the Money Flow Index is a price-volum
 Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wiki/Money_flow_index) is a price-volume oscillator that shows buying and selling momentum.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/247 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Mfi" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Mfi" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<MfiResult> results =
 
 You must have at least `N+1` historical quotes to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -85,6 +87,8 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<MfiResult> results = observer.Results;
 ```
 
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+
 ## Chaining
 
 Results can be further processed on `Mfi` with additional chain-enabled indicators.
@@ -97,3 +101,5 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.

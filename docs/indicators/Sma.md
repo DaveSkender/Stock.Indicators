@@ -8,7 +8,9 @@ description: Simple moving average.  Extended to include mean absolute deviation
 [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average price over a lookback window.  An [extended analysis](#analysis) option includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Sma" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Sma" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax (with Close price)
@@ -26,7 +28,7 @@ IReadOnlyList<SmaResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -95,6 +97,8 @@ var results = quotes
     .ToRsi(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -124,3 +128,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<SmaResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

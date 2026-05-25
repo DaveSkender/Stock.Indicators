@@ -50,7 +50,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<SlopeResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -61,7 +61,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SlopeResult> sut = Quotes
             .ToSma(2)
@@ -72,7 +72,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToSlope(20)
@@ -116,7 +116,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<SlopeResult> sut = Quotes
             .ToSlope(20)
@@ -137,7 +137,7 @@ public class Slope : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToSlope(1))
             .Should()

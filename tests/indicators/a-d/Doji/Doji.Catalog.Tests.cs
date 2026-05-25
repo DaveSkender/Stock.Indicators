@@ -7,7 +7,7 @@ namespace Catalogging;
 public class DojiTests : TestBase
 {
     [TestMethod]
-    public void DojiSeriesListing()
+    public void DojiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Doji.SeriesListing;

@@ -35,7 +35,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<StcResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -46,7 +46,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<StcResult> sut = Quotes
             .ToSma(2)
@@ -57,7 +57,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToStc(9, 12, 26)
@@ -105,7 +105,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int cyclePeriods = 9;
         const int fastPeriods = 12;
@@ -130,7 +130,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

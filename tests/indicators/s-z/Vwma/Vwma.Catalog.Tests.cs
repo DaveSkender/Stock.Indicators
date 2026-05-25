@@ -7,7 +7,7 @@ namespace Catalogging;
 public class VwmaTests : TestBase
 {
     [TestMethod]
-    public void VwmaSeriesListing()
+    public void VwmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Vwma.SeriesListing;

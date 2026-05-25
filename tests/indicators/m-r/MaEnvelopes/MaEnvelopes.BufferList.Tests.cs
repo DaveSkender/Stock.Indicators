@@ -84,7 +84,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithEmaType()
+    public void WithEmaType_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> expected = Quotes.ToMaEnvelopes(
             lookbackPeriods, percentOffset, MaType.EMA);

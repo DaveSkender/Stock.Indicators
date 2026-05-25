@@ -8,7 +8,9 @@ description: Created by Doug Schaff, the Schaff Trend Cycle is a stochastic osci
 Created by Doug Schaff, the [Schaff Trend Cycle](https://www.investopedia.com/articles/forex/10/schaff-trend-cycle-indicator.asp) is a stochastic oscillator view of two converging/diverging exponential moving averages.  In other words, it's a Stochastic Oscillator of Moving Average Convergence / Divergence (MACD).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/570 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Stc" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Stc" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -28,7 +30,7 @@ IReadOnlyList<StcResult> results =
 
 You must have at least `2×(S+C)` or `S+C+100` worth of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+C+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -81,6 +83,8 @@ var results = quotes
     .ToRsi(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -110,3 +114,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<StcResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

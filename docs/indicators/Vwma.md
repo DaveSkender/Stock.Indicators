@@ -8,7 +8,9 @@ description: Volume Weighted Moving Average is the volume adjusted average price
 Volume Weighted Moving Average is the volume adjusted average price over a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/657 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Vwma" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Vwma" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<VwmaResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -67,6 +69,8 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -110,3 +114,5 @@ vwmaList.Add(DateTime.Now, price: 100.50, volume: 1000);
 ```
 
 **Note:** VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

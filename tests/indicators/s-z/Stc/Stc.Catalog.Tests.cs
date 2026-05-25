@@ -7,7 +7,7 @@ namespace Catalogging;
 public class StcTests : TestBase
 {
     [TestMethod]
-    public void StcSeriesListing()
+    public void StcSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Stc.SeriesListing;
@@ -40,7 +40,7 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void StcBufferListing()
+    public void StcBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Stc.BufferListing;
@@ -73,7 +73,7 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void StcStreamListing()
+    public void StcStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Stc.StreamListing;

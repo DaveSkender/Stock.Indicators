@@ -8,7 +8,9 @@ description: Slope of the best fit line is determined by an ordinary least-squar
 [Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on price.  It can be used to help identify trend strength and direction.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Slope" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Slope" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<SlopeResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -82,6 +84,8 @@ var results = quotes
     .ToRsi(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -115,3 +119,5 @@ IReadOnlyList<SlopeResult> results = observer.Results;
 ::: warning 🖌️ Repaint warning
 The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.
 :::
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

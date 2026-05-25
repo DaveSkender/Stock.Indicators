@@ -8,8 +8,6 @@ description: Pivots is an extended customizable version of Williams Fractal that
 Pivots is an extended customizable version of <a href="/indicators/Fractal/" rel="nofollow">Williams Fractal</a> that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/436 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Pivots" />
-
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotsResult> results =
@@ -35,7 +33,7 @@ The `maxTrendPeriods` parameter controls the lookback window for trend line calc
 
 You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ### EndType options
 
@@ -72,13 +70,13 @@ This price pattern looks forward and backward in the historical quotes so it wil
 
 #### PivotTrend values
 
-**`PivotTrend.HH`** - Higher high
+**`PivotTrend.Hh`** - Higher high
 
-**`PivotTrend.LH`** - Lower high
+**`PivotTrend.Lh`** - Lower high
 
-**`PivotTrend.HL`** - Higher low
+**`PivotTrend.Hl`** - Higher low
 
-**`PivotTrend.LL`** - Lower low
+**`PivotTrend.Ll`** - Lower low
 
 #### Filtering results
 
@@ -97,7 +95,7 @@ var recentPivots = results.TakeLast(period);
 
 // get only high pivot points with Higher High trend
 var higherHighs = results
-    .Where(x => x.HighPoint != null && x.HighTrend == PivotTrend.HH);
+    .Where(x => x.HighPoint != null && x.HighTrend == PivotTrend.Hh);
 
 // combine filters: recent periods with trends
 var recentTrends = results
@@ -116,6 +114,8 @@ See [Utilities and helpers](/utilities/results/) for more information.
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -146,3 +146,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<PivotsResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

@@ -8,7 +8,9 @@ description: Created by Tushar Chande and Stanley Kroll, Stochastic RSI is a Sto
 Created by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator](/indicators/Stoch).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/236 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="StochRsi" />
+<ClientOnly>
+  <StockIndicatorChart indicator="StochRsi" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -31,7 +33,7 @@ The original Stochastic RSI formula uses a the Fast variant of the Stochastic ca
 
 You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S+M` and `R+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -84,6 +86,8 @@ var results = quotes
     .ToStochRsi(..)
     .ToSlope(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -143,3 +147,5 @@ var stochRsiHub = rsiHub
 ```
 
 :::
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

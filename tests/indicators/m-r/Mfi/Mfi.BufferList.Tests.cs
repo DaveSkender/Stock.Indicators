@@ -9,14 +9,14 @@ public class Mfi : BufferListTestBase
        = Quotes.ToMfi(lookbackPeriods);
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public void Results_WithAnyInput_AreAlwaysBounded()
     {
         MfiList sut = new(14, Quotes);
         sut.IsBetween(static x => x.Mfi, 0, 100);
     }
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         MfiList sut = new(lookbackPeriods);
 
@@ -30,7 +30,7 @@ public class Mfi : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         MfiList sut = new(lookbackPeriods) { Quotes };
 
@@ -39,7 +39,7 @@ public class Mfi : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         MfiList sut = new(lookbackPeriods, Quotes);
 

@@ -12,11 +12,23 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 | `ChainHub<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
 | `ChainHub<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
 | `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
+| `QuoteProvider<TIn, TOut>` (self-rooted) | None | TOut | Source hubs with no upstream — bootstrap with an inert sentinel provider |
 | `StreamHub<TProviderResult, TResult>` | Any hub result | Any result | Compound hubs (internal hub dependency) |
 
-## Performance requirements
+Self-rooted source hubs (those that originate a stream rather than transform another hub's output) take an inert sentinel provider so the base-class constructor has something to subscribe to; the sentinel rejects subscriptions and carries no cache. Aggregator/quantizer hubs that turn small bars into larger bars derive from `QuoteProvider<TIn, IQuote>` and expose a `PeriodSize` or `TimeSpan` parameter.
 
-Target: StreamHub ≤ 1.5x slower than Series.
+## Performance targets
+
+Use the project's performance-analysis document as the source of truth for measured overhead bands; the categorical targets below are guidance, not contracts.
+
+| Band | StreamHub overhead | Status |
+| ---- | ------------------ | ------ |
+| Target | ≤ 1.5x | ✅ meets target |
+| Acceptable | 1.5x – 3x | ✅ acceptable |
+| Review | 3x – framework floor | ⚠️ investigate |
+| Critical | indicator-specific algorithmic issue (e.g. O(n²)) | 🔴 fix |
+
+The "framework floor" is the per-tick overhead inherent to the observer pattern, cache management, and read-only collection wrappers. Simple stateless indicators routinely measure 6–11x against Series while still achieving tens of thousands of quotes per second; this is acceptable. Optimization effort should target indicator-specific algorithmic issues, not the framework floor.
 
 Forbid O(n²) recalculation — rebuild entire history on each tick:
 
@@ -34,6 +46,14 @@ _avgGain = ((_avgGain * (period - 1)) + gain) / period;
 ```
 
 Use `RollingWindowMax/Min` utilities instead of O(n) linear scans.
+
+## Thread safety contract
+
+StreamHub mutating operations (`Add`, `Rebuild`, `RemoveRange`, `RemoveAt`) hold a private monitor for the duration of cache mutation, and observer notification happens **inside** the lock so subscribers cannot desynchronize. Subclasses must not release the lock before notifying observers.
+
+The base class also carries a rebuilding flag that suppresses self-recursive `Rebuild` while replaying provider items through `OnAdd`. Observer cascading is still allowed and desired. Subclass code must not bypass this flag.
+
+The public `Results` surface is a **live read-only view**, not an immutable snapshot. Consumers that iterate while upstream may emit must snapshot first (`.ToList()`).
 
 ## RollbackState pattern
 
@@ -81,12 +101,7 @@ Replay up to `restoreIndex` (inclusive). The item at the rollback timestamp is r
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
 - [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
 
-## Examples
-
-- Chain: `src/e-k/Ema/Ema.StreamHub.cs`
-- Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
-- Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
-- Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`
+## References
 
 - [Provider selection](references/provider-selection.md)
 - [Rollback patterns](references/rollback-patterns.md)

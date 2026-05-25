@@ -8,7 +8,9 @@ description: Standard Deviation represents the volatility of historical financia
 [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).  Z-Score is also returned.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="StdDev" />
+<ClientOnly>
+  <StockIndicatorChart indicator="StdDev" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax (series)
@@ -30,7 +32,7 @@ StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -81,6 +83,8 @@ var results = quotes
     .ToSlope(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -110,3 +114,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<StdDevResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

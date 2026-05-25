@@ -51,6 +51,7 @@ _ReSharper*/
 
 # Agent configuration (not used)
 .claude/
+CLAUDE.local.md
 .cline/
 .clinerules/
 .codex/

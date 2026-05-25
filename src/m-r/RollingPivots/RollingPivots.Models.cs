@@ -14,47 +14,47 @@ public record RollingPivotsResult : IPivotPoint, IReusable
     /// <summary>
     /// Gets the pivot point (PP) value.
     /// </summary>
-    public decimal? PP { get; init; }
+    public double? PP { get; init; }
 
     /// <summary>
     /// Gets the first support level (S1).
     /// </summary>
-    public decimal? S1 { get; init; }
+    public double? S1 { get; init; }
 
     /// <summary>
     /// Gets the second support level (S2).
     /// </summary>
-    public decimal? S2 { get; init; }
+    public double? S2 { get; init; }
 
     /// <summary>
     /// Gets the third support level (S3).
     /// </summary>
-    public decimal? S3 { get; init; }
+    public double? S3 { get; init; }
 
     /// <summary>
     /// Gets the fourth support level (S4).
     /// </summary>
-    public decimal? S4 { get; init; }
+    public double? S4 { get; init; }
 
     /// <summary>
     /// Gets the first resistance level (R1).
     /// </summary>
-    public decimal? R1 { get; init; }
+    public double? R1 { get; init; }
 
     /// <summary>
     /// Gets the second resistance level (R2).
     /// </summary>
-    public decimal? R2 { get; init; }
+    public double? R2 { get; init; }
 
     /// <summary>
     /// Gets the third resistance level (R3).
     /// </summary>
-    public decimal? R3 { get; init; }
+    public double? R3 { get; init; }
 
     /// <summary>
     /// Gets the fourth resistance level (R4).
     /// </summary>
-    public decimal? R4 { get; init; }
+    public double? R4 { get; init; }
 
     /// <inheritdoc/>
     [JsonIgnore]

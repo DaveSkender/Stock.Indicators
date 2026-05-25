@@ -8,7 +8,9 @@ description: Detrended Price Oscillator depicts the difference between price and
 [Detrended Price Oscillator](https://en.wikipedia.org/wiki/Detrended_price_oscillator) depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/551 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Dpo" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Dpo" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<DpoResult> results =
 
 You must have at least `N` historical quotes to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -75,6 +77,8 @@ var results = quotes
     .ToRsi(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -106,3 +110,5 @@ IReadOnlyList<DpoResult> results = observer.Results;
 ```
 
 **Note:** DPO has a lookahead requirement (offset = N/2+1 periods), which means results are calculated when sufficient future data becomes available. This introduces a delay in real-time scenarios but maintains mathematical accuracy with the series implementation.
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

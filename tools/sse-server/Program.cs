@@ -7,6 +7,13 @@ using TestData = Test.Data.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// Minimal-API app: no MVC controllers, so silence the expected MVC
+// "No action descriptors found" info log emitted during build-time
+// OpenAPI document generation.
+builder.Logging.AddFilter(
+    "Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider",
+    LogLevel.Warning);
+
 // Add native .NET 10 OpenAPI support
 builder.Services.AddOpenApi(options => {
     options.AddDocumentTransformer((document, _, _) => {

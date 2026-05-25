@@ -106,7 +106,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void Extension()
+    public void Extension_FromQuotes_ReturnsExpectedResult()
     {
         MacdList sut = Quotes.ToMacdList(fastPeriods, slowPeriods, signalPeriods);
 
@@ -115,7 +115,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void StreamingAccuracy()
+    public void StreamingAccuracy_PartialQuotes_MatchesSeriesExactly()
     {
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
@@ -133,7 +133,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void RealTimeSimulation()
+    public void RealTimeSimulation_WithIncrementalQuotes_MatchesSeriesExactly()
     {
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
 

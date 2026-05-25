@@ -8,7 +8,9 @@ description: Created by Peter Martin, the Ulcer Index is a measure of downside p
 Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_index) is a measure of downside price volatility over a lookback window.  Often called the "heart attack" score, it measures the amount of pain seen from drawdowns in financial market prices and portfolio value.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/232 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="UlcerIndex" />
+<ClientOnly>
+  <StockIndicatorChart indicator="UlcerIndex" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<UlcerIndexResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -44,7 +46,7 @@ IReadOnlyList<UlcerIndexResult>
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `UI` | double | Ulcer Index |
+| `UlcerIndex` | double | Ulcer Index |
 
 ### Utilities
 
@@ -66,7 +68,7 @@ var results = quotes
     .ToUlcerIndex(..);
 ```
 
-Results can be further processed on `UI` with additional chain-enabled indicators.
+Results can be further processed on `UlcerIndex` with additional chain-enabled indicators.
 
 ```csharp
 // example
@@ -74,6 +76,8 @@ var results = quotes
     .ToUlcerIndex(..)
     .ToRsi(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -104,3 +108,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<UlcerIndexResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

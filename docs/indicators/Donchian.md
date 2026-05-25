@@ -8,7 +8,9 @@ description: Created by Richard Donchian, Donchian Channels, also called Price C
 Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel), also called Price Channels, are price ranges derived from highest High and lowest Low values.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/257 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Donchian" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Donchian" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<DonchianResult> results =
 
 You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -44,10 +46,10 @@ IReadOnlyList<DonchianResult>
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `UpperBand` | decimal | Upper line is the highest High over `N` periods |
-| `Centerline` | decimal | Simple average of Upper and Lower bands |
-| `LowerBand` | decimal | Lower line is the lowest Low over `N` periods |
-| `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
+| `UpperBand` | double | Upper line is the highest High over `N` periods |
+| `Centerline` | double | Simple average of Upper and Lower bands |
+| `LowerBand` | double | Lower line is the lowest Low over `N` periods |
+| `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 
@@ -61,6 +63,8 @@ See [Utilities and helpers](/utilities/results/) for more information.
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -91,3 +95,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<DonchianResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

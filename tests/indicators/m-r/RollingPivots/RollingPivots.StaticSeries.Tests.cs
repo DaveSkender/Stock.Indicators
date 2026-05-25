@@ -75,7 +75,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Camarilla()
+    public void Camarilla_AsPivotType_ReturnsExpectedResult()
     {
         const int windowPeriods = 10;
         const int offsetPeriods = 0;
@@ -148,7 +148,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Demark()
+    public void Demark_AsPivotType_ReturnsExpectedResult()
     {
         const int windowPeriods = 10;
         const int offsetPeriods = 10;
@@ -230,7 +230,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Fibonacci()
+    public void Fibonacci_AsPivotType_ReturnsExpectedResult()
     {
         const int windowPeriods = 44;
         const int offsetPeriods = 15;
@@ -304,7 +304,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Woodie()
+    public void Woodie_AsPivotType_ReturnsExpectedResult()
     {
         const int windowPeriods = 375;
         const int offsetPeriods = 16;
@@ -392,7 +392,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int windowPeriods = 11;
         const int offsetPeriods = 9;
@@ -418,7 +418,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad window period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

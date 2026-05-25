@@ -165,7 +165,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void MidBufferMutationRehydrates()
+    public void MidBufferMutation_WhenQuoteModified_RehydratesCorrectly()
     {
         List<Quote> quotesList = Quotes
             .Take(200)
@@ -208,7 +208,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void WarmupPeriodsRemainNull()
+    public void WarmupPeriods_WithInsufficientData_RemainNull()
     {
         int sqrtPeriods = (int)Math.Sqrt(LookbackPeriods);
         int minSamples = LookbackPeriods - 1 + sqrtPeriods - 1;
@@ -229,7 +229,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void NaNInputProducesNullResult()
+    public void NaNInput_WhenProvided_ProducesNullResult()
     {
         const int injectionIndex = LookbackPeriods + 5;
         const int totalCount = injectionIndex + (LookbackPeriods * 2);

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class AdlTests : TestBase
 {
     [TestMethod]
-    public void AdlSeriesListing()
+    public void AdlSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Adl.SeriesListing;
@@ -32,7 +32,7 @@ public class AdlTests : TestBase
         adlResult.IsReusable.Should().Be(true);
     }
     [TestMethod]
-    public void AdlStreamListing()
+    public void AdlStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Adl.StreamListing;
@@ -58,7 +58,7 @@ public class AdlTests : TestBase
     }
 
     [TestMethod]
-    public void AdlBufferListing()
+    public void AdlBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Adl.BufferListing;

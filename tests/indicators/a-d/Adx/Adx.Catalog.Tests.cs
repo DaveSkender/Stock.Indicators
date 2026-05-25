@@ -7,7 +7,7 @@ namespace Catalogging;
 public class AdxTests : TestBase
 {
     [TestMethod]
-    public void AdxSeriesListing()
+    public void AdxSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Adx.SeriesListing;
@@ -51,7 +51,7 @@ public class AdxTests : TestBase
         adxrResult4.IsReusable.Should().Be(false);
     }
     [TestMethod]
-    public void AdxStreamListing()
+    public void AdxStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Adx.StreamListing;
@@ -95,7 +95,7 @@ public class AdxTests : TestBase
         adxrResult4.IsReusable.Should().Be(false);
     }
     [TestMethod]
-    public void AdxBufferListing()
+    public void AdxBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Adx.BufferListing;

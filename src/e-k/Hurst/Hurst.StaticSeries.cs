@@ -11,8 +11,6 @@ public static partial class Hurst
     /// <param name="source">List of time-series values to transform.</param>
     /// <param name="lookbackPeriods">Number of periods to look back for the calculation.</param>
     /// <returns>A list of Hurst Exponent results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     public static IReadOnlyList<HurstResult> ToHurst(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 100)
@@ -25,11 +23,15 @@ public static partial class Hurst
         int length = source.Count;
         List<HurstResult> results = new(length);
 
+        // depends only on lookbackPeriods, not on quote values
+        double[] alCorrections = PrecomputeAlCorrections(lookbackPeriods);
+
         // roll through source values
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];
             double? h = null;
+            double? hAl = null;
 
             if (i + 1 > lookbackPeriods)
             {
@@ -43,31 +45,31 @@ public static partial class Hurst
                 {
                     IReusable ps = source[p];
 
-                    // return values
-                    values[x] = l != 0 ? (ps.Value / l) - 1 : double.NaN;
+                    // log returns require strictly positive prices on both ends
+                    values[x] = (l > 0 && ps.Value > 0) ? DeMath.Log(ps.Value / l) : double.NaN;
 
                     l = ps.Value;
                     x++;
                 }
 
                 // calculate hurst exponent
-                h = CalcHurstWindow(values).NaN2Null();
+                (double rawH, double correctedH) = CalcHurstWindow(values, alCorrections);
+                h = rawH.NaN2Null();
+                hAl = correctedH.NaN2Null();
             }
 
             results.Add(new(
                 Timestamp: s.Timestamp,
-                HurstExponent: h));
+                HurstExponent: h,
+                HurstExponentAL: hAl));
         }
 
         return results;
     }
 
-    /// <summary>
-    /// Calculates the Hurst Exponent for a given window of values.
-    /// </summary>
-    /// <param name="values">Array of values to evaluate.</param>
-    /// <returns>Calculated Hurst Exponent.</returns>
-    internal static double CalcHurstWindow(double[] values)
+    internal static (double H, double HurstExponentAL) CalcHurstWindow(
+        double[] values,
+        double[] alCorrections)
     {
         int totalSize = values.Length;
         int maxChunks = 0;
@@ -91,6 +93,7 @@ public static partial class Hurst
 
         // initialize result sets
         double[] logRs = new double[setQty];
+        double[] logRsAL = new double[setQty];
         double[] logSize = new double[setQty];
         int setNum = 0;
 
@@ -120,8 +123,9 @@ public static partial class Hurst
                 // chunk mean diff
                 double sumY = 0;
                 double sumSq = 0;
-                double maxY = values[startIndex] - chunkMean;
-                double minY = values[startIndex] - chunkMean;
+                double maxY = double.MinValue;
+                double minY = double.MaxValue;
+
                 for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
                     double y = values[i] - chunkMean;
@@ -135,7 +139,7 @@ public static partial class Hurst
                 // chunk rescaled range
                 double r = maxY - minY;
                 double s = Math.Sqrt(sumSq / chunkSize);
-                double rs = s != 0 ? r / s : 0;
+                double rs = s != 0 ? r / s : double.NaN;
 
                 sumChunkRs += rs;
 
@@ -143,16 +147,97 @@ public static partial class Hurst
                 startIndex += chunkSize;
             }
 
+            // average R/S for this chunk size
+            double avgRs = sumChunkRs / chunkQty;
+
+            // Anis-Lloyd corrected R/S:
+            // RS_corrected = avgRs - E[R/S]_AL + √(π·n/2)
+            // The bias-correction term (√(π·n/2) - E[R/S]_AL) is precomputed
+            // per chunk size since it depends only on n.
+            double rsAL = avgRs + alCorrections[setNum];
+
             // set results
             logSize[setNum] = DeMath.Log10(chunkSize);
-            logRs[setNum] = DeMath.Log10(sumChunkRs / chunkQty);
+            logRs[setNum] = avgRs > 0
+                ? DeMath.Log10(avgRs)
+                : double.NaN;
+
+            // NaN-guards: rsAL is non-negative for any finite avgRs (the
+            // bias-correction term is positive across all chunk sizes used),
+            // so this branch fires only when avgRs is NaN.
+            logRsAL[setNum] = rsAL > 0
+                ? DeMath.Log10(rsAL)
+                : double.NaN;
 
             // increment set
             setNum++;
         }
 
-        // hurst exponent
-        // TODO: apply Anis-Lloyd corrected R/S Hurst?
-        return Numerical.Slope(logSize, logRs);
+        // hurst exponents: raw and anis-lloyd corrected
+        return (
+            Numerical.Slope(logSize, logRs),
+            Numerical.Slope(logSize, logRsAL));
+    }
+
+    internal static double[] PrecomputeAlCorrections(int totalSize)
+    {
+        int setQty = 0;
+        int maxChunks = 0;
+        for (int chunkQty = 1; chunkQty <= 32; chunkQty *= 2)
+        {
+            if (totalSize / chunkQty >= 8)
+            {
+                maxChunks = chunkQty;
+                setQty++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        double[] corrections = new double[setQty];
+        int setIdx = 0;
+        for (int chunkQty = 1; chunkQty <= maxChunks; chunkQty *= 2)
+        {
+            int chunkSize = totalSize / chunkQty;
+            double eRsAsymptotic = Math.Sqrt(Math.PI * chunkSize / 2.0);
+            corrections[setIdx++] = eRsAsymptotic - HurstExpectedRs(chunkSize);
+        }
+
+        return corrections;
+    }
+
+    // Anis-Lloyd expected R/S for a random series of length n
+    // Reference: Anis and Lloyd (1976), Peters (1994)
+    private static double HurstExpectedRs(int n)
+    {
+        // inner sum: sum(j=1..n-1, sqrt((n-j)/j))
+        double innerSum = 0;
+        for (int j = 1; j < n; j++)
+        {
+            innerSum += Math.Sqrt((double)(n - j) / j);
+        }
+
+        double gammaFactor;
+
+        // Branch threshold n=340: below this, LogGamma is fast and exact;
+        // above, the Stirling approximation introduces <0.05% error and
+        // avoids LogGamma overflow risk for very large n.
+        if (n <= 340)
+        {
+            // exact: Gamma((n-1)/2) / (sqrt(pi) * Gamma(n/2))
+            gammaFactor = DeMath.Exp(
+                Numerical.LogGamma((n - 1.0) / 2.0)
+                - (0.5 * DeMath.Log(Math.PI))
+                - Numerical.LogGamma(n / 2.0));
+        }
+        else
+        {
+            // Stirling Variant A (Peters 1994): sqrt(2 / (pi * (n-1)))
+            gammaFactor = Math.Sqrt(2.0 / (Math.PI * (n - 1.0)));
+        }
+
+        return gammaFactor * innerSum;
     }
 }

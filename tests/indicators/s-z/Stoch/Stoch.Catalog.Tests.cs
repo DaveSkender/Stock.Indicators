@@ -7,7 +7,7 @@ namespace Catalogging;
 public class StochTests : TestBase
 {
     [TestMethod]
-    public void StochSeriesListing()
+    public void StochSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Stoch.SeriesListing;
@@ -44,7 +44,7 @@ public class StochTests : TestBase
     }
 
     [TestMethod]
-    public void StochStreamListing()
+    public void StochStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Stoch.StreamListing;
@@ -65,7 +65,7 @@ public class StochTests : TestBase
     }
 
     [TestMethod]
-    public void StochBufferListing()
+    public void StochBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Stoch.BufferListing;

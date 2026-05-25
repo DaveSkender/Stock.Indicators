@@ -7,7 +7,7 @@ namespace Catalogging;
 public class KvoTests : TestBase
 {
     [TestMethod]
-    public void KvoSeriesListing()
+    public void KvoSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Kvo.SeriesListing;
@@ -44,7 +44,7 @@ public class KvoTests : TestBase
     }
 
     [TestMethod]
-    public void KvoStreamListing()
+    public void KvoStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Kvo.StreamListing;

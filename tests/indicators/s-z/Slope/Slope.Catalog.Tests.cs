@@ -7,7 +7,7 @@ namespace Catalogging;
 public class SlopeTests : TestBase
 {
     [TestMethod]
-    public void SlopeSeriesListing()
+    public void SlopeSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Slope.SeriesListing;
@@ -52,7 +52,7 @@ public class SlopeTests : TestBase
     }
 
     [TestMethod]
-    public void SlopeStreamListing()
+    public void SlopeStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Slope.StreamListing;
@@ -97,7 +97,7 @@ public class SlopeTests : TestBase
     }
 
     [TestMethod]
-    public void SlopeBufferListing()
+    public void SlopeBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Slope.BufferListing;

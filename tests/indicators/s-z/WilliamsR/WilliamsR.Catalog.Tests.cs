@@ -7,7 +7,7 @@ namespace Catalogging;
 public class WilliamsRTests : TestBase
 {
     [TestMethod]
-    public void WilliamsRSeriesListing()
+    public void WilliamsRSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = WilliamsR.SeriesListing;
@@ -36,7 +36,7 @@ public class WilliamsRTests : TestBase
     }
 
     [TestMethod]
-    public void WilliamsRBufferListing()
+    public void WilliamsRBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = WilliamsR.BufferListing;
@@ -65,7 +65,7 @@ public class WilliamsRTests : TestBase
     }
 
     [TestMethod]
-    public void WilliamsRStreamListing()
+    public void WilliamsRStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = WilliamsR.StreamListing;

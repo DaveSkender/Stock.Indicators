@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ChopTests : TestBase
 {
     [TestMethod]
-    public void ChopSeriesListing()
+    public void ChopSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Chop.SeriesListing;
@@ -36,7 +36,7 @@ public class ChopTests : TestBase
     }
 
     [TestMethod]
-    public void ChopStreamListing()
+    public void ChopStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Chop.StreamListing;

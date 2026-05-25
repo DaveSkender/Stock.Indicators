@@ -8,7 +8,9 @@ description: Created by John Bollinger, the Bollinger Bands price channels depic
 Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands® is a registered trademark of John A. Bollinger.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="BollingerBands" />
+<ClientOnly>
+  <StockIndicatorChart indicator="BollingerBands" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -27,7 +29,7 @@ IReadOnlyList<BollingerBandsResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -81,6 +83,8 @@ var results = quotes
     .ToRsi(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -110,3 +114,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<BollingerBandsResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

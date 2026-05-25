@@ -6,14 +6,14 @@ namespace Skender.Stock.Indicators;
 public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIchimoku
 {
     // Historical results buffer for lookback (needed for offset calculations)
-    private readonly List<(DateTime Timestamp, decimal? TenkanSen, decimal? KijunSen)> _historicalResults;
+    private readonly List<(DateTime Timestamp, double? TenkanSen, double? KijunSen)> _historicalResults;
 
     // Historical high/low buffer for Senkou Span B lookback (need to look back by offset)
-    private readonly List<(decimal High, decimal Low)> _historicalHighLow;
+    private readonly List<(double High, double Low)> _historicalHighLow;
 
     // Rolling window buffers for max/min calculations
-    private readonly Queue<(decimal High, decimal Low)> _tenkanBuffer;
-    private readonly Queue<(decimal High, decimal Low)> _kijunBuffer;
+    private readonly Queue<(double High, double Low)> _tenkanBuffer;
+    private readonly Queue<(double High, double Low)> _kijunBuffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IchimokuList"/> class.
@@ -40,10 +40,10 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         ChikouOffset = chikouOffset;
 
         // Initialize buffers
-        _historicalResults = new List<(DateTime, decimal?, decimal?)>();
-        _historicalHighLow = new List<(decimal, decimal)>();
-        _tenkanBuffer = new Queue<(decimal, decimal)>(tenkanPeriods);
-        _kijunBuffer = new Queue<(decimal, decimal)>(kijunPeriods);
+        _historicalResults = new List<(DateTime, double?, double?)>();
+        _historicalHighLow = new List<(double, double)>();
+        _tenkanBuffer = new Queue<(double, double)>(tenkanPeriods);
+        _kijunBuffer = new Queue<(double, double)>(kijunPeriods);
 
         Name = $"ICHIMOKU({tenkanPeriods}, {kijunPeriods}, {senkouBPeriods}, {senkouOffset}, {chikouOffset})";
     }
@@ -91,21 +91,21 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         ArgumentNullException.ThrowIfNull(quote);
 
         // Update rolling buffers using BufferUtilities
-        _tenkanBuffer.Update(TenkanPeriods, (quote.High, quote.Low));
-        _kijunBuffer.Update(KijunPeriods, (quote.High, quote.Low));
+        _tenkanBuffer.Update(TenkanPeriods, ((double)quote.High, (double)quote.Low));
+        _kijunBuffer.Update(KijunPeriods, ((double)quote.High, (double)quote.Low));
 
         // Store historical high/low for Senkou B lookback
-        _historicalHighLow.Add((quote.High, quote.Low));
+        _historicalHighLow.Add(((double)quote.High, (double)quote.Low));
 
         // Calculate Tenkan-sen (conversion line)
-        decimal? tenkanSen = null;
+        double? tenkanSen = null;
         if (_tenkanBuffer.Count == TenkanPeriods)
         {
             tenkanSen = CalculateMidpoint(_tenkanBuffer);
         }
 
         // Calculate Kijun-sen (base line)
-        decimal? kijunSen = null;
+        double? kijunSen = null;
         if (_kijunBuffer.Count == KijunPeriods)
         {
             kijunSen = CalculateMidpoint(_kijunBuffer);
@@ -115,7 +115,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         _historicalResults.Add((quote.Timestamp, tenkanSen, kijunSen));
 
         // Calculate Senkou Span A (leading span A)
-        decimal? senkouSpanA = null;
+        double? senkouSpanA = null;
         int senkouStartPeriod = Math.Max(
             2 * SenkouOffset,
             Math.Max(TenkanPeriods, KijunPeriods)) - 1;
@@ -124,7 +124,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         {
             if (SenkouOffset == 0)
             {
-                senkouSpanA = (tenkanSen + kijunSen) / 2;
+                senkouSpanA = (tenkanSen + kijunSen) / 2d;
             }
             else if (Count >= SenkouOffset)
             {
@@ -132,14 +132,14 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
                 int lookbackIndex = Count - SenkouOffset;
                 if (lookbackIndex >= 0 && lookbackIndex < _historicalResults.Count)
                 {
-                    (DateTime _, decimal? historicalTenkan, decimal? historicalKijun) = _historicalResults[lookbackIndex];
-                    senkouSpanA = (historicalTenkan + historicalKijun) / 2;
+                    (DateTime _, double? historicalTenkan, double? historicalKijun) = _historicalResults[lookbackIndex];
+                    senkouSpanA = (historicalTenkan + historicalKijun) / 2d;
                 }
             }
         }
 
         // Calculate Senkou Span B (leading span B)
-        decimal? senkouSpanB = CalculateSenkouSpanB(Count);
+        double? senkouSpanB = CalculateSenkouSpanB(Count);
 
         // Calculate Chikou Span (lagging span)
         // ChikouSpan for the current result will be null (can't see future in streaming)
@@ -160,7 +160,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         {
             int pastIndex = Count - ChikouOffset - 1;
             IchimokuResult pastResult = this[pastIndex];
-            IchimokuResult updatedResult = pastResult with { ChikouSpan = quote.Close };
+            IchimokuResult updatedResult = pastResult with { ChikouSpan = (double)quote.Close };
             UpdateInternal(pastIndex, updatedResult);
         }
     }
@@ -176,10 +176,10 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
 
         // Pre-populate the future close buffer with all closes for Chikou Span calculation
         // This allows us to look ahead for Chikou values during batch processing
-        List<decimal> allCloses = new(quotes.Count);
+        List<double> allCloses = new(quotes.Count);
         for (int i = 0; i < quotes.Count; i++)
         {
-            allCloses.Add(quotes[i].Close);
+            allCloses.Add((double)quotes[i].Close);
         }
 
         for (int i = 0; i < quotes.Count; i++)
@@ -187,21 +187,21 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             IQuote quote = quotes[i];
 
             // Update rolling buffers using BufferUtilities
-            _tenkanBuffer.Update(TenkanPeriods, (quote.High, quote.Low));
-            _kijunBuffer.Update(KijunPeriods, (quote.High, quote.Low));
+            _tenkanBuffer.Update(TenkanPeriods, ((double)quote.High, (double)quote.Low));
+            _kijunBuffer.Update(KijunPeriods, ((double)quote.High, (double)quote.Low));
 
             // Store historical high/low for Senkou B lookback
-            _historicalHighLow.Add((quote.High, quote.Low));
+            _historicalHighLow.Add(((double)quote.High, (double)quote.Low));
 
             // Calculate Tenkan-sen (conversion line)
-            decimal? tenkanSen = null;
+            double? tenkanSen = null;
             if (_tenkanBuffer.Count == TenkanPeriods)
             {
                 tenkanSen = CalculateMidpoint(_tenkanBuffer);
             }
 
             // Calculate Kijun-sen (base line)
-            decimal? kijunSen = null;
+            double? kijunSen = null;
             if (_kijunBuffer.Count == KijunPeriods)
             {
                 kijunSen = CalculateMidpoint(_kijunBuffer);
@@ -211,7 +211,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             _historicalResults.Add((quote.Timestamp, tenkanSen, kijunSen));
 
             // Calculate Senkou Span A (leading span A)
-            decimal? senkouSpanA = null;
+            double? senkouSpanA = null;
             int senkouStartPeriod = Math.Max(
                 2 * SenkouOffset,
                 Math.Max(TenkanPeriods, KijunPeriods)) - 1;
@@ -220,7 +220,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             {
                 if (SenkouOffset == 0)
                 {
-                    senkouSpanA = (tenkanSen + kijunSen) / 2;
+                    senkouSpanA = (tenkanSen + kijunSen) / 2d;
                 }
                 else if (Count >= SenkouOffset)
                 {
@@ -228,17 +228,17 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
                     int lookbackIndex = Count - SenkouOffset;
                     if (lookbackIndex >= 0 && lookbackIndex < _historicalResults.Count)
                     {
-                        (DateTime _, decimal? historicalTenkan, decimal? historicalKijun) = _historicalResults[lookbackIndex];
-                        senkouSpanA = (historicalTenkan + historicalKijun) / 2;
+                        (DateTime _, double? historicalTenkan, double? historicalKijun) = _historicalResults[lookbackIndex];
+                        senkouSpanA = (historicalTenkan + historicalKijun) / 2d;
                     }
                 }
             }
 
             // Calculate Senkou Span B (leading span B)
-            decimal? senkouSpanB = CalculateSenkouSpanB(Count);
+            double? senkouSpanB = CalculateSenkouSpanB(Count);
 
             // Calculate Chikou Span (lagging span) - look ahead in the pre-populated list
-            decimal? chikouSpan = null;
+            double? chikouSpan = null;
             int futureIndex = i + ChikouOffset;
             if (futureIndex < allCloses.Count)
             {
@@ -275,12 +275,12 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// </summary>
     /// <param name="buffer">Buffer containing high/low tuples.</param>
     /// <returns>Midpoint value.</returns>
-    private static decimal CalculateMidpoint(Queue<(decimal High, decimal Low)> buffer)
+    private static double CalculateMidpoint(Queue<(double High, double Low)> buffer)
     {
-        decimal max = decimal.MinValue;
-        decimal min = decimal.MaxValue;
+        double max = double.MinValue;
+        double min = double.MaxValue;
 
-        foreach ((decimal high, decimal low) in buffer)
+        foreach ((double high, double low) in buffer)
         {
             if (high > max)
             {
@@ -293,7 +293,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             }
         }
 
-        return (max + min) / 2;
+        return (max + min) / 2d;
     }
 
     /// <summary>
@@ -302,7 +302,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// </summary>
     /// <param name="currentIndex">Current position in the results list.</param>
     /// <returns>Senkou Span B value, or null if insufficient data.</returns>
-    private decimal? CalculateSenkouSpanB(int currentIndex)
+    private double? CalculateSenkouSpanB(int currentIndex)
     {
         if (currentIndex < SenkouOffset + SenkouBPeriods - 1)
         {
@@ -317,12 +317,12 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             return null;
         }
 
-        decimal max = decimal.MinValue;
-        decimal min = decimal.MaxValue;
+        double max = double.MinValue;
+        double min = double.MaxValue;
 
         for (int p = startIndex; p <= endIndex; p++)
         {
-            (decimal high, decimal low) = _historicalHighLow[p];
+            (double high, double low) = _historicalHighLow[p];
             if (high > max)
             {
                 max = high;
@@ -334,7 +334,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             }
         }
 
-        return (max + min) / 2;
+        return (max + min) / 2d;
     }
 
     /// <summary>

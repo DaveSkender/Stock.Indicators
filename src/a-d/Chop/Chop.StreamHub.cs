@@ -6,8 +6,8 @@ namespace Skender.Stock.Indicators;
 public class ChopHub
     : ChainHub<IQuote, ChopResult>, IChop
 {
-    private readonly RollingWindowMax<double> _trueHighWindow;
-    private readonly RollingWindowMin<double> _trueLowWindow;
+    private CircularDoubleBuffer _trueHighBuffer;
+    private CircularDoubleBuffer _trueLowBuffer;
     private readonly Queue<double> _trueRangeBuffer;
     private double _sumTrueRange;
 
@@ -17,8 +17,8 @@ public class ChopHub
     {
         Chop.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        _trueHighWindow = new RollingWindowMax<double>(lookbackPeriods);
-        _trueLowWindow = new RollingWindowMin<double>(lookbackPeriods);
+        _trueHighBuffer = new CircularDoubleBuffer(lookbackPeriods);
+        _trueLowBuffer = new CircularDoubleBuffer(lookbackPeriods);
         _trueRangeBuffer = new Queue<double>(lookbackPeriods);
         _sumTrueRange = 0;
         Name = $"CHOP({lookbackPeriods})";
@@ -46,17 +46,14 @@ public class ChopHub
 
         double? chop = null;
 
-        // Calculate true high, true low, and true range for current period
         double prevClose = (double)ProviderCache[i - 1].Close;
         double trueHigh = Math.Max((double)item.High, prevClose);
         double trueLow = Math.Min((double)item.Low, prevClose);
         double trueRange = trueHigh - trueLow;
 
-        // Add to rolling windows
-        _trueHighWindow.Add(trueHigh);
-        _trueLowWindow.Add(trueLow);
+        _trueHighBuffer.Add(trueHigh);
+        _trueLowBuffer.Add(trueLow);
 
-        // Update sum of true range using rolling buffer
         double? dequeuedTR = _trueRangeBuffer.UpdateWithDequeue(LookbackPeriods, trueRange);
         if (dequeuedTR.HasValue)
         {
@@ -67,22 +64,18 @@ public class ChopHub
             _sumTrueRange += trueRange;
         }
 
-        // calculate CHOP when we have enough data
         if (i >= LookbackPeriods)
         {
-            // Get max/min from rolling windows (O(1))
-            double maxTrueHigh = _trueHighWindow.GetMax();
-            double minTrueLow = _trueLowWindow.GetMin();
+            double maxTrueHigh = _trueHighBuffer.GetMax();
+            double minTrueLow = _trueLowBuffer.GetMin();
             double range = maxTrueHigh - minTrueLow;
 
-            // calculate CHOP
             if (range != 0)
             {
                 chop = 100 * (Math.Log(_sumTrueRange / range) / Math.Log(LookbackPeriods));
             }
         }
 
-        // candidate result
         ChopResult r = new(
             Timestamp: item.Timestamp,
             Chop: chop);
@@ -92,14 +85,12 @@ public class ChopHub
 
     /// <summary>
     /// Restores the rolling window state up to the specified timestamp.
-    /// Clears and rebuilds rolling windows and true range buffer from ProviderCache for Add/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows and buffer
-        _trueHighWindow.Clear();
-        _trueLowWindow.Clear();
+        _trueHighBuffer.Clear();
+        _trueLowBuffer.Clear();
         _trueRangeBuffer.Clear();
         _sumTrueRange = 0;
 
@@ -108,7 +99,6 @@ public class ChopHub
             return;
         }
 
-        // Rebuild rolling windows and buffer from ProviderCache
         int startIdx = Math.Max(1, restoreIndex + 1 - LookbackPeriods);
 
         for (int p = startIdx; p <= restoreIndex; p++)
@@ -120,8 +110,8 @@ public class ChopHub
             double trueLow = Math.Min((double)current.Low, prevClose);
             double trueRange = trueHigh - trueLow;
 
-            _trueHighWindow.Add(trueHigh);
-            _trueLowWindow.Add(trueLow);
+            _trueHighBuffer.Add(trueHigh);
+            _trueLowBuffer.Add(trueLow);
             _trueRangeBuffer.Enqueue(trueRange);
             _sumTrueRange += trueRange;
         }

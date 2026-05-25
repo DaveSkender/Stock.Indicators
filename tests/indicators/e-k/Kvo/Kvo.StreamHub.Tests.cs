@@ -96,7 +96,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Standard()
+    public void Standard_WithStandardQuotes_ReturnsExpectedResult()
     {
         int length = Quotes.Count;
 
@@ -127,7 +127,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Variants()
+    public void Variants_WithAllConfigurations_ReturnsExpectedResult()
     {
         int length = Quotes.Count;
 
@@ -205,7 +205,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void BadData()
+    public void BadData_WithInvalidValues_DoesNotFail()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();

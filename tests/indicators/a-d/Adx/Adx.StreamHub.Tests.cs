@@ -148,7 +148,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void RollbackValidation()
+    public void RollbackValidation_OnRollback_RestoresState()
     {
         QuoteHub quoteHub = new();
 

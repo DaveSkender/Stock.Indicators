@@ -47,7 +47,7 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToPvo()
@@ -82,7 +82,7 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int fastPeriods = 12;
         const int slowPeriods = 26;
@@ -102,7 +102,7 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

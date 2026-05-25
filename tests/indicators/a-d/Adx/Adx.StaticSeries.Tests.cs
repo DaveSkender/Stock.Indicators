@@ -81,7 +81,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToAdx()
@@ -134,7 +134,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Zeroes()
+    public void Zeroes_WithZeroValues_DoesNotFail()
     {
         IReadOnlyList<AdxResult> r = ZeroesQuotes.ToAdx();
 
@@ -143,7 +143,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<AdxResult> sut = Quotes
             .ToAdx()
@@ -160,7 +160,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod] // bad lookback period
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToAdx(1))
             .Should()

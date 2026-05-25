@@ -7,7 +7,7 @@ namespace Catalogging;
 public class FcbTests : TestBase
 {
     [TestMethod]
-    public void FcbSeriesListing()
+    public void FcbSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Fcb.SeriesListing;
@@ -40,7 +40,7 @@ public class FcbTests : TestBase
     }
 
     [TestMethod]
-    public void FcbStreamListing()
+    public void FcbStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Fcb.StreamListing;
@@ -73,7 +73,7 @@ public class FcbTests : TestBase
     }
 
     [TestMethod]
-    public void FcbBufferListing()
+    public void FcbBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Fcb.BufferListing;

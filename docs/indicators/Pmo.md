@@ -8,7 +8,9 @@ description: Created by Carl Swenlin, the DecisionPoint Price Momentum Oscillato
 Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo) is double-smoothed momentum indicator based on Rate of Change (ROC).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/244 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Pmo" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Pmo" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -28,7 +30,7 @@ IReadOnlyList<PmoResult> results =
 
 You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S`, `2×T`, or `T+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -82,6 +84,8 @@ var results = quotes
     .ToRsi(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -111,3 +115,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<PmoResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

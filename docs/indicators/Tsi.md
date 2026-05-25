@@ -8,7 +8,9 @@ description: Created by William Blau, the True Strength Index is a momentum osci
 Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki/True_strength_index) is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/300 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Tsi" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Tsi" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -28,7 +30,7 @@ IReadOnlyList<TsiResult> results =
 
 You must have at least `N+M+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a two-stage EMA smoothing technique, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -65,21 +67,35 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Streaming
 
-This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide](/guide) for more information.
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
 
 ```csharp
-// buffer-style streaming
-TsiList buffer = new(lookbackPeriods, smoothPeriods, signalPeriods);
+TsiList tsiList = new(lookbackPeriods, smoothPeriods, signalPeriods);
 
 foreach (IQuote quote in quotes)  // simulating stream
 {
-    buffer.Add(quote);
-    TsiResult result = buffer[^1];
+  tsiList.Add(quote);
 }
 
-// or initialize with historical quotes
-TsiList buffer = quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
+// based on `ICollection<TsiResult>`
+IReadOnlyList<TsiResult> results = tsiList;
 ```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<TsiResult> results = observer.Results;
+```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
 
 ## Chaining
 
@@ -100,3 +116,5 @@ var results = quotes
     .ToTsi(..)
     .ToSlope(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.

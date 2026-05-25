@@ -8,7 +8,17 @@ description: Zig Zag is a financial market price chart overlay that simplifies t
 [Zig Zag](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag) is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/226 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="ZigZag" />
+**High/Low pivots** (default `EndType.HighLow`) — turning points are detected on intrabar extremes.
+
+<ClientOnly>
+  <StockIndicatorChart indicator="ZigZag" />
+</ClientOnly>
+
+**Close pivots** (`EndType.Close`) — turning points are detected on close price; produces smoother, less-frequent reversals.
+
+<ClientOnly>
+  <StockIndicatorChart indicator="ZigZagClose" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -27,7 +37,7 @@ IReadOnlyList<ZigZagResult> results =
 
 You must have at least two periods of `quotes` to cover the warmup periods, but notably more is needed to be useful.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ### EndType options
 
@@ -86,3 +96,11 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
+## Streaming
+
+Streaming is not supported for this indicator.
+This indicator requires lookahead to confirm reversal points; output repaints as new data arrives, making incremental results undefined.
+Use the Series (batch) implementation with periodic recalculation instead.

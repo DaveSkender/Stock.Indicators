@@ -7,6 +7,7 @@ public class HurstHub
     : ChainHub<IReusable, HurstResult>, IHurst
 {
     private readonly Queue<double> _buffer;
+    private readonly double[] _alCorrections;
 
     internal HurstHub(
         IChainProvider<IReusable> provider,
@@ -16,6 +17,7 @@ public class HurstHub
         LookbackPeriods = lookbackPeriods;
         Name = $"HURST({lookbackPeriods})";
         _buffer = new Queue<double>(lookbackPeriods + 1);
+        _alCorrections = Hurst.PrecomputeAlCorrections(lookbackPeriods);
 
         // Validate cache size for warmup requirements
         // Hurst requires (lookbackPeriods + 1) values in ProviderCache to compute lookbackPeriods returns.
@@ -39,6 +41,7 @@ public class HurstHub
         _buffer.Update(LookbackPeriods + 1, item.Value);
 
         double? h = null;
+        double? hAl = null;
 
         // Need enough periods to calculate Hurst (lookbackPeriods + 1 values to get lookbackPeriods returns)
         if (_buffer.Count == LookbackPeriods + 1)
@@ -55,21 +58,24 @@ public class HurstHub
             {
                 double ps = bufferArray[p];
 
-                // Return values
-                values[x] = l != 0 ? (ps / l) - 1 : double.NaN;
+                // log returns require strictly positive prices on both ends
+                values[x] = (l > 0 && ps > 0) ? DeMath.Log(ps / l) : double.NaN;
 
                 l = ps;
                 x++;
             }
 
-            // Calculate hurst exponent
-            h = Hurst.CalcHurstWindow(values).NaN2Null();
+            // calculate hurst exponent
+            (double rawH, double correctedH) = Hurst.CalcHurstWindow(values, _alCorrections);
+            h = rawH.NaN2Null();
+            hAl = correctedH.NaN2Null();
         }
 
         // Candidate result
         HurstResult r = new(
             Timestamp: item.Timestamp,
-            HurstExponent: h);
+            HurstExponent: h,
+            HurstExponentAL: hAl);
 
         return (r, i);
     }

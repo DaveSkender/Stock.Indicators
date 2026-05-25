@@ -3,7 +3,7 @@ namespace StaticSeries;
 public partial class SmaTests : StaticSeriesTestBase
 {
     [TestMethod]
-    public void Average()
+    public void Average_OverTimeValueArray_ReturnsExpectedResult()
     {
         TimeValue[] results =
         [

@@ -96,7 +96,7 @@ public class VolatilityStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<VolatilityStopResult> sut = Quotes
             .ToVolatilityStop(14)
@@ -111,7 +111,7 @@ public class VolatilityStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

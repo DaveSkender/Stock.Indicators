@@ -9,16 +9,16 @@ To help you get started, here are a few minimalist [.NET](https://dotnet.microso
 
 - `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
-- `CustomIndicatorsLibrary` shows how you can [create your own custom indicators](/customization)
+- `CustomIndicatorsLibrary` shows how you can [create your own custom indicators](/guide/customization)
 - `CustomIndicatorsUsage` shows how you'd use custom indicators just like any other in the main library
 - `UseQuoteApi` shows how you'd get quotes from an API quote source, using the Alpaca SDK for .NET
 
-For more information on how to use this library overall, see the [Guide and Pro Tips](/guide).
+For more information on how to use this library overall, see the [Guide](/guide/).
 
 ## Getting started with our sample projects
 
 We use an external API quote source for our **streaming** and **quote API** examples.  If you intend to run those locally, you'll need to
-[get a free Alpaca API key and secret](https://alpaca.markets/docs/market-data/getting-started/),
+[get a free Alpaca API key and secret](https://docs.alpaca.markets/),
 then set your local environment variables.
 
 Run the following command line items to set, after replacing the `MY-ALPACA-KEY` and `MY-ALPACA-SECRET` values; then restart your IDE.

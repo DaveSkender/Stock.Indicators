@@ -49,7 +49,7 @@ public class AtrStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void HighLow()
+    public void HighLow_WithHighLowEndType_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 21;
         const double multiplier = 3;
@@ -117,7 +117,7 @@ public class AtrStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Condense()
+    public void Condense_RemovesNullResults_ReturnsCondensed()
     {
         const int lookbackPeriods = 21;
         const double multiplier = 3;
@@ -136,7 +136,7 @@ public class AtrStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const int lookbackPeriods = 21;
         const double multiplier = 3;
@@ -155,7 +155,7 @@ public class AtrStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

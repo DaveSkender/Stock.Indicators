@@ -38,7 +38,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<AlmaResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -52,7 +52,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<AlmaResult> sut = Quotes
             .ToSma(2)
@@ -63,7 +63,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 10;
         const double offset = 0.85;
@@ -78,7 +78,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NaN()
+    public void NaN_WithNaNInputs_HandlesGracefully()
     {
         IReadOnlyList<AlmaResult> r1
             = Data.GetBtcUsdNan().ToAlma();
@@ -113,7 +113,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<AlmaResult> sut = Quotes
             .ToAlma(10)
@@ -127,7 +127,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

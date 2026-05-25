@@ -7,7 +7,7 @@ namespace Catalogging;
 public class IchimokuTests : TestBase
 {
     [TestMethod]
-    public void IchimokuSeriesListing()
+    public void IchimokuSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ichimoku.SeriesListing;
@@ -56,7 +56,7 @@ public class IchimokuTests : TestBase
     }
 
     [TestMethod]
-    public void IchimokuStreamListing()
+    public void IchimokuStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ichimoku.StreamListing;
@@ -105,7 +105,7 @@ public class IchimokuTests : TestBase
     }
 
     [TestMethod]
-    public void IchimokuBufferListing()
+    public void IchimokuBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Ichimoku.BufferListing;

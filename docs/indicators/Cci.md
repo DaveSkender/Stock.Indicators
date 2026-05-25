@@ -8,7 +8,9 @@ description: Created by Donald Lambert, the Commodity Channel Index is an oscill
 Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.org/wiki/Commodity_channel_index) is an oscillator depicting deviation from typical price range, often used to identify cyclical trends.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/265 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Cci" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Cci" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<CciResult> results =
 
 You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -68,6 +70,8 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -97,3 +101,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<CciResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

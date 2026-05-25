@@ -7,7 +7,7 @@ namespace Catalogging;
 public class ConnorsRsiTests : TestBase
 {
     [TestMethod]
-    public void ConnorsRsiSeriesListing()
+    public void ConnorsRsiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = ConnorsRsi.SeriesListing;

@@ -4,52 +4,52 @@ description: The Stock Indicators for .NET library contains financial market tec
 layout: home
 hero:
   name: Indicators and overlays
-  tagline: Price trends, channels, oscillator, and more.
+  tagline: Price trends, channels, oscillators, and more.
 features:
   - title: Moving averages
     icon:
       src: /assets/thumbs/moving-average.png
-    link: /indicators/Ema
+    link: /indicators/moving-averages
     details: Price smoothing
   - title: Oscillators
     icon:
       src: /assets/thumbs/oscillator.png
-    link: /indicators/StochRsi
+    link: /indicators/oscillators
     details: Momentum and strength
   - title: Price channels
     icon:
       src: /assets/thumbs/price-channel.png
-    link: /indicators/BollingerBands
+    link: /indicators/price-channels
     details: Price range boundaries
   - title: Price trends
     icon:
       src: /assets/thumbs/price-trend.png
-    link: /indicators/Adx
+    link: /indicators/price-trends
     details: Trend identification
   - title: Stop and reverse
     icon:
       src: /assets/thumbs/stop-and-reverse.png
-    link: /indicators/Chandelier
+    link: /indicators/stop-and-reverse
     details: Pivots and redirection
   - title: Volume based
     icon:
       src: /assets/thumbs/volume-based.png
-    link: /indicators/Cmf
+    link: /indicators/volume-based
     details: Volume weighted measures
   - title: Price characteristics
     icon:
       src: /assets/thumbs/price-characteristic.png
-    link: /indicators/Beta
+    link: /indicators/price-characteristics
     details: Traits and numerical analysis
   - title: Candlestick patterns
     icon:
       src: /assets/thumbs/candlestick-pattern.png
-    link: /indicators/Marubozu
+    link: /indicators/candlestick-patterns
     details: Price shapes and forms
   - title: Price transforms
     icon:
       src: /assets/thumbs/price-transform.png
-    link: /indicators/ZigZag
+    link: /indicators/price-transforms
     details: Conversions of form
 ---
 

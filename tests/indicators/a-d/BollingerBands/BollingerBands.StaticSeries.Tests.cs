@@ -37,7 +37,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<BollingerBandsResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -48,7 +48,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<BollingerBandsResult> sut = Quotes
             .ToSma(2)
@@ -59,7 +59,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToBollingerBands()
@@ -94,7 +94,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<BollingerBandsResult> sut = Quotes
             .ToBollingerBands()
@@ -113,7 +113,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

@@ -60,7 +60,7 @@ public class Vwma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<VwmaResult> sut = Quotes
             .ToVwma(10)
@@ -77,7 +77,7 @@ public class Vwma : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToVwma(0))
             .Should()

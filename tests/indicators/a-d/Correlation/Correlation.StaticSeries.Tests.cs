@@ -41,7 +41,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<CorrResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -52,7 +52,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToCorrelation(OtherQuotes, 20)
@@ -63,7 +63,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<CorrResult> sut = Quotes
             .ToSma(2)
@@ -108,7 +108,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<CorrResult> sut = Quotes
             .ToCorrelation(OtherQuotes, 20)
@@ -123,7 +123,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsExpectedException()
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

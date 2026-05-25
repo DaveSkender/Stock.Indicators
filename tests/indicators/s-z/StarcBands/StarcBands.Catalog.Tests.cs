@@ -7,7 +7,7 @@ namespace Catalogging;
 public class StarcBandsTests : TestBase
 {
     [TestMethod]
-    public void StarcBandsSeriesListing()
+    public void StarcBandsSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StarcBands.SeriesListing;
@@ -48,7 +48,7 @@ public class StarcBandsTests : TestBase
     }
 
     [TestMethod]
-    public void StarcBandsBufferListing()
+    public void StarcBandsBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = StarcBands.BufferListing;

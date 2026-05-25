@@ -3,7 +3,7 @@
 This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
 - Multi-targets `net10.0`, `net9.0`, and `net8.0` with analyzers enabled for strict code quality.
-- Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
+- Active development expands streaming indicator support — consult [docs/plans/streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) before modifying stateful pipelines (BufferList or StreamHub).
 - Documentation at <a href="https://dotnet.stockindicators.dev">dotnet.stockindicators.dev</a> is sourced from the `docs/` content in this repository.
 
 ## Primary directive
@@ -42,11 +42,18 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 │    ├── s-z/              # Indicators S-Z
 │    └── Indicators.csproj # Main project file
 ├── tests/                 # Unit, integration, performance, and simulation suites
-└── Stock.Indicators.sln   # Primary solution for src + tests
-.
+├── tools/                 # Performance benchmarks, baselines, and analysis scripts
 ├── docs/                  # Public documentation site (VitePress)
-└── .specify/              # Spec Kit configuration and active specifications
+│    └── plans/            # Active multi-release implementation plans
+└── Stock.Indicators.sln   # Primary solution for src + tests
 ```
+
+Active plans tracked in `docs/plans/`:
+
+- [streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) — source of truth for v3 streaming work (BufferList + StreamHub coverage, performance, test hardening)
+- [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) — v2 → v3 branch migration (gate for v3.0 stable release)
+- [file-reorg.plan.md](docs/plans/file-reorg.plan.md) — deferred to v3.1
+- [documentation-site.plan.md](docs/plans/documentation-site.plan.md) — VitePress docs site work
 
 ## Commands
 

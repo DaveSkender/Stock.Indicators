@@ -7,7 +7,7 @@ namespace Catalogging;
 public class TsiTests : TestBase
 {
     [TestMethod]
-    public void TsiSeriesListing()
+    public void TsiSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tsi.SeriesListing;
@@ -44,7 +44,7 @@ public class TsiTests : TestBase
     }
 
     [TestMethod]
-    public void TsiStreamListing()
+    public void TsiStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Tsi.StreamListing;

@@ -7,7 +7,7 @@ namespace Catalogging;
 public class VortexTests : TestBase
 {
     [TestMethod]
-    public void VortexSeriesListing()
+    public void VortexSeries_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Vortex.SeriesListing;
@@ -40,7 +40,7 @@ public class VortexTests : TestBase
     }
 
     [TestMethod]
-    public void VortexBufferListing()
+    public void VortexBuffer_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Vortex.BufferListing;
@@ -61,7 +61,7 @@ public class VortexTests : TestBase
     }
 
     [TestMethod]
-    public void VortexStreamListing()
+    public void VortexStream_InCatalog_ReturnsAllVariants()
     {
         // Act
         IndicatorListing listing = Vortex.StreamListing;

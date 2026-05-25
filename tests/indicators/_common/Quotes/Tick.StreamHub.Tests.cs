@@ -333,6 +333,53 @@ public class TickStreamHubTests : StreamHubTestBase, ITestTickObserver
         provider.EndTransmission();
     }
 
+    [TestMethod]
+    public void WithCachePruning_MatchesSeriesExactly()
+    {
+        const int maxCacheSize = 50;
+        const int totalTicks = 100;
+
+        // build tick data: 100 sequential ticks at 1-minute intervals
+        DateTime start = new(2023, 11, 9, 10, 0, 0);
+        List<Tick> allTicks = Enumerable
+            .Range(0, totalTicks)
+            .Select(i => new Tick(
+                start.AddMinutes(i),
+                100m + i,
+                10m + i,
+                $"EXEC-{i:000}"))
+            .ToList();
+
+        // Setup TickHub with cache limit
+        TickHub hub = new(maxCacheSize);
+
+        // Stream more ticks than cache can hold
+        foreach (Tick tick in allTicks)
+        {
+            hub.Add(tick);
+        }
+
+        // Verify cache was pruned to maxCacheSize
+        hub.Cache.Should().HaveCount(maxCacheSize);
+
+        // Verify correct ticks remain (the most recent ones)
+        IReadOnlyList<ITick> cachedTicks = hub.Cache;
+        IReadOnlyList<Tick> expectedTicks = allTicks
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        cachedTicks.Should().HaveCount(expectedTicks.Count);
+
+        for (int i = 0; i < expectedTicks.Count; i++)
+        {
+            cachedTicks[i].Timestamp.Should().Be(expectedTicks[i].Timestamp);
+            cachedTicks[i].Price.Should().Be(expectedTicks[i].Price);
+            cachedTicks[i].Volume.Should().Be(expectedTicks[i].Volume);
+        }
+
+        hub.EndTransmission();
+    }
+
     /// <summary>
     /// Test observer helper class for tracking tick notifications.
     /// </summary>

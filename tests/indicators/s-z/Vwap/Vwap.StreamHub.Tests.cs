@@ -199,7 +199,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void CustomToStringWithStartDate()
+    public void CustomToStringWithStartDate_OnInstantiation_FormatsCorrectly()
     {
         QuoteHub quoteHub = new();
         DateTime startDate = new(2018, 1, 15);

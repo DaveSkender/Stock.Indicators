@@ -8,7 +8,9 @@ description: Rate of Change with Bands, created by Vitali Apirine, is a volatili
 Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility banded variant of [Rate of Change (ROC)](/indicators/Roc).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/242 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="RocWb" />
+<ClientOnly>
+  <StockIndicatorChart indicator="RocWb" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -28,7 +30,7 @@ IReadOnlyList<RocWbResult> results =
 
 You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -80,6 +82,8 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<RocWbResult> results = observer.Results;
 ```
 
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -99,3 +103,5 @@ var results = quotes
     .ToRocWb(..)
     .ToEma(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.

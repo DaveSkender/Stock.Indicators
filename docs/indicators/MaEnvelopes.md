@@ -8,7 +8,9 @@ description:  Moving Average Envelopes is a price band channel overlay that is o
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/288 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="MaEnvelopes" />
+<ClientOnly>
+  <StockIndicatorChart indicator="MaEnvelopes" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -28,7 +30,7 @@ IReadOnlyList<MaEnvelopeResult> results =
 
 See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `quotes` and `lookbackPeriods`.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ### MaType options
 
@@ -103,6 +105,8 @@ var results = quotes
 
 Results **cannot** be further chained with additional transforms.
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -136,3 +140,5 @@ IReadOnlyList<MaEnvelopeResult> results = observer.Results;
 ::: note
 In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
 :::
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

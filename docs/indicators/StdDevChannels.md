@@ -8,7 +8,9 @@ description: Standard Deviation Channels are price ranges based on an linear reg
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/368 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="StdDevChannels" />
+<ClientOnly>
+  <StockIndicatorChart indicator="StdDevChannels" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -27,7 +29,7 @@ IReadOnlyList<StdDevChannelsResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -67,8 +69,6 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `quotes`.
 
-<IndicatorChartPanel indicator-key="StdDevChannels" />
-
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -82,7 +82,9 @@ var results = quotesEval
 
 Results **cannot** be further chained with additional transforms.
 
-## Streaming and real-time usage
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
+## Streaming
 
 **⚠️ Streaming not supported**: Due to the reverse-window algorithm that recalculates the entire dataset on each new data point, Standard Deviation Channels is only available as a batch Series implementation. The computational cost grows quadratically (O(n²)) as the dataset size increases, making it impractical for incremental streaming (StreamHub) or buffer (BufferList) scenarios.
 

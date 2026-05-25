@@ -73,9 +73,14 @@
 /indicators/ZScore/ /indicators/StdDev 301
 
 # Handle trailing slash variations for Jekyll-style URLs
-/guide/ /guide 301
+/guide/ /guide/getting-started 301
 /indicators/ /indicators 301
 /utilities/ /utilities 301
 /contributing/ /contributing 301
 /performance/ /performance 301
 /custom-indicators/ /custom-indicators 301
+
+# Guide restructure (v3 site reorganization)
+/guide /guide/getting-started 301
+/customization /guide/customization 301
+/customization/ /guide/customization 301

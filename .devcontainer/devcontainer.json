@@ -24,7 +24,6 @@
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
-        "bierner.github-markdown-preview",
         "CodeRabbit.coderabbit-vscode",
         "codacy-app.codacy",
         "DavidAnson.vscode-markdownlint",

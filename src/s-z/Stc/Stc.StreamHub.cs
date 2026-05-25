@@ -6,8 +6,7 @@ namespace Skender.Stock.Indicators;
 public class StcHub
     : ChainHub<MacdResult, StcResult>, IStc
 {
-    private readonly RollingWindowMax<double> _macdHighWindow;
-    private readonly RollingWindowMin<double> _macdLowWindow;
+    private CircularDoubleBuffer _macdBuffer;
     private readonly Queue<double> _rawKBuffer;
 
     internal StcHub(
@@ -32,16 +31,11 @@ public class StcHub
         FastPeriods = macdHub.FastPeriods;
         SlowPeriods = macdHub.SlowPeriods;
 
-        // Stochastic rolling windows for MACD values
-        _macdHighWindow = new RollingWindowMax<double>(cyclePeriods);
-        _macdLowWindow = new RollingWindowMin<double>(cyclePeriods);
-
-        // Buffer for raw %K smoothing (smoothPeriods = 3)
+        _macdBuffer = new CircularDoubleBuffer(cyclePeriods);
         _rawKBuffer = new Queue<double>(3);
 
         Name = $"STC({cyclePeriods},{FastPeriods},{SlowPeriods})";
 
-        // Validate cache size for warmup requirements
         int requiredWarmup = Math.Max(FastPeriods, SlowPeriods) + cyclePeriods + 1;
         ValidateCacheSize(requiredWarmup, Name);
 
@@ -64,48 +58,39 @@ public class StcHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Get MACD value from chained input
         double macd = item.Macd ?? double.NaN;
 
-        // Add MACD to rolling windows for stochastic calculation (only if not NaN)
         if (!double.IsNaN(macd))
         {
-            _macdHighWindow.Add(macd);
-            _macdLowWindow.Add(macd);
+            _macdBuffer.Add(macd);
         }
 
-        // Calculate raw %K from MACD values
         double rawK = double.NaN;
         if (i >= SlowPeriods + CyclePeriods - 2 &&
             !double.IsNaN(macd) &&
-            _macdHighWindow.Count >= CyclePeriods &&
-            _macdLowWindow.Count >= CyclePeriods)
+            _macdBuffer.IsFull)
         {
-            double highHigh = _macdHighWindow.GetMax();
-            double lowLow = _macdLowWindow.GetMin();
+            double highHigh = _macdBuffer.GetMax();
+            double lowLow = _macdBuffer.GetMin();
 
             rawK = (highHigh - lowLow) != 0
                  ? 100 * (macd - lowLow) / (highHigh - lowLow)
                  : 0;
         }
 
-        // Buffer raw %K for smoothing (match Stoch.StreamHub pattern: always enqueue, even NaN)
         _rawKBuffer.Enqueue(rawK);
         if (_rawKBuffer.Count > 3)
         {
             _rawKBuffer.Dequeue();
         }
 
-        // Calculate smoothed %K (STC value) using SMA with smoothPeriods=3
-        // Match Stoch.StreamHub pattern: check index >= smoothPeriods before calculating
-        // Natural NaN propagation through summation
         double? stc = null;
         if (i >= SlowPeriods + CyclePeriods)
         {
             double sum = 0;
             foreach (double rawKValue in _rawKBuffer)
             {
-                sum += rawKValue;  // NaN propagates naturally
+                sum += rawKValue;
             }
 
             double smoothedK = sum / 3;
@@ -121,14 +106,11 @@ public class StcHub
 
     /// <summary>
     /// Restores the stochastic state up to the specified timestamp.
-    /// MACD state is handled automatically by the chained MacdHub.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear rolling windows and buffer
-        _macdHighWindow.Clear();
-        _macdLowWindow.Clear();
+        _macdBuffer.Clear();
         _rawKBuffer.Clear();
 
         if (restoreIndex < 0)
@@ -136,7 +118,6 @@ public class StcHub
             return;
         }
 
-        // Rebuild MACD rolling windows for cycle periods
         int startIdx = Math.Max(0, restoreIndex + 1 - CyclePeriods);
         for (int p = startIdx; p <= restoreIndex; p++)
         {
@@ -144,18 +125,15 @@ public class StcHub
             double macdValue = macdResult.Macd ?? double.NaN;
             if (!double.IsNaN(macdValue))
             {
-                _macdHighWindow.Add(macdValue);
-                _macdLowWindow.Add(macdValue);
+                _macdBuffer.Add(macdValue);
             }
         }
 
-        // Prefill raw %K buffer (smoothPeriods = 3)
         if (restoreIndex >= SlowPeriods + CyclePeriods - 2)
         {
             int kStart = Math.Max(SlowPeriods + CyclePeriods - 2, restoreIndex + 1 - 3);
             for (int p = kStart; p <= restoreIndex; p++)
             {
-                // Calculate raw %K for this position using MacdHub results
                 int rStart = Math.Max(0, p + 1 - CyclePeriods);
                 double hh = double.NegativeInfinity;
                 double ll = double.PositiveInfinity;

@@ -8,7 +8,9 @@ description: Created by Stephen Klinger, the Klinger Volume Oscillator depicts v
 Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investopedia.com/terms/k/klingeroscillator.asp) depicts volume-based trend reversal and divergence between short and long-term money flow.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/446 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Kvo" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Kvo" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -28,7 +30,7 @@ IReadOnlyList<KvoResult> results =
 
 You must have at least `L+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `L+150` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -75,6 +77,8 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -104,3 +108,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<KvoResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

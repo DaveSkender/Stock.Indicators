@@ -8,7 +8,9 @@ description: Hurst Exponent (H) with Rescaled Range Analysis is a random-walk pa
 The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) (`H`) is part of a Rescaled Range Analysis, a [random-walk](https://en.wikipedia.org/wiki/Random_walk) path analysis that measures trending and mean-reverting tendencies of incremental return values.  When `H` is greater than 0.5 it depicts trending.  When `H` is less than 0.5 it is is more likely to revert to the mean.  When `H` is around 0.5 it represents a random walk.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/477 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="Hurst" />
+<ClientOnly>
+  <StockIndicatorChart indicator="Hurst" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -26,7 +28,7 @@ IReadOnlyList<HurstResult> results =
 
 You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -44,7 +46,8 @@ IReadOnlyList<HurstResult>
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-| `HurstExponent` | double | Hurst Exponent (`H`) |
+| `HurstExponent` | double | Hurst Exponent (`H`) from raw rescaled range (R/S) analysis |
+| `HurstExponentAL` | double | [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. |
 
 ### Utilities
 
@@ -75,6 +78,14 @@ var results = quotes
     .ToSlope(..);
 ```
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
+## References
+
+- Inputs are log returns `ln(c_t / c_{t-1})`, which provide additive, scale-consistent increments.
+- `HurstExponent` (raw `H`) is the slope of `log(R/S)` against `log(n)` across chunk sizes, following the rescaled-range analysis of Hurst (1951) and Mandelbrot & Wallis (1969).
+- `HurstExponentAL` applies the Anis & Lloyd (1976) finite-sample expectation `E[R/S]_n = Γ((n-1)/2) / (√π · Γ(n/2)) · Σ_{r=1}^{n-1} √((n-r)/r)`, then corrects each observed R/S as `R/S − E[R/S]_n + √(π·n/2)` before regressing. The expected value uses an exact `LogGamma` evaluation for `n ≤ 340` and Peters' (1994) Stirling approximation `√(2 / (π·(n-1)))` for larger `n`.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -104,3 +115,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<HurstResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

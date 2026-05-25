@@ -85,7 +85,7 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Camarilla()
+    public void Camarilla_AsPivotType_ReturnsExpectedResult()
     {
         const PeriodSize periodSize = PeriodSize.Week;
         const PivotPointType pointType = PivotPointType.Camarilla;
@@ -155,7 +155,7 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Demark()
+    public void Demark_AsPivotType_ReturnsExpectedResult()
     {
         const PeriodSize periodSize = PeriodSize.Month;
         const PivotPointType pointType = PivotPointType.Demark;
@@ -236,11 +236,11 @@ public class PivotPointz : StaticSeriesTestBase
 
         // special Demark case: test close = open
         WindowPoint d1 = PivotPoints.GetPivotPointDemark(125, 200, 100, 125);
-        d1.PP.Should().Be(550m / 4);
+        d1.PP.Should().Be(550d / 4);
     }
 
     [TestMethod]
-    public void Fibonacci()
+    public void Fibonacci_AsPivotType_ReturnsExpectedResult()
     {
         const PeriodSize periodSize = PeriodSize.OneHour;
         const PivotPointType pointType = PivotPointType.Fibonacci;
@@ -311,7 +311,7 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Woodie()
+    public void Woodie_AsPivotType_ReturnsExpectedResult()
     {
         const PeriodSize periodSize = PeriodSize.Day;
         const PivotPointType pointType = PivotPointType.Woodie;
@@ -396,7 +396,7 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         const PeriodSize periodSize = PeriodSize.Month;
         const PivotPointType pointType = PivotPointType.Standard;
@@ -421,7 +421,7 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidParameters_ThrowsArgumentOutOfRangeException()
     {
         // bad pointtype size
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

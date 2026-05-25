@@ -7,7 +7,7 @@ public class Tr : BufferListTestBase
        = Quotes.ToTr();
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
 #pragma warning disable IDE0028 // Collection expression incompatible with IQuote Add overloads
         TrList sut = new();
@@ -23,7 +23,7 @@ public class Tr : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         TrList sut = new() { Quotes };
 
@@ -32,7 +32,7 @@ public class Tr : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         TrList sut = new(Quotes);
 
@@ -41,7 +41,7 @@ public class Tr : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtorPartial()
+    public void QuotesCtorPartial_OnSplitInitialization_IncrementsResults()
     {
         // Test split initialization: half on construction, half after
         int splitPoint = Quotes.Count / 2;

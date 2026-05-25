@@ -47,7 +47,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtorPartial()
+    public void QuotesCtorPartial_OnSplitInitialization_IncrementsResults()
     {
         // Test split initialization: half on construction, half after
         int splitPoint = Quotes.Count / 2;

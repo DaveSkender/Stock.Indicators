@@ -8,6 +8,10 @@ description: Doji is a single-bar candlestick pattern where open and close price
 [Doji](https://en.wikipedia.org/wiki/Doji) is a single-bar candlestick pattern where open and close price are virtually identical, representing market indecision.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/734 "Community discussion about this indicator")
 
+<ClientOnly>
+  <StockIndicatorChart indicator="Doji" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<CandleResult> results =
@@ -24,7 +28,7 @@ IReadOnlyList<CandleResult> results =
 
 You must have at least one historical quote; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -59,8 +63,8 @@ foreach (IQuote quote in quotes)  // simulating stream
   dojiList.Add(quote);
 }
 
-// based on `ICollection<DojiResult>`
-IReadOnlyList<DojiResult> results = dojiList;
+// based on `ICollection<CandleResult>`
+IReadOnlyList<CandleResult> results = dojiList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
@@ -74,5 +78,7 @@ foreach (IQuote quote in quotes)  // simulating stream
   quoteHub.Add(quote);
 }
 
-IReadOnlyList<DojiResult> results = observer.Results;
+IReadOnlyList<CandleResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

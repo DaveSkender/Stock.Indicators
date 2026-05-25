@@ -6,13 +6,13 @@ public class PivotsTests : RegressionTestBase<PivotsResult>
     public PivotsTests() : base("pivots.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToPivots().IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToPivots().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToPivotsList().IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToPivotsList().IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream()
+    public override void Stream_AgainstBaseline_MatchesExactly()
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(Quotes);

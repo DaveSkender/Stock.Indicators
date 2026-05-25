@@ -149,7 +149,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void IncrementalUpdates()
+    public void IncrementalUpdates_WithStreamedQuotes_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -181,7 +181,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void Properties()
+    public void Properties_OnHubInstantiation_ReflectInputParameters()
     {
         const int testLookbackPeriods = 21;
         const int testFirstSmoothPeriods = 30;
@@ -207,7 +207,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void DefaultParameters()
+    public void DefaultParameters_OnHubInstantiation_UseExpectedDefaults()
     {
         QuoteHub quoteHub = new();
         SmiHub observer = quoteHub.ToSmiHub();
@@ -221,7 +221,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void StreamingAccuracy()
+    public void StreamingAccuracy_VersusBatch_MatchesExactly()
     {
         // Test that streaming produces accurate results compared to batch processing
         List<Quote> quotesList = Quotes.ToList();
@@ -254,7 +254,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void BatchProcessing()
+    public void BatchProcessing_WithAllQuotesAtOnce_MatchesSeriesExactly()
     {
         // Test batch processing with all quotes added at once
         QuoteHub quoteHub = new();

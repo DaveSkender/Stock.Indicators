@@ -23,7 +23,7 @@ IReadOnlyList<GatorResult> results = quotes
 
 If using default settings, you must have at least 121 periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/Alligator#historical-quotes-requirements) for historical quotes requirements.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -71,6 +71,8 @@ var results = quotes
 ```
 
 Results **cannot** be further chained with additional transforms.
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -127,3 +129,5 @@ var gatorHub = alligatorHub
 ```
 
 :::
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

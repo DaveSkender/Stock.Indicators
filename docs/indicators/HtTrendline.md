@@ -8,9 +8,17 @@ description: Created by John Ehlers, the Hilbert Transform Instantaneous Trendli
 Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.  Dominant Cycle Periods information is also provided.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/363 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="HtTrendline" />
+**Instantaneous Trendline** — the smoothed price overlay derived from the Hilbert Transform.
 
-<IndicatorChartPanel indicator-key="DcPeriods" />
+<ClientOnly>
+  <StockIndicatorChart indicator="HtTrendline" />
+</ClientOnly>
+
+**Dominant Cycle Periods** — the companion oscillator showing the inferred cycle length at each bar.
+
+<ClientOnly>
+  <StockIndicatorChart indicator="DcPeriods" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -22,7 +30,7 @@ IReadOnlyList<HtlResult> results =
 
 You must have at least `100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ## Response
 
@@ -92,6 +100,8 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<HtlResult> results = htlList;
 ```
 
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -111,3 +121,5 @@ var results = quotes
     .ToHtTrendline(..)
     .ToRsi(..);
 ```
+
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.

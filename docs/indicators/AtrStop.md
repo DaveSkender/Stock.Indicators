@@ -8,7 +8,17 @@ description: Created by Welles Wilder, the ATR Trailing Stop indicator attempts 
 Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](/indicators/Atr) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/724 "Community discussion about this indicator")
 
-<IndicatorChartPanel indicator-key="AtrStop" />
+**High/Low offset** (default `EndType.HighLow`) — the stop tracks intrabar extremes.
+
+<ClientOnly>
+  <StockIndicatorChart indicator="AtrStop" />
+</ClientOnly>
+
+**Close offset** (`EndType.Close`) — the stop tracks the close price; flips can happen at different bars than the High/Low variant.
+
+<ClientOnly>
+  <StockIndicatorChart indicator="AtrStopClose" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
@@ -28,7 +38,7 @@ IReadOnlyList<AtrStopResult> results =
 
 You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
 
 ### EndType options
 
@@ -76,9 +86,25 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
+See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+
 ## Streaming
 
-Subscribe to a `QuoteHub` for streaming scenarios:
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AtrStopList atrStopList = new(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  atrStopList.Add(quote);
+}
+
+// based on `ICollection<AtrStopResult>`
+IReadOnlyList<AtrStopResult> results = atrStopList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
 QuoteHub quoteHub = new();
@@ -91,3 +117,5 @@ foreach (IQuote quote in quotes)  // simulating stream
 
 IReadOnlyList<AtrStopResult> results = observer.Results;
 ```
+
+See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.

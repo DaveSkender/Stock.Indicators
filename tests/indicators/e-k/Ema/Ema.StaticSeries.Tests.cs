@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class EmaTests : StaticSeriesTestBase
 {
     [TestMethod]
-    public void Increment()
+    public void Increment_ValidInputs_ReturnsExpectedResult()
     {
         double ema = Ema.Increment(20, 217.5693, 222.10);
 
@@ -27,7 +27,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UsePart()
+    public void UsePart_OpenPrice_ReturnsExpectedResult()
     {
         IReadOnlyList<EmaResult> sut = Quotes
             .Use(CandlePart.Open)
@@ -47,7 +47,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseReusable()
+    public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
         IReadOnlyList<EmaResult> sut = Quotes
             .Use(CandlePart.Close)
@@ -59,7 +59,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void Chainee_FromSma_ReturnsExpectedResult()
     {
         IReadOnlyList<EmaResult> sut = Quotes
             .ToSma(2)
@@ -71,7 +71,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChainingFromResults_WorksAsExpected()
+    public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
             .ToEma(20)
@@ -83,7 +83,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void ChaineeMore()
+    public void ChaineeMore_FromRsi_ReturnsExpectedResult()
     {
         IReadOnlyList<EmaResult> sut = Quotes
             .ToRsi()
@@ -123,7 +123,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<EmaResult> sut = Quotes.ToEma(20)
             .RemoveWarmupPeriods();
@@ -137,7 +137,7 @@ public class EmaTests : StaticSeriesTestBase
     /// bad lookback period
     /// </summary>
     [TestMethod]
-    public void Exceptions()
+    public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
             .Invoking(static () => Quotes.ToEma(0))
             .Should()

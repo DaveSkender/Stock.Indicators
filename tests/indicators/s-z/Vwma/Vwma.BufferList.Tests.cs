@@ -9,7 +9,7 @@ public class Vwma : BufferListTestBase
        = Quotes.ToVwma(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         VwmaList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Vwma : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
     {
         VwmaList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Vwma : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         VwmaList sut = new(lookbackPeriods, Quotes);
 

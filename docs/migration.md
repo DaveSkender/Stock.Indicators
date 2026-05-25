@@ -17,7 +17,7 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 ### Quote types and interfaces
 
 - **`Quote` type**: Changed to immutable `record` type
-- **`IQuote.Date` property**: Renamed to `IQuote.Timestamp`
+- **`IQuote.Date` property**: Renamed to `IQuote.Timestamp`. `Date` remains as an `[Obsolete]` alias in v3.x for backward compatibility and will be removed in v3.1 — update consumers to `Timestamp` now.
 - **`IQuote` interface**: Now a reusable (chainable) type
 - **Custom quote types**: Must implement the `IReusable` interface
 - **`IReusableResult`**: Renamed to `IReusable`
@@ -353,7 +353,7 @@ Popular indicators with complete streaming documentation:
 
 ## Need help?
 
-- [Guide and Pro tips](/guide) - Getting started with v3
+- [Guide and Pro tips](/guide/getting-started) - Getting started with v3
 - [Indicators](/indicators) - Indicator-specific documentation
 - [GitHub Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) - Ask questions and share ideas
 - [GitHub Issues](https://github.com/DaveSkender/Stock.Indicators/issues) - Report bugs or request features
