@@ -194,13 +194,11 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
   - **Why**: The dual model is principled (Architect F5, Researcher F3) but the rationale is not written down. Future maintainers may try to unify them. Inspector F3 also calls for the plan to lead with simplicity decisions instead of per-indicator state.
   - **Action**: Author MADR-format ADR under `docs/decisions/` (or wherever ADRs live) documenting why both styles exist, when each is appropriate, and what the "shared increment kernel" path looks like for v3.1+. Cite Researcher's industry comparison (ta4j is pull-only; TA-Lib/Tulip are batch-only; library is ahead).
 
-- [ ] **DOC-ARCH-2 — Document `RollbackState(int)` index contract precisely** (1 hour).
-  - **Why**: 55 overrides interpret `fromIndex` inconsistently (Architect F2). Adding XML docs to `IStreamHub.RollbackState` defining "the cache position that will be the next to be (re)written; existing entries at `[fromIndex, Count)` have already been removed before this is invoked" gives subclass authors a precise reference.
-  - **Action**: Add XML doc to `src/_common/StreamHub/IStreamHub.cs` and `src/_common/StreamHub/StreamHub.cs:377`. Note that an audit of the 55 overrides against the formalized contract is a v3.1 task.
+- [x] **DOC-ARCH-2 — Document `RollbackState(int)` index contract precisely**.
+  - `src/_common/StreamHub/StreamHub.cs` `RollbackState` xmldoc rewritten to a bulleted contract: `restoreIndex` is the last `ProviderCache` index whose state must be retained; implementations must rebuild internal state equivalent to having processed `[0..restoreIndex]`; `-1` means reset to post-construction; called *before* the result cache is pruned and *before* the replay loop re-emits (so implementations may safely read `ProviderCache[0..restoreIndex]`); do not re-emit or mutate the result cache from this method. Self-review swarm caught and corrected a backwards lifecycle statement before merge. Audit of the 55 overrides against the formalized contract remains a v3.1 task.
 
-- [ ] **DOC-ARCH-3 — Document `Results` live-view semantics** (30 min).
-  - **Why**: `List<T>.AsReadOnly()` returns a `ReadOnlyCollection<T>` wrapping the **live** backing list. Consumers cannot mutate it but enumeration during a concurrent `Add` will throw `InvalidOperationException` (Architect F4). #1585 closed the deviant-mutation hole but not the read-during-write hole.
-  - **Action**: Update XML doc on `IStreamHub.Results` and `StreamHub.cs:103` to explicitly state "live read-only view; enumerate within `.ToList()` if upstream may emit during iteration." Reserve `Snapshot()` method addition for v3.1.
+- [x] **DOC-ARCH-3 — Document `Results` live-view semantics**.
+  - `IStreamObservable<T>.Results` xmldoc updated to call out "live read-only view, not an immutable snapshot"; explicit warning that enumeration during concurrent `Add`/`Rebuild` will throw `InvalidOperationException`; recommendation to snapshot via `.ToList()` when upstream may emit during iteration. `StreamHub<TIn,TOut>.Results` inherits via `<inheritdoc/>`. `Snapshot()` method addition reserved for v3.1 (ARCH-V31-3).
 
 - [x] **DOC-ARCH-4 — Boilerplate budget for new streamable indicators**.
   - `src/AGENTS.md` gains a "Cost of a new streamable indicator" section with a per-file LOC table calibrated to the Ema baseline (~419 total LOC across 7 files). Calls out shared `*.Increment` kernels as the antidote when ceremony blows the budget.
