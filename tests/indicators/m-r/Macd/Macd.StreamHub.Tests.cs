@@ -252,6 +252,75 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        // Skip one quote during streaming, then add it after the cache
+        // head has advanced; result cache must equal a fresh hub that
+        // received the same quotes in correct timestamp order.
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        MacdHub lateHub = lateSource.ToMacdHub(12, 26, 9);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        MacdHub freshHub = freshSource.ToMacdHub(12, 26, 9);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtSignalWarmupBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival landing just past the MACD signal-line
+        // warm-up boundary. Signal line starts emitting at slow + signal - 1
+        // (= 26 + 9 - 1 = 34), so a late arrival at index 40 forces the
+        // rollback path to replay across the most-fragile state transition
+        // in the three-stage EMA cascade.
+        const int totalQuotes = 300;
+        const int lateIndex = 40;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        MacdHub lateHub = lateSource.ToMacdHub(12, 26, 9);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        MacdHub freshHub = freshSource.ToMacdHub(12, 26, 9);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public void Parameters_WithCustomValues_AreSetCorrectly()
     {
         List<Quote> quotesList = Quotes.ToList();

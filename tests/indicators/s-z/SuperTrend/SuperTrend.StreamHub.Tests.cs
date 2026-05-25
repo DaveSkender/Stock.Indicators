@@ -87,6 +87,71 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        SuperTrendHub lateHub = lateSource.ToSuperTrendHub(lookbackPeriods, multiplier);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        SuperTrendHub freshHub = freshSource.ToSuperTrendHub(lookbackPeriods, multiplier);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtAtrWarmupBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival just past the SuperTrend warmup boundary.
+        // SuperTrend emits first non-null result at lookback (= 14); index
+        // 20 forces the rollback path to replay across the ATR-seeded
+        // direction-state transition that determines stop placement.
+        const int totalQuotes = 300;
+        const int lateIndex = 20;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        SuperTrendHub lateHub = lateSource.ToSuperTrendHub(lookbackPeriods, multiplier);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        SuperTrendHub freshHub = freshSource.ToSuperTrendHub(lookbackPeriods, multiplier);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
         SuperTrendHub hub = new(new QuoteHub(), 14, 3.0);
