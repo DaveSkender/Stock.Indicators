@@ -2,18 +2,17 @@ namespace Catalogging;
 
 /// <summary>
 /// Catalog metrics tests:
-/// - basic catalog sanity (presence, minimum size, non-empty fields)
+/// - per-listing field presence (Uiid and Name)
 /// - exact style counts and total count matching current static catalog
 /// </summary>
 [TestClass]
 public class CatalogMetricsTests : TestBase
 {
     [TestMethod]
-    public void StaticCatalogShouldHaveCorrectCount()
+    public void StaticCatalogListingsShouldHavePopulatedFields()
     {
         IReadOnlyCollection<IndicatorListing> allListings = Catalog.Get();
         allListings.Should().NotBeEmpty();
-        allListings.Count.Should().BeGreaterThan(50);
         allListings.Should().OnlyContain(static l => !string.IsNullOrWhiteSpace(l.Uiid));
         allListings.Should().OnlyContain(static l => !string.IsNullOrWhiteSpace(l.Name));
     }
@@ -26,14 +25,13 @@ public class CatalogMetricsTests : TestBase
         int streamCount = catalog.Count(static x => x.Style == Style.Stream);
         int bufferCount = catalog.Count(static x => x.Style == Style.Buffer);
 
-        Console.WriteLine($"Actual Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={seriesCount + streamCount + bufferCount}");
-
-        // TODO: add final count later, not now
-        seriesCount.Should().Be(85);  // Updated for TimeValue
-        bufferCount.Should().BeGreaterThan(5);
-        streamCount.Should().BeGreaterThan(10);
+        // 6 indicators (Beta, Correlation, Prs, RenkoAtr, StdDevChannels, ZigZag) are
+        // Series-only and account for the 85 vs 79 gap.
+        seriesCount.Should().Be(85);
+        bufferCount.Should().Be(79);
+        streamCount.Should().Be(79);
 
         int totalCount = seriesCount + streamCount + bufferCount;
-        totalCount.Should().BeGreaterThan(100);
+        totalCount.Should().Be(243);
     }
 }
