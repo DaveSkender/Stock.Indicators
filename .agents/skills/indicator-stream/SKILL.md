@@ -15,7 +15,19 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 | `QuoteProvider<TIn, TOut>` (self-rooted) | None | TOut | Source hubs with no upstream — bootstrap with an inert sentinel provider |
 | `StreamHub<TProviderResult, TResult>` | Any hub result | Any result | Compound hubs (internal hub dependency) |
 
-Self-rooted source hubs (those that originate a stream rather than transform another hub's output) take an inert sentinel provider so the base-class constructor has something to subscribe to; the sentinel rejects subscriptions and carries no cache. Aggregator/quantizer hubs that turn small bars into larger bars derive from `QuoteProvider<TIn, IQuote>` and expose a `PeriodSize` or `TimeSpan` parameter.
+Self-rooted source hubs (those that originate a stream rather than transform another hub's output) take an inert sentinel provider so the base-class constructor has something to subscribe to; the sentinel rejects subscriptions and carries no cache.
+
+## Aggregator / quantizer hubs
+
+Hubs that bucket small bars (or raw ticks) into larger time periods derive from `QuoteProvider<TIn, IQuote>`. Conventions:
+
+- Constructors accept a `PeriodSize` enum **and** a custom `TimeSpan` overload; the enum overload throws for month-or-longer periods (use `TimeSpan` instead) since calendar arithmetic is not a fixed `TimeSpan`.
+- Take an optional `fillGaps` flag. Default `false` (silent buckets are simply omitted from the output stream); `true` synthesizes zero-volume bars whose `Open`/`High`/`Low`/`Close` all carry forward the prior bar's close through the silent period.
+- Round the input timestamp down to the current bucket on every `OnAdd`, then either update the current bar in place or emit a new bucket.
+- Override `Rebuild(DateTime)` to align the requested rebuild timestamp to the bucket boundary before delegating to base — an upstream rebuild whose timestamp is mid-bucket must clear the in-cache partial bar, not duplicate it.
+- Implement `RollbackState(int)` to reset the in-flight bar state and prune any per-input tracker (e.g. duplicate-detection map) past the rollback point.
+
+Aggregator hubs ship full StreamHub semantics: late-arriving inputs whose timestamp lands in an already-emitted bucket trigger a `Rebuild` of that bucket; downstream observers see the corrected sequence.
 
 ## Performance targets
 

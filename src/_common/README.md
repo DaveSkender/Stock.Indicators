@@ -23,8 +23,10 @@ _common/
 │   ├── Catalog.Listings.cs         # PopulateCatalog() — _listings.Add(...) registrations
 │   ├── CatalogListingBuilder.cs    # Fluent builder for IndicatorListing
 │   ├── ListingExecutionBuilder.cs  # Reflection-based execution glue
+│   ├── ListingExecutionBuilderExtensions.cs  # Fluent extension helpers
 │   ├── ListingExecutor.cs
 │   └── Schema/                     # IndicatorListing, IndicatorParam, IndicatorResult records
+│       └── Enums/                  # Catalog-specific enums (Style, Category, etc.)
 ├── Enums/                          # Shared enumerations
 │   ├── Act.cs                      # Add / Rebuild action discriminator
 │   ├── CandlePart.cs               # Open/High/Low/Close/Volume/HL2/HLC3/OC2/OHL3/OHLC4
@@ -153,6 +155,3 @@ For streaming and buffer indicators experiencing performance issues, consult:
 - Analysis: [tools/performance/PERFORMANCE_ANALYSIS.md](../../tools/performance/PERFORMANCE_ANALYSIS.md) - Comprehensive performance analysis and root cause analysis
 - Active plan: [docs/plans/streaming-indicators.plan.md](../../docs/plans/streaming-indicators.plan.md) - Streaming indicators plan (release gates, test hardening, performance verification)
 - Project principles: [docs/PRINCIPLES.md](../../docs/PRINCIPLES.md) - Performance First principles
-
----
-Last updated: 2026-05-24

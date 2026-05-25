@@ -122,6 +122,39 @@ var smoothedQuotes = tickData
   .Aggregate(PeriodSize.FiveMinutes);
 ```
 
+## Streaming aggregation
+
+For live feeds, use the streaming aggregator hubs to convert small bars or raw ticks into larger period bars in real time.
+
+```csharp
+// quote → quote aggregation (e.g. 1-minute bars to 5-minute bars)
+QuoteHub quoteHub = new();
+QuoteAggregatorHub fiveMinHub = quoteHub.ToQuoteAggregatorHub(
+    PeriodSize.FiveMinutes);
+
+// tick → quote aggregation (raw trades to 1-minute OHLCV)
+TickHub tickHub = new();
+TickAggregatorHub oneMinHub = tickHub.ToTickAggregatorHub(
+    PeriodSize.OneMinute);
+```
+
+Both hubs accept either a `PeriodSize` enum or a custom `TimeSpan`. `PeriodSize.Month` is not supported in streaming mode — use the `TimeSpan` overload for month-or-longer periods.
+
+### Gap-fill behavior
+
+Both `ToQuoteAggregatorHub` and `ToTickAggregatorHub` accept an optional `fillGaps` flag (default `false`):
+
+- `fillGaps: false` (default) — silent buckets are simply omitted from the output stream. If no upstream quote/tick lands inside a bucket, no bar is emitted for that period.
+- `fillGaps: true` — synthetic zero-volume bars are emitted to bridge any silent buckets between the last active bar and the next active bucket. The synthetic bar's `Open`, `High`, `Low`, and `Close` all carry forward the prior bar's `Close`.
+
+Consumers that need a different gap policy (e.g. interpolation, holding the prior `High`/`Low`, or a configurable null marker) should pre-process the upstream stream before subscribing the aggregator. A `GapFillMode` enum that exposes interpolation and other policies natively is on the v3.1 roadmap.
+
+```csharp
+// emit a synthetic bar for every silent 5-minute window
+QuoteAggregatorHub gappedHub = quoteHub
+    .ToQuoteAggregatorHub(PeriodSize.FiveMinutes, fillGaps: true);
+```
+
 ## Related utilities
 
 - [Quote utilities overview](/utilities/quotes/)

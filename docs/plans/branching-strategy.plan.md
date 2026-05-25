@@ -426,6 +426,3 @@ git push origin main --force
 - **Blocking**: v3.0.0 stable release (#1585, community feedback from streaming-indicators.plan.md)
 - **Related**: Documentation site migration (#1739) - should happen AFTER branching migration
 - **Related**: File reorganization (#1810-#1813) - should happen AFTER branching migration
-
----
-Last updated: 2026-05-25

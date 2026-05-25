@@ -76,25 +76,6 @@ Only these elements are allowed:
 - `<sub>`, `<sup>`, `<kbd>`, `<abbr>` (semantic formatting)
 - `<a>`, `<img>` (links and images when Markdown syntax insufficient)
 
-## End of file formatting
-
-Most files should end with:
-
-```markdown
-
----
-# Last updated: {Month Day, Year}
-
-```
-
-**Exceptions (no end-of-file elements):**
-
-- `README.md` at root
-- `AGENTS.md` (all)
-- `.agents/**/*.md`
-- `.github/**/*.md`
-- `docs/**/*.md` (VitePress documentation website)
-
 ## Common patterns to fix
 
 | Error pattern | Fix |
