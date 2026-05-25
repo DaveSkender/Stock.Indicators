@@ -349,7 +349,3 @@ When contributing performance improvements:
 - [BenchmarkDotNet Documentation](https://benchmarkdotnet.org/)
 - [Performance Best Practices for .NET](https://learn.microsoft.com/dotnet/core/performance/)
 - [Repository Performance Page](https://dotnet.stockindicators.dev/performance/)
-
----
-
-Last updated: January 3, 2026

@@ -1,6 +1,5 @@
 # Performance Analysis: Streaming Indicators
 
-**Last Updated:** January 3, 2026
 **Baseline Data:** tools/performance/baselines/
 
 ## Executive Summary
@@ -262,7 +261,3 @@ cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json baselines/
 - GitHub Actions workflow: `.github/workflows/test-performance.yml`
 - NFR-002: Performance and memory requirements for streaming indicators
 - Streaming plan: `docs/plans/streaming-indicators.plan.md`
-
----
-
-Last updated: January 3, 2026
