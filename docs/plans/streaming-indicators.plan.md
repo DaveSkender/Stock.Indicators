@@ -123,9 +123,11 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: `docs/plans/streaming-indicators.plan.md` does not reference any skill or `AGENTS.md`; conversely no skill or `AGENTS.md` references this plan. This document is the design source of truth but is invisible from the contributor entry points.
   - **Action**: This file already added a "Related guidance" section at the top. Reciprocate by adding one line each to `indicator-stream/SKILL.md`, `indicator-buffer/SKILL.md`, and `indicator-catalog/SKILL.md` pointing here. Root `AGENTS.md` should mention `docs/plans/` exists.
 
-- [ ] **G008 — Document `Quote.AggregatorHub` gap-fill behavior** (30 min). **Source: Discussion #1018, @elAndyG (2023-10-10).**
-  - **Evidence**: `elAndyG` raised that premarket/low-volume periods produce missing candles (e.g., bars for 10:01, 10:02, 10:04, 10:05 with 10:03 missing) and asked how the aggregator should handle gaps — forward-fill last value, interpolate, or leave gap. Today the aggregator's behavior in this scenario is unspecified in public docs. Companion v3.1+ work tracked as T236 (`GapFillMode` enum) and TC-V31-6 (test coverage).
-  - **Action**: Document the current default behavior (no gap-fill — emits whatever ticks arrive) on the `Quote.AggregatorHub` docs page and in XML doc on the type. State explicitly that consumers needing fill semantics should pre-process input ticks; foreshadow that a `GapFillMode` enum may land in v3.1 (link T236).
+- [x] **G008 — Document `Quote.AggregatorHub` gap-fill behavior**. **Source: Discussion #1018, @elAndyG (2023-10-10).**
+  - Documented the existing `fillGaps` boolean (default `false`) on both `QuoteAggregatorHub` and `TickAggregatorHub`:
+    - Type-level xmldoc explains the default-omit vs. carry-forward synthesis behavior on both aggregator classes.
+    - Property-level xmldoc on `FillGaps` describes the semantics of the two states explicitly.
+    - `docs/utilities/quotes/resize-quote-history.md` gained a "Streaming aggregation" section covering both hubs, the `PeriodSize.Month` streaming-mode constraint, and the gap-fill behavior with a working example. The `GapFillMode` enum roadmap is mentioned as v3.1 (links T236).
 
 ### C. Pre-v3.0 cleanup pass
 
