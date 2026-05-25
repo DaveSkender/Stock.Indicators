@@ -142,9 +142,10 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
 
 Together ~1 working day. Some items can be parallelized across multiple test PRs.
 
-- [ ] **TC001 — Generic rollback-equivalence contract test** (3–4 hours). **High leverage.**
+- [x] **TC001 — Generic rollback-equivalence contract test** (3–4 hours). **High leverage.** *(PR #2010)*
   - **Why**: 55 indicators override `RollbackState(int)`. Per-indicator drift in semantics (Architect F2: index ambiguity) is the highest-risk silent-failure mode.
   - **Action**: Add a parameterized test in `tests/indicators/_common/StreamHub/` that iterates every registered StreamHub: feed N quotes, snapshot cache; feed M more then rollback past the boundary, then re-feed the original tail; assert final cache equals a fresh hub fed the full sequence. Use the catalog as the indicator iterator.
+  - Out-of-scope gaps surfaced during implementation are tracked as TC-V31-4 and TC-V31-5.
 
 - [ ] **TC002 — Late-arrival tests for indicators with custom `RollbackState`** (3–4 hours).
   - **Evidence**: `tests/indicators/m-r/Macd/Macd.StreamHub.Tests.cs` has no late-arrival test despite Macd's three-stage cascade (EMA fast, EMA slow, signal EMA); `Stoch.StreamHub.Tests.cs:31` has `Increment` but no out-of-order injection. Macd's signal line is exactly the kind of cascaded state where a rollback bug silently produces wrong values.
@@ -284,6 +285,12 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
 - [ ] **TC-V31-3 — BufferList `MaxListSize` runtime trimming test** (1–2 hours).
   - Source: Tester F8. Mirror TickHub's `WithCachePruning` pattern for BufferList.
 
+- [ ] **TC-V31-4 — Aggregator hub rollback-equivalence coverage** (2 hours).
+  - Source: TC001 follow-up. `QuoteAggregatorHub` and `TickAggregatorHub` override `RollbackState` but are not in the catalog, so TC001 does not exercise them. Decide whether to catalog-register them or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`.
+
+- [ ] **TC-V31-5 — Compound-hub inner↔outer rollback interaction** (3 hours).
+  - Source: TC001 follow-up. For compound hubs (StochRsi, Stc, ConnorsRsi, Gator, etc.) `Rebuild` on the outer hub does not exercise the inner hub's `RollbackState`. Inner is still validated via its own listing's TC001 row; the cross-hub interaction is not. Add a targeted test only if a real compound-hub rollback bug surfaces.
+
 ### Framework / performance
 
 - [ ] **T205 — `Reinitialize()` optimization** (6–8 hours) **[highest leverage]**.
@@ -405,4 +412,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-24 (post-swarm review)
+Last updated: 2026-05-25
