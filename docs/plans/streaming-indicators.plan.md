@@ -119,9 +119,12 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: `.agents/skills/indicator-stream/SKILL.md:18` asserts "Target: StreamHub ≤ 1.5x slower than Series" but `tools/performance/PERFORMANCE_ANALYSIS.md` documents real 1.5x–11x range, and the MA family is acceptable at 7–11x per PERFORMANCE_ANALYSIS.md ("Pattern 2").
   - **Action**: Replace the bare target with the tiered targets/acceptable/critical bands from PERFORMANCE_ANALYSIS.md, citing it as the source of truth.
 
-- [ ] **G007 — Add cross-references between plan and guidance** (30 min).
-  - **Evidence**: `docs/plans/streaming-indicators.plan.md` does not reference any skill or `AGENTS.md`; conversely no skill or `AGENTS.md` references this plan. This document is the design source of truth but is invisible from the contributor entry points.
-  - **Action**: This file already added a "Related guidance" section at the top. Reciprocate by adding one line each to `indicator-stream/SKILL.md`, `indicator-buffer/SKILL.md`, and `indicator-catalog/SKILL.md` pointing here. Root `AGENTS.md` should mention `docs/plans/` exists.
+- [x] **G007 — Add cross-references between plan and guidance** *(scope revised, verified done)*.
+  - **Re-verification (2026-05-25)**: The reciprocal cross-references already exist via `AGENTS.md`:
+    - Root `AGENTS.md:6` and `AGENTS.md:53` point to `docs/plans/streaming-indicators.plan.md`.
+    - `src/_common/AGENTS.md:9` instructs contributors editing stateful code to consult the plan before changing anything.
+    - The plan's own "Related guidance" header lists the skills and AGENTS files.
+  - **Portability correction**: the original action proposed adding pointers inside the three `*.SKILL.md` files. That was attempted in this pass and reverted on review — `.agents/skills/AGENTS.md:69` forbids skills from referencing workspace files outside their own directory (skills must remain portable when installed into other repos). The repo-specific cross-link belongs in `AGENTS.md`, not in skills, and that side of the link is already in place. No further code change needed.
 
 - [ ] **G008 — Document `Quote.AggregatorHub` gap-fill behavior** (30 min). **Source: Discussion #1018, @elAndyG (2023-10-10).**
   - **Evidence**: `elAndyG` raised that premarket/low-volume periods produce missing candles (e.g., bars for 10:01, 10:02, 10:04, 10:05 with 10:03 missing) and asked how the aggregator should handle gaps — forward-fill last value, interpolate, or leave gap. Today the aggregator's behavior in this scenario is unspecified in public docs. Companion v3.1+ work tracked as T236 (`GapFillMode` enum) and TC-V31-6 (test coverage).
