@@ -10,6 +10,7 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 
 <ClientOnly>
   <StockIndicatorChart indicator="Atr" />
+  <StockIndicatorChart indicator="Atrp" />
 </ClientOnly>
 
 ```csharp

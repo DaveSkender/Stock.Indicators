@@ -4,15 +4,12 @@ import DefaultTheme from 'vitepress/theme'
 import './custom.scss'
 import Contributors from '../components/Contributors.vue'
 import { setupIndyChartsForVue } from '@facioquo/indy-charts/vue'
+import { DARK_SURFACE, LIGHT_SURFACE } from './chart-theme'
 
 const STOCK_CHARTS_API_BASE_URL = 'https://stock-charts-api.azurewebsites.net'
 const STOCK_CHARTS_API_HOST = new URL(STOCK_CHARTS_API_BASE_URL).hostname
 const CHART_API_FALLBACK_PATH = '/data/chart-api'
 const DEV_PROXY_PATH = '/chart-api-proxy'
-
-// Site palette for chart annotation/axis-label backdrops (matches custom.scss).
-const DARK_SURFACE = '#22272e'
-const LIGHT_SURFACE = '#f3f4f6'
 
 function fallbackUrl(url: URL): string | undefined {
   if (url.pathname === '/quotes') return `${CHART_API_FALLBACK_PATH}/quotes.json`
@@ -76,7 +73,7 @@ export default {
       defaults: {
         barCount: 250,
         quoteCount: 250,
-        showTooltips: true
+        showTooltips: false
       },
       theme: {
         observeVitePressDarkMode: true,
@@ -93,11 +90,13 @@ export default {
         Aroon:           { uiid: 'AROON UP/DOWN',   title: 'Aroon' },
         AroonOsc:        { uiid: 'AROON OSC',       title: 'Aroon Oscillator' },
         Atr:             { uiid: 'Atr',             title: 'Average True Range' },
+        Atrp:            { uiid: 'ATRP',            title: 'Average True Range Percent' },
         AtrStop:         { uiid: 'ATR-STOP-HL',     title: 'ATR Trailing Stop (High/Low)' },
         AtrStopClose:    { uiid: 'ATR-STOP-CLOSE',  title: 'ATR Trailing Stop (Close)' },
         Awesome:         { uiid: 'AO',              title: 'Awesome Oscillator' },
         Beta:            { uiid: 'Beta',            title: 'Beta' },
         BollingerBands:  { uiid: 'BB',              title: 'Bollinger Bands®' },
+        BollingerBandsPctB: { uiid: 'BB-PCTB',      title: 'Bollinger Bands® %B' },
         Bop:             { uiid: 'Bop',             title: 'Balance of Power' },
         Cci:             { uiid: 'Cci',             title: 'Commodity Channel Index' },
         ChaikinOsc:      { uiid: 'CHAIKIN',         title: 'Chaikin Oscillator' },
@@ -147,6 +146,7 @@ export default {
         Stc:             { uiid: 'Stc',             title: 'Schaff Trend Cycle' },
         StdDev:          { uiid: 'STDEV',           title: 'Standard Deviation' },
         StdDevChannels:  { uiid: 'STDEV-CH',        title: 'Standard Deviation Channels' },
+        StdDevZScore:    { uiid: 'STDEV-ZSCORE',    title: 'Standard Deviation Z-Score' },
         Stoch:           { uiid: 'STO',             title: 'Stochastic Oscillator' },
         StochRsi:        { uiid: 'StochRsi',        title: 'Stochastic RSI' },
         SuperTrend:      { uiid: 'SuperTrend',      title: 'SuperTrend' },

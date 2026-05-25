@@ -1,10 +1,34 @@
 [
   {
-    "name": "Simple Moving Average",
-    "uiid": "SMA",
-    "legendTemplate": "SMA([P1])",
-    "endpoint": "indicators/sma",
-    "category": "trend",
+    "name": "Accumulation Distribution Line (ADL)",
+    "uiid": "ADL",
+    "legendTemplate": "ADL",
+    "endpoint": "indicators/adl",
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "ADL",
+        "tooltipTemplate": "ADL",
+        "dataName": "adl",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Arnaud Legoux Moving Average (ALMA)",
+    "uiid": "ALMA",
+    "legendTemplate": "ALMA([P1],[P2],[P3])",
+    "endpoint": "indicators/alma",
+    "category": "moving-average",
     "chartType": "overlay",
     "order": 1,
     "chartConfig": null,
@@ -13,47 +37,112 @@
         "displayName": "Lookback Periods",
         "paramName": "lookbackPeriods",
         "dataType": "int",
-        "defaultValue": 20,
-        "minimum": 1,
-        "maximum": 500
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 9
+      },
+      {
+        "displayName": "Offset",
+        "paramName": "offset",
+        "dataType": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "defaultValue": 0.85
+      },
+      {
+        "displayName": "Sigma",
+        "paramName": "sigma",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 6
       }
     ],
     "results": [
       {
-        "displayName": "SMA",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "sma",
+        "displayName": "ALMA",
+        "tooltipTemplate": "ALMA([P1],[P2],[P3])",
+        "dataName": "alma",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Relative Strength Index",
-    "uiid": "RSI",
-    "legendTemplate": "RSI([P1])",
-    "endpoint": "indicators/rsi",
-    "category": "oscillator",
+    "name": "Aroon Oscillator",
+    "uiid": "AROON OSC",
+    "legendTemplate": "AROON([P1]) Oscillator",
+    "endpoint": "indicators/aroon-osc",
+    "category": "price-trend",
     "chartType": "oscillator",
-    "order": 2,
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": -100,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 25
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Oscillator",
+        "tooltipTemplate": "AROON([P1]) Oscillator",
+        "dataName": "oscillator",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Aroon Up/Down",
+    "uiid": "AROON UP/DOWN",
+    "legendTemplate": "AROON([P1]) Up/Down",
+    "endpoint": "indicators/aroon-up-down",
+    "category": "price-trend",
+    "chartType": "oscillator",
+    "order": 1,
     "chartConfig": {
       "minimumYAxis": 0,
       "maximumYAxis": 100,
       "thresholds": [
         {
           "value": 70,
-          "color": "#ef5350",
+          "color": "#42424280",
           "style": "solid",
           "fill": null
         },
         {
+          "value": 50,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        },
+        {
           "value": 30,
-          "color": "#26a69a",
+          "color": "#42424280",
           "style": "solid",
           "fill": null
         }
@@ -64,798 +153,1065 @@
         "displayName": "Lookback Periods",
         "paramName": "lookbackPeriods",
         "dataType": "int",
-        "defaultValue": 14,
         "minimum": 1,
-        "maximum": 500
+        "maximum": 250,
+        "defaultValue": 25
       }
     ],
     "results": [
       {
-        "displayName": "RSI",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "rsi",
+        "displayName": "Aroon Up",
+        "tooltipTemplate": "Aroon Up",
+        "dataName": "aroonUp",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Aroon Down",
+        "tooltipTemplate": "Aroon Down",
+        "dataName": "aroonDown",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Adl",
-    "uiid": "Adl",
-    "legendTemplate": "Adl",
-    "endpoint": "indicators/adl",
-    "category": "fallback",
+    "name": "ATR Trailing Stop (Close offset)",
+    "uiid": "ATR-STOP-CLOSE",
+    "legendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
+    "endpoint": "indicators/atr-stop-close",
+    "category": "price-trend",
     "chartType": "overlay",
-    "order": 3,
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 21
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
     "results": [
       {
-        "displayName": "Adl",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Buy Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Buy Stop",
+        "dataName": "buyStop",
         "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
+        "lineType": "dots",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Adx",
-    "uiid": "Adx",
-    "legendTemplate": "Adx",
-    "endpoint": "indicators/adx",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 4,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
       {
-        "displayName": "Adx",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Sell Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Sell Stop",
+        "dataName": "sellStop",
         "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
+        "lineType": "dots",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#DD2C00",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Alligator",
-    "uiid": "Alligator",
-    "legendTemplate": "Alligator",
-    "endpoint": "indicators/alligator",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 5,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Alligator",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Alma",
-    "uiid": "Alma",
-    "legendTemplate": "Alma",
-    "endpoint": "indicators/alma",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 6,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Alma",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Aroon",
-    "uiid": "AROON UP/DOWN",
-    "legendTemplate": "AROON UP/DOWN",
-    "endpoint": "indicators/aroon-up-down",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 7,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "AROON UP/DOWN",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Atr",
-    "uiid": "Atr",
-    "legendTemplate": "Atr",
-    "endpoint": "indicators/atr",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 8,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Atr",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "AtrStop",
+    "name": "ATR Trailing Stop (High/Low offset)",
     "uiid": "ATR-STOP-HL",
-    "legendTemplate": "ATR-STOP-HL",
+    "legendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
     "endpoint": "indicators/atr-stop-hl",
-    "category": "fallback",
+    "category": "price-trend",
     "chartType": "overlay",
-    "order": 9,
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 21
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
     "results": [
       {
-        "displayName": "ATR-STOP-HL",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Buy Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Buy Stop",
+        "dataName": "buyStop",
         "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
+        "lineType": "dots",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Sell Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Sell Stop",
+        "dataName": "sellStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Awesome",
-    "uiid": "AO",
-    "legendTemplate": "AO",
-    "endpoint": "indicators/ao",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 10,
-    "chartConfig": null,
-    "parameters": [],
+    "name": "Average Directional Index (ADX)",
+    "uiid": "ADX",
+    "legendTemplate": "ADX([P1])",
+    "endpoint": "indicators/adx",
+    "category": "price-trend",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 40,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        },
+        {
+          "value": 20,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
     "results": [
       {
-        "displayName": "AO",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "ADX",
+        "tooltipTemplate": "ADX([P1])",
+        "dataName": "adx",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "DI+",
+        "tooltipTemplate": "DI+([P1])",
+        "dataName": "pdi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "DI-",
+        "tooltipTemplate": "DI-([P1])",
+        "dataName": "mdi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "ADX Rating",
+        "tooltipTemplate": "ADXR([P1])",
+        "dataName": "adxr",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#9E9E9E50",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Average True Range (ATR)",
+    "uiid": "ATR",
+    "legendTemplate": "ATR([P1])",
+    "endpoint": "indicators/atr",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Average True Range",
+        "tooltipTemplate": "ATR([P1])",
+        "dataName": "atr",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Average True Range (ATR) Percent",
+    "uiid": "ATRP",
+    "legendTemplate": "ATR([P1]) %",
+    "endpoint": "indicators/atrp",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Average True Range Percent",
+        "tooltipTemplate": "ATR([P1]) %",
+        "dataName": "atrp",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Awesome Oscillator (AO)",
+    "uiid": "AO",
+    "legendTemplate": "AO([P1],[P2])",
+    "endpoint": "indicators/ao",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 5
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 34
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Awesome Oscillator",
+        "tooltipTemplate": "AO([P1],[P2])",
+        "dataName": "oscillator",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Balance of Power (BOP)",
+    "uiid": "BOP",
+    "legendTemplate": "BOP([P1])",
+    "endpoint": "indicators/bop",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Smooth Periods",
+        "paramName": "smoothPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Balance of Power",
+        "tooltipTemplate": "BOP([P1])",
+        "dataName": "bop",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
     "name": "Beta",
-    "uiid": "Beta",
-    "legendTemplate": "Beta",
+    "uiid": "BETA",
+    "legendTemplate": "BETA([P1])",
     "endpoint": "indicators/beta",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 11,
-    "chartConfig": null,
-    "parameters": [],
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 1,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 50
+      }
+    ],
     "results": [
       {
         "displayName": "Beta",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "tooltipTemplate": "Beta",
+        "dataName": "beta",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Beta+",
+        "tooltipTemplate": "Beta+",
+        "dataName": "betaUp",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Beta-",
+        "tooltipTemplate": "Beta-",
+        "dataName": "betaDown",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
       }
     ]
   },
   {
-    "name": "BollingerBands",
+    "name": "Bollinger Bands®",
     "uiid": "BB",
-    "legendTemplate": "BB",
+    "legendTemplate": "BB([P1],[P2])",
     "endpoint": "indicators/bb",
-    "category": "fallback",
+    "category": "price-channel",
     "chartType": "overlay",
-    "order": 12,
+    "order": 80,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 20
+      },
+      {
+        "displayName": "Standard Deviations",
+        "paramName": "standardDeviations",
+        "dataType": "number",
+        "minimum": 0.01,
+        "maximum": 10,
+        "defaultValue": 2
+      }
+    ],
     "results": [
       {
-        "displayName": "BB",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Upper Band",
+        "tooltipTemplate": "BB([P1],[P2]) Upper Band",
+        "dataName": "upperBand",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#616161CC",
+        "fill": {
+          "target": "+2",
+          "colorAbove": "#61616110",
+          "colorBelow": "#61616110"
+        }
+      },
+      {
+        "displayName": "Centerline",
+        "tooltipTemplate": "BB([P1],[P2]) Centerline",
+        "dataName": "sma",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#616161CC",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "BB([P1],[P2]) Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#616161CC",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Bop",
-    "uiid": "Bop",
-    "legendTemplate": "Bop",
-    "endpoint": "indicators/bop",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 13,
-    "chartConfig": null,
-    "parameters": [],
+    "name": "Bollinger Bands® %B",
+    "uiid": "BB-PCTB",
+    "legendTemplate": "BB([P1],[P2]) %B",
+    "endpoint": "indicators/bb-pctb",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 1,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 0,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 20
+      },
+      {
+        "displayName": "Standard Deviations",
+        "paramName": "standardDeviations",
+        "dataType": "number",
+        "minimum": 0.01,
+        "maximum": 10,
+        "defaultValue": 2
+      }
+    ],
     "results": [
       {
-        "displayName": "Bop",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "%B",
+        "tooltipTemplate": "BB([P1],[P2]) %B",
+        "dataName": "percentB",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Cci",
-    "uiid": "Cci",
-    "legendTemplate": "Cci",
-    "endpoint": "indicators/cci",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 14,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Cci",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "ChaikinOsc",
-    "uiid": "CHAIKIN",
-    "legendTemplate": "CHAIKIN",
-    "endpoint": "indicators/chaikin",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 15,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "CHAIKIN",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Chandelier",
-    "uiid": "CHEXIT-LONG",
-    "legendTemplate": "CHEXIT-LONG",
-    "endpoint": "indicators/chexit-long",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 16,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "CHEXIT-LONG",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Chop",
-    "uiid": "Chop",
-    "legendTemplate": "Chop",
-    "endpoint": "indicators/chop",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 17,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Chop",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Cmf",
-    "uiid": "Cmf",
-    "legendTemplate": "Cmf",
+    "name": "Chaikin Money Flow (CMF)",
+    "uiid": "CMF",
+    "legendTemplate": "CMF([P1])",
     "endpoint": "indicators/cmf",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 18,
-    "chartConfig": null,
-    "parameters": [],
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
     "results": [
       {
-        "displayName": "Cmf",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "CMF",
+        "tooltipTemplate": "Chaikin Money Flow",
+        "dataName": "cmf",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Cmo",
-    "uiid": "Cmo",
-    "legendTemplate": "Cmo",
+    "name": "Chaikin Oscillator",
+    "uiid": "CHAIKIN",
+    "legendTemplate": "CHAIKIN([P1],[P2])",
+    "endpoint": "indicators/chaikin",
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 3
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Chaikin Oscillator",
+        "tooltipTemplate": "CHAIKIN([P1],[P2])",
+        "dataName": "oscillator",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Chande Momentum Oscillator",
+    "uiid": "CMO",
+    "legendTemplate": "CMO([P1])",
     "endpoint": "indicators/cmo",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 19,
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
     "results": [
       {
-        "displayName": "Cmo",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Chande Momentum Oscillator",
+        "tooltipTemplate": "CMO([P1])",
+        "dataName": "cmo",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "ConnorsRsi",
-    "uiid": "CRSI",
-    "legendTemplate": "CRSI",
-    "endpoint": "indicators/crsi",
-    "category": "fallback",
+    "name": "Chandelier Exit (long)",
+    "uiid": "CHEXIT-LONG",
+    "legendTemplate": "CHANDELIER([P1],[P2],LONG)",
+    "endpoint": "indicators/chexit-long",
+    "category": "stop-and-reverse",
     "chartType": "overlay",
-    "order": 20,
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 22
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Chandelier Exit",
+        "tooltipTemplate": "CHANDELIER([P1],[P2],LONG)",
+        "dataName": "chandelierExit",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Chandelier Exit (short)",
+    "uiid": "CHEXIT-SHORT",
+    "legendTemplate": "CHANDELIER([P1],[P2],SHORT)",
+    "endpoint": "indicators/chexit-short",
+    "category": "stop-and-reverse",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 22
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Chandelier Exit",
+        "tooltipTemplate": "CHANDELIER([P1],[P2],SHORT)",
+        "dataName": "chandelierExit",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Choppiness Index",
+    "uiid": "CHOP",
+    "legendTemplate": "CHOP([P1])",
+    "endpoint": "indicators/chop",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 61.8,
+          "color": "#61616110",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#B71C1C70"
+          }
+        },
+        {
+          "value": 38.2,
+          "color": "#61616110",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#1B5E2070",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Choppiness",
+        "tooltipTemplate": "Choppiness",
+        "dataName": "chop",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Commodity Channel Index (CCI)",
+    "uiid": "CCI",
+    "legendTemplate": "CCI([P1])",
+    "endpoint": "indicators/cci",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 100,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+3",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 0,
+          "color": "#61616110",
+          "style": "dash",
+          "fill": null
+        },
+        {
+          "value": -100,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "CCI",
+        "tooltipTemplate": "CCI([P1])",
+        "dataName": "cci",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "ConnorsRSI (CRSI)",
+    "uiid": "CRSI",
+    "legendTemplate": "CRSI([P1],[P2],[P3])",
+    "endpoint": "indicators/crsi",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 90,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 10,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "rsiPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 3
+      },
+      {
+        "displayName": "Streak Periods",
+        "paramName": "streakPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 50,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "Rank Periods",
+        "paramName": "rankPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 100
+      }
+    ],
     "results": [
       {
         "displayName": "CRSI",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "tooltipTemplate": "CRSI([P1],[P2],[P3])",
+        "dataName": "connorsRsi",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Dema",
-    "uiid": "Dema",
-    "legendTemplate": "Dema",
-    "endpoint": "indicators/dema",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 21,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Dema",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Donchian",
-    "uiid": "Donchian",
-    "legendTemplate": "Donchian",
-    "endpoint": "indicators/donchian",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 22,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Donchian",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Dpo",
-    "uiid": "Dpo",
-    "legendTemplate": "Dpo",
+    "name": "Detrended Price Oscillator (DPO)",
+    "uiid": "DPO",
+    "legendTemplate": "DPO([P1])",
     "endpoint": "indicators/dpo",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 23,
-    "chartConfig": null,
-    "parameters": [],
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
     "results": [
       {
-        "displayName": "Dpo",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "DPO",
+        "tooltipTemplate": "DPO([P1])",
+        "dataName": "dpo",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Dynamic",
-    "uiid": "DYN",
-    "legendTemplate": "DYN",
-    "endpoint": "indicators/dyn",
-    "category": "fallback",
+    "name": "Doji",
+    "uiid": "DOJI",
+    "legendTemplate": "DOJI([P1]%)",
+    "endpoint": "indicators/doji",
+    "category": "candlestick-pattern",
     "chartType": "overlay",
-    "order": 24,
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
-    "results": [
+    "parameters": [
       {
-        "displayName": "DYN",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Max Price Change %",
+        "paramName": "maxPriceChangePercent",
         "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "minimum": 0,
+        "maximum": 0.5,
+        "defaultValue": 0.1
       }
-    ]
-  },
-  {
-    "name": "ElderRay",
-    "uiid": "ELDER-RAY",
-    "legendTemplate": "ELDER-RAY",
-    "endpoint": "indicators/elder-ray",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 25,
-    "chartConfig": null,
-    "parameters": [],
+    ],
     "results": [
       {
-        "displayName": "ELDER-RAY",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Doji",
+        "tooltipTemplate": "DOJI([P1]%)",
+        "dataName": "price",
         "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Ema",
-    "uiid": "Ema",
-    "legendTemplate": "Ema",
-    "endpoint": "indicators/ema",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 26,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Ema",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Epma",
-    "uiid": "Epma",
-    "legendTemplate": "Epma",
-    "endpoint": "indicators/epma",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 27,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Epma",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Fcb",
-    "uiid": "Fcb",
-    "legendTemplate": "Fcb",
-    "endpoint": "indicators/fcb",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 28,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Fcb",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "FisherTransform",
-    "uiid": "FISHER",
-    "legendTemplate": "FISHER",
-    "endpoint": "indicators/fisher",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 29,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "FISHER",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "ForceIndex",
-    "uiid": "FORCE",
-    "legendTemplate": "FORCE",
-    "endpoint": "indicators/force",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 30,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "FORCE",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Fractal",
-    "uiid": "Fractal",
-    "legendTemplate": "Fractal",
-    "endpoint": "indicators/fractal",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 31,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Fractal",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Hma",
-    "uiid": "Hma",
-    "legendTemplate": "Hma",
-    "endpoint": "indicators/hma",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 32,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Hma",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "HtTrendline",
-    "uiid": "HT Trendline",
-    "legendTemplate": "HT Trendline",
-    "endpoint": "indicators/ht-trendline",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 33,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "HT Trendline",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "lineType": "pointer",
+        "stack": null,
+        "lineWidth": 8,
+        "defaultColor": "#616161CC",
+        "fill": null
       }
     ]
   },
@@ -866,7 +1222,7 @@
     "endpoint": "indicators/dcperiod",
     "category": "price-characteristic",
     "chartType": "oscillator",
-    "order": 99,
+    "order": 1,
     "chartConfig": {
       "minimumYAxis": 0,
       "maximumYAxis": null,
@@ -883,1133 +1239,3039 @@
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#1E88E5",
-        "fill": null,
-        "order": 1
+        "fill": null
       }
     ]
   },
   {
-    "name": "Hurst",
-    "uiid": "Hurst",
-    "legendTemplate": "Hurst",
+    "name": "Donchian Channels",
+    "uiid": "DONCHIAN",
+    "legendTemplate": "DONCHIAN([P1])",
+    "endpoint": "indicators/donchian",
+    "category": "price-channel",
+    "chartType": "overlay",
+    "order": 80,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Upper Band",
+        "tooltipTemplate": "DONCHIAN Upper Band",
+        "dataName": "upperBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": {
+          "target": "+2",
+          "colorAbove": "#61616110",
+          "colorBelow": "#61616110"
+        }
+      },
+      {
+        "displayName": "Centerline",
+        "tooltipTemplate": "DONCHIAN Centerline",
+        "dataName": "centerline",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "DONCHIAN Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Double Exponential Moving Average (DEMA)",
+    "uiid": "DEMA",
+    "legendTemplate": "DEMA([P1])",
+    "endpoint": "indicators/dema",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "DEMA",
+        "tooltipTemplate": "DEMA([P1])",
+        "dataName": "dema",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Ehlers Fisher Transform",
+    "uiid": "FISHER",
+    "legendTemplate": "FISHER([P1])",
+    "endpoint": "indicators/fisher",
+    "category": "price-transform",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Fisher Transform",
+        "tooltipTemplate": "Fisher Transform",
+        "dataName": "fisher",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Trigger",
+        "tooltipTemplate": "Trigger",
+        "dataName": "trigger",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Elder-ray Index",
+    "uiid": "ELDER-RAY",
+    "legendTemplate": "ELDER-RAY([P1])",
+    "endpoint": "indicators/elder-ray",
+    "category": "price-trend",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 13
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Bull Power",
+        "tooltipTemplate": "Bull Power",
+        "dataName": "bullPower",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": "eray",
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Bear Power",
+        "tooltipTemplate": "Bear Power",
+        "dataName": "bearPower",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": "eray",
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Endpoint Moving Average (EPMA)",
+    "uiid": "EPMA",
+    "legendTemplate": "EPMA([P1])",
+    "endpoint": "indicators/epma",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "EPMA",
+        "tooltipTemplate": "EPMA([P1])",
+        "dataName": "epma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Exponential Moving Average (EMA)",
+    "uiid": "EMA",
+    "legendTemplate": "EMA([P1])",
+    "endpoint": "indicators/ema",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "EMA",
+        "tooltipTemplate": "EMA([P1])",
+        "dataName": "ema",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Force Index",
+    "uiid": "FORCE",
+    "legendTemplate": "FORCE([P1])",
+    "endpoint": "indicators/force",
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 13
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Force Index",
+        "tooltipTemplate": "FORCE([P1])",
+        "dataName": "forceIndex",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Fractal Chaos Bands",
+    "uiid": "FCB",
+    "legendTemplate": "FCB([P1])",
+    "endpoint": "indicators/fcb",
+    "category": "price-channels",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Window Span",
+        "paramName": "windowSpan",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 30,
+        "defaultValue": 2
+      }
+    ],
+    "results": [
+      {
+        "displayName": "FCB([P1]) Upper Band",
+        "tooltipTemplate": "Upper Band",
+        "dataName": "upperBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "FCB([P1]) Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Hilbert Transform Instantaneous Trendline",
+    "uiid": "HT Trendline",
+    "legendTemplate": "HT TRENDLINE",
+    "endpoint": "indicators/ht-trendline",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "HT Trendline",
+        "tooltipTemplate": "HT Trendline",
+        "dataName": "trendline",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "HT Smoothed Price",
+        "tooltipTemplate": "HT Smooth Price",
+        "dataName": "smoothPrice",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Hull Moving Average (HMA)",
+    "uiid": "HMA",
+    "legendTemplate": "HMA([P1])",
+    "endpoint": "indicators/hma",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "HMA",
+        "tooltipTemplate": "HMA([P1])",
+        "dataName": "hma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Hurst Exponent",
+    "uiid": "HURST",
+    "legendTemplate": "HURST([P1])",
     "endpoint": "indicators/hurst",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 34,
-    "chartConfig": null,
-    "parameters": [],
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 1,
+      "thresholds": [
+        {
+          "value": 0.5,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 21,
+        "maximum": 500,
+        "defaultValue": 100
+      }
+    ],
     "results": [
       {
-        "displayName": "Hurst",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Hurst Exponent",
+        "tooltipTemplate": "HURST([P1])",
+        "dataName": "hurstExponent",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Ichimoku",
-    "uiid": "Ichimoku",
-    "legendTemplate": "Ichimoku",
+    "name": "Ichimoku Cloud",
+    "uiid": "ICHIMOKU",
+    "legendTemplate": "ICHIMOKU([P1],[P2],[P3])",
     "endpoint": "indicators/ichimoku",
-    "category": "fallback",
+    "category": "price-trend",
     "chartType": "overlay",
-    "order": 35,
+    "order": 80,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Tenkan Periods",
+        "paramName": "tenkanPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 9
+      },
+      {
+        "displayName": "Kijun Periods",
+        "paramName": "kijunPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 26
+      },
+      {
+        "displayName": "Senkou Periods",
+        "paramName": "senkouBPeriods",
+        "dataType": "int",
+        "minimum": 3,
+        "maximum": 250,
+        "defaultValue": 52
+      }
+    ],
     "results": [
       {
-        "displayName": "Ichimoku",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Tenkan-sen",
+        "tooltipTemplate": "ICHIMOKU([P1],[P2],[P3] Tenkan-sen",
+        "dataName": "tenkanSen",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Kijun-sen",
+        "tooltipTemplate": "ICHIMOKU([P1],[P2],[P3] Kijun-sen",
+        "dataName": "kijunSen",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#8E24AA",
+        "fill": null
+      },
+      {
+        "displayName": "Chikou span",
+        "tooltipTemplate": "ICHIMOKU([P1],[P2],[P3] Chikou span",
+        "dataName": "chikouSpan",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#616161CC",
+        "fill": null
+      },
+      {
+        "displayName": "Senkou span A",
+        "tooltipTemplate": "ICHIMOKU([P1],[P2],[P3] Senkou span A",
+        "dataName": "senkouSpanA",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1.5,
+        "defaultColor": "#1B5E2070",
+        "fill": null
+      },
+      {
+        "displayName": "Senkou span B",
+        "tooltipTemplate": "ICHIMOKU([P1],[P2],[P3] Senkou span B",
+        "dataName": "senkouSpanB",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1.5,
+        "defaultColor": "#B71C1C70",
+        "fill": {
+          "target": "-1",
+          "colorAbove": "#B71C1C20",
+          "colorBelow": "#1B5E2020"
+        }
       }
     ]
   },
   {
-    "name": "Kama",
-    "uiid": "Kama",
-    "legendTemplate": "Kama",
+    "name": "Kaufman Adaptive Moving Average (KAMA)",
+    "uiid": "KAMA",
+    "legendTemplate": "KAMA([P1],[P2],[P3])",
     "endpoint": "indicators/kama",
-    "category": "fallback",
+    "category": "moving-average",
     "chartType": "overlay",
-    "order": 36,
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "ER Periods",
+        "paramName": "erPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 10
+      },
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 30
+      }
+    ],
     "results": [
       {
-        "displayName": "Kama",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "KAMA",
+        "tooltipTemplate": "KAMA([P1],[P2],[P3])",
+        "dataName": "kama",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Keltner",
-    "uiid": "Keltner",
-    "legendTemplate": "Keltner",
+    "name": "Keltner Channels",
+    "uiid": "KELTNER",
+    "legendTemplate": "KELTNER([P1],[P2],[P3])",
     "endpoint": "indicators/keltner",
-    "category": "fallback",
+    "category": "price-channel",
     "chartType": "overlay",
-    "order": 37,
+    "order": 80,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "EMA Periods",
+        "paramName": "emaPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 20
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.01,
+        "maximum": 10,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "ATR Periods",
+        "paramName": "atrPeriods",
+        "dataType": "number",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 10
+      }
+    ],
     "results": [
       {
-        "displayName": "Keltner",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Upper Band",
+        "tooltipTemplate": "KELTNER Upper Band",
+        "dataName": "upperBand",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": {
+          "target": "+2",
+          "colorAbove": "#61616110",
+          "colorBelow": "#61616110"
+        }
+      },
+      {
+        "displayName": "Centerline",
+        "tooltipTemplate": "KELTNER Centerline",
+        "dataName": "centerline",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "KELTNER Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Kvo",
-    "uiid": "Kvo",
-    "legendTemplate": "Kvo",
+    "name": "Klinger Volume Oscillator (KVO)",
+    "uiid": "KVO",
+    "legendTemplate": "KVO([P1],[P2],[P3])",
     "endpoint": "indicators/kvo",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 38,
-    "chartConfig": null,
-    "parameters": [],
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "minimum": 3,
+        "maximum": 100,
+        "defaultValue": 34
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "minimum": 4,
+        "maximum": 200,
+        "defaultValue": 55
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 13
+      }
+    ],
     "results": [
       {
-        "displayName": "Kvo",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "KVO",
+        "tooltipTemplate": "KVO([P1],[P2],[P3])",
+        "dataName": "oscillator",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "KVO Signal",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
       }
     ]
   },
   {
-    "name": "MaEnvelopes",
-    "uiid": "MA-ENV",
-    "legendTemplate": "MA-ENV",
-    "endpoint": "indicators/ma-env",
-    "category": "fallback",
+    "name": "Linear Regression",
+    "uiid": "LINEAR",
+    "legendTemplate": "LINEAR([P1])",
+    "endpoint": "indicators/linear",
+    "category": "price-characteristic",
     "chartType": "overlay",
-    "order": 39,
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
-    "results": [
+    "parameters": [
       {
-        "displayName": "MA-ENV",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
       }
-    ]
-  },
-  {
-    "name": "Macd",
-    "uiid": "Macd",
-    "legendTemplate": "Macd",
-    "endpoint": "indicators/macd",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 40,
-    "chartConfig": null,
-    "parameters": [],
+    ],
     "results": [
       {
-        "displayName": "Macd",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Linear Regression",
+        "tooltipTemplate": "LINEAR([P1])",
+        "dataName": "line",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Mama",
-    "uiid": "Mama",
-    "legendTemplate": "Mama",
-    "endpoint": "indicators/mama",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 41,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Mama",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Mfi",
-    "uiid": "Mfi",
-    "legendTemplate": "Mfi",
-    "endpoint": "indicators/mfi",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 42,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Mfi",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Obv",
-    "uiid": "Obv",
-    "legendTemplate": "Obv",
-    "endpoint": "indicators/obv",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 43,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Obv",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "ParabolicSar",
-    "uiid": "PSAR",
-    "legendTemplate": "PSAR",
-    "endpoint": "indicators/psar",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 44,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "PSAR",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Pmo",
-    "uiid": "Pmo",
-    "legendTemplate": "Pmo",
-    "endpoint": "indicators/pmo",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 45,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Pmo",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Pvo",
-    "uiid": "Pvo",
-    "legendTemplate": "Pvo",
-    "endpoint": "indicators/pvo",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 46,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Pvo",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Roc",
-    "uiid": "Roc",
-    "legendTemplate": "Roc",
-    "endpoint": "indicators/roc",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 47,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Roc",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "RocWb",
-    "uiid": "RocWb",
-    "legendTemplate": "RocWb",
-    "endpoint": "indicators/rocwb",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 48,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "RocWb",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Slope",
-    "uiid": "Slope",
-    "legendTemplate": "Slope",
-    "endpoint": "indicators/slope",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 49,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Slope",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Smi",
-    "uiid": "Smi",
-    "legendTemplate": "Smi",
-    "endpoint": "indicators/smi",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 50,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Smi",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Smma",
-    "uiid": "Smma",
-    "legendTemplate": "Smma",
-    "endpoint": "indicators/smma",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 51,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Smma",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "StarcBands",
-    "uiid": "STARC",
-    "legendTemplate": "STARC",
-    "endpoint": "indicators/starc",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 52,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "STARC",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Stc",
-    "uiid": "Stc",
-    "legendTemplate": "Stc",
-    "endpoint": "indicators/stc",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 53,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Stc",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "StdDev",
-    "uiid": "STDEV",
-    "legendTemplate": "STDEV",
-    "endpoint": "indicators/stdev",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 54,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "STDEV",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "StdDevChannels",
-    "uiid": "STDEV-CH",
-    "legendTemplate": "STDEV-CH",
-    "endpoint": "indicators/stdev-ch",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 55,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "STDEV-CH",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Stoch",
-    "uiid": "STO",
-    "legendTemplate": "STO",
-    "endpoint": "indicators/sto",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 56,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "STO",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "StochRsi",
-    "uiid": "StochRsi",
-    "legendTemplate": "StochRsi",
-    "endpoint": "indicators/stochrsi",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 57,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "StochRsi",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "SuperTrend",
-    "uiid": "SuperTrend",
-    "legendTemplate": "SuperTrend",
-    "endpoint": "indicators/supertrend",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 58,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "SuperTrend",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "T3",
-    "uiid": "T3",
-    "legendTemplate": "T3",
-    "endpoint": "indicators/t3",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 59,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "T3",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Tema",
-    "uiid": "Tema",
-    "legendTemplate": "Tema",
-    "endpoint": "indicators/tema",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 60,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Tema",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Trix",
-    "uiid": "Trix",
-    "legendTemplate": "Trix",
-    "endpoint": "indicators/trix",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 61,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Trix",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Tsi",
-    "uiid": "Tsi",
-    "legendTemplate": "Tsi",
-    "endpoint": "indicators/tsi",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 62,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Tsi",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "UlcerIndex",
-    "uiid": "ULCER",
-    "legendTemplate": "ULCER",
-    "endpoint": "indicators/ulcer",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 63,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "ULCER",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Ultimate",
-    "uiid": "Ultimate",
-    "legendTemplate": "Ultimate",
-    "endpoint": "indicators/ultimate",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 64,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Ultimate",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "VolatilityStop",
-    "uiid": "VOL-STOP",
-    "legendTemplate": "VOL-STOP",
-    "endpoint": "indicators/vol-stop",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 65,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "VOL-STOP",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Vortex",
-    "uiid": "Vortex",
-    "legendTemplate": "Vortex",
-    "endpoint": "indicators/vortex",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 66,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Vortex",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Vwap",
-    "uiid": "Vwap",
-    "legendTemplate": "Vwap",
-    "endpoint": "indicators/vwap",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 67,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Vwap",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Vwma",
-    "uiid": "Vwma",
-    "legendTemplate": "Vwma",
-    "endpoint": "indicators/vwma",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 68,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Vwma",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "WilliamsR",
-    "uiid": "WilliamsR",
-    "legendTemplate": "WilliamsR",
-    "endpoint": "indicators/williamsr",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 69,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "WilliamsR",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Wma",
-    "uiid": "Wma",
-    "legendTemplate": "Wma",
-    "endpoint": "indicators/wma",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 70,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "Wma",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "ZigZag",
-    "uiid": "ZIGZAG-HL",
-    "legendTemplate": "ZIGZAG-HL",
-    "endpoint": "indicators/zigzag-hl",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 71,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "ZIGZAG-HL",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "AroonOsc",
-    "uiid": "AROON OSC",
-    "legendTemplate": "AROON OSC",
-    "endpoint": "indicators/aroon-osc",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 72,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "AROON OSC",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "AtrStopClose",
-    "uiid": "ATR-STOP-CLOSE",
-    "legendTemplate": "ATR-STOP-CLOSE",
-    "endpoint": "indicators/atr-stop-close",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 73,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "ATR-STOP-CLOSE",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "ChandelierShort",
-    "uiid": "CHEXIT-SHORT",
-    "legendTemplate": "CHEXIT-SHORT",
-    "endpoint": "indicators/chexit-short",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 74,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "CHEXIT-SHORT",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
-      }
-    ]
-  },
-  {
-    "name": "Doji",
-    "uiid": "DOJI",
-    "legendTemplate": "DOJI",
-    "endpoint": "indicators/doji",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 75,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "DOJI",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
     "name": "Marubozu",
     "uiid": "MARUBOZU",
-    "legendTemplate": "MARUBOZU",
+    "legendTemplate": "MARUBOZU([P1]%)",
     "endpoint": "indicators/marubozu",
-    "category": "fallback",
+    "category": "candlestick-pattern",
     "chartType": "overlay",
-    "order": 76,
+    "order": 1,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Min Body Percent %",
+        "paramName": "minBodyPercent",
+        "dataType": "number",
+        "minimum": 80,
+        "maximum": 100,
+        "defaultValue": 90
+      }
+    ],
     "results": [
       {
-        "displayName": "MARUBOZU",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Marubozu",
+        "tooltipTemplate": "MARUBOZU([P1]%)",
+        "dataName": "price",
         "dataType": "number",
-        "lineType": "solid",
-        "stack": "main",
-        "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "lineType": "pointer",
+        "stack": null,
+        "lineWidth": 8,
+        "defaultColor": "#616161CC",
+        "fill": null
       }
     ]
   },
   {
-    "name": "Tr",
+    "name": "McGinley Dynamic",
+    "uiid": "DYN",
+    "legendTemplate": "DYNAMIC([P1])",
+    "endpoint": "indicators/dyn",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Dynamic",
+        "tooltipTemplate": "DYNAMIC([P1])",
+        "dataName": "dynamic",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "MESA Adaptive Moving Average (MAMA)",
+    "uiid": "MAMA",
+    "legendTemplate": "MAMA([P1],[P2])",
+    "endpoint": "indicators/mama",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Fast Limit",
+        "paramName": "fastLimit",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 0.99,
+        "defaultValue": 0.5
+      },
+      {
+        "displayName": "Slow Limit",
+        "paramName": "slowLimit",
+        "dataType": "number",
+        "minimum": 0.01,
+        "maximum": 0.5,
+        "defaultValue": 0.05
+      }
+    ],
+    "results": [
+      {
+        "displayName": "MAMA",
+        "tooltipTemplate": "MAMA([P1],[P2])",
+        "dataName": "mama",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "FAMA",
+        "tooltipTemplate": "FAMA([P1],[P2])",
+        "dataName": "fama",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Money Flow Index (MFI)",
+    "uiid": "MFI",
+    "legendTemplate": "MFI([P1])",
+    "endpoint": "indicators/mfi",
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 80,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 20,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "MFI",
+        "tooltipTemplate": "MFI([P1])",
+        "dataName": "mfi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Moving Average Convergence/Divergence (MACD)",
+    "uiid": "MACD",
+    "legendTemplate": "MACD([P1],[P2],[P3])",
+    "endpoint": "indicators/macd",
+    "category": "price-trend",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#61616110",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 200,
+        "defaultValue": 12
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 26
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 9
+      }
+    ],
+    "results": [
+      {
+        "displayName": "MACD",
+        "tooltipTemplate": "MACD",
+        "dataName": "macd",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "Signal",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Histogram",
+        "tooltipTemplate": "Histogram",
+        "dataName": "histogram",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#9E9E9E50",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Moving Average Envelopes",
+    "uiid": "MA-ENV",
+    "legendTemplate": "MA-ENV([P1],[P2]%)",
+    "endpoint": "indicators/ma-env",
+    "category": "price-channel",
+    "chartType": "overlay",
+    "order": 80,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 20
+      },
+      {
+        "displayName": "Percent Offset",
+        "paramName": "percentOffset",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 25,
+        "defaultValue": 2.5
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Upper Envelope",
+        "tooltipTemplate": "MA-ENV([P1],[P2]%) Upper",
+        "dataName": "upperEnvelope",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": {
+          "target": "+2",
+          "colorAbove": "#61616110",
+          "colorBelow": "#61616110"
+        }
+      },
+      {
+        "displayName": "Centerline",
+        "tooltipTemplate": "MA-ENV([P1],[P2]%) Center",
+        "dataName": "centerline",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Envelope",
+        "tooltipTemplate": "MA-ENV([P1],[P2]%) Lower",
+        "dataName": "lowerEnvelope",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "On-Balance Volume (OBV)",
+    "uiid": "OBV",
+    "legendTemplate": "OBV",
+    "endpoint": "indicators/obv",
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "OBV",
+        "tooltipTemplate": "OBV",
+        "dataName": "obv",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Parabolic Stop and Reverse (SAR)",
+    "uiid": "PSAR",
+    "legendTemplate": "PSAR([P1],[P2])",
+    "endpoint": "indicators/psar",
+    "category": "stop-and-reverse",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Step Size",
+        "paramName": "accelerationStep",
+        "dataType": "number",
+        "minimum": 0.000001,
+        "maximum": 2500,
+        "defaultValue": 0.02
+      },
+      {
+        "displayName": "Max Factor",
+        "paramName": "maxAccelerationFactor",
+        "dataType": "number",
+        "minimum": 0.000001,
+        "maximum": 2500,
+        "defaultValue": 0.2
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Parabolic SAR",
+        "tooltipTemplate": "PSAR([P1],[P2])",
+        "dataName": "sar",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#8E24AA",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Percentage Volume Oscillator (PVO)",
+    "uiid": "PVO",
+    "legendTemplate": "PVO([P1],[P2],[P3])",
+    "endpoint": "indicators/pvo",
+    "category": "volume-based",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 100,
+        "defaultValue": 12
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 26
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 0,
+        "maximum": 50,
+        "defaultValue": 9
+      }
+    ],
+    "results": [
+      {
+        "displayName": "PVO",
+        "tooltipTemplate": "PVO([P1],[P2],[P3])",
+        "dataName": "pvo",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "PVO Signal",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Histogram",
+        "tooltipTemplate": "PVO Histogram",
+        "dataName": "histogram",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#9E9E9E50",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Price Momentum Oscillator (PMO)",
+    "uiid": "PMO",
+    "legendTemplate": "PMO([P1],[P2],[P3])",
+    "endpoint": "indicators/pmo",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Time Periods",
+        "paramName": "timePeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 35
+      },
+      {
+        "displayName": "Smooth Periods",
+        "paramName": "smoothPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 100,
+        "defaultValue": 20
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "PMO",
+        "tooltipTemplate": "PMO([P1],[P2],[P3])",
+        "dataName": "pmo",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "PMO Signal",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Rate of Change",
+    "uiid": "ROC",
+    "legendTemplate": "ROC([P1])",
+    "endpoint": "indicators/roc",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Rate of Change",
+        "tooltipTemplate": "ROC([P1])",
+        "dataName": "roc",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Rate of Change with Bands",
+    "uiid": "ROCWB",
+    "legendTemplate": "ROCWB([P1],[P2],[P3])",
+    "endpoint": "indicators/rocwb",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      },
+      {
+        "displayName": "EMA Periods",
+        "paramName": "emaPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 3
+      },
+      {
+        "displayName": "StdDev Periods",
+        "paramName": "stdDevPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "ROC",
+        "tooltipTemplate": "ROCWB([P1],[P2],[P3])",
+        "dataName": "roc",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "ROC EMA",
+        "tooltipTemplate": "ROCWB EMA",
+        "dataName": "rocEma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      },
+      {
+        "displayName": "Upper Band",
+        "tooltipTemplate": "ROCWB Upper Band",
+        "dataName": "upperBand",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "ROCWB Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Relative Strength Index (RSI)",
+    "uiid": "RSI",
+    "legendTemplate": "RSI([P1])",
+    "endpoint": "indicators/rsi",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 70,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 30,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "RSI",
+        "tooltipTemplate": "RSI([P1])",
+        "dataName": "rsi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Schaff Trend Cycle (STC)",
+    "uiid": "STC",
+    "legendTemplate": "STC([P1],[P2],[P3])",
+    "endpoint": "indicators/stc",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 75,
+          "color": "#1B5E2070",
+          "style": "solid",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 25,
+          "color": "#B71C1C70",
+          "style": "solid",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Cycle Periods",
+        "paramName": "cyclePeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 10
+      },
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 23
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 50
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Schaff Trend Cycle",
+        "tooltipTemplate": "Schaff Trend Cycle",
+        "dataName": "stc",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Simple Moving Average (SMA)",
+    "uiid": "SMA",
+    "legendTemplate": "SMA([P1])",
+    "endpoint": "indicators/sma",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "SMA",
+        "tooltipTemplate": "SMA([P1])",
+        "dataName": "sma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Slope",
+    "uiid": "SLOPE",
+    "legendTemplate": "SLOPE([P1])",
+    "endpoint": "indicators/slope",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Slope",
+        "tooltipTemplate": "SLOPE([P1])",
+        "dataName": "slope",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Smoothed Moving Average (SMMA)",
+    "uiid": "SMMA",
+    "legendTemplate": "SMMA([P1])",
+    "endpoint": "indicators/smma",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "SMMA",
+        "tooltipTemplate": "SMMA([P1])",
+        "dataName": "smma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Standard Deviation (absolute)",
+    "uiid": "STDEV",
+    "legendTemplate": "STDEV([P1])",
+    "endpoint": "indicators/stdev",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Standard Deviation",
+        "tooltipTemplate": "STDEV([P1])",
+        "dataName": "stdDev",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Standard Deviation (Z-Score)",
+    "uiid": "STDEV-ZSCORE",
+    "legendTemplate": "STDEV-ZSCORE([P1])",
+    "endpoint": "indicators/stdev-zscore",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Z-Score",
+        "tooltipTemplate": "Z-Score([P1])",
+        "dataName": "zScore",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Standard Deviation Channels",
+    "uiid": "STDEV-CH",
+    "legendTemplate": "STDEV-CH([P1],[P2])",
+    "endpoint": "indicators/stdev-ch",
+    "category": "price-channel",
+    "chartType": "overlay",
+    "order": 80,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 20
+      },
+      {
+        "displayName": "Standard Deviations",
+        "paramName": "standardDeviations",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 2
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Upper Channel",
+        "tooltipTemplate": "STDEV-CH Upper",
+        "dataName": "upperChannel",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": {
+          "target": "+2",
+          "colorAbove": "#61616110",
+          "colorBelow": "#61616110"
+        }
+      },
+      {
+        "displayName": "Centerline",
+        "tooltipTemplate": "STDEV-CH Centerline",
+        "dataName": "centerline",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Channel",
+        "tooltipTemplate": "STDEV-CH Lower",
+        "dataName": "lowerChannel",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "STARC Bands",
+    "uiid": "STARC",
+    "legendTemplate": "STARC([P1],[P2],[P3])",
+    "endpoint": "indicators/starc",
+    "category": "price-channel",
+    "chartType": "overlay",
+    "order": 80,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "SMA Periods",
+        "paramName": "smaPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 5
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "ATR Periods",
+        "paramName": "atrPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Upper Band",
+        "tooltipTemplate": "STARC Upper Band",
+        "dataName": "upperBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": {
+          "target": "+2",
+          "colorAbove": "#61616110",
+          "colorBelow": "#61616110"
+        }
+      },
+      {
+        "displayName": "Centerline",
+        "tooltipTemplate": "STARC Centerline",
+        "dataName": "centerline",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "STARC Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Stochastic Momentum Index",
+    "uiid": "SMI",
+    "legendTemplate": "SMI([P1],[P2],[P3],[P4])",
+    "endpoint": "indicators/smi",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 40,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": -40,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 300,
+        "defaultValue": 13
+      },
+      {
+        "displayName": "First Smooth Periods",
+        "paramName": "firstSmoothPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 300,
+        "defaultValue": 25
+      },
+      {
+        "displayName": "Second Smooth Periods",
+        "paramName": "secondSmoothPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 9
+      }
+    ],
+    "results": [
+      {
+        "displayName": "SMI",
+        "tooltipTemplate": "SMI",
+        "dataName": "smi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "Signal",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Stochastic Oscillator",
+    "uiid": "STO",
+    "legendTemplate": "STOCH %K([P1]) %D([P2])",
+    "endpoint": "indicators/sto",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 80,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 20,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods (%K)",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      },
+      {
+        "displayName": "Signal Periods (%D)",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "%K",
+        "tooltipTemplate": "STO %K([P1])",
+        "dataName": "k",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "%D",
+        "tooltipTemplate": "STO %D([P2])",
+        "dataName": "d",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Stochastic RSI",
+    "uiid": "STOCHRSI",
+    "legendTemplate": "STOCH-RSI ([P1],[P2],[P3],[P4])",
+    "endpoint": "indicators/stochrsi",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 80,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 20,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "RSI Periods",
+        "paramName": "rsiPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      },
+      {
+        "displayName": "Stochastic Periods",
+        "paramName": "stochPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 3
+      },
+      {
+        "displayName": "Smooth Periods",
+        "paramName": "smoothPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 1
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Oscillator",
+        "tooltipTemplate": "StochRSI Oscillator",
+        "dataName": "stochRsi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal line",
+        "tooltipTemplate": "Signal line",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "SuperTrend",
+    "uiid": "SUPERTREND",
+    "legendTemplate": "SUPERTREND([P1],[P2])",
+    "endpoint": "indicators/supertrend",
+    "category": "price-trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 10
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Upper Band",
+        "tooltipTemplate": "SUPERTREND([P1],[P2]) Upper Band",
+        "dataName": "upperBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "SUPERTREND([P1],[P2]) Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Transition line",
+        "tooltipTemplate": "SUPERTREND([P1],[P2]) Transition Line",
+        "dataName": "superTrend",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#61616110",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Tillson T3 Moving Average",
+    "uiid": "T3",
+    "legendTemplate": "T3([P1],[P2])",
+    "endpoint": "indicators/t3",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 63,
+        "defaultValue": 5
+      },
+      {
+        "displayName": "Volume Factor",
+        "paramName": "volumeFactor",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 2,
+        "defaultValue": 0.7
+      }
+    ],
+    "results": [
+      {
+        "displayName": "T3",
+        "tooltipTemplate": "T3([P1],[P2])",
+        "dataName": "t3",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Triple Exponential Moving Average (TEMA)",
+    "uiid": "TEMA",
+    "legendTemplate": "TEMA([P1])",
+    "endpoint": "indicators/tema",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "TEMA",
+        "tooltipTemplate": "TEMA([P1])",
+        "dataName": "tema",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "TRIX Oscillator",
+    "uiid": "TRIX",
+    "legendTemplate": "TRIX([P1])",
+    "endpoint": "indicators/trix",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "TRIX",
+        "tooltipTemplate": "TRIX([P1])",
+        "dataName": "trix",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "True Range",
     "uiid": "TR",
     "legendTemplate": "TR",
     "endpoint": "indicators/tr",
-    "category": "fallback",
-    "chartType": "overlay",
-    "order": 77,
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
     "chartConfig": null,
     "parameters": [],
     "results": [
       {
-        "displayName": "TR",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "True Range",
+        "tooltipTemplate": "TR",
+        "dataName": "tr",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   },
   {
-    "name": "ZigZagClose",
-    "uiid": "ZIGZAG-CL",
-    "legendTemplate": "ZIGZAG-CL",
-    "endpoint": "indicators/zigzag-cl",
-    "category": "fallback",
+    "name": "True Strength Index (TSI)",
+    "uiid": "TSI",
+    "legendTemplate": "TSI([P1],[P2],[P3])",
+    "endpoint": "indicators/tsi",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 25,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": -25,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 25
+      },
+      {
+        "displayName": "Smooth Periods",
+        "paramName": "smoothPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 100,
+        "defaultValue": 13
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 0,
+        "maximum": 50,
+        "defaultValue": 7
+      }
+    ],
+    "results": [
+      {
+        "displayName": "TSI",
+        "tooltipTemplate": "TSI([P1],[P2],[P3])",
+        "dataName": "tsi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "TSI Signal",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Ulcer Index (UI)",
+    "uiid": "ULCER",
+    "legendTemplate": "ULCER([P1])",
+    "endpoint": "indicators/ulcer",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Ulcer Index",
+        "tooltipTemplate": "UI([P1])",
+        "dataName": "ui",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Ultimate Oscillator",
+    "uiid": "ULTIMATE",
+    "legendTemplate": "ULTIMATE([P1],[P2],[P3])",
+    "endpoint": "indicators/ultimate",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 70,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": 30,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Short Periods",
+        "paramName": "shortPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 7
+      },
+      {
+        "displayName": "Middle Periods",
+        "paramName": "middlePeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 100,
+        "defaultValue": 14
+      },
+      {
+        "displayName": "Long Periods",
+        "paramName": "longPeriods",
+        "dataType": "int",
+        "minimum": 3,
+        "maximum": 250,
+        "defaultValue": 28
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Ultimate Oscillator",
+        "tooltipTemplate": "ULTIMATE([P1],[P2],[P3])",
+        "dataName": "ultimate",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Volatility Stop",
+    "uiid": "VOL-STOP",
+    "legendTemplate": "VOL-STOP([P1],[P2])",
+    "endpoint": "indicators/vol-stop",
+    "category": "stop-and-reverse",
     "chartType": "overlay",
-    "order": 78,
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 100,
+        "defaultValue": 7
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.5,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Upper Band",
+        "tooltipTemplate": "VOL-STOP([P1],[P2]) Upper Band",
+        "dataName": "upperBand",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "VOL-STOP([P1],[P2]) Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Volume Weighted Moving Average (VWMA)",
+    "uiid": "VWMA",
+    "legendTemplate": "VWMA([P1])",
+    "endpoint": "indicators/vwma",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "VWMA",
+        "tooltipTemplate": "VWMA([P1])",
+        "dataName": "vwma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Vortex Indicator",
+    "uiid": "VORTEX",
+    "legendTemplate": "VORTEX([P1])",
+    "endpoint": "indicators/vortex",
+    "category": "price-trend",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 100,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "VI+",
+        "tooltipTemplate": "VI+",
+        "dataName": "pvi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "VI+",
+        "tooltipTemplate": "VI-",
+        "dataName": "nvi",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Weighted Moving Average (WMA)",
+    "uiid": "WMA",
+    "legendTemplate": "WMA([P1])",
+    "endpoint": "indicators/wma",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "WMA",
+        "tooltipTemplate": "WMA([P1])",
+        "dataName": "wma",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Williams %R",
+    "uiid": "WILLIAMSR",
+    "legendTemplate": "Williams %R([P1])",
+    "endpoint": "indicators/williamsr",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": -100,
+      "maximumYAxis": 0,
+      "thresholds": [
+        {
+          "value": -20,
+          "color": "#B71C1C70",
+          "style": "dash",
+          "fill": {
+            "target": "+2",
+            "colorAbove": "transparent",
+            "colorBelow": "#1B5E2070"
+          }
+        },
+        {
+          "value": -80,
+          "color": "#1B5E2070",
+          "style": "dash",
+          "fill": {
+            "target": "+1",
+            "colorAbove": "#B71C1C70",
+            "colorBelow": "transparent"
+          }
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Williams %R",
+        "tooltipTemplate": "Williams %R([P1])",
+        "dataName": "williamsR",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Williams Alligator",
+    "uiid": "ALLIGATOR",
+    "legendTemplate": "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
+    "endpoint": "indicators/alligator",
+    "category": "price-trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Jaw Periods",
+        "paramName": "jawPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 13
+      },
+      {
+        "displayName": "Jaw Offset",
+        "paramName": "jawOffset",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 30,
+        "defaultValue": 8
+      },
+      {
+        "displayName": "Teeth Periods",
+        "paramName": "teethPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 8
+      },
+      {
+        "displayName": "Teeth Offset",
+        "paramName": "teethOffset",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 30,
+        "defaultValue": 5
+      },
+      {
+        "displayName": "Lips Periods",
+        "paramName": "lipsPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 5
+      },
+      {
+        "displayName": "Lips Offset",
+        "paramName": "lipsOffset",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 30,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Jaw",
+        "tooltipTemplate": "Jaw([P1]/[P2])",
+        "dataName": "jaw",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Teeth",
+        "tooltipTemplate": "Teeth([P3]/[P4])",
+        "dataName": "teeth",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lips",
+        "tooltipTemplate": "Lips([P4]/[P5])",
+        "dataName": "lips",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Williams Fractal (high/low)",
+    "uiid": "FRACTAL",
+    "legendTemplate": "FRACTAL([P1])",
+    "endpoint": "indicators/fractal",
+    "category": "price-pattern",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Window Span",
+        "paramName": "windowSpan",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 100,
+        "defaultValue": 2
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Fractal Bull",
+        "tooltipTemplate": "Fractal Bull ([P1])",
+        "dataName": "fractalBull",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 3,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Fractal Bear",
+        "tooltipTemplate": "Fractal Bear ([P1])",
+        "dataName": "fractalBear",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 3,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Zig Zag (close)",
+    "uiid": "ZIGZAG-CL",
+    "legendTemplate": "ZIGZAG([P1]% CLOSE)",
+    "endpoint": "indicators/zigzag-cl",
+    "category": "price-transform",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Percent Change",
+        "paramName": "percentChange",
+        "dataType": "number",
+        "minimum": 1,
+        "maximum": 200,
+        "defaultValue": 5
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Zig Zag",
+        "tooltipTemplate": "ZIGZAG([P1]% CLOSE)",
+        "dataName": "zigZag",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Zig Zag Retrace High",
+        "tooltipTemplate": "ZIGZAG([P1]% CLOSE) Retrace High",
+        "dataName": "retraceHigh",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#42424280",
+        "fill": null
+      },
+      {
+        "displayName": "Zig Zag Retrace Low",
+        "tooltipTemplate": "ZIGZAG([P1]% CLOSE) Retrace Low",
+        "dataName": "retraceLow",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#42424280",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Zig Zag (high/low)",
+    "uiid": "ZIGZAG-HL",
+    "legendTemplate": "ZIGZAG([P1]% HIGH/LOW)",
+    "endpoint": "indicators/zigzag-hl",
+    "category": "price-transform",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Percent Change",
+        "paramName": "percentChange",
+        "dataType": "number",
+        "minimum": 1,
+        "maximum": 200,
+        "defaultValue": 5
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Zig Zag",
+        "tooltipTemplate": "ZIGZAG([P1]% HIGH/LOW)",
+        "dataName": "zigZag",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Zig Zag Retrace High",
+        "tooltipTemplate": "ZIGZAG([P1]% HIGH/LOW) Retrace High",
+        "dataName": "retraceHigh",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#42424280",
+        "fill": null
+      },
+      {
+        "displayName": "Zig Zag Retrace Low",
+        "tooltipTemplate": "ZIGZAG([P1]% HIGH/LOW) Retrace Low",
+        "dataName": "retraceLow",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#42424280",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Volume Weighted Average Price (VWAP)",
+    "uiid": "VWAP",
+    "legendTemplate": "VWAP",
+    "endpoint": "indicators/vwap",
+    "category": "volume-based",
+    "chartType": "overlay",
+    "order": 1,
     "chartConfig": null,
     "parameters": [],
     "results": [
       {
-        "displayName": "ZIGZAG-CL",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "VWAP",
+        "tooltipTemplate": "VWAP",
+        "dataName": "vwap",
         "dataType": "number",
         "lineType": "solid",
-        "stack": "main",
+        "stack": null,
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
-        "fill": null,
-        "order": 1
+        "defaultColor": "#1E88E5",
+        "fill": null
       }
     ]
   }

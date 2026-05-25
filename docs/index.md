@@ -32,6 +32,10 @@ features:
     linkText: Browse indicators
 ---
 
+<script setup>
+import LandingCharts from './.vitepress/components/LandingCharts.vue'
+</script>
+
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads."><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200" alt="Downloads" /></a>
@@ -46,11 +50,7 @@ Build trading algorithms, charting applications, machine learning models, or mar
 Access a comprehensive library of battle-tested technical indicators used by traders worldwide. Extend functionality by creating your own [custom indicators](/guide/customization) that integrate seamlessly with the library.
 
 <ClientOnly>
-  <div class="home-charts-stack">
-    <StockIndicatorChart indicator="BollingerBands" />
-    <StockIndicatorChart indicator="Macd" />
-    <StockIndicatorChart indicator="Stc" />
-  </div>
+  <LandingCharts />
 </ClientOnly>
 
 ## Simple, intuitive API

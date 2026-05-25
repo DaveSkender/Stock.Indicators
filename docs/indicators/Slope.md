@@ -9,7 +9,7 @@ description: Slope of the best fit line is determined by an ordinary least-squar
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Slope" />
+  <StockIndicatorChart indicator="Slope" :with-overlay="true" />
 </ClientOnly>
 
 ```csharp
