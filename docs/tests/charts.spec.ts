@@ -131,10 +131,12 @@ test('Home page charts reach a terminal state', async ({ page }) => {
   await mockStockChartsApi(page)
   await page.goto('/')
 
-  // Slugs derive from the registry keys in `.vitepress/theme/index.ts` via
-  // the library's own slugifier; getTestIdPrefix guarantees parity.
-  for (const indicator of ['BollingerBands', 'Macd', 'Stc']) {
-    const prefix = getTestIdPrefix(indicator)
+  await expect(page.getByTestId('landing-charts-root')).toBeVisible({ timeout: 15_000 })
+  await expect(page.getByTestId('landing-charts-overlay-canvas')).toBeVisible({ timeout: 15_000 })
+  await expect(page.getByTestId('landing-charts-overlay-canvas')).toHaveAttribute('width')
+
+  for (const id of ['landing-macd', 'landing-stc']) {
+    const prefix = getTestIdPrefix(id)
     const root = page.locator(`[data-testid="${prefix}-root"]`)
     await expect(root).toBeVisible({ timeout: 15_000 })
     const phase = await waitForChartPhase(page, prefix)
