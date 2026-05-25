@@ -101,7 +101,7 @@ public static partial class Ema
 
 Add entries inside the host repository's catalog populator method. The backing collection is a `private static readonly List<IndicatorListing>` declared at the top of the catalog file; the host repository determines its field name (shown below as `listings`).
 
-Indicators are grouped alphabetically by name and separated by a blank line. Each block is preceded by a short comment header — `// {Abbreviation} ({Full Name})` when an abbreviation is conventional, otherwise just `// {Full Name}`. Within a block, the preferred order for the style listings is **Buffer → Series → Stream**:
+Indicators are grouped alphabetically by indicator ID (abbreviation) and separated by a blank line. Each block is preceded by a short comment header — `// {Abbreviation} ({Full Name})` when an abbreviation is conventional, otherwise just `// {Full Name}`. Within a block, the preferred order for the style listings is **Buffer → Series → Stream**:
 
 ```csharp
 // EMA (Exponential Moving Average)

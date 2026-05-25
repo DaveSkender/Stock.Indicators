@@ -506,4 +506,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-26
+Last updated: 2026-05-25
