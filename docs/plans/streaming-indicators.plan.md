@@ -421,9 +421,8 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 
 - [ ] **T235 (was F4 from Stercorator)** — Schedule `Obsolete.V3.Indicators.cs` and `Obsolete.V3.Other.cs` removal with CHANGELOG entry. They use `error: true` shims (compile errors with helpful messages); zero runtime utility, just better error messages during migration. Sunset in v3.1 or v3.2 with documented removal milestone.
 
-- [ ] **G007-followup — Reconcile `tests/AGENTS.md` layout** (30 min).
-  - **Evidence**: `tests/AGENTS.md:8–10` lists `indicators/`, `other/`, `performance/`. Actual `ls tests/` shows `indicators/`, `integration/`, `other/`, `performance/`, `public-api/`. Missing `integration/` and `public-api/` from the AGENTS doc.
-  - **Action**: Update to reflect real layout; clarify the relationship between `tests/performance/` and `tools/performance/` (both exist; benchmarks vs assertions).
+- [x] **G007-followup — Reconcile `tests/AGENTS.md` layout**.
+  - `tests/AGENTS.md` now lists all five subdirectories (`indicators/`, `integration/`, `other/`, `public-api/`, `performance/`) with one-line purpose statements. Distinction between `tests/performance/` (in-process assertions placeholder) and `tools/performance/` (BenchmarkDotNet harness + baselines) is called out in both the header description and the `performance/` entry.
 
 ### Infrastructure & code quality
 
