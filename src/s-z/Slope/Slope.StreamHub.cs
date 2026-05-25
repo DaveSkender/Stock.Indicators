@@ -7,6 +7,10 @@ namespace Skender.Stock.Indicators;
 /// The Slope indicator exhibits legitimate historical repaint behavior where Line values
 /// for the last lookbackPeriods results are recalculated using the most recent slope/intercept.
 /// This matches the Series implementation's behavior.
+/// <para>
+/// <see cref="CalculateStatistics"/> retains the two-pass deviation form for the same
+/// numerical-stability reason documented on <see cref="SlopeList"/> — see those remarks.
+/// </para>
 /// </remarks>
 public class SlopeHub
     : ChainHub<IReusable, SlopeResult>, ISlope

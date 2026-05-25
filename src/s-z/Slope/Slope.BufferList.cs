@@ -8,7 +8,13 @@ namespace Skender.Stock.Indicators;
 /// - Pre-calculates sumSqX constant (variance of sequential X values)
 /// - Calculates sumX mathematically instead of iterating
 /// - Minimizes Line value updates to only necessary items
-/// Current performance: ~3.6x slower than Series (improved from 7.85x baseline)
+/// <para>
+/// Two-pass deviation form (avgY pass, then sumSqY/sumSqXy pass) is retained because
+/// the textbook running-sums identity <c>sumSqY = Σy² − (Σy)²/n</c> cancels
+/// catastrophically when <c>Yi ≈ avgY</c>, producing ULP-level drift against the
+/// Series oracle and failing the BufferList <c>IsExactly</c> bit-equality contract.
+/// Numerically-stable O(1) sliding-window variants (Welford/Pébay) were not evaluated.
+/// </para>
 /// </remarks>
 public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
 {
