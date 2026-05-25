@@ -184,6 +184,11 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         RenkoHub freshHub = freshSource.ToRenkoHub(brickSize, endType);
         freshSource.Add(quotes);
 
+        // Renko brick count is data-dependent (not 1:1 with quotes), so
+        // pin the oracle's non-emptiness before equality to guard against
+        // trivial empty-vs-empty pass if the hub ever falls silent.
+        freshHub.Results.Should().NotBeEmpty();
+        lateHub.Results.Should().HaveCount(freshHub.Results.Count);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -219,6 +224,11 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         RenkoHub freshHub = freshSource.ToRenkoHub(brickSize, endType);
         freshSource.Add(quotes);
 
+        // Renko brick count is data-dependent (not 1:1 with quotes), so
+        // pin the oracle's non-emptiness before equality to guard against
+        // trivial empty-vs-empty pass if the hub ever falls silent.
+        freshHub.Results.Should().NotBeEmpty();
+        lateHub.Results.Should().HaveCount(freshHub.Results.Count);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
