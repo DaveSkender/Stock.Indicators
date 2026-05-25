@@ -2,7 +2,7 @@
 
 This document tracks remaining work and architectural direction for the v3 streaming indicators implementation.
 
-**Status (2026-05-24, after swarm review).** Streaming framework is implementation-complete and ships-ready in principle, but a second-pass review (Architect, Inspector, Tester, Stercorator, Researcher, Designer, Skills-auditor) surfaced two classes of work that should land before v3.0 stable: (1) **guidance and documentation alignment** — a contributor-facing skill teaches a non-compiling API, root `AGENTS.md` references a directory that no longer exists, and several net-new v3 features are undocumented in skills; (2) **test coverage hardening** — late-arrival and cache-pruning tests are inconsistent across the 55 `RollbackState` overrides, and there is no contract-level rollback-equivalence test. The recommendation is **ship v3.0 stable after a focused 2–3 day quality pass** covering these items, plus the three previously-identified release gates (baseline refresh, branch migration, community feedback).
+**Status (2026-05-24, after swarm review + consolidation pass).** Streaming framework is implementation-complete and ships-ready in principle, but a second-pass review (Architect, Inspector, Tester, Stercorator, Researcher, Designer, Skills-auditor) surfaced two classes of work that should land before v3.0 stable: (1) **guidance and documentation alignment** — a contributor-facing skill teaches a non-compiling API, root `AGENTS.md` references a directory that no longer exists, and several net-new v3 features are undocumented in skills; (2) **test coverage hardening** — late-arrival and cache-pruning tests are inconsistent across the 55 `RollbackState` overrides, and there is no contract-level rollback-equivalence test. A subsequent consolidation pass on 2026-05-24 folded in the still-live items from PR #1014 (description + 12 owner comments), Discussion #1018 (community feedback, 45 comments), and private project board item 58144081 (the v3 go-live launch checklist). That added two release-gate decisions (RG004 Quote→Bar rename, RG005 netstandard2.x), three documentation items (G008 aggregator gap-fill, D010 Subscribe extensibility, D011 testing-patterns guide), a new §K bucket of release/branding mechanics, and four v3.1+ entries. The recommendation remains **ship v3.0 stable after a focused 2–4 day quality pass** covering these items, the three original release gates (baseline refresh, branch migration, community feedback), the §K go-live mechanics, and the two pending maintainer decisions.
 
 **Coverage (verified 2026-05-24 via `CatalogShouldHaveExactStyleCounts`):**
 
@@ -45,14 +45,15 @@ None of this requires changing the architecture. All of it can ship inside a v3.
 
 ### What still has to happen before tagging v3.0.0
 
-Grouped into four buckets. Total estimated effort 2–3 working days plus benchmark runtime.
+Grouped into five buckets. Total estimated effort 3–4 working days plus benchmark runtime and release-mechanics async waits.
 
 | Bucket | Items | Estimated effort |
 | ------ | ----- | ---------------- |
-| Release gates | Baseline refresh, branch migration, community feedback window | 1 day + runtime |
-| Guidance alignment | G001–G007 below | 4–6 hours |
+| Release gates | Baseline refresh, branch migration, community feedback window, two decisions (Quote→Bar, netstandard2.x) | 1 day + runtime |
+| Guidance alignment | G001–G008 below | 5–7 hours |
 | Cleanup pass | T203, T230–T234 below | 4–6 hours |
 | Test hardening | TC001–TC006 below | 1 day |
+| Release mechanics | §K below — go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover, etc.) | 6–10 hours active + NuGet/DNS propagation |
 
 ### v3.1+ direction — what's worth tackling next
 
@@ -79,6 +80,16 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 - [ ] **RG002 — Get and incorporate final community feedback** (ongoing). Time-boxed by maintainer.
 
 - [ ] **RG003 — Execute branching strategy migration** (10–16 hours). See [branching-strategy.plan.md](branching-strategy.plan.md). `origin/main` is ~25+ commits behind `origin/v3`; PR #1014 is the merge vehicle.
+
+- [ ] **RG004 — Decide on `Quote → Bar` rename for v3.0** (decision: 30 min; if YES, ~16–24 hours implementation in v3.0). **Maintainer decision pending.**
+  - **Context**: PR #1014 comment 1 (2024-07-01) proposed renaming `Quote` → `Bar` (with `Tick` reserved for individual bid/ask trades) and introducing `IBar` with `[Obsolete] IQuote` as a base. v3.0 is the only realistic window because it's a breaking rename; doing it later means a v4.0.
+  - **Trade-off**: YES → cleaner nomenclature aligned with industry (Pine Script "bar", TA-Lib OHLCV "bar") and a clean `Tick`/`Bar` distinction now that `TickHub` exists (PR #1875); pushes v3.0 ship date by ~2–3 working days for rename + `[Obsolete]` shim + docs + migration-guide updates. NO → less churn for consumers already migrating from v2; keeps `IQuote` as the canonical bar interface; defers cleanup to a potential v4.x (see ARCH-V31-9 in v3.1+ section).
+  - **Suitability question to answer before proceeding**: given that every external consumer already has to learn the streaming API in this release, does adding a `Quote → Bar` rename on top inflate migration cost without proportional benefit, or is bundling both breakages into one release window the lower total cost? **Resolve before committing v3.0 scope.**
+  - **Action if YES**: scope expands by ~16–24 hours; update §C (cleanup) with a new item to rename across the public surface, refresh `docs/migration.md`, and ensure `[Obsolete]` shims in `Obsolete.V3.Other.cs` cover the rename. Move ARCH-V31-9 from v3.1+ into v3.0 as the implementation tracker.
+
+- [ ] **RG005 — Confirm netstandard2.x drop and v2 maintenance-branch path** (decision: confirmed by maintainer 2026-05-24; documentation: 30 min).
+  - **Decision**: v3.0 will NOT target `netstandard2.0` or `netstandard2.1`. Current targets remain `net8.0;net9.0;net10.0`. The `v2` branch (per [branching-strategy.plan.md](branching-strategy.plan.md)) becomes the maintenance line for consumers on older runtimes. Originally raised in PR #1014 comment 6 (2024-07-06) and the private go-live checklist.
+  - **Action**: capture the netstandard2.x maintenance commitment in [branching-strategy.plan.md](branching-strategy.plan.md) (under v2 branch role) and in §K below. No code changes in v3 source.
 
 ### B. Guidance doc alignment (new section — swarm finding)
 
@@ -111,6 +122,10 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
 - [ ] **G007 — Add cross-references between plan and guidance** (30 min).
   - **Evidence**: `docs/plans/streaming-indicators.plan.md` does not reference any skill or `AGENTS.md`; conversely no skill or `AGENTS.md` references this plan. This document is the design source of truth but is invisible from the contributor entry points.
   - **Action**: This file already added a "Related guidance" section at the top. Reciprocate by adding one line each to `indicator-stream/SKILL.md`, `indicator-buffer/SKILL.md`, and `indicator-catalog/SKILL.md` pointing here. Root `AGENTS.md` should mention `docs/plans/` exists.
+
+- [ ] **G008 — Document `Quote.AggregatorHub` gap-fill behavior** (30 min). **Source: Discussion #1018, @elAndyG (2023-10-10).**
+  - **Evidence**: `elAndyG` raised that premarket/low-volume periods produce missing candles (e.g., bars for 10:01, 10:02, 10:04, 10:05 with 10:03 missing) and asked how the aggregator should handle gaps — forward-fill last value, interpolate, or leave gap. Today the aggregator's behavior in this scenario is unspecified in public docs. Companion v3.1+ work tracked as T236 (`GapFillMode` enum) and TC-V31-6 (test coverage).
+  - **Action**: Document the current default behavior (no gap-fill — emits whatever ticks arrive) on the `Quote.AggregatorHub` docs page and in XML doc on the type. State explicitly that consumers needing fill semantics should pre-process input ticks; foreshadow that a `GapFillMode` enum may land in v3.1 (link T236).
 
 ### C. Pre-v3.0 cleanup pass
 
@@ -213,6 +228,15 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
   - **Problem**: `QuotePart` has full StreamHub + BufferList implementations (`QuotePart.StreamHub.cs`, `QuotePart.BufferList.cs`) but the utilities page documents only the Series form. Sole gap making coverage 78/79 instead of 79/79.
   - **Action**: Add BufferList (`.ToQuotePartList(...)`) and StreamHub (`.ToQuotePartHub(...)`) sections following the same pattern as indicator pages.
 
+- [ ] **D010 — Document hub `Subscribe()` extensibility** (1–2 hours). **Source: Discussion #1018, @JGronholz; resolves open Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895).**
+  - **Problem**: `ReusableObserver<T>` shipped via PR #1894 (MERGED), but the broader extensibility story — how external consumers wrap a hub for UI/persistence/logging via `IStreamObserver<T>` — is not documented. JGronholz spent significant time discovering this pattern by reading source; a single docs page would have removed the friction.
+  - **Action**: Add a "Custom observers and external integration" section to the streaming docs (likely under `docs/guide/` or `docs/utilities/streaming/`). Cover: (a) when to wrap a hub vs. subclass one; (b) `IStreamObserver<T>` contract; (c) `ReusableObserver<T>` example end-to-end (UI dispatcher, persistence, logging); (d) box-to-`IChainProvider<IReusable>` pattern JGronholz documented in the discussion; (e) thread-safety expectations for observer callbacks given PR #1927.
+
+- [ ] **D011 — Author "Testing patterns for consumers" docs page** (2–3 hours). **Source: PR #1014 comment 4 (mockability ask) + private project items "Ensure consistent use of Interfaces, to enable end users to Mock effectively" and "Can an IEmaResult interfaces let users Cast() to custom outputs".**
+  - **Recommendation**: Decline to add per-type interfaces (`IEmaResult`, `ISmaResult`, …) and decline to add interface-extraction for mockability. **Reason**: this is a deterministic math library. The right consumer testing pattern is to feed known input data and assert known output values — exactly what the library's own test suite does. Mocking a deterministic function adds no signal: you'd hard-code the expected result, which validates nothing about the consuming code's interaction with the indicator. Adding per-type result interfaces also encourages anti-patterns (user-defined result subclasses divergent from canonical formulas) without solving a real testing problem.
+  - **Action**: Author a `docs/guide/testing-with-stock-indicators.md` page (or similar) covering: (1) **Recommended pattern** — use canned `IEnumerable<IQuote>` fixtures (point to `tests/indicators/_common/data/default.csv`-style approach); assert against known indicator values. (2) **When to wrap our types** — for consumers whose own service-layer wants to abstract over multiple data sources; show the wrapping-via-interface pattern. (3) **Why we don't recommend mocking** — short explanation of the deterministic-function argument. (4) **Streaming-specific testing** — use `BufferList` or in-memory `QuoteHub` with synthesized `Quote` sequences. Cite `tests/integration` and a few representative indicator test files as references.
+  - **Closes (when shipped)**: private project items on mockability and `IEmaResult` interfaces — both can be marked "Done (trash)" on `DaveSkender/projects/6` once D011 lands.
+
 ### H. Critical BufferList performance — reclassified (re-examined this pass)
 
 P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic floors.
@@ -235,6 +259,44 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
 ### J. Infrastructure — deferred but listed for context
 
 - [ ] **File reorganization** — [#1810](https://github.com/DaveSkender/Stock.Indicators/issues/1810). See [file-reorg.plan.md](file-reorg.plan.md). ~500 file renames, 55–87 hours, deferred to v3.1.
+
+### K. Release mechanics — go-live launch checklist
+
+**Source**: incorporated 2026-05-24 from private project board item 58144081 ("v3 go-live launch checklist") and PR #1014 comment 3 (DNS/NuGet/deployer URL pointers). Tasks here are release plumbing executed by the maintainer; they run in parallel with §A release gates RG001/RG002/RG003 and depend on the §A RG004 (Quote→Bar) and RG005 (netstandard2.x) decisions. Total active effort ~6–10 hours plus async waits for NuGet package indexing and DNS TTL.
+
+> **Cross-cutting decision (already made)**: v3 ships under a new package identity `FacioQuo.Stock.Indicators` with the repo transferring to a FacioQuo org as `stock-indicators-dotnet`. K-items below assume that transition; if the rebrand is cancelled or postponed, items K001–K006 and K009–K011 collapse to a single "tag and release on existing `Skender.Stock.Indicators` package" item.
+
+**Package and naming**
+
+- [ ] **K001 — Reserve and publish `FacioQuo.Stock.Indicators` package** (1 hour active + NuGet indexing). Cut the v3.0 stable as the first listed version on this package ID; do not publish previews here (previews remain on `Skender.Stock.Indicators` for continuity per K003).
+- [ ] **K002 — Add "previously known as Skender.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
+- [ ] **K003 — Unlist all `3.0.0-preview.*` versions on `Skender.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
+- [ ] **K004 — Release final `Skender.Stock.Indicators` v2.x patch with "we moved" notice** (1–2 hours). Stays in draft until cut-over. Release note: "We moved to `FacioQuo.Stock.Indicators` — install that package for v3+. This v2 line remains on `v2` branch for netstandard2.x compatibility maintenance only (per RG005)."
+
+**Source repo and project transfer**
+
+- [ ] **K005 — Transfer `DaveSkender/Stock.Indicators` → `facioquo/stock-indicators-dotnet`** (1 hour + GitHub's auto-forwarding propagation). Confirms GitHub's HTTP redirect from old to new URLs; verify a few links from external blog posts continue resolving. Audit and prune obsolete contributors during transfer. **Companion repos already transferred** per project board: `Stock.Indicators.Python` → `stock-indicators-python`, `Stock.Indicators.Python.QuickStart` → `stock-indicators-python-quickstart`, `Stock.Charts` → `stock-charts`. Re-verify before cut-over.
+- [ ] **K006 — Transfer or reconnect Stock.Indicators project boards** (30 min). The public Stock.Indicators project, if any, plus link the private `DaveSkender/projects/6` to the new repo location.
+
+**Branching and v2 maintenance**
+
+- [ ] **K007 — Execute branching-strategy migration** (cross-reference: §A RG003). [branching-strategy.plan.md](branching-strategy.plan.md). Merge `v3 → main`, create `v2` branch from prior `main`, retire `v3` branch. This is the irreversible cut-over; do not start until K001–K006 are queued and the §A RG004 decision is final.
+- [ ] **K008 — Document `v2` branch role as netstandard2.x maintenance line** (15 min). One paragraph in `branching-strategy.plan.md` (and a reciprocal pointer in README) confirming v2 branch accepts security/compat patches only; no new features. Per §A RG005.
+
+**Documentation and URL/DNS**
+
+- [ ] **K009 — Lowercase all doc-site page URLs + Jekyll/VitePress redirects for old casing** (1–2 hours). Required because GitHub Pages canonical URLs and external inbound links may be case-sensitive depending on the docs platform. Audit `docs/` page paths; add redirect rules for any URL that changes case. Verify a sample of external blog post inbound links continue resolving.
+- [ ] **K010 — Cut `dotnet.stockindicators.dev` DNS to production doc site; remove `/v3` preview pointer** (15 min + DNS TTL). Update CloudFlare CNAME/A records; remove the temporary `dotnet.stockindicators.dev/v3` pointer added during preview phase per PR #1014 comment 3.
+- [ ] **K011 — Update NuGet release-notes URL and release-deployer URL references to new package name** (30 min). Search source/build pipelines for `Skender.Stock.Indicators` references in release-note URLs, deployer config, badge URLs; replace with `FacioQuo.Stock.Indicators` equivalents. Per PR #1014 comment 3.
+- [ ] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/DaveSkender/Stock.Indicators` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
+
+**Cut-over and finalize**
+
+- [ ] **K013 — Tag `3.0.0` and publish stable release** (1 hour). Tag on the post-migration `main` branch. Publish GitHub Release with full release notes (consolidated from v3 preview release notes + post-preview changes). Push NuGet package to `FacioQuo.Stock.Indicators`. Close PR #1014; post the locked summary comment in Discussion #1018.
+- [ ] **K014 — Deploy doc site with v3.0.0 link refs** (30 min + CDN propagation). VitePress build with updated URLs, NuGet badges pointing to new package, examples updated to install command for `FacioQuo.Stock.Indicators`.
+- [ ] **K015 — Update examples project to consume released `FacioQuo.Stock.Indicators` 3.0.0** (30 min). Bump package reference; verify build; push.
+- [ ] **K016 — Cascade meta updates to Python and Charts repos** (1 hour). README badges, "previously known as" notices, link refs in companion repo READMEs and doc sites. Mostly mechanical given the python and charts repos already transferred.
+- [ ] **K017 — `Skender.Stock.Indicators` long-term wind-down** (15 min set-up + ongoing). The library is **not** unlisted at v3 cut-over (preview-version unlisting is handled by K003). Instead, `Skender.Stock.Indicators` remains listed as a v2-only maintenance package for ~1 year following v3.0 release, accepting only security/compatibility patches per the [branching-strategy](branching-strategy.plan.md) v2-branch role (RG005 + K008). After the ~12-month maintenance window, transition the listing to a more fully deprecated state (NuGet may not support full unlisting once installs have occurred; document the chosen mechanism — e.g., a final `[Deprecated]` package metadata update with a "please migrate to FacioQuo.Stock.Indicators" notice — in this checklist when reached).
 
 ---
 
@@ -274,6 +336,15 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
   - Source: Inspector F2.
   - `RollingMin`, `RollingMax`, `RollingSum`, `RegressionAccumulator` as shared utilities. Today indicators like Chandelier and Slope reinvent these per surface.
 
+- [ ] **ARCH-V31-9 — `Quote → Bar` rename (conditional on RG004 = NO)** (16–24 hours).
+  - Source: PR #1014 comment 1 (2024-07-01). **Only lands here if §A RG004 defers the rename out of v3.0.**
+  - If RG004 = YES, this entry is moved into v3.0 §C (or §A) as the implementation tracker, not v3.1+.
+  - Scope: rename `Quote` → `Bar` and `IQuote` → `IBar`; `[Obsolete]` shims preserve `Quote`/`IQuote` for a deprecation window; refresh `docs/migration.md`; reserve `Tick` exclusively for individual bid/ask trades (already aligned with `TickHub` per PR #1875). v4.0 would be the next available window if this slips here.
+
+- [ ] **ARCH-V31-10 — External hub cache storage** (8–12 hours). Tracks open [Issue #1884](https://github.com/DaveSkender/Stock.Indicators/issues/1884).
+  - Source: PR #1014 comment 5 (2024-07-01) + private project board entry.
+  - Allow consumers to inject an external `List<TSeries>` cache for `StreamHub`/`BufferList` storage, enabling durable persistence and rehydration patterns (Redis, FusionCache, custom storage). Already prototyped via the `AbstractCache(List<TSeries> externalCache)` ctor stub in #1884; needs design + test scenarios for `IQuote` and `IResult/IReusable` caches.
+
 ### Test coverage v3.1+
 
 - [ ] **TC-V31-1 — Concurrency test suite for StreamHub** (4–6 hours).
@@ -290,6 +361,10 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
 
 - [ ] **TC-V31-5 — Compound-hub inner↔outer rollback interaction** (3 hours).
   - Source: TC001 follow-up. For compound hubs (StochRsi, Stc, ConnorsRsi, Gator, etc.) `Rebuild` on the outer hub does not exercise the inner hub's `RollbackState`. Inner is still validated via its own listing's TC001 row; the cross-hub interaction is not. Add a targeted test only if a real compound-hub rollback bug surfaces.
+
+- [ ] **TC-V31-6 — Aggregator gap-fill / missing-candle test variants** (2–3 hours).
+  - Source: Discussion #1018 @elAndyG. Companion to T236 (`GapFillMode` enum) and G008 (docs).
+  - Add tests under `tests/indicators/_common/Quotes/Quote.AggregatorHub.Tests.cs`: synthesized tick sequences with intentional gaps (e.g., missing 1-minute bars during low-volume periods); assert behavior under each future `GapFillMode` value (None/ForwardFill/Interpolate). Today the test gap is in §D TC005 (boundary tests) — TC-V31-6 extends that pattern once T236 ships. Distinct from TC-V31-4 (which covers rollback equivalence on the aggregator hubs themselves).
 
 ### Framework / performance
 
@@ -327,6 +402,7 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 - [ ] **T226** — `ISeries.UnixDate` property (3–4 hours, interface change).
 - [ ] **T227** — `QuotePart.Use` vs `ToQuotePart` deprecation decision (1–2 hours).
 - [ ] **T228** — `IQuotePart` rename to `IBarPartHub` evaluation (2–3 hours).
+- [ ] **T236** — `GapFillMode` enum for `Quote.AggregatorHub` (4–6 hours). Source: Discussion #1018 @elAndyG. Add `enum GapFillMode { None, ForwardFill, Interpolate }`; default `None` preserves current behavior. Companion to G008 (v3.0 docs) and TC-V31-6 (tests). Affects only the aggregator; downstream hubs see the post-fill quote stream.
 
 ### Cleanup deferred to v3.1+
 
@@ -412,4 +488,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-25
+Last updated: 2026-05-25 (post-swarm review + TC001 + PR #1014 / Discussion #1018 / project board consolidation)
