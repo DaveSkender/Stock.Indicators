@@ -118,9 +118,9 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: `src/Indicators.csproj:11` enables preview features for the `field` keyword used at `src/_common/BufferLists/BufferList.cs:54,56`. `field` shipped GA in C# 14 / .NET 10 (project targets `net10.0;net9.0;net8.0` with `LangVersion=latest`).
   - **Action**: Remove `<EnablePreviewFeatures>` and `<GenerateRequiresPreviewFeaturesAttribute>`; verify full build across all three target frameworks (with .NET 10 SDK installed, `LangVersion=latest` = C# 14 and `field` works regardless of TFM). Removal eliminates preview-feature noise propagating to downstream consumers.
 
-- [ ] **T230 — Gitignore `*.user` files and untrack `Stock.Indicators.sln.DotSettings.user`** (15 min).
-  - **Evidence**: `Stock.Indicators.sln.DotSettings.user` is checked in at repo root (4 KB ReSharper user state with recent-files list). `.gitignore` has `*.user` for `[Pp]roperties/launchSettings.json` patterns but not for top-level `.user` files near the `.sln`.
-  - **Action**: Confirm `.gitignore` covers `*.user`; run `git rm --cached Stock.Indicators.sln.DotSettings.user`.
+- [ ] **T230 — Untrack `Stock.Indicators.sln.DotSettings.user`** (5 min).
+  - **Evidence**: `Stock.Indicators.sln.DotSettings.user` is checked in at repo root (4 KB ReSharper user state with recent-files list). `.gitignore:47` already contains `*.user`, so future per-developer files are correctly ignored — only the legacy committed file needs removal from the index.
+  - **Action**: Run `git rm --cached Stock.Indicators.sln.DotSettings.user`.
 
 - [ ] **T231 — Delete `tools/performance/baselines/before-fixes/`** (10 min, decision needed).
   - **Evidence**: 22 historical JSON snapshots tracked in git. Their value (regression detection against pre-v3-fixes baseline) ends when v3.0 ships.
