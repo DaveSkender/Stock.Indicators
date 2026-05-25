@@ -98,6 +98,77 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        StochHub lateHub = lateSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        StochHub freshHub = freshSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtSmoothingWarmupBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival just past Stoch %K + %D warmup boundary.
+        // %K emits at lookback + smooth - 1 (= 14 + 3 - 1 = 16), %D after
+        // signal SMA over %K (~18). Index 22 forces replay across both
+        // smoothing-stage transitions.
+        const int totalQuotes = 300;
+        const int lateIndex = 22;
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        StochHub lateHub = lateSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        StochHub freshHub = freshSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochResult> sut = Quotes.ToStochHub(14, 3, 3).Results;

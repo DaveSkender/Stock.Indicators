@@ -100,6 +100,71 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        KeltnerHub lateHub = lateSource.ToKeltnerHub(20, 2, 10);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        KeltnerHub freshHub = freshSource.ToKeltnerHub(20, 2, 10);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtBandsWarmupBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival just past the Keltner warmup boundary.
+        // Bands emit first non-null result at max(emaPeriods, atrPeriods)
+        // (= 20); index 25 forces replay across the EMA seed + ATR seed
+        // dual-state transition that determines centerline + bandwidth.
+        const int totalQuotes = 300;
+        const int lateIndex = 25;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        KeltnerHub lateHub = lateSource.ToKeltnerHub(20, 2, 10);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        KeltnerHub freshHub = freshSource.ToKeltnerHub(20, 2, 10);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public void PrefilledProvider_OnRebuild_MatchesSeriesExactly()
     {
         QuoteHub quoteHub = new();

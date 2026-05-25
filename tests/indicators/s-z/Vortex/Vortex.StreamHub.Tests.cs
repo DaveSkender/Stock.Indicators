@@ -85,6 +85,71 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        VortexHub lateHub = lateSource.ToVortexHub(lookbackPeriods);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        VortexHub freshHub = freshSource.ToVortexHub(lookbackPeriods);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtVmTrSumBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival just past the Vortex warmup boundary.
+        // Vortex emits first non-null result at lookback (= 14); index
+        // 20 forces replay across the VM+ / VM- / TR rolling-sum
+        // window transition that gates VI+/VI- emission.
+        const int totalQuotes = 300;
+        const int lateIndex = 20;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        VortexHub lateHub = lateSource.ToVortexHub(lookbackPeriods);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        VortexHub freshHub = freshSource.ToVortexHub(lookbackPeriods);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
         VortexHub hub = new(new QuoteHub(), 14);
