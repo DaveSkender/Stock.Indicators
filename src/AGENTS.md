@@ -6,6 +6,8 @@ This folder contains the Stock Indicators library source code.
 
 Load the relevant skill before working in this folder. See the skills index in the root [AGENTS.md](../AGENTS.md#skills-for-development).
 
+For the streaming framework and shared types under `_common/` (StreamHub, BufferLists, Catalog, Quotes, aggregator hubs, thread-safety contract, `RollbackState` semantics), see [_common/AGENTS.md](_common/AGENTS.md).
+
 ## Technical constraints
 
 **Performance & compatibility:**
