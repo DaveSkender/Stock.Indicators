@@ -104,7 +104,7 @@ See the parent [src/AGENTS.md](../AGENTS.md#nan-handling-policy) for the canonic
 
 ⚠️ Ask before adding new derivations of `BaseProvider<T>` — the class is a documented workaround scheduled for replacement; current usage is limited to `QuoteHub` and `TickHub`
 
-⚠️ Ask before adding `#pragma warning disable` directives in this folder — analyzer suppressions are forbidden in the streaming framework per the streaming plan
+⚠️ Ask before adding `#pragma warning disable` directives in this folder — current footprint is exactly one intentional suppression (`IDE0010` at `StreamHub/StreamHub.cs:2`, covering the `Act` enum switch in `AppendCache` whose `default => throw` is a deliberate "would never happen" safety net for `Act.Ignore`); `BufferLists/` carries zero. New pragmas anywhere under `_common/` require explicit justification
 
 🚫 Never expose `Cache` mutation from a subclass — go through `AppendCache`, `RemoveRange`, or `RemoveAt`
 
