@@ -95,7 +95,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 Pure documentation fixes. Together ~4–6 hours. None require code changes.
 
-- [ ] **G001 — Fix `indicator-catalog` SKILL.md to match real API** (30 min). **Severity: critical** — current example will produce non-compiling code.
+- [x] **G001 — Fix `indicator-catalog` SKILL.md to match real API** *(PR pending — branch `fix/indicator-catalog-skill`)*.
   - **Evidence**: `.agents/skills/indicator-catalog/SKILL.md:105–107` instructs `_catalog.Add(Ema.SeriesListing);` but `src/_common/Catalog/Catalog.Listings.cs:58–63` uses `_listings.Add(...)`. Grep confirms `_catalog.Add` exists in exactly one file in the repo — the SKILL.md itself.
   - **Action**: Replace `_catalog.Add` with `_listings.Add`; correct registration order to `Buffer → Series → Stream` per indicator (alphabetical grouping); add a one-line note about the ordering convention.
 
@@ -506,4 +506,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-25
+Last updated: 2026-05-26

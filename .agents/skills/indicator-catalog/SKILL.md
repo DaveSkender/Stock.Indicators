@@ -69,7 +69,7 @@ public static partial class Ema
 
 ## Parameter patterns
 
-- `AddParameter<T>()` — int, double, bool
+- `AddParameter<T>()` — primitive value types (typically `int` or `double`)
 - `AddEnumParameter<T>()` — enum types
 - `AddDateParameter()` — DateTime
 - `AddSeriesParameter()` — `IReadOnlyList<T> where T : IReusable`
@@ -99,16 +99,28 @@ public static partial class Ema
 
 ## Registration
 
-Add to the catalog's populator method in the host repository. Indicators are grouped alphabetically by indicator name, and within each indicator block the three style listings register in **Buffer → Series → Stream** order:
+Add entries inside the host repository's catalog populator method. The backing collection is a `private static readonly List<IndicatorListing>` declared at the top of the catalog file; the host repository determines its field name (shown below as `listings`).
+
+Indicators are grouped alphabetically by name and separated by a blank line. Each block is preceded by a short comment header — `// {Abbreviation} ({Full Name})` when an abbreviation is conventional, otherwise just `// {Full Name}`. Within a block, the preferred order for the style listings is **Buffer → Series → Stream**:
 
 ```csharp
 // EMA (Exponential Moving Average)
-catalog.Add(Ema.BufferListing);
-catalog.Add(Ema.SeriesListing);
-catalog.Add(Ema.StreamListing);
+listings.Add(Ema.BufferListing);
+listings.Add(Ema.SeriesListing);
+listings.Add(Ema.StreamListing);
+
+// HMA (Hull Moving Average)
+listings.Add(Hma.BufferListing);
+listings.Add(Hma.SeriesListing);
+listings.Add(Hma.StreamListing);
 ```
 
-The backing collection is a `private static readonly List<IndicatorListing>` declared at the top of the catalog file; the host repository determines its field name. A short comment header `// {ABBR} ({Full Name})` precedes each indicator block, separated by a blank line.
+Series-only indicators (no streamable variant) register a single `SeriesListing` line in the same alphabetical position; e.g.:
+
+```csharp
+// Beta
+listings.Add(Beta.SeriesListing);
+```
 
 ## Prohibited
 
