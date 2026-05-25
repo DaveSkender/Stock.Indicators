@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// TODO: rename to IQuoteObservable
-
 /// <inheritdoc/>
 public interface IQuoteProvider<out T> : IChainProvider<T>
    where T : IQuote

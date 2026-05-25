@@ -67,7 +67,7 @@ After v3.0 ships, the highest-leverage streaming work is (in priority order):
 6. **Rx and `IAsyncEnumerable<T>` adapters (Researcher F1, F2).** `ToObservable()` and `ConsumeAsync(IAsyncEnumerable<TIn>, CancellationToken)` extensions so hubs interoperate with the rest of .NET's streaming ecosystem.
 7. **Shared "increment kernels" expansion (Inspector F1).** `Ema.Increment`, `Sma.Increment`, `Tr.Increment`, `Atr.Increment` already exist and are used in ~34 of 160 streaming files (~21%). The pattern works; standardize to ≥80% adoption to halve the duplication tax between `*.StreamHub.cs` and `*.BufferList.cs` siblings.
 
-Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA types T214, BufferList configuration E009, ADX DMI properties E007–E008, Hurst Anis-Lloyd T215, ISeries.UnixDate T226) can land independently in v3.1 minor releases.
+Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA types T214, BufferList configuration E009, ADX DMI properties E007–E008, ISeries.UnixDate T226) can land independently in v3.1 minor releases. (T215 Hurst Anis-Lloyd already shipped in PR #2007.)
 
 ---
 
@@ -150,9 +150,22 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: 7 occurrences in `src/`. After API churn (renames in `Obsolete.V3.*`), some pragmas may protect already-deleted code paths.
   - **Action**: For each pragma, verify the warning still fires without it; remove unneeded pragmas.
 
-- [ ] **T234 — TODO triage in `src/`** (30 min).
-  - **Evidence**: Grep finds multiple TODOs including two in `src/_common/StreamHub/StreamHub.cs:230,234` ("make reinitialization abstract", "race condition between rebuild and subscribe").
-  - **Action**: For each TODO, either close (delete the comment if no longer relevant), promote to a plan item, or convert to an `#if DEBUG` assertion. Specifically: `StreamHub.cs:230` is already represented by T205 in v3.1+ — link or remove the TODO; `StreamHub.cs:234` race-condition concern needs to either be closed (with explanation) or filed as a Tester investigation.
+- [x] **T234 — TODO triage in `src/`** *(audit + reconciliation complete)*.
+  - 12 TODOs across 11 files audited. Outcome breakdown:
+    - **3 removed as obsolete** — stylistic-rename suggestions that conflict with shipped v3 public-API naming:
+      - `IChainProvider.cs` and `IQuoteProvider.cs` "rename to *Observable" — the `*Provider` naming has shipped in the v3 public API and a rename would be a breaking change for consumers without enough benefit to justify the churn.
+      - `BaseProvider.cs` "rename to BaseObservable" — superseded by `ARCH-V31-1`, which chose retirement-via-`StreamSource<T>` over a rename. The workaround-for-self-rooted-hubs context the TODO carried is folded into the type's xmldoc remarks.
+    - **9 retained as legitimate in-source pointers** — each encodes clear intent without leaking plan IDs, and most map to existing plan items:
+      - `_common/StreamHub/StreamHub.cs:230` (`make reinitialization abstract`) ↔ T205.
+      - `_common/StreamHub/StreamHub.cs:233` (`evaluate race condition between rebuild and subscribe`) — not promoted to a plan item. Race window is microseconds inside `Reinitialize()`, which is a rarely-called manual fault-recovery method; a missed item is recoverable via a subsequent `Rebuild()`. Left as an in-source open-question marker; the TODO is its own ticket.
+      - `_common/ISeries.cs:20` (`UnixDate`) ↔ T226.
+      - `_common/QuotePart/IQuotePart.cs:13` (`IQuotePart → IBarPartHub`) ↔ T228.
+      - `_common/QuotePart/QuotePart.StaticSeries.cs:41` (`deprecate Use`) ↔ T227.
+      - `_common/Catalog/Catalog.cs:353` (`alternative without NotImplementedException`) ↔ T212.
+      - `m-r/Pivots/Pivots.StaticSeries.cs:124` (`may need rewrite for streaming`) ↔ T210.
+      - `m-r/Pivots/Pivots.StreamHub.cs:78` (`incremental trend line update`) — optimization opportunity inside whatever T210 ends up doing; T210's scope intentionally not pre-committed to this specific micro-optimization.
+      - `m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs:77` (`remaining MA types`) ↔ T214.
+  - Standing rule on TODOs: in-source TODOs are allowed when they encode clear intent without leaking transient plan IDs. Don't promote TODOs to the plan unless there is concrete value in doing so — a TODO is itself a perfectly valid lightweight tracker.
 
 ### D. Test coverage hardening (new section — Tester swarm finding)
 
@@ -228,13 +241,19 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 - [x] **D009 — Document QuotePart streaming variants**.
   - `docs/utilities/quotes/use-alternate-price.md` gained a "Streaming" section with BufferList (`ToQuotePartList`) and StreamHub (`ToQuotePartHub`) sub-sections following the indicator-page pattern. The StreamHub example also demonstrates the canonical "select then chain" composition (`partHub.ToEmaHub(20)`) that the part selector enables. Streaming docs coverage now 79 of 79.
 
-- [ ] **D010 — Document hub `Subscribe()` extensibility** (1–2 hours). **Source: Discussion #1018, @JGronholz; resolves open Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895).**
-  - **Problem**: `ReusableObserver<T>` shipped via PR #1894 (MERGED), but the broader extensibility story — how external consumers wrap a hub for UI/persistence/logging via `IStreamObserver<T>` — is not documented. JGronholz spent significant time discovering this pattern by reading source; a single docs page would have removed the friction.
-  - **Action**: Add a "Custom observers and external integration" section to the streaming docs (likely under `docs/guide/` or `docs/utilities/streaming/`). Cover: (a) when to wrap a hub vs. subclass one; (b) `IStreamObserver<T>` contract; (c) `ReusableObserver<T>` example end-to-end (UI dispatcher, persistence, logging); (d) box-to-`IChainProvider<IReusable>` pattern JGronholz documented in the discussion; (e) thread-safety expectations for observer callbacks given PR #1927.
+- [x] **D010 — Document hub `Subscribe()` extensibility**. **Source: Discussion #1018, @JGronholz; resolves open Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895).**
+  - New page `docs/guide/custom-observers.md` covers: (a) the when-to-wrap-vs-subclass decision matrix; (b) the full `IStreamObserver<T>` contract with per-method semantics (`OnAdd`/`OnRebuild`/`OnPrune`/`OnError`/`OnCompleted`); (c) a minimal external-observer worked example (EMA → UI dispatcher); (d) the box-to-`IChainProvider<IReusable>` pattern JGronholz documented in the discussion, in full code form; (e) thread-safety expectations (callbacks run inside the source hub's cache lock — keep them non-blocking, never re-enter the source).
+  - Premise note: the original action referenced "`ReusableObserver<T>` shipped via PR #1894". That PR was actually **CLOSED**, not merged; the page does not depend on that type. The patterns are documented in terms of the shipped `IStreamObserver<T>` interface at `src/_common/StreamHub/IStreamObserver.cs`.
+  - Wired into VitePress nav + sidebar; cross-linked from `docs/guide/stream.md` See-also.
 
-- [ ] **D011 — Author "Testing patterns for consumers" docs page** (2–3 hours). **Source: PR #1014 comment 4 (mockability ask) + private project items "Ensure consistent use of Interfaces, to enable end users to Mock effectively" and "Can an IEmaResult interfaces let users Cast() to custom outputs".**
-  - **Recommendation**: Decline to add per-type interfaces (`IEmaResult`, `ISmaResult`, …) and decline to add interface-extraction for mockability. **Reason**: this is a deterministic math library. The right consumer testing pattern is to feed known input data and assert known output values — exactly what the library's own test suite does. Mocking a deterministic function adds no signal: you'd hard-code the expected result, which validates nothing about the consuming code's interaction with the indicator. Adding per-type result interfaces also encourages anti-patterns (user-defined result subclasses divergent from canonical formulas) without solving a real testing problem.
-  - **Action**: Author a `docs/guide/testing-with-stock-indicators.md` page (or similar) covering: (1) **Recommended pattern** — use canned `IEnumerable<IQuote>` fixtures (point to `tests/indicators/_common/data/default.csv`-style approach); assert against known indicator values. (2) **When to wrap our types** — for consumers whose own service-layer wants to abstract over multiple data sources; show the wrapping-via-interface pattern. (3) **Why we don't recommend mocking** — short explanation of the deterministic-function argument. (4) **Streaming-specific testing** — use `BufferList` or in-memory `QuoteHub` with synthesized `Quote` sequences. Cite `tests/integration` and a few representative indicator test files as references.
+- [x] **D011 — Author "Testing patterns for consumers" docs page**. **Source: PR #1014 comment 4 (mockability ask) + private project items on `IEmaResult`-style per-type interfaces.**
+  - New page `docs/guide/testing.md` covers:
+    - **Recommended pattern**: canned `IReadOnlyList<IQuote>` fixtures plus assertions against known indicator values; with a small `CannedQuotes` helper using `Lazy<T>` and a CSV loader.
+    - **Why we don't recommend mocking**: deterministic-function argument with the concrete anti-pattern shown (consumer-injected `IRsiService` wrapper vs direct result-list injection). Explicit rejection of per-type result interfaces like `IEmaResult` for the same reason.
+    - **When wrapping IS appropriate**: data-source abstraction (`IMarketDataSource` swapping CSV-backtest / live-broker / replay implementations). Wraps *where the quotes come from*, not the indicator.
+    - **Streaming-specific testing**: replay a canned fixture through `QuoteHub` and assert on observer-captured side effects; assert Series ↔ BufferList ↔ StreamHub parity via direct equality when needed; cross-link to the [Custom observers](/guide/custom-observers) page for observer-side patterns.
+  - Wired into VitePress nav + sidebar as "Testing consumers".
+  - Path note: the plan originally proposed `testing-with-stock-indicators.md` for the filename; shipped as the shorter `testing.md` since the docs site is already named-spaced. Original-suggested fixture path `tests/indicators/_common/data/default.csv` corrected to actual `tests/indicators/_testdata/quotes/default.csv`.
   - **Closes (when shipped)**: private project items on mockability and `IEmaResult` interfaces — both can be marked "Done (trash)" on `DaveSkender/projects/6` once D011 lands.
 
 ### H. Critical BufferList performance — reclassified (re-examined this pass)
@@ -309,9 +328,10 @@ P015, P016 and P017 all confirmed at algorithmic floors per current test contrac
   - Source: Architect F1, Stercorator F1.
   - Internal refactor; no public API change. Resolves the self-flagged TODO at `src/_common/StreamHub/Providers/BaseProvider.cs`.
 
-- [ ] **ARCH-V31-2 — Replace `lock (Cache)` with private monitor + routed mutation methods** (4 hours).
+- [ ] **ARCH-V31-2 — Routed mutation methods on top of the private cache monitor** (2 hours, **scope narrowed**).
   - Source: Architect F3.
-  - Introduce `_cacheLock = new object()`, route all mutations through `AppendResult`/`ReplaceAt`/`TruncateFrom`. Eliminates public-field-as-monitor anti-pattern.
+  - **Partial completion verified (2026-05-25)**: the private monitor `CacheLock` is already in place at `src/_common/StreamHub/StreamHub.cs:16`, and the `lock (CacheLock)` pattern (not `lock (Cache)`) is in use across the framework. The public-field-as-monitor anti-pattern is already eliminated.
+  - **Remaining work**: route all cache mutations through dedicated `AppendResult`/`ReplaceAt`/`TruncateFrom` methods so subclasses cannot directly `Cache.Add(...)` / `Cache.RemoveAt(...)`. Today mutation still flows through `AppendCache` (`StreamHub.cs:324`) plus direct `Cache.Add/Remove` calls in subclass overrides.
 
 - [ ] **ARCH-V31-3 — `Snapshot()` method for immutable cache copies** (2 hours).
   - Source: Architect F4.
@@ -402,14 +422,14 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 ### Streaming feature enhancements
 
 - [ ] **T206** — `StreamHub.OnAdd` array return pattern (4–6 hours). Evaluate batch-emission need.
-- [ ] **T208** — `Quote.Date` property removal (2–3 hours). Breaking change, major version.
+- [x] **T208** — `Quote.Date` property *(deprecation shipped; full removal deferred to v4+)*. `src/_common/Quotes/Quote.cs:41-46` carries `[Obsolete("Use 'Timestamp' property instead.")]`, providing a soft-migration path through v3. Full removal is a v4+ breaking change.
 - [ ] **T210** — Pivots streaming rewrite (6–8 hours). Enhancement.
 - [ ] **T214** — MaEnvelopes ALMA/EPMA/HMA support for StreamHub (8–12 hours).
-- [ ] **T215** — Hurst Anis-Lloyd corrected R/S implementation (8–12 hours).
+- [x] **T215** — Hurst Anis-Lloyd corrected R/S implementation *(shipped in PR #2007 + #1636 + #1643)*. `HurstResult.HurstExponentAL` (Anis-Lloyd corrected exponent) ships alongside the raw `HurstExponent` across Series, BufferList, and StreamHub. Bias correction `RS_corrected = avgRs + (√(π·n/2) − E[R/S]_AL)` lives at `src/e-k/Hurst/Hurst.StaticSeries.cs:153-184` with helpers `PrecomputeAlCorrections` and `HurstExpectedRs` citing Anis-Lloyd (1976) and Peters (1994). Test coverage: `tests/indicators/e-k/Hurst/Hurst.StaticSeries.Tests.cs:17,22,30` asserts the value to `Money6` precision; catalog registration verified at `Hurst.Catalog.Tests.cs:38,73`.
 - [ ] **T212** — Catalog `NotImplementedException` alternative (2–3 hours).
 - [ ] **T220** — `StringOut` index range support (3–4 hours, test utility).
 - [ ] **T221** — StreamHub stackoverflow test coverage expansion (ongoing).
-- [ ] **T223** — Renko StreamHub alternative testing approach (4–6 hours).
+- [x] **T223** — Renko StreamHub alternative testing approach *(shipped)*. `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs:4-11` implements the non-quote-based testing path (`ITestQuoteObserver` + `ITestChainProvider`) with an explicit doc-comment block on why standard provider-history `Add`/`Remove` testing is excluded for Renko (quote transformations don't preserve timestamp mappings).
 - [ ] **T224** — Performance benchmark external data cache model (6–8 hours).
 - [ ] **T225** — Style comparison benchmark representative indicators (2–3 hours).
 - [ ] **T226** — `ISeries.UnixDate` property (3–4 hours, interface change).
@@ -421,9 +441,8 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 
 - [ ] **T235 (was F4 from Stercorator)** — Schedule `Obsolete.V3.Indicators.cs` and `Obsolete.V3.Other.cs` removal with CHANGELOG entry. They use `error: true` shims (compile errors with helpful messages); zero runtime utility, just better error messages during migration. Sunset in v3.1 or v3.2 with documented removal milestone.
 
-- [ ] **G007-followup — Reconcile `tests/AGENTS.md` layout** (30 min).
-  - **Evidence**: `tests/AGENTS.md:8–10` lists `indicators/`, `other/`, `performance/`. Actual `ls tests/` shows `indicators/`, `integration/`, `other/`, `performance/`, `public-api/`. Missing `integration/` and `public-api/` from the AGENTS doc.
-  - **Action**: Update to reflect real layout; clarify the relationship between `tests/performance/` and `tools/performance/` (both exist; benchmarks vs assertions).
+- [x] **G007-followup — Reconcile `tests/AGENTS.md` layout**.
+  - `tests/AGENTS.md` now lists all five subdirectories (`indicators/`, `integration/`, `other/`, `public-api/`, `performance/`) with one-line purpose statements. Distinction between `tests/performance/` (in-process assertions placeholder) and `tools/performance/` (BenchmarkDotNet harness + baselines) is called out in both the header description and the `performance/` entry.
 
 ### Infrastructure & code quality
 
