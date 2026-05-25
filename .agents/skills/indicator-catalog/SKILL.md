@@ -99,13 +99,16 @@ public static partial class Ema
 
 ## Registration
 
-`src/_common/Catalog/Catalog.Listings.cs`, `PopulateCatalog()` — alphabetical order:
+Add to `src/_common/Catalog/Catalog.Listings.cs` in `PopulateCatalog()`. Indicators are grouped alphabetically by indicator name, and within each indicator the three style listings register in **Buffer → Series → Stream** order (matches the existing file convention; see `Adl`, `Adx`, `Alligator`, `Alma` for examples):
 
 ```csharp
-_catalog.Add(Ema.SeriesListing);
-_catalog.Add(Ema.StreamListing);
-_catalog.Add(Ema.BufferListing);
+// EMA (Exponential Moving Average)
+_listings.Add(Ema.BufferListing);
+_listings.Add(Ema.SeriesListing);
+_listings.Add(Ema.StreamListing);
 ```
+
+The backing field is `_listings` (a `private static readonly List<IndicatorListing>` at the top of `Catalog.Listings.cs`). A short comment header `// {ABBR} ({Full Name})` precedes each indicator block, separated by a blank line.
 
 ## Prohibited
 
@@ -132,3 +135,7 @@ public class EmaCatalogTests : TestBase
     }
 }
 ```
+
+## Plan reference
+
+Catalog evolution and assertion-sharpening items (e.g. exact-count assertions in `Catalog.Metrics.Tests.cs`) are tracked in [docs/plans/streaming-indicators.plan.md](../../../docs/plans/streaming-indicators.plan.md).

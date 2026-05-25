@@ -6,29 +6,87 @@ This directory contains shared utilities, base classes, and common patterns used
 
 ```text
 _common/
-├── README.md                    # This file
-├── BinarySettings.cs            # Binary reader settings
-├── BufferLists/                 # BufferList implementation support
-│   ├── BufferList.cs            # Base BufferList class
-│   ├── BufferList.Utilities.cs # Buffer management utilities
-│   └── IIncrementFrom.cs        # Increment interfaces
-├── Candles/                     # Candlestick pattern utilities
-├── Catalog/                     # Indicator catalog and metadata
-├── Enums.cs                     # Shared enumerations
-├── Generics/                    # Generic type utilities
-├── ISeries.cs                   # Series interface definition
-├── Math/                        # Mathematical utilities
-│   ├── NullMath.cs              # Null-safe math operations
-│   └── Numerical.cs             # Numerical calculations
-├── QuotePart/                   # Quote component extraction
-├── Quotes/                      # Quote manipulation utilities
-├── Reusable/                    # Reusable result types
-├── StreamHub/                   # StreamHub base classes and streaming utilities
-│   ├── IStreamHub.cs            # StreamHub interface
-│   ├── StreamHub.cs             # Base StreamHub implementation
-│   ├── StreamHub.Utilities.cs  # StreamHub helper methods
-│   └── Providers/               # Stream provider implementations
-└── Validation/                  # Input validation helpers
+├── README.md                       # This file
+├── BinarySettings.cs               # Bitfield settings carried between hubs (Properties)
+├── ISeries.cs                      # Time-stamped record interface
+├── BufferLists/                    # BufferList incremental processing
+│   ├── BufferList.cs               # Abstract base; MaxListSize pruning; field-keyword usage
+│   ├── BufferList.Utilities.cs     # Rolling Queue.Update / UpdateWithDequeue extensions
+│   ├── IIncrementFromChain.cs      # Add(DateTime, double), Add(IReusable), Add(batch)
+│   └── IIncrementFromQuote.cs      # Add(IQuote), Add(IReadOnlyList<IQuote>)
+├── Candles/                        # Candlestick pattern utilities
+│   ├── CandleProperties.cs
+│   ├── CandleResult.cs
+│   └── Candles.Utilities.cs
+├── Catalog/                        # Indicator catalog and metadata (see Catalog/README.md)
+│   ├── Catalog.cs                  # Public API: Catalog.Get(), Catalog.Listings
+│   ├── Catalog.Listings.cs         # PopulateCatalog() — _listings.Add(...) registrations
+│   ├── CatalogListingBuilder.cs    # Fluent builder for IndicatorListing
+│   ├── ListingExecutionBuilder.cs  # Reflection-based execution glue
+│   ├── ListingExecutor.cs
+│   └── Schema/                     # IndicatorListing, IndicatorParam, IndicatorResult records
+├── Enums/                          # Shared enumerations
+│   ├── Act.cs                      # Add / Rebuild action discriminator
+│   ├── CandlePart.cs               # Open/High/Low/Close/Volume/HL2/HLC3/OC2/OHL3/OHLC4
+│   ├── Direction.cs
+│   ├── EndType.cs
+│   ├── Match.cs
+│   ├── MaType.cs
+│   ├── OutType.cs
+│   └── PeriodSize.cs               # Aggregation period keys
+├── Generics/                       # Generic utilities
+│   ├── Pruning.cs                  # Cache trimming helpers
+│   ├── Seek.cs                     # IndexOf / IndexGte / IndexBefore extensions
+│   ├── Sorting.cs
+│   ├── StringOut.List.cs
+│   └── StringOut.Type.cs
+├── Math/                           # Numerical utilities
+│   ├── DeMath.cs                   # Decimal math helpers
+│   ├── NullMath.cs                 # Null-safe math (NaN2Null, etc.)
+│   └── Numerical.cs                # Abs, Round, double / decimal conversions
+├── QuotePart/                      # CandlePart extraction (Open/High/Low/Close/Volume/HL2/...)
+│   ├── IQuotePart.cs
+│   ├── QuotePart.BufferList.cs
+│   ├── QuotePart.Catalog.cs
+│   ├── QuotePart.StaticSeries.cs
+│   ├── QuotePart.StreamHub.cs
+│   └── QuotePart.Utilities.cs
+├── Quotes/                         # IQuote / ITick types, aggregator hubs, validation
+│   ├── IQuote.cs
+│   ├── ITick.cs
+│   ├── Quote.cs                    # Default IQuote record
+│   ├── QuoteD.cs                   # Decimal-precision quote
+│   ├── Quote.Aggregates.cs         # Series-side aggregation (.Aggregate(PeriodSize))
+│   ├── Quote.AggregatorHub.cs      # Streaming quote→quote quantization (PR #1875)
+│   ├── Quote.Converters.cs         # Conversions to/from IReusable etc.
+│   ├── Quote.Exceptions.cs
+│   ├── Quote.StreamHub.cs          # QuoteHub: self-rooted source hub
+│   ├── Quote.Validation.cs
+│   ├── Tick.cs                     # Default ITick record
+│   ├── Tick.StreamHub.cs           # TickHub: self-rooted tick source
+│   └── Tick.AggregatorHub.cs       # Streaming tick→quote quantization
+├── Reusable/
+│   ├── IReusable.cs                # Single-value chainable record interface
+│   ├── Reusable.Utilities.cs       # ToReusable, generic RemoveWarmupPeriods, etc.
+│   └── TimeValue.cs                # Concrete IReusable (Timestamp + Value)
+├── StreamHub/                      # StreamHub base classes and streaming utilities
+│   ├── IStreamHub.cs               # Public hub interface (Add, RemoveAt, RemoveRange, Rebuild, Reinitialize)
+│   ├── IStreamObservable.cs        # Push-side: Subscribe / Unsubscribe / Results
+│   ├── IStreamObserver.cs          # Pull-side: OnAdd / OnRebuild / OnPrune / OnError
+│   ├── IChainProvider.cs           # Marker for IReusable producers
+│   ├── IQuoteProvider.cs           # Marker for IQuote producers
+│   ├── StreamHub.cs                # Abstract base: Cache, CacheLock, _isRebuilding, RollbackState, ToIndicator
+│   ├── StreamHub.Observable.cs     # Observable side: Subscribe, NotifyObserversOn* methods
+│   ├── StreamHub.Observer.cs       # Observer side: OnAdd, OnRebuild, OnPrune entry points
+│   ├── StreamHub.Utilities.cs      # Cache size validation, IndexBefore helpers
+│   ├── CircularDoubleBuffer.cs     # Fixed-size circular buffer for rolling-window indicators
+│   ├── HubCollection.cs            # Observer list with thread-safe enumeration
+│   └── Providers/                  # Specialized base classes
+│       ├── BaseProvider.cs         # Inert sentinel for self-rooted hubs (TODO: rename or remove)
+│       ├── ChainHub.cs             # IReusable-output chainable hub
+│       └── QuoteProvider.cs        # IQuote-output source/transformer
+└── Validation/
+    └── UrlSafeAttribute.cs
 ```
 
 ## Purpose
@@ -93,8 +151,8 @@ This approach aligns with Constitution §1: Mathematical Precision:
 For streaming and buffer indicators experiencing performance issues, consult:
 
 - Analysis: [tools/performance/PERFORMANCE_ANALYSIS.md](../../tools/performance/PERFORMANCE_ANALYSIS.md) - Comprehensive performance analysis and root cause analysis
-- Remaining work: [docs/plans/streaming-performance-remaining-work.md](../../docs/plans/streaming-performance-remaining-work.md) - Performance optimization tasks
+- Active plan: [docs/plans/streaming-indicators.plan.md](../../docs/plans/streaming-indicators.plan.md) - Streaming indicators plan (release gates, test hardening, performance verification)
 - Project principles: [docs/PRINCIPLES.md](../../docs/PRINCIPLES.md) - Performance First principles
 
 ---
-Last updated: January 3, 2026
+Last updated: 2026-05-24
