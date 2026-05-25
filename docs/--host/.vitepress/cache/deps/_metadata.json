@@ -1,0 +1,31 @@
+{
+  "hash": "474be0f2",
+  "configHash": "edf7740e",
+  "lockfileHash": "6ad666c9",
+  "browserHash": "75ec3584",
+  "optimized": {
+    "vue": {
+      "src": "../../../../node_modules/.pnpm/vue@3.5.34/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "4069bb33",
+      "needsInterop": false
+    },
+    "vitepress > @vue/devtools-api": {
+      "src": "../../../../node_modules/.pnpm/@vue+devtools-api@8.1.2/node_modules/@vue/devtools-api/dist/index.js",
+      "file": "vitepress___@vue_devtools-api.js",
+      "fileHash": "cf3ddf77",
+      "needsInterop": false
+    },
+    "vitepress > @vueuse/core": {
+      "src": "../../../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.34/node_modules/@vueuse/core/dist/index.js",
+      "file": "vitepress___@vueuse_core.js",
+      "fileHash": "13c914cf",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-6YLHXA77": {
+      "file": "chunk-6YLHXA77.js"
+    }
+  }
+}
