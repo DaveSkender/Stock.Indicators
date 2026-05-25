@@ -219,7 +219,3 @@ cat baselines/memory/baseline-memory-v3.1.0.json | \
 - Streaming plan: `../../../docs/plans/streaming-indicators.plan.md`
 - NFR-002: <10KB memory overhead per StreamHub instance
 - BenchmarkDotNet Memory Diagnoser: <https://benchmarkdotnet.org/articles/configs/diagnosers.html#memory-diagnoser>
-
----
-
-Last updated: January 3, 2026
