@@ -64,6 +64,7 @@ export default defineConfig({
           { text: 'Buffer lists', link: '/guide/buffer' },
           { text: 'Stream hubs', link: '/guide/stream' },
           { text: 'Custom indicators', link: '/guide/customization' },
+          { text: 'Custom observers', link: '/guide/custom-observers' },
         ]
       },
       {
@@ -97,6 +98,7 @@ export default defineConfig({
             { text: 'Buffer lists', link: '/guide/buffer' },
             { text: 'Stream hubs', link: '/guide/stream' },
             { text: 'Custom indicators', link: '/guide/customization' },
+            { text: 'Custom observers', link: '/guide/custom-observers' },
           ]
         }
       ],
