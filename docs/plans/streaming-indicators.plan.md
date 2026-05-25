@@ -181,7 +181,7 @@ Together ~1 working day. Some items can be parallelized across multiple test PRs
   - **Action**: Add `Quote.Aggregate.LateArrival`, `Quote.Aggregate.GapFill`, `Quote.Aggregate.PartialBucket` tests. Pattern-match `TickHub.Tests.cs:60` (`WithCachePruning`) for consistency.
   - Shipped scope: 3 new tests per aggregator hub (Quote + Tick = 6 tests total) covering late-arrival across closed multi-input buckets, partial-bucket-on-stream-end contract, and late-vs-fresh oracle parity. Gap-fill on/off variants were already covered. The late-arrival tests caught a latent bug: when an upstream `NotifyObserversOnRebuild` passed a mid-bucket timestamp (the input quote/tick's own timestamp, not the bucket boundary), the aggregator's `Rebuild` did not clear the partial in-cache bar, and the replay appended a duplicate bar at the bucket start. Fix landed alongside the tests: both aggregator hubs override `Rebuild(DateTime)` to round the timestamp down to `AggregationPeriod` before delegating to base.
 
-- [ ] **TC006 — Sharpen catalog assertions (consolidates T219)** (1 hour).
+- [x] **TC006 — Sharpen catalog assertions (consolidates T219)** (1 hour). *(PR #2023)*
   - **Evidence**: `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:33–34` uses `bufferCount.Should().BeGreaterThan(5)` and `streamCount.Should().BeGreaterThan(10)` while `seriesCount.Should().Be(85)` is exact.
   - **Action**: Replace `BeGreaterThan(...)` with `Be(79)` for both Buffer and Stream; replace `totalCount.Should().BeGreaterThan(100)` with `Be(243)`.
 
@@ -504,4 +504,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-25 (TC005 shipped + aggregator Rebuild fix; TC004 verified done)
+Last updated: 2026-05-25
