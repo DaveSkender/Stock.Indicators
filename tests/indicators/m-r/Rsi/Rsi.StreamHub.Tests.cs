@@ -6,7 +6,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int lookbackPeriods = 5;
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
+    public void Results_WithAnyInput_AreAlwaysBounded()
     {
         IReadOnlyList<RsiResult> sut = Quotes.ToRsiHub(14).Results;
         sut.IsBetween(static x => x.Rsi, 0d, 100d);
