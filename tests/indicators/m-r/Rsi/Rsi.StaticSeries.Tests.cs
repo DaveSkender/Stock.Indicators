@@ -28,6 +28,16 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<RsiResult> sut = Data
+            .GetRandom(2500)
+            .ToRsi(14);
+
+        sut.IsBetween(static x => x.Rsi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void SmallLookback_WithOnePeriod_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 1;

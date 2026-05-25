@@ -14,6 +14,17 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<MfiResult> sut = Data
+            .GetRandom(2500)
+            .ToMfiHub(14)
+            .Results;
+
+        sut.IsBetween(static x => x.Mfi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;

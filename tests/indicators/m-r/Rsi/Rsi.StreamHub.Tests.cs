@@ -6,6 +6,24 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int lookbackPeriods = 5;
 
     [TestMethod]
+    public void Results_WithAnyInput_AreAlwaysBounded()
+    {
+        IReadOnlyList<RsiResult> sut = Quotes.ToRsiHub(14).Results;
+        sut.IsBetween(static x => x.Rsi, 0d, 100d);
+    }
+
+    [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<RsiResult> sut = Data
+            .GetRandom(2500)
+            .ToRsiHub(14)
+            .Results;
+
+        sut.IsBetween(static x => x.Rsi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub

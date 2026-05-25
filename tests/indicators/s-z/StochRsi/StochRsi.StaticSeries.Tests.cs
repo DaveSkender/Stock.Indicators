@@ -168,9 +168,9 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public void AutoHealing_HandlesRsiWarmupPeriodsCorrectly()
     {
-        // Regression test for T204: Verify that StochRsi auto-healing works correctly
-        // without explicit Remove() call on RSI results. CalcStoch handles NaN values
-        // gracefully, making Remove() unnecessary and avoiding extra list allocation.
+        // StochRsi auto-healing must work without an explicit Remove() call on
+        // RSI results — CalcStoch handles NaN values gracefully, so Remove() is
+        // unnecessary and would cost an extra list allocation.
         const int rsiPeriods = 14;
         const int stochPeriods = 14;
         const int signalPeriods = 3;

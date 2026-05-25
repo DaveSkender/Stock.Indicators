@@ -75,6 +75,16 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<ConnorsRsiResult> sut = Data
+            .GetRandom(2500)
+            .ToConnorsRsi(3, 2, 100);
+
+        sut.IsBetween(static x => x.ConnorsRsi, 0d, 100d);
+    }
+
+    [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ConnorsRsiResult> r = BadQuotes

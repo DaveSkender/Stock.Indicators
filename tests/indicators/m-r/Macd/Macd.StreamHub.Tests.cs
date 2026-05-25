@@ -254,7 +254,6 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         // Skip one quote during streaming, then add it after the cache
         // head has advanced; result cache must equal a fresh hub that
         // received the same quotes in correct timestamp order.
@@ -288,8 +287,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void LateArrival_AtSignalWarmupBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival landing just past the MACD signal-line
-        // warm-up boundary. Signal line starts emitting at slow + signal - 1
+        // MACD signal line starts emitting at slow + signal - 1
         // (= 26 + 9 - 1 = 34), so a late arrival at index 40 forces the
         // rollback path to replay across the most-fragile state transition
         // in the three-stage EMA cascade.

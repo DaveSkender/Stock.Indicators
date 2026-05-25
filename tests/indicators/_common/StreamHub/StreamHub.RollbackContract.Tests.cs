@@ -6,19 +6,19 @@ using System.Runtime.CompilerServices;
 namespace Observables;
 
 /// <summary>
-/// Generic rollback-equivalence contract (TC001): for every Style.Stream
-/// listing in the catalog, a hub that has been rolled back via
-/// Rebuild(timestamp) and re-played from its provider must produce the
-/// same Results as a freshly-instantiated hub fed the same quotes once.
-/// This pins the RollbackState(int) contract across all 50+ overrides.
+/// Generic rollback-equivalence contract: for every Style.Stream listing in
+/// the catalog, a hub that has been rolled back via Rebuild(timestamp) and
+/// re-played from its provider must produce the same Results as a
+/// freshly-instantiated hub fed the same quotes once. This pins the
+/// RollbackState(int) contract across all 50+ overrides.
 /// </summary>
 /// <remarks>
 /// Scope: catalog-registered Style.Stream listings only. Hubs that override
 /// RollbackState but are NOT in the catalog (e.g. QuoteAggregatorHub,
 /// TickAggregatorHub) are out of scope and covered separately.
 /// This contract exercises Rebuild(timestamp) in isolation; subsequent
-/// live-add behaviour after rebuild is covered by TC002 (per-indicator
-/// late-arrival tests).
+/// live-add behaviour after rebuild is covered by per-indicator
+/// late-arrival tests inside each *.StreamHub.Tests.cs file.
 /// </remarks>
 [TestClass]
 public class StreamHubRollbackContractTests : TestBase
@@ -60,7 +60,7 @@ public class StreamHubRollbackContractTests : TestBase
         }
 
         skipped.Should().BeEmpty(
-            "every Style.Stream listing must be exercised by TC001; "
+            "every Style.Stream listing must be exercised by this contract; "
             + $"{skipped.Count} of {streamListings.Count} listing(s) were skipped:\n  - "
             + string.Join("\n  - ", skipped));
 

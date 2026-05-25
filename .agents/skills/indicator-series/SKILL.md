@@ -48,11 +48,10 @@ Beyond the `.StaticSeries.cs` file, ensure:
 - [ ] **Interface file**: Create `src/**/{Indicator}/I{Indicator}.cs` with parameter properties (NOT result properties)
 - [ ] **Unit tests**: Create `tests/indicators/**/{Indicator}.StaticSeries.Tests.cs`
   - Inherit from `StaticSeriesTestBase`
-  - Include `[TestCategory("Regression")]` for baseline validation
-  - Verify against manually calculated reference values
+  - Verify against manually calculated reference values; assert documented value ranges with `IsBetween` if applicable
 - [ ] **Performance benchmark**: Add to `tools/performance/Perf.Series.cs`
 - [ ] **Public documentation**: Update `docs/indicators/{Indicator}.md`
-- [ ] **Regression tests**: Add to `tests/indicators/**/{Indicator}.Regression.Tests.cs`
+- [ ] **Regression baseline tests**: Add to `tests/indicators/**/{Indicator}.Regression.Tests.cs` inheriting from `RegressionTestBase<TResult>` with `[TestCategory("Regression")]` on the class — these compare the full result set to a frozen `*.standard.json` baseline so it can be filtered via `--filter TestCategory=Regression`
 - [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
 
 ## Precision testing

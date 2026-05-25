@@ -29,6 +29,16 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<MfiResult> sut = Data
+            .GetRandom(2500)
+            .ToMfi(14);
+
+        sut.IsBetween(static x => x.Mfi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes

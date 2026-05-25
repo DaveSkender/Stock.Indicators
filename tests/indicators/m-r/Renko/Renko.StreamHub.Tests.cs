@@ -161,7 +161,6 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         // Renko is bricks-from-price, not 1:1 with quotes — the late-arrival
         // path must reproduce the same brick sequence as the fresh stream.
         const decimal brickSize = 2.5m;
@@ -200,7 +199,6 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public void LateArrival_NearFirstBrickFormation_MatchesFreshStream()
     {
-        // TC002: late-arrival landing close to early brick formation.
         // Renko's first brick is data-dependent (requires sufficient price
         // move from anchor); index 60 is chosen to cover the early-brick
         // formation window in the default fixture.

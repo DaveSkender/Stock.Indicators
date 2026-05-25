@@ -126,7 +126,6 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
 
@@ -157,7 +156,6 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_AtAtrWarmupBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the Chandelier warmup boundary.
         // Chandelier emits first non-null result at lookback (= 22); index
         // 28 forces replay across the rolling-extremum + ATR seeding
         // transition that sets the initial stop.
