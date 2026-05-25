@@ -322,9 +322,10 @@ P015, P016 and P017 all confirmed at algorithmic floors per current test contrac
   - Source: Architect F1, Stercorator F1.
   - Internal refactor; no public API change. Resolves the self-flagged TODO at `src/_common/StreamHub/Providers/BaseProvider.cs`.
 
-- [ ] **ARCH-V31-2 — Replace `lock (Cache)` with private monitor + routed mutation methods** (4 hours).
+- [ ] **ARCH-V31-2 — Routed mutation methods on top of the private cache monitor** (2 hours, **scope narrowed**).
   - Source: Architect F3.
-  - Introduce `_cacheLock = new object()`, route all mutations through `AppendResult`/`ReplaceAt`/`TruncateFrom`. Eliminates public-field-as-monitor anti-pattern.
+  - **Partial completion verified (2026-05-25)**: the private monitor `CacheLock` is already in place at `src/_common/StreamHub/StreamHub.cs:16`, and the `lock (CacheLock)` pattern (not `lock (Cache)`) is in use across the framework. The public-field-as-monitor anti-pattern is already eliminated.
+  - **Remaining work**: route all cache mutations through dedicated `AppendResult`/`ReplaceAt`/`TruncateFrom` methods so subclasses cannot directly `Cache.Add(...)` / `Cache.RemoveAt(...)`. Today mutation still flows through `AppendCache` (`StreamHub.cs:324`) plus direct `Cache.Add/Remove` calls in subclass overrides.
 
 - [ ] **ARCH-V31-3 — `Snapshot()` method for immutable cache copies** (2 hours).
   - Source: Architect F4.
@@ -415,14 +416,14 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 ### Streaming feature enhancements
 
 - [ ] **T206** — `StreamHub.OnAdd` array return pattern (4–6 hours). Evaluate batch-emission need.
-- [ ] **T208** — `Quote.Date` property removal (2–3 hours). Breaking change, major version.
+- [x] **T208** — `Quote.Date` property *(deprecation shipped; full removal deferred to v4+)*. `src/_common/Quotes/Quote.cs:41-46` carries `[Obsolete("Use 'Timestamp' property instead.")]`, providing a soft-migration path through v3. Full removal is a v4+ breaking change.
 - [ ] **T210** — Pivots streaming rewrite (6–8 hours). Enhancement.
 - [ ] **T214** — MaEnvelopes ALMA/EPMA/HMA support for StreamHub (8–12 hours).
 - [x] **T215** — Hurst Anis-Lloyd corrected R/S implementation *(shipped in PR #2007 + #1636 + #1643)*. `HurstResult.HurstExponentAL` (Anis-Lloyd corrected exponent) ships alongside the raw `HurstExponent` across Series, BufferList, and StreamHub. Bias correction `RS_corrected = avgRs + (√(π·n/2) − E[R/S]_AL)` lives at `src/e-k/Hurst/Hurst.StaticSeries.cs:153-184` with helpers `PrecomputeAlCorrections` and `HurstExpectedRs` citing Anis-Lloyd (1976) and Peters (1994). Test coverage: `tests/indicators/e-k/Hurst/Hurst.StaticSeries.Tests.cs:17,22,30` asserts the value to `Money6` precision; catalog registration verified at `Hurst.Catalog.Tests.cs:38,73`.
 - [ ] **T212** — Catalog `NotImplementedException` alternative (2–3 hours).
 - [ ] **T220** — `StringOut` index range support (3–4 hours, test utility).
 - [ ] **T221** — StreamHub stackoverflow test coverage expansion (ongoing).
-- [ ] **T223** — Renko StreamHub alternative testing approach (4–6 hours).
+- [x] **T223** — Renko StreamHub alternative testing approach *(shipped)*. `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs:4-11` implements the non-quote-based testing path (`ITestQuoteObserver` + `ITestChainProvider`) with an explicit doc-comment block on why standard provider-history `Add`/`Remove` testing is excluded for Renko (quote transformations don't preserve timestamp mappings).
 - [ ] **T224** — Performance benchmark external data cache model (6–8 hours).
 - [ ] **T225** — Style comparison benchmark representative indicators (2–3 hours).
 - [ ] **T226** — `ISeries.UnixDate` property (3–4 hours, interface change).
