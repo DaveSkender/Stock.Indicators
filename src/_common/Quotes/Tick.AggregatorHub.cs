@@ -276,14 +276,15 @@ public class TickAggregatorHub
     public override string ToString()
         => $"TICK-AGG<{AggregationPeriod}>: {Cache.Count} items";
 
-    /// <summary>
+    /// <inheritdoc/>
+    /// <remarks>
     /// Aligns the rebuild timestamp to the bucket boundary so that an
     /// upstream-triggered rebuild (whose timestamp is the late input tick's
     /// timestamp, not a bucket start) clears the partial aggregated bar and
     /// re-aggregates the bucket from scratch. Without this alignment the
     /// existing in-cache bar at the bucket start is kept and the replay
     /// appends a duplicate bar at the same timestamp.
-    /// </summary>
+    /// </remarks>
     public override void Rebuild(DateTime fromTimestamp)
     {
         DateTime alignedTimestamp = fromTimestamp == DateTime.MinValue
