@@ -273,7 +273,7 @@ P015, P016 and P017 all confirmed at algorithmic floors per current test contrac
 ### I. Low-priority test items (existing)
 
 - [ ] **T216** — ConnorsRsi `RemoveWarmupPeriods` calculation review (2–3 hours).
-- [ ] **T217** — CMO zero price change test (1–2 hours).
+- [x] **T217** — CMO zero price change test. Closed the in-source `// TODO: test for CMO isUp works as expected when there's no price change` at `tests/indicators/a-d/Cmo/Cmo.StaticSeries.Tests.cs:6-7` with two new tests: `FlatPrices_AcrossEntireWindow_ReturnsZero` (CMO = 0 across an entirely flat 30-bar series) and `FlatThenMoving_ReturnsValuesOnceRealMovementEnters` (CMO = 0 inside the flat window, climbs to +100 once the lookback fills with up-ticks; no NaN propagation). Both pass; full CMO suite 33/33 green.
 
 ### J. Infrastructure — deferred but listed for context
 
