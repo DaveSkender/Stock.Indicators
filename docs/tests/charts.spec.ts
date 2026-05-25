@@ -132,6 +132,7 @@ test('Home page charts reach a terminal state', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.getByTestId('landing-charts-root')).toBeVisible({ timeout: 15_000 })
+  await expect(page.getByTestId('landing-charts-root')).toHaveAttribute('data-state', 'ready', { timeout: 15_000 })
   await expect(page.getByTestId('landing-charts-overlay-canvas')).toBeVisible({ timeout: 15_000 })
   await expect(page.getByTestId('landing-charts-overlay-canvas')).toHaveAttribute('width')
 

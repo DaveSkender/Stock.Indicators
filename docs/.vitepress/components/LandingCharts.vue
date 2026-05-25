@@ -34,8 +34,8 @@ const overlaySpecs: ChartSpec[] = [
   { uiid: 'Ema', label: 'EMA(200)', params: { lookbackPeriods: 200 } },
   { uiid: 'Ema', label: 'EMA(50)', params: { lookbackPeriods: 50 } },
   { uiid: 'Slope', label: 'LINEAR(30)', params: { lookbackPeriods: 30 } },
-  { uiid: 'Marubozu', label: 'MARUBOZU(90%)', params: { minBodyPercent: 90 } },
-  { uiid: 'AtrStopClose', label: 'ATR-STOP(21,3,CLOSE)', params: { lookbackPeriods: 21, multiplier: 3 } }
+  { uiid: 'MARUBOZU', label: 'MARUBOZU(90%)', params: { minBodyPercent: 90 } },
+  { uiid: 'ATR-STOP-CLOSE', label: 'ATR-STOP(21,3,CLOSE)', params: { lookbackPeriods: 21, multiplier: 3 } }
 ]
 
 function isDark(): boolean {
@@ -152,7 +152,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="home-charts-stack" data-testid="landing-charts-root">
+  <section class="home-charts-stack" data-testid="landing-charts-root" :data-state="phase">
     <div class="home-charts-stack__panel home-charts-stack__panel--overlay">
       <div class="home-charts-stack__canvas-wrap home-charts-stack__canvas-wrap--overlay">
         <canvas

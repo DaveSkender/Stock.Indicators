@@ -9,7 +9,7 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/224 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Rsi" />
+  <StockIndicatorChart indicator="Rsi" :with-overlay="true" />
 </ClientOnly>
 
 ```csharp
