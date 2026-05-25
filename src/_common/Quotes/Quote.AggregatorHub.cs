@@ -275,6 +275,23 @@ public class QuoteAggregatorHub
     public override string ToString()
         => $"QUOTE-AGG<{AggregationPeriod}>: {Cache.Count} items";
 
+    /// <summary>
+    /// Aligns the rebuild timestamp to the bucket boundary so that an
+    /// upstream-triggered rebuild (whose timestamp is the late input quote's
+    /// timestamp, not a bucket start) clears the partial aggregated bar and
+    /// re-aggregates the bucket from scratch. Without this alignment the
+    /// existing in-cache bar at the bucket start is kept and the replay
+    /// appends a duplicate bar at the same timestamp.
+    /// </summary>
+    public override void Rebuild(DateTime fromTimestamp)
+    {
+        DateTime alignedTimestamp = fromTimestamp == DateTime.MinValue
+            ? fromTimestamp
+            : fromTimestamp.RoundDown(AggregationPeriod);
+
+        base.Rebuild(alignedTimestamp);
+    }
+
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {

@@ -619,4 +619,176 @@ public class TickAggregatorHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         aggregator.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void LateArrival_CrossingClosedBucket_RebuildsCorrectly()
+    {
+        // A late tick belonging to a 1-minute bucket that has already been
+        // closed (by ticks in subsequent buckets) must trigger a rebuild
+        // and produce a bar reflecting the additional tick's price/volume.
+        // Later buckets must remain unchanged.
+
+        TickHub provider = new();
+        TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
+
+        // Bucket 10:00 — two ticks (no execution IDs so they aren't deduped)
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:00", invariantCulture), 100m, 10m, null));
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:30", invariantCulture), 101m, 11m, null));
+
+        // Bucket 10:01 — closes bucket 10:00
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:01:10", invariantCulture), 102m, 12m, null));
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:01:40", invariantCulture), 103m, 13m, null));
+
+        // Bucket 10:02 — closes bucket 10:01
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:02:15", invariantCulture), 104m, 14m, null));
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:02:45", invariantCulture), 105m, 15m, null));
+
+        // Late tick into the closed 10:00 bucket with extreme high and low
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:45", invariantCulture), 120m, 5m, null));
+
+        IReadOnlyList<IQuote> results = aggregator.Results;
+        results.Should().HaveCount(3);
+
+        // Bucket 10:00 now reflects the late tick
+        IQuote bar0 = results[0];
+        bar0.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:00", invariantCulture));
+        bar0.Open.Should().Be(100m);
+        bar0.High.Should().Be(120m);   // Updated by late tick
+        bar0.Low.Should().Be(100m);    // Min of 100, 101, 120
+        bar0.Close.Should().Be(120m);  // Last-by-timestamp in bucket is 10:00:45
+        bar0.Volume.Should().Be(26m);  // 10 + 11 + 5
+
+        // Bucket 10:01 unchanged
+        IQuote bar1 = results[1];
+        bar1.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:01", invariantCulture));
+        bar1.Open.Should().Be(102m);
+        bar1.High.Should().Be(103m);
+        bar1.Low.Should().Be(102m);
+        bar1.Close.Should().Be(103m);
+        bar1.Volume.Should().Be(25m);
+
+        // Bucket 10:02 unchanged
+        IQuote bar2 = results[2];
+        bar2.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:02", invariantCulture));
+        bar2.Open.Should().Be(104m);
+        bar2.High.Should().Be(105m);
+        bar2.Low.Should().Be(104m);
+        bar2.Close.Should().Be(105m);
+        bar2.Volume.Should().Be(29m);
+
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void PartialBucket_OnStreamEnd_IsEmittedAsIncomplete()
+    {
+        // The aggregator emits the current (in-progress) bucket as soon as
+        // its first tick arrives, and that bar mutates in place as more
+        // ticks inside the same bucket arrive. When the stream ends
+        // mid-bucket the partial bar remains in Results — it is NOT
+        // trimmed, hidden, or frozen at first emission. Pin both the
+        // live-mutation contract and the survives-on-stream-end contract
+        // so downstream consumers (e.g. live-bar charting) can rely on it.
+
+        TickHub provider = new();
+        TickAggregatorHub aggregator = provider.ToTickAggregatorHub(PeriodSize.OneMinute);
+
+        // First tick opens the 10:00 bucket as a partial bar
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:00", invariantCulture), 100m, 10m, null));
+
+        IReadOnlyList<IQuote> results = aggregator.Results;
+        results.Should().HaveCount(1);
+        results[0].Open.Should().Be(100m);
+        results[0].High.Should().Be(100m);
+        results[0].Low.Should().Be(100m);
+        results[0].Close.Should().Be(100m);
+        results[0].Volume.Should().Be(10m);
+
+        // Second tick in the same bucket — the partial bar must mutate
+        provider.Add(new Tick(
+            DateTime.Parse("2023-11-09 10:00:30", invariantCulture), 105m, 15m, null));
+
+        results.Should().HaveCount(1);
+        IQuote partial = results[0];
+        partial.Timestamp.Should().Be(DateTime.Parse("2023-11-09 10:00", invariantCulture));
+        partial.Open.Should().Be(100m);
+        partial.High.Should().Be(105m);
+        partial.Low.Should().Be(100m);
+        partial.Close.Should().Be(105m);
+        partial.Volume.Should().Be(25m);
+
+        aggregator.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_MatchesFreshStream()
+    {
+        // Skip a mid-stream tick, then re-add it after the cache head
+        // has advanced several buckets. The late hub's aggregated bars
+        // must equal a fresh hub fed the same ticks in correct order;
+        // this is the rollback-equivalence invariant exercised at the
+        // bucket-aware aggregator layer rather than at a per-indicator
+        // hub.
+
+        const int totalTicks = 60;
+        const int lateIndex = 17;
+
+        // 15-second spacing places multiple ticks per 1-minute bucket
+        List<Tick> ticks = [];
+        for (int i = 0; i < totalTicks; i++)
+        {
+            ticks.Add(new Tick(
+                DateTime.Parse("2023-11-09 10:00:00", invariantCulture).AddSeconds(i * 15),
+                100m + i,
+                10m + i,
+                null));
+        }
+
+        TickHub lateSource = new();
+        TickAggregatorHub lateHub = lateSource.ToTickAggregatorHub(PeriodSize.OneMinute);
+        for (int i = 0; i < totalTicks; i++)
+        {
+            if (i == lateIndex) { continue; }
+
+            lateSource.Add(ticks[i]);
+        }
+
+        lateSource.Add(ticks[lateIndex]);
+
+        TickHub freshSource = new();
+        TickAggregatorHub freshHub = freshSource.ToTickAggregatorHub(PeriodSize.OneMinute);
+        foreach (Tick tick in ticks)
+        {
+            freshSource.Add(tick);
+        }
+
+        IReadOnlyList<IQuote> lateResults = lateHub.Results;
+        IReadOnlyList<IQuote> freshResults = freshHub.Results;
+
+        lateResults.Should().HaveSameCount(freshResults);
+        for (int i = 0; i < freshResults.Count; i++)
+        {
+            lateResults[i].Timestamp.Should().Be(freshResults[i].Timestamp);
+            lateResults[i].Open.Should().Be(freshResults[i].Open);
+            lateResults[i].High.Should().Be(freshResults[i].High);
+            lateResults[i].Low.Should().Be(freshResults[i].Low);
+            lateResults[i].Close.Should().Be(freshResults[i].Close);
+            lateResults[i].Volume.Should().Be(freshResults[i].Volume);
+        }
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
 }
