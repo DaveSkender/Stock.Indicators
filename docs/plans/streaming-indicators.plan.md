@@ -150,9 +150,18 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: 7 occurrences in `src/`. After API churn (renames in `Obsolete.V3.*`), some pragmas may protect already-deleted code paths.
   - **Action**: For each pragma, verify the warning still fires without it; remove unneeded pragmas.
 
-- [ ] **T234 — TODO triage in `src/`** (30 min).
-  - **Evidence**: Grep finds multiple TODOs including two in `src/_common/StreamHub/StreamHub.cs:230,234` ("make reinitialization abstract", "race condition between rebuild and subscribe").
-  - **Action**: For each TODO, either close (delete the comment if no longer relevant), promote to a plan item, or convert to an `#if DEBUG` assertion. Specifically: `StreamHub.cs:230` is already represented by T205 in v3.1+ — link or remove the TODO; `StreamHub.cs:234` race-condition concern needs to either be closed (with explanation) or filed as a Tester investigation.
+- [x] **T234 — TODO triage in `src/`** *(audit complete, no code change)*.
+  - **Audit (2026-05-25)**: 12 TODOs across 11 files in `src/`. All encode clear intent without leaking transient plan IDs; each is already represented by an in-flight or v3.1+ plan item, so removing them would lose the in-source pointer without giving readers any new information. Mapping:
+    - `_common/StreamHub/StreamHub.cs:230` (`make reinitialization abstract`) ↔ T205 (v3.1+).
+    - `_common/StreamHub/StreamHub.cs:233` (`race condition between rebuild and subscribe`) — real residual gap between `Rebuild()` and re-`Subscribe()` inside `Reinitialize()`. Maps to the `ARCH-V31-2` private-cache-lock refactor. Concrete repro path: high-frequency upstream `Add` arriving in the millisecond gap can produce missed notifications (provider cache stays consistent but observer state can lag by 1+ items). Kept as a v3.1 deliverable.
+    - `_common/StreamHub/IChainProvider.cs:3` / `IQuoteProvider.cs:3` / `Providers/BaseProvider.cs:3` rename TODOs ↔ ARCH-V31-1.
+    - `_common/ISeries.cs:20` UnixDate TODO ↔ T226.
+    - `_common/QuotePart/IQuotePart.cs:13` (`IQuotePart → IBarPartHub`) ↔ T228.
+    - `_common/QuotePart/QuotePart.StaticSeries.cs:41` (`deprecate Use in favor of ToQuotePart`) ↔ T227.
+    - `_common/Catalog/Catalog.cs:353` (`alternative without NotImplementedException`) ↔ T212.
+    - `m-r/Pivots/Pivots.StaticSeries.cs:124` and `Pivots.StreamHub.cs:78` ↔ T210 (Pivots rewrite).
+    - `m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs:77` (`remaining MA types`) ↔ T214.
+  - **Outcome**: leave the existing TODOs in place. They are intent-encoding (the no-plan-ID rule allows this) and serve as in-source pointers to v3.1+ work that the plan itself is the authoritative tracker for.
 
 ### D. Test coverage hardening (new section — Tester swarm finding)
 
@@ -228,9 +237,10 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 - [x] **D009 — Document QuotePart streaming variants**.
   - `docs/utilities/quotes/use-alternate-price.md` gained a "Streaming" section with BufferList (`ToQuotePartList`) and StreamHub (`ToQuotePartHub`) sub-sections following the indicator-page pattern. The StreamHub example also demonstrates the canonical "select then chain" composition (`partHub.ToEmaHub(20)`) that the part selector enables. Streaming docs coverage now 79 of 79.
 
-- [ ] **D010 — Document hub `Subscribe()` extensibility** (1–2 hours). **Source: Discussion #1018, @JGronholz; resolves open Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895).**
-  - **Problem**: `ReusableObserver<T>` shipped via PR #1894 (MERGED), but the broader extensibility story — how external consumers wrap a hub for UI/persistence/logging via `IStreamObserver<T>` — is not documented. JGronholz spent significant time discovering this pattern by reading source; a single docs page would have removed the friction.
-  - **Action**: Add a "Custom observers and external integration" section to the streaming docs (likely under `docs/guide/` or `docs/utilities/streaming/`). Cover: (a) when to wrap a hub vs. subclass one; (b) `IStreamObserver<T>` contract; (c) `ReusableObserver<T>` example end-to-end (UI dispatcher, persistence, logging); (d) box-to-`IChainProvider<IReusable>` pattern JGronholz documented in the discussion; (e) thread-safety expectations for observer callbacks given PR #1927.
+- [ ] **D010 — Document hub `Subscribe()` extensibility** (1–2 hours, **scope revised**). **Source: Discussion #1018, @JGronholz; resolves open Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895).**
+  - **Premise correction (2026-05-25)**: PR #1894 (`feat: Add extensible ReusableObserver implementing IStreamObserver<IReusable>`) was **CLOSED, not merged**. `ReusableObserver` does not exist in the v3 codebase — only the `IStreamObserver<T>` interface at `src/_common/StreamHub/IStreamObserver.cs` and the base `StreamHub.Observer.cs` partial. The "ReusableObserver example end-to-end" sub-action is therefore not applicable.
+  - **Still-valid scope**: the broader extensibility story for external consumers — how to wrap a hub for UI/persistence/logging via `IStreamObserver<T>` — is undocumented. JGronholz's discussion is still actionable as design input.
+  - **Revised action**: add a "Custom observers and external integration" section to the streaming docs covering (a) when to wrap a hub vs. subclass one; (b) `IStreamObserver<T>` contract (`OnAdd`/`OnRebuild`/`OnPrune`/`OnError`/`OnCompleted`); (c) a worked example of a minimal external observer (UI dispatcher or persistence writer) implementing the interface directly; (d) the box-to-`IChainProvider<IReusable>` pattern from JGronholz's discussion; (e) thread-safety expectations for observer callbacks given the post-PR-#1927 invariant that notifications fire inside the source hub's cache lock. Drop the `ReusableObserver` reference. If a maintainer decides to land a built-in observer helper in v3.1, the docs page can be updated then.
 
 - [ ] **D011 — Author "Testing patterns for consumers" docs page** (2–3 hours). **Source: PR #1014 comment 4 (mockability ask) + private project items "Ensure consistent use of Interfaces, to enable end users to Mock effectively" and "Can an IEmaResult interfaces let users Cast() to custom outputs".**
   - **Recommendation**: Decline to add per-type interfaces (`IEmaResult`, `ISmaResult`, …) and decline to add interface-extraction for mockability. **Reason**: this is a deterministic math library. The right consumer testing pattern is to feed known input data and assert known output values — exactly what the library's own test suite does. Mocking a deterministic function adds no signal: you'd hard-code the expected result, which validates nothing about the consuming code's interaction with the indicator. Adding per-type result interfaces also encourages anti-patterns (user-defined result subclasses divergent from canonical formulas) without solving a real testing problem.
