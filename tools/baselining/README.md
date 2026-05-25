@@ -128,6 +128,3 @@ After modifying the generator:
 2. Test with batch generation: `--all`
 3. Verify baseline files are correctly formatted
 4. Check that existing regression tests still pass
-
----
-Last updated: February 20, 2026
