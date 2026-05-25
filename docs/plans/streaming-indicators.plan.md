@@ -67,7 +67,7 @@ After v3.0 ships, the highest-leverage streaming work is (in priority order):
 6. **Rx and `IAsyncEnumerable<T>` adapters (Researcher F1, F2).** `ToObservable()` and `ConsumeAsync(IAsyncEnumerable<TIn>, CancellationToken)` extensions so hubs interoperate with the rest of .NET's streaming ecosystem.
 7. **Shared "increment kernels" expansion (Inspector F1).** `Ema.Increment`, `Sma.Increment`, `Tr.Increment`, `Atr.Increment` already exist and are used in ~34 of 160 streaming files (~21%). The pattern works; standardize to ≥80% adoption to halve the duplication tax between `*.StreamHub.cs` and `*.BufferList.cs` siblings.
 
-Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA types T214, BufferList configuration E009, ADX DMI properties E007–E008, Hurst Anis-Lloyd T215, ISeries.UnixDate T226) can land independently in v3.1 minor releases.
+Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA types T214, BufferList configuration E009, ADX DMI properties E007–E008, ISeries.UnixDate T226) can land independently in v3.1 minor releases. (T215 Hurst Anis-Lloyd already shipped in PR #2007.)
 
 ---
 
@@ -418,7 +418,7 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 - [ ] **T208** — `Quote.Date` property removal (2–3 hours). Breaking change, major version.
 - [ ] **T210** — Pivots streaming rewrite (6–8 hours). Enhancement.
 - [ ] **T214** — MaEnvelopes ALMA/EPMA/HMA support for StreamHub (8–12 hours).
-- [ ] **T215** — Hurst Anis-Lloyd corrected R/S implementation (8–12 hours).
+- [x] **T215** — Hurst Anis-Lloyd corrected R/S implementation *(shipped in PR #2007 + #1636 + #1643)*. `HurstResult.HurstExponentAL` (Anis-Lloyd corrected exponent) ships alongside the raw `HurstExponent` across Series, BufferList, and StreamHub. Bias correction `RS_corrected = avgRs + (√(π·n/2) − E[R/S]_AL)` lives at `src/e-k/Hurst/Hurst.StaticSeries.cs:153-184` with helpers `PrecomputeAlCorrections` and `HurstExpectedRs` citing Anis-Lloyd (1976) and Peters (1994). Test coverage: `tests/indicators/e-k/Hurst/Hurst.StaticSeries.Tests.cs:17,22,30` asserts the value to `Money6` precision; catalog registration verified at `Hurst.Catalog.Tests.cs:38,73`.
 - [ ] **T212** — Catalog `NotImplementedException` alternative (2–3 hours).
 - [ ] **T220** — `StringOut` index range support (3–4 hours, test utility).
 - [ ] **T221** — StreamHub stackoverflow test coverage expansion (ongoing).
