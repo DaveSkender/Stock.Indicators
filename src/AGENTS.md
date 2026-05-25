@@ -55,6 +55,28 @@ See _common/README.md for complete policy documentation.
 - Stream and Buffer implementations must match Series results for same inputs once warmed up
 - For discrepancies, fix Stream/Buffer unless there is verified issue with Series and reference data
 
+## Result type convention
+
+Indicator result types are `public record` declarations with positional parameters, `Timestamp` first, nullable `double?` for warmup-period values, and `IReusable` implementation when the result is intended to chain into downstream indicators. The reusable value projection is a calculated `Value` property (not a constructor parameter) that calls `.Null2NaN()` so chained NaN propagation behaves predictably.
+
+Canonical reference: `src/e-k/Ema/Ema.Models.cs` (`EmaResult`). When adding a new indicator, mirror this shape — positional record, `Timestamp` first, `[Serializable]` attribute, `[JsonIgnore]` on the chainable `Value` projection, single-line xmldoc per parameter. Multi-output indicators (e.g. Bollinger Bands, MACD) follow the same skeleton with additional positional parameters; only one property maps to `Value` and that property is the one flagged `isReusable: true` in the catalog listing.
+
+## Cost of a new streamable indicator
+
+A new fully-streamable indicator costs **seven files plus a documentation page**, with ceremony excluding the math itself bounded to roughly 300–400 lines:
+
+| File | Purpose | Size guideline (Ema baseline) |
+| ---- | ------- | ------------------------------ |
+| `I{Name}.cs` | Public interface | ~15 LOC |
+| `{Name}.Models.cs` | Result `record` | ~20 LOC |
+| `{Name}.Utilities.cs` | Validation + helpers | ~80 LOC |
+| `{Name}.StaticSeries.cs` | Canonical batch implementation | ~60 LOC |
+| `{Name}.BufferList.cs` | Incremental `BufferList` form | ~120 LOC |
+| `{Name}.StreamHub.cs` | Live `StreamHub` form | ~75 LOC |
+| `{Name}.Catalog.cs` | Catalog listing builders (Common/Series/Buffer/Stream) | ~45 LOC |
+
+If a new indicator exceeds these guidelines by a wide margin without algorithmic justification, treat the excess as accidental complexity and look for a missing shared kernel (see `Ema.Increment`, `Sma.Increment`, `Tr.Increment`, `Atr.Increment` in `_common/`-adjacent siblings). Documentation under `docs/indicators/{Name}.md` and a test set under `tests/indicators/{a-d|e-k|m-r|s-z}/{Name}/*.Tests.cs` are required and have their own budgets.
+
 ## Boundaries
 
 ✅ Always use Series results as the canonical numerical reference — Stream/Buffer must match exactly

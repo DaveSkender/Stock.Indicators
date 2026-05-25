@@ -202,13 +202,11 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
   - **Why**: `List<T>.AsReadOnly()` returns a `ReadOnlyCollection<T>` wrapping the **live** backing list. Consumers cannot mutate it but enumeration during a concurrent `Add` will throw `InvalidOperationException` (Architect F4). #1585 closed the deviant-mutation hole but not the read-during-write hole.
   - **Action**: Update XML doc on `IStreamHub.Results` and `StreamHub.cs:103` to explicitly state "live read-only view; enumerate within `.ToList()` if upstream may emit during iteration." Reserve `Snapshot()` method addition for v3.1.
 
-- [ ] **DOC-ARCH-4 — Boilerplate budget for new streamable indicators** (30 min).
-  - **Why**: Without a stated cost ("a new streamable indicator costs N files and ≤ M LOC of ceremony excluding math"), contributors cannot detect overengineering creep (Inspector F4).
-  - **Action**: Add a one-paragraph "Cost of a new streamable indicator" section to `src/AGENTS.md`. Use Ema as the baseline reference.
+- [x] **DOC-ARCH-4 — Boilerplate budget for new streamable indicators**.
+  - `src/AGENTS.md` gains a "Cost of a new streamable indicator" section with a per-file LOC table calibrated to the Ema baseline (~419 total LOC across 7 files). Calls out shared `*.Increment` kernels as the antidote when ceremony blows the budget.
 
-- [ ] **DOC-ARCH-5 — Result type convention** (30 min).
-  - **Why**: 79 result records use `public record` with `Timestamp` first and `double?` for warmup-period values, but the convention is conventional only (Inspector F8).
-  - **Action**: One paragraph in `src/AGENTS.md` codifying the convention. Cite Ema as canonical.
+- [x] **DOC-ARCH-5 — Result type convention**.
+  - `src/AGENTS.md` gains a "Result type convention" section codifying positional `public record`, `Timestamp` first, nullable warmup values, `[Serializable]`, `[JsonIgnore]` on the chainable `Value` projection, `.Null2NaN()` for predictable NaN propagation. Cites `EmaResult` as the canonical reference; notes how multi-output indicators preserve the pattern.
 
 - [ ] **DOC-ARCH-6 — No analyzer suppressions in streaming source** (15 min).
   - **Why**: Inspector F7 asks to verify and codify that simplicity claims are not artificial.
