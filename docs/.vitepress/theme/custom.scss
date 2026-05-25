@@ -337,12 +337,12 @@ pre.shiki {
 }
 
 .indy-demo__canvas-wrap--oscillator {
-  aspect-ratio: 10;
+  aspect-ratio: 6;
 }
 
 @media (width <= 880px) {
   .indy-demo__canvas-wrap--oscillator {
-    aspect-ratio: 8;
+    aspect-ratio: 5;
   }
 }
 

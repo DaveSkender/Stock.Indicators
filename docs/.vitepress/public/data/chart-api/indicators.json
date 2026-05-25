@@ -1040,26 +1040,75 @@
   },
   {
     "name": "Macd",
-    "uiid": "Macd",
-    "legendTemplate": "Macd",
+    "uiid": "MACD",
+    "legendTemplate": "MACD([P1],[P2],[P3])",
     "endpoint": "indicators/macd",
-    "category": "fallback",
-    "chartType": "overlay",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
     "order": 40,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "defaultValue": 12,
+        "minimum": 1,
+        "maximum": 200
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "defaultValue": 26,
+        "minimum": 1,
+        "maximum": 250
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "defaultValue": 9,
+        "minimum": 1,
+        "maximum": 200
+      }
+    ],
     "results": [
       {
-        "displayName": "Macd",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "MACD",
+        "tooltipTemplate": "MACD: {v:f2}",
+        "dataName": "macd",
         "dataType": "number",
         "lineType": "solid",
         "stack": "main",
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
+        "defaultColor": "#1E88E5",
         "fill": null,
         "order": 1
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "Signal: {v:f2}",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null,
+        "order": 2
+      },
+      {
+        "displayName": "Histogram",
+        "tooltipTemplate": "Histogram: {v:f2}",
+        "dataName": "histogram",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#9E9E9E80",
+        "fill": null,
+        "order": 3
       }
     ]
   },
@@ -1265,24 +1314,67 @@
   },
   {
     "name": "Slope",
-    "uiid": "Slope",
-    "legendTemplate": "Slope",
+    "uiid": "SLOPE",
+    "legendTemplate": "SLOPE([P1])",
     "endpoint": "indicators/slope",
-    "category": "fallback",
-    "chartType": "overlay",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
     "order": 49,
     "chartConfig": null,
-    "parameters": [],
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "defaultValue": 14,
+        "minimum": 1,
+        "maximum": 250
+      }
+    ],
     "results": [
       {
         "displayName": "Slope",
         "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "dataName": "slope",
         "dataType": "number",
         "lineType": "solid",
         "stack": "main",
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
+        "defaultColor": "#1E88E5",
+        "fill": null,
+        "order": 1
+      }
+    ]
+  },
+  {
+    "name": "Linear Regression",
+    "uiid": "LINEAR",
+    "legendTemplate": "LINEAR([P1])",
+    "endpoint": "indicators/slope",
+    "category": "price-characteristic",
+    "chartType": "overlay",
+    "order": 49,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "defaultValue": 14,
+        "minimum": 1,
+        "maximum": 250
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Linear Regression",
+        "tooltipTemplate": "Linear Regression: {v:f2}",
+        "dataName": "line",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": "main",
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
         "fill": null,
         "order": 1
       }
@@ -1365,24 +1457,66 @@
   },
   {
     "name": "Stc",
-    "uiid": "Stc",
-    "legendTemplate": "Stc",
+    "uiid": "STC",
+    "legendTemplate": "STC([P1],[P2],[P3])",
     "endpoint": "indicators/stc",
-    "category": "fallback",
-    "chartType": "overlay",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
     "order": 53,
-    "chartConfig": null,
-    "parameters": [],
+    "chartConfig": {
+      "minimumYAxis": 0,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 75,
+          "color": "#ef5350",
+          "style": "solid",
+          "fill": null
+        },
+        {
+          "value": 25,
+          "color": "#26a69a",
+          "style": "solid",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Cycle Periods",
+        "paramName": "cyclePeriods",
+        "dataType": "int",
+        "defaultValue": 10,
+        "minimum": 1,
+        "maximum": 200
+      },
+      {
+        "displayName": "Fast Periods",
+        "paramName": "fastPeriods",
+        "dataType": "int",
+        "defaultValue": 23,
+        "minimum": 1,
+        "maximum": 200
+      },
+      {
+        "displayName": "Slow Periods",
+        "paramName": "slowPeriods",
+        "dataType": "int",
+        "defaultValue": 50,
+        "minimum": 1,
+        "maximum": 250
+      }
+    ],
     "results": [
       {
-        "displayName": "Stc",
-        "tooltipTemplate": "{v:f2}",
-        "dataName": "value",
+        "displayName": "Schaff Trend Cycle",
+        "tooltipTemplate": "STC: {v:f2}",
+        "dataName": "stc",
         "dataType": "number",
         "lineType": "solid",
         "stack": "main",
         "lineWidth": 2,
-        "defaultColor": "#2962FF",
+        "defaultColor": "#1E88E5",
         "fill": null,
         "order": 1
       }

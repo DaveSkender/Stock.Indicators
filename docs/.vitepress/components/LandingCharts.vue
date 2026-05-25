@@ -11,15 +11,14 @@ import {
   type IndicatorSelection
 } from '@facioquo/indy-charts'
 
+import { DARK_SURFACE, LIGHT_SURFACE } from '../theme/chart-theme'
+
 const API_BASE = 'https://stock-charts-api.azurewebsites.net'
 const BAR_COUNT = 250
-const DARK_SURFACE = '#22272e'
-const LIGHT_SURFACE = '#f3f4f6'
 const EMA_FAST_COLOR = '#ff4d8d'
-const EMA_SLOW_COLOR = '#2e7d32'
+const EMA_SLOW_COLOR = '#26c6da'
 const LINEAR_COLOR = '#ff7f11'
-const MARUBOZU_COLOR = '#6e7781'
-const ATR_STOP_COLOR = '#2e7d32'
+const MARUBOZU_COLOR = '#9aa5b1'
 
 const overlayCanvas = ref<HTMLCanvasElement | null>(null)
 const phase = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
@@ -42,9 +41,9 @@ interface ChartSpec {
 const overlaySpecs: ChartSpec[] = [
   { uiid: 'Ema', label: 'EMA(200)', params: { lookbackPeriods: 200 }, colors: [EMA_SLOW_COLOR] },
   { uiid: 'Ema', label: 'EMA(50)', params: { lookbackPeriods: 50 }, colors: [EMA_FAST_COLOR] },
-  { uiid: 'Slope', label: 'LINEAR(30)', params: { lookbackPeriods: 30 }, colors: [LINEAR_COLOR] },
+  { uiid: 'LINEAR', label: 'LINEAR(30)', params: { lookbackPeriods: 30 }, colors: [LINEAR_COLOR] },
   { uiid: 'MARUBOZU', label: 'MARUBOZU(90%)', params: { minBodyPercent: 90 }, colors: [MARUBOZU_COLOR] },
-  { uiid: 'ATR-STOP-CLOSE', label: 'ATR-STOP(21,3,CLOSE)', params: { lookbackPeriods: 21, multiplier: 3 }, colors: [ATR_STOP_COLOR] }
+  { uiid: 'ATR-STOP-CLOSE', label: 'ATR-STOP(21,3,CLOSE)', params: { lookbackPeriods: 21, multiplier: 3 } }
 ]
 
 function isDark(): boolean {
@@ -184,60 +183,33 @@ onBeforeUnmount(() => {
 
 <template>
   <section class="home-charts-stack" data-testid="landing-charts-root" :data-state="phase">
-    <div class="home-charts-stack__panel home-charts-stack__panel--overlay">
-      <div class="home-charts-stack__canvas-wrap home-charts-stack__canvas-wrap--overlay">
-        <canvas
-          ref="overlayCanvas"
-          class="home-charts-stack__canvas"
-          data-testid="landing-charts-overlay-canvas"
-        />
-        <div
-          v-if="phase === 'loading'"
-          class="indy-demo__status indy-demo__status--loading home-charts-stack__status"
-        >
-          Loading chart preview...
-        </div>
-        <div
-          v-else-if="phase === 'error'"
-          class="indy-demo__status indy-demo__status--error home-charts-stack__status"
-        >
-          {{ errorMessage }}
-        </div>
+    <div class="indy-demo__canvas-wrap indy-demo__canvas-wrap--overlay">
+      <canvas
+        ref="overlayCanvas"
+        class="indy-demo__canvas"
+        data-testid="landing-charts-overlay-canvas"
+      />
+      <div
+        v-if="phase === 'loading'"
+        class="indy-demo__status indy-demo__status--loading home-charts-stack__status"
+      >
+        Loading chart preview...
+      </div>
+      <div
+        v-else-if="phase === 'error'"
+        class="indy-demo__status indy-demo__status--error home-charts-stack__status"
+      >
+        {{ errorMessage }}
       </div>
     </div>
 
-    <StockIndicatorChart indicator="Macd" id="landing-macd" :bar-count="BAR_COUNT" :background="chartBackground" />
-    <StockIndicatorChart indicator="Stc" id="landing-stc" :bar-count="BAR_COUNT" :background="chartBackground" />
+    <StockIndicatorChart indicator="Macd" id="landing-macd" :bar-count="BAR_COUNT" />
+    <StockIndicatorChart indicator="Stc" id="landing-stc" :bar-count="BAR_COUNT" />
   </section>
 </template>
 
 <style scoped>
-.home-charts-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.home-charts-stack__panel {
-  overflow: visible;
-}
-
-.home-charts-stack__canvas-wrap {
-  position: relative;
-  width: 100%;
-  background: var(--vp-c-bg);
-}
-
-.home-charts-stack__canvas-wrap--overlay {
-  aspect-ratio: 2.15;
-}
-
-.home-charts-stack__canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
+/* Stretch the loading/error message across the canvas instead of sitting beneath it. */
 .home-charts-stack__status {
   position: absolute;
   inset: 0;
@@ -245,20 +217,5 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: var(--vp-c-bg);
-}
-
-.indy-demo__status {
-  padding: 0.25rem 0 0.35rem;
-  font-size: 13px;
-  color: var(--vp-c-text-2);
-}
-
-.indy-demo__status--error {
-  color: var(--vp-c-warning-1);
-}
-
-:deep(.indy-demo) {
-  margin: 0 !important;
 }
 </style>
