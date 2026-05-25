@@ -13,10 +13,18 @@ import {
 
 const API_BASE = 'https://stock-charts-api.azurewebsites.net'
 const BAR_COUNT = 250
+const DARK_SURFACE = '#22272e'
+const LIGHT_SURFACE = '#f3f4f6'
+const EMA_FAST_COLOR = '#ff4d8d'
+const EMA_SLOW_COLOR = '#2e7d32'
+const LINEAR_COLOR = '#ff7f11'
+const MARUBOZU_COLOR = '#6e7781'
+const ATR_STOP_COLOR = '#2e7d32'
 
 const overlayCanvas = ref<HTMLCanvasElement | null>(null)
 const phase = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
 const errorMessage = ref('Unable to load chart preview.')
+const chartBackground = ref(readThemeBackground())
 
 let chartManager: ChartManager | null = null
 let themeObserver: MutationObserver | null = null
@@ -28,24 +36,34 @@ interface ChartSpec {
   uiid: string
   label: string
   params?: Record<string, number>
+  colors?: string[]
 }
 
 const overlaySpecs: ChartSpec[] = [
-  { uiid: 'Ema', label: 'EMA(200)', params: { lookbackPeriods: 200 } },
-  { uiid: 'Ema', label: 'EMA(50)', params: { lookbackPeriods: 50 } },
-  { uiid: 'Slope', label: 'LINEAR(30)', params: { lookbackPeriods: 30 } },
-  { uiid: 'MARUBOZU', label: 'MARUBOZU(90%)', params: { minBodyPercent: 90 } },
-  { uiid: 'ATR-STOP-CLOSE', label: 'ATR-STOP(21,3,CLOSE)', params: { lookbackPeriods: 21, multiplier: 3 } }
+  { uiid: 'Ema', label: 'EMA(200)', params: { lookbackPeriods: 200 }, colors: [EMA_SLOW_COLOR] },
+  { uiid: 'Ema', label: 'EMA(50)', params: { lookbackPeriods: 50 }, colors: [EMA_FAST_COLOR] },
+  { uiid: 'Slope', label: 'LINEAR(30)', params: { lookbackPeriods: 30 }, colors: [LINEAR_COLOR] },
+  { uiid: 'MARUBOZU', label: 'MARUBOZU(90%)', params: { minBodyPercent: 90 }, colors: [MARUBOZU_COLOR] },
+  { uiid: 'ATR-STOP-CLOSE', label: 'ATR-STOP(21,3,CLOSE)', params: { lookbackPeriods: 21, multiplier: 3 }, colors: [ATR_STOP_COLOR] }
 ]
 
 function isDark(): boolean {
   return document.documentElement.classList.contains('dark')
 }
 
+function readThemeBackground(): string {
+  if (typeof document === 'undefined') return LIGHT_SURFACE
+  const background = getComputedStyle(document.documentElement)
+    .getPropertyValue('--vp-c-bg')
+    .trim()
+  return background || (isDark() ? DARK_SURFACE : LIGHT_SURFACE)
+}
+
 function currentSettings() {
   return {
     isDarkTheme: isDark(),
-    showTooltips: false
+    showTooltips: false,
+    background: chartBackground.value
   }
 }
 
@@ -66,6 +84,16 @@ function normalizeSelection(selection: IndicatorSelection, label: string): Indic
   return selection
 }
 
+function applySeriesColors(selection: IndicatorSelection, colors?: string[]): void {
+  if (!colors?.length) return
+  selection.results.forEach((result, index) => {
+    const color = colors[index]
+    if (color) {
+      result.color = color
+    }
+  })
+}
+
 function findListing(listings: IndicatorListing[], uiid: string): IndicatorListing | undefined {
   return listings.find((listing) => listing.uiid.toLowerCase() === uiid.toLowerCase())
 }
@@ -74,6 +102,7 @@ async function renderCharts(): Promise<void> {
   const token = ++loadToken
   phase.value = 'loading'
   errorMessage.value = 'Unable to load chart preview.'
+  chartBackground.value = readThemeBackground()
   destroyChart()
 
   try {
@@ -102,6 +131,7 @@ async function renderCharts(): Promise<void> {
         createDefaultSelection(listing, spec.params, 'landing-home-'),
         spec.label
       )
+      applySeriesColors(selection, spec.colors)
       const data = loadStaticIndicatorData(await client.getSelectionData(selection, listing))
       if (disposed || token !== loadToken) return
 
@@ -125,6 +155,7 @@ onMounted(() => {
   void renderCharts()
 
   themeObserver = new MutationObserver(() => {
+    chartBackground.value = readThemeBackground()
     updateTheme()
   })
   themeObserver.observe(document.documentElement, {
@@ -175,8 +206,8 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <StockIndicatorChart indicator="Macd" id="landing-macd" :bar-count="BAR_COUNT" />
-    <StockIndicatorChart indicator="Stc" id="landing-stc" :bar-count="BAR_COUNT" />
+    <StockIndicatorChart indicator="Macd" id="landing-macd" :bar-count="BAR_COUNT" :background="chartBackground" />
+    <StockIndicatorChart indicator="Stc" id="landing-stc" :bar-count="BAR_COUNT" :background="chartBackground" />
   </section>
 </template>
 
@@ -184,11 +215,11 @@ onBeforeUnmount(() => {
 .home-charts-stack {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.2rem;
 }
 
 .home-charts-stack__panel {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .home-charts-stack__canvas-wrap {
