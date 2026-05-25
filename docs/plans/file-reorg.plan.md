@@ -825,6 +825,3 @@ After applying recommended patterns with Series suffix, ConnorsRsi would be:
 - [Framework Design Guidelines](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/)
 - [General Naming Conventions](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/general-naming-conventions)
 - [Names of Assemblies and DLLs](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
-
----
-Last updated: 2026-05-25 (status header + cross-references; content unchanged from 2025-12-28)

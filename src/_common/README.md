@@ -155,6 +155,3 @@ For streaming and buffer indicators experiencing performance issues, consult:
 - Analysis: [tools/performance/PERFORMANCE_ANALYSIS.md](../../tools/performance/PERFORMANCE_ANALYSIS.md) - Comprehensive performance analysis and root cause analysis
 - Active plan: [docs/plans/streaming-indicators.plan.md](../../docs/plans/streaming-indicators.plan.md) - Streaming indicators plan (release gates, test hardening, performance verification)
 - Project principles: [docs/PRINCIPLES.md](../../docs/PRINCIPLES.md) - Performance First principles
-
----
-Last updated: 2026-05-24

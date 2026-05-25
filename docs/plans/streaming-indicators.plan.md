@@ -504,7 +504,3 @@ All items implemented in source; baselines pending refresh (RG001).
 - **PRs #1981, #1991, #1992** — Website 3-pillar IA reorganization; VitePress with Vue chart components
 - **PRs #1976, #2005** — Streaming plan updates and missing BufferList/StreamHub doc sections for Alligator, AtrStop, Tsi
 - **T213** — Performance documentation consolidated into single `tools/performance/PERFORMANCE_ANALYSIS.md`
-
----
-
-Last updated: 2026-05-25

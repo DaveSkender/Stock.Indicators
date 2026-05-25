@@ -172,9 +172,3 @@ This test application should be kept in sync with the v2 package. If you discove
 2. Update this README if needed
 3. Verify the application runs cleanly
 4. Submit a pull request
-
----
-
-**Version**: Testing v2  
-**Target Framework**: .NET 9.0  
-**Last Updated**: October 2025
