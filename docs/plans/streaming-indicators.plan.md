@@ -219,7 +219,7 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 
 ### F. v3.0 performance verification (Researcher F7)
 
-- [x] **PV001 — Verify Slope BufferList uses O(1) four-sum rolling update** *(verified 2026-05-25 — rejected for precision reasons; P015 reclassified)*.
+- [x] **PV001 — Verify Slope BufferList uses O(1) four-sum rolling update** *(PR #2024)*.
   - **Why**: Researcher F7 (citing Wikipedia simple linear regression and stats.stackexchange/6920) shows that streaming OLS is provably O(1) per update by maintaining running sums of Σx, Σy, Σxy, Σx². On window slide, subtract the leaving point and add the entering point. This is the lower bound.
   - **Current implementation**: `src/s-z/Slope/Slope.BufferList.cs` uses a pre-computed `sumSqX` constant and mathematical `sumX`, but **still iterates the buffer** (avgY first pass, then deviations second pass).
   - **Verification finding (naive identity)**: The textbook O(1) running-sums variant was prototyped end-to-end with Σy, Σy², Σi·y running sums and the computational identity `sumSqY = Σy² − (Σy)²/n` (slope/intercept/stdDev/R² all O(1)). It is algebraically equivalent to the deviation form but suffers **catastrophic cancellation** for stock-price-like inputs where `Yi ≈ avgY`: the two large terms `Σy²` and `(Σy)²/n` differ in roughly the 11th significant digit, losing 4–5 leading digits of `sumSqY` to cancellation. Running the Slope.BufferList test file (9 `[TestMethod]`s, all calling `.IsExactly(series)`) with the variant produced ULP-magnitude drift versus the Series oracle (e.g. Slope `0.012659340659340951` → `0.012659340659345137`; relative error ~3e-13). Every Slope.BufferList assertion site flips; the drift is well inside `Money6` (1e-6) and `Money3` (1e-3) practical tolerances. **Line repaint is independently O(n)** because every cell in the active window holds `y = m·globalX + b` for the latest fit; it is not the binding constraint here, but it does cap the achievable wall-clock gain even if the math were stable.
@@ -246,7 +246,7 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 
 P015, P016 and P017 all confirmed at algorithmic floors per current test contract.
 
-- [x] **P015** — Slope BufferList: ship v3.0 at the current ~3.41x ratio. The naive O(1) four-sum variant is precision-incompatible with the BufferList `IsExactly` bit-equality contract (PV001 above). Stable-update sliding-window variants and a smaller single-pass-with-running-sumY refactor were not evaluated; both remain v3.1 candidates per PV001.
+- [x] **P015** — Slope BufferList: ship v3.0 at the current ~3.41x ratio *(PR #2024)*. The naive O(1) four-sum variant is precision-incompatible with the BufferList `IsExactly` bit-equality contract (PV001 above). Stable-update sliding-window variants and a smaller single-pass-with-running-sumY refactor were not evaluated; both remain v3.1 candidates per PV001.
 - [ ] **P016** — Alligator BufferList (research candidate, was 2–4 hours).
   - **Current**: 2.16x slower than Series (18,570 ns vs 8,609 ns).
   - **Code state**: `src/e-k/Alligator/Alligator.BufferList.cs` uses incremental SMMA with median-price queue; overhead is triple-SMMA fanout + median-price computation per quote.
@@ -390,7 +390,7 @@ Random-seed determinism (raised in PR #2021 self-review) was considered and reje
   - File: `src/_common/StreamHub/StreamHub.cs:230` (TODO in source).
 
 - [ ] **P001** — Moving Average family framework overhead (research). Acceptable for intended use (~40,000 quotes/sec).
-- [x] **P002** — Slope BufferList research: closed via PV001 verification. Algorithmic-floor finding moved to v3.0 §H P015. Any v3.1+ work here requires the cross-cutting test-tolerance decision noted in PV001.
+- [x] **P002** — Slope BufferList research: closed via PV001 verification *(PR #2024)*. Future work options enumerated in PV001 above (Welford/Pébay sliding-window, single-pass-with-running-sumY, or test-tolerance change).
 - [ ] **P003** — Alligator/Gator BufferList research (merged with P016).
 - [ ] **P006** — Prs streaming support — depends on ARCH-V31-4 `JoinHub` design.
 
