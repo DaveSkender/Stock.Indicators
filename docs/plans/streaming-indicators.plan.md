@@ -99,25 +99,22 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: `.agents/skills/indicator-catalog/SKILL.md:105–107` instructs `_catalog.Add(Ema.SeriesListing);` but `src/_common/Catalog/Catalog.Listings.cs:58–63` uses `_listings.Add(...)`. Grep confirms `_catalog.Add` exists in exactly one file in the repo — the SKILL.md itself.
   - **Action**: Replace `_catalog.Add` with `_listings.Add`; correct registration order to `Buffer → Series → Stream` per indicator (alphabetical grouping); add a one-line note about the ordering convention.
 
-- [ ] **G002 — Remove `.specify/` reference from root `AGENTS.md`** (15 min).
-  - **Evidence**: `AGENTS.md:48` lists `.specify/` in repo layout; directory does not exist (`ls .specify` fails).
-  - **Action**: Remove the line. Replace any "consult open specs" guidance with a pointer to `docs/plans/streaming-indicators.plan.md`. Add `docs/plans/` to the repo-layout block with a one-line description.
+- [x] **G002 — Remove `.specify/` reference from root `AGENTS.md`** *(verified done, no-op)*.
+  - **Re-verification (2026-05-25)**: `AGENTS.md` no longer references `.specify/`. The repo-layout block at `AGENTS.md:36-48` already includes `docs/plans/` with a description. Grep across the repo finds `.specify` only in this plan file's own (now-stale) evidence line. No code change needed.
 
 - [ ] **G003 — Document AggregatorHub, TickHub, BaseProvider, thread-safety in `indicator-stream` skill** (2–3 hours).
   - **Evidence**: Grep of `.agents/skills/**/SKILL.md` for `Aggregator|TickHub|BaseProvider|CacheLock` returns nothing. Yet `src/_common/Quotes/Quote.AggregatorHub.cs`, `Tick.AggregatorHub.cs`, `Tick.StreamHub.cs` exist as v3-new features (PR #1875); `BaseProvider<T>` is the bootstrap pattern for self-rooted hubs.
   - **Action**: Add an "Aggregator hubs" subsection to `.agents/skills/indicator-stream/SKILL.md` (or `references/aggregator-hubs.md`). Add a `BaseProvider`/self-rooted-hub row to the provider-selection table. Add a one-paragraph "Thread safety contract" noting `CacheLock` and `_isRebuilding` invariants. Pairs naturally with D009 (QuotePart streaming docs).
 
-- [ ] **G004 — Regenerate `src/_common/README.md` directory listing from reality** (30 min).
-  - **Evidence**: `src/_common/README.md:14` lists `BufferLists/IIncrementFrom.cs` (does not exist; actual files are `IIncrementFromChain.cs` + `IIncrementFromQuote.cs`); the `StreamHub/` listing omits `CircularDoubleBuffer.cs`, `HubCollection.cs`, `IChainProvider.cs`, `IQuoteProvider.cs`, `IStreamObservable.cs`, `IStreamObserver.cs`, `StreamHub.Observable.cs`, `StreamHub.Observer.cs`.
-  - **Action**: Refresh tree; add one-line purpose for each new entry.
+- [x] **G004 — Regenerate `src/_common/README.md` directory listing from reality**.
+  - **Re-verification (2026-05-25)**: The README is dated 2026-05-24 and already lists `IIncrementFromChain.cs` + `IIncrementFromQuote.cs` (not the old `IIncrementFrom.cs`), plus `CircularDoubleBuffer.cs`, `HubCollection.cs`, `IChainProvider.cs`, `IQuoteProvider.cs`, `IStreamObservable.cs`, `IStreamObserver.cs`, `StreamHub.Observable.cs`, `StreamHub.Observer.cs`. The two remaining gaps closed in this pass: `Catalog/ListingExecutionBuilderExtensions.cs` and `Catalog/Schema/Enums/`.
 
 - [ ] **G005 — Prune unused community skills and reconcile `skills-lock.json`** (1–2 hours).
   - **Evidence**: `skills-lock.json` tracks 1 skill (`vitepress`). `ls .agents/skills/` shows 27 entries including `nuxt/`, `pinia/`, `slidev/`, `turborepo/`, `unocss/`, `vue/`, `vueuse-functions/`, `vue-router-best-practices/`, `vue-testing-best-practices/`, `tsdown/`, `pnpm/`, `web-design-guidelines/`. This is a .NET library with a VitePress docs site — no Nuxt app, no Pinia store, no Slidev decks, no Turborepo monorepo.
   - **Action**: Prune skills irrelevant to a .NET library + VitePress docs site (keep `vitepress`, `vite`, `vitest`, `markdown`, `code-completion`, `documentation`, `indicator-*`, `performance-testing`, `testing-standards`). Reconcile `skills-lock.json` to track what remains. Update root `AGENTS.md` skills index to match. Agents currently waste context loading irrelevant framework guidance.
 
-- [ ] **G006 — Align `indicator-stream` SKILL performance target with measured reality** (15 min).
-  - **Evidence**: `.agents/skills/indicator-stream/SKILL.md:18` asserts "Target: StreamHub ≤ 1.5x slower than Series" but `tools/performance/PERFORMANCE_ANALYSIS.md` documents real 1.5x–11x range, and the MA family is acceptable at 7–11x per PERFORMANCE_ANALYSIS.md ("Pattern 2").
-  - **Action**: Replace the bare target with the tiered targets/acceptable/critical bands from PERFORMANCE_ANALYSIS.md, citing it as the source of truth.
+- [x] **G006 — Align `indicator-stream` SKILL performance target with measured reality** *(verified done, no-op)*.
+  - **Re-verification (2026-05-25)**: `.agents/skills/indicator-stream/SKILL.md:20-31` already carries the tiered Target/Acceptable/Review/Critical bands and cites the performance-analysis document as the source of truth. No code change needed.
 
 - [ ] **G007 — Add cross-references between plan and guidance** (30 min).
   - **Evidence**: `docs/plans/streaming-indicators.plan.md` does not reference any skill or `AGENTS.md`; conversely no skill or `AGENTS.md` references this plan. This document is the design source of truth but is invisible from the contributor entry points.
@@ -133,17 +130,16 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: `src/Indicators.csproj:11` enables preview features for the `field` keyword used at `src/_common/BufferLists/BufferList.cs:54,56`. `field` shipped GA in C# 14 / .NET 10 (project targets `net10.0;net9.0;net8.0` with `LangVersion=latest`).
   - **Action**: Remove `<EnablePreviewFeatures>` and `<GenerateRequiresPreviewFeaturesAttribute>`; verify full build across all three target frameworks (with .NET 10 SDK installed, `LangVersion=latest` = C# 14 and `field` works regardless of TFM). Removal eliminates preview-feature noise propagating to downstream consumers.
 
-- [ ] **T230 — Untrack `Stock.Indicators.sln.DotSettings.user`** (5 min).
-  - **Evidence**: `Stock.Indicators.sln.DotSettings.user` is checked in at repo root (4 KB ReSharper user state with recent-files list). `.gitignore:47` already contains `*.user`, so future per-developer files are correctly ignored — only the legacy committed file needs removal from the index.
-  - **Action**: Run `git rm --cached Stock.Indicators.sln.DotSettings.user`.
+- [x] **T230 — Untrack `Stock.Indicators.sln.DotSettings.user`** *(verified done, no-op)*.
+  - **Re-verification (2026-05-25)**: `git ls-files Stock.Indicators.sln.DotSettings.user` returns nothing; `git status --ignored` confirms the local file is ignored. `.gitignore:43` (`*.DotSettings.user`) and `.gitignore:47` (`*.user`) both match. No code change needed.
 
 - [ ] **T231 — Delete `tools/performance/baselines/before-fixes/`** (10 min, decision needed).
   - **Evidence**: 22 historical JSON snapshots tracked in git. Their value (regression detection against pre-v3-fixes baseline) ends when v3.0 ships.
   - **Action**: Two options — (a) delete and rely on git history + tagged commit `baseline/v3-streaming-prefixes`; (b) keep through v3.0 release and delete in first v3.1 patch. Pick (a) unless there's an external CI dependency.
 
-- [ ] **T232 — Delete empty `src/GlobalSuppressions.cs`** (5 min).
-  - **Evidence**: 9-line file with only a `using` directive, no `[assembly: SuppressMessage(...)]` declarations. Triggers `IDE0005` (unused) under aggressive analyzer settings.
-  - **Action**: Delete the file. Re-add only when a real suppression is needed.
+- [ ] **T232 — Audit `src/GlobalSuppressions.cs` for stale suppressions** (30 min, **scope revised**).
+  - **Re-evaluation (2026-05-25)**: The original "delete empty file" premise was wrong. The file contains five real `[assembly: SuppressMessage(...)]` declarations (CA1510, CA1710 BufferList, three CA1720 Direction, CA1716 ISeries.Date). Most are still load-bearing, but CA1510 (`"Use ArgumentNullException throw helper"`) carries the justification "Does not support .NET Standard and before .NET 6" — the project no longer targets netstandard (min is `net8.0`), and the codebase already uses `ArgumentNullException.ThrowIfNull` in ~373 sites versus only ~13 legacy `throw new ArgumentNullException` sites across 6 files.
+  - **Action**: Migrate the 13 legacy `throw new ArgumentNullException` sites to `ArgumentNullException.ThrowIfNull`, then remove the CA1510 suppression. Re-verify CA1710 / CA1716 / CA1720 are still load-bearing under current analyzer rules. Track removal candidates as v3.1 if any prove unnecessary.
 
 - [ ] **T233 — Audit `#pragma warning disable` for staleness** (30 min).
   - **Evidence**: 7 occurrences in `src/`. After API churn (renames in `Obsolete.V3.*`), some pragmas may protect already-deleted code paths.
