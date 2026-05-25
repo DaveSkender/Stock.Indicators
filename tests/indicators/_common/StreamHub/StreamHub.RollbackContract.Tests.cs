@@ -59,17 +59,10 @@ public class StreamHubRollbackContractTests : TestBase
             }
         }
 
-        int passed = streamListings.Count - failures.Count - skipped.Count;
-        Console.WriteLine($"Rollback contract: {passed}/{streamListings.Count} passed, {skipped.Count} skipped, {failures.Count} failed");
-
-        if (skipped.Count > 0)
-        {
-            Console.WriteLine($"Skipped {skipped.Count} listing(s):");
-            foreach (string s in skipped)
-            {
-                Console.WriteLine($"  - {s}");
-            }
-        }
+        skipped.Should().BeEmpty(
+            "every Style.Stream listing must be exercised by TC001; "
+            + $"{skipped.Count} of {streamListings.Count} listing(s) were skipped:\n  - "
+            + string.Join("\n  - ", skipped));
 
         failures.Should().BeEmpty(
             "every Style.Stream hub must restore equivalent state via Rebuild(timestamp); "
