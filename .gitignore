@@ -58,6 +58,7 @@ _ReSharper*/
 .cursor/
 .github/skills/
 .github/prompts/
+CLAUDE.local.md
 
 # .NET project sensitive
 
