@@ -10,6 +10,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 
 <ClientOnly>
   <StockIndicatorChart indicator="BollingerBands" />
+  <StockIndicatorChart indicator="BollingerBandsPctB" />
 </ClientOnly>
 
 ```csharp

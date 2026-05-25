@@ -47,15 +47,14 @@ const overlaySpecs: ChartSpec[] = [
 ]
 
 function isDark(): boolean {
-  return document.documentElement.classList.contains('dark')
+  return typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
 }
 
+// Returns the translucent backdrop colour for axis/annotation labels.
+// We deliberately do NOT read `--vp-c-bg` here — that variable is solid
+// and would obscure the chart data behind the labels.
 function readThemeBackground(): string {
-  if (typeof document === 'undefined') return LIGHT_SURFACE
-  const background = getComputedStyle(document.documentElement)
-    .getPropertyValue('--vp-c-bg')
-    .trim()
-  return background || (isDark() ? DARK_SURFACE : LIGHT_SURFACE)
+  return isDark() ? DARK_SURFACE : LIGHT_SURFACE
 }
 
 function currentSettings() {

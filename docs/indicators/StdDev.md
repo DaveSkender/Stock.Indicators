@@ -10,6 +10,7 @@ description: Standard Deviation represents the volatility of historical financia
 
 <ClientOnly>
   <StockIndicatorChart indicator="StdDev" />
+  <StockIndicatorChart indicator="StdDevZScore" />
 </ClientOnly>
 
 ```csharp
