@@ -147,6 +147,71 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        BollingerBandsHub lateHub = lateSource.ToBollingerBandsHub(20, 2);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        BollingerBandsHub freshHub = freshSource.ToBollingerBandsHub(20, 2);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtBandsWarmupBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival just past the Bollinger Bands warmup boundary.
+        // Bands emit first non-null result at lookbackPeriods (= 20); index
+        // 25 forces replay across the rolling SMA + standard-deviation
+        // window transition that gates upper/lower band emission.
+        const int totalQuotes = 300;
+        const int lateIndex = 25;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        BollingerBandsHub lateHub = lateSource.ToBollingerBandsHub(20, 2);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        BollingerBandsHub freshHub = freshSource.ToBollingerBandsHub(20, 2);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public void PrefilledProviderRebuilds_WithPrefilledQuotes_MatchesSeriesExactly()
     {
         QuoteHub quoteHub = new();

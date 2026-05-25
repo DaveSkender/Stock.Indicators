@@ -159,6 +159,75 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        // Renko is bricks-from-price, not 1:1 with quotes — the late-arrival
+        // path must reproduce the same brick sequence as the fresh stream.
+        const decimal brickSize = 2.5m;
+        const EndType endType = EndType.HighLow;
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        RenkoHub lateHub = lateSource.ToRenkoHub(brickSize, endType);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        RenkoHub freshHub = freshSource.ToRenkoHub(brickSize, endType);
+        freshSource.Add(quotes);
+
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_NearFirstBrickFormation_MatchesFreshStream()
+    {
+        // TC002: late-arrival landing close to early brick formation.
+        // Renko's first brick is data-dependent (requires sufficient price
+        // move from anchor); index 60 is chosen to cover the early-brick
+        // formation window in the default fixture.
+        const decimal brickSize = 2.5m;
+        const EndType endType = EndType.HighLow;
+        const int totalQuotes = 300;
+        const int lateIndex = 60;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        RenkoHub lateHub = lateSource.ToRenkoHub(brickSize, endType);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        RenkoHub freshHub = freshSource.ToRenkoHub(brickSize, endType);
+        freshSource.Add(quotes);
+
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
         RenkoHub hub = new(new QuoteHub(), 2.5m, EndType.Close);

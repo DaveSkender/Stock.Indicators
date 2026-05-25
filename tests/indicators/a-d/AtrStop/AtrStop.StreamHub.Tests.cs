@@ -125,6 +125,74 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        // ATR-Stop carries reversal state across bars; a late arrival
+        // landing inside an established trend must rebuild the same
+        // stop sequence as the fresh stream.
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        AtrStopHub lateHub = lateSource.ToAtrStopHub();
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        AtrStopHub freshHub = freshSource.ToAtrStopHub();
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtAtrStopSeedBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival just past the ATR-Stop seeding boundary.
+        // ATR-Stop emits first non-null result at lookback (= 14); index
+        // 20 forces replay across the ATR seed + initial direction
+        // transition that anchors the trailing-stop level.
+        const int totalQuotes = 300;
+        const int lateIndex = 20;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        AtrStopHub lateHub = lateSource.ToAtrStopHub();
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        AtrStopHub freshHub = freshSource.ToAtrStopHub();
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
         AtrStopHub hub = new(new QuoteHub(), 14, 3, EndType.Close);

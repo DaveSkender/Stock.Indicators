@@ -148,6 +148,72 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
+    public void LateArrival_MidStream_MatchesFreshStream()
+    {
+        // TC002: late-arrival rollback equivalence (mid-stream).
+        const int totalQuotes = 300;
+        const int lateIndex = 150;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        AdxHub lateHub = lateSource.ToAdxHub(lookbackPeriods);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        AdxHub freshHub = freshSource.ToAdxHub(lookbackPeriods);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
+    public void LateArrival_AtDmiWarmupBoundary_MatchesFreshStream()
+    {
+        // TC002: late-arrival just past the ADX warmup boundary.
+        // ADX requires 2 * lookback periods (= 28) before the first
+        // non-null ADX value; the late arrival at index 33 forces the
+        // rollback path to replay across the SMMA / Wilder smoothing
+        // transition that gates DI+, DI-, and ADX emission.
+        const int totalQuotes = 300;
+        const int lateIndex = 33;
+
+        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+
+        QuoteHub lateSource = new();
+        AdxHub lateHub = lateSource.ToAdxHub(lookbackPeriods);
+        for (int i = 0; i < totalQuotes; i++)
+        {
+            if (i == lateIndex) { continue; }
+            lateSource.Add(quotes[i]);
+        }
+        lateSource.Add(quotes[lateIndex]);
+
+        QuoteHub freshSource = new();
+        AdxHub freshHub = freshSource.ToAdxHub(lookbackPeriods);
+        freshSource.Add(quotes);
+
+        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.IsExactly(freshHub.Results);
+
+        lateHub.Unsubscribe();
+        freshHub.Unsubscribe();
+        lateSource.EndTransmission();
+        freshSource.EndTransmission();
+    }
+
+    [TestMethod]
     public void RollbackValidation_OnRollback_RestoresState()
     {
         QuoteHub quoteHub = new();

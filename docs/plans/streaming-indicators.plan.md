@@ -162,9 +162,10 @@ Together ~1 working day. Some items can be parallelized across multiple test PRs
   - **Action**: Add a parameterized test in `tests/indicators/_common/StreamHub/` that iterates every registered StreamHub: feed N quotes, snapshot cache; feed M more then rollback past the boundary, then re-feed the original tail; assert final cache equals a fresh hub fed the full sequence. Use the catalog as the indicator iterator.
   - Out-of-scope gaps surfaced during implementation are tracked as TC-V31-4 and TC-V31-5.
 
-- [ ] **TC002 — Late-arrival tests for indicators with custom `RollbackState`** (3–4 hours).
+- [x] **TC002 — Late-arrival tests for indicators with custom `RollbackState`** (3–4 hours). *(PR #2011)*
   - **Evidence**: `tests/indicators/m-r/Macd/Macd.StreamHub.Tests.cs` has no late-arrival test despite Macd's three-stage cascade (EMA fast, EMA slow, signal EMA); `Stoch.StreamHub.Tests.cs:31` has `Increment` but no out-of-order injection. Macd's signal line is exactly the kind of cascaded state where a rollback bug silently produces wrong values.
   - **Action**: Add `LateArrival` test to every indicator with a custom `RollbackState` override (use Ema's `LateInbound` test as template). Prioritize multi-stage state: Macd, Stoch, Adx, SuperTrend, Chandelier, Renko, Keltner, BollingerBands, Atr, AtrStop, Vortex. TC001 partially covers this generically; TC002 catches per-indicator edge cases the generic test cannot exercise.
+  - Shipped scope: two focused late-arrival tests per indicator (mid-stream + warmup-boundary variant) across the 11 multi-stage hubs above. Wider coverage of the remaining custom `RollbackState` overrides tracked separately.
 
 - [ ] **TC003 — Bounded-value invariant test** (1–2 hours).
   - **Why**: WilliamsR boundary clamping (T202) was added with tests, but the pattern wasn't generalized. RSI, Stoch %K/%D, Aroon, AroonOsc, MFI, UltimateOscillator, ConnorsRsi all have documented value ranges that are not systematically asserted.
@@ -489,4 +490,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-25 (post-swarm review + TC001 + PR #1014 / Discussion #1018 / project board consolidation + plans-folder housekeeping: documentation-site retired, branching-strategy and file-reorg cross-references refreshed)
+Last updated: 2026-05-25 (TC002 multi-stage late-arrival tests shipped)
