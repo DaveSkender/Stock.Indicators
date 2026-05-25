@@ -142,9 +142,13 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
 
 Together ~1 working day. Some items can be parallelized across multiple test PRs.
 
-- [ ] **TC001 — Generic rollback-equivalence contract test** (3–4 hours). **High leverage.**
+- [x] **TC001 — Generic rollback-equivalence contract test** (3–4 hours). **High leverage.** *(PR #2010, 2026-05-25)*
   - **Why**: 55 indicators override `RollbackState(int)`. Per-indicator drift in semantics (Architect F2: index ambiguity) is the highest-risk silent-failure mode.
   - **Action**: Add a parameterized test in `tests/indicators/_common/StreamHub/` that iterates every registered StreamHub: feed N quotes, snapshot cache; feed M more then rollback past the boundary, then re-feed the original tail; assert final cache equals a fresh hub fed the full sequence. Use the catalog as the indicator iterator.
+  - **Delivered**: `tests/indicators/_common/StreamHub/StreamHub.RollbackContract.Tests.cs` iterates `Catalog.Get(Style.Stream)` (79 listings), builds two hubs per listing via reflection on `MethodName`, feeds 500 quotes, calls `Rebuild(quotes[300].Timestamp)` on one, asserts bit-equal Results. All 79 pass; sensitivity verified by sabotaging `Adx.RollbackState` (caught at index 300). Skipped listings now fail the test, preventing silent coverage regressions.
+  - **Deferred coverage gaps documented in the test xmldoc**:
+    - `QuoteAggregatorHub` and `TickAggregatorHub` override `RollbackState` (`src/_common/Quotes/Quote.AggregatorHub.cs:279`, `Tick.AggregatorHub.cs:280`) but are NOT in the catalog, so TC001 misses them. See TC005 for boundary tests, and consider catalog-registering them or adding two hand-built cases as a v3.0 follow-up.
+    - Compound-hub inner↔outer rollback interaction (e.g. `StochRsiHub` embedding `RsiHub`): when `Rebuild` is called on the outer, the inner's own `RollbackState` is not exercised on that path. Inner is still validated via its own listing's TC001 row, but the cross-hub interaction is not. Reasonable v3.1 follow-up if any compound-hub rollback bug surfaces in the wild.
 
 - [ ] **TC002 — Late-arrival tests for indicators with custom `RollbackState`** (3–4 hours).
   - **Evidence**: `tests/indicators/m-r/Macd/Macd.StreamHub.Tests.cs` has no late-arrival test despite Macd's three-stage cascade (EMA fast, EMA slow, signal EMA); `Stoch.StreamHub.Tests.cs:31` has `Increment` but no out-of-order injection. Macd's signal line is exactly the kind of cascaded state where a rollback bug silently produces wrong values.
@@ -405,4 +409,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-24 (post-swarm review)
+Last updated: 2026-05-25 (TC001 landed via PR #2010)
