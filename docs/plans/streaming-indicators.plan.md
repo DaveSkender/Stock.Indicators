@@ -167,7 +167,7 @@ Together ~1 working day. Some items can be parallelized across multiple test PRs
   - **Action**: Add `LateArrival` test to every indicator with a custom `RollbackState` override (use Ema's `LateInbound` test as template). Prioritize multi-stage state: Macd, Stoch, Adx, SuperTrend, Chandelier, Renko, Keltner, BollingerBands, Atr, AtrStop, Vortex. TC001 partially covers this generically; TC002 catches per-indicator edge cases the generic test cannot exercise.
   - Shipped scope: two focused late-arrival tests per indicator (mid-stream + warmup-boundary variant) across the 11 multi-stage hubs above. Out-of-scope variants worth future coverage — multiple late arrivals in a single test, late-arrival at head index 0, duplicate-timestamp late add, late-arrival combined with `RemoveAt`, and a parameterized helper to compact the per-indicator skeleton — should land as a v3.1 follow-up under a new TC-V31 item if a real regression motivates them.
 
-- [x] **TC003 — Bounded-value invariant test** (1–2 hours). *(PR #2020)*
+- [x] **TC003 — Bounded-value invariant test** (1–2 hours). *(PR #2021)*
   - **Why**: WilliamsR boundary clamping (T202) was added with tests, but the pattern wasn't generalized. RSI, Stoch %K/%D, Aroon, AroonOsc, MFI, UltimateOscillator, ConnorsRsi all have documented value ranges that are not systematically asserted.
   - **Action**: Add a `BoundedIndicatorInvariant.Tests.cs` enumerating indicators with documented ranges; assert every non-null result is in range across the standard quote set.
 
