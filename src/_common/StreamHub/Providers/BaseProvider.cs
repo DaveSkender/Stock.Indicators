@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-// TODO: rename to BaseObservable
-// or determine if this can/should be entirely removed.
-// It is only used as a workaround for initializing QuoteHub base class without a provider.
-
 /// <summary>
 /// Inert provider for base Hub initialization.
 /// It has no upstream data and cannot be observed.
+/// Used only as a workaround for initializing a self-rooted hub
+/// (e.g. <see cref="QuoteHub"/>, <see cref="TickHub"/>) that has no
+/// upstream provider. Scheduled for replacement by a dedicated
+/// <c>StreamSource&lt;T&gt;</c> root in a future release.
 /// </summary>
 /// <typeparam name="T">Type of record</typeparam>
 /// <remarks>

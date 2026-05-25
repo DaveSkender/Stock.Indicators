@@ -3,9 +3,6 @@ namespace StaticSeries;
 [TestClass]
 public class Cmo : StaticSeriesTestBase
 {
-    // TODO: test for CMO isUp works as expected
-    // when there’s no price change
-
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
@@ -117,4 +114,73 @@ public class Cmo : StaticSeriesTestBase
             .Invoking(static () => Quotes.ToCmo(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
+
+    [TestMethod]
+    public void FlatPrices_AcrossEntireWindow_ReturnsZero()
+    {
+        // construct a 30-bar series where every close is identical
+        // (no price change anywhere). CMO should be 0 across the
+        // entire post-warmup window since sH + sL == 0 (no movement,
+        // so neither gains nor losses accumulate).
+        DateTime t0 = new(2025, 1, 1);
+        List<Quote> flat = new(30);
+        for (int i = 0; i < 30; i++)
+        {
+            flat.Add(new Quote(
+                Timestamp: t0.AddDays(i),
+                Open: 100m,
+                High: 100m,
+                Low: 100m,
+                Close: 100m,
+                Volume: 1000m));
+        }
+
+        IReadOnlyList<CmoResult> sut = flat.ToCmo(14);
+
+        sut.Should().HaveCount(30);
+        sut[0].Cmo.Should().BeNull();           // first record always null
+        sut[13].Cmo.Should().BeNull();          // still warming up
+
+        // post-warmup: every bar within an all-flat window must report 0
+        for (int i = 14; i < 30; i++)
+        {
+            sut[i].Cmo.Should().Be(0d, $"flat window at index {i} should produce 0");
+        }
+    }
+
+    [TestMethod]
+    public void FlatThenMoving_ReturnsValuesOnceRealMovementEnters()
+    {
+        // 20 flat bars (no movement) then 14 ascending bars. The CMO
+        // should be 0 while the lookback window is fully flat, then
+        // climb toward +100 as the lookback window fills with up-ticks
+        // (sH grows, sL stays 0). Validates that an in-window zero-change
+        // tick is treated as a non-issue rather than producing NaN or null.
+        DateTime t0 = new(2025, 1, 1);
+        List<Quote> series = new(34);
+        for (int i = 0; i < 20; i++)
+        {
+            series.Add(new Quote(
+                Timestamp: t0.AddDays(i),
+                Open: 100m, High: 100m, Low: 100m, Close: 100m,
+                Volume: 1000m));
+        }
+
+        for (int i = 0; i < 14; i++)
+        {
+            decimal close = 100m + ((i + 1) * 1m);
+            series.Add(new Quote(
+                Timestamp: t0.AddDays(20 + i),
+                Open: close - 1m, High: close, Low: close - 1m, Close: close,
+                Volume: 1000m));
+        }
+
+        IReadOnlyList<CmoResult> sut = series.ToCmo(14);
+
+        sut.Should().HaveCount(34);
+        sut[19].Cmo.Should().Be(0d, "still inside the all-flat 14-bar window");
+        sut[33].Cmo.Should().Be(100d, "last bar's 14-period window is entirely up-ticks");
+        sut.Where(static x => x.Cmo is double.NaN).Should().BeEmpty(
+            "zero-change ticks must never propagate to NaN results");
+    }
 }

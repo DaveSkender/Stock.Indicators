@@ -290,5 +290,5 @@ SmaHub smaHub = limitedHub.ToSmaHub(20);
 
 - [Batch style](/guide/batch) for one-time calculations
 - [Buffer lists](/guide/buffer) for simple incremental processing
-- [Stream hubs](/guide/stream) for detailed examples
+- [Custom observers](/guide/custom-observers) for wrapping a hub to push results into a UI, persistence, or alerting pipeline
 - [Indicators](/indicators) for available stream hub indicators

@@ -1,12 +1,14 @@
 # Test suite
 
-This folder contains unit tests, integration tests, and performance benchmarks.
+This folder contains unit tests, public-API convergence tests, and integration tests. Performance benchmarks live separately under `tools/performance/`.
 
 ## Test organization
 
-- `indicators/` — unit tests for all indicators
-- `other/` — integration and utility tests
-- `performance/` — performance benchmarks
+- `indicators/` — unit tests for all indicators (Series + BufferList + StreamHub + Catalog + Regression)
+- `integration/` — end-to-end integration tests including `StreamHub.ThreadSafety.Sse.Tests.cs` and `Tests.Integration.csproj`; runs via `tests.integration.runsettings`
+- `other/` — utility tests and cross-cutting helpers
+- `public-api/` — public-API surface tests (`Convergence.*` ensure Series / BufferList / StreamHub agree end-to-end on the public method names; `customizable/`, `indicators/` cover consumer-facing scenarios)
+- `performance/` — placeholder for in-process performance assertions; the BenchmarkDotNet harness and baselines live under `tools/performance/`
 
 ## Commands
 
