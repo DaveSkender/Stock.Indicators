@@ -139,8 +139,10 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         for (int i = 0; i < totalQuotes; i++)
         {
             if (i == lateIndex) { continue; }
+
             lateSource.Add(quotes[i]);
         }
+
         lateSource.Add(quotes[lateIndex]);
 
         QuoteHub freshSource = new();
@@ -172,8 +174,10 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         for (int i = 0; i < totalQuotes; i++)
         {
             if (i == lateIndex) { continue; }
+
             lateSource.Add(quotes[i]);
         }
+
         lateSource.Add(quotes[lateIndex]);
 
         QuoteHub freshSource = new();
