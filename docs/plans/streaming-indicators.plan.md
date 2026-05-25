@@ -67,7 +67,7 @@ After v3.0 ships, the highest-leverage streaming work is (in priority order):
 6. **Rx and `IAsyncEnumerable<T>` adapters (Researcher F1, F2).** `ToObservable()` and `ConsumeAsync(IAsyncEnumerable<TIn>, CancellationToken)` extensions so hubs interoperate with the rest of .NET's streaming ecosystem.
 7. **Shared "increment kernels" expansion (Inspector F1).** `Ema.Increment`, `Sma.Increment`, `Tr.Increment`, `Atr.Increment` already exist and are used in ~34 of 160 streaming files (~21%). The pattern works; standardize to ≥80% adoption to halve the duplication tax between `*.StreamHub.cs` and `*.BufferList.cs` siblings.
 
-Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA types T214, BufferList configuration E009, ADX DMI properties E007–E008, Hurst Anis-Lloyd T215, ISeries.UnixDate T226) can land independently in v3.1 minor releases.
+Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA types T214, BufferList configuration E009, ADX DMI properties E007–E008, ISeries.UnixDate T226) can land independently in v3.1 minor releases. (T215 Hurst Anis-Lloyd already shipped in PR #2007.)
 
 ---
 
@@ -150,9 +150,22 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: 7 occurrences in `src/`. After API churn (renames in `Obsolete.V3.*`), some pragmas may protect already-deleted code paths.
   - **Action**: For each pragma, verify the warning still fires without it; remove unneeded pragmas.
 
-- [ ] **T234 — TODO triage in `src/`** (30 min).
-  - **Evidence**: Grep finds multiple TODOs including two in `src/_common/StreamHub/StreamHub.cs:230,234` ("make reinitialization abstract", "race condition between rebuild and subscribe").
-  - **Action**: For each TODO, either close (delete the comment if no longer relevant), promote to a plan item, or convert to an `#if DEBUG` assertion. Specifically: `StreamHub.cs:230` is already represented by T205 in v3.1+ — link or remove the TODO; `StreamHub.cs:234` race-condition concern needs to either be closed (with explanation) or filed as a Tester investigation.
+- [x] **T234 — TODO triage in `src/`** *(audit + reconciliation complete)*.
+  - 12 TODOs across 11 files audited. Outcome breakdown:
+    - **3 removed as obsolete** — stylistic-rename suggestions that conflict with shipped v3 public-API naming:
+      - `IChainProvider.cs` and `IQuoteProvider.cs` "rename to *Observable" — the `*Provider` naming has shipped in the v3 public API and a rename would be a breaking change for consumers without enough benefit to justify the churn.
+      - `BaseProvider.cs` "rename to BaseObservable" — superseded by `ARCH-V31-1`, which chose retirement-via-`StreamSource<T>` over a rename. The workaround-for-self-rooted-hubs context the TODO carried is folded into the type's xmldoc remarks.
+    - **9 retained as legitimate in-source pointers** — each encodes clear intent without leaking plan IDs, and most map to existing plan items:
+      - `_common/StreamHub/StreamHub.cs:230` (`make reinitialization abstract`) ↔ T205.
+      - `_common/StreamHub/StreamHub.cs:233` (`evaluate race condition between rebuild and subscribe`) — not promoted to a plan item. Race window is microseconds inside `Reinitialize()`, which is a rarely-called manual fault-recovery method; a missed item is recoverable via a subsequent `Rebuild()`. Left as an in-source open-question marker; the TODO is its own ticket.
+      - `_common/ISeries.cs:20` (`UnixDate`) ↔ T226.
+      - `_common/QuotePart/IQuotePart.cs:13` (`IQuotePart → IBarPartHub`) ↔ T228.
+      - `_common/QuotePart/QuotePart.StaticSeries.cs:41` (`deprecate Use`) ↔ T227.
+      - `_common/Catalog/Catalog.cs:353` (`alternative without NotImplementedException`) ↔ T212.
+      - `m-r/Pivots/Pivots.StaticSeries.cs:124` (`may need rewrite for streaming`) ↔ T210.
+      - `m-r/Pivots/Pivots.StreamHub.cs:78` (`incremental trend line update`) — optimization opportunity inside whatever T210 ends up doing; T210's scope intentionally not pre-committed to this specific micro-optimization.
+      - `m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs:77` (`remaining MA types`) ↔ T214.
+  - Standing rule on TODOs: in-source TODOs are allowed when they encode clear intent without leaking transient plan IDs. Don't promote TODOs to the plan unless there is concrete value in doing so — a TODO is itself a perfectly valid lightweight tracker.
 
 ### D. Test coverage hardening (new section — Tester swarm finding)
 
@@ -310,9 +323,10 @@ P015, P016 and P017 all confirmed at algorithmic floors per current test contrac
   - Source: Architect F1, Stercorator F1.
   - Internal refactor; no public API change. Resolves the self-flagged TODO at `src/_common/StreamHub/Providers/BaseProvider.cs`.
 
-- [ ] **ARCH-V31-2 — Replace `lock (Cache)` with private monitor + routed mutation methods** (4 hours).
+- [ ] **ARCH-V31-2 — Routed mutation methods on top of the private cache monitor** (2 hours, **scope narrowed**).
   - Source: Architect F3.
-  - Introduce `_cacheLock = new object()`, route all mutations through `AppendResult`/`ReplaceAt`/`TruncateFrom`. Eliminates public-field-as-monitor anti-pattern.
+  - **Partial completion verified (2026-05-25)**: the private monitor `CacheLock` is already in place at `src/_common/StreamHub/StreamHub.cs:16`, and the `lock (CacheLock)` pattern (not `lock (Cache)`) is in use across the framework. The public-field-as-monitor anti-pattern is already eliminated.
+  - **Remaining work**: route all cache mutations through dedicated `AppendResult`/`ReplaceAt`/`TruncateFrom` methods so subclasses cannot directly `Cache.Add(...)` / `Cache.RemoveAt(...)`. Today mutation still flows through `AppendCache` (`StreamHub.cs:324`) plus direct `Cache.Add/Remove` calls in subclass overrides.
 
 - [ ] **ARCH-V31-3 — `Snapshot()` method for immutable cache copies** (2 hours).
   - Source: Architect F4.
@@ -403,14 +417,14 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 ### Streaming feature enhancements
 
 - [ ] **T206** — `StreamHub.OnAdd` array return pattern (4–6 hours). Evaluate batch-emission need.
-- [ ] **T208** — `Quote.Date` property removal (2–3 hours). Breaking change, major version.
+- [x] **T208** — `Quote.Date` property *(deprecation shipped; full removal deferred to v4+)*. `src/_common/Quotes/Quote.cs:41-46` carries `[Obsolete("Use 'Timestamp' property instead.")]`, providing a soft-migration path through v3. Full removal is a v4+ breaking change.
 - [ ] **T210** — Pivots streaming rewrite (6–8 hours). Enhancement.
 - [ ] **T214** — MaEnvelopes ALMA/EPMA/HMA support for StreamHub (8–12 hours).
-- [ ] **T215** — Hurst Anis-Lloyd corrected R/S implementation (8–12 hours).
+- [x] **T215** — Hurst Anis-Lloyd corrected R/S implementation *(shipped in PR #2007 + #1636 + #1643)*. `HurstResult.HurstExponentAL` (Anis-Lloyd corrected exponent) ships alongside the raw `HurstExponent` across Series, BufferList, and StreamHub. Bias correction `RS_corrected = avgRs + (√(π·n/2) − E[R/S]_AL)` lives at `src/e-k/Hurst/Hurst.StaticSeries.cs:153-184` with helpers `PrecomputeAlCorrections` and `HurstExpectedRs` citing Anis-Lloyd (1976) and Peters (1994). Test coverage: `tests/indicators/e-k/Hurst/Hurst.StaticSeries.Tests.cs:17,22,30` asserts the value to `Money6` precision; catalog registration verified at `Hurst.Catalog.Tests.cs:38,73`.
 - [ ] **T212** — Catalog `NotImplementedException` alternative (2–3 hours).
 - [ ] **T220** — `StringOut` index range support (3–4 hours, test utility).
 - [ ] **T221** — StreamHub stackoverflow test coverage expansion (ongoing).
-- [ ] **T223** — Renko StreamHub alternative testing approach (4–6 hours).
+- [x] **T223** — Renko StreamHub alternative testing approach *(shipped)*. `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs:4-11` implements the non-quote-based testing path (`ITestQuoteObserver` + `ITestChainProvider`) with an explicit doc-comment block on why standard provider-history `Add`/`Remove` testing is excluded for Renko (quote transformations don't preserve timestamp mappings).
 - [ ] **T224** — Performance benchmark external data cache model (6–8 hours).
 - [ ] **T225** — Style comparison benchmark representative indicators (2–3 hours).
 - [ ] **T226** — `ISeries.UnixDate` property (3–4 hours, interface change).
@@ -422,9 +436,8 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 
 - [ ] **T235 (was F4 from Stercorator)** — Schedule `Obsolete.V3.Indicators.cs` and `Obsolete.V3.Other.cs` removal with CHANGELOG entry. They use `error: true` shims (compile errors with helpful messages); zero runtime utility, just better error messages during migration. Sunset in v3.1 or v3.2 with documented removal milestone.
 
-- [ ] **G007-followup — Reconcile `tests/AGENTS.md` layout** (30 min).
-  - **Evidence**: `tests/AGENTS.md:8–10` lists `indicators/`, `other/`, `performance/`. Actual `ls tests/` shows `indicators/`, `integration/`, `other/`, `performance/`, `public-api/`. Missing `integration/` and `public-api/` from the AGENTS doc.
-  - **Action**: Update to reflect real layout; clarify the relationship between `tests/performance/` and `tools/performance/` (both exist; benchmarks vs assertions).
+- [x] **G007-followup — Reconcile `tests/AGENTS.md` layout**.
+  - `tests/AGENTS.md` now lists all five subdirectories (`indicators/`, `integration/`, `other/`, `public-api/`, `performance/`) with one-line purpose statements. Distinction between `tests/performance/` (in-process assertions placeholder) and `tools/performance/` (BenchmarkDotNet harness + baselines) is called out in both the header description and the `performance/` entry.
 
 ### Infrastructure & code quality
 
