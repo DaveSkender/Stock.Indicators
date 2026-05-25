@@ -146,9 +146,17 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Re-evaluation (2026-05-25)**: The original "delete empty file" premise was wrong. The file contains five real `[assembly: SuppressMessage(...)]` declarations (CA1510, CA1710 BufferList, three CA1720 Direction, CA1716 ISeries.Date). Most are still load-bearing, but CA1510 (`"Use ArgumentNullException throw helper"`) carries the justification "Does not support .NET Standard and before .NET 6" — the project no longer targets netstandard (min is `net8.0`), and the codebase already uses `ArgumentNullException.ThrowIfNull` in ~373 sites versus only ~13 legacy `throw new ArgumentNullException` sites across 6 files.
   - **Action**: Migrate the 13 legacy `throw new ArgumentNullException` sites to `ArgumentNullException.ThrowIfNull`, then remove the CA1510 suppression. Re-verify CA1710 / CA1716 / CA1720 are still load-bearing under current analyzer rules. Track removal candidates as v3.1 if any prove unnecessary.
 
-- [ ] **T233 — Audit `#pragma warning disable` for staleness** (30 min).
-  - **Evidence**: 7 occurrences in `src/`. After API churn (renames in `Obsolete.V3.*`), some pragmas may protect already-deleted code paths.
-  - **Action**: For each pragma, verify the warning still fires without it; remove unneeded pragmas.
+- [x] **T233 — Audit `#pragma warning disable` for staleness** *(audit complete, all 14 pragmas confirmed intentional)*.
+  - 14 `#pragma warning disable` occurrences across 9 files audited. Every one has a stated reason and is load-bearing today — no pragmas protect already-deleted code paths. The standing "ask before adding pragmas" rule (per `src/_common/AGENTS.md:107`) is being followed.
+  - Breakdown by file:
+    - `e-k/HtTrendline/IHtTrendline.cs:6` (`CA1040`) — intentional empty marker interface; suppression documents the choice.
+    - `m-r/MaEnvelopes/*.cs` × 3 + `s-z/Stoch/Stoch.StaticSeries.cs` (`IDE0072` / `IDE0010`) — `MaType` enum is large; only the implemented MA types are enumerated. Tracked via T214 (add remaining MA types).
+    - `m-r/PivotPoints/PivotPoints.StaticSeries.cs` (`IDE0072`) — same pattern for `PointType` enum.
+    - `Obsolete.V3.Indicators.cs` (`CS1591`, `IND001`, `RCS1163`) and `Obsolete.V3.Other.cs` (`RCS1141`, `RCS1142`, `RCS1228`) — error-shim files for removed v3 APIs; suppress missing-xmldoc and Roslynator complaints on intentionally non-conforming shims.
+    - `_common/Catalog/Catalog.cs:374,412,413` (`IDE0060`, `S1172`) — unused parameter required by `JsonConverter` base-class signature; cannot remove.
+    - `_common/Math/Numerical.cs:3-4` (`IDE0066`, `IDE0072`) — `IsNumeric(Type)` switch on `TypeCode` deliberately uses statement form (multiple cases per body) and `default => false` rather than enumerating non-numeric type codes.
+    - `_common/StreamHub/StreamHub.cs:2` (`IDE0010`) — `Act` enum 3-value switch in `AppendCache` handles the two values produced by the call site; `default => throw` covers `Act.Ignore` as a "would never happen" safety net. Refactoring to add `case Act.Ignore: break;` is a behavior change (silent ignore instead of throw on an unexpected value) and was rejected.
+  - **Outcome**: leave all 14 pragmas in place. No code change. Unblocks DOC-ARCH-6 with a revised claim (see below) — the `_common/StreamHub/` half of the original DOC-ARCH-6 claim cannot stand as-written because of the StreamHub.cs intentional pragma.
 
 - [x] **T234 — TODO triage in `src/`** *(audit + reconciliation complete)*.
   - 12 TODOs across 11 files audited. Outcome breakdown:
@@ -219,9 +227,10 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 - [x] **DOC-ARCH-5 — Result type convention**.
   - `src/AGENTS.md` gains a "Result type convention" section codifying positional `public record`, `Timestamp` first, nullable warmup values, `[Serializable]`, `[JsonIgnore]` on the chainable `Value` projection, `.Null2NaN()` for predictable NaN propagation. Cites `EmaResult` as the canonical reference; notes how multi-output indicators preserve the pattern.
 
-- [ ] **DOC-ARCH-6 — No analyzer suppressions in streaming source** (15 min).
+- [x] **DOC-ARCH-6 — Document the (minimal) analyzer-suppression footprint in `_common/`** *(scope revised after T233 audit)*.
   - **Why**: Inspector F7 asks to verify and codify that simplicity claims are not artificial.
-  - **Action**: After T233 cleanup completes, add a one-line statement to `src/AGENTS.md`: "No analyzer suppressions are used in `_common/StreamHub/` or `_common/BufferLists/`."
+  - **Re-evaluation**: The original action's exact claim ("No analyzer suppressions are used in `_common/StreamHub/` or `_common/BufferLists/`") cannot stand as-written. `_common/BufferLists/` *is* pragma-free, but `_common/StreamHub/StreamHub.cs:2` carries one intentional `IDE0010` suppression for the `Act` enum switch in `AppendCache` (documented above under T233 — refactoring it would silently change behavior on `Act.Ignore`).
+  - **Action shipped**: rather than over-promise, added a precise statement to `src/_common/AGENTS.md` (alongside the existing "Ask before adding `#pragma warning disable` directives in this folder" boundary): the streaming framework's analyzer-suppression footprint is exactly one intentional pragma (`IDE0010` at `StreamHub.cs:2`), and `_common/BufferLists/` carries zero. New pragmas anywhere under `_common/` still require explicit justification.
 
 - [ ] **DOC-ARCH-7 — Prior art comparison** (15 min).
   - **Why**: Researcher F3–F5 surfaced that the library is ahead of ta4j (pull-only), TA-Lib/Tulip (batch-only), and aligned with Pine Script bar-by-bar — useful framing for marketing and for justifying the dual-track architecture to future contributors.
