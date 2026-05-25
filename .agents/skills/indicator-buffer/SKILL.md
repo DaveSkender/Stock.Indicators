@@ -90,7 +90,3 @@ public override void Clear()
 - [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
 - [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
-
-## Plan reference
-
-Active and historical BufferList work is tracked in [docs/plans/streaming-indicators.plan.md](../../../docs/plans/streaming-indicators.plan.md) — consult for current performance targets, open optimization items (P015–P017), and the v3.1+ roadmap for shared `Xxx.Increment` kernel standardization.

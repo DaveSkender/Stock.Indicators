@@ -12,20 +12,14 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 | `ChainHub<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
 | `ChainHub<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
 | `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
-| `QuoteProvider<TIn, TOut>` + `BaseProvider<T>` | None (self-rooted) | IQuote / ITick | Source hubs with no upstream (e.g., `QuoteHub`, `TickHub`, aggregators) |
+| `QuoteProvider<TIn, TOut>` (self-rooted) | None | TOut | Source hubs with no upstream — bootstrap with an inert sentinel provider |
 | `StreamHub<TProviderResult, TResult>` | Any hub result | Any result | Compound hubs (internal hub dependency) |
 
-### Self-rooted source hubs
-
-Hubs that originate a stream (no upstream provider) bootstrap their base class with an inert `BaseProvider<T>` sentinel. `BaseProvider<T>` lives at `src/_common/StreamHub/Providers/BaseProvider.cs` and exists only to satisfy the base-class constructor signature; it carries no cache, rejects subscriptions, and masks `Properties` bit 0 so downstream hubs become proper observers. See `src/_common/Quotes/Quote.StreamHub.cs:24` and `src/_common/Quotes/Tick.StreamHub.cs:24` for the canonical pattern.
-
-### Aggregator hubs (PR #1875)
-
-`QuoteAggregatorHub` (`src/_common/Quotes/Quote.AggregatorHub.cs`) and `Tick.AggregatorHub` quantize incoming quotes/ticks into larger time periods. They derive from `QuoteProvider<IQuote, IQuote>` and `QuoteProvider<ITick, IQuote>` respectively, expose a `PeriodSize` or `TimeSpan` parameter, support optional gap-fill, and emit new bars at period boundaries. Use these instead of writing a bespoke bucketing layer.
+Self-rooted source hubs (those that originate a stream rather than transform another hub's output) take an inert sentinel provider so the base-class constructor has something to subscribe to; the sentinel rejects subscriptions and carries no cache. Aggregator/quantizer hubs that turn small bars into larger bars derive from `QuoteProvider<TIn, IQuote>` and expose a `PeriodSize` or `TimeSpan` parameter.
 
 ## Performance targets
 
-Bands are defined in [tools/performance/PERFORMANCE_ANALYSIS.md](../../../tools/performance/PERFORMANCE_ANALYSIS.md); that document is the source of truth for current measurements and category bands.
+Use the project's performance-analysis document as the source of truth for measured overhead bands; the categorical targets below are guidance, not contracts.
 
 | Band | StreamHub overhead | Status |
 | ---- | ------------------ | ------ |
@@ -34,7 +28,7 @@ Bands are defined in [tools/performance/PERFORMANCE_ANALYSIS.md](../../../tools/
 | Review | 3x – framework floor | ⚠️ investigate |
 | Critical | indicator-specific algorithmic issue (e.g. O(n²)) | 🔴 fix |
 
-The "framework floor" is the per-tick overhead inherent to the observer pattern, cache management, and read-only collection wrappers. Simple stateless indicators (ROC, EMA) measure 6-11x against Series; this is acceptable because absolute throughput remains ~40,000 quotes/sec on the reference hardware. Optimization effort should target indicator-specific algorithmic issues, not the framework floor.
+The "framework floor" is the per-tick overhead inherent to the observer pattern, cache management, and read-only collection wrappers. Simple stateless indicators routinely measure 6–11x against Series while still achieving tens of thousands of quotes per second; this is acceptable. Optimization effort should target indicator-specific algorithmic issues, not the framework floor.
 
 Forbid O(n²) recalculation — rebuild entire history on each tick:
 
@@ -55,12 +49,11 @@ Use `RollingWindowMax/Min` utilities instead of O(n) linear scans.
 
 ## Thread safety contract
 
-StreamHub is thread-safe across `Add`, `Rebuild`, `RemoveRange`, and `RemoveAt` by holding `CacheLock` (a private `object` monitor declared at `src/_common/StreamHub/StreamHub.cs:16`) for the duration of every cache-mutating operation. Two invariants matter for indicator implementations:
+StreamHub mutating operations (`Add`, `Rebuild`, `RemoveRange`, `RemoveAt`) hold a private monitor for the duration of cache mutation, and observer notification happens **inside** the lock so subscribers cannot desynchronize. Subclasses must not release the lock before notifying observers.
 
-1. **Observer notification happens inside `CacheLock`.** This prevents new items from being added between cache mutation and downstream notification, which would otherwise desynchronize subscribers. Subclasses must not release the lock before calling `NotifyObserversOn...`.
-2. **`_isRebuilding` flag (line 23) suppresses self-rebuild during `Rebuild`.** While `Rebuild` is replaying provider items through `OnAdd`/`AppendCache`, the flag forces `Act.Add` instead of recursing into another `Rebuild`. Observer cascading is still allowed and desired. Do not bypass this flag from subclass code.
+The base class also carries a rebuilding flag that suppresses self-recursive `Rebuild` while replaying provider items through `OnAdd`. Observer cascading is still allowed and desired. Subclass code must not bypass this flag.
 
-The public `Results` surface returns `Cache.AsReadOnly()`, which is a **live read-only view**, not an immutable snapshot. Consumers that iterate while upstream may emit must snapshot first (`.ToList()`). Subclass code accessing `Cache[i-1]` directly is safe because it executes inside `ToIndicator`, which holds the lock transitively via `OnAdd`.
+The public `Results` surface is a **live read-only view**, not an immutable snapshot. Consumers that iterate while upstream may emit must snapshot first (`.ToList()`).
 
 ## RollbackState pattern
 
@@ -108,23 +101,12 @@ Replay up to `restoreIndex` (inclusive). The item at the rollback timestamp is r
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
 - [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
 
-## Examples
-
-- Chain: `src/e-k/Ema/Ema.StreamHub.cs`
-- Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
-- Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
-- Compound hub: `src/s-z/StochRsi/StochRsi.StreamHub.cs`
-- Self-rooted source: `src/_common/Quotes/Quote.StreamHub.cs`
-- Aggregator: `src/_common/Quotes/Quote.AggregatorHub.cs`
+## References
 
 - [Provider selection](references/provider-selection.md)
 - [Rollback patterns](references/rollback-patterns.md)
 - [Performance patterns](references/performance-patterns.md)
 - [Compound hubs](references/compound-hubs.md)
-
-## Plan reference
-
-Active and historical streaming work is tracked in [docs/plans/streaming-indicators.plan.md](../../../docs/plans/streaming-indicators.plan.md) — consult this for current performance targets, open release gates, architectural decisions, and v3.1+ roadmap (e.g., retiring `BaseProvider<T>` via `StreamSource<T>`, multi-input `JoinHub`, Rx/`IAsyncEnumerable` adapters).
 
 ## Constraints
 
