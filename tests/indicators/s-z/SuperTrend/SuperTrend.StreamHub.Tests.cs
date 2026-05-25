@@ -89,7 +89,6 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
 
@@ -120,7 +119,6 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_AtAtrWarmupBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the SuperTrend warmup boundary.
         // SuperTrend emits first non-null result at lookback (= 14); index
         // 20 forces the rollback path to replay across the ATR-seeded
         // direction-state transition that determines stop placement.

@@ -135,3 +135,5 @@ Examples: `feat: Add RSI indicator`, `fix: Resolve MACD calculation error`, `doc
 🚫 Never duplicate indicator calculations from authoritative sources — cite and implement from reference
 
 🚫 Never merge without all quality gates passing — no exceptions for "minor" changes
+
+🚫 Never embed transient plan-item IDs (e.g. `TC001`, `T203`, `G005`, `RG002`) in source files, tests, comments, commit messages, or PR titles. These IDs live in `docs/plans/*.plan.md` and are pruned once items ship, so references in code rot into dead pointers. Encode the underlying intent (test names, descriptive comments for non-obvious constraints, indicator behavior in xmldoc) instead. The PR description body may reference the plan ID once for traceability; nothing committed under `src/`, `tests/`, or `docs/indicators/` should.

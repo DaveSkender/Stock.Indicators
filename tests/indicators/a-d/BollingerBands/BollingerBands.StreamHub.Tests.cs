@@ -149,7 +149,6 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
 
@@ -180,7 +179,6 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     [TestMethod]
     public void LateArrival_AtBandsWarmupBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the Bollinger Bands warmup boundary.
         // Bands emit first non-null result at lookbackPeriods (= 20); index
         // 25 forces replay across the rolling SMA + standard-deviation
         // window transition that gates upper/lower band emission.

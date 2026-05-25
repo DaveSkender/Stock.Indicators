@@ -13,6 +13,19 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<AroonResult> sut = Data
+            .GetRandom(2500)
+            .ToAroonHub(25)
+            .Results;
+
+        sut.IsBetween(static x => x.AroonUp, 0d, 100d);
+        sut.IsBetween(static x => x.AroonDown, 0d, 100d);
+        sut.IsBetween(static x => x.Oscillator, -100d, 100d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider

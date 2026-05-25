@@ -102,7 +102,6 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // TC002: late-arrival rollback equivalence (mid-stream).
         const int totalQuotes = 300;
         const int lateIndex = 150;
 
@@ -133,7 +132,6 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_AtBandsWarmupBoundary_MatchesFreshStream()
     {
-        // TC002: late-arrival just past the Keltner warmup boundary.
         // Bands emit first non-null result at max(emaPeriods, atrPeriods)
         // (= 20); index 25 forces replay across the EMA seed + ATR seed
         // dual-state transition that determines centerline + bandwidth.

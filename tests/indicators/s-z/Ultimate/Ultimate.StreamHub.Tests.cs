@@ -11,6 +11,17 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<UltimateResult> sut = Data
+            .GetRandom(2500)
+            .ToUltimateHub(7, 14, 28)
+            .Results;
+
+        sut.IsBetween(static x => x.Ultimate, 0d, 100d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub

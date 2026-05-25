@@ -167,7 +167,7 @@ Together ~1 working day. Some items can be parallelized across multiple test PRs
   - **Action**: Add `LateArrival` test to every indicator with a custom `RollbackState` override (use Ema's `LateInbound` test as template). Prioritize multi-stage state: Macd, Stoch, Adx, SuperTrend, Chandelier, Renko, Keltner, BollingerBands, Atr, AtrStop, Vortex. TC001 partially covers this generically; TC002 catches per-indicator edge cases the generic test cannot exercise.
   - Shipped scope: two focused late-arrival tests per indicator (mid-stream + warmup-boundary variant) across the 11 multi-stage hubs above. Out-of-scope variants worth future coverage — multiple late arrivals in a single test, late-arrival at head index 0, duplicate-timestamp late add, late-arrival combined with `RemoveAt`, and a parameterized helper to compact the per-indicator skeleton — should land as a v3.1 follow-up under a new TC-V31 item if a real regression motivates them.
 
-- [ ] **TC003 — Bounded-value invariant test** (1–2 hours).
+- [x] **TC003 — Bounded-value invariant test** (1–2 hours). *(PR #2021)*
   - **Why**: WilliamsR boundary clamping (T202) was added with tests, but the pattern wasn't generalized. RSI, Stoch %K/%D, Aroon, AroonOsc, MFI, UltimateOscillator, ConnorsRsi all have documented value ranges that are not systematically asserted.
   - **Action**: Add a `BoundedIndicatorInvariant.Tests.cs` enumerating indicators with documented ranges; assert every non-null result is in range across the standard quote set.
 
@@ -368,6 +368,12 @@ P015 status now depends on PV001 outcome. P016 and P017 confirmed at algorithmic
   - Source: Discussion #1018 @elAndyG. Companion to T236 (`GapFillMode` enum) and G008 (docs).
   - Add tests under `tests/indicators/_common/Quotes/Quote.AggregatorHub.Tests.cs`: synthesized tick sequences with intentional gaps (e.g., missing 1-minute bars during low-volume periods); assert behavior under each future `GapFillMode` value (None/ForwardFill/Interpolate). Today the test gap is in §D TC005 (boundary tests) — TC-V31-6 extends that pattern once T236 ships. Distinct from TC-V31-4 (which covers rollback equivalence on the aggregator hubs themselves).
 
+- [ ] **TC-V31-7 — BufferList parity for bounded-value invariant tests** (1–2 hours).
+  - Source: PR #2021 scope decision. The bounded-value invariant work (RSI, Stoch, Aroon, MFI, Ultimate, ConnorsRSI, WilliamsR) shipped Series + StreamHub coverage but skipped BufferList. The math is identical across all three styles, so a BufferList violation would be a regression bug rather than an algorithmic edge case; still, a symmetry pass closes the contract.
+  - Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each `*.BufferList.Tests.cs` sibling using `Data.GetRandom(2500)`, matching the Series and StreamHub pattern.
+
+Random-seed determinism (raised in PR #2021 self-review) was considered and rejected. The boundary assertion is that the indicator stays within its documented range **regardless of the input** — pinning the seed only proves the bound holds on one specific dataset, which actively narrows the test's reach rather than strengthening it. Determinism would hurt wider testability here, not help it. Secondary point: `RandomGbm._random` is a shared static instance, so a seeded overload would not yield reproducible failures under parallel execution anyway.
+
 ### Framework / performance
 
 - [ ] **T205 — `Reinitialize()` optimization** (6–8 hours) **[highest leverage]**.
@@ -490,4 +496,4 @@ All items implemented in source; baselines pending refresh (RG001).
 
 ---
 
-Last updated: 2026-05-25 (post-swarm review + TC001 + TC002 multi-stage late-arrival tests shipped + PR #1014 / Discussion #1018 / project board consolidation + plans-folder housekeeping: documentation-site retired, branching-strategy and file-reorg cross-references refreshed)
+Last updated: 2026-05-25

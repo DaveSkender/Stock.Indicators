@@ -25,6 +25,17 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<ConnorsRsiResult> sut = Data
+            .GetRandom(2500)
+            .ToConnorsRsiHub(3, 2, 100)
+            .Results;
+
+        sut.IsBetween(static x => x.ConnorsRsi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup quote provider hub

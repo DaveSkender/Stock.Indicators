@@ -52,6 +52,18 @@ public class Aroon : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<AroonResult> sut = Data
+            .GetRandom(2500)
+            .ToAroon(25);
+
+        sut.IsBetween(static x => x.AroonUp, 0d, 100d);
+        sut.IsBetween(static x => x.AroonDown, 0d, 100d);
+        sut.IsBetween(static x => x.Oscillator, -100d, 100d);
+    }
+
+    [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
         IReadOnlyList<SmaResult> sut = Quotes
