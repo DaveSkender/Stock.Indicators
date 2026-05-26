@@ -2,7 +2,7 @@
 
 This document tracks remaining work and architectural direction for the v3 streaming indicators implementation.
 
-**Status (2026-05-24, after swarm review + consolidation pass).** Streaming framework is implementation-complete and ships-ready in principle, but a second-pass review (Architect, Inspector, Tester, Stercorator, Researcher, Designer, Skills-auditor) surfaced two classes of work that should land before v3.0 stable: (1) **guidance and documentation alignment** — a contributor-facing skill teaches a non-compiling API, root `AGENTS.md` references a directory that no longer exists, and several net-new v3 features are undocumented in skills; (2) **test coverage hardening** — late-arrival and cache-pruning tests are inconsistent across the 55 `RollbackState` overrides, and there is no contract-level rollback-equivalence test. A subsequent consolidation pass on 2026-05-24 folded in the still-live items from PR #1014 (description + 12 owner comments), Discussion #1018 (community feedback, 45 comments), and private project board item 58144081 (the v3 go-live launch checklist). That added two release-gate decisions (RG004 Quote→Bar rename, RG005 netstandard2.x), three documentation items (G008 aggregator gap-fill, D010 Subscribe extensibility, D011 testing-patterns guide), a new §K bucket of release/branding mechanics, and four v3.1+ entries. The recommendation remains **ship v3.0 stable after a focused 3–4 day quality pass** covering these items, the three original release gates (baseline refresh, branch migration, community feedback), the §K go-live mechanics, and the two pending maintainer decisions.
+**Status (2026-05-26, post-quality-pass).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK; T231 pending maintainer decision), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **v3.0 stable is now pending only release-gate runtime work (RG001 baseline refresh, RG002 community feedback, RG004 Quote→Bar decision) and the §K release-mechanics sequence for the FacioQuo rebrand + repo transfer.** The two pending maintainer decisions (RG004 Quote→Bar, T231 baseline delete confirmation) remain the only agent-blocking items inside the v3.0 window.
 
 **Coverage (verified 2026-05-24 via `CatalogShouldHaveExactStyleCounts`):**
 
@@ -19,15 +19,11 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 ---
 
-## Recommendation — ship v3.0 stable after a 3–4 day quality pass
+## Recommendation — v3.0 stable pending only release-gate and §K release-mechanics work
 
-After the swarm review, the recommendation upgrades from "ship as-is after release gates" to **"ship after a focused quality pass"**. The architecture is sound (Architect verdict: no blockers, four v3.1 refactors queued). The implementation is correct (Tester verdict: parity is strong; rigor gaps are addressable). But:
+The quality pass landed across §B/§C/§D/§E/§F/§G — guidance docs aligned, test coverage hardened, architecture decisions formalized in `docs/decisions/0001-dual-track-bufferlist-streamhub.md` (ADR 0001), and documentation gaps closed. No architectural change was required. The Architect verdict (no blockers, four v3.1 refactors queued) and Tester verdict (parity strong; rigor gaps addressed by TC001 + TC002 + TC003) stand.
 
-- A new contributor or AI agent following `.agents/skills/indicator-catalog/SKILL.md` today would write code that doesn't compile (`_catalog.Add(...)` vs the actual `_listings.Add(...)`). This is fixable in 30 minutes and worth fixing before stable.
-- Of the 55 hubs that override `RollbackState`, only ~20–30 have explicit late-arrival tests. The framework's most-fragile invariant (state correctness after rollback) is inconsistently validated. A generic rollback-equivalence contract test would catch silent regressions in any hub.
-- Stale guidance (`.specify/` reference in root `AGENTS.md`, missing AggregatorHub documentation, irrelevant Vue-ecosystem skills) creates noise for both human and AI contributors.
-
-None of this requires changing the architecture. All of it can ship inside a v3.0 stable release window.
+What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001), close the community-feedback window (RG002), resolve the Quote→Bar rename decision (RG004), and execute the §K go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover). The branching-strategy migration (RG003 / K007) is the irreversible cut-over inside §K and depends on those decisions being final.
 
 ### Why ship after the quality pass (not delay further)
 
@@ -45,15 +41,13 @@ None of this requires changing the architecture. All of it can ship inside a v3.
 
 ### What still has to happen before tagging v3.0.0
 
-Grouped into five buckets. Total estimated effort 3–4 working days plus benchmark runtime and release-mechanics async waits.
+Three remaining buckets. The §B/§C/§D/§E/§F/§G/§I buckets from the original quality pass are all closed.
 
 | Bucket | Items | Estimated effort |
 | ------ | ----- | ---------------- |
-| Release gates | Baseline refresh, branch migration, community feedback window, two decisions (Quote→Bar, netstandard2.x) | 1 day + runtime |
-| Guidance alignment | G001–G008 below | 5–7 hours |
-| Cleanup pass | T203, T230–T234 below | 4–6 hours |
-| Test hardening | TC001–TC006 below | 1 day |
-| Release mechanics | §K below — go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover, etc.) | 6–10 hours active + NuGet/DNS propagation |
+| Release gates | RG001 baseline refresh, RG002 community feedback window, RG004 Quote→Bar decision | 1 hour active + benchmark runtime + maintainer asyncs |
+| Release mechanics | §K below — go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover, branching migration via K007 / RG003) | 6–10 hours active + NuGet/DNS propagation |
+| Residual cleanup | T231 baseline-folder delete (decision needed), T203 preview-features flag (deferred on CI SDK) | 30 min when unblocked |
 
 ### v3.1+ direction — what's worth tackling next
 
@@ -87,9 +81,9 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
   - **Suitability question to answer before proceeding**: given that every external consumer already has to learn the streaming API in this release, does adding a `Quote → Bar` rename on top inflate migration cost without proportional benefit, or is bundling both breakages into one release window the lower total cost? **Resolve before committing v3.0 scope.**
   - **Action if YES**: scope expands by ~16–24 hours; update §C (cleanup) with a new item to rename across the public surface, refresh `docs/migration.md`, and ensure `[Obsolete]` shims in `Obsolete.V3.Other.cs` cover the rename. Move ARCH-V31-9 from v3.1+ into v3.0 as the implementation tracker.
 
-- [ ] **RG005 — Confirm netstandard2.x drop and v2 maintenance-branch path** (decision: confirmed by maintainer 2026-05-24; documentation: 30 min).
-  - **Decision**: v3.0 will NOT target `netstandard2.0` or `netstandard2.1`. Current targets remain `net8.0;net9.0;net10.0`. The `v2` branch (per [branching-strategy.plan.md](branching-strategy.plan.md)) becomes the maintenance line for consumers on older runtimes. Originally raised in PR #1014 comment 6 (2024-07-06) and the private go-live checklist.
-  - **Action**: capture the netstandard2.x maintenance commitment in [branching-strategy.plan.md](branching-strategy.plan.md) (under v2 branch role) and in §K below. No code changes in v3 source.
+- [x] **RG005 — Confirm netstandard2.x drop and v2 maintenance-branch path** (decision confirmed 2026-05-24; documentation shipped).
+  - **Decision**: v3.0 will NOT target `netstandard2.0` or `netstandard2.1`. Current targets remain `net8.0;net9.0;net10.0`. The `v2` branch becomes the maintenance line for consumers on older runtimes. Originally raised in PR #1014 comment 6 (2024-07-06) and the private go-live checklist.
+  - **Documentation shipped**: canonical "v2 branch role — netstandard2.x maintenance line" section added to [branching-strategy.plan.md](branching-strategy.plan.md) covering retained targets, accepted change classes, package identity, sunset window, and PR-targeting rules. Reciprocal cross-references from §K K008 and a short consumer-facing pointer in `README.md`.
 
 ### B. Guidance doc alignment (new section — swarm finding)
 
@@ -273,14 +267,12 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
 P015, P016 and P017 all confirmed at algorithmic floors per current test contract.
 
 - [x] **P015** — Slope BufferList: ship v3.0 at the current ~3.41x ratio *(PR #2024)*. The naive O(1) four-sum variant is precision-incompatible with the BufferList `IsExactly` bit-equality contract (PV001 above). Stable-update sliding-window variants and a smaller single-pass-with-running-sumY refactor were not evaluated; both remain v3.1 candidates per PV001.
-- [ ] **P016** — Alligator BufferList (research candidate, was 2–4 hours).
+- [x] **P016** — Alligator BufferList: ship v3.0 at the current 2.16x ratio; research merged with P003 in v3.1+.
   - **Current**: 2.16x slower than Series (18,570 ns vs 8,609 ns).
   - **Code state**: `src/e-k/Alligator/Alligator.BufferList.cs` uses incremental SMMA with median-price queue; overhead is triple-SMMA fanout + median-price computation per quote.
-  - **Recommendation**: Merge with P003 in v3.1+. Ship v3.0 at 2.16x.
 
-- [ ] **P017** — Adx BufferList (research candidate, was 3–4 hours).
+- [x] **P017** — Adx BufferList: ship v3.0 at the current 2.08x ratio; research merged with v3.1+ research bundle.
   - **Current**: 2.08x slower than Series (31,348 ns vs 15,088 ns).
-  - **Recommendation**: Merge with v3.1+ research. Ship v3.0 at 2.08x.
 
 ### I. Low-priority test items (existing)
 
@@ -313,8 +305,8 @@ P015, P016 and P017 all confirmed at algorithmic floors per current test contrac
 
 #### Branching and v2 maintenance
 
-- [ ] **K007 — Execute branching-strategy migration** (cross-reference: §A RG003). [branching-strategy.plan.md](branching-strategy.plan.md). Merge `v3 → main`, create `v2` branch from prior `main`, retire `v3` branch. This is the irreversible cut-over; do not start until K001–K006 are queued and the §A RG004 decision is final.
-- [ ] **K008 — Document `v2` branch role as netstandard2.x maintenance line** (15 min). One paragraph in `branching-strategy.plan.md` (and a reciprocal pointer in README) confirming v2 branch accepts security/compat patches only; no new features. Per §A RG005.
+- [ ] **K007 — Execute branching-strategy migration** — canonical entry is §A **RG003** (with effort estimate + PR #1014 reference); see [branching-strategy.plan.md](branching-strategy.plan.md). This is the irreversible cut-over; do not start until K001–K006 are queued and the §A RG004 decision is final.
+- [x] **K008 — Document `v2` branch role as netstandard2.x maintenance line**. Canonical entry shipped in [branching-strategy.plan.md](branching-strategy.plan.md) under "v2 branch role — netstandard2.x maintenance line"; reciprocal one-line pointer added to `README.md`. v2 accepts security/compat patches only — no new features. Cross-reference to §A RG005.
 
 #### Documentation and URL/DNS
 
