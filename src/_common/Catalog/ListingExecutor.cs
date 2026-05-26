@@ -29,15 +29,8 @@ internal static class ListingExecutor
         where TResult : class
     {
         // Validate inputs
-        if (quotes == null)
-        {
-            throw new ArgumentNullException(nameof(quotes));
-        }
-
-        if (listing == null)
-        {
-            throw new ArgumentNullException(nameof(listing));
-        }
+        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(listing);
 
         string methodName = listing.MethodName
             ?? throw new InvalidOperationException("MethodName is required for dynamic execution");
@@ -144,15 +137,8 @@ internal static class ListingExecutor
         where TResult : class
     {
         // Validate inputs
-        if (listing == null)
-        {
-            throw new ArgumentNullException(nameof(listing));
-        }
-
-        if (parameterValues == null)
-        {
-            throw new ArgumentNullException(nameof(parameterValues));
-        }
+        ArgumentNullException.ThrowIfNull(listing);
+        ArgumentNullException.ThrowIfNull(parameterValues);
 
         Dictionary<string, object>? parameters = null;
 
