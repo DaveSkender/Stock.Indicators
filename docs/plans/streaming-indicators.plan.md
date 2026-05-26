@@ -132,9 +132,11 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
 
 ### C. Pre-v3.0 cleanup pass
 
-- [ ] **T203 — Remove `EnablePreviewFeatures=true` from project configuration** (30 min, **promoted from "optional"**).
-  - **Evidence**: `src/Indicators.csproj:11` enables preview features for the `field` keyword used at `src/_common/BufferLists/BufferList.cs:54,56`. `field` shipped GA in C# 14 / .NET 10 (project targets `net10.0;net9.0;net8.0` with `LangVersion=latest`).
-  - **Action**: Remove `<EnablePreviewFeatures>` and `<GenerateRequiresPreviewFeaturesAttribute>`; verify full build across all three target frameworks (with .NET 10 SDK installed, `LangVersion=latest` = C# 14 and `field` works regardless of TFM). Removal eliminates preview-feature noise propagating to downstream consumers.
+- [ ] **T203 — Remove `EnablePreviewFeatures=true` from project configuration** (30 min, **deferred — blocked on CI SDK**).
+  - **Evidence**: `src/Indicators.csproj:11` enables preview features for the `field` keyword used at `src/_common/BufferLists/BufferList.cs:54,56`.
+  - **Deferral note (2026-05-25)**: PR #2026 attempted the removal and was closed after CI failure. Locally the build is green (SDK `10.0.300` treats `field` as GA), but the SDK that GitHub Actions `setup-dotnet` pulls under `dotnet-version: "10.x"` + `dotnet-quality: "ga"` still flags `field` as preview (`CS8652: The feature 'field keyword' is currently in Preview and *unsupported*`). The flag is therefore still load-bearing for the SDK the CI runners select today.
+  - **Re-attempt trigger**: ship this item when `setup-dotnet@v4` resolves `10.x` + `ga` to an SDK whose Roslyn ships `field` as GA. Quick re-verification: bump a no-op csproj change in a throwaway PR, watch the `quick check` job — if it passes without `EnablePreviewFeatures=true`, T203 is ready.
+  - **Alternative path if waiting is unacceptable**: pin a specific SDK via `global.json` to a version known to have `field` GA, then drop the preview flag. Has the side effect of pinning all CI to one SDK rev; ask before introducing.
 
 - [x] **T230 — Untrack `Stock.Indicators.sln.DotSettings.user`** *(verified done, no-op)*.
   - **Re-verification (2026-05-25)**: `git ls-files Stock.Indicators.sln.DotSettings.user` returns nothing; `git status --ignored` confirms the local file is ignored. `.gitignore:43` (`*.DotSettings.user`) and `.gitignore:47` (`*.user`) both match. No code change needed.
