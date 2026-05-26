@@ -109,9 +109,10 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
 - [x] **G004 — Regenerate `src/_common/README.md` directory listing from reality**.
   - **Re-verification (2026-05-25)**: The README is dated 2026-05-24 and already lists `IIncrementFromChain.cs` + `IIncrementFromQuote.cs` (not the old `IIncrementFrom.cs`), plus `CircularDoubleBuffer.cs`, `HubCollection.cs`, `IChainProvider.cs`, `IQuoteProvider.cs`, `IStreamObservable.cs`, `IStreamObserver.cs`, `StreamHub.Observable.cs`, `StreamHub.Observer.cs`. The two remaining gaps closed in this pass: `Catalog/ListingExecutionBuilderExtensions.cs` and `Catalog/Schema/Enums/`.
 
-- [ ] **G005 — Prune unused community skills and reconcile `skills-lock.json`** (1–2 hours).
-  - **Evidence**: `skills-lock.json` tracks 1 skill (`vitepress`). `ls .agents/skills/` shows 27 entries including `nuxt/`, `pinia/`, `slidev/`, `turborepo/`, `unocss/`, `vue/`, `vueuse-functions/`, `vue-router-best-practices/`, `vue-testing-best-practices/`, `tsdown/`, `pnpm/`, `web-design-guidelines/`. This is a .NET library with a VitePress docs site — no Nuxt app, no Pinia store, no Slidev decks, no Turborepo monorepo.
-  - **Action**: Prune skills irrelevant to a .NET library + VitePress docs site (keep `vitepress`, `vite`, `vitest`, `markdown`, `code-completion`, `documentation`, `indicator-*`, `performance-testing`, `testing-standards`). Reconcile `skills-lock.json` to track what remains. Update root `AGENTS.md` skills index to match. Agents currently waste context loading irrelevant framework guidance.
+- [x] **G005 — Prune unused community skills and reconcile `skills-lock.json`** *(verified 2026-05-26, scope-narrowed cleanup landed)*.
+  - **Re-verification (2026-05-26)**: `git ls-files .agents/skills/` shows exactly 10 tracked skills: `code-completion`, `documentation`, `indicator-buffer`, `indicator-catalog`, `indicator-series`, `indicator-stream`, `markdown`, `performance-testing`, `testing-standards`, `vitepress`. The original swarm-finding evidence (27 entries with Nuxt/Pinia/Slidev/Turborepo/Unocss/Vue ecosystem) is stale — the bulk prune already happened in an earlier session. `npx skills list` and `npx skills check` both return clean.
+  - **Skills-lock.json status**: Tracks only `vitepress` (sourced from `antfu/skills`). The other 9 skills are repo-authored with no upstream `source`, so they are correctly absent from the lock.
+  - **Action shipped this pass**: root `AGENTS.md` skills index added `documentation` (was 9 of 10 — table is now exhaustive).
 
 - [x] **G006 — Align `indicator-stream` SKILL performance target with measured reality** *(verified done, no-op)*.
   - **Re-verification (2026-05-25)**: `.agents/skills/indicator-stream/SKILL.md:20-31` already carries the tiered Target/Acceptable/Review/Critical bands and cites the performance-analysis document as the source of truth. No code change needed.
@@ -131,9 +132,11 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
 
 ### C. Pre-v3.0 cleanup pass
 
-- [ ] **T203 — Remove `EnablePreviewFeatures=true` from project configuration** (30 min, **promoted from "optional"**).
-  - **Evidence**: `src/Indicators.csproj:11` enables preview features for the `field` keyword used at `src/_common/BufferLists/BufferList.cs:54,56`. `field` shipped GA in C# 14 / .NET 10 (project targets `net10.0;net9.0;net8.0` with `LangVersion=latest`).
-  - **Action**: Remove `<EnablePreviewFeatures>` and `<GenerateRequiresPreviewFeaturesAttribute>`; verify full build across all three target frameworks (with .NET 10 SDK installed, `LangVersion=latest` = C# 14 and `field` works regardless of TFM). Removal eliminates preview-feature noise propagating to downstream consumers.
+- [ ] **T203 — Remove `EnablePreviewFeatures=true` from project configuration** (30 min, **deferred — blocked on CI SDK**).
+  - **Evidence**: `src/Indicators.csproj:11` enables preview features for the `field` keyword used at `src/_common/BufferLists/BufferList.cs:54,56`.
+  - **Deferral note (2026-05-25)**: PR #2026 attempted the removal and was closed after CI failure. Locally the build is green (SDK `10.0.300` treats `field` as GA), but the SDK that GitHub Actions `setup-dotnet` pulls under `dotnet-version: "10.x"` + `dotnet-quality: "ga"` still flags `field` as preview (`CS8652: The feature 'field keyword' is currently in Preview and *unsupported*`). The flag is therefore still load-bearing for the SDK the CI runners select today.
+  - **Re-attempt trigger**: ship this item when `setup-dotnet@v4` resolves `10.x` + `ga` to an SDK whose Roslyn ships `field` as GA. Quick re-verification: bump a no-op csproj change in a throwaway PR, watch the `quick check` job — if it passes without `EnablePreviewFeatures=true`, T203 is ready.
+  - **Alternative path if waiting is unacceptable**: pin a specific SDK via `global.json` to a version known to have `field` GA, then drop the preview flag. Has the side effect of pinning all CI to one SDK rev; ask before introducing.
 
 - [x] **T230 — Untrack `Stock.Indicators.sln.DotSettings.user`** *(verified done, no-op)*.
   - **Re-verification (2026-05-25)**: `git ls-files Stock.Indicators.sln.DotSettings.user` returns nothing; `git status --ignored` confirms the local file is ignored. `.gitignore:43` (`*.DotSettings.user`) and `.gitignore:47` (`*.user`) both match. No code change needed.
