@@ -437,6 +437,7 @@ export default defineConfig({
     'examples/UseQuoteApi/**',
     'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
+    'decisions/**',
     'tests/**',
     'Gemfile*',
     '.pa11yci',
