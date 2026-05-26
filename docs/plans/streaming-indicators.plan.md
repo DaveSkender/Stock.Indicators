@@ -284,7 +284,9 @@ P015, P016 and P017 all confirmed at algorithmic floors per current test contrac
 
 ### I. Low-priority test items (existing)
 
-- [ ] **T216** — ConnorsRsi `RemoveWarmupPeriods` calculation review (2–3 hours).
+- [x] **T216** — ConnorsRsi `RemoveWarmupPeriods` calculation review.
+  - Investigated the `// TODO: I don't think this is right, inconsistent` at `tests/indicators/a-d/ConnorsRsi/ConnorsRsi.StaticSeries.Tests.cs:118`. Two findings: (1) the doc-site page claimed `MAX(R,S,P)-1` null periods but the implementation produces `MAX(R,S,P)+1` (default 101, not 99 — off by 2); (2) the test computed `removePeriods = MAX(R,S,P)+2` and then asserted `502 - removePeriods + 1`, a `+2`/`+1` dance that lands on the right answer (401) via mismatched compensation. No algorithm change needed — ConnorsRsi has no custom `RemoveWarmupPeriods` override; it relies on the generic NaN-scan helper which correctly returns 401 rows.
+  - Fixed `docs/indicators/ConnorsRsi.md` to state `MAX(R,S,P)+1` and explain *why* (all three component scores must be computable). Rewrote the test to compute `firstNonNullIndex = MAX(R,S,P)+1` directly and assert `Quotes.Count - firstNonNullIndex`, with a comment pinning the invariant. 30 ConnorsRsi tests stay green.
 - [x] **T217** — CMO zero price change test. Closed the in-source `// TODO: test for CMO isUp works as expected when there's no price change` at `tests/indicators/a-d/Cmo/Cmo.StaticSeries.Tests.cs:6-7` with two new tests: `FlatPrices_AcrossEntireWindow_ReturnsZero` (CMO = 0 across an entirely flat 30-bar series) and `FlatThenMoving_ReturnsValuesOnceRealMovementEnters` (CMO = 0 inside the flat window, climbs to +100 once the lookback fills with up-ticks; no NaN propagation). Both pass; full CMO suite 33/33 green.
 
 ### J. Infrastructure — deferred but listed for context

@@ -115,15 +115,18 @@ public class ConnorsRsi : StaticSeriesTestBase
         const int streakPeriods = 2;
         const int rankPeriods = 100;
 
-        // TODO: I don't think this is right, inconsistent
-        int removePeriods = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
+        // First non-null ConnorsRsi is at index MAX(R,S,P)+1 — the point where
+        // RSI-of-close, RSI-of-streak, and PercentRank are all computable and combine
+        // into ConnorsRsi. RemoveWarmupPeriods() drops everything strictly before that
+        // index by scanning for the first non-NaN Value.
+        int firstNonNullIndex = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 1;
 
         IReadOnlyList<ConnorsRsiResult> sut = Quotes
             .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        sut.Should().HaveCount(502 - removePeriods + 1);
+        sut.Should().HaveCount(Quotes.Count - firstNonNullIndex);
 
         ConnorsRsiResult last = sut[^1];
         last.Rsi.Should().BeApproximately(68.8087, Money4);
