@@ -15,7 +15,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 **Related plans**: [Branching Strategy Migration](branching-strategy.plan.md) (required for v3.0 stable release), [File Reorganization](file-reorg.plan.md) (deferred to v3.1).
 
 **Related guidance** (cross-reference for contributors and AI agents):
-`AGENTS.md` (root), `src/AGENTS.md`, `tests/AGENTS.md`, `docs/AGENTS.md`, `.agents/skills/indicator-stream/SKILL.md`, `.agents/skills/indicator-buffer/SKILL.md`, `.agents/skills/indicator-catalog/SKILL.md`, `.agents/skills/performance-testing/SKILL.md`. Some of these have alignment issues — see Guidance doc alignment section below.
+`AGENTS.md` (root), `src/AGENTS.md`, `tests/AGENTS.md`, `docs/AGENTS.md`, `.agents/skills/indicator-stream/SKILL.md`, `.agents/skills/indicator-buffer/SKILL.md`, `.agents/skills/indicator-catalog/SKILL.md`, `.agents/skills/performance-testing/SKILL.md`. Guidance docs are in alignment with the shipped v3 surface as of the §B closeout.
 
 ---
 
@@ -85,7 +85,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
   - **Decision**: v3.0 will NOT target `netstandard2.0` or `netstandard2.1`. Current targets remain `net8.0;net9.0;net10.0`. The `v2` branch becomes the maintenance line for consumers on older runtimes. Originally raised in PR #1014 comment 6 (2024-07-06) and the private go-live checklist.
   - **Documentation shipped**: canonical "v2 branch role — netstandard2.x maintenance line" section added to [branching-strategy.plan.md](branching-strategy.plan.md) covering retained targets, accepted change classes, package identity, sunset window, and PR-targeting rules. Reciprocal cross-references from §K K008 and a short consumer-facing pointer in `README.md`.
 
-### B. Guidance doc alignment (new section — swarm finding)
+### B. Guidance doc alignment
 
 Pure documentation fixes. Together ~4–6 hours. None require code changes.
 
@@ -173,7 +173,7 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
       - `m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs:77` (`remaining MA types`) ↔ T214.
   - Standing rule on TODOs: in-source TODOs are allowed when they encode clear intent without leaking transient plan IDs. Don't promote TODOs to the plan unless there is concrete value in doing so — a TODO is itself a perfectly valid lightweight tracker.
 
-### D. Test coverage hardening (new section — Tester swarm finding)
+### D. Test coverage hardening
 
 Together ~1 working day. Some items can be parallelized across multiple test PRs.
 
@@ -205,7 +205,7 @@ Together ~1 working day. Some items can be parallelized across multiple test PRs
   - **Evidence**: `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:33–34` uses `bufferCount.Should().BeGreaterThan(5)` and `streamCount.Should().BeGreaterThan(10)` while `seriesCount.Should().Be(85)` is exact.
   - **Action**: Replace `BeGreaterThan(...)` with `Be(79)` for both Buffer and Stream; replace `totalCount.Should().BeGreaterThan(100)` with `Be(243)`.
 
-### E. Architecture documentation (new section — Architect + Inspector + Researcher findings)
+### E. Architecture documentation
 
 Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdown PRs.
 
@@ -262,7 +262,7 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
   - Path note: the plan originally proposed `testing-with-stock-indicators.md` for the filename; shipped as the shorter `testing.md` since the docs site is already named-spaced. Original-suggested fixture path `tests/indicators/_common/data/default.csv` corrected to actual `tests/indicators/_testdata/quotes/default.csv`.
   - **Closes (when shipped)**: private project items on mockability and `IEmaResult` interfaces — both can be marked "Done (trash)" on `DaveSkender/projects/6` once D011 lands.
 
-### H. Critical BufferList performance — reclassified (re-examined this pass)
+### H. Critical BufferList performance
 
 P015, P016 and P017 all confirmed at algorithmic floors per current test contract.
 
