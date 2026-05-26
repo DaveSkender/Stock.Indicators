@@ -1,11 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
-    "Maintainability",
-    "CA1510:Use ArgumentNullException throw helper",
-    Justification = "Does not support .NET Standard and before .NET 6")]
-
-[assembly: SuppressMessage(
     "Naming",
     "CA1710:Identifiers should have correct suffix",
     Justification = "BufferList is the established naming convention for this library",

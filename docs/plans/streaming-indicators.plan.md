@@ -145,9 +145,10 @@ Pure documentation fixes. Together ~4–6 hours. None require code changes.
   - **Evidence**: 22 historical JSON snapshots tracked in git. Their value (regression detection against pre-v3-fixes baseline) ends when v3.0 ships.
   - **Action**: Two options — (a) delete and rely on git history + tagged commit `baseline/v3-streaming-prefixes`; (b) keep through v3.0 release and delete in first v3.1 patch. Pick (a) unless there's an external CI dependency.
 
-- [ ] **T232 — Audit `src/GlobalSuppressions.cs` for stale suppressions** (30 min, **scope revised**).
-  - **Re-evaluation (2026-05-25)**: The original "delete empty file" premise was wrong. The file contains five real `[assembly: SuppressMessage(...)]` declarations (CA1510, CA1710 BufferList, three CA1720 Direction, CA1716 ISeries.Date). Most are still load-bearing, but CA1510 (`"Use ArgumentNullException throw helper"`) carries the justification "Does not support .NET Standard and before .NET 6" — the project no longer targets netstandard (min is `net8.0`), and the codebase already uses `ArgumentNullException.ThrowIfNull` in ~373 sites versus only ~13 legacy `throw new ArgumentNullException` sites across 6 files.
-  - **Action**: Migrate the 13 legacy `throw new ArgumentNullException` sites to `ArgumentNullException.ThrowIfNull`, then remove the CA1510 suppression. Re-verify CA1710 / CA1716 / CA1720 are still load-bearing under current analyzer rules. Track removal candidates as v3.1 if any prove unnecessary.
+- [x] **T232 — Audit `src/GlobalSuppressions.cs` for stale suppressions**.
+  - Migrated 7 `if (x == null) throw new ArgumentNullException(...)` sites in `ListingExecutor.cs` and `ListingExecutionBuilder.cs` to `ArgumentNullException.ThrowIfNull(x);`. The remaining 6 sites use coalescing throw patterns (`?? throw` or `? : throw`) that return the value into a constructor base-call or expression — those are not CA1510 violations and were left as-is. With the analyzer no longer firing, the CA1510 suppression was removed.
+  - CA1710 (BufferList suffix), CA1720 (`Direction`/`Direction.Long`/`Direction.Short`), and CA1716 (`ISeries.Date`) suppressions re-verified as still load-bearing under current analyzer rules. No further removal candidates.
+  - Full test suite green (2404 indicator + 71 public-API + 5 integration); analyzers clean with `RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true` across net8/9/10.
 
 - [x] **T233 — Audit `#pragma warning disable` for staleness** *(audit complete, all 14 pragmas confirmed intentional)*.
   - 14 `#pragma warning disable` occurrences across 9 files audited. Every one has a stated reason and is load-bearing today — no pragmas protect already-deleted code paths. The standing "ask before adding pragmas" rule (per `src/_common/AGENTS.md:107`) is being followed.
@@ -214,9 +215,9 @@ Together ~1 working day. Some items can be parallelized across multiple test PRs
 
 Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdown PRs.
 
-- [ ] **DOC-ARCH-1 — ADR for the dual-track `BufferList` + `StreamHub` model** (1 hour).
-  - **Why**: The dual model is principled (Architect F5, Researcher F3) but the rationale is not written down. Future maintainers may try to unify them. Inspector F3 also calls for the plan to lead with simplicity decisions instead of per-indicator state.
-  - **Action**: Author MADR-format ADR under `docs/decisions/` (or wherever ADRs live) documenting why both styles exist, when each is appropriate, and what the "shared increment kernel" path looks like for v3.1+. Cite Researcher's industry comparison (ta4j is pull-only; TA-Lib/Tulip are batch-only; library is ahead).
+- [x] **DOC-ARCH-1 — ADR for the dual-track `BufferList` + `StreamHub` model**.
+  - Authored `docs/decisions/0001-dual-track-bufferlist-streamhub.md` in MADR 4.0 format with four considered options (unified StreamHub, unified BufferList, dual-track, defer-to-v4), explicit rejection rationale per alternative, a Confirmation section pinning the conditions under which the decision could be reopened, and a "Related decisions" appendix linking DOC-ARCH-2/3/6 + ARCH-V31-1/5/6/7 as dependent items.
+  - Established the ADR folder convention: `docs/decisions/` with MADR 4.0 template, `NNNN-kebab-case-title.md` naming, excluded from the published VitePress site via `srcExclude`. `docs/decisions/README.md` codifies the convention and indexes ADRs.
 
 - [x] **DOC-ARCH-2 — Document `RollbackState(int)` index contract precisely**.
   - `src/_common/StreamHub/StreamHub.cs` `RollbackState` xmldoc rewritten to a bulleted contract: `restoreIndex` is the last `ProviderCache` index whose state must be retained; implementations must rebuild internal state equivalent to having processed `[0..restoreIndex]`; `-1` means reset to post-construction; called *before* the result cache is pruned and *before* the replay loop re-emits (so implementations may safely read `ProviderCache[0..restoreIndex]`); do not re-emit or mutate the result cache from this method. Self-review swarm caught and corrected a backwards lifecycle statement before merge. Audit of the 55 overrides against the formalized contract remains a v3.1 task.
@@ -235,9 +236,8 @@ Pure docs work — no code changes. Together ~3–4 hours. Lands as small markdo
   - **Re-evaluation**: The original action's exact claim ("No analyzer suppressions are used in `_common/StreamHub/` or `_common/BufferLists/`") cannot stand as-written. `_common/BufferLists/` *is* pragma-free, but `_common/StreamHub/StreamHub.cs:2` carries one intentional `IDE0010` suppression for the `Act` enum switch in `AppendCache` (documented above under T233 — refactoring it would silently change behavior on `Act.Ignore`).
   - **Action shipped**: rather than over-promise, added a precise statement to `src/_common/AGENTS.md` (alongside the existing "Ask before adding `#pragma warning disable` directives in this folder" boundary): the streaming framework's analyzer-suppression footprint is exactly one intentional pragma (`IDE0010` at `StreamHub.cs:2`), and `_common/BufferLists/` carries zero. New pragmas anywhere under `_common/` still require explicit justification.
 
-- [ ] **DOC-ARCH-7 — Prior art comparison** (15 min).
-  - **Why**: Researcher F3–F5 surfaced that the library is ahead of ta4j (pull-only), TA-Lib/Tulip (batch-only), and aligned with Pine Script bar-by-bar — useful framing for marketing and for justifying the dual-track architecture to future contributors.
-  - **Action**: Brief subsection in the new ADR (DOC-ARCH-1) or in `docs/migration.md`.
+- [x] **DOC-ARCH-7 — Prior art comparison**.
+  - Landed inline in ADR 0001 (DOC-ARCH-1 above) under "More information → Prior art and industry comparison". Covers ta4j (pull-only), TA-Lib (batch-only), Tulip (batch-only), Pine Script v5 (bar-by-bar push), QuantConnect/Lean (push-without-rollback), and pins the dual-track model as the library's first-in-class differentiator for live-feed late-arrival rollback.
 
 ### F. v3.0 performance verification (Researcher F7)
 
