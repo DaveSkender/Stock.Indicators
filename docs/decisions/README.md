@@ -1,4 +1,4 @@
-# Architecture Decision Records
+# Architecture decision records
 
 This folder holds the project's Architecture Decision Records (ADRs) using the [MADR 4.0](https://adr.github.io/madr/) template.
 
