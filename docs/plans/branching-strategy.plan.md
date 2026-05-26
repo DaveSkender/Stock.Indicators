@@ -35,6 +35,18 @@ This document outlines the migration from the current dual-branch model to a pro
 
 > The two NuGet package identities split permanently at cut-over. `main` never publishes to the legacy package; `v2` never publishes to FacioQuo. See streaming plan §K and `CLAUDE.local.md` for the full multi-phase rebrand sequence.
 
+### v2 branch role — netstandard2.x maintenance line
+
+After v3.0 stable ships, the `v2` branch becomes the **long-term maintenance line** for the `Skender.Stock.Indicators` package on older runtimes that v3 no longer targets. Specifically:
+
+- **Targets retained on `v2`**: `netstandard2.0` and `netstandard2.1` consumers continue to receive support through the `Skender.Stock.Indicators` package built from this branch. v3 (`FacioQuo.Stock.Indicators`) targets `net8.0;net9.0;net10.0` and intentionally drops netstandard, per streaming plan **RG005** (decision confirmed 2026-05-24).
+- **Accepted changes**: security fixes, runtime/SDK compatibility patches, and CVE-driven dependency bumps only. **No new indicators, no API additions, no behavioral changes.** Bug fixes that backport cleanly from v3 are acceptable; anything that would change the public surface area is not.
+- **Package identity**: `v2` publishes exclusively to `Skender.Stock.Indicators` on NuGet.org. Release notes on those publishes carry the standing "We moved to `FacioQuo.Stock.Indicators` for v3+" deprecation banner (streaming plan K002/K004).
+- **Sunset window**: roughly 12 months from v3.0 stable release, after which the `Skender.Stock.Indicators` package transitions to the long-term deprecated state described in streaming plan K017. The `v2` branch itself may be archived as a tag at that point.
+- **PR targeting on `v2`**: contributors should target `v2` only for fixes that match the criteria above; everything else targets `main`. Branch protection settings (per Phase 4 below) enforce the no-direct-push rule.
+
+This entry is the canonical home for the v2 maintenance commitment; streaming plan §K **K008** is the reciprocal one-line cross-reference, and README.md carries a short consumer-facing pointer.
+
 **GitHub repository settings:**
 
 - Default branch: `main` (changed from `v3`)
