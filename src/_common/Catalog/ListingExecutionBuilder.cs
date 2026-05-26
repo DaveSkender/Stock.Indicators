@@ -51,10 +51,7 @@ public class ListingExecutionBuilder
     /// <exception cref="ArgumentNullException"><paramref name="parameters"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder WithParams(Dictionary<string, object> parameters)
     {
-        if (parameters == null)
-        {
-            throw new ArgumentNullException(nameof(parameters));
-        }
+        ArgumentNullException.ThrowIfNull(parameters);
 
         Dictionary<string, object> newOverrides = new(_parameterOverrides);
         foreach (KeyValuePair<string, object> kvp in parameters)
@@ -73,10 +70,7 @@ public class ListingExecutionBuilder
     /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder FromSource(IEnumerable<IQuote> quotes)
     {
-        if (quotes == null)
-        {
-            throw new ArgumentNullException(nameof(quotes));
-        }
+        ArgumentNullException.ThrowIfNull(quotes);
 
         return new(BaseListing, _parameterOverrides) {
             _quotes = quotes
@@ -96,10 +90,7 @@ public class ListingExecutionBuilder
     public ListingExecutionBuilder FromSource<T>(IReadOnlyList<T> series, string? parameterName = null)
         where T : IReusable
     {
-        if (series == null)
-        {
-            throw new ArgumentNullException(nameof(series));
-        }
+        ArgumentNullException.ThrowIfNull(series);
 
         // Find the appropriate series parameter
         string targetParam = parameterName ?? FindFirstSeriesParameter();
