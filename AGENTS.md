@@ -88,6 +88,7 @@ This repository uses Agent Skills (.agents/skills/) for domain-specific guidance
 | performance-testing | Benchmarking with BenchmarkDotNet, regression detection | Adding performance tests, optimizing indicator performance |
 | code-completion | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
 | testing-standards | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
+| documentation | Writing and updating VitePress indicator documentation pages | Adding a new indicator doc page, updating an existing one, structural consistency audits |
 | vitepress | VitePress documentation site development - configuration, routing, theme, components | Working on the docs/ site, VitePress config, or custom theme |
 | markdown | Markdown authoring, linting workflow, formatting rules, validation checklist | Creating or modifying any Markdown file |
 
