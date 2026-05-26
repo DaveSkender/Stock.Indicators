@@ -355,9 +355,34 @@ P015, P016 and P017 all confirmed at algorithmic floors per current test contrac
   - Source: Researcher F2.
   - `StreamHubExtensions.ConsumeAsync(IAsyncEnumerable<TIn>, CancellationToken)` and `Results.ToAsyncEnumerable()`. Lets hubs interoperate with SignalR / gRPC server-streaming / Kafka consumers without boilerplate.
 
-- [ ] **ARCH-V31-7 — Standardize shared "increment kernels" usage** (8–12 hours).
-  - Source: Inspector F1, verified observation.
-  - Today `Ema.Increment`, `Sma.Increment`, `Tr.Increment`, `Atr.Increment` are used in ~34 of 160 streaming files (~21%). Migrate remaining StreamHub + BufferList siblings to delegate to shared kernels. Target ≥80% adoption.
+- [ ] **ARCH-V31-7 — Standardize shared "increment kernels" usage** (umbrella; ~20–30 hours across sub-items).
+  - Source: Inspector F1, verified observation. Scoping research 2026-05-26.
+  - Seven indicators ship kernels today (`Ema`, `Sma`, `Tr`, `Atr`, `Adl`, `Obv`, `Dynamic` — see `src/*/*/*.Utilities.cs`). Adoption is **39 of 158 streaming files (~25%)**: 29 of 79 StreamHubs vs only 10 of 79 BufferLists — the BufferList side carries the duplication tax. Target ≥80% adoption across both surfaces.
+  - Tier 4 (kernel-incompatible) covers ~25–30 files: DSP/Hilbert state (`Mama`, `FisherTransform`, `HtTrendline`), adaptive K (`Kama`), brick/reversal (`ParabolicSar`, `Renko`, `VolatilityStop`), argmax/range (`Aroon`, `Donchian`, `Fractal`, `PivotPoints`, `RollingPivots`, `Pivots`, `Fcb`), pure OHLC transforms (`HeikinAshi`, `Doji`, `Marubozu`), session-bound (`Vwap`), multi-window offsets (`Ichimoku`). These are out of scope for kernel migration and should be excluded when measuring the ≥80% target (denominator becomes ~128 files).
+  - **Design tensions to settle before the first migration PR lands** (so they aren't re-discovered per sub-item):
+    - `Sma.Increment` today is StreamHub-shaped (`IReadOnlyList<IReusable>` + `endIndex`). BufferLists carry `Queue<double>`. Pragmatic resolution: add a `Queue<double>` overload; defer `ReadOnlySpan<double>` unification.
+    - **Do not** introduce composite per-indicator kernels (`Macd.Increment`, `Tema.Increment`). The per-layer `Ema.Increment` chain is correct and reusable; composite kernels would re-encode duplication.
+    - **Wilder smoothing ≠ EMA semantically** (K = `1/N` vs `2/(N+1)`). Keep a separate `Wilder.Increment` kernel rather than overloading `Ema.Increment`; document the distinction in xmldoc.
+    - Cumulative kernels (`Adl`, `Obv`) return rich result objects. Acceptable for these but **do not generalize** — `Ema.Increment` returning `double` is the better blueprint.
+
+- [ ] **ARCH-V31-7a — `Sma.Increment(Queue<double>)` overload + BufferList sweep** (4–6 hours).
+  - Add a `Queue<double>` overload to `Sma.Utilities.cs` (formalize the existing `Average(Queue<double>)` extension as `Increment` to align naming with other kernels). Migrate ~12–15 BufferLists currently inlining `sum / count` over their queue: Tema, Trix, T3, MaEnvelopes, BollingerBands, StdDev, Cmf, Cci, Mfi, Smma SMA-seed, ConnorsRsi, others. Math algebraically identical; pin with `IsExactly` against series oracle.
+  - Highest single-PR adoption swing on the underserved BufferList side (10/79 → ~24/79).
+
+- [ ] **ARCH-V31-7b — Inline `_lastEma + K*(x - _lastEma)` → `Ema.Increment` sweep** (3–4 hours).
+  - Replace inline EMA arithmetic in: `Tema.BufferList.cs:89-91`, `Trix.BufferList.cs:91-93`, `T3.BufferList` (6 layers), `Dema.BufferList` (verify already migrated), plus two missed StreamHub sites at `Pmo.StreamHub.cs:86,113`. Pure cleanup, no behavior change.
+
+- [ ] **ARCH-V31-7c — Extract `Roc.Increment(prev, curr)` kernel + migrate call sites** (2–3 hours).
+  - Add `Roc.Increment` to `src/m-r/Roc/Roc.Utilities.cs` returning percentage rate-of-change. Migrate Roc, RocWb, Pmo, Pvo, Macd inline ROC math (~6 sites).
+
+- [ ] **ARCH-V31-7d — Extract `Wilder.Increment(lookback, last, new)` kernel** (6–8 hours).
+  - New shared kernel for Wilder smoothing (K = `1/N`). Refactor `Atr.Increment` to delegate. Migrate `Rsi.StreamHub` and `Smma.StreamHub`/`BufferList`. Pin with `IsExactly` bit-equality across three indicator families — medium risk because Wilder K differs from EMA K.
+
+- [ ] **ARCH-V31-7e — Extract `StdDev.Increment(Queue<double>)` kernel** (4–6 hours).
+  - Running-variance kernel for `Queue<double>`. Migrate `StdDev.BufferList`, `BollingerBands.BufferList`, `Keltner.BufferList` stddev arms. Explicitly pin population-vs-sample variance choice via test.
+
+- [ ] **ARCH-V31-7f — Extract `Wma.Increment` kernel (v3.2 candidate)** (4–6 hours).
+  - Weighted-window kernel for Wma, Hma (composes WMAs), Alma. Lower priority than 7a–7e because adoption surface is smaller (~6 sites). Mark for v3.2 if v3.1 ships before this lands.
 
 - [ ] **ARCH-V31-8 — Shared rolling-window primitives** (6–8 hours).
   - Source: Inspector F2.
