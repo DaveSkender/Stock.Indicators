@@ -149,10 +149,7 @@ internal sealed class HubStressTest : IDisposable
         }
     }
 
-    public void Dispose()
-    {
-        _socketClient.Dispose();
-    }
+    public void Dispose() => _socketClient.Dispose();
 
     private void ProcessTradeUpdate(CoinbaseTrade[] trades, TaskCompletionSource<bool> completionSource)
     {

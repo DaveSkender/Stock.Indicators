@@ -326,7 +326,7 @@ knowledge_base:
     enabled: true
     filePatterns:
       - "**/AGENTS.md"
-      - ".agents/skills/**/SKILL.md"
+      - ".agents/skills/**"
   learnings:
     scope: auto
   issues:

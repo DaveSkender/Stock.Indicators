@@ -22,9 +22,7 @@ public class QuoteHub
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public QuoteHub(int? maxCacheSize = null)
         : base(new BaseProvider<IQuote>(ValidateAndGetMaxCacheSize(maxCacheSize)))
-    {
-        _isStandalone = true;
-    }
+            => _isStandalone = true;
 
     /// <summary>
     /// Validates and returns the max cache size.

@@ -60,7 +60,7 @@ public static partial class Donchian
                     UpperBand: u,
                     Centerline: c,
                     LowerBand: l,
-                    Width: c == 0 ? null : (double?)((u - l) / c)));
+                    Width: c == 0 ? null : (u - l) / c));
             }
             else
             {

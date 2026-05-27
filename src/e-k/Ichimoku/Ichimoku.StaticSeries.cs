@@ -172,7 +172,7 @@ public static partial class Ichimoku
             }
         }
 
-        return min == double.MaxValue ? null : (double?)((min + max) / 2d);
+        return min == double.MaxValue ? null : (min + max) / 2d;
 
     }
 
@@ -211,7 +211,7 @@ public static partial class Ichimoku
             }
         }
 
-        return min == double.MaxValue ? null : (double?)((min + max) / 2d);
+        return min == double.MaxValue ? null : (min + max) / 2d;
     }
 
     /// <summary>
@@ -252,6 +252,6 @@ public static partial class Ichimoku
             }
         }
 
-        return min == double.MaxValue ? null : (double?)((min + max) / 2d);
+        return min == double.MaxValue ? null : (min + max) / 2d;
     }
 }

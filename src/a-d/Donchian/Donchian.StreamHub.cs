@@ -65,7 +65,7 @@ public class DonchianHub
         double upperBand = _highBuffer.GetMax();
         double lowerBand = _lowBuffer.GetMin();
         double centerline = (upperBand + lowerBand) / 2d;
-        double? width = centerline == 0 ? null : (double?)((upperBand - lowerBand) / centerline);
+        double? width = centerline == 0 ? null : (upperBand - lowerBand) / centerline;
 
         _highBuffer.Add((double)item.High);
         _lowBuffer.Add((double)item.Low);
