@@ -70,7 +70,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
             upperBand = highHigh;
             lowerBand = lowLow;
             centerline = (upperBand + lowerBand) / 2d;
-            width = centerline == 0 ? null : (double?)((upperBand - lowerBand) / centerline);
+            width = centerline == 0 ? null : (upperBand - lowerBand) / centerline;
         }
 
         // Update buffer AFTER calculating (since we look at prior periods)

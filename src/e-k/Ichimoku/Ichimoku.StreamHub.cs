@@ -192,7 +192,7 @@ public class IchimokuHub
                 }
             }
 
-            senkouSpanB = min == double.MaxValue ? null : (double?)((min + max) / 2d);
+            senkouSpanB = min == double.MaxValue ? null : (min + max) / 2d;
         }
 
         // Calculate Chikou Span (lagging span)

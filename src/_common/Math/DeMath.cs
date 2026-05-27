@@ -195,7 +195,7 @@ internal static class DeMath
         // and 2^k can be built by setting the biased exponent directly.
         // Outside that range, split the scale so each factor remains
         // representable as a normal double.
-        if (k >= -1022L && k <= 1023L)
+        if (k is >= -1022L and <= 1023L)
         {
             long expBits = (k + 1023L) << 52;
             return sum * BitConverter.Int64BitsToDouble(expBits);
