@@ -59,9 +59,12 @@ app.MapGet("/quotes/random", async (
     Console.WriteLine(
         $"[Random] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
 
-    // Use Test.Data.RandomGbm for random quote generation
+    // Use Test.Data.RandomGbm for random quote generation.
+    // RandomGbm requires bars >= 1 (it rejects bars <= 0), so seed it with a
+    // single warm-up bar that is never streamed: the loop below only emits the
+    // most recently appended quote (generator[^1]) on each iteration.
     PeriodSize periodSize = Test.SseServer.Utilities.ParseQuoteIntervalToPeriodSize(quoteInterval);
-    RandomGbm generator = new(bars: 0, seed: 1000.0, periodSize: periodSize);
+    RandomGbm generator = new(bars: 1, seed: 1000.0, periodSize: periodSize);
     DateTime currentTimestamp = DateTime.UtcNow.AddMinutes(-1000);
 
     try

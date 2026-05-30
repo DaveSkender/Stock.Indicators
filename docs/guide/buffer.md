@@ -53,7 +53,7 @@ foreach (Quote quote in quotes)
 ```
 
 ::: tip
-Using `smaList[^1]` on an empty list throws `IndexOutOfRangeException`. Always check `Count > 0` first, or use `smaList.LastOrDefault()` which returns `null` when empty.
+Using `smaList[^1]` on an empty list throws `ArgumentOutOfRangeException`. Always check `Count > 0` first, or use `smaList.LastOrDefault()` which returns `null` when empty.
 :::
 
 ## Key features

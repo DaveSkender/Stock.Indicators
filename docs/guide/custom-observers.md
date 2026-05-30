@@ -23,7 +23,7 @@ The two patterns solve different problems. Subclassing adds compute; observing a
 | Trigger external alerts on threshold crosses | Wrap with a custom `IStreamObserver<T>` |
 | Reuse the hub's results as a *provider* for downstream chained indicators | Implement `IChainProvider<IReusable>` in addition to `IStreamObserver<T>` (see below) |
 
-Wrapping does not modify the source hub. The hub keeps its cache, its rollback behavior, and its other subscribers. Your observer is a peer subscriber that receives the same notifications.
+Wrapping does not modify the source hub. The hub keeps its cache, its rollback behavior, and its other subscribers. Your observer is a peer subscriber that receives the same notifications — as long as it returns without throwing (see [Observers must not throw](#observers-must-not-throw)).
 
 ## The `IStreamObserver<T>` contract
 
@@ -48,6 +48,20 @@ The hub calls these methods on every subscribed observer in response to upstream
 - **`OnPrune(toTimestamp)`** — The hub's cache exceeded its `MaxCacheSize` and entries up to `toTimestamp` were dropped from the head. Observers persisting older results can use this signal to flush their own retention window.
 - **`OnError(exception)`** — The hub entered a faulted state. Observers should surface this to the operator (log, alert, halt the pipeline) and decide whether to call `Unsubscribe()`.
 - **`OnCompleted()`** — The provider declared it will send no more data. Finite streams only; live feeds typically never call this.
+
+### Observers must not throw
+
+The hub notifies every subscriber from a single loop, with **no per-callback isolation** in v3.0. If one observer throws from `OnAdd` / `OnRebuild` / `OnPrune`, the loop stops and **siblings later in the notification list never receive that update** — the hub and its other observers silently desynchronize. The same hazard applies to `OnError`: throwing from it aborts the error fan-out, so later observers never learn the hub faulted.
+
+Treat every observer method as **no-throw**:
+
+- Wrap anything that can fail (I/O, parsing, downstream user callbacks) in your own `try` / `catch` inside the method.
+- Keep the hand-off fast and return; do the risky or slow work elsewhere (see [Thread-safety expectations](#thread-safety-expectations)).
+- Surface failures through your own channel — log, alert, or a flag your writer checks — rather than by throwing back into the hub.
+
+::: info
+Per-callback isolation (quarantining a throwing observer and continuing to notify its siblings) is planned for a later release. Until then, the no-throw contract above is the caller's responsibility.
+:::
 
 ## Minimal external observer
 

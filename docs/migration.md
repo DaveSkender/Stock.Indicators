@@ -281,7 +281,7 @@ foreach (Quote newQuote in stream)
 {
     smaList.Add(newQuote);
     
-    // Note: smaList[^1] throws IndexOutOfRangeException if empty
+    // Note: smaList[^1] throws ArgumentOutOfRangeException if empty
     if (smaList.Count > 0)
     {
         SmaResult latest = smaList[^1];
@@ -308,9 +308,9 @@ foreach (Quote newQuote in stream)
 
 // v3 StreamHub (coordinated real-time updates)
 QuoteHub quoteHub = new();
-var smaHub = quoteHub.ToSma(20);
-var rsiHub = quoteHub.ToRsi(14);
-var macdHub = quoteHub.ToMacd();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
+RsiHub rsiHub = quoteHub.ToRsiHub(14);
+MacdHub macdHub = quoteHub.ToMacdHub();
 
 foreach (Quote newQuote in stream)
 {
