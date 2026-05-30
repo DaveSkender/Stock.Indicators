@@ -55,7 +55,7 @@ The hub **isolates** a faulting subscriber. If your callback throws from `OnAdd`
 
 Even with that safety net, design your callbacks to be robust:
 
-- Handle your own failures (I/O, parsing, downstream user callbacks) inside the method, and treat an `OnError` call as the signal that *your* observer faulted.
+- Handle your own failures (I/O, parsing, downstream user callbacks) inside the method. Your `OnError` now fires for two reasons — an upstream provider fault (above) *or* one of your own callbacks throwing and being isolated — and both arrive as a plain `Exception`, so don't assume a single cause.
 - Keep the hand-off fast and non-blocking — your callback runs inside the hub's notification path; do risky or slow work elsewhere (see [Thread-safety expectations](#thread-safety-expectations)).
 - Surface failures through your own channel — log, alert, or a flag your writer checks.
 
