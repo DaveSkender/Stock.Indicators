@@ -136,8 +136,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     }
 
     /// <inheritdoc/>
+    /// <remarks>
+    /// Cascades the provider's error to this hub's own subscribers rather than
+    /// rethrowing into the provider's notification loop, so one faulted link does
+    /// not abort the provider's fan-out to its other observers.
+    /// </remarks>
     public void OnError(Exception exception)
-        => throw exception;
+        => NotifyObserversOnError(exception);
 
     /// <inheritdoc/>
     public void OnCompleted()
