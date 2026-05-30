@@ -339,6 +339,12 @@ Pick a floor comfortably above the deepest warmup in the chain (with headroom fo
 
 :::
 
+::: warning Corrections after pruning are approximate for stateful indicators
+Once the cache has pruned old bars, a correction or late arrival that forces a **rebuild reaching the oldest retained bar** re-seeds stateful indicators from the *retained* history instead of the original. Recursive smoothers (EMA and everything built on it; the Wilder family — RSI, ATR, ADX, SMMA) drift transiently and re-converge as the recursion re-stabilizes; cumulative indicators (OBV, ADL) carry a *permanent* offset. Pure window indicators (SMA and similar) are unaffected.
+
+This only bites when `maxCacheSize` is **smaller than your full history** *and* a rebuild reaches the pruned head — corrections and late arrivals that stay within the retained window are exact. To keep deep corrections exact, size `maxCacheSize` to retain the history you may need to revise; otherwise treat corrections of bars near the pruned head as approximate.
+:::
+
 ## See also
 
 - [Batch style](/guide/batch) for one-time calculations
