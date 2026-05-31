@@ -9,6 +9,18 @@ public class Aroon : BufferListTestBase
         = Quotes.ToAroon(lookbackPeriods);
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<AroonResult> sut = Data
+            .GetRandom(2500)
+            .ToAroonList(25);
+
+        sut.IsBetween(static x => x.AroonUp, 0d, 100d);
+        sut.IsBetween(static x => x.AroonDown, 0d, 100d);
+        sut.IsBetween(static x => x.Oscillator, -100d, 100d);
+    }
+
+    [TestMethod]
     public void Results_AreAlwaysBounded()
     {
         AroonList sut = new(25, Quotes);

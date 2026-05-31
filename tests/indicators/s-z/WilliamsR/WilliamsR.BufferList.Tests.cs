@@ -9,6 +9,16 @@ public class WilliamsR : BufferListTestBase
        = Quotes.ToWilliamsR(lookbackPeriods);
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<WilliamsResult> sut = Data
+            .GetRandom(2500)
+            .ToWilliamsRList(14);
+
+        sut.IsBetween(static x => x.WilliamsR, -100d, 0d);
+    }
+
+    [TestMethod]
     public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         WilliamsRList sut = new(lookbackPeriods);
