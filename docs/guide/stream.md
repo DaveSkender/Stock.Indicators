@@ -115,7 +115,7 @@ quoteHub.Add(correctedQuote);  // same timestamp, revised values → rebuild
 quoteHub.RemoveRange(badQuote.Timestamp, notify: true);  // triggers recalculation
 ```
 
-The hub automatically handles state rollback and recalculation when data arrives out of order or needs correction. To revise a single value in place, re-`Add` a quote with the same `Timestamp`; to drop quotes, use `RemoveRange(fromTimestamp, notify)` or `RemoveAt(cacheIndex)`. There is no `Remove(quote)` method on the streaming surface.
+The hub automatically handles state rollback and recalculation when data arrives out of order or needs correction. To revise a single value in place, re-`Add` a quote with the same `Timestamp`; to drop data, remove it by timestamp with `RemoveRange(fromTimestamp, notify)` or by position with `RemoveAt(cacheIndex)`. Always apply these mutations to the **root** hub — the `QuoteHub` (or `TickHub`) you add quotes to — which cascades the change to every dependent hub; don't mutate a subscribed/chained hub directly (see [Thread safety](#thread-safety)).
 
 ## Performance characteristics
 
@@ -132,6 +132,17 @@ Stream hubs follow a **single-writer** model. Internal locking protects cache *i
 - **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock / `Channel<Quote>`).
 - **Single-threaded usage** requires no additional synchronization.
 - **Multi-threaded usage** must serialize every external call that mutates the hub; reads of `Results` should also be coordinated with the writer (see the example below).
+
+### What's safe, and what to avoid
+
+The library deliberately keeps the mutation surface small: `Results` is a read-only view, so you can't reach the underlying cache with `List` / `ICollection` methods. Stay within that surface:
+
+- ✅ **Do** feed and correct data through the **root** hub — the `QuoteHub` (or `TickHub`) you created and add quotes to. It cascades every change to the dependent hubs automatically.
+- ✅ **Do** read results through `Results`; if you hand them to another thread, copy or snapshot what you need rather than enumerating the live view while the writer mutates it.
+- ❌ **Don't** call `Add` / `RemoveAt` / `RemoveRange` on a *subscribed* (chained) hub such as a `SmaHub`. Those hubs are driven by their provider; mutating one directly desynchronizes it from that provider, and a later rebuild can produce wrong results the hub can't heal from.
+- ❌ **Don't** mutate from more than one thread at a time (see the example below).
+
+This single-writer expectation isn't unique to this library: most built-in .NET collections (`List<T>`, `Dictionary<TKey,TValue>`, `Queue<T>`) are likewise unsafe for concurrent writers. The hub adds internal locking to keep its *own* cache consistent during a rebuild, but coordinating *your* calls is still your responsibility — exactly as it would be for any ordinary collection.
 
 ### Thread-safe external access example
 
