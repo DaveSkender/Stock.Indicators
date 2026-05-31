@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Fixed-size circular buffer for <c>double</c> values with O(capacity) max/min scan.
 /// Zero heap allocation per tick; cache-line-resident for small windows (&lt;= ~32 elements).
 /// </summary>
-internal struct CircularDoubleBuffer : IEquatable<CircularDoubleBuffer>
+internal struct CircularDoubleBuffer
 {
     private readonly double[] _values;
     private int _head;  // next write position
@@ -77,41 +77,5 @@ internal struct CircularDoubleBuffer : IEquatable<CircularDoubleBuffer>
         }
 
         return min;
-    }
-
-    bool IEquatable<CircularDoubleBuffer>.Equals(CircularDoubleBuffer other)
-    {
-        if (_head != other._head || _fill != other._fill)
-        {
-            return false;
-        }
-
-        double[] a = _values;
-        double[] b = other._values;
-
-        if (a == null && b == null)
-        {
-            return true;
-        }
-
-        if (a == null || b == null)
-        {
-            return false;
-        }
-
-        if (a.Length != b.Length)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < a.Length; i++)
-        {
-            if (!a[i].Equals(b[i]))
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 }
