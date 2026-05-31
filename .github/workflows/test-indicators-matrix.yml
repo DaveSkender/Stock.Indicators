@@ -18,6 +18,11 @@ on:
 permissions:
   contents: read # Required for checkout
 
+# Cancel obsolete in-progress runs when a newer commit starts a run on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: matrix validation
