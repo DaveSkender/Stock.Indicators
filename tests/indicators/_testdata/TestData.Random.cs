@@ -21,7 +21,7 @@ internal class RandomGbm : List<Quote>
     /// RandomGbm data = new(Bars: 252, Volatility: 0.05, Drift: 0.0005, Seed: 100.0)
     /// </code>
     /// </summary>
-    /// <param name="bars">Number of bars (quotes) requested.</param>
+    /// <param name="bars">Number of bars (quotes) to pre-generate; 0 starts an empty generator to be filled incrementally via <see cref="Add(DateTime)"/>.</param>
     /// <param name="volatility">How dynamic/volatile the series should be; default is 1.</param>
     /// <param name="drift">Incremental drift due to annual interest rate; default is 5%.</param>
     /// <param name="seed">Starting value of the random series; should not be 0.</param>
@@ -36,10 +36,10 @@ internal class RandomGbm : List<Quote>
         PeriodSize periodSize = PeriodSize.OneMinute,
         bool includeWeekends = true)
     {
-        // validation
-        if (bars <= 0)
+        // validation (0 is allowed: produces an empty generator to fill incrementally)
+        if (bars < 0)
         {
-            throw new ArgumentException("Number of bars must be greater than zero.", nameof(bars));
+            throw new ArgumentException("Number of bars must not be negative.", nameof(bars));
         }
 
         if (volatility <= 0)
