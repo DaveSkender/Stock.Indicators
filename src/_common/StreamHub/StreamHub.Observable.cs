@@ -7,6 +7,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     private readonly HashSet<IStreamObserver<TOut>> _observers = [];
 
     /// <summary>
+    /// Guards every read and write of <see cref="_observers"/>. Subscribe and
+    /// Unsubscribe can run on a different thread than the notify fan-out (a
+    /// downstream hub is constructed while the provider is mid-<c>Add</c>), and
+    /// a <see cref="HashSet{T}"/> is not safe for concurrent mutation and
+    /// enumeration. The lock is held only to mutate or to take a snapshot —
+    /// never while invoking an observer callback — so callbacks can re-enter
+    /// Subscribe/Unsubscribe without deadlocking.
+    /// </summary>
+    private readonly object _observersLock = new();
+
+    /// <summary>
     /// Baseline minimum cache size requirement for this hub (set by ValidateCacheSize).
     /// </summary>
     private int _minCacheSizeBaseline;
@@ -23,33 +34,63 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public int MinCacheSize { get; private set; }
 
     /// <inheritdoc/>
-    public int ObserverCount => _observers.Count;
+    public int ObserverCount
+    {
+        get { lock (_observersLock) { return _observers.Count; } }
+    }
 
     /// <inheritdoc/>
-    public bool HasObservers => _observers.Count > 0;
+    public bool HasObservers
+    {
+        get { lock (_observersLock) { return _observers.Count > 0; } }
+    }
 
     // METHODS
 
     /// <inheritdoc/>
     public bool HasSubscriber(IStreamObserver<TOut> observer)
-        => _observers.Contains(observer);
+    {
+        lock (_observersLock) { return _observers.Contains(observer); }
+    }
+
+    /// <summary>
+    /// Takes a point-in-time copy of the subscribers under the lock. Callers
+    /// iterate the copy outside the lock so observer callbacks never run while
+    /// the lock is held.
+    /// </summary>
+    private IStreamObserver<TOut>[] SnapshotObservers()
+    {
+        lock (_observersLock)
+        {
+            return _observers.Count == 0
+                ? []
+                : [.. _observers];
+        }
+    }
 
     /// <inheritdoc/>
     public IDisposable Subscribe(IStreamObserver<TOut> observer)
     {
         ThrowIfDisposed();
-        _observers.Add(observer);
+        lock (_observersLock)
+        {
+            _observers.Add(observer);
+        }
 
         // Update MinCacheSize to the maximum of all subscribers
         UpdateMinCacheSize();
 
-        return new Unsubscriber(_observers, observer, UpdateMinCacheSize);
+        return new Unsubscriber(() => Unsubscribe(observer));
     }
 
     /// <inheritdoc/>
     public bool Unsubscribe(IStreamObserver<TOut> observer)
     {
-        bool removed = _observers.Remove(observer);
+        bool removed;
+        lock (_observersLock)
+        {
+            removed = _observers.Remove(observer);
+        }
 
         // Re-evaluate MinCacheSize after unsubscribing
         if (removed)
@@ -69,7 +110,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         // Start from the hub's own baseline requirement
         int maxMinCacheSize = _minCacheSizeBaseline;
 
-        foreach (IStreamObserver<TOut> observer in _observers)
+        foreach (IStreamObserver<TOut> observer in SnapshotObservers())
         {
             if (observer is IStreamObservable<ISeries> observable)
             {
@@ -85,56 +126,47 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     {
         ThrowIfDisposed();
 
-        if (ObserverCount == 0)
+        IStreamObserver<TOut>[] snapshot;
+        lock (_observersLock)
         {
-            return;
+            if (_observers.Count == 0)
+            {
+                return;
+            }
+
+            snapshot = [.. _observers];
+            _observers.Clear();
+
+            // Reset to baseline when all subscribers are removed
+            MinCacheSize = _minCacheSizeBaseline;
         }
 
-        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        // notify outside the lock; each subscriber removes itself (now a no-op)
+        foreach (IStreamObserver<TOut> o in snapshot)
         {
-            o.OnCompleted();  // subscriber removes itself
+            o.OnCompleted();
         }
-
-        _observers.Clear();
-
-        // Reset to baseline when all subscribers are removed
-        MinCacheSize = _minCacheSizeBaseline;
     }
 
     /// <summary>
-    /// A disposable subscription to the stream provider.
-    /// <para>Unsubscribed with <see cref="Dispose()"/></para>
+    /// A disposable subscription token. Disposing it removes the observer from
+    /// its provider exactly once (the synchronized
+    /// <see cref="Unsubscribe(IStreamObserver{TOut})"/>).
+    /// A delegate (not a hub reference) is held so the token does not appear to
+    /// own the hub's lifetime.
     /// </summary>
-    /// <param name="observers">
-    /// Registry of all subscribers (by ref)
+    /// <param name="unsubscribe">
+    /// Synchronized removal callback. Invoked at most once.
     /// </param>
-    /// <param name="observer">
-    /// Your unique subscription as provided.
-    /// </param>
-    /// <param name="onRemoved">
-    /// Callback invoked after a successful removal so the parent hub can
-    /// re-evaluate its MinCacheSize. A delegate (not a hub reference) is held
-    /// so this disposable does not appear to own the hub's lifetime.
-    /// </param>
-    private sealed class Unsubscriber(
-        ISet<IStreamObserver<TOut>> observers,
-        IStreamObserver<TOut> observer,
-        Action onRemoved) : IDisposable
+    private sealed class Unsubscriber(Action unsubscribe) : IDisposable
     {
-        private readonly ISet<IStreamObserver<TOut>> _observers = observers;
-        private readonly IStreamObserver<TOut> _observer = observer;
-        private readonly Action _onRemoved = onRemoved;
+        private Action? _unsubscribe = unsubscribe;
 
         /// <summary>
-        /// Remove single observer and update parent MinCacheSize.
+        /// Remove the single observer (idempotent).
         /// </summary>
         public void Dispose()
-        {
-            if (_observers.Remove(_observer))
-            {
-                _onRemoved();
-            }
-        }
+            => Interlocked.Exchange(ref _unsubscribe, null)?.Invoke();
     }
 
     // Observer isolation: a faulting subscriber must not abort notification to
@@ -153,12 +185,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="indexHint">Provider index hint.</param>
     protected void NotifyObserversOnAdd(TOut item, int? indexHint)
     {
-        if (ObserverCount == 0)
-        {
-            return;
-        }
-
-        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        foreach (IStreamObserver<TOut> o in SnapshotObservers())
         {
             try
             {
@@ -177,12 +204,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="fromTimestamp">Rebuild starting date.</param>
     protected void NotifyObserversOnRebuild(DateTime fromTimestamp)
     {
-        if (ObserverCount == 0)
-        {
-            return;
-        }
-
-        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        foreach (IStreamObserver<TOut> o in SnapshotObservers())
         {
             try
             {
@@ -201,12 +223,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="toTimestamp">Prune ending date.</param>
     private void NotifyObserversOnPrune(DateTime toTimestamp)
     {
-        if (ObserverCount == 0)
-        {
-            return;
-        }
-
-        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        foreach (IStreamObserver<TOut> o in SnapshotObservers())
         {
             try
             {
@@ -225,12 +242,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="exception">Exception to send.</param>
     private void NotifyObserversOnError(Exception exception)
     {
-        if (ObserverCount == 0)
-        {
-            return;
-        }
-
-        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        foreach (IStreamObserver<TOut> o in SnapshotObservers())
         {
             try
             {

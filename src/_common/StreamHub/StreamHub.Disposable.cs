@@ -85,9 +85,9 @@ public abstract partial class StreamHub<TIn, TOut> : IDisposable, IChainDisposab
             return;
         }
 
-        // snapshot first: disposing a downstream hub unsubscribes it, which
-        // mutates this hub's observer set during the walk
-        foreach (IStreamObserver<TOut> observer in _observers.ToArray())
+        // snapshot under the observer lock: disposing a downstream hub
+        // unsubscribes it, which mutates this hub's observer set during the walk
+        foreach (IStreamObserver<TOut> observer in SnapshotObservers())
         {
             if (observer is IChainDisposable downstream)
             {
