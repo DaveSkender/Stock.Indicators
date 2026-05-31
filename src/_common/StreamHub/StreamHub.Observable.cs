@@ -9,7 +9,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <summary>
     /// Baseline minimum cache size requirement for this hub (set by ValidateCacheSize).
     /// </summary>
-    private int _minCacheSizeBaseline = 0;
+    private int _minCacheSizeBaseline;
 
     // PROPERTIES
 

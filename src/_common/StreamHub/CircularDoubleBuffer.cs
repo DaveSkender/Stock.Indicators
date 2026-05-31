@@ -80,7 +80,7 @@ internal struct CircularDoubleBuffer : IEquatable<CircularDoubleBuffer>
     }
 
     /// <inheritdoc/>
-    public bool Equals(CircularDoubleBuffer other)
+    public readonly bool Equals(CircularDoubleBuffer other)
     {
         if (_head != other._head || _fill != other._fill)
         {
@@ -117,24 +117,24 @@ internal struct CircularDoubleBuffer : IEquatable<CircularDoubleBuffer>
     }
 
     /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is CircularDoubleBuffer other && Equals(other);
+    public override readonly bool Equals(object? obj) => obj is CircularDoubleBuffer other && Equals(other);
 
     /// <inheritdoc/>
-    public override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         unchecked
         {
             int hash = 17;
-            hash = hash * 31 + _head;
-            hash = hash * 31 + _fill;
-            hash = hash * 31 + (_values?.Length ?? 0);
+            hash = (hash * 31) + _head;
+            hash = (hash * 31) + _fill;
+            hash = (hash * 31) + (_values?.Length ?? 0);
 
             if (_values is not null)
             {
                 int limit = Math.Min(_fill, 4);
                 for (int i = 0; i < limit; i++)
                 {
-                    hash = hash * 31 + _values[i].GetHashCode();
+                    hash = (hash * 31) + _values[i].GetHashCode();
                 }
             }
 

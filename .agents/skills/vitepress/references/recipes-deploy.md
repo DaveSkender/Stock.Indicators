@@ -55,7 +55,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
@@ -84,7 +84,7 @@ Enable GitHub Pages in repository settings → Pages → Source: "GitHub Actions
 For pnpm, add before setup-node:
 
 ```yaml
-- uses: pnpm/action-setup@v6
+- uses: pnpm/action-setup@v4
   with:
     version: 9
 ```
@@ -116,7 +116,7 @@ For clean URLs, add `vercel.json`:
 Create `.gitlab-ci.yml`:
 
 ```yaml
-image: node:24
+image: node:18
 
 pages:
   cache:
