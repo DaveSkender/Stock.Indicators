@@ -172,6 +172,22 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
+    /// Returns a detached, read-only point-in-time copy of the cache, taken
+    /// under the cache lock so it is consistent even if a rebuild runs
+    /// concurrently. Hand this to another thread rather than the live
+    /// <see cref="Results"/> view.
+    /// </summary>
+    /// <returns>A detached, read-only copy of the current cache.</returns>
+    public IReadOnlyList<TOut> Snapshot()
+    {
+        lock (CacheLock)
+        {
+            // detached, read-only copy (cannot be cast back to a mutable array)
+            return Cache.ToArray().AsReadOnly();
+        }
+    }
+
+    /// <summary>
     /// Adds a new item to the stream.
     /// </summary>
     /// <param name="newIn">New item to add.</param>

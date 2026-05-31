@@ -141,7 +141,7 @@ Stream hubs follow a **single-writer** model. Internal locking protects cache *i
 The library deliberately keeps the mutation surface small: `Results` is a read-only view, so you can't reach the underlying cache with `List` / `ICollection` methods. Stay within that surface:
 
 - ✅ **Do** feed and correct data through the **root** hub — the `QuoteHub` (or `TickHub`) you created and add quotes to. It cascades every change to the dependent hubs automatically.
-- ✅ **Do** read results through `Results`; if you hand them to another thread, copy or snapshot what you need rather than enumerating the live view while the writer mutates it.
+- ✅ **Do** read results through `Results`; if you hand them to another thread, call `Snapshot()` (an atomic, immutable copy taken under the hub's lock) rather than enumerating the live `Results` view while the writer mutates it.
 - ❌ **Don't** call `Add` / `RemoveAt` / `RemoveRange` / `Remove` / `Reinitialize` on a *subscribed* (chained) hub such as a `SmaHub` — these throw `InvalidOperationException`. Those hubs are driven by their provider; mutating one directly would desynchronize it from that provider, and a later rebuild could produce wrong results the hub can't heal from. Feed and correct through the root hub instead.
 - ❌ **Don't** mutate from more than one thread at a time (see the example below).
 
