@@ -144,6 +144,8 @@ public class Disposable : TestBase
 /// </summary>
 file sealed class NoopObserver : IStreamObserver<IQuote>
 {
+    public bool IsSubscribed => false;
+    public void Unsubscribe() { }
     public void OnAdd(IQuote item, bool notify, int? indexHint) { }
     public void OnRebuild(DateTime fromTimestamp) { }
     public void OnPrune(DateTime toTimestamp) { }
