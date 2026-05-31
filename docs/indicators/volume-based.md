@@ -52,7 +52,7 @@ features:
     details: Volume MACD oscillator
   - title: VWAP
     icon:
-      src: /assets/thumbs/indicators/vwap.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/Vwap
     details: Volume-weighted price average
   - title: VWMA
