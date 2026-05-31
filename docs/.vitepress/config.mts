@@ -78,11 +78,11 @@ export default defineConfig({
       {
         text: 'More',
         items: [
-          { text: 'Performance', link: '/performance' },
-          { text: 'Migration (v2→v3)', link: '/migration' },
           { text: 'Contributing', link: '/contributing' },
+          { text: 'Migration (v2→v3)', link: '/migration' },
+          { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' },
+          { text: 'Performance', link: '/performance' },
           { text: 'About', link: '/about' },
-          { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -156,8 +156,8 @@ export default defineConfig({
           ]
         }
       ],
-      '/performance': [ siteNav ],
       '/migration': [ siteNav ],
+      '/performance': [ siteNav ],
       '/contributing': [ siteNav ],
       '/about': [ siteNav ],
       '/indicators': [

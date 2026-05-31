@@ -17,7 +17,7 @@
         "analyze",
         "fix"
       ],
-      "default": "fix",
+      "default": "analyze",
       "type": "pickString"
     },
     {
@@ -29,7 +29,7 @@
         "info",
         "hidden"
       ],
-      "default": "info",
+      "default": "hidden",
       "type": "pickString"
     },
     {
