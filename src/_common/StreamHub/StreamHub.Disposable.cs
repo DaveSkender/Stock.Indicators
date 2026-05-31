@@ -9,6 +9,7 @@ public abstract partial class StreamHub<TIn, TOut> : IDisposable, IChainDisposab
     /// <summary>
     /// Throws <see cref="ObjectDisposedException"/> if this hub has been disposed.
     /// </summary>
+    /// <param name="caller">Name of the calling member, injected by the compiler.</param>
     private protected void ThrowIfDisposed([CallerMemberName] string? caller = null)
         => ObjectDisposedException.ThrowIf(_disposed, $"{GetType().Name}.{caller}");
 
@@ -115,5 +116,6 @@ internal interface IChainDisposable : IDisposable
     /// <paramref name="visited"/> set so circular subscription graphs don't
     /// cause infinite recursion; each hub is disposed exactly once.
     /// </summary>
+    /// <param name="visited">Hubs already disposed in this walk; prevents double-dispose and cycle recursion.</param>
     void DisposeChainCore(HashSet<IChainDisposable> visited);
 }
