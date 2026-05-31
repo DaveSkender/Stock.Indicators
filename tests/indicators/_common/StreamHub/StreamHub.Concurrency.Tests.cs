@@ -16,6 +16,13 @@ public class Concurrency : TestBase
 {
     public TestContext TestContext { get; set; }
 
+    // Generous failsafe for rendezvous waits and thread joins. It costs nothing
+    // on the normal path (each Wait/Join returns the instant the threads signal
+    // or finish) and turns a regression deadlock into a fast, clear test failure
+    // instead of a hung CI job — while staying far above any real scheduling
+    // delay, so it cannot itself flake.
+    private static readonly TimeSpan ThreadBudget = TimeSpan.FromSeconds(30);
+
     [TestMethod]
     public void SingleWriterGate_OutOfOrderParallelProducers_ConvergeToSeries()
     {
@@ -62,7 +69,10 @@ public class Concurrency : TestBase
             producers[t].Start();
         }
 
-        foreach (Thread p in producers) { p.Join(); }
+        foreach (Thread p in producers)
+        {
+            p.Join(ThreadBudget).Should().BeTrue("producer threads must finish promptly");
+        }
 
         quoteHub.Quotes.Should().HaveCount(count);
         emaHub.Results.IsExactly(expectedEma);
@@ -84,11 +94,12 @@ public class Concurrency : TestBase
         // (sorted) and no read may throw; the final results must equal the
         // Series. This pins Snapshot() against a chained hub under live writes —
         // the standalone single-reader pin lives in StreamHub.Snapshot.Tests.cs.
-        const int count = 800;
         const int emaPeriods = 20;
         const int readerCount = 4;
 
-        List<Quote> quotes = Quotes.Take(count).ToList();
+        // the default fixture caps at ~500 quotes; feed all of them rather than a
+        // larger constant that would silently truncate
+        List<Quote> quotes = Quotes.ToList();
         IReadOnlyList<EmaResult> expected = quotes.ToEma(emaPeriods);
 
         QuoteHub quoteHub = new();
@@ -122,8 +133,10 @@ public class Concurrency : TestBase
             readers[r].Start();
         }
 
-        // ensure every reader is live before feeding
-        readersStarted.Wait(TimeSpan.FromSeconds(5), TestContext.CancellationToken);
+        // ensure every reader is live before feeding (assert, so a thread that
+        // dies before signaling fails loudly instead of silently under-testing)
+        readersStarted.Wait(ThreadBudget, TestContext.CancellationToken)
+            .Should().BeTrue("all reader threads must be live before feeding");
 
         foreach (Quote q in quotes)
         {
@@ -131,7 +144,10 @@ public class Concurrency : TestBase
         }
 
         done.Cancel();
-        foreach (Thread reader in readers) { reader.Join(); }
+        foreach (Thread reader in readers)
+        {
+            reader.Join(ThreadBudget).Should().BeTrue("reader threads must finish promptly");
+        }
 
         failures.Should().BeEmpty("concurrent Snapshot() reads must never throw");
         emaHub.Results.IsExactly(expected);
@@ -151,10 +167,10 @@ public class Concurrency : TestBase
         // observer set survives this; here the added assertion is that the
         // stable observer still converges bit-for-bit to the Series despite the
         // churn.
-        const int count = 600;
         const int emaPeriods = 20;
 
-        List<Quote> quotes = Quotes.Take(count).ToList();
+        // feed the whole default fixture (a larger constant would silently truncate)
+        List<Quote> quotes = Quotes.ToList();
         IReadOnlyList<EmaResult> expected = quotes.ToEma(emaPeriods);
 
         QuoteHub quoteHub = new();
@@ -185,8 +201,9 @@ public class Concurrency : TestBase
         });
         churn.Start();
 
-        // ensure the churn is live before feeding
-        churnStarted.Wait(TimeSpan.FromSeconds(5), TestContext.CancellationToken);
+        // ensure the churn is live before feeding (assert, per the reader analog)
+        churnStarted.Wait(ThreadBudget, TestContext.CancellationToken)
+            .Should().BeTrue("the churn thread must overlap the live feed");
 
         try
         {
@@ -202,7 +219,7 @@ public class Concurrency : TestBase
         finally
         {
             done.Cancel();
-            churn.Join();
+            churn.Join(ThreadBudget).Should().BeTrue("the churn thread must finish promptly");
         }
 
         failures.Should().BeEmpty();
@@ -252,7 +269,10 @@ public class Concurrency : TestBase
             producers[t].Start();
         }
 
-        foreach (Thread p in producers) { p.Join(); }
+        foreach (Thread p in producers)
+        {
+            p.Join(ThreadBudget).Should().BeTrue("producer threads must finish promptly");
+        }
 
         // late arrival + removal (single writer)
         lock (gate)
