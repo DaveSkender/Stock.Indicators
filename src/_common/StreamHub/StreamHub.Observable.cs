@@ -132,6 +132,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         }
     }
 
+    // Observer isolation: a faulting subscriber must not abort notification to
+    // its siblings. Each callback below is guarded; a thrown exception is routed
+    // to that subscriber's own OnError and the fan-out continues. A failure
+    // inside OnError itself is intentionally swallowed (it cannot be routed
+    // anywhere without recursing). Catching the general Exception type and the
+    // deliberate swallow are required for an isolation boundary, hence the
+    // CA1031 + RCS1075 suppressions scoped to this region.
+#pragma warning disable CA1031, RCS1075 // intentional catch-all at an observer-isolation boundary
+
     /// <summary>
     /// Sends new <c>TSeries</c> item to subscribers.
     /// </summary>
@@ -146,7 +155,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
-            o.OnAdd(item, notify: true, indexHint);
+            try
+            {
+                o.OnAdd(item, notify: true, indexHint);
+            }
+            catch (Exception ex)
+            {
+                IsolateObserverFault(o, ex);
+            }
         }
     }
 
@@ -163,7 +179,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
-            o.OnRebuild(fromTimestamp);
+            try
+            {
+                o.OnRebuild(fromTimestamp);
+            }
+            catch (Exception ex)
+            {
+                IsolateObserverFault(o, ex);
+            }
         }
     }
 
@@ -180,7 +203,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
-            o.OnPrune(toTimestamp);
+            try
+            {
+                o.OnPrune(toTimestamp);
+            }
+            catch (Exception ex)
+            {
+                IsolateObserverFault(o, ex);
+            }
         }
     }
 
@@ -197,8 +227,38 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
-            o.OnError(exception);
+            try
+            {
+                o.OnError(exception);
+            }
+            catch (Exception)
+            {
+                // The subscriber's own error handler threw; suppress so the
+                // remaining subscribers are still notified of the fault.
+            }
         }
     }
+
+    /// <summary>
+    /// Routes a faulting observer callback to that observer's own
+    /// <see cref="IStreamObserver{T}.OnError"/>, isolated so a failure inside the
+    /// handler cannot abort notification to sibling observers.
+    /// </summary>
+    /// <param name="observer">The observer whose callback threw.</param>
+    /// <param name="exception">The exception thrown by the callback.</param>
+    private static void IsolateObserverFault(IStreamObserver<TOut> observer, Exception exception)
+    {
+        try
+        {
+            observer.OnError(exception);
+        }
+        catch (Exception)
+        {
+            // The faulting observer's error handler also threw; suppress to keep
+            // sibling observers isolated from it.
+        }
+    }
+
+#pragma warning restore CA1031, RCS1075 // intentional catch-all at an observer-isolation boundary
 
 }

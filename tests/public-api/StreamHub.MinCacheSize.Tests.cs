@@ -1,4 +1,4 @@
-namespace Indicators;
+namespace Behavioral;
 
 [TestClass]
 public class MinCacheSizeTests : TestBase
@@ -102,7 +102,7 @@ public class MinCacheSizeTests : TestBase
     }
 
     [TestMethod]
-    public void RejectInsertionsBeforeMinCacheSize()
+    public void ApplyRevisionsBeforeMinCacheSize()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Data.GetDefault();
@@ -122,24 +122,26 @@ public class MinCacheSizeTests : TestBase
 
         int initialCacheSize = quoteHub.Results.Count;
 
-        // Act - Try to insert a quote at an index before MinCacheSize with a different value
-        // This would corrupt the indicator's state, so it should be rejected
-        int insertIndex = minCacheSize - 1;
-        IQuote originalQuote = quoteHub.Results[insertIndex];
-        Quote insertQuote = new(
+        // Act - Submit a same-timestamp revision at an index inside the warmup window
+        // (before MinCacheSize). A revision of an already-cached bar must NOT be silently
+        // dropped: it routes through the replace+rebuild path so the cache stays faithful
+        // to the source and downstream indicator state is recomputed from that point.
+        int reviseIndex = minCacheSize - 1;
+        IQuote originalQuote = quoteHub.Results[reviseIndex];
+        Quote revisedQuote = new(
             originalQuote.Timestamp,
-            originalQuote.Open * 0.99m,  // Different value to make rejection observable
+            originalQuote.Open * 0.99m,  // Different value to make the revision observable
             originalQuote.High,
             originalQuote.Low,
             originalQuote.Close,
             originalQuote.Volume);
 
-        quoteHub.Add(insertQuote);
+        quoteHub.Add(revisedQuote);
 
-        // Assert
-        // The insert should be rejected to protect indicator state
-        quoteHub.Results.Count.Should().Be(initialCacheSize, "Insert before MinCacheSize should be rejected");
-        quoteHub.Results[insertIndex].Open.Should().Be(originalQuote.Open, "Original value should be preserved");
+        // Assert - The revision is applied. Count is unchanged because a same-timestamp
+        // revision replaces the existing entry rather than inserting a new one.
+        quoteHub.Results.Count.Should().Be(initialCacheSize, "Same-timestamp revision replaces, it does not grow the cache");
+        quoteHub.Results[reviseIndex].Open.Should().Be(originalQuote.Open * 0.99m, "Revision before MinCacheSize should be applied, not dropped");
     }
 
     [TestMethod]
