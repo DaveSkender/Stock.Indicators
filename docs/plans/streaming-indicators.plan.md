@@ -169,9 +169,9 @@ The v3 streaming engine is the headline of this release after a long development
 #### Test coverage — prove the rollback/concurrency engine before the tag
 
 - [x] **TC-V31-1 — StreamHub concurrency test suite** (4–6 hours). Parallel `Add` from N threads, interleaved late arrivals, concurrent observer subscribe/dispose. The safety net validating the documented single-writer / thread-safety contract. *(PR #2070)*
-- [ ] **TC-V31-4 — Aggregator-hub rollback-equivalence** (2 hours). `QuoteAggregatorHub`/`TickAggregatorHub` override `RollbackState` but aren't in the catalog, so TC001 doesn't exercise them; catalog-register or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`.
-- [ ] **SR020 — Deep-chain rebuild value-equality** (2 hours). `StreamHub.BoundsChecking.Tests.cs:810` asserts count/timestamp only after a chained `RemoveAt`; extend to `IsExactly` vs a Series-equivalent chain.
-- [ ] **TC-V31-8 — Chained-downstream late-arrival through an aggregator** (1–2 hours). `QuoteHub → AggregatorHub → EmaHub` (+ tick analog) late-arrival test; assert downstream `EmaHub.Results` bit-equality between late and fresh chains — catches a dropped-notification-per-replay regression.
+- [x] **TC-V31-4 — Aggregator-hub rollback-equivalence** (2 hours). `QuoteAggregatorHub`/`TickAggregatorHub` override `RollbackState` but aren't in the catalog, so TC001 doesn't exercise them; catalog-register or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`. *(PR #2071)*
+- [x] **SR020 — Deep-chain rebuild value-equality** (2 hours). `StreamHub.BoundsChecking.Tests.cs:810` asserts count/timestamp only after a chained `RemoveAt`; extend to `IsExactly` vs a Series-equivalent chain. *(PR #2071)*
+- [x] **TC-V31-8 — Chained-downstream late-arrival through an aggregator** (1–2 hours). `QuoteHub → AggregatorHub → EmaHub` (+ tick analog) late-arrival test; assert downstream `EmaHub.Results` bit-equality between late and fresh chains — catches a dropped-notification-per-replay regression. *(PR #2071)*
 - [ ] **TC-V31-7 — BufferList bounded-value parity** (1–2 hours). Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each bounded `*.BufferList.Tests.cs` (RSI/Stoch/Aroon/MFI/Ultimate/ConnorsRsi/WilliamsR), matching the Series + StreamHub coverage.
 
 #### ⚠️ Pending maintainer decisions — highlighted, NOT in the next batch
@@ -279,8 +279,8 @@ Non-blocking items from the same swarm review; the stable-blocking subset is in 
 - [ ] **SR008e — Enforce the BufferList chronological-input precondition** (maintainer-gated; 2–4 hours). Code half of §E SR008 (documented + pinned in PR #2054). A guard in `BufferList.AddInternal` (`item.Timestamp < _internalList[^1].Timestamp` → throw) is viable: an experiment broke **exactly one** indicators-project test (`Pmo.CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers`, which itself re-feeds `Quotes.TakeLast(50)` out of order). Before adopting: confirm blast radius across the integration + public-api test projects and consumer impact (a new exception across all 79 BufferLists is a breaking change at stable), decide whether duplicates (`==`) are also rejected, settle the exception type/message, and update `BufferList.OrderingContract.Tests.cs` (which currently pins the *unenforced* behavior) plus the Pmo test.
 - [x] **SR006c — Close the `Reinitialize` rebuild→subscribe race** (part of T205 / `src/_common/StreamHub/StreamHub.cs:233`). Code half of §E SR006: subscribe-before/atomic-with rebuild, or re-run a catch-up rebuild after Subscribe returns. *(PR #2069 — see §L)*
 - [ ] **SR017 — Chain lifecycle ergonomics** (3–4 hours). No `Dispose`/`DisposeChain` on `StreamHub` (it does not implement `IDisposable`); teardown is per-hub via `EndTransmission`/`Unsubscribe` and undiscoverable. Document the `EndTransmission`→`OnCompleted` teardown sequence in `stream.md` and consider implementing `IDisposable`. Surface the `Reinitialize` caveat in xmldoc.
-- [ ] **SR020 — Deep-chain rebuild value-equality tests** (2 hours). `tests/indicators/_common/StreamHub/StreamHub.BoundsChecking.Tests.cs:810` asserts count/timestamp only after a chained `RemoveAt`; extend to `IsExactly` vs a Series-equivalent chain. StochRsi already pins one 3-deep chain and the empirical harness found no divergence — low priority.
-- [ ] **SR019 — Aggregator rollback-equivalence coverage** — already tracked as **TC-V31-4**; the review reconfirms the gap (aggregator hubs excluded from the generic contract at `tests/indicators/_common/StreamHub/StreamHub.RollbackContract.Tests.cs:16`).
+- [x] **SR020 — Deep-chain rebuild value-equality tests** (2 hours). `tests/indicators/_common/StreamHub/StreamHub.BoundsChecking.Tests.cs:810` asserts count/timestamp only after a chained `RemoveAt`; extend to `IsExactly` vs a Series-equivalent chain. StochRsi already pins one 3-deep chain and the empirical harness found no divergence — low priority. *(PR #2071 — see §L)*
+- [x] **SR019 — Aggregator rollback-equivalence coverage** — already tracked as **TC-V31-4**; the review reconfirms the gap (aggregator hubs excluded from the generic contract at `tests/indicators/_common/StreamHub/StreamHub.RollbackContract.Tests.cs:16`). *(PR #2071 — see §L)*
 - Minor cleanups (Low; batch when next touching the files): `OverflowCount` not reset alongside `LastItem` in `RemoveRange` (replay self-heals; `StreamHub.cs:190`); standalone same-timestamp replacement leaves base `LastItem` stale → one extra rebuild cascade on an idempotent re-send (`Quote.StreamHub.cs:135`); `RemoveRange(DateTime)` is the lone cache mutator with no `CacheLock` (defense-in-depth under the single-writer contract; `StreamHub.cs:175`); `_isRebuilding` is a non-volatile instance bool (add an "only read/written under CacheLock" invariant comment; `:23`); `Add(IEnumerable)` `OrderBy`-allocates + locks per item and `RemoveRange` allocates a delegate per rollback (micro-costs); `stream.md:128` "treat as thread-safe (… RemoveRange …)" wording over-promises versus the documented single-writer model.
 
 ### Test coverage v3.1+
@@ -294,7 +294,7 @@ Non-blocking items from the same swarm review; the stable-blocking subset is in 
 - [ ] **TC-V31-3 — BufferList `MaxListSize` runtime trimming test** (1–2 hours).
   - Source: Tester F8. Mirror TickHub's `WithCachePruning` pattern for BufferList.
 
-- [ ] **TC-V31-4 — Aggregator hub rollback-equivalence coverage** (2 hours).
+- [x] **TC-V31-4 — Aggregator hub rollback-equivalence coverage** (2 hours). *(PR #2071 — see §L)*
   - Source: TC001 follow-up. `QuoteAggregatorHub` and `TickAggregatorHub` override `RollbackState` but are not in the catalog, so TC001 does not exercise them. Decide whether to catalog-register them or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`.
 
 - [ ] **TC-V31-5 — Compound-hub inner↔outer rollback interaction** (3 hours).
@@ -308,7 +308,7 @@ Non-blocking items from the same swarm review; the stable-blocking subset is in 
   - Source: PR #2021 scope decision. The bounded-value invariant work (RSI, Stoch, Aroon, MFI, Ultimate, ConnorsRSI, WilliamsR) shipped Series + StreamHub coverage but skipped BufferList. The math is identical across all three styles, so a BufferList violation would be a regression bug rather than an algorithmic edge case; still, a symmetry pass closes the contract.
   - Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each `*.BufferList.Tests.cs` sibling using `Data.GetRandom(2500)`, matching the Series and StreamHub pattern.
 
-- [ ] **TC-V31-8 — Chained-downstream late-arrival aggregator coverage** (1–2 hours).
+- [x] **TC-V31-8 — Chained-downstream late-arrival aggregator coverage** (1–2 hours). *(PR #2071 — see §L)*
   - Source: TC005 self-review (Tester finding). The new TC005 tests exercise the aggregator hub in isolation. A `QuoteHub → AggregatorHub → EmaHub` (and tick analog) late-arrival test would additionally pin that the aggregator's upstream-triggered rebuild propagates downstream observer notifications correctly, catching a hypothetical regression where the rebuild silently dropped one notification per replay. Inline test per pattern; assert downstream `EmaHub.Results` bit-equality between late and fresh chains.
 
 - [ ] **TC-V31-9 — Aggregator late-arrival × gap-fill interaction** (1–2 hours).

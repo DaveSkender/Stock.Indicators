@@ -793,14 +793,17 @@ public class BoundsCheckingTests : TestBase
     }
 
     /// <summary>
-    /// Test Case 31: Test deeply chained StreamHubs (3 levels).
+    /// Test Case 31: A removal cascading through a deep chain must leave every
+    /// level bit-for-bit equal to the equivalent batch Series chain (not just
+    /// the right count) — the rollback engine is value-exact end to end.
     /// </summary>
     [TestMethod]
-    public void DeeplyChainedHubs_RemoveAndRebuild_ShouldNotThrow()
+    public void DeeplyChainedHubs_RemoveAndRebuild_MatchesSeries()
     {
         // Arrange
+        List<Quote> quotes = Quotes.Take(100).ToList();
         QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(100));
+        quoteHub.Add(quotes);
 
         // Create a deep chain: QuoteHub -> AtrHub -> EmaHub -> SmaHub
         AtrHub atrHub = quoteHub.ToAtrHub(14);
@@ -808,12 +811,21 @@ public class BoundsCheckingTests : TestBase
         SmaHub smaHub = emaHub.ToSmaHub(5);
 
         // Act - remove a quote, triggering cascade through all levels
-        quoteHub.RemoveAt(60);
+        const int removeIndex = 60;
+        quoteHub.RemoveAt(removeIndex);
 
-        // Assert - should not throw
+        // Assert - every level matches the equivalent batch chain on the revised quotes
+        List<Quote> revised = [.. quotes];
+        revised.RemoveAt(removeIndex);
+
+        IReadOnlyList<AtrResult> expectedAtr = revised.ToAtr(14);
+        IReadOnlyList<EmaResult> expectedEma = expectedAtr.ToEma(10);
+        IReadOnlyList<SmaResult> expectedSma = expectedEma.ToSma(5);
+
         atrHub.Results.Should().HaveCount(99);
-        emaHub.Results.Should().HaveCount(99);
-        smaHub.Results.Should().HaveCount(99);
+        atrHub.Results.IsExactly(expectedAtr);
+        emaHub.Results.IsExactly(expectedEma);
+        smaHub.Results.IsExactly(expectedSma);
 
         // Cleanup
         smaHub.Unsubscribe();
