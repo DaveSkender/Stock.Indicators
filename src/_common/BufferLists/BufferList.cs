@@ -8,6 +8,17 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// Based on <see cref="IReadOnlyList{TResult}"/>, this class
 /// contains core buffering list features for safe operations.
+/// <para>
+/// <b>Input must be supplied in chronological order.</b> A buffer list is a
+/// single-pass, append-only accumulator: each <c>Add</c> advances internal
+/// state on the assumption that the incoming value is newer than everything
+/// added so far. It does <b>not</b> detect or repair out-of-order, duplicate,
+/// or revised timestamps — feeding such input produces silently incorrect
+/// results (values computed over the wrong window, mismatched timestamps,
+/// or duplicate rows). Sort your data by timestamp before adding, or use a
+/// <c>StreamHub</c> — which supports late arrivals, same-timestamp
+/// corrections, and rollback — when input can arrive out of order.
+/// </para>
 /// </remarks>
 /// <inheritdoc/>
 public abstract class BufferList<TResult> : IReadOnlyList<TResult>
