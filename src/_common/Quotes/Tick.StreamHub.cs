@@ -97,8 +97,7 @@ public class TickHub
                 return;
             }
 
-            // For ticks with different execution IDs but same timestamp,
-            // we need to store them properly (not drop them)
+            // determine execution ID presence for same-timestamp replacement logic
             bool hasExecutionId = !string.IsNullOrEmpty(result.ExecutionId);
             bool hasCachedExecutionId = !string.IsNullOrEmpty(Cache[index].ExecutionId);
 
@@ -192,11 +191,13 @@ public class TickHub
     /// locates the entry by timestamp.
     /// </summary>
     /// <remarks>
-    /// The match is by timestamp, not by value. Because a <see cref="TickHub"/>
-    /// can legitimately hold several ticks at the same timestamp (distinct
-    /// trades), if more than one cached tick shares the timestamp an unspecified
-    /// one is removed; identify the entry positionally via
-    /// <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> when that matters.
+    /// The match is by timestamp. For root hubs, the cache holds at most one
+    /// entry per timestamp — when a new tick is added with the same timestamp as
+    /// an existing entry, the earlier entry is replaced — so <c>Remove</c>
+    /// unambiguously removes that single entry. If a custom derived hub stores
+    /// multiple entries per timestamp, use
+    /// <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> to target a specific
+    /// positional entry.
     /// </remarks>
     /// <param name="tick">
     /// Tick whose <see cref="ISeries.Timestamp"/> identifies the cache entry
