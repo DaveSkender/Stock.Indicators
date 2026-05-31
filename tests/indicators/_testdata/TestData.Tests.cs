@@ -80,7 +80,7 @@ public class TestData : TestBase
     {
         // bars: 0 starts an empty generator to be filled incrementally
         // via Add(DateTime) (used by the offline SSE emulator).
-        Test.Data.RandomGbm generator = new(bars: 0);
+        RandomGbm generator = new(bars: 0);
         generator.Should().BeEmpty();
 
         DateTime timestamp = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -91,6 +91,6 @@ public class TestData : TestBase
 
         // a negative count is still rejected
         Assert.ThrowsExactly<ArgumentException>(
-            static () => new Test.Data.RandomGbm(bars: -1));
+            static () => new RandomGbm(bars: -1));
     }
 }
