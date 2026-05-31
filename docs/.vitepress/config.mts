@@ -78,9 +78,9 @@ export default defineConfig({
       {
         text: 'More',
         items: [
-          { text: 'Contributing', link: '/contributing' },
           { text: 'Migration (v2→v3)', link: '/migration' },
           { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' },
+          { text: 'Contributing', link: '/contributing' },
           { text: 'Performance', link: '/performance' },
           { text: 'About', link: '/about' },
         ]
@@ -372,12 +372,6 @@ export default defineConfig({
 
   cleanUrls: true,
 
-  // Allow specific dead links that are expected (legacy Jekyll templates, etc.)
-  ignoreDeadLinks: [
-    /\.\.\/src\/_common\/README/,
-    /%7B%7Bsite\.github\.repository_url%7D%7D/,
-    /\.\.\/\.\.\/tools\/performance\/baselines\/PERFORMANCE_REVIEW/
-  ],
 
   // Redirect old URLs to new locations
   rewrites: {
@@ -422,7 +416,7 @@ export default defineConfig({
 
   // Exclude legacy Jekyll directories and build artifacts
   srcExclude: [
-    'vendor/**',
+    '.offline/**',
     '.bundle/**',
     '.temp/**',
     '_site/**',
@@ -431,17 +425,17 @@ export default defineConfig({
     '_data/**',
     'pages/**',
     '_indicators/**',
+    'decisions/**',
     'examples/Backtest/**',
     'examples/ConsoleApp/**',
     'examples/CustomIndicatorsUsage/**',
     'examples/UseQuoteApi/**',
     'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
-    'decisions/**',
     'tests/**',
+    'vendor/**',
     'Gemfile*',
     '.pa11yci',
-    '.offline/**',
     '_headers',
     'README.md',
     'AGENTS.md',

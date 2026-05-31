@@ -22,7 +22,7 @@ features:
     details: Gaussian normalization of price
   - title: Heikin Ashi
     icon:
-      src: /assets/thumbs/indicators/heikin-ashi.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/HeikinAshi
     details: Smoothed candle representation
   - title: Renko Charts
