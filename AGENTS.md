@@ -121,5 +121,4 @@ Examples of PR titles:
 - `plan: Define streaming indicators approach`
 - `docs: Update API documentation`
 
----
-Last updated: January 2, 2026
+Do not add "Co-authored-by" trailers to commit messages.
