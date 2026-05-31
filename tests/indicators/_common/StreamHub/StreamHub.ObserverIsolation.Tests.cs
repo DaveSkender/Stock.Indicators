@@ -87,7 +87,7 @@ public class ObserverIsolation : TestBase
         };
 
         feed.Should().NotThrow("a faulting observer must be isolated during rebuild fan-out");
-        recorder.OnRebuildCount.Should().BeGreaterThan(0, "the sibling must still receive rebuild notifications");
+        recorder.OnRebuildCount.Should().Be(1, "the single late arrival triggers exactly one rebuild fan-out");
 
         hub.EndTransmission();
     }
