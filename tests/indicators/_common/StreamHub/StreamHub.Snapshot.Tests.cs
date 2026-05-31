@@ -8,6 +8,8 @@ namespace Observables;
 [TestClass]
 public class Snapshot : TestBase
 {
+    public TestContext TestContext { get; set; }
+
     [TestMethod]
     public void Snapshot_MatchesResultsContent()
     {
@@ -62,7 +64,7 @@ public class Snapshot : TestBase
     }
 
     [TestMethod]
-    public void Snapshot_ConcurrentWithAdds_NeverThrowsAndStaysConsistent()
+    public async Task Snapshot_ConcurrentWithAdds_NeverThrowsAndStaysConsistent()
     {
         // Snapshot() copies under the cache lock, so a reader taking snapshots
         // while a single writer adds must never throw and each snapshot must be
@@ -73,7 +75,7 @@ public class Snapshot : TestBase
         using CancellationTokenSource cts = new();
 
         Task reader = Task.Run(() => {
-            while (!cts.Token.IsCancellationRequested)
+            while (!cts.IsCancellationRequested)
             {
                 IReadOnlyList<IQuote> snap = quoteHub.Snapshot();
 
@@ -83,16 +85,19 @@ public class Snapshot : TestBase
                     snap[i].Timestamp.Should().BeOnOrAfter(snap[i - 1].Timestamp);
                 }
             }
-        });
+        }, TestContext.CancellationToken);
 
-        // single writer
-        foreach (Quote q in quotes)
-        {
-            quoteHub.Add(q);
-        }
+        // single writer; cancel the reader when done
+        Task writer = Task.Run(() => {
+            foreach (Quote q in quotes)
+            {
+                quoteHub.Add(q);
+            }
 
-        cts.Cancel();
-        reader.GetAwaiter().GetResult();  // surfaces any assertion failure
+            cts.Cancel();
+        }, TestContext.CancellationToken);
+
+        await Task.WhenAll(reader, writer).ConfigureAwait(false); // surfaces any assertion failure
 
         quoteHub.Snapshot().Should().HaveCount(quotes.Count);
 
