@@ -1,4 +1,4 @@
-namespace Indicators;
+namespace Behavioral;
 
 [TestClass]
 public class MinCacheSizeTests : TestBase
