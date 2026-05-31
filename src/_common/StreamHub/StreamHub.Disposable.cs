@@ -7,13 +7,6 @@ public abstract partial class StreamHub<TIn, TOut> : IDisposable, IChainDisposab
     private bool _disposed;
 
     /// <summary>
-    /// Throws <see cref="ObjectDisposedException"/> if this hub has been disposed.
-    /// </summary>
-    /// <param name="caller">Name of the calling member, injected by the compiler.</param>
-    private protected void ThrowIfDisposed([CallerMemberName] string? caller = null)
-        => ObjectDisposedException.ThrowIf(_disposed, $"{GetType().Name}.{caller}");
-
-    /// <summary>
     /// Tears down this hub: stops observing its provider and completes its own
     /// direct subscribers (each receives <see cref="IStreamObserver{T}.OnCompleted"/>
     /// and unsubscribes). Idempotent.
@@ -33,6 +26,23 @@ public abstract partial class StreamHub<TIn, TOut> : IDisposable, IChainDisposab
     {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Tears down this hub and every hub downstream of it, depth-first. Each
+    /// hub in the chain has <see cref="Dispose()"/> called on it; any non-hub
+    /// observer is completed when the hub it subscribes to is disposed (via
+    /// that hub's <see cref="IStreamObservable{T}.EndTransmission"/>). Call on
+    /// the root hub to dispose the whole chain in one step. Idempotent.
+    /// </summary>
+    /// <remarks>
+    /// Call from the single writer that feeds the chain; tearing down while a
+    /// concurrent <c>Add</c> is in flight is undefined.
+    /// </remarks>
+    public void DisposeChain()
+    {
+        HashSet<IChainDisposable> visited = new(ReferenceEqualityComparer.Instance);
+        ((IChainDisposable)this).DisposeChainCore(visited);
     }
 
     /// <summary>
@@ -61,21 +71,11 @@ public abstract partial class StreamHub<TIn, TOut> : IDisposable, IChainDisposab
     }
 
     /// <summary>
-    /// Tears down this hub and every hub downstream of it, depth-first. Each
-    /// hub in the chain has <see cref="Dispose()"/> called on it; any non-hub
-    /// observer is completed when the hub it subscribes to is disposed (via
-    /// that hub's <see cref="IStreamObservable{T}.EndTransmission"/>). Call on
-    /// the root hub to dispose the whole chain in one step. Idempotent.
+    /// Throws <see cref="ObjectDisposedException"/> if this hub has been disposed.
     /// </summary>
-    /// <remarks>
-    /// Call from the single writer that feeds the chain; tearing down while a
-    /// concurrent <c>Add</c> is in flight is undefined.
-    /// </remarks>
-    public void DisposeChain()
-    {
-        HashSet<IChainDisposable> visited = new(ReferenceEqualityComparer.Instance);
-        ((IChainDisposable)this).DisposeChainCore(visited);
-    }
+    /// <param name="caller">Name of the calling member, injected by the compiler.</param>
+    private protected void ThrowIfDisposed([CallerMemberName] string? caller = null)
+        => ObjectDisposedException.ThrowIf(_disposed, $"{GetType().Name}.{caller}");
 
     void IChainDisposable.DisposeChainCore(HashSet<IChainDisposable> visited)
     {
