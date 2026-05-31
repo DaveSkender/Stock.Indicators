@@ -80,6 +80,7 @@ public class ObserverIsolation : TestBase
             for (int i = 0; i < quotes.Count; i++)
             {
                 if (i == 30) { continue; }
+
                 hub.Add(quotes[i]);
             }
 
