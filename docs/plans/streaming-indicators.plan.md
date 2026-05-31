@@ -172,7 +172,7 @@ The v3 streaming engine is the headline of this release after a long development
 - [x] **TC-V31-4 — Aggregator-hub rollback-equivalence** (2 hours). `QuoteAggregatorHub`/`TickAggregatorHub` override `RollbackState` but aren't in the catalog, so TC001 doesn't exercise them; catalog-register or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`. *(PR #2064)*
 - [x] **SR020 — Deep-chain rebuild value-equality** (2 hours). `StreamHub.BoundsChecking.Tests.cs:810` asserts count/timestamp only after a chained `RemoveAt`; extend to `IsExactly` vs a Series-equivalent chain. *(PR #2064)*
 - [x] **TC-V31-8 — Chained-downstream late-arrival through an aggregator** (1–2 hours). `QuoteHub → AggregatorHub → EmaHub` (+ tick analog) late-arrival test; assert downstream `EmaHub.Results` bit-equality between late and fresh chains — catches a dropped-notification-per-replay regression. *(PR #2064)*
-- [ ] **TC-V31-7 — BufferList bounded-value parity** (1–2 hours). Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each bounded `*.BufferList.Tests.cs` (RSI/Stoch/Aroon/MFI/Ultimate/ConnorsRsi/WilliamsR), matching the Series + StreamHub coverage.
+- [x] **TC-V31-7 — BufferList bounded-value parity** (1–2 hours). Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each bounded `*.BufferList.Tests.cs` (RSI/Stoch/Aroon/MFI/Ultimate/ConnorsRsi/WilliamsR), matching the Series + StreamHub coverage. *(PR #2065)*
 
 #### ⚠️ Pending maintainer decisions — highlighted, NOT in the next batch
 
