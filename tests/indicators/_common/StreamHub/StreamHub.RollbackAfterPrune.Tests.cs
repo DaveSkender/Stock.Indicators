@@ -108,7 +108,7 @@ public class RollbackAfterPrune : TestBase
         // diverges. Asserted as DIVERGENCE so this flips to a failure (signaling
         // success) when the v3.1 framework snapshot/restore fix lands.
         // Representative across the affected categories: base-recursive (EMA),
-        // Wilder (ATR/ADX), and cumulative (OBV).
+        // Wilder (ATR/ADX), cumulative (OBV), and a pure window indicator (SMA).
         CountMismatches(SmallCache, s => s.ToEmaHub(14).Results, r => r.Ema)
             .Should().BeGreaterThan(0, "EMA recursion re-seeds from truncated history after a prune (SR003)");
 
@@ -120,5 +120,12 @@ public class RollbackAfterPrune : TestBase
 
         CountMismatches(SmallCache, s => s.ToObvHub().Results, r => (double?)r.Obv)
             .Should().BeGreaterThan(0, "cumulative OBV restarts its running total from truncated history after a prune (SR003)");
+
+        // Pure window indicator: SMA does not drift in value, but its leading
+        // results turn null after a post-prune rebuild (the retained cache no
+        // longer spans a full lookback) — so it diverges too, contrary to any
+        // "window indicators are unaffected" intuition.
+        CountMismatches(SmallCache, s => s.ToSmaHub(14).Results, r => r.Sma)
+            .Should().BeGreaterThan(0, "SMA loses its leading results to null after a post-prune rebuild (SR003)");
     }
 }
