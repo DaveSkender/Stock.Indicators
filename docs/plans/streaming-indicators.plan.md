@@ -163,8 +163,8 @@ The v3 streaming engine is the headline of this release after a long development
 
 #### Correctness — small real races in the key features
 
-- [ ] **SR007 — Guard `_observers` against Subscribe-during-stream races** (2–3 hours). `StreamHub.Observable.cs:40,51,95` mutate `_observers` unsynchronized vs the notify-loop enumeration; constructing a downstream hub concurrent with `Add` is a real race. Guard `_observers` (snapshot-on-mutate or lock). Pairs with TC-V31-1.
-- [ ] **SR006c — Close the `Reinitialize` rebuild→subscribe gap** (part of T205 / `StreamHub.cs:233`). The gap can drop high-frequency data; subscribe-before/atomic-with rebuild, or re-run a catch-up rebuild after Subscribe returns. Data-loss → in scope for the debut.
+- [x] **SR007 — Guard `_observers` against Subscribe-during-stream races** (2–3 hours). `StreamHub.Observable.cs:40,51,95` mutate `_observers` unsynchronized vs the notify-loop enumeration; constructing a downstream hub concurrent with `Add` is a real race. Guard `_observers` (snapshot-on-mutate or lock). Pairs with TC-V31-1. *(PR #2069)*
+- [x] **SR006c — Close the `Reinitialize` rebuild→subscribe gap** (part of T205 / `StreamHub.cs:233`). The gap can drop high-frequency data; subscribe-before/atomic-with rebuild, or re-run a catch-up rebuild after Subscribe returns. Data-loss → in scope for the debut. *(PR #2069)*
 
 #### Test coverage — prove the rollback/concurrency engine before the tag
 
