@@ -59,7 +59,7 @@ foreach (Quote quote in liveQuotes)
 ```
 
 ::: tip
-Using `Results[^1]` on an empty collection throws `IndexOutOfRangeException`. Always check `Results.Count > 0` first.
+Using `Results[^1]` on an empty collection throws `ArgumentOutOfRangeException`. Always check `Results.Count > 0` first.
 :::
 
 ## Key features
@@ -108,11 +108,14 @@ quoteHub.Add(quote2);
 // late-arriving data with earlier timestamp
 quoteHub.Add(lateQuote);  // triggers recalculation in dependent hubs
 
-// remove incorrect quote
-quoteHub.Remove(badQuote);   // triggers recalculation
+// correct a bad value: re-add a quote with the same timestamp
+quoteHub.Add(correctedQuote);  // same timestamp, revised values → rebuild
+
+// or remove a bad quote (and everything at/after its timestamp)
+quoteHub.RemoveRange(badQuote.Timestamp, notify: true);  // triggers recalculation
 ```
 
-The hub automatically handles state rollback and recalculation when data arrives out of order or needs correction.
+The hub automatically handles state rollback and recalculation when data arrives out of order or needs correction. To revise a single value in place, re-`Add` a quote with the same `Timestamp`; to drop data, remove it by timestamp with `RemoveRange(fromTimestamp, notify)` or by position with `RemoveAt(cacheIndex)`. Always apply these mutations to the **root** hub — the `QuoteHub` (or `TickHub`) you add quotes to — which cascades the change to every dependent hub; don't mutate a subscribed/chained hub directly (see [Thread safety](#thread-safety)).
 
 ## Performance characteristics
 
@@ -123,12 +126,23 @@ The hub automatically handles state rollback and recalculation when data arrives
 
 ## Thread safety
 
-Stream hubs use internal locking to protect cache operations during rebuild and rollback scenarios:
+Stream hubs follow a **single-writer** model. Internal locking protects cache *integrity* during the rebuild and rollback that out-of-order data triggers — but it does **not** make concurrent mutation safe. Two threads calling mutating methods at the same time can still interleave incorrectly.
 
-- **Treat internal cache operations** as thread-safe (Add, RemoveAt, RemoveRange, Rebuild)
-- **Synchronize external access** when multiple threads call Add or Remove
-- **Single-threaded usage** requires no additional synchronization
-- **Multi-threaded usage** should synchronize external calls to hub methods
+- **Internal locking** guards the cache so a rebuild never exposes a half-updated state to readers.
+- **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock / `Channel<Quote>`).
+- **Single-threaded usage** requires no additional synchronization.
+- **Multi-threaded usage** must serialize every external call that mutates the hub; reads of `Results` should also be coordinated with the writer (see the example below).
+
+### What's safe, and what to avoid
+
+The library deliberately keeps the mutation surface small: `Results` is a read-only view, so you can't reach the underlying cache with `List` / `ICollection` methods. Stay within that surface:
+
+- ✅ **Do** feed and correct data through the **root** hub — the `QuoteHub` (or `TickHub`) you created and add quotes to. It cascades every change to the dependent hubs automatically.
+- ✅ **Do** read results through `Results`; if you hand them to another thread, copy or snapshot what you need rather than enumerating the live view while the writer mutates it.
+- ❌ **Don't** call `Add` / `RemoveAt` / `RemoveRange` on a *subscribed* (chained) hub such as a `SmaHub`. Those hubs are driven by their provider; mutating one directly desynchronizes it from that provider, and a later rebuild can produce wrong results the hub can't heal from.
+- ❌ **Don't** mutate from more than one thread at a time (see the example below).
+
+This single-writer expectation isn't unique to this library: most built-in .NET collections (`List<T>`, `Dictionary<TKey,TValue>`, `Queue<T>`) are likewise unsafe for concurrent writers. The hub adds internal locking to keep its *own* cache consistent during a rebuild, but coordinating *your* calls is still your responsibility — exactly as it would be for any ordinary collection.
 
 ### Thread-safe external access example
 
@@ -218,12 +232,17 @@ void ProcessLiveData(Quote quote)
 
 This example demonstrates how to connect stream hubs to a live WebSocket feed. The pattern applies to any real-time data source (WebSocket, SSE, message queue, etc.) where quotes arrive asynchronously. The hub's `Add` method integrates each incoming quote, automatically propagating updates to all subscribed indicators.
 
+Because socket callbacks can fire concurrently, every `Add` must go through a single writer (see [Thread safety](#thread-safety) above). The handler below serializes with a lock; for higher throughput, post incoming quotes onto a single-consumer `Channel<Quote>` and call `Add` from one drain loop instead.
+
 ```csharp
 // setup hubs
 QuoteHub quoteHub = new();
 SmaHub smaHub = quoteHub.ToSmaHub(20);
 
-// WebSocket message handler
+// single-writer gate: serialize every Add to the hub
+object hubLock = new();
+
+// WebSocket message handler (may be invoked concurrently)
 async Task OnQuoteReceived(WebSocketQuote wsQuote)
 {
     // convert WebSocket quote to library Quote
@@ -236,9 +255,13 @@ async Task OnQuoteReceived(WebSocketQuote wsQuote)
         Close = wsQuote.Close,
         Volume = wsQuote.Volume
     };
-    
-    // update hub - all observers cascade automatically
-    quoteHub.Add(quote);
+
+    // update hub through the single-writer gate -
+    // all observers cascade automatically
+    lock (hubLock)
+    {
+        quoteHub.Add(quote);
+    }
 
     // in this example, the subscribing SmaHub will
     // auto-generate the next corresponding SMA value
@@ -268,21 +291,62 @@ foreach (Quote quote in liveQuotes)
 
 The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the QuoteHub.
 
+## Fault handling and recovery
+
+A hub guards against runaway feedback (for example, an accidental circular chain, or a provider stuck re-sending the same tick). If the **same timestamp with identical values** is re-sent more than 100 times in a row, the hub faults:
+
+- `IsFaulted` flips to `true`,
+- subscribed observers receive `OnError(OverflowException)`, and
+- the offending `Add` throws `OverflowException` ("A repeated stream update exceeded the 100 attempt threshold…").
+
+```csharp
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
+
+try
+{
+    quoteHub.Add(quote);
+}
+catch (OverflowException)
+{
+    // a circular chain or a stuck provider re-sent an identical tick 100+ times
+}
+
+if (quoteHub.IsFaulted)
+{
+    // clear the fault and resume streaming
+    quoteHub.ResetFault();
+}
+```
+
+`ResetFault()` clears the faulted state so the hub can keep processing. The threshold only trips on *byte-identical* repeats — a normal correction (same timestamp, **different** values) is handled as a rollback, not a fault. If your feed legitimately re-sends identical trade prints, dedupe upstream or vary a field before calling `Add` so a real burst of identical ticks doesn't trip the guard.
+
+::: warning Reinitialize is a single-writer operation
+`Reinitialize()` unsubscribes, rebuilds the cache from the provider, then re-subscribes. Quotes that arrive in the brief window between the rebuild and the re-subscribe can be missed. Call `Reinitialize()` only when no concurrent `Add` is in flight — i.e. from the same single writer that feeds the hub.
+:::
+
 ::: info Cache size inheritance
 Hubs will inherit the `maxCacheSize` of its provider.  For example, if you set a size of 1,000 for your `QuoteHub`, then a chained `SmaHub` will also have a maximum cache size of 1,000.
 :::
 
 ::: tip ✨ ✨ Optimize cache size for your use case
 
-Set your `maxCacheSize` according to how you use the data produced in the hub cache.  For example, if you are only interested in the latest indicator values and don't use history, use a minimal cache size that aligns to the indicator minimum.
+Set your `maxCacheSize` according to how you use the data produced in the hub cache. If you only need the latest indicator values and don't read history, a smaller cache saves memory.
 
 ```csharp
-// or configure custom max cache size
+// configure a modest cache that still clears every warmup floor
 QuoteHub limitedHub = new(maxCacheSize: 500);
 
 // automatic FIFO pruning when limit reached
 SmaHub smaHub = limitedHub.ToSmaHub(20);
 ```
+
+Don't size the cache down to the indicator's lookback, though — two things bite:
+
+- **Inheritance.** The `QuoteHub`'s `maxCacheSize` flows to every chained hub (above), so the cache must satisfy the *largest* warmup in the whole chain, not just one indicator.
+- **Warmup floor.** Each hub validates `maxCacheSize` against its own warmup requirement at construction and throws `ArgumentOutOfRangeException` if it's too small. That requirement is often a multiple of the lookback: RSI needs ~2× its period, TEMA and TRIX ~3×, and the Hilbert-transform trendline needs a fixed 63 periods regardless of lookback.
+
+Pick a floor comfortably above the deepest warmup in the chain (with headroom for late-arrival rollbacks), rather than the bare indicator minimum.
 
 :::
 
