@@ -59,8 +59,7 @@ public class RaceGuards : TestBase
                 NoopObserver[] pool = [.. Enumerable.Range(0, 16).Select(_ => new NoopObserver())];
                 while (!done.Token.IsCancellationRequested)
                 {
-                    List<IDisposable> subs = [.. pool.Select(quoteHub.Subscribe)];
-                    foreach (IDisposable s in subs)
+                    foreach (IDisposable s in pool.Select(quoteHub.Subscribe).ToList())
                     {
                         s.Dispose();
                     }
