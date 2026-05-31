@@ -4,7 +4,8 @@
     <!-- Additional warnings suppression specific to test projects -->
     <!-- CA1303: Do not pass literals as localized parameters (tests use hardcoded strings) -->
     <!-- CA1707: Identifiers should not contain underscores (allow underscores in test method names, see tests/AGENTS.md) -->
+    <!-- CA2000: Dispose objects before losing scope (tests create short-lived hubs the runner tears down; a using per construction adds no value) -->
     <!-- CS1591: Missing XML documentation comments (not required for tests) -->
-    <NoWarn>$(NoWarn);CA1303;CA1707;CS1591</NoWarn>
+    <NoWarn>$(NoWarn);CA1303;CA1707;CA2000;CS1591</NoWarn>
   </PropertyGroup>
 </Project>

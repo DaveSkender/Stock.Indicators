@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators;
 /// <typeparam name="TOut">
 /// Type of outbound indicator data.
 /// </typeparam>
-public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObservable<TOut>
+public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObservable<TOut>, IDisposable
     where TIn : ISeries
 {
     /// <summary>
@@ -111,6 +111,17 @@ public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObs
     /// If you only need to rebuild the cache,
     /// use <see cref="Rebuild()"/> instead.
     /// </para>
+    /// <para>
+    /// Only valid on a root hub. A subscribed (chained) hub is driven by its
+    /// provider; calling this on one throws
+    /// <see cref="InvalidOperationException"/>.
+    /// </para>
+    /// <para>
+    /// Reinitialize unsubscribes, rebuilds, then re-subscribes. Items that
+    /// arrive in the brief window between the rebuild and the re-subscribe can
+    /// be missed, so call it only when no concurrent <see cref="Add(TIn)"/> is
+    /// in flight — i.e. from the same single writer that feeds the hub.
+    /// </para>
     /// </remarks>
     void Reinitialize();
 
@@ -146,6 +157,17 @@ public interface IStreamHub<in TIn, out TOut> : IStreamObserver<TIn>, IStreamObs
     /// will be removed and recalculated.
     /// </param>
     void Rebuild(int fromIndex);
+
+    /// <summary>
+    /// Tears down this hub and every hub downstream of it, depth-first.
+    /// </summary>
+    /// <remarks>
+    /// Call on the root hub to dispose the whole chain in one step. In contrast,
+    /// <see cref="IDisposable.Dispose"/> is a single-hop teardown that completes
+    /// only this hub's direct subscribers. Idempotent; call from the single
+    /// writer that feeds the chain.
+    /// </remarks>
+    void DisposeChain();
 
     /// <summary>
     /// Returns a short text label for the hub

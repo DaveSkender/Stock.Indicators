@@ -294,6 +294,33 @@ foreach (Quote quote in liveQuotes)
 
 The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the QuoteHub.
 
+## Lifecycle and teardown
+
+A hub stays subscribed to its provider until you tear it down. When you're done with a chain, release it so the observer links don't keep hubs alive.
+
+Each hub implements `IDisposable`. Disposing a hub does two things:
+
+1. **Stops it observing** — it unsubscribes from its provider.
+2. **Completes its subscribers** — it calls `EndTransmission()`, which sends `OnCompleted()` to every subscriber; each subscriber then unsubscribes itself (`OnCompleted` → `Unsubscribe`).
+
+```csharp
+QuoteHub quoteHub = new();
+SmaHub smaHub = quoteHub.ToSmaHub(20);
+
+// ... stream quotes ...
+
+// tear down the whole chain from the root, in one call
+quoteHub.DisposeChain();
+```
+
+- **`Dispose()`** is a **single-hop** teardown: it detaches the hub from its provider and completes its *direct* subscribers. It does **not** recurse — a subscriber that is itself a hub is detached from this hub but keeps its own subscribers. Disposing the *root* with `Dispose()` therefore does **not** tear down the whole chain; downstream links are left orphaned.
+- **`DisposeChain()`** disposes a hub *and* every hub downstream of it (depth-first). **This is the way to tear down a multi-hub chain** — call it on the root.
+- **`EndTransmission()`** is the lower-level primitive: it completes and releases this hub's direct subscribers (via `OnCompleted`) without unsubscribing the hub from its own provider, and without cascading further downstream. `Dispose()` calls it for you.
+
+Both `Dispose()` and `DisposeChain()` are idempotent — calling them more than once is harmless. Because hubs are `IDisposable`, a root hub also works with a `using` block when its lifetime is scoped.
+
+Some composite hubs (for example `GatorHub` and the `Volume`-based `PvoHub`) hide an internal intermediate hub as their provider. That hidden hub is a subscriber of the root, so `DisposeChain()` from the root releases it — but calling `Dispose()` on the composite leaf alone does **not** (you don't hold a reference to the hidden hub). Prefer `DisposeChain()` from the root for these.
+
 ## Fault handling and recovery
 
 A hub guards against runaway feedback (for example, an accidental circular chain, or a provider stuck re-sending the same tick). If the **same timestamp with identical values** is re-sent more than 100 times in a row, the hub faults:

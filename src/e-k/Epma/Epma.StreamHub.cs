@@ -14,6 +14,10 @@ public class EpmaHub
     private DateTime? lastSeenTimestamp;
     private int lastCacheSize;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Reliability",
+        "CA2000:Dispose objects before losing scope",
+        Justification = "The intermediate hub becomes this hub's provider (a link in the observable chain) and is torn down when the chain is disposed via DisposeChain from the root; it cannot be disposed in this scope without severing the chain.")]
     internal EpmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods)

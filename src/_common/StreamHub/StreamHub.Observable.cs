@@ -42,7 +42,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         // Update MinCacheSize to the maximum of all subscribers
         UpdateMinCacheSize();
 
-        return new Unsubscriber(_observers, observer, this);
+        return new Unsubscriber(_observers, observer, UpdateMinCacheSize);
     }
 
     /// <inheritdoc/>
@@ -108,17 +108,19 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="observer">
     /// Your unique subscription as provided.
     /// </param>
-    /// <param name="hub">
-    /// The parent hub that needs MinCacheSize re-evaluation on unsubscribe.
+    /// <param name="onRemoved">
+    /// Callback invoked after a successful removal so the parent hub can
+    /// re-evaluate its MinCacheSize. A delegate (not a hub reference) is held
+    /// so this disposable does not appear to own the hub's lifetime.
     /// </param>
     private sealed class Unsubscriber(
         ISet<IStreamObserver<TOut>> observers,
         IStreamObserver<TOut> observer,
-        StreamHub<TIn, TOut> hub) : IDisposable
+        Action onRemoved) : IDisposable
     {
         private readonly ISet<IStreamObserver<TOut>> _observers = observers;
         private readonly IStreamObserver<TOut> _observer = observer;
-        private readonly StreamHub<TIn, TOut> _hub = hub;
+        private readonly Action _onRemoved = onRemoved;
 
         /// <summary>
         /// Remove single observer and update parent MinCacheSize.
@@ -127,7 +129,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         {
             if (_observers.Remove(_observer))
             {
-                _hub.UpdateMinCacheSize();
+                _onRemoved();
             }
         }
     }

@@ -202,6 +202,10 @@ public static partial class Pvo
     /// <returns>A PVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Reliability",
+        "CA2000:Dispose objects before losing scope",
+        Justification = "The intermediate QuotePartHub becomes a link in the returned observable chain and is torn down when the chain is disposed via DisposeChain from the root; it cannot be disposed in this scope without severing the chain.")]
     public static PvoHub ToPvoHub(
         this IQuoteProvider<IQuote> quoteProvider,
         int fastPeriods = 12,
