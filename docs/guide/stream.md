@@ -142,7 +142,7 @@ The library deliberately keeps the mutation surface small: `Results` is a read-o
 
 - ✅ **Do** feed and correct data through the **root** hub — the `QuoteHub` (or `TickHub`) you created and add quotes to. It cascades every change to the dependent hubs automatically.
 - ✅ **Do** read results through `Results`; if you hand them to another thread, copy or snapshot what you need rather than enumerating the live view while the writer mutates it.
-- ❌ **Don't** call `Add` / `RemoveAt` / `RemoveRange` / `Reinitialize` on a *subscribed* (chained) hub such as a `SmaHub` — these throw `InvalidOperationException`. Those hubs are driven by their provider; mutating one directly would desynchronize it from that provider, and a later rebuild could produce wrong results the hub can't heal from. Feed and correct through the root hub instead.
+- ❌ **Don't** call `Add` / `RemoveAt` / `RemoveRange` / `Remove` / `Reinitialize` on a *subscribed* (chained) hub such as a `SmaHub` — these throw `InvalidOperationException`. Those hubs are driven by their provider; mutating one directly would desynchronize it from that provider, and a later rebuild could produce wrong results the hub can't heal from. Feed and correct through the root hub instead.
 - ❌ **Don't** mutate from more than one thread at a time (see the example below).
 
 This single-writer expectation isn't unique to this library: most built-in .NET collections (`List<T>`, `Dictionary<TKey,TValue>`, `Queue<T>`) are likewise unsafe for concurrent writers. The hub adds internal locking to keep its *own* cache consistent during a rebuild, but coordinating *your* calls is still your responsibility — exactly as it would be for any ordinary collection.

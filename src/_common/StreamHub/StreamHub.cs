@@ -242,14 +242,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
     {
         ThrowIfNotRootHub();
-        RemoveRangeFrom(fromTimestamp, notify);
+        lock (CacheLock)
+        {
+            RemoveRangeFrom(fromTimestamp, notify);
+        }
     }
 
     /// <summary>
     /// Removes cached records from a timestamp (inclusive) without the
-    /// root-hub guard. Used internally by <see cref="Rebuild(DateTime)"/> on
-    /// every hub; the public <see cref="RemoveRange(DateTime, bool)"/> wraps
-    /// this with the consumer-facing guard.
+    /// root-hub guard. The caller must hold <see cref="CacheLock"/>: this runs
+    /// under the lock taken by <see cref="Rebuild(DateTime)"/> (every hub) and
+    /// by the public <see cref="RemoveRange(DateTime, bool)"/> wrapper.
     /// </summary>
     /// <param name="fromTimestamp">Inclusive lower bound to remove from.</param>
     /// <param name="notify">Notify subscribers of the delete point.</param>
@@ -287,19 +290,21 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public void RemoveRange(int fromIndex, bool notify)
     {
         ThrowIfNotRootHub();
-
-        // nothing to do
-        if (Cache.Count == 0 || fromIndex >= Cache.Count)
+        lock (CacheLock)
         {
-            return;
+            // nothing to do
+            if (Cache.Count == 0 || fromIndex >= Cache.Count)
+            {
+                return;
+            }
+
+            // remove cache entries
+            DateTime fromTimestamp = fromIndex <= 0
+                ? DateTime.MinValue
+                : Cache[fromIndex].Timestamp;
+
+            RemoveRangeFrom(fromTimestamp, notify);
         }
-
-        // remove cache entries
-        DateTime fromTimestamp = fromIndex <= 0
-            ? DateTime.MinValue
-            : Cache[fromIndex].Timestamp;
-
-        RemoveRangeFrom(fromTimestamp, notify);
     }
 
     /// <summary>
