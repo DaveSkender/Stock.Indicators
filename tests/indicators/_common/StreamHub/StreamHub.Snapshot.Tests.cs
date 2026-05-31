@@ -87,14 +87,20 @@ public class Snapshot : TestBase
             }
         }, TestContext.CancellationToken);
 
-        // single writer; cancel the reader when done
+        // single writer; cancel the reader when done (even if the writer faults,
+        // so WhenAll surfaces that fault promptly instead of hanging to timeout)
         Task writer = Task.Run(() => {
-            foreach (Quote q in quotes)
+            try
             {
-                quoteHub.Add(q);
+                foreach (Quote q in quotes)
+                {
+                    quoteHub.Add(q);
+                }
             }
-
-            cts.Cancel();
+            finally
+            {
+                cts.Cancel();
+            }
         }, TestContext.CancellationToken);
 
         await Task.WhenAll(reader, writer).ConfigureAwait(false); // surfaces any assertion failure
