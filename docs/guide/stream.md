@@ -353,9 +353,9 @@ Pick a floor comfortably above the deepest warmup in the chain (with headroom fo
 ::: warning Corrections after pruning are approximate for stateful indicators
 Once the cache has pruned old bars, a correction or late arrival that triggers a rebuild can no longer see the pruned history, so the rebuilt results don't match a hub that received the same data in order:
 
-- **Every indicator** loses its leading results to `null` — the earliest retained bars no longer have a full lookback window to recompute from. This includes pure window indicators like SMA (their *remaining* values stay exact, but the leading ones disappear).
+- **Indicators with a warmup/lookback** (window indicators like SMA, and recursive smoothers like EMA and the Wilder family) lose their leading results to `null` — the earliest retained bars no longer have enough history to recompute their warmup. For a pure window indicator like SMA the *remaining* values stay exact; the leading ones just disappear.
 - **Recursive smoothers** (EMA and everything built on it; the Wilder family — RSI, ATR, ADX, SMMA) additionally re-seed from the truncated history and drift, re-converging as the recursion re-stabilizes. The Wilder hubs that re-derive their seed on *every* rollback (RSI, ADX, SMMA) drift on any correction once the cache has pruned, not only deep ones.
-- **Cumulative indicators** (OBV, ADL) carry a *permanent* offset.
+- **Cumulative indicators** (OBV, ADL) have no warmup to lose, so no leading `null`s — instead they restart their running total from the truncated history and carry a *permanent* offset across every result.
 
 This only happens when `maxCacheSize` is **smaller than the history you revise**. Size `maxCacheSize` to retain the full history you may need to correct — with an adequate cache, a rebuild reproduces an in-order hub exactly.
 :::

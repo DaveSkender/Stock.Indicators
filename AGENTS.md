@@ -121,6 +121,8 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, p
 
 Examples: `feat: Add RSI indicator`, `fix: Resolve MACD calculation error`, `docs: Update API documentation`
 
+Do not add "Co-authored-by" trailers to commit messages.
+
 ## Boundaries
 
 ✅ Always run quality gates (format + build + test + markdownlint) before marking work complete
