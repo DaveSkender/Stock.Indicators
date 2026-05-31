@@ -223,12 +223,24 @@ pre.shiki {
     border-radius: 5px;
   }
 
-  // Force 3-column grid to match the main indicators index layout.
-  // VitePress uses grid-4 (25% / 4 cols) for non-multiples-of-3 feature counts;
-  // override to grid-6 behavior (33.33% / 3 cols) at the wide breakpoint.
-  @media (min-width: 960px) {
-    .item.grid-4 {
-      width: calc(33.3333%);
+  // Prefer Moving Averages breakpoint behavior: require a wider viewport
+  // before switching to a 3-column layout. Use higher specificity and
+  // !important to override VitePress-generated grid classes reliably.
+  @media (min-width: 1200px) {
+    .VPFeatures.VPHomeFeatures .container .items .item,
+    .VPFeatures.VPHomeFeatures .container .items .item[class*='grid-'],
+    .VPFeatures .container .items .item,
+    .VPFeatures .container .items .item[class*='grid-'] {
+      box-sizing: border-box !important;
+      width: 33.333333% !important;
+      max-width: 33.333333% !important;
+      flex: 0 0 33.333333% !important;
+    }
+
+    .VPFeatures.VPHomeFeatures .container .items a.VPFeature,
+    .VPFeatures .container .items a.VPFeature {
+      width: 100% !important;
+      box-sizing: border-box !important;
     }
   }
 }
@@ -330,7 +342,7 @@ pre.shiki {
   aspect-ratio: 2.5;
 }
 
-@media (width <= 880px) {
+@media (max-width: 880px) {
   .indy-demo__canvas-wrap--overlay {
     aspect-ratio: 2;
   }
@@ -340,7 +352,7 @@ pre.shiki {
   aspect-ratio: 6;
 }
 
-@media (width <= 880px) {
+@media (max-width: 880px) {
   .indy-demo__canvas-wrap--oscillator {
     aspect-ratio: 5;
   }
@@ -348,4 +360,34 @@ pre.shiki {
 
 .indy-demo__canvas {
   display: block;
+}
+
+/* Strong layout override: use CSS Grid to ensure consistent
+   2-column layout below 1200px and 3-column layout at/above 1200px.
+   This overrides VitePress-generated flex/grid sizing heuristics that
+   vary per-page and depend on item counts. */
+.VPFeatures .container .items {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.5rem !important;
+}
+
+.VPFeatures .container .items .item {
+  width: auto !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+.VPFeatures .container .items .item > a,
+.VPFeatures .container .items .item .VPLink,
+.VPFeatures .container .items a.VPFeature {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 1200px) {
+  .VPFeatures .container .items {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
 }

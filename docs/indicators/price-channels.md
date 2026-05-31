@@ -37,12 +37,12 @@ features:
     details: Percentage envelope around MA
   - title: Pivot Points
     icon:
-      src: /assets/thumbs/indicators/pivot-points.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/PivotPoints
-    details: Classic support/resistance pivots
+    details: Support/resistance pivots
   - title: Rolling Pivot Points
     icon:
-      src: /assets/thumbs/indicators/rolling-pivots.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/RollingPivots
     details: Rolling period pivot points
   - title: STARC Bands
