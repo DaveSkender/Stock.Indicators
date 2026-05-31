@@ -16,6 +16,5 @@ internal record QuoteD
 ) : IReusable
 {
     /// <inheritdoc/>
-    [JsonIgnore]
-    public double Value => Close;
+    double IReusable.Value => Close;
 }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Fixed-size circular buffer for <c>double</c> values with O(capacity) max/min scan.
 /// Zero heap allocation per tick; cache-line-resident for small windows (&lt;= ~32 elements).
 /// </summary>
-internal struct CircularDoubleBuffer
+internal struct CircularDoubleBuffer : IEquatable<CircularDoubleBuffer>
 {
     private readonly double[] _values;
     private int _head;  // next write position
@@ -78,4 +78,71 @@ internal struct CircularDoubleBuffer
 
         return min;
     }
+
+    /// <inheritdoc/>
+    public bool Equals(CircularDoubleBuffer other)
+    {
+        if (_head != other._head || _fill != other._fill)
+        {
+            return false;
+        }
+
+        double[] a = _values;
+        double[] b = other._values;
+
+        if (a == null && b == null)
+        {
+            return true;
+        }
+
+        if (a == null || b == null)
+        {
+            return false;
+        }
+
+        if (a.Length != b.Length)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (!a[i].Equals(b[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <inheritdoc/>
+    public override bool Equals(object? obj) => obj is CircularDoubleBuffer other && Equals(other);
+
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            int hash = 17;
+            hash = hash * 31 + _head;
+            hash = hash * 31 + _fill;
+            hash = hash * 31 + (_values?.Length ?? 0);
+
+            if (_values is not null)
+            {
+                int limit = Math.Min(_fill, 4);
+                for (int i = 0; i < limit; i++)
+                {
+                    hash = hash * 31 + _values[i].GetHashCode();
+                }
+            }
+
+            return hash;
+        }
+    }
+
+    public static bool operator ==(CircularDoubleBuffer left, CircularDoubleBuffer right) => left.Equals(right);
+
+    public static bool operator !=(CircularDoubleBuffer left, CircularDoubleBuffer right) => !left.Equals(right);
 }
