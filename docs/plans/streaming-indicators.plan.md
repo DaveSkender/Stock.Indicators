@@ -230,6 +230,11 @@ Source: pre-release confidence review (6 static finders + 4 worktree dynamic exe
   - **Residual.** Corrections to bars already evicted below the retained head remain out of contract (handled by the SR001 before-head drop). Within-window and at-boundary corrections become exact once the boundary snapshot is preserved.
   - **Cost/risk.** Multi-day; touches the base prune/rollback machinery plus dozens of hubs; high regression surface against the full suite. Schedule as its own effort with a complete sweep.
 
+- [ ] **ARCH-V31-12 — Guard mutation on subscribed (non-root) hubs** (2–3 hours).
+  - Source: PR #2052 review (maintainer, 2026-05-31) — approved to spec as v3.1.
+  - A hub already knows whether it is self-rooted (`QuoteHub._isStandalone`; non-root hubs hold a real `Provider`, not the inert `BaseProvider<T>`). Make the mutating surface — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize` — throw `InvalidOperationException` (or no-op under a documented contract) when called on a subscribed/chained hub, so a user cannot desync a leaf hub from its provider. Public-behavior change → land deliberately with tests; once enforced, tighten `stream.md` (which today only *documents* the "mutate the root hub" rule rather than enforcing it).
+  - Companion (same root-only constraint): a convenience `Remove(IQuote)` on the root `QuoteHub`/`TickHub` (find-by-timestamp → `RemoveAt`/`RemoveRange`; no-op-or-throw if absent), from the §E SR011 doc discussion. Decide whether to ship the two together.
+
 ### Streaming confidence-review follow-ups (overall-review-v3, 2026-05-29)
 
 Non-blocking items from the same swarm review; the stable-blocking subset is in §E. Cross-referenced to existing items where they overlap.
