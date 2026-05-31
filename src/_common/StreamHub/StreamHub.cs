@@ -22,6 +22,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </summary>
     private bool _isRebuilding;
 
+    /// <summary>
+    /// Set once the hub has completed its construction-time
+    /// <see cref="Reinitialize"/>. A later <see cref="Reinitialize"/> on a
+    /// non-root hub is a consumer call and is rejected.
+    /// </summary>
+    private bool _initialized;
+
     private protected StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
@@ -121,6 +128,37 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </summary>
     private TOut? LastItem { get; set; }
 
+    /// <summary>
+    /// Gets a value indicating whether this hub is a <em>root</em> hub — one
+    /// that owns its own input timeline because it has no upstream provider
+    /// (its provider is the inert placeholder). Only a <see cref="QuoteHub"/>
+    /// or <see cref="TickHub"/> created without a provider is a root; every hub
+    /// that subscribes to a provider is non-root and is driven by that provider.
+    /// </summary>
+    private protected bool IsRootHub => Provider is IInertProvider;
+
+    /// <summary>
+    /// Rejects a direct, consumer-initiated mutation on a non-root
+    /// (subscribed/chained) hub. Such a hub is driven by its provider, so
+    /// mutating it directly would desynchronize it from that provider and a
+    /// later rebuild could produce wrong results. Feed and correct data through
+    /// the root hub instead.
+    /// </summary>
+    /// <param name="caller">Name of the rejected mutating method.</param>
+    /// <exception cref="InvalidOperationException">
+    /// This hub is subscribed to a provider (non-root).
+    /// </exception>
+    private protected void ThrowIfNotRootHub([CallerMemberName] string? caller = null)
+    {
+        if (!IsRootHub)
+        {
+            throw new InvalidOperationException(
+                $"'{caller}' can only be called on a root hub (a standalone QuoteHub or TickHub). "
+              + "This hub is subscribed to a provider and is driven by it; "
+              + "mutate the root hub instead so the chain stays synchronized.");
+        }
+    }
+
     // METHODS
 
     /// <summary>
@@ -137,14 +175,25 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Adds a new item to the stream.
     /// </summary>
     /// <param name="newIn">New item to add.</param>
-    public void Add(TIn newIn) => OnAdd(newIn, notify: true, null);
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Add to the root hub instead.
+    /// </exception>
+    public void Add(TIn newIn)
+    {
+        ThrowIfNotRootHub();
+        OnAdd(newIn, notify: true, null);
+    }
 
     /// <summary>
     /// Adds a batch of new items to the stream.
     /// </summary>
     /// <param name="batchIn">Batch of new items to add.</param>
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Add to the root hub instead.
+    /// </exception>
     public void Add(IEnumerable<TIn> batchIn)
     {
+        ThrowIfNotRootHub();
         foreach (TIn newIn in batchIn.OrderBy(static x => x.Timestamp))
         {
             OnAdd(newIn, notify: true, null);
@@ -155,24 +204,59 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Removes a cached item at a specific index position.
     /// </summary>
     /// <inheritdoc/>
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Remove from the root hub instead.
+    /// </exception>
     public void RemoveAt(int cacheIndex)
     {
+        ThrowIfNotRootHub();
         lock (CacheLock)
         {
-            TOut cachedItem = Cache[cacheIndex];
-            DateTime timestamp = cachedItem.Timestamp;
-            Cache.RemoveAt(cacheIndex);
-
-            // notify observers (inside lock to ensure cache consistency)
-            NotifyObserversOnRebuild(timestamp);
+            RemoveAtCore(cacheIndex);
         }
+    }
+
+    /// <summary>
+    /// Removes the cached item at <paramref name="cacheIndex"/> and notifies
+    /// observers. The caller must already hold <see cref="CacheLock"/>; this lets
+    /// a find-then-remove (e.g. <c>Remove(IQuote)</c>) be atomic under one lock.
+    /// </summary>
+    /// <param name="cacheIndex">Cache index to remove.</param>
+    private protected void RemoveAtCore(int cacheIndex)
+    {
+        TOut cachedItem = Cache[cacheIndex];
+        DateTime timestamp = cachedItem.Timestamp;
+        Cache.RemoveAt(cacheIndex);
+
+        // notify observers (inside lock to ensure cache consistency)
+        NotifyObserversOnRebuild(timestamp);
     }
 
     /// <summary>
     /// Removes a range of cached items from a specific timestamp.
     /// </summary>
     /// <inheritdoc/>
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Remove from the root hub instead.
+    /// </exception>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
+    {
+        ThrowIfNotRootHub();
+        lock (CacheLock)
+        {
+            RemoveRangeFrom(fromTimestamp, notify);
+        }
+    }
+
+    /// <summary>
+    /// Removes cached records from a timestamp (inclusive) without the
+    /// root-hub guard. The caller must hold <see cref="CacheLock"/>: this runs
+    /// under the lock taken by <see cref="Rebuild(DateTime)"/> (every hub) and
+    /// by the public <see cref="RemoveRange(DateTime, bool)"/> wrapper.
+    /// </summary>
+    /// <param name="fromTimestamp">Inclusive lower bound to remove from.</param>
+    /// <param name="notify">Notify subscribers of the delete point.</param>
+    private void RemoveRangeFrom(DateTime fromTimestamp, bool notify)
     {
         // compute restore index: last ProviderCache entry before rollback point
         int gteIndex = ProviderCache.IndexGte(fromTimestamp);
@@ -200,20 +284,27 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Removes a range of cached items from a specific index.
     /// </summary>
     /// <inheritdoc/>
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Remove from the root hub instead.
+    /// </exception>
     public void RemoveRange(int fromIndex, bool notify)
     {
-        // nothing to do
-        if (Cache.Count == 0 || fromIndex >= Cache.Count)
+        ThrowIfNotRootHub();
+        lock (CacheLock)
         {
-            return;
+            // nothing to do
+            if (Cache.Count == 0 || fromIndex >= Cache.Count)
+            {
+                return;
+            }
+
+            // remove cache entries
+            DateTime fromTimestamp = fromIndex <= 0
+                ? DateTime.MinValue
+                : Cache[fromIndex].Timestamp;
+
+            RemoveRangeFrom(fromTimestamp, notify);
         }
-
-        // remove cache entries
-        DateTime fromTimestamp = fromIndex <= 0
-            ? DateTime.MinValue
-            : Cache[fromIndex].Timestamp;
-
-        RemoveRange(fromTimestamp, notify);
     }
 
     /// <summary>
@@ -222,10 +313,29 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public void Reinitialize()
     {
+        // The construction-time call (from a derived hub's constructor)
+        // initializes the hub and is always permitted. Any later call is a
+        // consumer re-init, which is only valid on a root hub — a subscribed
+        // hub is driven by its provider and must not be reset independently.
+        if (_initialized)
+        {
+            ThrowIfNotRootHub();
+        }
+
         Unsubscribe();
         ResetFault();
         Rebuild();
-        Subscription = Provider.Subscribe(this);
+
+        // A root hub's provider is the inert placeholder, which rejects
+        // subscriptions; only a non-root hub re-establishes its subscription.
+        // This also makes a consumer Reinitialize() on a root hub a clean
+        // rebuild instead of throwing partway from the inert provider.
+        if (!IsRootHub)
+        {
+            Subscription = Provider.Subscribe(this);
+        }
+
+        _initialized = true;
 
         // TODO: make reinitialization abstract,
         // and build initial Cache from faster static method
@@ -260,8 +370,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
             try
             {
-                // clear cache
-                RemoveRange(fromTimestamp, notify: false);
+                // clear cache (internal path — bypasses the root-hub guard
+                // because Rebuild runs on every hub, root or not)
+                RemoveRangeFrom(fromTimestamp, notify: false);
 
                 // get provider position
                 int provIndex = ProviderCache.IndexGte(fromTimestamp);

@@ -7,11 +7,6 @@ public class TickHub
     : StreamHub<ITick, ITick>, IStreamObservable<ITick>
 {
     /// <summary>
-    /// Indicates whether this TickHub is standalone (no external provider).
-    /// </summary>
-    private readonly bool _isStandalone;
-
-    /// <summary>
     /// Absolute maximum cache size to prevent overflow.
     /// </summary>
     private const int absoluteMaxCacheSize = (int)(0.8 * int.MaxValue);
@@ -22,10 +17,7 @@ public class TickHub
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public TickHub(int? maxCacheSize = null)
         : base(new BaseProvider<ITick>(ValidateAndGetMaxCacheSize(maxCacheSize)))
-    {
-        _isStandalone = true;
-        Name = "TICK-HUB";
-    }
+        => Name = "TICK-HUB";
 
     /// <summary>
     /// Validates and returns the max cache size.
@@ -57,7 +49,6 @@ public class TickHub
         IStreamObservable<ITick> provider)
         : base(provider ?? throw new ArgumentNullException(nameof(provider)))
     {
-        _isStandalone = false;
         Name = "TICK-HUB";
         Reinitialize();
     }
@@ -85,8 +76,8 @@ public class TickHub
     /// <inheritdoc/>
     public override void OnAdd(ITick item, bool notify, int? indexHint)
     {
-        // for non-standalone TickHub, use standard behavior
-        if (!_isStandalone)
+        // for non-root TickHub, use standard behavior
+        if (!IsRootHub)
         {
             base.OnAdd(item, notify, indexHint);
             return;
@@ -106,8 +97,7 @@ public class TickHub
                 return;
             }
 
-            // For ticks with different execution IDs but same timestamp,
-            // we need to store them properly (not drop them)
+            // determine execution ID presence for same-timestamp replacement logic
             bool hasExecutionId = !string.IsNullOrEmpty(result.ExecutionId);
             bool hasCachedExecutionId = !string.IsNullOrEmpty(Cache[index].ExecutionId);
 
@@ -171,10 +161,10 @@ public class TickHub
     /// <inheritdoc/>
     public override void Rebuild(DateTime fromTimestamp)
     {
-        // for standalone TickHub (no external provider),
+        // for a root TickHub (no external provider),
         // we cannot rebuild from an empty provider cache
         // instead, just notify observers to rebuild from this hub's cache
-        if (_isStandalone)
+        if (IsRootHub)
         {
             // compute restore index from cache
             int gte = Cache.IndexGte(fromTimestamp);
@@ -192,6 +182,51 @@ public class TickHub
 
         // standard rebuild for TickHub with external provider
         base.Rebuild(fromTimestamp);
+    }
+
+    /// <summary>
+    /// Removes the cached tick whose timestamp matches the supplied tick,
+    /// cascading the resulting rebuild to every dependent hub. This is a
+    /// convenience over <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> that
+    /// locates the entry by timestamp.
+    /// </summary>
+    /// <remarks>
+    /// The match is by timestamp. For root hubs, the cache holds at most one
+    /// entry per timestamp — when a new tick is added with the same timestamp as
+    /// an existing entry, the earlier entry is replaced — so <c>Remove</c>
+    /// unambiguously removes that single entry. If a custom derived hub stores
+    /// multiple entries per timestamp, use
+    /// <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> to target a specific
+    /// positional entry.
+    /// </remarks>
+    /// <param name="tick">
+    /// Tick whose <see cref="ISeries.Timestamp"/> identifies the cache entry
+    /// to remove.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="tick"/> is null.</exception>
+    /// <exception cref="ArgumentException">No cached tick matches the timestamp.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Remove from the root hub instead.
+    /// </exception>
+    public void Remove(ITick tick)
+    {
+        ArgumentNullException.ThrowIfNull(tick);
+        ThrowIfNotRootHub();
+
+        // find-then-remove under one lock so the index can't shift in between
+        lock (CacheLock)
+        {
+            int index = Cache.IndexOf(tick.Timestamp, throwOnFail: false);
+
+            if (index < 0)
+            {
+                throw new ArgumentException(
+                    $"No cached tick was found at timestamp {tick.Timestamp:O}.",
+                    nameof(tick));
+            }
+
+            RemoveAtCore(index);
+        }
     }
 }
 
