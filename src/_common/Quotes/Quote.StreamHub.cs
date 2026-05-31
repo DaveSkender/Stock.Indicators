@@ -7,11 +7,6 @@ public class QuoteHub
     : QuoteProvider<IQuote, IQuote>
 {
     /// <summary>
-    /// Indicates whether this QuoteHub is standalone (no external provider).
-    /// </summary>
-    private readonly bool _isStandalone;
-
-    /// <summary>
     /// Absolute maximum cache size to prevent overflow.
     /// </summary>
     private const int absoluteMaxCacheSize = (int)(0.8 * int.MaxValue);
@@ -22,7 +17,7 @@ public class QuoteHub
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public QuoteHub(int? maxCacheSize = null)
         : base(new BaseProvider<IQuote>(ValidateAndGetMaxCacheSize(maxCacheSize)))
-            => _isStandalone = true;
+    { }
 
     /// <summary>
     /// Validates and returns the max cache size.
@@ -53,10 +48,7 @@ public class QuoteHub
     public QuoteHub(
         IQuoteProvider<IQuote> provider)
         : base(provider)
-    {
-        _isStandalone = false;
-        Reinitialize();
-    }
+        => Reinitialize();
 
     /// <inheritdoc/>
     protected override (IQuote result, int index)
@@ -94,8 +86,8 @@ public class QuoteHub
             }
         }
 
-        // for non-standalone QuoteHub, use standard behavior (which handles locking)
-        if (!_isStandalone)
+        // for non-root QuoteHub, use standard behavior (which handles locking)
+        if (!IsRootHub)
         {
             base.OnAdd(item, notify, indexHint);
             return;
@@ -150,10 +142,10 @@ public class QuoteHub
     /// <inheritdoc/>
     public override void Rebuild(DateTime fromTimestamp)
     {
-        // for standalone QuoteHub (no external provider),
+        // for a root QuoteHub (no external provider),
         // we cannot rebuild from an empty provider cache
         // instead, just notify observers to rebuild from this hub's cache
-        if (_isStandalone)
+        if (IsRootHub)
         {
             lock (CacheLock)
             {
@@ -182,6 +174,12 @@ public class QuoteHub
     /// convenience over <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> that
     /// locates the entry by timestamp.
     /// </summary>
+    /// <remarks>
+    /// The match is by timestamp, not by value, so a quote carrying only the
+    /// timestamp identifies the entry. If more than one cached quote shares the
+    /// timestamp, an unspecified one is removed; identify the entry positionally
+    /// via <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> when that matters.
+    /// </remarks>
     /// <param name="quote">
     /// Quote whose <see cref="ISeries.Timestamp"/> identifies the cache entry
     /// to remove.
@@ -196,16 +194,20 @@ public class QuoteHub
         ArgumentNullException.ThrowIfNull(quote);
         ThrowIfNotRootHub();
 
-        int index = Cache.IndexOf(quote.Timestamp, throwOnFail: false);
-
-        if (index < 0)
+        // find-then-remove under one lock so the index can't shift in between
+        lock (CacheLock)
         {
-            throw new ArgumentException(
-                $"No cached quote was found at timestamp {quote.Timestamp:O}.",
-                nameof(quote));
-        }
+            int index = Cache.IndexOf(quote.Timestamp, throwOnFail: false);
 
-        RemoveAt(index);
+            if (index < 0)
+            {
+                throw new ArgumentException(
+                    $"No cached quote was found at timestamp {quote.Timestamp:O}.",
+                    nameof(quote));
+            }
+
+            RemoveAtCore(index);
+        }
     }
 }
 

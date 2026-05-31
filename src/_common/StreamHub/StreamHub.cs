@@ -212,13 +212,24 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         ThrowIfNotRootHub();
         lock (CacheLock)
         {
-            TOut cachedItem = Cache[cacheIndex];
-            DateTime timestamp = cachedItem.Timestamp;
-            Cache.RemoveAt(cacheIndex);
-
-            // notify observers (inside lock to ensure cache consistency)
-            NotifyObserversOnRebuild(timestamp);
+            RemoveAtCore(cacheIndex);
         }
+    }
+
+    /// <summary>
+    /// Removes the cached item at <paramref name="cacheIndex"/> and notifies
+    /// observers. The caller must already hold <see cref="CacheLock"/>; this lets
+    /// a find-then-remove (e.g. <c>Remove(IQuote)</c>) be atomic under one lock.
+    /// </summary>
+    /// <param name="cacheIndex">Cache index to remove.</param>
+    private protected void RemoveAtCore(int cacheIndex)
+    {
+        TOut cachedItem = Cache[cacheIndex];
+        DateTime timestamp = cachedItem.Timestamp;
+        Cache.RemoveAt(cacheIndex);
+
+        // notify observers (inside lock to ensure cache consistency)
+        NotifyObserversOnRebuild(timestamp);
     }
 
     /// <summary>
@@ -309,7 +320,16 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         Unsubscribe();
         ResetFault();
         Rebuild();
-        Subscription = Provider.Subscribe(this);
+
+        // A root hub's provider is the inert placeholder, which rejects
+        // subscriptions; only a non-root hub re-establishes its subscription.
+        // This also makes a consumer Reinitialize() on a root hub a clean
+        // rebuild instead of throwing partway from the inert provider.
+        if (!IsRootHub)
+        {
+            Subscription = Provider.Subscribe(this);
+        }
+
         _initialized = true;
 
         // TODO: make reinitialization abstract,

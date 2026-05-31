@@ -56,6 +56,29 @@ public class MutationGuard : TestBase
         quoteHub.EndTransmission();
     }
 
+    [TestMethod]
+    public void Reinitialize_OnRootHub_RebuildsCleanlyWithoutThrowing()
+    {
+        // A root hub's provider is inert, so Reinitialize() must be a clean
+        // rebuild that re-notifies dependents — not a partial run that throws
+        // from the inert provider's Subscribe.
+        QuoteHub quoteHub = new();
+        SmaHub observer = quoteHub.ToSmaHub(20);
+
+        quoteHub.Add(Quotes.Take(50));
+        observer.Results.Should().HaveCount(50);
+
+        Action act = quoteHub.Reinitialize;
+        act.Should().NotThrow();
+
+        // cache intact and the dependent stayed in sync
+        quoteHub.Quotes.Should().HaveCount(50);
+        observer.Results.IsExactly(Quotes.Take(50).ToList().ToSma(20));
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
     // SUBSCRIBED HUB — mutation rejected
 
     [TestMethod]
@@ -133,6 +156,7 @@ public class MutationGuard : TestBase
         for (int i = 0; i < quotes.Count; i++)
         {
             if (i == 80) { continue; }
+
             quoteHub.Add(quotes[i]);
         }
 

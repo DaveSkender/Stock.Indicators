@@ -7,11 +7,6 @@ public class TickHub
     : StreamHub<ITick, ITick>, IStreamObservable<ITick>
 {
     /// <summary>
-    /// Indicates whether this TickHub is standalone (no external provider).
-    /// </summary>
-    private readonly bool _isStandalone;
-
-    /// <summary>
     /// Absolute maximum cache size to prevent overflow.
     /// </summary>
     private const int absoluteMaxCacheSize = (int)(0.8 * int.MaxValue);
@@ -22,10 +17,7 @@ public class TickHub
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public TickHub(int? maxCacheSize = null)
         : base(new BaseProvider<ITick>(ValidateAndGetMaxCacheSize(maxCacheSize)))
-    {
-        _isStandalone = true;
-        Name = "TICK-HUB";
-    }
+        => Name = "TICK-HUB";
 
     /// <summary>
     /// Validates and returns the max cache size.
@@ -57,7 +49,6 @@ public class TickHub
         IStreamObservable<ITick> provider)
         : base(provider ?? throw new ArgumentNullException(nameof(provider)))
     {
-        _isStandalone = false;
         Name = "TICK-HUB";
         Reinitialize();
     }
@@ -85,8 +76,8 @@ public class TickHub
     /// <inheritdoc/>
     public override void OnAdd(ITick item, bool notify, int? indexHint)
     {
-        // for non-standalone TickHub, use standard behavior
-        if (!_isStandalone)
+        // for non-root TickHub, use standard behavior
+        if (!IsRootHub)
         {
             base.OnAdd(item, notify, indexHint);
             return;
@@ -171,10 +162,10 @@ public class TickHub
     /// <inheritdoc/>
     public override void Rebuild(DateTime fromTimestamp)
     {
-        // for standalone TickHub (no external provider),
+        // for a root TickHub (no external provider),
         // we cannot rebuild from an empty provider cache
         // instead, just notify observers to rebuild from this hub's cache
-        if (_isStandalone)
+        if (IsRootHub)
         {
             // compute restore index from cache
             int gte = Cache.IndexGte(fromTimestamp);
@@ -200,6 +191,13 @@ public class TickHub
     /// convenience over <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> that
     /// locates the entry by timestamp.
     /// </summary>
+    /// <remarks>
+    /// The match is by timestamp, not by value. Because a <see cref="TickHub"/>
+    /// can legitimately hold several ticks at the same timestamp (distinct
+    /// trades), if more than one cached tick shares the timestamp an unspecified
+    /// one is removed; identify the entry positionally via
+    /// <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> when that matters.
+    /// </remarks>
     /// <param name="tick">
     /// Tick whose <see cref="ISeries.Timestamp"/> identifies the cache entry
     /// to remove.
@@ -214,16 +212,20 @@ public class TickHub
         ArgumentNullException.ThrowIfNull(tick);
         ThrowIfNotRootHub();
 
-        int index = Cache.IndexOf(tick.Timestamp, throwOnFail: false);
-
-        if (index < 0)
+        // find-then-remove under one lock so the index can't shift in between
+        lock (CacheLock)
         {
-            throw new ArgumentException(
-                $"No cached tick was found at timestamp {tick.Timestamp:O}.",
-                nameof(tick));
-        }
+            int index = Cache.IndexOf(tick.Timestamp, throwOnFail: false);
 
-        RemoveAt(index);
+            if (index < 0)
+            {
+                throw new ArgumentException(
+                    $"No cached tick was found at timestamp {tick.Timestamp:O}.",
+                    nameof(tick));
+            }
+
+            RemoveAtCore(index);
+        }
     }
 }
 
