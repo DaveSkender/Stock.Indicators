@@ -44,7 +44,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Maintainability",
     "CA1510:Use ArgumentNullException throw helper",
-    Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
+    Justification = "Not available in .NET Standard targets we support.")]
 
 [assembly: SuppressMessage(
     "StyleCop.CSharp.SpacingRules",
