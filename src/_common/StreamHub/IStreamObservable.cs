@@ -51,11 +51,27 @@ public interface IStreamObservable<out T>
     /// or <c>Rebuild</c> on the source hub will throw
     /// <see cref="InvalidOperationException"/>.
     /// <para>
-    /// Consumers that iterate while upstream may emit must snapshot first
-    /// (e.g. <c>Results.ToList()</c>).
+    /// Consumers that iterate while upstream may emit must snapshot first —
+    /// prefer <see cref="Snapshot"/> for a detached copy (taken atomically
+    /// under the cache lock on a <see cref="StreamHub{TIn, TOut}"/>).
     /// </para>
     /// </remarks>
     IReadOnlyList<T> Results { get; }
+
+    /// <summary>
+    /// Returns a detached, read-only point-in-time copy of the cached values.
+    /// </summary>
+    /// <remarks>
+    /// Unlike the live <see cref="Results"/> view, the returned list is a
+    /// separate copy: it is safe to enumerate on another thread and will not
+    /// throw if the source hub mutates afterwards. A
+    /// <see cref="StreamHub{TIn, TOut}"/> takes the copy under its cache lock,
+    /// so the snapshot is internally consistent even when taken concurrently
+    /// with a rebuild; this default implementation is best-effort for other
+    /// providers (it copies <see cref="Results"/> without a lock).
+    /// </remarks>
+    /// <returns>A detached, read-only copy of the current cache.</returns>
+    IReadOnlyList<T> Snapshot() => Results.ToArray().AsReadOnly();
 
     /// <summary>
     /// Gets the maximum size of the Cache list.
