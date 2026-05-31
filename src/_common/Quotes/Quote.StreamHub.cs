@@ -175,6 +175,38 @@ public class QuoteHub
         // standard rebuild for QuoteHub with external provider
         base.Rebuild(fromTimestamp);
     }
+
+    /// <summary>
+    /// Removes the cached quote whose timestamp matches the supplied quote,
+    /// cascading the resulting rebuild to every dependent hub. This is a
+    /// convenience over <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> that
+    /// locates the entry by timestamp.
+    /// </summary>
+    /// <param name="quote">
+    /// Quote whose <see cref="ISeries.Timestamp"/> identifies the cache entry
+    /// to remove.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="quote"/> is null.</exception>
+    /// <exception cref="ArgumentException">No cached quote matches the timestamp.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Remove from the root hub instead.
+    /// </exception>
+    public void Remove(IQuote quote)
+    {
+        ArgumentNullException.ThrowIfNull(quote);
+        ThrowIfNotRootHub();
+
+        int index = Cache.IndexOf(quote.Timestamp, throwOnFail: false);
+
+        if (index < 0)
+        {
+            throw new ArgumentException(
+                $"No cached quote was found at timestamp {quote.Timestamp:O}.",
+                nameof(quote));
+        }
+
+        RemoveAt(index);
+    }
 }
 
 public static partial class Quotes

@@ -324,10 +324,11 @@ public class BoundsCheckingTests : TestBase
     }
 
     /// <summary>
-    /// Test Case 13: Test Reinitialize after data is added.
+    /// A subscribed (non-root) hub is driven by its provider, so reinitializing
+    /// it directly is rejected. Reinitialize the root hub (or rebuild) instead.
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_ReinitializeWithData_ShouldNotThrow()
+    public void AtrStopHub_ReinitializeOnSubscribedHub_Throws()
     {
         // Arrange
         const int lookbackPeriods = 21;
@@ -337,11 +338,8 @@ public class BoundsCheckingTests : TestBase
         AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
         observer.Results.Should().HaveCount(50);
 
-        // Act - reinitialize the observer
-        observer.Reinitialize();
-
-        // Assert - should not throw and should have same count
-        observer.Results.Should().HaveCount(50);
+        // Act / Assert - reinitializing a subscribed hub is forbidden
+        Assert.ThrowsExactly<InvalidOperationException>(observer.Reinitialize);
 
         // Cleanup
         observer.Unsubscribe();
@@ -717,10 +715,11 @@ public class BoundsCheckingTests : TestBase
     }
 
     /// <summary>
-    /// Test Case 28: Test RemoveRange on StreamHub.
+    /// RemoveRange(timestamp) on a subscribed (non-root) hub is rejected; the
+    /// hub is driven by its provider. Remove from the root hub instead.
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_RemoveRange_ShouldNotThrow()
+    public void AtrStopHub_RemoveRangeOnSubscribedHub_Throws()
     {
         // Arrange
         const int lookbackPeriods = 21;
@@ -731,34 +730,12 @@ public class BoundsCheckingTests : TestBase
         // Get timestamp to remove from
         DateTime removeFromTimestamp = Quotes[30].Timestamp;
 
-        // Act - remove range from observer
-        observer.RemoveRange(removeFromTimestamp, notify: true);
+        // Act / Assert - mutating a subscribed hub is forbidden
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => observer.RemoveRange(removeFromTimestamp, notify: true));
 
-        // Assert - should not throw and should have fewer items
-        observer.Results.Should().HaveCountLessThan(50);
-
-        // Cleanup
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
-
-    /// <summary>
-    /// Test Case 29: Test RemoveRange with index on StreamHub.
-    /// </summary>
-    [TestMethod]
-    public void AtrStopHub_RemoveRangeByIndex_ShouldNotThrow()
-    {
-        // Arrange
-        const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
-
-        // Act - remove range from index 30
-        observer.RemoveRange(30, notify: true);
-
-        // Assert - should not throw and should have 30 items
-        observer.Results.Should().HaveCount(30);
+        // hub is unchanged
+        observer.Results.Should().HaveCount(50);
 
         // Cleanup
         observer.Unsubscribe();
@@ -766,10 +743,11 @@ public class BoundsCheckingTests : TestBase
     }
 
     /// <summary>
-    /// Test Case 30: Test RemoveAt on StreamHub directly.
+    /// RemoveRange(index) on a subscribed (non-root) hub is rejected; the hub
+    /// is driven by its provider. Remove from the root hub instead.
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_RemoveAtDirectly_ShouldNotThrow()
+    public void AtrStopHub_RemoveRangeByIndexOnSubscribedHub_Throws()
     {
         // Arrange
         const int lookbackPeriods = 21;
@@ -777,11 +755,37 @@ public class BoundsCheckingTests : TestBase
         quoteHub.Add(Quotes.Take(50));
         AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
 
-        // Act - remove directly from observer cache
-        observer.RemoveAt(30);
+        // Act / Assert - mutating a subscribed hub is forbidden
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => observer.RemoveRange(30, notify: true));
 
-        // Assert - should not throw and should have 49 items
-        observer.Results.Should().HaveCount(49);
+        // hub is unchanged
+        observer.Results.Should().HaveCount(50);
+
+        // Cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    /// <summary>
+    /// RemoveAt on a subscribed (non-root) hub is rejected; the hub is driven
+    /// by its provider. Remove from the root hub instead.
+    /// </summary>
+    [TestMethod]
+    public void AtrStopHub_RemoveAtOnSubscribedHub_Throws()
+    {
+        // Arrange
+        const int lookbackPeriods = 21;
+        QuoteHub quoteHub = new();
+        quoteHub.Add(Quotes.Take(50));
+        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+
+        // Act / Assert - mutating a subscribed hub is forbidden
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => observer.RemoveAt(30));
+
+        // hub is unchanged
+        observer.Results.Should().HaveCount(50);
 
         // Cleanup
         observer.Unsubscribe();

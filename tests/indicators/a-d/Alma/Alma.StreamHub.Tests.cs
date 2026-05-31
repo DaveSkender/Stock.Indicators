@@ -228,7 +228,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void Reset_OnReinitialize_RebuildsFromProvider()
+    public void Reinitialize_OnSubscribedHub_Throws()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -246,10 +246,10 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         observer.Results.Should().HaveCount(50);
         observer.Results[^1].Alma.Should().NotBeNull();
 
-        // call observer.Reinitialize() - this resets the subscription and rebuilds from quoteHub
-        observer.Reinitialize();
+        // reinitializing a subscribed hub is forbidden — it is driven by its provider
+        Assert.ThrowsExactly<InvalidOperationException>(observer.Reinitialize);
 
-        // The observer should still have 50 results since it rebuilds from the quoteHub
+        // the observer is unchanged and stays in sync via its provider
         observer.Results.Should().HaveCount(50);
 
         // Now test with a completely fresh setup after unsubscribing

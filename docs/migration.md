@@ -252,6 +252,12 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
 }
 ```
 
+> **Mutate the root hub only.** Feed and correct data through the `QuoteHub`
+> (or `TickHub`) you created — it cascades to every dependent hub. Calling
+> `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed
+> hub such as an `EmaHub` throws `InvalidOperationException`. See the
+> [streaming guide](/guide/stream#thread-safety) for details.
+
 **Use when:**
 
 - Live data feeds and WebSocket integration

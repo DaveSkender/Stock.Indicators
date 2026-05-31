@@ -6,8 +6,7 @@ public class CacheUtilities : TestBase
     [TestMethod]
     public void ClearCacheByTimestamp()
     {
-
-        // setup quote provider hub
+        // RemoveRange is a root-hub mutation; exercise it on the root QuoteHub.
 
         IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
@@ -17,9 +16,6 @@ public class CacheUtilities : TestBase
 
         QuoteHub quoteHub = new();
 
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Close);
-
         for (int i = 0; i < length; i++)
         {
             quoteHub.Add(quotesList[i]);
@@ -27,20 +23,19 @@ public class CacheUtilities : TestBase
 
         Quote q3 = quotesList[3];
 
-        // act: clear cache
-        observer.RemoveRange(q3.Timestamp, notify: false);
+        // act: clear cache from a timestamp (inclusive)
+        quoteHub.RemoveRange(q3.Timestamp, notify: false);
 
-        // assert: cache is empty
-        observer.Cache.Should().HaveCount(3);
-        quoteHub.Cache.Should().HaveCount(10);
+        // assert: entries at/after q3 are gone
+        quoteHub.Cache.Should().HaveCount(3);
 
-        List<TimeValue> cacheOver
-            = observer.Results
+        List<IQuote> cacheOver
+            = quoteHub.Results
                 .Where(c => c.Timestamp >= q3.Timestamp).ToList();
 
-        List<TimeValue> cacheUndr
-            = observer.Results
-                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
+        List<IQuote> cacheUndr
+            = quoteHub.Results
+                .Where(c => c.Timestamp < q3.Timestamp).ToList();
 
         cacheOver.Should().BeEmpty();
         cacheUndr.Should().HaveCount(3);
@@ -49,7 +44,7 @@ public class CacheUtilities : TestBase
     [TestMethod]
     public void ClearCacheByIndex()
     {
-        // setup quote provider hub
+        // RemoveRange is a root-hub mutation; exercise it on the root QuoteHub.
 
         List<Quote> quotesList = Quotes
             .ToSortedList()
@@ -60,9 +55,6 @@ public class CacheUtilities : TestBase
 
         QuoteHub quoteHub = new();
 
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Close);
-
         for (int i = 0; i < length; i++)
         {
             quoteHub.Add(quotesList[i]);
@@ -70,20 +62,19 @@ public class CacheUtilities : TestBase
 
         Quote q3 = quotesList[3];
 
-        // act: clear cache
-        observer.RemoveRange(3, notify: true);
+        // act: clear cache from an index (inclusive)
+        quoteHub.RemoveRange(3, notify: true);
 
-        // assert: cache is empty
-        observer.Cache.Should().HaveCount(3);
-        quoteHub.Cache.Should().HaveCount(10);
+        // assert: entries at/after index 3 are gone
+        quoteHub.Cache.Should().HaveCount(3);
 
-        List<TimeValue> cacheOver
-            = observer.Results
+        List<IQuote> cacheOver
+            = quoteHub.Results
                 .Where(c => c.Timestamp >= q3.Timestamp).ToList();
 
-        List<TimeValue> cacheUndr
-            = observer.Results
-                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
+        List<IQuote> cacheUndr
+            = quoteHub.Results
+                .Where(c => c.Timestamp < q3.Timestamp).ToList();
 
         cacheOver.Should().BeEmpty();
         cacheUndr.Should().HaveCount(3);

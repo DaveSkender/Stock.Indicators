@@ -193,6 +193,38 @@ public class TickHub
         // standard rebuild for TickHub with external provider
         base.Rebuild(fromTimestamp);
     }
+
+    /// <summary>
+    /// Removes the cached tick whose timestamp matches the supplied tick,
+    /// cascading the resulting rebuild to every dependent hub. This is a
+    /// convenience over <see cref="StreamHub{TIn, TOut}.RemoveAt(int)"/> that
+    /// locates the entry by timestamp.
+    /// </summary>
+    /// <param name="tick">
+    /// Tick whose <see cref="ISeries.Timestamp"/> identifies the cache entry
+    /// to remove.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="tick"/> is null.</exception>
+    /// <exception cref="ArgumentException">No cached tick matches the timestamp.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// Called on a subscribed (non-root) hub. Remove from the root hub instead.
+    /// </exception>
+    public void Remove(ITick tick)
+    {
+        ArgumentNullException.ThrowIfNull(tick);
+        ThrowIfNotRootHub();
+
+        int index = Cache.IndexOf(tick.Timestamp, throwOnFail: false);
+
+        if (index < 0)
+        {
+            throw new ArgumentException(
+                $"No cached tick was found at timestamp {tick.Timestamp:O}.",
+                nameof(tick));
+        }
+
+        RemoveAt(index);
+    }
 }
 
 /// <summary>
