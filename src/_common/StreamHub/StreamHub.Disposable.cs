@@ -7,6 +7,12 @@ public abstract partial class StreamHub<TIn, TOut> : IDisposable, IChainDisposab
     private bool _disposed;
 
     /// <summary>
+    /// Throws <see cref="ObjectDisposedException"/> if this hub has been disposed.
+    /// </summary>
+    private protected void ThrowIfDisposed([CallerMemberName] string? caller = null)
+        => ObjectDisposedException.ThrowIf(_disposed, $"{GetType().Name}.{caller}");
+
+    /// <summary>
     /// Tears down this hub: stops observing its provider and completes its own
     /// direct subscribers (each receives <see cref="IStreamObserver{T}.OnCompleted"/>
     /// and unsubscribes). Idempotent.
@@ -66,13 +72,25 @@ public abstract partial class StreamHub<TIn, TOut> : IDisposable, IChainDisposab
     /// </remarks>
     public void DisposeChain()
     {
+        HashSet<IChainDisposable> visited = new(ReferenceEqualityComparer.Instance);
+        ((IChainDisposable)this).DisposeChainCore(visited);
+    }
+
+    void IChainDisposable.DisposeChainCore(HashSet<IChainDisposable> visited)
+    {
+        // already visited → stop (breaks cycles in circular subscription graphs)
+        if (!visited.Add(this))
+        {
+            return;
+        }
+
         // snapshot first: disposing a downstream hub unsubscribes it, which
         // mutates this hub's observer set during the walk
         foreach (IStreamObserver<TOut> observer in _observers.ToArray())
         {
             if (observer is IChainDisposable downstream)
             {
-                downstream.DisposeChain();
+                downstream.DisposeChainCore(visited);
             }
         }
 
@@ -91,4 +109,11 @@ internal interface IChainDisposable : IDisposable
     /// Tears down this hub and everything downstream of it.
     /// </summary>
     void DisposeChain();
+
+    /// <summary>
+    /// Recursive core used by <see cref="DisposeChain()"/>. Accepts a
+    /// <paramref name="visited"/> set so circular subscription graphs don't
+    /// cause infinite recursion; each hub is disposed exactly once.
+    /// </summary>
+    void DisposeChainCore(HashSet<IChainDisposable> visited);
 }

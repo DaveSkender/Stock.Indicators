@@ -142,6 +142,8 @@ public class QuoteHub
     /// <inheritdoc/>
     public override void Rebuild(DateTime fromTimestamp)
     {
+        ThrowIfDisposed();
+
         // for a root QuoteHub (no external provider),
         // we cannot rebuild from an empty provider cache
         // instead, just notify observers to rebuild from this hub's cache

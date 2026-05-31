@@ -180,6 +180,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </exception>
     public void Add(TIn newIn)
     {
+        ThrowIfDisposed();
         ThrowIfNotRootHub();
         OnAdd(newIn, notify: true, null);
     }
@@ -193,6 +194,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </exception>
     public void Add(IEnumerable<TIn> batchIn)
     {
+        ThrowIfDisposed();
         ThrowIfNotRootHub();
         foreach (TIn newIn in batchIn.OrderBy(static x => x.Timestamp))
         {
@@ -209,6 +211,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </exception>
     public void RemoveAt(int cacheIndex)
     {
+        ThrowIfDisposed();
         ThrowIfNotRootHub();
         lock (CacheLock)
         {
@@ -241,6 +244,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </exception>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
     {
+        ThrowIfDisposed();
         ThrowIfNotRootHub();
         lock (CacheLock)
         {
@@ -289,6 +293,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </exception>
     public void RemoveRange(int fromIndex, bool notify)
     {
+        ThrowIfDisposed();
         ThrowIfNotRootHub();
         lock (CacheLock)
         {
@@ -313,6 +318,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public void Reinitialize()
     {
+        ThrowIfDisposed();
+
         // The construction-time call (from a derived hub's constructor)
         // initializes the hub and is always permitted. Any later call is a
         // consumer re-init, which is only valid on a root hub — a subscribed
@@ -356,6 +363,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public virtual void Rebuild(DateTime fromTimestamp)
     {
+        ThrowIfDisposed();
+
         // Lock to prevent concurrent cache access during rebuild.
         // Out-of-order data triggers rebuild, which clears and repopulates
         // the cache. Without locking, ToIndicator may access Cache[i-1]

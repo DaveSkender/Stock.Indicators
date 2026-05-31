@@ -113,4 +113,40 @@ public class Disposable : TestBase
         emaHub.Results.Should().HaveCount(50);
         // disposed at end of scope — no explicit EndTransmission needed
     }
+
+    [TestMethod]
+    public void Dispose_ThrowsObjectDisposedOnSubsequentMutation()
+    {
+        // any public mutation after Dispose() must throw ObjectDisposedException
+        QuoteHub quoteHub = new();
+        quoteHub.Add(Quotes.Take(50));
+        quoteHub.Dispose();
+
+        Action addOne = () => quoteHub.Add(Quotes.ElementAt(50));
+        Action addBatch = () => quoteHub.Add(Quotes.Take(5));
+        Action removeAt = () => quoteHub.RemoveAt(0);
+        Action removeRange = () => quoteHub.RemoveRange(DateTime.MinValue, notify: false);
+        Action subscribe = () => quoteHub.Subscribe(new NoopObserver());
+        Action endTx = () => quoteHub.EndTransmission();
+
+        addOne.Should().ThrowExactly<ObjectDisposedException>();
+        addBatch.Should().ThrowExactly<ObjectDisposedException>();
+        removeAt.Should().ThrowExactly<ObjectDisposedException>();
+        removeRange.Should().ThrowExactly<ObjectDisposedException>();
+        subscribe.Should().ThrowExactly<ObjectDisposedException>();
+        endTx.Should().ThrowExactly<ObjectDisposedException>();
+    }
+
+}
+
+/// <summary>
+/// Minimal no-op observer for disposal tests.
+/// </summary>
+file sealed class NoopObserver : IStreamObserver<IQuote>
+{
+    public void OnAdd(IQuote item, bool notify, int? indexHint) { }
+    public void OnRebuild(DateTime fromTimestamp) { }
+    public void OnPrune(DateTime toTimestamp) { }
+    public void OnError(Exception exception) { }
+    public void OnCompleted() { }
 }

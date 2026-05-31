@@ -37,6 +37,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <inheritdoc/>
     public IDisposable Subscribe(IStreamObserver<TOut> observer)
     {
+        ThrowIfDisposed();
         _observers.Add(observer);
 
         // Update MinCacheSize to the maximum of all subscribers
@@ -82,6 +83,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <inheritdoc/>
     public void EndTransmission()
     {
+        ThrowIfDisposed();
+
         if (ObserverCount == 0)
         {
             return;

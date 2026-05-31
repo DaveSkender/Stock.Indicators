@@ -161,6 +161,8 @@ public class TickHub
     /// <inheritdoc/>
     public override void Rebuild(DateTime fromTimestamp)
     {
+        ThrowIfDisposed();
+
         // for a root TickHub (no external provider),
         // we cannot rebuild from an empty provider cache
         // instead, just notify observers to rebuild from this hub's cache
