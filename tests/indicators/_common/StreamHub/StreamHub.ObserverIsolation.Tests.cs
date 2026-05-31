@@ -58,7 +58,7 @@ public class ObserverIsolation : TestBase
 
         feed.Should().NotThrow("a faulting observer must be isolated from the hub");
         recorder.OnAddCount.Should().Be(quotes.Count, "the sibling observer must receive every update");
-        thrower.OnErrorCount.Should().BeGreaterThan(0, "the faulting observer's exception is routed to its own OnError");
+        thrower.OnErrorCount.Should().Be(quotes.Count, "the faulting observer's OnError is called once per failed OnAdd");
 
         hub.EndTransmission();
     }
