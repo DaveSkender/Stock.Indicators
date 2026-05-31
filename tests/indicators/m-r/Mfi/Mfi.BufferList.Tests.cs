@@ -9,6 +9,16 @@ public class Mfi : BufferListTestBase
        = Quotes.ToMfi(lookbackPeriods);
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<MfiResult> sut = Data
+            .GetRandom(2500)
+            .ToMfiList(14);
+
+        sut.IsBetween(static x => x.Mfi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
         MfiList sut = new(14, Quotes);

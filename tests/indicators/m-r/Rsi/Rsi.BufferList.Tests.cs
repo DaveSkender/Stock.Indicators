@@ -14,6 +14,16 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
        = Quotes.ToRsi(lookbackPeriods);
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<RsiResult> sut = Data
+            .GetRandom(2500)
+            .ToRsiList(14);
+
+        sut.IsBetween(static x => x.Rsi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void AddQuote_IncrementsResults()
     {
         RsiList sut = new(lookbackPeriods);
