@@ -65,7 +65,7 @@ StreamHub mutating operations (`Add`, `Rebuild`, `RemoveRange`, `RemoveAt`) hold
 
 The base class also carries a rebuilding flag that suppresses self-recursive `Rebuild` while replaying provider items through `OnAdd`. Observer cascading is still allowed and desired. Subclass code must not bypass this flag.
 
-The public `Results` surface is a **live read-only view**, not an immutable snapshot. Consumers that iterate while upstream may emit must snapshot first (`.ToList()`).
+The public `Results` surface is a **live read-only view** over the cache, not an immutable snapshot — and `.ToList()`/`.ToArray()` on it enumerate that live view *without* the lock, so they can still throw or tear under a concurrent writer. A consumer on a different thread must call `Snapshot()` (an atomic, immutable copy taken under the hub's `CacheLock`) instead.
 
 ## RollbackState pattern
 

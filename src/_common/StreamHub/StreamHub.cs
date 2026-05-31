@@ -172,6 +172,22 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
+    /// Returns a detached, read-only point-in-time copy of the cache, taken
+    /// under the cache lock so it is consistent even if a rebuild runs
+    /// concurrently. Hand this to another thread rather than the live
+    /// <see cref="Results"/> view.
+    /// </summary>
+    /// <returns>A detached, read-only copy of the current cache.</returns>
+    public IReadOnlyList<TOut> Snapshot()
+    {
+        lock (CacheLock)
+        {
+            // detached, read-only copy (cannot be cast back to a mutable array)
+            return Cache.ToArray().AsReadOnly();
+        }
+    }
+
+    /// <summary>
     /// Adds a new item to the stream.
     /// </summary>
     /// <param name="newIn">New item to add.</param>
@@ -332,16 +348,26 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // rebuild instead of throwing partway from the inert provider.
         if (!IsRootHub)
         {
+            // Close the rebuild->subscribe gap: an item the provider appends
+            // between the rebuild above and the subscription becoming active would
+            // otherwise be missing here (it was not replayed, and we were not yet
+            // subscribed to receive it). Detect provider growth across Subscribe and
+            // re-run a catch-up rebuild so it is folded in. From this point new
+            // items arrive via OnAdd. In the common (quiescent) case the count is
+            // unchanged and no second rebuild runs.
+            int providerCountBeforeSubscribe = ProviderCache.Count;
             Subscription = Provider.Subscribe(this);
+
+            if (ProviderCache.Count != providerCountBeforeSubscribe)
+            {
+                Rebuild();
+            }
         }
 
         _initialized = true;
 
         // TODO: make reinitialization abstract,
         // and build initial Cache from faster static method
-
-        // TODO: evaluate race condition between rebuild
-        // and subscribe; will it miss any high frequency data?
     }
 
     /// <summary>
