@@ -11,6 +11,16 @@ public class Ultimate : BufferListTestBase
        = Quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<UltimateResult> sut = Data
+            .GetRandom(2500)
+            .ToUltimateList(7, 14, 28);
+
+        sut.IsBetween(static x => x.Ultimate, 0d, 100d);
+    }
+
+    [TestMethod]
     public void Results_AreAlwaysBounded()
     {
         UltimateList sut = new(7, 14, 28, Quotes);

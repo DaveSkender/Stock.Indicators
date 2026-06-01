@@ -16,6 +16,16 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
        = Quotes.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        IReadOnlyList<ConnorsRsiResult> sut = Data
+            .GetRandom(2500)
+            .ToConnorsRsiList(3, 2, 100);
+
+        sut.IsBetween(static x => x.ConnorsRsi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void AddQuote_IncrementsResults()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods);

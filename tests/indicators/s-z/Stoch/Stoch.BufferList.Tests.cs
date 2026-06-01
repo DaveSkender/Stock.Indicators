@@ -14,6 +14,18 @@ public class Stoch : BufferListTestBase
        = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
     [TestMethod]
+    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    {
+        // %J is unbounded by design so not asserted.
+        IReadOnlyList<StochResult> sut = Data
+            .GetRandom(2500)
+            .ToStochList(14, 3, 3);
+
+        sut.IsBetween(static x => x.Oscillator, 0d, 100d);
+        sut.IsBetween(static x => x.Signal, 0d, 100d);
+    }
+
+    [TestMethod]
     public void AddQuotes_WithValidQuotes_IncrementsResults()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
