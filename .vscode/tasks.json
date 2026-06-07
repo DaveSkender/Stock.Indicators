@@ -180,13 +180,10 @@
       "label": "Install: Node packages",
       "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
-      "command": "pnpm install --config.confirmModulesPurge=false",
+      "command": "NODE_AUTH_TOKEN=$(gh auth token) pnpm install --config.confirmModulesPurge=false",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "NODE_AUTH_TOKEN": "$(gh auth token)"
-        }
-      },
+        "cwd": "${workspaceFolder}/docs"
+      }
     },
     {
       "label": "Clean: Node packages",
@@ -202,26 +199,20 @@
       "label": "Check: Node packages",
       "detail": "Check for dependency updates in root and all workspace packages",
       "type": "shell",
-      "command": "npx npm-check-updates --deep --peer",
+      "command": "NODE_AUTH_TOKEN=$(gh auth token) npx npm-check-updates --deep --peer",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "NODE_AUTH_TOKEN": "$(gh auth token)"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
     },
     {
       "label": "Update: Node packages",
       "detail": "Update dependencies in root and all workspace packages to latest versions",
       "type": "shell",
-      "command": "npx npm-check-updates --deep --peer --upgrade && pnpm install --config.confirmModulesPurge=false",
+      "command": "NODE_AUTH_TOKEN=$(gh auth token) npx npm-check-updates --deep --peer --upgrade && NODE_AUTH_TOKEN=$(gh auth token) pnpm install --config.confirmModulesPurge=false",
       "dependsOn": "Install: Node packages",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "NODE_AUTH_TOKEN": "$(gh auth token)"
-        }
-      },
+        "cwd": "${workspaceFolder}/docs"
+      }
     },
     {
       "label": "Clean: Website build cache",
@@ -633,10 +624,7 @@
         "instanceLimit": 1
       },
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "NODE_AUTH_TOKEN": "$(gh auth token)"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
@@ -650,10 +638,7 @@
       ],
       "isBackground": true,
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "NODE_AUTH_TOKEN": "$(gh auth token)"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
