@@ -26,7 +26,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" />
+    <!--
+      Override PrivateAssets default (All) so BenchmarkDotNet's compile assets flow
+      to the child harness project that BDN auto-generates at runtime.
+      This project is not a true leaf node: BDN creates a ProjectReference child from it.
+    -->
+    <PackageReference Include="BenchmarkDotNet"
+                      PrivateAssets="contentfiles;analyzers;build;buildMultitargeting;buildTransitive;native" />
     <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
 

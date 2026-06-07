@@ -72,16 +72,16 @@ Running the performance benchmark application in `Release` mode will produce [be
 
 ```bash
 # from /tools/performance folder
-# run all performance benchmarks (~15-20 minutes)
+# run all performance benchmarks (~1 hour)
 dotnet run -c Release
 
-# run specific benchmark categories
+# run specific benchmark categories (~15-20 minutes each)
 dotnet run -c Release --filter *Series*
 dotnet run -c Release --filter *Stream*
 dotnet run -c Release --filter *Buffer*
 
 # run specific performance benchmark
-dotnet run -c Release --filter *.ToAdx
+dotnet run -c Release --filter *Adx*
 
 ## run with CLI overrides from root
 dotnet run \
