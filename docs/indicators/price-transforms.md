@@ -12,7 +12,7 @@ hero:
 features:
   - title: Basic Quote Transforms
     icon:
-      src: /assets/thumbs/indicators/quote-part.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/QuotePart
     details: HL2, HLC3, OC2, OHL3, OHLC4
   - title: Ehlers Fisher Transform
@@ -27,7 +27,7 @@ features:
     details: Smoothed candle representation
   - title: Renko Charts
     icon:
-      src: /assets/thumbs/indicators/renko.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/Renko
     details: Brick-based filtered chart
   - title: ZigZag
