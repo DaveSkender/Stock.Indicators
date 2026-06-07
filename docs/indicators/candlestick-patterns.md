@@ -22,7 +22,7 @@ features:
     details: Full-body momentum candle
   - title: Pivots
     icon:
-      src: /assets/thumbs/indicators/pivots.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/Pivots
     details: Peak and trough pivot points
   - title: Williams Fractal
