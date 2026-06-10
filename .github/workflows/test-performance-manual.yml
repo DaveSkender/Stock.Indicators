@@ -176,16 +176,23 @@ jobs:
             exit 1
           fi
 
-          # If all three selected, run the broad wildcard; otherwise build a regex group
+          # If all three selected, run the broad wildcard; otherwise build a filter list
           if [ ${#TYPES[@]} -eq 3 ]; then
             FILTER="Performance.ManualTestDirect*"
           else
-            PATTERN=$(IFS='|'; echo "${TYPES[*]}")
-            FILTER="Performance.ManualTestDirect.(${PATTERN})"
+            # Build multiple --filter arguments for BenchmarkDotNet
+            FILTER_ARGS=()
+            for TYPE in "${TYPES[@]}"; do
+              FILTER_ARGS+=(--filter "Performance.ManualTestDirect.${TYPE}")
+            done
           fi
 
-          echo "Using filter: $FILTER"
-          dotnet run -c Release -- --filter "$FILTER" --job short --exporters json markdown
+          echo "Running benchmarks for: ${TYPES[*]}"
+          if [ ${#TYPES[@]} -eq 3 ]; then
+            dotnet run -c Release -- --filter "$FILTER" --job short --exporters json markdown
+          else
+            dotnet run -c Release -- "${FILTER_ARGS[@]}" --job short --exporters json markdown
+          fi
         env:
           PERF_TEST_KEYWORD: ${{ inputs.indicator }}
           PERF_TEST_PERIODS: ${{ inputs.periods }}
