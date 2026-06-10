@@ -61,10 +61,7 @@ public class AdxHub
     private double _sumMdm;
     private double _sumDx;
 
-    /// <summary>
-    /// Snapshot of all mutable scalar state, recorded after each item
-    /// for O(1) near-tail rollback.
-    /// </summary>
+    // snapshot of mutable scalar state, recorded after each item for O(1) near-tail rollback
     private readonly record struct AdxState(
         bool IsFirstPeriod,
         double PrevHigh,
