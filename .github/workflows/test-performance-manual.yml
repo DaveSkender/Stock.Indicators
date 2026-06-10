@@ -150,7 +150,8 @@ jobs:
           # Export GitVersion variables to environment
           dotnet tool run dotnet-gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
-      - name: Build library
+      - name: Build performance project
+        working-directory: tools/performance
         run: >
           dotnet build
           --configuration Release
