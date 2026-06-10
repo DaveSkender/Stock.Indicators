@@ -61,6 +61,26 @@ public class AdxHub
     private double _sumMdm;
     private double _sumDx;
 
+    /// <summary>
+    /// Snapshot of all mutable scalar state, recorded after each item
+    /// for O(1) near-tail rollback.
+    /// </summary>
+    private readonly record struct AdxState(
+        bool IsFirstPeriod,
+        double PrevHigh,
+        double PrevLow,
+        double PrevClose,
+        double PrevTrs,
+        double PrevPdm,
+        double PrevMdm,
+        double PrevAdx,
+        double SumTr,
+        double SumPdm,
+        double SumMdm,
+        double SumDx);
+
+    // recent state snapshots for O(1) near-tail rollback
+    private readonly RollbackRing<AdxState> _rollback = new();
 
     /// <inheritdoc/>
     public override string ToString() => Cache.Count > 0
@@ -86,6 +106,9 @@ public class AdxHub
             _prevLow = low;
             _prevClose = close;
             _isFirstPeriod = false;
+
+            // snapshot state for O(1) near-tail rollback
+            _rollback.Add(item.Timestamp, CaptureState());
 
             return (new AdxResult(item.Timestamp), i);
         }
@@ -189,6 +212,9 @@ public class AdxHub
         _prevLow = low;
         _prevClose = close;
 
+        // snapshot state for O(1) near-tail rollback
+        _rollback.Add(item.Timestamp, CaptureState());
+
         AdxResult result = new(
             item.Timestamp,
             pdi,
@@ -222,6 +248,17 @@ public class AdxHub
 
         if (restoreIndex < 0)
         {
+            return;
+        }
+
+        // O(1) fast path: restore the exact state snapshot recorded when the
+        // restore-point item was processed (near-tail rollbacks, the common
+        // case for live corrections and forming-bar updates)
+        if (_rollback.TryGet(
+            ProviderCache[restoreIndex].Timestamp,
+            out AdxState snapshot))
+        {
+            RestoreState(snapshot);
             return;
         }
 
@@ -314,6 +351,39 @@ public class AdxHub
             _prevLow = low;
             _prevClose = close;
         }
+    }
+
+    // Captures all mutable scalar state for rollback snapshots.
+    private AdxState CaptureState()
+        => new(
+            _isFirstPeriod,
+            _prevHigh,
+            _prevLow,
+            _prevClose,
+            _prevTrs,
+            _prevPdm,
+            _prevMdm,
+            _prevAdx,
+            _sumTr,
+            _sumPdm,
+            _sumMdm,
+            _sumDx);
+
+    // Restores all mutable scalar state from a rollback snapshot.
+    private void RestoreState(in AdxState snapshot)
+    {
+        _isFirstPeriod = snapshot.IsFirstPeriod;
+        _prevHigh = snapshot.PrevHigh;
+        _prevLow = snapshot.PrevLow;
+        _prevClose = snapshot.PrevClose;
+        _prevTrs = snapshot.PrevTrs;
+        _prevPdm = snapshot.PrevPdm;
+        _prevMdm = snapshot.PrevMdm;
+        _prevAdx = snapshot.PrevAdx;
+        _sumTr = snapshot.SumTr;
+        _sumPdm = snapshot.SumPdm;
+        _sumMdm = snapshot.SumMdm;
+        _sumDx = snapshot.SumDx;
     }
 }
 

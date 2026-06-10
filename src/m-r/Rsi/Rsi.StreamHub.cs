@@ -14,6 +14,9 @@ public class RsiHub
     private double _avgGain = double.NaN;
     private double _avgLoss = double.NaN;
 
+    // recent state snapshots for O(1) near-tail rollback
+    private readonly RollbackRing<(double AvgGain, double AvgLoss)> _rollback = new();
+
     internal RsiHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -93,6 +96,9 @@ public class RsiHub
             // else: state is NaN, will be re-initialized when valid data appears
         }
 
+        // snapshot state for O(1) near-tail rollback
+        _rollback.Add(item.Timestamp, (_avgGain, _avgLoss));
+
         // candidate result
         RsiResult r = new(
             Timestamp: item.Timestamp,
@@ -121,6 +127,18 @@ public class RsiHub
         // Not enough data to initialize state
         if (restoreIndex < LookbackPeriods)
         {
+            return;
+        }
+
+        // O(1) fast path: restore the exact state snapshot recorded when the
+        // restore-point item was processed (near-tail rollbacks, the common
+        // case for live corrections and forming-bar updates)
+        if (_rollback.TryGet(
+            ProviderCache[restoreIndex].Timestamp,
+            out (double AvgGain, double AvgLoss) snapshot))
+        {
+            _avgGain = snapshot.AvgGain;
+            _avgLoss = snapshot.AvgLoss;
             return;
         }
 

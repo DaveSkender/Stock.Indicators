@@ -16,6 +16,18 @@ public class ParabolicSarHub
     private bool _isInitialized;
     private bool _firstReversalFound;
 
+    // recent state snapshots for O(1) near-tail rollback
+    private readonly RollbackRing<SarState> _rollback = new();
+
+    // snapshot of mutable scalar/flag state recorded after each processed item
+    private readonly record struct SarState(
+        double AccelerationFactor,
+        double ExtremePoint,
+        double PriorSar,
+        bool IsRising,
+        bool IsInitialized,
+        bool FirstReversalFound);
+
     internal ParabolicSarHub(
         IQuoteProvider<IQuote> provider,
         double accelerationStep = 0.02,
@@ -76,6 +88,11 @@ public class ParabolicSarHub
 
             // Ensure prior-quote buffer contains the first quote for next-bar clamps
             _buffer.Update(2, (high, low));
+
+            // snapshot state for O(1) near-tail rollback
+            _rollback.Add(item.Timestamp, new SarState(
+                _accelerationFactor, _extremePoint, _priorSar,
+                _isRising, _isInitialized, _firstReversalFound));
 
             return (new ParabolicSarResult(item.Timestamp), i);
         }
@@ -193,6 +210,11 @@ public class ParabolicSarHub
         // Update buffer for last two quotes AFTER using it for calculations
         _buffer.Update(2, (high, low));
 
+        // snapshot state for O(1) near-tail rollback
+        _rollback.Add(item.Timestamp, new SarState(
+            _accelerationFactor, _extremePoint, _priorSar,
+            _isRising, _isInitialized, _firstReversalFound));
+
         return (result, i);
     }
 
@@ -219,6 +241,33 @@ public class ParabolicSarHub
 
         if (restoreIndex < 0)
         {
+            return;
+        }
+
+        // O(1) fast path: restore the exact state snapshot recorded when the
+        // restore-point item was processed (near-tail rollbacks, the common
+        // case for live corrections and forming-bar updates)
+        if (_rollback.TryGet(ProviderCache[restoreIndex].Timestamp, out SarState snapshot))
+        {
+            _accelerationFactor = snapshot.AccelerationFactor;
+            _extremePoint = snapshot.ExtremePoint;
+            _priorSar = snapshot.PriorSar;
+            _isRising = snapshot.IsRising;
+            _isInitialized = snapshot.IsInitialized;
+            _firstReversalFound = snapshot.FirstReversalFound;
+
+            // Rebuild the prior-quote buffer exactly as sequential processing
+            // would leave it: the last two quotes up to restoreIndex (only the
+            // first quote when restoreIndex is 0)
+            if (restoreIndex >= 1)
+            {
+                IQuote prior = ProviderCache[restoreIndex - 1];
+                _buffer.Update(2, ((double)prior.High, (double)prior.Low));
+            }
+
+            IQuote restore = ProviderCache[restoreIndex];
+            _buffer.Update(2, ((double)restore.High, (double)restore.Low));
+
             return;
         }
 
