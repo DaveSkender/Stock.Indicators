@@ -38,6 +38,12 @@ internal sealed class RollbackRing<TState>
     /// <param name="capacity">Maximum retained snapshots.</param>
     internal RollbackRing(int capacity = defaultCapacity)
     {
+        if (capacity <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(capacity), capacity,
+                "Capacity must be greater than 0.");
+        }
+
         _capacity = capacity;
         _timestamps = new DateTime[capacity];
         _states = new TState[capacity];

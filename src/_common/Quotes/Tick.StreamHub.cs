@@ -61,16 +61,19 @@ public class TickHub
 
         // append fast path: live feeds almost always deliver new ticks,
         // so skip the binary search when the item extends the timeline
-        if (indexHint is null
-            && (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp))
+        lock (CacheLock)
         {
-            return (item, Cache.Count);
+            if (indexHint is null
+                && (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp))
+            {
+                return (item, Cache.Count);
+            }
+
+            int index = indexHint
+                ?? Cache.IndexGte(item.Timestamp);
+
+            return (item, index == -1 ? Cache.Count : index);
         }
-
-        int index = indexHint
-            ?? Cache.IndexGte(item.Timestamp);
-
-        return (item, index == -1 ? Cache.Count : index);
     }
 
     /// <inheritdoc/>
