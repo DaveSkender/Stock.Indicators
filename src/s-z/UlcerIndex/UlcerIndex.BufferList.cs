@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
 {
     private readonly Queue<double> _buffer;
+    private readonly double[] _bufferArray;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UlcerIndexList"/> class.
@@ -18,6 +19,7 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<double>(lookbackPeriods);
+        _bufferArray = new double[lookbackPeriods];
 
         Name = $"ULCERINDEX({lookbackPeriods})";
     }
@@ -46,7 +48,10 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
         {
             // Calculate Ulcer Index
             double sumSquared = 0;
-            double[] bufferArray = _buffer.ToArray();
+
+            // copy buffer into reusable array (avoids per-Add allocation)
+            double[] bufferArray = _bufferArray;
+            _buffer.CopyTo(bufferArray, 0);
 
             for (int p = 0; p < LookbackPeriods; p++)
             {

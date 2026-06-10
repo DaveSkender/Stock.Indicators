@@ -50,8 +50,14 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         // Calculate CCI when we have enough data
         if (_buffer.Count == LookbackPeriods)
         {
-            // Calculate average TP over lookback
-            double avgTp = _buffer.Average();
+            // Calculate average TP over lookback (sum then divide, same as LINQ Average)
+            double sumTp = 0;
+            foreach (double tpValue in _buffer)
+            {
+                sumTp += tpValue;
+            }
+
+            double avgTp = sumTp / _buffer.Count;
 
             // Calculate average Deviation over lookback
             double avgDv = 0;

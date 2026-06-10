@@ -92,7 +92,13 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         // Two passes required: 1) get avgY, 2) calculate deviations
 
         // First pass: calculate avgY
-        double avgY = _buffer.Average();
+        double sumY = 0;
+        foreach (double bufferValue in _buffer)
+        {
+            sumY += bufferValue;
+        }
+
+        double avgY = sumY / _buffer.Count;
 
         // Second pass: calculate deviations and their products
         double sumSqY = 0;

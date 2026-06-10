@@ -55,31 +55,53 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         // check if we can identify fractals
         if (_quoteBuffer.Count >= (2 * _windowSpan) + 1)
         {
-            // get quotes as list for fractal detection
-            List<IQuote> bufferList = _quoteBuffer.ToList();
+            // locate middle quote without copying the buffer
             int midIndex = _windowSpan;
-            IQuote midQuote = bufferList[midIndex];
+            IQuote? midQuote = null;
+            int index = 0;
+
+            foreach (IQuote q in _quoteBuffer)
+            {
+                if (index == midIndex)
+                {
+                    midQuote = q;
+                    break;
+                }
+
+                index++;
+            }
+
+            decimal midHigh = midQuote!.High;
+            decimal midLow = midQuote.Low;
 
             // check for bearish fractal (high point)
             bool isBearishFractal = true;
-            for (int i = 0; i < bufferList.Count; i++)
+            index = 0;
+
+            foreach (IQuote q in _quoteBuffer)
             {
-                if (i != midIndex && bufferList[i].High >= midQuote.High)
+                if (index != midIndex && q.High >= midHigh)
                 {
                     isBearishFractal = false;
                     break;
                 }
+
+                index++;
             }
 
             // check for bullish fractal (low point)
             bool isBullishFractal = true;
-            for (int i = 0; i < bufferList.Count; i++)
+            index = 0;
+
+            foreach (IQuote q in _quoteBuffer)
             {
-                if (i != midIndex && bufferList[i].Low <= midQuote.Low)
+                if (index != midIndex && q.Low <= midLow)
                 {
                     isBullishFractal = false;
                     break;
                 }
+
+                index++;
             }
 
             // update lines based on fractals detected windowSpan periods ago
@@ -87,12 +109,12 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
             {
                 if (isBearishFractal)
                 {
-                    _upperLine = midQuote.High;
+                    _upperLine = midHigh;
                 }
 
                 if (isBullishFractal)
                 {
-                    _lowerLine = midQuote.Low;
+                    _lowerLine = midLow;
                 }
             }
         }

@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
 {
     private readonly Queue<double> _buffer;
+    private readonly double[] _bufferArray;
     private readonly int _erPeriods;
     private readonly double _scFast;
     private readonly double _scSlow;
@@ -35,6 +36,7 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
         _scSlow = 2d / (slowPeriods + 1);
 
         _buffer = new Queue<double>(erPeriods + 1);
+        _bufferArray = new double[erPeriods + 1];
 
         Name = $"KAMA({erPeriods}, {fastPeriods}, {slowPeriods})";
     }
@@ -82,7 +84,9 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
         // Calculate if we have enough data
         if (_buffer.Count == _erPeriods + 1)
         {
-            double[] bufferArray = _buffer.ToArray();
+            // copy buffer into reusable array (avoids per-Add allocation)
+            double[] bufferArray = _bufferArray;
+            _buffer.CopyTo(bufferArray, 0);
             double newVal = bufferArray[^1]; // Current value
 
             // Check if we have a previous KAMA value

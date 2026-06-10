@@ -50,7 +50,13 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
         if (_buffer.Count == lookbackPeriods)
         {
             // Calculate SMA
-            sma = _buffer.Average();
+            double sum = 0;
+            foreach (double val in _buffer)
+            {
+                sum += val;
+            }
+
+            sma = sum / _buffer.Count;
 
             // Calculate analysis metrics
             double sumMad = 0;

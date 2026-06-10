@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUltimate
 {
     private readonly Queue<(double Bp, double Tr)> _buffer;
+    private readonly (double Bp, double Tr)[] _bufferArray;
     private double _previousClose;
     private bool _isInitialized;
 
@@ -27,6 +28,7 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
         LongPeriods = longPeriods;
 
         _buffer = new Queue<(double, double)>(longPeriods);
+        _bufferArray = new (double Bp, double Tr)[longPeriods];
         _isInitialized = false;
 
         Name = $"ULTIMATE({shortPeriods}, {middlePeriods}, {longPeriods})";
@@ -95,9 +97,10 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
             double sumTr2 = 0;  // middle period
             double sumTr3 = 0;  // long period
 
-            // Convert buffer to array for indexed access
-            (double Bp, double Tr)[] bufferArray = _buffer.ToArray();
-            int bufferLength = bufferArray.Length;
+            // Copy buffer into reusable array for indexed access (avoids per-Add allocation)
+            (double Bp, double Tr)[] bufferArray = _bufferArray;
+            _buffer.CopyTo(bufferArray, 0);
+            int bufferLength = _buffer.Count;
 
             // Calculate sums for all three periods
             for (int i = 0; i < bufferLength; i++)
