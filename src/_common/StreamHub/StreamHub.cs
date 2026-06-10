@@ -13,7 +13,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// This protects against concurrent cache modifications when out-of-order
     /// data triggers rebuild operations.
     /// </summary>
-    protected object CacheLock { get; } = new();
+    private protected object CacheLock { get; } = new();
 
     /// <summary>
     /// Prevents self-recursion: during rebuild, OnAdd calls AppendCache,
@@ -44,10 +44,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         MaxCacheSize = provider.MaxCacheSize;
 
         // pre-allocate cache if reasonable size
-        if (MaxCacheSize is > 0 and < 10_000)
-        {
-            Cache = new List<TOut>(MaxCacheSize);
-        }
+        Cache = MaxCacheSize is > 0 and < 10_000
+            ? new List<TOut>(MaxCacheSize)
+            : new List<TOut>(800);
 
         // build read-only cache reference
         Results = Cache.AsReadOnly();
@@ -115,7 +114,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets the cache of stored values (base).
     /// </summary>
-    internal List<TOut> Cache { get; } = new List<TOut>(800);
+    internal List<TOut> Cache { get; }
 
     /// <summary>
     /// Gets the current count of repeated caching attempts.
@@ -210,7 +209,35 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public void Add(IEnumerable<TIn> batchIn)
     {
         ThrowIfNotRootHub();
-        foreach (TIn newIn in batchIn.OrderBy(static x => x.Timestamp))
+
+        // fast path: streaming batches are almost always pre-sorted, so
+        // skip the O(n) sort allocation (keys + map + buffer) when a single
+        // scan confirms chronological order; OrderBy is kept for the
+        // unsorted case because its stable sort preserves same-timestamp
+        // arrival order
+        List<TIn> items = batchIn as List<TIn> ?? [.. batchIn];
+
+        bool isSorted = true;
+        for (int i = 1; i < items.Count; i++)
+        {
+            if (items[i].Timestamp < items[i - 1].Timestamp)
+            {
+                isSorted = false;
+                break;
+            }
+        }
+
+        if (isSorted)
+        {
+            foreach (TIn newIn in items)
+            {
+                OnAdd(newIn, notify: true, null);
+            }
+
+            return;
+        }
+
+        foreach (TIn newIn in items.OrderBy(static x => x.Timestamp))
         {
             OnAdd(newIn, notify: true, null);
         }
@@ -281,8 +308,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // rollback internal state
         RollbackState(restoreIndex);
 
-        // remove cache entries
-        Cache.RemoveAll(c => c.Timestamp >= fromTimestamp);
+        // remove cache entries: the cache is chronological, so a binary
+        // search + RemoveRange avoids the full predicate scan and the
+        // per-call closure allocation of List.RemoveAll
+        int cacheGteIndex = Cache.IndexGte(fromTimestamp);
+        if (cacheGteIndex >= 0)
+        {
+            Cache.RemoveRange(cacheGteIndex, Cache.Count - cacheGteIndex);
+        }
 
         // reset LastItem to prevent IsOverflowing from incorrectly detecting
         // duplicates when rebuilding (the new items may have same timestamp

@@ -92,8 +92,7 @@ public class ParabolicSarHub
             // _buffer contains the PREVIOUS quotes (not including current)
             if (_buffer.Count >= 2)
             {
-                (double _, double l1) = _buffer.ElementAt(1);  // i-1
-                (double _, double l2) = _buffer.ElementAt(0);  // i-2
+                ((double _, double l2), (double _, double l1)) = PeekLastTwo();  // i-2, i-1
                 double minLastTwo = Math.Min(l1, l2);
                 sar = Math.Min(sar, minLastTwo);
             }
@@ -133,8 +132,7 @@ public class ParabolicSarHub
             // _buffer contains the PREVIOUS quotes (not including current)
             if (_buffer.Count >= 2)
             {
-                (double h1, double _) = _buffer.ElementAt(1);  // i-1
-                (double h2, double _) = _buffer.ElementAt(0);  // i-2
+                ((double h2, double _), (double h1, double _)) = PeekLastTwo();  // i-2, i-1
                 double maxLastTwo = Math.Max(h1, h2);
                 sar = Math.Max(sar, maxLastTwo);
             }
@@ -198,6 +196,19 @@ public class ParabolicSarHub
         return (result, i);
     }
 
+    /// <summary>
+    /// Gets the two buffered prior quotes (oldest first) without
+    /// boxing the queue enumerator, unlike LINQ <c>ElementAt</c>.
+    /// </summary>
+    private ((double High, double Low) Oldest, (double High, double Low) Latest) PeekLastTwo()
+    {
+        Queue<(double High, double Low)>.Enumerator e = _buffer.GetEnumerator();
+        e.MoveNext();
+        (double High, double Low) oldest = e.Current;
+        e.MoveNext();
+        return (oldest, e.Current);
+    }
+
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
@@ -239,8 +250,7 @@ public class ParabolicSarHub
 
                 if (_buffer.Count >= 2)
                 {
-                    (double _, double l1) = _buffer.ElementAt(1);
-                    (double _, double l2) = _buffer.ElementAt(0);
+                    ((double _, double l2), (double _, double l1)) = PeekLastTwo();
                     double minLastTwo = Math.Min(l1, l2);
                     sar = Math.Min(sar, minLastTwo);
                 }
@@ -273,8 +283,7 @@ public class ParabolicSarHub
 
                 if (_buffer.Count >= 2)
                 {
-                    (double h1, double _) = _buffer.ElementAt(1);
-                    (double h2, double _) = _buffer.ElementAt(0);
+                    ((double h2, double _), (double h1, double _)) = PeekLastTwo();
                     double maxLastTwo = Math.Max(h1, h2);
                     sar = Math.Max(sar, maxLastTwo);
                 }

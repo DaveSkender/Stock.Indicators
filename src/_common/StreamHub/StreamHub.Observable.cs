@@ -18,6 +18,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     private readonly object _observersLock = new();
 
     /// <summary>
+    /// Cached point-in-time copy of <see cref="_observers"/>, rebuilt lazily by
+    /// <see cref="SnapshotObservers"/> and invalidated (under the lock) whenever
+    /// the subscriber set changes. Notification fan-out runs once per cached
+    /// item across four notify paths, so reusing the snapshot avoids an array
+    /// allocation per event when subscriptions are stable (the common case).
+    /// </summary>
+    private IStreamObserver<TOut>[]? _observersSnapshot;
+
+    /// <summary>
     /// Baseline minimum cache size requirement for this hub (set by ValidateCacheSize).
     /// </summary>
     private int _minCacheSizeBaseline;
@@ -62,7 +71,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     {
         lock (_observersLock)
         {
-            return _observers.Count == 0 ? [] : [.. _observers];
+            return _observersSnapshot ??=
+                _observers.Count == 0 ? [] : [.. _observers];
         }
     }
 
@@ -71,7 +81,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     {
         lock (_observersLock)
         {
-            _observers.Add(observer);
+            if (_observers.Add(observer))
+            {
+                _observersSnapshot = null;
+            }
         }
 
         // Update MinCacheSize to the maximum of all subscribers
@@ -87,6 +100,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         lock (_observersLock)
         {
             removed = _observers.Remove(observer);
+            if (removed)
+            {
+                _observersSnapshot = null;
+            }
         }
 
         // Re-evaluate MinCacheSize after unsubscribing
@@ -131,6 +148,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
             snapshot = [.. _observers];
             _observers.Clear();
+            _observersSnapshot = null;
 
             // Reset to baseline when all subscribers are removed
             MinCacheSize = _minCacheSizeBaseline;
@@ -177,7 +195,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// </summary>
     /// <param name="item"><c>TSeries</c> item to send.</param>
     /// <param name="indexHint">Provider index hint.</param>
-    protected void NotifyObserversOnAdd(TOut item, int? indexHint)
+    private protected void NotifyObserversOnAdd(TOut item, int? indexHint)
     {
         foreach (IStreamObserver<TOut> o in SnapshotObservers())
         {
@@ -196,7 +214,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// Sends rebuilds point in time to all subscribers.
     /// </summary>
     /// <param name="fromTimestamp">Rebuild starting date.</param>
-    protected void NotifyObserversOnRebuild(DateTime fromTimestamp)
+    private protected void NotifyObserversOnRebuild(DateTime fromTimestamp)
     {
         foreach (IStreamObserver<TOut> o in SnapshotObservers())
         {

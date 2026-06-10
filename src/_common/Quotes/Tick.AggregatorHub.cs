@@ -131,14 +131,15 @@ public class TickAggregatorHub
                 if (_processedExecutionIds.Count > (maxExecutionIdCacheSize / 2))
                 {
                     DateTime pruneThreshold = item.Timestamp.Add(-_executionIdRetentionPeriod);
-                    List<string> toRemove = _processedExecutionIds
-                        .Where(kvp => kvp.Value < pruneThreshold)
-                        .Select(kvp => kvp.Key)
-                        .ToList();
 
-                    foreach (string key in toRemove)
+                    // Dictionary<TKey,TValue> supports Remove during enumeration,
+                    // avoiding a per-tick list allocation on this hot path
+                    foreach (KeyValuePair<string, DateTime> entry in _processedExecutionIds)
                     {
-                        _processedExecutionIds.Remove(key);
+                        if (entry.Value < pruneThreshold)
+                        {
+                            _processedExecutionIds.Remove(entry.Key);
+                        }
                     }
                 }
 
