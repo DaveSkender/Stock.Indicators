@@ -43,10 +43,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // inherit max cache size from provider
         MaxCacheSize = provider.MaxCacheSize;
 
-        // pre-allocate cache if reasonable size
-        Cache = MaxCacheSize is > 0 and < 10_000
-            ? new List<TOut>(MaxCacheSize)
-            : new List<TOut>(800);
+        // start the cache empty and let List<T> growth amortize: a fixed
+        // pre-allocation (formerly 800 slots, ~6.4KB per hub) dominates the
+        // footprint of multi-symbol deployments with thousands of hubs,
+        // while growth-on-demand costs only a handful of one-time copies
+        Cache = [];
 
         // build read-only cache reference
         Results = Cache.AsReadOnly();
