@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       indicator:
-        description: Select indicator to benchmark
+        description: Select indicator to benchmark (Note - Some indicators only support Series style)
         type: choice
         required: true
         options:
