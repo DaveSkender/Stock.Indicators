@@ -24,20 +24,24 @@ public static partial class Sma
         // initialize
         int length = source.Count;
         SmaResult[] results = new SmaResult[length];
+        Queue<double> buffer = new(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];
 
-            if (i >= lookbackPeriods - 1)
+            // Update the rolling buffer
+            buffer.Update(lookbackPeriods, s.Value);
+
+            // Calculate SMA when we have enough values
+            if (buffer.Count == lookbackPeriods)
             {
                 double sum = 0;
-                int start = i - lookbackPeriods + 1;
 
-                for (int p = start; p <= i; p++)
+                foreach (double val in buffer)
                 {
-                    sum += source[p].Value;
+                    sum += val;
                 }
 
                 results[i] = new SmaResult(
