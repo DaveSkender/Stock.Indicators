@@ -132,7 +132,7 @@ public class ManualTestDirect
         "WILLR" => Quotes.ToWilliamsR(),
         "WMA" => Quotes.ToWma(14),
         "ZIGZAG" => Quotes.ToZigZag(),
-        _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect."),
+        _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect Series benchmark."),
     };
 
     /* BUFFER BENCHMARKS */
@@ -214,7 +214,7 @@ public class ManualTestDirect
         "VWMA" => Quotes.ToVwmaList(14),
         "WILLR" => Quotes.ToWilliamsRList(),
         "WMA" => Quotes.ToWmaList(14),
-        _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect."),
+        _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect Buffer benchmark. Some indicators only have Series implementations."),
     };
 
     /* STREAM HUB BENCHMARKS */
@@ -300,7 +300,7 @@ public class ManualTestDirect
         "VWMA" => quoteHub.ToVwmaHub(14).Results,
         "WILLR" => quoteHub.ToWilliamsRHub().Results,
         "WMA" => quoteHub.ToWmaHub(14).Results,
-        _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect."),
+        _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect StreamHub benchmark. Some indicators only have Series implementations."),
     };
 
 }
