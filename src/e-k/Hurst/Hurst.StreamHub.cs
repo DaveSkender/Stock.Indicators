@@ -8,6 +8,7 @@ public class HurstHub
 {
     private readonly Queue<double> _buffer;
     private readonly double[] _alCorrections;
+    private readonly double[] _windowValues;
 
     internal HurstHub(
         IChainProvider<IReusable> provider,
@@ -18,6 +19,7 @@ public class HurstHub
         Name = $"HURST({lookbackPeriods})";
         _buffer = new Queue<double>(lookbackPeriods + 1);
         _alCorrections = Hurst.PrecomputeAlCorrections(lookbackPeriods);
+        _windowValues = new double[lookbackPeriods];
 
         // Validate cache size for warmup requirements
         // Hurst requires (lookbackPeriods + 1) values in ProviderCache to compute lookbackPeriods returns.
@@ -47,16 +49,21 @@ public class HurstHub
         if (_buffer.Count == LookbackPeriods + 1)
         {
             // Get evaluation batch - calculate returns from buffer values
-            double[] values = new double[LookbackPeriods];
-            double[] bufferArray = _buffer.ToArray();
+            double[] values = _windowValues;
 
             int x = 0;
-            double l = bufferArray[0];
+            double l = double.NaN;
+            bool isFirst = true;
 
             // Skip first value (used as initial l) and calculate returns for the rest
-            for (int p = 1; p < bufferArray.Length; p++)
+            foreach (double ps in _buffer)
             {
-                double ps = bufferArray[p];
+                if (isFirst)
+                {
+                    l = ps;
+                    isFirst = false;
+                    continue;
+                }
 
                 // log returns require strictly positive prices on both ends
                 values[x] = (l > 0 && ps > 0) ? DeMath.Log(ps / l) : double.NaN;

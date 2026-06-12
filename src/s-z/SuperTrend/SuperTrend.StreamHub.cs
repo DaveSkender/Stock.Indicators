@@ -37,6 +37,9 @@ public class SuperTrendHub
     private double LowerBand { get; set; } = double.MinValue;
     private double PrevAtr { get; set; } = double.NaN;
 
+    // recent state snapshots for O(1) near-tail rollback
+    private readonly RollbackRing<(bool IsBullish, double UpperBand, double LowerBand, double PrevAtr)> _rollback = new();
+
     /// <inheritdoc/>
     protected override (SuperTrendResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -141,6 +144,9 @@ public class SuperTrendHub
                 LowerBand: (decimal?)LowerBand);
         }
 
+        // snapshot state for O(1) near-tail rollback
+        _rollback.Add(item.Timestamp, (IsBullish, UpperBand, LowerBand, PrevAtr));
+
         return (r, i);
     }
 
@@ -158,6 +164,20 @@ public class SuperTrendHub
 
         if (restoreIndex < 0)
         {
+            return;
+        }
+
+        // O(1) fast path: restore the exact state snapshot recorded when the
+        // restore-point item was processed (near-tail rollbacks, the common
+        // case for live corrections and forming-bar updates)
+        if (_rollback.TryGet(
+            ProviderCache[restoreIndex].Timestamp,
+            out (bool IsBullish, double UpperBand, double LowerBand, double PrevAtr) snapshot))
+        {
+            IsBullish = snapshot.IsBullish;
+            UpperBand = snapshot.UpperBand;
+            LowerBand = snapshot.LowerBand;
+            PrevAtr = snapshot.PrevAtr;
             return;
         }
 

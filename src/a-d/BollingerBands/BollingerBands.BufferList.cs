@@ -51,12 +51,25 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         // Calculate Bollinger Bands when we have enough values
         if (_buffer.Count == LookbackPeriods)
         {
-            // Calculate SMA
-            double sma = _buffer.Average();
+            // Calculate SMA (sum then divide, same as LINQ Average)
+            double sum = 0;
+            foreach (double val in _buffer)
+            {
+                sum += val;
+            }
 
-            // Calculate standard deviation using the same algorithm as the static series
-            double[] window = _buffer.ToArray();
-            double stdDev = window.StdDev();
+            double sma = sum / _buffer.Count;
+
+            // Calculate standard deviation using the same
+            // algorithm as the static series (Numerical.StdDev),
+            // where the mean is computed identically to SMA above
+            double sumSq = 0;
+            foreach (double val in _buffer)
+            {
+                sumSq += (val - sma) * (val - sma);
+            }
+
+            double stdDev = Math.Sqrt(sumSq / LookbackPeriods);
 
             // Calculate bands
             double upperBand = sma + (StandardDeviations * stdDev);

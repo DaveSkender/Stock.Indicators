@@ -59,10 +59,21 @@ public class TickHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        int index = indexHint
-            ?? Cache.IndexGte(item.Timestamp);
+        // append fast path: live feeds almost always deliver new ticks,
+        // so skip the binary search when the item extends the timeline
+        lock (CacheLock)
+        {
+            if (indexHint is null
+                && (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp))
+            {
+                return (item, Cache.Count);
+            }
 
-        return (item, index == -1 ? Cache.Count : index);
+            int index = indexHint
+                ?? Cache.IndexGte(item.Timestamp);
+
+            return (item, index == -1 ? Cache.Count : index);
+        }
     }
 
     /// <inheritdoc/>

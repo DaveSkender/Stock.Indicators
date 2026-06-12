@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// This patterns supports indicators that can only be calculated from OHLCV quotes.
 /// Examples: TR, RSI, moving averages, and others.
 /// </remarks>
-public interface IIncrementFromQuote
+internal interface IIncrementFromQuote
 {
     /// <summary>
     /// Apply new quote to increment indicator list values.

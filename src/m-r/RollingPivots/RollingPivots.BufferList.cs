@@ -77,22 +77,37 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
             // Window ends at (bufferCount - 1 - 1 - offsetPeriods) = (bufferCount - 2 - offsetPeriods)
             // because the current quote itself is not part of the window when offsetPeriods = 0
 
-            IQuote[] bufferArray = _buffer.ToArray();
-            int bufferCount = bufferArray.Length;
+            int bufferCount = _buffer.Count;
 
             // Window ends offsetPeriods + 1 positions before the end (the "+1" accounts for the current quote)
             int windowEndIndex = bufferCount - 2 - OffsetPeriods;
             int windowStartIndex = windowEndIndex - WindowPeriods + 1;
 
-            double windowHigh = (double)bufferArray[windowStartIndex].High;
-            double windowLow = (double)bufferArray[windowStartIndex].Low;
-            double windowClose = (double)bufferArray[windowEndIndex].Close;
+            double windowHigh = double.MinValue;
+            double windowLow = double.MaxValue;
+            double windowClose = double.NaN;
 
-            for (int p = windowStartIndex; p <= windowEndIndex; p++)
+            // scan the window in place (queue enumerates front-to-back) without copying the buffer
+            int index = 0;
+            foreach (IQuote d in _buffer)
             {
-                IQuote d = bufferArray[p];
-                windowHigh = (double)d.High > windowHigh ? (double)d.High : windowHigh;
-                windowLow = (double)d.Low < windowLow ? (double)d.Low : windowLow;
+                if (index > windowEndIndex)
+                {
+                    break;
+                }
+
+                if (index >= windowStartIndex)
+                {
+                    windowHigh = (double)d.High > windowHigh ? (double)d.High : windowHigh;
+                    windowLow = (double)d.Low < windowLow ? (double)d.Low : windowLow;
+
+                    if (index == windowEndIndex)
+                    {
+                        windowClose = (double)d.Close;
+                    }
+                }
+
+                index++;
             }
 
             // Calculate pivot points

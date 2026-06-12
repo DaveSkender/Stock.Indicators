@@ -89,7 +89,13 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
             // Initialize EMA with SMA when we have enough values
             if (_rocEmaInitBuffer.Count >= EmaPeriods)
             {
-                rocEma = _rocEmaInitBuffer.Average();
+                double sum = 0;
+                foreach (double val in _rocEmaInitBuffer)
+                {
+                    sum += val;
+                }
+
+                rocEma = sum / _rocEmaInitBuffer.Count;
             }
             else
             {
@@ -108,7 +114,13 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         double? rocDev = null;
         if (_rocSqBuffer.Count >= StdDevPeriods && !double.IsNaN(roc))
         {
-            rocDev = Math.Sqrt(_rocSqBuffer.Sum() / StdDevPeriods).NaN2Null();
+            double sumSq = 0;
+            foreach (double val in _rocSqBuffer)
+            {
+                sumSq += val;
+            }
+
+            rocDev = Math.Sqrt(sumSq / StdDevPeriods).NaN2Null();
         }
 
         AddInternal(new RocWbResult(

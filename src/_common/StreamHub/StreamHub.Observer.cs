@@ -90,10 +90,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
             // Only prune if this hub participates in provider-driven pruning
             if (ShouldPruneOnProviderPrune)
             {
-                while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+                // count, then remove in one operation: per-item RemoveAt(0)
+                // shifts the whole backing array on every removal
+                while (removedCount < Cache.Count
+                    && Cache[removedCount].Timestamp <= toTimestamp)
                 {
-                    Cache.RemoveAt(0);
                     removedCount++;
+                }
+
+                if (removedCount > 0)
+                {
+                    Cache.RemoveRange(0, removedCount);
                 }
             }
 

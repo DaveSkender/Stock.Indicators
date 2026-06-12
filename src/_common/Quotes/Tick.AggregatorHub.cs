@@ -131,29 +131,54 @@ public class TickAggregatorHub
                 if (_processedExecutionIds.Count > (maxExecutionIdCacheSize / 2))
                 {
                     DateTime pruneThreshold = item.Timestamp.Add(-_executionIdRetentionPeriod);
-                    List<string> toRemove = _processedExecutionIds
-                        .Where(kvp => kvp.Value < pruneThreshold)
-                        .Select(kvp => kvp.Key)
-                        .ToList();
 
-                    foreach (string key in toRemove)
+                    // Dictionary<TKey,TValue> supports Remove during enumeration,
+                    // avoiding a per-tick list allocation on this hot path
+                    foreach (KeyValuePair<string, DateTime> entry in _processedExecutionIds)
                     {
-                        _processedExecutionIds.Remove(key);
+                        if (entry.Value < pruneThreshold)
+                        {
+                            _processedExecutionIds.Remove(entry.Key);
+                        }
                     }
                 }
 
-                // Hard limit: if still too large after pruning, remove oldest entries
+                // Hard limit: if still too large after pruning, remove oldest entries.
+                // A sorted-timestamp threshold replaces the former
+                // OrderBy/Take/Select/ToList chain: one array allocation
+                // instead of four intermediate collections on this
+                // emergency overflow path.
                 if (_processedExecutionIds.Count > maxExecutionIdCacheSize)
                 {
-                    List<string> toRemove = _processedExecutionIds
-                        .OrderBy(kvp => kvp.Value)
-                        .Take(_processedExecutionIds.Count - (maxExecutionIdCacheSize / 2))
-                        .Select(kvp => kvp.Key)
-                        .ToList();
+                    int removeCount = _processedExecutionIds.Count - (maxExecutionIdCacheSize / 2);
 
-                    foreach (string key in toRemove)
+                    DateTime[] timestamps = new DateTime[_processedExecutionIds.Count];
+                    _processedExecutionIds.Values.CopyTo(timestamps, 0);
+                    Array.Sort(timestamps);
+                    DateTime threshold = timestamps[removeCount - 1];
+
+                    // remove all entries older than the threshold, then trim
+                    // threshold-equal entries until the quota is met
+                    int removed = 0;
+                    foreach (KeyValuePair<string, DateTime> entry in _processedExecutionIds)
                     {
-                        _processedExecutionIds.Remove(key);
+                        if (entry.Value < threshold && _processedExecutionIds.Remove(entry.Key))
+                        {
+                            removed++;
+                        }
+                    }
+
+                    foreach (KeyValuePair<string, DateTime> entry in _processedExecutionIds)
+                    {
+                        if (removed >= removeCount)
+                        {
+                            break;
+                        }
+
+                        if (entry.Value == threshold && _processedExecutionIds.Remove(entry.Key))
+                        {
+                            removed++;
+                        }
                     }
                 }
             }
@@ -269,11 +294,29 @@ public class TickAggregatorHub
 
         DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
-        int index = indexHint ?? Cache.IndexGte(barTimestamp);
-
-        if (index == -1)
+        // bar fast path: ticks nearly always land on the forming (last) bar
+        // or open a new one; skip the binary search for both cases
+        int index;
+        if (indexHint.HasValue)
+        {
+            index = indexHint.Value;
+        }
+        else if (Cache.Count == 0 || barTimestamp > Cache[^1].Timestamp)
         {
             index = Cache.Count;
+        }
+        else if (barTimestamp == Cache[^1].Timestamp)
+        {
+            index = Cache.Count - 1;
+        }
+        else
+        {
+            index = Cache.IndexGte(barTimestamp);
+
+            if (index == -1)
+            {
+                index = Cache.Count;
+            }
         }
 
         // Convert tick to a single-price bar

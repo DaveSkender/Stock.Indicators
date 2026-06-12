@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators;
 public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
 {
     private readonly Queue<double> _buffer;
+    private readonly double[] _bufferArray;
+    private readonly double[] _values;
     private readonly double[] _alCorrections;
 
     /// <summary>
@@ -18,6 +20,8 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
         Hurst.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods + 1);
+        _bufferArray = new double[lookbackPeriods + 1];
+        _values = new double[lookbackPeriods];
         _alCorrections = Hurst.PrecomputeAlCorrections(lookbackPeriods);
 
         Name = $"HURST({lookbackPeriods})";
@@ -47,8 +51,10 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
         if (_buffer.Count == LookbackPeriods + 1)
         {
             // get evaluation batch - calculate returns from buffer values
-            double[] values = new double[LookbackPeriods];
-            double[] bufferArray = _buffer.ToArray();
+            // using reusable arrays (avoids per-Add allocation)
+            double[] values = _values;
+            double[] bufferArray = _bufferArray;
+            _buffer.CopyTo(bufferArray, 0);
 
             int x = 0;
             double l = bufferArray[0];

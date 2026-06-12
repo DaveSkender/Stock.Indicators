@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides static utility methods for stream hub operations.
 /// </summary>
-public static class StreamHub
+internal static class StreamHub
 {
     /// <summary>
     /// Try to find index position of the provided timestamp.

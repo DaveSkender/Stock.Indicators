@@ -95,7 +95,13 @@ public class RocWbHub
             // Initialize EMA with SMA when we have enough values
             if (rocEmaInitBuffer.Count >= EmaPeriods)
             {
-                rocEma = rocEmaInitBuffer.Average();
+                double sum = 0;
+                foreach (double value in rocEmaInitBuffer)
+                {
+                    sum += value;
+                }
+
+                rocEma = sum / rocEmaInitBuffer.Count;
             }
             else
             {
@@ -114,7 +120,13 @@ public class RocWbHub
         double? rocDev = null;
         if (rocSqBuffer.Count >= StdDevPeriods)
         {
-            rocDev = Math.Sqrt(rocSqBuffer.Sum() / StdDevPeriods).NaN2Null();
+            double sumSq = 0;
+            foreach (double value in rocSqBuffer)
+            {
+                sumSq += value;
+            }
+
+            rocDev = Math.Sqrt(sumSq / StdDevPeriods).NaN2Null();
         }
 
         // candidate result
@@ -190,7 +202,13 @@ public class RocWbHub
                 // Initialize EMA with SMA when we have enough values
                 if (rocEmaInitBuffer.Count >= EmaPeriods)
                 {
-                    rocEma = rocEmaInitBuffer.Average();
+                    double sum = 0;
+                    foreach (double value in rocEmaInitBuffer)
+                    {
+                        sum += value;
+                    }
+
+                    rocEma = sum / rocEmaInitBuffer.Count;
                 }
                 else
                 {
