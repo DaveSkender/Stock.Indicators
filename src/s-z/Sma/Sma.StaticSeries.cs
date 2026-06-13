@@ -31,29 +31,12 @@ public static partial class Sma
         {
             IReusable s = source[i];
 
-            // Update the rolling buffer
+            // advance the rolling window and emit once it is full
             buffer.Update(lookbackPeriods, s.Value);
 
-            // Calculate SMA when we have enough values
-            if (buffer.Count == lookbackPeriods)
-            {
-                double sum = 0;
-
-                foreach (double val in buffer)
-                {
-                    sum += val;
-                }
-
-                results[i] = new SmaResult(
-                    Timestamp: s.Timestamp,
-                    Sma: (sum / lookbackPeriods).NaN2Null());
-            }
-            else
-            {
-                results[i] = new SmaResult(
-                    Timestamp: s.Timestamp,
-                    Sma: null);
-            }
+            results[i] = new SmaResult(
+                Timestamp: s.Timestamp,
+                Sma: buffer.Average(lookbackPeriods).NaN2Null());
         }
 
         return results;

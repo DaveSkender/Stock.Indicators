@@ -70,13 +70,18 @@ public static partial class Sma
     }
 
     /// <summary>
-    /// Calculates the average of all values in a Queue buffer.
-    /// Uses the buffer's count as the denominator for improved conciseness.
+    /// Calculates the simple moving average over a rolling buffer.
+    /// Returns <see cref="double.NaN"/> until the buffer has filled to
+    /// <paramref name="lookbackPeriods"/> values (the warmup window), so all
+    /// SMA styles share one consistent fresh-sum calculation.
     /// </summary>
-    /// <param name="buffer">Queue buffer containing values to average.</param>
-    /// <returns>Average of all values in the buffer, or NaN if buffer is empty.</returns>
-    internal static double Average(this Queue<double> buffer)
-        => buffer.Count > 0 ? buffer.Sum() / buffer.Count : double.NaN;
+    /// <param name="buffer">Rolling buffer of the most recent values.</param>
+    /// <param name="lookbackPeriods">Size of the lookback window.</param>
+    /// <returns>Simple moving average, or NaN during warmup.</returns>
+    internal static double Average(this Queue<double> buffer, int lookbackPeriods)
+        => buffer.Count == lookbackPeriods
+            ? buffer.Sum() / lookbackPeriods
+            : double.NaN;
 
     /// <summary>
     /// Validates the lookback periods parameter.

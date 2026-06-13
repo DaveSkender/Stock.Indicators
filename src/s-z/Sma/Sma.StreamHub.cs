@@ -34,16 +34,13 @@ public class SmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Update the rolling buffer
+        // advance the rolling window and emit once it is full
         buffer.Update(LookbackPeriods, item.Value);
-
-        // Calculate SMA when we have enough values
-        double sma = buffer.Count == LookbackPeriods ? buffer.Average() : double.NaN;
 
         // candidate result
         SmaResult r = new(
             Timestamp: item.Timestamp,
-            Sma: sma.NaN2Null());
+            Sma: buffer.Average(LookbackPeriods).NaN2Null());
 
         return (r, i);
     }
@@ -54,7 +51,6 @@ public class SmaHub
     /// <inheritdoc/>
     protected override void RollbackState(int restoreIndex)
     {
-        // Clear buffer
         buffer.Clear();
 
         if (restoreIndex < 0)
@@ -62,14 +58,14 @@ public class SmaHub
             return;
         }
 
-        // Rebuild buffer from cache
-        // We need at most the last LookbackPeriods values
+        // rebuild from the last LookbackPeriods preserved values; the item at
+        // restoreIndex is preserved (not replayed through ToIndicator), so it
+        // is included here
         int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IReusable item = ProviderCache[p];
-            buffer.Update(LookbackPeriods, item.Value);
+            buffer.Update(LookbackPeriods, ProviderCache[p].Value);
         }
     }
 }
