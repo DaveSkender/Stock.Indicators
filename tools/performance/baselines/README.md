@@ -45,6 +45,39 @@ cp BenchmarkDotNet.Artifacts/results/Performance.StreamIndicators-report-full.js
 cp baselines/Performance.StreamIndicators-report-full.json baselines/baseline-v3.0.0-stream.json
 ```
 
+### Regenerating the other baseline classes
+
+The three core classes above are the common refresh. The remaining committed
+baselines come from separate benchmark classes — regenerate them the same way
+(same reference host, `--job short`), then copy each `*-report-full.json` into
+`baselines/`:
+
+```bash
+cd tools/performance
+
+# Cross-style comparison — Series vs Buffer vs Stream per indicator.
+# This is the authoritative "which style is fastest" source. It covers all
+# ~86 indicators x 3 styles, so it is a LONG run (~2h on the reference host).
+dotnet run -c Release -- --job short --filter 'Performance.StyleComparison*'
+cp BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.json baselines/
+
+# Utility kernels (fast)
+dotnet run -c Release -- --job short --filter 'Performance.Utility*'
+cp BenchmarkDotNet.Artifacts/results/Performance.Utility-report-full.json       baselines/
+cp BenchmarkDotNet.Artifacts/results/Performance.UtilityStdDev-report-full.json baselines/
+
+# Stream-external (SSE) — needs network access to the offline emulator / feed;
+# skip unless you specifically intend to refresh it.
+# dotnet run -c Release -- --job short --filter 'Performance.StreamExternal*'
+# cp BenchmarkDotNet.Artifacts/results/Performance.StreamExternal-report-full.json baselines/
+```
+
+> **Note:** the per-class `SeriesIndicators` benchmarks were changed to return
+> their result (instead of `void`) so BenchmarkDotNet cannot dead-code-eliminate
+> the call. Regenerate `Performance.SeriesIndicators-report-full.json` with the
+> core command above after pulling that change; the currently committed Series
+> baseline was captured just before it and is provisional until then.
+
 ## Using baselines for regression detection
 
 The `detect-regressions.ps1` script compares current results with a baseline:
