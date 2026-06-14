@@ -30,10 +30,11 @@ methodology) and copy each report over its same-named baseline:
 cd tools/performance
 
 # Run the three core styles with the ShortRun job
+# (--filter is multi-value; repeated here to match the manual workflow)
 dotnet run -c Release -- --job short \
   --filter 'Performance.SeriesIndicators*' \
-           'Performance.BufferIndicators*' \
-           'Performance.StreamIndicators*'
+  --filter 'Performance.BufferIndicators*' \
+  --filter 'Performance.StreamIndicators*'
 
 # Copy each report-full.json over its baseline (one file per report)
 cp BenchmarkDotNet.Artifacts/results/Performance.SeriesIndicators-report-full.json baselines/

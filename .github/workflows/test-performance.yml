@@ -55,11 +55,13 @@ jobs:
         working-directory: tools/performance
         # Use --job short (ShortRun) to match the methodology the committed
         # baselines use; the no-arg path produces DefaultConfig (15/15), which
-        # is ~5x slower and inconsistent with the baselines. An explicit class
-        # filter preserves the original three-core-style scope.
+        # is ~5x slower and inconsistent with the baselines. The explicit class
+        # filters preserve the original three-core-style scope. (--filter is a
+        # multi-value option, so one prefix with three globs also works; the
+        # repeated form matches test-performance-manual.yml convention.)
         run: |
           echo "Running core benchmark suite (ShortRun)..."
-          dotnet run -c Release -- --job short --filter 'Performance.SeriesIndicators*' 'Performance.BufferIndicators*' 'Performance.StreamIndicators*'
+          dotnet run -c Release -- --job short --filter 'Performance.SeriesIndicators*' --filter 'Performance.BufferIndicators*' --filter 'Performance.StreamIndicators*'
 
       - name: Save test results
         uses: actions/upload-artifact@v6
