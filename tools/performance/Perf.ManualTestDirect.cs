@@ -18,9 +18,6 @@ public class ManualTestDirect
     private static readonly IReadOnlyList<Quote> Quotes = Data.GetRandom(Periods);
     private static readonly IReadOnlyList<Quote> CompareQuotes = Data.GetRandom(Periods);
 
-    private readonly QuoteHub quoteHub = new();
-    private readonly QuoteHub quoteHubOther = new();
-
     [GlobalSetup]
     public void Setup()
     {
@@ -28,19 +25,6 @@ public class ManualTestDirect
         Console.WriteLine($"  Keyword: {Keyword}");
         Console.WriteLine($"  Periods: {Periods:N0}");
         Console.WriteLine($"  Generated {Quotes.Count:N0} quotes");
-
-        quoteHub.Add(Quotes);
-        quoteHubOther.Add(CompareQuotes);
-    }
-
-    [GlobalCleanup]
-    public void Cleanup()
-    {
-        quoteHub.EndTransmission();
-        quoteHub.Cache.Clear();
-
-        quoteHubOther.EndTransmission();
-        quoteHubOther.Cache.Clear();
     }
 
     /* SERIES BENCHMARKS */
@@ -230,87 +214,97 @@ public class ManualTestDirect
     /* STREAM HUB BENCHMARKS */
 
     [Benchmark]
-    public object StreamHub() => Keyword switch {
-        "ADL" => quoteHub.ToAdlHub().Results,
-        "ADX" => quoteHub.ToAdxHub(14).Results,
-        "ALLIGATOR" => quoteHub.ToAlligatorHub().Results,
-        "ALMA" => quoteHub.ToAlmaHub(9, 0.85, 6).Results,
-        "AROON" => quoteHub.ToAroonHub().Results,
-        "ATR" => quoteHub.ToAtrHub(14).Results,
-        "ATR-STOP" => quoteHub.ToAtrStopHub().Results,
-        "AWESOME" => quoteHub.ToAwesomeHub().Results,
-        "BB" => quoteHub.ToBollingerBandsHub(20, 2).Results,
-        "BOP" => quoteHub.ToBopHub(14).Results,
-        "CCI" => quoteHub.ToCciHub(14).Results,
-        "CHAIKIN-OSC" => quoteHub.ToChaikinOscHub().Results,
-        "CHANDELIER" or "CHEXIT" => quoteHub.ToChandelierHub().Results,
-        "CHOP" => quoteHub.ToChopHub(14).Results,
-        "CMF" => quoteHub.ToCmfHub(14).Results,
-        "CMO" => quoteHub.ToCmoHub(14).Results,
-        "CRSI" => quoteHub.ToConnorsRsiHub(3, 2, 100).Results,
-        "DEMA" => quoteHub.ToDemaHub(14).Results,
-        "DOJI" => quoteHub.ToDojiHub().Results,
-        "DONCHIAN" => quoteHub.ToDonchianHub(20).Results,
-        "DPO" => quoteHub.ToDpoHub(14).Results,
-        "DYNAMIC" => quoteHub.ToDynamicHub(14).Results,
-        "ELDER-RAY" => quoteHub.ToElderRayHub(13).Results,
-        "EMA" => quoteHub.ToEmaHub(20).Results,
-        "EPMA" => quoteHub.ToEpmaHub(14).Results,
-        "FCB" => quoteHub.ToFcbHub(2).Results,
-        "FISHER" => quoteHub.ToFisherTransformHub(10).Results,
-        "FORCE" => quoteHub.ToForceIndexHub(2).Results,
-        "FRACTAL" => quoteHub.ToFractalHub().Results,
-        "GATOR" => quoteHub.ToGatorHub().Results,
-        "HEIKINASHI" => quoteHub.ToHeikinAshiHub().Results,
-        "HMA" => quoteHub.ToHmaHub(14).Results,
-        "HTL" => quoteHub.ToHtTrendlineHub().Results,
-        "HURST" => quoteHub.ToHurstHub(100).Results,
-        "ICHIMOKU" => quoteHub.ToIchimokuHub().Results,
-        "KAMA" => quoteHub.ToKamaHub(10, 2, 30).Results,
-        "KELTNER" => quoteHub.ToKeltnerHub(20, 2, 10).Results,
-        "KVO" => quoteHub.ToKvoHub(34, 55, 13).Results,
-        "MA-ENV" => quoteHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA).Results,
-        "MACD" => quoteHub.ToMacdHub(12, 26, 9).Results,
-        "MAMA" => quoteHub.ToMamaHub(0.5, 0.05).Results,
-        "MARUBOZU" => quoteHub.ToMarubozuHub(95).Results,
-        "MFI" => quoteHub.ToMfiHub(14).Results,
-        "OBV" => quoteHub.ToObvHub().Results,
-        "PIVOT-POINTS" => quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard).Results,
-        "PIVOTS" => quoteHub.ToPivotsHub(2, 2, 20).Results,
-        "PMO" => quoteHub.ToPmoHub(35, 20, 10).Results,
-        "PSAR" => quoteHub.ToParabolicSarHub().Results,
-        "PVO" => quoteHub.ToPvoHub().Results,
-        "QUOTEPART" => quoteHub.ToQuotePartHub(CandlePart.OHL3).Results,
-        "RENKO" => quoteHub.ToRenkoHub(2.5m).Results,
-        "ROC" => quoteHub.ToRocHub(20).Results,
-        "ROC-WB" => quoteHub.ToRocWbHub(20, 5, 5).Results,
-        "ROLLING-PIVOTS" => quoteHub.ToRollingPivotsHub(20, 0, PivotPointType.Standard).Results,
-        "RSI" => quoteHub.ToRsiHub(14).Results,
-        "SLOPE" => quoteHub.ToSlopeHub(14).Results,
-        "SMA" => quoteHub.ToSmaHub(14).Results,
-        "SMA-ANALYSIS" => quoteHub.ToSmaAnalysisHub(14).Results,
-        "SMI" => quoteHub.ToSmiHub(13, 25, 2, 3).Results,
-        "SMMA" => quoteHub.ToSmmaHub(14).Results,
-        "STARC" => quoteHub.ToStarcBandsHub(5, 2, 10).Results,
-        "STC" => quoteHub.ToStcHub(10, 23, 50).Results,
-        "STDEV" => quoteHub.ToStdDevHub(14).Results,
-        "STOCH" => quoteHub.ToStochHub(14, 3, 3).Results,
-        "STOCH-RSI" => quoteHub.ToStochRsiHub(14, 14, 3, 1).Results,
-        "SUPERTREND" => quoteHub.ToSuperTrendHub(10, 3).Results,
-        "T3" => quoteHub.ToT3Hub(5, 0.7).Results,
-        "TEMA" => quoteHub.ToTemaHub(14).Results,
-        "TR" => quoteHub.ToTrHub().Results,
-        "TRIX" => quoteHub.ToTrixHub(14).Results,
-        "TSI" => quoteHub.ToTsiHub(25, 13, 7).Results,
-        "ULCER" => quoteHub.ToUlcerIndexHub(14).Results,
-        "UO" => quoteHub.ToUltimateHub(7, 14, 28).Results,
-        "VOL-STOP" => quoteHub.ToVolatilityStopHub(7, 3).Results,
-        "VORTEX" => quoteHub.ToVortexHub(14).Results,
-        "VWAP" => quoteHub.ToVwapHub().Results,
-        "VWMA" => quoteHub.ToVwmaHub(14).Results,
-        "WILLR" => quoteHub.ToWilliamsRHub().Results,
-        "WMA" => quoteHub.ToWmaHub(14).Results,
-        _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect StreamHub benchmark. Some indicators only have Series implementations."),
-    };
+    public object StreamHub()
+    {
+        // Create fresh hub and feed quotes per iteration — same work as Series/Buffer
+        QuoteHub quoteHub = new();
+        quoteHub.Add(Quotes);
+
+        object result = Keyword switch {
+            "ADL" => quoteHub.ToAdlHub().Results,
+            "ADX" => quoteHub.ToAdxHub(14).Results,
+            "ALLIGATOR" => quoteHub.ToAlligatorHub().Results,
+            "ALMA" => quoteHub.ToAlmaHub(9, 0.85, 6).Results,
+            "AROON" => quoteHub.ToAroonHub().Results,
+            "ATR" => quoteHub.ToAtrHub(14).Results,
+            "ATR-STOP" => quoteHub.ToAtrStopHub().Results,
+            "AWESOME" => quoteHub.ToAwesomeHub().Results,
+            "BB" => quoteHub.ToBollingerBandsHub(20, 2).Results,
+            "BOP" => quoteHub.ToBopHub(14).Results,
+            "CCI" => quoteHub.ToCciHub(14).Results,
+            "CHAIKIN-OSC" => quoteHub.ToChaikinOscHub().Results,
+            "CHANDELIER" or "CHEXIT" => quoteHub.ToChandelierHub().Results,
+            "CHOP" => quoteHub.ToChopHub(14).Results,
+            "CMF" => quoteHub.ToCmfHub(14).Results,
+            "CMO" => quoteHub.ToCmoHub(14).Results,
+            "CRSI" => quoteHub.ToConnorsRsiHub(3, 2, 100).Results,
+            "DEMA" => quoteHub.ToDemaHub(14).Results,
+            "DOJI" => quoteHub.ToDojiHub().Results,
+            "DONCHIAN" => quoteHub.ToDonchianHub(20).Results,
+            "DPO" => quoteHub.ToDpoHub(14).Results,
+            "DYNAMIC" => quoteHub.ToDynamicHub(14).Results,
+            "ELDER-RAY" => quoteHub.ToElderRayHub(13).Results,
+            "EMA" => quoteHub.ToEmaHub(20).Results,
+            "EPMA" => quoteHub.ToEpmaHub(14).Results,
+            "FCB" => quoteHub.ToFcbHub(2).Results,
+            "FISHER" => quoteHub.ToFisherTransformHub(10).Results,
+            "FORCE" => quoteHub.ToForceIndexHub(2).Results,
+            "FRACTAL" => quoteHub.ToFractalHub().Results,
+            "GATOR" => quoteHub.ToGatorHub().Results,
+            "HEIKINASHI" => quoteHub.ToHeikinAshiHub().Results,
+            "HMA" => quoteHub.ToHmaHub(14).Results,
+            "HTL" => quoteHub.ToHtTrendlineHub().Results,
+            "HURST" => quoteHub.ToHurstHub(100).Results,
+            "ICHIMOKU" => quoteHub.ToIchimokuHub().Results,
+            "KAMA" => quoteHub.ToKamaHub(10, 2, 30).Results,
+            "KELTNER" => quoteHub.ToKeltnerHub(20, 2, 10).Results,
+            "KVO" => quoteHub.ToKvoHub(34, 55, 13).Results,
+            "MA-ENV" => quoteHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA).Results,
+            "MACD" => quoteHub.ToMacdHub(12, 26, 9).Results,
+            "MAMA" => quoteHub.ToMamaHub(0.5, 0.05).Results,
+            "MARUBOZU" => quoteHub.ToMarubozuHub(95).Results,
+            "MFI" => quoteHub.ToMfiHub(14).Results,
+            "OBV" => quoteHub.ToObvHub().Results,
+            "PIVOT-POINTS" => quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard).Results,
+            "PIVOTS" => quoteHub.ToPivotsHub(2, 2, 20).Results,
+            "PMO" => quoteHub.ToPmoHub(35, 20, 10).Results,
+            "PSAR" => quoteHub.ToParabolicSarHub().Results,
+            "PVO" => quoteHub.ToPvoHub().Results,
+            "QUOTEPART" => quoteHub.ToQuotePartHub(CandlePart.OHL3).Results,
+            "RENKO" => quoteHub.ToRenkoHub(2.5m).Results,
+            "ROC" => quoteHub.ToRocHub(20).Results,
+            "ROC-WB" => quoteHub.ToRocWbHub(20, 5, 5).Results,
+            "ROLLING-PIVOTS" => quoteHub.ToRollingPivotsHub(20, 0, PivotPointType.Standard).Results,
+            "RSI" => quoteHub.ToRsiHub(14).Results,
+            "SLOPE" => quoteHub.ToSlopeHub(14).Results,
+            "SMA" => quoteHub.ToSmaHub(14).Results,
+            "SMA-ANALYSIS" => quoteHub.ToSmaAnalysisHub(14).Results,
+            "SMI" => quoteHub.ToSmiHub(13, 25, 2, 3).Results,
+            "SMMA" => quoteHub.ToSmmaHub(14).Results,
+            "STARC" => quoteHub.ToStarcBandsHub(5, 2, 10).Results,
+            "STC" => quoteHub.ToStcHub(10, 23, 50).Results,
+            "STDEV" => quoteHub.ToStdDevHub(14).Results,
+            "STOCH" => quoteHub.ToStochHub(14, 3, 3).Results,
+            "STOCH-RSI" => quoteHub.ToStochRsiHub(14, 14, 3, 1).Results,
+            "SUPERTREND" => quoteHub.ToSuperTrendHub(10, 3).Results,
+            "T3" => quoteHub.ToT3Hub(5, 0.7).Results,
+            "TEMA" => quoteHub.ToTemaHub(14).Results,
+            "TR" => quoteHub.ToTrHub().Results,
+            "TRIX" => quoteHub.ToTrixHub(14).Results,
+            "TSI" => quoteHub.ToTsiHub(25, 13, 7).Results,
+            "ULCER" => quoteHub.ToUlcerIndexHub(14).Results,
+            "UO" => quoteHub.ToUltimateHub(7, 14, 28).Results,
+            "VOL-STOP" => quoteHub.ToVolatilityStopHub(7, 3).Results,
+            "VORTEX" => quoteHub.ToVortexHub(14).Results,
+            "VWAP" => quoteHub.ToVwapHub().Results,
+            "VWMA" => quoteHub.ToVwmaHub(14).Results,
+            "WILLR" => quoteHub.ToWilliamsRHub().Results,
+            "WMA" => quoteHub.ToWmaHub(14).Results,
+            _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect StreamHub benchmark. Some indicators only have Series implementations."),
+        };
+
+        quoteHub.EndTransmission();
+        return result;
+    }
 
 }
