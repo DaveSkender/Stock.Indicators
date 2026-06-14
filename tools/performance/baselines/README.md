@@ -15,17 +15,33 @@ Baseline files are JSON exports from BenchmarkDotNet that capture performance me
 
 ## Creating a new baseline
 
-After running performance tests, copy the JSON results to create a new baseline:
+> **Generate on a consistent reference host.** These baselines are
+> hardware-sensitive absolute timings, not CI artifacts. The committed set is
+> produced **locally** on the reference machine (13th-gen Intel i9-13900H,
+> Windows 11 build 26200) with the **ShortRun** job — *not* on a hosted CI
+> runner, whose different (and shared) hardware would make the numbers
+> non-comparable. Always regenerate on the same machine so run-to-run deltas
+> reflect code changes, not hardware.
+
+Run the core suite with `--job short` (matching the committed baselines'
+methodology) and copy each report over its same-named baseline:
 
 ```bash
-# Run performance tests
-dotnet run -c Release
+cd tools/performance
 
-# Copy JSON results to baselines directory
-cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json baselines/baseline-v3.0.0.json
+# Run the three core styles with the ShortRun job
+dotnet run -c Release -- --job short \
+  --filter 'Performance.SeriesIndicators*' \
+           'Performance.BufferIndicators*' \
+           'Performance.StreamIndicators*'
 
-# Update latest baseline
-cp baselines/baseline-v3.0.0.json baselines/baseline-latest.json
+# Copy each report-full.json over its baseline (one file per report)
+cp BenchmarkDotNet.Artifacts/results/Performance.SeriesIndicators-report-full.json baselines/
+cp BenchmarkDotNet.Artifacts/results/Performance.BufferIndicators-report-full.json baselines/
+cp BenchmarkDotNet.Artifacts/results/Performance.StreamIndicators-report-full.json baselines/
+
+# Optionally tag a versioned snapshot at a release
+cp baselines/Performance.StreamIndicators-report-full.json baselines/baseline-v3.0.0-stream.json
 ```
 
 ## Using baselines for regression detection
