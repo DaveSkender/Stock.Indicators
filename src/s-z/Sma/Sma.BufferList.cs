@@ -36,26 +36,10 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer using extension method
+        // advance the rolling window and emit once it is full
         buffer.Update(LookbackPeriods, value);
 
-        // Calculate SMA when we have enough values by recalculating the sum
-        // This matches the precision of the static series implementation
-        double sma = double.NaN;
-
-        if (buffer.Count == LookbackPeriods)
-        {
-            double sum = 0;
-
-            foreach (double val in buffer)
-            {
-                sum += val;
-            }
-
-            sma = sum / LookbackPeriods;
-        }
-
-        AddInternal(new SmaResult(timestamp, sma.NaN2Null()));
+        AddInternal(new SmaResult(timestamp, buffer.Average(LookbackPeriods).NaN2Null()));
     }
 
     /// <summary>

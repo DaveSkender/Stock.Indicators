@@ -24,32 +24,19 @@ public static partial class Sma
         // initialize
         int length = source.Count;
         SmaResult[] results = new SmaResult[length];
+        Queue<double> buffer = new(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];
 
-            if (i >= lookbackPeriods - 1)
-            {
-                double sum = 0;
-                int start = i - lookbackPeriods + 1;
+            // advance the rolling window and emit once it is full
+            buffer.Update(lookbackPeriods, s.Value);
 
-                for (int p = start; p <= i; p++)
-                {
-                    sum += source[p].Value;
-                }
-
-                results[i] = new SmaResult(
-                    Timestamp: s.Timestamp,
-                    Sma: (sum / lookbackPeriods).NaN2Null());
-            }
-            else
-            {
-                results[i] = new SmaResult(
-                    Timestamp: s.Timestamp,
-                    Sma: null);
-            }
+            results[i] = new SmaResult(
+                Timestamp: s.Timestamp,
+                Sma: buffer.Average(lookbackPeriods).NaN2Null());
         }
 
         return results;
