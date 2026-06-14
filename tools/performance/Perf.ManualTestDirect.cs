@@ -216,8 +216,9 @@ public class ManualTestDirect
     [Benchmark]
     public object StreamHub()
     {
-        // Create fresh hub and subscribe before feeding quotes — observer processes in real-time
-        QuoteHub quoteHub = new();
+        // Create fresh hub and set maxCacheSize to match test data size
+        // This prevents O(n²) pruning behavior when Periods > default maxCacheSize (100,000)
+        QuoteHub quoteHub = new(maxCacheSize: Periods);
 
         // Subscribe FIRST — observer wired up before quotes arrive
         object hub = Keyword switch {
