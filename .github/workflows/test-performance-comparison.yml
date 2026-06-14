@@ -13,7 +13,12 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # StyleComparison is [ShortRunJob] (already ShortRun, no --job flag needed),
+    # but it covers ~86 indicators x 3 styles (incl. per-run hub builds), which
+    # exceeds 90 min on a 2-core hosted runner. Raised to match
+    # test-performance.yml. Committed baselines are generated locally on the
+    # reference host (see tools/performance/baselines/README.md), not here.
+    timeout-minutes: 360
 
     steps:
       - name: Checkout source

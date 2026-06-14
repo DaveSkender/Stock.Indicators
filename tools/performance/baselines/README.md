@@ -23,8 +23,11 @@ Baseline files are JSON exports from BenchmarkDotNet that capture performance me
 > non-comparable. Always regenerate on the same machine so run-to-run deltas
 > reflect code changes, not hardware.
 
-Run the core suite with `--job short` (matching the committed baselines'
-methodology) and copy each report over its same-named baseline:
+Run the core suite and copy each report over its same-named baseline. The
+benchmark classes are attributed `[ShortRunJob, WarmupCount(5),
+IterationCount(5)]`, so runs are ShortRun by default — `--job short` is
+redundant but harmless, and a bare `dotnet run -c Release` (no filter) also
+produces the same three core reports:
 
 ```bash
 cd tools/performance

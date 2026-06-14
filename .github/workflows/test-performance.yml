@@ -13,11 +13,13 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    # ShortRun over the three core classes is multi-hour on a 2-core hosted
-    # runner; the prior 90 was sized for the pre-#2082 no-op and timed out
-    # once benchmarks actually executed. Note: committed baselines are
-    # generated locally on the reference host (see tools/performance/baselines
-    # /README.md); this workflow is for ad-hoc CI measurement, not baselines.
+    # The benchmark classes are [ShortRunJob, WarmupCount(5), IterationCount(5)],
+    # so the run is already ShortRun; even so, the three core classes take
+    # multiple hours on a 2-core hosted runner. The prior 90 was sized for the
+    # pre-#2082 no-op (benchmarks didn't build/run before that fix) and is too
+    # low now that they actually execute. Committed baselines are generated
+    # locally on the reference host (see tools/performance/baselines/README.md);
+    # this workflow is ad-hoc CI measurement, not baseline generation.
     timeout-minutes: 360
 
     steps:
@@ -53,15 +55,12 @@ jobs:
 
       - name: Test performance (full suite)
         working-directory: tools/performance
-        # Use --job short (ShortRun) to match the methodology the committed
-        # baselines use; the no-arg path produces DefaultConfig (15/15), which
-        # is ~5x slower and inconsistent with the baselines. The explicit class
-        # filters preserve the original three-core-style scope. (--filter is a
-        # multi-value option, so one prefix with three globs also works; the
-        # repeated form matches test-performance-manual.yml convention.)
+        # No-arg run executes the three core classes (Series/Buffer/Stream); their
+        # [ShortRunJob, WarmupCount(5), IterationCount(5)] attributes already select
+        # ShortRun, matching the committed baselines' methodology.
         run: |
           echo "Running core benchmark suite (ShortRun)..."
-          dotnet run -c Release -- --job short --filter 'Performance.SeriesIndicators*' --filter 'Performance.BufferIndicators*' --filter 'Performance.StreamIndicators*'
+          dotnet run -c Release
 
       - name: Save test results
         uses: actions/upload-artifact@v6
