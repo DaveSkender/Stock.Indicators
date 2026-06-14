@@ -77,7 +77,7 @@ var results = quotes
     .ToRsi(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -111,4 +111,4 @@ IReadOnlyList<DpoResult> results = observer.Results;
 
 **Note:** DPO has a lookahead requirement (offset = N/2+1 periods), which means results are calculated when sufficient future data becomes available. This introduces a delay in real-time scenarios but maintains mathematical accuracy with the series implementation.
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

@@ -1,9 +1,13 @@
 ---
-title: NullMath
-description: Null-safe mathematical operations.
+title: Math helpers
+description: Null-safe math operations (NullMath) and deterministic precision math (DeMath) for custom indicator development.
 ---
 
-# NullMath
+# Math helpers
+
+The library provides two math helper classes for use in custom indicator development: `NullMath` for null-safe operations, and `DeMath` for deterministic precision math.
+
+## NullMath
 
 Null-safe mathematical operations that handle null values gracefully. Most `NullMath` methods work exactly like the `System.Math` library in C#, except these return `null` if a `null` is provided.
 
@@ -205,6 +209,36 @@ public static IReadOnlyList<MyResult> ToMyIndicator(
 ::: tip Performance
 `NullMath` methods are lightweight wrappers with minimal overhead. The null-checking cost is negligible compared to the cost of explicit null checks throughout your code.
 :::
+
+---
+
+## DeMath
+
+`DeMath` provides deterministic math operations that produce identical results across .NET platforms and operating systems. It is used internally throughout the library to eliminate platform-specific floating-point drift that would otherwise cause indicator values to differ slightly between Windows, Linux, and macOS.
+
+::: info Internal API
+`DeMath` is an `internal` class and is not directly accessible from external code. It is documented here for contributors and to explain the library's cross-platform precision strategy.
+:::
+
+### Why DeMath?
+
+The standard `System.Math` library delegates some operations (`Log`, `Exp`, `Atan`, etc.) to native platform implementations that can produce slightly different results on different operating systems. For financial indicators — especially those that compound results over hundreds of periods — these tiny differences accumulate into observable divergence.
+
+`DeMath` reimplements these operations using IEEE 754-deterministic algorithms, ensuring that any indicator calculated on Windows produces the exact same bit-for-bit result on Linux or macOS.
+
+### Available methods
+
+| Method | Description |
+| ------ | ----------- |
+| `DeMath.Log(x)` | Natural logarithm — deterministic cross-platform implementation |
+| `DeMath.Log10(x)` | Base-10 logarithm |
+| `DeMath.Exp(x)` | Exponential function |
+| `DeMath.Atan(x)` | Arctangent |
+| `DeMath.Atanh(x)` | Inverse hyperbolic tangent |
+
+### Contributing custom indicators
+
+If you are contributing a custom indicator that uses transcendental functions (`log`, `exp`, `atan`, etc.) and cross-platform reproducibility matters for your indicator, prefer `DeMath` over `System.Math` for those operations. See the [Customization guide](/guide/customization) for the full custom indicator pattern.
 
 ## Related utilities
 

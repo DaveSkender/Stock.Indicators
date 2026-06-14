@@ -19,9 +19,9 @@ Buffer list style provides efficient incremental processing for growing datasets
 
 **Not ideal for:**
 
-- Complete historical datasets (use [Batch style](/guide/batch))
-- Multiple indicators needing coordinated updates (use [Stream hubs](/guide/stream))
-- One-time calculations (use [Batch style](/guide/batch))
+- Complete historical datasets (use [Batch style](/guide/styles/batch))
+- Multiple indicators needing coordinated updates (use [Stream hubs](/guide/styles/stream))
+- One-time calculations (use [Batch style](/guide/styles/batch))
 
 ## Basic usage
 
@@ -57,7 +57,7 @@ Using `smaList[^1]` on an empty list throws `ArgumentOutOfRangeException`. Alway
 :::
 
 ::: warning Add quotes in chronological order
-A buffer list is a single-pass accumulator: every `Add` assumes the new value is the newest one. It does **not** reorder input, detect duplicates, or correct revised values — feeding an out-of-order, repeated, or late-arriving quote produces silently incorrect results. If your data can arrive out of order (e.g. a raw WebSocket feed, or merging two sources), sort by timestamp before adding, or use a [Stream hub](/guide/stream) instead — stream hubs are built for late arrivals, same-timestamp corrections, and rollback.
+A buffer list is a single-pass accumulator: every `Add` assumes the new value is the newest one. It does **not** reorder input, detect duplicates, or correct revised values — feeding an out-of-order, repeated, or late-arriving quote produces silently incorrect results. If your data can arrive out of order (e.g. a raw WebSocket feed, or merging two sources), sort by timestamp before adding, or use a [Stream hub](/guide/styles/stream) instead — stream hubs are built for late arrivals, same-timestamp corrections, and rollback.
 :::
 
 ## Key features
@@ -178,7 +178,7 @@ while (newQuote = GetNextQuote())
 
 ## See also
 
-- [Batch style](/guide/batch) for one-time calculations
-- [Stream hubs](/guide/stream) for coordinated real-time updates
-- [Buffer lists](/guide/buffer) for detailed patterns
+- [Batch style](/guide/styles/batch) for one-time calculations
+- [Stream hubs](/guide/styles/stream) for coordinated real-time updates
+- [Buffer lists](/guide/styles/buffer) for detailed patterns
 - [Indicators](/indicators) for available buffer list indicators

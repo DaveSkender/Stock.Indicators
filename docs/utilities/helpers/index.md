@@ -24,9 +24,9 @@ double sd = values.StdDev();
 
 [See more →](/utilities/helpers/numerical-methods)
 
-## [NullMath](/utilities/helpers/nullmath)
+## [Math helpers](/utilities/helpers/nullmath)
 
-Null-safe mathematical operations that handle null values gracefully.
+`NullMath` for null-safe operations and `DeMath` for deterministic cross-platform precision math.
 
 ```csharp
 decimal? abs = NullMath.Abs(value);

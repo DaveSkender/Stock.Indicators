@@ -165,24 +165,7 @@ IReadOnlyList<RsiResult> results
     .ToRsi(14);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
-
-## Candlestick patterns
-
-[Candlestick Patterns](/indicators/Doji) are a unique form of indicator and have a common output model.
-
-The `Match` enum indicates whether a candlestick pattern is recognized, and provides an optional confirmation and basis signal:
-
-| type                  |  int | description                         |
-| --------------------- | ---: | ----------------------------------- |
-| `Match.BullConfirmed` |  200 | Confirmation of a prior bull signal |
-| `Match.BullSignal`    |  100 | Bullish signal                      |
-| `Match.BullBasis`     |   10 | Bars supporting a bullish signal    |
-| `Match.Neutral`       |    1 | Signal for non-directional patterns |
-| `Match.None`          |    0 | No match                            |
-| `Match.BearBasis`     |  -10 | Bars supporting a bearish signal    |
-| `Match.BearSignal`    | -100 | Bearish signal                      |
-| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal |
+See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.
 
 ## Utilities
 

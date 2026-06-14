@@ -48,23 +48,17 @@ IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 
 See more [usage examples](/guide/getting-started#example-usage).
 
-## Powerful chaining for advanced analysis
+## Three styles to meet your needs
 
-Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/Slope) (direction) of any result, or apply [moving averages](/indicators/Sma) to indicator outputs.
+The library provides three indicator styles for different use cases.
 
-```csharp
-// example: calculate RSI of On-Balance Volume
-IReadOnlyList<RsiResult> results
-  = quotes
-    .ToObv()
-    .ToRsi(14);
+| Style | Best for |
+| ----- | -------- |
+| [Batch (Series)](/guide/styles/batch) | Once-and-done bulk calculations on complete datasets |
+| [Buffer lists](/guide/styles/buffer) | Self-managed incremental data, sequential processing |
+| [Stream hubs](/guide/styles/stream) | Live data feeds with coordinated multi-indicator updates |
 
-// example: use custom candle price variants
-IReadOnlyList<EmaResult> results
-  = quotes
-    .Use(CandlePart.HL2)
-    .ToEma(20);
-```
+See the [Indicator styles](/guide/styles/) guide for a full feature comparison.
 
 ## Incrementally add data with buffer lists <Badge type="warning" text="preview" />
 
@@ -117,6 +111,24 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.
 
 See the [guide](/guide/getting-started) and the [full list of indicators and overlays](/indicators) for more information.
+
+## Powerful chaining for advanced analysis
+
+Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/Slope) (direction) of any result, or apply [moving averages](/indicators/Sma) to indicator outputs.
+
+```csharp
+// example: calculate RSI of On-Balance Volume
+IReadOnlyList<RsiResult> results
+  = quotes
+    .ToObv()
+    .ToRsi(14);
+
+// example: use custom candle price variants
+IReadOnlyList<EmaResult> results
+  = quotes
+    .Use(CandlePart.HL2)
+    .ToEma(20);
+```
 
 ## Optimized for modern .NET frameworks
 

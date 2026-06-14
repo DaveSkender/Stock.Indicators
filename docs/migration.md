@@ -256,7 +256,7 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
 > (or `TickHub`) you created — it cascades to every dependent hub. Calling
 > `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed
 > hub such as an `EmaHub` throws `InvalidOperationException`. See the
-> [streaming guide](/guide/stream#thread-safety) for details.
+> [streaming guide](/guide/styles/stream#thread-safety) for details.
 
 **Use when:**
 

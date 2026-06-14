@@ -77,7 +77,7 @@ var results = quotes
     .ToEma(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -111,4 +111,4 @@ IReadOnlyList<CmoResult> results = observer.Results;
 
 See the [guide](/guide/) for more information.
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

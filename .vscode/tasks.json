@@ -613,7 +613,7 @@
       "label": "Run: Website (dev server)",
       "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
-      "command": "pnpm run docs:dev",
+      "command": "NODE_AUTH_TOKEN=$(gh auth token) pnpm run docs:dev",
       "dependsOn": [
         "Install: Node packages",
         "Stop: VitePress servers"

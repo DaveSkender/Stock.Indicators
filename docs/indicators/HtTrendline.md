@@ -100,7 +100,7 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<HtlResult> results = htlList;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.
 
 ## Chaining
 
@@ -122,4 +122,4 @@ var results = quotes
     .ToRsi(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.

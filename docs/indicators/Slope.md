@@ -84,7 +84,7 @@ var results = quotes
     .ToRsi(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -120,4 +120,4 @@ IReadOnlyList<SlopeResult> results = observer.Results;
 The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.
 :::
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

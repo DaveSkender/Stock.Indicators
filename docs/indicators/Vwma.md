@@ -70,7 +70,7 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.
 
 ## Streaming
 
@@ -115,4 +115,4 @@ vwmaList.Add(DateTime.Now, price: 100.50, volume: 1000);
 
 **Note:** VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

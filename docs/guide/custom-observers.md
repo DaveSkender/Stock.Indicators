@@ -208,6 +208,6 @@ Failing to unsubscribe keeps your observer rooted from the source hub's subscrib
 
 ## See also
 
-- [Stream hubs](/guide/stream) — the source-side streaming guide
+- [Stream hubs](/guide/styles/stream) — the source-side streaming guide
+- [Buffer lists](/guide/styles/buffer) — alternative when you don't need observable propagation
 - [Creating custom indicators](/guide/customization) — when you want to add indicator math instead of consuming output
-- [Buffer lists](/guide/buffer) — alternative when you don't need observable propagation

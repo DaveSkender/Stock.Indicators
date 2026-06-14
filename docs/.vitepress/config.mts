@@ -58,11 +58,16 @@ export default defineConfig({
       {
         text: 'Guide',
         items: [
-          { text: 'Getting started', link: '/guide/getting-started' },
           { text: 'Overview', link: '/guide/' },
-          { text: 'Batch (Series)', link: '/guide/batch' },
-          { text: 'Buffer lists', link: '/guide/buffer' },
-          { text: 'Stream hubs', link: '/guide/stream' },
+          { text: 'Getting started', link: '/guide/getting-started' },
+          {
+            text: 'Indicator styles',
+            items: [
+              { text: 'Overview', link: '/guide/styles' },
+              { text: 'Batch (Series)', link: '/guide/styles/batch' },
+              { text: 'Buffer lists', link: '/guide/styles/buffer' },
+              { text: 'Stream hubs', link: '/guide/styles/stream' }]
+          },
           { text: 'Custom indicators', link: '/guide/customization' },
           { text: 'Custom observers', link: '/guide/custom-observers' },
           { text: 'Testing consumers', link: '/guide/testing' },
@@ -93,11 +98,16 @@ export default defineConfig({
         {
           text: 'Guide',
           items: [
-            { text: 'Getting started', link: '/guide/getting-started' },
             { text: 'Overview', link: '/guide/' },
-            { text: 'Batch (Series)', link: '/guide/batch' },
-            { text: 'Buffer lists', link: '/guide/buffer' },
-            { text: 'Stream hubs', link: '/guide/stream' },
+            { text: 'Getting started', link: '/guide/getting-started' },
+            {
+              text: 'Indicator styles',
+              items: [
+                { text: 'Overview', link: '/guide/styles' },
+                { text: 'Batch (Series)', link: '/guide/styles/batch' },
+                { text: 'Buffer lists', link: '/guide/styles/buffer' },
+                { text: 'Stream hubs', link: '/guide/styles/stream' }]
+            },
             { text: 'Custom indicators', link: '/guide/customization' },
             { text: 'Custom observers', link: '/guide/custom-observers' },
             { text: 'Testing consumers', link: '/guide/testing' },
@@ -139,7 +149,7 @@ export default defineConfig({
               items: [
                 { text: 'Overview', link: '/utilities/helpers/' },
                 { text: 'Numerical methods', link: '/utilities/helpers/numerical-methods' },
-                { text: 'NullMath', link: '/utilities/helpers/nullmath' },
+                { text: 'Math helpers', link: '/utilities/helpers/nullmath' },
               ]
             },
             { text: 'Indicator catalog', link: '/utilities/catalog' },
@@ -156,10 +166,10 @@ export default defineConfig({
           ]
         }
       ],
-      '/migration': [ siteNav ],
-      '/performance': [ siteNav ],
-      '/contributing': [ siteNav ],
-      '/about': [ siteNav ],
+      '/migration': [siteNav],
+      '/performance': [siteNav],
+      '/contributing': [siteNav],
+      '/about': [siteNav],
       '/indicators': [
         siteNav,
         {
