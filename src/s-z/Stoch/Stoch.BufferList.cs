@@ -173,7 +173,14 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 case MaType.SMA:
                     if (_rawKBuffer.Count == SmoothPeriods)
                     {
-                        smoothK = _rawKBuffer.Average();
+                        // Average buffered values (sum then divide, same as LINQ Average)
+                        double sum = 0;
+                        foreach (double val in _rawKBuffer)
+                        {
+                            sum += val;
+                        }
+
+                        smoothK = sum / _rawKBuffer.Count;
                     }
 
                     break;
@@ -184,7 +191,14 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                     // This matches standard SMMA pattern (see Alligator, SMMA indicators)
                     if (double.IsNaN(_prevSmoothK) && _rawKBuffer.Count == SmoothPeriods)
                     {
-                        _prevSmoothK = _rawKBuffer.Average();
+                        // Average buffered values (sum then divide, same as LINQ Average)
+                        double sum = 0;
+                        foreach (double val in _rawKBuffer)
+                        {
+                            sum += val;
+                        }
+
+                        _prevSmoothK = sum / _rawKBuffer.Count;
                     }
 
                     if (!double.IsNaN(_prevSmoothK))
@@ -216,7 +230,14 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 case MaType.SMA:
                     if (_smoothKBuffer.Count == SignalPeriods)
                     {
-                        signal = _smoothKBuffer.Average();
+                        // Average buffered values (sum then divide, same as LINQ Average)
+                        double sum = 0;
+                        foreach (double val in _smoothKBuffer)
+                        {
+                            sum += val;
+                        }
+
+                        signal = sum / _smoothKBuffer.Count;
                     }
 
                     break;
@@ -227,7 +248,14 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                     // This matches standard SMMA pattern (see Alligator, SMMA indicators)
                     if (double.IsNaN(_prevSignal) && _smoothKBuffer.Count == SignalPeriods)
                     {
-                        _prevSignal = _smoothKBuffer.Average();
+                        // Average buffered values (sum then divide, same as LINQ Average)
+                        double sum = 0;
+                        foreach (double val in _smoothKBuffer)
+                        {
+                            sum += val;
+                        }
+
+                        _prevSignal = sum / _smoothKBuffer.Count;
                     }
 
                     if (!double.IsNaN(_prevSignal))

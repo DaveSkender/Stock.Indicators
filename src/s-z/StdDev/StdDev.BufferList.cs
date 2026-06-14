@@ -47,7 +47,13 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
         if (_buffer.Count == LookbackPeriods)
         {
             // Calculate mean
-            mean = _buffer.Average();
+            double sum = 0;
+            foreach (double val in _buffer)
+            {
+                sum += val;
+            }
+
+            mean = sum / _buffer.Count;
 
             // Calculate standard deviation
             double sumSq = 0;

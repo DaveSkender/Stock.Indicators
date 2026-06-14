@@ -42,7 +42,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         _endType = endType;
 
         // Buffer needs to hold enough quotes to compute fractals and track trends
-        _quoteBuffer = [];
+        _quoteBuffer = new List<QuoteBuffer>(leftSpan + rightSpan + maxTrendPeriods + 1);
 
         Name = $"PIVOTS({leftSpan}, {rightSpan}, {maxTrendPeriods}, {endType})";
     }

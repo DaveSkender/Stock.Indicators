@@ -23,7 +23,7 @@ internal interface IInertProvider;
 /// Only used to initialize a <see cref="QuoteHub"/> base that does not have its own provider.
 /// </remarks>
 /// <param name="maxCacheSize">Maximum cache size for the provider.</param>
-public class BaseProvider<T>(int maxCacheSize = 0)
+internal class BaseProvider<T>(int maxCacheSize = 0)
     : IStreamObservable<T>, IInertProvider
     where T : IReusable
 {

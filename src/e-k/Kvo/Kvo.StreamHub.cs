@@ -47,6 +47,9 @@ public class KvoHub
     private double _prevVfSlowEma;
     private double _sumVf;
 
+    // recent state snapshots for O(1) near-tail rollback
+    private readonly RollbackRing<KvoState> _rollback = new();
+
     internal KvoHub(
         IQuoteProvider<IQuote> provider,
         int fastPeriods,
@@ -109,6 +112,7 @@ public class KvoHub
         if (i <= 0)
         {
             _prevHlc = hlc;
+            _rollback.Add(item.Timestamp, CaptureState());
             KvoResult r0 = new(item.Timestamp);
             return (r0, i);
         }
@@ -122,6 +126,7 @@ public class KvoHub
             _prevTrend = trend;
             _prevDm = dm;
             _prevCm = 0;
+            _rollback.Add(item.Timestamp, CaptureState());
             KvoResult r1 = new(item.Timestamp);
             return (r1, i);
         }
@@ -202,6 +207,9 @@ public class KvoHub
         _prevVfFastEma = vfFastEma;
         _prevVfSlowEma = vfSlowEma;
 
+        // snapshot state for O(1) near-tail rollback
+        _rollback.Add(item.Timestamp, CaptureState());
+
         return (r, i);
     }
 
@@ -222,6 +230,23 @@ public class KvoHub
 
         if (restoreIndex < 0)
         {
+            return;
+        }
+
+        // O(1) fast path: restore the exact state snapshot recorded when the
+        // restore-point item was processed (near-tail rollbacks, the common
+        // case for live corrections and forming-bar updates)
+        if (_rollback.TryGet(
+            ProviderCache[restoreIndex].Timestamp,
+            out KvoState snapshot))
+        {
+            _prevHlc = snapshot.PrevHlc;
+            _prevTrend = snapshot.PrevTrend;
+            _prevDm = snapshot.PrevDm;
+            _prevCm = snapshot.PrevCm;
+            _prevVfFastEma = snapshot.PrevVfFastEma;
+            _prevVfSlowEma = snapshot.PrevVfSlowEma;
+            _sumVf = snapshot.SumVf;
             return;
         }
 
@@ -305,4 +330,25 @@ public class KvoHub
             _prevVfSlowEma = vfSlowEma;
         }
     }
+
+    // Captures the current scalar state for rollback snapshots.
+    private KvoState CaptureState()
+        => new(
+            _prevHlc,
+            _prevTrend,
+            _prevDm,
+            _prevCm,
+            _prevVfFastEma,
+            _prevVfSlowEma,
+            _sumVf);
+
+    // Scalar state snapshot for O(1) near-tail rollback.
+    private readonly record struct KvoState(
+        double PrevHlc,
+        double PrevTrend,
+        double PrevDm,
+        double PrevCm,
+        double PrevVfFastEma,
+        double PrevVfSlowEma,
+        double SumVf);
 }

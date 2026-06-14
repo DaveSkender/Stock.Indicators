@@ -36,9 +36,6 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// <inheritdoc/>
     public int Count => _internalList.Count;
 
-    /// <inheritdoc/>
-    public bool IsReadOnly => true;
-
     /// <summary>
     /// Gets the name of the buffer list.
     /// </summary>
@@ -104,12 +101,6 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
 
         _internalList[index] = item;
     }
-
-    /// <summary>
-    /// Removes the item at the specified index from the internal list.
-    /// </summary>
-    /// <param name="index">Zero-based index of the item to remove.</param>
-    protected void RemoveAt(int index) => _internalList.RemoveAt(index);
 
     /// <summary>
     /// Removes the oldest results when the list exceeds <see cref="MaxListSize"/>.

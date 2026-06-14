@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// This patterns supports chainable indicators that can be calculated from single values.
 /// Examples: TR, RSI, moving averages, and others.
 /// </remarks>
-public interface IIncrementFromChain
+internal interface IIncrementFromChain
 {
     /// <summary>
     /// Apply new reusable input value to increment indicator list values.

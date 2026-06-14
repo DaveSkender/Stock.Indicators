@@ -277,11 +277,29 @@ public class QuoteAggregatorHub
 
         DateTime barTimestamp = item.Timestamp.RoundDown(AggregationPeriod);
 
-        int index = indexHint ?? Cache.IndexGte(barTimestamp);
-
-        if (index == -1)
+        // bar fast path: quotes nearly always land on the forming (last) bar
+        // or open a new one; skip the binary search for both cases
+        int index;
+        if (indexHint.HasValue)
+        {
+            index = indexHint.Value;
+        }
+        else if (Cache.Count == 0 || barTimestamp > Cache[^1].Timestamp)
         {
             index = Cache.Count;
+        }
+        else if (barTimestamp == Cache[^1].Timestamp)
+        {
+            index = Cache.Count - 1;
+        }
+        else
+        {
+            index = Cache.IndexGte(barTimestamp);
+
+            if (index == -1)
+            {
+                index = Cache.Count;
+            }
         }
 
         return (item, index);
