@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class SmaHub
     : ChainHub<IReusable, SmaResult>, ISma
 {
+    private readonly Queue<double> buffer;
 
     internal SmaHub(
         IChainProvider<IReusable> provider,
@@ -13,6 +14,7 @@ public class SmaHub
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        buffer = new Queue<double>(lookbackPeriods);
         Name = $"SMA({lookbackPeriods})";
 
         // Validate cache size for warmup requirements
@@ -23,6 +25,7 @@ public class SmaHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (SmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -31,19 +34,40 @@ public class SmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate SMA efficiently using a rolling window over ProviderCache
-        // This is O(lookbackPeriods) which is constant for a given configuration
-        // and maintains exact precision with Series implementation
-        double sma = Sma.Increment(ProviderCache, LookbackPeriods, i);
+        // advance the rolling window and emit once it is full
+        buffer.Update(LookbackPeriods, item.Value);
 
         // candidate result
         SmaResult r = new(
             Timestamp: item.Timestamp,
-            Sma: sma.NaN2Null());
+            Sma: buffer.Average(LookbackPeriods).NaN2Null());
 
         return (r, i);
     }
 
+    /// <summary>
+    /// Restores the buffer state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(int restoreIndex)
+    {
+        buffer.Clear();
+
+        if (restoreIndex < 0)
+        {
+            return;
+        }
+
+        // rebuild from the last LookbackPeriods preserved values; the item at
+        // restoreIndex is preserved (not replayed through ToIndicator), so it
+        // is included here
+        int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= restoreIndex; p++)
+        {
+            buffer.Update(LookbackPeriods, ProviderCache[p].Value);
+        }
+    }
 }
 
 public static partial class Sma
