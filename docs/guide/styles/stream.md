@@ -58,10 +58,6 @@ foreach (Quote quote in liveQuotes)
 }
 ```
 
-::: tip
-Using `Results[^1]` on an empty collection throws `ArgumentOutOfRangeException`. Always check `Results.Count > 0` first.
-:::
-
 ## Key features
 
 ### Observable pattern

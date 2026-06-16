@@ -28,22 +28,25 @@ This takes approximately 15-20 minutes and produces comprehensive results for al
 ### Run specific benchmark categories
 
 ```bash
+# NOTE: pass filters after `--` and quote the pattern, otherwise the
+# shell expands globs like *Series* to the matching Perf.*.cs filenames.
+
 # Stream indicators only
-dotnet run -c Release --filter *Stream*
+dotnet run -c Release -- --filter "*Stream*"
 
 # Buffer indicators only
-dotnet run -c Release --filter *Buffer*
+dotnet run -c Release -- --filter "*Buffer*"
 
 # Series indicators only
-dotnet run -c Release --filter *Series*
+dotnet run -c Release -- --filter "*Series*"
 
 # Style comparison only
-dotnet run -c Release --filter *StyleComparison*
+dotnet run -c Release -- --filter "*StyleComparison*"
 
 # Specific indicator
-dotnet run -c Release --filter *.ToEmaBatch
-dotnet run -c Release --filter *.ToEmaList
-dotnet run -c Release --filter *.ToEmaHub
+dotnet run -c Release -- --filter "*.ToEmaBatch"
+dotnet run -c Release -- --filter "*.ToEmaList"
+dotnet run -c Release -- --filter "*.ToEmaHub"
 ```
 
 ### Run manual performance test with custom data size
@@ -52,13 +55,13 @@ Test a specific indicator with a custom number of randomly generated periods:
 
 ```bash
 # Test SMA with 100,000 periods (direct calls, no catalog overhead)
-PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release -- --filter "Performance.ManualTestDirect*"
 
 # Test EMA with 500,000 periods (default)
-PERF_TEST_KEYWORD=ema PERF_TEST_PERIODS=500000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+PERF_TEST_KEYWORD=ema PERF_TEST_PERIODS=500000 dotnet run -c Release -- --filter "Performance.ManualTestDirect*"
 
 # Test RSI with 1,000,000 periods
-PERF_TEST_KEYWORD=rsi PERF_TEST_PERIODS=1000000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+PERF_TEST_KEYWORD=rsi PERF_TEST_PERIODS=1000000 dotnet run -c Release -- --filter "Performance.ManualTestDirect*"
 ```
 
 The direct manual test (`ManualTestDirect`):
@@ -77,7 +80,7 @@ For dynamic indicator discovery (with catalog/reflection overhead), use `Perform
 
 ```bash
 # Single method
-dotnet run -c Release --filter *.ToEmaHub
+dotnet run -c Release -- --filter "*.ToEmaHub"
 ```
 
 ### Run style comparison benchmarks
@@ -286,7 +289,7 @@ public IReadOnlyList<MyResult> MyStream()
 Benchmarks take 15-20 minutes for full suite. Use filters to test specific areas:
 
 ```bash
-dotnet run -c Release --filter *Ema*
+dotnet run -c Release -- --filter "*Ema*"
 ```
 
 ### Out of memory errors
@@ -294,8 +297,8 @@ dotnet run -c Release --filter *Ema*
 Reduce parallelism or run specific categories separately:
 
 ```bash
-dotnet run -c Release --filter *Series*
-dotnet run -c Release --filter *Stream*
+dotnet run -c Release -- --filter "*Series*"
+dotnet run -c Release -- --filter "*Stream*"
 ```
 
 ### Inconsistent results
@@ -312,6 +315,32 @@ Ensure benchmarks completed successfully:
 ```bash
 ls -la BenchmarkDotNet.Artifacts/results/
 ```
+
+### "Benchmark project names needs to be unique" (0 benchmarks executed)
+
+If a run reports `executed benchmarks: 0` and the log contains:
+
+```text
+System.NotSupportedException: Found more than one matching project file for
+Tests.Performance in <repo> and its subfolders ... Benchmark project names needs to be unique.
+```
+
+BenchmarkDotNet locates the project by name and searches the entire repo tree to
+build its measurement child process. Extra copies of `Tests.Performance.csproj`
+inside the working copy (e.g. git worktrees nested under the repo root) collide and
+abort the run. Confirm there is exactly one copy, and remove any nested worktrees:
+
+```bash
+# should list exactly one path
+find . -name Tests.Performance.csproj
+
+# remove stray worktrees living inside the repo (branches/commits are preserved)
+git worktree list
+git worktree remove <path-to-worktree>
+git worktree prune
+```
+
+Keep git worktrees outside the repo root so they stay off BenchmarkDotNet's search path.
 
 ## Performance monitoring
 

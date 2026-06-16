@@ -9,8 +9,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="BollingerBands" />
-  <StockIndicatorChart indicator="BollingerBandsPctB" />
+  <StockIndicatorChart indicator="BollingerBands" with="BollingerBandsPctB" />
 </ClientOnly>
 
 ```csharp
