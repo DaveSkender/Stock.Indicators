@@ -146,6 +146,8 @@ When adding or updating indicators:
 - Add or update the `/docs/indicators/` documentation files.
 - Page image assets go in `/docs/.vitepress/public/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
+**Local cache cleanup note:** To clear documentation or workspace build caches, run the VS Code task `Clean: All` (or run platform-specific clean tasks). See [.vscode/tasks.json](.vscode/tasks.json) for exact task names and behavior.
+
 ### Accessibility testing
 
 - Use Lighthouse in Chrome, or

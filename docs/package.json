@@ -8,7 +8,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "clean": "rm -rf node_modules && rm -f pnpm-lock.yaml package-lock.json yarn.lock",
+    "clean": "rm -rf node_modules dist .vitepress/dist .vitepress/cache _site && rm -f pnpm-lock.yaml package-lock.json yarn.lock || true",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",

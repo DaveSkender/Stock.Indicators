@@ -185,16 +185,7 @@
         "cwd": "${workspaceFolder}/docs"
       }
     },
-    {
-      "label": "Clean: Node packages",
-      "detail": "Delete node_modules and lock files",
-      "type": "shell",
-      "command": "pnpm run clean",
-      "options": {
-        "cwd": "${workspaceFolder}/docs"
-      },
-      "dependsOn": "Stop: All hosted servers"
-    },
+
     {
       "label": "Check: Node packages",
       "detail": "Check for dependency updates in root and all workspace packages",
@@ -231,25 +222,52 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Delete: Temporary caches",
-      "detail": "Delete bin, obj, node_modules, other caches, and lock files",
+      "label": "Clean: .NET (full)",
+      "detail": "Delete .NET build artifacts and caches (bin, obj, TestResults, BenchmarkDotNet.Artifacts)",
       "type": "shell",
       "command": "bash tools/scripts/dotnet-clean.sh",
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Delete: Temporary caches (and restore)",
-      "detail": "Delete temporary caches then restore",
+      "label": "Clean: Docs (vitepress)",
+      "detail": "Clean VitePress build outputs and docs caches",
       "type": "shell",
-      "command": "bash tools/scripts/dotnet-clean.sh && dotnet restore --force-evaluate",
-      "problemMatcher": "$msCompile"
+      "command": "bash tools/scripts/docs-clean.sh",
+      "dependsOn": [
+        "Stop: All hosted servers"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     },
     {
-      "label": "Delete: Temporary caches (and build)",
-      "detail": "Delete temporary caches then rebuild",
+      "label": "Clean: Docs (node)",
+      "detail": "Run package-manager clean for docs (pnpm)",
       "type": "shell",
-      "command": "bash tools/scripts/dotnet-clean.sh && dotnet build --no-incremental",
-      "problemMatcher": "$msCompile"
+      "command": "pnpm --prefix docs run clean",
+      "dependsOn": [
+        "Stop: All hosted servers"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean: Docs (full)",
+      "detail": "Stop doc servers then run both node and VitePress doc cleaning",
+      "dependsOn": [
+        "Stop: All hosted servers",
+        "Clean: Docs (node)",
+        "Clean: Docs (vitepress)"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Clean: All",
+      "detail": "Run full workspace clean for docs and .NET artifacts",
+      "dependsOn": [
+        "Clean: Docs (full)",
+        "Clean: .NET (full)"
+      ],
+      "dependsOrder": "sequence"
     },
     // ===================================
     // Build
