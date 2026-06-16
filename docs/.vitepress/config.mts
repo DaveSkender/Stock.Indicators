@@ -37,7 +37,7 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/assets/icons/favicon-32x32.png' }],
     ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/assets/icons/favicon-16x16.png' }],
     ['link', { rel: 'manifest', href: '/assets/manifest.json' }],
-    ['meta', { name: 'theme-color', content: '#22272e' }],
+    ['meta', { name: 'theme-color', content: '#1b1b1f' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Stock Indicators for .NET' }],
     ['meta', { property: 'og:description', content: 'Transform price quotes into trading insights.' }],
