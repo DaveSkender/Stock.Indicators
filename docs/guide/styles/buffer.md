@@ -106,7 +106,11 @@ When the list exceeds `MaxListSize`, older results are automatically pruned. Def
 
 ## Chaining indicators
 
-Chain buffer lists for derived indicators:
+Chain buffer lists for derived indicators. For the broader concept, see [Chaining indicators](/guide/chaining).
+
+::: info Operator-orchestrated
+Unlike series or stream-hub chaining, this is orchestrated by you rather than the library: you manually take each result from one list and add it to the next. The library does not coordinate the cascade.
+:::
 
 ```csharp
 // create OBV buffer list

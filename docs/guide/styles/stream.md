@@ -71,7 +71,7 @@ The hub-observer architecture ensures coordinated updates:
 
 ### Chaining indicators
 
-Create sophisticated derived indicators:
+Create sophisticated derived indicators. For the broader concept, see [Chaining indicators](/guide/chaining).
 
 ```csharp
 QuoteHub quoteHub = new();

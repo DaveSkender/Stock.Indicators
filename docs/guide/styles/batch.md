@@ -45,7 +45,7 @@ foreach (SmaResult r in results)
 
 ## Chaining indicators
 
-Create sophisticated analysis by chaining indicators together:
+Create sophisticated analysis by chaining indicators together. For the broader concept, see [Chaining indicators](/guide/chaining).
 
 ```csharp
 // calculate RSI of On-Balance Volume

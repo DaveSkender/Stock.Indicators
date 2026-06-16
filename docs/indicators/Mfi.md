@@ -102,4 +102,4 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
-See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.

@@ -68,6 +68,7 @@ export default defineConfig({
               { text: 'Buffer lists', link: '/guide/styles/buffer' },
               { text: 'Stream hubs', link: '/guide/styles/stream' }]
           },
+          { text: 'Chaining', link: '/guide/chaining' },
           { text: 'Custom indicators', link: '/guide/customization' },
           { text: 'Custom observers', link: '/guide/custom-observers' },
           { text: 'Testing consumers', link: '/guide/testing' },
@@ -108,6 +109,7 @@ export default defineConfig({
                 { text: 'Buffer lists', link: '/guide/styles/buffer' },
                 { text: 'Stream hubs', link: '/guide/styles/stream' }]
             },
+            { text: 'Chaining', link: '/guide/chaining' },
             { text: 'Custom indicators', link: '/guide/customization' },
             { text: 'Custom observers', link: '/guide/custom-observers' },
             { text: 'Testing consumers', link: '/guide/testing' },

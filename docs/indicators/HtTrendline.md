@@ -122,4 +122,4 @@ var results = quotes
     .ToRsi(..);
 ```
 
-See [Chaining indicators](/guide/styles/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.

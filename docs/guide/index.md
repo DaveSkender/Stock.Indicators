@@ -25,7 +25,7 @@ features:
     linkText: Compare styles
   - title: Chaining
     details: Build sophisticated analysis by chaining indicators together, creating indicators of indicators
-    link: /guide/styles/batch#chaining-indicators
+    link: /guide/chaining
     linkText: Learn more
   - title: Custom indicators
     details: Create your own indicators that integrate seamlessly with the library
