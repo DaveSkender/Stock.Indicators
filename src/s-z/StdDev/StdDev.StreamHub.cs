@@ -6,12 +6,15 @@ namespace Skender.Stock.Indicators;
 public class StdDevHub
     : ChainHub<IReusable, StdDevResult>, IStdDev
 {
+    private readonly Queue<double> buffer;
+
     internal StdDevHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         StdDev.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        buffer = new Queue<double>(lookbackPeriods);
         Name = $"STDDEV({lookbackPeriods})";
 
         // Validate cache size for warmup requirements
@@ -30,37 +33,35 @@ public class StdDevHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate StdDev using two-pass algorithm over ProviderCache
-        // This is O(lookbackPeriods) complexity (linear in lookback period)
-        // Two-pass method is necessary for numerical stability and exact Series precision
+        // advance the rolling window of raw values and emit once it is full
+        buffer.Update(LookbackPeriods, item.Value);
+
+        // Two-pass algorithm over the rolling buffer: a fresh window mean
+        // followed by the sum of squared deviations. The fresh-sum pass is
+        // required for exact Series parity (a maintained running sum drifts).
         double? stdDev = null;
         double? mean = null;
         double? zScore = null;
 
-        if (i >= LookbackPeriods - 1)
+        double meanValue = buffer.Average(LookbackPeriods);
+
+        if (!double.IsNaN(meanValue))
         {
-            // Calculate mean using Sma.Increment utility
-            double meanValue = Sma.Increment(ProviderCache, LookbackPeriods, i);
+            mean = meanValue;
 
-            if (!double.IsNaN(meanValue))
+            // Calculate sum of squared deviations (numerically stable method)
+            double sumSqDev = 0;
+            foreach (double value in buffer)
             {
-                mean = meanValue;
-
-                // Calculate sum of squared deviations (numerically stable method)
-                double sumSqDev = 0;
-                for (int p = i - LookbackPeriods + 1; p <= i; p++)
-                {
-                    double value = ProviderCache[p].Value;
-                    double deviation = value - mean.Value;
-                    sumSqDev += deviation * deviation;
-                }
-
-                // Calculate standard deviation
-                stdDev = Math.Sqrt(sumSqDev / LookbackPeriods);
-
-                // Calculate z-score
-                zScore = stdDev == 0 ? double.NaN : (item.Value - mean.Value) / stdDev.Value;
+                double deviation = value - meanValue;
+                sumSqDev += deviation * deviation;
             }
+
+            // Calculate standard deviation
+            stdDev = Math.Sqrt(sumSqDev / LookbackPeriods);
+
+            // Calculate z-score
+            zScore = stdDev == 0 ? double.NaN : (item.Value - meanValue) / stdDev.Value;
         }
 
         // candidate result
@@ -73,6 +74,29 @@ public class StdDevHub
         return (r, i);
     }
 
+    /// <summary>
+    /// Restores the buffer state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(int restoreIndex)
+    {
+        buffer.Clear();
+
+        if (restoreIndex < 0)
+        {
+            return;
+        }
+
+        // rebuild from the last LookbackPeriods preserved values; the item at
+        // restoreIndex is preserved (not replayed through ToIndicator), so it
+        // is included here
+        int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= restoreIndex; p++)
+        {
+            buffer.Update(LookbackPeriods, ProviderCache[p].Value);
+        }
+    }
 }
 
 /// <summary>

@@ -40,6 +40,10 @@ public class MaEnvelopesHub
     /// </summary>
     private readonly double k;
     private readonly int lookbackPeriods;
+    /// <summary>
+    /// rolling window of raw values, maintained only for the per-tick SMA centerline
+    /// </summary>
+    private readonly Queue<double>? smaBuffer;
 
     /// <summary>
     /// for DEMA
@@ -123,6 +127,7 @@ public class MaEnvelopesHub
         this.movingAverageType = movingAverageType;
         offsetRatio = percentOffset / 100d;
         k = 2d / (lookbackPeriods + 1); // for EMA-based types
+        smaBuffer = movingAverageType == MaType.SMA ? new Queue<double>(lookbackPeriods) : null;
         Name = $"MAENV({lookbackPeriods},{percentOffset},{Enum.GetName(movingAverageType)})";
 
         // Validate cache size for warmup requirements using type-specific multipliers:
@@ -153,11 +158,14 @@ public class MaEnvelopesHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // advance the rolling window of raw values (SMA centerline only)
+        smaBuffer?.Update(lookbackPeriods, item.Value);
+
         // Calculate MA value based on type
         double? ma = movingAverageType switch {
             MaType.DEMA => CalculateDema(i),
             MaType.EMA => CalculateEma(i),
-            MaType.SMA => CalculateSma(i),
+            MaType.SMA => CalculateSma(),
             MaType.SMMA => CalculateSmma(i),
             MaType.TEMA => CalculateTema(i),
             MaType.WMA => CalculateWma(i),
@@ -177,8 +185,8 @@ public class MaEnvelopesHub
         return (r, i);
     }
 
-    private double? CalculateSma(int index)
-        => Sma.Increment(ProviderCache, lookbackPeriods, index).NaN2Null();
+    private double? CalculateSma()
+        => smaBuffer!.Average(lookbackPeriods).NaN2Null();
 
     private double? CalculateEma(int index)
     {
@@ -381,6 +389,24 @@ public class MaEnvelopesHub
         else
         {
             lastEma1 = lastEma2 = lastEma3 = lastEma4 = lastEma5 = double.NaN;
+        }
+
+        // rebuild the SMA rolling window from the last LookbackPeriods preserved
+        // values; the item at restoreIndex is preserved (not replayed through
+        // ToIndicator), so it is included here
+        if (smaBuffer is not null)
+        {
+            smaBuffer.Clear();
+
+            if (restoreIndex >= 0)
+            {
+                int startIdx = Math.Max(0, restoreIndex + 1 - lookbackPeriods);
+
+                for (int p = startIdx; p <= restoreIndex; p++)
+                {
+                    smaBuffer.Update(lookbackPeriods, ProviderCache[p].Value);
+                }
+            }
         }
     }
 }
