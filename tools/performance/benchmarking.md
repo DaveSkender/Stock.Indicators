@@ -316,32 +316,6 @@ Ensure benchmarks completed successfully:
 ls -la BenchmarkDotNet.Artifacts/results/
 ```
 
-### "Benchmark project names needs to be unique" (0 benchmarks executed)
-
-If a run reports `executed benchmarks: 0` and the log contains:
-
-```text
-System.NotSupportedException: Found more than one matching project file for
-Tests.Performance in <repo> and its subfolders ... Benchmark project names needs to be unique.
-```
-
-BenchmarkDotNet locates the project by name and searches the entire repo tree to
-build its measurement child process. Extra copies of `Tests.Performance.csproj`
-inside the working copy (e.g. git worktrees nested under the repo root) collide and
-abort the run. Confirm there is exactly one copy, and remove any nested worktrees:
-
-```bash
-# should list exactly one path
-find . -name Tests.Performance.csproj
-
-# remove stray worktrees living inside the repo (branches/commits are preserved)
-git worktree list
-git worktree remove <path-to-worktree>
-git worktree prune
-```
-
-Keep git worktrees outside the repo root so they stay off BenchmarkDotNet's search path.
-
 ## Performance monitoring
 
 ### Tracking trends
