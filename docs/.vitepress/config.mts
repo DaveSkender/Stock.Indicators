@@ -429,6 +429,7 @@ export default defineConfig({
     '.offline/**',
     '.bundle/**',
     '.temp/**',
+    '.vs/**/',
     '_site/**',
     '_layouts/**',
     '_includes/**',

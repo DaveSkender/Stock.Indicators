@@ -231,9 +231,6 @@ packages:
       chart.js: ^4.5.1
       chartjs-plugin-annotation: ^3.1.0
       vue: ^3.5.0
-    peerDependenciesMeta:
-      vue:
-        optional: true
 
   '@iconify-json/simple-icons@1.2.86':
     resolution: {integrity: sha512-t3jck5qPQuK1qy+bRn9eCoDQhIB7XSazKz1Fjp8hcan3XOAsTI5Mq/s3F0ekOKSvMQqkVORYK6ns6o6T9f5EMA==}
@@ -1264,7 +1261,6 @@ snapshots:
       chartjs-adapter-date-fns: 3.0.0(chart.js@4.5.1)(date-fns@4.4.0)
       chartjs-plugin-annotation: 3.1.0(chart.js@4.5.1)
       date-fns: 4.4.0
-    optionalDependencies:
       vue: 3.5.38
 
   '@iconify-json/simple-icons@1.2.86':

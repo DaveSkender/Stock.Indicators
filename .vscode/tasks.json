@@ -633,8 +633,8 @@
       "type": "shell",
       "command": "NODE_AUTH_TOKEN=$(gh auth token) pnpm run docs:dev",
       "dependsOn": [
-        "Install: Node packages",
-        "Stop: VitePress servers"
+        "Stop: All hosted servers",
+        "Install: Node packages"
       ],
       "dependsOrder": "sequence",
       "isBackground": true,
