@@ -22,44 +22,43 @@ public static partial class SmaAnalysis
         // initialize
         int length = source.Count;
         List<SmaAnalysisResult> results = new(length);
+        Queue<double> buffer = new(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            if (i >= lookbackPeriods - 1)
+            IReusable s = source[i];
+
+            // advance the rolling window and emit once it is full
+            buffer.Update(lookbackPeriods, s.Value);
+
+            double sma = buffer.Average(lookbackPeriods);
+
+            if (double.IsNaN(sma))
             {
-                double sma = Sma.Increment(source, lookbackPeriods, i);
-                double sumMad = 0;
-                double sumMse = 0;
-                double sumMape = 0;
-
-                for (int p = i - lookbackPeriods + 1; p <= i; p++)
-                {
-                    IReusable s = source[p];
-
-                    sumMad += Math.Abs(s.Value - sma);
-                    sumMse += (s.Value - sma) * (s.Value - sma);
-
-                    sumMape += s.Value == 0 ? double.NaN
-                        : Math.Abs(s.Value - sma) / s.Value;
-                }
-
-                results.Add(new SmaAnalysisResult(
-                    Timestamp: source[i].Timestamp,
-                    Sma: sma.NaN2Null(),
-                    Mad: (sumMad / lookbackPeriods).NaN2Null(),
-                    Mse: (sumMse / lookbackPeriods).NaN2Null(),
-                    Mape: (sumMape / lookbackPeriods).NaN2Null()));
+                results.Add(new SmaAnalysisResult(Timestamp: s.Timestamp));
+                continue;
             }
-            else
+
+            // analysis metrics over the same rolling window of raw values
+            double sumMad = 0;
+            double sumMse = 0;
+            double sumMape = 0;
+
+            foreach (double val in buffer)
             {
-                results.Add(new SmaAnalysisResult(
-                    Timestamp: source[i].Timestamp,
-                    Sma: null,
-                    Mad: null,
-                    Mse: null,
-                    Mape: null));
+                double diff = val - sma;
+                sumMad += Math.Abs(diff);
+                sumMse += diff * diff;
+                sumMape += val == 0 ? double.NaN : Math.Abs(diff) / val;
             }
+
+            results.Add(new SmaAnalysisResult(
+                Timestamp: s.Timestamp,
+                Sma: sma.NaN2Null(),
+                Mad: (sumMad / lookbackPeriods).NaN2Null(),
+                Mse: (sumMse / lookbackPeriods).NaN2Null(),
+                Mape: (sumMape / lookbackPeriods).NaN2Null()));
         }
 
         return results;
