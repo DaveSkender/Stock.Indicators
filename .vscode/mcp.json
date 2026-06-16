@@ -1,13 +1,5 @@
 {
   "servers": {
-    "cloudflare": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "mcp-remote@latest",
-        "https://docs.mcp.cloudflare.com/mcp"
-      ]
-    },
     "codacy": {
       "type": "stdio",
       "command": "npx",
@@ -27,17 +19,9 @@
         "@upstash/context7-mcp@latest"
       ]
     },
-    "mslearn": {
+    "microsoft-docs": {
       "type": "http",
       "url": "https://learn.microsoft.com/api/mcp"
-    },
-    "playwright": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "@playwright/mcp@latest"
-      ]
     }
   },
   "inputs": [

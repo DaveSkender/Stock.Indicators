@@ -19,8 +19,8 @@ Series batch style is the fastest and simplest way to calculate indicators from 
 
 **Not ideal for:**
 
-- Real-time or streaming data (use [Stream hubs](/guide/stream))
-- Incremental quote-by-quote processing (use [Buffer lists](/guide/buffer))
+- Real-time or streaming data (use [Stream hubs](/guide/styles/stream))
+- Incremental quote-by-quote processing (use [Buffer lists](/guide/styles/buffer))
 - Live data feeds requiring continuous updates
 
 ## Basic usage
@@ -45,7 +45,7 @@ foreach (SmaResult r in results)
 
 ## Chaining indicators
 
-Create sophisticated analysis by chaining indicators together:
+Create sophisticated analysis by chaining indicators together. For the broader concept, see [Chaining indicators](/guide/chaining).
 
 ```csharp
 // calculate RSI of On-Balance Volume
@@ -73,7 +73,7 @@ IReadOnlyList<EmaResult> results = quotes
 ```csharp
 IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 DateTime lookupDate = DateTime.Parse("2024-01-15");
-SmaResult result = results.Find(lookupDate);
+SmaResult? result = results.Find(lookupDate);
 ```
 
 ### Remove warmup periods
@@ -103,7 +103,7 @@ IReadOnlyList<CandleResult> signals = quotes
 
 ## See also
 
-- [Buffer lists](/guide/buffer) for incremental processing
-- [Stream hubs](/guide/stream) for real-time data
+- [Buffer lists](/guide/styles/buffer) for incremental processing
+- [Stream hubs](/guide/styles/stream) for real-time data
 - [Guide](/guide/) for detailed examples
 - [Indicators](/indicators) for available indicators

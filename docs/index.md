@@ -17,19 +17,6 @@ hero:
     - theme: alt
       text: indicators
       link: /indicators/
-features:
-  - title: New here?
-    details: Install and run your first indicator in minutes.
-    link: /guide/getting-started
-    linkText: Get started
-  - title: Learning the API?
-    details: Batch, buffer, stream, chaining, and custom indicators.
-    link: /guide/
-    linkText: Read the guide
-  - title: Looking something up?
-    details: 84 indicators with parameters, result types, and examples.
-    link: /indicators
-    linkText: Browse indicators
 ---
 
 <script setup>
@@ -38,7 +25,6 @@ import LandingCharts from './.vitepress/components/LandingCharts.vue'
 
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads."><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200" alt="Downloads" /></a>
 </p>
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price quotes into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
@@ -62,23 +48,17 @@ IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 
 See more [usage examples](/guide/getting-started#example-usage).
 
-## Powerful chaining for advanced analysis
+## Three styles to meet your needs
 
-Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/Slope) (direction) of any result, or apply [moving averages](/indicators/Sma) to indicator outputs.
+The library provides three indicator styles for different use cases.
 
-```csharp
-// example: calculate RSI of On-Balance Volume
-IReadOnlyList<RsiResult> results
-  = quotes
-    .ToObv()
-    .ToRsi(14);
+| Style | Best for |
+| ----- | -------- |
+| [Batch (Series)](/guide/styles/batch) | Once-and-done bulk calculations on complete datasets |
+| [Buffer lists](/guide/styles/buffer) | Self-managed incremental data, sequential processing |
+| [Stream hubs](/guide/styles/stream) | Live data feeds with coordinated multi-indicator updates |
 
-// example: use custom candle price variants
-IReadOnlyList<EmaResult> results
-  = quotes
-    .Use(CandlePart.HL2)
-    .ToEma(20);
-```
+See the [Indicator styles](/guide/styles/) guide for a full feature comparison.
 
 ## Incrementally add data with buffer lists <Badge type="warning" text="preview" />
 
@@ -86,7 +66,7 @@ For scenarios where quotes arrive one at a time, buffer lists provide efficient 
 
 ```csharp
 // create list
-SmaList<SmaResult> smaList = new(lookbackPeriods: 20);
+SmaList smaList = new(lookbackPeriods: 20);
 
 // add new quotes incrementally
 smaList.Add(newQuote);
@@ -101,14 +81,14 @@ Hubs provides a reactive, subscription-based pattern for streaming market data w
 ```csharp
 // create provider with chain of indicators
 QuoteHub provider = new QuoteHub();
-StreamHub smaHub = provider.ToSmaHub(20);
-StreamHub rsiHub = sma.ToRsiHub(14);  // RSI of SMA
+SmaHub smaHub = provider.ToSmaHub(20);
+RsiHub rsiHub = smaHub.ToRsiHub(14);  // RSI of SMA
 
 // publish quotes - observers auto-update in cascade
 provider.Add(newQuote);
 
 // consume downstream hubs indicators
-IReadOnlyList<RsiResult> = rsiHub.Results;
+IReadOnlyList<RsiResult> results = rsiHub.Results;
 ```
 
 ```csharp
@@ -131,6 +111,26 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.
 
 See the [guide](/guide/getting-started) and the [full list of indicators and overlays](/indicators) for more information.
+
+## Powerful chaining for advanced analysis
+
+Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/Slope) (direction) of any result, or apply [moving averages](/indicators/Sma) to indicator outputs.
+
+```csharp
+// example: calculate RSI of On-Balance Volume
+IReadOnlyList<RsiResult> results
+  = quotes
+    .ToObv()
+    .ToRsi(14);
+
+// example: use custom candle price variants
+IReadOnlyList<EmaResult> results
+  = quotes
+    .Use(CandlePart.HL2)
+    .ToEma(20);
+```
+
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Optimized for modern .NET frameworks
 

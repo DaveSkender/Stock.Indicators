@@ -22,7 +22,7 @@ IReadOnlyList<RocResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0. |
+| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -78,7 +78,7 @@ var results = quotes
     .ToEma(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -110,4 +110,4 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<RocResult> results = observer.Results;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

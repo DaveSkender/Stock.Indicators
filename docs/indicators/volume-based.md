@@ -57,7 +57,7 @@ features:
     details: Volume-weighted price average
   - title: VWMA
     icon:
-      src: /assets/thumbs/indicators/vwma.png
+      src: /assets/thumbs/indicators/vwma2.png
     link: /indicators/Vwma
     details: Volume-weighted moving average
 ---

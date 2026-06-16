@@ -3,129 +3,6 @@
  * Supports both light and dark themes with dark as default
  */
 
-/* ===== Dark Theme (default) ===== */
-
-/* Dark theme colors (GitHub Primer dark-dimmed) */
-.dark {
-  --vp-c-bg: #22272e;
-  --vp-c-bg-alt: #2d333b;
-  --vp-c-bg-elv: #2d333b;
-  --vp-c-bg-soft: #2d333b;
-
-  --vp-c-border: #444c56;
-  --vp-c-divider: #444c56;
-  --vp-c-gutter: #2d333b;
-
-  --vp-c-text-1: #adbac7;
-  --vp-c-text-2: #909dab;
-  --vp-c-text-3: #768390;
-
-  --vp-c-brand-1: #539bf5;
-  --vp-c-brand-2: #6cb6ff;
-  --vp-c-brand-3: #316dca;
-  --vp-c-brand-soft: rgba(83, 155, 245, 0.14);
-
-  --vp-c-tip-1: #57ab5a;
-  --vp-c-tip-2: #46954a;
-  --vp-c-tip-3: #347d39;
-  --vp-c-tip-soft: rgba(87, 171, 90, 0.14);
-
-  --vp-c-warning-1: #c69026;
-  --vp-c-warning-2: #9e6a03;
-  --vp-c-warning-3: #7d4e00;
-  --vp-c-warning-soft: rgba(198, 144, 38, 0.14);
-
-  --vp-c-danger-1: #e5534b;
-  --vp-c-danger-2: #d1242f;
-  --vp-c-danger-3: #a40e26;
-  --vp-c-danger-soft: rgba(229, 83, 75, 0.14);
-
-  /* Code block colors (increase contrast) */
-  --vp-code-block-bg: #151a21;
-  --vp-code-bg: #151a21;
-  --vp-code-tab-divider: #444c56;
-
-  /* Sidebar colors */
-  --vp-sidebar-bg-color: #22272e;
-
-  /* Navbar colors */
-  --vp-nav-bg-color: #22272e;
-  --vp-nav-screen-bg-color: #22272e;
-
-  /* Button colors (improve contrast) */
-  --vp-button-brand-bg: #2e76d0;
-  --vp-button-brand-hover-bg: #3c82d6;
-  --vp-button-brand-active-bg: #245da6;
-
-  /* Link colors */
-  --vp-c-brand: #539bf5;
-  --vp-c-brand-dark: #316dca;
-  --vp-c-brand-darker: #1f4d99;
-  --vp-c-brand-light: #6cb6ff;
-  --vp-c-brand-lighter: #96d0ff;
-
-}
-
-/* ===== Light Theme ===== */
-html:not(.dark) {
-  --vp-c-bg: #f3f4f6;
-  --vp-c-bg-alt: #e5e7eb;
-  --vp-c-bg-elv: #f3f4f6;
-  --vp-c-bg-soft: #e5e7eb;
-
-  --vp-c-border: #d0d7de;
-  --vp-c-divider: #d0d7de;
-  --vp-c-gutter: #e5e7eb;
-
-  --vp-c-text-1: #24292f;
-  --vp-c-text-2: #57606a;
-  --vp-c-text-3: #6e7781;
-
-  --vp-c-brand-1: #0969da;
-  --vp-c-brand-2: #0550ae;
-  --vp-c-brand-3: #218bff;
-  --vp-c-brand-soft: rgba(9, 105, 218, 0.1);
-
-  --vp-c-tip-1: #1a7f37;
-  --vp-c-tip-2: #2da44e;
-  --vp-c-tip-3: #238636;
-  --vp-c-tip-soft: rgba(26, 127, 55, 0.1);
-
-  --vp-c-warning-1: #9a6700;
-  --vp-c-warning-2: #bf8700;
-  --vp-c-warning-3: #d4a72c;
-  --vp-c-warning-soft: rgba(154, 103, 0, 0.1);
-
-  --vp-c-danger-1: #cf222e;
-  --vp-c-danger-2: #fa4549;
-  --vp-c-danger-3: #ff8182;
-  --vp-c-danger-soft: rgba(207, 34, 46, 0.1);
-
-  /* Code block colors (darker for better contrast) */
-  --vp-code-block-bg: #e8eaed;
-  --vp-code-bg: #e8eaed;
-  --vp-code-tab-divider: #d0d7de;
-
-  /* Sidebar colors */
-  --vp-sidebar-bg-color: #f3f4f6;
-
-  /* Navbar colors */
-  --vp-nav-bg-color: #f3f4f6;
-  --vp-nav-screen-bg-color: #f3f4f6;
-
-  /* Button colors */
-  --vp-button-brand-bg: #2e76d0;
-  --vp-button-brand-hover-bg: #3c82d6;
-  --vp-button-brand-active-bg: #245da6;
-
-  /* Link colors */
-  --vp-c-brand: #0969da;
-  --vp-c-brand-dark: #0550ae;
-  --vp-c-brand-darker: #033d8b;
-  --vp-c-brand-light: #218bff;
-  --vp-c-brand-lighter: #54aeff;
-}
-
 /* Custom styles for better readability */
 .vp-doc {
 
@@ -142,47 +19,6 @@ html:not(.dark) {
       color: var(--vp-c-brand-2);
     }
   }
-
-  code,
-  pre code {
-    background-color: var(--vp-code-bg);
-  }
-
-  pre {
-    background-color: var(--vp-code-block-bg);
-  }
-}
-
-/* Light theme specific overrides */
-html:not(.dark) .vp-doc {
-
-  code,
-  pre code {
-    color: var(--vp-c-text-1);
-  }
-}
-
-/* Dark theme specific overrides */
-.dark .vp-doc {
-  table a {
-    color: #8cc4ff;
-
-    &:hover {
-      color: #a7d4ff;
-    }
-  }
-
-  code,
-  pre code {
-    color: var(--vp-c-text-1);
-  }
-}
-
-/* Code blocks */
-.shiki,
-pre.shiki {
-  background-color: var(--vp-code-block-bg);
-  color: var(--vp-c-text-1);
 }
 
 /* Home page hero */
@@ -223,12 +59,24 @@ pre.shiki {
     border-radius: 5px;
   }
 
-  // Force 3-column grid to match the main indicators index layout.
-  // VitePress uses grid-4 (25% / 4 cols) for non-multiples-of-3 feature counts;
-  // override to grid-6 behavior (33.33% / 3 cols) at the wide breakpoint.
-  @media (min-width: 960px) {
-    .item.grid-4 {
-      width: calc(33.3333%);
+  // Prefer Moving Averages breakpoint behavior: require a wider viewport
+  // before switching to a 3-column layout. Use higher specificity and
+  // !important to override VitePress-generated grid classes reliably.
+  @media (min-width: 1200px) {
+    .VPFeatures.VPHomeFeatures .container .items .item,
+    .VPFeatures.VPHomeFeatures .container .items .item[class*='grid-'],
+    .VPFeatures .container .items .item,
+    .VPFeatures .container .items .item[class*='grid-'] {
+      box-sizing: border-box !important;
+      width: 33.333333% !important;
+      max-width: 33.333333% !important;
+      flex: 0 0 33.333333% !important;
+    }
+
+    .VPFeatures.VPHomeFeatures .container .items a.VPFeature,
+    .VPFeatures .container .items a.VPFeature {
+      width: 100% !important;
+      box-sizing: border-box !important;
     }
   }
 }
@@ -330,7 +178,7 @@ pre.shiki {
   aspect-ratio: 2.5;
 }
 
-@media (width <= 880px) {
+@media (max-width: 880px) {
   .indy-demo__canvas-wrap--overlay {
     aspect-ratio: 2;
   }
@@ -340,7 +188,7 @@ pre.shiki {
   aspect-ratio: 6;
 }
 
-@media (width <= 880px) {
+@media (max-width: 880px) {
   .indy-demo__canvas-wrap--oscillator {
     aspect-ratio: 5;
   }
@@ -348,4 +196,34 @@ pre.shiki {
 
 .indy-demo__canvas {
   display: block;
+}
+
+/* Strong layout override: use CSS Grid to ensure consistent
+   2-column layout below 1200px and 3-column layout at/above 1200px.
+   This overrides VitePress-generated flex/grid sizing heuristics that
+   vary per-page and depend on item counts. */
+.VPFeatures .container .items {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.5rem !important;
+}
+
+.VPFeatures .container .items .item {
+  width: auto !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+.VPFeatures .container .items .item > a,
+.VPFeatures .container .items .item .VPLink,
+.VPFeatures .container .items a.VPFeature {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 1200px) {
+  .VPFeatures .container .items {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
 }

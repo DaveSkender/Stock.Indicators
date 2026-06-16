@@ -10,9 +10,7 @@ DELETE_FOLDERS=(
   "TestResults"
   "test-results"
   "vendor"
-  "docs/_site"
   "BenchmarkDotNet.Artifacts"
-  "node_modules"
 )
 
 DELETE_FILES=(

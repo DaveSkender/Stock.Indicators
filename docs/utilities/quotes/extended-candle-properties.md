@@ -44,9 +44,9 @@ Quote quote = new() {
 CandleProperties candle = quote.ToCandle();
 
 // access extended properties
-decimal bodySize = candle.BodySize;
-decimal upperWick = candle.UpperWick;
-decimal lowerWick = candle.LowerWick;
+decimal? bodySize = candle.Body;
+decimal? upperWick = candle.UpperWick;
+decimal? lowerWick = candle.LowerWick;
 ```
 
 ### Collection of quotes
@@ -57,7 +57,7 @@ IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 
 foreach (var candle in candles)
 {
-  Console.WriteLine($"Date: {candle.Timestamp}, Body: {candle.BodySize}");
+  Console.WriteLine($"Date: {candle.Timestamp}, Body: {candle.Body}");
 }
 ```
 
@@ -67,13 +67,15 @@ The `CandleProperties` class extends the basic quote with calculated properties:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| BodySize | decimal | Absolute difference between Open and Close |
-| BodyPct | decimal | Body size as percentage of total range |
-| UpperWick | decimal | Distance from top of body to High |
-| LowerWick | decimal | Distance from bottom of body to Low |
+| Size | decimal? | Total candle range (High - Low) |
+| Body | decimal? | Absolute difference between Open and Close |
+| UpperWick | decimal? | Distance from top of body to High |
+| LowerWick | decimal? | Distance from bottom of body to Low |
+| BodyPct | double? | Body size as percentage of total size |
+| UpperWickPct | double? | Upper wick size as percentage of total size |
+| LowerWickPct | double? | Lower wick size as percentage of total size |
 | IsBullish | bool | True if Close > Open |
-| IsBearish | bool | True if Open > Close |
-| Range | decimal | High - Low |
+| IsBearish | bool | True if Close < Open |
 
 ::: info Property availability
 The exact properties available may vary by library version. Refer to the [CandleProperties API documentation](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/_common/Candles/CandleProperties.cs) for the complete list.
@@ -102,8 +104,8 @@ var candles = quotes.ToCandles();
 
 // Find hammer patterns (long lower wick)
 var hammers = candles
-  .Where(c => c.LowerWick > c.BodySize * 2)
-  .Where(c => c.UpperWick < c.BodySize * 0.5);
+  .Where(c => c.LowerWick > c.Body * 2)
+  .Where(c => c.UpperWick < c.Body * 0.5m);
 ```
 
 ### Volume-weighted candles
@@ -116,7 +118,7 @@ var candles = quotes.ToCandles();
 var highVolumeCandles = candles
   .OrderByDescending(c => c.Volume)
   .Take(20)
-  .Where(c => c.BodySize > avgBodySize);
+  .Where(c => c.Body > avgBodySize);
 ```
 
 ## Performance considerations

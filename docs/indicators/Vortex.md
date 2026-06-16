@@ -62,7 +62,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -94,4 +94,4 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<VortexResult> results = observer.Results;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

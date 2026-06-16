@@ -72,22 +72,25 @@ Running the performance benchmark application in `Release` mode will produce [be
 
 ```bash
 # from /tools/performance folder
-# run all performance benchmarks (~15-20 minutes)
+# run all performance benchmarks (~1 hour)
 dotnet run -c Release
 
-# run specific benchmark categories
-dotnet run -c Release --filter *Series*
-dotnet run -c Release --filter *Stream*
-dotnet run -c Release --filter *Buffer*
+# run specific benchmark categories (~15-20 minutes each)
+# NOTE: pass filters after `--` and quote the pattern, otherwise the
+# shell expands globs like *Series* to the matching Perf.*.cs filenames.
+dotnet run -c Release -- --filter "*Series*"
+dotnet run -c Release -- --filter "*Stream*"
+dotnet run -c Release -- --filter "*Buffer*"
 
 # run specific performance benchmark
-dotnet run -c Release --filter *.ToAdx
+dotnet run -c Release -- --filter "*Adx*"
 
 ## run with CLI overrides from root
 dotnet run \
 --project tools/performance \
 --configuration Release \
---filter *ToFisher* \
+-- \
+--filter "*ToFisher*" \
 --job Short \
 --warmupCount 3 \
 --iterationCount 4
@@ -142,6 +145,8 @@ When adding or updating indicators:
 
 - Add or update the `/docs/indicators/` documentation files.
 - Page image assets go in `/docs/.vitepress/public/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
+
+**Local cache cleanup note:** To clear documentation or workspace build caches, run the VS Code task `Clean: All` (or run platform-specific clean tasks). See `.vscode/tasks.json` for exact task names and behavior.
 
 ### Accessibility testing
 

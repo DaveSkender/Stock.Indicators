@@ -1,26 +1,31 @@
 ---
 title: Guide
-description: Learn about the different indicator styles, capabilities, and utilities
+description: Learn how to use the Stock Indicators for .NET library
 layout: home
+
 hero:
   name: Guide
-  tagline: Three distinct indicator styles to support different use cases
+  tagline: Documentation, API reference, and guides for all indicator styles and utilities
+  actions:
+    - theme: alt
+      text: indicators reference
+      link: /indicators
+    - theme: alt
+      text: v2→v3 migration
+      link: /migration
+
 features:
-  - title: Batch (Series) style
-    details: One-time bulk conversions of complete historical datasets
-    link: /guide/batch
-    linkText: Learn more
-  - title: Buffer list style
-    details: Self-managed incremental data without hub infrastructure
-    link: /guide/buffer
-    linkText: Learn more
-  - title: Stream hub style
-    details: Live data feeds with coordinated multi-indicator updates
-    link: /guide/stream
-    linkText: Learn more
+  - title: Getting started
+    details: Install the Skender.Stock.Indicators NuGet library and calculate your first indicator in minutes.
+    link: /guide/getting-started
+    linkText: First-time setup
+  - title: Indicator styles
+    details: Batch (Series), Buffer lists, and Stream hubs — compare styles and choose the right one for your use case
+    link: /guide/styles
+    linkText: Compare styles
   - title: Chaining
     details: Build sophisticated analysis by chaining indicators together, creating indicators of indicators
-    link: /guide/batch#chaining-indicators
+    link: /guide/chaining
     linkText: Learn more
   - title: Custom indicators
     details: Create your own indicators that integrate seamlessly with the library
@@ -35,26 +40,3 @@ features:
     link: /examples
     linkText: Learn more
 ---
-
-## Indicator style comparison
-
-This library has three indicator styles available to support different uses cases.
-
-| Style        | Use case                                     | Best for                       |
-| ------------ | -------------------------------------------- | ------------------------------ |
-| Series batch | Convert full quote collections to indicators | Once-and-done bulk conversions |
-| Buffer lists | Standalone incrementing `ICollection` lists  | Self-managed incrementing data |
-| Stream hub   | Subscription based hub-observer pattern      | Streaming or live data sources |
-
-### Feature comparison
-
-| Feature        | Series batch    | Buffer lists  | Stream hub   |
-| -------------- | --------------- | ------------- | ------------ |
-| Incrementing   | no              | yes           | yes          |
-| Batch speed    | fastest         | faster        | fast         |
-| Scaling        | low             | moderate      | high         |
-| Class type     | static          | instance      | instance     |
-| Base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
-| Complexity     | lowest          | moderate      | highest      |
-| Chainable      | yes             | yes           | yes          |
-| Pruning        | with utility    | auto-preset   | auto-preset  |

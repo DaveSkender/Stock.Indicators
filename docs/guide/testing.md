@@ -172,7 +172,7 @@ For consumer code that implements `IStreamObserver<T>` directly (UI dispatchers,
 
 ## See also
 
-- [Stream hubs](/guide/stream) — source-side streaming guide
+- [Stream hubs](/guide/styles/stream) — source-side streaming guide
 - [Custom observers](/guide/custom-observers) — implementing `IStreamObserver<T>` for external integration
 - [Custom indicators](/guide/customization) — adding indicator math, not consuming output
 - The library's own test suite under `tests/indicators/` for representative shapes

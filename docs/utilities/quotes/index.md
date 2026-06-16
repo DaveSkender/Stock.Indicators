@@ -74,20 +74,20 @@ var validQuotes = quotes.Validate();
   padding: 1.25rem;
   background: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-divider);
-  border-left: 4px solid var(--vp-c-brand);
+  border-left: 4px solid var(--vp-c-brand-1);
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .utility-cards h2:hover {
-  border-left-color: var(--vp-c-brand-dark);
+  border-left-color: var(--vp-c-brand-2);
   transform: translateX(4px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .utility-cards h2 a {
   text-decoration: none;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .utility-cards p {

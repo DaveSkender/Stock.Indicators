@@ -22,7 +22,7 @@ IReadOnlyList<HurstResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100. |
+| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
 
 ### Historical quotes requirements
 
@@ -78,7 +78,7 @@ var results = quotes
     .ToSlope(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## References
 
@@ -116,4 +116,4 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<HurstResult> results = observer.Results;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

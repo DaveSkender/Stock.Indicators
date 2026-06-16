@@ -70,7 +70,7 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -84,8 +84,8 @@ foreach (IQuote quote in quotes)  // simulating stream
   williamsRList.Add(quote);
 }
 
-// based on `ICollection<WilliamsRResult>`
-IReadOnlyList<WilliamsRResult> results = williamsRList;
+// based on `ICollection<WilliamsResult>`
+IReadOnlyList<WilliamsResult> results = williamsRList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
@@ -99,7 +99,7 @@ foreach (IQuote quote in quotes)  // simulating stream
   quoteHub.Add(quote);
 }
 
-IReadOnlyList<WilliamsRResult> results = observer.Results;
+IReadOnlyList<WilliamsResult> results = observer.Results;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

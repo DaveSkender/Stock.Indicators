@@ -29,7 +29,7 @@ For additional configuration parameters, default values are provided when there 
 
 ## Implementation pattern
 
-The library supports three indicator styles.  Each follows a common pattern:
+The library supports three indicator styles, each following the same basic pattern:
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -40,9 +40,15 @@ using Skender.Stock.Indicators;
 // step 2: calculate indicator value(s)
 ```
 
-See [Indicator styles](/guide/) for a comparison of all three styles.
+- **[Batch (Series)](/guide/styles/batch)** — convert a full quote collection at once. This is the standard, default style and the one demonstrated on this page.
+- **[Buffer lists](/guide/styles/buffer)** — self-managed incrementing lists, for adding quotes one at a time.
+- **[Stream hubs](/guide/styles/stream)** — subscription-based hub-observer pattern, for live/streaming data and chained, real-time architectures.
+
+The examples on this page use the **Batch (Series)** style because it is the simplest starting point and covers most use cases. Buffer lists and stream hubs are first-class styles for incremental and streaming scenarios — see [Indicator styles](/guide/styles/) for a side-by-side comparison and guidance on choosing.
 
 ## Example usage
+
+The example below uses the **Batch (Series)** style — the standard approach for converting a complete set of historical quotes in one call.  For quotes that arrive incrementally or from a live feed, see [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream).
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -165,24 +171,7 @@ IReadOnlyList<RsiResult> results
     .ToRsi(14);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
-
-## Candlestick patterns
-
-[Candlestick Patterns](/indicators/Doji) are a unique form of indicator and have a common output model.
-
-The `Match` enum indicates whether a candlestick pattern is recognized, and provides an optional confirmation and basis signal:
-
-| type                  |  int | description                         |
-| --------------------- | ---: | ----------------------------------- |
-| `Match.BullConfirmed` |  200 | Confirmation of a prior bull signal |
-| `Match.BullSignal`    |  100 | Bullish signal                      |
-| `Match.BullBasis`     |   10 | Bars supporting a bullish signal    |
-| `Match.Neutral`       |    1 | Signal for non-directional patterns |
-| `Match.None`          |    0 | No match                            |
-| `Match.BearBasis`     |  -10 | Bars supporting a bearish signal    |
-| `Match.BearSignal`    | -100 | Bearish signal                      |
-| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal |
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Utilities
 

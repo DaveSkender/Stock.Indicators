@@ -34,7 +34,7 @@ IReadOnlyList<RenkoResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `atrPeriods` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0. |
+| `atrPeriods` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -110,7 +110,7 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -149,4 +149,4 @@ The ATR brick size is derived from the full dataset and changes as new quotes ar
 Use the Series implementation with periodic recalculation instead.
 :::
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

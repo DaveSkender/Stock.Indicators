@@ -1,29 +1,28 @@
 ---
 title: Custom observers and external integration
-description: Implement IStreamObserver to wrap a streaming hub for UI dispatch, persistence, logging, or alerting without subclassing.
+description: Implement IStreamObserver to observe a streaming hub for UI dispatch, persistence, logging, or alerting without subclassing.
 ---
 
 # Custom observers and external integration
 
-Stream hubs expose two complementary extension points:
+Subscribing a **custom observer** to a stream hub is the supported way to add your own behavior to streaming data today. Use it to *react to a hub's output* — push updates into a UI, persist values to a database, ship them to a message bus, feed an alerting pipeline, or filter/transform results and re-emit them to downstream indicators. This page covers that path.
 
-- **Subclass a hub** when you need to add or modify *indicator calculation* — define a new `*Hub` type alongside its `*BufferList` / `*StaticSeries` siblings. See [Creating custom indicators](/guide/customization) for that path.
-- **Wrap a hub with a custom observer** when you need to *react to a hub's output* — push updates into a UI, persist values to a database, ship them to a message bus, or feed an alerting pipeline. This page covers that path.
+::: info Custom indicator hubs are not yet supported
+This page is about **observing and integrating** with a hub's output, not authoring a brand-new full-featured indicator hub. Subclassing the streaming base classes to add your own *indicator calculation* is **not yet a first-class extension point** for code outside the library — the base classes and their cache/rollback plumbing are largely internal. That capability is planned for a future release; see [#2097](https://github.com/DaveSkender/Stock.Indicators/issues/2097). Until then, the observer pattern below — optionally combined with `IChainProvider<IReusable>` — is the way to thread custom processing into a streaming pipeline. For custom *calculation* logic today, use the [Series (batch) style](/guide/customization).
+:::
 
-The two patterns solve different problems. Subclassing adds compute; observing adds *integration*. Most production applications need observers, not new subclasses.
-
-## When to wrap vs. subclass
+## What observers are for
 
 | Goal | Pattern |
 | ---- | ------- |
-| New indicator math | Subclass `ChainHub` or `QuoteProvider` (see [Custom indicators](/guide/customization)) |
-| Forward hub results to a UI thread | Wrap with a custom `IStreamObserver<T>` |
-| Persist results to a database | Wrap with a custom `IStreamObserver<T>` |
-| Log every value the hub emits | Wrap with a custom `IStreamObserver<T>` |
-| Trigger external alerts on threshold crosses | Wrap with a custom `IStreamObserver<T>` |
-| Reuse the hub's results as a *provider* for downstream chained indicators | Implement `IChainProvider<IReusable>` in addition to `IStreamObserver<T>` (see below) |
+| Forward hub results to a UI thread | Subscribe a custom `IStreamObserver<T>` |
+| Persist results to a database | Subscribe a custom `IStreamObserver<T>` |
+| Log every value the hub emits | Subscribe a custom `IStreamObserver<T>` |
+| Trigger external alerts on threshold crosses | Subscribe a custom `IStreamObserver<T>` |
+| Filter/transform results and feed downstream chained indicators | Implement `IChainProvider<IReusable>` in addition to `IStreamObserver<T>` (see below) |
+| Author a brand-new indicator hub (custom calculation) | Not yet supported externally — planned for a future release ([#2097](https://github.com/DaveSkender/Stock.Indicators/issues/2097)) |
 
-Wrapping does not modify the source hub. The hub keeps its cache, its rollback behavior, and its other subscribers. Your observer is a peer subscriber that receives the same notifications; if it throws, the hub isolates it so the other subscribers are unaffected (see [If an observer throws](#if-an-observer-throws)).
+Subscribing does not modify the source hub. The hub keeps its cache, its rollback behavior, and its other subscribers. Your observer is a peer subscriber that receives the same notifications; if it throws, the hub isolates it so the other subscribers are unaffected (see [If an observer throws](#if-an-observer-throws)).
 
 ## The `IStreamObserver<T>` contract
 
@@ -208,6 +207,6 @@ Failing to unsubscribe keeps your observer rooted from the source hub's subscrib
 
 ## See also
 
-- [Stream hubs](/guide/stream) — the source-side streaming guide
+- [Stream hubs](/guide/styles/stream) — the source-side streaming guide
+- [Buffer lists](/guide/styles/buffer) — alternative when you don't need observable propagation
 - [Creating custom indicators](/guide/customization) — when you want to add indicator math instead of consuming output
-- [Buffer lists](/guide/buffer) — alternative when you don't need observable propagation

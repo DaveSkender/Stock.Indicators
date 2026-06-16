@@ -634,7 +634,7 @@
         "lineType": "solid",
         "stack": null,
         "lineWidth": 1,
-        "defaultColor": "#616161CC",
+        "defaultColor": "#EF6C00",
         "fill": {
           "target": "+2",
           "colorAbove": "#61616110",
@@ -649,7 +649,7 @@
         "lineType": "dash",
         "stack": null,
         "lineWidth": 1,
-        "defaultColor": "#616161CC",
+        "defaultColor": "#EF6C00",
         "fill": null
       },
       {
@@ -660,7 +660,7 @@
         "lineType": "solid",
         "stack": null,
         "lineWidth": 1,
-        "defaultColor": "#616161CC",
+        "defaultColor": "#EF6C00",
         "fill": null
       }
     ]
