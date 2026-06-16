@@ -70,4 +70,9 @@ features:
       src: /assets/thumbs/indicators/alligator.png
     link: /indicators/Alligator
     details: Three-line trend system
+  - title: Gator Oscillator
+    icon:
+      src: /assets/thumbs/indicators/gator.png
+    link: /indicators/Gator
+    details: Alligator lines divergence    
 ---
