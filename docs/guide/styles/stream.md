@@ -363,5 +363,5 @@ This only happens when `maxCacheSize` is **smaller than the history you revise**
 
 - [Batch style](/guide/styles/batch) for one-time calculations
 - [Buffer lists](/guide/styles/buffer) for simple incremental processing
-- [Custom observers](/guide/custom-observers) for wrapping a hub to push results into a UI, persistence, or alerting pipeline
+- [Custom observers](/guide/custom-observers) for subscribing an observer to a hub to push results into a UI, persistence, or alerting pipeline
 - [Indicators](/indicators) for available stream hub indicators
