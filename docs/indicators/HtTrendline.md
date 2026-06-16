@@ -89,7 +89,7 @@ IReadOnlyList<HtlResult> results = observer.Results;
 Use the buffer-style `List<T>` when you need incremental calculations:
 
 ```csharp
-HtlList htlList = new();
+HtTrendlineList htlList = new();
 
 foreach (IQuote quote in quotes)  // simulating stream
 {

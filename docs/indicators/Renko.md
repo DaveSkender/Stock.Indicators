@@ -34,7 +34,7 @@ IReadOnlyList<RenkoResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `atrPeriods` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0. |
+| `atrPeriods` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 

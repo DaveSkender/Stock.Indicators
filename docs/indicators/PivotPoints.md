@@ -19,7 +19,7 @@ IReadOnlyList<PivotPointsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `windowSize` | PeriodSize | Size of the lookback window |
+| `windowSize` | PeriodSize | Size of the lookback window.  Default is `PeriodSize.Month` |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
 ### Historical quotes requirements

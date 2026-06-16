@@ -20,7 +20,7 @@ features:
     link: /guide/styles/batch
     linkText: Learn more
   - title: Buffer lists
-    details: Standalone incrementing `ICollection` lists, best for simple self-managed incremental data.
+    details: Standalone incrementing `IReadOnlyList` results you append to, best for simple self-managed incremental data.
     link: /guide/styles/buffer
     linkText: Learn more
   - title: Stream hubs
@@ -39,7 +39,7 @@ The library provides three distinct indicator styles to support different use ca
 | Batch speed | fastest | faster | fast |
 | Scaling | low | moderate | high |
 | Class type | static | instance | instance |
-| Base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
+| Base interface | `IReadOnlyList` | `IReadOnlyList` (+ `Add`) | `IStreamHub` |
 | Complexity | lowest | moderate | highest |
 | Chainable | yes | yes | yes |
 | Pruning | with utility | auto-preset | auto-preset |

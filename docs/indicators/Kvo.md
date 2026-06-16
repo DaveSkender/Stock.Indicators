@@ -15,7 +15,7 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 ```csharp
 // C# usage syntax
 IReadOnlyList<KvoResult> results =
-  quotes.ToKvo(shortPeriods, longPeriods, signalPeriods);
+  quotes.ToKvo(fastPeriods, slowPeriods, signalPeriods);
 ```
 
 ## Parameters

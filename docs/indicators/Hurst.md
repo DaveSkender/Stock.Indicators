@@ -22,7 +22,7 @@ IReadOnlyList<HurstResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100. |
+| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
 
 ### Historical quotes requirements
 

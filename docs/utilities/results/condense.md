@@ -33,7 +33,7 @@ foreach (var result in results)
 
 ## How it works
 
-`.Condense()` removes results where all indicator values are null or zero (depending on the indicator). The exact behavior varies by indicator type:
+`.Condense()` removes results where the indicator value is null or `NaN`; for candlestick patterns it removes records with no match (`Match.None`). The exact behavior varies by indicator type:
 
 - **Candlestick patterns**: Returns only dates with pattern matches
 - **Oscillators**: May remove periods before convergence
@@ -67,11 +67,11 @@ var signals = quotes
 // execute trades on signal dates
 foreach (var signal in signals)
 {
-  if (signal.Signal > 0)
+  if (signal.Match is Match.BullSignal or Match.BullConfirmed)
   {
     // bullish signal logic
   }
-  else if (signal.Signal < 0)
+  else if (signal.Match is Match.BearSignal or Match.BearConfirmed)
   {
     // bearish signal logic
   }

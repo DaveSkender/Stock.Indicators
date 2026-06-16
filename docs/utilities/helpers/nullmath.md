@@ -17,12 +17,12 @@ The `System.Math` library does not allow `null` values, requiring defensive null
 
 ```csharp
 // Without NullMath - requires null checking
-decimal? value = GetNullableValue();
-decimal? result = value.HasValue ? Math.Abs(value.Value) : null;
+double? value = GetNullableValue();
+double? result = value.HasValue ? Math.Abs(value.Value) : null;
 
 // With NullMath - handles nulls automatically
-decimal? value = GetNullableValue();
-decimal? result = NullMath.Abs(value);
+double? value = GetNullableValue();
+double? result = NullMath.Abs(value);
 ```
 
 ## Available methods
@@ -30,8 +30,7 @@ decimal? result = NullMath.Abs(value);
 <!-- markdownlint-disable MD060 -->
 | Method | Example usage | Description |
 |--------|---------------|-------------|
-| Abs | `var abs = NullMath.Abs(-25)` → `25`<br>`var abs = NullMath.Abs(null)` → `null` | Absolute value |
-| Round | `var rnd = NullMath.Round(1.234, 1)` → `1.2`<br>`var rnd = NullMath.Round(null, 1)` → `null` | Round to decimal places |
+| Abs | `var abs = NullMath.Abs(-25d)` → `25`<br>`var abs = NullMath.Abs(null)` → `null` | Absolute value |
 | Null2NaN | `var val = null;`<br>`var n2n = val.Null2NaN()` → `[NaN]` | Convert null to NaN |
 | NaN2Null | `var val = double.NaN;`<br>`var n2n = val.NaN2Null()` → `null` | Convert NaN to null |
 <!-- markdownlint-enable MD060 -->
@@ -43,15 +42,15 @@ Returns the absolute value of a nullable decimal, or null if the input is null.
 ### Syntax
 
 ```csharp
-decimal? abs = NullMath.Abs(decimal? value);
+double? abs = NullMath.Abs(double? value);
 ```
 
 ### Usage
 
 ```csharp
-decimal? positive = NullMath.Abs(-25);    // 25
-decimal? negative = NullMath.Abs(null);   // null
-decimal? alreadyPos = NullMath.Abs(10);   // 10
+double? positive = NullMath.Abs(-25);    // 25
+double? negative = NullMath.Abs(null);   // null
+double? alreadyPos = NullMath.Abs(10);   // 10
 ```
 
 ### Common use case
@@ -59,48 +58,12 @@ decimal? alreadyPos = NullMath.Abs(10);   // 10
 Calculate absolute differences in custom indicators:
 
 ```csharp
-public decimal? CalculateAbsChange(decimal? current, decimal? previous)
+public double? CalculateAbsChange(double? current, double? previous)
 {
   if (current == null || previous == null)
     return null;
     
   return NullMath.Abs(current - previous);
-}
-```
-
-## Round
-
-Rounds a nullable decimal to a specified number of decimal places, or returns null if the input is null.
-
-### Syntax
-
-```csharp
-decimal? rounded = NullMath.Round(decimal? value, int decimals);
-```
-
-### Parameters
-
-**value** - The nullable decimal value to round
-
-**decimals** - The number of decimal places
-
-### Usage
-
-```csharp
-decimal? rounded = NullMath.Round(1.234, 1);   // 1.2
-decimal? nulled = NullMath.Round(null, 1);     // null
-decimal? whole = NullMath.Round(1.567, 0);     // 2
-```
-
-### Common use case
-
-Format indicator output for display:
-
-```csharp
-public string FormatIndicatorValue(decimal? value)
-{
-  var rounded = NullMath.Round(value, 2);
-  return rounded?.ToString("F2") ?? "N/A";
 }
 ```
 
@@ -186,17 +149,16 @@ public static IReadOnlyList<MyResult> ToMyIndicator(
   
   for (int i = 0; i < quotesList.Count; i++)
   {
-    decimal? previous = i > 0 ? results[i - 1].Value : null;
-    decimal? current = quotesList[i].Close;
+    double? previous = i > 0 ? results[i - 1].Value : null;
+    double? current = (double?)quotesList[i].Close;
     
     // NullMath handles nulls automatically
     var change = NullMath.Abs(current - previous);
-    var rounded = NullMath.Round(change, 2);
     
     results.Add(new MyResult {
       Timestamp = quotesList[i].Timestamp,
       Value = current,
-      AbsChange = rounded
+      AbsChange = change
     });
   }
   

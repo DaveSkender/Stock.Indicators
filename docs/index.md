@@ -66,7 +66,7 @@ For scenarios where quotes arrive one at a time, buffer lists provide efficient 
 
 ```csharp
 // create list
-SmaList<SmaResult> smaList = new(lookbackPeriods: 20);
+SmaList smaList = new(lookbackPeriods: 20);
 
 // add new quotes incrementally
 smaList.Add(newQuote);
@@ -81,14 +81,14 @@ Hubs provides a reactive, subscription-based pattern for streaming market data w
 ```csharp
 // create provider with chain of indicators
 QuoteHub provider = new QuoteHub();
-StreamHub smaHub = provider.ToSmaHub(20);
-StreamHub rsiHub = sma.ToRsiHub(14);  // RSI of SMA
+SmaHub smaHub = provider.ToSmaHub(20);
+RsiHub rsiHub = smaHub.ToRsiHub(14);  // RSI of SMA
 
 // publish quotes - observers auto-update in cascade
 provider.Add(newQuote);
 
 // consume downstream hubs indicators
-IReadOnlyList<RsiResult> = rsiHub.Results;
+IReadOnlyList<RsiResult> results = rsiHub.Results;
 ```
 
 ```csharp

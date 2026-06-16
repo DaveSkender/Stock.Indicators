@@ -22,7 +22,7 @@ IReadOnlyList<RocResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0. |
+| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 

@@ -62,9 +62,9 @@ A buffer list is a single-pass accumulator: every `Add` assumes the new value is
 
 ## Key features
 
-### Collection interface
+### List interface
 
-Buffer lists implement `ICollection<TResult>` for standard operations:
+Buffer lists are read-only result lists you append to. The base `BufferList<TResult>` implements `IReadOnlyList<TResult>` — so you get indexer access, `Count`, and enumeration — plus indicator-specific `Add` overloads for feeding new values and a small set of list helpers (`Clear`, `Contains`, `CopyTo`):
 
 ```csharp
 SmaList smaList = new(20);
@@ -75,10 +75,13 @@ smaList.Add(quote);
 // or add batches
 smaList.Add(quoteList);
 
-// standard collection operations
+// read-only list access
 int count = smaList.Count;
 bool isEmpty = smaList.Count == 0;
+SmaResult latest = smaList[^1];
 ```
+
+Note that a buffer list is not a general-purpose mutable collection: it does not implement `ICollection<TResult>`, so there is no `Remove`, no insert-at-index, and `Add` appends a computed result rather than an arbitrary item. Pruning of old results is automatic (see [Memory management](#memory-management)).
 
 ### Automatic buffer management
 
@@ -180,5 +183,4 @@ while (newQuote = GetNextQuote())
 
 - [Batch style](/guide/styles/batch) for one-time calculations
 - [Stream hubs](/guide/styles/stream) for coordinated real-time updates
-- [Buffer lists](/guide/styles/buffer) for detailed patterns
 - [Indicators](/indicators) for available buffer list indicators

@@ -55,7 +55,7 @@ public static class CustomIndicators
         int lookbackPeriods = 10)
     {
         // Validate parameters
-        quotes.ThrowIfNull();
+        ArgumentNullException.ThrowIfNull(quotes);
         
         if (lookbackPeriods <= 0)
         {
@@ -65,7 +65,7 @@ public static class CustomIndicators
         }
 
         // Sort quotes
-        List<IQuote> quotesList = quotes.ToSortedList();
+        IReadOnlyList<IQuote> quotesList = quotes.ToSortedList();
 
         // Check for sufficient quotes
         if (quotesList.Count < lookbackPeriods)

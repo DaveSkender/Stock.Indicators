@@ -73,7 +73,7 @@ IReadOnlyList<EmaResult> results = quotes
 ```csharp
 IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 DateTime lookupDate = DateTime.Parse("2024-01-15");
-SmaResult result = results.Find(lookupDate);
+SmaResult? result = results.Find(lookupDate);
 ```
 
 ### Remove warmup periods

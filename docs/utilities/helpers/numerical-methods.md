@@ -14,15 +14,15 @@ Calculate the slope of a linear regression line from paired x and y values.
 ### Syntax
 
 ```csharp
-double slope = Numerix.Slope(double[] xValues, double[] yValues);
+double slope = Numerical.Slope(double[] x, double[] y);
 ```
 
 ### Parameters
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `xValues` | double[] | Array of x-axis values (independent variable) |
-| `yValues` | double[] | Array of y-axis values (dependent variable) |
+| `x` | double[] | Array of x-axis values (independent variable) |
+| `y` | double[] | Array of y-axis values (dependent variable) |
 
 ### Returns
 
@@ -37,7 +37,7 @@ The slope of the best-fit line through the data points.
 ```csharp
 double[] xValues = { 1, 2, 5, 4 };
 double[] yValues = { 4, 7, 8, 1 };
-double slope = Numerix.Slope(xValues, yValues);
+double slope = Numerical.Slope(xValues, yValues);
 
 Console.WriteLine($"Slope: {slope:F4}");
 ```
