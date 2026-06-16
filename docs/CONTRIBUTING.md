@@ -76,18 +76,21 @@ Running the performance benchmark application in `Release` mode will produce [be
 dotnet run -c Release
 
 # run specific benchmark categories (~15-20 minutes each)
-dotnet run -c Release --filter *Series*
-dotnet run -c Release --filter *Stream*
-dotnet run -c Release --filter *Buffer*
+# NOTE: pass filters after `--` and quote the pattern, otherwise the
+# shell expands globs like *Series* to the matching Perf.*.cs filenames.
+dotnet run -c Release -- --filter "*Series*"
+dotnet run -c Release -- --filter "*Stream*"
+dotnet run -c Release -- --filter "*Buffer*"
 
 # run specific performance benchmark
-dotnet run -c Release --filter *Adx*
+dotnet run -c Release -- --filter "*Adx*"
 
 ## run with CLI overrides from root
 dotnet run \
 --project tools/performance \
 --configuration Release \
---filter *ToFisher* \
+-- \
+--filter "*ToFisher*" \
 --job Short \
 --warmupCount 3 \
 --iterationCount 4
