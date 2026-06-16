@@ -31,8 +31,8 @@ importers:
         specifier: ^1.100.0
         version: 1.100.0
       vitepress:
-        specifier: 2.0.0-alpha.16
-        version: 2.0.0-alpha.16(@types/node@25.9.3)(postcss@8.5.15)(sass-embedded@1.100.0)(sass@1.100.0)
+        specifier: 2.0.0-alpha.17
+        version: 2.0.0-alpha.17(@types/node@25.9.3)(postcss@8.5.15)(sass-embedded@1.100.0)(sass@1.100.0)
       vue:
         specifier: ^3.5.35
         version: 3.5.38
@@ -231,6 +231,9 @@ packages:
       chart.js: ^4.5.1
       chartjs-plugin-annotation: ^3.1.0
       vue: ^3.5.0
+    peerDependenciesMeta:
+      vue:
+        optional: true
 
   '@iconify-json/simple-icons@1.2.86':
     resolution: {integrity: sha512-t3jck5qPQuK1qy+bRn9eCoDQhIB7XSazKz1Fjp8hcan3XOAsTI5Mq/s3F0ekOKSvMQqkVORYK6ns6o6T9f5EMA==}
@@ -766,8 +769,8 @@ packages:
       picomatch:
         optional: true
 
-  focus-trap@7.8.0:
-    resolution: {integrity: sha512-/yNdlIkpWbM0ptxno3ONTuf+2g318kh2ez3KSeZN5dZ8YC6AAmgeWz+GasYYiBJPFaYcSAPeu4GfhUaChzIJXA==}
+  focus-trap@8.2.1:
+    resolution: {integrity: sha512-6CxwrrFRquH7pDXb1mWxudkU9LSfYBMRZutpgddb2o6iwCk7cIRrBhyY3c8SGKcmIKdeMTrGSNg4Bedh2RSF/w==}
 
   fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
@@ -1128,8 +1131,8 @@ packages:
       yaml:
         optional: true
 
-  vitepress@2.0.0-alpha.16:
-    resolution: {integrity: sha512-w1nwsefDVIsje7BZr2tsKxkZutDGjG0YoQ2yxO7+a9tvYVqfljYbwj5LMYkPy8Tb7YbPwa22HtIhk62jbrvuEQ==}
+  vitepress@2.0.0-alpha.17:
+    resolution: {integrity: sha512-Z3VPUpwk/bHYqt1uMVOOK1/4xFiWQov1GNc2FvMdz6kvje4JRXEOngVI9C+bi5jeedMSHiA4dwKkff1NCvbZ9Q==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
@@ -1261,6 +1264,7 @@ snapshots:
       chartjs-adapter-date-fns: 3.0.0(chart.js@4.5.1)(date-fns@4.4.0)
       chartjs-plugin-annotation: 3.1.0(chart.js@4.5.1)
       date-fns: 4.4.0
+    optionalDependencies:
       vue: 3.5.38
 
   '@iconify-json/simple-icons@1.2.86':
@@ -1625,13 +1629,13 @@ snapshots:
       '@vueuse/shared': 14.3.0(vue@3.5.38)
       vue: 3.5.38
 
-  '@vueuse/integrations@14.3.0(focus-trap@7.8.0)(vue@3.5.38)':
+  '@vueuse/integrations@14.3.0(focus-trap@8.2.1)(vue@3.5.38)':
     dependencies:
       '@vueuse/core': 14.3.0(vue@3.5.38)
       '@vueuse/shared': 14.3.0(vue@3.5.38)
       vue: 3.5.38
     optionalDependencies:
-      focus-trap: 7.8.0
+      focus-trap: 8.2.1
 
   '@vueuse/metadata@14.3.0': {}
 
@@ -1723,7 +1727,7 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
-  focus-trap@7.8.0:
+  focus-trap@8.2.1:
     dependencies:
       tabbable: 6.4.0
 
@@ -2079,7 +2083,7 @@ snapshots:
       sass: 1.100.0
       sass-embedded: 1.100.0
 
-  vitepress@2.0.0-alpha.16(@types/node@25.9.3)(postcss@8.5.15)(sass-embedded@1.100.0)(sass@1.100.0):
+  vitepress@2.0.0-alpha.17(@types/node@25.9.3)(postcss@8.5.15)(sass-embedded@1.100.0)(sass@1.100.0):
     dependencies:
       '@docsearch/css': 4.6.3
       '@docsearch/js': 4.6.3
@@ -2093,8 +2097,8 @@ snapshots:
       '@vue/devtools-api': 8.1.3
       '@vue/shared': 3.5.38
       '@vueuse/core': 14.3.0(vue@3.5.38)
-      '@vueuse/integrations': 14.3.0(focus-trap@7.8.0)(vue@3.5.38)
-      focus-trap: 7.8.0
+      '@vueuse/integrations': 14.3.0(focus-trap@8.2.1)(vue@3.5.38)
+      focus-trap: 8.2.1
       mark.js: 8.11.1
       minisearch: 7.2.0
       shiki: 3.23.0
