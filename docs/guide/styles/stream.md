@@ -308,7 +308,8 @@ try
 }
 catch (OverflowException)
 {
-    // a circular chain or a stuck provider re-sent an identical tick 100+ times
+    // a circular chain or a stuck provider
+    // re-sent an identical tick 100+ times
 }
 
 if (quoteHub.IsFaulted)
