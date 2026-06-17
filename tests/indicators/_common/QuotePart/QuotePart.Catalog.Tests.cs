@@ -104,9 +104,9 @@ public class QuotePartTests : TestBase
     public void CatalogBrowsingIncludesQuotePartSeries()
     {
         // Act
-        IReadOnlyCollection<IndicatorListing> catalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
         IndicatorListing quotePartSeries = Catalog.Get("QUOTEPART", Style.Series);
-        IReadOnlyCollection<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
+        IReadOnlyList<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
 
         // Assert
         catalog.Should().NotBeNull();

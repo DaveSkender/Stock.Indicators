@@ -14,7 +14,7 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void GetByUiidShouldReturnCorrectIndicator()
     {
-        IReadOnlyCollection<IndicatorListing> emaListings = Catalog.Get("EMA");
+        IReadOnlyList<IndicatorListing> emaListings = Catalog.Get("EMA");
         emaListings.Should().NotBeEmpty("EMA should exist in catalog");
         emaListings.Should().OnlyContain(static l => l.Uiid == "EMA");
         emaListings.Should().OnlyContain(static l => l.Name == "Exponential Moving Average");
@@ -23,9 +23,9 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void GetByStyleShouldReturnCorrectIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
-        IReadOnlyCollection<IndicatorListing> streamListings = Catalog.Get(Style.Stream);
-        IReadOnlyCollection<IndicatorListing> bufferListings = Catalog.Get(Style.Buffer);
+        IReadOnlyList<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
+        IReadOnlyList<IndicatorListing> streamListings = Catalog.Get(Style.Stream);
+        IReadOnlyList<IndicatorListing> bufferListings = Catalog.Get(Style.Buffer);
 
         seriesListings.Should().NotBeEmpty();
         streamListings.Should().NotBeEmpty();
@@ -39,7 +39,7 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void GetByCategoryShouldReturnCorrectIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> maListings = Catalog.Get(Category.MovingAverage);
+        IReadOnlyList<IndicatorListing> maListings = Catalog.Get(Category.MovingAverage);
         maListings.Should().NotBeEmpty();
         maListings.Should().Contain(static l => l.Uiid == "EMA");
         maListings.Should().Contain(static l => l.Uiid == "SMA");
@@ -49,7 +49,7 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void SearchShouldReturnPartialMatches()
     {
-        IReadOnlyCollection<IndicatorListing> rsiResults = Catalog.Search("RSI");
+        IReadOnlyList<IndicatorListing> rsiResults = Catalog.Search("RSI");
         rsiResults.Should().NotBeEmpty();
         rsiResults.Should().Contain(static l => l.Uiid == "RSI");
         rsiResults.Should().OnlyContain(static l => l.Name.Contains("RSI") || l.Uiid.Contains("RSI"));
@@ -58,7 +58,7 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void SearchByPartialNameShouldReturnMultipleMatches()
     {
-        IReadOnlyCollection<IndicatorListing> movingResults = Catalog.Search("Moving");
+        IReadOnlyList<IndicatorListing> movingResults = Catalog.Search("Moving");
         movingResults.Should().NotBeEmpty();
         movingResults.Should().Contain(static l => l.Uiid == "EMA");
         movingResults.Should().Contain(static l => l.Uiid == "SMA");
@@ -69,7 +69,7 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void SearchByNameWithStyleShouldReturnCorrectIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> sut = Catalog.Search("Moving", Style.Series);
+        IReadOnlyList<IndicatorListing> sut = Catalog.Search("Moving", Style.Series);
         sut.Should().NotBeEmpty();
         sut.Should().Contain(static l => l.Uiid == "EMA" && l.Style == Style.Series);
         sut.Should().Contain(static l => l.Uiid == "SMA" && l.Style == Style.Series);
@@ -80,7 +80,7 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void SearchByNameWithCategoryShouldReturnCorrectIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> sut = Catalog.Search("Moving", Category.MovingAverage);
+        IReadOnlyList<IndicatorListing> sut = Catalog.Search("Moving", Category.MovingAverage);
         sut.Should().NotBeEmpty();
         sut.Should().Contain(static l => l.Uiid == "EMA");
         sut.Should().Contain(static l => l.Uiid == "SMA");
@@ -91,23 +91,23 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void InvalidUiidShouldReturnEmptyCollection()
     {
-        IReadOnlyCollection<IndicatorListing> sut = Catalog.Get("NONEXISTENT_INDICATOR");
+        IReadOnlyList<IndicatorListing> sut = Catalog.Get("NONEXISTENT_INDICATOR");
         sut.Should().BeEmpty();
     }
 
     [TestMethod]
     public void EmptySearchShouldReturnAllIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> sut = Catalog.Search("");
-        IReadOnlyCollection<IndicatorListing> allIndicators = Catalog.Get();
+        IReadOnlyList<IndicatorListing> sut = Catalog.Search("");
+        IReadOnlyList<IndicatorListing> allIndicators = Catalog.Get();
         sut.Count.Should().Be(allIndicators.Count);
     }
 
     [TestMethod]
     public void StaticCatalogShouldBeConsistent()
     {
-        IReadOnlyCollection<IndicatorListing> firstCall = Catalog.Get();
-        IReadOnlyCollection<IndicatorListing> secondCall = Catalog.Get();
+        IReadOnlyList<IndicatorListing> firstCall = Catalog.Get();
+        IReadOnlyList<IndicatorListing> secondCall = Catalog.Get();
 
         firstCall.Count.Should().Be(secondCall.Count);
         foreach (IndicatorListing listing in firstCall)
