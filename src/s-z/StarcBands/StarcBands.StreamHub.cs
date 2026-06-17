@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 /// Represents a stream hub for calculating STARC Bands.
 /// </summary>
 public class StarcBandsHub
-    : StreamHub<IQuote, StarcBandsResult>, IStarcBands
+    : StreamHub<IBar, StarcBandsResult>, IStarcBands
 {
 
     private double _prevAtr = double.NaN;
 
     internal StarcBandsHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int smaPeriods,
         double multiplier,
         int atrPeriods) : base(provider)
@@ -57,7 +57,7 @@ public class StarcBandsHub
                 continue; // ATR starts at index 1
             }
 
-            IQuote item = ProviderCache[i];
+            IBar item = ProviderCache[i];
 
             if (i <= AtrPeriods)
             {
@@ -112,7 +112,7 @@ public class StarcBandsHub
 
     /// <inheritdoc/>
     protected override (StarcBandsResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -191,17 +191,17 @@ public class StarcBandsHub
 public static partial class StarcBands
 {
     /// <summary>
-    /// Creates a STARC Bands streaming hub from a quote provider.
+    /// Creates a STARC Bands streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="smaPeriods">Number of periods for the SMA.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="StarcBandsHub"/>.</returns>
     public static StarcBandsHub ToStarcBandsHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int smaPeriods = 5,
         double multiplier = 2,
         int atrPeriods = 10)
-        => new(quoteProvider, smaPeriods, multiplier, atrPeriods);
+        => new(barProvider, smaPeriods, multiplier, atrPeriods);
 }

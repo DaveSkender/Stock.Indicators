@@ -15,7 +15,7 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 ```csharp
 // C# usage syntax
 IReadOnlyList<WilliamsResult> results =
-  quotes.ToWilliamsR(lookbackPeriods);
+  bars.ToWilliamsR(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<WilliamsResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<WilliamsResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` Oscillator values since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<WilliamsResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `WilliamsR` | double | Oscillator over prior `N` lookback periods |
 
 ### Utilities
@@ -63,12 +63,12 @@ Results can be further processed on `WilliamsR` with additional chain-enabled in
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToWilliamsR(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -79,24 +79,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 WilliamsRList williamsRList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  williamsRList.Add(quote);
+  williamsRList.Add(bar);
 }
 
 // based on `ICollection<WilliamsResult>`
 IReadOnlyList<WilliamsResult> results = williamsRList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
+BarHub barHub = new();
+WilliamsRHub observer = barHub.ToWilliamsRHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<WilliamsResult> results = observer.Results;

@@ -16,30 +16,30 @@ public static class Candlesticks
             .ToList();
 
     /// <summary>
-    /// Converts a quote to candle properties.
+    /// Converts a bar to candle properties.
     /// </summary>
-    /// <typeparam name="TQuote">Type of quote record</typeparam>
-    /// <param name="quote">Quote to convert.</param>
+    /// <typeparam name="TBar">Type of bar record</typeparam>
+    /// <param name="bar">Bar to convert.</param>
     /// <returns>Candle properties.</returns>
-    public static CandleProperties ToCandle<TQuote>(
-        this TQuote quote)
-        where TQuote : IQuote
+    public static CandleProperties ToCandle<TBar>(
+        this TBar bar)
+        where TBar : IBar
         => new(
-            Timestamp: quote.Timestamp,
-            Open: quote.Open,
-            High: quote.High,
-            Low: quote.Low,
-            Close: quote.Close,
-            Volume: quote.Volume);
+            Timestamp: bar.Timestamp,
+            Open: bar.Open,
+            High: bar.High,
+            Low: bar.Low,
+            Close: bar.Close,
+            Volume: bar.Volume);
 
     /// <summary>
-    /// Converts and sorts a list of quotes into a list of candle properties.
+    /// Converts and sorts a list of bars into a list of candle properties.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <returns>A sorted list of candle properties.</returns>
     public static IReadOnlyList<CandleProperties> ToCandles(
-        this IReadOnlyList<IQuote> quotes)
-        => quotes
+        this IReadOnlyList<IBar> bars)
+        => bars
             .Select(static x => x.ToCandle())
             .OrderBy(static x => x.Timestamp)
             .ToList();

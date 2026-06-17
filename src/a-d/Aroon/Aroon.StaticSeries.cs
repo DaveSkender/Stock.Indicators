@@ -6,39 +6,39 @@ namespace Skender.Stock.Indicators;
 public static partial class Aroon
 {
     /// <summary>
-    /// Calculates the Aroon Oscillator from a series of quotes.
+    /// Calculates the Aroon Oscillator from a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Aroon results.</returns>
     public static IReadOnlyList<AroonResult> ToAroon(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 25)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcAroon(lookbackPeriods);
 
     /// <summary>
     /// Calculates the Aroon Oscillator for the given source data.
     /// </summary>
-    /// <param name="quotes">Source data.</param>
+    /// <param name="bars">Source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Aroon results.</returns>
     private static List<AroonResult> CalcAroon(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<AroonResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
             double? aroonUp = null;
             double? aroonDown = null;
 
@@ -52,7 +52,7 @@ public static partial class Aroon
 
                 for (int p = i + 1 - lookbackPeriods - 1; p <= i; p++)
                 {
-                    QuoteD d = quotes[p];
+                    BarD d = bars[p];
 
                     if (d.High > lastHighPrice)
                     {

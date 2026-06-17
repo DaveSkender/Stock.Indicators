@@ -6,7 +6,7 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<BopResult> sut = Quotes
+        IReadOnlyList<BopResult> sut = Bars
             .ToBop();
 
         // proper quantities
@@ -33,14 +33,14 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<BopResult> sut = Quotes.ToBop(14);
+        IReadOnlyList<BopResult> sut = Bars.ToBop(14);
         sut.IsBetween(static x => x.Bop, -1, 1);
     }
 
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToBop()
             .ToSma(10);
 
@@ -58,9 +58,9 @@ public class Bop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<BopResult> r = BadQuotes
+        IReadOnlyList<BopResult> r = BadBars
             .ToBop();
 
         r.Should().HaveCount(502);
@@ -68,13 +68,13 @@ public class Bop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<BopResult> r0 = Noquotes
+        IReadOnlyList<BopResult> r0 = Nobars
             .ToBop();
         r0.Should().BeEmpty();
 
-        IReadOnlyList<BopResult> r1 = Onequote
+        IReadOnlyList<BopResult> r1 = Onebar
             .ToBop();
         r1.Should().HaveCount(1);
     }
@@ -82,7 +82,7 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<BopResult> sut = Quotes
+        IReadOnlyList<BopResult> sut = Bars
             .ToBop()
             .RemoveWarmupPeriods();
 
@@ -99,7 +99,7 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToBop(0))
+            .Invoking(static () => Bars.ToBop(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

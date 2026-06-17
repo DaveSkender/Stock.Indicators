@@ -6,54 +6,54 @@ namespace Skender.Stock.Indicators;
 public static partial class Vwap
 {
     /// <summary>
-    /// Calculates the VWAP for a series of quotes starting from a specific date.
+    /// Calculates the VWAP for a series of bars starting from a specific date.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="startDate">Start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         DateTime startDate)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcVwap(startDate);
 
     /// <summary>
-    /// Calculates the VWAP for a series of quotes.
+    /// Calculates the VWAP for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap(
-        this IReadOnlyList<IQuote> quotes)
-        => quotes?.Count is null or 0
+        this IReadOnlyList<IBar> bars)
+        => bars?.Count is null or 0
             ? []
-            : quotes
-                .ToQuoteDList()
-                .CalcVwap(quotes[0].Timestamp);
+            : bars
+                .ToBarDList()
+                .CalcVwap(bars[0].Timestamp);
 
     /// <summary>
-    /// Calculates the VWAP for a series of quotes.
+    /// Calculates the VWAP for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
-    /// <param name="startDate">Optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
+    /// <param name="bars">Source list of bars.</param>
+    /// <param name="startDate">Optional start date for the VWAP calculation. If not provided, the calculation starts from the first bar.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     private static List<VwapResult> CalcVwap(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         DateTime startDate)
     {
-        // If caller passed default(DateTime) treat as unspecified and start at first quote
-        if (startDate == default && quotes.Count > 0)
+        // If caller passed default(DateTime) treat as unspecified and start at first bar
+        if (startDate == default && bars.Count > 0)
         {
-            startDate = quotes[0].Timestamp;
+            startDate = bars[0].Timestamp;
         }
 
         // check parameter arguments
-        Validate(quotes, startDate);
+        Validate(bars, startDate);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<VwapResult> results = new(length);
 
         if (length == 0)
@@ -67,7 +67,7 @@ public static partial class Vwap
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             double? v = q.Volume;
             double? h = q.High;

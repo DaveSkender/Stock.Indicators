@@ -7,72 +7,72 @@ public class TestData : TestBase
     // ensure it meets the expected format
 
     [TestMethod]
-    public void QuotesIsValid()
+    public void BarsIsValid()
     {
-        Quotes.Should().HaveCount(502);
-        Quotes.Validate();
+        Bars.Should().HaveCount(502);
+        Bars.Validate();
     }
 
     [TestMethod]
-    public void OtherQuotesIsValid()
+    public void OtherBarsIsValid()
     {
-        OtherQuotes.Should().HaveCount(502);
-        OtherQuotes.Validate();
+        OtherBars.Should().HaveCount(502);
+        OtherBars.Validate();
     }
 
     [TestMethod]
-    public void BadQuotesIsInvalid()
+    public void BadBarsIsInvalid()
     {
-        BadQuotes.Should().HaveCount(502);
+        BadBars.Should().HaveCount(502);
 
         // duplicates
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            static () => BadQuotes.Validate());
+        Assert.ThrowsExactly<InvalidBarsException>(
+            static () => BadBars.Validate());
     }
 
     [TestMethod]
-    public void BigQuotesIsValid()
+    public void BigBarsIsValid()
     {
-        BigQuotes.Should().HaveCount(1246);
-        BigQuotes.Validate();
+        BigBars.Should().HaveCount(1246);
+        BigBars.Validate();
     }
 
     [TestMethod]
-    public void LongishQuotesIsValid()
+    public void LongishBarsIsValid()
     {
-        LongishQuotes.Should().HaveCount(5285);
-        LongishQuotes.Validate();
+        LongishBars.Should().HaveCount(5285);
+        LongishBars.Validate();
     }
 
     [TestMethod]
-    public void LongestQuotesIsValid()
+    public void LongestBarsIsValid()
     {
-        LongestQuotes.Should().HaveCount(15821);
-        LongestQuotes.Validate();
+        LongestBars.Should().HaveCount(15821);
+        LongestBars.Validate();
     }
 
     [TestMethod]
-    public void MismatchQuotesIsValid()
+    public void MismatchBarsIsValid()
     {
-        MismatchQuotes.Should().HaveCount(502);
+        MismatchBars.Should().HaveCount(502);
 
         // out of sequence
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            static () => MismatchQuotes.Validate());
+        Assert.ThrowsExactly<InvalidBarsException>(
+            static () => MismatchBars.Validate());
     }
 
     [TestMethod]
-    public void RandomQuotesIsValid()
+    public void RandomBarsIsValid()
     {
-        RandomQuotes.Should().HaveCount(1000);
-        RandomQuotes.Validate();
+        RandomBars.Should().HaveCount(1000);
+        RandomBars.Validate();
     }
 
     [TestMethod]
-    public void ZeroesQuotesIsValid()
+    public void ZeroesBarsIsValid()
     {
-        ZeroesQuotes.Should().HaveCount(200);
-        ZeroesQuotes.Validate();
+        ZeroesBars.Should().HaveCount(200);
+        ZeroesBars.Validate();
     }
 
     [TestMethod]

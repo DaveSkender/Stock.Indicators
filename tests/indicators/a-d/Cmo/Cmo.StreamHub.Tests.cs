@@ -6,32 +6,32 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<CmoResult> sut = Quotes.ToCmoHub(14).Results;
+        IReadOnlyList<CmoResult> sut = Bars.ToCmoHub(14).Results;
         sut.IsBetween(static x => x.Cmo, -100, 100);
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        CmoHub observer = quoteHub
+        CmoHub observer = barHub
             .ToCmoHub(14);
 
         // fetch initial results (early)
         IReadOnlyList<CmoResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -39,63 +39,63 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<CmoResult> expected = RevisedQuotes.ToCmo(14);
+        IReadOnlyList<CmoResult> expected = RevisedBars.ToCmo(14);
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<CmoResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<CmoResult> expected = bars
             .ToCmo(14)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        CmoHub observer = quoteHub.ToCmoHub(14);
+        BarHub barHub = new(maxCacheSize);
+        CmoHub observer = barHub.ToCmoHub(14);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -104,22 +104,22 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int emaPeriods = 12;
         const int cmoPeriods = 14;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        CmoHub observer = quoteHub
+        CmoHub observer = barHub
             .ToEmaHub(emaPeriods)
             .ToCmoHub(cmoPeriods);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
@@ -128,7 +128,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // time-series, for comparison
         IReadOnlyList<CmoResult> seriesList
-           = quotesList
+           = barsList
             .ToEma(emaPeriods)
             .ToCmo(cmoPeriods);
 
@@ -138,7 +138,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -147,55 +147,55 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int emaPeriods = 12;
         const int cmoPeriods = 14;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        EmaHub observer = quoteHub
+        EmaHub observer = barHub
             .ToCmoHub(cmoPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<EmaResult> expected = RevisedQuotes
+        IReadOnlyList<EmaResult> expected = RevisedBars
             .ToCmo(cmoPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        CmoHub observer = quoteHub.ToCmoHub(14);
+        BarHub barHub = new();
+        CmoHub observer = barHub.ToCmoHub(14);
 
         observer.ToString().Should().Be("CMO(14)");
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

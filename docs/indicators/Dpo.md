@@ -15,7 +15,7 @@ description: Detrended Price Oscillator depicts the difference between price and
 ```csharp
 // C# usage syntax
 IReadOnlyList<DpoResult> results =
-  quotes.ToDpo(lookbackPeriods);
+  bars.ToDpo(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<DpoResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N` historical quotes to cover the warmup periods.
+You must have at least `N` historical bars to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N` historical quotes to cover the warmup periods.
 IReadOnlyList<DpoResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N/2-2` and last `N/2+1` periods will be `null` since they cannot be calculated.
 
@@ -45,7 +45,7 @@ IReadOnlyList<DpoResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Sma` | double | Simple moving average offset by `N/2+1` periods |
 | `Dpo` | double | Detrended Price Oscillator (DPO) |
 
@@ -63,7 +63,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToDpo(..);
 ```
@@ -72,7 +72,7 @@ Results can be further processed on `Dpo` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToDpo(..)
     .ToRsi(..);
 ```
@@ -86,24 +86,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 DpoList dpoList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  dpoList.Add(quote);
+  dpoList.Add(bar);
 }
 
 // based on `ICollection<DpoResult>`
 IReadOnlyList<DpoResult> results = dpoList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-DpoHub observer = quoteHub.ToDpoHub(lookbackPeriods);
+BarHub barHub = new();
+DpoHub observer = barHub.ToDpoHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<DpoResult> results = observer.Results;

@@ -1,38 +1,38 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Klinger Volume Oscillator (KVO) for a series of quotes indicator.
+/// Klinger Volume Oscillator (KVO) for a series of bars indicator.
 /// </summary>
 public static partial class Kvo
 {
     /// <summary>
-    /// Converts a list of quotes to KVO (Klinger Volume Oscillator) results.
+    /// Converts a list of bars to KVO (Klinger Volume Oscillator) results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of KVO results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KvoResult> ToKvo(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int fastPeriods = 34,
         int slowPeriods = 55,
         int signalPeriods = 13)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcKvo(fastPeriods, slowPeriods, signalPeriods);
 
     /// <summary>
-    /// Calculates the KVO (Klinger Volume Oscillator) for a list of quotes.
+    /// Calculates the KVO (Klinger Volume Oscillator) for a list of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of KVO results.</returns>
     private static List<KvoResult> CalcKvo(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
@@ -41,7 +41,7 @@ public static partial class Kvo
         Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<KvoResult> results = new(length);
 
         double[] t = new double[length];          // trend direction
@@ -60,7 +60,7 @@ public static partial class Kvo
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             double? kvo = null;
             double? sig = null;

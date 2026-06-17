@@ -11,19 +11,19 @@ Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of
 ```csharp
 // C# usage syntax
 IReadOnlyList<GatorResult> results =
-  quotes.ToGator();
+  bars.ToGator();
 
 // with custom Alligator configuration
-IReadOnlyList<GatorResult> results = quotes
+IReadOnlyList<GatorResult> results = bars
   .ToAlligator([see Alligator docs])
   .ToGator();
 ```
 
-## Historical quotes requirements
+## Historical bars requirements
 
-If using default settings, you must have at least 121 periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/Alligator#historical-quotes-requirements) for historical quotes requirements.
+If using default settings, you must have at least 121 periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/Alligator#historical-bars-requirements) for historical bars requirements.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -31,8 +31,8 @@ If using default settings, you must have at least 121 periods of `quotes` to cov
 IReadOnlyList<GatorResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first 10-20 periods will have `null` values since there's not enough data to calculate.
 
@@ -44,7 +44,7 @@ The first 150 periods will have decreasing magnitude, convergence-related precis
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Upper` | double | Absolute value of Alligator `Jaw-Teeth` |
 | `Lower` | double | Absolute value of Alligator `Lips-Teeth` |
 | `UpperIsExpanding` | bool | Upper value is growing |
@@ -65,7 +65,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HLC3)
     .ToGator();
 ```
@@ -81,24 +81,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 GatorList gatorList = new();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  gatorList.Add(quote);
+  gatorList.Add(bar);
 }
 
 // based on `ICollection<GatorResult>`
 IReadOnlyList<GatorResult> results = gatorList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-GatorHub observer = quoteHub.ToGatorHub();
+BarHub barHub = new();
+GatorHub observer = barHub.ToGatorHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<GatorResult> results = observer.Results;
@@ -111,13 +111,13 @@ When the Gator hub is chained from an existing `AlligatorHub` instance it will r
 
 ```csharp
 // creates an internal Alligator hub
-var gatorHub = quotes
+var gatorHub = bars
   .ToGatorHub();
 
 // this is helpful in cases where you have an independent 
 // Alligator hub and do not want to create duplicate copies
 
-var alligatorHub = quotes
+var alligatorHub = bars
   .ToAlligatorHub();
 
 // does not create 2nd internal huba separate internal Alligator hub

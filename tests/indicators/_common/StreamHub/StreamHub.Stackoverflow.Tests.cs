@@ -7,35 +7,35 @@ public class Stackoverflow : TestBase
     public void FatLongStack()
     {
         // goal: about ~10 subscribers, with really long
-        // quote history, checking for stack overflow
+        // bar history, checking for stack overflow
 
-        const int qtyQuotes = 20000;
+        const int qtyBars = 20000;
 
-        // setup: many random quotes (massive)
-        IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
+        // setup: many random bars (massive)
+        IReadOnlyList<Bar> barsList = Data.GetRandom(qtyBars);
 
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // setup: define ~10 subscribers (flat)
         List<(string label, IReadOnlyList<ISeries> sut, bool irregular)> subscribers =
         [
-            HubRef(quoteHub.ToAdlHub()),
-            HubRef(quoteHub.ToEmaHub(14))
+            HubRef(barHub.ToAdlHub()),
+            HubRef(barHub.ToEmaHub(14))
         ];
 
         // all USEs
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
         {
-            subscribers.Add(HubRef(quoteHub.ToQuotePartHub(candlePart)));
+            subscribers.Add(HubRef(barHub.ToBarPartHub(candlePart)));
         }
 
-        // act: add quotes
-        for (int i = 0; i < qtyQuotes; i++)
+        // act: add bars
+        for (int i = 0; i < qtyBars; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
-        subscribers.Insert(0, new(quoteHub.ToString(), quoteHub.Quotes, false));
+        subscribers.Insert(0, new(barHub.ToString(), barHub.Bars, false));
 
         // assert: this just has to not fail, really
 
@@ -49,23 +49,23 @@ public class Stackoverflow : TestBase
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
 
-            resultQty.Should().Be(qtyQuotes);
+            resultQty.Should().Be(qtyBars);
         }
 
         // assert: [last subscriber] has the same dates
         IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].sut.ToList();
-        for (int i = 0; i < qtyQuotes; i++)
+        for (int i = 0; i < qtyBars; i++)
         {
-            Quote q = quotesList[i];
+            Bar q = barsList[i];
             ISeries r = lastSubscriber[i];
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
-        // act: clear quoteHub cache (cascades to subscribers)
-        const int cutoff = qtyQuotes / 2;
-        quoteHub.RemoveRange(cutoff, notify: true);
+        // act: clear barHub cache (cascades to subscribers)
+        const int cutoff = qtyBars / 2;
+        barHub.RemoveRange(cutoff, notify: true);
 
-        quoteHub.Quotes.Count.Should().Be(cutoff);
+        barHub.Bars.Count.Should().Be(cutoff);
 
         Console.WriteLine("--------------------");
 
@@ -87,18 +87,18 @@ public class Stackoverflow : TestBase
         // subscribes to the next creating a really long chain
         // of observers, without stack overflow
 
-        const int qtyQuotes = 10000;
+        const int qtyBars = 10000;
         const int chainDepth = 500;
 
-        // setup: many random quotes (massive)
-        IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
+        // setup: many random bars (massive)
+        IReadOnlyList<Bar> barsList = Data.GetRandom(qtyBars);
 
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // setup: subscribe a large chain depth
         List<(string label, IReadOnlyList<ISeries> sut, bool irregular)> subscribers = new(chainDepth + 2);
 
-        SmaHub init = quoteHub.ToSmaHub(1);
+        SmaHub init = barHub.ToSmaHub(1);
         SmaHub sma = init.ToSmaHub(2);
 
         subscribers.Add(HubRef(init));
@@ -115,13 +115,13 @@ public class Stackoverflow : TestBase
             lookbackPeriods = lookbackPeriods is 2 ? 1 : 2;
         }
 
-        // act: add quotes
-        for (int i = 0; i < qtyQuotes; i++)
+        // act: add bars
+        for (int i = 0; i < qtyBars; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
-        subscribers.Insert(0, new(quoteHub.ToString(), quoteHub.Quotes, false));
+        subscribers.Insert(0, new(barHub.ToString(), barHub.Bars, false));
 
         Console.WriteLine($"Subscribers: {subscribers.Count}");
         Console.WriteLine("--------------------");
@@ -135,23 +135,23 @@ public class Stackoverflow : TestBase
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
 
-            resultQty.Should().Be(qtyQuotes);
+            resultQty.Should().Be(qtyBars);
         }
 
         // assert: [last subscriber] has the same dates
         IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].sut.ToList();
-        for (int i = 0; i < qtyQuotes; i++)
+        for (int i = 0; i < qtyBars; i++)
         {
-            Quote q = quotesList[i];
+            Bar q = barsList[i];
             ISeries r = lastSubscriber[i];
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
-        // act: clear quoteHub cache (cascades to subscribers)
-        const int cutoff = qtyQuotes / 2;
-        quoteHub.RemoveRange(cutoff, notify: true);
+        // act: clear barHub cache (cascades to subscribers)
+        const int cutoff = qtyBars / 2;
+        barHub.RemoveRange(cutoff, notify: true);
 
-        quoteHub.Quotes.Count.Should().Be(cutoff);
+        barHub.Bars.Count.Should().Be(cutoff);
 
         // assert: all have same count
         foreach ((string label, IReadOnlyList<ISeries> sut, bool irregular) in subscribers)
@@ -168,46 +168,46 @@ public class Stackoverflow : TestBase
     public void ManySubscribers()
     {
         // goal: test that many indictors (all at once)
-        // can subscribe to the same quote quoteHub
+        // can subscribe to the same bar barHub
         // without stack overflow; ~350 subscribers
 
-        const int qtyQuotes = 5000;
+        const int qtyBars = 5000;
 
-        // setup: many random quotes
-        IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
+        // setup: many random bars
+        IReadOnlyList<Bar> barsList = Data.GetRandom(qtyBars);
 
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // setup: define all possible subscribers
         // TODO: add to this as more Hubs come online
         List<(string label, IReadOnlyList<ISeries> sut, bool irregular)> subscribers =
         [
-            HubRef(quoteHub.ToAdlHub()),
-            HubRef(quoteHub.ToAlligatorHub()),
-            HubRef(quoteHub.ToEmaHub(14)),
-            //HubRef(quoteHub.ToRenko(2.1m), irregular: true),
-            HubRef(quoteHub.ToQuoteHub())
+            HubRef(barHub.ToAdlHub()),
+            HubRef(barHub.ToAlligatorHub()),
+            HubRef(barHub.ToEmaHub(14)),
+            //HubRef(barHub.ToRenko(2.1m), irregular: true),
+            HubRef(barHub.ToBarHub())
         ];
 
-        // all QuoteParts
+        // all BarParts
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
         {
-            subscribers.Add(HubRef(quoteHub.ToQuotePartHub(candlePart)));
+            subscribers.Add(HubRef(barHub.ToBarPartHub(candlePart)));
         }
 
         // many SMAs
         for (int i = 1; i <= 300; i++)
         {
-            subscribers.Add(HubRef(quoteHub.ToSmaHub(i)));
+            subscribers.Add(HubRef(barHub.ToSmaHub(i)));
         }
 
-        // act: add quotes
-        for (int i = 0; i < qtyQuotes; i++)
+        // act: add bars
+        for (int i = 0; i < qtyBars; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
-        subscribers.Insert(0, new(quoteHub.ToString(), quoteHub.Quotes, false));
+        subscribers.Insert(0, new(barHub.ToString(), barHub.Bars, false));
 
         // assert: this just has to not fail, really
 
@@ -221,23 +221,23 @@ public class Stackoverflow : TestBase
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
 
-            resultQty.Should().Be(qtyQuotes);
+            resultQty.Should().Be(qtyBars);
         }
 
         // assert: [last subscriber] has the same dates
         IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].sut.ToList();
-        for (int i = 0; i < qtyQuotes; i++)
+        for (int i = 0; i < qtyBars; i++)
         {
-            Quote q = quotesList[i];
+            Bar q = barsList[i];
             ISeries r = lastSubscriber[i];
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
-        // act: clear quoteHub cache (cascades to subscribers)
-        const int cutoff = qtyQuotes / 2;
-        quoteHub.RemoveRange(cutoff, notify: true);
+        // act: clear barHub cache (cascades to subscribers)
+        const int cutoff = qtyBars / 2;
+        barHub.RemoveRange(cutoff, notify: true);
 
-        quoteHub.Quotes.Count.Should().Be(cutoff);
+        barHub.Bars.Count.Should().Be(cutoff);
 
         Console.WriteLine("--------------------");
 

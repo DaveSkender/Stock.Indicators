@@ -6,7 +6,7 @@ public class Alligator : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AlligatorResult> sut = Quotes
+        IReadOnlyList<AlligatorResult> sut = Bars
             .ToAlligator();
 
         // proper quantities
@@ -45,7 +45,7 @@ public class Alligator : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<AlligatorResult> sut = Quotes
+        IReadOnlyList<AlligatorResult> sut = Bars
             .ToSma(2)
             .ToAlligator();
 
@@ -54,9 +54,9 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AlligatorResult> r = BadQuotes
+        IReadOnlyList<AlligatorResult> r = BadBars
             .ToAlligator(3, 3, 2, 1, 1, 1);
 
         r.Should().HaveCount(502);
@@ -64,14 +64,14 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AlligatorResult> r0 = Noquotes
+        IReadOnlyList<AlligatorResult> r0 = Nobars
             .ToAlligator();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AlligatorResult> r1 = Onequote
+        IReadOnlyList<AlligatorResult> r1 = Onebar
             .ToAlligator();
 
         r1.Should().HaveCount(1);
@@ -80,7 +80,7 @@ public class Alligator : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<AlligatorResult> sut = Quotes
+        IReadOnlyList<AlligatorResult> sut = Bars
             .ToAlligator()
             .Condense();
 
@@ -95,7 +95,7 @@ public class Alligator : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<AlligatorResult> sut = Quotes
+        IReadOnlyList<AlligatorResult> sut = Bars
             .ToAlligator()
             .RemoveWarmupPeriods();
 
@@ -123,34 +123,34 @@ public class Alligator : StaticSeriesTestBase
     {
         // bad jaw lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 8, 13));
+            static () => Bars.ToAlligator(13, 8, 13));
 
         // bad teeth lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 8, 8, 5, 8));
+            static () => Bars.ToAlligator(13, 8, 8, 5, 8));
 
         // bad lips lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 8, 8, 5, 0));
+            static () => Bars.ToAlligator(13, 8, 8, 5, 0));
 
         // bad jaw offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 0));
+            static () => Bars.ToAlligator(13, 0));
 
         // bad teeth offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 8, 8, 0));
+            static () => Bars.ToAlligator(13, 8, 8, 0));
 
         // bad lips offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 8, 8, 5, 5, 0));
+            static () => Bars.ToAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 8, 12, 11));
+            static () => Bars.ToAlligator(13, 8, 12, 11));
 
         // bad teeth + offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlligator(13, 8, 8, 5, 7, 7));
+            static () => Bars.ToAlligator(13, 8, 8, 5, 7, 7));
     }
 }

@@ -6,11 +6,11 @@ public class StochTests : RegressionTestBase<StochResult>
     public StochTests() : base("stoch.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToStoch(14, 3, 3).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToStoch(14, 3, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToStochList(14, 3, 3).IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Bars.ToStochList(14, 3, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream_AgainstBaseline_MatchesExactly() => QuoteHub.ToStochHub(14, 3, 3).Results.IsExactly(Expected);
+    public override void Stream_AgainstBaseline_MatchesExactly() => BarHub.ToStochHub(14, 3, 3).Results.IsExactly(Expected);
 }

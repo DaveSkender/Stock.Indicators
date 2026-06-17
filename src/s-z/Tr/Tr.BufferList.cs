@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// True Range (TR) from incremental quotes.
+/// True Range (TR) from incremental bars.
 /// </summary>
-public class TrList : BufferList<TrResult>, IIncrementFromQuote  // TR has no interface members
+public class TrList : BufferList<TrResult>, IIncrementFromBar  // TR has no interface members
 {
     private readonly Queue<(double High, double Low, double Close)> _buffer;
 
@@ -13,23 +13,23 @@ public class TrList : BufferList<TrResult>, IIncrementFromQuote  // TR has no in
     public TrList() => _buffer = new Queue<(double, double, double)>(2); // Only need current and previous
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TrList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="TrList"/> class with initial bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public TrList(IReadOnlyList<IQuote> quotes)
-        : this() => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    public TrList(IReadOnlyList<IBar> bars)
+        : this() => Add(bars);
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
         (double High, double Low, double Close) curr = (
-            (double)quote.High,
-            (double)quote.Low,
-            (double)quote.Close);
+            (double)bar.High,
+            (double)bar.Low,
+            (double)bar.Close);
 
         // skip first period
         if (Count == 0)
@@ -50,13 +50,13 @@ public class TrList : BufferList<TrResult>, IIncrementFromQuote  // TR has no in
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -73,8 +73,8 @@ public static partial class Tr
     /// <summary>
     /// Creates a buffer list for True Range calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     public static TrList ToTrList(
-        this IReadOnlyList<IQuote> quotes)
-        => new() { quotes };
+        this IReadOnlyList<IBar> bars)
+        => new() { bars };
 }

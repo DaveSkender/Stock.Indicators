@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Pivot Points using a stream hub.
 /// </summary>
 public class PivotsHub
-    : StreamHub<IQuote, PivotsResult>, IPivots
+    : StreamHub<IBar, PivotsResult>, IPivots
 {
     internal PivotsHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int leftSpan,
         int rightSpan,
         int maxTrendPeriods,
@@ -41,7 +41,7 @@ public class PivotsHub
     public EndType EndType { get; init; }
 
     /// <inheritdoc/>
-    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    public override void OnAdd(IBar item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -74,7 +74,7 @@ public class PivotsHub
                 }
             }
 
-            // Recalculate trend lines after each new quote to extend lines to current position
+            // Recalculate trend lines after each new bar to extend lines to current position
             // TODO: Future optimization could incrementally update only the latest trend line values
             CalculateTrendLines();
         }
@@ -220,7 +220,7 @@ public class PivotsHub
 
     /// <inheritdoc/>
     protected override (PivotsResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -231,11 +231,11 @@ public class PivotsHub
         decimal? highPoint = null;
         decimal? lowPoint = null;
 
-        // Can we calculate fractal for the quote at index i?
-        // We need LeftSpan quotes before it and RightSpan quotes after it
+        // Can we calculate fractal for the bar at index i?
+        // We need LeftSpan bars before it and RightSpan bars after it
         if (i + 1 > LeftSpan && i + 1 <= length - RightSpan)
         {
-            IQuote center = ProviderCache[i];
+            IBar center = ProviderCache[i];
             bool isHigh = true;
             bool isLow = true;
 
@@ -251,7 +251,7 @@ public class PivotsHub
                     continue;
                 }
 
-                IQuote wing = ProviderCache[p];
+                IBar wing = ProviderCache[p];
                 decimal wingHigh = EndType == EndType.Close ? wing.Close : wing.High;
                 decimal wingLow = EndType == EndType.Close ? wing.Close : wing.Low;
 
@@ -275,7 +275,7 @@ public class PivotsHub
         // These values are calculated during Rebuild() to match Series implementation.
         // In real-time streaming mode, only pivot points are identified.
 
-        // Create result for the current quote with only pivot points
+        // Create result for the current bar with only pivot points
         PivotsResult result = new(
             Timestamp: ProviderCache[i].Timestamp,
             HighPoint: highPoint,
@@ -293,22 +293,22 @@ public class PivotsHub
 public static partial class Pivots
 {
     /// <summary>
-    /// Creates a Pivots streaming hub from a quote provider.
+    /// Creates a Pivots streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="leftSpan">Number of periods to the left of the pivot point. Default is 2.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point. Default is 2.</param>
     /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation. Default is 20.</param>
     /// <param name="endType">Type of end point for the pivot calculation. Default is <see cref="EndType.HighLow"/>.</param>
     /// <returns>An instance of <see cref="PivotsHub"/>.</returns>
     public static PivotsHub ToPivotsHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int leftSpan = 2,
         int rightSpan = 2,
         int maxTrendPeriods = 20,
         EndType endType = EndType.HighLow)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, leftSpan, rightSpan, maxTrendPeriods, endType);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new(barProvider, leftSpan, rightSpan, maxTrendPeriods, endType);
     }
 }

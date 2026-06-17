@@ -9,7 +9,7 @@ public class Chandelier : StaticSeriesTestBase
         const int lookbackPeriods = 22;
 
         IReadOnlyList<ChandelierResult> longResult =
-            Quotes.ToChandelier(lookbackPeriods);
+            Bars.ToChandelier(lookbackPeriods);
 
         // proper quantities
         longResult.Should().HaveCount(502);
@@ -24,7 +24,7 @@ public class Chandelier : StaticSeriesTestBase
 
         // short
         IReadOnlyList<ChandelierResult> shortResult =
-            Quotes.ToChandelier(lookbackPeriods, 3, Direction.Short);
+            Bars.ToChandelier(lookbackPeriods, 3, Direction.Short);
 
         ChandelierResult c = shortResult[501];
         c.ChandelierExit.Should().BeApproximately(246.4240, Money4);
@@ -33,7 +33,7 @@ public class Chandelier : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToChandelier()
             .ToSma(10);
 
@@ -42,9 +42,9 @@ public class Chandelier : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ChandelierResult> r = BadQuotes
+        IReadOnlyList<ChandelierResult> r = BadBars
             .ToChandelier(15, 2);
 
         r.Should().HaveCount(502);
@@ -52,14 +52,14 @@ public class Chandelier : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ChandelierResult> r0 = Noquotes
+        IReadOnlyList<ChandelierResult> r0 = Nobars
             .ToChandelier();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ChandelierResult> r1 = Onequote
+        IReadOnlyList<ChandelierResult> r1 = Onebar
             .ToChandelier();
 
         r1.Should().HaveCount(1);
@@ -68,7 +68,7 @@ public class Chandelier : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<ChandelierResult> sut = Quotes
+        IReadOnlyList<ChandelierResult> sut = Bars
             .ToChandelier()
             .RemoveWarmupPeriods();
 
@@ -84,14 +84,14 @@ public class Chandelier : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToChandelier(0));
+            static () => Bars.ToChandelier(0));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToChandelier(25, 0));
+            static () => Bars.ToChandelier(25, 0));
 
         // bad type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToChandelier(25, 2, (Direction)int.MaxValue));
+            static () => Bars.ToChandelier(25, 2, (Direction)int.MaxValue));
     }
 }

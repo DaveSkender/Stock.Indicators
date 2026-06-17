@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Donchian Channels from incremental quotes.
+/// Donchian Channels from incremental bars.
 /// </summary>
-public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
+public class DonchianList : BufferList<DonchianResult>, IIncrementFromBar
 {
     private readonly Queue<(double High, double Low)> _buffer;
 
@@ -23,23 +23,23 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DonchianList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="DonchianList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public DonchianList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public DonchianList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
         // Calculate Donchian when we have enough prior data
         // Note: Donchian looks at PRIOR periods (not including current)
@@ -74,7 +74,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
         }
 
         // Update buffer AFTER calculating (since we look at prior periods)
-        _buffer.Update(LookbackPeriods, ((double)quote.High, (double)quote.Low));
+        _buffer.Update(LookbackPeriods, ((double)bar.High, (double)bar.Low));
 
         AddInternal(new DonchianResult(
             Timestamp: timestamp,
@@ -85,13 +85,13 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -110,10 +110,10 @@ public static partial class Donchian
     /// <summary>
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static DonchianList ToDonchianList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 20)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

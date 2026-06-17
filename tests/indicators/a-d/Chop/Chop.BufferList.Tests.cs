@@ -6,51 +6,51 @@ public class Chop : BufferListTestBase
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<ChopResult> series
-       = Quotes.ToChop(lookbackPeriods);
+       = Bars.ToChop(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         ChopList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        ChopList sut = new(lookbackPeriods) { Quotes };
+        ChopList sut = new(lookbackPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        ChopList sut = new(lookbackPeriods, Quotes);
+        ChopList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        ChopList sut = new(14, Quotes);
+        ChopList sut = new(14, Bars);
         sut.IsBetween(static x => x.Chop, 0, 100);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<ChopResult> expected = subset.ToChop(lookbackPeriods);
 
         ChopList sut = new(lookbackPeriods, subset);
@@ -77,7 +77,7 @@ public class Chop : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<ChopResult> expected = series
             .Skip(series.Count - maxListSize)

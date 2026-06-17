@@ -7,7 +7,7 @@ public class VolatilityStop : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<VolatilityStopResult> sut =
-            Quotes.ToVolatilityStop(14);
+            Bars.ToVolatilityStop(14);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -63,7 +63,7 @@ public class VolatilityStop : StaticSeriesTestBase
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToVolatilityStop()
             .ToSma(10);
 
@@ -72,9 +72,9 @@ public class VolatilityStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<VolatilityStopResult> r = BadQuotes
+        IReadOnlyList<VolatilityStopResult> r = BadBars
             .ToVolatilityStop();
 
         r.Should().HaveCount(502);
@@ -82,14 +82,14 @@ public class VolatilityStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<VolatilityStopResult> r0 = Noquotes
+        IReadOnlyList<VolatilityStopResult> r0 = Nobars
             .ToVolatilityStop();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<VolatilityStopResult> r1 = Onequote
+        IReadOnlyList<VolatilityStopResult> r1 = Onebar
             .ToVolatilityStop();
 
         r1.Should().HaveCount(1);
@@ -98,7 +98,7 @@ public class VolatilityStop : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<VolatilityStopResult> sut = Quotes
+        IReadOnlyList<VolatilityStopResult> sut = Bars
             .ToVolatilityStop(14)
             .RemoveWarmupPeriods();
 
@@ -115,10 +115,10 @@ public class VolatilityStop : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToVolatilityStop(1));
+            static () => Bars.ToVolatilityStop(1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToVolatilityStop(20, 0));
+            static () => Bars.ToVolatilityStop(20, 0));
     }
 }

@@ -17,7 +17,7 @@ Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en
 ```csharp
 // C# usage syntax
 IReadOnlyList<TemaResult> results =
-  quotes.ToTema(lookbackPeriods);
+  bars.ToTema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<TemaResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N` periods of `quotes` to produce any TEMA values.  However, due to the nature of the smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.  See [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) guidance for more information.
+You must have at least `N` periods of `bars` to produce any TEMA values.  However, due to the nature of the smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.  See [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) guidance for more information.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `N` periods of `quotes` to produce any TEMA values.  Howe
 IReadOnlyList<TemaResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](/indicators/Trix) oscillator instead.
 
@@ -61,7 +61,7 @@ The first `3×N+100` periods will have decreasing magnitude, convergence-related
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Tema` | double | Triple exponential moving average |
 
 ### Utilities
@@ -79,7 +79,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToTema(..);
 ```
@@ -88,7 +88,7 @@ Results can be further processed on `Tema` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToTema(..)
     .ToRsi(..);
 ```
@@ -102,24 +102,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 TemaList temaList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  temaList.Add(quote);
+  temaList.Add(bar);
 }
 
 // based on `ICollection<TemaResult>`
 IReadOnlyList<TemaResult> results = temaList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-TemaHub observer = quoteHub.ToTemaHub(lookbackPeriods);
+BarHub barHub = new();
+TemaHub observer = barHub.ToTemaHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<TemaResult> results = observer.Results;

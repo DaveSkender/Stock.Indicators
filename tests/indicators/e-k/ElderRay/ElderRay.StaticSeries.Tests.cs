@@ -6,7 +6,7 @@ public class ElderRay : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<ElderRayResult> sut = Quotes
+        IReadOnlyList<ElderRayResult> sut = Bars
             .ToElderRay();
 
         // proper quantities
@@ -49,7 +49,7 @@ public class ElderRay : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToElderRay()
             .ToSma(10);
 
@@ -58,9 +58,9 @@ public class ElderRay : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ElderRayResult> r = BadQuotes
+        IReadOnlyList<ElderRayResult> r = BadBars
             .ToElderRay();
 
         r.Should().HaveCount(502);
@@ -68,14 +68,14 @@ public class ElderRay : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ElderRayResult> r0 = Noquotes
+        IReadOnlyList<ElderRayResult> r0 = Nobars
             .ToElderRay();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ElderRayResult> r1 = Onequote
+        IReadOnlyList<ElderRayResult> r1 = Onebar
             .ToElderRay();
 
         r1.Should().HaveCount(1);
@@ -84,7 +84,7 @@ public class ElderRay : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<ElderRayResult> sut = Quotes
+        IReadOnlyList<ElderRayResult> sut = Bars
             .ToElderRay()
             .RemoveWarmupPeriods();
 
@@ -103,7 +103,7 @@ public class ElderRay : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToElderRay(0))
+            .Invoking(static () => Bars.ToElderRay(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

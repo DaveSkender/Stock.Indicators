@@ -25,22 +25,22 @@ Compile errors if missing. Additional tests are developer discretion.
 **Series** (`StaticSeriesTestBase`):
 
 - `DefaultParameters_ReturnsExpectedResults()`
-- `BadQuotes_DoesNotFail()`
-- `NoQuotes_ReturnsEmpty()`
+- `BadBars_DoesNotFail()`
+- `NoBars_ReturnsEmpty()`
 
 **Buffer** (`BufferListTestBase`):
 
 - `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
 - `Clear_WithState_ResetsState()`
-- Plus interface methods from `ITestQuoteBufferList` or `ITestChainBufferList` (see [patterns reference](references/patterns.md))
+- Plus interface methods from `ITestBarBufferList` or `ITestChainBufferList` (see [patterns reference](references/patterns.md))
 
 **Stream** (`StreamHubTestBase`):
 
 - `ToStringOverride_ReturnsExpectedName()`
-- Plus interface methods from `ITestQuoteObserver`, `ITestChainObserver`, and/or `ITestChainProvider` (see [patterns reference](references/patterns.md))
+- Plus interface methods from `ITestBarObserver`, `ITestChainObserver`, and/or `ITestChainProvider` (see [patterns reference](references/patterns.md))
 
 ## Test data
 
-`Data.GetDefault()` — 502 quotes. Use consistently across all tests.
+`Data.GetDefault()` — 502 bars. Use consistently across all tests.
 
 See [references/patterns.md](references/patterns.md) for FluentAssertions patterns, precision constants, and full BufferList/StreamHub interface method lists.

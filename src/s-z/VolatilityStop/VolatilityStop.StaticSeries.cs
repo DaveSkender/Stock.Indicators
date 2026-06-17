@@ -6,35 +6,35 @@ namespace Skender.Stock.Indicators;
 public static partial class VolatilityStop
 {
     /// <summary>
-    /// Calculates the Volatility Stop for a series of quotes.
+    /// Calculates the Volatility Stop for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
     public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 7,
         double multiplier = 3)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcVolatilityStop(lookbackPeriods, multiplier);
 
     /// <summary>
-    /// Calculates the Volatility Stop for a series of quotes.
+    /// Calculates the Volatility Stop for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     private static List<VolatilityStopResult> CalcVolatilityStop(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods,
         double multiplier)
     {
-        //convert quotes
-        List<IReusable> reList = quotes
+        //convert bars
+        List<IReusable> reList = bars
             .Cast<IReusable>()
             .ToList();
 
@@ -42,7 +42,7 @@ public static partial class VolatilityStop
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<VolatilityStopResult> results = new(length);
 
         if (length == 0)
@@ -50,7 +50,7 @@ public static partial class VolatilityStop
             return results;
         }
 
-        List<AtrResult> atrList = quotes.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrList = bars.CalcAtr(lookbackPeriods);
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);

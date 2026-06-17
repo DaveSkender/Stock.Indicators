@@ -1,34 +1,34 @@
 namespace StreamHubs;
 
 [TestClass]
-public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class ParabolicSarHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     private const double accelerationStep = 0.02;
     private const double maxAccelerationFactor = 0.2;
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotes = Quotes.ToList();
-        int length = quotes.Count;
+        List<Bar> bars = Bars.ToList();
+        int length = bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
         // initialize observer
-        ParabolicSarHub observer = quoteHub
+        ParabolicSarHub observer = barHub
             .ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
 
         // fetch initial results (early)
         IReadOnlyList<ParabolicSarResult> streamList = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 50; i < length; i++)
         {
             // skip one (add later)
@@ -37,31 +37,31 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
                 continue;
             }
 
-            Quote q = quotes[i];
-            quoteHub.Add(q);
+            Bar q = bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
 
-        // Should match series after all quotes added
-        IReadOnlyList<ParabolicSarResult> expectedOriginal = quotes
+        // Should match series after all bars added
+        IReadOnlyList<ParabolicSarResult> expectedOriginal = bars
             .ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
         streamList.IsExactly(expectedOriginal);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
-        quotes.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
+        bars.RemoveAt(removeAtIndex);
 
         // time-series, for comparison (revised)
-        IReadOnlyList<ParabolicSarResult> seriesList = quotes
+        IReadOnlyList<ParabolicSarResult> seriesList = bars
             .ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
         // assert, should equal series (revised)
@@ -70,56 +70,56 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<ParabolicSarResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<ParabolicSarResult> expected = bars
             .ToParabolicSar(accelerationStep, maxAccelerationFactor)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        ParabolicSarHub observer = quoteHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
+        BarHub barHub = new(maxCacheSize);
+        ParabolicSarHub observer = barHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
-        List<Quote> quotes = Quotes.ToList();
-        int length = quotes.Count;
+        List<Bar> bars = Bars.ToList();
+        int length = bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToParabolicSarHub(accelerationStep, maxAccelerationFactor)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
@@ -128,28 +128,28 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
                 continue;
             }
 
-            Quote q = quotes[i];
-            quoteHub.Add(q);
+            Bar q = bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
-        quotes.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
+        bars.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> streamList = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> seriesList = quotes
+        IReadOnlyList<SmaResult> seriesList = bars
             .ToParabolicSar(accelerationStep, maxAccelerationFactor)
             .ToSma(smaPeriods);
 
@@ -159,13 +159,13 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        ParabolicSarHub hub = new(new QuoteHub(), 0.02, 0.2);
+        ParabolicSarHub hub = new(new BarHub(), 0.02, 0.2);
         hub.ToString().Should().Be("PSAR(0.02,0.2,0.02)");
     }
 
@@ -173,21 +173,21 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     public void CustomInitialFactor_WithCustomValue_MatchesSeriesExactly()
     {
         const double customInitialFactor = 0.05;
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotesList);
+        // setup bar provider hub
+        BarHub barHub = new();
+        barHub.Add(barsList);
 
         // initialize observer with custom initial factor
-        ParabolicSarHub observer = quoteHub
+        ParabolicSarHub observer = barHub
             .ToParabolicSarHub(accelerationStep, maxAccelerationFactor, customInitialFactor);
 
         // fetch results
         IReadOnlyList<ParabolicSarResult> streamList = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<ParabolicSarResult> seriesList = quotesList
+        IReadOnlyList<ParabolicSarResult> seriesList = barsList
             .ToParabolicSar(accelerationStep, maxAccelerationFactor, customInitialFactor);
 
         // assert, should equal series
@@ -195,6 +195,6 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

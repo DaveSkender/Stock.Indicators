@@ -24,30 +24,30 @@ public abstract class BufferListTestBase : TestBase
 }
 
 /// <summary>
-/// Add this to buffer list tests for <see cref="IIncrementFromQuote" /> types.
+/// Add this to buffer list tests for <see cref="IIncrementFromBar" /> types.
 /// </summary>
-public interface ITestQuoteBufferList
+public interface ITestBarBufferList
 {
     /// <summary>
-    /// Tests adding individual quotes one-at-a-time
+    /// Tests adding individual bars one-at-a-time
     /// </summary>
-    abstract void AddQuote_IncrementsResults();
+    abstract void AddBar_IncrementsResults();
 
     /// <summary>
-    /// Tests adding a batch of quotes
+    /// Tests adding a batch of bars
     /// </summary>
-    abstract void AddQuotesBatch_IncrementsResults();
+    abstract void AddBarsBatch_IncrementsResults();
 
     /// <summary>
-    /// Tests if buffer list can be instantiated with initial quotes
+    /// Tests if buffer list can be instantiated with initial bars
     /// </summary>
-    abstract void QuotesCtor_OnInstantiation_IncrementsResults();
+    abstract void BarsCtor_OnInstantiation_IncrementsResults();
 }
 
 /// <summary>
 /// Add this to buffer list tests for <see cref="IIncrementFromChain" /> types.
 /// </summary>
-public interface ITestChainBufferList : ITestQuoteBufferList
+public interface ITestChainBufferList : ITestBarBufferList
 {
     /// <summary>
     /// Tests adding IReusable type values one-at-a-time

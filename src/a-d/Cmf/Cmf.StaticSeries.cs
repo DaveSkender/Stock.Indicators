@@ -1,31 +1,31 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Chaikin Money Flow (CMF) on a series of quotes indicator.
+/// Chaikin Money Flow (CMF) on a series of bars indicator.
 /// </summary>
 public static partial class Cmf
 {
     /// <summary>
-    /// Calculates the Chaikin Money Flow (CMF) for a series of quotes.
+    /// Calculates the Chaikin Money Flow (CMF) for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CmfResult"/> containing the CMF calculation results.</returns>
     public static IReadOnlyList<CmfResult> ToCmf(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 20)
-        => quotes
+        => bars
             .ToSortedList()
             .CalcCmf(lookbackPeriods);
 
     /// <summary>
-    /// Calculates the Chaikin Money Flow (CMF) for a series of quotes.
+    /// Calculates the Chaikin Money Flow (CMF) for a series of bars.
     /// </summary>
-    /// <param name="source">Source list of quotes.</param>
+    /// <param name="source">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="CmfResult"/> containing the CMF calculation results.</returns>
     private static List<CmfResult> CalcCmf(
-        this IReadOnlyList<IQuote> source,
+        this IReadOnlyList<IBar> source,
         int lookbackPeriods)
     {
         // get volume array

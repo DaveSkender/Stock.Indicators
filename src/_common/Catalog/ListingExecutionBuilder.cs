@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 public class ListingExecutionBuilder
 {
     private readonly Dictionary<string, object> _parameterOverrides;
-    private IEnumerable<IQuote>? _quotes;
+    private IEnumerable<IBar>? _bars;
 
     internal ListingExecutionBuilder(
         IndicatorListing baseListing,
@@ -63,17 +63,17 @@ public class ListingExecutionBuilder
     }
 
     /// <summary>
-    /// Specifies the source quotes for the indicator calculation.
+    /// Specifies the source bars for the indicator calculation.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>A new <see cref="ListingExecutionBuilder"/> with the quotes set.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
-    public ListingExecutionBuilder FromSource(IEnumerable<IQuote> quotes)
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <returns>A new <see cref="ListingExecutionBuilder"/> with the bars set.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="bars"/> is <c>null</c>.</exception>
+    public ListingExecutionBuilder FromSource(IEnumerable<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
         return new(BaseListing, _parameterOverrides) {
-            _quotes = quotes
+            _bars = bars
         };
     }
 
@@ -103,11 +103,11 @@ public class ListingExecutionBuilder
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
     /// <returns>Indicator results.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when quotes have not been set via From().</exception>
+    /// <exception cref="InvalidOperationException">Thrown when bars have not been set via From().</exception>
     public IReadOnlyList<TResult> Execute<TResult>()
-        where TResult : class => _quotes == null
-            ? throw new InvalidOperationException("Quotes must be set using From() before calling Execute()")
-            : ListingExecutor.Execute<TResult>(_quotes, BaseListing, _parameterOverrides);
+        where TResult : class => _bars == null
+            ? throw new InvalidOperationException("Bars must be set using From() before calling Execute()")
+            : ListingExecutor.Execute<TResult>(_bars, BaseListing, _parameterOverrides);
 
     /// <summary>
     /// Validates that a parameter value is compatible with the expected parameter type.
@@ -191,7 +191,7 @@ public class ListingExecutionBuilder
     public IReadOnlyDictionary<string, object> ParameterOverrides => _parameterOverrides;
 
     /// <summary>
-    /// Gets whether quotes have been set.
+    /// Gets whether bars have been set.
     /// </summary>
-    public bool HasQuotes => _quotes != null;
+    public bool HasBars => _bars != null;
 }

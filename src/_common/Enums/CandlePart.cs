@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Component or composite value of an OHLCV quote aggregate (e.g., Close, High, HL2, and others).
+/// Component or composite value of an OHLCV bar aggregate (e.g., Close, High, HL2, and others).
 /// </summary>
 public enum CandlePart
 {

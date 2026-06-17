@@ -15,7 +15,7 @@ description: Simple moving average.  Extended to include mean absolute deviation
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<SmaResult> results =
-  quotes.ToSma(lookbackPeriods);
+  bars.ToSma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<SmaResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window. Must be greater than 0. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<SmaResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<SmaResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Sma` | double | Simple moving average |
 
 ### Utilities
@@ -64,14 +64,14 @@ This indicator has an extended version with more analysis.  See [SMA with extend
 ```csharp
 // C# usage syntax
 IReadOnlyList<SmaAnalysisResult> analysis =
-  quotes.ToSmaAnalysis(lookbackPeriods);
+  bars.ToSmaAnalysis(lookbackPeriods);
 ```
 
 ### `SmaAnalysisResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Sma` | double | Simple moving average |
 | `Mad` | double | Mean absolute deviation |
 | `Mse` | double | Mean square error |
@@ -83,7 +83,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.Volume)
     .ToSma(..);
 ```
@@ -92,7 +92,7 @@ Results can be further processed on `Sma` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToSma(..)
     .ToRsi(..);
 ```
@@ -106,24 +106,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 SmaList smaList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  smaList.Add(quote);
+  smaList.Add(bar);
 }
 
 // based on `ICollection<SmaResult>`
 IReadOnlyList<SmaResult> results = smaList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-SmaHub observer = quoteHub.ToSmaHub(lookbackPeriods);
+BarHub barHub = new();
+SmaHub observer = barHub.ToSmaHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<SmaResult> results = observer.Results;

@@ -6,7 +6,7 @@ public class Vortex : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<VortexResult> sut = Quotes
+        IReadOnlyList<VortexResult> sut = Bars
             .ToVortex(14);
 
         // proper quantities
@@ -36,9 +36,9 @@ public class Vortex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<VortexResult> r = BadQuotes
+        IReadOnlyList<VortexResult> r = BadBars
             .ToVortex(20);
 
         r.Should().HaveCount(502);
@@ -46,14 +46,14 @@ public class Vortex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<VortexResult> r0 = Noquotes
+        IReadOnlyList<VortexResult> r0 = Nobars
             .ToVortex(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<VortexResult> r1 = Onequote
+        IReadOnlyList<VortexResult> r1 = Onebar
             .ToVortex(5);
 
         r1.Should().HaveCount(1);
@@ -62,7 +62,7 @@ public class Vortex : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<VortexResult> sut = Quotes
+        IReadOnlyList<VortexResult> sut = Bars
             .ToVortex(14)
             .Condense();
 
@@ -77,7 +77,7 @@ public class Vortex : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<VortexResult> sut = Quotes
+        IReadOnlyList<VortexResult> sut = Bars
             .ToVortex(14)
             .RemoveWarmupPeriods();
 
@@ -95,7 +95,7 @@ public class Vortex : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToVortex(1))
+            .Invoking(static () => Bars.ToVortex(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

@@ -1,115 +1,115 @@
 namespace StreamHubs;
 
 [TestClass]
-public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
+public class SuperTrendHubTests : StreamHubTestBase, ITestBarObserver
 {
     private const int lookbackPeriods = 14;
     private const double multiplier = 3;
     private readonly IReadOnlyList<SuperTrendResult> expectedOriginal
-        = Quotes.ToSuperTrend(lookbackPeriods, multiplier);
+        = Bars.ToSuperTrend(lookbackPeriods, multiplier);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        SuperTrendHub observer = quoteHub.ToSuperTrendHub(lookbackPeriods, multiplier);
+        SuperTrendHub observer = barHub.ToSuperTrendHub(lookbackPeriods, multiplier);
 
         // fetch initial results (early)
         IReadOnlyList<SuperTrendResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<SuperTrendResult> expectedRevised = RevisedQuotes.ToSuperTrend(lookbackPeriods, multiplier);
+        IReadOnlyList<SuperTrendResult> expectedRevised = RevisedBars.ToSuperTrend(lookbackPeriods, multiplier);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<SuperTrendResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<SuperTrendResult> expected = bars
             .ToSuperTrend(lookbackPeriods, multiplier)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        SuperTrendHub observer = quoteHub.ToSuperTrendHub(lookbackPeriods, multiplier);
+        BarHub barHub = new(maxCacheSize);
+        SuperTrendHub observer = barHub.ToSuperTrendHub(lookbackPeriods, multiplier);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         SuperTrendHub lateHub = lateSource.ToSuperTrendHub(lookbackPeriods, multiplier);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         SuperTrendHub freshHub = freshSource.ToSuperTrendHub(lookbackPeriods, multiplier);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -124,27 +124,27 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
         // SuperTrend emits first non-null result at lookback (= 14); index
         // 20 forces the rollback path to replay across the ATR-seeded
         // direction-state transition that determines stop placement.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 20;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         SuperTrendHub lateHub = lateSource.ToSuperTrendHub(lookbackPeriods, multiplier);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         SuperTrendHub freshHub = freshSource.ToSuperTrendHub(lookbackPeriods, multiplier);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -156,7 +156,7 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        SuperTrendHub hub = new(new QuoteHub(), 14, 3.0);
+        SuperTrendHub hub = new(new BarHub(), 14, 3.0);
         hub.ToString().Should().Be("SUPERTREND(14,3)");
     }
 }

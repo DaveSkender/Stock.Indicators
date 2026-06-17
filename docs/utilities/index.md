@@ -1,11 +1,11 @@
 ---
 title: Utilities and helpers
-description: The Stock Indicators for .NET library includes utilities to help you use and transform historical price quotes and indicator results, and to create custom indicators.
+description: The Stock Indicators for .NET library includes utilities to help you use and transform historical price bars and indicator results, and to create custom indicators.
 layout: home
 
 hero:
   name: Utilities and helpers
-  tagline: Tools to prepare quotes, process results, and build custom indicators
+  tagline: Tools to prepare bars, process results, and build custom indicators
   actions:
     - theme: alt
       text: Indicators reference
@@ -15,9 +15,9 @@ hero:
       link: /utilities/catalog
 
 features:
-  - title: Quote utilities
-    details: Prepare and transform historical price quotes before using them with indicators.
-    link: /utilities/quotes/
+  - title: Bar utilities
+    details: Prepare and transform historical price bars before using them with indicators.
+    link: /utilities/bars/
     linkText: 5 utilities
   - title: Result utilities
     details: Work with indicator results after calculation and analysis.
@@ -35,9 +35,9 @@ features:
 
 ## Overview
 
-The library provides utilities and helper functions to work with historical quotes, indicator results, and numerical analysis.
+The library provides utilities and helper functions to work with historical bars, indicator results, and numerical analysis.
 
-- Use **[Quote utilities](/utilities/quotes/)** to sort, validate, resize, and transform your price data before calculating indicators.
+- Use **[Bar utilities](/utilities/bars/)** to sort, validate, resize, and transform your price data before calculating indicators.
 - Use **[Result utilities](/utilities/results/)** to condense, find, and trim indicator output after calculation.
 - Use **[Helper utilities](/utilities/helpers/)** when building custom indicators that need numerical methods or null-safe math.
 - Use the **[Indicator catalog](/utilities/catalog)** to discover indicator metadata programmatically for dynamic UIs.

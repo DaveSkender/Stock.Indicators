@@ -15,7 +15,7 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 ```csharp
 // C# usage syntax
 IReadOnlyList<CmfResult> results =
-  quotes.ToCmf(lookbackPeriods);
+  bars.ToCmf(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<CmfResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N+1` periods of `quotes` to cover the warmup periods.
+You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<CmfResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<CmfResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `MoneyFlowMultiplier` | double | Money Flow Multiplier |
 | `MoneyFlowVolume` | double | Money Flow Volume |
 | `Cmf` | double | Chaikin Money Flow = SMA of MFV |
@@ -69,12 +69,12 @@ Results can be further processed on `Cmf` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToCmf(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -85,24 +85,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 CmfList cmfList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  cmfList.Add(quote);
+  cmfList.Add(bar);
 }
 
 // based on `ICollection<CmfResult>`
 IReadOnlyList<CmfResult> results = cmfList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-CmfHub observer = quoteHub.ToCmfHub(lookbackPeriods);
+BarHub barHub = new();
+CmfHub observer = barHub.ToCmfHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<CmfResult> results = observer.Results;

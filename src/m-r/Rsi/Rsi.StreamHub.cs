@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Relative Strength Index (RSI).
 /// </summary>
 /// <remarks>
-/// This implementation uses O(1) incremental updates per quote via Wilder's smoothing.
+/// This implementation uses O(1) incremental updates per bar via Wilder's smoothing.
 /// State restoration after rollback is properly handled in RollbackState() to maintain O(1) complexity
 /// for normal streaming while allowing O(n) rebuild when needed.
 /// </remarks>
@@ -36,7 +36,7 @@ public class RsiHub
 
     /// <inheritdoc/>
     /// <remarks>
-    /// O(1) complexity per quote using Wilder's smoothing for incremental updates.
+    /// O(1) complexity per bar using Wilder's smoothing for incremental updates.
     /// The initial SMA calculation at lookback period is O(k) where k = lookbackPeriods.
     /// </remarks>
     protected override (RsiResult result, int index)

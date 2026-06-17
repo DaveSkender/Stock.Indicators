@@ -51,15 +51,15 @@ public static class CustomIndicators
     /// <summary>
     /// ATR-weighted moving average (custom indicator example)
     /// </summary>
-    /// <param name="quotes">Historical quotes</param>
+    /// <param name="bars">Historical bars</param>
     /// <param name="lookbackPeriods">Lookback period</param>
     /// <returns>Collection of AtrWmaResult</returns>
     public static IReadOnlyList<AtrWmaResult> ToAtrWma(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 10)
     {
         // Validate parameters
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         
         if (lookbackPeriods <= 0)
         {
@@ -68,25 +68,25 @@ public static class CustomIndicators
                 "Lookback periods must be greater than 0.");
         }
 
-        // Sort quotes
-        IReadOnlyList<IQuote> quotesList = quotes.ToSortedList();
+        // Sort bars
+        IReadOnlyList<IBar> barsList = bars.ToSortedList();
 
-        // Check for sufficient quotes
-        if (quotesList.Count < lookbackPeriods)
+        // Check for sufficient bars
+        if (barsList.Count < lookbackPeriods)
         {
             return [];
         }
 
         // Initialize results
-        List<AtrWmaResult> results = new(quotesList.Count);
+        List<AtrWmaResult> results = new(barsList.Count);
 
         // Get ATR values (prerequisite indicator)
-        IReadOnlyList<AtrResult> atrResults = quotesList.ToAtr(lookbackPeriods);
+        IReadOnlyList<AtrResult> atrResults = barsList.ToAtr(lookbackPeriods);
 
         // Calculate custom indicator
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < barsList.Count; i++)
         {
-            IQuote q = quotesList[i];
+            IBar q = barsList[i];
 
             AtrWmaResult r = new()
             {
@@ -101,7 +101,7 @@ public static class CustomIndicators
 
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    double close = (double)quotesList[p].Close;
+                    double close = (double)barsList[p].Close;
                     double? atr = atrResults[p].Atr;
 
                     if (atr.HasValue)
@@ -133,11 +133,11 @@ Use your custom indicator just like the built-in indicators:
 using Skender.Stock.Indicators;
 using Custom.Indicators;
 
-// Get historical quotes
-IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
+// Get historical bars
+IReadOnlyList<Bar> bars = GetBarsFromFeed("MSFT");
 
 // Calculate custom indicator
-IReadOnlyList<AtrWmaResult> results = quotes.ToAtrWma(10);
+IReadOnlyList<AtrWmaResult> results = bars.ToAtrWma(10);
 
 // Use results
 foreach (AtrWmaResult r in results)
@@ -155,7 +155,7 @@ By implementing `IReusable`, your custom indicator can be chained with other ind
 
 ```csharp
 // Chain your custom indicator with RSI
-var rsiOfAtrWma = quotes
+var rsiOfAtrWma = bars
     .ToAtrWma(10)
     .ToRsi(14);
 ```
@@ -173,7 +173,7 @@ See the [Guide](/guide/) for more information about different indicator styles.
 
 When creating custom indicators:
 
-1. **Validate inputs** - Always validate parameters and quotes
+1. **Validate inputs** - Always validate parameters and bars
 2. **Handle edge cases** - Check for insufficient data, null values
 3. **Follow naming conventions** - Use `To{IndicatorName}` pattern
 4. **Implement IReusable** - Enable chaining with other indicators
@@ -189,6 +189,6 @@ For complete working examples, see:
 
 ## See also
 
-- [Utilities and helpers](/utilities/) - Tools for working with quotes and results
+- [Utilities and helpers](/utilities/) - Tools for working with bars and results
 - [Guide](/guide/) - General usage patterns and indicator styles
 - [Contributing guidelines](/contributing) - How to contribute indicators to the library

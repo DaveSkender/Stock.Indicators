@@ -4,79 +4,79 @@ namespace StreamHubs;
 public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        DemaHub observer = quoteHub.ToDemaHub(5);
+        DemaHub observer = barHub.ToDemaHub(5);
 
         // fetch initial results (early)
         IReadOnlyList<DemaResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<DemaResult> expectedOriginal = Quotes.ToDema(5);
+        IReadOnlyList<DemaResult> expectedOriginal = Bars.ToDema(5);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
-        IReadOnlyList<DemaResult> expectedRevised = RevisedQuotes.ToDema(5);
+        barHub.RemoveAt(removeAtIndex);
+        IReadOnlyList<DemaResult> expectedRevised = RevisedBars.ToDema(5);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<DemaResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<DemaResult> expected = bars
             .ToDema(5)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        DemaHub observer = quoteHub.ToDemaHub(5);
+        BarHub barHub = new(maxCacheSize);
+        DemaHub observer = barHub.ToDemaHub(5);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -85,32 +85,32 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int smaPeriods = 8;
         const int demaPeriods = 12;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        DemaHub observer = quoteHub
+        DemaHub observer = barHub
             .ToSmaHub(smaPeriods)
             .ToDemaHub(demaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++) { barHub.Add(Bars[i]); }
 
         // final results
         IReadOnlyList<DemaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<DemaResult> expected = Quotes
+        IReadOnlyList<DemaResult> expected = Bars
             .ToSma(smaPeriods)
             .ToDema(demaPeriods);
 
         // assert, should equal series
         sut.IsExactly(expected);
-        sut.Should().HaveCount(quotesCount);
+        sut.Should().HaveCount(barsCount);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -119,54 +119,54 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int demaPeriods = 20;
         const int smaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToDemaHub(demaPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
-        for (int i = 0; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 0; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> expected = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedBars
             .ToDema(demaPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        DemaHub hub = new(new QuoteHub(), 14);
+        DemaHub hub = new(new BarHub(), 14);
         hub.ToString().Should().Be("DEMA(14)");
     }
 }

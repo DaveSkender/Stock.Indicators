@@ -13,7 +13,7 @@ _common/
 │   ├── BufferList.cs               # Abstract base; MaxListSize pruning; field-keyword usage
 │   ├── BufferList.Utilities.cs     # Rolling Queue.Update / UpdateWithDequeue extensions
 │   ├── IIncrementFromChain.cs      # Add(DateTime, double), Add(IReusable), Add(batch)
-│   └── IIncrementFromQuote.cs      # Add(IQuote), Add(IReadOnlyList<IQuote>)
+│   └── IIncrementFromBar.cs      # Add(IBar), Add(IReadOnlyList<IBar>)
 ├── Candles/                        # Candlestick pattern utilities
 │   ├── CandleProperties.cs
 │   ├── CandleResult.cs
@@ -35,7 +35,8 @@ _common/
 │   ├── Match.cs
 │   ├── MaType.cs
 │   ├── OutType.cs
-│   └── PeriodSize.cs               # Aggregation period keys
+│   ├── BarInterval.cs               # Aggregation interval keys
+│   └── BarInterval.Codes.cs         # BarInterval ↔ string-code map (ToCode/ToBarInterval)
 ├── Generics/                       # Generic utilities
 │   ├── Pruning.cs                  # Cache trimming helpers
 │   ├── Seek.cs                     # IndexOf / IndexGte / IndexBefore extensions
@@ -46,27 +47,28 @@ _common/
 │   ├── DeMath.cs                   # Decimal math helpers
 │   ├── NullMath.cs                 # Null-safe math (NaN2Null, etc.)
 │   └── Numerical.cs                # Abs, Round, double / decimal conversions
-├── QuotePart/                      # CandlePart extraction (Open/High/Low/Close/Volume/HL2/...)
-│   ├── IQuotePart.cs
-│   ├── QuotePart.BufferList.cs
-│   ├── QuotePart.Catalog.cs
-│   ├── QuotePart.StaticSeries.cs
-│   ├── QuotePart.StreamHub.cs
-│   └── QuotePart.Utilities.cs
-├── Quotes/                         # IQuote / ITick types, aggregator hubs, validation
-│   ├── IQuote.cs
-│   ├── ITick.cs
-│   ├── Quote.cs                    # Default IQuote record
-│   ├── QuoteD.cs                   # Decimal-precision quote
-│   ├── Quote.Aggregates.cs         # Series-side aggregation (.Aggregate(PeriodSize))
-│   ├── Quote.AggregatorHub.cs      # Streaming quote→quote quantization (PR #1875)
-│   ├── Quote.Converters.cs         # Conversions to/from IReusable etc.
-│   ├── Quote.Exceptions.cs
-│   ├── Quote.StreamHub.cs          # QuoteHub: self-rooted source hub
-│   ├── Quote.Validation.cs
-│   ├── Tick.cs                     # Default ITick record
-│   ├── Tick.StreamHub.cs           # TickHub: self-rooted tick source
-│   └── Tick.AggregatorHub.cs       # Streaming tick→quote quantization
+├── BarPart/                      # CandlePart extraction (Open/High/Low/Close/Volume/HL2/...)
+│   ├── IBarPart.cs
+│   ├── BarPart.BufferList.cs
+│   ├── BarPart.Catalog.cs
+│   ├── BarPart.StaticSeries.cs
+│   ├── BarPart.StreamHub.cs
+│   └── BarPart.Utilities.cs
+├── Bars/                         # IBar OHLCV bar types, aggregator hub, validation
+│   ├── IBar.cs
+│   ├── Bar.cs                    # Default IBar record
+│   ├── BarD.cs                   # Double-precision internal bar
+│   ├── Bar.Aggregates.cs         # Series-side aggregation (.Aggregate(BarInterval))
+│   ├── Bar.AggregatorHub.cs      # Streaming bar→bar quantization (PR #1875)
+│   ├── Bar.Converters.cs         # Conversions to/from IReusable etc.
+│   ├── Bar.Exceptions.cs
+│   ├── Bar.StreamHub.cs          # BarHub: self-rooted source hub
+│   └── Bar.Validation.cs
+├── TradeTicks/                   # ITradeTick raw trade-tick types and hubs
+│   ├── ITradeTick.cs
+│   ├── TradeTick.cs                     # Default ITradeTick record
+│   ├── TradeTick.StreamHub.cs           # TradeTickHub: self-rooted tick source
+│   └── TradeTick.AggregatorHub.cs       # Streaming tick→bar quantization
 ├── Reusable/
 │   ├── IReusable.cs                # Single-value chainable record interface
 │   ├── Reusable.Utilities.cs       # ToReusable, generic RemoveWarmupPeriods, etc.
@@ -76,7 +78,7 @@ _common/
 │   ├── IStreamObservable.cs        # Push-side: Subscribe / Unsubscribe / Results
 │   ├── IStreamObserver.cs          # Pull-side: OnAdd / OnRebuild / OnPrune / OnError
 │   ├── IChainProvider.cs           # Marker for IReusable producers
-│   ├── IQuoteProvider.cs           # Marker for IQuote producers
+│   ├── IBarProvider.cs           # Marker for IBar producers
 │   ├── StreamHub.cs                # Abstract base: Cache, CacheLock, _isRebuilding, RollbackState, ToIndicator
 │   ├── StreamHub.Observable.cs     # Observable side: Subscribe, NotifyObserversOn* methods
 │   ├── StreamHub.Observer.cs       # Observer side: OnAdd, OnRebuild, OnPrune entry points
@@ -86,7 +88,7 @@ _common/
 │   └── Providers/                  # Specialized base classes
 │       ├── BaseProvider.cs         # Inert sentinel for self-rooted hubs (TODO: rename or remove)
 │       ├── ChainHub.cs             # IReusable-output chainable hub
-│       └── QuoteProvider.cs        # IQuote-output source/transformer
+│       └── BarProvider.cs        # IBar-output source/transformer
 └── Validation/
     └── UrlSafeAttribute.cs
 ```
@@ -137,7 +139,7 @@ The library follows IEEE 754 floating-point standard for NaN (Not-a-Number) hand
 - Division by zero - MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`); choose appropriate fallback (NaN, 0, or null) based on mathematical meaning
 - NaN propagation - Accept NaN inputs and allow natural propagation; never reject NaN values in calculations
 - RollingWindow utilities - Accept NaN values and return NaN for Min/Max when NaN is present in the window
-- Quote validation - Only validate for null/missing quotes, not for NaN values in quote properties (High/Low/Close/etc.)
+- Bar validation - Only validate for null/missing bars, not for NaN values in bar properties (High/Low/Close/etc.)
 - State initialization - Use `double.NaN` for uninitialized state instead of sentinel values (0, -1)
 
 ### Constitutional alignment

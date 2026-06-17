@@ -4,80 +4,80 @@ namespace StreamHubs;
 public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        TrixHub observer = quoteHub.ToTrixHub(14);
+        TrixHub observer = barHub.ToTrixHub(14);
 
         // fetch initial results (early)
         IReadOnlyList<TrixResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<TrixResult> expectedOriginal = Quotes.ToTrix(14);
+        IReadOnlyList<TrixResult> expectedOriginal = Bars.ToTrix(14);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<TrixResult> expectedRevised = RevisedQuotes.ToTrix(14);
+        IReadOnlyList<TrixResult> expectedRevised = RevisedBars.ToTrix(14);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<TrixResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<TrixResult> expected = bars
             .ToTrix(14)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        TrixHub observer = quoteHub.ToTrixHub(14);
+        BarHub barHub = new(maxCacheSize);
+        TrixHub observer = barHub.ToTrixHub(14);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -86,22 +86,22 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int trixPeriods = 14;
         const int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        TrixHub observer = quoteHub
+        TrixHub observer = barHub
             .ToSmaHub(smaPeriods)
             .ToTrixHub(trixPeriods);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
@@ -110,7 +110,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // time-series, for comparison
         IReadOnlyList<TrixResult> seriesList
-           = quotesList
+           = barsList
             .ToSma(smaPeriods)
             .ToTrix(trixPeriods);
 
@@ -120,7 +120,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -129,47 +129,47 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int trixPeriods = 14;
         const int emaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize chain with TRIX as input to EMA
-        EmaHub emaOfTrix = quoteHub
+        EmaHub emaOfTrix = barHub
             .ToTrixHub(trixPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = emaOfTrix.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<EmaResult> expected = RevisedQuotes
+        IReadOnlyList<EmaResult> expected = RevisedBars
             .ToTrix(trixPeriods)
             .ToEma(emaPeriods);
 
         // assert
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         emaOfTrix.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        TrixHub hub = new(new QuoteHub(), 14);
+        TrixHub hub = new(new BarHub(), 14);
         hub.ToString().Should().Be("TRIX(14)");
     }
 }

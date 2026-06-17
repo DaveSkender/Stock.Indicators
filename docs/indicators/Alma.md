@@ -15,7 +15,7 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA](https://github.com/
 ```csharp
 // C# usage syntax
 IReadOnlyList<AlmaResult> results =
-  quotes.ToAlma(lookbackPeriods, offset, sigma);
+  bars.ToAlma(lookbackPeriods, offset, sigma);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<AlmaResult> results =
 | `offset` | double | Adjusts smoothness versus responsiveness on a scale from 0 to 1; where 1 is max responsiveness.  Default is 0.85. |
 | `sigma` | double | Defines the width of the Gaussian [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution).  Must be greater than 0.  Default is 6. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<AlmaResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -47,7 +47,7 @@ IReadOnlyList<AlmaResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Alma` | double | Arnaud Legoux Moving Average |
 
 ### Utilities
@@ -65,7 +65,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToAlma(..);
 ```
@@ -74,7 +74,7 @@ Results can be further processed on `Alma` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToAlma(..)
     .ToRsi(..);
 ```
@@ -88,24 +88,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 AlmaList almaList = new(lookbackPeriods, offset, sigma);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  almaList.Add(quote);
+  almaList.Add(bar);
 }
 
 // based on `ICollection<AlmaResult>`
 IReadOnlyList<AlmaResult> results = almaList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-AlmaHub observer = quoteHub.ToAlmaHub(lookbackPeriods, offset, sigma);
+BarHub barHub = new();
+AlmaHub observer = barHub.ToAlmaHub(lookbackPeriods, offset, sigma);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<AlmaResult> results = observer.Results;

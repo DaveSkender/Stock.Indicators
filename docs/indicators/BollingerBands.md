@@ -15,7 +15,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 ```csharp
 // C# usage syntax
 IReadOnlyList<BollingerBandsResult> results =
-  quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
+  bars.ToBollingerBands(lookbackPeriods, standardDeviations);
 ```
 
 ## Parameters
@@ -25,11 +25,11 @@ IReadOnlyList<BollingerBandsResult> results =
 | `lookbackPeriods` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20. |
 | `standardDeviations` | double | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -37,8 +37,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<BollingerBandsResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -46,7 +46,7 @@ IReadOnlyList<BollingerBandsResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Sma` | double | Simple moving average (SMA) of price (center line) |
 | `UpperBand` | double | Upper line is `D` standard deviations above the SMA |
 | `LowerBand` | double | Lower line is `D` standard deviations below the SMA |
@@ -69,7 +69,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToBollingerBands(..);
 ```
@@ -78,7 +78,7 @@ Results can be further processed on `PercentB` with additional chain-enabled ind
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToBollingerBands(..)
     .ToRsi(..);
 ```
@@ -92,24 +92,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 BollingerBandsList bbList = new(lookbackPeriods, standardDeviations);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  bbList.Add(quote);
+  bbList.Add(bar);
 }
 
 // based on `ICollection<BollingerBandsResult>`
 IReadOnlyList<BollingerBandsResult> results = bbList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(lookbackPeriods, standardDeviations);
+BarHub barHub = new();
+BollingerBandsHub observer = barHub.ToBollingerBandsHub(lookbackPeriods, standardDeviations);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<BollingerBandsResult> results = observer.Results;

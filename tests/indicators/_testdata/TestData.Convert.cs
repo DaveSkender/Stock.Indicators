@@ -7,7 +7,7 @@ internal static class Utilities
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
     // CSV importer / parser
-    internal static Quote QuoteFromCsv(string csvLine)
+    internal static Bar BarFromCsv(string csvLine)
     {
         if (string.IsNullOrEmpty(csvLine))
         {

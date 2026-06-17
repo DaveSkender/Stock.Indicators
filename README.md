@@ -9,9 +9,9 @@
 
 # Stock Indicators for .NET
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price bars and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
-Build your technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV](https://dotnet.stockindicators.dev/guide/#historical-quotes) price quotes sources for equities, commodities, forex, cryptocurrencies, and others.  [Stock Indicators for Python](https://python.stockindicators.dev/) is also available.
+Build your technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV](https://dotnet.stockindicators.dev/guide/#historical-bars) price bars sources for equities, commodities, forex, cryptocurrencies, and others.  [Stock Indicators for Python](https://python.stockindicators.dev/) is also available.
 
 ## Streaming Support
 
@@ -24,17 +24,17 @@ v3 introduces comprehensive **streaming capabilities** for real-time and increme
 Quick example using streaming:
 
 ```csharp
-// Create a quote hub for streaming quotes
-QuoteHub quoteHub = new();
+// Create a bar hub for streaming bars
+BarHub barHub = new();
 
 // Subscribe indicators to the hub
-EmaHub emaHub = quoteHub.ToEma(20);
-RsiHub rsiHub = quoteHub.ToRsi(14);
+EmaHub emaHub = barHub.ToEma(20);
+RsiHub rsiHub = barHub.ToRsi(14);
 
-// Stream quotes as they arrive
-foreach (Quote quote in liveQuotes)
+// Stream bars as they arrive
+foreach (Bar bar in liveBars)
 {
-    quoteHub.Add(quote);
+    barHub.Add(bar);
     
     // Access real-time results
     EmaResult emaResult = emaHub.Results[^1];

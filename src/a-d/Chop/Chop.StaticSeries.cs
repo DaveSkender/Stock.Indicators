@@ -1,38 +1,38 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Choppiness Index (CHOP) on a series of quotes indicator.
+/// Choppiness Index (CHOP) on a series of bars indicator.
 /// </summary>
 public static partial class Chop
 {
     /// <summary>
-    /// Calculates the Choppiness Index (CHOP) for a series of quotes.
+    /// Calculates the Choppiness Index (CHOP) for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     public static IReadOnlyList<ChopResult> ToChop(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcChop(lookbackPeriods);
 
     /// <summary>
-    /// Calculates the Choppiness Index (CHOP) for a series of quotes.
+    /// Calculates the Choppiness Index (CHOP) for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     private static List<ChopResult> CalcChop(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<ChopResult> results = new(length);
         double[] trueHigh = new double[length];
         double[] trueLow = new double[length];
@@ -45,8 +45,8 @@ public static partial class Chop
 
             if (i > 0)
             {
-                trueHigh[i] = Math.Max(quotes[i].High, quotes[i - 1].Close);
-                trueLow[i] = Math.Min(quotes[i].Low, quotes[i - 1].Close);
+                trueHigh[i] = Math.Max(bars[i].High, bars[i - 1].Close);
+                trueLow[i] = Math.Min(bars[i].Low, bars[i - 1].Close);
                 trueRange[i] = trueHigh[i] - trueLow[i];
 
                 // calculate CHOP
@@ -77,7 +77,7 @@ public static partial class Chop
             }
 
             results.Add(new(
-                Timestamp: quotes[i].Timestamp,
+                Timestamp: bars[i].Timestamp,
                 Chop: chop));
         }
 

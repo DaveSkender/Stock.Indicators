@@ -28,34 +28,34 @@ dotnet run -c Release --filter *.EmaHub
 
 ```csharp
 [Benchmark]
-public void ToMyIndicator() => quotes.ToMyIndicator(14);
+public void ToMyIndicator() => bars.ToMyIndicator(14);
 ```
 
 ### Stream pattern
 
 ```csharp
 [Benchmark]
-public object MyIndicatorHub() => quoteHub.ToMyIndicatorHub(14).Results;
+public object MyIndicatorHub() => barHub.ToMyIndicatorHub(14).Results;
 ```
 
 ### Buffer pattern
 
 ```csharp
 [Benchmark]
-public MyIndicatorList MyIndicatorList() => new(14) { quotes };
+public MyIndicatorList MyIndicatorList() => new(14) { bars };
 ```
 
 ### Style comparison
 
 ```csharp
 [Benchmark]
-public IReadOnlyList<MyResult> MyIndicatorSeries() => quotes.ToMyIndicator(14);
+public IReadOnlyList<MyResult> MyIndicatorSeries() => bars.ToMyIndicator(14);
 
 [Benchmark]
-public IReadOnlyList<MyResult> MyIndicatorBuffer() => quotes.ToMyIndicatorList(14);
+public IReadOnlyList<MyResult> MyIndicatorBuffer() => bars.ToMyIndicatorList(14);
 
 [Benchmark]
-public IReadOnlyList<MyResult> MyIndicatorStream() => quoteHub.ToMyIndicator(14).Results;
+public IReadOnlyList<MyResult> MyIndicatorStream() => barHub.ToMyIndicator(14).Results;
 ```
 
 ## Performance targets

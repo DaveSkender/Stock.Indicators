@@ -1,19 +1,19 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// the correlation coefficient on a series of quotes indicator.
+/// the correlation coefficient on a series of bars indicator.
 /// </summary>
 public static partial class Correlation
 {
     /// <summary>
-    /// Calculates the correlation coefficient for two series of quotes.
+    /// Calculates the correlation coefficient for two series of bars.
     /// </summary>
-    /// <param name="sourceA">First source list of quotes.</param>
-    /// <param name="sourceB">Second source list of quotes.</param>
+    /// <param name="sourceA">First source list of bars.</param>
+    /// <param name="sourceB">Second source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CorrResult"/> containing the correlation calculation results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either sourceA or sourceB is null.</exception>
-    /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceA and sourceB do not match.</exception>
+    /// <exception cref="InvalidBarsException">Thrown when the timestamps of sourceA and sourceB do not match.</exception>
     public static IReadOnlyList<CorrResult> ToCorrelation(
         this IReadOnlyList<IReusable> sourceA,
         IReadOnlyList<IReusable> sourceB,
@@ -36,7 +36,7 @@ public static partial class Correlation
 
             if (a.Timestamp != b.Timestamp)
             {
-                throw new InvalidQuotesException(
+                throw new InvalidBarsException(
                     nameof(sourceA), a.Timestamp,
                     "Timestamp sequence does not match.  " +
                     "Correlation requires matching dates in provided histories.");

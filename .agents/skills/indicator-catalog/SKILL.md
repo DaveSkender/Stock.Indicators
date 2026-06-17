@@ -92,7 +92,7 @@ public static partial class Ema
 | `PriceChannel` | Bollinger Bands, Keltner, Donchian, VWAP |
 | `PriceCharacteristic` | ATR, Beta, Standard Deviation, True Range |
 | `PricePattern` | Fractal, Pivot Points |
-| `PriceTransform` | Quote Part, ZigZag |
+| `PriceTransform` | Bar Part, ZigZag |
 | `PriceTrend` | ADX, Aroon, Alligator, AtrStop, SuperTrend, Vortex |
 | `StopAndReverse` | Chandelier, Parabolic SAR, Volatility Stop |
 | `VolumeBased` | OBV, Chaikin Money Flow, Chaikin Oscillator |

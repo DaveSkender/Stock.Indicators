@@ -30,8 +30,8 @@ src/                                  # Source code root
 │   │   └── Math/                     # Math extensions
 │   ├── Interfaces/                   # Core interfaces
 │   ├── Models/                       # Core models
-│   ├── QuotePart/                    # Quote part functionality
-│   ├── Quotes/                       # Quote types and operations
+│   ├── BarPart/                    # Bar part functionality
+│   ├── Bars/                       # Bar types and operations
 │   ├── StreamHub/                    # Streaming infrastructure
 │   │   └── Providers/                # Stream providers
 │   └── Validation/                   # Validation utilities
@@ -85,8 +85,8 @@ Follow these conventions for all file naming:
   - `Ema.Models.cs` → will become `EmaResult.cs` (separate class, exact match)
   - `Ema.Utilities.cs` → will become `EmaSeries.Utilities.cs` OR `EmaExtensions.cs`
 - **Other partial class examples**:
-  - `Quote.Validation.cs` - Validation methods (auxiliary partial file)
-  - `Quote.Converters.cs` - Conversion methods (auxiliary partial file)
+  - `Bar.Validation.cs` - Validation methods (auxiliary partial file)
+  - `Bar.Converters.cs` - Conversion methods (auxiliary partial file)
 
 ### 3. One type per file
 
@@ -120,7 +120,7 @@ Follow these conventions for all file naming:
 ### 7. Exception naming
 
 - **Rule**: Exception classes follow .NET convention with `Exception` suffix
-- **Example**: `public class InvalidQuotesException` → `InvalidQuotesException.cs`
+- **Example**: `public class InvalidBarsException` → `InvalidBarsException.cs`
 - **Organization**: Place in `Common/Exceptions/` directory
 
 ### 8. PascalCase for file names
@@ -160,23 +160,23 @@ Follow these conventions for all file naming:
   - Create `Common/Enums/Match.cs`
   - Create `Common/Enums/MaType.cs`
   - Create `Common/Enums/OutType.cs`
-  - Create `Common/Enums/PeriodSize.cs`
+  - Create `Common/Enums/BarInterval.cs`
   - Delete `Enums.cs`
   - Update all using statements in dependent files
 
 - [ ] Task 1.2: Split `IIncrementFrom.cs` into individual interface files
   - Create `Common/BufferLists/IIncrementFromChain.cs`
-  - Create `Common/BufferLists/IIncrementFromQuote.cs`
+  - Create `Common/BufferLists/IIncrementFromBar.cs`
   - Delete `IIncrementFrom.cs`
 
 - [ ] Task 1.3: Split `IStreamObservable.cs` into individual interface files
   - Create `Common/StreamHub/IChainProvider.cs`
-  - Create `Common/StreamHub/IQuoteProvider.cs`
+  - Create `Common/StreamHub/IBarProvider.cs`
   - Create `Common/StreamHub/IStreamObservable.cs` (keep as single interface)
   - Delete original multi-interface file
 
 - [ ] Task 1.4: Reorganize model files with multiple types
-  - Split `Quote.Models.cs` → `IQuote.cs` and `Quote.cs`
+  - Split `Bar.Models.cs` → `IBar.cs` and `Bar.cs`
   - Split `Candles.Models.cs` → `CandleProperties.cs` and `CandleResult.cs`
   - Review all other `*.Models.cs` files for multi-type violations
 
@@ -264,8 +264,8 @@ Follow these conventions for all file naming:
   - Update all references to the static utility class
 
 - [ ] Task 4.3: Document partial class plural/singular naming rationale
-  - `partial class Quotes` (plural) in Quote.* files - Document reason for plural
-  - `partial class QuoteParts` (plural) in QuotePart.* files - Document reason for plural
+  - `partial class Bars` (plural) in Bar.* files - Document reason for plural
+  - `partial class BarParts` (plural) in BarPart.* files - Document reason for plural
   - `partial class Catalog` (singular) in Catalog.* files - Document reason for singular
   - `partial class StringOut` in StringOut.* files - Verify naming aligns with functionality
   - Add naming guidelines to documentation
@@ -418,7 +418,7 @@ Follow these conventions for all file naming:
 **Priority**: Low - Handle after main reorganization
 
 - [ ] Task 7.1: Review and rename remaining multi-type files
-  - `Quote.StreamHub.cs` (contains `QuoteHub` and `BaseProvider<T>`)
+  - `Bar.StreamHub.cs` (contains `BarHub` and `BaseProvider<T>`)
   - Split if beneficial or document as acceptable exception
 
 - [ ] Task 7.2: Review partial classes spanning multiple functional areas
@@ -483,8 +483,8 @@ src/                                  # Source code
 │   │       └── Enums/
 │   ├── Generics/
 │   ├── Math/
-│   ├── QuotePart/
-│   ├── Quotes/
+│   ├── BarPart/
+│   ├── Bars/
 │   ├── Reusable/
 │   ├── StreamHub/
 │   │   └── Providers/

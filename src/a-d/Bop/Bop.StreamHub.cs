@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Balance of Power (BOP).
 /// </summary>
 public class BopHub
-    : ChainHub<IQuote, BopResult>, IBop
+    : ChainHub<IBar, BopResult>, IBop
 {
     internal BopHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int smoothPeriods) : base(provider)
     {
         Bop.Validate(smoothPeriods);
@@ -24,7 +24,7 @@ public class BopHub
     public int SmoothPeriods { get; init; }
     /// <inheritdoc/>
     protected override (BopResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -37,14 +37,14 @@ public class BopHub
 
             for (int p = i + 1 - SmoothPeriods; p <= i; p++)
             {
-                IQuote quote = ProviderCache[p];
+                IBar bar = ProviderCache[p];
 
                 // Calculate raw BOP value: (Close - Open) / (High - Low)
                 // Match static series calculation order exactly
-                double high = (double)quote.High;
-                double low = (double)quote.Low;
-                double close = (double)quote.Close;
-                double open = (double)quote.Open;
+                double high = (double)bar.High;
+                double low = (double)bar.Low;
+                double close = (double)bar.Close;
+                double open = (double)bar.Open;
 
                 double range = high - low;
                 if (range != 0)
@@ -81,7 +81,7 @@ public static partial class Bop
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the smooth periods are invalid.</exception>
     public static BopHub ToBopHub(
-        this IQuoteProvider<IQuote> chainProvider,
+        this IBarProvider<IBar> chainProvider,
         int smoothPeriods = 14)
         => new(chainProvider, smoothPeriods);
 }

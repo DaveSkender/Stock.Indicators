@@ -6,7 +6,7 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<MfiResult> sut = Quotes
+        IReadOnlyList<MfiResult> sut = Bars
             .ToMfi();
 
         // proper quantities
@@ -24,12 +24,12 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
-        IReadOnlyList<MfiResult> sut = Quotes.ToMfi(14);
+        IReadOnlyList<MfiResult> sut = Bars.ToMfi(14);
         sut.IsBetween(static x => x.Mfi, 0, 100);
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<MfiResult> sut = Data
             .GetRandom(2500)
@@ -41,7 +41,7 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToMfi()
             .ToSma(10);
 
@@ -54,7 +54,7 @@ public class Mfi : StaticSeriesTestBase
     {
         const int lookbackPeriods = 4;
 
-        IReadOnlyList<MfiResult> sut = Quotes
+        IReadOnlyList<MfiResult> sut = Bars
             .ToMfi(lookbackPeriods);
 
         // proper quantities
@@ -70,9 +70,9 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<MfiResult> r = BadQuotes
+        IReadOnlyList<MfiResult> r = BadBars
             .ToMfi(15);
 
         r.Should().HaveCount(502);
@@ -80,14 +80,14 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<MfiResult> r0 = Noquotes
+        IReadOnlyList<MfiResult> r0 = Nobars
             .ToMfi();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<MfiResult> r1 = Onequote
+        IReadOnlyList<MfiResult> r1 = Onebar
             .ToMfi();
 
         r1.Should().HaveCount(1);
@@ -98,7 +98,7 @@ public class Mfi : StaticSeriesTestBase
     {
         const int lookbackPeriods = 14;
 
-        IReadOnlyList<MfiResult> sut = Quotes
+        IReadOnlyList<MfiResult> sut = Bars
             .ToMfi(lookbackPeriods)
             .RemoveWarmupPeriods();
 
@@ -115,7 +115,7 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToMfi(1))
+            .Invoking(static () => Bars.ToMfi(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

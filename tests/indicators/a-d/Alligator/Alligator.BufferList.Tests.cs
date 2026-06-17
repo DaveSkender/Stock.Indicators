@@ -11,40 +11,40 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
     private const int lipsOffset = 3;
 
     private static readonly IReadOnlyList<IReusable> reusables
-        = Quotes.ToQuotePart(CandlePart.HL2).ToList();
+        = Bars.ToBarPart(CandlePart.HL2).ToList();
 
     private static readonly IReadOnlyList<AlligatorResult> series
-        = Quotes.ToAlligator(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+        = Bars.ToAlligator(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        AlligatorList sut = Quotes.ToAlligatorList(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+        AlligatorList sut = Bars.ToAlligatorList(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, Quotes);
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -58,7 +58,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -67,7 +67,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
     {
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -81,14 +81,14 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<AlligatorResult> expected = subset.ToAlligator(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, subset);
@@ -115,7 +115,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<AlligatorResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

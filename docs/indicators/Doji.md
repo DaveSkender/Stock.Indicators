@@ -15,7 +15,7 @@ description: Doji is a single-bar candlestick pattern where open and close price
 ```csharp
 // C# usage syntax
 IReadOnlyList<CandleResult> results =
-  quotes.ToDoji(maxPriceChangePercent);
+  bars.ToDoji(maxPriceChangePercent);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<CandleResult> results =
 | ----- | ---- | ----------- |
 | `maxPriceChangePercent` | double | Optional.  Maximum absolute percent difference in open and close price.  Example: 0.3% would be entered as 0.3 (not 0.003).  Must be between 0 and 0.5 percent, if specified.  Default is 0.1 (0.1%). |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least one historical quote; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least one historical bar; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least one historical quote; however, more is typically provided
 IReadOnlyList<CandleResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The candlestick pattern is indicated on dates where `Match` is `Match.Neutral`.
 - `Price` is `Close` price; however, all OHLCV elements are included in `CandleProperties`.
@@ -58,24 +58,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 DojiList dojiList = new(maxPriceChangePercent);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  dojiList.Add(quote);
+  dojiList.Add(bar);
 }
 
 // based on `ICollection<CandleResult>`
 IReadOnlyList<CandleResult> results = dojiList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-DojiHub observer = quoteHub.ToDojiHub(maxPriceChangePercent);
+BarHub barHub = new();
+DojiHub observer = barHub.ToDojiHub(maxPriceChangePercent);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<CandleResult> results = observer.Results;

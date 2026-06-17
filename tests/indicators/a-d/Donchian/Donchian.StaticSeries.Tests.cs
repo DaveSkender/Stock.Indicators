@@ -6,7 +6,7 @@ public class Donchian : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<DonchianResult> sut = Quotes
+        IReadOnlyList<DonchianResult> sut = Bars
             .ToDonchian();
 
         // proper quantities
@@ -49,23 +49,23 @@ public class Donchian : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<DonchianResult> r = BadQuotes
+        IReadOnlyList<DonchianResult> r = BadBars
             .ToDonchian(15);
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<DonchianResult> r0 = Noquotes
+        IReadOnlyList<DonchianResult> r0 = Nobars
             .ToDonchian();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<DonchianResult> r1 = Onequote
+        IReadOnlyList<DonchianResult> r1 = Onebar
             .ToDonchian();
 
         r1.Should().HaveCount(1);
@@ -74,7 +74,7 @@ public class Donchian : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<DonchianResult> sut = Quotes
+        IReadOnlyList<DonchianResult> sut = Bars
             .ToDonchian()
             .Condense();
 
@@ -91,7 +91,7 @@ public class Donchian : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<DonchianResult> sut = Quotes
+        IReadOnlyList<DonchianResult> sut = Bars
             .ToDonchian()
             .RemoveWarmupPeriods();
 
@@ -111,7 +111,7 @@ public class Donchian : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToDonchian(0))
+            .Invoking(static () => Bars.ToDonchian(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

@@ -1,83 +1,83 @@
 namespace StreamHubs;
 
 [TestClass]
-public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class TrHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        TrHub observer = quoteHub.ToTrHub();
+        TrHub observer = barHub.ToTrHub();
 
         // fetch initial results (early)
         IReadOnlyList<TrResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<TrResult> expectedOriginal = Quotes.ToTr();
+        IReadOnlyList<TrResult> expectedOriginal = Bars.ToTr();
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<TrResult> expectedRevised = RevisedQuotes.ToTr();
+        IReadOnlyList<TrResult> expectedRevised = RevisedBars.ToTr();
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<TrResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<TrResult> expected = bars
             .ToTr()
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        TrHub observer = quoteHub.ToTrHub();
+        BarHub barHub = new(maxCacheSize);
+        TrHub observer = barHub.ToTrHub();
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -85,51 +85,51 @@ public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     {
         const int smaPeriods = 8;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        IChainProvider<TrResult> adlHub = quoteHub
+        IChainProvider<TrResult> adlHub = barHub
             .ToTrHub();
 
         SmaHub observer = adlHub
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> expected = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedBars
             .ToTr()
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        TrHub hub = new(new QuoteHub());
+        TrHub hub = new(new BarHub());
         hub.ToString().Should().Be("TRUE RANGE");
     }
 }

@@ -8,8 +8,8 @@ public class Prs : StaticSeriesTestBase
     {
         const int lookbackPeriods = 30;
 
-        IReadOnlyList<PrsResult> sut = OtherQuotes
-            .ToPrs(Quotes, lookbackPeriods);
+        IReadOnlyList<PrsResult> sut = OtherBars
+            .ToPrs(Bars, lookbackPeriods);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -32,9 +32,9 @@ public class Prs : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<PrsResult> sut = OtherQuotes
+        IReadOnlyList<PrsResult> sut = OtherBars
             .Use(CandlePart.Close)
-            .ToPrs(Quotes.Use(CandlePart.Close), 20);
+            .ToPrs(Bars.Use(CandlePart.Close), 20);
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Prs != null).Should().HaveCount(502);
@@ -43,8 +43,8 @@ public class Prs : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = OtherQuotes
-            .ToPrs(Quotes, 20)
+        IReadOnlyList<SmaResult> sut = OtherBars
+            .ToPrs(Bars, 20)
             .ToSma(10);
 
         sut.Should().HaveCount(502);
@@ -54,9 +54,9 @@ public class Prs : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<PrsResult> sut = Quotes
+        IReadOnlyList<PrsResult> sut = Bars
             .ToSma(2)
-            .ToPrs(OtherQuotes.ToSma(2), 20);
+            .ToPrs(OtherBars.ToSma(2), 20);
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Prs != null).Should().HaveCount(501);
@@ -64,25 +64,25 @@ public class Prs : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<PrsResult> r = BadQuotes
-            .ToPrs(BadQuotes, 15);
+        IReadOnlyList<PrsResult> r = BadBars
+            .ToPrs(BadBars, 15);
 
         r.Should().HaveCount(502);
         r.Where(static x => x.Prs is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<PrsResult> r0 = Noquotes
-            .ToPrs(Noquotes);
+        IReadOnlyList<PrsResult> r0 = Nobars
+            .ToPrs(Nobars);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<PrsResult> r1 = Onequote
-            .ToPrs(Onequote);
+        IReadOnlyList<PrsResult> r1 = Onebar
+            .ToPrs(Onebar);
 
         r1.Should().HaveCount(1);
     }
@@ -92,18 +92,18 @@ public class Prs : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => OtherQuotes.ToPrs(Quotes, 0));
+            static () => OtherBars.ToPrs(Bars, 0));
 
-        // insufficient quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            static () => Data.GetCompare(13).ToPrs(Quotes, 14));
+        // insufficient bars
+        Assert.ThrowsExactly<InvalidBarsException>(
+            static () => Data.GetCompare(13).ToPrs(Bars, 14));
 
-        // insufficient eval quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            static () => Data.GetCompare(300).ToPrs(Quotes, 14));
+        // insufficient eval bars
+        Assert.ThrowsExactly<InvalidBarsException>(
+            static () => Data.GetCompare(300).ToPrs(Bars, 14));
 
-        // mismatch quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            static () => OtherQuotes.ToPrs(MismatchQuotes, 14));
+        // mismatch bars
+        Assert.ThrowsExactly<InvalidBarsException>(
+            static () => OtherBars.ToPrs(MismatchBars, 14));
     }
 }

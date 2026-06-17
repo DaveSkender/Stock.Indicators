@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Pivot Points from incremental quotes.
+/// Pivot Points from incremental bars.
 /// </summary>
 /// <remarks>
 /// Initializes a new instance of the <see cref="PivotPointsList"/> class.
@@ -9,8 +9,8 @@ namespace Skender.Stock.Indicators;
 /// <param name="windowSize">Size of the window for pivot point calculation.</param>
 /// <param name="pointType">Type of pivot point calculation to use.</param>
 public class PivotPointsList(
-    PeriodSize windowSize = PeriodSize.Month,
-    PivotPointType pointType = PivotPointType.Standard) : BufferList<PivotPointsResult>, IIncrementFromQuote, IPivotPoints
+    BarInterval windowSize = BarInterval.Month,
+    PivotPointType pointType = PivotPointType.Standard) : BufferList<PivotPointsResult>, IIncrementFromBar, IPivotPoints
 {
     private int _windowId = int.MinValue;
     private bool _firstWindow = true;
@@ -21,38 +21,38 @@ public class PivotPointsList(
     private WindowPoint _windowPoint = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PivotPointsList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="PivotPointsList"/> class with initial bars.
     /// </summary>
     /// <param name="windowSize">Size of the window for pivot point calculation.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     public PivotPointsList(
-        PeriodSize windowSize,
+        BarInterval windowSize,
         PivotPointType pointType,
-        IReadOnlyList<IQuote> quotes)
-        : this(windowSize, pointType) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(windowSize, pointType) => Add(bars);
 
     /// <inheritdoc />
-    public PeriodSize WindowSize { get; init; } = windowSize;
+    public BarInterval WindowSize { get; init; } = windowSize;
 
     /// <inheritdoc />
     public PivotPointType PointType { get; init; } = pointType;
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
-        // Initialize window tracking on first quote
+        // Initialize window tracking on first bar
         if (_windowId == int.MinValue)
         {
             _windowId = GetWindowNumber(timestamp, WindowSize);
-            _windowHigh = (double)quote.High;
-            _windowLow = (double)quote.Low;
-            _windowOpen = (double)quote.Open;
-            _windowClose = (double)quote.Close;
+            _windowHigh = (double)bar.High;
+            _windowLow = (double)bar.Low;
+            _windowOpen = (double)bar.Open;
+            _windowClose = (double)bar.Close;
         }
 
         // Check for new window
@@ -66,16 +66,16 @@ public class PivotPointsList(
             // Set new levels
             if (PointType == PivotPointType.Woodie)
             {
-                _windowOpen = (double)quote.Open;
+                _windowOpen = (double)bar.Open;
             }
 
             _windowPoint = GetPivotPoint(
                 PointType, _windowOpen, _windowHigh, _windowLow, _windowClose);
 
             // Reset window min/max thresholds
-            _windowOpen = (double)quote.Open;
-            _windowHigh = (double)quote.High;
-            _windowLow = (double)quote.Low;
+            _windowOpen = (double)bar.Open;
+            _windowHigh = (double)bar.High;
+            _windowLow = (double)bar.Low;
         }
 
         // Add levels
@@ -99,19 +99,19 @@ public class PivotPointsList(
         AddInternal(result);
 
         // Capture window thresholds (for next iteration)
-        _windowHigh = (double)quote.High > _windowHigh ? (double)quote.High : _windowHigh;
-        _windowLow = (double)quote.Low < _windowLow ? (double)quote.Low : _windowLow;
-        _windowClose = (double)quote.Close;
+        _windowHigh = (double)bar.High > _windowHigh ? (double)bar.High : _windowHigh;
+        _windowLow = (double)bar.Low < _windowLow ? (double)bar.Low : _windowLow;
+        _windowClose = (double)bar.Close;
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -128,7 +128,7 @@ public class PivotPointsList(
         _windowPoint = new();
     }
 
-    private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
+    private static int GetWindowNumber(DateTime d, BarInterval windowSize)
         => PivotPoints.GetWindowNumber(d, windowSize);
 
     private static WindowPoint GetPivotPoint(
@@ -141,13 +141,13 @@ public static partial class PivotPoints
     /// <summary>
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="windowSize">Size of the window for pivot point calculation.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>A new <see cref="PivotPointsList"/> instance.</returns>
     public static PivotPointsList ToPivotPointsList(
-        this IReadOnlyList<IQuote> quotes,
-        PeriodSize windowSize = PeriodSize.Month,
+        this IReadOnlyList<IBar> bars,
+        BarInterval windowSize = BarInterval.Month,
         PivotPointType pointType = PivotPointType.Standard)
-        => new(windowSize, pointType) { quotes };
+        => new(windowSize, pointType) { bars };
 }

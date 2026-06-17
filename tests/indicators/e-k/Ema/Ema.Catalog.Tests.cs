@@ -12,11 +12,11 @@ public class EmaTests : TestBase
     public void EmaExecuteById_WithValidId_MatchesDirectCall()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes;
+        IReadOnlyList<Bar> bars = Bars;
         const int lookback = 20;
 
         // Act - Execute via catalog ExecuteById
-        IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
+        IReadOnlyList<EmaResult> byId = bars.ExecuteById<EmaResult>(
             id: "EMA",
             style: Style.Series,
             parameters: new() {
@@ -24,7 +24,7 @@ public class EmaTests : TestBase
             });
 
         // Act - Direct call
-        IReadOnlyList<EmaResult> direct = quotes.ToEma(lookback);
+        IReadOnlyList<EmaResult> direct = bars.ToEma(lookback);
 
         // Assert
         byId.IsExactly(direct);
@@ -34,7 +34,7 @@ public class EmaTests : TestBase
     public void EmaExecuteFromJson_WithValidJson_MatchesDirectCall()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes;
+        IReadOnlyList<Bar> bars = Bars;
 
         const string json = /*lang=json,strict*/ """
             {
@@ -45,10 +45,10 @@ public class EmaTests : TestBase
             """;
 
         // Act - Execute via JSON config
-        IReadOnlyList<EmaResult> fromJson = quotes.ExecuteFromJson<EmaResult>(json);
+        IReadOnlyList<EmaResult> fromJson = bars.ExecuteFromJson<EmaResult>(json);
 
         // Act - Direct call
-        IReadOnlyList<EmaResult> direct = quotes.ToEma(20);
+        IReadOnlyList<EmaResult> direct = bars.ToEma(20);
 
         // Assert
         fromJson.IsExactly(direct);
@@ -72,7 +72,7 @@ public class EmaTests : TestBase
     public void EmaSeries_InCatalog_ReturnsAllVariants()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
+        IReadOnlyList<Bar> bars = Bars; // Using TestBase.Bars
 
         // Use static listing directly to avoid shared registry state issues
         IndicatorListing listing = Ema.SeriesListing;
@@ -83,10 +83,10 @@ public class EmaTests : TestBase
         int lookbackValue = (int)lookbackParam.DefaultValue;
 
         // Act - Use catalog utility to dynamically execute the indicator
-        IReadOnlyList<EmaResult> catalogResults = ListingExecutor.Execute<EmaResult>(quotes, listing);
+        IReadOnlyList<EmaResult> catalogResults = ListingExecutor.Execute<EmaResult>(bars, listing);
 
         // Act - Direct call for comparison using catalog's default parameter value
-        IReadOnlyList<EmaResult> directResults = quotes.ToEma(lookbackValue);
+        IReadOnlyList<EmaResult> directResults = bars.ToEma(lookbackValue);
 
         // Assert - Results from catalog-driven execution should match direct call
         catalogResults.IsExactly(directResults);
@@ -109,21 +109,21 @@ public class EmaTests : TestBase
     {
         IndicatorListing listing = Catalog.Get("EMA", Style.Series);
 
-        IReadOnlyList<EmaResult> catalogResult = listing.Execute<EmaResult>(Quotes);
+        IReadOnlyList<EmaResult> catalogResult = listing.Execute<EmaResult>(Bars);
 
         int lookbackPeriod = (int)listing.Parameters
             .Single(static p => p.ParameterName == "lookbackPeriods")
             .DefaultValue;
 
         lookbackPeriod.Should().Be(20, "this is what's defined in the catalog");
-        catalogResult.IsExactly(Quotes.ToEma(lookbackPeriod));
+        catalogResult.IsExactly(Bars.ToEma(lookbackPeriod));
     }
 
     [TestMethod]
     public void EmaSeries_WithCustomParameters_ListsAllVariants()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
+        IReadOnlyList<Bar> bars = Bars; // Using TestBase.Bars
         IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
@@ -132,17 +132,17 @@ public class EmaTests : TestBase
         // Act - Use fluent API to configure, source, and execute
         IReadOnlyList<EmaResult> customResults = listing
             .WithParamValue("lookbackPeriods", customLookbackPeriod)
-            .FromSource((IEnumerable<IQuote>)quotes)  // Explicitly cast to the quotes overload
+            .FromSource((IEnumerable<IBar>)bars)  // Explicitly cast to the bars overload
             .Execute<EmaResult>();
 
         // Act - Direct call for comparison
-        IReadOnlyList<EmaResult> directResults = quotes.ToEma(customLookbackPeriod);
+        IReadOnlyList<EmaResult> directResults = bars.ToEma(customLookbackPeriod);
 
         // Assert - Results should be identical
         customResults.IsExactly(directResults);
 
         // Verify we're actually using the custom parameter (results should be different from default)
-        IReadOnlyList<EmaResult> defaultResults = listing.Execute<EmaResult>(quotes);
+        IReadOnlyList<EmaResult> defaultResults = listing.Execute<EmaResult>(bars);
         customResults.Should().NotBeEquivalentTo(defaultResults, "Custom parameter should produce different results");
     }
 
@@ -150,7 +150,7 @@ public class EmaTests : TestBase
     public void EmaSeries_FromCatalog_MatchesDirectCall()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes;
+        IReadOnlyList<Bar> bars = Bars;
         IndicatorListing listing = Ema.SeriesListing;
 
         // Get default parameter value from catalog
@@ -158,10 +158,10 @@ public class EmaTests : TestBase
         int lookbackValue = (int)lookbackParam.DefaultValue!;
 
         // Act - Call using catalog metadata (via method name)
-        IReadOnlyList<EmaResult> catalogResults = quotes.ToEma(lookbackValue);
+        IReadOnlyList<EmaResult> catalogResults = bars.ToEma(lookbackValue);
 
         // Act - Direct call
-        IReadOnlyList<EmaResult> seriesResults = quotes.ToEma(lookbackValue);
+        IReadOnlyList<EmaResult> seriesResults = bars.ToEma(lookbackValue);
 
         // Assert - Results should be identical
         catalogResults.IsExactly(seriesResults);
@@ -171,7 +171,7 @@ public class EmaTests : TestBase
     public void EmaFluentApi_AlternativeSyntax_ReturnsExpectedResult()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
+        IReadOnlyList<Bar> bars = Bars; // Using TestBase.Bars
         IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
@@ -180,15 +180,15 @@ public class EmaTests : TestBase
         // Method 1: listing.WithParamValue().FromSource().Execute()
         IReadOnlyList<EmaResult> method1Results = listing
             .WithParamValue("lookbackPeriods", customLookbackPeriod)
-            .FromSource((IEnumerable<IQuote>)quotes)  // Explicitly cast to the quotes overload
+            .FromSource((IEnumerable<IBar>)bars)  // Explicitly cast to the bars overload
             .Execute<EmaResult>();
 
-        // Method 2: quotes.Execute(customIndicator)
+        // Method 2: bars.Execute(customIndicator)
         ListingExecutionBuilder customIndicator = listing.WithParamValue("lookbackPeriods", customLookbackPeriod);
-        IReadOnlyList<EmaResult> method2Results = quotes.Execute<EmaResult>(customIndicator);
+        IReadOnlyList<EmaResult> method2Results = bars.Execute<EmaResult>(customIndicator);
 
         // Method 3: Traditional execution for comparison
-        IReadOnlyList<EmaResult> directResults = quotes.ToEma(customLookbackPeriod);
+        IReadOnlyList<EmaResult> directResults = bars.ToEma(customLookbackPeriod);
 
         // Assert - All methods should produce identical results
         method1Results.IsExactly(directResults);
@@ -203,7 +203,7 @@ public class EmaTests : TestBase
         IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
-        // Act - Create custom indicator without quotes
+        // Act - Create custom indicator without bars
         ListingExecutionBuilder customIndicator = listing
             .WithParamValue("lookbackPeriods", 10);
 
@@ -211,25 +211,25 @@ public class EmaTests : TestBase
         customIndicator.BaseListing.Should().Be(listing);
         customIndicator.ParameterOverrides.Should().HaveCount(1);
         customIndicator.ParameterOverrides["lookbackPeriods"].Should().Be(10);
-        customIndicator.HasQuotes.Should().BeFalse();
+        customIndicator.HasBars.Should().BeFalse();
 
-        // Act - Add quotes using FromSource(IEnumerable<IQuote>)
-        ListingExecutionBuilder withQuotes = customIndicator.FromSource((IEnumerable<IQuote>)Quotes);
-        withQuotes.HasQuotes.Should().BeTrue();
+        // Act - Add bars using FromSource(IEnumerable<IBar>)
+        ListingExecutionBuilder withBars = customIndicator.FromSource((IEnumerable<IBar>)Bars);
+        withBars.HasBars.Should().BeTrue();
 
         // Assert - Original builder should be immutable
-        customIndicator.HasQuotes.Should().BeFalse("Original builder should remain unchanged");
+        customIndicator.HasBars.Should().BeFalse("Original builder should remain unchanged");
     }
 
     [TestMethod]
     public void EmaSeries_WithChaining_ReturnsExpectedResult()
     {
         // Arrange - Test the new series chaining functionality using a realistic scenario
-        IReadOnlyList<Quote> quotes = Quotes;
+        IReadOnlyList<Bar> bars = Bars;
 
         // Create some indicator results to use as series input
-        IReadOnlyList<EmaResult> emaResults = quotes.ToEma(20);
-        IReadOnlyList<SmaResult> smaResults = quotes.ToSma(20);
+        IReadOnlyList<EmaResult> emaResults = bars.ToEma(20);
+        IReadOnlyList<SmaResult> smaResults = bars.ToSma(20);
 
         // Get Correlation listing which accepts series parameters - use static listing
         IndicatorListing correlationListing = Correlation.SeriesListing;
@@ -270,10 +270,10 @@ public class EmaTests : TestBase
     public void EmaFluentApi_NewSeriesFunctionality_ReturnsExpectedResult()
     {
         // Arrange - Demonstrate the new FromSource<T> functionality with a realistic chaining scenario
-        IReadOnlyList<Quote> quotes = Quotes;
+        IReadOnlyList<Bar> bars = Bars;
 
         // Step 1: Create EMA results
-        IReadOnlyList<EmaResult> emaResults = quotes.ToEma(20);
+        IReadOnlyList<EmaResult> emaResults = bars.ToEma(20);
 
         // Step 2: Use the EMA results as input to another indicator that accepts series - use static listing
         IndicatorListing correlationListing = Correlation.SeriesListing;
@@ -282,7 +282,7 @@ public class EmaTests : TestBase
         // Act - Use the new FromSource<T> extension method
         ListingExecutionBuilder customBuilder = correlationListing
             .FromSource(emaResults, "sourceA")
-            .WithParamValue("sourceB", quotes.ToSma(20))
+            .WithParamValue("sourceB", bars.ToSma(20))
             .WithParamValue("lookbackPeriods", 10);
 
         // Assert - Builder should have all parameters set correctly
@@ -292,7 +292,7 @@ public class EmaTests : TestBase
         customBuilder.ParameterOverrides["lookbackPeriods"].Should().Be(10);
 
         // Act - Test series execution with alternative syntax
-        IReadOnlyList<SmaResult> smaResults = quotes.ToSma(15);
+        IReadOnlyList<SmaResult> smaResults = bars.ToSma(15);
         ListingExecutionBuilder secondBuilder = correlationListing.FromSource(smaResults, "sourceA");
         secondBuilder.ParameterOverrides["sourceA"].Should().BeEquivalentTo(smaResults);
 
@@ -330,15 +330,15 @@ public class EmaTests : TestBase
             }
         ];
 
-        IReadOnlyList<Quote> quotes = Quotes;
+        IReadOnlyList<Bar> bars = Bars;
 
         // Act - Execute configurations
-        IReadOnlyList<EmaResult> shortEmaResults = configs[0].Execute<EmaResult>(quotes);
-        IReadOnlyList<EmaResult> longEmaResults = configs[1].Execute<EmaResult>(quotes);
+        IReadOnlyList<EmaResult> shortEmaResults = configs[0].Execute<EmaResult>(bars);
+        IReadOnlyList<EmaResult> longEmaResults = configs[1].Execute<EmaResult>(bars);
 
         // Act - Compare with direct calls
-        IReadOnlyList<EmaResult> shortEmaDirect = quotes.ToEma(12);
-        IReadOnlyList<EmaResult> longEmaDirect = quotes.ToEma(26);
+        IReadOnlyList<EmaResult> shortEmaDirect = bars.ToEma(12);
+        IReadOnlyList<EmaResult> longEmaDirect = bars.ToEma(26);
 
         // Assert - Configuration-based execution should match direct calls
         shortEmaResults.IsExactly(shortEmaDirect);

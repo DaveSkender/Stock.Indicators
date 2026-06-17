@@ -3,7 +3,7 @@ namespace StaticSeries;
 [TestClass]
 public class Vwap : StaticSeriesTestBase
 {
-    private static readonly IReadOnlyList<Quote> intraday = Data.GetIntraday()
+    private static readonly IReadOnlyList<Bar> intraday = Data.GetIntraday()
         .OrderBy(static x => x.Timestamp)
         .Take(391)
         .ToList();
@@ -61,7 +61,7 @@ public class Vwap : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToVwap()
             .ToSma(10);
 
@@ -70,9 +70,9 @@ public class Vwap : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<VwapResult> r = BadQuotes
+        IReadOnlyList<VwapResult> r = BadBars
             .ToVwap();
 
         r.Should().HaveCount(502);
@@ -80,14 +80,14 @@ public class Vwap : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<VwapResult> r0 = Noquotes
+        IReadOnlyList<VwapResult> r0 = Nobars
             .ToVwap();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<VwapResult> r1 = Onequote
+        IReadOnlyList<VwapResult> r1 = Onebar
             .ToVwap();
 
         r1.Should().HaveCount(1);

@@ -15,14 +15,14 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 ```csharp
 // C# usage syntax
 IReadOnlyList<AdlResult> results =
-  quotes.ToAdl();
+  bars.ToAdl();
 ```
 
-## Historical quotes requirements
+## Historical bars requirements
 
-You must have at least two historical quotes to cover the warmup periods; however, since this is a trendline, more is recommended.
+You must have at least two historical bars to cover the warmup periods; however, since this is a trendline, more is recommended.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -30,15 +30,15 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 IReadOnlyList<AdlResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 
 ### `AdlResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `MoneyFlowMultiplier` | double | Money Flow Multiplier |
 | `MoneyFlowVolume` | double | Money Flow Volume |
 | `Adl` | double | Accumulation Distribution Line (ADL) |
@@ -61,12 +61,12 @@ Results can be further processed on `Adl` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToAdl()
     .ToRsi(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -77,24 +77,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 AdlList adlList = new();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  adlList.Add(quote);
+  adlList.Add(bar);
 }
 
 // based on `ICollection<AdlResult>`
 IReadOnlyList<AdlResult> results = adlList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-AdlHub observer = quoteHub.ToAdlHub();
+BarHub barHub = new();
+AdlHub observer = barHub.ToAdlHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<AdlResult> results = observer.Results;

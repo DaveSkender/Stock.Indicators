@@ -6,7 +6,7 @@ public class Tr : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<TrResult> sut = Quotes
+        IReadOnlyList<TrResult> sut = Bars
             .ToTr();
 
         // proper quantities
@@ -40,11 +40,11 @@ public class Tr : StaticSeriesTestBase
     public void ChainingFromResults_WorksAsExpected()
     {
         // same as ATR
-        IReadOnlyList<SmmaResult> sut = Quotes
+        IReadOnlyList<SmmaResult> sut = Bars
             .ToTr()
             .ToSmma(14);
 
-        IReadOnlyList<AtrResult> atrResults = Quotes
+        IReadOnlyList<AtrResult> atrResults = Bars
             .ToAtr();
 
         for (int i = 0; i < sut.Count; i++)
@@ -58,9 +58,9 @@ public class Tr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<TrResult> r = BadQuotes
+        IReadOnlyList<TrResult> r = BadBars
             .ToTr();
 
         r.Should().HaveCount(502);
@@ -68,14 +68,14 @@ public class Tr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<TrResult> r0 = Noquotes
+        IReadOnlyList<TrResult> r0 = Nobars
             .ToTr();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<TrResult> r1 = Onequote
+        IReadOnlyList<TrResult> r1 = Onebar
             .ToTr();
 
         r1.Should().HaveCount(1);

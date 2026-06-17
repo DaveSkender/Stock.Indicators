@@ -15,7 +15,7 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 ```csharp
 // C# usage syntax
 IReadOnlyList<AlligatorResult> results =
-  quotes.ToAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
+  bars.ToAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
 ```
 
 ## Parameters
@@ -29,11 +29,11 @@ IReadOnlyList<AlligatorResult> results =
 | `lipsPeriods` | int | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5. |
 | `lipsOffset` | int | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `JP+JO+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least `JP+JO+250` data points prior to the intended usage date for better precision.
+You must have at least `JP+JO+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least `JP+JO+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -41,8 +41,8 @@ You must have at least `JP+JO+100` periods of `quotes` to cover the [warmup and 
 IReadOnlyList<AlligatorResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `JP+JO` periods will have `null` values since there's not enough data to calculate.
 
@@ -54,7 +54,7 @@ The first `JP+JO+100` periods will have decreasing magnitude, convergence-relate
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Jaw` | double | Alligator's Jaw |
 | `Teeth` | double | Alligator's Teeth |
 | `Lips` | double | Alligator's Lips |
@@ -74,7 +74,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToAlligator();
 ```
@@ -90,24 +90,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 AlligatorList alligatorList = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  alligatorList.Add(quote);
+  alligatorList.Add(bar);
 }
 
 // based on `ICollection<AlligatorResult>`
 IReadOnlyList<AlligatorResult> results = alligatorList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-AlligatorHub observer = quoteHub.ToAlligatorHub();
+BarHub barHub = new();
+AlligatorHub observer = barHub.ToAlligatorHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<AlligatorResult> results = observer.Results;

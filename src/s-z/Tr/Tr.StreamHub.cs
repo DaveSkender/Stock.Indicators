@@ -2,9 +2,9 @@ namespace Skender.Stock.Indicators;
 
 /// <inheritdoc />
 public class TrHub
-    : ChainHub<IQuote, TrResult>
+    : ChainHub<IBar, TrResult>
 {
-    internal TrHub(IQuoteProvider<IQuote> provider)
+    internal TrHub(IBarProvider<IBar> provider)
         : base(provider)
     {
         Name = "TRUE RANGE";
@@ -16,7 +16,7 @@ public class TrHub
 
     /// <inheritdoc/>
     protected override (TrResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -27,7 +27,7 @@ public class TrHub
             return (new TrResult(item.Timestamp, null), i);
         }
 
-        IQuote prev = ProviderCache[i - 1];
+        IBar prev = ProviderCache[i - 1];
 
         // candidate result
         TrResult r = new(
@@ -44,11 +44,11 @@ public class TrHub
 public static partial class Tr
 {
     /// <summary>
-    /// Converts a quote provider to a True Range (TR) hub.
+    /// Converts a bar provider to a True Range (TR) hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <returns>A True Range (TR) hub.</returns>
     public static TrHub ToTrHub(
-        this IQuoteProvider<IQuote> quoteProvider)
-             => new(quoteProvider);
+        this IBarProvider<IBar> barProvider)
+             => new(barProvider);
 }

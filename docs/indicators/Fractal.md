@@ -15,7 +15,7 @@ Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fracta
 ```csharp
 // C# usage syntax
 IReadOnlyList<FractalResult> results =
-  quotes.ToFractal(windowSpan);
+  bars.ToFractal(windowSpan);
 ```
 
 ## Parameters
@@ -27,11 +27,11 @@ IReadOnlyList<FractalResult> results =
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `2×S+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least `2×S+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### EndType options
 
@@ -45,20 +45,20 @@ You must have at least `2×S+1` periods of `quotes` to cover the warmup periods;
 IReadOnlyList<FractalResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
-- The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
+- The first and last `S` periods in `bars` are unable to be calculated since there's not enough prior/following data.
 
 ::: warning 🖌️ Repaint warning
-This price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
+This price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `bars`.  Fractals are retroactively identified.
 :::
 
 ### `FractalResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `FractalBear` | decimal | Value indicates a **high** point; otherwise `null` is returned. |
 | `FractalBull` | decimal | Value indicates a **low** point; otherwise `null` is returned. |
 
@@ -72,7 +72,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator is not chain-enabled and must be generated from `bars`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -83,24 +83,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 FractalList fractalList = new(windowSpan);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  fractalList.Add(quote);
+  fractalList.Add(bar);
 }
 
 // based on `ICollection<FractalResult>`
 IReadOnlyList<FractalResult> results = fractalList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-FractalHub observer = quoteHub.ToFractalHub(windowSpan);
+BarHub barHub = new();
+FractalHub observer = barHub.ToFractalHub(windowSpan);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<FractalResult> results = observer.Results;

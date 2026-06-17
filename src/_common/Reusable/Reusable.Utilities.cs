@@ -6,16 +6,16 @@ namespace Skender.Stock.Indicators;
 public static class Reusable
 {
     /// <summary>
-    /// Converts a list of quotes to a list of reusable types.
+    /// Converts a list of bars to a list of reusable types.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A list of reusable types.</returns>
     public static IReadOnlyList<IReusable> ToReusable(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         CandlePart candlePart)
 
-        => quotes
+        => bars
             .OrderBy(x => x.Timestamp)
             .Select(x => x.ToReusable(candlePart))
             .ToList();
@@ -58,11 +58,11 @@ public static class Reusable
     }
 
     /// <summary>
-    /// Converts a quote to a basic chainable class.
+    /// Converts a bar to a basic chainable class.
     /// </summary>
-    /// <param name="q">Quote to convert.</param>
+    /// <param name="q">Bar to convert.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A reusable type.</returns>
-    internal static IReusable ToReusable(this IQuote q, CandlePart candlePart)
-        => q.ToQuotePart(candlePart);
+    internal static IReusable ToReusable(this IBar q, CandlePart candlePart)
+        => q.ToBarPart(candlePart);
 }

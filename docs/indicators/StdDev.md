@@ -16,11 +16,11 @@ description: Standard Deviation represents the volatility of historical financia
 ```csharp
 // C# usage syntax (series)
 IReadOnlyList<StdDevResult> results =
-  quotes.ToStdDev(lookbackPeriods);
+  bars.ToStdDev(lookbackPeriods);
 
-// usage with streaming quotes
-QuoteHub quoteHub = new();
-StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
+// usage with streaming bars
+BarHub barHub = new();
+StdDevHub observer = barHub.ToStdDevHub(lookbackPeriods);
 ```
 
 ## Parameters
@@ -29,11 +29,11 @@ StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -41,8 +41,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<StdDevResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -50,7 +50,7 @@ IReadOnlyList<StdDevResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `StdDev` | double | Standard Deviation of price |
 | `Mean` | double | Mean value of price |
 | `ZScore` | double | Z-Score of current price (number of standard deviations from mean) |
@@ -70,7 +70,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToStdDev(..);
 ```
@@ -79,7 +79,7 @@ Results can be further processed on `StdDev` with additional chain-enabled indic
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToStdDev(..)
     .ToSlope(..);
 ```
@@ -93,24 +93,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 StdDevList stdDevList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  stdDevList.Add(quote);
+  stdDevList.Add(bar);
 }
 
 // based on `ICollection<StdDevResult>`
 IReadOnlyList<StdDevResult> results = stdDevList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
+BarHub barHub = new();
+StdDevHub observer = barHub.ToStdDevHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<StdDevResult> results = observer.Results;

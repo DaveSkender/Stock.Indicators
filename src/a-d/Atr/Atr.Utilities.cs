@@ -24,31 +24,31 @@ public static partial class Atr
     }
 
     /// <summary>
-    /// Calculates the Average True Range (ATR) incrementally for a given quote.
+    /// Calculates the Average True Range (ATR) incrementally for a given bar.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quote">Current quote.</param>
+    /// <param name="bar">Current bar.</param>
     /// <param name="prevClose">Close price of the previous period.</param>
     /// <param name="prevAtr">ATR value of the previous period.</param>
     /// <returns>An <see cref="AtrResult"/> containing the ATR values for the current period.</returns>
     public static AtrResult Increment(
         int lookbackPeriods,
-        IQuote quote,
+        IBar bar,
         double prevClose,
         double? prevAtr)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
 
         double tr = Tr.Increment(high, low, prevClose);
         double atr = (((prevAtr ?? double.NaN) * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
         double atrp = close == 0 ? double.NaN : atr / close * 100;
 
         return new AtrResult(
-            quote.Timestamp,
+            bar.Timestamp,
             tr,
             atr.NaN2Null(),
             atrp.NaN2Null());

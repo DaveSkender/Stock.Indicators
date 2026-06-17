@@ -15,7 +15,7 @@ Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](ht
 ```csharp
 // C# usage syntax
 IReadOnlyList<StarcBandsResult> results =
-  quotes.ToStarcBands(smaPeriods, multiplier, atrPeriods);
+  bars.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<StarcBandsResult> results =
 | `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
 | `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `S` or `A+100` periods of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
+You must have at least `S` or `A+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `S` or `A+100` periods of `quotes`, whichever is more, to
 IReadOnlyList<StarcBandsResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` or `A`.
 
@@ -51,7 +51,7 @@ The first `A+150` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `UpperBand` | double | Upper STARC band |
 | `Centerline` | double | SMA of price |
 | `LowerBand` | double | Lower STARC band |
@@ -67,7 +67,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator is not chain-enabled and must be generated from `bars`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -78,24 +78,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 StarcBandsList starcBandsList = new(smaPeriods, multiplier, atrPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  starcBandsList.Add(quote);
+  starcBandsList.Add(bar);
 }
 
 // based on `ICollection<StarcBandsResult>`
 IReadOnlyList<StarcBandsResult> results = starcBandsList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-StarcBandsHub observer = quoteHub.ToStarcBandsHub(smaPeriods, multiplier, atrPeriods);
+BarHub barHub = new();
+StarcBandsHub observer = barHub.ToStarcBandsHub(smaPeriods, multiplier, atrPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<StarcBandsResult> results = observer.Results;

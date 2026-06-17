@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 /// Represents a stream hub for calculating Keltner Channels.
 /// </summary>
 public class KeltnerHub
-    : StreamHub<IQuote, KeltnerResult>, IKeltner
+    : StreamHub<IBar, KeltnerResult>, IKeltner
 {
 
     private readonly int _lookbackPeriods;
 
     internal KeltnerHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int emaPeriods,
         double multiplier,
         int atrPeriods) : base(provider)
@@ -66,7 +66,7 @@ public class KeltnerHub
 
     /// <inheritdoc/>
     protected override (KeltnerResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -168,17 +168,17 @@ public class KeltnerHub
 public static partial class Keltner
 {
     /// <summary>
-    /// Creates a Keltner Channels streaming hub from a quote provider.
+    /// Creates a Keltner Channels streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="KeltnerHub"/>.</returns>
     public static KeltnerHub ToKeltnerHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int emaPeriods = 20,
         double multiplier = 2,
         int atrPeriods = 10)
-        => new(quoteProvider, emaPeriods, multiplier, atrPeriods);
+        => new(barProvider, emaPeriods, multiplier, atrPeriods);
 }

@@ -6,11 +6,11 @@ public class WilliamsrTests : RegressionTestBase<WilliamsResult>
     public WilliamsrTests() : base("willr.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToWilliamsR(14).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToWilliamsR(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToWilliamsRList(14).IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Bars.ToWilliamsRList(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream_AgainstBaseline_MatchesExactly() => QuoteHub.ToWilliamsRHub(14).Results.IsExactly(Expected);
+    public override void Stream_AgainstBaseline_MatchesExactly() => BarHub.ToWilliamsRHub(14).Results.IsExactly(Expected);
 }

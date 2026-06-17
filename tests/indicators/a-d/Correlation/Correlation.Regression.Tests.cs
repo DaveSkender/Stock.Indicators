@@ -8,7 +8,7 @@ public class CorrelationTests : RegressionTestBase<CorrResult>
     private const int n = 20;
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => OtherQuotes.ToCorrelation(Quotes, n).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => OtherBars.ToCorrelation(Bars, n).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");

@@ -5,11 +5,11 @@ using Test.Tools;
 namespace StreamHubs;
 
 /// <summary>
-/// Integration tests to exercise the SSE streaming quote server and ensure that every streaming indicator
+/// Integration tests to exercise the SSE streaming bar server and ensure that every streaming indicator
 /// hub produces results identical to their static series counterparts.  These tests intentionally
-/// ingest more quotes than the hub cache can hold and then perform a variety of out-of-order insert,
+/// ingest more bars than the hub cache can hold and then perform a variety of out-of-order insert,
 /// remove and replace operations.  The goal is to verify that pruned timelines heal correctly and
-/// that the tail end of the static indicator series (computed on the full, corrected quote sequence)
+/// that the tail end of the static indicator series (computed on the full, corrected bar sequence)
 /// matches the contents of the indicator hub caches exactly.  Do not modify the production code
 /// when adjusting this test – instead, adjust the assertions here to reflect the correct behaviour.
 /// </summary>
@@ -19,10 +19,10 @@ public class ThreadSafetyTests : TestBase
     private const int StcTestPort = 5099;
     private const int AllHubsTestPort = 5100;
     private const int AggregatorTestPort = 5101;
-    private const int TargetQuoteCount = 2000;
+    private const int TargetBarCount = 2000;
     private const int MaxCacheSize = 1500;
-    private const int SseInterval = 1; // milliseconds between quotes
-    private const string QuoteInterval = "1Day"; // daily quotes
+    private const int SseInterval = 1; // milliseconds between bars
+    private const string BarIntervalCode = "1Day"; // daily bars
 
     private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNameCaseInsensitive = true
@@ -31,10 +31,10 @@ public class ThreadSafetyTests : TestBase
     public TestContext? TestContext { get; set; }
 
     /// <summary>
-    /// This test runs the SSE server and pipes quotes into a <see cref="QuoteHub"/> that is chained
+    /// This test runs the SSE server and pipes bars into a <see cref="BarHub"/> that is chained
     /// only to the STC indicator.  It reproduces a specific bug in <c>StcHub.RollbackState()</c>
-    /// by performing several out-of-order operations.  After all quotes and revisions are processed
-    /// the test computes a full static STC series on the amended quote list and then verifies that
+    /// by performing several out-of-order operations.  After all bars and revisions are processed
+    /// the test computes a full static STC series on the amended bar list and then verifies that
     /// the tail end of the static series matches the streaming hub results exactly.
     /// </summary>
     [TestMethod]
@@ -50,9 +50,9 @@ public class ThreadSafetyTests : TestBase
             return;
         }
 
-        // Setup: QuoteHub with StcHub
-        QuoteHub quoteHub = new(MaxCacheSize);
-        StcHub stcHub = quoteHub.ToStcHub();
+        // Setup: BarHub with StcHub
+        BarHub barHub = new(MaxCacheSize);
+        StcHub stcHub = barHub.ToStcHub();
 
         try
         {
@@ -64,23 +64,23 @@ public class ThreadSafetyTests : TestBase
                 return;
             }
 
-            // Consume quotes + rollback scenarios from SSE stream
-            SseQuoteBatch stcBatch = await ConsumeQuotesFromSse(quoteHub, StcTestPort, "stc-rollbacks")
+            // Consume bars + rollback scenarios from SSE stream
+            SseBarBatch stcBatch = await ConsumeBarsFromSse(barHub, StcTestPort, "stc-rollbacks")
                 .ConfigureAwait(true);
-            stcBatch.InitialQuotes.Should().HaveCount(TargetQuoteCount);
+            stcBatch.InitialBars.Should().HaveCount(TargetBarCount);
 
-            // The hub cache should be completely filled after streaming 2000 quotes with pruning.
-            // However, the test scenario includes a RemoveAt operation (removing quote at index 1900),
-            // which reduces the count by 1. Subsequent revisions to the last quote (same timestamp)
+            // The hub cache should be completely filled after streaming 2000 bars with pruning.
+            // However, the test scenario includes a RemoveAt operation (removing bar at index 1900),
+            // which reduces the count by 1. Subsequent revisions to the last bar (same timestamp)
             // are replacements, not additions, so they don't refill the cache.
             // Expected final count: MaxCacheSize - 1 (due to the removal)
-            quoteHub.Results.Should().HaveCount(MaxCacheSize - 1, "quote hub should have MaxCacheSize - 1 after removal operation");
+            barHub.Results.Should().HaveCount(MaxCacheSize - 1, "bar hub should have MaxCacheSize - 1 after removal operation");
 
-            // Compute series on FULL quote list, then take last N matching cache size.
-            // Streaming indicators process all quotes and maintain state, so series must be
+            // Compute series on FULL bar list, then take last N matching cache size.
+            // Streaming indicators process all bars and maintain state, so series must be
             // computed on the full history, then truncated to match the final cache size.
-            int cacheSize = quoteHub.Results.Count;
-            IReadOnlyList<StcResult> expected = stcBatch.RevisedQuotes
+            int cacheSize = barHub.Results.Count;
+            IReadOnlyList<StcResult> expected = stcBatch.RevisedBars
                 .ToStc()
                 .TakeLast(cacheSize)
                 .ToList();
@@ -90,7 +90,7 @@ public class ThreadSafetyTests : TestBase
         }
         finally
         {
-            quoteHub.EndTransmission();
+            barHub.EndTransmission();
 
             if (!serverProcess.HasExited)
             {
@@ -110,12 +110,12 @@ public class ThreadSafetyTests : TestBase
     }
 
     /// <summary>
-    /// Runs the SSE server and ingests 2,000+ quotes into a single <see cref="QuoteHub"/> with a
+    /// Runs the SSE server and ingests 2,000+ bars into a single <see cref="BarHub"/> with a
     /// maximum cache size of 1,500.  Every built-in streaming indicator hub is subscribed to the
-    /// primary quote hub.  A series of out-of-order operations (add, remove and replace) are
+    /// primary bar hub.  A series of out-of-order operations (add, remove and replace) are
     /// applied to exercise the hub’s rollback logic both before and after pruning occurs.  After
-    /// all quotes and revisions have been processed the full static series for each indicator is
-    /// computed on the amended quote sequence, the results are truncated to the current cache size,
+    /// all bars and revisions have been processed the full static series for each indicator is
+    /// computed on the amended bar sequence, the results are truncated to the current cache size,
     /// and the streaming hub results are compared against the static tail.  This verifies that
     /// pruning and healing work correctly and that the streaming hubs remain in lockstep with
     /// their static counterparts.
@@ -133,8 +133,8 @@ public class ThreadSafetyTests : TestBase
             return;
         }
 
-        // Setup: Create one primary QuoteHub
-        QuoteHub quoteHub = new(MaxCacheSize);
+        // Setup: Create one primary BarHub
+        BarHub barHub = new(MaxCacheSize);
 
         try
         {
@@ -146,172 +146,172 @@ public class ThreadSafetyTests : TestBase
                 return;
             }
 
-            // Subscribe all 80+ indicator hubs to the primary QuoteHub
-            AdlHub adlHub = quoteHub.ToAdlHub();
-            AdxHub adxHub = quoteHub.ToAdxHub(14);
-            AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
-            AlmaHub almaHub = quoteHub.ToAlmaHub(10, 0.85, 6);
-            AroonHub aroonHub = quoteHub.ToAroonHub(25);
-            AtrHub atrHub = quoteHub.ToAtrHub(14);
-            AtrStopHub atrStopHub = quoteHub.ToAtrStopHub(21);
-            AwesomeHub awesomeHub = quoteHub.ToAwesomeHub();
-            BollingerBandsHub bollingerBandsHub = quoteHub.ToBollingerBandsHub(20, 2);
-            BopHub bopHub = quoteHub.ToBopHub();
-            CciHub cciHub = quoteHub.ToCciHub(20);
-            ChaikinOscHub chaikinOscHub = quoteHub.ToChaikinOscHub();
-            ChandelierHub chandelierHub = quoteHub.ToChandelierHub();
-            ChopHub chopHub = quoteHub.ToChopHub(14);
-            CmfHub cmfHub = quoteHub.ToCmfHub(20);
-            CmoHub cmoHub = quoteHub.ToCmoHub(14);
-            ConnorsRsiHub connorsRsiHub = quoteHub.ToConnorsRsiHub();
-            DemaHub demaHub = quoteHub.ToDemaHub(20);
-            DojiHub dojiHub = quoteHub.ToDojiHub();
-            DonchianHub donchianHub = quoteHub.ToDonchianHub(20);
-            DpoHub dpoHub = quoteHub.ToDpoHub(14);
-            DynamicHub dynamicHub = quoteHub.ToDynamicHub(14);
-            ElderRayHub elderRayHub = quoteHub.ToElderRayHub(13);
-            EmaHub emaHub = quoteHub.ToEmaHub(20);
-            EpmaHub epmaHub = quoteHub.ToEpmaHub(20);
-            FractalHub fractalHub = quoteHub.ToFractalHub(2);
-            FcbHub fcbHub = quoteHub.ToFcbHub(2);
-            FisherTransformHub fisherTransformHub = quoteHub.ToFisherTransformHub(10);
-            ForceIndexHub forceIndexHub = quoteHub.ToForceIndexHub(13);
-            GatorHub gatorHub = quoteHub.ToGatorHub();
-            HeikinAshiHub heikinAshiHub = quoteHub.ToHeikinAshiHub();
-            HmaHub hmaHub = quoteHub.ToHmaHub(20);
-            HtTrendlineHub htTrendlineHub = quoteHub.ToHtTrendlineHub();
-            HurstHub hurstHub = quoteHub.ToHurstHub(20);
-            IchimokuHub ichimokuHub = quoteHub.ToIchimokuHub();
-            KamaHub kamaHub = quoteHub.ToKamaHub(10, 2, 30);
-            KeltnerHub keltnerHub = quoteHub.ToKeltnerHub();
-            KvoHub kvoHub = quoteHub.ToKvoHub();
-            MaEnvelopesHub maEnvelopesHub = quoteHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA);
-            MacdHub macdHub = quoteHub.ToMacdHub();
-            MamaHub mamaHub = quoteHub.ToMamaHub();
-            MarubozuHub marubozuHub = quoteHub.ToMarubozuHub();
-            MfiHub mfiHub = quoteHub.ToMfiHub(14);
-            ObvHub obvHub = quoteHub.ToObvHub();
-            ParabolicSarHub parabolicSarHub = quoteHub.ToParabolicSarHub();
-            PivotPointsHub pivotPointsHub = quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard);
-            PivotsHub pivotsHub = quoteHub.ToPivotsHub(11, 14);
-            PmoHub pmoHub = quoteHub.ToPmoHub();
-            PvoHub pvoHub = quoteHub.ToPvoHub();
-            RenkoHub renkoHub = quoteHub.ToRenkoHub(2.5m);
-            RocHub rocHub = quoteHub.ToRocHub(20);
-            RocWbHub rocWbHub = quoteHub.ToRocWbHub(14);
-            RollingPivotsHub rollingPivotsHub = quoteHub.ToRollingPivotsHub(20, 0);
-            RsiHub rsiHub = quoteHub.ToRsiHub(14);
-            SlopeHub slopeHub = quoteHub.ToSlopeHub(20);
-            SmaHub smaHub = quoteHub.ToSmaHub(20);
-            SmaAnalysisHub smaAnalysisHub = quoteHub.ToSmaAnalysisHub(10);
-            SmiHub smiHub = quoteHub.ToSmiHub();
-            SmmaHub smmaHub = quoteHub.ToSmmaHub(20);
-            StarcBandsHub starcBandsHub = quoteHub.ToStarcBandsHub();
-            StcHub stcHub = quoteHub.ToStcHub();
-            StdDevHub stdDevHub = quoteHub.ToStdDevHub(10);
-            StochHub stochHub = quoteHub.ToStochHub();
-            StochRsiHub stochRsiHub = quoteHub.ToStochRsiHub(14);
-            SuperTrendHub superTrendHub = quoteHub.ToSuperTrendHub();
-            T3Hub t3Hub = quoteHub.ToT3Hub(5);
-            TemaHub temaHub = quoteHub.ToTemaHub(20);
-            TrHub trHub = quoteHub.ToTrHub();
-            TrixHub trixHub = quoteHub.ToTrixHub(14);
-            TsiHub tsiHub = quoteHub.ToTsiHub();
-            UlcerIndexHub ulcerIndexHub = quoteHub.ToUlcerIndexHub(14);
-            UltimateHub ultimateHub = quoteHub.ToUltimateHub();
-            VolatilityStopHub volatilityStopHub = quoteHub.ToVolatilityStopHub();
-            VortexHub vortexHub = quoteHub.ToVortexHub(14);
-            VwapHub vwapHub = quoteHub.ToVwapHub();
-            VwmaHub vwmaHub = quoteHub.ToVwmaHub(10);
-            WilliamsRHub williamsRHub = quoteHub.ToWilliamsRHub(14);
-            WmaHub wmaHub = quoteHub.ToWmaHub(20);
+            // Subscribe all 80+ indicator hubs to the primary BarHub
+            AdlHub adlHub = barHub.ToAdlHub();
+            AdxHub adxHub = barHub.ToAdxHub(14);
+            AlligatorHub alligatorHub = barHub.ToAlligatorHub();
+            AlmaHub almaHub = barHub.ToAlmaHub(10, 0.85, 6);
+            AroonHub aroonHub = barHub.ToAroonHub(25);
+            AtrHub atrHub = barHub.ToAtrHub(14);
+            AtrStopHub atrStopHub = barHub.ToAtrStopHub(21);
+            AwesomeHub awesomeHub = barHub.ToAwesomeHub();
+            BollingerBandsHub bollingerBandsHub = barHub.ToBollingerBandsHub(20, 2);
+            BopHub bopHub = barHub.ToBopHub();
+            CciHub cciHub = barHub.ToCciHub(20);
+            ChaikinOscHub chaikinOscHub = barHub.ToChaikinOscHub();
+            ChandelierHub chandelierHub = barHub.ToChandelierHub();
+            ChopHub chopHub = barHub.ToChopHub(14);
+            CmfHub cmfHub = barHub.ToCmfHub(20);
+            CmoHub cmoHub = barHub.ToCmoHub(14);
+            ConnorsRsiHub connorsRsiHub = barHub.ToConnorsRsiHub();
+            DemaHub demaHub = barHub.ToDemaHub(20);
+            DojiHub dojiHub = barHub.ToDojiHub();
+            DonchianHub donchianHub = barHub.ToDonchianHub(20);
+            DpoHub dpoHub = barHub.ToDpoHub(14);
+            DynamicHub dynamicHub = barHub.ToDynamicHub(14);
+            ElderRayHub elderRayHub = barHub.ToElderRayHub(13);
+            EmaHub emaHub = barHub.ToEmaHub(20);
+            EpmaHub epmaHub = barHub.ToEpmaHub(20);
+            FractalHub fractalHub = barHub.ToFractalHub(2);
+            FcbHub fcbHub = barHub.ToFcbHub(2);
+            FisherTransformHub fisherTransformHub = barHub.ToFisherTransformHub(10);
+            ForceIndexHub forceIndexHub = barHub.ToForceIndexHub(13);
+            GatorHub gatorHub = barHub.ToGatorHub();
+            HeikinAshiHub heikinAshiHub = barHub.ToHeikinAshiHub();
+            HmaHub hmaHub = barHub.ToHmaHub(20);
+            HtTrendlineHub htTrendlineHub = barHub.ToHtTrendlineHub();
+            HurstHub hurstHub = barHub.ToHurstHub(20);
+            IchimokuHub ichimokuHub = barHub.ToIchimokuHub();
+            KamaHub kamaHub = barHub.ToKamaHub(10, 2, 30);
+            KeltnerHub keltnerHub = barHub.ToKeltnerHub();
+            KvoHub kvoHub = barHub.ToKvoHub();
+            MaEnvelopesHub maEnvelopesHub = barHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA);
+            MacdHub macdHub = barHub.ToMacdHub();
+            MamaHub mamaHub = barHub.ToMamaHub();
+            MarubozuHub marubozuHub = barHub.ToMarubozuHub();
+            MfiHub mfiHub = barHub.ToMfiHub(14);
+            ObvHub obvHub = barHub.ToObvHub();
+            ParabolicSarHub parabolicSarHub = barHub.ToParabolicSarHub();
+            PivotPointsHub pivotPointsHub = barHub.ToPivotPointsHub(BarInterval.Month, PivotPointType.Standard);
+            PivotsHub pivotsHub = barHub.ToPivotsHub(11, 14);
+            PmoHub pmoHub = barHub.ToPmoHub();
+            PvoHub pvoHub = barHub.ToPvoHub();
+            RenkoHub renkoHub = barHub.ToRenkoHub(2.5m);
+            RocHub rocHub = barHub.ToRocHub(20);
+            RocWbHub rocWbHub = barHub.ToRocWbHub(14);
+            RollingPivotsHub rollingPivotsHub = barHub.ToRollingPivotsHub(20, 0);
+            RsiHub rsiHub = barHub.ToRsiHub(14);
+            SlopeHub slopeHub = barHub.ToSlopeHub(20);
+            SmaHub smaHub = barHub.ToSmaHub(20);
+            SmaAnalysisHub smaAnalysisHub = barHub.ToSmaAnalysisHub(10);
+            SmiHub smiHub = barHub.ToSmiHub();
+            SmmaHub smmaHub = barHub.ToSmmaHub(20);
+            StarcBandsHub starcBandsHub = barHub.ToStarcBandsHub();
+            StcHub stcHub = barHub.ToStcHub();
+            StdDevHub stdDevHub = barHub.ToStdDevHub(10);
+            StochHub stochHub = barHub.ToStochHub();
+            StochRsiHub stochRsiHub = barHub.ToStochRsiHub(14);
+            SuperTrendHub superTrendHub = barHub.ToSuperTrendHub();
+            T3Hub t3Hub = barHub.ToT3Hub(5);
+            TemaHub temaHub = barHub.ToTemaHub(20);
+            TrHub trHub = barHub.ToTrHub();
+            TrixHub trixHub = barHub.ToTrixHub(14);
+            TsiHub tsiHub = barHub.ToTsiHub();
+            UlcerIndexHub ulcerIndexHub = barHub.ToUlcerIndexHub(14);
+            UltimateHub ultimateHub = barHub.ToUltimateHub();
+            VolatilityStopHub volatilityStopHub = barHub.ToVolatilityStopHub();
+            VortexHub vortexHub = barHub.ToVortexHub(14);
+            VwapHub vwapHub = barHub.ToVwapHub();
+            VwmaHub vwmaHub = barHub.ToVwmaHub(10);
+            WilliamsRHub williamsRHub = barHub.ToWilliamsRHub(14);
+            WmaHub wmaHub = barHub.ToWmaHub(20);
 
-            // Consume quotes from SSE stream and apply test scenarios
-            SseQuoteBatch allHubsBatch = await ConsumeQuotesFromSse(quoteHub, AllHubsTestPort, "allhubs-rollbacks")
+            // Consume bars from SSE stream and apply test scenarios
+            SseBarBatch allHubsBatch = await ConsumeBarsFromSse(barHub, AllHubsTestPort, "allhubs-rollbacks")
                 .ConfigureAwait(true);
-            List<Quote> allQuotes = allHubsBatch.InitialQuotes;
-            List<Quote> allQuotesWithRevisions = allHubsBatch.RevisedQuotes;
+            List<Bar> allBars = allHubsBatch.InitialBars;
+            List<Bar> allBarsWithRevisions = allHubsBatch.RevisedBars;
 
             // Verify SSE stream delivered the full batch
-            allQuotes.Should().HaveCount(TargetQuoteCount, "SSE stream should deliver the full batch");
+            allBars.Should().HaveCount(TargetBarCount, "SSE stream should deliver the full batch");
 
-            // Get final results from QuoteHub (this is the ground truth after all operations)
-            IReadOnlyList<IQuote> quoteHubResults = quoteHub.Results;
+            // Get final results from BarHub (this is the ground truth after all operations)
+            IReadOnlyList<IBar> barHubResults = barHub.Results;
 
-            // Verify that the hub cache is exactly at the configured capacity.  A QuoteHub that
-            // receives more quotes than its capacity must prune the oldest quotes until the cache
+            // Verify that the hub cache is exactly at the configured capacity.  A BarHub that
+            // receives more bars than its capacity must prune the oldest bars until the cache
             // contains MaxCacheSize entries.  Having fewer or more entries indicates incorrect
             // pruning behaviour.
-            quoteHubResults.Count.Should().BeLessThanOrEqualTo(MaxCacheSize, "quote hub should not exceed the configured cache size");
+            barHubResults.Count.Should().BeLessThanOrEqualTo(MaxCacheSize, "bar hub should not exceed the configured cache size");
 
-            // Verify pruning occurred by checking that we delivered more quotes than cache can hold
-            int expectedPruned = Math.Max(0, allQuotesWithRevisions.Count - MaxCacheSize);
-            int actualPruned = allQuotesWithRevisions.Count - quoteHubResults.Count;
+            // Verify pruning occurred by checking that we delivered more bars than cache can hold
+            int expectedPruned = Math.Max(0, allBarsWithRevisions.Count - MaxCacheSize);
+            int actualPruned = allBarsWithRevisions.Count - barHubResults.Count;
             actualPruned.Should().BeGreaterThanOrEqualTo(expectedPruned,
-                "pruning should remove at least the excess quotes beyond the configured cache size");
+                "pruning should remove at least the excess bars beyond the configured cache size");
 
-            // Compute static series on the FULL quote list (with revisions), then take the last N results.
+            // Compute static series on the FULL bar list (with revisions), then take the last N results.
             // Streaming indicators process the entire history and maintain state across revisions,
             // therefore the correct comparison pattern is to compute on the full history and then
             // truncate to the current cache size.
-            int cacheSize = quoteHubResults.Count;
-            adlHub.Results.IsExactly(allQuotesWithRevisions.ToAdl().TakeLast(cacheSize).ToList());
-            adxHub.Results.IsExactly(allQuotesWithRevisions.ToAdx(14).TakeLast(cacheSize).ToList());
-            alligatorHub.Results.IsExactly(allQuotesWithRevisions.ToAlligator().TakeLast(cacheSize).ToList());
-            almaHub.Results.IsExactly(allQuotesWithRevisions.ToAlma(10, 0.85, 6).TakeLast(cacheSize).ToList());
-            aroonHub.Results.IsExactly(allQuotesWithRevisions.ToAroon(25).TakeLast(cacheSize).ToList());
-            atrHub.Results.IsExactly(allQuotesWithRevisions.ToAtr(14).TakeLast(cacheSize).ToList());
-            atrStopHub.Results.IsExactly(allQuotesWithRevisions.ToAtrStop(21).TakeLast(cacheSize).ToList());
-            awesomeHub.Results.IsExactly(allQuotesWithRevisions.ToAwesome().TakeLast(cacheSize).ToList());
-            bollingerBandsHub.Results.IsExactly(allQuotesWithRevisions.ToBollingerBands(20, 2).TakeLast(cacheSize).ToList());
-            bopHub.Results.IsExactly(allQuotesWithRevisions.ToBop().TakeLast(cacheSize).ToList());
-            cciHub.Results.IsExactly(allQuotesWithRevisions.ToCci(20).TakeLast(cacheSize).ToList());
-            chaikinOscHub.Results.IsExactly(allQuotesWithRevisions.ToChaikinOsc().TakeLast(cacheSize).ToList());
-            chandelierHub.Results.IsExactly(allQuotesWithRevisions.ToChandelier().TakeLast(cacheSize).ToList());
-            chopHub.Results.IsExactly(allQuotesWithRevisions.ToChop(14).TakeLast(cacheSize).ToList());
-            cmfHub.Results.IsExactly(allQuotesWithRevisions.ToCmf(20).TakeLast(cacheSize).ToList());
-            cmoHub.Results.IsExactly(allQuotesWithRevisions.ToCmo(14).TakeLast(cacheSize).ToList());
-            connorsRsiHub.Results.IsExactly(allQuotesWithRevisions.ToConnorsRsi().TakeLast(cacheSize).ToList());
-            demaHub.Results.IsExactly(allQuotesWithRevisions.ToDema(20).TakeLast(cacheSize).ToList());
-            dojiHub.Results.IsExactly(allQuotesWithRevisions.ToDoji().TakeLast(cacheSize).ToList());
-            donchianHub.Results.IsExactly(allQuotesWithRevisions.ToDonchian(20).TakeLast(cacheSize).ToList());
-            dpoHub.Results.IsExactly(allQuotesWithRevisions.ToDpo(14).TakeLast(cacheSize).ToList());
-            dynamicHub.Results.IsExactly(allQuotesWithRevisions.ToDynamic(14).TakeLast(cacheSize).ToList());
-            elderRayHub.Results.IsExactly(allQuotesWithRevisions.ToElderRay(13).TakeLast(cacheSize).ToList());
-            emaHub.Results.IsExactly(allQuotesWithRevisions.ToEma(20).TakeLast(cacheSize).ToList());
-            epmaHub.Results.IsExactly(allQuotesWithRevisions.ToEpma(20).TakeLast(cacheSize).ToList());
-            fractalHub.Results.IsExactly(allQuotesWithRevisions.ToFractal(2).TakeLast(cacheSize).ToList());
-            fcbHub.Results.IsExactly(allQuotesWithRevisions.ToFcb(2).TakeLast(cacheSize).ToList());
-            fisherTransformHub.Results.IsExactly(allQuotesWithRevisions.ToFisherTransform(10).TakeLast(cacheSize).ToList());
-            forceIndexHub.Results.IsExactly(allQuotesWithRevisions.ToForceIndex(13).TakeLast(cacheSize).ToList());
-            gatorHub.Results.IsExactly(allQuotesWithRevisions.ToGator().TakeLast(cacheSize).ToList());
-            heikinAshiHub.Results.IsExactly(allQuotesWithRevisions.ToHeikinAshi().TakeLast(cacheSize).ToList());
-            hmaHub.Results.IsExactly(allQuotesWithRevisions.ToHma(20).TakeLast(cacheSize).ToList());
-            htTrendlineHub.Results.IsExactly(allQuotesWithRevisions.ToHtTrendline().TakeLast(cacheSize).ToList());
-            hurstHub.Results.IsExactly(allQuotesWithRevisions.ToHurst(20).TakeLast(cacheSize).ToList());
-            ichimokuHub.Results.IsExactly(allQuotesWithRevisions.ToIchimoku().TakeLast(cacheSize).ToList());
-            kamaHub.Results.IsExactly(allQuotesWithRevisions.ToKama(10, 2, 30).TakeLast(cacheSize).ToList());
-            keltnerHub.Results.IsExactly(allQuotesWithRevisions.ToKeltner().TakeLast(cacheSize).ToList());
-            kvoHub.Results.IsExactly(allQuotesWithRevisions.ToKvo().TakeLast(cacheSize).ToList());
-            maEnvelopesHub.Results.IsExactly(allQuotesWithRevisions.ToMaEnvelopes(20, 2.5, MaType.SMA).TakeLast(cacheSize).ToList());
-            macdHub.Results.IsExactly(allQuotesWithRevisions.ToMacd().TakeLast(cacheSize).ToList());
-            mamaHub.Results.IsExactly(allQuotesWithRevisions.ToMama().TakeLast(cacheSize).ToList());
-            marubozuHub.Results.IsExactly(allQuotesWithRevisions.ToMarubozu().TakeLast(cacheSize).ToList());
-            mfiHub.Results.IsExactly(allQuotesWithRevisions.ToMfi(14).TakeLast(cacheSize).ToList());
-            obvHub.Results.IsExactly(allQuotesWithRevisions.ToObv().TakeLast(cacheSize).ToList());
-            parabolicSarHub.Results.IsExactly(allQuotesWithRevisions.ToParabolicSar().TakeLast(cacheSize).ToList());
-            pivotPointsHub.Results.IsExactly(allQuotesWithRevisions.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard).TakeLast(cacheSize).ToList());
-            pivotsHub.Results.IsExactly(allQuotesWithRevisions.ToPivots(11, 14).TakeLast(cacheSize).ToList());
-            pmoHub.Results.IsExactly(allQuotesWithRevisions.ToPmo().TakeLast(cacheSize).ToList());
-            pvoHub.Results.IsExactly(allQuotesWithRevisions.ToPvo().TakeLast(cacheSize).ToList());
-            // Renko charts do not have a one‑to‑one relationship between quotes and bricks, so we
+            int cacheSize = barHubResults.Count;
+            adlHub.Results.IsExactly(allBarsWithRevisions.ToAdl().TakeLast(cacheSize).ToList());
+            adxHub.Results.IsExactly(allBarsWithRevisions.ToAdx(14).TakeLast(cacheSize).ToList());
+            alligatorHub.Results.IsExactly(allBarsWithRevisions.ToAlligator().TakeLast(cacheSize).ToList());
+            almaHub.Results.IsExactly(allBarsWithRevisions.ToAlma(10, 0.85, 6).TakeLast(cacheSize).ToList());
+            aroonHub.Results.IsExactly(allBarsWithRevisions.ToAroon(25).TakeLast(cacheSize).ToList());
+            atrHub.Results.IsExactly(allBarsWithRevisions.ToAtr(14).TakeLast(cacheSize).ToList());
+            atrStopHub.Results.IsExactly(allBarsWithRevisions.ToAtrStop(21).TakeLast(cacheSize).ToList());
+            awesomeHub.Results.IsExactly(allBarsWithRevisions.ToAwesome().TakeLast(cacheSize).ToList());
+            bollingerBandsHub.Results.IsExactly(allBarsWithRevisions.ToBollingerBands(20, 2).TakeLast(cacheSize).ToList());
+            bopHub.Results.IsExactly(allBarsWithRevisions.ToBop().TakeLast(cacheSize).ToList());
+            cciHub.Results.IsExactly(allBarsWithRevisions.ToCci(20).TakeLast(cacheSize).ToList());
+            chaikinOscHub.Results.IsExactly(allBarsWithRevisions.ToChaikinOsc().TakeLast(cacheSize).ToList());
+            chandelierHub.Results.IsExactly(allBarsWithRevisions.ToChandelier().TakeLast(cacheSize).ToList());
+            chopHub.Results.IsExactly(allBarsWithRevisions.ToChop(14).TakeLast(cacheSize).ToList());
+            cmfHub.Results.IsExactly(allBarsWithRevisions.ToCmf(20).TakeLast(cacheSize).ToList());
+            cmoHub.Results.IsExactly(allBarsWithRevisions.ToCmo(14).TakeLast(cacheSize).ToList());
+            connorsRsiHub.Results.IsExactly(allBarsWithRevisions.ToConnorsRsi().TakeLast(cacheSize).ToList());
+            demaHub.Results.IsExactly(allBarsWithRevisions.ToDema(20).TakeLast(cacheSize).ToList());
+            dojiHub.Results.IsExactly(allBarsWithRevisions.ToDoji().TakeLast(cacheSize).ToList());
+            donchianHub.Results.IsExactly(allBarsWithRevisions.ToDonchian(20).TakeLast(cacheSize).ToList());
+            dpoHub.Results.IsExactly(allBarsWithRevisions.ToDpo(14).TakeLast(cacheSize).ToList());
+            dynamicHub.Results.IsExactly(allBarsWithRevisions.ToDynamic(14).TakeLast(cacheSize).ToList());
+            elderRayHub.Results.IsExactly(allBarsWithRevisions.ToElderRay(13).TakeLast(cacheSize).ToList());
+            emaHub.Results.IsExactly(allBarsWithRevisions.ToEma(20).TakeLast(cacheSize).ToList());
+            epmaHub.Results.IsExactly(allBarsWithRevisions.ToEpma(20).TakeLast(cacheSize).ToList());
+            fractalHub.Results.IsExactly(allBarsWithRevisions.ToFractal(2).TakeLast(cacheSize).ToList());
+            fcbHub.Results.IsExactly(allBarsWithRevisions.ToFcb(2).TakeLast(cacheSize).ToList());
+            fisherTransformHub.Results.IsExactly(allBarsWithRevisions.ToFisherTransform(10).TakeLast(cacheSize).ToList());
+            forceIndexHub.Results.IsExactly(allBarsWithRevisions.ToForceIndex(13).TakeLast(cacheSize).ToList());
+            gatorHub.Results.IsExactly(allBarsWithRevisions.ToGator().TakeLast(cacheSize).ToList());
+            heikinAshiHub.Results.IsExactly(allBarsWithRevisions.ToHeikinAshi().TakeLast(cacheSize).ToList());
+            hmaHub.Results.IsExactly(allBarsWithRevisions.ToHma(20).TakeLast(cacheSize).ToList());
+            htTrendlineHub.Results.IsExactly(allBarsWithRevisions.ToHtTrendline().TakeLast(cacheSize).ToList());
+            hurstHub.Results.IsExactly(allBarsWithRevisions.ToHurst(20).TakeLast(cacheSize).ToList());
+            ichimokuHub.Results.IsExactly(allBarsWithRevisions.ToIchimoku().TakeLast(cacheSize).ToList());
+            kamaHub.Results.IsExactly(allBarsWithRevisions.ToKama(10, 2, 30).TakeLast(cacheSize).ToList());
+            keltnerHub.Results.IsExactly(allBarsWithRevisions.ToKeltner().TakeLast(cacheSize).ToList());
+            kvoHub.Results.IsExactly(allBarsWithRevisions.ToKvo().TakeLast(cacheSize).ToList());
+            maEnvelopesHub.Results.IsExactly(allBarsWithRevisions.ToMaEnvelopes(20, 2.5, MaType.SMA).TakeLast(cacheSize).ToList());
+            macdHub.Results.IsExactly(allBarsWithRevisions.ToMacd().TakeLast(cacheSize).ToList());
+            mamaHub.Results.IsExactly(allBarsWithRevisions.ToMama().TakeLast(cacheSize).ToList());
+            marubozuHub.Results.IsExactly(allBarsWithRevisions.ToMarubozu().TakeLast(cacheSize).ToList());
+            mfiHub.Results.IsExactly(allBarsWithRevisions.ToMfi(14).TakeLast(cacheSize).ToList());
+            obvHub.Results.IsExactly(allBarsWithRevisions.ToObv().TakeLast(cacheSize).ToList());
+            parabolicSarHub.Results.IsExactly(allBarsWithRevisions.ToParabolicSar().TakeLast(cacheSize).ToList());
+            pivotPointsHub.Results.IsExactly(allBarsWithRevisions.ToPivotPoints(BarInterval.Month, PivotPointType.Standard).TakeLast(cacheSize).ToList());
+            pivotsHub.Results.IsExactly(allBarsWithRevisions.ToPivots(11, 14).TakeLast(cacheSize).ToList());
+            pmoHub.Results.IsExactly(allBarsWithRevisions.ToPmo().TakeLast(cacheSize).ToList());
+            pvoHub.Results.IsExactly(allBarsWithRevisions.ToPvo().TakeLast(cacheSize).ToList());
+            // Renko charts do not have a one‑to‑one relationship between bars and bricks, so we
             // cannot simply take the last N results.  Instead, align the static Renko series
             // with the streaming hub by matching on the first brick’s date.  Any bricks before
-            // that date in the static series represent periods that were pruned from the quote
+            // that date in the static series represent periods that were pruned from the bar
             // hub and must be discarded.  Then compare the remainder of the series to the
             // streaming hub results.
             {
-                List<RenkoResult> renkoStatic = allQuotesWithRevisions.ToRenko(2.5m).ToList();
+                List<RenkoResult> renkoStatic = allBarsWithRevisions.ToRenko(2.5m).ToList();
                 DateTime firstDate = renkoHub.Results[0].Timestamp;
                 int startIndex = renkoStatic.FindIndex(r => r.Timestamp == firstDate);
                 startIndex.Should().BeGreaterThanOrEqualTo(0,
@@ -320,39 +320,39 @@ public class ThreadSafetyTests : TestBase
                 renkoHub.Results.IsExactly(expectedRenko);
             }
 
-            rocHub.Results.IsExactly(allQuotesWithRevisions.ToRoc(20).TakeLast(cacheSize).ToList());
-            rocWbHub.Results.IsExactly(allQuotesWithRevisions.ToRocWb(14).TakeLast(cacheSize).ToList());
-            rollingPivotsHub.Results.IsExactly(allQuotesWithRevisions.ToRollingPivots(20, 0).TakeLast(cacheSize).ToList());
-            rsiHub.Results.IsExactly(allQuotesWithRevisions.ToRsi(14).TakeLast(cacheSize).ToList());
-            slopeHub.Results.IsExactly(allQuotesWithRevisions.ToSlope(20).TakeLast(cacheSize).ToList());
-            smaHub.Results.IsExactly(allQuotesWithRevisions.ToSma(20).TakeLast(cacheSize).ToList());
-            smaAnalysisHub.Results.IsExactly(allQuotesWithRevisions.ToSmaAnalysis(10).TakeLast(cacheSize).ToList());
-            smiHub.Results.IsExactly(allQuotesWithRevisions.ToSmi().TakeLast(cacheSize).ToList());
-            smmaHub.Results.IsExactly(allQuotesWithRevisions.ToSmma(20).TakeLast(cacheSize).ToList());
-            starcBandsHub.Results.IsExactly(allQuotesWithRevisions.ToStarcBands().TakeLast(cacheSize).ToList());
-            stcHub.Results.IsExactly(allQuotesWithRevisions.ToStc().TakeLast(cacheSize).ToList());
-            stdDevHub.Results.IsExactly(allQuotesWithRevisions.ToStdDev(10).TakeLast(cacheSize).ToList());
-            stochHub.Results.IsExactly(allQuotesWithRevisions.ToStoch().TakeLast(cacheSize).ToList());
-            stochRsiHub.Results.IsExactly(allQuotesWithRevisions.ToStochRsi(14).TakeLast(cacheSize).ToList());
-            superTrendHub.Results.IsExactly(allQuotesWithRevisions.ToSuperTrend().TakeLast(cacheSize).ToList());
-            t3Hub.Results.IsExactly(allQuotesWithRevisions.ToT3(5).TakeLast(cacheSize).ToList());
-            temaHub.Results.IsExactly(allQuotesWithRevisions.ToTema(20).TakeLast(cacheSize).ToList());
-            trHub.Results.IsExactly(allQuotesWithRevisions.ToTr().TakeLast(cacheSize).ToList());
-            trixHub.Results.IsExactly(allQuotesWithRevisions.ToTrix(14).TakeLast(cacheSize).ToList());
-            tsiHub.Results.IsExactly(allQuotesWithRevisions.ToTsi().TakeLast(cacheSize).ToList());
-            ulcerIndexHub.Results.IsExactly(allQuotesWithRevisions.ToUlcerIndex(14).TakeLast(cacheSize).ToList());
-            ultimateHub.Results.IsExactly(allQuotesWithRevisions.ToUltimate().TakeLast(cacheSize).ToList());
-            volatilityStopHub.Results.IsExactly(allQuotesWithRevisions.ToVolatilityStop().TakeLast(cacheSize).ToList());
-            vortexHub.Results.IsExactly(allQuotesWithRevisions.ToVortex(14).TakeLast(cacheSize).ToList());
-            vwapHub.Results.IsExactly(allQuotesWithRevisions.ToVwap().TakeLast(cacheSize).ToList());
-            vwmaHub.Results.IsExactly(allQuotesWithRevisions.ToVwma(10).TakeLast(cacheSize).ToList());
-            williamsRHub.Results.IsExactly(allQuotesWithRevisions.ToWilliamsR(14).TakeLast(cacheSize).ToList());
-            wmaHub.Results.IsExactly(allQuotesWithRevisions.ToWma(20).TakeLast(cacheSize).ToList());
+            rocHub.Results.IsExactly(allBarsWithRevisions.ToRoc(20).TakeLast(cacheSize).ToList());
+            rocWbHub.Results.IsExactly(allBarsWithRevisions.ToRocWb(14).TakeLast(cacheSize).ToList());
+            rollingPivotsHub.Results.IsExactly(allBarsWithRevisions.ToRollingPivots(20, 0).TakeLast(cacheSize).ToList());
+            rsiHub.Results.IsExactly(allBarsWithRevisions.ToRsi(14).TakeLast(cacheSize).ToList());
+            slopeHub.Results.IsExactly(allBarsWithRevisions.ToSlope(20).TakeLast(cacheSize).ToList());
+            smaHub.Results.IsExactly(allBarsWithRevisions.ToSma(20).TakeLast(cacheSize).ToList());
+            smaAnalysisHub.Results.IsExactly(allBarsWithRevisions.ToSmaAnalysis(10).TakeLast(cacheSize).ToList());
+            smiHub.Results.IsExactly(allBarsWithRevisions.ToSmi().TakeLast(cacheSize).ToList());
+            smmaHub.Results.IsExactly(allBarsWithRevisions.ToSmma(20).TakeLast(cacheSize).ToList());
+            starcBandsHub.Results.IsExactly(allBarsWithRevisions.ToStarcBands().TakeLast(cacheSize).ToList());
+            stcHub.Results.IsExactly(allBarsWithRevisions.ToStc().TakeLast(cacheSize).ToList());
+            stdDevHub.Results.IsExactly(allBarsWithRevisions.ToStdDev(10).TakeLast(cacheSize).ToList());
+            stochHub.Results.IsExactly(allBarsWithRevisions.ToStoch().TakeLast(cacheSize).ToList());
+            stochRsiHub.Results.IsExactly(allBarsWithRevisions.ToStochRsi(14).TakeLast(cacheSize).ToList());
+            superTrendHub.Results.IsExactly(allBarsWithRevisions.ToSuperTrend().TakeLast(cacheSize).ToList());
+            t3Hub.Results.IsExactly(allBarsWithRevisions.ToT3(5).TakeLast(cacheSize).ToList());
+            temaHub.Results.IsExactly(allBarsWithRevisions.ToTema(20).TakeLast(cacheSize).ToList());
+            trHub.Results.IsExactly(allBarsWithRevisions.ToTr().TakeLast(cacheSize).ToList());
+            trixHub.Results.IsExactly(allBarsWithRevisions.ToTrix(14).TakeLast(cacheSize).ToList());
+            tsiHub.Results.IsExactly(allBarsWithRevisions.ToTsi().TakeLast(cacheSize).ToList());
+            ulcerIndexHub.Results.IsExactly(allBarsWithRevisions.ToUlcerIndex(14).TakeLast(cacheSize).ToList());
+            ultimateHub.Results.IsExactly(allBarsWithRevisions.ToUltimate().TakeLast(cacheSize).ToList());
+            volatilityStopHub.Results.IsExactly(allBarsWithRevisions.ToVolatilityStop().TakeLast(cacheSize).ToList());
+            vortexHub.Results.IsExactly(allBarsWithRevisions.ToVortex(14).TakeLast(cacheSize).ToList());
+            vwapHub.Results.IsExactly(allBarsWithRevisions.ToVwap().TakeLast(cacheSize).ToList());
+            vwmaHub.Results.IsExactly(allBarsWithRevisions.ToVwma(10).TakeLast(cacheSize).ToList());
+            williamsRHub.Results.IsExactly(allBarsWithRevisions.ToWilliamsR(14).TakeLast(cacheSize).ToList());
+            wmaHub.Results.IsExactly(allBarsWithRevisions.ToWma(20).TakeLast(cacheSize).ToList());
         }
         finally
         {
             // Cleanup
-            quoteHub.EndTransmission();
+            barHub.EndTransmission();
 
             // Stop SSE server
             if (!serverProcess.HasExited)
@@ -373,12 +373,12 @@ public class ThreadSafetyTests : TestBase
     }
 
     /// <summary>
-    /// Tests that QuoteAggregatorHub correctly aggregates incoming quote stream into 5-minute
+    /// Tests that BarAggregatorHub correctly aggregates incoming bar stream into 5-minute
     /// bars and that downstream EMA indicator produces results matching the static series
-    /// computed on the aggregated quotes.
+    /// computed on the aggregated bars.
     /// </summary>
     [TestMethod]
-    public async Task QuoteAggregatorHub_WithSseStream_MatchesSeriesExactly()
+    public async Task BarAggregatorHub_WithSseStream_MatchesSeriesExactly()
     {
         CancellationToken cts = TestContext?.CancellationToken ?? default;
 
@@ -390,9 +390,9 @@ public class ThreadSafetyTests : TestBase
             return;
         }
 
-        // Setup: QuoteHub -> QuoteAggregatorHub -> EmaHub
-        QuoteHub quoteHub = new();
-        QuoteAggregatorHub aggregator = quoteHub.ToQuoteAggregatorHub(PeriodSize.FiveMinutes);
+        // Setup: BarHub -> BarAggregatorHub -> EmaHub
+        BarHub barHub = new();
+        BarAggregatorHub aggregator = barHub.ToBarAggregatorHub(BarInterval.FiveMinutes);
         EmaHub emaHub = aggregator.ToEmaHub(14);
 
         try
@@ -405,16 +405,16 @@ public class ThreadSafetyTests : TestBase
                 return;
             }
 
-            // Stream quotes with 1-minute intervals (will be aggregated to 5-minute bars)
-            SseQuoteBatch quoteBatch = await ConsumeQuotesFromSse(quoteHub, AggregatorTestPort, "aggregator-test")
+            // Stream bars with 1-minute intervals (will be aggregated to 5-minute bars)
+            SseBarBatch barBatch = await ConsumeBarsFromSse(barHub, AggregatorTestPort, "aggregator-test")
                 .ConfigureAwait(true);
 
-            // Verify quotes were delivered
-            quoteBatch.InitialQuotes.Should().HaveCount(TargetQuoteCount);
+            // Verify bars were delivered
+            barBatch.InitialBars.Should().HaveCount(TargetBarCount);
 
-            // Compute expected aggregated quotes and EMA on static series
-            IReadOnlyList<Quote> aggregatedQuotes = quoteBatch.RevisedQuotes.Aggregate(PeriodSize.FiveMinutes);
-            IReadOnlyList<EmaResult> expected = aggregatedQuotes.ToEma(14);
+            // Compute expected aggregated bars and EMA on static series
+            IReadOnlyList<Bar> aggregatedBars = barBatch.RevisedBars.Aggregate(BarInterval.FiveMinutes);
+            IReadOnlyList<EmaResult> expected = aggregatedBars.ToEma(14);
 
             // Verify aggregator results count
             aggregator.Results.Count.Should().BeGreaterThan(0, "aggregator should produce results");
@@ -426,7 +426,7 @@ public class ThreadSafetyTests : TestBase
         {
             emaHub.Unsubscribe();
             aggregator.Unsubscribe();
-            quoteHub.EndTransmission();
+            barHub.EndTransmission();
 
             if (!serverProcess.HasExited)
             {
@@ -446,12 +446,12 @@ public class ThreadSafetyTests : TestBase
     }
 
     /// <summary>
-    /// Tests that TickAggregatorHub correctly aggregates incoming tick stream into 5-minute
-    /// quote bars and that downstream EMA indicator produces results matching the static series
-    /// computed on the aggregated quotes.
+    /// Tests that TradeTickAggregatorHub correctly aggregates incoming tick stream into 5-minute
+    /// bar bars and that downstream EMA indicator produces results matching the static series
+    /// computed on the aggregated bars.
     /// </summary>
     [TestMethod]
-    public async Task TickAggregatorHub_WithSseStream_MatchesSeriesExactly()
+    public async Task TradeTickAggregatorHub_WithSseStream_MatchesSeriesExactly()
     {
         CancellationToken cts = TestContext?.CancellationToken ?? default;
 
@@ -463,9 +463,9 @@ public class ThreadSafetyTests : TestBase
             return;
         }
 
-        // Setup: TickHub -> TickAggregatorHub -> EmaHub
-        TickHub tickHub = new();
-        TickAggregatorHub aggregator = tickHub.ToTickAggregatorHub(PeriodSize.FiveMinutes);
+        // Setup: TradeTickHub -> TradeTickAggregatorHub -> EmaHub
+        TradeTickHub tickHub = new();
+        TradeTickAggregatorHub aggregator = tickHub.ToTradeTickAggregatorHub(BarInterval.FiveMinutes);
         EmaHub emaHub = aggregator.ToEmaHub(14);
 
         try
@@ -478,16 +478,16 @@ public class ThreadSafetyTests : TestBase
                 return;
             }
 
-            // Stream quotes (which will be converted to ticks)
-            SseQuoteBatch quoteBatch = await ConsumeQuotesFromSse(tickHub, AggregatorTestPort + 1, "aggregator-test")
+            // Stream bars (which will be converted to ticks)
+            SseBarBatch barBatch = await ConsumeBarsFromSse(tickHub, AggregatorTestPort + 1, "aggregator-test")
                 .ConfigureAwait(true);
 
-            // Verify quotes were delivered
-            quoteBatch.InitialQuotes.Should().HaveCount(TargetQuoteCount);
+            // Verify bars were delivered
+            barBatch.InitialBars.Should().HaveCount(TargetBarCount);
 
-            // Compute expected: quotes -> aggregate -> EMA
-            IReadOnlyList<Quote> aggregatedQuotes = quoteBatch.RevisedQuotes.Aggregate(PeriodSize.FiveMinutes);
-            IReadOnlyList<EmaResult> expected = aggregatedQuotes.ToEma(14);
+            // Compute expected: bars -> aggregate -> EMA
+            IReadOnlyList<Bar> aggregatedBars = barBatch.RevisedBars.Aggregate(BarInterval.FiveMinutes);
+            IReadOnlyList<EmaResult> expected = aggregatedBars.ToEma(14);
 
             // Verify aggregator results count
             aggregator.Results.Count.Should().BeGreaterThan(0, "aggregator should produce results");
@@ -519,9 +519,9 @@ public class ThreadSafetyTests : TestBase
     }
 
     // Keep helper methods StartSseServer, FindRepositoryRoot, and WaitForServerReady unchanged.
-    // Extend ConsumeQuotesFromSse below to handle action events and batching.
+    // Extend ConsumeBarsFromSse below to handle action events and batching.
     // Encapsulate the logic for launching the test SSE server, waiting until it is ready,
-    // and streaming quotes into the QuoteHub.
+    // and streaming bars into the BarHub.
     private static Process? StartSseServer(int port)
     {
         try
@@ -640,7 +640,7 @@ public class ThreadSafetyTests : TestBase
     private static async Task<bool> WaitForServerReady(int port, CancellationToken cancellationToken)
     {
         using HttpClient httpClient = new() { Timeout = TimeSpan.FromSeconds(2) };
-        Uri healthUri = new($"http://localhost:{port}/quotes/longest?batchSize=1");
+        Uri healthUri = new($"http://localhost:{port}/bars/longest?batchSize=1");
 
         // Try for up to 30 seconds (15 attempts * 2 second intervals)
         for (int attempt = 0; attempt < 15; attempt++)
@@ -676,15 +676,15 @@ public class ThreadSafetyTests : TestBase
         return false;
     }
 
-    private static async Task<SseQuoteBatch> ConsumeQuotesFromSse(QuoteHub quoteHub, int port, string? scenario = null)
+    private static async Task<SseBarBatch> ConsumeBarsFromSse(BarHub barHub, int port, string? scenario = null)
     {
-        List<Quote> allQuotes = [];
-        List<Quote> revisedQuotes = [];
+        List<Bar> allBars = [];
+        List<Bar> revisedBars = [];
         using HttpClient httpClient = new() { Timeout = TimeSpan.FromMinutes(5) };
 
-        string batchSizeParam = $"&batchSize={TargetQuoteCount}";
+        string batchSizeParam = $"&batchSize={TargetBarCount}";
         string scenarioParam = string.IsNullOrWhiteSpace(scenario) ? string.Empty : $"&scenario={scenario}";
-        Uri uri = new($"http://localhost:{port}/quotes/longest?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}{scenarioParam}");
+        Uri uri = new($"http://localhost:{port}/bars/longest?interval={SseInterval}&barIntervalCode={BarIntervalCode}{batchSizeParam}{scenarioParam}");
 
         using HttpResponseMessage response = await httpClient
             .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
@@ -699,7 +699,7 @@ public class ThreadSafetyTests : TestBase
 
         while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
         {
-            // SSE format: "event: quote", "data: {...}", blank line
+            // SSE format: "event: bar", "data: {...}", blank line
             if (line.StartsWith("event:", StringComparison.Ordinal))
             {
                 eventType = line[6..].Trim();
@@ -707,30 +707,30 @@ public class ThreadSafetyTests : TestBase
             else if (line.StartsWith("data:", StringComparison.Ordinal))
             {
                 string json = line[5..].Trim();
-                string eventName = string.IsNullOrWhiteSpace(eventType) ? "quote" : eventType;
+                string eventName = string.IsNullOrWhiteSpace(eventType) ? "bar" : eventType;
 
-                if (string.Equals(eventName, "quote", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(eventName, "bar", StringComparison.OrdinalIgnoreCase))
                 {
-                    Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
-                    if (quote is not null)
+                    Bar? bar = JsonSerializer.Deserialize<Bar>(json, JsonOptions);
+                    if (bar is not null)
                     {
-                        allQuotes.Add(quote);
-                        revisedQuotes.Add(quote);
-                        quoteHub.Add(quote);
+                        allBars.Add(bar);
+                        revisedBars.Add(bar);
+                        barHub.Add(bar);
                     }
                 }
                 else
                 {
-                    QuoteAction? action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions);
+                    BarAction? action = JsonSerializer.Deserialize<BarAction>(json, JsonOptions);
 
                     // Fail fast on malformed SSE payloads
-                    if (action is null || (action.Quote is null && action.CacheIndex is null))
+                    if (action is null || (action.Bar is null && action.CacheIndex is null))
                     {
                         throw new InvalidOperationException(
                             $"Malformed SSE payload for event '{eventName}': {json}");
                     }
 
-                    ApplyQuoteAction(action, eventName, quoteHub, revisedQuotes);
+                    ApplyBarAction(action, eventName, barHub, revisedBars);
                 }
             }
             else if (line.Length == 0)
@@ -739,18 +739,18 @@ public class ThreadSafetyTests : TestBase
             }
         }
 
-        return new SseQuoteBatch(allQuotes, revisedQuotes);
+        return new SseBarBatch(allBars, revisedBars);
     }
 
-    private static async Task<SseQuoteBatch> ConsumeQuotesFromSse(TickHub tickHub, int port, string? scenario = null)
+    private static async Task<SseBarBatch> ConsumeBarsFromSse(TradeTickHub tickHub, int port, string? scenario = null)
     {
-        List<Quote> allQuotes = [];
-        List<Quote> revisedQuotes = [];
+        List<Bar> allBars = [];
+        List<Bar> revisedBars = [];
         using HttpClient httpClient = new() { Timeout = TimeSpan.FromMinutes(5) };
 
-        string batchSizeParam = $"&batchSize={TargetQuoteCount}";
+        string batchSizeParam = $"&batchSize={TargetBarCount}";
         string scenarioParam = string.IsNullOrWhiteSpace(scenario) ? string.Empty : $"&scenario={scenario}";
-        Uri uri = new($"http://localhost:{port}/quotes/longest?interval={SseInterval}&quoteInterval={QuoteInterval}{batchSizeParam}{scenarioParam}");
+        Uri uri = new($"http://localhost:{port}/bars/longest?interval={SseInterval}&barIntervalCode={BarIntervalCode}{batchSizeParam}{scenarioParam}");
 
         using HttpResponseMessage response = await httpClient
             .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
@@ -765,7 +765,7 @@ public class ThreadSafetyTests : TestBase
 
         while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
         {
-            // SSE format: "event: quote", "data: {...}", blank line
+            // SSE format: "event: bar", "data: {...}", blank line
             if (line.StartsWith("event:", StringComparison.Ordinal))
             {
                 eventType = line[6..].Trim();
@@ -773,31 +773,31 @@ public class ThreadSafetyTests : TestBase
             else if (line.StartsWith("data:", StringComparison.Ordinal))
             {
                 string json = line[5..].Trim();
-                string eventName = string.IsNullOrWhiteSpace(eventType) ? "quote" : eventType;
+                string eventName = string.IsNullOrWhiteSpace(eventType) ? "bar" : eventType;
 
-                if (string.Equals(eventName, "quote", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(eventName, "bar", StringComparison.OrdinalIgnoreCase))
                 {
-                    Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
-                    if (quote is not null)
+                    Bar? bar = JsonSerializer.Deserialize<Bar>(json, JsonOptions);
+                    if (bar is not null)
                     {
-                        allQuotes.Add(quote);
-                        revisedQuotes.Add(quote);
-                        // Convert quote to tick for TickHub
-                        tickHub.Add(new Tick(quote.Timestamp, quote.Close, quote.Volume));
+                        allBars.Add(bar);
+                        revisedBars.Add(bar);
+                        // Convert bar to tick for TradeTickHub
+                        tickHub.Add(new TradeTick(bar.Timestamp, bar.Close, bar.Volume));
                     }
                 }
                 else
                 {
-                    QuoteAction? action = JsonSerializer.Deserialize<QuoteAction>(json, JsonOptions);
+                    BarAction? action = JsonSerializer.Deserialize<BarAction>(json, JsonOptions);
 
                     // Fail fast on malformed SSE payloads
-                    if (action is null || (action.Quote is null && action.CacheIndex is null))
+                    if (action is null || (action.Bar is null && action.CacheIndex is null))
                     {
                         throw new InvalidOperationException(
                             $"Malformed SSE payload for event '{eventName}': {json}");
                     }
 
-                    ApplyQuoteAction(action, eventName, tickHub, revisedQuotes);
+                    ApplyBarAction(action, eventName, tickHub, revisedBars);
                 }
             }
             else if (line.Length == 0)
@@ -806,30 +806,30 @@ public class ThreadSafetyTests : TestBase
             }
         }
 
-        return new SseQuoteBatch(allQuotes, revisedQuotes);
+        return new SseBarBatch(allBars, revisedBars);
     }
 
-    private static void ApplyQuoteAction(
-        QuoteAction action,
+    private static void ApplyBarAction(
+        BarAction action,
         string eventName,
-        QuoteHub quoteHub,
-        List<Quote> revisedQuotes)
+        BarHub barHub,
+        List<Bar> revisedBars)
     {
         if (string.Equals(eventName, "remove", StringComparison.OrdinalIgnoreCase))
         {
             // Capture timestamp before removal to maintain synchronization
             DateTime? timestampToRemove = null;
-            if (action.CacheIndex is >= 0 && action.CacheIndex < quoteHub.Results.Count)
+            if (action.CacheIndex is >= 0 && action.CacheIndex < barHub.Results.Count)
             {
-                timestampToRemove = quoteHub.Results[action.CacheIndex.Value].Timestamp;
-                quoteHub.RemoveAt(action.CacheIndex.Value);
+                timestampToRemove = barHub.Results[action.CacheIndex.Value].Timestamp;
+                barHub.RemoveAt(action.CacheIndex.Value);
             }
 
-            // Update revisedQuotes using captured timestamp or fallback to action.Quote
-            DateTime? removalTimestamp = timestampToRemove ?? action.Quote?.Timestamp;
+            // Update revisedBars using captured timestamp or fallback to action.Bar
+            DateTime? removalTimestamp = timestampToRemove ?? action.Bar?.Timestamp;
             if (removalTimestamp.HasValue)
             {
-                RemoveQuoteByTimestamp(revisedQuotes, removalTimestamp.Value);
+                RemoveBarByTimestamp(revisedBars, removalTimestamp.Value);
             }
 
             return;
@@ -837,21 +837,21 @@ public class ThreadSafetyTests : TestBase
 
         if (string.Equals(eventName, "add", StringComparison.OrdinalIgnoreCase))
         {
-            if (action.Quote is null)
+            if (action.Bar is null)
             {
                 return;
             }
 
-            quoteHub.Add(action.Quote);
-            UpsertQuoteByTimestamp(revisedQuotes, action.Quote);
+            barHub.Add(action.Bar);
+            UpsertBarByTimestamp(revisedBars, action.Bar);
         }
     }
 
-    private static void ApplyQuoteAction(
-        QuoteAction action,
+    private static void ApplyBarAction(
+        BarAction action,
         string eventName,
-        TickHub tickHub,
-        List<Quote> revisedQuotes)
+        TradeTickHub tickHub,
+        List<Bar> revisedBars)
     {
         if (string.Equals(eventName, "remove", StringComparison.OrdinalIgnoreCase))
         {
@@ -863,11 +863,11 @@ public class ThreadSafetyTests : TestBase
                 tickHub.RemoveAt(action.CacheIndex.Value);
             }
 
-            // Update revisedQuotes using captured timestamp or fallback to action.Quote
-            DateTime? removalTimestamp = timestampToRemove ?? action.Quote?.Timestamp;
+            // Update revisedBars using captured timestamp or fallback to action.Bar
+            DateTime? removalTimestamp = timestampToRemove ?? action.Bar?.Timestamp;
             if (removalTimestamp.HasValue)
             {
-                RemoveQuoteByTimestamp(revisedQuotes, removalTimestamp.Value);
+                RemoveBarByTimestamp(revisedBars, removalTimestamp.Value);
             }
 
             return;
@@ -875,53 +875,53 @@ public class ThreadSafetyTests : TestBase
 
         if (string.Equals(eventName, "add", StringComparison.OrdinalIgnoreCase))
         {
-            if (action.Quote is null)
+            if (action.Bar is null)
             {
                 return;
             }
 
-            // Convert quote to tick for TickHub
-            tickHub.Add(new Tick(action.Quote.Timestamp, action.Quote.Close, action.Quote.Volume));
-            UpsertQuoteByTimestamp(revisedQuotes, action.Quote);
+            // Convert bar to tick for TradeTickHub
+            tickHub.Add(new TradeTick(action.Bar.Timestamp, action.Bar.Close, action.Bar.Volume));
+            UpsertBarByTimestamp(revisedBars, action.Bar);
         }
     }
 
-    private static void RemoveQuoteByTimestamp(List<Quote> quotes, DateTime timestamp)
+    private static void RemoveBarByTimestamp(List<Bar> bars, DateTime timestamp)
     {
-        int index = quotes.FindIndex(item => item.Timestamp == timestamp);
+        int index = bars.FindIndex(item => item.Timestamp == timestamp);
         if (index >= 0)
         {
-            quotes.RemoveAt(index);
+            bars.RemoveAt(index);
         }
     }
 
-    private static void UpsertQuoteByTimestamp(List<Quote> quotes, Quote quote)
+    private static void UpsertBarByTimestamp(List<Bar> bars, Bar bar)
     {
-        int index = quotes.FindIndex(item => item.Timestamp == quote.Timestamp);
+        int index = bars.FindIndex(item => item.Timestamp == bar.Timestamp);
         if (index >= 0)
         {
-            quotes[index] = quote;
+            bars[index] = bar;
             return;
         }
 
-        int insertIndex = quotes.FindIndex(item => item.Timestamp > quote.Timestamp);
+        int insertIndex = bars.FindIndex(item => item.Timestamp > bar.Timestamp);
         if (insertIndex >= 0)
         {
-            quotes.Insert(insertIndex, quote);
+            bars.Insert(insertIndex, bar);
         }
         else
         {
-            quotes.Add(quote);
+            bars.Add(bar);
         }
     }
 
-    private sealed record SseQuoteBatch(List<Quote> InitialQuotes, List<Quote> RevisedQuotes);
+    private sealed record SseBarBatch(List<Bar> InitialBars, List<Bar> RevisedBars);
 
-    // Intentional: QuoteAction is retained solely as a reflection anchor for JsonSerializer.Deserialize.
+    // Intentional: BarAction is retained solely as a reflection anchor for JsonSerializer.Deserialize.
     // The SuppressMessage attribute suppresses CA1812 (Avoid uninstantiated internal classes).
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Performance",
         "CA1812:Avoid uninstantiated internal classes",
         Justification = "Instantiated via JsonSerializer.Deserialize")]
-    private sealed record QuoteAction(Quote? Quote, int? CacheIndex);
+    private sealed record BarAction(Bar? Bar, int? CacheIndex);
 }

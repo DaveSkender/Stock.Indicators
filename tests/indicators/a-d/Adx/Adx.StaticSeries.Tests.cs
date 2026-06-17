@@ -6,7 +6,7 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AdxResult> sut = Quotes.ToAdx();
+        IReadOnlyList<AdxResult> sut = Bars.ToAdx();
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -72,7 +72,7 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<AdxResult> sut = Quotes.ToAdx(14);
+        IReadOnlyList<AdxResult> sut = Bars.ToAdx(14);
         sut.IsBetween(static x => x.Pdi, 0, 100);
         sut.IsBetween(static x => x.Mdi, 0, 100);
         sut.IsBetween(static x => x.Dx, 0, 100);
@@ -83,7 +83,7 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToAdx()
             .ToSma(10);
 
@@ -92,30 +92,30 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AdxResult> r = BadQuotes.ToAdx(20);
+        IReadOnlyList<AdxResult> r = BadBars.ToAdx(20);
 
         r.Should().HaveCount(502);
         r.Where(static x => x.Adx is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<AdxResult> r = BigQuotes.ToAdx(200);
+        IReadOnlyList<AdxResult> r = BigBars.ToAdx(200);
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AdxResult> r0 = Noquotes.ToAdx(5);
+        IReadOnlyList<AdxResult> r0 = Nobars.ToAdx(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AdxResult> r1 = Onequote.ToAdx(5);
+        IReadOnlyList<AdxResult> r1 = Onebar.ToAdx(5);
 
         r1.Should().HaveCount(1);
     }
@@ -123,10 +123,10 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public void Issue859_HasInlineNaN_NaNsConverted()
     {
-        // quotes that produce in-sequence NaN values
-        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue0859.adx.nan.csv");
+        // bars that produce in-sequence NaN values
+        IReadOnlyList<Bar> bars = Data.BarsFromCsv("_issue0859.adx.nan.csv");
 
-        IReadOnlyList<AdxResult> sut = quotes.ToAdx();
+        IReadOnlyList<AdxResult> sut = bars.ToAdx();
 
         sut.Should().HaveCountGreaterThan(0);
         sut.Where(static x => x.Adx is double v && double.IsNaN(v)).Should().BeEmpty();
@@ -136,7 +136,7 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public void Zeroes_WithZeroValues_DoesNotFail()
     {
-        IReadOnlyList<AdxResult> r = ZeroesQuotes.ToAdx();
+        IReadOnlyList<AdxResult> r = ZeroesBars.ToAdx();
 
         r.Where(static x => x.Adx is double v && double.IsNaN(v)).Should().BeEmpty();
         r.Should().HaveCount(200);
@@ -145,7 +145,7 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<AdxResult> sut = Quotes
+        IReadOnlyList<AdxResult> sut = Bars
             .ToAdx()
             .RemoveWarmupPeriods();
 
@@ -162,7 +162,7 @@ public class Adx : StaticSeriesTestBase
     [TestMethod] // bad lookback period
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToAdx(1))
+            .Invoking(static () => Bars.ToAdx(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

@@ -6,110 +6,110 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int LookbackPeriods = 14;
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        WmaHub observer = quoteHub.ToWmaHub(LookbackPeriods);
+        WmaHub observer = barHub.ToWmaHub(LookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<WmaResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<WmaResult> expectedOriginal = Quotes.ToWma(LookbackPeriods);
+        IReadOnlyList<WmaResult> expectedOriginal = Bars.ToWma(LookbackPeriods);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
-        IReadOnlyList<WmaResult> expectedRevised = RevisedQuotes.ToWma(LookbackPeriods);
+        barHub.RemoveAt(removeAtIndex);
+        IReadOnlyList<WmaResult> expectedRevised = RevisedBars.ToWma(LookbackPeriods);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<WmaResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<WmaResult> expected = bars
             .ToWma(LookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        WmaHub observer = quoteHub.ToWmaHub(LookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        WmaHub observer = barHub.ToWmaHub(LookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        WmaHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.HL2)
+        WmaHub observer = barHub
+            .ToBarPartHub(CandlePart.HL2)
             .ToWmaHub(LookbackPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++) { barHub.Add(Bars[i]); }
 
         // final results
         IReadOnlyList<WmaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<WmaResult> expected = Quotes
+        IReadOnlyList<WmaResult> expected = Bars
             .Use(CandlePart.HL2)
             .ToWma(LookbackPeriods);
 
         // assert, should equal series
         sut.IsExactly(expected);
-        sut.Should().HaveCount(quotesCount);
+        sut.Should().HaveCount(barsCount);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -118,54 +118,54 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int wmaPeriods = LookbackPeriods;
         const int emaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        EmaHub observer = quoteHub
+        EmaHub observer = barHub
             .ToWmaHub(wmaPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate adding quotes to provider hub
-        for (int i = 0; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 0; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<EmaResult> expected = RevisedQuotes
+        IReadOnlyList<EmaResult> expected = RevisedBars
             .ToWma(wmaPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        WmaHub hub = new(new QuoteHub(), LookbackPeriods);
+        WmaHub hub = new(new BarHub(), LookbackPeriods);
         hub.ToString().Should().Be($"WMA({LookbackPeriods})");
     }
 }

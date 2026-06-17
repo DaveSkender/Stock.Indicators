@@ -72,7 +72,7 @@ for (int p = i - LookbackPeriods; p < i; p++)
 private readonly RollingWindowMax<decimal> _highWindow;
 private readonly RollingWindowMin<decimal> _lowWindow;
 
-internal DonchianHub(IQuoteProvider<IQuote> provider, int lookbackPeriods)
+internal DonchianHub(IBarProvider<IBar> provider, int lookbackPeriods)
     : base(provider)
 {
     _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
@@ -80,7 +80,7 @@ internal DonchianHub(IQuoteProvider<IQuote> provider, int lookbackPeriods)
     Reinitialize();
 }
 
-protected override (DonchianResult result, int index) ToIndicator(IQuote item, int? indexHint)
+protected override (DonchianResult result, int index) ToIndicator(IBar item, int? indexHint)
 {
     // O(1) amortized add operation
     _highWindow.Add(item.High);
@@ -167,7 +167,7 @@ Add benchmark to `tools/performance/Perf.Stream.cs`:
 
 ```csharp
 [Benchmark]
-public object MyIndicatorHub() => quoteHub.ToMyIndicatorHub(14).Results;
+public object MyIndicatorHub() => barHub.ToMyIndicatorHub(14).Results;
 ```
 
 Run benchmarks:

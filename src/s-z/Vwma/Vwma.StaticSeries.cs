@@ -6,40 +6,40 @@ namespace Skender.Stock.Indicators;
 public static partial class Vwma
 {
     /// <summary>
-    /// Calculates the VWMA for a series of quotes.
+    /// Calculates the VWMA for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
     public static IReadOnlyList<VwmaResult> ToVwma(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcVwma(lookbackPeriods);
 
     /// <summary>
-    /// Calculates the VWMA for a series of quotes.
+    /// Calculates the VWMA for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     private static List<VwmaResult> CalcVwma(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<VwmaResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             double vwma;
 
@@ -49,7 +49,7 @@ public static partial class Vwma
                 double sumVl = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD d = quotes[p];
+                    BarD d = bars[p];
                     double c = d.Close;
                     double v = d.Volume;
 

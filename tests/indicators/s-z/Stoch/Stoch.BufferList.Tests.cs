@@ -11,10 +11,10 @@ public class Stoch : BufferListTestBase
     private const MaType movingAverageType = MaType.SMA;
 
     private static readonly IReadOnlyList<StochResult> series
-       = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+       = Bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         // %J is unbounded by design so not asserted.
         IReadOnlyList<StochResult> sut = Data
@@ -26,41 +26,41 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
 
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, subset);
 
@@ -70,9 +70,9 @@ public class Stoch : BufferListTestBase
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
+        foreach (Bar bar in subset)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<StochResult> expected = subset.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -88,18 +88,18 @@ public class Stoch : BufferListTestBase
         const double dFactor = 4;
         const MaType movingAverageType = MaType.SMMA;
 
-        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { Quotes };
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { Bars };
 
-        IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
+        IReadOnlyList<StochResult> expected = Bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        StochList sut = new(14, 3, 3, 1, 1, MaType.SMA, Quotes);
+        StochList sut = new(14, 3, 3, 1, 1, MaType.SMA, Bars);
         sut.IsBetween(static x => x.Oscillator, 0, 100);
         sut.IsBetween(static x => x.Signal, 0, 100);
     }
@@ -109,11 +109,11 @@ public class Stoch : BufferListTestBase
     {
         // Test that incremental addition produces same sut as batch
         StochList incremental = new(lookbackPeriods, signalPeriods, smoothPeriods);
-        StochList batch = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
+        StochList batch = new(lookbackPeriods, signalPeriods, smoothPeriods) { Bars };
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            incremental.Add(quote);
+            incremental.Add(bar);
         }
 
         incremental.Should().HaveCount(batch.Count);
@@ -137,11 +137,11 @@ public class Stoch : BufferListTestBase
     {
         // Test with minimal data
         StochList sut = new(5, 3, 3);
-        List<Quote> minimal = Quotes.Take(5).ToList();
+        List<Bar> minimal = Bars.Take(5).ToList();
 
-        foreach (Quote quote in minimal)
+        foreach (Bar bar in minimal)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         sut.Should().HaveCount(minimal.Count);
@@ -157,8 +157,8 @@ public class Stoch : BufferListTestBase
     public void BufferListExtension_VersusConstructor_MatchesExactly()
     {
         // Test extension method
-        StochList fromExtension = Quotes.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
-        StochList fromConstructor = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
+        StochList fromExtension = Bars.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
+        StochList fromConstructor = new(lookbackPeriods, signalPeriods, smoothPeriods) { Bars };
 
         fromExtension.IsExactly(fromConstructor);
     }
@@ -172,9 +172,9 @@ public class Stoch : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<StochResult> expected

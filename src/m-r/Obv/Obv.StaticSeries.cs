@@ -6,26 +6,26 @@ namespace Skender.Stock.Indicators;
 public static partial class Obv
 {
     /// <summary>
-    /// Converts a list of quotes to OBV results.
+    /// Converts a list of bars to OBV results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <returns>A list of OBV results.</returns>
     public static IReadOnlyList<ObvResult> ToObv(
-        this IReadOnlyList<IQuote> quotes)
-        => quotes
-            .ToQuoteDList()
+        this IReadOnlyList<IBar> bars)
+        => bars
+            .ToBarDList()
             .CalcObv();
 
     /// <summary>
-    /// Calculates the OBV for a list of quotes.
+    /// Calculates the OBV for a list of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <returns>A list of OBV results.</returns>
     private static List<ObvResult> CalcObv(
-        this List<QuoteD> quotes)
+        this List<BarD> bars)
     {
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<ObvResult> results = new(length);
 
         double prevClose = double.NaN;
@@ -33,7 +33,7 @@ public static partial class Obv
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             ObvResult r = Increment(
                 q.Timestamp,

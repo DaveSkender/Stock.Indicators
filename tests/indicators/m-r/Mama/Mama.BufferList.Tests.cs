@@ -7,43 +7,43 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     private const double slowLimit = 0.05;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Use(CandlePart.HL2)  // HL2 values (not Close) for comparables
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<MamaResult> series
-       = Quotes.ToMama(fastLimit, slowLimit);
+       = Bars.ToMama(fastLimit, slowLimit);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         MamaList sut = new(fastLimit, slowLimit);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        MamaList sut = new(fastLimit, slowLimit) { Quotes };
+        MamaList sut = new(fastLimit, slowLimit) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        MamaList sut = new(fastLimit, slowLimit, Quotes);
+        MamaList sut = new(fastLimit, slowLimit, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -57,7 +57,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -66,7 +66,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     {
         MamaList sut = new(fastLimit, slowLimit) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -80,14 +80,14 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<MamaResult> expected = subset.ToMama(fastLimit, slowLimit);
 
         MamaList sut = new(fastLimit, slowLimit, subset);
@@ -114,7 +114,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<MamaResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -128,21 +128,21 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 200;
-        const int quotesSize = 1250;
+        const int barsSize = 1250;
 
         // Use a test data that exceeds all cache size thresholds
-        List<Quote> quotes = LongishQuotes
-            .Take(quotesSize)
+        List<Bar> bars = LongishBars
+            .Take(barsSize)
             .ToList();
 
         // Expected results after pruning (tail end)
-        IReadOnlyList<MamaResult> expected = quotes
+        IReadOnlyList<MamaResult> expected = bars
             .ToMama(fastLimit, slowLimit)
-            .Skip(quotesSize - maxListSize)
+            .Skip(barsSize - maxListSize)
             .ToList();
 
         // Generate buffer list
-        MamaList sut = new(fastLimit, slowLimit, quotes) {
+        MamaList sut = new(fastLimit, slowLimit, bars) {
             MaxListSize = maxListSize
         };
 

@@ -5,8 +5,8 @@
 | Provider Base | Input | Output | Use Case | Examples |
 | ------------- | ----- | ------ | -------- | -------- |
 | `ChainHub<IReusable, TResult>` | Single value | `IReusable` | Chainable indicators | EMA, SMA, RSI, MACD |
-| `ChainHub<IQuote, TResult>` | OHLCV | `IReusable` | Quote-driven, chainable output | ADX, ATR, CCI, OBV |
-| `QuoteProvider<IQuote, TResult>` | OHLCV | `IResult` | Quote transformation | HeikinAshi, Renko |
+| `ChainHub<IBar, TResult>` | OHLCV | `IReusable` | Bar-driven, chainable output | ADX, ATR, CCI, OBV |
+| `BarProvider<IBar, TResult>` | OHLCV | `IResult` | Bar transformation | HeikinAshi, Renko |
 
 ## ChainHub<IReusable, TResult>
 
@@ -27,29 +27,29 @@ public class EmaHub : ChainHub<IReusable, EmaResult>, IEma
 }
 ```
 
-## ChainHub<IQuote, TResult>
+## ChainHub<IBar, TResult>
 
-**Quote-driven input, chainable output** (~15 indicators): Requires OHLCV data, produces single chainable `IReusable` output
+**Bar-driven input, chainable output** (~15 indicators): Requires OHLCV data, produces single chainable `IReusable` output
 
 **Examples**: ADX, ATR, Aroon, CCI, CMF, OBV
 
 ```csharp
-public class AdxHub : ChainHub<IQuote, AdxResult>, IAdx
+public class AdxHub : ChainHub<IBar, AdxResult>, IAdx
 {
-    // Requires quote data, produces chainable AdxResult
+    // Requires bar data, produces chainable AdxResult
 }
 ```
 
-## QuoteProvider<IQuote, TResult>
+## BarProvider<IBar, TResult>
 
-**Quote transformation** (~3 indicators): Quote input transforms to quote-like output (`IResult`, not necessarily `IQuote`)
+**Bar transformation** (~3 indicators): Bar input transforms to bar-like output (`IResult`, not necessarily `IBar`)
 
-**Examples**: HeikinAshi, Renko, QuoteHub
+**Examples**: HeikinAshi, Renko, BarHub
 
 ```csharp
-public class HeikinAshiHub : QuoteProvider<IQuote, HeikinAshiResult>
+public class HeikinAshiHub : BarProvider<IBar, HeikinAshiResult>
 {
-    // Quote in, quote-like result out
+    // Bar in, bar-like result out
 }
 ```
 
@@ -121,5 +121,5 @@ public static StochRsiHub ToStochRsiHub(
 | Provider Base | Observer Interface | Provider Interface |
 | ------------- | ------------------ | ------------------ |
 | `ChainHub<IReusable, T>` | `ITestChainObserver` | `ITestChainProvider` |
-| `ChainHub<IQuote, T>` | `ITestChainObserver` | `ITestChainProvider` |
-| `QuoteProvider<IQuote, T>` | `ITestQuoteObserver` | `ITestChainProvider` |
+| `ChainHub<IBar, T>` | `ITestChainObserver` | `ITestChainProvider` |
+| `BarProvider<IBar, T>` | `ITestBarObserver` | `ITestChainProvider` |

@@ -12,31 +12,31 @@ description: Pivot Points depict classic support and resistance levels, based on
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotPointsResult> results =
-  quotes.ToPivotPoints(windowSize, pointType);
+  bars.ToPivotPoints(windowSize, pointType);
 ```
 
 ## Parameters
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `windowSize` | PeriodSize | Size of the lookback window.  Default is `PeriodSize.Month` |
+| `windowSize` | BarInterval | Size of the lookback window.  Default is `BarInterval.Month` |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `2` windows of `quotes` to cover the warmup periods.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `quotes`.
+You must have at least `2` windows of `bars` to cover the warmup periods.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `bars`.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### PeriodSize options (for windowSize)
+### BarInterval options (for windowSize)
 
-**`PeriodSize.Month`** - Use the prior month's data to calculate current month's Pivot Points
+**`BarInterval.Month`** - Use the prior month's data to calculate current month's Pivot Points
 
-**`PeriodSize.Week`** - [..] weekly
+**`BarInterval.Week`** - [..] weekly
 
-**`PeriodSize.Day`** - [..] daily.  Commonly used for intraday data.
+**`BarInterval.Day`** - [..] daily.  Commonly used for intraday data.
 
-**`PeriodSize.OneHour`** - [..] hourly
+**`BarInterval.OneHour`** - [..] hourly
 
 ### PivotPointType options
 
@@ -56,13 +56,13 @@ You must have at least `2` windows of `quotes` to cover the warmup periods.  For
 IReadOnlyList<PivotPointsResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first window will have `null` values since there's not enough data to calculate.
 
 ::: warning
-The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
+The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `bars`.
 :::
 
 ::: warning 🖌️ Repaint warning
@@ -73,7 +73,7 @@ The last window will be repainted if it does not contain a full window of data.
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `R4` | double | Resistance level 4 (Camarilla only) |
 | `R3` | double | Resistance level 3 |
 | `R2` | double | Resistance level 2 |
@@ -94,7 +94,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator is not chain-enabled and must be generated from `bars`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -105,24 +105,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 PivotPointsList pivotPointsList = new(windowSize, pointType);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  pivotPointsList.Add(quote);
+  pivotPointsList.Add(bar);
 }
 
 // based on `ICollection<PivotPointsResult>`
 IReadOnlyList<PivotPointsResult> results = pivotPointsList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-PivotPointsHub observer = quoteHub.ToPivotPointsHub(windowSize, pointType);
+BarHub barHub = new();
+PivotPointsHub observer = barHub.ToPivotPointsHub(windowSize, pointType);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<PivotPointsResult> results = observer.Results;

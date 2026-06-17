@@ -9,12 +9,12 @@ namespace Observables;
 [TestClass]
 public class ObserverIsolation : TestBase
 {
-    private sealed class ThrowingObserver : IStreamObserver<IQuote>
+    private sealed class ThrowingObserver : IStreamObserver<IBar>
     {
         public int OnErrorCount { get; private set; }
         public bool IsSubscribed { get; private set; } = true;
         public void Unsubscribe() => IsSubscribed = false;
-        public void OnAdd(IQuote item, bool notify, int? indexHint)
+        public void OnAdd(IBar item, bool notify, int? indexHint)
             => throw new InvalidOperationException("observer boom (OnAdd)");
         public void OnRebuild(DateTime fromTimestamp)
             => throw new InvalidOperationException("observer boom (OnRebuild)");
@@ -24,13 +24,13 @@ public class ObserverIsolation : TestBase
         public void OnCompleted() { }
     }
 
-    private sealed class RecordingObserver : IStreamObserver<IQuote>
+    private sealed class RecordingObserver : IStreamObserver<IBar>
     {
         public int OnAddCount { get; private set; }
         public int OnRebuildCount { get; private set; }
         public bool IsSubscribed { get; private set; } = true;
         public void Unsubscribe() => IsSubscribed = false;
-        public void OnAdd(IQuote item, bool notify, int? indexHint) => OnAddCount++;
+        public void OnAdd(IBar item, bool notify, int? indexHint) => OnAddCount++;
         public void OnRebuild(DateTime fromTimestamp) => OnRebuildCount++;
         public void OnPrune(DateTime toTimestamp) { }
         public void OnError(Exception exception) { }
@@ -40,9 +40,9 @@ public class ObserverIsolation : TestBase
     [TestMethod]
     public void ThrowingObserver_OnAdd_IsIsolatedFromHubAndSiblings()
     {
-        IReadOnlyList<Quote> quotes = Quotes.Take(20).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(20).ToList();
 
-        QuoteHub hub = new();
+        BarHub hub = new();
         ThrowingObserver thrower = new();
         RecordingObserver recorder = new();
         hub.Subscribe(thrower);
@@ -50,15 +50,15 @@ public class ObserverIsolation : TestBase
 
         // Without isolation, the thrower's OnAdd exception propagates out of Add.
         Action feed = () => {
-            foreach (Quote q in quotes)
+            foreach (Bar q in bars)
             {
                 hub.Add(q);
             }
         };
 
         feed.Should().NotThrow("a faulting observer must be isolated from the hub");
-        recorder.OnAddCount.Should().Be(quotes.Count, "the sibling observer must receive every update");
-        thrower.OnErrorCount.Should().Be(quotes.Count, "the faulting observer's OnError is called once per failed OnAdd");
+        recorder.OnAddCount.Should().Be(bars.Count, "the sibling observer must receive every update");
+        thrower.OnErrorCount.Should().Be(bars.Count, "the faulting observer's OnError is called once per failed OnAdd");
 
         hub.EndTransmission();
     }
@@ -68,23 +68,23 @@ public class ObserverIsolation : TestBase
     {
         // A late arrival triggers the OnRebuild fan-out; a thrower there must not
         // starve siblings of the rebuild notification either.
-        IReadOnlyList<Quote> quotes = Quotes.Take(60).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
 
-        QuoteHub hub = new();
+        BarHub hub = new();
         ThrowingObserver thrower = new();
         RecordingObserver recorder = new();
         hub.Subscribe(thrower);
         hub.Subscribe(recorder);
 
         Action feed = () => {
-            for (int i = 0; i < quotes.Count; i++)
+            for (int i = 0; i < bars.Count; i++)
             {
                 if (i == 30) { continue; }
 
-                hub.Add(quotes[i]);
+                hub.Add(bars[i]);
             }
 
-            hub.Add(quotes[30]); // late arrival -> rebuild fan-out
+            hub.Add(bars[30]); // late arrival -> rebuild fan-out
         };
 
         feed.Should().NotThrow("a faulting observer must be isolated during rebuild fan-out");

@@ -131,8 +131,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets a value indicating whether this hub is a <em>root</em> hub — one
     /// that owns its own input timeline because it has no upstream provider
-    /// (its provider is the inert placeholder). Only a <see cref="QuoteHub"/>
-    /// or <see cref="TickHub"/> created without a provider is a root; every hub
+    /// (its provider is the inert placeholder). Only a <see cref="BarHub"/>
+    /// or <see cref="TradeTickHub"/> created without a provider is a root; every hub
     /// that subscribes to a provider is non-root and is driven by that provider.
     /// </summary>
     private protected bool IsRootHub => Provider is IInertProvider;
@@ -153,7 +153,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         if (!IsRootHub)
         {
             throw new InvalidOperationException(
-                $"'{caller}' can only be called on a root hub (a standalone QuoteHub or TickHub). "
+                $"'{caller}' can only be called on a root hub (a standalone BarHub or TradeTickHub). "
               + "This hub is subscribed to a provider and is driven by it; "
               + "mutate the root hub instead so the chain stays synchronized.");
         }
@@ -263,7 +263,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Removes the cached item at <paramref name="cacheIndex"/> and notifies
     /// observers. The caller must already hold <see cref="CacheLock"/>; this lets
-    /// a find-then-remove (e.g. <c>Remove(IQuote)</c>) be atomic under one lock.
+    /// a find-then-remove (e.g. <c>Remove(IBar)</c>) be atomic under one lock.
     /// </summary>
     /// <param name="cacheIndex">Cache index to remove.</param>
     private protected void RemoveAtCore(int cacheIndex)

@@ -10,7 +10,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20);
+            Bars.ToMaEnvelopes(20);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -37,7 +37,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Alma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(10, 2.5, MaType.ALMA);
+            Bars.ToMaEnvelopes(10, 2.5, MaType.ALMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -64,7 +64,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Dema_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20, 2.5, MaType.DEMA);
+            Bars.ToMaEnvelopes(20, 2.5, MaType.DEMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -91,7 +91,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Epma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20, 2.5, MaType.EPMA);
+            Bars.ToMaEnvelopes(20, 2.5, MaType.EPMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -118,7 +118,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Ema_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20, 2.5, MaType.EMA);
+            Bars.ToMaEnvelopes(20, 2.5, MaType.EMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -145,7 +145,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Hma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20, 2.5, MaType.HMA);
+            Bars.ToMaEnvelopes(20, 2.5, MaType.HMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -167,7 +167,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Smma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20, 2.5, MaType.SMMA);
+            Bars.ToMaEnvelopes(20, 2.5, MaType.SMMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -194,7 +194,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Tema_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20, 2.5, MaType.TEMA);
+            Bars.ToMaEnvelopes(20, 2.5, MaType.TEMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -221,7 +221,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Wma_AsMaType_ReturnsExpectedResult()
     {
         IReadOnlyList<MaEnvelopeResult> sut =
-            Quotes.ToMaEnvelopes(20, 2.5, MaType.WMA);
+            Bars.ToMaEnvelopes(20, 2.5, MaType.WMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -242,7 +242,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<MaEnvelopeResult> sut = Quotes
+        IReadOnlyList<MaEnvelopeResult> sut = Bars
             .Use(CandlePart.Close)
             .ToMaEnvelopes(10);
 
@@ -253,7 +253,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<MaEnvelopeResult> sut = Quotes
+        IReadOnlyList<MaEnvelopeResult> sut = Bars
             .ToSma(2)
             .ToMaEnvelopes(10);
 
@@ -262,58 +262,58 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<MaEnvelopeResult> a = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> a = BadBars
             .ToMaEnvelopes(5, 2.5, MaType.ALMA);
 
         a.Should().HaveCount(502);
 
-        IReadOnlyList<MaEnvelopeResult> d = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> d = BadBars
             .ToMaEnvelopes(5, 2.5, MaType.DEMA);
 
         d.Should().HaveCount(502);
 
-        IReadOnlyList<MaEnvelopeResult> p = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> p = BadBars
             .ToMaEnvelopes(5, 2.5, MaType.EPMA);
 
         p.Should().HaveCount(502);
 
-        IReadOnlyList<MaEnvelopeResult> e = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> e = BadBars
             .ToMaEnvelopes(5, 2.5, MaType.EMA);
 
         e.Should().HaveCount(502);
 
-        IReadOnlyList<MaEnvelopeResult> h = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> h = BadBars
             .ToMaEnvelopes(5, 2.5, MaType.HMA);
 
         h.Should().HaveCount(502);
 
-        IReadOnlyList<MaEnvelopeResult> s = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> s = BadBars
             .ToMaEnvelopes(5);
 
         s.Should().HaveCount(502);
 
-        IReadOnlyList<MaEnvelopeResult> t = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> t = BadBars
             .ToMaEnvelopes(5, 2.5, MaType.TEMA);
 
         t.Should().HaveCount(502);
 
-        IReadOnlyList<MaEnvelopeResult> w = BadQuotes
+        IReadOnlyList<MaEnvelopeResult> w = BadBars
             .ToMaEnvelopes(5, 2.5, MaType.WMA);
 
         w.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<MaEnvelopeResult> r0 = Noquotes
+        IReadOnlyList<MaEnvelopeResult> r0 = Nobars
             .ToMaEnvelopes(10);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<MaEnvelopeResult> r1 = Onequote
+        IReadOnlyList<MaEnvelopeResult> r1 = Onebar
             .ToMaEnvelopes(10);
 
         r1.Should().HaveCount(1);
@@ -322,7 +322,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<MaEnvelopeResult> sut = Quotes
+        IReadOnlyList<MaEnvelopeResult> sut = Bars
             .ToMaEnvelopes(20)
             .Condense();
 
@@ -334,12 +334,12 @@ public class MaEnvelopes : StaticSeriesTestBase
     {
         // bad offset period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMaEnvelopes(14, 0));
+            static () => Bars.ToMaEnvelopes(14, 0));
 
         // bad MA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMaEnvelopes(14, 5, MaType.KAMA));
+            static () => Bars.ToMaEnvelopes(14, 5, MaType.KAMA));
 
-        // note: insufficient quotes is tested elsewhere
+        // note: insufficient bars is tested elsewhere
     }
 }

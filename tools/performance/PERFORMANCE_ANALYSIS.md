@@ -163,7 +163,7 @@ BenchmarkDotNet groups results by indicator with automatic ratio columns compari
 
 ### Pattern 1: ForceIndex O(n²) Complexity (61.56x)
 
-**Root cause:** Nested loop recalculating entire history on each quote
+**Root cause:** Nested loop recalculating entire history on each bar
 
 **Impact:** Severe performance degradation, unusable for real-time streaming
 
@@ -175,7 +175,7 @@ BenchmarkDotNet groups results by indicator with automatic ratio columns compari
 
 **Root cause:** StreamHub subscription/notification infrastructure overhead dominates simple operations
 
-**Performance context:** These timings are in nanoseconds. An 8-10x overhead on a 2,500 ns operation equals ~25,000 ns per quote, achieving **~40,000 quotes/second** throughput
+**Performance context:** These timings are in nanoseconds. An 8-10x overhead on a 2,500 ns operation equals ~25,000 ns per bar, achieving **~40,000 bars/second** throughput
 
 **Status:** Acceptable for real-time streaming use cases, framework optimization deferred
 

@@ -6,33 +6,33 @@ namespace Skender.Stock.Indicators;
 public static partial class RollingPivots
 {
     /// <summary>
-    /// Creates a Rolling Pivot Points streaming hub from a quotes provider.
+    /// Creates a Rolling Pivot Points streaming hub from a bars provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="windowPeriods">Number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">Number of periods to offset the window.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>An instance of <see cref="RollingPivotsHub"/>.</returns>
     public static RollingPivotsHub ToRollingPivotsHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int windowPeriods = 20,
         int offsetPeriods = 0,
         PivotPointType pointType = PivotPointType.Standard)
-        => new(quoteProvider, windowPeriods, offsetPeriods, pointType);
+        => new(barProvider, windowPeriods, offsetPeriods, pointType);
 }
 
 /// <summary>
 /// Streaming hub for Rolling Pivot Points.
 /// </summary>
 public class RollingPivotsHub
-    : StreamHub<IQuote, RollingPivotsResult>
+    : StreamHub<IBar, RollingPivotsResult>
 {
     private CircularDoubleBuffer _highWindow;
     private CircularDoubleBuffer _lowWindow;
-    private readonly Queue<IQuote> _offsetBuffer;
+    private readonly Queue<IBar> _offsetBuffer;
 
     internal RollingPivotsHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int windowPeriods,
         int offsetPeriods,
         PivotPointType pointType) : base(provider)
@@ -45,7 +45,7 @@ public class RollingPivotsHub
         Name = $"ROLLING-PIVOTS({windowPeriods},{offsetPeriods},{pointType})";
         _highWindow = new CircularDoubleBuffer(windowPeriods);
         _lowWindow = new CircularDoubleBuffer(windowPeriods);
-        _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
+        _offsetBuffer = new Queue<IBar>(offsetPeriods + 1);
 
         // Validate cache size for warmup requirements
         // RollingPivots needs windowPeriods + offsetPeriods + 1 items before first valid result.
@@ -70,7 +70,7 @@ public class RollingPivotsHub
     public PivotPointType PointType { get; init; }
     /// <inheritdoc/>
     protected override (RollingPivotsResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -85,11 +85,11 @@ public class RollingPivotsHub
         }
 
         // Get window close value from offset buffer
-        // The offset buffer contains the last (OffsetPeriods + 1) quotes
-        // We want the close from OffsetPeriods quotes ago (the first item in buffer)
+        // The offset buffer contains the last (OffsetPeriods + 1) bars
+        // We want the close from OffsetPeriods bars ago (the first item in buffer)
         double windowClose = (double)_offsetBuffer.Peek().Close;
 
-        // Get high/low from rolling windows (these track the prior WindowPeriods quotes)
+        // Get high/low from rolling windows (these track the prior WindowPeriods bars)
         double windowHigh = _highWindow.GetMax();
         double windowLow = _lowWindow.GetMin();
 
@@ -135,14 +135,14 @@ public class RollingPivotsHub
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            _highWindow.Add((double)quote.High);
-            _lowWindow.Add((double)quote.Low);
+            IBar bar = ProviderCache[p];
+            _highWindow.Add((double)bar.High);
+            _lowWindow.Add((double)bar.Low);
 
-            // Only add to offset buffer for the last (OffsetPeriods + 1) quotes
+            // Only add to offset buffer for the last (OffsetPeriods + 1) bars
             if (p > restoreIndex - OffsetPeriods - 1)
             {
-                _offsetBuffer.Enqueue(quote);
+                _offsetBuffer.Enqueue(bar);
             }
         }
     }

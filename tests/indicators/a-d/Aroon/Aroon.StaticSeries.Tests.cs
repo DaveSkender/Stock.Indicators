@@ -6,7 +6,7 @@ public class Aroon : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AroonResult> sut = Quotes
+        IReadOnlyList<AroonResult> sut = Bars
             .ToAroon();
 
         // proper quantities
@@ -45,14 +45,14 @@ public class Aroon : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<AroonResult> sut = Quotes.ToAroon(25);
+        IReadOnlyList<AroonResult> sut = Bars.ToAroon(25);
         sut.IsBetween(static x => x.AroonUp, 0, 100);
         sut.IsBetween(static x => x.AroonDown, 0, 100);
         sut.IsBetween(static x => x.Oscillator, -100, 100);
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<AroonResult> sut = Data
             .GetRandom(2500)
@@ -66,7 +66,7 @@ public class Aroon : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToAroon()
             .ToSma(10);
 
@@ -75,9 +75,9 @@ public class Aroon : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AroonResult> r = BadQuotes
+        IReadOnlyList<AroonResult> r = BadBars
             .ToAroon(20);
 
         r.Should().HaveCount(502);
@@ -85,14 +85,14 @@ public class Aroon : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AroonResult> r0 = Noquotes
+        IReadOnlyList<AroonResult> r0 = Nobars
             .ToAroon();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AroonResult> r1 = Onequote
+        IReadOnlyList<AroonResult> r1 = Onebar
             .ToAroon();
 
         r1.Should().HaveCount(1);
@@ -101,7 +101,7 @@ public class Aroon : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<AroonResult> sut = Quotes
+        IReadOnlyList<AroonResult> sut = Bars
             .ToAroon()
             .RemoveWarmupPeriods();
 
@@ -120,7 +120,7 @@ public class Aroon : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToAroon(0))
+            .Invoking(static () => Bars.ToAroon(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

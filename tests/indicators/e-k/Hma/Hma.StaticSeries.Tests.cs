@@ -6,7 +6,7 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<HmaResult> sut = Quotes
+        IReadOnlyList<HmaResult> sut = Bars
             .ToHma(20);
 
         // proper quantities
@@ -24,7 +24,7 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<HmaResult> sut = Quotes
+        IReadOnlyList<HmaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToHma(20);
 
@@ -35,7 +35,7 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<HmaResult> sut = Quotes
+        IReadOnlyList<HmaResult> sut = Bars
             .ToSma(2)
             .ToHma(19);
 
@@ -46,7 +46,7 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToHma(20)
             .ToSma(10);
 
@@ -55,9 +55,9 @@ public class Hma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<HmaResult> r = BadQuotes
+        IReadOnlyList<HmaResult> r = BadBars
             .ToHma(15);
 
         r.Should().HaveCount(502);
@@ -65,14 +65,14 @@ public class Hma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<HmaResult> r0 = Noquotes
+        IReadOnlyList<HmaResult> r0 = Nobars
             .ToHma(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<HmaResult> r1 = Onequote
+        IReadOnlyList<HmaResult> r1 = Onebar
             .ToHma(5);
 
         r1.Should().HaveCount(1);
@@ -81,7 +81,7 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<HmaResult> sut = Quotes
+        IReadOnlyList<HmaResult> sut = Bars
             .ToHma(20)
             .RemoveWarmupPeriods();
 
@@ -98,7 +98,7 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToHma(1))
+            .Invoking(static () => Bars.ToHma(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

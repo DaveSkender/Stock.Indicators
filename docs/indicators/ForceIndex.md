@@ -15,7 +15,7 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 ```csharp
 // C# usage syntax
 IReadOnlyList<ForceIndexResult> results =
-  quotes.ToForceIndex(lookbackPeriods);
+  bars.ToForceIndex(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<ForceIndexResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` for `2×N` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more
 IReadOnlyList<ForceIndexResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will be `null` since they cannot be calculated.
 
@@ -49,7 +49,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `ForceIndex` | double | Force Index |
 
 ### Utilities
@@ -67,12 +67,12 @@ Results can be further processed on `ForceIndex` with additional chain-enabled i
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToForceIndex(..)
     .ToEma(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -83,24 +83,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 ForceIndexList forceIndexList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  forceIndexList.Add(quote);
+  forceIndexList.Add(bar);
 }
 
 // based on `ICollection<ForceIndexResult>`
 IReadOnlyList<ForceIndexResult> results = forceIndexList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
+BarHub barHub = new();
+ForceIndexHub observer = barHub.ToForceIndexHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<ForceIndexResult> results = observer.Results;

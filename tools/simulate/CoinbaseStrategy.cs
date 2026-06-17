@@ -19,7 +19,7 @@ internal sealed class CoinbaseStrategy : IDisposable
     private readonly CoinbaseMode _mode;
     private readonly CoinbaseSocketClient _socketClient;
 
-    private readonly QuoteHub _quoteHub;
+    private readonly BarHub _barHub;
     private readonly EmaHub _fastEma;
     private readonly EmaHub _slowEma;
 
@@ -36,7 +36,7 @@ internal sealed class CoinbaseStrategy : IDisposable
     private double _largestLoss;
     private readonly List<double> _tradeResults = [];
 
-    private int _quotesProcessed;
+    private int _barsProcessed;
 
     private const int FastPeriod = 50;
     private const int SlowPeriod = 200;
@@ -49,9 +49,9 @@ internal sealed class CoinbaseStrategy : IDisposable
         _socketClient = new CoinbaseSocketClient();
 
         // Use default cache size (100,000 items)
-        _quoteHub = new QuoteHub();
-        _fastEma = _quoteHub.ToEmaHub(FastPeriod);
-        _slowEma = _quoteHub.ToEmaHub(SlowPeriod);
+        _barHub = new BarHub();
+        _fastEma = _barHub.ToEmaHub(FastPeriod);
+        _slowEma = _barHub.ToEmaHub(SlowPeriod);
     }
 
     public async Task RunAsync()
@@ -110,7 +110,7 @@ internal sealed class CoinbaseStrategy : IDisposable
 
             string feedType = _mode == CoinbaseMode.Ticker ? "trades" : "klines";
             Console.WriteLine($"[CoinbaseStrategy] Successfully subscribed to {_symbol} {feedType}");
-            Console.WriteLine("[CoinbaseStrategy] Processing quotes...");
+            Console.WriteLine("[CoinbaseStrategy] Processing bars...");
             Console.WriteLine();
 
             PrintHeader();
@@ -145,11 +145,11 @@ internal sealed class CoinbaseStrategy : IDisposable
             try
             {
                 // Process trades in order received - no sorting!
-                // Out-of-order quotes are handled by the hub's healing/rebuild feature
+                // Out-of-order bars are handled by the hub's healing/rebuild feature
                 foreach (CoinbaseTrade trade in trades)
                 {
-                    // Convert trade to Quote - use trade price for all OHLC values
-                    Quote quote = new(
+                    // Convert trade to Bar - use trade price for all OHLC values
+                    Bar bar = new(
                         Timestamp: trade.Timestamp,
                         Open: trade.Price,
                         High: trade.Price,
@@ -157,17 +157,17 @@ internal sealed class CoinbaseStrategy : IDisposable
                         Close: trade.Price,
                         Volume: trade.Quantity);
 
-                    ProcessQuote(quote);
-                    _quotesProcessed++;
+                    ProcessBar(bar);
+                    _barsProcessed++;
 
-                    // Show progress every 10 quotes or at target
-                    if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                    // Show progress every 10 bars or at target
+                    if (_barsProcessed % 10 == 0 || _barsProcessed >= _targetCount)
                     {
                         string countDisplay = _targetCount == int.MaxValue ? "∞" : _targetCount.ToString(CultureInfo.InvariantCulture);
-                        Console.WriteLine($"... processed {_quotesProcessed}/{countDisplay} quotes (latest: {trade.Timestamp:yyyy-MM-dd HH:mm:ss} UTC @ ${trade.Price:N2})");
+                        Console.WriteLine($"... processed {_barsProcessed}/{countDisplay} bars (latest: {trade.Timestamp:yyyy-MM-dd HH:mm:ss} UTC @ ${trade.Price:N2})");
                     }
 
-                    if (_quotesProcessed >= _targetCount)
+                    if (_barsProcessed >= _targetCount)
                     {
                         completionSource.TrySetResult(true);
                         return;
@@ -196,8 +196,8 @@ internal sealed class CoinbaseStrategy : IDisposable
             {
                 foreach (CoinbaseStreamKline kline in klines)
                 {
-                    // Convert kline (candle) data to Quote
-                    Quote quote = new(
+                    // Convert kline (candle) data to Bar
+                    Bar bar = new(
                         Timestamp: kline.OpenTime,
                         Open: kline.OpenPrice,
                         High: kline.HighPrice,
@@ -205,17 +205,17 @@ internal sealed class CoinbaseStrategy : IDisposable
                         Close: kline.ClosePrice,
                         Volume: kline.Volume);
 
-                    ProcessQuote(quote);
-                    _quotesProcessed++;
+                    ProcessBar(bar);
+                    _barsProcessed++;
 
-                    // Show progress every 10 quotes or at target
-                    if (_quotesProcessed % 10 == 0 || _quotesProcessed >= _targetCount)
+                    // Show progress every 10 bars or at target
+                    if (_barsProcessed % 10 == 0 || _barsProcessed >= _targetCount)
                     {
                         string countDisplay = _targetCount == int.MaxValue ? "∞" : _targetCount.ToString(CultureInfo.InvariantCulture);
-                        Console.WriteLine($"... processed {_quotesProcessed}/{countDisplay} quotes (latest: {kline.OpenTime:yyyy-MM-dd HH:mm} UTC @ ${kline.ClosePrice:N2})");
+                        Console.WriteLine($"... processed {_barsProcessed}/{countDisplay} bars (latest: {kline.OpenTime:yyyy-MM-dd HH:mm} UTC @ ${kline.ClosePrice:N2})");
                     }
 
-                    if (_quotesProcessed >= _targetCount)
+                    if (_barsProcessed >= _targetCount)
                     {
                         completionSource.TrySetResult(true);
                         return;
@@ -235,9 +235,9 @@ internal sealed class CoinbaseStrategy : IDisposable
         }
     }
 
-    private void ProcessQuote(Quote quote)
+    private void ProcessBar(Bar bar)
     {
-        _quoteHub.Add(quote);
+        _barHub.Add(bar);
 
         // Need at least 2 results from each EMA to compare current vs previous
         if (_fastEma.Results.Count < 2 || _slowEma.Results.Count < 2)
@@ -265,7 +265,7 @@ internal sealed class CoinbaseStrategy : IDisposable
             return;
         }
 
-        double currentPrice = (double)quote.Close;
+        double currentPrice = (double)bar.Close;
 
         // Golden Cross: fast EMA crosses above slow EMA
         bool goldenCross = fastPrevious.Ema <= slowPrevious.Ema
@@ -280,7 +280,7 @@ internal sealed class CoinbaseStrategy : IDisposable
             _entryValue = _balance;
             _units = _balance / currentPrice;
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2}   ${currentPrice,10:N2}   ${_entryValue,12:N2}   ${0.00,12:N2}");
+                $"{bar.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2}   ${currentPrice,10:N2}   ${_entryValue,12:N2}   ${0.00,12:N2}");
             _balance = 0;
             _totalTrades++;
         }
@@ -306,7 +306,7 @@ internal sealed class CoinbaseStrategy : IDisposable
             }
 
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  SELL  {unitsSold,10:N2}   ${currentPrice,10:N2}   ${profit,12:N2}   ${_balance,12:N2}");
+                $"{bar.Timestamp:yyyy-MM-dd HH:mm}  SELL  {unitsSold,10:N2}   ${currentPrice,10:N2}   ${profit,12:N2}   ${_balance,12:N2}");
         }
     }
 
@@ -330,11 +330,11 @@ internal sealed class CoinbaseStrategy : IDisposable
     private void PrintSummary()
     {
         double finalValue;
-        int resultCount = _quoteHub.Results.Count;
+        int resultCount = _barHub.Results.Count;
 
         if (_units > 0 && resultCount > 0)
         {
-            decimal lastClose = _quoteHub.Results[resultCount - 1].Close;
+            decimal lastClose = _barHub.Results[resultCount - 1].Close;
             finalValue = _units * (double)lastClose;
         }
         else
@@ -347,7 +347,7 @@ internal sealed class CoinbaseStrategy : IDisposable
         Console.WriteLine("==========================================");
         Console.WriteLine("  STRATEGY SUMMARY");
         Console.WriteLine("==========================================");
-        Console.WriteLine($"Quotes Processed:  {_quotesProcessed}");
+        Console.WriteLine($"Bars Processed:  {_barsProcessed}");
         Console.WriteLine($"Initial Balance:   ${10000.0:N2}");
         Console.WriteLine($"Final Value:       ${finalValue:N2}");
         Console.WriteLine($"Total P&L:         ${totalPnL:N2} ({totalPnL / 10000.0:P2})");

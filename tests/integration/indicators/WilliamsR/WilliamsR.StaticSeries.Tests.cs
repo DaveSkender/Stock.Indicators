@@ -10,14 +10,14 @@ public class WilliamsRTests
     public async Task ToWilliamsR_LiveData_MaintainsBoundaryRange()
     {
         // initialize
-        IEnumerable<Quote> feedQuotes = await FeedData  // live quotes
-            .GetQuotes("A", 365 * 3)
+        IEnumerable<Bar> feedBars = await FeedData  // live bars
+            .GetBars("A", 365 * 3)
             .ConfigureAwait(false);
 
-        List<Quote> quotes = feedQuotes.ToList();
+        List<Bar> bars = feedBars.ToList();
 
         // get indicators
-        IReadOnlyList<WilliamsResult> results = quotes
+        IReadOnlyList<WilliamsResult> results = bars
             .ToWilliamsR(14);
 
         results.ToConsole(static r => r.WilliamsR is > 0d or < -100d, (nameof(WilliamsResult.WilliamsR), "F20"));

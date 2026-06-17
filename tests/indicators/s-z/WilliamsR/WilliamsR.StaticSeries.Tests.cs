@@ -6,7 +6,7 @@ public class WilliamsR : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<WilliamsResult> sut = Quotes
+        IReadOnlyList<WilliamsResult> sut = Bars
             .ToWilliamsR();
 
         // proper quantities
@@ -24,14 +24,14 @@ public class WilliamsR : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<WilliamsResult> sut = Quotes.ToWilliamsR(14);
+        IReadOnlyList<WilliamsResult> sut = Bars.ToWilliamsR(14);
         sut.IsBetween(static x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToWilliamsR()
             .ToSma(10);
 
@@ -40,9 +40,9 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<WilliamsResult> sut = BadQuotes
+        IReadOnlyList<WilliamsResult> sut = BadBars
             .ToWilliamsR(20);
 
         sut.Should().HaveCount(502);
@@ -50,14 +50,14 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<WilliamsResult> r0 = Noquotes
+        IReadOnlyList<WilliamsResult> r0 = Nobars
             .ToWilliamsR();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<WilliamsResult> r1 = Onequote
+        IReadOnlyList<WilliamsResult> r1 = Onebar
             .ToWilliamsR();
 
         r1.Should().HaveCount(1);
@@ -66,7 +66,7 @@ public class WilliamsR : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<WilliamsResult> sut = Quotes
+        IReadOnlyList<WilliamsResult> sut = Bars
             .ToWilliamsR()
             .RemoveWarmupPeriods();
 
@@ -78,7 +78,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<WilliamsResult> sut = Data
             .GetRandom(2500)
@@ -91,10 +91,10 @@ public class WilliamsR : StaticSeriesTestBase
     public void Issue1127_Original_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.original.csv");
+        IReadOnlyList<Bar> bars = Data.BarsFromCsv("_issue1127.williamr.original.csv");
 
         // get indicators
-        IReadOnlyList<WilliamsResult> sut = quotes
+        IReadOnlyList<WilliamsResult> sut = bars
             .ToWilliamsR();
 
         sut.Should().HaveCountGreaterThan(0);
@@ -105,10 +105,10 @@ public class WilliamsR : StaticSeriesTestBase
     public void Issue1127_Revisit_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
+        IReadOnlyList<Bar> bars = Data.BarsFromCsv("_issue1127.williamr.revisit.csv");
 
         // get indicators
-        IReadOnlyList<WilliamsResult> sut = quotes
+        IReadOnlyList<WilliamsResult> sut = bars
             .ToWilliamsR();
 
         sut.ToConsole(args: (nameof(WilliamsResult.WilliamsR), "F20"));
@@ -123,7 +123,7 @@ public class WilliamsR : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToWilliamsR(0))
+            .Invoking(static () => Bars.ToWilliamsR(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

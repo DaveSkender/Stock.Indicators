@@ -4,27 +4,27 @@ namespace StreamHubs;
 public class GatorHubTests : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        GatorHub observer = quoteHub
+        GatorHub observer = barHub
             .ToGatorHub();
 
         // fetch initial results (early)
         IReadOnlyList<GatorResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -32,81 +32,81 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<GatorResult> expected = RevisedQuotes.ToGator();
+        IReadOnlyList<GatorResult> expected = RevisedBars.ToGator();
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<GatorResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<GatorResult> expected = bars
             .ToGator()
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        GatorHub observer = quoteHub.ToGatorHub();
+        BarHub barHub = new(maxCacheSize);
+        GatorHub observer = barHub.ToGatorHub();
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        GatorHub observer = quoteHub
+        GatorHub observer = barHub
             .ToSmaHub(10)
             .ToGatorHub();
 
-        // emulate adding quotes out of order
+        // emulate adding bars out of order
         // note: this works when graceful order
         for (int i = 0; i < length; i++)
         {
@@ -116,21 +116,21 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
                 continue;
             }
 
-            Quote q = quotesList[i];
-            quoteHub.Add(q);
+            Bar q = barsList[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotesList[80]);
+        barHub.Add(barsList[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<GatorResult> sut
@@ -138,24 +138,24 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
 
         // time-series, for comparison (revised)
         IReadOnlyList<GatorResult> expected
-           = RevisedQuotes
+           = RevisedBars
             .ToSma(10)
             .ToGator();
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Provider_WhenGatorHub_IsAlligatorHub()
     {
-        QuoteHub quoteHub = new();
-        GatorHub observer = quoteHub.ToGatorHub();
+        BarHub barHub = new();
+        GatorHub observer = barHub.ToGatorHub();
 
         System.Reflection.PropertyInfo property = typeof(StreamHub<AlligatorResult, GatorResult>)
             .GetProperty("Provider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
@@ -164,24 +164,24 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         provider.Should().BeOfType<AlligatorHub>();
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Reinitialize_OnSubscribedHub_Throws()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        GatorHub observer = quoteHub.ToGatorHub();
+        GatorHub observer = barHub.ToGatorHub();
 
-        // Add ~50 quotes to populate state
+        // Add ~50 bars to populate state
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // assert observer.Results has 50 entries and the last result has non-null values
@@ -200,14 +200,14 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         // Now test with a completely fresh setup after unsubscribing
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
-        // Create a new quoteHub with just one quote
-        QuoteHub freshProvider = new();
+        // Create a new barHub with just one bar
+        BarHub freshProvider = new();
         GatorHub freshObserver = freshProvider.ToGatorHub();
 
-        // Add one quote and assert observer.Results has count 1 and that values are null (warmup period)
-        freshProvider.Add(quotesList[0]);
+        // Add one bar and assert observer.Results has count 1 and that values are null (warmup period)
+        freshProvider.Add(barsList[0]);
 
         freshObserver.Results.Should().HaveCount(1);
         freshObserver.Results[^1].Upper.Should().BeNull();
@@ -221,8 +221,8 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
     [TestMethod]
     public void GatorHub_InvalidParameters_ThrowsExpectedExceptions()
     {
-        QuoteHub quoteHub = new();
-        AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
+        BarHub barHub = new();
+        AlligatorHub alligatorHub = barHub.ToAlligatorHub();
 
         // test null alligatorHub parameter (throws NullReferenceException from base constructor)
         Action act1 = () => _ = new GatorHub(alligatorHub: null!);
@@ -241,13 +241,13 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
             .WithInnerException<ArgumentNullException>("item cannot be null");
 
         gatorHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        GatorHub hub = new(new AlligatorHub(new QuoteHub(), 13, 8, 8, 5, 5, 3));
+        GatorHub hub = new(new AlligatorHub(new BarHub(), 13, 8, 8, 5, 5, 3));
         hub.ToString().Should().Be("GATOR()");
     }
 }

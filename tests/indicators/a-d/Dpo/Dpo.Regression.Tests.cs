@@ -9,14 +9,14 @@ public class DpoTests : RegressionTestBase<DpoResult>
 
     [TestMethod]
     public override void Series_AgainstBaseline_MatchesExactly()
-        => Quotes.ToDpo(lookbackPeriods).IsExactly(Expected);
+        => Bars.ToDpo(lookbackPeriods).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer_AgainstBaseline_MatchesExactly()
-        => Quotes.ToDpoList(lookbackPeriods).IsExactly(Expected);
+        => Bars.ToDpoList(lookbackPeriods).IsExactly(Expected);
 
 
     [TestMethod]
     public override void Stream_AgainstBaseline_MatchesExactly()
-        => Quotes.ToDpoHub(lookbackPeriods).Results.IsExactly(Expected);
+        => Bars.ToDpoHub(lookbackPeriods).Results.IsExactly(Expected);
 }

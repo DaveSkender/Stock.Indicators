@@ -8,7 +8,7 @@ public interface IPivotPoints
     /// <summary>
     /// Gets the size of the window for pivot point calculation.
     /// </summary>
-    PeriodSize WindowSize { get; }
+    BarInterval WindowSize { get; }
 
     /// <summary>
     /// Gets the type of pivot point calculation to use.

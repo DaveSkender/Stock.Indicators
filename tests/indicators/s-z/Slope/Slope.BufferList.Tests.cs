@@ -6,49 +6,49 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<SlopeResult> series
-       = Quotes.ToSlope(lookbackPeriods);
+       = Bars.ToSlope(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         SlopeList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods) { Quotes };
+        SlopeList sut = new(lookbackPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods, Quotes);
+        SlopeList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<SlopeResult> expected = subset.ToSlope(lookbackPeriods);
 
         SlopeList sut = new(lookbackPeriods, subset);
@@ -76,7 +76,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -85,7 +85,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     {
         SlopeList sut = new(lookbackPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -99,7 +99,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -112,7 +112,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<SlopeResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -131,9 +131,9 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         SlopeList sut = new(lookbackPeriods);
 
         // Add first set of values
-        foreach (Quote quote in Quotes.Take(lookbackPeriods + 5))
+        foreach (Bar bar in Bars.Take(lookbackPeriods + 5))
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         // Get Line value from a middle point
@@ -141,14 +141,14 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         decimal? lineBefore = sut[midIndex].Line;
 
         // Add one more value - this should update Line values for the last lookbackPeriods results
-        sut.Add(Quotes[lookbackPeriods + 5]);
+        sut.Add(Bars[lookbackPeriods + 5]);
 
         // The Line value at midIndex may have changed because it's within the window
         // that gets updated when new data arrives
         decimal? lineAfter = sut[midIndex].Line;
 
         // Verify the final result matches series implementation
-        List<Quote> expectedBatch = Quotes.Take(lookbackPeriods + 6).ToList();
+        List<Bar> expectedBatch = Bars.Take(lookbackPeriods + 6).ToList();
         IReadOnlyList<SlopeResult> expected = expectedBatch.ToSlope(lookbackPeriods);
         sut.IsExactly(expected);
     }

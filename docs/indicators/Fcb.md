@@ -15,7 +15,7 @@ Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price
 ```csharp
 // C# usage syntax
 IReadOnlyList<FcbResult> results =
-  quotes.ToFcb(windowSpan);
+  bars.ToFcb(windowSpan);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<FcbResult> results =
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/Fractal) for more information about Fractals and `windowSpan`.
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `2×S+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least `2×S+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,20 +38,20 @@ You must have at least `2×S+1` periods of `quotes` to cover the warmup periods;
 IReadOnlyList<FcbResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The periods before the first fractal are `null` since they cannot be calculated.
 
 ::: warning 🖌️ Repaint warning
-Fractal Chaos Bands are based on [Williams Fractal](/indicators/Fractal), which uses future bars.  This indicator will never identify bands in the last `S` periods of `quotes` since fractals are retroactively identified.
+Fractal Chaos Bands are based on [Williams Fractal](/indicators/Fractal), which uses future bars.  This indicator will never identify bands in the last `S` periods of `bars` since fractals are retroactively identified.
 :::
 
 ### `FcbResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `UpperBand` | decimal | FCB upper band |
 | `LowerBand` | decimal | FCB lower band |
 
@@ -66,7 +66,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator is not chain-enabled and must be generated from `bars`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -77,24 +77,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 FcbList fcbList = new(windowSpan);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  fcbList.Add(quote);
+  fcbList.Add(bar);
 }
 
 // based on `ICollection<FcbResult>`
 IReadOnlyList<FcbResult> results = fcbList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-FcbHub observer = quoteHub.ToFcbHub(windowSpan);
+BarHub barHub = new();
+FcbHub observer = barHub.ToFcbHub(windowSpan);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<FcbResult> results = observer.Results;

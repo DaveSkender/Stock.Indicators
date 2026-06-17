@@ -8,10 +8,10 @@ internal sealed class GoldenCrossStrategy : IDisposable
     private readonly string _endpoint;
     private readonly int _interval;
     private readonly int _targetCount;
-    private readonly string _quoteInterval;
+    private readonly string _barIntervalCode;
     private readonly HttpClient _httpClient;
 
-    private readonly QuoteHub _quoteHub;
+    private readonly BarHub _barHub;
     private readonly EmaHub _fastEma;
     private readonly EmaHub _slowEma;
 
@@ -32,18 +32,18 @@ internal sealed class GoldenCrossStrategy : IDisposable
     private const int FastPeriod = 50;
     private const int SlowPeriod = 200;
 
-    public GoldenCrossStrategy(string endpoint, int interval, int targetCount, string quoteInterval)
+    public GoldenCrossStrategy(string endpoint, int interval, int targetCount, string barIntervalCode)
     {
         _endpoint = endpoint;
         _interval = interval;
         _targetCount = targetCount;
-        _quoteInterval = quoteInterval;
+        _barIntervalCode = barIntervalCode;
         _httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(30) };
 
         // Use default cache size (100,000 items)
-        _quoteHub = new QuoteHub();
-        _fastEma = _quoteHub.ToEmaHub(FastPeriod);
-        _slowEma = _quoteHub.ToEmaHub(SlowPeriod);
+        _barHub = new BarHub();
+        _fastEma = _barHub.ToEmaHub(FastPeriod);
+        _slowEma = _barHub.ToEmaHub(SlowPeriod);
     }
 
     public async Task RunAsync()
@@ -55,7 +55,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             string batchSizeParam = _targetCount == int.MaxValue
                 ? string.Empty
                 : $"&batchSize={_targetCount}";
-            Uri uri = new($"{_endpoint}?interval={_interval}&quoteInterval={_quoteInterval}{batchSizeParam}");
+            Uri uri = new($"{_endpoint}?interval={_interval}&barIntervalCode={_barIntervalCode}{batchSizeParam}");
             Console.WriteLine($"[Strategy] Connecting to {uri}");
             Console.WriteLine();
 
@@ -71,23 +71,23 @@ internal sealed class GoldenCrossStrategy : IDisposable
             {
                 using StreamReader reader = new(stream);
 
-                int quotesProcessed = 0;
+                int barsProcessed = 0;
                 string? line;
 
                 while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
                 {
-                    // SSE format: "event: quote", "data: {...}", blank line
+                    // SSE format: "event: bar", "data: {...}", blank line
                     if (line.StartsWith("data:", StringComparison.Ordinal))
                     {
                         string json = line[5..].Trim();
-                        Quote? quote = JsonSerializer.Deserialize<Quote>(json, JsonOptions);
+                        Bar? bar = JsonSerializer.Deserialize<Bar>(json, JsonOptions);
 
-                        if (quote is not null)
+                        if (bar is not null)
                         {
-                            ProcessQuote(quote);
-                            quotesProcessed++;
+                            ProcessBar(bar);
+                            barsProcessed++;
 
-                            if (quotesProcessed >= _targetCount)
+                            if (barsProcessed >= _targetCount)
                             {
                                 break;
                             }
@@ -119,9 +119,9 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
     public void Dispose() => _httpClient.Dispose();
 
-    private void ProcessQuote(Quote quote)
+    private void ProcessBar(Bar bar)
     {
-        _quoteHub.Add(quote);
+        _barHub.Add(bar);
 
         // Need at least 2 results from each EMA to compare current vs previous
         if (_fastEma.Results.Count < 2 || _slowEma.Results.Count < 2)
@@ -149,7 +149,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             return;
         }
 
-        double currentPrice = (double)quote.Close;
+        double currentPrice = (double)bar.Close;
 
         // Golden Cross: Fast EMA crosses above Slow EMA (Buy signal)
         bool goldenCross = fastPrevious.Ema <= slowPrevious.Ema
@@ -166,7 +166,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             _units = _balance / currentPrice;
             _balance = 0;
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2}   ${currentPrice,10:N2}   ${_entryValue,12:N2}   ${_balance,12:N2}");
+                $"{bar.Timestamp:yyyy-MM-dd HH:mm}  BUY   {_units,10:N2}   ${currentPrice,10:N2}   ${_entryValue,12:N2}   ${_balance,12:N2}");
             _totalTrades++;
         }
         else if (deathCross && _units > 0)
@@ -192,7 +192,7 @@ internal sealed class GoldenCrossStrategy : IDisposable
             }
 
             Console.WriteLine(
-                $"{quote.Timestamp:yyyy-MM-dd HH:mm}  SELL  {unitsSold,10:N2}   ${currentPrice,10:N2}   ${profit,12:N2}   ${_balance,12:N2}");
+                $"{bar.Timestamp:yyyy-MM-dd HH:mm}  SELL  {unitsSold,10:N2}   ${currentPrice,10:N2}   ${profit,12:N2}   ${_balance,12:N2}");
         }
     }
 
@@ -214,8 +214,8 @@ internal sealed class GoldenCrossStrategy : IDisposable
 
     private void PrintSummary()
     {
-        double finalValue = _units > 0 && _quoteHub.Results.Count > 0
-            ? _units * (double)_quoteHub.Results[^1].Close
+        double finalValue = _units > 0 && _barHub.Results.Count > 0
+            ? _units * (double)_barHub.Results[^1].Close
             : _balance;
         double totalPnL = finalValue - 10000.0;
 

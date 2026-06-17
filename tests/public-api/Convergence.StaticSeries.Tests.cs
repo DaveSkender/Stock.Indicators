@@ -5,15 +5,15 @@ namespace Behavioral;
 [TestClass, TestCategory("Integration")]
 public class ConvergenceStaticSeries : TestBase
 {
-    private static readonly int[] QuotesQuantities =
+    private static readonly int[] BarsQuantities =
         [5, 14, 28, 40, 50, 75, 100, 110, 120, 130, 140, 150, 160, 175, 200, 250, 350, 500, 600, 700, 800, 900, 1000];
 
     [TestMethod]
     public void Adx()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<AdxResult> r = qts.ToAdx();
 
             AdxResult l = r[^1];
@@ -24,9 +24,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Alligator()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<AlligatorResult> r = qts.ToAlligator();
 
             AlligatorResult l = r[^1];
@@ -39,9 +39,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Atr()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<AtrResult> r = qts.ToAtr();
 
             AtrResult l = r[^1];
@@ -52,9 +52,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void ChaikinOsc()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<ChaikinOscResult> r = qts.ToChaikinOsc();
 
             ChaikinOscResult l = r[^1];
@@ -65,9 +65,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void ConnorsRsi()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<ConnorsRsiResult> r = qts.ToConnorsRsi(3, 2, 10);
 
             ConnorsRsiResult l = r[^1];
@@ -78,9 +78,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Dema()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<DemaResult> r = qts.ToDema(15);
 
             DemaResult l = r[^1];
@@ -91,9 +91,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Dynamic()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<DynamicResult> r = qts.ToDynamic(100);
 
             DynamicResult l = r[^1];
@@ -104,9 +104,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Ema()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<EmaResult> r = qts.ToEma(15);
 
             EmaResult l = r[^1];
@@ -117,9 +117,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void FisherTransform()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<FisherTransformResult> r = qts.ToFisherTransform();
 
             FisherTransformResult l = r[^1];
@@ -130,9 +130,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Gator()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<GatorResult> r = qts.ToGator();
 
             GatorResult l = r[^1];
@@ -145,9 +145,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void HtTrendline()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<HtlResult> r = qts.ToHtTrendline();
 
             HtlResult l = r[^1];
@@ -158,9 +158,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Kama()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<KamaResult> r = qts.ToKama();
 
             KamaResult l = r[^1];
@@ -171,9 +171,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Keltner()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<KeltnerResult> r = qts.ToKeltner(100);
 
             KeltnerResult l = r[^1];
@@ -184,9 +184,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Macd()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<MacdResult> r = qts.ToMacd();
 
             MacdResult l = r[^1];
@@ -197,9 +197,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Mama()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<MamaResult> r = qts.ToMama();
 
             MamaResult l = r[^1];
@@ -210,9 +210,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Pmo()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<PmoResult> r = qts.ToPmo();
 
             PmoResult l = r[^1];
@@ -223,9 +223,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Pvo()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<PvoResult> r = qts.ToPvo();
 
             PvoResult l = r[^1];
@@ -236,9 +236,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Rsi()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<RsiResult> r = qts.ToRsi();
 
             RsiResult l = r[^1];
@@ -249,9 +249,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Smi()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<SmiResult> r = qts.ToSmi(14, 20, 5);
 
             SmiResult l = r[^1];
@@ -262,9 +262,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Smma()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<SmmaResult> r = qts.ToSmma(15);
 
             SmmaResult l = r[^1];
@@ -275,9 +275,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void StarcBands()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<StarcBandsResult> r = qts.ToStarcBands(20);
 
             StarcBandsResult l = r[^1];
@@ -288,9 +288,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void StochRsi()
     {
-        foreach (int qty in QuotesQuantities.Where(static x => x <= 502))
+        foreach (int qty in BarsQuantities.Where(static x => x <= 502))
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<StochRsiResult> r = qts.ToStochRsi(14, 14, 3);
 
             StochRsiResult l = r[^1];
@@ -301,9 +301,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void T3()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<T3Result> r = qts.ToT3(20);
 
             T3Result l = r[^1];
@@ -314,9 +314,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Tema()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<TemaResult> r = qts.ToTema(15);
 
             TemaResult l = r[^1];
@@ -327,9 +327,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Trix()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<TrixResult> r = qts.ToTrix(15);
 
             TrixResult l = r[^1];
@@ -340,9 +340,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Tsi()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<TsiResult> r = qts.ToTsi();
 
             TsiResult l = r[^1];
@@ -353,9 +353,9 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void Vortex()
     {
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             IReadOnlyList<VortexResult> r = qts.ToVortex(14);
 
             VortexResult l = r[^1];

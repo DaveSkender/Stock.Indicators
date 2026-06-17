@@ -10,7 +10,7 @@ public class Alma : StaticSeriesTestBase
         const double offset = 0.85;
         const double sigma = 6;
 
-        IReadOnlyList<AlmaResult> sut = Quotes
+        IReadOnlyList<AlmaResult> sut = Bars
             .ToAlma(lookbackPeriods, offset, sigma);
 
         // proper quantities
@@ -40,7 +40,7 @@ public class Alma : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<AlmaResult> sut = Quotes
+        IReadOnlyList<AlmaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToAlma(10);
 
@@ -54,7 +54,7 @@ public class Alma : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<AlmaResult> sut = Quotes
+        IReadOnlyList<AlmaResult> sut = Bars
             .ToSma(2)
             .ToAlma(10);
 
@@ -69,7 +69,7 @@ public class Alma : StaticSeriesTestBase
         const double offset = 0.85;
         const double sigma = 6;
 
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToAlma(lookbackPeriods, offset, sigma)
             .ToSma(10);
 
@@ -92,22 +92,22 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AlmaResult> r = BadQuotes.ToAlma(14, 0.5, 3);
+        IReadOnlyList<AlmaResult> r = BadBars.ToAlma(14, 0.5, 3);
 
         r.Should().HaveCount(502);
         r.Where(static x => x.Alma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AlmaResult> r0 = Noquotes.ToAlma();
+        IReadOnlyList<AlmaResult> r0 = Nobars.ToAlma();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AlmaResult> r1 = Onequote.ToAlma();
+        IReadOnlyList<AlmaResult> r1 = Onebar.ToAlma();
 
         r1.Should().HaveCount(1);
     }
@@ -115,7 +115,7 @@ public class Alma : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<AlmaResult> sut = Quotes
+        IReadOnlyList<AlmaResult> sut = Bars
             .ToAlma(10)
             .RemoveWarmupPeriods();
 
@@ -131,14 +131,14 @@ public class Alma : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlma(0, 1, 5));
+            static () => Bars.ToAlma(0, 1, 5));
 
         // bad offset
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlma(15, 1.1, 3));
+            static () => Bars.ToAlma(15, 1.1, 3));
 
         // bad sigma
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAlma(10, 0.5, 0));
+            static () => Bars.ToAlma(10, 0.5, 0));
     }
 }

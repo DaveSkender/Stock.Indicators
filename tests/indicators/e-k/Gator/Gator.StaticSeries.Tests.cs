@@ -6,7 +6,7 @@ public class Gator : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<GatorResult> sut = Quotes
+        IReadOnlyList<GatorResult> sut = Bars
             .ToGator();
 
         // proper quantities
@@ -73,9 +73,9 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void FromAlligator_WithStandardQuotes_ReturnsExpectedResult()
+    public void FromAlligator_WithStandardBars_ReturnsExpectedResult()
     {
-        IReadOnlyList<GatorResult> sut = Quotes
+        IReadOnlyList<GatorResult> sut = Bars
             .ToAlligator()
             .ToGator();
 
@@ -145,7 +145,7 @@ public class Gator : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<GatorResult> sut = Quotes
+        IReadOnlyList<GatorResult> sut = Bars
             .Use(CandlePart.Close)
             .ToGator();
 
@@ -156,7 +156,7 @@ public class Gator : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<GatorResult> sut = Quotes
+        IReadOnlyList<GatorResult> sut = Bars
             .ToSma(2)
             .ToGator();
 
@@ -165,9 +165,9 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<GatorResult> r = BadQuotes
+        IReadOnlyList<GatorResult> r = BadBars
             .ToGator();
 
         r.Should().HaveCount(502);
@@ -175,14 +175,14 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<GatorResult> r0 = Noquotes
+        IReadOnlyList<GatorResult> r0 = Nobars
             .ToGator();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<GatorResult> r1 = Onequote
+        IReadOnlyList<GatorResult> r1 = Onebar
             .ToGator();
 
         r1.Should().HaveCount(1);
@@ -191,7 +191,7 @@ public class Gator : StaticSeriesTestBase
     [TestMethod]
     public void Condense_WithNoThreshold_RemovesNullValues()
     {
-        IReadOnlyList<GatorResult> sut = Quotes
+        IReadOnlyList<GatorResult> sut = Bars
             .ToGator()
             .Condense();
 
@@ -208,7 +208,7 @@ public class Gator : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<GatorResult> sut = Quotes
+        IReadOnlyList<GatorResult> sut = Bars
             .ToGator()
             .RemoveWarmupPeriods();
 

@@ -6,29 +6,29 @@ namespace Skender.Stock.Indicators;
 public static partial class SuperTrend
 {
     /// <summary>
-    /// Converts a list of quotes to a list of SuperTrend results.
+    /// Converts a list of bars to a list of SuperTrend results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
     public static IReadOnlyList<SuperTrendResult> ToSuperTrend(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 10,
         double multiplier = 3)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcSuperTrend(lookbackPeriods, multiplier);
 
     /// <summary>
     /// Calculates the SuperTrend indicator.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
     private static List<SuperTrendResult> CalcSuperTrend(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods,
         double multiplier)
     {
@@ -36,9 +36,9 @@ public static partial class SuperTrend
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<SuperTrendResult> results = new(length);
-        List<AtrResult> atrResults = quotes.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrResults = bars.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;
@@ -47,7 +47,7 @@ public static partial class SuperTrend
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             double? superTrend;
             double? upperOnly;
@@ -57,7 +57,7 @@ public static partial class SuperTrend
             {
                 double? mid = (q.High + q.Low) / 2;
                 double? atr = atrResults[i].Atr;
-                double? prevClose = quotes[i - 1].Close;
+                double? prevClose = bars[i - 1].Close;
 
                 // potential bands
                 double? upperEval = mid + (multiplier * atr);

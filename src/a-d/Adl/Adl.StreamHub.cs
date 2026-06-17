@@ -3,11 +3,11 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Streaming hub for Accumulation/Distribution Line (ADL).
 /// </summary>
-public class AdlHub : ChainHub<IQuote, AdlResult>
+public class AdlHub : ChainHub<IBar, AdlResult>
 {
     private double _previousAdl;
 
-    internal AdlHub(IQuoteProvider<IQuote> provider)
+    internal AdlHub(IBarProvider<IBar> provider)
         : base(provider)
     {
         Name = "ADL";
@@ -19,7 +19,7 @@ public class AdlHub : ChainHub<IQuote, AdlResult>
 
     /// <inheritdoc/>
     protected override (AdlResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -59,10 +59,10 @@ public class AdlHub : ChainHub<IQuote, AdlResult>
 public static partial class Adl
 {
     /// <summary>
-    /// Creates an AdlHub that is subscribed to an IQuoteProvider.
+    /// Creates an AdlHub that is subscribed to an IBarProvider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     public static AdlHub ToAdlHub(
-        this IQuoteProvider<IQuote> quoteProvider)
-        => new(quoteProvider);
+        this IBarProvider<IBar> barProvider)
+        => new(barProvider);
 }

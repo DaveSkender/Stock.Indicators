@@ -4,12 +4,12 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Commodity Channel Index (CCI) calculations.
 /// </summary>
 public class CciHub
-    : ChainHub<IQuote, CciResult>, ICci
+    : ChainHub<IBar, CciResult>, ICci
 {
     private readonly CciList _cciList;
 
     internal CciHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         Cci.Validate(lookbackPeriods);
@@ -27,7 +27,7 @@ public class CciHub
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (CciResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -63,8 +63,8 @@ public class CciHub
         // Rebuild CciList from ProviderCache
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            _cciList.Add(quote);
+            IBar bar = ProviderCache[p];
+            _cciList.Add(bar);
         }
     }
 }
@@ -75,15 +75,15 @@ public class CciHub
 public static partial class Cci
 {
     /// <summary>
-    /// Creates a CCI hub from a quote provider.
+    /// Creates a CCI hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CCI hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static CciHub ToCciHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 20)
-        => new(quoteProvider, lookbackPeriods);
+        => new(barProvider, lookbackPeriods);
 }

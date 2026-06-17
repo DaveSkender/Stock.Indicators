@@ -141,19 +141,19 @@ IndicatorListing indicatorListing = Catalog
 
 // run with the catalog's default parameters
 IReadOnlyList<EmaResult> emaWithDefaults = indicatorListing
-  .Execute<EmaResult>(quotes);
+  .Execute<EmaResult>(bars);
 
 // or override parameters with the fluent builder
 IReadOnlyList<EmaResult> emaWithParams = indicatorListing
   .WithParamValue("lookbackPeriods", 10)
-  .FromSource((IEnumerable<IQuote>)quotes)  // cast selects the quotes overload
+  .FromSource((IEnumerable<IBar>)bars)  // cast selects the bars overload
   .Execute<EmaResult>();
 ```
 
-The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `FromSource(quotes)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata.
+The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `FromSource(bars)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata.
 
-::: tip Disambiguate the quotes overload
-Because `Quote` implements both `IQuote` and `IReusable`, a `quotes` collection matches both `FromSource(quotes)` and the `FromSource(series, …)` chaining overload. Cast to `(IEnumerable<IQuote>)` (as above) to select the quotes overload. The simpler `listing.Execute<TResult>(quotes)` form needs no cast.
+::: tip Disambiguate the bars overload
+Because `Bar` implements both `IBar` and `IReusable`, a `bars` collection matches both `FromSource(bars)` and the `FromSource(series, …)` chaining overload. Cast to `(IEnumerable<IBar>)` (as above) to select the bars overload. The simpler `listing.Execute<TResult>(bars)` form needs no cast.
 :::
 
 ## Execute from a saved configuration
@@ -169,8 +169,8 @@ IndicatorConfig config = new()
     Parameters = new Dictionary<string, object> { ["lookbackPeriods"] = 20 }
 };
 
-// run it against quotes
-IReadOnlyList<EmaResult> results = config.Execute<EmaResult>(quotes);
+// run it against bars
+IReadOnlyList<EmaResult> results = config.Execute<EmaResult>(bars);
 ```
 
 Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluent configuration, or `IndicatorConfig.FromBuilder(builder)` to capture an existing builder's settings back into a config for storage.

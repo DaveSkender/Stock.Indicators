@@ -123,9 +123,9 @@ double? result2 = value2.NaN2Null();  // 1.5
 Convert external data to library-compatible format:
 
 ```csharp
-public List<Quote> ImportFromExternalSource(ExternalData[] data)
+public List<Bar> ImportFromExternalSource(ExternalData[] data)
 {
-  return data.Select(d => new Quote {
+  return data.Select(d => new Bar {
     Timestamp = d.Date,
     Open = d.Open.NaN2Null(),
     High = d.High.NaN2Null(),
@@ -142,21 +142,21 @@ Using NullMath in a custom indicator to avoid null-checking boilerplate:
 
 ```csharp
 public static IReadOnlyList<MyResult> ToMyIndicator(
-  this IEnumerable<IQuote> quotes, int period)
+  this IEnumerable<IBar> bars, int period)
 {
-  var quotesList = quotes.ToList();
+  var barsList = bars.ToList();
   var results = new List<MyResult>();
   
-  for (int i = 0; i < quotesList.Count; i++)
+  for (int i = 0; i < barsList.Count; i++)
   {
     double? previous = i > 0 ? results[i - 1].Value : null;
-    double? current = (double?)quotesList[i].Close;
+    double? current = (double?)barsList[i].Close;
     
     // NullMath handles nulls automatically
     var change = NullMath.Abs(current - previous);
     
     results.Add(new MyResult {
-      Timestamp = quotesList[i].Timestamp,
+      Timestamp = barsList[i].Timestamp,
       Value = current,
       AbsChange = change
     });

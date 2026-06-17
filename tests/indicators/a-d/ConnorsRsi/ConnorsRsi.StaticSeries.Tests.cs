@@ -11,7 +11,7 @@ public class ConnorsRsi : StaticSeriesTestBase
         const int rankPeriods = 100;
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        IReadOnlyList<ConnorsRsiResult> results1 = Quotes
+        IReadOnlyList<ConnorsRsiResult> results1 = Bars
             .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         // proper quantities
@@ -26,7 +26,7 @@ public class ConnorsRsi : StaticSeriesTestBase
         r1.ConnorsRsi.Should().BeApproximately(74.7662, Money4);
 
         // different parameters
-        IReadOnlyList<ConnorsRsiResult> results2 = Quotes.ToConnorsRsi(14, 20, 10).ToList();
+        IReadOnlyList<ConnorsRsiResult> results2 = Bars.ToConnorsRsi(14, 20, 10).ToList();
         ConnorsRsiResult r2 = results2[501];
         r2.Rsi.Should().BeApproximately(42.0773, Money4);
         r2.RsiStreak.Should().BeApproximately(52.7386, Money4);
@@ -37,7 +37,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<ConnorsRsiResult> sut = Quotes
+        IReadOnlyList<ConnorsRsiResult> sut = Bars
             .Use(CandlePart.Close)
             .ToConnorsRsi();
 
@@ -48,7 +48,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<ConnorsRsiResult> sut = Quotes
+        IReadOnlyList<ConnorsRsiResult> sut = Bars
             .ToSma(2)
             .ToConnorsRsi();
 
@@ -59,7 +59,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToConnorsRsi()
             .ToSma(10);
 
@@ -70,12 +70,12 @@ public class ConnorsRsi : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<ConnorsRsiResult> sut = Quotes.ToConnorsRsi(3, 2, 100);
+        IReadOnlyList<ConnorsRsiResult> sut = Bars.ToConnorsRsi(3, 2, 100);
         sut.IsBetween(static x => x.ConnorsRsi, 0, 100);
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<ConnorsRsiResult> sut = Data
             .GetRandom(2500)
@@ -85,9 +85,9 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ConnorsRsiResult> r = BadQuotes
+        IReadOnlyList<ConnorsRsiResult> r = BadBars
             .ToConnorsRsi(4, 3, 25);
 
         r.Should().HaveCount(502);
@@ -95,14 +95,14 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ConnorsRsiResult> r0 = Noquotes
+        IReadOnlyList<ConnorsRsiResult> r0 = Nobars
             .ToConnorsRsi();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ConnorsRsiResult> r1 = Onequote
+        IReadOnlyList<ConnorsRsiResult> r1 = Onebar
             .ToConnorsRsi();
 
         r1.Should().HaveCount(1);
@@ -121,12 +121,12 @@ public class ConnorsRsi : StaticSeriesTestBase
         // index by scanning for the first non-NaN Value.
         int firstNonNullIndex = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 1;
 
-        IReadOnlyList<ConnorsRsiResult> sut = Quotes
+        IReadOnlyList<ConnorsRsiResult> sut = Bars
             .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        sut.Should().HaveCount(Quotes.Count - firstNonNullIndex);
+        sut.Should().HaveCount(Bars.Count - firstNonNullIndex);
 
         ConnorsRsiResult last = sut[^1];
         last.Rsi.Should().BeApproximately(68.8087, Money4);
@@ -140,14 +140,14 @@ public class ConnorsRsi : StaticSeriesTestBase
     {
         // bad RSI period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToConnorsRsi(1));
+            static () => Bars.ToConnorsRsi(1));
 
         // bad Streak period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToConnorsRsi(3, 1));
+            static () => Bars.ToConnorsRsi(3, 1));
 
         // bad Rank period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToConnorsRsi(3, 2, 1));
+            static () => Bars.ToConnorsRsi(3, 2, 1));
     }
 }

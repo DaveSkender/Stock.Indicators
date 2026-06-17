@@ -6,44 +6,44 @@ public class Marubozu : BufferListTestBase
     private const double minBodyPercent = 95;
 
     private static readonly IReadOnlyList<CandleResult> series
-       = Quotes.ToMarubozu(minBodyPercent);
+       = Bars.ToMarubozu(minBodyPercent);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         MarubozuList sut = new(minBodyPercent);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        MarubozuList sut = new(minBodyPercent) { Quotes };
+        MarubozuList sut = new(minBodyPercent) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        MarubozuList sut = new(minBodyPercent, Quotes);
+        MarubozuList sut = new(minBodyPercent, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<CandleResult> expected = subset.ToMarubozu(minBodyPercent);
 
         MarubozuList sut = new(minBodyPercent, subset);
@@ -70,7 +70,7 @@ public class Marubozu : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<CandleResult> expected = series
             .Skip(series.Count - maxListSize)

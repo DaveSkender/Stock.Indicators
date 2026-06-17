@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for identifying Doji candlestick patterns in a series of quotes.
+/// Provides methods for identifying Doji candlestick patterns in a series of bars.
 /// </summary>
 public static partial class Doji
 {
@@ -9,7 +9,7 @@ public static partial class Doji
     /// Doji is a single candlestick pattern where open and close price
     /// are virtually identical, representing market indecision.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="maxPriceChangePercent">
     /// Optional. Maximum absolute percent difference in open and close price.
     /// </param>
@@ -18,15 +18,15 @@ public static partial class Doji
     /// Invalid parameter value provided.
     /// </exception>
     public static IReadOnlyList<CandleResult> ToDoji(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         double maxPriceChangePercent = 0.1)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(maxPriceChangePercent);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<CandleResult> results = new(length);
 
         maxPriceChangePercent /= 100;
@@ -34,7 +34,7 @@ public static partial class Doji
         // roll through candles
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
             decimal? matchPrice = null;
             Match matchType = Match.None;
 
@@ -48,7 +48,7 @@ public static partial class Doji
 
             results.Add(new CandleResult(
                 timestamp: q.Timestamp,
-                quote: q,
+                bar: q,
                 match: matchType,
                 price: matchPrice));
         }

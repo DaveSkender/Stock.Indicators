@@ -17,4 +17,4 @@ public record HeikinAshiResult(
     decimal Low,
     decimal Close,
     decimal Volume
-) : Quote(Timestamp, Open, High, Low, Close, Volume);
+) : Bar(Timestamp, Open, High, Low, Close, Volume);

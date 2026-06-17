@@ -16,7 +16,7 @@ hero:
 
 features:
   - title: Batch (Series)
-    details: Convert full quote collections to indicators, best for once-and-done bulk conversions.
+    details: Convert full bar collections to indicators, best for once-and-done bulk conversions.
     link: /guide/styles/batch
     linkText: Learn more
   - title: Buffer lists
@@ -49,7 +49,7 @@ The library provides three distinct indicator styles to support different use ca
 Start with **Batch (Series)** style unless you have a specific need for incremental processing or real-time streaming.
 
 - Use **[Batch](/guide/styles/batch)** when you have a complete historical dataset and need to calculate indicators once. Fastest and simplest.
-- Use **[Buffer lists](/guide/styles/buffer)** when quotes arrive one at a time and you need incremental processing without the overhead of a full hub infrastructure.
+- Use **[Buffer lists](/guide/styles/buffer)** when bars arrive one at a time and you need incremental processing without the overhead of a full hub infrastructure.
 - Use **[Stream hubs](/guide/styles/stream)** when you need coordinated, automatic updates across multiple chained indicators from a live data feed.
 
 ## Getting started

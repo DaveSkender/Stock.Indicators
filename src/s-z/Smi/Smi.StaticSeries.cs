@@ -6,22 +6,22 @@ namespace Skender.Stock.Indicators;
 public static partial class Smi
 {
     /// <summary>
-    /// Converts a list of quotes to SMI results.
+    /// Converts a list of bars to SMI results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
     public static IReadOnlyList<SmiResult> ToSmi(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcSmi(
                 lookbackPeriods,
                 firstSmoothPeriods,
@@ -29,16 +29,16 @@ public static partial class Smi
                 signalPeriods);
 
     /// <summary>
-    /// Calculates the SMI for a list of quotes.
+    /// Calculates the SMI for a list of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
     private static List<SmiResult> CalcSmi(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
@@ -52,7 +52,7 @@ public static partial class Smi
             signalPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<SmiResult> results = new(length);
 
         double k1 = 2d / (firstSmoothPeriods + 1);
@@ -68,7 +68,7 @@ public static partial class Smi
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             double smi;
             double signal;
@@ -80,7 +80,7 @@ public static partial class Smi
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD x = quotes[p];
+                    BarD x = bars[p];
 
                     if (x.High > hH)
                     {

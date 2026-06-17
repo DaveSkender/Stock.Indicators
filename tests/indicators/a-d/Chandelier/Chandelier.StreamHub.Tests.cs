@@ -1,19 +1,19 @@
 namespace StreamHubs;
 
 [TestClass]
-public class Chandelier : StreamHubTestBase, ITestQuoteObserver
+public class Chandelier : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider (batch)
-        quoteHub.Add(Quotes.Take(25));
+        // prefill bars at provider (batch)
+        barHub.Add(Bars.Take(25));
 
         // initialize observer
-        ChandelierHub observer = quoteHub
+        ChandelierHub observer = barHub
             .ToChandelierHub(22, 3);
 
         observer.Results.Should().HaveCount(25);
@@ -22,8 +22,8 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<ChandelierResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 25; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 25; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -31,79 +31,79 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<ChandelierResult> expected = RevisedQuotes.ToChandelier(22, 3);
+        IReadOnlyList<ChandelierResult> expected = RevisedBars.ToChandelier(22, 3);
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<ChandelierResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<ChandelierResult> expected = bars
             .ToChandelier(22, 3)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        ChandelierHub observer = quoteHub.ToChandelierHub(22, 3);
+        BarHub barHub = new(maxCacheSize);
+        ChandelierHub observer = barHub.ToChandelierHub(22, 3);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyShort()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyShort()
     {
         // simple test, just to check Short variant
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        ChandelierHub observer = quoteHub
+        ChandelierHub observer = barHub
             .ToChandelierHub(22, 3, Direction.Short);
 
-        // add quotes to quoteHub
-        quoteHub.Add(Quotes);
+        // add bars to barHub
+        barHub.Add(Bars);
 
         // stream results
         IReadOnlyList<ChandelierResult> streamList
@@ -111,42 +111,42 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
 
         // time-series, for comparison
         IReadOnlyList<ChandelierResult> seriesList
-           = Quotes
+           = Bars
             .ToChandelier(22, 3, Direction.Short);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         ChandelierHub lateHub = lateSource.ToChandelierHub(22, 3);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         ChandelierHub freshHub = freshSource.ToChandelierHub(22, 3);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -161,27 +161,27 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         // Chandelier emits first non-null result at lookback (= 22); index
         // 28 forces replay across the rolling-extremum + ATR seeding
         // transition that sets the initial stop.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 28;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         ChandelierHub lateHub = lateSource.ToChandelierHub(22, 3);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         ChandelierHub freshHub = freshSource.ToChandelierHub(22, 3);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -193,7 +193,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        ChandelierHub hub = new(new QuoteHub(), 22, 3, Direction.Long);
+        ChandelierHub hub = new(new BarHub(), 22, 3, Direction.Long);
         hub.ToString().Should().Be("CHEXIT(22,3,LONG)");
     }
 }

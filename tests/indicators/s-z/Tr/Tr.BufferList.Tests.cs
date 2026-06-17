@@ -4,65 +4,65 @@ namespace BufferLists;
 public class Tr : BufferListTestBase
 {
     private static readonly IReadOnlyList<TrResult> series
-       = Quotes.ToTr();
+       = Bars.ToTr();
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
-#pragma warning disable IDE0028 // Collection expression incompatible with IQuote Add overloads
+#pragma warning disable IDE0028 // Collection expression incompatible with IBar Add overloads
         TrList sut = new();
 #pragma warning restore IDE0028
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        TrList sut = new() { Quotes };
+        TrList sut = new() { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        TrList sut = new(Quotes);
+        TrList sut = new(Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtorPartial_OnSplitInitialization_IncrementsResults()
+    public void BarsCtorPartial_OnSplitInitialization_IncrementsResults()
     {
         // Test split initialization: half on construction, half after
-        int splitPoint = Quotes.Count / 2;
-        List<Quote> firstHalf = Quotes.Take(splitPoint).ToList();
-        List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
+        int splitPoint = Bars.Count / 2;
+        List<Bar> firstHalf = Bars.Take(splitPoint).ToList();
+        List<Bar> secondHalf = Bars.Skip(splitPoint).ToList();
 
         TrList sut = new(firstHalf);
 
-        foreach (Quote quote in secondHalf)
+        foreach (Bar bar in secondHalf)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
 
         TrList sut = new(subset);
 
@@ -72,9 +72,9 @@ public class Tr : BufferListTestBase
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
+        foreach (Bar bar in subset)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<TrResult> expected = subset.ToTr();
@@ -92,9 +92,9 @@ public class Tr : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<TrResult> expected

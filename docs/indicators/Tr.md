@@ -15,14 +15,14 @@ Created by J. Welles Wilder, [True Range](https://en.wikipedia.org/wiki/Average_
 ```csharp
 // C# usage syntax
 IReadOnlyList<TrResult> results =
-  quotes.ToTr();
+  bars.ToTr();
 ```
 
-## Historical quotes requirements
+## Historical bars requirements
 
-You must have at least 2 periods of `quotes` to cover the warmup periods.
+You must have at least 2 periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -30,8 +30,8 @@ You must have at least 2 periods of `quotes` to cover the warmup periods.
 IReadOnlyList<TrResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first period will have a `null` value since there is no prior period close.
 
@@ -39,7 +39,7 @@ IReadOnlyList<TrResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Tr` | double | True Range |
 
 ### Utilities
@@ -56,12 +56,12 @@ Results can be further processed on `Tr` with additional chain-enabled indicator
 
 ```csharp
 // example: ATR using a custom moving average
-var results = quotes
+var results = bars
     .ToTr()
     .ToSmma(lookbackPeriods);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -72,24 +72,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 TrList trList = new();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  trList.Add(quote);
+  trList.Add(bar);
 }
 
 // based on `ICollection<TrResult>`
 IReadOnlyList<TrResult> results = trList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-TrHub observer = quoteHub.ToTrHub();
+BarHub barHub = new();
+TrHub observer = barHub.ToTrHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<TrResult> results = observer.Results;

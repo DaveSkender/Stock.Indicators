@@ -1,19 +1,19 @@
 namespace StreamHubs;
 
 [TestClass]
-public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
+public class AtrStopHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider (batch)
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider (batch)
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        AtrStopHub observer = quoteHub
+        AtrStopHub observer = barHub
             .ToAtrStopHub();
 
         observer.Results.Should().HaveCount(20);
@@ -22,8 +22,8 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<AtrStopResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i is 30 or 80)
@@ -31,80 +31,80 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrivals
-        quoteHub.Add(Quotes[30]);  // rebuilds complete series
-        quoteHub.Add(Quotes[80]);  // rebuilds from last reversal
+        barHub.Add(Bars[30]);  // rebuilds complete series
+        barHub.Add(Bars[80]);  // rebuilds from last reversal
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<AtrStopResult> expected = RevisedQuotes.ToAtrStop();
+        IReadOnlyList<AtrStopResult> expected = RevisedBars.ToAtrStop();
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<AtrStopResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<AtrStopResult> expected = bars
             .ToAtrStop()
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        AtrStopHub observer = quoteHub.ToAtrStopHub();
+        BarHub barHub = new(maxCacheSize);
+        AtrStopHub observer = barHub.ToAtrStopHub();
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyHighLow()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyHighLow()
     {
         // simple test, just to check High/Low variant
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        AtrStopHub observer = quoteHub
+        AtrStopHub observer = barHub
             .ToAtrStopHub(endType: EndType.HighLow);
 
-        // add quotes to quoteHub
-        quoteHub.Add(Quotes);
+        // add bars to barHub
+        barHub.Add(Bars);
 
         // stream results
         IReadOnlyList<AtrStopResult> streamList
@@ -112,16 +112,16 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // time-series, for comparison
         IReadOnlyList<AtrStopResult> seriesList
-           = Quotes
+           = Bars
             .ToAtrStop(endType: EndType.HighLow);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -130,27 +130,27 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         // ATR-Stop carries reversal state across bars; a late arrival
         // landing inside an established trend must rebuild the same
         // stop sequence as the fresh stream.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         AtrStopHub lateHub = lateSource.ToAtrStopHub();
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         AtrStopHub freshHub = freshSource.ToAtrStopHub();
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -165,27 +165,27 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         // ATR-Stop emits first non-null result at lookback (= 14); index
         // 20 forces replay across the ATR seed + initial direction
         // transition that anchors the trailing-stop level.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 20;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         AtrStopHub lateHub = lateSource.ToAtrStopHub();
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         AtrStopHub freshHub = freshSource.ToAtrStopHub();
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -197,7 +197,7 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        AtrStopHub hub = new(new QuoteHub(), 14, 3, EndType.Close);
+        AtrStopHub hub = new(new BarHub(), 14, 3, EndType.Close);
         hub.ToString().Should().Be("ATR-STOP(14,3,CLOSE)");
     }
 }

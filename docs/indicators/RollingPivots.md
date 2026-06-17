@@ -11,7 +11,7 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 ```csharp
 // C# usage syntax
 IReadOnlyList<RollingPivotsResult> results =
-  quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
+  bars.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 ```
 
 ## Parameters
@@ -22,13 +22,13 @@ IReadOnlyList<RollingPivotsResult> results =
 | `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
-For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](/indicators/PivotPoints) indicator.
+For example, a window of 8 with an offset of 4 would evaluate bars like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `bars` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](/indicators/PivotPoints) indicator.
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `W+F` periods of `quotes` to cover the warmup periods.
+You must have at least `W+F` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### PivotPointType options
 
@@ -48,20 +48,20 @@ You must have at least `W+F` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<RollingPivotsResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `W+F-1` periods will have `null` values since there's not enough data to calculate.
 
 ::: warning 🖌️ Repaint warning
-Historical results are a function of the rolling window position and will shift as new quotes are added.  Each new period causes the window to move forward, recalculating pivot points based on the new window data.
+Historical results are a function of the rolling window position and will shift as new bars are added.  Each new period causes the window to move forward, recalculating pivot points based on the new window data.
 :::
 
 ### `RollingPivotsResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `R4` | double | Resistance level 4 (Camarilla only) |
 | `R3` | double | Resistance level 3 |
 | `R2` | double | Resistance level 2 |
@@ -82,7 +82,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator is not chain-enabled and must be generated from `bars`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -93,24 +93,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 RollingPivotsList rollingPivotsList = new(windowPeriods, offsetPeriods, pointType);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  rollingPivotsList.Add(quote);
+  rollingPivotsList.Add(bar);
 }
 
 // based on `ICollection<RollingPivotsResult>`
 IReadOnlyList<RollingPivotsResult> results = rollingPivotsList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-RollingPivotsHub observer = quoteHub.ToRollingPivotsHub(windowPeriods, offsetPeriods, pointType);
+BarHub barHub = new();
+RollingPivotsHub observer = barHub.ToRollingPivotsHub(windowPeriods, offsetPeriods, pointType);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<RollingPivotsResult> results = observer.Results;

@@ -6,7 +6,7 @@ public class Reusable : TestBaseWithPrecision
     [TestMethod]
     public void Condense()
     {
-        List<AdxResult> original = Quotes
+        List<AdxResult> original = Bars
             .ToAdx()
             .ToList();
 
@@ -29,7 +29,7 @@ public class Reusable : TestBaseWithPrecision
     [TestMethod]
     public void ToReusableList()
     {
-        IReadOnlyList<IReusable> reusableList = Quotes
+        IReadOnlyList<IReusable> reusableList = Bars
             .ToReusable(CandlePart.Close);
 
         reusableList.Should().NotBeNull();
@@ -38,7 +38,7 @@ public class Reusable : TestBaseWithPrecision
     }
 
     [TestMethod]
-    public void QuoteToReusable()
+    public void BarToReusable()
     {
         DateTime t = DateTime.Parse("5/5/2055", invariantCulture);
 
@@ -53,7 +53,7 @@ public class Reusable : TestBaseWithPrecision
         const decimal ohl3 = (o + h + l) / 3m;
         const decimal ohlc4 = (o + h + l + c) / 4m;
 
-        Quote q = new(t, o, h, l, c, v);
+        Bar q = new(t, o, h, l, c, v);
 
         q.ToReusable(CandlePart.Open).Value.Should()
             .BeApproximately((double)o, Money10);

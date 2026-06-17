@@ -1,28 +1,28 @@
 namespace StreamHubs;
 
 [TestClass]
-public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
+public class KeltnerHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        KeltnerHub observer = quoteHub.ToKeltnerHub(20, 2, 10);
+        KeltnerHub observer = barHub.ToKeltnerHub(20, 2, 10);
 
         // fetch initial results (early)
         IReadOnlyList<KeltnerResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -30,71 +30,71 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<KeltnerResult> expected = RevisedQuotes.ToKeltner(20, 2, 10);
+        IReadOnlyList<KeltnerResult> expected = RevisedBars.ToKeltner(20, 2, 10);
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<KeltnerResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<KeltnerResult> expected = bars
             .ToKeltner(20, 2, 10)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        KeltnerHub observer = quoteHub.ToKeltnerHub(20, 2, 10);
+        BarHub barHub = new(maxCacheSize);
+        KeltnerHub observer = barHub.ToKeltnerHub(20, 2, 10);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes);
-        KeltnerHub observer = quoteHub.ToKeltnerHub(20, 2, 10);
+        BarHub barHub = new();
+        barHub.Add(Bars);
+        KeltnerHub observer = barHub.ToKeltnerHub(20, 2, 10);
 
         observer.ToString().Should().Be("KELTNER(20,2,10)");
     }
@@ -102,27 +102,27 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         KeltnerHub lateHub = lateSource.ToKeltnerHub(20, 2, 10);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         KeltnerHub freshHub = freshSource.ToKeltnerHub(20, 2, 10);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -137,27 +137,27 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
         // Bands emit first non-null result at max(emaPeriods, atrPeriods)
         // (= 20); index 25 forces replay across the EMA seed + ATR seed
         // dual-state transition that determines centerline + bandwidth.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 25;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         KeltnerHub lateHub = lateSource.ToKeltnerHub(20, 2, 10);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         KeltnerHub freshHub = freshSource.ToKeltnerHub(20, 2, 10);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -169,33 +169,33 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void PrefilledProvider_OnRebuild_MatchesSeriesExactly()
     {
-        QuoteHub quoteHub = new();
-        List<Quote> quotes = Quotes.Take(25).ToList();
+        BarHub barHub = new();
+        List<Bar> bars = Bars.Take(25).ToList();
 
         for (int i = 0; i < 5; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        KeltnerHub observer = quoteHub.ToKeltnerHub(5, 1, 3);
+        KeltnerHub observer = barHub.ToKeltnerHub(5, 1, 3);
 
         IReadOnlyList<KeltnerResult> initialResults = observer.Results;
-        IReadOnlyList<KeltnerResult> expectedInitial = quotes
+        IReadOnlyList<KeltnerResult> expectedInitial = bars
             .Take(5)
             .ToList()
             .ToKeltner(5, 1, 3);
 
         initialResults.IsExactly(expectedInitial);
 
-        for (int i = 5; i < quotes.Count; i++)
+        for (int i = 5; i < bars.Count; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        observer.Results.IsExactly(quotes.ToKeltner(5, 1, 3));
+        observer.Results.IsExactly(bars.ToKeltner(5, 1, 3));
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

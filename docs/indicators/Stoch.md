@@ -15,11 +15,11 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ```csharp
 // C# usage syntax (standard)
 IReadOnlyList<StochResult> results =
-  quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+  bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
 // advanced customization
 IReadOnlyList<StochResult> results =
-  quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods,
+  bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods,
                   kFactor, dFactor, movingAverageType);
 ```
 
@@ -34,11 +34,11 @@ IReadOnlyList<StochResult> results =
 | `dFactor` | double | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2. |
 | `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N+S` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `N+S` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### MaType options
 
@@ -54,8 +54,8 @@ These are the supported moving average types:
 IReadOnlyList<StochResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N+S-2` periods will have `null` Oscillator values since there's not enough data to calculate.
 
@@ -67,7 +67,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Oscillator` or `K` | double | %K Oscillator |
 | `Signal` or `D` | double | %D Simple moving average of Oscillator |
 | `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D` |
@@ -89,12 +89,12 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToStoch(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -105,24 +105,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 StochList stochList = new(lookbackPeriods, signalPeriods, smoothPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  stochList.Add(quote);
+  stochList.Add(bar);
 }
 
 // based on `ICollection<StochResult>`
 IReadOnlyList<StochResult> results = stochList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-StochHub observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+BarHub barHub = new();
+StochHub observer = barHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<StochResult> results = observer.Results;

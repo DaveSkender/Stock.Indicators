@@ -44,12 +44,12 @@
     },
     {
       "id": "dataType",
-      "description": "Data type: quote (candles/klines) or trade (ticker/transactions)",
+      "description": "Data type: bar (candles/klines) or trade (ticker/transactions)",
       "options": [
-        "quote",
+        "bar",
         "trade"
       ],
-      "default": "quote",
+      "default": "bar",
       "type": "pickString"
     },
     {
@@ -65,8 +65,8 @@
       "type": "promptString"
     },
     {
-      "id": "quoteInterval",
-      "description": "Quote interval / timestamp spacing (e.g., 1s, 1m, 5m, 1h, 1d)",
+      "id": "barIntervalCode",
+      "description": "Bar interval / timestamp spacing (e.g., 1s, 1m, 5m, 1h, 1d)",
       "default": "1m",
       "type": "promptString"
     },
@@ -671,7 +671,7 @@
       "label": "Run: Simulation with inputs",
       "detail": "Run simulation with configurable mode, data type, intervals, and count",
       "type": "shell",
-      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} \"${input:count}\" ${input:quoteInterval} ${input:coinbaseSymbol}",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} \"${input:count}\" ${input:barIntervalCode} ${input:coinbaseSymbol}",
       "group": "none",
       "isBackground": true,
       "problemMatcher": {
@@ -694,11 +694,11 @@
     },
     {
       "label": "Run: Simulation (default SSE)",
-      "detail": "Run SSE simulation with defaults: quote data, 50ms delivery, 1m intervals, unlimited count",
+      "detail": "Run SSE simulation with defaults: bar data, 50ms delivery, 1m intervals, unlimited count",
       "type": "shell",
-      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse quote 50 '' 1m",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse bar 50 '' 1m",
       "windows": {
-        "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse quote 50 \"\" 1m"
+        "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse bar 50 \"\" 1m"
       },
       "group": "none",
       "isBackground": true,

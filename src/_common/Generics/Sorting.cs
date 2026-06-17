@@ -19,19 +19,19 @@ public static class Sorting
             .ToList();
 
     /// <summary>
-    /// Sorts quotes by their timestamps in ascending order and returns as IReusable list.
+    /// Sorts bars by their timestamps in ascending order and returns as IReusable list.
     /// </summary>
     /// <remarks>
     /// This method is needed for backward compatibility with obsolete methods
-    /// that need to convert IQuote collections to IReusable for refactored indicators.
+    /// that need to convert IBar collections to IReusable for refactored indicators.
     /// </remarks>
-    /// <typeparam name="TQuote">Type of the quote elements, which must implement <see cref="IQuote"/>.</typeparam>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <typeparam name="TBar">Type of the bar elements, which must implement <see cref="IBar"/>.</typeparam>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <returns>A read-only list of IReusable elements.</returns>
-    internal static IReadOnlyList<IReusable> ToSortedReusableList<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-        => quotes
+    internal static IReadOnlyList<IReusable> ToSortedReusableList<TBar>(
+        this IEnumerable<TBar> bars)
+        where TBar : IBar
+        => bars
             .OrderBy(static x => x.Timestamp)
             .Cast<IReusable>()
             .ToList();

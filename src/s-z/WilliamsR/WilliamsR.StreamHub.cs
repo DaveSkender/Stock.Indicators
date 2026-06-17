@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents a Williams %R stream hub.
 /// </summary>
 public class WilliamsRHub
-    : StreamHub<IQuote, WilliamsResult>, IWilliamsR
+    : StreamHub<IBar, WilliamsResult>, IWilliamsR
 {
     #region constructors
 
@@ -12,7 +12,7 @@ public class WilliamsRHub
     private CircularDoubleBuffer _lowBuffer;
 
     internal WilliamsRHub(
-        IStreamObservable<IQuote> provider,
+        IStreamObservable<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         WilliamsR.Validate(lookbackPeriods);
@@ -41,7 +41,7 @@ public class WilliamsRHub
     #region methods
     /// <inheritdoc/>
     protected override (WilliamsResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -113,13 +113,13 @@ public class WilliamsRHub
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
+            IBar bar = ProviderCache[p];
 
-            if (!double.IsNaN((double)quote.High) &&
-                !double.IsNaN((double)quote.Low))
+            if (!double.IsNaN((double)bar.High) &&
+                !double.IsNaN((double)bar.Low))
             {
-                _highBuffer.Add((double)quote.High);
-                _lowBuffer.Add((double)quote.Low);
+                _highBuffer.Add((double)bar.High);
+                _lowBuffer.Add((double)bar.Low);
             }
         }
     }
@@ -131,15 +131,15 @@ public class WilliamsRHub
 public static partial class WilliamsR
 {
     /// <summary>
-    /// Converts the quote provider to a Williams %R hub.
+    /// Converts the bar provider to a Williams %R hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Williams %R hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static WilliamsRHub ToWilliamsRHub(
-        this IStreamObservable<IQuote> quoteProvider,
+        this IStreamObservable<IBar> barProvider,
         int lookbackPeriods = 14)
-             => new(quoteProvider, lookbackPeriods);
+             => new(barProvider, lookbackPeriods);
 }

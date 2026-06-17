@@ -6,7 +6,7 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<DemaResult> sut = Quotes
+        IReadOnlyList<DemaResult> sut = Bars
             .ToDema(20);
 
         // proper quantities
@@ -30,7 +30,7 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<DemaResult> sut = Quotes
+        IReadOnlyList<DemaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToDema(20);
 
@@ -41,7 +41,7 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<DemaResult> sut = Quotes
+        IReadOnlyList<DemaResult> sut = Bars
             .ToSma(2)
             .ToDema(20);
 
@@ -52,7 +52,7 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToDema(20)
             .ToSma(10);
 
@@ -61,9 +61,9 @@ public class Dema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<DemaResult> r = BadQuotes
+        IReadOnlyList<DemaResult> r = BadBars
             .ToDema(15);
 
         r.Should().HaveCount(502);
@@ -71,14 +71,14 @@ public class Dema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<DemaResult> r0 = Noquotes
+        IReadOnlyList<DemaResult> r0 = Nobars
             .ToDema(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<DemaResult> r1 = Onequote
+        IReadOnlyList<DemaResult> r1 = Onebar
             .ToDema(5);
 
         r1.Should().HaveCount(1);
@@ -87,7 +87,7 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<DemaResult> sut = Quotes
+        IReadOnlyList<DemaResult> sut = Bars
             .ToDema(20)
             .RemoveWarmupPeriods();
 
@@ -104,5 +104,5 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException() =>
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToDema(0));
+            static () => Bars.ToDema(0));
 }

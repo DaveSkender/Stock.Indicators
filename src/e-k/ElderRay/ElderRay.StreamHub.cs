@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Elder Ray indicator using a stream hub.
 /// </summary>
 public class ElderRayHub
-    : StreamHub<IQuote, ElderRayResult>, IElderRay
+    : StreamHub<IBar, ElderRayResult>, IElderRay
 {
     internal ElderRayHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         ElderRay.Validate(lookbackPeriods);
@@ -32,7 +32,7 @@ public class ElderRayHub
 
     /// <inheritdoc/>
     protected override (ElderRayResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -64,15 +64,15 @@ public class ElderRayHub
 public static partial class ElderRay
 {
     /// <summary>
-    /// Creates an Elder Ray streaming hub from a quote provider.
+    /// Creates an Elder Ray streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 13.</param>
     /// <returns>An Elder Ray hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static ElderRayHub ToElderRayHub(
-       this IQuoteProvider<IQuote> quoteProvider,
+       this IBarProvider<IBar> barProvider,
        int lookbackPeriods = 13)
-           => new(quoteProvider, lookbackPeriods);
+           => new(barProvider, lookbackPeriods);
 }

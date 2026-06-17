@@ -14,7 +14,7 @@ public static partial class HtTrendline
     public static IReadOnlyList<HtlResult> ToHtTrendline(
         this IReadOnlyList<IReusable> source)
     {
-        // prefer HL2 when IQuote
+        // prefer HL2 when IBar
         IReadOnlyList<IReusable> values
             = source.ToPreferredList(CandlePart.HL2);
 
@@ -100,7 +100,7 @@ public static partial class HtTrendline
                         sumPr += pr[d];
                     }
 
-                    // handle insufficient lookback quotes (trim scope)
+                    // handle insufficient lookback bars (trim scope)
                     else
                     {
                         dcPeriods--;

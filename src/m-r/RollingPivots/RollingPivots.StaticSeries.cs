@@ -6,32 +6,32 @@ namespace Skender.Stock.Indicators;
 public static partial class RollingPivots
 {
     /// <summary>
-    /// Converts a list of quotes to a list of Rolling Pivot Points results.
+    /// Converts a list of bars to a list of Rolling Pivot Points results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="windowPeriods">Number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">Number of periods to offset the window.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>A list of Rolling Pivot Points results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes are null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars are null.</exception>
     public static IReadOnlyList<RollingPivotsResult> ToRollingPivots(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int windowPeriods = 20,
         int offsetPeriods = 0,
         PivotPointType pointType = PivotPointType.Standard)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(windowPeriods, offsetPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<RollingPivotsResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
 
             RollingPivotsResult r;
 
@@ -39,15 +39,15 @@ public static partial class RollingPivots
             {
                 // window values
                 int s = i - windowPeriods - offsetPeriods;
-                IQuote hi = quotes[s];
+                IBar hi = bars[s];
 
                 double windowHigh = (double)hi.High;
                 double windowLow = (double)hi.Low;
-                double windowClose = (double)quotes[i - offsetPeriods - 1].Close;
+                double windowClose = (double)bars[i - offsetPeriods - 1].Close;
 
                 for (int p = s; p <= i - offsetPeriods - 1; p++)
                 {
-                    IQuote d = quotes[p];
+                    IBar d = bars[p];
                     windowHigh = (double)d.High > windowHigh ? (double)d.High : windowHigh;
                     windowLow = (double)d.Low < windowLow ? (double)d.Low : windowLow;
                 }

@@ -1,11 +1,11 @@
 ---
 title: Batch (Series) style
-description: Learn how to use Series batch style indicators for one-time bulk conversions of historical quote data
+description: Learn how to use Series batch style indicators for one-time bulk conversions of historical bar data
 ---
 
 # Series style indicators for batch processing
 
-Series batch style is the fastest and simplest way to calculate indicators from complete historical datasets. Use this when you have all your historical quotes available and need to convert them to indicators in one operation.
+Series batch style is the fastest and simplest way to calculate indicators from complete historical datasets. Use this when you have all your historical bars available and need to convert them to indicators in one operation.
 
 ## When to use batch style
 
@@ -20,21 +20,21 @@ Series batch style is the fastest and simplest way to calculate indicators from 
 **Not ideal for:**
 
 - Real-time or streaming data (use [Stream hubs](/guide/styles/stream))
-- Incremental quote-by-quote processing (use [Buffer lists](/guide/styles/buffer))
+- Incremental bar-by-bar processing (use [Buffer lists](/guide/styles/buffer))
 - Live data feeds requiring continuous updates
 
 ## Basic usage
 
-All series-style indicators produce complete results for the entire quote history provided. The results are returned as a time series dataset, not just a single value.
+All series-style indicators produce complete results for the entire bar history provided. The results are returned as a time series dataset, not just a single value.
 
 ```csharp
 using Skender.Stock.Indicators;
 
-// fetch historical quotes from your data source
-IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
+// fetch historical bars from your data source
+IReadOnlyList<Bar> bars = GetBarsFromFeed("MSFT");
 
 // calculate 20-period SMA
-IReadOnlyList<SmaResult> results = quotes.ToSma(20);
+IReadOnlyList<SmaResult> results = bars.ToSma(20);
 
 // iterate through all results
 foreach (SmaResult r in results)
@@ -49,12 +49,12 @@ Create sophisticated analysis by chaining indicators together. For the broader c
 
 ```csharp
 // calculate RSI of On-Balance Volume
-IReadOnlyList<RsiResult> results = quotes
+IReadOnlyList<RsiResult> results = bars
     .ToObv()
     .ToRsi(14);
 
 // or use alternate candle price
-IReadOnlyList<EmaResult> results = quotes
+IReadOnlyList<EmaResult> results = bars
     .Use(CandlePart.HL2)
     .ToEma(20);
 ```
@@ -71,7 +71,7 @@ IReadOnlyList<EmaResult> results = quotes
 ### Find specific dates
 
 ```csharp
-IReadOnlyList<SmaResult> results = quotes.ToSma(20);
+IReadOnlyList<SmaResult> results = bars.ToSma(20);
 DateTime lookupDate = DateTime.Parse("2024-01-15");
 SmaResult? result = results.Find(lookupDate);
 ```
@@ -80,12 +80,12 @@ SmaResult? result = results.Find(lookupDate);
 
 ```csharp
 // auto-remove recommended warmup
-IReadOnlyList<AdxResult> results = quotes
+IReadOnlyList<AdxResult> results = bars
     .ToAdx(14)
     .RemoveWarmupPeriods();
 
 // or specify custom amount
-IReadOnlyList<AdxResult> results = quotes
+IReadOnlyList<AdxResult> results = bars
     .ToAdx(14)
     .RemoveWarmupPeriods(100);
 ```
@@ -96,7 +96,7 @@ Remove non-essential data points (useful for candlestick patterns):
 
 ```csharp
 // only return records with signals
-IReadOnlyList<CandleResult> signals = quotes
+IReadOnlyList<CandleResult> signals = bars
     .ToMarubozu()
     .Condense();
 ```

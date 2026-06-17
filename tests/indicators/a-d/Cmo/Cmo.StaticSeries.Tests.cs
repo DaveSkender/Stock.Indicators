@@ -6,7 +6,7 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CmoResult> sut = Quotes
+        IReadOnlyList<CmoResult> sut = Bars
             .ToCmo(14);
 
         // proper quantities
@@ -30,14 +30,14 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<CmoResult> sut = Quotes.ToCmo(14);
+        IReadOnlyList<CmoResult> sut = Bars.ToCmo(14);
         sut.IsBetween(static x => x.Cmo, -100, 100);
     }
 
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<CmoResult> sut = Quotes
+        IReadOnlyList<CmoResult> sut = Bars
             .Use(CandlePart.Close)
             .ToCmo(14);
 
@@ -48,7 +48,7 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<CmoResult> sut = Quotes
+        IReadOnlyList<CmoResult> sut = Bars
             .ToSma(2)
             .ToCmo(20);
 
@@ -59,7 +59,7 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToCmo(20)
             .ToSma(10);
 
@@ -68,9 +68,9 @@ public class Cmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<CmoResult> r = BadQuotes
+        IReadOnlyList<CmoResult> r = BadBars
             .ToCmo(35);
 
         r.Should().HaveCount(502);
@@ -78,14 +78,14 @@ public class Cmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<CmoResult> r0 = Noquotes
+        IReadOnlyList<CmoResult> r0 = Nobars
             .ToCmo(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<CmoResult> r1 = Onequote
+        IReadOnlyList<CmoResult> r1 = Onebar
             .ToCmo(5);
 
         r1.Should().HaveCount(1);
@@ -94,7 +94,7 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<CmoResult> sut = Quotes
+        IReadOnlyList<CmoResult> sut = Bars
             .ToCmo(14)
             .RemoveWarmupPeriods();
 
@@ -111,7 +111,7 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToCmo(0))
+            .Invoking(static () => Bars.ToCmo(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 
@@ -123,10 +123,10 @@ public class Cmo : StaticSeriesTestBase
         // entire post-warmup window since sH + sL == 0 (no movement,
         // so neither gains nor losses accumulate).
         DateTime t0 = new(2025, 1, 1);
-        List<Quote> flat = new(30);
+        List<Bar> flat = new(30);
         for (int i = 0; i < 30; i++)
         {
-            flat.Add(new Quote(
+            flat.Add(new Bar(
                 Timestamp: t0.AddDays(i),
                 Open: 100m,
                 High: 100m,
@@ -157,10 +157,10 @@ public class Cmo : StaticSeriesTestBase
         // (sH grows, sL stays 0). Validates that an in-window zero-change
         // tick is treated as a non-issue rather than producing NaN or null.
         DateTime t0 = new(2025, 1, 1);
-        List<Quote> series = new(34);
+        List<Bar> series = new(34);
         for (int i = 0; i < 20; i++)
         {
-            series.Add(new Quote(
+            series.Add(new Bar(
                 Timestamp: t0.AddDays(i),
                 Open: 100m, High: 100m, Low: 100m, Close: 100m,
                 Volume: 1000m));
@@ -169,7 +169,7 @@ public class Cmo : StaticSeriesTestBase
         for (int i = 0; i < 14; i++)
         {
             decimal close = 100m + ((i + 1) * 1m);
-            series.Add(new Quote(
+            series.Add(new Bar(
                 Timestamp: t0.AddDays(20 + i),
                 Open: close - 1m, High: close, Low: close - 1m, Close: close,
                 Volume: 1000m));

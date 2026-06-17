@@ -15,7 +15,7 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 ```csharp
 // C# usage syntax
 IReadOnlyList<CciResult> results =
-  quotes.ToCci(lookbackPeriods);
+  bars.ToCci(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<CciResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N+1` periods of `quotes` to cover the warmup periods.
+You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<CciResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<CciResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Cci` | double | Commodity Channel Index |
 
 ### Utilities
@@ -63,12 +63,12 @@ Results can be further processed on `Cci` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToCci(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -79,24 +79,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 CciList cciList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  cciList.Add(quote);
+  cciList.Add(bar);
 }
 
 // based on `ICollection<CciResult>`
 IReadOnlyList<CciResult> results = cciList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-CciHub observer = quoteHub.ToCciHub(lookbackPeriods);
+BarHub barHub = new();
+CciHub observer = barHub.ToCciHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<CciResult> results = observer.Results;

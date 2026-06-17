@@ -16,33 +16,33 @@ This tool is used to test and reproduce thread-safety issues in StreamHubs when 
 Uses a local Server-Sent Events server for controlled testing:
 
 ```bash
-dotnet run -- sse [dataType] [interval] [count] [quoteInterval] [endpoint]
+dotnet run -- sse [dataType] [interval] [count] [barInterval] [endpoint]
 ```
 
 Arguments (in order):
 
 | Argument | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-| `dataType` | string | `quote` | Data type endpoint: `quote` or `trade` |
-| `interval` | int | `100` | Delivery rate in milliseconds (how fast quotes are sent) |
+| `dataType` | string | `bar` | Data type endpoint: `bar` or `trade` |
+| `interval` | int | `100` | Delivery rate in milliseconds (how fast bars are sent) |
 | `count` | int | none (unlimited) | Maximum number of data points to process; omit for indefinite stream |
-| `quoteInterval` | string | `1m` | Time warp: timestamp spacing between quotes (e.g., `1s`, `5m`, `1h`, `1d`) |
+| `barInterval` | string | `1m` | Time warp: timestamp spacing between bars (e.g., `1s`, `5m`, `1h`, `1d`) |
 | `endpoint` | string | `http://localhost:5001/{dataType}/random` | SSE server endpoint URL (rarely needed) |
 
 Examples:
 
 ```bash
-dotnet run -- sse                     # Quote data, 100ms delivery, 1m timestamps, runs indefinitely
-dotnet run -- sse quote               # Quote data, 100ms delivery, 1m timestamps, runs indefinitely
-dotnet run -- sse quote 50            # Quote data, 50ms delivery, 1m timestamps, runs indefinitely
-dotnet run -- sse quote 50 500        # Quote data, 50ms delivery, 1m timestamps, stops after 500 quotes
-dotnet run -- sse quote 100 1000 1h   # Hourly quotes delivered every 100ms, stops after 1000 quotes
-dotnet run -- sse quote 50 500 5m     # 5-minute quotes delivered every 50ms, stops after 500 quotes
-dotnet run -- sse quote 100 0 1d      # Daily quotes delivered every 100ms, runs indefinitely
+dotnet run -- sse                     # Bar data, 100ms delivery, 1m timestamps, runs indefinitely
+dotnet run -- sse bar               # Bar data, 100ms delivery, 1m timestamps, runs indefinitely
+dotnet run -- sse bar 50            # Bar data, 50ms delivery, 1m timestamps, runs indefinitely
+dotnet run -- sse bar 50 500        # Bar data, 50ms delivery, 1m timestamps, stops after 500 bars
+dotnet run -- sse bar 100 1000 1h   # Hourly bars delivered every 100ms, stops after 1000 bars
+dotnet run -- sse bar 50 500 5m     # 5-minute bars delivered every 50ms, stops after 500 bars
+dotnet run -- sse bar 100 0 1d      # Daily bars delivered every 100ms, runs indefinitely
 dotnet run -- sse trade 100 1000      # Trade data, 100ms delivery, stops after 1000 ticks
 ```
 
-**Time warp feature**: The `quoteInterval` parameter allows fast testing of longer-term strategies without waiting real time. For example, `quoteInterval=1h` with `interval=100` delivers hourly-spaced quotes every 100ms, letting you test 24 hours of data in 2.4 seconds.
+**Time warp feature**: The `barInterval` parameter allows fast testing of longer-term strategies without waiting real time. For example, `barInterval=1h` with `interval=100` delivers hourly-spaced bars every 100ms, letting you test 24 hours of data in 2.4 seconds.
 
 ### Coinbase WebSocket mode
 
@@ -64,7 +64,7 @@ Arguments (in order):
 | Argument | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
 | `symbol` | string | `BTC-USD` | Coinbase trading pair (e.g., `BTC-USD`, `ETH-USD`) |
-| `count` | int | none (unlimited) | Maximum number of quotes to process; omit for indefinite stream |
+| `count` | int | none (unlimited) | Maximum number of bars to process; omit for indefinite stream |
 
 Examples:
 
@@ -72,8 +72,8 @@ Examples:
 dotnet run -- coinbase                      # BTC-USD klines, runs indefinitely
 dotnet run -- coinbase-klines BTC-USD       # BTC-USD klines, runs indefinitely
 dotnet run -- coinbase-ticker ETH-USD       # ETH-USD ticker feed, runs indefinitely
-dotnet run -- coinbase BTC-USD 500          # BTC-USD klines, stops after 500 quotes
-dotnet run -- coinbase-ticker ETH-USD 1000  # ETH-USD ticker, stops after 1000 quotes
+dotnet run -- coinbase BTC-USD 500          # BTC-USD klines, stops after 500 bars
+dotnet run -- coinbase-ticker ETH-USD 1000  # ETH-USD ticker, stops after 1000 bars
 ```
 
 ## Strategy
@@ -92,8 +92,8 @@ The Coinbase WebSocket mode is designed to reproduce the thread-safety issues:
 
 - Subscribes to 5-minute kline (candle) updates via WebSocket
 - Klines arrive approximately every 5 seconds (matching reported scenario)
-- Single symbol subscription feeds a single `QuoteHub`
-- Each kline is processed through `QuoteHub` and multiple indicator hubs
+- Single symbol subscription feeds a single `BarHub`
+- Each kline is processed through `BarHub` and multiple indicator hubs
 - This can expose race conditions in hub implementations
 
 To test for thread-safety issues:
@@ -113,7 +113,7 @@ To test for thread-safety issues:
 - The Coinbase mode requires internet connectivity
 - The Coinbase WebSocket API may require authentication for some features
 - The tool uses the same hub instances as would be used in production code
-- Both modes exercise QuoteHub, EmaHub, and StrategyGroup
+- Both modes exercise BarHub, EmaHub, and StrategyGroup
 
 ## Stopping & cleanup
 

@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Stochastic Momentum Index (SMI) from incremental quotes.
+/// Stochastic Momentum Index (SMI) from incremental bars.
 /// </summary>
-public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
+public class SmiList : BufferList<SmiResult>, IIncrementFromBar, ISmi
 {
     private readonly Queue<(double High, double Low, double Close)> _lookbackBuffer;
     private double _lastSmEma1;
@@ -44,20 +44,20 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SmiList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="SmiList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     public SmiList(
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
         int signalPeriods,
-        IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -81,14 +81,14 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
     public double KS { get; private init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
+        DateTime timestamp = bar.Timestamp;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
 
         // Update lookback buffer
         _lookbackBuffer.Update(LookbackPeriods, (high, low, close));
@@ -164,13 +164,13 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -193,16 +193,16 @@ public static partial class Smi
     /// <summary>
     /// Creates a buffer list for Stochastic Momentum Index (SMI) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="firstSmoothPeriods">Number of periods for first smoothing</param>
     /// <param name="secondSmoothPeriods">Number of periods for second smoothing</param>
     /// <param name="signalPeriods">Number of periods for the signal line</param>
     public static SmiList ToSmiList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
-        => new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { quotes };
+        => new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { bars };
 }

@@ -15,24 +15,24 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 ```csharp
 // C# usage syntax
 IReadOnlyList<VwapResult> results =
-  quotes.ToVwap();
+  bars.ToVwap();
 
 // usage with optional anchored start date
 IReadOnlyList<VwapResult> results =
-  quotes.ToVwap(startDate);
+  bars.ToVwap(startDate);
 ```
 
 ## Parameters
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `quotes` is used when not provided. |
+| `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `bars` is used when not provided. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least one historical quote to calculate; however, more is often needed to be useful.  Historical quotes are typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `quotes`, unless it is specified in the optional `startDate` parameter.
+You must have at least one historical bar to calculate; however, more is often needed to be useful.  Historical bars are typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `bars`, unless it is specified in the optional `startDate` parameter.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -40,8 +40,8 @@ You must have at least one historical quote to calculate; however, more is often
 IReadOnlyList<VwapResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.
 - `Vwap` values before `startDate`, if specified, will be `null`.
@@ -50,7 +50,7 @@ IReadOnlyList<VwapResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Vwap` | double | Volume Weighted Average Price |
 
 ### Utilities
@@ -68,12 +68,12 @@ Results can be further processed on `Vwap` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToVwap(..)
     .ToRsi(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -84,24 +84,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 VwapList vwapList = new(startDate);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  vwapList.Add(quote);
+  vwapList.Add(bar);
 }
 
 // based on `ICollection<VwapResult>`
 IReadOnlyList<VwapResult> results = vwapList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-VwapHub observer = quoteHub.ToVwapHub(startDate);
+BarHub barHub = new();
+VwapHub observer = barHub.ToVwapHub(startDate);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<VwapResult> results = observer.Results;

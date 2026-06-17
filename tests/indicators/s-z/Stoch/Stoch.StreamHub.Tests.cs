@@ -1,129 +1,129 @@
 namespace StreamHubs;
 
 [TestClass]
-public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
+public class StochHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider (warmup coverage)
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider (warmup coverage)
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        StochHub observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        StochHub observer = barHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<StochResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> expected = Bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
         actuals.Should().HaveCount(length);
         actuals.IsExactly(expected);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<StochResult> expectedRevised = RevisedQuotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> expectedRevised = RevisedBars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<StochResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<StochResult> expected = bars
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        StochHub observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        BarHub barHub = new(maxCacheSize);
+        StochHub observer = barHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        StochHub hub = new(new QuoteHub(), 14, 3, 3);
+        StochHub hub = new(new BarHub(), 14, 3, 3);
         hub.ToString().Should().Be("STOCH(14,3,3)");
     }
 
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         StochHub lateHub = lateSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         StochHub freshHub = freshSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -138,30 +138,30 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
         // %K emits at lookback + smooth - 1 (= 14 + 3 - 1 = 16), %D after
         // signal SMA over %K (~18). Index 22 forces replay across both
         // smoothing-stage transitions.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 22;
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         StochHub lateHub = lateSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         StochHub freshHub = freshSource.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -173,13 +173,13 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StochResult> sut = Quotes.ToStochHub(14, 3, 3).Results;
+        IReadOnlyList<StochResult> sut = Bars.ToStochHub(14, 3, 3).Results;
         sut.IsBetween(static x => x.Oscillator, 0, 100);
         sut.IsBetween(static x => x.Signal, 0, 100);
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         // %J is unbounded by design so not asserted.
         IReadOnlyList<StochResult> sut = Data
@@ -201,53 +201,53 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
         const double dFactor = 4;
         const MaType movingAverageType = MaType.SMMA;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub and observer BEFORE adding data
-        QuoteHub quoteHub = new();
-        StochHub observer = quoteHub.ToStoch(
+        // setup bar provider hub and observer BEFORE adding data
+        BarHub barHub = new();
+        StochHub observer = barHub.ToStoch(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
-        // add quotes
-        quoteHub.Add(quotesList);
+        // add bars
+        barHub.Add(barsList);
 
         // close observations
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // verify against static series calculation
-        IReadOnlyList<StochResult> expected = Quotes.ToStoch(
+        IReadOnlyList<StochResult> expected = Bars.ToStoch(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
-        observer.Cache.Should().HaveCount(Quotes.Count);
+        observer.Cache.Should().HaveCount(Bars.Count);
         observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]
-    public void IncrementalUpdates_WithStreamedQuotes_MatchesSeriesExactly()
+    public void IncrementalUpdates_WithStreamedBars_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub with incremental updates
-        QuoteHub quoteHub = new();
-        StochHub observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        // setup bar provider hub with incremental updates
+        BarHub barHub = new();
+        StochHub observer = barHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
-        // add quotes one by one
-        foreach (Quote quote in quotesList)
+        // add bars one by one
+        foreach (Bar bar in barsList)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         // close observations
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // verify consistency
-        IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> expected = Bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
         observer.Cache.IsExactly(expected);
     }
 
@@ -261,8 +261,8 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
         const double dFactor = 4;
         const MaType movingAverageType = MaType.SMMA;
 
-        QuoteHub quoteHub = new();
-        StochHub observer = quoteHub.ToStoch(
+        BarHub barHub = new();
+        StochHub observer = barHub.ToStoch(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
@@ -279,8 +279,8 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void DefaultParameters_OnHubInstantiation_UseExpectedDefaults()
     {
-        QuoteHub quoteHub = new();
-        StochHub observer = quoteHub.ToStochHub();
+        BarHub barHub = new();
+        StochHub observer = barHub.ToStochHub();
 
         // verify default properties
         observer.LookbackPeriods.Should().Be(14);
@@ -300,21 +300,21 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
         // streaming calculation
-        QuoteHub quoteHub = new();
-        StochHub streamObserver = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+        BarHub barHub = new();
+        StochHub streamObserver = barHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
-        foreach (Quote quote in quotesList)
+        foreach (Bar bar in barsList)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // batch calculation
-        IReadOnlyList<StochResult> batchResults = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> batchResults = Bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // compare results with reasonable precision
         streamObserver.Cache.Should().HaveCount(batchResults.Count);

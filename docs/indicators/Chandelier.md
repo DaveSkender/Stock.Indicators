@@ -23,7 +23,7 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ```csharp
 // C# usage syntax
 IReadOnlyList<ChandelierResult> results =
-  quotes.ToChandelier(lookbackPeriods, multiplier, type);
+  bars.ToChandelier(lookbackPeriods, multiplier, type);
 ```
 
 ## Parameters
@@ -34,11 +34,11 @@ IReadOnlyList<ChandelierResult> results =
 | `multiplier` | double | Multiplier number must be a positive value.  Default is 3. |
 | `type` | Direction | Direction of exit.  See [Direction options](#direction-options) below.  Default is `Direction.Long`. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N+1` periods of `quotes` to cover the warmup periods.
+You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### Direction options
 
@@ -52,8 +52,8 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<ChandelierResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` Chandelier values since there's not enough data to calculate.
 
@@ -61,7 +61,7 @@ IReadOnlyList<ChandelierResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `ChandelierExit` | double | Exit line |
 
 ### Utilities
@@ -79,12 +79,12 @@ Results can be further processed on `ChandelierExit` with additional chain-enabl
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToChandelier(..)
     .ToEma(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -95,24 +95,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 ChandelierList chandelierList = new(lookbackPeriods, multiplier, type);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  chandelierList.Add(quote);
+  chandelierList.Add(bar);
 }
 
 // based on `ICollection<ChandelierResult>`
 IReadOnlyList<ChandelierResult> results = chandelierList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-ChandelierHub observer = quoteHub.ToChandelierHub(lookbackPeriods, multiplier, type);
+BarHub barHub = new();
+ChandelierHub observer = barHub.ToChandelierHub(lookbackPeriods, multiplier, type);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<ChandelierResult> results = observer.Results;

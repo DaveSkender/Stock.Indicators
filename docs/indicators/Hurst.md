@@ -15,7 +15,7 @@ The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) (`H`) is part
 ```csharp
 // C# usage syntax
 IReadOnlyList<HurstResult> results =
-  quotes.ToHurst(lookbackPeriods);
+  bars.ToHurst(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<HurstResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N+1` periods of `quotes` to cover the warmup periods.
+You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<HurstResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<HurstResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `HurstExponent` | double | Hurst Exponent (`H`) from raw rescaled range (R/S) analysis |
 | `HurstExponentAL` | double | [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. |
 
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HLC3)
     .ToHurst(..);
 ```
@@ -73,7 +73,7 @@ Results can be further processed on `HurstExponent` with additional chain-enable
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToHurst(..)
     .ToSlope(..);
 ```
@@ -93,24 +93,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 HurstList hurstList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  hurstList.Add(quote);
+  hurstList.Add(bar);
 }
 
 // based on `ICollection<HurstResult>`
 IReadOnlyList<HurstResult> results = hurstList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-HurstHub observer = quoteHub.ToHurstHub(lookbackPeriods);
+BarHub barHub = new();
+HurstHub observer = barHub.ToHurstHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<HurstResult> results = observer.Results;

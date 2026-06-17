@@ -6,42 +6,42 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<DemaResult> series
-       = Quotes.ToDema(lookbackPeriods);
+       = Bars.ToDema(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         DemaList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        DemaList sut = Quotes.ToDemaList(lookbackPeriods);
+        DemaList sut = Bars.ToDemaList(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        DemaList sut = new(lookbackPeriods, Quotes);
+        DemaList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -55,7 +55,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -64,7 +64,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     {
         DemaList sut = new(lookbackPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -78,14 +78,14 @@ public class Dema : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<DemaResult> expected = subset.ToDema(lookbackPeriods);
 
         DemaList sut = new(lookbackPeriods, subset);
@@ -112,7 +112,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<DemaResult> expected = series
             .Skip(series.Count - maxListSize)

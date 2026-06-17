@@ -6,7 +6,7 @@ public class SmaAnalyses : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmaAnalysisResult> sut = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Bars
             .ToSmaAnalysis(20);
 
         // proper quantities
@@ -24,7 +24,7 @@ public class SmaAnalyses : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaAnalysisResult> sut = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Bars
             .Use(CandlePart.Close)
             .ToSmaAnalysis(20);
 
@@ -35,7 +35,7 @@ public class SmaAnalyses : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaAnalysisResult> sut = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Bars
             .ToSma(2)
             .ToSmaAnalysis(20);
 
@@ -46,7 +46,7 @@ public class SmaAnalyses : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToEma_ReturnsExpectedResult()
     {
-        IReadOnlyList<EmaResult> sut = Quotes
+        IReadOnlyList<EmaResult> sut = Bars
             .ToSmaAnalysis(10)
             .ToEma(10);
 
@@ -55,9 +55,9 @@ public class SmaAnalyses : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<SmaAnalysisResult> r = BadQuotes
+        IReadOnlyList<SmaAnalysisResult> r = BadBars
             .ToSmaAnalysis(15);
 
         r.Should().HaveCount(502);
@@ -65,14 +65,14 @@ public class SmaAnalyses : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<SmaAnalysisResult> r0 = Noquotes
+        IReadOnlyList<SmaAnalysisResult> r0 = Nobars
             .ToSmaAnalysis(6);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<SmaAnalysisResult> r1 = Onequote
+        IReadOnlyList<SmaAnalysisResult> r1 = Onebar
             .ToSmaAnalysis(6);
 
         r1.Should().HaveCount(1);
@@ -81,7 +81,7 @@ public class SmaAnalyses : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<SmaAnalysisResult> sut = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Bars
             .ToSmaAnalysis(20)
             .RemoveWarmupPeriods();
 
@@ -96,7 +96,7 @@ public class SmaAnalyses : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToSmaAnalysis(0))
+            .Invoking(static () => Bars.ToSmaAnalysis(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents a stream hub for calculating the Ichimoku Cloud indicator.
 /// </summary>
 public class IchimokuHub
-    : StreamHub<IQuote, IchimokuResult>, IIchimoku
+    : StreamHub<IBar, IchimokuResult>, IIchimoku
 {
 
     private CircularDoubleBuffer tenkanHighBuffer;
@@ -13,7 +13,7 @@ public class IchimokuHub
     private CircularDoubleBuffer kijunLowBuffer;
 
     internal IchimokuHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int tenkanPeriods,
         int kijunPeriods,
         int senkouBPeriods,
@@ -64,12 +64,12 @@ public class IchimokuHub
     /// <inheritdoc/>
     public int ChikouOffset { get; init; }
     /// <summary>
-    /// Handles adding a new quote and updates past results that now have sufficient data for ChikouSpan.
+    /// Handles adding a new bar and updates past results that now have sufficient data for ChikouSpan.
     /// </summary>
     /// <param name="item">New item from provider.</param>
     /// <param name="notify">Whether to notify observers.</param>
     /// <param name="indexHint">Provider index hint.</param>
-    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    public override void OnAdd(IBar item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -79,7 +79,7 @@ public class IchimokuHub
             base.OnAdd(item, notify, indexHint);
 
             // Update past result that can now have its ChikouSpan calculated
-            // This happens when a new quote provides the forward data needed
+            // This happens when a new bar provides the forward data needed
             if (ChikouOffset > 0 && Cache.Count > ChikouOffset && ProviderCache.Count > ChikouOffset)
             {
                 int providerIndex = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -120,13 +120,13 @@ public class IchimokuHub
 
     /// <inheritdoc/>
     protected override (IchimokuResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current quote to rolling buffers
+        // Add current bar to rolling buffers
         tenkanHighBuffer.Add((double)item.High);
         tenkanLowBuffer.Add((double)item.Low);
         kijunHighBuffer.Add((double)item.High);
@@ -179,7 +179,7 @@ public class IchimokuHub
             for (int p = i - SenkouOffset - SenkouBPeriods + 1;
                  p <= i - SenkouOffset; p++)
             {
-                IQuote d = ProviderCache[p];
+                IBar d = ProviderCache[p];
 
                 if ((double)d.High > max)
                 {
@@ -237,18 +237,18 @@ public class IchimokuHub
         int tenkanStart = Math.Max(0, restoreIndex - TenkanPeriods + 1);
         for (int p = tenkanStart; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            tenkanHighBuffer.Add((double)quote.High);
-            tenkanLowBuffer.Add((double)quote.Low);
+            IBar bar = ProviderCache[p];
+            tenkanHighBuffer.Add((double)bar.High);
+            tenkanLowBuffer.Add((double)bar.Low);
         }
 
         // Rebuild Kijun buffers
         int kijunStart = Math.Max(0, restoreIndex - KijunPeriods + 1);
         for (int p = kijunStart; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            kijunHighBuffer.Add((double)quote.High);
-            kijunLowBuffer.Add((double)quote.Low);
+            IBar bar = ProviderCache[p];
+            kijunHighBuffer.Add((double)bar.High);
+            kijunLowBuffer.Add((double)bar.Low);
         }
 
         // After Remove operations, ChikouSpan values that point past the end need to be nulled
@@ -274,34 +274,34 @@ public class IchimokuHub
 public static partial class Ichimoku
 {
     /// <summary>
-    /// Converts a quote provider to an Ichimoku hub.
+    /// Converts a bar provider to an Ichimoku hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <returns>An Ichimoku hub.</returns>
     public static IchimokuHub ToIchimokuHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int tenkanPeriods = 9,
         int kijunPeriods = 26,
         int senkouBPeriods = 52)
-        => new(quoteProvider, tenkanPeriods, kijunPeriods, senkouBPeriods, kijunPeriods, kijunPeriods);
+        => new(barProvider, tenkanPeriods, kijunPeriods, senkouBPeriods, kijunPeriods, kijunPeriods);
 
     /// <summary>
-    /// Converts a quote provider to an Ichimoku hub with specified parameters.
+    /// Converts a bar provider to an Ichimoku hub with specified parameters.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <param name="offsetPeriods">Number of periods for the offset.</param>
     /// <returns>An Ichimoku hub.</returns>
     public static IchimokuHub ToIchimokuHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int tenkanPeriods,
         int kijunPeriods,
         int senkouBPeriods,
         int offsetPeriods)
-        => new(quoteProvider, tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods, offsetPeriods);
+        => new(barProvider, tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods, offsetPeriods);
 }

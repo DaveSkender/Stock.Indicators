@@ -14,12 +14,28 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 - **All static time-series API methods**: Renamed from `GetX()` to `ToX()`
   - Example: `quotes.GetSma(20)` → `quotes.ToSma(20)`
 
-### Quote types and interfaces
+### Market-data type renames (Quote → Bar)
 
-- **`Quote` type**: Changed to immutable `record` type
-- **`IQuote.Date` property**: Renamed to `IQuote.Timestamp`. `Date` remains as an `[Obsolete]` alias in v3.x for backward compatibility and will be removed in v3.1 — update consumers to `Timestamp` now.
-- **`IQuote` interface**: Now a reusable (chainable) type
-- **Custom quote types**: Must implement the `IReusable` interface
+To align with industry-standard terminology (an OHLCV aggregate is universally a *bar*; a *quote* is a bid/ask snapshot), the core market-data types were renamed in v3. These are hard renames — update your code to the new names:
+
+- **`Quote` → `Bar`** (and the built-in `Quote` record → `Bar` record)
+- **`IQuote` → `IBar`** — custom market-data types now implement `IBar`
+- **`QuoteHub` → `BarHub`**, **`QuoteProvider`/`IQuoteProvider` → `BarProvider`/`IBarProvider`**
+- **`QuoteAggregatorHub` → `BarAggregatorHub`**, **`QuotePart`/`IQuotePart` → `BarPart`/`IBarPart`**
+- **`PeriodSize` → `BarInterval`** (aggregation interval enum; member names unchanged)
+- **`Tick`/`ITick` → `TradeTick`/`ITradeTick`** (single trade print; `TickHub` → `TradeTickHub`)
+- Extension methods renamed accordingly: `ToQuoteHub()` → `ToBarHub()`, `ToQuotePart()` → `ToBarPart()`, etc.
+
+The old `Quote`, `IQuote`, and `PeriodSize` names remain as error-level `[Obsolete]` stubs that point to the new names, so the compiler tells you exactly what to rename. There are no runtime aliases — these names will not work at run time.
+
+> **New:** `BarInterval` now has a bidirectional string-code map — `interval.ToCode()` (e.g. `BarInterval.FiveMinutes` → `"5m"`) and `"5m".ToBarInterval()` (case-insensitive, with aliases like `"5min"`/`"1day"`).
+
+### Quote/Bar interface details
+
+- **`Bar` type** (formerly `Quote`): Immutable `record` type
+- **`IBar.Date` property**: Renamed to `IBar.Timestamp`. `Date` remains as an `[Obsolete]` alias in v3.x for backward compatibility and will be removed in v3.1 — update consumers to `Timestamp` now.
+- **`IBar` interface** (formerly `IQuote`): Now a reusable (chainable) type
+- **Custom bar types**: Must implement the `IReusable` interface
 - **`IReusableResult`**: Renamed to `IReusable`
 - **`IReusable.Value` property**: Changed to non-nullable, returns `double.NaN` instead of `null`
 
@@ -346,7 +362,12 @@ Popular indicators with complete streaming documentation:
 | v2 API | v3 API | Notes |
 | ------ | ------ | ----- |
 | `quotes.GetSma(20)` | `quotes.ToSma(20)` | Method prefix changed |
-| `IQuote.Date` | `IQuote.Timestamp` | Property renamed |
+| `Quote` | `Bar` | Type renamed (OHLCV bar) |
+| `IQuote` | `IBar` | Interface renamed |
+| `QuoteHub` | `BarHub` | Streaming hub renamed |
+| `PeriodSize` | `BarInterval` | Enum renamed |
+| `Tick` / `ITick` | `TradeTick` / `ITradeTick` | Type renamed (trade print) |
+| `IBar.Date` | `IBar.Timestamp` | Property renamed |
 | `quotes.Use()` | `quotes.Use(CandlePart.Close)` | Parameter now required |
 | `result.Value == null` | `double.IsNaN(result.Value)` | Null handling changed |
 | `Numerix` | `Numerical` | Class renamed |

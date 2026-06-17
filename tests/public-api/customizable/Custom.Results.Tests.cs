@@ -11,7 +11,7 @@ public class CustomResults
     private static readonly CultureInfo EnglishCulture
     = new("en-US", false);
 
-    private static readonly IReadOnlyList<Quote> quotes =
+    private static readonly IReadOnlyList<Bar> bars =
         Data.GetDefault();
 
     [TestMethod]
@@ -30,7 +30,7 @@ public class CustomResults
     [TestMethod]
     public void CustomSeriesClassLinq()
     {
-        IReadOnlyList<EmaResult> emaResults = quotes.ToEma(14);
+        IReadOnlyList<EmaResult> emaResults = bars.ToEma(14);
 
         // can use a derive Indicator class using Linq
 
@@ -49,7 +49,7 @@ public class CustomResults
     public void CustomSeriesClassFind()
     {
         List<EmaResult> emaResults
-            = quotes.ToEma(20).ToList();
+            = bars.ToEma(20).ToList();
 
         // can use a derive Indicator class using Linq
 

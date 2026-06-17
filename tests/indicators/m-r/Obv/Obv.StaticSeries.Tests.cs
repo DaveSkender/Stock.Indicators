@@ -6,7 +6,7 @@ public class Obv : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<ObvResult> sut = Quotes
+        IReadOnlyList<ObvResult> sut = Bars
             .ToObv();
 
         // proper quantities
@@ -23,7 +23,7 @@ public class Obv : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToObv()
             .ToSma(10);
 
@@ -32,9 +32,9 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ObvResult> r = BadQuotes
+        IReadOnlyList<ObvResult> r = BadBars
             .ToObv();
 
         r.Should().HaveCount(502);
@@ -42,23 +42,23 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigQuoteValues_WithLargeNumbers_DoesNotFail()
+    public void BigBarValues_WithLargeNumbers_DoesNotFail()
     {
-        IReadOnlyList<ObvResult> r = BigQuotes
+        IReadOnlyList<ObvResult> r = BigBars
             .ToObv();
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ObvResult> r0 = Noquotes
+        IReadOnlyList<ObvResult> r0 = Nobars
             .ToObv();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ObvResult> r1 = Onequote
+        IReadOnlyList<ObvResult> r1 = Onebar
             .ToObv();
 
         r1.Should().HaveCount(1);

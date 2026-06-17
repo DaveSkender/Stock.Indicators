@@ -6,7 +6,7 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<WmaResult> sut = Quotes
+        IReadOnlyList<WmaResult> sut = Bars
             .ToWma(20);
 
         // proper quantities
@@ -24,7 +24,7 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<WmaResult> sut = Quotes
+        IReadOnlyList<WmaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToWma(20);
 
@@ -35,7 +35,7 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<WmaResult> sut = Quotes
+        IReadOnlyList<WmaResult> sut = Bars
             .ToSma(2)
             .ToWma(20);
 
@@ -46,7 +46,7 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToWma(20)
             .ToSma(10);
 
@@ -57,10 +57,10 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public void Chaining_VersusDirectClose_ReturnsEquivalentResults()
     {
-        IReadOnlyList<WmaResult> standard = Quotes
+        IReadOnlyList<WmaResult> standard = Bars
             .ToWma(17);
 
-        IReadOnlyList<WmaResult> sut = Quotes
+        IReadOnlyList<WmaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToWma(17);
 
@@ -76,9 +76,9 @@ public class Wma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<WmaResult> r = BadQuotes
+        IReadOnlyList<WmaResult> r = BadBars
             .ToWma(15);
 
         r.Should().HaveCount(502);
@@ -86,14 +86,14 @@ public class Wma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<WmaResult> r0 = Noquotes
+        IReadOnlyList<WmaResult> r0 = Nobars
             .ToWma(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<WmaResult> r1 = Onequote
+        IReadOnlyList<WmaResult> r1 = Onebar
             .ToWma(5);
 
         r1.Should().HaveCount(1);
@@ -102,7 +102,7 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<WmaResult> sut = Quotes
+        IReadOnlyList<WmaResult> sut = Bars
             .ToWma(20)
             .RemoveWarmupPeriods();
 
@@ -119,7 +119,7 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToWma(0))
+            .Invoking(static () => Bars.ToWma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

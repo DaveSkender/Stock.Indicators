@@ -15,7 +15,7 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 ```csharp
 // C# usage syntax
 IReadOnlyList<KeltnerResult> results =
-  quotes.ToKeltner(emaPeriods, multiplier, atrPeriods);
+  bars.ToKeltner(emaPeriods, multiplier, atrPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<KeltnerResult> results =
 | `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
 | `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more, where `N` is the greater of `E` or `A` periods, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N` or `N+100` periods of `bars`, whichever is more, where `N` is the greater of `E` or `A` periods, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 IReadOnlyList<KeltnerResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -51,7 +51,7 @@ The first `N+250` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `UpperBand` | double | Upper band of Keltner Channel |
 | `Centerline` | double | EMA of price |
 | `LowerBand` | double | Lower band of Keltner Channel |
@@ -70,11 +70,11 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 Results can be further processed on `Centerline` with other [chained indicators](/guide/getting-started#chaining-indicator-of-indicators).
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToKeltner(..);
 ```
 
@@ -87,24 +87,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 KeltnerList keltnerList = new(emaPeriods, multiplier, atrPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  keltnerList.Add(quote);
+  keltnerList.Add(bar);
 }
 
 // based on `ICollection<KeltnerResult>`
 IReadOnlyList<KeltnerResult> results = keltnerList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-KeltnerHub observer = quoteHub.ToKeltnerHub(emaPeriods, multiplier, atrPeriods);
+BarHub barHub = new();
+KeltnerHub observer = barHub.ToKeltnerHub(emaPeriods, multiplier, atrPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<KeltnerResult> results = observer.Results;

@@ -11,7 +11,7 @@ Pivots is an extended customizable version of <a href="/indicators/Fractal/" rel
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotsResult> results =
-  quotes.ToPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
+  bars.ToPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
 ```
 
 ## Parameters
@@ -29,11 +29,11 @@ The total evaluation window size is `L+R+1`.
 The `maxTrendPeriods` parameter controls the lookback window for trend line calculations, not the number of results returned.
 :::
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least `L+R+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### EndType options
 
@@ -47,20 +47,20 @@ You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; 
 IReadOnlyList<PivotsResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
-- The first `L` and last `R` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
+- The first `L` and last `R` periods in `bars` are unable to be calculated since there's not enough prior/following data.
 
 ::: warning 🖌️ Repaint warning
-This price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Pivots are retroactively identified.
+This price pattern looks forward and backward in the historical bars so it will never identify a pivot in the last `R` periods of `bars`.  Pivots are retroactively identified.
 :::
 
 ### `PivotsResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `HighPoint` | decimal | Value indicates a **high** point; otherwise `null` is returned. |
 | `LowPoint` | decimal | Value indicates a **low** point; otherwise `null` is returned. |
 | `HighLine` | decimal | Drawn line between two high points in the `maxTrendPeriods` |
@@ -80,7 +80,7 @@ This price pattern looks forward and backward in the historical quotes so it wil
 
 #### Filtering results
 
-Since this method returns one result per input quote (with `null` values where no pivot exists), you'll often want to filter results for specific use cases:
+Since this method returns one result per input bar (with `null` values where no pivot exists), you'll often want to filter results for specific use cases:
 
 ```csharp
 // get only records with pivot points
@@ -113,7 +113,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator is not chain-enabled and must be generated from `bars`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -124,24 +124,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 PivotsList pivotsList = new(leftSpan, rightSpan, maxTrendPeriods, endType);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  pivotsList.Add(quote);
+  pivotsList.Add(bar);
 }
 
 // based on `ICollection<PivotsResult>`
 IReadOnlyList<PivotsResult> results = pivotsList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-PivotsHub observer = quoteHub.ToPivotsHub(leftSpan, rightSpan, maxTrendPeriods, endType);
+BarHub barHub = new();
+PivotsHub observer = barHub.ToPivotsHub(leftSpan, rightSpan, maxTrendPeriods, endType);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<PivotsResult> results = observer.Results;

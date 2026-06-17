@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating VWMA hubs.
 /// </summary>
 public class VwmaHub
-    : ChainHub<IQuote, VwmaResult>, IVwma
+    : ChainHub<IBar, VwmaResult>, IVwma
 {
     internal VwmaHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         Vwma.Validate(lookbackPeriods);
@@ -29,7 +29,7 @@ public class VwmaHub
 
     /// <inheritdoc />
     protected override (VwmaResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -46,9 +46,9 @@ public class VwmaHub
 
             for (int p = index - LookbackPeriods + 1; p <= index; p++)
             {
-                IQuote quote = ProviderCache[p];
-                double price = (double)quote.Close;
-                double volume = (double)quote.Volume;
+                IBar bar = ProviderCache[p];
+                double price = (double)bar.Close;
+                double volume = (double)bar.Volume;
 
                 priceVolumeSum += price * volume;
                 volumeSum += volume;
@@ -68,18 +68,18 @@ public class VwmaHub
 public static partial class Vwma
 {
     /// <summary>
-    /// Converts the quote provider to a VWMA hub.
+    /// Converts the bar provider to a VWMA hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A VWMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static VwmaHub ToVwmaHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new(barProvider, lookbackPeriods);
     }
 }

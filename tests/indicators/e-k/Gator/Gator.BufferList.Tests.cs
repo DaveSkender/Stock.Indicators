@@ -4,42 +4,42 @@ namespace BufferLists;
 public class Gator : BufferListTestBase, ITestChainBufferList
 {
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<GatorResult> series
-       = Quotes.ToGator();
+       = Bars.ToGator();
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         GatorList sut = [];
 
-        foreach (IQuote item in Quotes)
+        foreach (IBar item in Bars)
         {
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        GatorList sut = Quotes.ToGatorList();
+        GatorList sut = Bars.ToGatorList();
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        GatorList sut = new(Quotes);
+        GatorList sut = new(Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -53,7 +53,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Hl2OrValue());
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -67,7 +67,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -76,14 +76,14 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     {
         GatorList sut = new() { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<GatorResult> expected = subset.ToGator();
 
         GatorList sut = new(subset);
@@ -110,7 +110,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<GatorResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

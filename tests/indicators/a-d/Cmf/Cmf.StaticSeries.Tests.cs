@@ -6,7 +6,7 @@ public class Cmf : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CmfResult> sut = Quotes
+        IReadOnlyList<CmfResult> sut = Bars
             .ToCmf();
 
         // proper quantities
@@ -33,14 +33,14 @@ public class Cmf : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<CmfResult> sut = Quotes.ToCmf(20);
+        IReadOnlyList<CmfResult> sut = Bars.ToCmf(20);
         sut.IsBetween(static x => x.Cmf, -1, 1);
     }
 
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToCmf()
             .ToSma(10);
 
@@ -49,9 +49,9 @@ public class Cmf : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<CmfResult> r = BadQuotes
+        IReadOnlyList<CmfResult> r = BadBars
             .ToCmf(15);
 
         r.Should().HaveCount(502);
@@ -59,23 +59,23 @@ public class Cmf : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<CmfResult> r = BigQuotes
+        IReadOnlyList<CmfResult> r = BigBars
             .ToCmf(150);
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<CmfResult> r0 = Noquotes
+        IReadOnlyList<CmfResult> r0 = Nobars
             .ToCmf();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<CmfResult> r1 = Onequote
+        IReadOnlyList<CmfResult> r1 = Onebar
             .ToCmf();
 
         r1.Should().HaveCount(1);
@@ -84,7 +84,7 @@ public class Cmf : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<CmfResult> sut = Quotes
+        IReadOnlyList<CmfResult> sut = Bars
             .ToCmf()
             .RemoveWarmupPeriods();
 
@@ -103,7 +103,7 @@ public class Cmf : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToCmf(0))
+            .Invoking(static () => Bars.ToCmf(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

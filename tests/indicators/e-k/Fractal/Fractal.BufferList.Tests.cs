@@ -1,50 +1,50 @@
 namespace BufferLists;
 
 [TestClass]
-public class Fractal : BufferListTestBase, ITestQuoteBufferList
+public class Fractal : BufferListTestBase, ITestBarBufferList
 {
     private const int windowSpan = 2;
     private const EndType endType = EndType.HighLow;
 
     private static readonly IReadOnlyList<FractalResult> series
-       = Quotes.ToFractal(windowSpan, endType);
+       = Bars.ToFractal(windowSpan, endType);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         FractalList sut = new(windowSpan, endType);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        FractalList sut = new(windowSpan, endType) { Quotes };
+        FractalList sut = new(windowSpan, endType) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        FractalList sut = new(windowSpan, Quotes, endType);
+        FractalList sut = new(windowSpan, Bars, endType);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<FractalResult> expected = subset.ToFractal(windowSpan, endType);
 
         FractalList sut = new(windowSpan, subset, endType);
@@ -71,7 +71,7 @@ public class Fractal : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<FractalResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -87,10 +87,10 @@ public class Fractal : BufferListTestBase, ITestQuoteBufferList
         const int leftSpan = 2;
         const int rightSpan = 4;
 
-        IReadOnlyList<FractalResult> expected = Quotes.ToFractal(leftSpan, rightSpan, endType);
-        FractalList sut = new(leftSpan, rightSpan, Quotes, endType);
+        IReadOnlyList<FractalResult> expected = Bars.ToFractal(leftSpan, rightSpan, endType);
+        FractalList sut = new(leftSpan, rightSpan, Bars, endType);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 
@@ -99,10 +99,10 @@ public class Fractal : BufferListTestBase, ITestQuoteBufferList
     {
         const EndType closeType = EndType.Close;
 
-        IReadOnlyList<FractalResult> expected = Quotes.ToFractal(windowSpan, closeType);
-        FractalList sut = new(windowSpan, Quotes, closeType);
+        IReadOnlyList<FractalResult> expected = Bars.ToFractal(windowSpan, closeType);
+        FractalList sut = new(windowSpan, Bars, closeType);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 }

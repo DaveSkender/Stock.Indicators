@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// SuperTrend indicator from incremental quotes.
+/// SuperTrend indicator from incremental bars.
 /// </summary>
-public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
+public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromBar
 {
     private readonly AtrList _atrList;
     private readonly double _multiplier;
@@ -32,13 +32,13 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SuperTrendList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="SuperTrendList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public SuperTrendList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, multiplier) => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    public SuperTrendList(int lookbackPeriods, double multiplier, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods, multiplier) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -47,12 +47,12 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     public double Multiplier { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
         // Add to ATR list
-        _atrList.Add(quote);
+        _atrList.Add(bar);
 
         double? superTrend;
         double? upperOnly;
@@ -61,7 +61,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
         // Calculate when we have enough data
         if (Count >= LookbackPeriods)
         {
-            double? mid = ((double)quote.High + (double)quote.Low) / 2;
+            double? mid = ((double)bar.High + (double)bar.Low) / 2;
             double? atr = _atrList[^1].Atr;
 
             // potential bands
@@ -71,7 +71,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
             // initial values
             if (!_isInitialized)
             {
-                _isBullish = (double)quote.Close >= mid;
+                _isBullish = (double)bar.Close >= mid;
                 _upperBand = upperEval;
                 _lowerBand = lowerEval;
                 _isInitialized = true;
@@ -92,7 +92,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
             }
 
             // supertrend
-            if ((double)quote.Close <= (_isBullish ? _lowerBand : _upperBand))
+            if ((double)bar.Close <= (_isBullish ? _lowerBand : _upperBand))
             {
                 superTrend = _upperBand;
                 upperOnly = _upperBand;
@@ -107,7 +107,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
                 _isBullish = true;
             }
 
-            _prevClose = (double)quote.Close;
+            _prevClose = (double)bar.Close;
         }
         else
         {
@@ -117,20 +117,20 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
         }
 
         AddInternal(new SuperTrendResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             SuperTrend: (decimal?)superTrend,
             UpperBand: (decimal?)upperOnly,
             LowerBand: (decimal?)lowerOnly));
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -152,12 +152,12 @@ public static partial class SuperTrend
     /// <summary>
     /// Creates a buffer list for SuperTrend calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     public static SuperTrendList ToSuperTrendList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 10,
         double multiplier = 3)
-        => new(lookbackPeriods, multiplier, quotes);
+        => new(lookbackPeriods, multiplier, bars);
 }

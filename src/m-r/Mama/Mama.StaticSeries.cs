@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// MESA Adaptive Moving Average (MAMA) for a series of quotes indicator.
+/// MESA Adaptive Moving Average (MAMA) for a series of bars indicator.
 /// </summary>
 public static partial class Mama
 {
@@ -21,7 +21,7 @@ public static partial class Mama
         // check parameter arguments
         Validate(fastLimit, slowLimit);
 
-        // prefer HL2 when IQuote
+        // prefer HL2 when IBar
         IReadOnlyList<IReusable> values
             = source.ToPreferredList(CandlePart.HL2);
 

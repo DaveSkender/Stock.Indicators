@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Pivot Points using a stream hub.
 /// </summary>
 public class PivotPointsHub
-    : StreamHub<IQuote, PivotPointsResult>
+    : StreamHub<IBar, PivotPointsResult>
 {
 
     private int windowId;
@@ -16,8 +16,8 @@ public class PivotPointsHub
     private WindowPoint windowPoint;
 
     internal PivotPointsHub(
-        IQuoteProvider<IQuote> provider,
-        PeriodSize windowSize,
+        IBarProvider<IBar> provider,
+        BarInterval windowSize,
         PivotPointType pointType) : base(provider)
     {
         WindowSize = windowSize;
@@ -40,7 +40,7 @@ public class PivotPointsHub
     }
 
     /// <inheritdoc/>
-    public PeriodSize WindowSize { get; init; }
+    public BarInterval WindowSize { get; init; }
 
     /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
@@ -64,7 +64,7 @@ public class PivotPointsHub
         // Rebuild state up to the rollback point
         for (int p = 0; p <= restoreIndex; p++)
         {
-            IQuote q = ProviderCache[p];
+            IBar q = ProviderCache[p];
 
             if (p == 0)
             {
@@ -82,13 +82,13 @@ public class PivotPointsHub
 
     /// <inheritdoc/>
     protected override (PivotPointsResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Initialize on first quote
+        // Initialize on first bar
         if (i == 0)
         {
             windowId = PivotPoints.GetWindowNumber(item.Timestamp, WindowSize);
@@ -123,7 +123,7 @@ public class PivotPointsHub
         return (result, i);
     }
 
-    private void UpdateWindowState(IQuote q)
+    private void UpdateWindowState(IBar q)
     {
         int windowEval = PivotPoints.GetWindowNumber(q.Timestamp, WindowSize);
 
@@ -159,18 +159,18 @@ public class PivotPointsHub
 public static partial class PivotPoints
 {
     /// <summary>
-    /// Creates a PivotPoints streaming hub from a quote provider.
+    /// Creates a PivotPoints streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
-    /// <param name="windowSize">Size of the window for pivot calculation. Default is <see cref="PeriodSize.Month"/>.</param>
+    /// <param name="barProvider">Bar provider.</param>
+    /// <param name="windowSize">Size of the window for pivot calculation. Default is <see cref="BarInterval.Month"/>.</param>
     /// <param name="pointType">Type of pivot points to calculate. Default is <see cref="PivotPointType.Standard"/>.</param>
     /// <returns>An instance of <see cref="PivotPointsHub"/>.</returns>
     public static PivotPointsHub ToPivotPointsHub(
-        this IQuoteProvider<IQuote> quoteProvider,
-        PeriodSize windowSize = PeriodSize.Month,
+        this IBarProvider<IBar> barProvider,
+        BarInterval windowSize = BarInterval.Month,
         PivotPointType pointType = PivotPointType.Standard)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, windowSize, pointType);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new(barProvider, windowSize, pointType);
     }
 }

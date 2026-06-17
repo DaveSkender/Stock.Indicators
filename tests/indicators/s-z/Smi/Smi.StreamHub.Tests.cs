@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class SmiHubTest : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 13;
     private const int firstSmoothPeriods = 25;
@@ -9,48 +9,48 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     private const int signalPeriods = 3;
 
     private static readonly IReadOnlyList<SmiResult> expectedOriginal
-        = Quotes.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
+        = Bars.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotes = Quotes.ToList();
-        int length = Quotes.Count;
+        List<Bar> bars = Bars.ToList();
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(bars.Take(20));
 
         // initialize observer
-        SmiHub observer = quoteHub.ToSmiHub(
+        SmiHub observer = barHub.ToSmiHub(
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<SmiResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = quotes[i];
-            quoteHub.Add(q);
+            Bar q = bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<SmiResult> expectedRevised = RevisedQuotes.ToSmi(
+        IReadOnlyList<SmiResult> expectedRevised = RevisedBars.ToSmi(
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         actuals.Should().HaveCount(501);
@@ -58,39 +58,39 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<SmiResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<SmiResult> expected = bars
             .ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        SmiHub observer = quoteHub.ToSmiHub(
+        BarHub barHub = new(maxCacheSize);
+        SmiHub observer = barHub.ToSmiHub(
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -101,77 +101,77 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         const int emaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize chain: SMI then EMA over its Value
-        EmaHub observer = quoteHub
+        EmaHub observer = barHub
             .ToSmiHub(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // results from stream
         IReadOnlyList<EmaResult> sut = observer.Results;
 
         // time-series parity (revised)
-        IReadOnlyList<EmaResult> expected = RevisedQuotes
+        IReadOnlyList<EmaResult> expected = RevisedBars
             .ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
             .ToEma(emaPeriods);
 
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         SmiHub hub = new(
-            quoteHub, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
+            barHub, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
         hub.ToString().Should().Be($"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})");
     }
 
     [TestMethod]
-    public void IncrementalUpdates_WithStreamedQuotes_MatchesSeriesExactly()
+    public void IncrementalUpdates_WithStreamedBars_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub with incremental updates
-        QuoteHub quoteHub = new();
-        SmiHub observer = quoteHub.ToSmiHub(
+        // setup bar provider hub with incremental updates
+        BarHub barHub = new();
+        SmiHub observer = barHub.ToSmiHub(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
             signalPeriods);
 
-        // add quotes one by one
-        foreach (Quote quote in quotesList)
+        // add bars one by one
+        foreach (Bar bar in barsList)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         // close observations
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // verify consistency
-        IReadOnlyList<SmiResult> expected = Quotes.ToSmi(
+        IReadOnlyList<SmiResult> expected = Bars.ToSmi(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
@@ -188,8 +188,8 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         const int testSecondSmoothPeriods = 5;
         const int testSignalPeriods = 7;
 
-        QuoteHub quoteHub = new();
-        SmiHub observer = quoteHub.ToSmiHub(
+        BarHub barHub = new();
+        SmiHub observer = barHub.ToSmiHub(
             testLookbackPeriods,
             testFirstSmoothPeriods,
             testSecondSmoothPeriods,
@@ -209,8 +209,8 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     [TestMethod]
     public void DefaultParameters_OnHubInstantiation_UseExpectedDefaults()
     {
-        QuoteHub quoteHub = new();
-        SmiHub observer = quoteHub.ToSmiHub();
+        BarHub barHub = new();
+        SmiHub observer = barHub.ToSmiHub();
 
         // verify default properties
         observer.LookbackPeriods.Should().Be(13);
@@ -224,25 +224,25 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     public void StreamingAccuracy_VersusBatch_MatchesExactly()
     {
         // Test that streaming produces accurate results compared to batch processing
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
         // streaming calculation
-        QuoteHub quoteHub = new();
-        SmiHub streamObserver = quoteHub.ToSmiHub(
+        BarHub barHub = new();
+        SmiHub streamObserver = barHub.ToSmiHub(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
             signalPeriods);
 
-        foreach (Quote quote in quotesList)
+        foreach (Bar bar in barsList)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // batch calculation
-        IReadOnlyList<SmiResult> batchResults = Quotes.ToSmi(
+        IReadOnlyList<SmiResult> batchResults = Bars.ToSmi(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
@@ -254,35 +254,35 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void BatchProcessing_WithAllQuotesAtOnce_MatchesSeriesExactly()
+    public void BatchProcessing_WithAllBarsAtOnce_MatchesSeriesExactly()
     {
-        // Test batch processing with all quotes added at once
-        QuoteHub quoteHub = new();
-        SmiHub observer = quoteHub.ToSmiHub(
+        // Test batch processing with all bars added at once
+        BarHub barHub = new();
+        SmiHub observer = barHub.ToSmiHub(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
             signalPeriods);
 
-        // add all quotes at once
-        quoteHub.Add(Quotes);
-        quoteHub.EndTransmission();
+        // add all bars at once
+        barHub.Add(Bars);
+        barHub.EndTransmission();
 
         // verify against static series calculation
-        IReadOnlyList<SmiResult> expected = Quotes.ToSmi(
+        IReadOnlyList<SmiResult> expected = Bars.ToSmi(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
             signalPeriods);
 
-        observer.Cache.Should().HaveCount(Quotes.Count);
+        observer.Cache.Should().HaveCount(Bars.Count);
         observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<SmiResult> sut = Quotes.ToSmiHub(14, 20, 5, 3).Results;
+        IReadOnlyList<SmiResult> sut = Bars.ToSmiHub(14, 20, 5, 3).Results;
         sut.IsBetween(static x => x.Smi, -100, 100);
         sut.IsBetween(static x => x.Signal, -100, 100);
     }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Chandelier Exit.
 /// </summary>
 public class ChandelierHub
-    : ChainHub<IQuote, ChandelierResult>, IChandelier
+    : ChainHub<IBar, ChandelierResult>, IChandelier
 {
     private CircularDoubleBuffer _highBuffer;
     private CircularDoubleBuffer _lowBuffer;
@@ -12,7 +12,7 @@ public class ChandelierHub
     private double _prevAtr = double.NaN;
 
     internal ChandelierHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods,
         double multiplier,
         Direction type)
@@ -49,7 +49,7 @@ public class ChandelierHub
 
     /// <inheritdoc/>
     protected override (ChandelierResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -134,12 +134,12 @@ public class ChandelierHub
         int windowStart = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
         for (int p = windowStart; p <= restoreIndex; p++)
         {
-            IQuote q = ProviderCache[p];
+            IBar q = ProviderCache[p];
             _highBuffer.Add((double)q.High);
             _lowBuffer.Add((double)q.Low);
         }
 
-        // Set prevClose to the last retained quote's close
+        // Set prevClose to the last retained bar's close
         _prevClose = (double)ProviderCache[restoreIndex].Close;
 
         // Rebuild ATR state from LookbackPeriods to restoreIndex.
@@ -187,17 +187,17 @@ public class ChandelierHub
 public static partial class Chandelier
 {
     /// <summary>
-    /// Creates a Chandelier Exit streaming hub from a quotes provider.
+    /// Creates a Chandelier Exit streaming hub from a bars provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier to apply to the ATR.</param>
     /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     public static ChandelierHub ToChandelierHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 22,
         double multiplier = 3,
         Direction type = Direction.Long)
-             => new(quoteProvider, lookbackPeriods, multiplier, type);
+             => new(barProvider, lookbackPeriods, multiplier, type);
 }

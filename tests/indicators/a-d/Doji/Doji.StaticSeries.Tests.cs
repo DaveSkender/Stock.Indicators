@@ -6,7 +6,7 @@ public class Doji : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CandleResult> sut = Quotes
+        IReadOnlyList<CandleResult> sut = Bars
             .ToDoji();
 
         // proper quantities
@@ -40,23 +40,23 @@ public class Doji : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<CandleResult> r = BadQuotes
+        IReadOnlyList<CandleResult> r = BadBars
             .ToDoji();
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<CandleResult> r0 = Noquotes
+        IReadOnlyList<CandleResult> r0 = Nobars
             .ToDoji();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<CandleResult> r1 = Onequote
+        IReadOnlyList<CandleResult> r1 = Onebar
             .ToDoji();
 
         r1.Should().HaveCount(1);
@@ -65,7 +65,7 @@ public class Doji : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<CandleResult> sut = Quotes
+        IReadOnlyList<CandleResult> sut = Bars
             .ToDoji()
             .Condense();
 
@@ -77,9 +77,9 @@ public class Doji : StaticSeriesTestBase
     {
         // bad maximum change value
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToDoji(-0.00001));
+            static () => Bars.ToDoji(-0.00001));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToDoji(0.50001));
+            static () => Bars.ToDoji(0.50001));
     }
 }

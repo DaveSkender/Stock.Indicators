@@ -8,44 +8,44 @@ public class AtrStop : BufferListTestBase
     private const EndType endType = EndType.Close;
 
     private static readonly IReadOnlyList<AtrStopResult> series
-        = Quotes.ToAtrStop(lookbackPeriods, multiplier, endType);
+        = Bars.ToAtrStop(lookbackPeriods, multiplier, endType);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         AtrStopList sut = new(lookbackPeriods, multiplier, endType);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        AtrStopList sut = new(lookbackPeriods, multiplier, endType) { Quotes };
+        AtrStopList sut = new(lookbackPeriods, multiplier, endType) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        AtrStopList sut = new(lookbackPeriods, multiplier, endType, Quotes);
+        AtrStopList sut = new(lookbackPeriods, multiplier, endType, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<AtrStopResult> expected = subset.ToAtrStop(lookbackPeriods, multiplier, endType);
 
         AtrStopList sut = new(lookbackPeriods, multiplier, endType, subset);
@@ -72,7 +72,7 @@ public class AtrStop : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<AtrStopResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

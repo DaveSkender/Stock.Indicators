@@ -6,7 +6,7 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AtrResult> sut = Quotes
+        IReadOnlyList<AtrResult> sut = Bars
             .ToAtr();
 
         // proper quantities
@@ -43,15 +43,15 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public void MatchingTrueRange_AgainstTrResults_ProducesSameTrValues()
     {
-        IReadOnlyList<AtrResult> resultsAtr = Quotes
+        IReadOnlyList<AtrResult> resultsAtr = Bars
             .ToAtr(14);
 
-        IReadOnlyList<TrResult> resultsTr = Quotes
+        IReadOnlyList<TrResult> resultsTr = Bars
             .ToTr();
 
-        for (int i = 0; i < Quotes.Count; i++)
+        for (int i = 0; i < Bars.Count; i++)
         {
-            Quote q = Quotes[i];
+            Bar q = Bars[i];
             TrResult t = resultsTr[i];
             AtrResult r = resultsAtr[i];
 
@@ -64,7 +64,7 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToAtr(10)
             .ToSma(10);
 
@@ -73,9 +73,9 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AtrResult> r = BadQuotes
+        IReadOnlyList<AtrResult> r = BadBars
             .ToAtr(20);
 
         r.Should().HaveCount(502);
@@ -83,14 +83,14 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AtrResult> r0 = Noquotes
+        IReadOnlyList<AtrResult> r0 = Nobars
             .ToAtr();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AtrResult> r1 = Onequote
+        IReadOnlyList<AtrResult> r1 = Onebar
             .ToAtr();
 
         r1.Should().HaveCount(1);
@@ -99,7 +99,7 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<AtrResult> sut = Quotes
+        IReadOnlyList<AtrResult> sut = Bars
             .ToAtr()
             .RemoveWarmupPeriods();
 
@@ -118,7 +118,7 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToAtr(1))
+            .Invoking(static () => Bars.ToAtr(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

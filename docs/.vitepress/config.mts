@@ -123,15 +123,15 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/utilities/' },
             {
-              text: 'Quote utilities',
+              text: 'Bar utilities',
               collapsed: false,
               items: [
-                { text: 'Overview', link: '/utilities/quotes/' },
-                { text: 'Use alternate price', link: '/utilities/quotes/use-alternate-price' },
-                { text: 'Sort quotes', link: '/utilities/quotes/sort-quotes' },
-                { text: 'Resize quote history', link: '/utilities/quotes/resize-quote-history' },
-                { text: 'Extended candle properties', link: '/utilities/quotes/extended-candle-properties' },
-                { text: 'Validate quote history', link: '/utilities/quotes/validate-quote-history' },
+                { text: 'Overview', link: '/utilities/bars/' },
+                { text: 'Use alternate price', link: '/utilities/bars/use-alternate-price' },
+                { text: 'Sort bars', link: '/utilities/bars/sort-bars' },
+                { text: 'Resize bar history', link: '/utilities/bars/resize-bar-history' },
+                { text: 'Extended candle properties', link: '/utilities/bars/extended-candle-properties' },
+                { text: 'Validate bar history', link: '/utilities/bars/validate-bar-history' },
               ]
             },
             {
@@ -313,10 +313,10 @@ export default defineConfig({
           link: '/indicators/price-transforms',
           collapsed: true,
           items: [
-            { text: 'Basic quote transforms', link: '/indicators/QuotePart' },
+            { text: 'Basic bar transforms', link: '/indicators/BarPart' },
             { text: 'Ehlers Fisher Transform', link: '/indicators/FisherTransform' },
             { text: 'Heikin Ashi', link: '/indicators/HeikinAshi' },
-            { text: 'HL2, HLC3, OC2, OHL3, OHLC4', link: '/indicators/QuotePart' },
+            { text: 'HL2, HLC3, OC2, OHL3, OHLC4', link: '/indicators/BarPart' },
             { text: 'Renko Charts', link: '/indicators/Renko' },
             { text: 'ZigZag', link: '/indicators/ZigZag' },
           ]
@@ -390,7 +390,8 @@ export default defineConfig({
     // Case-sensitivity fix: serve CONTRIBUTING.md at /contributing
     'CONTRIBUTING.md': 'contributing.md',
     // Legacy routes
-    'indicators/BasicQuote': 'indicators/QuotePart',
+    'indicators/BasicQuote': 'indicators/BarPart',
+    'indicators/QuotePart': 'indicators/BarPart',
   },
 
   vite: {

@@ -1,28 +1,28 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for identifying Marubozu candlestick patterns in a series of quotes.
+/// Provides methods for identifying Marubozu candlestick patterns in a series of bars.
 /// </summary>
 public static partial class Marubozu
 {
     /// <summary>
-    /// Converts a list of quotes to Marubozu candlestick pattern results.
+    /// Converts a list of bars to Marubozu candlestick pattern results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu. Default is 95.</param>
     /// <returns>A list of <see cref="CandleResult"/> indicating the presence of Marubozu patterns.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the minimum body percentage is out of range.</exception>
     public static IReadOnlyList<CandleResult> ToMarubozu(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         double minBodyPercent = 95)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(minBodyPercent);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<CandleResult> results = new(length);
 
         minBodyPercent /= 100;
@@ -30,7 +30,7 @@ public static partial class Marubozu
         // roll through candles
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
             decimal? matchPrice = null;
             Match matchType = Match.None;
             CandleProperties candle = q.ToCandle();

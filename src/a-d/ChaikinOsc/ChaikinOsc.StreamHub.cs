@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Chaikin Oscillator.
 /// </summary>
 public class ChaikinOscHub
-    : ChainHub<IQuote, ChaikinOscResult>, IChaikinOsc
+    : ChainHub<IBar, ChaikinOscResult>, IChaikinOsc
 {
     internal ChaikinOscHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int fastPeriods,
         int slowPeriods) : base(provider)
     {
@@ -40,18 +40,18 @@ public class ChaikinOscHub
     public double SlowK { get; private init; }
     /// <inheritdoc/>
     protected override (ChaikinOscResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        IQuote quote = ProviderCache[i];
+        IBar bar = ProviderCache[i];
 
         // Calculate Money Flow Multiplier and Money Flow Volume (ADL components)
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
-        double volume = (double)quote.Volume;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
+        double volume = (double)bar.Volume;
 
         double mfm = high == low
             ? 0
@@ -134,7 +134,7 @@ public static partial class ChaikinOsc
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
     public static ChaikinOscHub ToChaikinOscHub(
-        this IQuoteProvider<IQuote> chainProvider,
+        this IBarProvider<IBar> chainProvider,
         int fastPeriods = 3,
         int slowPeriods = 10)
         => new(chainProvider, fastPeriods, slowPeriods);

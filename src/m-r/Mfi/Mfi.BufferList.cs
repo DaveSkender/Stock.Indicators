@@ -1,13 +1,13 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Money Flow Index (MFI) from incremental quotes.
+/// Money Flow Index (MFI) from incremental bars.
 /// </summary>
-public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
+public class MfiList : BufferList<MfiResult>, IIncrementFromBar
 {
     private readonly Queue<(double TruePrice, double MoneyFlow, int Direction)> _buffer;
     private double? _prevTruePrice;
-    private int _quotesProcessed;
+    private int _barsProcessed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MfiList"/> class.
@@ -19,35 +19,35 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
         Mfi.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
-        _quotesProcessed = 0;
+        _barsProcessed = 0;
 
         Name = $"MFI({lookbackPeriods})";
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MfiList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="MfiList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public MfiList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public MfiList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
         // Calculate true price
-        double truePrice = ((double)quote.High + (double)quote.Low + (double)quote.Close) / 3;
+        double truePrice = ((double)bar.High + (double)bar.Low + (double)bar.Close) / 3;
 
         // Calculate raw money flow
-        double moneyFlow = truePrice * (double)quote.Volume;
+        double moneyFlow = truePrice * (double)bar.Volume;
 
         // Determine direction
         int direction = _prevTruePrice == null || truePrice == _prevTruePrice
@@ -56,12 +56,12 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
 
         // Update buffer
         _buffer.Update(LookbackPeriods, (truePrice, moneyFlow, direction));
-        _quotesProcessed++;
+        _barsProcessed++;
 
         // Calculate MFI when we have enough data
-        // Need lookbackPeriods + 1 total quotes (at least one full buffer cycle)
+        // Need lookbackPeriods + 1 total bars (at least one full buffer cycle)
         double? mfi = null;
-        if (_quotesProcessed > LookbackPeriods)
+        if (_barsProcessed > LookbackPeriods)
         {
             double sumPosMFs = 0;
             double sumNegMFs = 0;
@@ -96,13 +96,13 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -112,7 +112,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
         base.Clear();
         _buffer.Clear();
         _prevTruePrice = null;
-        _quotesProcessed = 0;
+        _barsProcessed = 0;
     }
 }
 
@@ -121,10 +121,10 @@ public static partial class Mfi
     /// <summary>
     /// Creates a buffer list for Money Flow Index (MFI) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static MfiList ToMfiList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

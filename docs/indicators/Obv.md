@@ -15,14 +15,14 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 ```csharp
 // C# usage syntax
 IReadOnlyList<ObvResult> results =
-  quotes.ToObv();
+  bars.ToObv();
 ```
 
-## Historical quotes requirements
+## Historical bars requirements
 
-You must have at least two historical quotes to cover the warmup periods; however, since this is a trendline, more is recommended.
+You must have at least two historical bars to cover the warmup periods; however, since this is a trendline, more is recommended.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -30,8 +30,8 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 IReadOnlyList<ObvResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first period OBV will have a `0` value since there's not enough data to calculate.
 
@@ -39,7 +39,7 @@ IReadOnlyList<ObvResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Obv` | double | On-balance Volume |
 
 ::: warning
@@ -60,12 +60,12 @@ Results can be further processed on `Obv` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToObv(..)
     .ToRsi(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -76,24 +76,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 ObvList obvList = new();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  obvList.Add(quote);
+  obvList.Add(bar);
 }
 
 // based on `ICollection<ObvResult>`
 IReadOnlyList<ObvResult> results = obvList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-ObvHub observer = quoteHub.ToObvHub();
+BarHub barHub = new();
+ObvHub observer = barHub.ToObvHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<ObvResult> results = observer.Results;

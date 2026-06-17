@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Accumulation/Distribution Line (ADL) from incremental quotes.
+/// Accumulation/Distribution Line (ADL) from incremental bars.
 /// </summary>
-public class AdlList : BufferList<AdlResult>, IIncrementFromQuote
+public class AdlList : BufferList<AdlResult>, IIncrementFromBar
 {
     private double _previousAdl;
 
@@ -13,26 +13,26 @@ public class AdlList : BufferList<AdlResult>, IIncrementFromQuote
     public AdlList() { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AdlList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AdlList"/> class with initial bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public AdlList(IReadOnlyList<IQuote> quotes)
-        : this() => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    public AdlList(IReadOnlyList<IBar> bars)
+        : this() => Add(bars);
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
         // Calculate ADL using the Increment method
         AdlResult result = Adl.Increment(
             timestamp,
-            (double)quote.High,
-            (double)quote.Low,
-            (double)quote.Close,
-            (double)quote.Volume,
+            (double)bar.High,
+            (double)bar.Low,
+            (double)bar.Close,
+            (double)bar.Volume,
             _previousAdl);
 
         // Update previous ADL for next calculation
@@ -42,13 +42,13 @@ public class AdlList : BufferList<AdlResult>, IIncrementFromQuote
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -65,8 +65,8 @@ public static partial class Adl
     /// <summary>
     /// Creates a buffer list for Accumulation/Distribution Line calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     public static AdlList ToAdlList(
-        this IReadOnlyList<IQuote> quotes)
-        => new() { quotes };
+        this IReadOnlyList<IBar> bars)
+        => new() { bars };
 }

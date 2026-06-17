@@ -37,7 +37,7 @@ public static partial class Alligator
             lipsPeriods,
             lipsOffset);
 
-        // prefer HL2 when IQuote
+        // prefer HL2 when IBar
         IReadOnlyList<IReusable> values
             = source.ToPreferredList(CandlePart.HL2);
 

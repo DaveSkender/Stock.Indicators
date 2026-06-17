@@ -5,43 +5,43 @@ namespace Performance;
 [ShortRunJob]
 public class Utility
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> intraday = Data.GetIntraday();
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> intraday = Data.GetIntraday();
     private const int n = 14;
 
-    private static readonly Quote quote = quotes[0];
+    private static readonly Bar bar = bars[0];
 
     [Benchmark]
-    public object ToSortedList() => quotes.ToSortedList();
+    public object ToSortedList() => bars.ToSortedList();
 
     [Benchmark]
-    public object ToListQuoteD() => quotes.ToQuoteDList();
+    public object ToListBarD() => bars.ToBarDList();
 
     [Benchmark]
-    public object ToReusableClose() => quotes.ToReusable(CandlePart.Close);
+    public object ToReusableClose() => bars.ToReusable(CandlePart.Close);
 
     [Benchmark]
-    public object ToReusableOhlc4() => quotes.ToReusable(CandlePart.OHLC4);
+    public object ToReusableOhlc4() => bars.ToReusable(CandlePart.OHLC4);
 
     [Benchmark]
-    public object ToCandleResults() => quotes.ToCandles();
+    public object ToCandleResults() => bars.ToCandles();
 
     [Benchmark]
-    public object ToStringOutType() => quote.ToStringOut();
+    public object ToStringOutType() => bar.ToStringOut();
 
     [Benchmark]
-    public object ToStringOutList() => quotes.ToStringOut();
+    public object ToStringOutList() => bars.ToStringOut();
 
     [Benchmark]
-    public object Validate() => quotes.Validate();
+    public object Validate() => bars.Validate();
 
     [Benchmark]
-    public object Aggregate() => intraday.Aggregate(PeriodSize.FifteenMinutes);
+    public object Aggregate() => intraday.Aggregate(BarInterval.FifteenMinutes);
 
     [Benchmark]
     public object RemoveWarmupPeriods()
     {
-        IReadOnlyList<RsiResult> results = quotes.ToRsi(n);
+        IReadOnlyList<RsiResult> results = bars.ToRsi(n);
         return results.RemoveWarmupPeriods();
     }
 }

@@ -1,12 +1,12 @@
 ---
 title: Stock Indicators for .NET
-titleTemplate: Transform price quotes into trading insights
+titleTemplate: Transform price bars into trading insights
 layout: home
 isHome: true
 
 hero:
   name: stock indicators <small>for .NET</small>
-  tagline: Transform price quotes into trade indicators and market insights.
+  tagline: Transform price bars into trade indicators and market insights.
   actions:
     - theme: brand
       text: get started
@@ -27,9 +27,9 @@ import LandingCharts from './.vitepress/components/LandingCharts.vue'
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
 </p>
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price quotes into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price bars into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
 
-Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-quotes) price quotes from any market: equities, commodities, forex, or cryptocurrencies. A [Python version](https://python.stockindicators.dev/) is also available.
+Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-bars) price bars from any market: equities, commodities, forex, or cryptocurrencies. A [Python version](https://python.stockindicators.dev/) is also available.
 
 ## Industry-standard indicators with extensibility
 
@@ -43,7 +43,7 @@ Access a comprehensive library of battle-tested technical indicators used by tra
 
 ```csharp
 // example: calculate 20-period simple moving average
-IReadOnlyList<SmaResult> results = quotes.ToSma(20);
+IReadOnlyList<SmaResult> results = bars.ToSma(20);
 ```
 
 See more [usage examples](/guide/getting-started#example-usage).
@@ -62,14 +62,14 @@ See the [Indicator styles](/guide/styles/) guide for a full feature comparison.
 
 ## Incrementally add data with buffer lists <Badge type="warning" text="preview" />
 
-For scenarios where quotes arrive one at a time, buffer lists provide efficient incremental processing without recalculating the entire history.
+For scenarios where bars arrive one at a time, buffer lists provide efficient incremental processing without recalculating the entire history.
 
 ```csharp
 // create list
 SmaList smaList = new(lookbackPeriods: 20);
 
-// add new quotes incrementally
-smaList.Add(newQuote);
+// add new bars incrementally
+smaList.Add(newBar);
 ```
 
 Buffer lists maintain internal state and automatically manage the warmup period, making them ideal for basic live data feeds and incremental updates.
@@ -80,25 +80,25 @@ Hubs provides a reactive, subscription-based pattern for streaming market data w
 
 ```csharp
 // create provider with chain of indicators
-QuoteHub provider = new QuoteHub();
+BarHub provider = new BarHub();
 SmaHub smaHub = provider.ToSmaHub(20);
 RsiHub rsiHub = smaHub.ToRsiHub(14);  // RSI of SMA
 
-// publish quotes - observers auto-update in cascade
-provider.Add(newQuote);
+// publish bars - observers auto-update in cascade
+provider.Add(newBar);
 
 // consume downstream hubs indicators
 IReadOnlyList<RsiResult> results = rsiHub.Results;
 ```
 
 ```csharp
-QuoteHub quoteHub = new();
+BarHub barHub = new();
 
-EmaHub emaFast = quoteHub.ToEmaHub(50);
-EmaHub emaSlow = quoteHub.ToEmaHub(200);
+EmaHub emaFast = barHub.ToEmaHub(50);
+EmaHub emaSlow = barHub.ToEmaHub(200);
 
-// add quotes to quoteHub (from stream)
-quoteHub.Add(newQuote);
+// add bars to barHub (from stream)
+barHub.Add(newBar);
 // and the 2 EmaHubs will be in sync
 
 if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
@@ -108,7 +108,7 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 }
 ```
 
-The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.
+The observer cascade ensures that when a new bar arrives, all chained indicators update automatically in the correct sequence.
 
 See the [guide](/guide/getting-started) and the [full list of indicators and overlays](/indicators) for more information.
 
@@ -119,13 +119,13 @@ Chain indicators together for sophisticated technical analysis: create indicator
 ```csharp
 // example: calculate RSI of On-Balance Volume
 IReadOnlyList<RsiResult> results
-  = quotes
+  = bars
     .ToObv()
     .ToRsi(14);
 
 // example: use custom candle price variants
 IReadOnlyList<EmaResult> results
-  = quotes
+  = bars
     .Use(CandlePart.HL2)
     .ToEma(20);
 ```

@@ -14,7 +14,7 @@ Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppine
 ```csharp
 // C# usage syntax
 IReadOnlyList<ChopResult> results =
-  quotes.ToChop(lookbackPeriods);
+  bars.ToChop(lookbackPeriods);
 ```
 
 ## Parameters
@@ -23,11 +23,11 @@ IReadOnlyList<ChopResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `N+1` periods of `quotes` to cover the warmup periods.
+You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -35,8 +35,8 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<ChopResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values since there's not enough data to calculate.
 
@@ -44,7 +44,7 @@ IReadOnlyList<ChopResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Chop` | double | Choppiness Index |
 
 ### Utilities
@@ -62,12 +62,12 @@ Results can be further processed on `Chop` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToChop(..)
     .ToEma(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -78,24 +78,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 ChopList chopList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  chopList.Add(quote);
+  chopList.Add(bar);
 }
 
 // based on `ICollection<ChopResult>`
 IReadOnlyList<ChopResult> results = chopList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-ChopHub observer = quoteHub.ToChopHub(lookbackPeriods);
+BarHub barHub = new();
+ChopHub observer = barHub.ToChopHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<ChopResult> results = observer.Results;

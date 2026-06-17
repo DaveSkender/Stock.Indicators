@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Vortex indicator from incremental quotes.
+/// Vortex indicator from incremental bars.
 /// </summary>
-public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
+public class VortexList : BufferList<VortexResult>, IIncrementFromBar
 {
     private readonly Queue<(double Tr, double Pvm, double Nvm)> _buffer;
     private double _prevHigh;
@@ -27,25 +27,25 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VortexList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="VortexList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public VortexList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public VortexList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
 
         // Handle first period - no calculations possible
         if (!_isInitialized)
@@ -55,7 +55,7 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
             _prevClose = close;
             _isInitialized = true;
 
-            AddInternal(new VortexResult(quote.Timestamp));
+            AddInternal(new VortexResult(bar.Timestamp));
             return;
         }
 
@@ -95,7 +95,7 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
         }
 
         AddInternal(new VortexResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             Pvi: pvi,
             Nvi: nvi));
 
@@ -105,13 +105,13 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -132,10 +132,10 @@ public static partial class Vortex
     /// <summary>
     /// Creates a buffer list for Vortex calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static VortexList ToVortexList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

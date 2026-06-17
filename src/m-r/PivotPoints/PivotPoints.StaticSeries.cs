@@ -3,26 +3,26 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
-/// pivot points from a series of quotes indicator.
+/// pivot points from a series of bars indicator.
 /// </summary>
 public static partial class PivotPoints
 {
     /// <summary>
-    /// Converts a series of quotes to pivot points.
+    /// Converts a series of bars to pivot points.
     /// </summary>
-    /// <param name="quotes">Series of quotes.</param>
+    /// <param name="bars">Series of bars.</param>
     /// <param name="windowSize">Size of the window for pivot point calculation.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>A list of pivot point results.</returns>
     public static IReadOnlyList<PivotPointsResult> ToPivotPoints(
-        this IReadOnlyList<IQuote> quotes,
-        PeriodSize windowSize = PeriodSize.Month,
+        this IReadOnlyList<IBar> bars,
+        BarInterval windowSize = BarInterval.Month,
         PivotPointType pointType = PivotPointType.Standard)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<PivotPointsResult> results = new(length);
 
         WindowPoint windowPoint = new();
@@ -32,7 +32,7 @@ public static partial class PivotPoints
             return results;
         }
 
-        IQuote h0 = quotes[0];
+        IBar h0 = bars[0];
 
         int windowId = GetWindowNumber(h0.Timestamp, windowSize);
 
@@ -46,7 +46,7 @@ public static partial class PivotPoints
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
 
             // new window evaluation
             int windowEval = GetWindowNumber(q.Timestamp, windowSize);
@@ -139,23 +139,23 @@ public static partial class PivotPoints
     /// <param name="windowSize">Size of the window.</param>
     /// <returns>Window number.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
-    internal static int GetWindowNumber(DateTime d, PeriodSize windowSize)
+    internal static int GetWindowNumber(DateTime d, BarInterval windowSize)
 
         => windowSize switch {
 
-            PeriodSize.Month => d.Month,
+            BarInterval.Month => d.Month,
 
-            PeriodSize.Week => calendar.GetWeekOfYear(
+            BarInterval.Week => calendar.GetWeekOfYear(
                 d, calendarWeekRule, firstDayOfWeek),
 
-            PeriodSize.Day => d.Day,
-            PeriodSize.OneHour => d.Hour,
+            BarInterval.Day => d.Day,
+            BarInterval.OneHour => d.Hour,
 
             _ => throw new ArgumentOutOfRangeException(
                 nameof(windowSize), windowSize,
                 string.Format(
                     invariantCulture,
-                    "Pivot Points does not support PeriodSize of {0}. "
+                    "Pivot Points does not support BarInterval of {0}. "
                     + "See documentation for valid options.",
                     Enum.GetName(windowSize)))
         };

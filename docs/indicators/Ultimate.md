@@ -15,7 +15,7 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 ```csharp
 // C# usage syntax
 IReadOnlyList<UltimateResult> results =
-  quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
+  bars.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<UltimateResult> results =
 | `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
 | `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
 
-### Historical quotes requirements
+### Historical bars requirements
 
-You must have at least `L+1` periods of `quotes` to cover the warmup periods.
+You must have at least `L+1` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `L+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<UltimateResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical bars.
 - It does not return a single incremental indicator value.
 - The first `L-1` periods will have `null` Ultimate values since there's not enough data to calculate.
 
@@ -47,7 +47,7 @@ IReadOnlyList<UltimateResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Ultimate` | double | Ultimate Oscillator |
 
 ### Utilities
@@ -65,12 +65,12 @@ Results can be further processed on `Ultimate` with additional chain-enabled ind
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToUltimate(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -81,24 +81,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 UltimateList ultimateList = new(shortPeriods, middlePeriods, longPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  ultimateList.Add(quote);
+  ultimateList.Add(bar);
 }
 
 // based on `ICollection<UltimateResult>`
 IReadOnlyList<UltimateResult> results = ultimateList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-UltimateHub observer = quoteHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
+BarHub barHub = new();
+UltimateHub observer = barHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<UltimateResult> results = observer.Results;

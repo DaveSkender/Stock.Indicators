@@ -4,44 +4,44 @@ namespace BufferLists;
 public class HeikinAshi : BufferListTestBase
 {
     private static readonly IReadOnlyList<HeikinAshiResult> series
-       = Quotes.ToHeikinAshi();
+       = Bars.ToHeikinAshi();
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         HeikinAshiList sut = [];
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        HeikinAshiList sut = Quotes.ToHeikinAshiList();
+        HeikinAshiList sut = Bars.ToHeikinAshiList();
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        HeikinAshiList sut = new(Quotes);
+        HeikinAshiList sut = new(Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<HeikinAshiResult> expected = subset.ToHeikinAshi();
 
         HeikinAshiList sut = new(subset);
@@ -68,7 +68,7 @@ public class HeikinAshi : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<HeikinAshiResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

@@ -5,7 +5,7 @@ description: The Stock Indicators for .NET library is built for speed and produc
 
 # Performance benchmarks for v3.0.0
 
-These are the execution times for the current indicators using two years of historical daily stock quotes (502 periods) with default or typical parameters.
+These are the execution times for the current indicators using two years of historical daily stock bars (502 periods) with default or typical parameters.
 
 ## Series Style Benchmarks (v2/v3)
 
@@ -121,7 +121,7 @@ v3 introduces BufferList and StreamHub styles for incremental and real-time proc
 
 ### Performance Comparison
 
-| Style          | Use Case                | Relative Performance | Latency per Quote |
+| Style          | Use Case                | Relative Performance | Latency per Bar |
 |----------------|-------------------------|----------------------|-------------------|
 | **Series**     | Batch processing        | Baseline (fastest)   | N/A               |
 | **BufferList** | Incremental updates     | ~10-20% overhead     | <100μs typical    |
@@ -133,7 +133,7 @@ BufferList style provides efficient incremental processing with modest overhead:
 
 **Advantages:**
 
-- O(1) or O(log n) per-quote updates for most indicators
+- O(1) or O(log n) per-bar updates for most indicators
 - Automatic buffer management and memory pruning
 - No need to recalculate entire history on each update
 - Memory-efficient for growing datasets
@@ -141,9 +141,9 @@ BufferList style provides efficient incremental processing with modest overhead:
 **Performance Profile:**
 
 ```text
-Series (502 quotes):      ~25μs total
-BufferList (502 quotes):  ~30μs total (~20% overhead)
-Per-quote latency:        ~60ns average
+Series (502 bars):      ~25μs total
+BufferList (502 bars):  ~30μs total (~20% overhead)
+Per-bar latency:        ~60ns average
 ```
 
 **Example indicators:**
@@ -159,7 +159,7 @@ StreamHub style adds observable patterns and state management:
 
 **Advantages:**
 
-- Single quote update propagates to multiple observers
+- Single bar update propagates to multiple observers
 - Built-in rollback support for late-arriving data
 - Indicator chaining with automatic updates
 - Optimized for low-latency real-time scenarios
@@ -167,9 +167,9 @@ StreamHub style adds observable patterns and state management:
 **Performance Profile:**
 
 ```text
-Series (502 quotes):      ~25μs total
-StreamHub (502 quotes):   ~32μs total (~28% overhead)
-Per-quote latency:        ~64ns average
+Series (502 bars):      ~25μs total
+StreamHub (502 bars):   ~32μs total (~28% overhead)
+Per-bar latency:        ~64ns average
 Rollback (late Add):      ~2-5μs for state rebuild
 ```
 
@@ -177,7 +177,7 @@ Rollback (late Add):      ~2-5μs for state rebuild
 
 - Hub overhead is amortized across multiple observers
 - 5 indicators on 1 hub ≈ 1.5× single Series calculation
-- Linear scaling with number of quotes
+- Linear scaling with number of bars
 - Cache size grows with lookback periods
 
 ### Memory Overhead
@@ -203,8 +203,8 @@ Real-time performance targets for trading applications:
 
 | Scenario                           | Target  | Typical Performance |
 |------------------------------------|---------|---------------------|
-| Single indicator per quote         | <100μs  | 60-80μs             |
-| 5 indicators on hub per quote      | <500μs  | 300-400μs           |
+| Single indicator per bar         | <100μs  | 60-80μs             |
+| 5 indicators on hub per bar      | <500μs  | 300-400μs           |
 | Complex chains (EMA→RSI→Slope)     | <200μs  | 120-150μs           |
 | State rebuild (Add/Remove)         | <5ms    | 2-3ms               |
 
@@ -228,7 +228,7 @@ Real-time performance targets for trading applications:
 
 - Multiple indicators need synchronized updates
 - Live data feeds or WebSocket integration
-- Low latency per quote is critical
+- Low latency per bar is critical
 - State management and rollback support needed
 
 ### Benchmarking Notes
@@ -238,12 +238,12 @@ All benchmarks performed on:
 - AMD EPYC 7763, 1 CPU, 4 logical and 2 physical cores
 - .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
 - Ubuntu 22.04.5 LTS (Jammy Jellyfish)
-- 502 periods of historical daily quotes
+- 502 periods of historical daily bars
 - Default or typical indicator parameters
 
 Performance may vary based on:
 
 - Indicator complexity and lookback periods
-- Quote frequency (tick, minute, hour, daily)
+- Bar frequency (tick, minute, hour, daily)
 - Hardware specifications and .NET version
 - Number of concurrent calculations
