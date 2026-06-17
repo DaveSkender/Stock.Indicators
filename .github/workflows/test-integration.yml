@@ -14,6 +14,7 @@ on:
       - "tests/integration/**"
       - "tools/sse-server/**"
       - ".github/workflows/test-integration.yml"
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
 concurrency:
@@ -24,6 +25,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    if: ${{ !github.event.pull_request.draft }}
 
     permissions:
       contents: read
