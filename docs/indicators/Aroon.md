@@ -11,13 +11,13 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 **Aroon Up/Down** — two lines tracking how recently each window saw a new high (Up) or low (Down).
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Aroon" />
+  <StockIndicatorChart indicator="Aroon" withOverlay />
 </ClientOnly>
 
 **Aroon Oscillator** — the difference `Up − Down`, presented as a single oscillator that crosses zero when the dominant trend flips.
 
 <ClientOnly>
-  <StockIndicatorChart indicator="AroonOsc" />
+  <StockIndicatorChart indicator="AroonOsc" withOverlay />
 </ClientOnly>
 
 ```csharp

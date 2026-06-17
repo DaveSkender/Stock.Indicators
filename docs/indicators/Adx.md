@@ -9,7 +9,7 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Adx" />
+  <StockIndicatorChart indicator="Adx" withOverlay />
 </ClientOnly>
 
 ```csharp

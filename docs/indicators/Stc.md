@@ -9,7 +9,7 @@ Created by Doug Schaff, the [Schaff Trend Cycle](https://www.investopedia.com/ar
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/570 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Stc" />
+  <StockIndicatorChart indicator="Stc" withOverlay />
 </ClientOnly>
 
 ```csharp

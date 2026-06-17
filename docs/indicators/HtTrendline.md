@@ -17,7 +17,7 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 **Dominant Cycle Periods** — the companion oscillator showing the inferred cycle length at each bar.
 
 <ClientOnly>
-  <StockIndicatorChart indicator="DcPeriods" />
+  <StockIndicatorChart indicator="DcPeriods" withOverlay />
 </ClientOnly>
 
 ```csharp

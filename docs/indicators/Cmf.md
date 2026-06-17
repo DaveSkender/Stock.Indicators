@@ -9,7 +9,7 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/261 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Cmf" />
+  <StockIndicatorChart indicator="Cmf" withOverlay />
 </ClientOnly>
 
 ```csharp

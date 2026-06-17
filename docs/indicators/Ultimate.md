@@ -9,7 +9,7 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/231 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Ultimate" />
+  <StockIndicatorChart indicator="Ultimate" withOverlay />
 </ClientOnly>
 
 ```csharp

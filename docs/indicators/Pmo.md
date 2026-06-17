@@ -9,7 +9,7 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/244 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Pmo" />
+  <StockIndicatorChart indicator="Pmo" withOverlay />
 </ClientOnly>
 
 ```csharp

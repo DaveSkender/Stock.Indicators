@@ -9,7 +9,7 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/271 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Adl" />
+  <StockIndicatorChart indicator="Adl" withOverlay />
 </ClientOnly>
 
 ```csharp

@@ -9,7 +9,7 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/300 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Tsi" />
+  <StockIndicatorChart indicator="Tsi" withOverlay />
 </ClientOnly>
 
 ```csharp

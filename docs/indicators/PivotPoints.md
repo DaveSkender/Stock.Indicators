@@ -9,6 +9,10 @@ description: Pivot Points depict classic support and resistance levels, based on
 
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
 
+<ClientOnly>
+  <StockIndicatorChart indicator="PivotPoints" />
+</ClientOnly>
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotPointsResult> results =
