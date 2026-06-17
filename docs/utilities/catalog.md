@@ -26,19 +26,24 @@ using Skender.Stock.Indicators;
 IReadOnlyList<IndicatorListing> all = Catalog.Get();
 
 // a single listing by ID + style (null if not found)
-IndicatorListing? emaSeries = Catalog.Get("EMA", Style.Series);
+IndicatorListing? emaSeries
+  = Catalog.Get("EMA", Style.Series);
 
 // all styles available for one ID
-IReadOnlyList<IndicatorListing> allEma = Catalog.Get("EMA");
+IReadOnlyList<IndicatorListing> allEma
+  = Catalog.Get("EMA");
 
 // filter by style
-IReadOnlyList<IndicatorListing> seriesOnly = Catalog.Get(Style.Series);
+IReadOnlyList<IndicatorListing> seriesOnly
+  = Catalog.Get(Style.Series);
 
 // filter by category
-IReadOnlyList<IndicatorListing> movingAverages = Catalog.Get(Category.MovingAverage);
+IReadOnlyList<IndicatorListing> movingAverages
+  = Catalog.Get(Category.MovingAverage);
 
 // partial-match search on ID or name (empty query returns all)
-IReadOnlyList<IndicatorListing> matches = Catalog.Search("average");
+IReadOnlyList<IndicatorListing> matches 
+  = Catalog.Search("average");
 ```
 
 | Method | Returns | Description |
