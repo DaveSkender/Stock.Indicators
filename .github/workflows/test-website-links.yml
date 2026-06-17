@@ -6,6 +6,7 @@ on:
     paths:
       - docs/**
       - .github/workflows/test-website-links.yml
+    types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
   contents: read
@@ -22,6 +23,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    if: ${{ !github.event.pull_request.draft }}
     defaults:
       run:
         working-directory: docs

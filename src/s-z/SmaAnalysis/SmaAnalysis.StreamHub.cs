@@ -6,12 +6,15 @@ namespace Skender.Stock.Indicators;
 public class SmaAnalysisHub
     : ChainHub<IReusable, SmaAnalysisResult>, ISma
 {
+    private readonly Queue<double> buffer;
+
     internal SmaAnalysisHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        buffer = new Queue<double>(lookbackPeriods);
         Name = $"SMA-ANALYSIS({lookbackPeriods})";
 
         // Validate cache size for warmup requirements
@@ -30,40 +33,36 @@ public class SmaAnalysisHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate SMA and analysis metrics efficiently using a rolling window over ProviderCache
-        // This is O(lookbackPeriods) per update (linear in lookbackPeriods)
-        // and maintains exact precision with Series implementation
+        // advance the rolling window of raw values and emit once it is full
+        buffer.Update(LookbackPeriods, item.Value);
+
         double? sma = null;
         double? mad = null;
         double? mse = null;
         double? mape = null;
 
-        if (i >= LookbackPeriods - 1)
+        double smaValue = buffer.Average(LookbackPeriods);
+
+        if (!double.IsNaN(smaValue))
         {
-            double smaValue = Sma.Increment(ProviderCache, LookbackPeriods, i);
+            sma = smaValue;
 
-            if (!double.IsNaN(smaValue))
+            // analysis metrics over the same rolling window of raw values
+            double sumMad = 0;
+            double sumMse = 0;
+            double sumMape = 0;
+
+            foreach (double value in buffer)
             {
-                sma = smaValue;
-
-                // Calculate analysis metrics
-                double sumMad = 0;
-                double sumMse = 0;
-                double sumMape = 0;
-
-                for (int p = i - LookbackPeriods + 1; p <= i; p++)
-                {
-                    double value = ProviderCache[p].Value;
-                    sumMad += Math.Abs(value - sma.Value);
-                    sumMse += (value - sma.Value) * (value - sma.Value);
-
-                    sumMape += value != 0 ? Math.Abs(value - sma.Value) / value : double.NaN;
-                }
-
-                mad = (sumMad / LookbackPeriods).NaN2Null();
-                mse = (sumMse / LookbackPeriods).NaN2Null();
-                mape = (sumMape / LookbackPeriods).NaN2Null();
+                double diff = value - smaValue;
+                sumMad += Math.Abs(diff);
+                sumMse += diff * diff;
+                sumMape += value != 0 ? Math.Abs(diff) / value : double.NaN;
             }
+
+            mad = (sumMad / LookbackPeriods).NaN2Null();
+            mse = (sumMse / LookbackPeriods).NaN2Null();
+            mape = (sumMape / LookbackPeriods).NaN2Null();
         }
 
         // candidate result
@@ -77,6 +76,29 @@ public class SmaAnalysisHub
         return (r, i);
     }
 
+    /// <summary>
+    /// Restores the buffer state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(int restoreIndex)
+    {
+        buffer.Clear();
+
+        if (restoreIndex < 0)
+        {
+            return;
+        }
+
+        // rebuild from the last LookbackPeriods preserved values; the item at
+        // restoreIndex is preserved (not replayed through ToIndicator), so it
+        // is included here
+        int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= restoreIndex; p++)
+        {
+            buffer.Update(LookbackPeriods, ProviderCache[p].Value);
+        }
+    }
 }
 
 /// <summary>

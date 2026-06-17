@@ -9,8 +9,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="BollingerBands" />
-  <StockIndicatorChart indicator="BollingerBandsPctB" />
+  <StockIndicatorChart indicator="BollingerBands" with="BollingerBandsPctB" />
 </ClientOnly>
 
 ```csharp
@@ -84,7 +83,7 @@ var results = quotes
     .ToRsi(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -116,4 +115,4 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<BollingerBandsResult> results = observer.Results;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

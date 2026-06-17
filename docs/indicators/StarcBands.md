@@ -22,7 +22,7 @@ IReadOnlyList<StarcBandsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10. |
+| `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.  Default is 5. |
 | `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
 | `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10. |
 
@@ -69,7 +69,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -101,4 +101,4 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<StarcBandsResult> results = observer.Results;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

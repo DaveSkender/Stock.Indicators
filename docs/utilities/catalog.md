@@ -5,79 +5,172 @@ description: Programmatic access to indicator metadata for building dynamic UIs 
 
 # Indicator catalog (metadata)
 
-Use the indicator catalog to discover indicators, build simple pickers, or export metadata for a UI.
+Use the indicator catalog to discover indicators, inspect their parameters and results, build pickers or configuration UIs, and execute a selected indicator without hard-coding its method call.
 
-- Discover indicators and parameters at runtime
-- Build configuration UIs or export to JSON
-- Optionally execute an indicator by ID (no compile-time generics required)
+- Discover indicators, parameters, and results at runtime
+- Build configuration UIs from indicator metadata, or export it to JSON or Markdown
+- Execute a selected indicator from its listing, without hard-coding the method call
 
 ::: info Non-idiomatic
 _The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide/getting-started) for normal syntax examples.
 :::
 
-## Browse or export the catalog
+## Browse and search the catalog
+
+All query methods are on the static `Catalog` class and return `IndicatorListing` metadata (no calculations are run).
 
 ```csharp
 using Skender.Stock.Indicators;
-using System.Text.Json;
 
-// all listings (name, id, style, category, parameters, results)
-IReadOnlyCollection<IndicatorListing> indicatorListings
-    = CatalogRegistry.Get();
+// all listings
+IReadOnlyCollection<IndicatorListing> all = Catalog.Get();
 
-// optional: filter helpers
-IndicatorListing? emaSeriesListing 
-    = CatalogRegistry.Get("EMA", Style.Series);
+// a single listing by ID + style (null if not found)
+IndicatorListing? emaSeries = Catalog.Get("EMA", Style.Series);
 
-IReadOnlyCollection<IndicatorListing> seriesListings
-    = CatalogRegistry.Get(Style.Series);
+// all styles available for one ID
+IReadOnlyCollection<IndicatorListing> allEma = Catalog.Get("EMA");
 
-// convert to JSON
-string catalogJson = myListings.ToJson();
+// filter by style
+IReadOnlyCollection<IndicatorListing> seriesOnly = Catalog.Get(Style.Series);
+
+// filter by category
+IReadOnlyCollection<IndicatorListing> movingAverages = Catalog.Get(Category.MovingAverage);
+
+// partial-match search on ID or name (empty query returns all)
+IReadOnlyCollection<IndicatorListing> matches = Catalog.Search("average");
 ```
 
-## Execute by ID (dynamic)
+| Method | Returns | Description |
+| ------ | ------- | ----------- |
+| `Get()` | `IReadOnlyCollection<IndicatorListing>` | All listings |
+| `Get(string id, Style style)` | `IndicatorListing?` | One listing, or `null` if not found |
+| `Get(string id)` | `IReadOnlyCollection<IndicatorListing>` | All styles for an ID |
+| `Get(Style style)` | `IReadOnlyCollection<IndicatorListing>` | Listings of a given style |
+| `Get(Category category)` | `IReadOnlyCollection<IndicatorListing>` | Listings in a category |
+| `Search(string query)` | `IReadOnlyCollection<IndicatorListing>` | Partial (case-insensitive) match on ID or name |
+
+## Listing metadata
+
+Each `IndicatorListing` describes one indicator-and-style combination. This is the metadata you bind a UI to.
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Uiid` | `string` | Unique indicator ID (e.g. `"EMA"`) |
+| `Name` | `string` | Display name |
+| `Style` | `Style` | `Series`, `Buffer`, or `Stream` |
+| `Category` | `Category` | Indicator category (see below) |
+| `Parameters` | `IReadOnlyList<IndicatorParam>?` | Input parameters (`null` when there are none) |
+| `Results` | `IReadOnlyList<IndicatorResult>` | Output fields the indicator produces |
+| `ReturnType` | `string?` | Result type name |
+| `MethodName` | `string?` | Method name, for automation use cases |
+| `LegendTemplate` | `string` | Legend template for charting |
+
+`IndicatorParam` (each input parameter):
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `DisplayName` | `string` | Human-friendly label |
+| `ParameterName` | `string` | Method parameter name (use this with `WithParamValue`) |
+| `DataType` | `string` | Parameter type name |
+| `Description` | `string?` | Optional description |
+| `IsRequired` | `bool` | Whether the parameter must be supplied |
+| `DefaultValue` | `object?` | Default value, if any |
+| `Minimum` / `Maximum` | `double?` | Recommended bounds, if any |
+| `EnumOptions` | `Dictionary<int, string>?` | Allowed values for enum parameters (`null` otherwise) |
+
+`IndicatorResult` (each output field):
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `DisplayName` | `string` | Human-friendly label |
+| `DataName` | `string` | Result property name (e.g. `"Ema"`) |
+| `DataType` | `ResultType` | Charting/display hint |
+| `IsReusable` | `bool` | `true` for the field exposed as the chainable `IReusable.Value` |
+
+Example — inspect an indicator's inputs:
 
 ```csharp
-// run an indicator using just ID + Style
-IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
-    id: "EMA",
-    style: Style.Series,
-    parameters: new() {
-        { "lookbackPeriods", lookback }
-    });
+IndicatorListing? listing = Catalog.Get("EMA", Style.Series);
+
+foreach (IndicatorParam p in listing?.Parameters ?? [])
+{
+    Console.WriteLine(
+        $"{p.DisplayName} ({p.DataType}), required: {p.IsRequired}, default: {p.DefaultValue}");
+}
 ```
 
-## Execute by config (JSON)
+### Enums
+
+- **`Style`**: `Series`, `Buffer`, `Stream` — the three [indicator styles](/guide/styles/).
+- **`Category`**: `Undefined`, `CandlestickPattern`, `MovingAverage`, `Oscillator`, `PriceChannel`, `PriceCharacteristic`, `PricePattern`, `PriceTransform`, `PriceTrend`, `StopAndReverse`, `VolumeBased`.
+- **`ResultType`**: `Default`, `Centerline`, `Channel`, `Bar`, `BarStacked`, `Point` — display hints for charting libraries.
+
+## Export the catalog
+
+These extension methods serialize an `IReadOnlyCollection<IndicatorListing>` (typically `Catalog.Get()`). Each accepts an optional file path; when provided, the content is written to that file and also returned.
 
 ```csharp
-string json = """
-    {
-        "id" : "EMA",
-        "style" : "Series",
-        "parameters" : { "lookbackPeriods" : 20 }
-    }
-    """;
+IReadOnlyCollection<IndicatorListing> catalog = Catalog.Get();
 
-IReadOnlyList<EmaResult> emaResultsFromJson
-    = quotes.ExecuteFromJson<EmaResult>(json);
+// JSON (indented, camelCase, string enums)
+string json = catalog.ToJson();
+catalog.ToJson("catalog.json");                       // also writes to file
+
+// Markdown checklist: "- [ ] {id}: {name} ({styles})"
+string checklist = catalog.ToMarkdownChecklist();
+
+// Markdown table with ID, Name, Series, Buffer, Stream columns
+string table = catalog.ToMarkdownTable();
 ```
 
-## Execute with strong typing
+| Method | Output |
+| ------ | ------ |
+| `ToJson(filePath?)` | JSON array of listings |
+| `ToMarkdownChecklist(filePath?)` | Markdown checklist, one row per indicator ID |
+| `ToMarkdownTable(filePath?)` | Markdown table with a column per style |
+
+## Execute from a listing
+
+Look up a listing, then run it for strongly-typed results without calling the indicator's extension method directly:
 
 ```csharp
-// prefer typed results when you know the indicator
-IndicatorListing indicatorListing = IndicatorRegistry
-  .GetByIdAndStyle("EMA", Style.Series)
+IndicatorListing indicatorListing = Catalog
+  .Get("EMA", Style.Series)
   ?? throw new InvalidOperationException("Indicator 'EMA' (Series) not found.");
 
-// Call the quotes overload directly
-IReadOnlyList<EmaResult> emaResultsWithDefaults = indicatorListing
+// run with the catalog's default parameters
+IReadOnlyList<EmaResult> emaWithDefaults = indicatorListing
   .Execute<EmaResult>(quotes);
 
-// Or with specified parameters
-IReadOnlyList<EmaResult> emaResultsWithParams = indicatorListing
-  .FromSource(quotes)
+// or override parameters with the fluent builder
+IReadOnlyList<EmaResult> emaWithParams = indicatorListing
   .WithParamValue("lookbackPeriods", 10)
+  .FromSource((IEnumerable<IQuote>)quotes)  // cast selects the quotes overload
   .Execute<EmaResult>();
 ```
+
+The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `FromSource(quotes)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata.
+
+::: tip Disambiguate the quotes overload
+Because `Quote` implements both `IQuote` and `IReusable`, a `quotes` collection matches both `FromSource(quotes)` and the `FromSource(series, …)` chaining overload. Cast to `(IEnumerable<IQuote>)` (as above) to select the quotes overload. The simpler `listing.Execute<TResult>(quotes)` form needs no cast.
+:::
+
+## Execute from a saved configuration
+
+`IndicatorConfig` is a serializable description of an indicator selection and its parameter overrides — useful for persisting a user's choices (per strategy, dashboard, etc.) and replaying them later.
+
+```csharp
+// build (or deserialize) a configuration
+IndicatorConfig config = new()
+{
+    Id = "EMA",
+    Style = Style.Series,
+    Parameters = new Dictionary<string, object> { ["lookbackPeriods"] = 20 }
+};
+
+// run it against quotes
+IReadOnlyList<EmaResult> results = config.Execute<EmaResult>(quotes);
+```
+
+Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluent configuration, or `IndicatorConfig.FromBuilder(builder)` to capture an existing builder's settings back into a config for storage.

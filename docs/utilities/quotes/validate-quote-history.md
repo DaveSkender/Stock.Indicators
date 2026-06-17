@@ -5,7 +5,7 @@ description: Advanced validation to detect duplicates and bad data in quotes.
 
 # Validate quote history
 
-`quotes.Validate()` is an advanced check of your `IReadOnlyList<IQuote> quotes`. It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.
+`quotes.Validate()` is an advanced check of your `IReadOnlyList<IQuote> quotes`. It checks for duplicate timestamps and out-of-sequence (non-ascending) dates, and throws an `InvalidQuotesException` if either is found.
 
 ## Syntax
 
@@ -66,19 +66,9 @@ var badQuotes = new List<Quote> {
 badQuotes.Validate(); // throws
 ```
 
-### Missing required data
-
-Ensures all required fields are present and valid:
-
-- Timestamp must be set
-- Price values must be non-negative
-- High must be >= Low
-- High must be >= Open and Close
-- Low must be <= Open and Close
-
 ### Chronological order
 
-The validator enforces chronological order and throws InvalidQuotesException for any out-of-order quotes.
+The validator enforces chronological order and throws `InvalidQuotesException` for any out-of-order (descending) quotes.
 
 ## When to use
 
@@ -154,12 +144,12 @@ try
 }
 catch (InvalidQuotesException ex)
 {
-  if (ex.Message.Contains("duplicate"))
+  if (ex.Message.Contains("Duplicate"))
   {
     // handle duplicate timestamps
     quotes = RemoveDuplicates(quotes);
   }
-  else if (ex.Message.Contains("order"))
+  else if (ex.Message.Contains("out of sequence"))
   {
     // handle sort order issues
     quotes = quotes.ToSortedList();

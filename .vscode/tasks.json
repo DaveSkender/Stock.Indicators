@@ -17,7 +17,7 @@
         "analyze",
         "fix"
       ],
-      "default": "fix",
+      "default": "analyze",
       "type": "pickString"
     },
     {
@@ -29,7 +29,7 @@
         "info",
         "hidden"
       ],
-      "default": "info",
+      "default": "hidden",
       "type": "pickString"
     },
     {
@@ -98,10 +98,9 @@
       "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
       "group": "build",
       "dependsOn": [
-        "Setup: Dev tools",
         "Git: pull",
         "Clean: .NET Solution (dotnet clean)",
-        "Install: All code dependencies",
+        "Setup: Dev tools",
         "Build: .NET Solution (not incremental)",
         "Lint: .NET code & markdown files (fix)",
         "Test: Unit tests"
@@ -111,8 +110,12 @@
     {
       "label": "Setup: Dev tools",
       "detail": "Complete one-time environment setup (global tools and packages)",
-      "type": "shell",
-      "command": "bash .devcontainer/post-create.sh",
+      "dependsOn": [
+        "Install: .NET tools",
+        "Install: All code dependencies",
+        "Install: Chrome for Puppeteer"
+      ],
+      "dependsOrder": "parallel",
       "problemMatcher": [
         "$msCompile",
         "$eslint-compact"
@@ -136,7 +139,7 @@
       "detail": "Restore .NET and NPM packages",
       "dependsOn": [
         "Install: .NET packages",
-        "Install: Node packages (pnpm)"
+        "Install: Node packages"
       ],
       "dependsOrder": "parallel"
     },
@@ -146,7 +149,6 @@
       "type": "shell",
       "command": "dotnet restore && dotnet restore docs/examples && dotnet tool run dotnet-outdated --exclude FluentAssertions",
       "dependsOn": "Install: .NET tools",
-      "dependsOrder": "sequence",
       "problemMatcher": "$msCompile"
     },
     {
@@ -165,19 +167,17 @@
       "detail": "List outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
       "command": "dotnet tool run dotnet-outdated --exclude FluentAssertions && dotnet tool run dotnet-outdated docs/examples",
-      "dependsOn": "Install: .NET tools",
-      "dependsOrder": "sequence"
+      "dependsOn": "Install: .NET tools"
     },
     {
       "label": "Update: .NET packages (outdated --upgrade)",
       "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
       "command": "dotnet tool run dotnet-outdated --upgrade --exclude FluentAssertions && dotnet tool run dotnet-outdated --upgrade docs/examples",
-      "dependsOn": "Install: .NET tools",
-      "dependsOrder": "sequence"
+      "dependsOn": "Install: .NET tools"
     },
     {
-      "label": "Install: Node packages (pnpm)",
+      "label": "Install: Node packages",
       "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
       "command": "NODE_AUTH_TOKEN=$(gh auth token) pnpm install --config.confirmModulesPurge=false",
@@ -185,17 +185,7 @@
         "cwd": "${workspaceFolder}/docs"
       }
     },
-    {
-      "label": "Clean: Node packages",
-      "detail": "Delete node_modules and lock files",
-      "type": "shell",
-      "command": "pnpm run clean",
-      "options": {
-        "cwd": "${workspaceFolder}/docs"
-      },
-      "dependsOn": "Stop: All hosted servers",
-      "dependsOrder": "sequence"
-    },
+
     {
       "label": "Check: Node packages",
       "detail": "Check for dependency updates in root and all workspace packages",
@@ -210,11 +200,10 @@
       "detail": "Update dependencies in root and all workspace packages to latest versions",
       "type": "shell",
       "command": "NODE_AUTH_TOKEN=$(gh auth token) npx npm-check-updates --deep --peer --upgrade && NODE_AUTH_TOKEN=$(gh auth token) pnpm install --config.confirmModulesPurge=false",
-      "dependsOn": "Install: Node packages (pnpm)",
-      "dependsOrder": "sequence",
+      "dependsOn": "Install: Node packages",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
+      }
     },
     {
       "label": "Clean: Website build cache",
@@ -233,25 +222,52 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Delete: Temporary caches",
-      "detail": "Delete bin, obj, node_modules, other caches, and lock files",
+      "label": "Clean: .NET (full)",
+      "detail": "Delete .NET build artifacts and caches (bin, obj, TestResults, BenchmarkDotNet.Artifacts)",
       "type": "shell",
       "command": "bash tools/scripts/dotnet-clean.sh",
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Delete: Temporary caches (and restore)",
-      "detail": "Delete temporary caches then restore",
+      "label": "Clean: Docs (vitepress)",
+      "detail": "Clean VitePress build outputs and docs caches",
       "type": "shell",
-      "command": "bash tools/scripts/dotnet-clean.sh && dotnet restore --force-evaluate",
-      "problemMatcher": "$msCompile"
+      "command": "bash tools/scripts/docs-clean.sh",
+      "dependsOn": [
+        "Stop: All hosted servers"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     },
     {
-      "label": "Delete: Temporary caches (and build)",
-      "detail": "Delete temporary caches then rebuild",
+      "label": "Clean: Docs (node)",
+      "detail": "Run package-manager clean for docs (pnpm)",
       "type": "shell",
-      "command": "bash tools/scripts/dotnet-clean.sh && dotnet build --no-incremental",
-      "problemMatcher": "$msCompile"
+      "command": "pnpm --prefix docs run clean",
+      "dependsOn": [
+        "Stop: All hosted servers"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean: Docs (full)",
+      "detail": "Stop doc servers then run both node and VitePress doc cleaning",
+      "dependsOn": [
+        "Stop: All hosted servers",
+        "Clean: Docs (node)",
+        "Clean: Docs (vitepress)"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Clean: All",
+      "detail": "Run full workspace clean for docs and .NET artifacts",
+      "dependsOn": [
+        "Clean: Docs (full)",
+        "Clean: .NET (full)"
+      ],
+      "dependsOrder": "sequence"
     },
     // ===================================
     // Build
@@ -280,7 +296,7 @@
       "detail": "Build VitePress website for production",
       "type": "shell",
       "command": "pnpm run docs:build",
-      "dependsOn": "Install: Node packages (pnpm)",
+      "dependsOn": "Install: Node packages",
       "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -615,8 +631,11 @@
       "label": "Run: Website (dev server)",
       "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
-      "command": "pnpm run docs:dev",
-      "dependsOn": "Install: Node packages (pnpm)",
+      "command": "NODE_AUTH_TOKEN=$(gh auth token) pnpm run docs:dev",
+      "dependsOn": [
+        "Stop: All hosted servers",
+        "Install: Node packages"
+      ],
       "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
@@ -631,7 +650,10 @@
       "detail": "Preview production build of VitePress website",
       "type": "shell",
       "command": "pnpm run docs:preview",
-      "dependsOn": "Build: Website",
+      "dependsOn": [
+        "Build: Website",
+        "Stop: VitePress servers"
+      ],
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -680,6 +702,7 @@
       },
       "group": "none",
       "isBackground": true,
+      "dependsOn": "Stop: Simulation hosts",
       "problemMatcher": {
         "pattern": {
           "regexp": "^$"
@@ -704,6 +727,7 @@
       "type": "shell",
       "command": "dotnet run --project tools/sse-server/Test.SseServer.csproj -- --urls http://localhost:5001",
       "isBackground": true,
+      "dependsOn": "Stop: SseServer hosts",
       "problemMatcher": {
         "pattern": {
           "regexp": "^$"

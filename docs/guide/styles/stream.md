@@ -19,8 +19,8 @@ Stream hub style provides real-time processing with observable patterns and stat
 
 **Not ideal for:**
 
-- One-time historical analysis (use [Batch style](/guide/batch))
-- Simple incremental processing (use [Buffer lists](/guide/buffer))
+- One-time historical analysis (use [Batch style](/guide/styles/batch))
+- Simple incremental processing (use [Buffer lists](/guide/styles/buffer))
 - Scenarios without real-time requirements
 
 ## Basic usage
@@ -58,10 +58,6 @@ foreach (Quote quote in liveQuotes)
 }
 ```
 
-::: tip
-Using `Results[^1]` on an empty collection throws `ArgumentOutOfRangeException`. Always check `Results.Count > 0` first.
-:::
-
 ## Key features
 
 ### Observable pattern
@@ -75,7 +71,7 @@ The hub-observer architecture ensures coordinated updates:
 
 ### Chaining indicators
 
-Create sophisticated derived indicators:
+Create sophisticated derived indicators. For the broader concept, see [Chaining indicators](/guide/chaining).
 
 ```csharp
 QuoteHub quoteHub = new();
@@ -365,7 +361,7 @@ This only happens when `maxCacheSize` is **smaller than the history you revise**
 
 ## See also
 
-- [Batch style](/guide/batch) for one-time calculations
-- [Buffer lists](/guide/buffer) for simple incremental processing
-- [Custom observers](/guide/custom-observers) for wrapping a hub to push results into a UI, persistence, or alerting pipeline
+- [Batch style](/guide/styles/batch) for one-time calculations
+- [Buffer lists](/guide/styles/buffer) for simple incremental processing
+- [Custom observers](/guide/custom-observers) for subscribing an observer to a hub to push results into a UI, persistence, or alerting pipeline
 - [Indicators](/indicators) for available stream hub indicators

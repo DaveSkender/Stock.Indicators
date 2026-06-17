@@ -37,7 +37,7 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/assets/icons/favicon-32x32.png' }],
     ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/assets/icons/favicon-16x16.png' }],
     ['link', { rel: 'manifest', href: '/assets/manifest.json' }],
-    ['meta', { name: 'theme-color', content: '#22272e' }],
+    ['meta', { name: 'theme-color', content: '#1b1b1f' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Stock Indicators for .NET' }],
     ['meta', { property: 'og:description', content: 'Transform price quotes into trading insights.' }],
@@ -58,11 +58,17 @@ export default defineConfig({
       {
         text: 'Guide',
         items: [
-          { text: 'Getting started', link: '/guide/getting-started' },
           { text: 'Overview', link: '/guide/' },
-          { text: 'Batch (Series)', link: '/guide/batch' },
-          { text: 'Buffer lists', link: '/guide/buffer' },
-          { text: 'Stream hubs', link: '/guide/stream' },
+          { text: 'Getting started', link: '/guide/getting-started' },
+          {
+            text: 'Indicator styles',
+            items: [
+              { text: 'Overview', link: '/guide/styles' },
+              { text: 'Batch (Series)', link: '/guide/styles/batch' },
+              { text: 'Buffer lists', link: '/guide/styles/buffer' },
+              { text: 'Stream hubs', link: '/guide/styles/stream' }]
+          },
+          { text: 'Chaining', link: '/guide/chaining' },
           { text: 'Custom indicators', link: '/guide/customization' },
           { text: 'Custom observers', link: '/guide/custom-observers' },
           { text: 'Testing consumers', link: '/guide/testing' },
@@ -78,11 +84,11 @@ export default defineConfig({
       {
         text: 'More',
         items: [
-          { text: 'Performance', link: '/performance' },
           { text: 'Migration (v2→v3)', link: '/migration' },
+          { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' },
           { text: 'Contributing', link: '/contributing' },
+          { text: 'Performance', link: '/performance' },
           { text: 'About', link: '/about' },
-          { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -93,11 +99,17 @@ export default defineConfig({
         {
           text: 'Guide',
           items: [
-            { text: 'Getting started', link: '/guide/getting-started' },
             { text: 'Overview', link: '/guide/' },
-            { text: 'Batch (Series)', link: '/guide/batch' },
-            { text: 'Buffer lists', link: '/guide/buffer' },
-            { text: 'Stream hubs', link: '/guide/stream' },
+            { text: 'Getting started', link: '/guide/getting-started' },
+            {
+              text: 'Indicator styles',
+              items: [
+                { text: 'Overview', link: '/guide/styles' },
+                { text: 'Batch (Series)', link: '/guide/styles/batch' },
+                { text: 'Buffer lists', link: '/guide/styles/buffer' },
+                { text: 'Stream hubs', link: '/guide/styles/stream' }]
+            },
+            { text: 'Chaining', link: '/guide/chaining' },
             { text: 'Custom indicators', link: '/guide/customization' },
             { text: 'Custom observers', link: '/guide/custom-observers' },
             { text: 'Testing consumers', link: '/guide/testing' },
@@ -139,7 +151,7 @@ export default defineConfig({
               items: [
                 { text: 'Overview', link: '/utilities/helpers/' },
                 { text: 'Numerical methods', link: '/utilities/helpers/numerical-methods' },
-                { text: 'NullMath', link: '/utilities/helpers/nullmath' },
+                { text: 'Math helpers', link: '/utilities/helpers/nullmath' },
               ]
             },
             { text: 'Indicator catalog', link: '/utilities/catalog' },
@@ -156,10 +168,10 @@ export default defineConfig({
           ]
         }
       ],
-      '/performance': [ siteNav ],
-      '/migration': [ siteNav ],
-      '/contributing': [ siteNav ],
-      '/about': [ siteNav ],
+      '/migration': [siteNav],
+      '/performance': [siteNav],
+      '/contributing': [siteNav],
+      '/about': [siteNav],
       '/indicators': [
         siteNav,
         {
@@ -372,12 +384,6 @@ export default defineConfig({
 
   cleanUrls: true,
 
-  // Allow specific dead links that are expected (legacy Jekyll templates, etc.)
-  ignoreDeadLinks: [
-    /\.\.\/src\/_common\/README/,
-    /%7B%7Bsite\.github\.repository_url%7D%7D/,
-    /\.\.\/\.\.\/tools\/performance\/baselines\/PERFORMANCE_REVIEW/
-  ],
 
   // Redirect old URLs to new locations
   rewrites: {
@@ -422,26 +428,27 @@ export default defineConfig({
 
   // Exclude legacy Jekyll directories and build artifacts
   srcExclude: [
-    'vendor/**',
+    '.offline/**',
     '.bundle/**',
     '.temp/**',
+    '.vs/**',
     '_site/**',
     '_layouts/**',
     '_includes/**',
     '_data/**',
     'pages/**',
     '_indicators/**',
+    'decisions/**',
     'examples/Backtest/**',
     'examples/ConsoleApp/**',
     'examples/CustomIndicatorsUsage/**',
     'examples/UseQuoteApi/**',
     'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
-    'decisions/**',
     'tests/**',
+    'vendor/**',
     'Gemfile*',
     '.pa11yci',
-    '.offline/**',
     '_headers',
     'README.md',
     'AGENTS.md',

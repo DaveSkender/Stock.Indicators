@@ -3,7 +3,6 @@
 
 [![GitHub Stars](https://img.shields.io/github/stars/DaveSkender/Stock.Indicators?logo=github&label=Stars)](https://github.com/DaveSkender/Stock.Indicators)
 [![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet)](https://www.nuget.org/packages/Skender.Stock.Indicators)
-[![NuGet](https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 
 > [!IMPORTANT]
 > This branch contains **vNext (v3)** code that is under development. For the currently released stable version (v2), please see the [`main` branch](https://github.com/DaveSkender/Stock.Indicators/blob/main/README.md). After v3.0 stable ships, the `v2` branch becomes the long-term `netstandard2.0`/`netstandard2.1` maintenance line on the `Skender.Stock.Indicators` package — security and compatibility patches only, no new features. See [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) for details.

@@ -10,7 +10,7 @@ description: Specify which price element to analyze instead of the standard Clos
 ## Syntax
 
 ```csharp
-IEnumerable<IQuote> quotes = quotes.Use(CandlePart candlePart);
+IReadOnlyList<TimeValue> quoteParts = quotes.Use(CandlePart candlePart);
 ```
 
 ## Parameters
@@ -116,7 +116,7 @@ IReadOnlyList<TimeValue> selected = partHub.Results;
 IReadOnlyList<EmaResult> emaResults = emaHub.Results;
 ```
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.
 
 ## Related utilities
 

@@ -30,11 +30,11 @@ features:
       src: /assets/thumbs/indicators/chop.png
     link: /indicators/Chop
     details: Directional choppiness measure
-  - title: Dominant Cycle Periods
+  - title: Hilbert Transform Trendline
     icon:
-      src: /assets/thumbs/indicators/ht-trendline.png
+      src: /assets/thumbs/indicators/ht-trendline2.png
     link: /indicators/HtTrendline
-    details: Hilbert transform cycle length
+    details: Noise reduction signal processing
   - title: Historical Volatility (HV)
     icon:
       src: /assets/thumbs/indicators/std-dev.png
@@ -57,7 +57,7 @@ features:
     details: Double-smoothed ROC oscillator
   - title: Price Relative Strength (PRS)
     icon:
-      src: /assets/thumbs/indicators/prs.png
+      src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/Prs
     details: Price relative to benchmark
   - title: ROC with Bands (ROCWB)

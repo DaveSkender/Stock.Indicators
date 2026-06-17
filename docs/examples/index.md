@@ -63,7 +63,7 @@ List<Quote> quotesList = GetQuotesFromFeed()
 // calculate Stochastic RSI
 List<StochRsiResult> resultsList =
   quotesList
-  .GetStochRsi(14, 14, 3, 1)
+  .ToStochRsi(14, 14, 3, 1)
   .ToList();
 
 // initialize
@@ -116,7 +116,7 @@ for (int i = 1; i < quotesList.Count; i++)
   if (cross != string.Empty)
   {
     Console.WriteLine(
-    $"{q.Date,10:yyyy-MM-dd} " +
+    $"{q.Timestamp,10:yyyy-MM-dd} " +
     $"{q.Close,10:c2}" +
     $"{e.StochRsi,7:N1}" +
     $"{e.Signal,7:N1}" +

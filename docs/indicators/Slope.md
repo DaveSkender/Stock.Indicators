@@ -9,7 +9,7 @@ description: Slope of the best fit line is determined by an ordinary least-squar
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Slope" :with-overlay="true" />
+  <StockIndicatorChart indicator="Slope" with="Linear" />
 </ClientOnly>
 
 ```csharp
@@ -84,7 +84,7 @@ var results = quotes
     .ToRsi(..);
 ```
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -120,4 +120,4 @@ IReadOnlyList<SlopeResult> results = observer.Results;
 The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.
 :::
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

@@ -124,7 +124,7 @@ public static partial class Catalog
     /// <param name="catalog">Catalog of indicator listings.</param>
     /// <param name="filePath">Optional file path to save the JSON output. If provided, the content will be written to this file.</param>
     /// <returns>A JSON string containing all catalog properties according to the defined schema.</returns>
-    internal static string ToJson(
+    public static string ToJson(
         this IReadOnlyCollection<IndicatorListing> catalog,
         string? filePath = null)
     {

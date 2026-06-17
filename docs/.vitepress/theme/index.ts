@@ -126,6 +126,7 @@ export default {
         Kama:            { uiid: 'Kama',            title: "Kaufman's Adaptive Moving Average" },
         Keltner:         { uiid: 'Keltner',         title: 'Keltner Channels' },
         Kvo:             { uiid: 'Kvo',             title: 'Klinger Volume Oscillator' },
+        Linear:          { uiid: 'LINEAR',          title: 'Linear Regression' },
         Macd:            { uiid: 'Macd',            title: 'Moving Average Convergence Divergence' },
         MaEnvelopes:     { uiid: 'MA-ENV',          title: 'Moving Average Envelopes' },
         Mama:            { uiid: 'Mama',            title: 'MESA Adaptive Moving Average' },

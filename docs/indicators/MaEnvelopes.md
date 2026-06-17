@@ -105,7 +105,7 @@ var results = quotes
 
 Results **cannot** be further chained with additional transforms.
 
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 
 ## Streaming
 
@@ -141,4 +141,4 @@ IReadOnlyList<MaEnvelopeResult> results = observer.Results;
 In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
 :::
 
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

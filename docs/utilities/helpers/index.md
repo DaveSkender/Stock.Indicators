@@ -18,19 +18,19 @@ Numerical analysis tools and utilities for creating custom indicators. These are
 Mathematical analysis functions including slope calculation and standard deviation.
 
 ```csharp
-double slope = Numerix.Slope(xValues, yValues);
+double slope = Numerical.Slope(xValues, yValues);
 double sd = values.StdDev();
 ```
 
 [See more →](/utilities/helpers/numerical-methods)
 
-## [NullMath](/utilities/helpers/nullmath)
+## [Math helpers](/utilities/helpers/nullmath)
 
-Null-safe mathematical operations that handle null values gracefully.
+`NullMath` for null-safe operations and `DeMath` for deterministic cross-platform precision math.
 
 ```csharp
-decimal? abs = NullMath.Abs(value);
-decimal? rounded = NullMath.Round(value, 2);
+double? abs = NullMath.Abs(value);
+double? cleaned = value.NaN2Null();
 ```
 
 [See more →](/utilities/helpers/nullmath)

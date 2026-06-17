@@ -26,16 +26,16 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 ### Indicator return types
 
 - **All indicator results**: Changed from `sealed class` to immutable `record` types
-- **`UseResult` type**: Renamed to `TimeValue`
+- **`BasicData` type**: Renamed to `TimeValue`
 - **`AtrStopResult` values**: Changed from `decimal` to `double`
 - **`UlcerIndexResult.UI` property**: Renamed to `UlcerIndex`
 - **`SmaAnalysis` model**: Renamed to `SmaAnalysisResult`
 
 ### Removed features
 
-- **`GetBaseQuote()` indicator**: Removed along with `BasicData` return types
+- **`GetBaseQuote()` indicator**: Removed — use the `Use(CandlePart)` utility instead
 - **`SyncSeries()` utility**: Removed along with `SyncType` enum
-- **`Find()` and `FindIndex()` utilities**: Removed
+- **`Find()` and `FindIndex()` utilities**: Deprecated
 - **`ToTupleCollection()` utility**: Deprecated
 - **`ToCollection()` utility**: Deprecated
 
@@ -43,7 +43,7 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 
 - **`Use()` method**: `candlePart` parameter now required (no default)
 - **`Use()` return type**: Now returns chainable `TimeValue` instead of tuple
-- **`Numerixs` class**: Renamed to `Numerical`
+- **`Numerix` class**: Renamed to `Numerical`
 - **Internal signals**: Deprecated for several indicators
 - **GetX tuple interfaces**: Deprecated
 
@@ -156,8 +156,8 @@ if (!double.IsNaN(result.Value))
 
 ### Step 6: Update class references
 
-- `Numerixs` → `Numerical`
-- `UseResult` → `TimeValue`
+- `Numerix` → `Numerical`
+- `BasicData` → `TimeValue`
 - `SmaAnalysis` → `SmaAnalysisResult`
 - `UlcerIndexResult.UI` → `UlcerIndexResult.UlcerIndex`
 
@@ -256,7 +256,7 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
 > (or `TickHub`) you created — it cascades to every dependent hub. Calling
 > `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed
 > hub such as an `EmaHub` throws `InvalidOperationException`. See the
-> [streaming guide](/guide/stream#thread-safety) for details.
+> [streaming guide](/guide/styles/stream#thread-safety) for details.
 
 **Use when:**
 
@@ -349,8 +349,8 @@ Popular indicators with complete streaming documentation:
 | `IQuote.Date` | `IQuote.Timestamp` | Property renamed |
 | `quotes.Use()` | `quotes.Use(CandlePart.Close)` | Parameter now required |
 | `result.Value == null` | `double.IsNaN(result.Value)` | Null handling changed |
-| `Numerixs` | `Numerical` | Class renamed |
-| `UseResult` | `TimeValue` | Type renamed |
+| `Numerix` | `Numerical` | Class renamed |
+| `BasicData` | `TimeValue` | Type renamed |
 | `SmaAnalysis` | `SmaAnalysisResult` | Type renamed |
 | `UlcerIndexResult.UI` | `UlcerIndexResult.UlcerIndex` | Property renamed |
 | `SyncSeries()` | (removed) | Use manual alignment |
