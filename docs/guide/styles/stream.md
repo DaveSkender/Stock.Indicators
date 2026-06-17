@@ -172,7 +172,9 @@ Task consumer = Task.Run(() =>
         SmaResult? latest;
         lock (hubLock)
         {
-            latest = smaHub.Results.Count > 0 ? smaHub.Results[^1] : null;
+            latest = smaHub.Results.Count > 0
+              ? smaHub.Results[^1]
+              : null;
         }
         ProcessResult(latest);
     }
