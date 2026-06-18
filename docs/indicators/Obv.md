@@ -9,7 +9,7 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/246 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Obv" />
+  <StockIndicatorChart indicator="Obv" withOverlay />
 </ClientOnly>
 
 ```csharp

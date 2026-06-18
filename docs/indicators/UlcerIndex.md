@@ -9,7 +9,7 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/232 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="UlcerIndex" />
+  <StockIndicatorChart indicator="UlcerIndex" withOverlay />
 </ClientOnly>
 
 ```csharp

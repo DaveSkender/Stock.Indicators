@@ -129,7 +129,7 @@ internal static class Program
     {
         Console.WriteLine("Discovering StaticSeries indicators...");
 
-        IReadOnlyCollection<IndicatorListing> seriesIndicators = Catalog.Get(Style.Series);
+        IReadOnlyList<IndicatorListing> seriesIndicators = Catalog.Get(Style.Series);
         Console.WriteLine($"Found {seriesIndicators.Count} StaticSeries indicators");
         Console.WriteLine();
 

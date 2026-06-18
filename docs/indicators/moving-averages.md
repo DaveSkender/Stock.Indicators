@@ -75,16 +75,16 @@ features:
       src: /assets/thumbs/indicators/tema.png
     link: /indicators/Tema
     details: Triple-stacked low-lag EMA
-  - title: VWAP
+  - title: Volume-weighted average price (VWAP)
     icon:
       src: /assets/thumbs/indicators/vwap.png
     link: /indicators/Vwap
     details: Volume-weighted price average
-  - title: VWMA
+  - title: Volume-weighted moving average (VWMA)
     icon:
       src: /assets/thumbs/indicators/vwma.png
     link: /indicators/Vwma
-    details: Volume-weighted moving average
+    details: Moving average adjusted for volume
   - title: Weighted MA (WMA)
     icon:
       src: /assets/thumbs/indicators/wma.png

@@ -9,7 +9,7 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/282 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Awesome" />
+  <StockIndicatorChart indicator="Awesome" withOverlay />
 </ClientOnly>
 
 ```csharp

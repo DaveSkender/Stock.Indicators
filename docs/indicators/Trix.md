@@ -9,7 +9,7 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/234 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Trix" />
+  <StockIndicatorChart indicator="Trix" withOverlay />
 </ClientOnly>
 
 ```csharp

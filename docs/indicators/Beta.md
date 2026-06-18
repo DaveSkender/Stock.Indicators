@@ -9,7 +9,7 @@ description: Beta Coefficient with Beta+/Beta- shows how strongly one asset's pr
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/268 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Beta" />
+  <StockIndicatorChart indicator="Beta" withOverlay />
 </ClientOnly>
 
 ```csharp

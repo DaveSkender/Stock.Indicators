@@ -9,7 +9,7 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/378 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="ElderRay" />
+  <StockIndicatorChart indicator="ElderRay" withOverlay />
 </ClientOnly>
 
 ```csharp

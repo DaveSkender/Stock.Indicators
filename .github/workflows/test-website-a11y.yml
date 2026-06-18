@@ -44,13 +44,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
           cache-dependency-path: docs/pnpm-lock.yaml
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@facioquo"
+
+      - name: Configure pnpm registry auth
+        run: pnpm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install pnpm packages
         run: pnpm install --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build site
         run: pnpm run docs:build

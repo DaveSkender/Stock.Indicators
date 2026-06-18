@@ -9,7 +9,7 @@ Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a dou
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/625 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Smi" />
+  <StockIndicatorChart indicator="Smi" withOverlay />
 </ClientOnly>
 
 ```csharp
