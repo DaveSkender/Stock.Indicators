@@ -54,7 +54,7 @@ features:
     icon:
       src: /assets/thumbs/indicators/macd.png
     link: /indicators/Macd
-    details: Converging / diverging of two exponential moving averages
+    details: Rate of change between two converging / diverging EMA of price
   - title: SuperTrend
     icon:
       src: /assets/thumbs/indicators/super-trend.png
