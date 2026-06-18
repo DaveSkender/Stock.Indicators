@@ -605,7 +605,7 @@
     "endpoint": "indicators/bb",
     "category": "price-channel",
     "chartType": "overlay",
-    "order": 80,
+    "order": 75,
     "chartConfig": null,
     "parameters": [
       {
@@ -1571,6 +1571,41 @@
         "dataType": "number",
         "lineType": "solid",
         "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Gator Oscillator",
+    "uiid": "GATOR",
+    "legendTemplate": "GATOR",
+    "endpoint": "indicators/gator",
+    "category": "price-trend",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "Upper",
+        "tooltipTemplate": "Upper",
+        "dataName": "upper",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": "gator",
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Lower",
+        "tooltipTemplate": "Lower",
+        "dataName": "lower",
+        "dataType": "number",
+        "lineType": "bar",
+        "stack": "gator",
         "lineWidth": 2,
         "defaultColor": "#DD2C00",
         "fill": null
@@ -2558,6 +2593,103 @@
     ]
   },
   {
+    "name": "Pivot Points (month)",
+    "uiid": "PIVOT-POINTS",
+    "legendTemplate": "PIVOT POINTS(MONTH)",
+    "endpoint": "indicators/pivot-points",
+    "category": "price-channel",
+    "chartType": "overlay",
+    "order": 85,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "R3",
+        "tooltipTemplate": "Resistance 3",
+        "dataName": "r3",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "segmented": true,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "R2",
+        "tooltipTemplate": "Resistance 2",
+        "dataName": "r2",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "segmented": true,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "R1",
+        "tooltipTemplate": "Resistance 1",
+        "dataName": "r1",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "segmented": true,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Pivot Point",
+        "tooltipTemplate": "Pivot Point",
+        "dataName": "pp",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "segmented": true,
+        "defaultColor": "#616161",
+        "fill": null
+      },
+      {
+        "displayName": "S1",
+        "tooltipTemplate": "Support 1",
+        "dataName": "s1",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "segmented": true,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "S2",
+        "tooltipTemplate": "Support 2",
+        "dataName": "s2",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "segmented": true,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "S3",
+        "tooltipTemplate": "Support 3",
+        "dataName": "s3",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "segmented": true,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "Rate of Change",
     "uiid": "ROC",
     "legendTemplate": "ROC([P1])",
@@ -2737,6 +2869,113 @@
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Rolling Pivot Points",
+    "uiid": "ROLLING-PIVOTS",
+    "legendTemplate": "ROLLING PIVOTS([P1],[P2])",
+    "endpoint": "indicators/rolling-pivots",
+    "category": "price-channel",
+    "chartType": "overlay",
+    "order": 85,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Window Periods",
+        "paramName": "windowPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 11
+      },
+      {
+        "displayName": "Offset Periods",
+        "paramName": "offsetPeriods",
+        "dataType": "int",
+        "minimum": 0,
+        "maximum": 250,
+        "defaultValue": 9
+      }
+    ],
+    "results": [
+      {
+        "displayName": "R3",
+        "tooltipTemplate": "Resistance 3",
+        "dataName": "r3",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "R2",
+        "tooltipTemplate": "Resistance 2",
+        "dataName": "r2",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "R1",
+        "tooltipTemplate": "Resistance 1",
+        "dataName": "r1",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Pivot Point",
+        "tooltipTemplate": "Pivot Point",
+        "dataName": "pp",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "S1",
+        "tooltipTemplate": "Support 1",
+        "dataName": "s1",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "S2",
+        "tooltipTemplate": "Support 2",
+        "dataName": "s2",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "S3",
+        "tooltipTemplate": "Support 3",
+        "dataName": "s3",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#2E7D32",
         "fill": null
       }
     ]
