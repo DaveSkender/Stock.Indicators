@@ -73,7 +73,8 @@ export default {
       defaults: {
         barCount: 250,
         quoteCount: 250,
-        showTooltips: false
+        showTooltips: false,
+        showRightAxisLabels: false
       },
       theme: {
         observeVitePressDarkMode: true,
@@ -119,6 +120,9 @@ export default {
         FisherTransform: { uiid: 'FISHER',          title: 'Ehlers Fisher Transform' },
         ForceIndex:      { uiid: 'FORCE',           title: 'Force Index' },
         Fractal:         { uiid: 'Fractal',         title: 'Williams Fractal' },
+        Gator:           { uiid: 'GATOR',           title: 'Gator Oscillator' },
+        HL2:             { uiid: 'HL2',             title: 'Median Price (HL2)' },
+        HLC3:            { uiid: 'HLC3',            title: 'Typical Price (HLC3)' },
         Hma:             { uiid: 'Hma',             title: 'Hull Moving Average' },
         HtTrendline:     { uiid: 'HT Trendline',    title: 'Hilbert Transform Instantaneous Trendline' },
         Hurst:           { uiid: 'Hurst',           title: 'Hurst Exponent' },
@@ -133,11 +137,17 @@ export default {
         Marubozu:        { uiid: 'MARUBOZU',        title: 'Marubozu' },
         Mfi:             { uiid: 'Mfi',             title: 'Money Flow Index' },
         Obv:             { uiid: 'Obv',             title: 'On-Balance Volume' },
+        OC2:             { uiid: 'OC2',             title: 'Open-Close Average (OC2)' },
+        OHL3:            { uiid: 'OHL3',            title: 'Open-High-Low Average (OHL3)' },
+        OHLC4:           { uiid: 'OHLC4',           title: 'Average Price (OHLC4)' },
         ParabolicSar:    { uiid: 'PSAR',            title: 'Parabolic SAR' },
+        PivotPoints:     { uiid: 'PIVOT-POINTS',    title: 'Pivot Points' },
+        Pivots:          { uiid: 'PIVOTS',          title: 'Pivots' },
         Pmo:             { uiid: 'Pmo',             title: 'Price Momentum Oscillator' },
         Pvo:             { uiid: 'Pvo',             title: 'Price Volume Oscillator' },
         Roc:             { uiid: 'Roc',             title: 'Rate of Change' },
         RocWb:           { uiid: 'RocWb',           title: 'Rate of Change with Bands' },
+        RollingPivots:   { uiid: 'ROLLING-PIVOTS',  title: 'Rolling Pivot Points' },
         Rsi:             { uiid: 'RSI',             title: 'Relative Strength Index' },
         Slope:           { uiid: 'Slope',           title: 'Slope and Linear Regression' },
         Sma:             { uiid: 'SMA',             title: 'Simple Moving Average' },

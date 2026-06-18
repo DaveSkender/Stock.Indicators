@@ -9,7 +9,7 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/302 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Bop" />
+  <StockIndicatorChart indicator="Bop" withOverlay />
 </ClientOnly>
 
 ```csharp

@@ -9,7 +9,7 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/446 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Kvo" />
+  <StockIndicatorChart indicator="Kvo" withOverlay />
 </ClientOnly>
 
 ```csharp

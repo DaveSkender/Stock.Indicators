@@ -9,7 +9,7 @@ The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) (`H`) is part
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/477 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Hurst" />
+  <StockIndicatorChart indicator="Hurst" withOverlay />
 </ClientOnly>
 
 ```csharp

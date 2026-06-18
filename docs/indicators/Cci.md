@@ -9,7 +9,7 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/265 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Cci" />
+  <StockIndicatorChart indicator="Cci" withOverlay />
 </ClientOnly>
 
 ```csharp

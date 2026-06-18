@@ -9,7 +9,7 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/260 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="ConnorsRsi" />
+  <StockIndicatorChart indicator="ConnorsRsi" withOverlay />
 </ClientOnly>
 
 ```csharp

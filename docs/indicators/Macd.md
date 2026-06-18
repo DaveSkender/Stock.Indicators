@@ -9,7 +9,7 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/248 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Macd" />
+  <StockIndicatorChart indicator="Macd" withOverlay />
 </ClientOnly>
 
 ```csharp

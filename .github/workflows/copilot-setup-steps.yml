@@ -32,15 +32,15 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
           cache-dependency-path: docs/pnpm-lock.yaml
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@facioquo"
+        continue-on-error: true
+
+      - name: Configure pnpm registry auth
+        run: pnpm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
       - name: Install pnpm packages
         working-directory: docs
-        run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm install --frozen-lockfile
         continue-on-error: true
         timeout-minutes: 5
 

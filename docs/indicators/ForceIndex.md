@@ -9,7 +9,7 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/382 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="ForceIndex" />
+  <StockIndicatorChart indicator="ForceIndex" withOverlay />
 </ClientOnly>
 
 ```csharp

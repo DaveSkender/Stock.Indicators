@@ -9,7 +9,7 @@ Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/264 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="ChaikinOsc" />
+  <StockIndicatorChart indicator="ChaikinOsc" withOverlay />
 </ClientOnly>
 
 ```csharp

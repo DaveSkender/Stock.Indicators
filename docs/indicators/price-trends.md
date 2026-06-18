@@ -42,19 +42,24 @@ features:
     details: Moving average convergence/divergence
   - title: Pivot Points
     icon:
-      src: /assets/thumbs/indicators/_placeholder.svg
+      src: /assets/thumbs/indicators/pivot-points.png
     link: /indicators/PivotPoints
-    details: Classic support/resistance pivots
-  - title: Rate of Change with Bands (ROCWB)
+    details: Classic support/resistance pivots based on fixed calendar period
+  - title: Rolling Pivot Points
+    icon:
+      src: /assets/thumbs/indicators/rolling-pivots.png
+    link: /indicators/RollingPivots
+    details: Support/resistance pivots based on a rolling window period
+  - title: Rate of Change (ROC)
+    icon:
+      src: /assets/thumbs/indicators/roc.png
+    link: /indicators/Roc
+    details: Percent change of price
+  - title: Rate of Change with Bands
     icon:
       src: /assets/thumbs/indicators/roc-wb.png
     link: /indicators/RocWb
-    details: Rate of change with signal bands
-  - title: Rolling Pivot Points
-    icon:
-      src: /assets/thumbs/indicators/_placeholder.svg
-    link: /indicators/RollingPivots
-    details: Rolling period pivot points
+    details: Percent change of price with signal bands
   - title: SuperTrend
     icon:
       src: /assets/thumbs/indicators/super-trend.png
@@ -70,4 +75,9 @@ features:
       src: /assets/thumbs/indicators/alligator.png
     link: /indicators/Alligator
     details: Three-line trend system
+  - title: Gator Oscillator
+    icon:
+      src: /assets/thumbs/indicators/gator.png
+    link: /indicators/Gator
+    details: Alligator lines divergence    
 ---

@@ -9,7 +9,7 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="FisherTransform" />
+  <StockIndicatorChart indicator="FisherTransform" withOverlay />
 </ClientOnly>
 
 ```csharp
