@@ -54,7 +54,7 @@ features:
     icon:
       src: /assets/thumbs/indicators/pmo.png
     link: /indicators/Pmo
-    details: Double-smoothed ROC oscillator
+    details: Double-smoothed momentum indicator based on Rate of Change (ROC)
   - title: Price Relative Strength (PRS)
     icon:
       src: /assets/thumbs/indicators/_placeholder.svg
@@ -79,7 +79,7 @@ features:
     icon:
       src: /assets/thumbs/indicators/tsi.png
     link: /indicators/Tsi
-    details: Double-smoothed momentum
+    details: Double-smoothed momentum direction and overbought / oversold conditions
   - title: Ulcer Index (UI)
     icon:
       src: /assets/thumbs/indicators/ulcer-index.png

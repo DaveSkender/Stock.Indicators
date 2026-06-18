@@ -94,17 +94,16 @@ features:
 - [Detrended Price Oscillator (DPO)](/indicators/Dpo)
 - [Gator Oscillator](/indicators/Gator)
 - [KDJ Index](/indicators/Stoch)
+- [Price Momentum Oscillator (PMO)](/indicators/Pmo)
 - [Relative Strength Index (RSI)](/indicators/Rsi)
 - [Schaff Trend Cycle (STC)](/indicators/Stc)
 - [Stochastic Momentum Index (SMI)](/indicators/Smi)
 - [Stochastic Oscillator](/indicators/Stoch)
 - [Stochastic RSI](/indicators/StochRsi)
 - [Triple EMA Oscillator (TRIX)](/indicators/Trix)
+- [True Strength Index (TSI)](/indicators/Tsi)
 - [Ultimate Oscillator](/indicators/Ultimate)
 - [Williams %R](/indicators/WilliamsR)
-
-- [Price Momentum Oscillator (PMO)](/indicators/Pmo)
-- [True Strength Index (TSI)](/indicators/Tsi)
 
 ### [Stop and reverse](/indicators/stop-and-reverse)
 

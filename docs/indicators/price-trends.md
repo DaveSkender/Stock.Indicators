@@ -39,7 +39,7 @@ features:
     icon:
       src: /assets/thumbs/indicators/gator.png
     link: /indicators/Gator
-    details: Williams Alligator lines divergence
+    details: Dual histogram showing expansion and contraction between Alligator averages
   - title: Hurst Exponent
     icon:
       src: /assets/thumbs/indicators/hurst.png
