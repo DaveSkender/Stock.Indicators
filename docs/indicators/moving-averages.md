@@ -55,6 +55,11 @@ features:
       src: /assets/thumbs/indicators/mama.png
     link: /indicators/Mama
     details: MESA cycle-following MA
+  - title: Moving Average Envelopes
+    icon:
+      src: /assets/thumbs/indicators/ma-envelopes.png
+    link: /indicators/MaEnvelopes
+    details: Percentage offset around different moving average types    
   - title: Simple MA (SMA)
     icon:
       src: /assets/thumbs/indicators/sma.png

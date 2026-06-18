@@ -159,6 +159,8 @@ features:
 - [Volume-weighted Moving Average (VWMA)](/indicators/Vwma)
 - [Weighted Moving Average (WMA)](/indicators/Wma)
 
+See also: [Moving Average Envelopes](/indicators/MaEnvelopes)
+
 ### [Price Transforms](/indicators/price-transforms)
 
 - [Basic Price Transforms (HL2, HLC3, OC2, OHL3, OHLC4)](/indicators/BarPart)

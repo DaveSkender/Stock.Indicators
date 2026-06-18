@@ -14,45 +14,45 @@ features:
     icon:
       src: /assets/thumbs/indicators/bollinger-bands.png
     link: /indicators/BollingerBands
-    details: SMA with standard deviation bands
+    details: Volatility as standard deviation boundary from a moving average of price
   - title: Donchian Channels
     icon:
       src: /assets/thumbs/indicators/donchian.png
     link: /indicators/Donchian
-    details: Rolling high/low channels
+    details: Price ranges derived from highest High and lowest Low<br/>(aka Price Channels)
   - title: Fractal Chaos Bands (FCB)
     icon:
       src: /assets/thumbs/indicators/fcb.png
     link: /indicators/Fcb
-    details: Fractal-based price bands
+    details: Fractal-based high and low price channels depicting less-chaotic price movement
   - title: Keltner Channels
     icon:
       src: /assets/thumbs/indicators/keltner.png
     link: /indicators/Keltner
-    details: ATR-based channel bands
+    details: ATR channels around an EMA centerline
   - title: Moving Average Envelopes
     icon:
       src: /assets/thumbs/indicators/ma-envelopes.png
     link: /indicators/MaEnvelopes
-    details: Percentage envelope around MA
+    details: Percentage offset around different moving average types
   - title: Pivot Points
     icon:
       src: /assets/thumbs/indicators/pivot-points.png
     link: /indicators/PivotPoints
-    details: Classic support/resistance pivots based on fixed calendar period
+    details: Classic support/resistance levels based on fixed calendar period (multiple styles)
   - title: Rolling Pivot Points
     icon:
       src: /assets/thumbs/indicators/rolling-pivots.png
     link: /indicators/RollingPivots
-    details: Support/resistance pivots based on a rolling window period
+    details: Support/resistance levels based on a rolling window period
   - title: STARC Bands
     icon:
       src: /assets/thumbs/indicators/starc-bands.png
     link: /indicators/StarcBands
-    details: SMA with ATR bands
+    details: ATR channels around an SMA centerline
   - title: Standard Deviation Channels
     icon:
       src: /assets/thumbs/indicators/std-dev-channels.png
     link: /indicators/StdDevChannels
-    details: Linear regression std dev channels
+    details: Standard deviation channels segmented by rolling window periods
 ---

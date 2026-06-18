@@ -265,7 +265,7 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Volume based',
+          text: 'Volume-based',
           link: '/indicators/volume-based',
           collapsed: true,
           items: [

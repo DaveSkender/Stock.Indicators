@@ -1,9 +1,9 @@
 ---
-title: Volume based
+title: Volume-based
 description: Volume-weighted indicators that incorporate trading activity into price analysis.
 layout: home
 hero:
-  name: Volume based
+  name: Volume-based
   tagline: Volume-weighted indicators that incorporate trading activity into price analysis.
   actions:
     - theme: alt
