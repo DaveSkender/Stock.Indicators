@@ -37,7 +37,7 @@ features:
     details: Removes trend, isolates cycles
   - title: Gator Oscillator
     icon:
-      src: /assets/thumbs/indicators/_placeholder.svg
+      src: /assets/thumbs/indicators/gator.png
     link: /indicators/Gator
     details: Alligator lines divergence
   - title: Price Momentum Oscillator (PMO)

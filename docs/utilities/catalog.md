@@ -23,32 +23,37 @@ All query methods are on the static `Catalog` class and return `IndicatorListing
 using Skender.Stock.Indicators;
 
 // all listings
-IReadOnlyCollection<IndicatorListing> all = Catalog.Get();
+IReadOnlyList<IndicatorListing> all = Catalog.Get();
 
 // a single listing by ID + style (null if not found)
-IndicatorListing? emaSeries = Catalog.Get("EMA", Style.Series);
+IndicatorListing? emaSeries
+  = Catalog.Get("EMA", Style.Series);
 
 // all styles available for one ID
-IReadOnlyCollection<IndicatorListing> allEma = Catalog.Get("EMA");
+IReadOnlyList<IndicatorListing> allEma
+  = Catalog.Get("EMA");
 
 // filter by style
-IReadOnlyCollection<IndicatorListing> seriesOnly = Catalog.Get(Style.Series);
+IReadOnlyList<IndicatorListing> seriesOnly
+  = Catalog.Get(Style.Series);
 
 // filter by category
-IReadOnlyCollection<IndicatorListing> movingAverages = Catalog.Get(Category.MovingAverage);
+IReadOnlyList<IndicatorListing> movingAverages
+  = Catalog.Get(Category.MovingAverage);
 
 // partial-match search on ID or name (empty query returns all)
-IReadOnlyCollection<IndicatorListing> matches = Catalog.Search("average");
+IReadOnlyList<IndicatorListing> matches 
+  = Catalog.Search("average");
 ```
 
 | Method | Returns | Description |
 | ------ | ------- | ----------- |
-| `Get()` | `IReadOnlyCollection<IndicatorListing>` | All listings |
+| `Get()` | `IReadOnlyList<IndicatorListing>` | All listings |
 | `Get(string id, Style style)` | `IndicatorListing?` | One listing, or `null` if not found |
-| `Get(string id)` | `IReadOnlyCollection<IndicatorListing>` | All styles for an ID |
-| `Get(Style style)` | `IReadOnlyCollection<IndicatorListing>` | Listings of a given style |
-| `Get(Category category)` | `IReadOnlyCollection<IndicatorListing>` | Listings in a category |
-| `Search(string query)` | `IReadOnlyCollection<IndicatorListing>` | Partial (case-insensitive) match on ID or name |
+| `Get(string id)` | `IReadOnlyList<IndicatorListing>` | All styles for an ID |
+| `Get(Style style)` | `IReadOnlyList<IndicatorListing>` | Listings of a given style |
+| `Get(Category category)` | `IReadOnlyList<IndicatorListing>` | Listings in a category |
+| `Search(string query)` | `IReadOnlyList<IndicatorListing>` | Partial (case-insensitive) match on ID or name |
 
 ## Listing metadata
 
@@ -108,10 +113,10 @@ foreach (IndicatorParam p in listing?.Parameters ?? [])
 
 ## Export the catalog
 
-These extension methods serialize an `IReadOnlyCollection<IndicatorListing>` (typically `Catalog.Get()`). Each accepts an optional file path; when provided, the content is written to that file and also returned.
+These extension methods serialize an `IReadOnlyList<IndicatorListing>` (typically `Catalog.Get()`). Each accepts an optional file path; when provided, the content is written to that file and also returned.
 
 ```csharp
-IReadOnlyCollection<IndicatorListing> catalog = Catalog.Get();
+IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
 
 // JSON (indented, camelCase, string enums)
 string json = catalog.ToJson();

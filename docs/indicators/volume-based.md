@@ -50,14 +50,14 @@ features:
       src: /assets/thumbs/indicators/pvo.png
     link: /indicators/Pvo
     details: Volume MACD oscillator
-  - title: VWAP
+  - title: Volume-weighted average price (VWAP)
     icon:
-      src: /assets/thumbs/indicators/vwap.png
+      src: /assets/thumbs/indicators/vwap2.png
     link: /indicators/Vwap
     details: Volume-weighted price average
-  - title: VWMA
+  - title: Volume-weighted moving average (VWMA)
     icon:
       src: /assets/thumbs/indicators/vwma2.png
     link: /indicators/Vwma
-    details: Volume-weighted moving average
+    details: Moving average adjusted for volume
 ---

@@ -14,7 +14,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToJson()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string catalogJson = indicatorCatalog.ToJson();
         Console.WriteLine(catalogJson);
 
@@ -36,7 +36,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToMarkdownChecklist()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string catalogMarkdown = indicatorCatalog.ToMarkdownChecklist();
         Console.WriteLine(catalogMarkdown);
 
@@ -51,7 +51,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToMarkdownTable()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string catalogMarkdown = indicatorCatalog.ToMarkdownTable();
         Console.WriteLine(catalogMarkdown);
 
@@ -68,7 +68,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToJsonWithFilePathSavesToFile()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string tempFilePath = Path.GetTempFileName();
         try
         {
@@ -92,7 +92,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToMarkdownWithFilePathSavesToFile()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string tempFilePath = Path.GetTempFileName();
         try
         {
@@ -115,7 +115,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToMarkdownTableWithFilePathSavesToFile()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string tempFilePath = Path.GetTempFileName();
         try
         {
@@ -139,7 +139,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToJsonWithEmptyFilePathDoesNotSaveToFile()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string catalogJson = indicatorCatalog.ToJson(" ");
         catalogJson.Should().NotBeNullOrEmpty();
         catalogJson.Should().StartWith("[");
@@ -149,7 +149,7 @@ public class CatalogExportTests : TestBase
     [TestMethod]
     public void CatalogToMarkdownChecklistWithEmptyFilePathDoesNotSaveToFile()
     {
-        IReadOnlyCollection<IndicatorListing> indicatorCatalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> indicatorCatalog = Catalog.Get();
         string catalogMarkdown = indicatorCatalog.ToMarkdownChecklist(" ");
         catalogMarkdown.Should().NotBeNullOrEmpty();
         catalogMarkdown.Should().Contain("- [ ]");

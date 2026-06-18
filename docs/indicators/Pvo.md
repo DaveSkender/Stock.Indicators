@@ -9,7 +9,7 @@ The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=te
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/305 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Pvo" />
+  <StockIndicatorChart indicator="Pvo" withOverlay />
 </ClientOnly>
 
 ```csharp

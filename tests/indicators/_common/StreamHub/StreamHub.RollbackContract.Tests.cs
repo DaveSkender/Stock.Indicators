@@ -35,7 +35,7 @@ public class StreamHubRollbackContractTests : TestBase
 
         DateTime rollbackTimestamp = bars[PrefixLength].Timestamp;
 
-        IReadOnlyCollection<IndicatorListing> streamListings = Catalog.Get(Style.Stream);
+        IReadOnlyList<IndicatorListing> streamListings = Catalog.Get(Style.Stream);
         streamListings.Should().NotBeEmpty("the catalog must register Stream-style listings");
 
         List<string> failures = [];

@@ -9,7 +9,7 @@ Created by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stoc
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/236 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="StochRsi" />
+  <StockIndicatorChart indicator="StochRsi" withOverlay />
 </ClientOnly>
 
 ```csharp

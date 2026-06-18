@@ -172,7 +172,9 @@ Task consumer = Task.Run(() =>
         SmaResult? latest;
         lock (hubLock)
         {
-            latest = smaHub.Results.Count > 0 ? smaHub.Results[^1] : null;
+            latest = smaHub.Results.Count > 0
+              ? smaHub.Results[^1]
+              : null;
         }
         ProcessResult(latest);
     }
@@ -308,7 +310,8 @@ try
 }
 catch (OverflowException)
 {
-    // a circular chain or a stuck provider re-sent an identical tick 100+ times
+    // a circular chain or a stuck provider
+    // re-sent an identical tick 100+ times
 }
 
 if (barHub.IsFaulted)

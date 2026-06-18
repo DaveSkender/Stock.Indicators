@@ -9,7 +9,7 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/237 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Stoch" />
+  <StockIndicatorChart indicator="Stoch" withOverlay />
 </ClientOnly>
 
 ```csharp

@@ -9,7 +9,7 @@ Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/339 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Vortex" />
+  <StockIndicatorChart indicator="Vortex" withOverlay />
 </ClientOnly>
 
 ```csharp

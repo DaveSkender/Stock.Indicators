@@ -34,14 +34,14 @@ Core builder methods: `.WithName`, `.WithId`, `.WithStyle`, `.WithCategory`, `.W
 
 ```csharp
 // all listings
-IReadOnlyCollection<IndicatorListing> allListings = IndicatorRegistry.Get();
+IReadOnlyList<IndicatorListing> allListings = IndicatorRegistry.Get();
 
 // lookups
-IReadOnlyCollection<IndicatorListing> rsiListings = IndicatorRegistry.GetById("RSI"); // all styles
+IReadOnlyList<IndicatorListing> rsiListings = IndicatorRegistry.GetById("RSI"); // all styles
 IndicatorListing? emaSeriesListing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series); // single
-IReadOnlyCollection<IndicatorListing> streamListings = IndicatorRegistry.GetByStyle(Style.Stream);
-IReadOnlyCollection<IndicatorListing> momentumListings = IndicatorRegistry.GetByCategory(Category.Momentum);
-IReadOnlyCollection<IndicatorListing> searchResults = IndicatorRegistry.Search("ema");
+IReadOnlyList<IndicatorListing> streamListings = IndicatorRegistry.GetByStyle(Style.Stream);
+IReadOnlyList<IndicatorListing> momentumListings = IndicatorRegistry.GetByCategory(Category.Momentum);
+IReadOnlyList<IndicatorListing> searchResults = IndicatorRegistry.Search("ema");
 ```
 
 ## Executing via the catalog

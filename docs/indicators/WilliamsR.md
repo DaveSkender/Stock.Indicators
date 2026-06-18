@@ -9,7 +9,7 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/229 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="WilliamsR" />
+  <StockIndicatorChart indicator="WilliamsR" withOverlay     showRightAxisLabels=false />
 </ClientOnly>
 
 ```csharp

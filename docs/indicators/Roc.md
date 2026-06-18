@@ -9,7 +9,7 @@ description: Rate of Change, also known as Momentum Oscillator, is the percent c
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/242 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Roc" />
+  <StockIndicatorChart indicator="Roc" withOverlay />
 </ClientOnly>
 
 ```csharp

@@ -104,9 +104,9 @@ public class BarPartTests : TestBase
     public void CatalogBrowsingIncludesBarPartSeries()
     {
         // Act
-        IReadOnlyCollection<IndicatorListing> catalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
         IndicatorListing barPartSeries = Catalog.Get("BARPART", Style.Series);
-        IReadOnlyCollection<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
+        IReadOnlyList<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
 
         // Assert
         catalog.Should().NotBeNull();

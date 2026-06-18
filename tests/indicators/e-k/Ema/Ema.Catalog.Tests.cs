@@ -58,9 +58,9 @@ public class EmaTests : TestBase
     public void CatalogBrowsing_WithEmaSeries_IncludesEmaSeries()
     {
         // Act
-        IReadOnlyCollection<IndicatorListing> catalog = Catalog.Get();
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
         IndicatorListing emaSeries = Catalog.Get("EMA", Style.Series);
-        IReadOnlyCollection<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
+        IReadOnlyList<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
 
         // Assert
         catalog.Should().NotBeNull();

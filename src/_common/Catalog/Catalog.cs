@@ -29,7 +29,7 @@ public static partial class Catalog
     /// Gets all indicator catalog listings
     /// </summary>
     /// <returns>All indicator listings.</returns>
-    public static IReadOnlyCollection<IndicatorListing> Get() => Listings;
+    public static IReadOnlyList<IndicatorListing> Get() => Listings;
 
     /// <summary>
     /// Gets an indicator by its ID and style.
@@ -47,9 +47,9 @@ public static partial class Catalog
     /// </summary>
     /// <param name="id">Unique ID of the indicator.</param>
     /// <returns>All indicator listings with the specified ID.</returns>
-    public static IReadOnlyCollection<IndicatorListing> Get(string id)
+    public static IReadOnlyList<IndicatorListing> Get(string id)
         => string.IsNullOrWhiteSpace(id)
-            ? []
+            ? Array.Empty<IndicatorListing>()
             : Listings.Where(x => string.Equals(x.Uiid, id, StringComparison.OrdinalIgnoreCase)).ToList();
 
     /// <summary>
@@ -57,7 +57,7 @@ public static partial class Catalog
     /// </summary>
     /// <param name="style">Style of indicators to retrieve.</param>
     /// <returns>All indicator listings with the specified style.</returns>
-    public static IReadOnlyCollection<IndicatorListing> Get(Style style)
+    public static IReadOnlyList<IndicatorListing> Get(Style style)
         => Listings
             .Where(x => x.Style == style)
             .ToList();
@@ -67,7 +67,7 @@ public static partial class Catalog
     /// </summary>
     /// <param name="category">Category of indicators to retrieve.</param>
     /// <returns>All indicator listings in the specified category.</returns>
-    public static IReadOnlyCollection<IndicatorListing> Get(Category category)
+    public static IReadOnlyList<IndicatorListing> Get(Category category)
         => Listings
             .Where(x => x.Category == category)
             .ToList();
@@ -77,7 +77,7 @@ public static partial class Catalog
     /// </summary>
     /// <param name="query">Search query.</param>
     /// <returns>All indicator listings that match the search query.</returns>
-    public static IReadOnlyCollection<IndicatorListing> Search(string query)
+    public static IReadOnlyList<IndicatorListing> Search(string query)
     {
         if (string.IsNullOrWhiteSpace(query))
         {
@@ -98,9 +98,9 @@ public static partial class Catalog
     /// <param name="query">Search query.</param>
     /// <param name="style">Optional style filter.</param>
     /// <returns>All indicator listings that match the search query and style filter.</returns>
-    internal static IReadOnlyCollection<IndicatorListing> Search(string query, Style style)
+    internal static IReadOnlyList<IndicatorListing> Search(string query, Style style)
     {
-        IReadOnlyCollection<IndicatorListing> allResults = Search(query);
+        IReadOnlyList<IndicatorListing> allResults = Search(query);
 
         return allResults
             .Where(x => x.Style == style)
@@ -113,7 +113,7 @@ public static partial class Catalog
     /// <param name="query">Search query.</param>
     /// <param name="category">Optional category filter.</param>
     /// <returns>All indicator listings that match the search query and category filter.</returns>
-    internal static IReadOnlyCollection<IndicatorListing> Search(string query, Category category)
+    internal static IReadOnlyList<IndicatorListing> Search(string query, Category category)
         => Search(query)
             .Where(x => x.Category == category)
             .ToList();
@@ -125,7 +125,7 @@ public static partial class Catalog
     /// <param name="filePath">Optional file path to save the JSON output. If provided, the content will be written to this file.</param>
     /// <returns>A JSON string containing all catalog properties according to the defined schema.</returns>
     public static string ToJson(
-        this IReadOnlyCollection<IndicatorListing> catalog,
+        this IReadOnlyList<IndicatorListing> catalog,
         string? filePath = null)
     {
         ArgumentNullException.ThrowIfNull(catalog);
@@ -151,7 +151,7 @@ public static partial class Catalog
     /// </param>
     /// <returns>A Markdown checklist string with format: - [ ] {id}: {name} ({available types})</returns>
     public static string ToMarkdownChecklist(
-        this IReadOnlyCollection<IndicatorListing> catalog,
+        this IReadOnlyList<IndicatorListing> catalog,
         string? filePath = null)
     {
         ArgumentNullException.ThrowIfNull(catalog);
@@ -192,7 +192,7 @@ public static partial class Catalog
     /// </param>
     /// <returns>A Markdown table with columns for ID, Name, Series, Buffer, Stream.</returns>
     public static string ToMarkdownTable(
-        this IReadOnlyCollection<IndicatorListing> catalog,
+        this IReadOnlyList<IndicatorListing> catalog,
         string? filePath = null)
     {
         StringBuilder sb = new();
@@ -321,7 +321,7 @@ public static partial class Catalog
             return parameters;
         }
 
-        Dictionary<string, object> converted = [];
+        Dictionary<string, object> converted = new();
         foreach (KeyValuePair<string, object> kvp in parameters)
         {
             if (kvp.Value is JsonElement jsonElement)
@@ -361,8 +361,8 @@ public static partial class Catalog
             JsonValueKind.False => false,
             JsonValueKind.Null => null,
             JsonValueKind.Undefined => throw new NotImplementedException(),
-            JsonValueKind.Object => throw new NotImplementedException(),
-            JsonValueKind.Array => throw new NotImplementedException(),
+            JsonValueKind.Object => element.ToString(),
+            JsonValueKind.Array => element.ToString(),
             _ => element.ToString()
         };
 

@@ -11,7 +11,7 @@ public class CatalogMetricsTests : TestBase
     [TestMethod]
     public void StaticCatalogListingsShouldHavePopulatedFields()
     {
-        IReadOnlyCollection<IndicatorListing> allListings = Catalog.Get();
+        IReadOnlyList<IndicatorListing> allListings = Catalog.Get();
         allListings.Should().NotBeEmpty();
         allListings.Should().OnlyContain(static l => !string.IsNullOrWhiteSpace(l.Uiid));
         allListings.Should().OnlyContain(static l => !string.IsNullOrWhiteSpace(l.Name));

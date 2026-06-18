@@ -9,8 +9,8 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/269 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Atr" />
-  <StockIndicatorChart indicator="Atrp" />
+  <StockIndicatorChart indicator="Atr" withOverlay />
+  <StockIndicatorChart indicator="Atrp" withOverlay />
 </ClientOnly>
 
 ```csharp

@@ -9,7 +9,7 @@ description: Detrended Price Oscillator depicts the difference between price and
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/551 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Dpo" />
+  <StockIndicatorChart indicator="Dpo" withOverlay />
 </ClientOnly>
 
 ```csharp

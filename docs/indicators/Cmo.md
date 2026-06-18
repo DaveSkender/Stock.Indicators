@@ -9,7 +9,7 @@ Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investope
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/892 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Cmo" />
+  <StockIndicatorChart indicator="Cmo" withOverlay />
 </ClientOnly>
 
 ```csharp
