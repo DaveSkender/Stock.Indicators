@@ -61,7 +61,8 @@ function currentSettings() {
   return {
     isDarkTheme: isDark(),
     showTooltips: false,
-    background: chartBackground.value
+    background: chartBackground.value,
+    showRightAxisLabels: false
   }
 }
 
