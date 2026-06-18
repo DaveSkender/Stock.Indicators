@@ -1,109 +1,5 @@
 [
   {
-    "name": "ATR Trailing Stop (Close offset)",
-    "uiid": "ATR-STOP-CLOSE",
-    "legendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
-    "endpoint": "indicators/atr-stop-close",
-    "category": "price-trend",
-    "chartType": "overlay",
-    "order": 1,
-    "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 50,
-        "defaultValue": 21
-      },
-      {
-        "displayName": "Multiplier",
-        "paramName": "multiplier",
-        "dataType": "number",
-        "minimum": 0.1,
-        "maximum": 10,
-        "defaultValue": 3
-      }
-    ],
-    "results": [
-      {
-        "displayName": "Buy Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Buy Stop",
-        "dataName": "buyStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#2E7D32",
-        "fill": null
-      },
-      {
-        "displayName": "Sell Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Sell Stop",
-        "dataName": "sellStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#DD2C00",
-        "fill": null
-      }
-    ]
-  },
-  {
-    "name": "ATR Trailing Stop (High/Low offset)",
-    "uiid": "ATR-STOP-HL",
-    "legendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
-    "endpoint": "indicators/atr-stop-hl",
-    "category": "price-trend",
-    "chartType": "overlay",
-    "order": 1,
-    "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 50,
-        "defaultValue": 21
-      },
-      {
-        "displayName": "Multiplier",
-        "paramName": "multiplier",
-        "dataType": "number",
-        "minimum": 0.1,
-        "maximum": 10,
-        "defaultValue": 3
-      }
-    ],
-    "results": [
-      {
-        "displayName": "Buy Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Buy Stop",
-        "dataName": "buyStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#2E7D32",
-        "fill": null
-      },
-      {
-        "displayName": "Sell Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Sell Stop",
-        "dataName": "sellStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#DD2C00",
-        "fill": null
-      }
-    ]
-  },
-  {
     "name": "Accumulation Distribution Line (ADL)",
     "uiid": "ADL",
     "legendTemplate": "ADL",
@@ -280,6 +176,110 @@
         "dataName": "aroonDown",
         "dataType": "number",
         "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "ATR Trailing Stop (Close offset)",
+    "uiid": "ATR-STOP-CLOSE",
+    "legendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
+    "endpoint": "indicators/atr-stop-close",
+    "category": "price-trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 21
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Buy Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Buy Stop",
+        "dataName": "buyStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Sell Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Sell Stop",
+        "dataName": "sellStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "ATR Trailing Stop (High/Low offset)",
+    "uiid": "ATR-STOP-HL",
+    "legendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
+    "endpoint": "indicators/atr-stop-hl",
+    "category": "price-trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 21
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Buy Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Buy Stop",
+        "dataName": "buyStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Sell Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Sell Stop",
+        "dataName": "sellStop",
+        "dataType": "number",
+        "lineType": "dots",
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#DD2C00",
@@ -2508,7 +2508,7 @@
         "displayName": "Step Size",
         "paramName": "accelerationStep",
         "dataType": "number",
-        "minimum": 1e-06,
+        "minimum": 0.000001,
         "maximum": 2500,
         "defaultValue": 0.02
       },
@@ -2516,7 +2516,7 @@
         "displayName": "Max Factor",
         "paramName": "maxAccelerationFactor",
         "dataType": "number",
-        "minimum": 1e-06,
+        "minimum": 0.000001,
         "maximum": 2500,
         "defaultValue": 0.2
       }
@@ -3407,10 +3407,10 @@
     ]
   },
   {
-    "name": "Standard Deviation (Z-Score)",
-    "uiid": "STDEV-ZSCORE",
-    "legendTemplate": "STDEV-ZSCORE([P1])",
-    "endpoint": "indicators/stdev-zscore",
+    "name": "Standard Deviation (absolute)",
+    "uiid": "STDEV",
+    "legendTemplate": "STDEV([P1])",
+    "endpoint": "indicators/stdev",
     "category": "price-characteristic",
     "chartType": "oscillator",
     "order": 1,
@@ -3427,9 +3427,9 @@
     ],
     "results": [
       {
-        "displayName": "Z-Score",
-        "tooltipTemplate": "Z-Score([P1])",
-        "dataName": "zScore",
+        "displayName": "Standard Deviation",
+        "tooltipTemplate": "STDEV([P1])",
+        "dataName": "stdDev",
         "dataType": "number",
         "lineType": "solid",
         "stack": null,
@@ -3440,8 +3440,8 @@
     ]
   },
   {
-    "name": "Standard Deviation (absolute)",
-    "uiid": "STDEV",
+    "name": "Standard Deviation (Z-Score)",
+    "uiid": "STDEV-ZSCORE",
     "legendTemplate": "STDEV([P1])",
     "endpoint": "indicators/stdev",
     "category": "price-characteristic",
@@ -3866,6 +3866,47 @@
     ]
   },
   {
+    "name": "Tillson T3 Moving Average",
+    "uiid": "T3",
+    "legendTemplate": "T3([P1],[P2])",
+    "endpoint": "indicators/t3",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 63,
+        "defaultValue": 5
+      },
+      {
+        "displayName": "Volume Factor",
+        "paramName": "volumeFactor",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 2,
+        "defaultValue": 0.7
+      }
+    ],
+    "results": [
+      {
+        "displayName": "T3",
+        "tooltipTemplate": "T3([P1],[P2])",
+        "dataName": "t3",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "TRIX Oscillator",
     "uiid": "TRIX",
     "legendTemplate": "TRIX([P1])",
@@ -3900,47 +3941,6 @@
         "displayName": "TRIX",
         "tooltipTemplate": "TRIX([P1])",
         "dataName": "trix",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#1E88E5",
-        "fill": null
-      }
-    ]
-  },
-  {
-    "name": "Tillson T3 Moving Average",
-    "uiid": "T3",
-    "legendTemplate": "T3([P1],[P2])",
-    "endpoint": "indicators/t3",
-    "category": "moving-average",
-    "chartType": "overlay",
-    "order": 1,
-    "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 63,
-        "defaultValue": 5
-      },
-      {
-        "displayName": "Volume Factor",
-        "paramName": "volumeFactor",
-        "dataType": "number",
-        "minimum": 0.1,
-        "maximum": 2,
-        "defaultValue": 0.7
-      }
-    ],
-    "results": [
-      {
-        "displayName": "T3",
-        "tooltipTemplate": "T3([P1],[P2])",
-        "dataName": "t3",
         "dataType": "number",
         "lineType": "solid",
         "stack": null,
