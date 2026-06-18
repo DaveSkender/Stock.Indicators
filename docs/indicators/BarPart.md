@@ -1,12 +1,12 @@
 ---
-title: Bar parts and basic transforms
-description: Basic bar transforms (e.g. HL2, OHL3, etc.) and isolation of individual price bar candle parts from a full OHLCV bar.
+title: Basic price bar transforms
+description: Basic price bar transforms (e.g. HL2, OHL3, etc.) and isolation of individual price bar candle parts from a full OHLCV bar.
 redirect-from:
   - /indicators/Use/
   - /indicators/BasicBar/
 ---
 
-# Bar parts and basic transforms
+# Basic price bar transforms
 
 Returns a reusable (chainable) basic bar transform (e.g. HL2, OHL3, etc.) by isolating a single component part value or calculated value from the full OHLCV bar candle parts.
 
@@ -24,13 +24,15 @@ IReadOnlyList<TimeValue> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `candlePart` | CandlePart | The [OHLCV](/guide/getting-started#historical-bars) element or simple price transform. |
+| `candlePart` | [_`CandlePart`_](#candlepart-options) | The [OHLCV](/guide/getting-started#historical-bars) element or simple price transform |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least 1 period of `bars`.
 
-`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc). See [the Guide](/guide/getting-started#historical-bars) for more information.
+
+<!--@include: ../shared/candlepart-options.md-->
 
 ## Response
 
@@ -46,8 +48,8 @@ IReadOnlyList<TimeValue>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Value` | double | Price of `CandlePart` option |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Value` | _`double`_ | Price of `CandlePart` option |
 
 ### Utilities
 

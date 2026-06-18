@@ -14,7 +14,7 @@ IReadOnlyList<HeikinAshiResult> results =
   bars.ToHeikinAshi();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least two periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
@@ -35,12 +35,12 @@ IReadOnlyList<HeikinAshiResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Open` | decimal | Modified open price |
-| `High` | decimal | Modified high price |
-| `Low` | decimal | Modified low price |
-| `Close` | decimal | Modified close price |
-| `Volume` | decimal | Volume (same as `bars`) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Open` | _`decimal`_ | Modified open price |
+| `High` | _`decimal`_ | Modified high price |
+| `Low` | _`decimal`_ | Modified low price |
+| `Close` | _`decimal`_ | Modified close price |
+| `Volume` | _`decimal`_ | Volume (same as `bars`) |
 
 ### Utilities
 

@@ -22,21 +22,21 @@ IReadOnlyList<RenkoResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `endType` | EndType | See [EndType options](#endtype-options) below.  Applies to both variants.  Default is `EndType.Close` |
+| `endType` | _`EndType`_ | See [EndType options](#endtype-options) below.  Applies to both variants.  Default is `EndType.Close` |
 
 ### Fixed brick size
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `brickSize` | decimal | Brick size.  Must be greater than 0. |
+| `brickSize` | _`decimal`_ | Brick size.  Must be greater than 0. |
 
 ### ATR-derived brick size
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `atrPeriods` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
+| `atrPeriods` | _`int`_ | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 **Fixed brick size**: You must have at least two periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
@@ -44,11 +44,7 @@ IReadOnlyList<RenkoResult> results =
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### EndType options
-
-**`EndType.Close`** - Brick change threshold measured from `Close` price (default)
-
-**`EndType.HighLow`** - Brick change threshold measured from `High` and `Low` price
+<!--@include: ../shared/endtype-options.md-->
 
 ## Response
 
@@ -59,6 +55,7 @@ IReadOnlyList<RenkoResult>
 - This method returns a time series of all available indicator values for the `bars` provided.
 - It does not return a single incremental indicator value.
 - `RenkoResult` is based on `IBar`, so it can be used as a direct replacement for `bars`.
+- Each result record represents one Renko brick.
 
 ::: warning
 Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical bars.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Timestamp`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
@@ -70,21 +67,15 @@ When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indi
 
 ### `RenkoResult`
 
-Each result record represents one Renko brick.
-
-**`Timestamp`** _`DateTime`_ - Formation date of brick(s)
-
-**`Open`** _`decimal`_ - Brick open price
-
-**`High`** _`decimal`_ - Highest high during elapsed bars periods
-
-**`Low`** _`decimal`_ - Lowest low during elapsed bars periods
-
-**`Close`** _`decimal`_ - Brick close price
-
-**`Volume`** _`decimal`_ - Sum of Volume over elapsed bars periods
-
-**`IsUp`** _`bool`_ - Direction of brick (true=up,false=down)
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | _`DateTime`_ | Formation date of brick(s) |
+| `Open` | _`decimal`_ | Brick open price |
+| `High` | _`decimal`_ | Highest high during elapsed `bars` periods |
+| `Low` | _`decimal`_ | Lowest low during elapsed `bars` periods |
+| `Close` | _`decimal`_ | Brick close price |
+| `Volume` | _`decimal`_ | Sum of Volume over elapsed `bars` periods |
+| `IsUp` |  _`bool`_ | Direction of brick (true=up,false=down) |
 
 ::: warning
 When multiple bricks are drawn from a single `bar` period, the extra information about `High` and `Low` wicks and `Volume` is potentially confusing to interpret.  `High` and `Low` wicks will be the same across the multiple bricks; and `Volume` is portioning evenly across the number of bricks.  For example, if within one `bar` period 3 bricks are drawn, the `Volume` for each brick will be `(sum of bars Volume since last brick) / 3`.

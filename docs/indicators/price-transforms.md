@@ -10,11 +10,11 @@ hero:
       text: ← All categories
       link: /indicators/
 features:
-  - title: Basic Bar Transforms
+  - title: Basic price bar transforms
     icon:
       src: /assets/thumbs/indicators/bar-part.png
     link: /indicators/BarPart
-    details: HL2, HLC3, OC2, OHL3, OHLC4
+    details: HL2, HLC3, OC2, OHL3, OHLC4, and other OHLCV component candle parts
   - title: Ehlers Fisher Transform
     icon:
       src: /assets/thumbs/indicators/fisher-transform.png
@@ -24,15 +24,15 @@ features:
     icon:
       src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/HeikinAshi
-    details: Smoothed candle representation
+    details: Modified candlestick transform of price based on prior period price for smoothing
   - title: Renko Charts
     icon:
       src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/Renko
-    details: Brick-based filtered chart
+    details: Japanese candlestick transform that uses "bricks" in a non-linear time series
   - title: ZigZag
     icon:
       src: /assets/thumbs/indicators/zig-zag.png
     link: /indicators/ZigZag
-    details: Filtered swing high/low path
+    details: Simplifies high-low plot lines based on percent change thresholds
 ---

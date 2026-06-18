@@ -162,7 +162,7 @@ See also: [Moving Average Envelopes](/indicators/MaEnvelopes)
 
 ### [Price Transforms](/indicators/price-transforms)
 
-- [Basic Price Transforms (HL2, HLC3, OC2, OHL3, OHLC4)](/indicators/BarPart)
+- [Basic price bar transforms (HL2, HLC3, OC2, OHL3, OHLC4)](/indicators/BarPart)
 - [Ehlers Fisher Transform](/indicators/FisherTransform)
 - [Heikin Ashi](/indicators/HeikinAshi)
 - [Renko Charts](/indicators/Renko)
