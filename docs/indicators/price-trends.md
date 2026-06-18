@@ -10,74 +10,59 @@ hero:
       text: ← All categories
       link: /indicators/
 features:
-  - title: ADX / DMI
+  - title: Alligator (Williams)
     icon:
-      src: /assets/thumbs/indicators/adx.png
-    link: /indicators/Adx
-    details: Trend strength and direction
-  - title: Aroon Indicator
+      src: /assets/thumbs/indicators/alligator.png
+    link: /indicators/Alligator
+    details: Three-line trend system depicting moving averages (Jaws, Teeth, and Lips)
+  - title: Aroon
     icon:
       src: /assets/thumbs/indicators/aroon.png
     link: /indicators/Aroon
-    details: Time-based trend direction
+    details: Time-based high/low trend direction<br/>(up/down, oscillator)
   - title: ATR Trailing Stop
     icon:
       src: /assets/thumbs/indicators/atr-stop.png
     link: /indicators/AtrStop
-    details: ATR-based trailing stop
+    details: Average true range trailing stop
+  - title: Average Directional Index (ADX)
+    icon:
+      src: /assets/thumbs/indicators/adx.png
+    link: /indicators/Adx
+    details: Directional positive/negative trend strength<br/>(aka Directional Movement Index)
   - title: Elder-ray Index
     icon:
       src: /assets/thumbs/indicators/elder-ray.png
     link: /indicators/ElderRay
-    details: Bull/bear power vs EMA
-  - title: Ichimoku Cloud
-    icon:
-      src: /assets/thumbs/indicators/ichimoku.png
-    link: /indicators/Ichimoku
-    details: Multi-component cloud system
-  - title: MACD
-    icon:
-      src: /assets/thumbs/indicators/macd.png
-    link: /indicators/Macd
-    details: Moving average convergence/divergence
-  - title: Pivot Points
-    icon:
-      src: /assets/thumbs/indicators/pivot-points.png
-    link: /indicators/PivotPoints
-    details: Classic support/resistance pivots based on fixed calendar period
-  - title: Rolling Pivot Points
-    icon:
-      src: /assets/thumbs/indicators/rolling-pivots.png
-    link: /indicators/RollingPivots
-    details: Support/resistance pivots based on a rolling window period
-  - title: Rate of Change (ROC)
-    icon:
-      src: /assets/thumbs/indicators/roc.png
-    link: /indicators/Roc
-    details: Percent change of price
-  - title: Rate of Change with Bands
-    icon:
-      src: /assets/thumbs/indicators/roc-wb.png
-    link: /indicators/RocWb
-    details: Percent change of price with signal bands
-  - title: SuperTrend
-    icon:
-      src: /assets/thumbs/indicators/super-trend.png
-    link: /indicators/SuperTrend
-    details: ATR trend-following system
-  - title: Vortex Indicator
-    icon:
-      src: /assets/thumbs/indicators/vortex.png
-    link: /indicators/Vortex
-    details: Positive/negative trend lines
-  - title: Williams Alligator
-    icon:
-      src: /assets/thumbs/indicators/alligator.png
-    link: /indicators/Alligator
-    details: Three-line trend system
+    details: Depicts buying/selling pressure<br/>(aka Bull & Bear Power)
   - title: Gator Oscillator
     icon:
       src: /assets/thumbs/indicators/gator.png
     link: /indicators/Gator
-    details: Alligator lines divergence    
+    details: Williams Alligator lines divergence
+  - title: Hurst Exponent
+    icon:
+      src: /assets/thumbs/indicators/hurst.png
+    link: /indicators/Hurst
+    details: Long-memory persistence measure<br/>(aka Rescaled Range Analysis)
+  - title: Ichimoku Cloud
+    icon:
+      src: /assets/thumbs/indicators/ichimoku.png
+    link: /indicators/Ichimoku
+    details: Multi-component system with support / resistance, momentum, and trend<br/>(aka Ichimoku Kinkō Hyō)
+  - title: Moving average convergence / divergence (MACD)
+    icon:
+      src: /assets/thumbs/indicators/macd.png
+    link: /indicators/Macd
+    details: Converging / diverging of two exponential moving averages
+  - title: SuperTrend
+    icon:
+      src: /assets/thumbs/indicators/super-trend.png
+    link: /indicators/SuperTrend
+    details: ATR trend-following breakpoint thresholds around an HL2 midline
+  - title: Vortex Indicator
+    icon:
+      src: /assets/thumbs/indicators/vortex.png
+    link: /indicators/Vortex
+    details: Positive / negative trending or reversal patterns
 ---

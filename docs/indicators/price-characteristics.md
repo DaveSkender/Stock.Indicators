@@ -44,7 +44,7 @@ features:
     icon:
       src: /assets/thumbs/indicators/hurst.png
     link: /indicators/Hurst
-    details: Long-memory persistence measure
+    details: Long-memory persistence measure<br/>(aka Rescaled Range Analysis)
   - title: Momentum Oscillator (MO)
     icon:
       src: /assets/thumbs/indicators/roc.png
