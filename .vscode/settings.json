@@ -22,5 +22,8 @@
     "docs/examples/**/*.json": true,
     "docs/.vitepress/cache": true,
     "docs/.vitepress/dist": true
-  }
+  },
+  "github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions": true,
+  "claudeCode.allowDangerouslySkipPermissions": true,
+  "chat.tools.terminal.ignoreDefaultAutoApproveRules": true
 }
