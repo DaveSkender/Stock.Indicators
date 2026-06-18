@@ -20,16 +20,16 @@ features:
       src: /assets/thumbs/indicators/bop.png
     link: /indicators/Bop
     details: Open-to-close balance ratio
-  - title: Bull and Bear Power
-    icon:
-      src: /assets/thumbs/indicators/elder-ray.png
-    link: /indicators/ElderRay
-    details: Elder-ray bull/bear index
   - title: Choppiness Index (CHOP)
     icon:
       src: /assets/thumbs/indicators/chop.png
     link: /indicators/Chop
     details: Directional choppiness measure
+  - title: Elder-ray bull/bear index
+    icon:
+      src: /assets/thumbs/indicators/elder-ray.png
+    link: /indicators/ElderRay
+    details: Depicts buying and selling pressure
   - title: Hilbert Transform Trendline
     icon:
       src: /assets/thumbs/indicators/ht-trendline2.png

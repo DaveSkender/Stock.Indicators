@@ -1,8 +1,10 @@
 # Redirect old URLs to new locations
+
 /indicators/BasicQuote /indicators/QuotePart 301
 /indicators/BasicQuote/ /indicators/QuotePart 301
 
 # Alternative indicator names (aliases from legacy Jekyll site)
+
 /indicators/AtrTrailingStop /indicators/AtrStop 301
 /indicators/AtrTrailingStop/ /indicators/AtrStop 301
 /indicators/BullAndBearPower /indicators/ElderRay 301
@@ -73,6 +75,7 @@
 /indicators/ZScore/ /indicators/StdDev 301
 
 # Handle trailing slash variations for Jekyll-style URLs
+
 /guide/ /guide/getting-started 301
 /indicators/ /indicators 301
 /utilities/ /utilities 301
@@ -81,6 +84,7 @@
 /custom-indicators/ /custom-indicators 301
 
 # Guide restructure (v3 site reorganization)
+
 /guide /guide/getting-started 301
 /customization /guide/customization 301
 /customization/ /guide/customization 301
