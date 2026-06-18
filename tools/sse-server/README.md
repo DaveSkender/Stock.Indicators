@@ -20,11 +20,11 @@ Endpoints:
 
 Query parameters:
 
-| Parameter | Type | Default | Description |
+| argument | type | default | description |
 | --------- | ---- | ------- | ----------- |
-| `interval` | int | `100` | Delivery rate in milliseconds (how fast bars are sent) |
-| `batchSize` | int | none (unlimited) | Maximum number of bars to send before closing stream |
-| `barInterval` | string | `1m` | Time warp: timestamp spacing between bars (e.g., `1s`, `5m`, `1h`, `1d`) |
+| `interval` | _`int`_ | `100` | Delivery rate in milliseconds (how fast bars are sent) |
+| `batchSize` | _`int`_ | none (unlimited) | Maximum number of bars to send before closing stream |
+| `barInterval` | _`string`_ | `1m` | Time warp: timestamp spacing between bars (e.g., `1s`, `5m`, `1h`, `1d`) |
 
 **Time warp feature**: The `barInterval` parameter enables fast testing of strategies that use longer timeframes. For example, `barInterval=1h` with `interval=100` delivers hourly-spaced bars every 100ms, allowing you to test a full day (24 hours) of hourly data in just 2.4 seconds.
 

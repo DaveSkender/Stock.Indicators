@@ -32,17 +32,8 @@ features:
     details: Peak and trough chevron patterns with ±2 fixed period wings for short term pivots
 ---
 
-## Candlestick signal output
+## About candlestick patterns
 
-Candlestick pattern indicators return a `Match` enum value indicating whether a pattern is recognized, with optional confirmation and basis signals.
+Candlestick patterns uniquely share a common `IReadOnlyList<CandleResult>` response type.
 
-| type | int | description |
-| ---- | ---: | ----------- |
-| `Match.BullConfirmed` | 200 | Confirmation of a prior bull signal |
-| `Match.BullSignal` | 100 | Bullish signal |
-| `Match.BullBasis` | 10 | Bars supporting a bullish signal |
-| `Match.Neutral` | 1 | Signal for non-directional patterns |
-| `Match.None` | 0 | No match |
-| `Match.BearBasis` | -10 | Bars supporting a bearish signal |
-| `Match.BearSignal` | -100 | Bearish signal |
-| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal |
+<!--@include: ../shared/candle-result.md-->

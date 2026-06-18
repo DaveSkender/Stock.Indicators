@@ -7,8 +7,6 @@ description: Convert bars into an extended format with calculated candle propert
 
 `bar.ToCandle()` and `bars.ToCandles()` convert a bar class into an extended bar format with additional calculated candle properties.
 
-## Syntax
-
 ```csharp
 // single bar
 CandleProperties candle = bar.ToCandle();
@@ -17,15 +15,9 @@ CandleProperties candle = bar.ToCandle();
 IReadOnlyList<CandleProperties> candles = bars.ToCandles();
 ```
 
-## Returns
+## Response
 
-**CandleProperties** - An extended bar object with calculated candle properties including:
-
-- All original OHLCV data
-- Body size and position
-- Upper and lower wick lengths
-- Candle range and statistics
-- Additional calculated properties
+<!--@include: ../../shared/candle-properties.md-->
 
 ## Usage
 
@@ -60,26 +52,6 @@ foreach (var candle in candles)
   Console.WriteLine($"Date: {candle.Timestamp}, Body: {candle.Body}");
 }
 ```
-
-## CandleProperties members
-
-The `CandleProperties` class extends the basic bar with calculated properties:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| Size | decimal? | Total candle range (High - Low) |
-| Body | decimal? | Absolute difference between Open and Close |
-| UpperWick | decimal? | Distance from top of body to High |
-| LowerWick | decimal? | Distance from bottom of body to Low |
-| BodyPct | double? | Body size as percentage of total size |
-| UpperWickPct | double? | Upper wick size as percentage of total size |
-| LowerWickPct | double? | Lower wick size as percentage of total size |
-| IsBullish | bool | True if Close > Open |
-| IsBearish | bool | True if Close < Open |
-
-::: info Property availability
-The exact properties available may vary by library version. Refer to the [CandleProperties API documentation](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/_common/Candles/CandleProperties.cs) for the complete list.
-:::
 
 ## Common use cases
 

@@ -21,13 +21,13 @@ dotnet run -- sse [dataType] [interval] [count] [barInterval] [endpoint]
 
 Arguments (in order):
 
-| Argument | Type | Default | Description |
+| argument | type | default | description |
 | -------- | ---- | ------- | ----------- |
-| `dataType` | string | `bar` | Data type endpoint: `bar` or `trade` |
-| `interval` | int | `100` | Delivery rate in milliseconds (how fast bars are sent) |
-| `count` | int | none (unlimited) | Maximum number of data points to process; omit for indefinite stream |
-| `barInterval` | string | `1m` | Time warp: timestamp spacing between bars (e.g., `1s`, `5m`, `1h`, `1d`) |
-| `endpoint` | string | `http://localhost:5001/{dataType}/random` | SSE server endpoint URL (rarely needed) |
+| `dataType` | _`string`_ | `bar` | Data type endpoint: `bar` or `trade` |
+| `interval` | _`int`_ | `100` | Delivery rate in milliseconds (how fast bars are sent) |
+| `count` | _`int`_ | none (unlimited) | Maximum number of data points to process; omit for indefinite stream |
+| `barInterval` | _`string`_ | `1m` | Time warp: timestamp spacing between bars (e.g., `1s`, `5m`, `1h`, `1d`) |
+| `endpoint` | _`string`_ | `http://localhost:5001/{dataType}/random` | SSE server endpoint URL (rarely needed) |
 
 Examples:
 
@@ -61,10 +61,10 @@ dotnet run -- coinbase-ticker [symbol] [count]
 
 Arguments (in order):
 
-| Argument | Type | Default | Description |
+| argument | type | default | description |
 | -------- | ---- | ------- | ----------- |
-| `symbol` | string | `BTC-USD` | Coinbase trading pair (e.g., `BTC-USD`, `ETH-USD`) |
-| `count` | int | none (unlimited) | Maximum number of bars to process; omit for indefinite stream |
+| `symbol` | _`string`_ | `BTC-USD` | Coinbase trading pair (e.g., `BTC-USD`, `ETH-USD`) |
+| `count` | _`int`_ | none (unlimited) | Maximum number of bars to process; omit for indefinite stream |
 
 Examples:
 

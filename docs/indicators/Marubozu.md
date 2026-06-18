@@ -22,9 +22,9 @@ IReadOnlyList<CandleResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `minBodyPercent` | double | Optional.  Minimum body size as a percent of total candle size.  Example: 85% would be entered as 85 (not 0.85).  Must be between 80 and 100, if specified.  Default is 95 (95%). |
+| `minBodyPercent` | _`double`_ | Optional.  Minimum body size as a percent of total candle size.  Example: 85% would be entered as 85 (not 0.85).  Must be between 80 and 100, if specified.  Default is 95 (95%). |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least one historical bar; however, more is typically provided since this is a chartable candlestick pattern.
 
@@ -42,6 +42,8 @@ IReadOnlyList<CandleResult>
 - The candlestick pattern is indicated on dates where `Match` is `Match.BullSignal` or `Match.BearSignal`.
 - `Price` is `Close` price; however, all OHLCV elements are included in `CandleProperties`.
 - There is no intrinsic basis or confirmation signal provided for this pattern.
+
+<!--@include: ../shared/candle-result.md-->
 
 ### Utilities
 

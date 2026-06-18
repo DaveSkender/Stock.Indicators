@@ -313,10 +313,9 @@ export default defineConfig({
           link: '/indicators/price-transforms',
           collapsed: true,
           items: [
-            { text: 'Basic bar transforms', link: '/indicators/BarPart' },
+            { text: 'Basic price bar transforms', link: '/indicators/BarPart' },
             { text: 'Ehlers Fisher Transform', link: '/indicators/FisherTransform' },
             { text: 'Heikin Ashi', link: '/indicators/HeikinAshi' },
-            { text: 'HL2, HLC3, OC2, OHL3, OHLC4', link: '/indicators/BarPart' },
             { text: 'Renko Charts', link: '/indicators/Renko' },
             { text: 'ZigZag', link: '/indicators/ZigZag' },
           ]
@@ -446,6 +445,7 @@ export default defineConfig({
     'examples/UseQuoteApi/**',
     'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
+    'shared/**',
     'tests/**',
     'vendor/**',
     '.pa11yci',
