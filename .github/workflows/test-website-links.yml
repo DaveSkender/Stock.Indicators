@@ -49,8 +49,6 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
           cache-dependency-path: docs/pnpm-lock.yaml
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@facioquo"
 
       - name: Install pnpm packages
         run: pnpm install
