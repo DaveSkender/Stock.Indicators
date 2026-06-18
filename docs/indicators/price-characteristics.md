@@ -60,11 +60,16 @@ features:
       src: /assets/thumbs/indicators/_placeholder.svg
     link: /indicators/Prs
     details: Price relative to benchmark
-  - title: ROC with Bands (ROCWB)
+  - title: Rate of Change (ROC)
+    icon:
+      src: /assets/thumbs/indicators/roc.png
+    link: /indicators/Roc
+    details: Percent change of price
+  - title: Rate of Change with Bands
     icon:
       src: /assets/thumbs/indicators/roc-wb.png
     link: /indicators/RocWb
-    details: Rate of change with signal bands
+    details: Percent change of price with signal bands
   - title: True Range (TR)
     icon:
       src: /assets/thumbs/indicators/tr.png

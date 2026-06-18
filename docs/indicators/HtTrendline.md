@@ -8,16 +8,8 @@ description: Created by John Ehlers, the Hilbert Transform Instantaneous Trendli
 Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.  Dominant Cycle Periods information is also provided.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/363 "Community discussion about this indicator")
 
-**Instantaneous Trendline** — the smoothed price overlay derived from the Hilbert Transform.
-
 <ClientOnly>
-  <StockIndicatorChart indicator="HtTrendline" />
-</ClientOnly>
-
-**Dominant Cycle Periods** — the companion oscillator showing the inferred cycle length at each bar.
-
-<ClientOnly>
-  <StockIndicatorChart indicator="DcPeriods" withOverlay />
+  <StockIndicatorChart indicator="HtTrendline" with="DcPeriods" />
 </ClientOnly>
 
 ```csharp

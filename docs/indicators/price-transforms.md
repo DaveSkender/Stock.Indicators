@@ -12,7 +12,7 @@ hero:
 features:
   - title: Basic Quote Transforms
     icon:
-      src: /assets/thumbs/indicators/_placeholder.svg
+      src: /assets/thumbs/indicators/quote-part.png
     link: /indicators/QuotePart
     details: HL2, HLC3, OC2, OHL3, OHLC4
   - title: Ehlers Fisher Transform

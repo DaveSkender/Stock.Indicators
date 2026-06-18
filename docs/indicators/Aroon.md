@@ -5,19 +5,15 @@ description: Created by Tushar Chande, Aroon is a oscillator view of how long ag
 
 # Aroon
 
-Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a oscillator view of how long ago the new high or low price occurred.
+Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a oscillator view of how long ago the new high or low price occurred. **Aroon Up/Down** tracks how recently each window saw a new high (Up) or low (Down). **Aroon Oscillator** is the difference `Up − Down`, presented as a single oscillator that crosses zero when the dominant trend flips.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/266 "Community discussion about this indicator")
-
-**Aroon Up/Down** — two lines tracking how recently each window saw a new high (Up) or low (Down).
 
 <ClientOnly>
   <StockIndicatorChart indicator="Aroon" withOverlay />
 </ClientOnly>
 
-**Aroon Oscillator** — the difference `Up − Down`, presented as a single oscillator that crosses zero when the dominant trend flips.
-
 <ClientOnly>
-  <StockIndicatorChart indicator="AroonOsc" withOverlay />
+  <StockIndicatorChart indicator="AroonOsc" />
 </ClientOnly>
 
 ```csharp
