@@ -1,5 +1,109 @@
 [
   {
+    "name": "ATR Trailing Stop (Close offset)",
+    "uiid": "ATR-STOP-CLOSE",
+    "legendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
+    "endpoint": "indicators/atr-stop-close",
+    "category": "price-trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 21
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Buy Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Buy Stop",
+        "dataName": "buyStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Sell Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Sell Stop",
+        "dataName": "sellStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "ATR Trailing Stop (High/Low offset)",
+    "uiid": "ATR-STOP-HL",
+    "legendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
+    "endpoint": "indicators/atr-stop-hl",
+    "category": "price-trend",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 21
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 10,
+        "defaultValue": 3
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Buy Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Buy Stop",
+        "dataName": "buyStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "Sell Stop",
+        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Sell Stop",
+        "dataName": "sellStop",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "Accumulation Distribution Line (ADL)",
     "uiid": "ADL",
     "legendTemplate": "ADL",
@@ -184,110 +288,6 @@
     ]
   },
   {
-    "name": "ATR Trailing Stop (Close offset)",
-    "uiid": "ATR-STOP-CLOSE",
-    "legendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
-    "endpoint": "indicators/atr-stop-close",
-    "category": "price-trend",
-    "chartType": "overlay",
-    "order": 1,
-    "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 50,
-        "defaultValue": 21
-      },
-      {
-        "displayName": "Multiplier",
-        "paramName": "multiplier",
-        "dataType": "number",
-        "minimum": 0.1,
-        "maximum": 10,
-        "defaultValue": 3
-      }
-    ],
-    "results": [
-      {
-        "displayName": "Buy Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Buy Stop",
-        "dataName": "buyStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#2E7D32",
-        "fill": null
-      },
-      {
-        "displayName": "Sell Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],CLOSE) Sell Stop",
-        "dataName": "sellStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#DD2C00",
-        "fill": null
-      }
-    ]
-  },
-  {
-    "name": "ATR Trailing Stop (High/Low offset)",
-    "uiid": "ATR-STOP-HL",
-    "legendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
-    "endpoint": "indicators/atr-stop-hl",
-    "category": "price-trend",
-    "chartType": "overlay",
-    "order": 1,
-    "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 50,
-        "defaultValue": 21
-      },
-      {
-        "displayName": "Multiplier",
-        "paramName": "multiplier",
-        "dataType": "number",
-        "minimum": 0.1,
-        "maximum": 10,
-        "defaultValue": 3
-      }
-    ],
-    "results": [
-      {
-        "displayName": "Buy Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Buy Stop",
-        "dataName": "buyStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#2E7D32",
-        "fill": null
-      },
-      {
-        "displayName": "Sell Stop",
-        "tooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW) Sell Stop",
-        "dataName": "sellStop",
-        "dataType": "number",
-        "lineType": "dots",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#DD2C00",
-        "fill": null
-      }
-    ]
-  },
-  {
     "name": "Average Directional Index (ADX)",
     "uiid": "ADX",
     "legendTemplate": "ADX([P1])",
@@ -366,6 +366,30 @@
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#9E9E9E50",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Average Price (OHLC4)",
+    "uiid": "OHLC4",
+    "legendTemplate": "OHLC4",
+    "endpoint": "indicators/ohlc4",
+    "category": "price-transform",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "OHLC4",
+        "tooltipTemplate": "OHLC4",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
         "fill": null
       }
     ]
@@ -599,7 +623,7 @@
     ]
   },
   {
-    "name": "Bollinger Bands®",
+    "name": "Bollinger Bands\u00ae",
     "uiid": "BB",
     "legendTemplate": "BB([P1],[P2])",
     "endpoint": "indicators/bb",
@@ -666,7 +690,7 @@
     ]
   },
   {
-    "name": "Bollinger Bands® %B",
+    "name": "Bollinger Bands\u00ae %B",
     "uiid": "BB-PCTB",
     "legendTemplate": "BB([P1],[P2]) %B",
     "endpoint": "indicators/bb-pctb",
@@ -2050,6 +2074,58 @@
     ]
   },
   {
+    "name": "MESA Adaptive Moving Average (MAMA)",
+    "uiid": "MAMA",
+    "legendTemplate": "MAMA([P1],[P2])",
+    "endpoint": "indicators/mama",
+    "category": "moving-average",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Fast Limit",
+        "paramName": "fastLimit",
+        "dataType": "number",
+        "minimum": 0.1,
+        "maximum": 0.99,
+        "defaultValue": 0.5
+      },
+      {
+        "displayName": "Slow Limit",
+        "paramName": "slowLimit",
+        "dataType": "number",
+        "minimum": 0.01,
+        "maximum": 0.5,
+        "defaultValue": 0.05
+      }
+    ],
+    "results": [
+      {
+        "displayName": "MAMA",
+        "tooltipTemplate": "MAMA([P1],[P2])",
+        "dataName": "mama",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "FAMA",
+        "tooltipTemplate": "FAMA([P1],[P2])",
+        "dataName": "fama",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "Marubozu",
     "uiid": "MARUBOZU",
     "legendTemplate": "MARUBOZU([P1]%)",
@@ -2116,53 +2192,25 @@
     ]
   },
   {
-    "name": "MESA Adaptive Moving Average (MAMA)",
-    "uiid": "MAMA",
-    "legendTemplate": "MAMA([P1],[P2])",
-    "endpoint": "indicators/mama",
-    "category": "moving-average",
+    "name": "Median Price (HL2)",
+    "uiid": "HL2",
+    "legendTemplate": "HL2",
+    "endpoint": "indicators/hl2",
+    "category": "price-transform",
     "chartType": "overlay",
     "order": 1,
     "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "Fast Limit",
-        "paramName": "fastLimit",
-        "dataType": "number",
-        "minimum": 0.1,
-        "maximum": 0.99,
-        "defaultValue": 0.5
-      },
-      {
-        "displayName": "Slow Limit",
-        "paramName": "slowLimit",
-        "dataType": "number",
-        "minimum": 0.01,
-        "maximum": 0.5,
-        "defaultValue": 0.05
-      }
-    ],
+    "parameters": [],
     "results": [
       {
-        "displayName": "MAMA",
-        "tooltipTemplate": "MAMA([P1],[P2])",
-        "dataName": "mama",
+        "displayName": "HL2",
+        "tooltipTemplate": "HL2",
+        "dataName": "value",
         "dataType": "number",
         "lineType": "solid",
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#1E88E5",
-        "fill": null
-      },
-      {
-        "displayName": "FAMA",
-        "tooltipTemplate": "FAMA([P1],[P2])",
-        "dataName": "fama",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#DD2C00",
         "fill": null
       }
     ]
@@ -2399,6 +2447,54 @@
     ]
   },
   {
+    "name": "Open-Close Average (OC2)",
+    "uiid": "OC2",
+    "legendTemplate": "OC2",
+    "endpoint": "indicators/oc2",
+    "category": "price-transform",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "OC2",
+        "tooltipTemplate": "OC2",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Open-High-Low Average (OHL3)",
+    "uiid": "OHL3",
+    "legendTemplate": "OHL3",
+    "endpoint": "indicators/ohl3",
+    "category": "price-transform",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "OHL3",
+        "tooltipTemplate": "OHL3",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "Parabolic Stop and Reverse (SAR)",
     "uiid": "PSAR",
     "legendTemplate": "PSAR([P1],[P2])",
@@ -2412,7 +2508,7 @@
         "displayName": "Step Size",
         "paramName": "accelerationStep",
         "dataType": "number",
-        "minimum": 0.000001,
+        "minimum": 1e-06,
         "maximum": 2500,
         "defaultValue": 0.02
       },
@@ -2420,7 +2516,7 @@
         "displayName": "Max Factor",
         "paramName": "maxAccelerationFactor",
         "dataType": "number",
-        "minimum": 0.000001,
+        "minimum": 1e-06,
         "maximum": 2500,
         "defaultValue": 0.2
       }
@@ -2522,77 +2618,6 @@
     ]
   },
   {
-    "name": "Price Momentum Oscillator (PMO)",
-    "uiid": "PMO",
-    "legendTemplate": "PMO([P1],[P2],[P3])",
-    "endpoint": "indicators/pmo",
-    "category": "oscillator",
-    "chartType": "oscillator",
-    "order": 1,
-    "chartConfig": {
-      "minimumYAxis": null,
-      "maximumYAxis": null,
-      "thresholds": [
-        {
-          "value": 0,
-          "color": "#42424280",
-          "style": "dash",
-          "fill": null
-        }
-      ]
-    },
-    "parameters": [
-      {
-        "displayName": "Time Periods",
-        "paramName": "timePeriods",
-        "dataType": "int",
-        "minimum": 2,
-        "maximum": 250,
-        "defaultValue": 35
-      },
-      {
-        "displayName": "Smooth Periods",
-        "paramName": "smoothPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 100,
-        "defaultValue": 20
-      },
-      {
-        "displayName": "Signal Periods",
-        "paramName": "signalPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 50,
-        "defaultValue": 10
-      }
-    ],
-    "results": [
-      {
-        "displayName": "PMO",
-        "tooltipTemplate": "PMO([P1],[P2],[P3])",
-        "dataName": "pmo",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#1E88E5",
-        "fill": null
-      },
-      {
-        "displayName": "Signal",
-        "tooltipTemplate": "PMO Signal",
-        "dataName": "signal",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#DD2C00",
-        "fill": null
-      }
-    ]
-  },
-  {
     "name": "Pivot Points (month)",
     "uiid": "PIVOT-POINTS",
     "legendTemplate": "PIVOT POINTS(MONTH)",
@@ -2685,6 +2710,159 @@
         "lineWidth": 1,
         "segmented": true,
         "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Pivots",
+    "uiid": "PIVOTS",
+    "legendTemplate": "PIVOTS([P1],[P2],[P3])",
+    "endpoint": "indicators/pivots",
+    "category": "price-pattern",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Left Span",
+        "paramName": "leftSpan",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 50,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "Right Span",
+        "paramName": "rightSpan",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 50,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "Max Trend Periods",
+        "paramName": "maxTrendPeriods",
+        "dataType": "int",
+        "minimum": 3,
+        "maximum": 250,
+        "defaultValue": 20
+      }
+    ],
+    "results": [
+      {
+        "displayName": "High Point",
+        "tooltipTemplate": "High Point",
+        "dataName": "highPoint",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 3,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Low Point",
+        "tooltipTemplate": "Low Point",
+        "dataName": "lowPoint",
+        "dataType": "number",
+        "lineType": "dots",
+        "stack": null,
+        "lineWidth": 3,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      },
+      {
+        "displayName": "High Trend Line",
+        "tooltipTemplate": "High Trend Line",
+        "dataName": "highLine",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
+        "fill": null
+      },
+      {
+        "displayName": "Low Trend Line",
+        "tooltipTemplate": "Low Trend Line",
+        "dataName": "lowLine",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Price Momentum Oscillator (PMO)",
+    "uiid": "PMO",
+    "legendTemplate": "PMO([P1],[P2],[P3])",
+    "endpoint": "indicators/pmo",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Time Periods",
+        "paramName": "timePeriods",
+        "dataType": "int",
+        "minimum": 2,
+        "maximum": 250,
+        "defaultValue": 35
+      },
+      {
+        "displayName": "Smooth Periods",
+        "paramName": "smoothPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 100,
+        "defaultValue": 20
+      },
+      {
+        "displayName": "Signal Periods",
+        "paramName": "signalPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "PMO",
+        "tooltipTemplate": "PMO([P1],[P2],[P3])",
+        "dataName": "pmo",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      },
+      {
+        "displayName": "Signal",
+        "tooltipTemplate": "PMO Signal",
+        "dataName": "signal",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#DD2C00",
         "fill": null
       }
     ]
@@ -2981,6 +3159,81 @@
     ]
   },
   {
+    "name": "STARC Bands",
+    "uiid": "STARC",
+    "legendTemplate": "STARC([P1],[P2],[P3])",
+    "endpoint": "indicators/starc",
+    "category": "price-channel",
+    "chartType": "overlay",
+    "order": 80,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "SMA Periods",
+        "paramName": "smaPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 5
+      },
+      {
+        "displayName": "Multiplier",
+        "paramName": "multiplier",
+        "dataType": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "defaultValue": 2
+      },
+      {
+        "displayName": "ATR Periods",
+        "paramName": "atrPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 50,
+        "defaultValue": 10
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Upper Band",
+        "tooltipTemplate": "STARC Upper Band",
+        "dataName": "upperBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": {
+          "target": "+2",
+          "colorAbove": "#61616110",
+          "colorBelow": "#61616110"
+        }
+      },
+      {
+        "displayName": "Centerline",
+        "tooltipTemplate": "STARC Centerline",
+        "dataName": "centerline",
+        "dataType": "number",
+        "lineType": "dash",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      },
+      {
+        "displayName": "Lower Band",
+        "tooltipTemplate": "STARC Lower Band",
+        "dataName": "lowerBand",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 1,
+        "defaultColor": "#EF6C00",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "Schaff Trend Cycle (STC)",
     "uiid": "STC",
     "legendTemplate": "STC([P1],[P2],[P3])",
@@ -3154,39 +3407,6 @@
     ]
   },
   {
-    "name": "Standard Deviation (absolute)",
-    "uiid": "STDEV",
-    "legendTemplate": "STDEV([P1])",
-    "endpoint": "indicators/stdev",
-    "category": "price-characteristic",
-    "chartType": "oscillator",
-    "order": 1,
-    "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 250,
-        "defaultValue": 14
-      }
-    ],
-    "results": [
-      {
-        "displayName": "Standard Deviation",
-        "tooltipTemplate": "STDEV([P1])",
-        "dataName": "stdDev",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#1E88E5",
-        "fill": null
-      }
-    ]
-  },
-  {
     "name": "Standard Deviation (Z-Score)",
     "uiid": "STDEV-ZSCORE",
     "legendTemplate": "STDEV-ZSCORE([P1])",
@@ -3210,6 +3430,39 @@
         "displayName": "Z-Score",
         "tooltipTemplate": "Z-Score([P1])",
         "dataName": "zScore",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Standard Deviation (absolute)",
+    "uiid": "STDEV",
+    "legendTemplate": "STDEV([P1])",
+    "endpoint": "indicators/stdev",
+    "category": "price-characteristic",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Standard Deviation",
+        "tooltipTemplate": "STDEV([P1])",
+        "dataName": "stdDev",
         "dataType": "number",
         "lineType": "solid",
         "stack": null,
@@ -3277,81 +3530,6 @@
         "displayName": "Lower Channel",
         "tooltipTemplate": "STDEV-CH Lower",
         "dataName": "lowerChannel",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 1,
-        "defaultColor": "#EF6C00",
-        "fill": null
-      }
-    ]
-  },
-  {
-    "name": "STARC Bands",
-    "uiid": "STARC",
-    "legendTemplate": "STARC([P1],[P2],[P3])",
-    "endpoint": "indicators/starc",
-    "category": "price-channel",
-    "chartType": "overlay",
-    "order": 80,
-    "chartConfig": null,
-    "parameters": [
-      {
-        "displayName": "SMA Periods",
-        "paramName": "smaPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 50,
-        "defaultValue": 5
-      },
-      {
-        "displayName": "Multiplier",
-        "paramName": "multiplier",
-        "dataType": "number",
-        "minimum": 1,
-        "maximum": 10,
-        "defaultValue": 2
-      },
-      {
-        "displayName": "ATR Periods",
-        "paramName": "atrPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 50,
-        "defaultValue": 10
-      }
-    ],
-    "results": [
-      {
-        "displayName": "Upper Band",
-        "tooltipTemplate": "STARC Upper Band",
-        "dataName": "upperBand",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 1,
-        "defaultColor": "#EF6C00",
-        "fill": {
-          "target": "+2",
-          "colorAbove": "#61616110",
-          "colorBelow": "#61616110"
-        }
-      },
-      {
-        "displayName": "Centerline",
-        "tooltipTemplate": "STARC Centerline",
-        "dataName": "centerline",
-        "dataType": "number",
-        "lineType": "dash",
-        "stack": null,
-        "lineWidth": 1,
-        "defaultColor": "#EF6C00",
-        "fill": null
-      },
-      {
-        "displayName": "Lower Band",
-        "tooltipTemplate": "STARC Lower Band",
-        "dataName": "lowerBand",
         "dataType": "number",
         "lineType": "solid",
         "stack": null,
@@ -3688,6 +3866,50 @@
     ]
   },
   {
+    "name": "TRIX Oscillator",
+    "uiid": "TRIX",
+    "legendTemplate": "TRIX([P1])",
+    "endpoint": "indicators/trix",
+    "category": "oscillator",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": null,
+      "maximumYAxis": null,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 14
+      }
+    ],
+    "results": [
+      {
+        "displayName": "TRIX",
+        "tooltipTemplate": "TRIX([P1])",
+        "dataName": "trix",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "Tillson T3 Moving Average",
     "uiid": "T3",
     "legendTemplate": "T3([P1],[P2])",
@@ -3752,50 +3974,6 @@
         "displayName": "TEMA",
         "tooltipTemplate": "TEMA([P1])",
         "dataName": "tema",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#1E88E5",
-        "fill": null
-      }
-    ]
-  },
-  {
-    "name": "TRIX Oscillator",
-    "uiid": "TRIX",
-    "legendTemplate": "TRIX([P1])",
-    "endpoint": "indicators/trix",
-    "category": "oscillator",
-    "chartType": "oscillator",
-    "order": 1,
-    "chartConfig": {
-      "minimumYAxis": null,
-      "maximumYAxis": null,
-      "thresholds": [
-        {
-          "value": 0,
-          "color": "#42424280",
-          "style": "dash",
-          "fill": null
-        }
-      ]
-    },
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 250,
-        "defaultValue": 14
-      }
-    ],
-    "results": [
-      {
-        "displayName": "TRIX",
-        "tooltipTemplate": "TRIX([P1])",
-        "dataName": "trix",
         "dataType": "number",
         "lineType": "solid",
         "stack": null,
@@ -3910,6 +4088,30 @@
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#DD2C00",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Typical Price (HLC3)",
+    "uiid": "HLC3",
+    "legendTemplate": "HLC3",
+    "endpoint": "indicators/hlc3",
+    "category": "price-transform",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "HLC3",
+        "tooltipTemplate": "HLC3",
+        "dataName": "value",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
         "fill": null
       }
     ]
@@ -4069,6 +4271,30 @@
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#2E7D32",
+        "fill": null
+      }
+    ]
+  },
+  {
+    "name": "Volume Weighted Average Price (VWAP)",
+    "uiid": "VWAP",
+    "legendTemplate": "VWAP",
+    "endpoint": "indicators/vwap",
+    "category": "volume-based",
+    "chartType": "overlay",
+    "order": 1,
+    "chartConfig": null,
+    "parameters": [],
+    "results": [
+      {
+        "displayName": "VWAP",
+        "tooltipTemplate": "VWAP",
+        "dataName": "vwap",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
         "fill": null
       }
     ]
@@ -4486,30 +4712,6 @@
         "stack": null,
         "lineWidth": 2,
         "defaultColor": "#42424280",
-        "fill": null
-      }
-    ]
-  },
-  {
-    "name": "Volume Weighted Average Price (VWAP)",
-    "uiid": "VWAP",
-    "legendTemplate": "VWAP",
-    "endpoint": "indicators/vwap",
-    "category": "volume-based",
-    "chartType": "overlay",
-    "order": 1,
-    "chartConfig": null,
-    "parameters": [],
-    "results": [
-      {
-        "displayName": "VWAP",
-        "tooltipTemplate": "VWAP",
-        "dataName": "vwap",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#1E88E5",
         "fill": null
       }
     ]

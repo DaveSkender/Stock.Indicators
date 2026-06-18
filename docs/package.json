@@ -23,7 +23,7 @@
     "vue": "^3.5.38"
   },
   "dependencies": {
-    "@facioquo/indy-charts": "^0.6.0",
+    "@facioquo/indy-charts": "^0.7.0",
     "chart.js": "^4.5.1",
     "chartjs-plugin-annotation": "^3.1.0"
   }
