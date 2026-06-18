@@ -24,7 +24,7 @@ features:
     icon:
       src: /assets/thumbs/indicators/atr-stop.png
     link: /indicators/AtrStop
-    details: Average true range trailing stop
+    details: ATR-based adaptive trailing stop bands
   - title: Average Directional Index (ADX)
     icon:
       src: /assets/thumbs/indicators/adx.png

@@ -8,16 +8,8 @@ description: Created by Charles Le Beau, the Chandelier Exit is an adjusted Aver
 Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit) is an adjusted Average True Range (ATR) offset from price that is typically used for stop-loss and can be computed for both long or short types.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/263 "Community discussion about this indicator")
 
-**Long type** (default) — exit line sits below price; used to trail long positions.
-
 <ClientOnly>
   <StockIndicatorChart indicator="Chandelier" />
-</ClientOnly>
-
-**Short type** — exit line sits above price; used to trail short positions.
-
-<ClientOnly>
-  <StockIndicatorChart indicator="ChandelierShort" />
 </ClientOnly>
 
 ```csharp
@@ -32,7 +24,7 @@ IReadOnlyList<ChandelierResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
 | `multiplier` | double | Multiplier number must be a positive value.  Default is 3. |
-| `type` | Direction | Direction of exit.  See [Direction options](#direction-options) below.  Default is `Direction.Long`. |
+| `type` | Direction | Direction of exit.  See [Direction options](#direction-options-for-type) below.  Default is `Direction.Long`. |
 
 ### Historical bars requirements
 
@@ -40,11 +32,12 @@ You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### Direction options
+### `Direction` options for `type`
 
-**`Direction.Long`** - Intended as stop loss value for long positions. (default)
-
-**`Direction.Short`** - Intended as stop loss value for short positions.
+| enum value | description |
+| ------ | ----------- |
+| `Direction.Long` (default) | Trailing stop loss value for long positions, sits below price  |
+| `Direction.Short` | Trailing stop loss value for short positions, sits above price |
 
 ## Response
 
