@@ -22,9 +22,9 @@ IReadOnlyList<ForceIndexResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
+| `lookbackPeriods` | _`int`_ | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` for `2×N` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
@@ -41,7 +41,7 @@ IReadOnlyList<ForceIndexResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will be `null` since they cannot be calculated.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -49,8 +49,8 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `ForceIndex` | double | Force Index |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `ForceIndex` | _`double`_ | Force Index |
 
 ### Utilities
 

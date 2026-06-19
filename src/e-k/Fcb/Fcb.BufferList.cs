@@ -34,7 +34,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromBar, IFcb
     /// Initializes a new instance of the <see cref="FcbList"/> class with initial bars.
     /// </summary>
     /// <param name="windowSpan">Window span for the calculation.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public FcbList(
         int windowSpan,
         IReadOnlyList<IBar> bars
@@ -152,7 +152,7 @@ public static partial class Fcb
     /// <summary>
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Time span for the window</param>
     public static FcbList ToFcbList(
         this IReadOnlyList<IBar> bars,

@@ -13,7 +13,7 @@ public static partial class Bars
     /// Check that bars are valid and in ascending order.
     /// </summary>
     /// <typeparam name="TBar">IBar type</typeparam>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>Valid list of bars</returns>
     /// <exception cref="ArgumentNullException">
     /// List of bars cannot be a null reference.

@@ -18,7 +18,7 @@ IReadOnlyList<AdlResult> results =
   bars.ToAdl();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least two historical bars to cover the warmup periods; however, since this is a trendline, more is recommended.
 
@@ -38,12 +38,12 @@ IReadOnlyList<AdlResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `MoneyFlowMultiplier` | double | Money Flow Multiplier |
-| `MoneyFlowVolume` | double | Money Flow Volume |
-| `Adl` | double | Accumulation Distribution Line (ADL) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `MoneyFlowMultiplier` | _`double`_ | Money Flow Multiplier |
+| `MoneyFlowVolume` | _`double`_ | Money Flow Volume |
+| `Adl` | _`double`_ | Accumulation Distribution Line (ADL) |
 
-::: warning
+::: warning 🚩
 absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 :::
 

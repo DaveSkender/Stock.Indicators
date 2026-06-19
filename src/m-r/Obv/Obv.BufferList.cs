@@ -16,7 +16,7 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromBar
     /// <summary>
     /// Initializes a new instance of the <see cref="ObvList"/> class with initial bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ObvList(IReadOnlyList<IBar> bars)
         : this() => Add(bars);
 
@@ -73,7 +73,7 @@ public static partial class Obv
     /// <summary>
     /// Creates a buffer list for On-Balance Volume (OBV) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public static ObvList ToObvList(
         this IReadOnlyList<IBar> bars)
         => new() { bars };

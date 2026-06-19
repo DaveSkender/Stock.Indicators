@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for aggregating raw tick data into OHLCV bar bars.
+/// Streaming hub for aggregating raw tick data into OHLCV price bars.
 /// </summary>
 /// <remarks>
 /// Gap behavior: by default (<c>fillGaps: false</c>) the hub emits only

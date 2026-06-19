@@ -22,11 +22,11 @@ IReadOnlyList<MaEnvelopeResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1. |
-| `percentOffset` | double | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
+| `percentOffset` | _`double`_ | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5. |
 | `movingAverageType` | MaType | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `bars` and `lookbackPeriods`.
 
@@ -54,7 +54,7 @@ These are the supported moving average types:
 
 **`MaType.WMA`** - [Weighted Moving Average](/indicators/Wma)
 
-::: warning
+::: warning 🚩
 For ALMA, default values are used for `offset` and `sigma`.
 :::
 
@@ -69,7 +69,7 @@ IReadOnlyList<MaEnvelopeResult>
 - It does not return a single incremental indicator value.
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 :::
 
@@ -77,10 +77,10 @@ Some moving average variants have decreasing magnitude, convergence-related prec
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Centerline` | double | Moving average |
-| `UpperEnvelope` | double | Upper envelope band |
-| `LowerEnvelope` | double | Lower envelope band |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Centerline` | _`double`_ | Moving average |
+| `UpperEnvelope` | _`double`_ | Upper envelope band |
+| `LowerEnvelope` | _`double`_ | Lower envelope band |
 
 The moving average `Centerline` is based on the `movingAverageType` type specified.
 

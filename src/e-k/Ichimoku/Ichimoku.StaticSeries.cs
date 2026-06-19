@@ -8,7 +8,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a list of bars to Ichimoku Cloud results using default parameters.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B). Default is 52.</param>
@@ -30,7 +30,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a list of bars to Ichimoku Cloud results with specified parameters.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
@@ -54,7 +54,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Ichimoku Cloud indicator.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
@@ -143,7 +143,7 @@ public static partial class Ichimoku
     /// Calculates the Tenkan-sen (conversion line) for the Ichimoku Cloud indicator.
     /// </summary>
     /// <param name="i">Current index in the bars list.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <returns>Tenkan-sen value.</returns>
     private static double? CalcIchimokuTenkanSen(
@@ -180,7 +180,7 @@ public static partial class Ichimoku
     /// Calculates the Kijun-sen (base line) for the Ichimoku Cloud indicator.
     /// </summary>
     /// <param name="i">Current index in the bars list.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <returns>Kijun-sen value.</returns>
     private static double? CalcIchimokuKijunSen(
@@ -218,7 +218,7 @@ public static partial class Ichimoku
     /// Calculates the Senkou Span B (leading span B) for the Ichimoku Cloud indicator.
     /// </summary>
     /// <param name="i">Current index in the bars list.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <returns>Senkou Span B value.</returns>

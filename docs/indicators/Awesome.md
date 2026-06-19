@@ -22,10 +22,10 @@ IReadOnlyList<AwesomeResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5. |
-| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34. |
+| `fastPeriods` | _`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5. |
+| `slowPeriods` | _`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `S` periods of `bars` to cover the warmup periods.
 
@@ -46,9 +46,9 @@ IReadOnlyList<AwesomeResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Oscillator` | double | Awesome Oscillator |
-| `Normalized` | double | `100 × Oscillator ÷ (median price)` |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Oscillator` | _`double`_ | Awesome Oscillator |
+| `Normalized` | _`double`_ | `100 × Oscillator ÷ (median price)` |
 
 ### Utilities
 

@@ -7,7 +7,7 @@ public static partial class Bars
     /// <summary>
     /// Aggregates the bars to a specified period size.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="newSize">New period size to aggregate to.</param>
     /// <returns>A list of aggregated bars.</returns>
     public static IReadOnlyList<Bar> Aggregate(
@@ -41,7 +41,7 @@ public static partial class Bars
     /// <summary>
     /// Aggregates the bars to a specified time span.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="timeSpan">Time span to aggregate to.</param>
     /// <returns>A list of aggregated bars.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the time span is less than or equal to zero.</exception>

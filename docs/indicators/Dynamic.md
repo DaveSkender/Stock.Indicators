@@ -22,10 +22,10 @@ IReadOnlyList<DynamicResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
-| `kFactor` | double | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6 |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| `kFactor` | _`double`_ | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6 |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2` periods of `bars`, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `4×N` data points prior to the intended usage date for better precision.
 
@@ -48,7 +48,7 @@ IReadOnlyList<DynamicResult>
 - It does not return a single incremental indicator value.
 - The first period will have a `null` value since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -56,8 +56,8 @@ The first `4×N` periods will have decreasing magnitude, convergence-related pre
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Dynamic` | double | McGinley Dynamic |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Dynamic` | _`double`_ | McGinley Dynamic |
 
 ### Utilities
 

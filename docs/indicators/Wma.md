@@ -22,9 +22,9 @@ IReadOnlyList<WmaResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 
@@ -45,8 +45,8 @@ IReadOnlyList<WmaResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Wma` | double | Weighted moving average |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Wma` | _`double`_ | Weighted moving average |
 
 ### Utilities
 

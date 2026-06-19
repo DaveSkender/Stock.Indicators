@@ -8,7 +8,7 @@ public static partial class Fcb
     /// <summary>
     /// Converts a list of bars to FCB results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Window span for the calculation. Default is 2.</param>
     /// <returns>A list of FCB results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>

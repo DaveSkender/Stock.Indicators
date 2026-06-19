@@ -28,7 +28,7 @@ IReadOnlyList<TimeValue> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `candlePart` | [_`CandlePart`_](#candlepart-options) | The [OHLCV](/guide/getting-started#historical-bars) element or simple price transform |
+| `candlePart` | _`CandlePart`_ | The [OHLCV](/guide/getting-started#historical-bars) element or simple price transform |
 
 ### Historical price bars requirements
 

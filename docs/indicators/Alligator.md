@@ -22,14 +22,14 @@ IReadOnlyList<AlligatorResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `jawPeriods` | int | Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13. |
-| `jawOffset` | int | Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8. |
-| `teethPeriods` | int | Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8. |
-| `teethOffset` | int | Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5. |
-| `lipsPeriods` | int | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5. |
-| `lipsOffset` | int | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3. |
+| `jawPeriods` | _`int`_ | Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13. |
+| `jawOffset` | _`int`_ | Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8. |
+| `teethPeriods` | _`int`_ | Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8. |
+| `teethOffset` | _`int`_ | Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5. |
+| `lipsPeriods` | _`int`_ | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5. |
+| `lipsOffset` | _`int`_ | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `JP+JO+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least `JP+JO+250` data points prior to the intended usage date for better precision.
 
@@ -46,7 +46,7 @@ IReadOnlyList<AlligatorResult>
 - It does not return a single incremental indicator value.
 - The first `JP+JO` periods will have `null` values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `JP+JO+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -54,10 +54,10 @@ The first `JP+JO+100` periods will have decreasing magnitude, convergence-relate
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Jaw` | double | Alligator's Jaw |
-| `Teeth` | double | Alligator's Teeth |
-| `Lips` | double | Alligator's Lips |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Jaw` | _`double`_ | Alligator's Jaw |
+| `Teeth` | _`double`_ | Alligator's Teeth |
+| `Lips` | _`double`_ | Alligator's Lips |
 
 ### Utilities
 

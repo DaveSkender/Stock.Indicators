@@ -22,9 +22,9 @@ IReadOnlyList<DpoResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` historical bars to cover the warmup periods.
 
@@ -45,9 +45,9 @@ IReadOnlyList<DpoResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Sma` | double | Simple moving average offset by `N/2+1` periods |
-| `Dpo` | double | Detrended Price Oscillator (DPO) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Sma` | _`double`_ | Simple moving average offset by `N/2+1` periods |
+| `Dpo` | _`double`_ | Detrended Price Oscillator (DPO) |
 
 ### Utilities
 

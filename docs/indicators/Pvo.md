@@ -22,11 +22,11 @@ IReadOnlyList<PvoResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12. |
-| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26. |
-| `signalPeriods` | int | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9. |
+| `fastPeriods` | _`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12. |
+| `slowPeriods` | _`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26. |
+| `signalPeriods` | _`int`_ | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×(S+P)` or `S+P+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
@@ -43,7 +43,7 @@ IReadOnlyList<PvoResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` slow periods will have `null` values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -51,10 +51,10 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Pvo` | double | Normalized difference between two Volume moving averages |
-| `Signal` | double | Moving average of the `Pvo` line |
-| `Histogram` | double | Gap between the `Pvo` and `Signal` line |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Pvo` | _`double`_ | Normalized difference between two Volume moving averages |
+| `Signal` | _`double`_ | Moving average of the `Pvo` line |
+| `Histogram` | _`double`_ | Gap between the `Pvo` and `Signal` line |
 
 ### Utilities
 

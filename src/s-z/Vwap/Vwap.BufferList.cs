@@ -17,7 +17,7 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
     /// Initializes a new instance of the <see cref="VwapList"/> class with initial bars.
     /// </summary>
     /// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first bar.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public VwapList(DateTime? startDate, IReadOnlyList<IBar> bars)
         : this(startDate) => Add(bars);
 
@@ -90,7 +90,7 @@ public static partial class Vwap
     /// <summary>
     /// Creates a buffer list for VWAP calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="startDate">Starting date for calculation</param>
     public static VwapList ToVwapList(
         this IReadOnlyList<IBar> bars,
@@ -100,7 +100,7 @@ public static partial class Vwap
     /// <summary>
     /// Creates a buffer list for VWAP calculations starting from the first bar.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public static VwapList ToVwapList(
         this IReadOnlyList<IBar> bars)
         => new(null) { bars };

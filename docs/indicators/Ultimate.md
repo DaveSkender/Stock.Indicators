@@ -22,11 +22,11 @@ IReadOnlyList<UltimateResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `shortPeriods` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7. |
-| `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
-| `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
+| `shortPeriods` | _`int`_ | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7. |
+| `middlePeriods` | _`int`_ | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
+| `longPeriods` | _`int`_ | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `L+1` periods of `bars` to cover the warmup periods.
 
@@ -47,8 +47,8 @@ IReadOnlyList<UltimateResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Ultimate` | double | Ultimate Oscillator |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Ultimate` | _`double`_ | Ultimate Oscillator |
 
 ### Utilities
 

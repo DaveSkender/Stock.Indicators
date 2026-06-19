@@ -81,13 +81,13 @@ When aggregating bars, the utility:
 
 ## Important considerations
 
-::: warning Partially populated periods
+::: warning 🚩 Partially populated periods
 Partially populated period windows at the beginning, end, and market open/close points in `bars` can be misleading when aggregated.
 
 **Example**: If you are aggregating intraday minute bars into 15-minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 :::
 
-::: tip Best practices
+::: tip ✨ Best practices
 
 - Filter out partial periods at market open/close if they could skew your analysis
 - Be aware of time zone handling when aggregating across day boundaries

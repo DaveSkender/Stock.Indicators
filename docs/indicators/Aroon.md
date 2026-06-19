@@ -26,9 +26,9 @@ IReadOnlyList<AroonResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 
@@ -49,10 +49,10 @@ IReadOnlyList<AroonResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `AroonUp` | double | Based on last High price |
-| `AroonDown` | double | Based on last Low price |
-| `Oscillator` | double | AroonUp - AroonDown |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `AroonUp` | _`double`_ | Based on last High price |
+| `AroonDown` | _`double`_ | Based on last Low price |
+| `Oscillator` | _`double`_ | AroonUp - AroonDown |
 
 ### Utilities
 

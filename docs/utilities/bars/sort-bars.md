@@ -15,7 +15,7 @@ IReadOnlyList<TBar> sortedBars = bars.ToSortedList();
 
 ## Returns
 
-**IReadOnlyList\<TBar\>** - A read-only list of bars sorted by ascending timestamp.
+**`IReadOnlyList<TBar>`** - A read-only list of bars sorted by ascending timestamp.
 
 ## Usage
 

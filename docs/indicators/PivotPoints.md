@@ -25,7 +25,7 @@ IReadOnlyList<PivotPointsResult> results =
 | `windowSize` | BarInterval | Size of the lookback window.  Default is `BarInterval.Month` |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2` windows of `bars` to cover the warmup periods.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `bars`.
 
@@ -64,28 +64,28 @@ IReadOnlyList<PivotPointsResult>
 - It does not return a single incremental indicator value.
 - The first window will have `null` values since there's not enough data to calculate.
 
-::: warning
+::: warning 🚩
 The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `bars`.
 :::
 
-::: warning 🖌️ Repaint warning
-The last window will be repainted if it does not contain a full window of data.
+::: warning ️🖌️ Repaint warning
+The last window is repainted when it does not contain a full window of data.
 :::
 
 ### `PivotPointsResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `R4` | double | Resistance level 4 (Camarilla only) |
-| `R3` | double | Resistance level 3 |
-| `R2` | double | Resistance level 2 |
-| `R1` | double | Resistance level 1 |
-| `PP` | double | Pivot Point |
-| `S1` | double | Support level 1 |
-| `S2` | double | Support level 2 |
-| `S3` | double | Support level 3 |
-| `S4` | double | Support level 4 (Camarilla only) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `R4` | _`double`_ | Resistance level 4 (Camarilla only) |
+| `R3` | _`double`_ | Resistance level 3 |
+| `R2` | _`double`_ | Resistance level 2 |
+| `R1` | _`double`_ | Resistance level 1 |
+| `PP` | _`double`_ | Pivot Point |
+| `S1` | _`double`_ | Support level 1 |
+| `S2` | _`double`_ | Support level 2 |
+| `S3` | _`double`_ | Support level 3 |
+| `S4` | _`double`_ | Support level 4 (Camarilla only) |
 
 ### Utilities
 

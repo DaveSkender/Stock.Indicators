@@ -7,7 +7,7 @@ hero:
   tagline: Volume-weighted indicators that incorporate trading activity into price analysis.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: Accumulation Distribution Line (ADL)

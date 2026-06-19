@@ -54,5 +54,5 @@ features:
     icon:
       src: /assets/thumbs/indicators/std-dev-channels.png
     link: /indicators/StdDevChannels
-    details: Standard deviation channels segmented by rolling window periods
+    details: Standard Deviation Channels segmented by rolling window periods
 ---

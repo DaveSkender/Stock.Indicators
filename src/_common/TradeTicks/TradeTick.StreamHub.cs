@@ -242,18 +242,18 @@ public class TradeTickHub
 }
 
 /// <summary>
-/// Provides extension methods for aggregating tick data streams into OHLCV bar bars using a <see cref="TradeTickAggregatorHub"/>.
+/// Provides extension methods for aggregating tick data streams into OHLCV price bars using a <see cref="TradeTickAggregatorHub"/>.
 /// </summary>
 /// <remarks>
 /// The TradeTicks class offers static methods to facilitate the transformation of tick data into aggregated
-/// bar bars, supporting both fixed period sizes and custom time spans. These methods enable seamless integration with
+/// price bars, supporting both fixed period sizes and custom time spans. These methods enable seamless integration with
 /// tick data providers and allow optional gap filling to maintain continuity in price data. All members are static and
 /// intended for use as extension methods on <see cref="IStreamObservable{ITradeTick}"/> instances.
 /// </remarks>
 public static class TradeTicks
 {
     /// <summary>
-    /// Creates a TradeTickAggregatorHub that aggregates ticks from the provider into OHLCV bar bars.
+    /// Creates a TradeTickAggregatorHub that aggregates ticks from the provider into OHLCV price bars.
     /// </summary>
     /// <param name="tickProvider">The tick provider to aggregate.</param>
     /// <param name="barInterval">The period size to aggregate to.</param>
@@ -266,7 +266,7 @@ public static class TradeTicks
         => new(tickProvider, barInterval, fillGaps);
 
     /// <summary>
-    /// Creates a TradeTickAggregatorHub that aggregates ticks from the provider into OHLCV bar bars.
+    /// Creates a TradeTickAggregatorHub that aggregates ticks from the provider into OHLCV price bars.
     /// </summary>
     /// <param name="tickProvider">The tick provider to aggregate.</param>
     /// <param name="timeSpan">The time span to aggregate to.</param>

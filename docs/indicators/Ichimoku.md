@@ -39,16 +39,16 @@ IReadOnlyList<IchimokuResult> results = observer.Results;
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `tenkanPeriods` | int | Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9. |
-| `kijunPeriods` | int | Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26. |
-| `senkouBPeriods` | int | Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52. |
-| `offsetPeriods` | int | Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`. |
-| `senkouOffset` | int | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`. |
-| `chikouOffset` | int | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`. |
+| `tenkanPeriods` | _`int`_ | Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9. |
+| `kijunPeriods` | _`int`_ | Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26. |
+| `senkouBPeriods` | _`int`_ | Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52. |
+| `offsetPeriods` | _`int`_ | Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`. |
+| `senkouOffset` | _`int`_ | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`. |
+| `chikouOffset` | _`int`_ | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`. |
 
 See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least the greater of `T`,`K`, `S`, and offset periods for `bars` to cover the warmup periods; though, given the leading and lagging nature, we recommend notably more.
 
@@ -69,12 +69,12 @@ IReadOnlyList<IchimokuResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `TenkanSen` | double | Conversion / signal line |
-| `KijunSen` | double | Base line |
-| `SenkouSpanA` | double | Leading span A |
-| `SenkouSpanB` | double | Leading span B |
-| `ChikouSpan` | double | Lagging span |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `TenkanSen` | _`double`_ | Conversion / signal line |
+| `KijunSen` | _`double`_ | Base line |
+| `SenkouSpanA` | _`double`_ | Leading span A |
+| `SenkouSpanB` | _`double`_ | Leading span B |
+| `ChikouSpan` | _`double`_ | Lagging span |
 
 ### Utilities
 

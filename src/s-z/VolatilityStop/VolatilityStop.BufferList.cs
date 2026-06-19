@@ -44,7 +44,7 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the Average True Range.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public VolatilityStopList(int lookbackPeriods, double multiplier, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods, multiplier) => Add(bars);
 
@@ -197,7 +197,7 @@ public static partial class VolatilityStop
     /// <summary>
     /// Creates a buffer list for Volatility Stop calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     public static VolatilityStopList ToVolatilityStopList(

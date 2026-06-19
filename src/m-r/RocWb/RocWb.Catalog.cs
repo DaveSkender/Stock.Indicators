@@ -12,7 +12,7 @@ public static partial class RocWb
             .WithCategory(Category.PriceTrend)
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the ROC calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
             .AddParameter<int>("emaPeriods", "EMA Periods", description: "Number of periods for the EMA calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 100)
-            .AddParameter<int>("stdDevPeriods", "Standard Deviation Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 100)
+            .AddParameter<int>("stdDevPeriods", "Standard deviation Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 100)
             .AddResult("Roc", "ROC", ResultType.Default, isReusable: true)
             .AddResult("RocEma", "ROC EMA", ResultType.Default)
             .AddResult("UpperBand", "Upper Band", ResultType.Default)

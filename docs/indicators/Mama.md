@@ -22,10 +22,10 @@ IReadOnlyList<MamaResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5. |
-| `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05. |
+| `fastLimit` | _`double`_ | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5. |
+| `slowLimit` | _`double`_ | Slow limit threshold.  Must be greater than 0.  Default is 0.05. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `50` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
@@ -42,7 +42,7 @@ IReadOnlyList<MamaResult>
 - It does not return a single incremental indicator value.
 - The first `5` periods will have `null` values for `Mama` since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -50,9 +50,9 @@ The first `50` periods will have decreasing magnitude, convergence-related preci
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Mama` | double | MESA adaptive moving average (MAMA) |
-| `Fama` | double | Following adaptive moving average (FAMA) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Mama` | _`double`_ | MESA adaptive moving average (MAMA) |
+| `Fama` | _`double`_ | Following adaptive moving average (FAMA) |
 
 ### Utilities
 

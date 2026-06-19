@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Slope and Linear Regression from incremental reusable values.
+/// Slope and linear regression from incremental reusable values.
 /// </summary>
 /// <remarks>
 /// Performance optimizations:
@@ -119,7 +119,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         double? slope = (sumSqXy / sumSqXConstant).NaN2Null();
         double? intercept = (avgY - (slope * avgX)).NaN2Null();
 
-        // Calculate Standard Deviation and R-Squared
+        // Calculate Standard deviation and R-squared
         double stdDevX = Math.Sqrt(sumSqXConstant / lookbackPeriods);
         double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
 

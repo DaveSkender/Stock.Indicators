@@ -22,10 +22,10 @@ IReadOnlyList<PivotsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `leftSpan` | int | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
-| `rightSpan` | int | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
-| `maxTrendPeriods` | int | Maximum lookback periods (`N`) for drawing trend lines between pivot points.  When pivot points are further apart than this value, the trend line tracking resets.  Must be greater than `leftSpan`.  Default is 20. |
-| `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
+| `leftSpan` | _`int`_ | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
+| `rightSpan` | _`int`_ | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
+| `maxTrendPeriods` | _`int`_ | Maximum lookback periods (`N`) for drawing trend lines between pivot points.  When pivot points are further apart than this value, the trend line tracking resets.  Must be greater than `leftSpan`.  Default is 20. |
+| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `L+R+1`.
 
@@ -33,7 +33,7 @@ The total evaluation window size is `L+R+1`.
 The `maxTrendPeriods` parameter controls the lookback window for trend line calculations, not the number of results returned.
 :::
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `L+R+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
@@ -56,7 +56,7 @@ IReadOnlyList<PivotsResult>
 - It does not return a single incremental indicator value.
 - The first `L` and last `R` periods in `bars` are unable to be calculated since there's not enough prior/following data.
 
-::: warning 🖌️ Repaint warning
+::: warning ️🖌️ Repaint warning
 This price pattern looks forward and backward in the historical bars so it will never identify a pivot in the last `R` periods of `bars`.  Pivots are retroactively identified.
 :::
 
@@ -64,11 +64,11 @@ This price pattern looks forward and backward in the historical bars so it will 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `HighPoint` | decimal | Value indicates a **high** point; otherwise `null` is returned. |
-| `LowPoint` | decimal | Value indicates a **low** point; otherwise `null` is returned. |
-| `HighLine` | decimal | Drawn line between two high points in the `maxTrendPeriods` |
-| `LowLine` | decimal | Drawn line between two low points in the `maxTrendPeriods` |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `HighPoint` | _`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
+| `LowPoint` | _`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
+| `HighLine` | _`decimal`_ | Drawn line between two high points in the `maxTrendPeriods` |
+| `LowLine` | _`decimal`_ | Drawn line between two low points in the `maxTrendPeriods` |
 | `HighTrend` | PivotTrend | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below. |
 | `LowTrend` | PivotTrend | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below. |
 

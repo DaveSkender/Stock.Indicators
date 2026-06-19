@@ -22,12 +22,12 @@ IReadOnlyList<FractalResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `windowSpan` | int | Evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
-| `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
+| `windowSpan` | _`int`_ | Evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
+| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×S+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
@@ -50,7 +50,7 @@ IReadOnlyList<FractalResult>
 - It does not return a single incremental indicator value.
 - The first and last `S` periods in `bars` are unable to be calculated since there's not enough prior/following data.
 
-::: warning 🖌️ Repaint warning
+::: warning ️🖌️ Repaint warning
 This price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `bars`.  Fractals are retroactively identified.
 :::
 
@@ -58,9 +58,9 @@ This price pattern uses future bars and will never identify a `fractal` in the l
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `FractalBear` | decimal | Value indicates a **high** point; otherwise `null` is returned. |
-| `FractalBull` | decimal | Value indicates a **low** point; otherwise `null` is returned. |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `FractalBear` | _`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
+| `FractalBull` | _`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
 
 ### Utilities
 

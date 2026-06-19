@@ -8,7 +8,7 @@ public static partial class AtrStop
     /// <summary>
     /// Calculates the ATR Trailing Stop (High/Low offset) from a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="endType">Candle threshold point to use for reversals.</param>

@@ -26,7 +26,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromBar
     /// Initializes a new instance of the <see cref="DonchianList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public DonchianList(int lookbackPeriods, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods) => Add(bars);
@@ -110,7 +110,7 @@ public static partial class Donchian
     /// <summary>
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static DonchianList ToDonchianList(
         this IReadOnlyList<IBar> bars,

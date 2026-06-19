@@ -8,7 +8,7 @@ public static partial class Obv
     /// <summary>
     /// Converts a list of bars to OBV results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A list of OBV results.</returns>
     public static IReadOnlyList<ObvResult> ToObv(
         this IReadOnlyList<IBar> bars)

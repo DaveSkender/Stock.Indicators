@@ -22,11 +22,11 @@ IReadOnlyList<StcResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `cyclePeriods` | int | Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10. |
-| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
-| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
+| `cyclePeriods` | _`int`_ | Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10. |
+| `fastPeriods` | _`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
+| `slowPeriods` | _`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×(S+C)` or `S+C+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+C+250` data points prior to the intended usage date for better precision.
 
@@ -43,7 +43,7 @@ IReadOnlyList<StcResult>
 - It does not return a single incremental indicator value.
 - The first `S+C` slow periods will have `null` values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `S+C+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -51,8 +51,8 @@ The first `S+C+250` periods will have decreasing magnitude, convergence-related 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Stc` | double | Schaff Trend Cycle |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Stc` | _`double`_ | Schaff Trend Cycle |
 
 ### Utilities
 

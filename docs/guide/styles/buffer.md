@@ -52,11 +52,7 @@ foreach (Bar bar in bars)
 }
 ```
 
-::: tip
-Using `smaList[^1]` on an empty list throws `ArgumentOutOfRangeException`. Always check `Count > 0` first, or use `smaList.LastOrDefault()` which returns `null` when empty.
-:::
-
-::: warning Add bars in chronological order
+::: warning 🚩 Add bars in chronological order
 A buffer list is a single-pass accumulator: every `Add` assumes the new value is the newest one. It does **not** reorder input, detect duplicates, or correct revised values — feeding an out-of-order, repeated, or late-arriving bar produces silently incorrect results. If your data can arrive out of order (e.g. a raw WebSocket feed, or merging two sources), sort by timestamp before adding, or use a [Stream hub](/guide/styles/stream) instead — stream hubs are built for late arrivals, same-timestamp corrections, and rollback.
 :::
 

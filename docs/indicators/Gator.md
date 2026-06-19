@@ -23,9 +23,9 @@ IReadOnlyList<GatorResult> results = bars
   .ToGator();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
-If using default settings, you must have at least 121 periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/Alligator#historical-bars-requirements) for historical bars requirements.
+If using default settings, you must have at least 121 periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/Alligator#historical-bars-requirements) for Historical price bars requirements.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
@@ -40,7 +40,7 @@ IReadOnlyList<GatorResult>
 - It does not return a single incremental indicator value.
 - The first 10-20 periods will have `null` values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first 150 periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -48,9 +48,9 @@ The first 150 periods will have decreasing magnitude, convergence-related precis
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Upper` | double | Absolute value of Alligator `Jaw-Teeth` |
-| `Lower` | double | Absolute value of Alligator `Lips-Teeth` |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Upper` | _`double`_ | Absolute value of Alligator `Jaw-Teeth` |
+| `Lower` | _`double`_ | Absolute value of Alligator `Lips-Teeth` |
 | `UpperIsExpanding` | bool | Upper value is growing |
 | `LowerIsExpanding` | bool | Lower value is growing |
 

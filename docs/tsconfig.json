@@ -19,11 +19,15 @@
     ".vitepress/**/*.mts",
     ".vitepress/**/*.vue",
     "examples/**/*.ts",
-    "examples/**/*.vue"
+    "examples/**/*.vue",
+    "**/*.md"
   ],
   "exclude": [
     "node_modules",
     ".vitepress/dist",
     ".vitepress/cache"
-  ]
+  ],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"],
+  }
 }

@@ -35,7 +35,7 @@ public static class Candlesticks
     /// <summary>
     /// Converts and sorts a list of bars into a list of candle properties.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A sorted list of candle properties.</returns>
     public static IReadOnlyList<CandleProperties> ToCandles(
         this IReadOnlyList<IBar> bars)

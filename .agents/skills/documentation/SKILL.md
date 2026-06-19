@@ -150,7 +150,7 @@ Adjust the null-period bullet to match the actual warmup (e.g., "The first `S-1`
 Add immediately after the bullet list when the indicator uses a smoothing/recursive algorithm that introduces convergence error:
 
 ```markdown
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `10×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 ```
@@ -290,7 +290,7 @@ Standard reasons by category:
 Use VitePress admonition containers for notable caveats that don't warrant a full section:
 
 ```markdown
-::: warning
+::: warning 🚩
 Brief warning text here.
 :::
 ```
@@ -332,7 +332,7 @@ When two variants share the same result type but have distinct parameter sets an
 
 [Full buffer/hub examples for the supported variant]
 
-::: warning
+::: warning 🚩
 `ToVariantAtr()` does not support streaming.  {One sentence reason.}
 :::
 ````

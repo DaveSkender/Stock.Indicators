@@ -258,7 +258,7 @@ public class Concurrency : TestBase
             producers[t] = new Thread(() => {
                 for (int i = start; i < count; i += 4)
                 {
-                    if (i == 0 || i == skipIndex) { continue; }
+                    if (i is 0 or skipIndex) { continue; }
 
                     lock (gate)
                     {

@@ -13,9 +13,9 @@ description: Sort indicator results by timestamp.
 IReadOnlyList<TResult> sortedResults = results.ToSortedList();
 ```
 
-## Returns
+## Response
 
-**IReadOnlyList\<TResult\>** - A read-only list of results sorted by ascending timestamp.
+**`IReadOnlyList<TResult>`** - A read-only list of results sorted by ascending timestamp.
 
 ## Usage
 
@@ -25,10 +25,8 @@ IReadOnlyList<MyCustomResult> sortedResults =
   customResults.ToSortedList();
 ```
 
-## When to use
-
-::: info Built-in indicators already sorted
-All built-in library indicators return results in chronological order. You typically only need `.ToSortedList()` for custom indicator implementations.
+::: info When to use: custom indicators only
+All built-in library indicators expect input `IReadOnlyList<T>` price bars to be in chronological order, and results would correspondingly be in the same sort order as provided. Therefore, you'd only need `.ToSortedList()` for optional use in custom indicator implementations.
 :::
 
 ### Custom indicators

@@ -22,10 +22,10 @@ IReadOnlyList<SuperTrendResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10. |
-| `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10. |
+| `multiplier` | _`double`_ | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 
@@ -42,7 +42,7 @@ IReadOnlyList<SuperTrendResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` SuperTrend values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 :::
 
@@ -50,10 +50,10 @@ the line segment before the first reversal and the first `N+100` periods are unr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `SuperTrend` | decimal | SuperTrend line contains both Upper and Lower segments |
-| `UpperBand` | decimal | Upper band only (bearish/red) |
-| `LowerBand` | decimal | Lower band only (bullish/green) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `SuperTrend` | _`decimal`_ | SuperTrend line contains both Upper and Lower segments |
+| `UpperBand` | _`decimal`_ | Upper band only (bearish/red) |
+| `LowerBand` | _`decimal`_ | Lower band only (bullish/green) |
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `SuperTrend` is the contiguous combination of both upper and lower line data.
 

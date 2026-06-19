@@ -22,9 +22,9 @@ IReadOnlyList<DonchianResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
@@ -45,11 +45,11 @@ IReadOnlyList<DonchianResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `UpperBand` | double | Upper line is the highest High over `N` periods |
-| `Centerline` | double | Simple average of Upper and Lower bands |
-| `LowerBand` | double | Lower line is the lowest Low over `N` periods |
-| `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `UpperBand` | _`double`_ | Upper line is the highest High over `N` periods |
+| `Centerline` | _`double`_ | Simple average of Upper and Lower bands |
+| `LowerBand` | _`double`_ | Lower line is the lowest Low over `N` periods |
+| `Width` | _`double`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 

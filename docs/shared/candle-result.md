@@ -5,7 +5,7 @@
 | `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
 | `Price`     | _`decimal`_  | Price of the most relevant OHLC candle element when a signal is present |
 | `Match`     | _`Match`_    | Indicates a [matching signal type](#match) for this candlestick pattern |
-| `Candle`    | _`CandleProperties`_ | Details of the [candle properties](#candleproperties) |
+| `Candle`    | _`CandleProperties`_ | Characteristics of the candle body and wicks |
 
 #### `Match`
 

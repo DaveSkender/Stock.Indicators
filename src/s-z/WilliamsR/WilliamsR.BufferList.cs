@@ -27,7 +27,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromBar, IWil
     /// Initializes a new instance of the <see cref="WilliamsRList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public WilliamsRList(
         int lookbackPeriods,
         IReadOnlyList<IBar> bars)

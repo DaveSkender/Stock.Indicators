@@ -24,9 +24,9 @@ IReadOnlyList<TemaResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to produce any TEMA values.  However, due to the nature of the smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.  See [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) guidance for more information.
 
@@ -53,7 +53,7 @@ Period 160+:  fully converged, reliable values
 
 >&#9432; **Incalculable periods**: The first `N-1` periods will have `null` values since there's not enough data to calculate.
 >
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  Use the `.RemoveWarmupPeriods()` method to remove these potentially unreliable values.
 :::
 
@@ -61,8 +61,8 @@ The first `3×N+100` periods will have decreasing magnitude, convergence-related
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Tema` | double | Triple exponential moving average |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Tema` | _`double`_ | Triple exponential moving average |
 
 ### Utilities
 

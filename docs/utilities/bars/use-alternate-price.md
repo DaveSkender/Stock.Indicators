@@ -64,7 +64,7 @@ var emaResults = bars
 
 ## Limitations
 
-::: warning Incompatible indicators
+::: warning 🚩 Incompatible indicators
 Some indicators require the full OHLCV bar profile and cannot be used with `.Use()`. These include:
 
 - Indicators that explicitly use multiple price points (ATR, Stochastic, etc.)

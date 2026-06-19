@@ -36,7 +36,7 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromBar, I
     /// Initializes a new instance of the <see cref="ForceIndexList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ForceIndexList(
         int lookbackPeriods,
         IReadOnlyList<IBar> bars
@@ -128,7 +128,7 @@ public static partial class ForceIndex
     /// <summary>
     /// Creates a buffer list for Force Index calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static ForceIndexList ToForceIndexList(
         this IReadOnlyList<IBar> bars,

@@ -26,11 +26,11 @@ IReadOnlyList<ParabolicSarResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `accelerationStep` | double | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02 |
-| `maxAccelerationFactor` | double | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2 |
-| `initialFactor` | double | Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`. |
+| `accelerationStep` | _`double`_ | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02 |
+| `maxAccelerationFactor` | _`double`_ | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2 |
+| `initialFactor` | _`double`_ | Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least two historical bars to cover the warmup periods; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals, before your intended usage period.
 
@@ -51,8 +51,8 @@ IReadOnlyList<ParabolicSarResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Sar` | double | Stop and Reverse value |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Sar` | _`double`_ | Stop and Reverse value |
 | `IsReversal` | bool | Indicates a trend reversal |
 
 ### Utilities

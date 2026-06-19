@@ -22,9 +22,9 @@ IReadOnlyList<AdxResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
@@ -41,7 +41,7 @@ IReadOnlyList<AdxResult>
 - It does not return a single incremental indicator value.
 - The first `2×N-1` periods will have `null` values for `Adx` since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -49,12 +49,12 @@ The first `2×N+100` periods will have decreasing magnitude, convergence-related
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Pdi` | double | Plus Directional Index (+DI) |
-| `Mdi` | double | Minus Directional Index (-DI) |
-| `Dx` | double | Directional Index (DX) |
-| `Adx` | double | Average Directional Index (ADX) |
-| `Adxr` | double | Average Directional Index Rating (ADXR) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Pdi` | _`double`_ | Plus Directional Index (+DI) |
+| `Mdi` | _`double`_ | Minus Directional Index (-DI) |
+| `Dx` | _`double`_ | Directional Index (DX) |
+| `Adx` | _`double`_ | Average Directional Index (ADX) |
+| `Adxr` | _`double`_ | Average Directional Index Rating (ADXR) |
 
 ### Utilities
 

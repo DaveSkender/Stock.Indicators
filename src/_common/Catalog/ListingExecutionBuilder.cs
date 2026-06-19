@@ -65,7 +65,7 @@ public class ListingExecutionBuilder
     /// <summary>
     /// Specifies the source bars for the indicator calculation.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the bars set.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="bars"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder FromSource(IEnumerable<IBar> bars)

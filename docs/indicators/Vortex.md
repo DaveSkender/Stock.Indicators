@@ -22,9 +22,9 @@ IReadOnlyList<VortexResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
@@ -45,9 +45,9 @@ IReadOnlyList<VortexResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Pvi` | double | Positive Vortex Indicator (VI+) |
-| `Nvi` | double | Negative Vortex Indicator (VI-) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Pvi` | _`double`_ | Positive Vortex Indicator (VI+) |
+| `Nvi` | _`double`_ | Negative Vortex Indicator (VI-) |
 
 ### Utilities
 

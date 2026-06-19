@@ -25,7 +25,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromBar, IMarubo
     /// Initializes a new instance of the <see cref="MarubozuList"/> class with initial bars.
     /// </summary>
     /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public MarubozuList(double minBodyPercent, IReadOnlyList<IBar> bars)
         : this(minBodyPercent) => Add(bars);
 
@@ -79,7 +79,7 @@ public static partial class Marubozu
     /// <summary>
     /// Creates a buffer list for Marubozu candlestick pattern calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="minBodyPercent">Minimum body percent threshold</param>
     public static MarubozuList ToMarubozuList(
         this IReadOnlyList<IBar> bars,

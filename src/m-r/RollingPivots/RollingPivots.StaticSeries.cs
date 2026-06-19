@@ -8,7 +8,7 @@ public static partial class RollingPivots
     /// <summary>
     /// Converts a list of bars to a list of Rolling Pivot Points results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowPeriods">Number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">Number of periods to offset the window.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>

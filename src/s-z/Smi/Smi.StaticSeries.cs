@@ -8,7 +8,7 @@ public static partial class Smi
     /// <summary>
     /// Converts a list of bars to SMI results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>

@@ -22,9 +22,9 @@ IReadOnlyList<CmoResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
@@ -45,8 +45,8 @@ IReadOnlyList<CmoResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Cmo` | double | Chande Momentum Oscillator |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Cmo` | _`double`_ | Chande Momentum Oscillator |
 
 ### Utilities
 

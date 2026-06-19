@@ -22,10 +22,10 @@ IReadOnlyList<ChaikinOscResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `fastPeriods` | int | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3. |
-| `slowPeriods` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater than `F`.  Default is 10. |
+| `fastPeriods` | _`int`_ | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3. |
+| `slowPeriods` | _`int`_ | Number of periods (`S`) in the ADL slow EMA.  Must be greater than `F`.  Default is 10. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×S` or `S+100` periods of `bars`, whichever is more,  to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+250` data points prior to the intended usage date for better precision.
 
@@ -42,7 +42,7 @@ IReadOnlyList<ChaikinOscResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -50,13 +50,13 @@ The first `S+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `MoneyFlowMultiplier` | double | Money Flow Multiplier |
-| `MoneyFlowVolume` | double | Money Flow Volume |
-| `Adl` | double | Accumulation Distribution Line (ADL) |
-| `Oscillator` | double | Chaikin Oscillator |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `MoneyFlowMultiplier` | _`double`_ | Money Flow Multiplier |
+| `MoneyFlowVolume` | _`double`_ | Money Flow Volume |
+| `Adl` | _`double`_ | Accumulation Distribution Line (ADL) |
+| `Oscillator` | _`double`_ | Chaikin Oscillator |
 
-::: warning
+::: warning 🚩
 absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
 :::
 

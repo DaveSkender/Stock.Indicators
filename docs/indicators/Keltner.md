@@ -22,11 +22,11 @@ IReadOnlyList<KeltnerResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `emaPeriods` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20. |
-| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
-| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10. |
+| `emaPeriods` | _`int`_ | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20. |
+| `multiplier` | _`double`_ | ATR Multiplier. Must be greater than 0.  Default is 2. |
+| `atrPeriods` | _`int`_ | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×N` or `N+100` periods of `bars`, whichever is more, where `N` is the greater of `E` or `A` periods, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
@@ -43,7 +43,7 @@ IReadOnlyList<KeltnerResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -51,11 +51,11 @@ The first `N+250` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `UpperBand` | double | Upper band of Keltner Channel |
-| `Centerline` | double | EMA of price |
-| `LowerBand` | double | Lower band of Keltner Channel |
-| `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `UpperBand` | _`double`_ | Upper band of Keltner Channel |
+| `Centerline` | _`double`_ | EMA of price |
+| `LowerBand` | _`double`_ | Lower band of Keltner Channel |
+| `Width` | _`double`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 

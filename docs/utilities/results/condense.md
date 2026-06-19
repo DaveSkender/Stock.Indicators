@@ -15,7 +15,7 @@ IReadOnlyList<TResult> condensedResults = results.Condense();
 
 ## Returns
 
-**IReadOnlyList\<TResult\>** - A filtered list containing only meaningful results.
+**`IReadOnlyList<TResult>`** - A filtered list containing only meaningful results.
 
 ## Usage
 
@@ -93,7 +93,7 @@ ExportToCsv(condensed, "marubozu-signals.csv");
 
 ## Important considerations
 
-::: warning Data reduction
+::: warning 🚩 Data reduction
 `.Condense()` removes non-essential results and returns less data than the input `bars`. The exact amount of reduction depends on the indicator and the data.
 
 This is intentional behavior, but be aware that condensed results may have gaps in the timeline.

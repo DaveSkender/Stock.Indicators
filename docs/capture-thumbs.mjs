@@ -18,7 +18,7 @@ mkdirSync(OUT_DIR, { recursive: true });
 const INDICATORS = [
   // 4 that timed out (dialog not closed bug — now fixed):
   ['Rate of Change', 'roc'],
-  ['Standard Deviation (absolute)', 'std-dev'],
+  ['Standard deviation (absolute)', 'std-dev'],
   ['STARC Bands', 'starc-bands'],
   ['Ulcer Index (UI)', 'ulcer-index'],
   // 4 "not added" — try alternative names:

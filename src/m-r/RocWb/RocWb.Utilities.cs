@@ -48,7 +48,7 @@ public static partial class RocWb
         if (stdDevPeriods <= 0 || stdDevPeriods > lookbackPeriods)
         {
             throw new ArgumentOutOfRangeException(nameof(stdDevPeriods), stdDevPeriods,
-                "Standard Deviation periods must be greater than 0 and less than lookback period for ROC with Bands.");
+                "Standard deviation periods must be greater than 0 and less than lookback period for ROC with Bands.");
         }
     }
 }

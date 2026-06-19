@@ -8,7 +8,7 @@ public static partial class Donchian
     /// <summary>
     /// Converts a list of bars to Donchian Channel results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Donchian Channel results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>

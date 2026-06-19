@@ -25,7 +25,7 @@ public class PivotPointsList(
     /// </summary>
     /// <param name="windowSize">Size of the window for pivot point calculation.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public PivotPointsList(
         BarInterval windowSize,
         PivotPointType pointType,
@@ -141,7 +141,7 @@ public static partial class PivotPoints
     /// <summary>
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSize">Size of the window for pivot point calculation.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
     /// <returns>A new <see cref="PivotPointsList"/> instance.</returns>

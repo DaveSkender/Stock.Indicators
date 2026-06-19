@@ -22,11 +22,11 @@ IReadOnlyList<ConnorsRsiResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `rsiPeriods` | int | Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3. |
-| `streakPeriods` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2. |
-| `rankPeriods` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100. |
+| `rsiPeriods` | _`int`_ | Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3. |
+| `streakPeriods` | _`int`_ | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2. |
+| `rankPeriods` | _`int`_ | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 `N` is the greater of `R+100`, `S`, and `P+2`.  You must have at least `N` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
 
@@ -43,7 +43,7 @@ IReadOnlyList<ConnorsRsiResult>
 - It does not return a single incremental indicator value.
 - The first `MAX(R,S,P)+1` periods will have `null` `ConnorsRsi` values since there's not enough data to calculate all three component scores (RSI of close, RSI of streak, percent rank) and combine them.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -51,11 +51,11 @@ The first `N` periods will have decreasing magnitude, convergence-related precis
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Rsi` | double | `RSI(R)` of the price. |
-| `RsiStreak` | double | `RSI(S)` of the Streak. |
-| `PercentRank` | double | Percentile rank of the period gain value. |
-| `ConnorsRsi` | double | ConnorsRSI |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Rsi` | _`double`_ | `RSI(R)` of the price. |
+| `RsiStreak` | _`double`_ | `RSI(S)` of the Streak. |
+| `PercentRank` | _`double`_ | Percentile rank of the period gain value. |
+| `ConnorsRsi` | _`double`_ | ConnorsRSI |
 
 ### Utilities
 

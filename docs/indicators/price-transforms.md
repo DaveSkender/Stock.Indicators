@@ -22,12 +22,12 @@ features:
     details: Gaussian normalization of price
   - title: Heikin Ashi
     icon:
-      src: /assets/thumbs/indicators/_placeholder.svg
+      src: /assets/thumbs/_placeholder.svg
     link: /indicators/HeikinAshi
     details: Modified candlestick transform of price based on prior period price for smoothing
   - title: Renko Charts
     icon:
-      src: /assets/thumbs/indicators/_placeholder.svg
+      src: /assets/thumbs/_placeholder.svg
     link: /indicators/Renko
     details: Japanese candlestick transform that uses "bricks" in a non-linear time series
   - title: ZigZag

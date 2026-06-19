@@ -22,11 +22,11 @@ IReadOnlyList<ChandelierResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
-| `multiplier` | double | Multiplier number must be a positive value.  Default is 3. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
+| `multiplier` | _`double`_ | Multiplier number must be a positive value.  Default is 3. |
 | `type` | Direction | Direction of exit.  See [Direction options](#direction-options-for-type) below.  Default is `Direction.Long`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
@@ -54,8 +54,8 @@ IReadOnlyList<ChandelierResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `ChandelierExit` | double | Exit line |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `ChandelierExit` | _`double`_ | Exit line |
 
 ### Utilities
 

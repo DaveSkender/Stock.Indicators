@@ -8,7 +8,7 @@ public static partial class Fractal
     /// <summary>
     /// Converts a list of bars to Fractal results using the same span for both left and right wings.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Number of periods to look back and forward for the calculation. Default is 2.</param>
     /// <param name="endType">Type of price to use for the calculation. Default is HighLow.</param>
     /// <returns>A list of Fractal results.</returns>
@@ -24,7 +24,7 @@ public static partial class Fractal
     /// <summary>
     /// Converts a list of bars to Fractal results using different spans for left and right wings.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">Type of price to use for the calculation. Default is HighLow.</param>

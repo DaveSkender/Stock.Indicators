@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents a Standard Deviation stream hub.
+/// Represents a Standard deviation stream hub.
 /// </summary>
 public class StdDevHub
     : ChainHub<IReusable, StdDevResult>, IStdDev
@@ -60,7 +60,7 @@ public class StdDevHub
             // Calculate standard deviation
             stdDev = Math.Sqrt(sumSqDev / LookbackPeriods);
 
-            // Calculate z-score
+            // Calculate Z-score
             zScore = stdDev == 0 ? double.NaN : (item.Value - meanValue) / stdDev.Value;
         }
 

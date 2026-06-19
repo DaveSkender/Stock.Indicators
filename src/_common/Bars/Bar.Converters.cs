@@ -10,7 +10,7 @@ public static partial class Bars
     /// <summary>
     /// Convert IBar list to built-in Bar type list (public API only).
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A list of converted bars.</returns>
     public static IReadOnlyList<Bar> ToBarList(
         this IReadOnlyList<IBar> bars)
@@ -24,7 +24,7 @@ public static partial class Bars
     /// Convert IBar list to BarD type list with inline casting.
     /// Uses direct loop instead of LINQ for better performance.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A list of converted bars in double precision.</returns>
     /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
     internal static List<BarD> ToBarDList(

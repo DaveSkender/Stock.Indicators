@@ -26,9 +26,9 @@ IReadOnlyList<VwapResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `bars` is used when not provided. |
+| `startDate` | _`DateTime`_ | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `bars` is used when not provided. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least one historical bar to calculate; however, more is often needed to be useful.  Historical bars are typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `bars`, unless it is specified in the optional `startDate` parameter.
 
@@ -50,8 +50,8 @@ IReadOnlyList<VwapResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Vwap` | double | Volume Weighted Average Price |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Vwap` | _`double`_ | Volume Weighted Average Price |
 
 ### Utilities
 

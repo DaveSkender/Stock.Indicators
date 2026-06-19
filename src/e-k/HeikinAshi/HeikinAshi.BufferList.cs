@@ -19,7 +19,7 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromBar
     /// <summary>
     /// Initializes a new instance of the <see cref="HeikinAshiList"/> class with initial bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public HeikinAshiList(IReadOnlyList<IBar> bars)
         : this() => Add(bars);
 
@@ -85,7 +85,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Creates a buffer list for Heikin-Ashi calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public static HeikinAshiList ToHeikinAshiList(
         this IReadOnlyList<IBar> bars)
         => new() { bars };

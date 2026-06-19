@@ -23,7 +23,7 @@ IReadOnlyList<TResult> results = results.RemoveWarmupPeriods(int removePeriods);
 
 ## Returns
 
-**IReadOnlyList\<TResult\>** - Results with the specified number of initial periods removed.
+**`IReadOnlyList<TResult>`** - Results with the specified number of initial periods removed.
 
 ## Usage
 
@@ -120,7 +120,7 @@ Common warmup periods:
 
 ## Important warnings
 
-::: warning Auto-pruning is unstable
+::: warning 🚩 Auto-pruning is unstable
 Without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount. When there are unusual results or when chaining indicators, there will be an erroneous increase in the amount of pruning.
 
 If you want more certainty, use a specific number for `removePeriods`.

@@ -22,11 +22,11 @@ IReadOnlyList<StarcBandsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.  Default is 5. |
-| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
-| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10. |
+| `smaPeriods` | _`int`_ | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.  Default is 5. |
+| `multiplier` | _`double`_ | ATR Multiplier. Must be greater than 0.  Default is 2. |
+| `atrPeriods` | _`int`_ | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `S` or `A+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
 
@@ -43,7 +43,7 @@ IReadOnlyList<StarcBandsResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` or `A`.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `A+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -51,10 +51,10 @@ The first `A+150` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `UpperBand` | double | Upper STARC band |
-| `Centerline` | double | SMA of price |
-| `LowerBand` | double | Lower STARC band |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `UpperBand` | _`double`_ | Upper STARC band |
+| `Centerline` | _`double`_ | SMA of price |
+| `LowerBand` | _`double`_ | Lower STARC band |
 
 ### Utilities
 

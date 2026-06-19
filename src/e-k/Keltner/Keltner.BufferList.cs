@@ -39,7 +39,7 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromBar
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public KeltnerList(
         int emaPeriods,
         double multiplier,
@@ -110,7 +110,7 @@ public static partial class Keltner
     /// <summary>
     /// Creates a buffer list for Keltner Channels calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="emaPeriods">Number of periods for the exponential moving average</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     /// <param name="atrPeriods">Number of periods for ATR calculation</param>

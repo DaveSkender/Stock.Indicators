@@ -22,9 +22,9 @@ IReadOnlyList<TrixResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `4×N` or `3×N+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
 
@@ -41,7 +41,7 @@ IReadOnlyList<TrixResult>
 - It does not return a single incremental indicator value.
 - The first `3×N-3` periods will have `null` values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -49,9 +49,9 @@ The first `3×N+250` periods will have decreasing magnitude, convergence-related
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Ema3` | double | 3 EMAs of the price |
-| `Trix` | double | Rate of Change of 3 EMAs |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Ema3` | _`double`_ | 3 EMAs of the price |
+| `Trix` | _`double`_ | Rate of Change of 3 EMAs |
 
 ### Utilities
 

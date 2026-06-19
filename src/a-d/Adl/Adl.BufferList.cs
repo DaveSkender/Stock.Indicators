@@ -15,7 +15,7 @@ public class AdlList : BufferList<AdlResult>, IIncrementFromBar
     /// <summary>
     /// Initializes a new instance of the <see cref="AdlList"/> class with initial bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public AdlList(IReadOnlyList<IBar> bars)
         : this() => Add(bars);
 
@@ -65,7 +65,7 @@ public static partial class Adl
     /// <summary>
     /// Creates a buffer list for Accumulation/Distribution Line calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public static AdlList ToAdlList(
         this IReadOnlyList<IBar> bars)
         => new() { bars };

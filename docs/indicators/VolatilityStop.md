@@ -26,10 +26,10 @@ VolatilityStopHub observer = barHub.ToVolatilityStopHub(lookbackPeriods, multipl
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7. |
-| `multiplier` | double | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7. |
+| `multiplier` | _`double`_ | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals.
 
@@ -46,7 +46,7 @@ IReadOnlyList<VolatilityStopResult>
 - It does not return a single incremental indicator value.
 - The first trend will have `null` values since it is not accurate and based on an initial guess.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -54,11 +54,11 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Sar` | double | Stop and Reverse value contains both Upper and Lower segments |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Sar` | _`double`_ | Stop and Reverse value contains both Upper and Lower segments |
 | `IsStop` | bool | Indicates a trend reversal |
-| `UpperBand` | double | Upper band only (bearish/red) |
-| `LowerBand` | double | Lower band only (bullish/green) |
+| `UpperBand` | _`double`_ | Upper band only (bearish/red) |
+| `LowerBand` | _`double`_ | Lower band only (bullish/green) |
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `Sar` is the contiguous combination of both upper and lower line data.
 

@@ -37,7 +37,7 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromBar, I
     /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public StarcBandsList(
         int smaPeriods,
         double multiplier,
@@ -112,7 +112,7 @@ public static partial class StarcBands
     /// <summary>
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="smaPeriods">Number of periods for the simple moving average</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     /// <param name="atrPeriods">Number of periods for ATR calculation</param>

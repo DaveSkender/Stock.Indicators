@@ -40,7 +40,7 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromBar, IUlti
     /// <param name="shortPeriods">Number of short periods.</param>
     /// <param name="middlePeriods">Number of middle periods.</param>
     /// <param name="longPeriods">Number of long periods.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public UltimateList(
         int shortPeriods,
         int middlePeriods,
@@ -163,7 +163,7 @@ public static partial class Ultimate
     /// <summary>
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="shortPeriods">Number of periods for short calculation</param>
     /// <param name="middlePeriods">Number of periods for middle calculation</param>
     /// <param name="longPeriods">Number of periods for long calculation</param>

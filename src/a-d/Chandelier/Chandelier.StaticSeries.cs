@@ -8,7 +8,7 @@ public static partial class Chandelier
     /// <summary>
     /// Calculates the Chandelier Exit for a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier to apply to the ATR.</param>
     /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>

@@ -22,13 +22,13 @@ IReadOnlyList<RollingPivotsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `windowPeriods` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range. |
-| `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
+| `windowPeriods` | _`int`_ | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range. |
+| `offsetPeriods` | _`int`_ | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
 For example, a window of 8 with an offset of 4 would evaluate bars like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `bars` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](/indicators/PivotPoints) indicator.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `W+F` periods of `bars` to cover the warmup periods.
 
@@ -57,7 +57,7 @@ IReadOnlyList<RollingPivotsResult>
 - It does not return a single incremental indicator value.
 - The first `W+F-1` periods will have `null` values since there's not enough data to calculate.
 
-::: warning 🖌️ Repaint warning
+::: warning ️🖌️ Repaint warning
 Historical results are a function of the rolling window position and will shift as new bars are added.  Each new period causes the window to move forward, recalculating pivot points based on the new window data.
 :::
 
@@ -65,16 +65,16 @@ Historical results are a function of the rolling window position and will shift 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `R4` | double | Resistance level 4 (Camarilla only) |
-| `R3` | double | Resistance level 3 |
-| `R2` | double | Resistance level 2 |
-| `R1` | double | Resistance level 1 |
-| `PP` | double | Pivot Point |
-| `S1` | double | Support level 1 |
-| `S2` | double | Support level 2 |
-| `S3` | double | Support level 3 |
-| `S4` | double | Support level 4 (Camarilla only) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `R4` | _`double`_ | Resistance level 4 (Camarilla only) |
+| `R3` | _`double`_ | Resistance level 3 |
+| `R2` | _`double`_ | Resistance level 2 |
+| `R1` | _`double`_ | Resistance level 1 |
+| `PP` | _`double`_ | Pivot Point |
+| `S1` | _`double`_ | Support level 1 |
+| `S2` | _`double`_ | Support level 2 |
+| `S3` | _`double`_ | Support level 3 |
+| `S4` | _`double`_ | Support level 4 (Camarilla only) |
 
 ### Utilities
 

@@ -8,7 +8,7 @@ public static partial class SuperTrend
     /// <summary>
     /// Converts a list of bars to a list of SuperTrend results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>

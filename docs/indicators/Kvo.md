@@ -22,11 +22,11 @@ IReadOnlyList<KvoResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `fastPeriods` | int | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34. |
-| `slowPeriods` | int | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55. |
-| `signalPeriods` | int | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13. |
+| `fastPeriods` | _`int`_ | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34. |
+| `slowPeriods` | _`int`_ | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55. |
+| `signalPeriods` | _`int`_ | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `L+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `L+150` data points prior to the intended usage date for better precision.
 
@@ -43,7 +43,7 @@ IReadOnlyList<KvoResult>
 - It does not return a single incremental indicator value.
 - The first `L+1` periods will have `null` values since there's not enough data to calculate.
 
-::: warning ⚞ Convergence warning
+::: warning 🚩 ⚞ Convergence warning
 The first `L+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 
@@ -51,9 +51,9 @@ The first `L+150` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Oscillator` | double | Klinger Oscillator |
-| `Signal` | double | EMA of Klinger Oscillator (signal line) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Oscillator` | _`double`_ | Klinger Oscillator |
+| `Signal` | _`double`_ | EMA of Klinger Oscillator (signal line) |
 
 ### Utilities
 

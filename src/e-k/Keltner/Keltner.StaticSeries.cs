@@ -8,7 +8,7 @@ public static partial class Keltner
     /// <summary>
     /// Converts a list of bars to Keltner Channel results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>

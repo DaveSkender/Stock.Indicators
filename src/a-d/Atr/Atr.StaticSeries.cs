@@ -9,7 +9,7 @@ public static partial class Atr
     /// <summary>
     /// Calculates Average True Range (ATR) for a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of ATR results.</returns>
     public static IReadOnlyList<AtrResult> ToAtr(

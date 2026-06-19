@@ -28,7 +28,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromBar, IVwma
     /// Initializes a new instance of the <see cref="VwmaList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public VwmaList(
         int lookbackPeriods,
         IReadOnlyList<IBar> bars
@@ -101,7 +101,7 @@ public static partial class Vwma
     /// <summary>
     /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static VwmaList ToVwmaList(
         this IReadOnlyList<IBar> bars,

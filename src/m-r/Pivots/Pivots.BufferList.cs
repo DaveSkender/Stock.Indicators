@@ -54,7 +54,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromBar
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
     /// <param name="endType">Type of end point for the pivot calculation.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public PivotsList(
         int leftSpan,
         int rightSpan,
@@ -345,7 +345,7 @@ public static partial class Pivots
     /// <summary>
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>

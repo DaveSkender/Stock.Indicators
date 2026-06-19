@@ -22,11 +22,11 @@ IReadOnlyList<FcbResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
+| `windowSpan` | _`int`_ | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/Fractal) for more information about Fractals and `windowSpan`.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×S+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
@@ -43,7 +43,7 @@ IReadOnlyList<FcbResult>
 - It does not return a single incremental indicator value.
 - The periods before the first fractal are `null` since they cannot be calculated.
 
-::: warning 🖌️ Repaint warning
+::: warning ️🖌️ Repaint warning
 Fractal Chaos Bands are based on [Williams Fractal](/indicators/Fractal), which uses future bars.  This indicator will never identify bands in the last `S` periods of `bars` since fractals are retroactively identified.
 :::
 
@@ -51,9 +51,9 @@ Fractal Chaos Bands are based on [Williams Fractal](/indicators/Fractal), which 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `UpperBand` | decimal | FCB upper band |
-| `LowerBand` | decimal | FCB lower band |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `UpperBand` | _`decimal`_ | FCB upper band |
+| `LowerBand` | _`decimal`_ | FCB lower band |
 
 ### Utilities
 

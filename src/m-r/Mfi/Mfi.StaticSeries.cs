@@ -8,7 +8,7 @@ public static partial class Mfi
     /// <summary>
     /// Converts a list of bars to Money Flow Index (MFI) results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Number of periods to use for the MFI calculation. Default is 14.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>

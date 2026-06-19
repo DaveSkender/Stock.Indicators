@@ -33,7 +33,7 @@ public static class ListingExecutionBuilderExtensions
     /// Creates a customizable indicator builder from an indicator listing and sets the source bars.
     /// </summary>
     /// <param name="listing">Base indicator listing.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> with bars set.</returns>
     public static ListingExecutionBuilder From(
         this IndicatorListing listing,
@@ -78,7 +78,7 @@ public static class ListingExecutionBuilderExtensions
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
     /// <param name="listing">Indicator listing.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>Indicator results.</returns>
     public static IReadOnlyList<TResult> Execute<TResult>(
         this IndicatorListing listing,
@@ -90,7 +90,7 @@ public static class ListingExecutionBuilderExtensions
     /// Alternative syntax: Execute an indicator from bars using a custom indicator builder.
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="customIndicator">Custom indicator configuration.</param>
     /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when a required parameter is null</exception>

@@ -8,7 +8,7 @@ public static partial class Cmf
     /// <summary>
     /// Calculates the Chaikin Money Flow (CMF) for a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CmfResult"/> containing the CMF calculation results.</returns>
     public static IReadOnlyList<CmfResult> ToCmf(

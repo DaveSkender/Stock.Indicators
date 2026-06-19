@@ -90,7 +90,7 @@ public static partial class Ema
 | `MovingAverage` | EMA, SMA, HMA, TEMA, WMA, DEMA |
 | `Oscillator` | RSI, Stochastic, MACD, CCI, BOP, CMO, Chop, DPO |
 | `PriceChannel` | Bollinger Bands, Keltner, Donchian, VWAP |
-| `PriceCharacteristic` | ATR, Beta, Standard Deviation, True Range |
+| `PriceCharacteristic` | ATR, Beta, Standard deviation, True Range |
 | `PricePattern` | Fractal, Pivot Points |
 | `PriceTransform` | Bar Part, ZigZag |
 | `PriceTrend` | ADX, Aroon, Alligator, AtrStop, SuperTrend, Vortex |

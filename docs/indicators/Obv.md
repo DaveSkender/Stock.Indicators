@@ -18,7 +18,7 @@ IReadOnlyList<ObvResult> results =
   bars.ToObv();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least two historical bars to cover the warmup periods; however, since this is a trendline, more is recommended.
 
@@ -39,10 +39,10 @@ IReadOnlyList<ObvResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Obv` | double | On-balance Volume |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Obv` | _`double`_ | On-balance Volume |
 
-::: warning
+::: warning 🚩
 absolute values in OBV are somewhat meaningless. Use with caution.
 :::
 

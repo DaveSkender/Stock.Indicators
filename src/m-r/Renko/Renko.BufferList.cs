@@ -46,7 +46,7 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromBar, IRenko
     /// </summary>
     /// <param name="brickSize">Size of each Renko brick.</param>
     /// <param name="endType">Price candle end type to use as the brick threshold.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public RenkoList(
         decimal brickSize,
         EndType endType,
@@ -162,7 +162,7 @@ public static partial class Renko
     /// <summary>
     /// Creates a buffer list for Renko Chart calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="brickSize">Size of each Renko brick.</param>
     /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A buffer list for Renko Chart calculations.</returns>
