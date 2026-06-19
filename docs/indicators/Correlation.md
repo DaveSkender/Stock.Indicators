@@ -18,7 +18,7 @@ IReadOnlyList<CorrResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `barsB` | IReadOnlyList\<TBar\> | [Historical bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
+| `barsB` | IReadOnlyList\<TBar\> | [Historical price bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical price bars requirements
@@ -34,7 +34,7 @@ IReadOnlyList<CorrResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 

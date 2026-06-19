@@ -22,7 +22,7 @@ IReadOnlyList<BetaResult> results = barsEval
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `barsMarket` | IReadOnlyList\<TBar\> | [Historical bars](/guide/getting-started#historical-bars) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` bars will be used to establish the baseline. |
+| `barsMarket` | IReadOnlyList\<TBar\> | [Historical price bars](/guide/getting-started#historical-bars) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` bars will be used to establish the baseline. |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below. |
 
@@ -32,11 +32,11 @@ You must have at least `N` periods of `barsEval` to cover the warmup periods.  Y
 
 #### BetaType options
 
-**`Standard`** - Standard Beta only.  Uses all historical bars.
+**`Standard`** - Standard Beta only.  Uses all historical price bars.
 
-**`Up`** - Upside Beta only.  Uses historical bars from market up bars only.
+**`Up`** - Upside Beta only.  Uses historical price bars from market up bars only.
 
-**`Down`** - Downside Beta only.  Uses historical bars from market down bars only.
+**`Down`** - Downside Beta only.  Uses historical price bars from market down bars only.
 
 **`All`** - Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
 
@@ -53,7 +53,7 @@ IReadOnlyList<BetaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 

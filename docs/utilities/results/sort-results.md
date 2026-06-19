@@ -83,7 +83,7 @@ This utility is similar to [Sort bars](/utilities/bars/sort-bars), but works on 
 
 | Utility | Input type | Output type | Use case |
 |---------|-----------|-------------|----------|
-| `.ToSortedList()` (bars) | `IEnumerable<IBar>` | `IReadOnlyList<TBar>` | Sort historical bars |
+| `.ToSortedList()` (bars) | `IEnumerable<IBar>` | `IReadOnlyList<TBar>` | Sort historical price bars |
 | `.ToSortedList()` (results) | `IEnumerable<IResult>` | `IReadOnlyList<TResult>` | Sort indicator results |
 
 ## Custom indicator example

@@ -20,7 +20,7 @@ IReadOnlyList<AdlResult> results =
 
 ## Historical price bars requirements
 
-You must have at least two historical bars to cover the warmup periods; however, since this is a trendline, more is recommended.
+You must have at least two historical price bars to cover the warmup periods; however, since this is a trendline, more is recommended.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
@@ -31,7 +31,7 @@ IReadOnlyList<AdlResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 
 ### `AdlResult`

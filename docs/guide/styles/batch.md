@@ -5,7 +5,7 @@ description: Learn how to use Series batch style indicators for one-time bulk co
 
 # Series style indicators for batch processing
 
-Series batch style is the fastest and simplest way to calculate indicators from complete historical datasets. Use this when you have all your historical bars available and need to convert them to indicators in one operation.
+Series batch style is the fastest and simplest way to calculate indicators from complete historical datasets. Use this when you have all your historical price bars available and need to convert them to indicators in one operation.
 
 ## When to use batch style
 
@@ -30,7 +30,7 @@ All series-style indicators produce complete results for the entire bar history 
 ```csharp
 using Skender.Stock.Indicators;
 
-// fetch historical bars from your data source
+// fetch historical price bars from your data source
 IReadOnlyList<Bar> bars = GetBarsFromFeed("MSFT");
 
 // calculate 20-period SMA
