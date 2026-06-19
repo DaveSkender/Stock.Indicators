@@ -15,28 +15,35 @@ hero:
       link: /migration
 
 features:
+
   - title: Getting started
     details: Install the Skender.Stock.Indicators NuGet library and calculate your first indicator in minutes.
     link: /guide/getting-started
     linkText: First-time setup
+
   - title: Indicator styles
     details: Batch (Series), Buffer lists, and Stream hubs — compare styles and choose the right one for your use case
     link: /guide/styles
     linkText: Compare styles
+
   - title: Chaining
     details: Build sophisticated analysis by chaining indicators together, creating indicators of indicators
     link: /guide/chaining
     linkText: Learn more
+
   - title: Custom indicators
     details: Create your own indicators that integrate seamlessly with the library
     link: /guide/customization
     linkText: Learn more
+
   - title: Utilities
     details: Helper functions for bar manipulation, result processing, and numerical analysis
     link: /utilities
     linkText: Learn more
+
   - title: Code samples
     details: Full .NET solution with working sample code
     link: /examples
     linkText: Learn more
+    
 ---

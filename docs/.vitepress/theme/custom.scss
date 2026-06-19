@@ -63,6 +63,7 @@
   // before switching to a 3-column layout. Use higher specificity and
   // !important to override VitePress-generated grid classes reliably.
   @media (min-width: 1200px) {
+
     .VPFeatures.VPHomeFeatures .container .items .item,
     .VPFeatures.VPHomeFeatures .container .items .item[class*='grid-'],
     .VPFeatures .container .items .item,
@@ -214,7 +215,7 @@
   box-sizing: border-box !important;
 }
 
-.VPFeatures .container .items .item > a,
+.VPFeatures .container .items .item>a,
 .VPFeatures .container .items .item .VPLink,
 .VPFeatures .container .items a.VPFeature {
   display: block !important;
@@ -225,5 +226,132 @@
 @media (min-width: 1200px) {
   .VPFeatures .container .items {
     grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+
+// EXPERIMENTAL
+
+.usa-link {
+  color: #005ea2;
+  text-decoration: underline;
+}
+
+.usa-link:visited {
+  color: #54278f;
+}
+
+.usa-link:hover {
+  color: #1a4480;
+}
+
+.usa-link:active {
+  color: #162e51;
+}
+
+.usa-link:focus {
+  outline: 0.25rem solid #2491ff;
+  outline-offset: 0rem;
+}
+
+
+.usa-link--external {
+  display: inline;
+}
+
+.usa-link--external::before {
+  position: absolute;
+  left: -999em;
+  right: auto;
+  content: "External.";
+}
+
+.usa-link--external[target=_blank]::before {
+  position: absolute;
+  left: -999em;
+  right: auto;
+  content: "External, opens in a new tab.";
+}
+
+.usa-link--external::after {
+  background-image: url("/assets/icons/external-link.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 1.75ex 1.75ex;
+  display: inline-block;
+  height: 1.75ex;
+  width: 1.75ex;
+  content: "";
+  display: inline;
+  margin-top: 0.7ex;
+  margin-left: 2px;
+  padding-left: 1.75ex;
+  vertical-align: middle;
+
+  font-size: 1.13rem;
+  line-height: 1.5;
+}
+
+@supports ((-webkit-mask: url("")) or (mask: url(""))) {
+  .usa-link--external::after {
+    background: none;
+    background-color: currentColor;
+    -webkit-mask-image: url("/assets/icons/external-link.svg"), linear-gradient(transparent, transparent);
+    mask-image: url("/assets/icons/external-link.svg"), linear-gradient(transparent, transparent);
+    -webkit-mask-position: center center;
+    mask-position: center center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 1.75ex 1.75ex;
+    mask-size: 1.75ex 1.75ex;
+  }
+}
+
+.usa-link--external.usa-link--alt {
+  display: inline;
+}
+
+.usa-link--external.usa-link--alt::before {
+  position: absolute;
+  left: -999em;
+  right: auto;
+  content: "External.";
+}
+
+.usa-link--external.usa-link--alt[target=_blank]::before {
+  position: absolute;
+  left: -999em;
+  right: auto;
+  content: "External, opens in a new tab.";
+}
+
+.usa-link--external.usa-link--alt::after {
+  background-image: url("/assets/icons/external-link.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 1.75ex 1.75ex;
+  display: inline-block;
+  height: 1.75ex;
+  width: 1.75ex;
+  content: "";
+  display: inline;
+  margin-top: 0.7ex;
+  margin-left: 2px;
+  padding-left: 1.75ex;
+  vertical-align: middle;
+}
+
+@supports ((-webkit-mask: url("")) or (mask: url(""))) {
+  .usa-link--external.usa-link--alt::after {
+    background: none;
+    background-color: currentColor;
+    -webkit-mask-image: url("/assets/icons/external-link.svg"), linear-gradient(transparent, transparent);
+    mask-image: url("/assets/icons/external-link.svg"), linear-gradient(transparent, transparent);
+    -webkit-mask-position: center center;
+    mask-position: center center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 1.75ex 1.75ex;
+    mask-size: 1.75ex 1.75ex;
   }
 }

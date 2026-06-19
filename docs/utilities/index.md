@@ -15,18 +15,22 @@ hero:
       link: /utilities/catalog
 
 features:
+
   - title: Bar utilities
     details: Prepare and transform historical price bars before using them with indicators.
     link: /utilities/bars/
     linkText: 5 utilities
+
   - title: Result utilities
     details: Work with indicator results after calculation and analysis.
     link: /utilities/results/
     linkText: 4 utilities
+
   - title: Helper utilities
     details: Numerical methods and math helpers for creating custom indicators.
     link: /utilities/helpers/
     linkText: 2 utilities
+
   - title: Indicator catalog
     details: Programmatic access to indicator metadata for dynamic UIs.
     link: /utilities/catalog

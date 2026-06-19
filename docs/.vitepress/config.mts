@@ -20,7 +20,8 @@ const siteNav = {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Stock Indicators for .NET",
+  title: "stock indicators",
+  titleTemplate: "Stock Indicators for .NET",
   description: "Transform price quotes into trading insights.",
 
   // Default to dark theme (toggle still available)

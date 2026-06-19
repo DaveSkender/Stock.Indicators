@@ -22,9 +22,5 @@
     "docs/examples/**/*.json": true,
     "docs/.vitepress/cache": true,
     "docs/.vitepress/dist": true
-  },
-  "vue.server.includeLanguages": [
-    "vue",
-    "md"
-  ]
+  }
 }

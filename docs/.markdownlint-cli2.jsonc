@@ -11,6 +11,7 @@
     "MD025": false,
     "MD028": false,
     "MD033": false,  // accomodate vue components
+    "MD034": false,  // allowed HTML elements in VitePress
     "MD041": false,  // accomodate website markdown
     "MD060": false
   }

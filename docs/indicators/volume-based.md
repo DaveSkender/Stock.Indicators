@@ -2,6 +2,7 @@
 title: Volume-based
 description: Volume-weighted indicators that incorporate trading activity into price analysis.
 layout: home
+
 hero:
   name: Volume-based
   tagline: Volume-weighted indicators that incorporate trading activity into price analysis.
@@ -9,55 +10,67 @@ hero:
     - theme: alt
       text: ← all categories
       link: /indicators/
+
 features:
+
   - title: Accumulation Distribution Line (ADL)
+    details: Cumulative CMF volume pressure line
     icon:
       src: /assets/thumbs/indicators/adl.png
     link: /indicators/Adl
-    details: Cumulative CMF volume pressure line
+
   - title: Chaikin Money Flow (CMF)
+    details: Volume-weighted buying/selling pressure is a SMA of directional Money Flow Volume
     icon:
       src: /assets/thumbs/indicators/cmf.png
     link: /indicators/Cmf
-    details: Volume-weighted buying/selling pressure is a SMA of directional Money Flow Volume
+
   - title: Chaikin Oscillator
+    details: Exponential Moving Average (EMA) of Accumulation/Distribution Line (ADL)
     icon:
       src: /assets/thumbs/indicators/chaikin-osc.png
     link: /indicators/ChaikinOsc
-    details: Exponential Moving Average (EMA) of Accumulation/Distribution Line (ADL)
+
   - title: Force Index
+    details: Buying and selling pressure based on the change in price and trade volume
     icon:
       src: /assets/thumbs/indicators/force-index.png
     link: /indicators/ForceIndex
-    details: Buying and selling pressure based on the change in price and trade volume
+
   - title: Klinger Volume Oscillator (KVO)
+    details: Long/short-term volume momentum, trend reversal, and divergence of money flow
     icon:
       src: /assets/thumbs/indicators/kvo.png
     link: /indicators/Kvo
-    details: Long/short-term volume momentum, trend reversal, and divergence of money flow
+
   - title: Money Flow Index (MFI)
+    details: Volume-weighted relative strength of positive / negative money flow
     icon:
       src: /assets/thumbs/indicators/mfi.png
     link: /indicators/Mfi
-    details: Volume-weighted relative strength of positive / negative money flow
+
   - title: On-Balance Volume (OBV)
+    details: Rolling accumulative sum of directionally signed ± volume
     icon:
       src: /assets/thumbs/indicators/obv.png
     link: /indicators/Obv
-    details: Rolling accumulative sum of directionally signed ± volume
+
   - title: Price Volume Oscillator (PVO)
+    details: Rate of change between two converging / diverging EMA of volume (MACD of volume)
     icon:
       src: /assets/thumbs/indicators/pvo.png
     link: /indicators/Pvo
-    details: Rate of change between two converging / diverging EMA of volume (MACD of volume)
+
   - title: Volume-weighted average price (VWAP)
+    details: Volume weighted average of price, typically used on intraday data
     icon:
       src: /assets/thumbs/indicators/vwap2.png
     link: /indicators/Vwap
-    details: Volume weighted average of price, typically used on intraday data
+
   - title: Volume-weighted moving average (VWMA)
+    details: Volume adjusted average price over a rolling window period
     icon:
       src: /assets/thumbs/indicators/vwma2.png
     link: /indicators/Vwma
-    details: Volume adjusted average price over a rolling window period
+    
 ---

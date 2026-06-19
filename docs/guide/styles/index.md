@@ -19,14 +19,17 @@ features:
     details: Convert full bar collections to indicators, best for once-and-done bulk conversions.
     link: /guide/styles/batch
     linkText: Learn more
+
   - title: Buffer lists
     details: Standalone incrementing `IReadOnlyList` results you append to, best for simple self-managed incremental data.
     link: /guide/styles/buffer
     linkText: Learn more
+
   - title: Stream hubs
     details: Subscription-based hub-observer pattern, best for streaming/live data and advanced architectures.
     link: /guide/styles/stream
     linkText: Learn more
+    
 ---
 
 ## Feature comparison
