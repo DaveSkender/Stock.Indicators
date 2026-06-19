@@ -50,7 +50,7 @@ public class TradeTickAggregatorHub
 
         AggregationPeriod = agg;
         FillGaps = fillGaps;
-        Name = $"TICK-AGG({barInterval})";
+        Name = $"TRADE-TICK-AGG({barInterval})";
 
         // Keep execution IDs for 100x the aggregation period or at least 1 hour
         _executionIdRetentionPeriod = TimeSpan.FromTicks(Math.Max(
@@ -81,7 +81,7 @@ public class TradeTickAggregatorHub
 
         AggregationPeriod = timeSpan;
         FillGaps = fillGaps;
-        Name = $"TICK-AGG({timeSpan})";
+        Name = $"TRADE-TICK-AGG({timeSpan})";
 
         // Keep execution IDs for 100x the aggregation period or at least 1 hour
         _executionIdRetentionPeriod = TimeSpan.FromTicks(Math.Max(
@@ -333,7 +333,7 @@ public class TradeTickAggregatorHub
 
     /// <inheritdoc/>
     public override string ToString()
-        => $"TICK-AGG<{AggregationPeriod}>: {Cache.Count} items";
+        => $"TRADE-TICK-AGG<{AggregationPeriod}>: {Cache.Count} items";
 
     /// <inheritdoc/>
     /// <remarks>

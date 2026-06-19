@@ -36,6 +36,11 @@ public class BarIntervalCodes : TestBase
     }
 
     [TestMethod]
+    public void ToCode_WithUndefinedInterval_ThrowsArgumentOutOfRangeException()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            static () => ((BarInterval)99).ToCode());
+
+    [TestMethod]
     public void ToBarInterval_WithUnknownCode_ThrowsArgumentException()
         => Assert.ThrowsExactly<ArgumentException>(static () => "13x".ToBarInterval());
 

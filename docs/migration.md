@@ -82,12 +82,12 @@ var smaResults = quotes.GetSma(20); // [!code --]
 var smaResults = quotes.ToSma(20);  // [!code ++]
 ```
 
-### Step 2: Update `IQuote` property names
+### Step 2: Update `IBar` property names
 
-Rename `Date` to `Timestamp` in all custom quote classes:
+Rename `Date` to `Timestamp` in all custom bar classes (and implement `IBar` in place of the obsolete `IQuote`):
 
 ```csharp
-public class MyQuote : IQuote
+public class MyBar : IBar
 {
     public DateTime Date { get; set; }      // [!code --]
     public DateTime Timestamp { get; set; } // [!code ++]
@@ -99,9 +99,9 @@ public class MyQuote : IQuote
 }
 ```
 
-### Step 3: Update custom quote types
+### Step 3: Update custom bar types
 
-Change custom quote types to `record` or implement value based equality:
+Change custom bar types to `record` or implement value based equality:
 
 ```csharp
 // v2
@@ -114,13 +114,13 @@ public class MyQuote : IQuote
 }
 
 // v3 - option 1: use record
-public record MyQuote : IQuote
+public record MyBar : IBar
 {
     // properties...
 }
 
 // v3 - option 2: implement value-based equality
-public class MyQuote : IQuote, IEquatable<MyQuote>
+public class MyBar : IBar, IEquatable<MyBar>
 {
     // properties...
     
@@ -231,9 +231,9 @@ The BufferList style allows incremental calculations with efficient buffer manag
 // v3 BufferList style
 SmaList smaList = new(20);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-    smaList.Add(quote);
+    smaList.Add(bar);
 }
 
 IReadOnlyList<SmaResult> results = smaList;
@@ -248,17 +248,17 @@ IReadOnlyList<SmaResult> results = smaList;
 
 #### StreamHub style (real-time observable patterns)
 
-The StreamHub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a single `QuoteHub` for coordinated real-time analysis.
+The StreamHub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a single `BarHub` for coordinated real-time analysis.
 
 ```csharp
 // v3 StreamHub style
-QuoteHub quoteHub = new();
+BarHub barHub = new();
 
-EmaHub emaFast = quoteHub.ToEmaHub(50);
-EmaHub emaSlow = quoteHub.ToEmaHub(200);
+EmaHub emaFast = barHub.ToEmaHub(50);
+EmaHub emaSlow = barHub.ToEmaHub(200);
 
-// add quotes to quoteHub (from stream)
-quoteHub.Add(newQuote);
+// add bars to barHub (from stream)
+barHub.Add(newBar);
 // and the 2 EmaHub will be in sync
 
 if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
@@ -268,8 +268,8 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
 }
 ```
 
-> **Mutate the root hub only.** Feed and correct data through the `QuoteHub`
-> (or `TickHub`) you created — it cascades to every dependent hub. Calling
+> **Mutate the root hub only.** Feed and correct data through the `BarHub`
+> (or `TradeTickHub`) you created — it cascades to every dependent hub. Calling
 > `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed
 > hub such as an `EmaHub` throws `InvalidOperationException`. See the
 > [streaming guide](/guide/styles/stream#thread-safety) for details.
@@ -299,9 +299,9 @@ foreach (Quote newQuote in stream)
 
 // v3 BufferList (efficient incremental updates)
 SmaList smaList = new(20);
-foreach (Quote newQuote in stream)
+foreach (Bar newBar in stream)
 {
-    smaList.Add(newQuote);
+    smaList.Add(newBar);
     
     // Note: smaList[^1] throws ArgumentOutOfRangeException if empty
     if (smaList.Count > 0)
@@ -329,14 +329,14 @@ foreach (Quote newQuote in stream)
 }
 
 // v3 StreamHub (coordinated real-time updates)
-QuoteHub quoteHub = new();
-SmaHub smaHub = quoteHub.ToSmaHub(20);
-RsiHub rsiHub = quoteHub.ToRsiHub(14);
-MacdHub macdHub = quoteHub.ToMacdHub();
+BarHub barHub = new();
+SmaHub smaHub = barHub.ToSmaHub(20);
+RsiHub rsiHub = barHub.ToRsiHub(14);
+MacdHub macdHub = barHub.ToMacdHub();
 
-foreach (Quote newQuote in stream)
+foreach (Bar newBar in stream)
 {
-    quoteHub.Add(newQuote);  // Single update propagates to all observers
+    barHub.Add(newBar);  // Single update propagates to all observers
     // Access latest results from each hub
 }
 ```
