@@ -36,7 +36,7 @@ IReadOnlyList<RenkoResult> results =
 | ----- | ---- | ----------- |
 | `atrPeriods` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 **Fixed brick size**: You must have at least two periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 

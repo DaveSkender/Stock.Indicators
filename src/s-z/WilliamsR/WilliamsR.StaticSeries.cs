@@ -8,7 +8,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Calculates the Williams %R for a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
@@ -44,7 +44,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Creates a buffer list for Williams %R calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A WilliamsRList instance.</returns>
     public static WilliamsRList ToWilliamsRList(

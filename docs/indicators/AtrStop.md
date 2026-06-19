@@ -26,7 +26,7 @@ IReadOnlyList<AtrStopResult> results =
 | `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
 | `endType` | EndType | Determines whether `Close` or `High/Low` is used as basis for stop offset.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 

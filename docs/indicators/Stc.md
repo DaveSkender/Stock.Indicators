@@ -26,7 +26,7 @@ IReadOnlyList<StcResult> results =
 | `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×(S+C)` or `S+C+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+C+250` data points prior to the intended usage date for better precision.
 

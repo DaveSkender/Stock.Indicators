@@ -26,7 +26,7 @@ IReadOnlyList<RocWbResult> results =
 | `emaPeriods` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3. |
 | `stdDevPeriods` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 

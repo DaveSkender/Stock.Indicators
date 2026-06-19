@@ -25,7 +25,7 @@ IReadOnlyList<MamaResult> results =
 | `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5. |
 | `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `50` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 

@@ -34,7 +34,7 @@ IReadOnlyList<ChandelierResult> results =
 | `multiplier` | double | Multiplier number must be a positive value.  Default is 3. |
 | `type` | Direction | Direction of exit.  See [Direction options](#direction-options) below.  Default is `Direction.Long`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 

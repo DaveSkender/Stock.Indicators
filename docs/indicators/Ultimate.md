@@ -26,7 +26,7 @@ IReadOnlyList<UltimateResult> results =
 | `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
 | `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `L+1` periods of `bars` to cover the warmup periods.
 

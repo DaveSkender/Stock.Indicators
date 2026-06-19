@@ -26,7 +26,7 @@ IReadOnlyList<KamaResult> results =
 | `fastPeriods` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2. |
 | `slowPeriods` | int | Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `6×E` or `E+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 

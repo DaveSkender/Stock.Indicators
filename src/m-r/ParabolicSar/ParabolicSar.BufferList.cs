@@ -62,7 +62,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromBa
     /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ParabolicSarList(
         double accelerationStep,
         double maxAccelerationFactor,
@@ -290,7 +290,7 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="accelerationStep">Acceleration step increment</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
     public static ParabolicSarList ToParabolicSarList(
@@ -302,7 +302,7 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations with custom initial factor.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="accelerationStep">Acceleration step increment</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
     /// <param name="initialFactor">Initial acceleration factor</param>

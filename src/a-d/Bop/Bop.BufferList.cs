@@ -25,7 +25,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromBar, IBop
     /// Initializes a new instance of the <see cref="BopList"/> class with initial bars.
     /// </summary>
     /// <param name="smoothPeriods">Number of periods to use for smoothing.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public BopList(int smoothPeriods, IReadOnlyList<IBar> bars)
         : this(smoothPeriods) => Add(bars);
 
@@ -89,7 +89,7 @@ public static partial class Bop
     /// <summary>
     /// Creates a buffer list for Balance of Power (BOP) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="smoothPeriods">Number of periods for smoothing</param>
     public static BopList ToBopList(
         this IReadOnlyList<IBar> bars,

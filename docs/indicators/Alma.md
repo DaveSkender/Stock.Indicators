@@ -26,7 +26,7 @@ IReadOnlyList<AlmaResult> results =
 | `offset` | double | Adjusts smoothness versus responsiveness on a scale from 0 to 1; where 1 is max responsiveness.  Default is 0.85. |
 | `sigma` | double | Defines the width of the Gaussian [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution).  Must be greater than 0.  Default is 6. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 

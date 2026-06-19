@@ -235,7 +235,7 @@ public static partial class Catalog
     /// Executes an indicator using only its ID and style with a typed result.
     /// </summary>
     /// <typeparam name="TResult">Expected indicator result type.</typeparam>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="id">Indicator ID (e.g., "EMA", "RSI", "MACD").</param>
     /// <param name="style">Indicator style (Series, Stream, or Buffer).</param>
     /// <param name="parameters">Optional parameter overrides.</param>
@@ -270,7 +270,7 @@ public static partial class Catalog
     /// Executes an indicator from a JSON configuration string with a typed result.
     /// </summary>
     /// <typeparam name="TResult">Expected indicator result type.</typeparam>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="json">JSON configuration string containing indicator settings.</param>
     /// <returns>Indicator results as a typed list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when json or bars is null.</exception>

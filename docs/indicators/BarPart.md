@@ -26,7 +26,7 @@ IReadOnlyList<TimeValue> results =
 | ----- | ---- | ----------- |
 | `candlePart` | CandlePart | The [OHLCV](/guide/getting-started#historical-bars) element or simple price transform. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least 1 period of `bars`.
 

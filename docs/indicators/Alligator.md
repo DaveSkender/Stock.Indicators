@@ -29,7 +29,7 @@ IReadOnlyList<AlligatorResult> results =
 | `lipsPeriods` | int | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5. |
 | `lipsOffset` | int | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `JP+JO+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least `JP+JO+250` data points prior to the intended usage date for better precision.
 

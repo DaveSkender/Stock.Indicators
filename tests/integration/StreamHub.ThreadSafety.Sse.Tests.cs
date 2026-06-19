@@ -447,7 +447,7 @@ public class ThreadSafetyTests : TestBase
 
     /// <summary>
     /// Tests that TradeTickAggregatorHub correctly aggregates incoming tick stream into 5-minute
-    /// bar bars and that downstream EMA indicator produces results matching the static series
+    /// price bars and that downstream EMA indicator produces results matching the static series
     /// computed on the aggregated bars.
     /// </summary>
     [TestMethod]

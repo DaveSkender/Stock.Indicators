@@ -25,7 +25,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromBar, IAroon
     /// Initializes a new instance of the <see cref="AroonList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public AroonList(int lookbackPeriods, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods) => Add(bars);
@@ -95,7 +95,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromBar, IAroon
     /// <summary>
     /// Adds a list of bars to the Aroon list.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     public void Add(IReadOnlyList<IBar> bars)
     {
@@ -125,7 +125,7 @@ public static partial class Aroon
     /// <summary>
     /// Creates a buffer list for Aroon calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An AroonList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>

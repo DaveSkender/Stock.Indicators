@@ -24,7 +24,7 @@ IReadOnlyList<HurstResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 

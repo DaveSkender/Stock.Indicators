@@ -113,12 +113,12 @@ Parameter description rules:
 - State validation constraints ("Must be greater than 0")
 - State default value when one exists ("Default is 14")
 
-#### Historical bars requirements subsection
+#### Historical price bars requirements subsection
 
 Always present, even for parameter-free indicators:
 
 ```markdown
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 
@@ -362,7 +362,7 @@ For static (non-chart) images referenced in prose:
 - [ ] H1 block: attribution, reference link, Discuss link, optional chart panel
 - [ ] Usage syntax: all meaningful overloads shown
 - [ ] Parameters table present (or section omitted if none)
-- [ ] Historical bars requirements stated
+- [ ] Historical price bars requirements stated
 - [ ] Response section: return type, bullet list, result table, Utilities links
 - [ ] Chaining section: correct chainability direction described
 - [ ] Streaming section: full examples present, or "not applicable" note with architectural reason

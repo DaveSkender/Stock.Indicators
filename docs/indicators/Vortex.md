@@ -24,7 +24,7 @@ IReadOnlyList<VortexResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 

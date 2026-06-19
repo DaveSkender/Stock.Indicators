@@ -10,7 +10,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
@@ -30,7 +30,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of bars with specified factors and moving average type.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>

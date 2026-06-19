@@ -10,7 +10,7 @@ public class BarPartList(CandlePart candlePart) : BufferList<TimeValue>, IIncrem
     /// Initializes a new instance of the <see cref="BarPartList"/> class with initial bars.
     /// </summary>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public BarPartList(CandlePart candlePart, IReadOnlyList<IBar> bars)
         : this(candlePart) => Add(bars);
 
@@ -48,7 +48,7 @@ public static partial class BarParts
     /// <summary>
     /// Creates a buffer list for bar part selection.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     public static BarPartList ToBarPartList(
         this IReadOnlyList<IBar> bars,

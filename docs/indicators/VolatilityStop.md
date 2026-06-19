@@ -29,7 +29,7 @@ VolatilityStopHub observer = barHub.ToVolatilityStopHub(lookbackPeriods, multipl
 | `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7. |
 | `multiplier` | double | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals.
 

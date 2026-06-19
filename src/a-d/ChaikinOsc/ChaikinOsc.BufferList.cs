@@ -33,7 +33,7 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromBar, I
     /// </summary>
     /// <param name="fastPeriods">Number of periods to use for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods to use for the slow EMA.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ChaikinOscList(int fastPeriods, int slowPeriods, IReadOnlyList<IBar> bars)
         : this(fastPeriods, slowPeriods) => Add(bars);
 
@@ -100,7 +100,7 @@ public static partial class ChaikinOsc
     /// <summary>
     /// Creates a buffer list for Chaikin Oscillator calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="fastPeriods">Number of periods for the fast moving average</param>
     /// <param name="slowPeriods">Number of periods for the slow moving average</param>
     public static ChaikinOscList ToChaikinOscList(

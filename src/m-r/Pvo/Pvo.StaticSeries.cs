@@ -8,7 +8,7 @@ public static partial class Pvo
     /// <summary>
     /// Converts a list of bars to a list of PVO results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>

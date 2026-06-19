@@ -29,7 +29,7 @@ IReadOnlyList<StochRsiResult> results =
 
 The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `bars.ToStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars`, where `N` is the greater of `R+S+M` and `R+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 

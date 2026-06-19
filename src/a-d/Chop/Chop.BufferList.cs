@@ -29,7 +29,7 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromBar, IChop
     /// Initializes a new instance of the <see cref="ChopList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public ChopList(int lookbackPeriods, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods) => Add(bars);
@@ -125,7 +125,7 @@ public static partial class Chop
     /// <summary>
     /// Creates a buffer list for Choppiness Index (CHOP) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static ChopList ToChopList(
         this IReadOnlyList<IBar> bars,

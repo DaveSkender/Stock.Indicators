@@ -28,7 +28,7 @@ IReadOnlyList<RollingPivotsResult> results =
 
 For example, a window of 8 with an offset of 4 would evaluate bars like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `bars` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](/indicators/PivotPoints) indicator.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `W+F` periods of `bars` to cover the warmup periods.
 

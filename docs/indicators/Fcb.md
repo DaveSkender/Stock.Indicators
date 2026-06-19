@@ -26,7 +26,7 @@ IReadOnlyList<FcbResult> results =
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/Fractal) for more information about Fractals and `windowSpan`.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×S+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 

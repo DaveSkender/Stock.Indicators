@@ -8,7 +8,7 @@ public static partial class Tr
     /// <summary>
     /// Converts a list of bars to a list of True Range (TR) results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A list of True Range (TR) results.</returns>
     public static IReadOnlyList<TrResult> ToTr(
     this IReadOnlyList<IBar> bars)

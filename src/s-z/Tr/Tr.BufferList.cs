@@ -15,7 +15,7 @@ public class TrList : BufferList<TrResult>, IIncrementFromBar  // TR has no inte
     /// <summary>
     /// Initializes a new instance of the <see cref="TrList"/> class with initial bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public TrList(IReadOnlyList<IBar> bars)
         : this() => Add(bars);
 
@@ -73,7 +73,7 @@ public static partial class Tr
     /// <summary>
     /// Creates a buffer list for True Range calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public static TrList ToTrList(
         this IReadOnlyList<IBar> bars)
         => new() { bars };

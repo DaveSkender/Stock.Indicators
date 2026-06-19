@@ -18,7 +18,7 @@ IReadOnlyList<TrResult> results =
   bars.ToTr();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least 2 periods of `bars` to cover the warmup periods.
 

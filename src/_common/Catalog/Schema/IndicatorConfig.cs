@@ -85,7 +85,7 @@ public static class IndicatorConfigExtensions
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
     /// <param name="config">Indicator configuration.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when config is null.</exception>
     public static IReadOnlyList<TResult> Execute<TResult>(this IndicatorConfig config, IEnumerable<IBar> bars)

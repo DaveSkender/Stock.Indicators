@@ -26,7 +26,7 @@ IReadOnlyList<PvoResult> results =
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26. |
 | `signalPeriods` | int | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×(S+P)` or `S+P+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 

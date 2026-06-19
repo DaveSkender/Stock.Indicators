@@ -21,7 +21,7 @@ IReadOnlyList<CorrResult> results =
 | `barsB` | IReadOnlyList\<TBar\> | [Historical bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods for both versions of `bars` to cover the warmup periods.  Mismatch histories will produce a `InvalidBarsException`.  Historical price bars should have a consistent frequency (day, hour, minute, etc).
 

@@ -18,7 +18,7 @@ IReadOnlyList<HtlResult> results =
   bars.ToHtTrendline();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least `100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 

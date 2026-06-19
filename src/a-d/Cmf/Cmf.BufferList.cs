@@ -28,7 +28,7 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromBar, ICmf
     /// Initializes a new instance of the <see cref="CmfList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public CmfList(int lookbackPeriods, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods) => Add(bars);
@@ -106,7 +106,7 @@ public static partial class Cmf
     /// <summary>
     /// Creates a buffer list for Chaikin Money Flow (CMF) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static CmfList ToCmfList(
         this IReadOnlyList<IBar> bars,

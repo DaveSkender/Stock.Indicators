@@ -25,7 +25,7 @@ IReadOnlyList<StdDevChannelsResult> results =
 | `lookbackPeriods` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `bars` evaluation window ([see below](#alternative-depiction-for-full-bars-variant)).  Default is 20. |
 | `stdDeviations` | double | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 

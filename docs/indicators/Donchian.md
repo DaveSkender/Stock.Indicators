@@ -24,7 +24,7 @@ IReadOnlyList<DonchianResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 

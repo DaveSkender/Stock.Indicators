@@ -25,7 +25,7 @@ IReadOnlyList<BollingerBandsResult> results =
 | `lookbackPeriods` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20. |
 | `standardDeviations` | double | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 

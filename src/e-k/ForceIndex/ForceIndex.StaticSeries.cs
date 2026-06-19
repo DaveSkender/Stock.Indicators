@@ -8,7 +8,7 @@ public static partial class ForceIndex
     /// <summary>
     /// Converts a list of bars to Force Index results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 2.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>

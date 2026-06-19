@@ -25,7 +25,7 @@ IReadOnlyList<PivotPointsResult> results =
 | `windowSize` | BarInterval | Size of the lookback window.  Default is `BarInterval.Month` |
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2` windows of `bars` to cover the warmup periods.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `bars`.
 

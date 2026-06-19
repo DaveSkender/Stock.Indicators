@@ -8,7 +8,7 @@ public static partial class RenkoAtr
     /// <summary>
     /// Converts a list of bars to a list of Renko chart results using ATR for brick size.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="atrPeriods">Number of periods for calculating ATR.</param>
     /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>

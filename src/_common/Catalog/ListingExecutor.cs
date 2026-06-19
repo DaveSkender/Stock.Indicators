@@ -11,7 +11,7 @@ internal static class ListingExecutor
     /// Executes an indicator method dynamically using catalog metadata.
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="listing">Indicator listing containing metadata.</param>
     /// <param name="parameters">
     /// Optional parameter value overrides. This dictionary provides user-specified values
@@ -124,7 +124,7 @@ internal static class ListingExecutor
     /// This is a convenience method that creates the parameter dictionary automatically.
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="listing">Indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>Indicator results.</returns>

@@ -48,7 +48,7 @@ IReadOnlyList<IchimokuResult> results = observer.Results;
 
 See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least the greater of `T`,`K`, `S`, and offset periods for `bars` to cover the warmup periods; though, given the leading and lagging nature, we recommend notably more.
 

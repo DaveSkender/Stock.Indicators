@@ -8,7 +8,7 @@ public static partial class Bop
     /// <summary>
     /// Calculates the Balance of Power (BOP) for a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="smoothPeriods">Number of periods to use for smoothing. Default is 14.</param>
     /// <returns>A read-only list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     public static IReadOnlyList<BopResult> ToBop(

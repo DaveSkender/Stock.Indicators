@@ -24,7 +24,7 @@ IReadOnlyList<ForceIndexResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` for `2×N` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 

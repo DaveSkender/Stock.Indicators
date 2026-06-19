@@ -24,7 +24,7 @@ IReadOnlyList<AdxResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 

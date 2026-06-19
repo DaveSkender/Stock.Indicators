@@ -33,7 +33,7 @@ The total evaluation window size is `L+R+1`.
 The `maxTrendPeriods` parameter controls the lookback window for trend line calculations, not the number of results returned.
 :::
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `L+R+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 

@@ -26,7 +26,7 @@ public static class Sorting
     /// that need to convert IBar collections to IReusable for refactored indicators.
     /// </remarks>
     /// <typeparam name="TBar">Type of the bar elements, which must implement <see cref="IBar"/>.</typeparam>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A read-only list of IReusable elements.</returns>
     internal static IReadOnlyList<IReusable> ToSortedReusableList<TBar>(
         this IEnumerable<TBar> bars)

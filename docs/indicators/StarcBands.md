@@ -26,7 +26,7 @@ IReadOnlyList<StarcBandsResult> results =
 | `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
 | `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `S` or `A+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
 

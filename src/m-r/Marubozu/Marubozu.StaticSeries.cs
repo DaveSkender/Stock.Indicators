@@ -8,7 +8,7 @@ public static partial class Marubozu
     /// <summary>
     /// Converts a list of bars to Marubozu candlestick pattern results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu. Default is 95.</param>
     /// <returns>A list of <see cref="CandleResult"/> indicating the presence of Marubozu patterns.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>

@@ -24,7 +24,7 @@ IReadOnlyList<FisherTransformResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 

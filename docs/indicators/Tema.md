@@ -26,7 +26,7 @@ IReadOnlyList<TemaResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to produce any TEMA values.  However, due to the nature of the smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.  See [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) guidance for more information.
 

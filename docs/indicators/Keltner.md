@@ -26,7 +26,7 @@ IReadOnlyList<KeltnerResult> results =
 | `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
 | `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×N` or `N+100` periods of `bars`, whichever is more, where `N` is the greater of `E` or `A` periods, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 

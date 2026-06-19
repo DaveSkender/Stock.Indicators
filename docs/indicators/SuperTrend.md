@@ -25,7 +25,7 @@ IReadOnlyList<SuperTrendResult> results =
 | `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10. |
 | `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 

@@ -8,7 +8,7 @@ public static partial class Pivots
     /// <summary>
     /// Converts a list of bars to a list of pivot points results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>

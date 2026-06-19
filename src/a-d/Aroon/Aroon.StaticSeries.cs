@@ -8,7 +8,7 @@ public static partial class Aroon
     /// <summary>
     /// Calculates the Aroon Oscillator from a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Aroon results.</returns>
     public static IReadOnlyList<AroonResult> ToAroon(

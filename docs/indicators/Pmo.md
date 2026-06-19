@@ -26,7 +26,7 @@ IReadOnlyList<PmoResult> results =
 | `smoothPeriods` | int | Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20. |
 | `signalPeriods` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars`, where `N` is the greater of `T+S`, `2×T`, or `T+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 

@@ -26,7 +26,7 @@ IReadOnlyList<BetaResult> results = barsEval
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `barsEval` to cover the warmup periods.  You must have at least the same matching date elements of `barsMarket`.  An `InvalidBarsException` will be thrown if not matched.  Historical price bars should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

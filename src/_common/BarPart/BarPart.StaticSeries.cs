@@ -11,7 +11,7 @@ public static partial class BarParts
     /// Use this converter if an indicator needs to use something other than the default Close price.
     /// </para>
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>List of <see cref="TimeValue"/> records.</returns>
     /// <remarks>This is an alias of <see cref="Use(IReadOnlyList{IBar}, CandlePart)"/></remarks>

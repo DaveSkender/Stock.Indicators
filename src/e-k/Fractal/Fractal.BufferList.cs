@@ -40,7 +40,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromBar, IFracta
     /// Initializes a new instance of the <see cref="FractalList"/> class with initial bars.
     /// </summary>
     /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>
     public FractalList(int windowSpan, IReadOnlyList<IBar> bars, EndType endType = EndType.HighLow)
         : this(windowSpan, endType) => Add(bars);
@@ -50,7 +50,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromBar, IFracta
     /// </summary>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>
     public FractalList(int leftSpan, int rightSpan, IReadOnlyList<IBar> bars, EndType endType = EndType.HighLow)
         : this(leftSpan, rightSpan, endType) => Add(bars);
@@ -181,7 +181,7 @@ public static partial class Fractal
     /// <summary>
     /// Creates a buffer list for Williams Fractal calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>
     /// <returns>An initialized <see cref="FractalList" />.</returns>
@@ -194,7 +194,7 @@ public static partial class Fractal
     /// <summary>
     /// Creates a buffer list for Williams Fractal calculations with different left and right spans.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>

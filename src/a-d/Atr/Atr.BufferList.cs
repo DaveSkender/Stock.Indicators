@@ -31,7 +31,7 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromBar, IAtr
     /// Initializes a new instance of the <see cref="AtrList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public AtrList(int lookbackPeriods, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods) => Add(bars);
@@ -127,7 +127,7 @@ public static partial class Atr
     /// <summary>
     /// Creates a buffer list for Average True Range calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static AtrList ToAtrList(
         this IReadOnlyList<IBar> bars,

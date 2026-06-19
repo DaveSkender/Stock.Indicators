@@ -30,7 +30,7 @@ IReadOnlyList<ParabolicSarResult> results =
 | `maxAccelerationFactor` | double | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2 |
 | `initialFactor` | double | Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least two historical bars to cover the warmup periods; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals, before your intended usage period.
 

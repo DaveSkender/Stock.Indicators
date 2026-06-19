@@ -28,7 +28,7 @@ IReadOnlyList<SmiResult> results =
 | `secondSmoothPeriods` | int | Second smoothing factor lookback.  Must be greater than 0.  Default is 2. |
 | `signalPeriods` | int | EMA of SMI lookback periods.  Must be greater than 0. Default is 3. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 

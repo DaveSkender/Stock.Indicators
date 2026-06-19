@@ -8,7 +8,7 @@ public static partial class ZigZag
     /// <summary>
     /// Converts a list of bars to a ZigZag series.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="endType">Type of end to use (Close or HighLow).</param>
     /// <param name="percentChange">Percentage change threshold for ZigZag points.</param>
     /// <returns>A list of ZigZag results.</returns>
@@ -198,7 +198,7 @@ public static partial class ZigZag
     /// Draws a ZigZag line between two points.
     /// </summary>
     /// <param name="results">List of ZigZag results.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lastPoint">Last ZigZag point.</param>
     /// <param name="nextPoint">Next ZigZag point.</param>
     private static void DrawZigZagLine(

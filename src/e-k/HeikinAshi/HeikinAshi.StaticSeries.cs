@@ -8,7 +8,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Converts a list of bars to Heikin-Ashi results.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A list of Heikin-Ashi results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     public static IReadOnlyList<HeikinAshiResult> ToHeikinAshi(

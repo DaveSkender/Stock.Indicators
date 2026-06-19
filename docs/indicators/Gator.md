@@ -23,9 +23,9 @@ IReadOnlyList<GatorResult> results = bars
   .ToGator();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
-If using default settings, you must have at least 121 periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/Alligator#historical-bars-requirements) for historical bars requirements.
+If using default settings, you must have at least 121 periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/Alligator#historical-bars-requirements) for Historical price bars requirements.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

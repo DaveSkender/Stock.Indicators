@@ -28,7 +28,7 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromBar, IElde
     /// Initializes a new instance of the <see cref="ElderRayList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ElderRayList(
         int lookbackPeriods,
         IReadOnlyList<IBar> bars
@@ -79,7 +79,7 @@ public static partial class ElderRay
     /// <summary>
     /// Creates a buffer list for Elder Ray calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static ElderRayList ToElderRayList(
         this IReadOnlyList<IBar> bars,

@@ -21,7 +21,7 @@ IReadOnlyList<PrsResult> results =
 | `barsBase` | IReadOnlyList\<TBar\> | [Historical bars](/guide/getting-started#historical-bars) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
 | `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `barsEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price bars should have a consistent frequency (day, hour, minute, etc).
 

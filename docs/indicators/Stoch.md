@@ -34,7 +34,7 @@ IReadOnlyList<StochResult> results =
 | `dFactor` | double | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2. |
 | `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+S` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 

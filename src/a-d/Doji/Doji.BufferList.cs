@@ -25,7 +25,7 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromBar, IDoji
     /// Initializes a new instance of the <see cref="DojiList"/> class with initial bars.
     /// </summary>
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public DojiList(double maxPriceChangePercent, IReadOnlyList<IBar> bars)
         : this(maxPriceChangePercent) => Add(bars);
 
@@ -78,7 +78,7 @@ public static partial class Doji
     /// <summary>
     /// Creates a buffer list for Doji candlestick pattern detection.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="maxPriceChangePercent">Maximum price change percent threshold</param>
     public static DojiList ToDojiList(
         this IReadOnlyList<IBar> bars,

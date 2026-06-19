@@ -28,7 +28,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromBar
     /// Initializes a new instance of the <see cref="MfiList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public MfiList(int lookbackPeriods, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods) => Add(bars);
@@ -121,7 +121,7 @@ public static partial class Mfi
     /// <summary>
     /// Creates a buffer list for Money Flow Index (MFI) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static MfiList ToMfiList(
         this IReadOnlyList<IBar> bars,

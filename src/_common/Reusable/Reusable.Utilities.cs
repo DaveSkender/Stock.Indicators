@@ -8,7 +8,7 @@ public static class Reusable
     /// <summary>
     /// Converts a list of bars to a list of reusable types.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A list of reusable types.</returns>
     public static IReadOnlyList<IReusable> ToReusable(

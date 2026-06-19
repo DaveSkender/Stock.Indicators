@@ -24,6 +24,6 @@ internal interface IIncrementFromBar
     /// <summary>
     /// Apply batch of bars increment many indicator list values.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, in chronological order.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, in chronological order.</param>
     void Add(IReadOnlyList<IBar> bars);
 }

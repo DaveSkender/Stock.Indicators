@@ -25,7 +25,7 @@ IReadOnlyList<AwesomeResult> results =
 | `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5. |
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `S` periods of `bars` to cover the warmup periods.
 

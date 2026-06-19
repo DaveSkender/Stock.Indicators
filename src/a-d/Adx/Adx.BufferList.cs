@@ -26,7 +26,7 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromBar, IAdx
     /// Initializes a new instance of the <see cref="AdxList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public AdxList(int lookbackPeriods, IReadOnlyList<IBar> bars)
         : this(lookbackPeriods) => Add(bars);
@@ -210,7 +210,7 @@ public static partial class Adx
     /// <summary>
     /// Creates a buffer list for Average Directional Index (ADX) calculations.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An initialized <see cref="AdxList" />.</returns>
     public static AdxList ToAdxList(

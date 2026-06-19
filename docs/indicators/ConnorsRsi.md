@@ -26,7 +26,7 @@ IReadOnlyList<ConnorsRsiResult> results =
 | `streakPeriods` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2. |
 | `rankPeriods` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 `N` is the greater of `R+100`, `S`, and `P+2`.  You must have at least `N` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
 

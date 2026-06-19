@@ -8,7 +8,7 @@ public static partial class Vwap
     /// <summary>
     /// Calculates the VWAP for a series of bars starting from a specific date.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="startDate">Start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
@@ -22,7 +22,7 @@ public static partial class Vwap
     /// <summary>
     /// Calculates the VWAP for a series of bars.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap(

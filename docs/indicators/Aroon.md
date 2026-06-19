@@ -28,7 +28,7 @@ IReadOnlyList<AroonResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 

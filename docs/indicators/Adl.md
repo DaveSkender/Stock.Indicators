@@ -18,7 +18,7 @@ IReadOnlyList<AdlResult> results =
   bars.ToAdl();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least two historical bars to cover the warmup periods; however, since this is a trendline, more is recommended.
 

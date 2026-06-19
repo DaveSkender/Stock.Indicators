@@ -24,7 +24,7 @@ IReadOnlyList<SlopeResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 

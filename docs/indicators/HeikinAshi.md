@@ -14,7 +14,7 @@ IReadOnlyList<HeikinAshiResult> results =
   bars.ToHeikinAshi();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least two periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 

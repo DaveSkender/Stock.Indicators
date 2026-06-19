@@ -26,7 +26,7 @@ IReadOnlyList<KvoResult> results =
 | `slowPeriods` | int | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55. |
 | `signalPeriods` | int | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `L+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `L+150` data points prior to the intended usage date for better precision.
 

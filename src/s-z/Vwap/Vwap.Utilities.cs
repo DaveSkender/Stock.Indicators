@@ -9,7 +9,7 @@ public static partial class Vwap
     /// <summary>
     /// Validates the parameters for the VWAP calculation.
     /// </summary>
-    /// <param name="bars">Aggregate OHLCV bar bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="startDate">Optional start date for the VWAP calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the start date is earlier than the first bar's timestamp.
