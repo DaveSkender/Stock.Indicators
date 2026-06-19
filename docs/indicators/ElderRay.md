@@ -22,9 +22,9 @@ IReadOnlyList<ElderRayResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `2×N` or `N+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
@@ -49,10 +49,10 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Ema` | double | Exponential moving average |
-| `BullPower` | double | Bull Power |
-| `BearPower` | double | Bear Power |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Ema` | _`double`_ | Exponential moving average |
+| `BullPower` | _`double`_ | Bull Power |
+| `BearPower` | _`double`_ | Bear Power |
 
 ### Utilities
 

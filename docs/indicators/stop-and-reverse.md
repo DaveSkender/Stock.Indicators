@@ -7,7 +7,7 @@ hero:
   tagline: Indicators that signal trend reversals and define dynamic exit or stop levels.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: ATR Trailing Stop

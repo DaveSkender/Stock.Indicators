@@ -7,7 +7,7 @@ hero:
   tagline: Indicators that convert or reshape price data into alternative chart forms.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: Basic price bar transforms

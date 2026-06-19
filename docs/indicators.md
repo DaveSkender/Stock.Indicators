@@ -50,7 +50,12 @@ features:
     icon:
       src: /assets/thumbs/price-characteristic.png
     link: /indicators/price-characteristics
-    details: Traits and numerical analysis
+    details: Traits and other price behaviors
+  - title: Numerical analysis
+    icon:
+      src: /assets/thumbs/indicators/linear2.png
+    link: /indicators/numerical-analysis
+    details: Fundamental mathematical calculations for financial analysis    
 ---
 
 {{ $frontmatter.description }}
@@ -174,6 +179,7 @@ See also: [Moving Average Envelopes](/indicators/MaEnvelopes)
 - [Balance of Power (BOP)](/indicators/Bop)
 - [Bull and Bear Power](/indicators/ElderRay)
 - [Choppiness Index (CHOP)](/indicators/Chop)
+- [Comparative Relative Strength](/indicators/Pmo)
 - [Dominant Cycle Period](/indicators/HtTrendline)
 - [Historical Volatility (HV)](/indicators/StdDev)
 - [Hurst Exponent](/indicators/Hurst)
@@ -190,13 +196,14 @@ See also: [Moving Average Envelopes](/indicators/MaEnvelopes)
 
 #### Numerical analysis
 
-- [Beta Coefficient](/indicators/Beta)
-- [Correlation Coefficient](/indicators/Correlation)
-- [Linear Regression (best-fit line)](/indicators/Slope)
-- [Mean absolute deviation](/indicators/Sma#analysis)
-- [Mean absolute percentage error](/indicators/Sma#analysis)
-- [Mean square error](/indicators/Sma#analysis)
-- [R-Squared (Coefficient of Determination)](/indicators/)
-- [Slope and Linear Regression](/indicators/Correlation)
-- [Standard Deviation (volatility)](/indicators/StdDev)
-- [Z-Score](/indicators/StdDev)
+- [Beta coefficient (β)](/indicators/Beta)
+- [Coefficient of determination](/indicators/Correlation)
+- [Correlation coefficient](/indicators/Correlation)
+- [Linear regression (best-fit line)](/indicators/Slope)
+- [Mean absolute deviation (MAD)](/indicators/SmaAnalysis)
+- [Mean absolute percentage error (MAPE)](/indicators/SmaAnalysis)
+- [Mean square error (MSE)](/indicators/SmaAnalysis)
+- [R-squared (R²)](/indicators/Correlation)
+- [Slope (gradient)](/indicators/Correlation)
+- [Standard deviation (σ)](/indicators/StdDev)
+- [Z-score (standard score)](/indicators/StdDev)

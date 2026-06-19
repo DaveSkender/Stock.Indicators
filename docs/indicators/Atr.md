@@ -10,7 +10,6 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 
 <ClientOnly>
   <StockIndicatorChart indicator="Atr" withOverlay />
-  <StockIndicatorChart indicator="Atrp" withOverlay />
 </ClientOnly>
 
 ```csharp
@@ -31,9 +30,9 @@ IReadOnlyList<TrResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to consider.  Must be greater than 1. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
@@ -58,10 +57,10 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Tr` | double | True Range for current period |
-| `Atr` | double | Average True Range |
-| `Atrp` | double | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Tr` | _`double`_ | True Range for current period |
+| `Atr` | _`double`_ | Average True Range |
+| `Atrp` | _`double`_ | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
 
 ### Utilities
 

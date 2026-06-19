@@ -72,7 +72,7 @@ The standard deviation of the values.
 double[] values = { 1, 2, 3, 4 };
 double sd = values.StdDev();
 
-Console.WriteLine($"Standard Deviation: {sd:F4}");
+Console.WriteLine($"Standard deviation: {sd:F4}");
 ```
 
 ## Performance considerations
@@ -87,4 +87,4 @@ Both `Slope()` and `StdDev()` are optimized for performance and are used interna
 - [Math helpers](/utilities/helpers/nullmath) - NullMath and DeMath utilities
 - [Customization guide](/guide/customization) - Build custom indicators
 - [Slope indicator](/indicators/Slope) - Built-in linear regression indicator
-- [Standard Deviation indicator](/indicators/StdDev) - Built-in standard deviation indicator
+- [Standard deviation indicator](/indicators/StdDev) - Built-in standard deviation indicator

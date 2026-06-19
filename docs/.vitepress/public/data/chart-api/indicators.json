@@ -2041,7 +2041,7 @@
     ]
   },
   {
-    "name": "Linear Regression",
+    "name": "Linear regression",
     "uiid": "LINEAR",
     "legendTemplate": "LINEAR([P1])",
     "endpoint": "indicators/linear",
@@ -2061,7 +2061,7 @@
     ],
     "results": [
       {
-        "displayName": "Linear Regression",
+        "displayName": "Linear regression",
         "tooltipTemplate": "LINEAR([P1])",
         "dataName": "line",
         "dataType": "number",
@@ -3407,7 +3407,7 @@
     ]
   },
   {
-    "name": "Standard Deviation (absolute)",
+    "name": "Standard deviation (absolute)",
     "uiid": "STDEV",
     "legendTemplate": "STDEV([P1])",
     "endpoint": "indicators/stdev",
@@ -3427,7 +3427,7 @@
     ],
     "results": [
       {
-        "displayName": "Standard Deviation",
+        "displayName": "Standard deviation",
         "tooltipTemplate": "STDEV([P1])",
         "dataName": "stdDev",
         "dataType": "number",
@@ -3440,7 +3440,7 @@
     ]
   },
   {
-    "name": "Standard Deviation (Z-Score)",
+    "name": "Standard deviation (Z-score)",
     "uiid": "STDEV-ZSCORE",
     "legendTemplate": "STDEV([P1])",
     "endpoint": "indicators/stdev",
@@ -3460,7 +3460,7 @@
     ],
     "results": [
       {
-        "displayName": "Standard Deviation",
+        "displayName": "Standard deviation",
         "tooltipTemplate": "STDEV([P1])",
         "dataName": "stdDev",
         "dataType": "number",

@@ -1,9 +1,9 @@
 ---
-title: Slope and Linear Regression
+title: Slope and linear regression
 description: Slope of the best fit line is determined by an ordinary least-squares simple linear regression on price.  It can be used to help identify trend strength and direction.  This indicator can be used to produce both a rolling slope value and a straight line through a specified lookback window.
 ---
 
-# Slope and Linear Regression
+# Slope and linear regression
 
 [Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on price.  It can be used to help identify trend strength and direction.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
@@ -22,9 +22,9 @@ IReadOnlyList<SlopeResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 
@@ -42,18 +42,20 @@ IReadOnlyList<SlopeResult>
 - The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
 - `Line` values are only provided for the last `N` periods of your bar history
 
-> &#128073; **Repaint warning**: the `Line` will be continuously repainted since it is based on the last bar and lookback period.
+::: warning ️🖌️ Repaint warning
+The `Line` is continuously repainted since it is based on the last bar and lookback period.
+:::
 
 ### `SlopeResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Slope` | double | Slope `m` of the best-fit line of price |
-| `Intercept` | double | Y-Intercept `b` of the best-fit line |
-| `StdDev` | double | Standard Deviation of price over `N` lookback periods |
-| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination |
-| `Line` | decimal | Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Slope` | _`double`_ | Slope `𝑚` of the best-fit line of price |
+| `Intercept` | _`double`_ | Y-intercept `𝑏` of the best-fit line |
+| `StdDev` | _`double`_ | Standard deviation of price over `N` lookback periods |
+| `RSquared` | _`double`_ | R-squared (R&sup2;), aka Coefficient of determination |
+| `Line` | _`decimal`_ | Best-fit line `𝑦` over the last `N` periods (i.e. `𝑦=𝑚𝑥+𝑏` using last period values) |
 
 ### Utilities
 
@@ -116,7 +118,7 @@ foreach (IBar bar in bars)  // simulating stream
 IReadOnlyList<SlopeResult> results = observer.Results;
 ```
 
-::: warning 🖌️ Repaint warning
+::: warning ️🖌️ Repaint warning
 The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.
 :::
 

@@ -22,9 +22,9 @@ IReadOnlyList<HurstResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
@@ -45,9 +45,9 @@ IReadOnlyList<HurstResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `HurstExponent` | double | Hurst Exponent (`H`) from raw rescaled range (R/S) analysis |
-| `HurstExponentAL` | double | [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `HurstExponent` | _`double`_ | Hurst Exponent (`H`) from raw rescaled range (R/S) analysis |
+| `HurstExponentAL` | _`double`_ | [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. |
 
 ### Utilities
 

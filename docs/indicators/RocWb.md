@@ -22,11 +22,11 @@ IReadOnlyList<RocWbResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20. |
-| `emaPeriods` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3. |
-| `stdDevPeriods` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20. |
+| `emaPeriods` | _`int`_ | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3. |
+| `stdDevPeriods` | _`int`_ | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
@@ -42,11 +42,11 @@ IReadOnlyList<RocWbResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal) |
-| `RocEma` | double | Exponential moving average (EMA) of `Roc` |
-| `UpperBand` | double | Upper band of ROC (overbought indicator) |
-| `LowerBand` | double | Lower band of ROC (oversold indicator) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Roc` | _`double`_ | Rate of Change over `N` lookback periods (%, not decimal) |
+| `RocEma` | _`double`_ | Exponential moving average (EMA) of `Roc` |
+| `UpperBand` | _`double`_ | Upper band of ROC (overbought indicator) |
+| `LowerBand` | _`double`_ | Lower band of ROC (oversold indicator) |
 
 ### Utilities
 

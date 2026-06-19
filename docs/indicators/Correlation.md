@@ -1,11 +1,11 @@
 ---
-title: Correlation Coefficient
-description: Created by Karl Pearson, the Correlation Coefficient depicts the linear statistical correlation between two bar histories.  R-Squared (R&sup2;), Variance, and Covariance are also output.  This is also called the Pearson Correlation Coefficient or Coefficient of Determination.
+title: Correlation coefficient
+description: Created by Karl Pearson, the correlation coefficient depicts the linear statistical correlation between two price bar histories; includes R-squared (R²) / coefficient of determination, variance, and covariance.
 ---
 
-# Correlation Coefficient
+# Correlation coefficient
 
-Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear statistical correlation between two bar histories.  R-Squared (R&sup2;), Variance, and Covariance are also output.
+Created by Karl Pearson, the [Correlation coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear statistical correlation between two price bar histories; includes R-squared (R²) / coefficient of determination, variance, and covariance.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/259 "Community discussion about this indicator")
 
 ```csharp
@@ -18,14 +18,15 @@ IReadOnlyList<CorrResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `barsB` | IReadOnlyList\<TBar\> | [Historical bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
+| `barsA` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) (A) must have at least the same matching date elements of `barsB`. |
+| `barsB` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
-You must have at least `N` periods for both versions of `bars` to cover the warmup periods.  Mismatch histories will produce a `InvalidBarsException`.  Historical price bars should have a consistent frequency (day, hour, minute, etc).
+You must have at least `N` periods for both versions of `bars` to cover the warmup periods. More than the minimum is typically specified.
 
-`barsA` is an `IReadOnlyList\<TBar\>` collection of historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
+`barsA` and `barsB` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -42,12 +43,12 @@ IReadOnlyList<CorrResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `VarianceA` | double | Variance of A |
-| `VarianceB` | double | Variance of B |
-| `Covariance` | double | Covariance of A+B |
-| `Correlation` | double | Correlation `R` |
-| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation). |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `VarianceA` | _`double`_ | Variance of A |
+| `VarianceB` | _`double`_ | Variance of B |
+| `Covariance` | _`double`_ | Covariance of A+B |
+| `Correlation` | _`double`_ | Correlation `R` |
+| `RSquared` | _`double`_ | R-squared (`R²`), aka Coefficient of determination.  Simple linear regression models is used (square of Correlation). |
 
 ### Utilities
 
@@ -69,7 +70,7 @@ var results = bars
     .ToCorrelation(barsMarket.Use(CandlePart.HL2),20);
 ```
 
-::: warning
+::: warning 🚩
 Both `barsA` and `barsB` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 :::
 

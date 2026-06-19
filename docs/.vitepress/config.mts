@@ -20,7 +20,7 @@ const siteNav = {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "stock indicators",
+  title: "Stock Indicators for .NET",
   description: "Transform price quotes into trading insights.",
 
   // Default to dark theme (toggle still available)
@@ -342,22 +342,24 @@ export default defineConfig({
             { text: 'True Range (TR)', link: '/indicators/Tr' },
             { text: 'True Strength Index (TSI)', link: '/indicators/Tsi' },
             { text: 'Ulcer Index (UI)', link: '/indicators/UlcerIndex' },
-          ]
-        },
-        {
-          text: 'Numerical analysis',
-          collapsed: true,
-          items: [
-            { text: 'Beta', link: '/indicators/Beta' },
-            { text: 'Correlation Coefficient', link: '/indicators/Correlation' },
-            { text: 'Linear Regression (best-fit line)', link: '/indicators/Slope' },
-            { text: 'Mean absolute deviation', link: '/indicators/SmaAnalysis' },
-            { text: 'Mean absolute percentage error', link: '/indicators/SmaAnalysis' },
-            { text: 'Mean square error', link: '/indicators/SmaAnalysis' },
-            { text: 'R-Squared (R²) Coefficient of Determination', link: '/indicators/Correlation' },
-            { text: 'Slope and linear regression', link: '/indicators/Slope' },
-            { text: 'Standard Deviation', link: '/indicators/StdDev' },
-            { text: 'Z-Score', link: '/indicators/StdDev' },
+            {
+              text: 'Numerical analysis',
+              link: '/indicators/numerical-analysis',
+              collapsed: false,
+              items: [
+                { text: 'Beta coefficient', link: '/indicators/Beta' },
+                { text: 'Coefficient of determination', link: '/indicators/Correlation' },
+                { text: 'Correlation coefficient', link: '/indicators/Correlation' },
+                { text: 'Linear regression (best-fit line)', link: '/indicators/Slope' },
+                { text: 'Mean absolute deviation', link: '/indicators/SmaAnalysis' },
+                { text: 'Mean absolute percentage error', link: '/indicators/SmaAnalysis' },
+                { text: 'Mean square error', link: '/indicators/SmaAnalysis' },
+                { text: 'R-squared (R²)', link: '/indicators/Correlation' },
+                { text: 'Slope (gradient)', link: '/indicators/Slope' },
+                { text: 'Standard deviation', link: '/indicators/StdDev' },
+                { text: 'Z-score (standard score)', link: '/indicators/StdDev' },
+              ]
+            },
           ]
         }
       ],

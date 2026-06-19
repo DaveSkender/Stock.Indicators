@@ -7,7 +7,7 @@ hero:
   tagline: Momentum and strength indicators that measure price velocity and market conditions.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: Awesome Oscillator

@@ -7,7 +7,7 @@ hero:
   tagline: Trend direction and strength indicators for identifying and following market trends.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: Alligator (Williams)

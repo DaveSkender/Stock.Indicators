@@ -7,7 +7,7 @@ hero:
   tagline: Envelope and band indicators that define price range boundaries around a trend.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: Bollinger Bands®

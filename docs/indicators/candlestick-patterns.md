@@ -7,7 +7,7 @@ hero:
   tagline: Chart patterns derived from candle shapes and price formations.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: Doji

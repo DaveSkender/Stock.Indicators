@@ -1,11 +1,18 @@
 ---
-title: Beta Coefficient
-description: Beta Coefficient with Beta+/Beta- shows how strongly one asset's price responds to systemic volatility of the entire market.  Upside Beta (Beta+) and Downside Beta (Beta-),  popularized by Harry M. Markowitz, are also included.
+title: Beta coefficient
+description: Beta coefficient with Beta+/Beta- shows how strongly one asset's price responds to systemic volatility of the entire market.  Upside Beta (Beta+) and Downside Beta (Beta-), popularized by Harry M. Markowitz, are also included.
 ---
 
-# Beta Coefficient
+# Beta coefficient (β)
 
 [Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
+
+Beta coefficient (including `Beta+` and `Beta-`) measures how strongly an asset’s returns respond to broad market movements. Beta+ ([upside beta](https://en.wikipedia.org/wiki/Upside_beta)) and Beta- ([downside beta](https://en.wikipedia.org/wiki/Downside_beta)), introduced in extensions of the traditional Capital Asset Pricing framework[^1], capture asymmetric sensitivity during positive and negative market conditions. Beta represents non-diversifiable systematic risk and is a measure of market exposure, not idiosyncratic (asset-specific) risk.
+
+[^1]: [Portfolio Selection: Efficient Diversification of Investments, by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h)
+
+Beta coefficient with Beta+/Beta- shows how strongly one asset's price responds to systemic volatility of the entire market.  Upside Beta (Beta+) and Downside Beta (Beta-), popularized by Harry M. Markowitz, are also included. It measures an asset's non-diversifiable risk, systematic risk, or market risk. Beta is not a measure of idiosyncratic risk.
+
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/268 "Community discussion about this indicator")
 
 <ClientOnly>
@@ -22,13 +29,16 @@ IReadOnlyList<BetaResult> results = barsEval
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `barsMarket` | IReadOnlyList\<TBar\> | [Historical bars](/guide/getting-started#historical-bars) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` bars will be used to establish the baseline. |
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
+| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
+| `barsMarket` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `barsEval` to cover the warmup periods.  You must have at least the same matching date elements of `barsMarket`.  An `InvalidBarsException` will be thrown if not matched.  Historical price bars should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
+You must have at least `N` periods of `barsEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `N+1` periods. More than the minimum is typically specified.
+
+`barsEval` and `barsMarket` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 #### BetaType options
 
@@ -61,14 +71,14 @@ IReadOnlyList<BetaResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Beta` | double | Beta coefficient based |
-| `BetaUp` | double | Beta+ (Up Beta) |
-| `BetaDown` | double | Beta- (Down Beta) |
-| `Ratio` | double | Beta ratio is `BetaUp/BetaDown` |
-| `Convexity` | double | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code> |
-| `ReturnsEval` | double | Returns of evaluated bars (`R`) |
-| `ReturnsMrkt` | double | Returns of market bars (`Rm`) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Beta` | _`double`_ | Beta coefficient based |
+| `BetaUp` | _`double`_ | Beta+ (Up Beta) |
+| `BetaDown` | _`double`_ | Beta- (Down Beta) |
+| `Ratio` | _`double`_ | Beta ratio is `BetaUp/BetaDown` |
+| `Convexity` | _`double`_ | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code> |
+| `ReturnsEval` | _`double`_ | Returns of evaluated bars (`R`) |
+| `ReturnsMrkt` | _`double`_ | Returns of market bars (`Rm`) |
 
 ### Utilities
 
@@ -90,7 +100,7 @@ var results = barsEval
     .ToBeta(barsMarket.Use(CandlePart.HL2), ..);
 ```
 
-::: warning
+::: warning 🚩
 Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 :::
 

@@ -18,7 +18,7 @@ IReadOnlyList<HtlResult> results =
   bars.ToHtTrendline();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least `100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
@@ -44,10 +44,10 @@ The first `100` periods will have decreasing magnitude, convergence-related prec
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `DcPeriods` | int | Dominant cycle periods (smoothed) |
-| `Trendline` | double | HT Trendline |
-| `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `DcPeriods` | _`int`_ | Dominant cycle periods (smoothed) |
+| `Trendline` | _`double`_ | HT Trendline |
+| `SmoothPrice` | _`double`_ | Weighted moving average of `(H+L)/2` price |
 
 ### Utilities
 

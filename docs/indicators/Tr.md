@@ -18,7 +18,7 @@ IReadOnlyList<TrResult> results =
   bars.ToTr();
 ```
 
-## Historical bars requirements
+## Historical price bars requirements
 
 You must have at least 2 periods of `bars` to cover the warmup periods.
 
@@ -39,8 +39,8 @@ IReadOnlyList<TrResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Tr` | double | True Range |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Tr` | _`double`_ | True Range |
 
 ### Utilities
 

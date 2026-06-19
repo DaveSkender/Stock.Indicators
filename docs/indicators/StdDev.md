@@ -1,16 +1,16 @@
 ---
-title: Standard Deviation (volatility)
-description: Standard Deviation represents the volatility of historical financial market prices.  It is also known as Historical Volatility (HV). Z-Score is also returned.
+title: Standard deviation (volatility)
+description: Standard deviation represents the volatility of historical financial market prices.  It is also known as Historical Volatility (HV), includes Z-score.
 ---
 
-# Standard Deviation (volatility)
+# Standard deviation (σ, volatility)
 
-[Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).  Z-Score is also returned.
+[Standard deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV), includes Z-score.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="StdDev" withOverlay />
-  <StockIndicatorChart indicator="StdDevZScore" withOverlay />
+  <StockIndicatorChart indicator="StdDevZScore" />
 </ClientOnly>
 
 ```csharp
@@ -27,9 +27,9 @@ StdDevHub observer = barHub.ToStdDevHub(lookbackPeriods);
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 
@@ -50,10 +50,10 @@ IReadOnlyList<StdDevResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `StdDev` | double | Standard Deviation of price |
-| `Mean` | double | Mean value of price |
-| `ZScore` | double | Z-Score of current price (number of standard deviations from mean) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `StdDev` | _`double`_ | Standard deviation of price |
+| `Mean` | _`double`_ | Mean value of price |
+| `ZScore` | _`double`_ | Z-score of current price (number of standard deviations from mean) |
 
 ### Utilities
 

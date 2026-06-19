@@ -7,7 +7,7 @@ hero:
   tagline: Price smoothing indicators that reduce noise and reveal underlying trends.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
 features:
   - title: Arnaud Legoux Moving Average (ALMA)

@@ -22,9 +22,9 @@ IReadOnlyList<RocResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Default is 14. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to go back.  Must be greater than 0.  Default is 14. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
@@ -45,9 +45,9 @@ IReadOnlyList<RocResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Momentum` | double | Raw change in price over `N` periods |
-| `Roc` | double | Percent change in price (%, not decimal) |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Momentum` | _`double`_ | Raw change in price over `N` periods |
+| `Roc` | _`double`_ | Percent change in price (%, not decimal) |
 
 ### Utilities
 

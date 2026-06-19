@@ -1,11 +1,11 @@
 ---
-title: SMA with extended analysis
-description: Simple Moving Average (SMA) extended with Mean Absolute Deviation (MAD), Mean Square Error (MSE), and Mean Absolute Percentage Error (MAPE).
+title: SMA, MAD, MAPE, and MSE analysis
+description: Mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
 ---
 
 # SMA with extended analysis
 
-[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) with extended statistical analysis including Mean Absolute Deviation (MAD), Mean Square Error (MSE), and Mean Absolute Percentage Error (MAPE).  See also [Simple Moving Average](/indicators/Sma).
+[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) with extended statistical analysis including mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).  See also [Simple Moving Average](/indicators/Sma).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
 
 ```csharp
@@ -18,9 +18,9 @@ IReadOnlyList<SmaAnalysisResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window. Must be greater than 0. |
+| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window. Must be greater than 0. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
 You must have at least `N` periods of `bars` to cover the warmup periods.
 
@@ -41,11 +41,11 @@ IReadOnlyList<SmaAnalysisResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Sma` | double | Simple moving average |
-| `Mad` | double | Mean absolute deviation |
-| `Mse` | double | Mean square error |
-| `Mape` | double | Mean absolute percentage error |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Sma` | _`double`_ | Simple moving average |
+| `Mad` | _`double`_ | Mean absolute deviation |
+| `Mse` | _`double`_ | Mean square error |
+| `Mape` | _`double`_ | Mean absolute percentage error |
 
 ### Utilities
 

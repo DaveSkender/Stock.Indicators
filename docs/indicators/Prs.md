@@ -18,14 +18,15 @@ IReadOnlyList<PrsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `barsBase` | IReadOnlyList\<TBar\> | [Historical bars](/guide/getting-started#historical-bars) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
-| `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`. |
+| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
+| `barsBase` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
+| `lookbackPeriods` | _`int`_ | Optional.  Number of periods (`N`) to lookback to compute % ROC difference.  Must be greater than 0 if specified or `null`. |
 
-### Historical bars requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `barsEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price bars should have a consistent frequency (day, hour, minute, etc).
+You must have at least `N+1` periods of price bars to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `2` periods. More than the minimum is typically specified.
 
-`barsEval` is an `IReadOnlyList\<TBar\>` collection of historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
+`barsEval` and `barsBase` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -42,9 +43,13 @@ IReadOnlyList<PrsResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TBar` |
-| `Prs` | double | Price Relative Strength compares `Eval` to `Base` histories |
-| `PrsPercent` | double | Percent change difference between `Eval` and `Base` over `N` periods |
+| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
+| `Prs` | _`double`_ | Price Relative Strength is the ratio of `Eval` / `Base` price values |
+| `PrsPercent` | _`double`_ | Percent change difference between `Eval` and `Base` over `N` periods |
+
+::: info Example
+At period `i`, `Prs` is `Eval[i] / Base[i]` and `PrsPercent` is the difference in `Eval` percent change and `Base` percent change over the prior `N` periods. Example: if `Eval` gains 10% and `Base` gains 3%, `PrsPercent` depicts +7% relative outperformance.
+:::
 
 ### Utilities
 
