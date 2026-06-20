@@ -5,7 +5,7 @@ description: Remove non-essential results to return only meaningful data records
 
 # Condense results
 
-`results.Condense()` removes non-essential results so it only returns meaningful data records. For example, when used on [Candlestick Patterns](/indicators/Doji), it only returns records where a signal is generated.
+`results.Condense()` removes non-essential results so it only returns meaningful data records. For example, when used on [Candlestick Patterns](/indicators/doji), it only returns records where a signal is generated.
 
 ## Syntax
 
@@ -99,7 +99,7 @@ ExportToCsv(condensed, "marubozu-signals.csv");
 This is intentional behavior, but be aware that condensed results may have gaps in the timeline.
 :::
 
-::: tip When to use
+::: info When to use
 Use `.Condense()` when you only care about specific events or signals, not the continuous time series. This is particularly useful for:
 
 - Candlestick pattern detection

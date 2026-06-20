@@ -5,7 +5,7 @@ description: Simple moving average.  Extended to include mean absolute deviation
 
 # Simple Moving Average (SMA)
 
-[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average price over a lookback window.  An [extended SMA analysis](/indicators/SmaAnalysis) option includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
+[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average price over a lookback window.  An [extended SMA analysis](/indicators/sma-analysis) option includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
 
 <ClientOnly>
@@ -59,7 +59,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Analysis
 
-This indicator has an extended version with more analysis.  See [SMA with extended analysis](/indicators/SmaAnalysis) for the full documentation including streaming support.
+This indicator has an extended version with more analysis.  See [SMA with extended analysis](/indicators/sma-analysis) for the full documentation including streaming support.
 
 ```csharp
 // C# usage syntax

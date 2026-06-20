@@ -17,30 +17,30 @@ features:
     details: HL2, HLC3, OC2, OHL3, OHLC4, and other OHLCV component candle parts
     icon:
       src: /assets/thumbs/indicators/bar-part.png
-    link: /indicators/BarPart
+    link: /indicators/bar-part
 
   - title: Ehlers Fisher Transform
     details: Gaussian normalization of price
     icon:
       src: /assets/thumbs/indicators/fisher-transform.png
-    link: /indicators/FisherTransform
+    link: /indicators/fisher-transform
 
   - title: Heikin Ashi
     details: Modified candlestick transform of price based on prior period price for smoothing
     icon:
       src: /assets/thumbs/_placeholder.svg
-    link: /indicators/HeikinAshi
+    link: /indicators/heikin-ashi
 
   - title: Renko Charts
     details: Japanese candlestick transform that uses "bricks" in a non-linear time series
     icon:
       src: /assets/thumbs/_placeholder.svg
-    link: /indicators/Renko
+    link: /indicators/renko
 
   - title: ZigZag
     details: Simplifies high-low plot lines based on percent change thresholds
     icon:
       src: /assets/thumbs/indicators/zig-zag.png
-    link: /indicators/ZigZag
+    link: /indicators/zig-zag
     
 ---

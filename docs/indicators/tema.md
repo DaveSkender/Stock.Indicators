@@ -1,8 +1,6 @@
 ---
 title: Triple Exponential Moving Average (TEMA)
 description: Created by Patrick G. Mulloy, the Triple Exponential Moving Average is a faster multi-smoothed moving average. TEMA is often confused with the alternative TRIX oscillator.
-redirect_from:
- - /indicators/TripleEma/
 ---
 
 # Triple Exponential Moving Average (TEMA)
@@ -41,7 +39,7 @@ IReadOnlyList<TemaResult>
 - This method returns a time series of all available indicator values for the `bars` provided.
 - It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
-- The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](/indicators/Trix) oscillator instead.
+- The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](/indicators/trix) oscillator instead.
 
 **Example for TEMA(20)**:
 

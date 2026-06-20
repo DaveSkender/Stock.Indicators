@@ -44,9 +44,9 @@ You must have at least `N+S` periods of `bars` to cover the [warmup and converge
 
 These are the supported moving average types:
 
-**`MaType.SMA`** - [Simple Moving Average](/indicators/Sma) (default)
+**`MaType.SMA`** - [Simple Moving Average](/indicators/sma) (default)
 
-**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/Smma)
+**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/smma)
 
 ## Response
 

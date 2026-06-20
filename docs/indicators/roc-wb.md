@@ -5,7 +5,7 @@ description: Rate of Change with Bands, created by Vitali Apirine, is a volatili
 
 # ROC with Bands
 
-Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility banded variant of [Rate of Change (ROC)](/indicators/Roc).
+Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility banded variant of [Rate of Change (ROC)](/indicators/roc).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/242 "Community discussion about this indicator")
 
 <ClientOnly>

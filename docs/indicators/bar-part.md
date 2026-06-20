@@ -1,9 +1,6 @@
 ---
 title: Basic price bar transforms
 description: Basic price bar transforms (e.g. HL2, OHL3, etc.) and isolation of individual price bar candle parts from a full OHLCV bar.
-redirect-from:
-  - /indicators/Use/
-  - /indicators/BasicBar/
 ---
 
 # Basic price bar transforms

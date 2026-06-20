@@ -357,9 +357,47 @@ For indicator-specific streaming examples, see the documentation for each indica
 
 Popular indicators with complete streaming documentation:
 
-- Moving Averages: [SMA](/indicators/Sma), [EMA](/indicators/Ema), [WMA](/indicators/Wma)
-- Oscillators: [RSI](/indicators/Rsi), [MACD](/indicators/Macd), [Stochastic](/indicators/Stoch)
-- Channels: [Bollinger Bands](/indicators/BollingerBands), [Keltner](/indicators/Keltner)
+- Moving Averages: [SMA](/indicators/sma), [EMA](/indicators/ema), [WMA](/indicators/wma)
+- Oscillators: [RSI](/indicators/rsi), [MACD](/indicators/macd), [Stochastic](/indicators/stoch)
+- Channels: [Bollinger Bands](/indicators/bollinger-bands), [Keltner](/indicators/keltner)
+
+## Known issues and tips
+
+A few v3 behaviors commonly trip up migrating code. Review these before reporting an issue.
+
+### Streaming cache caps results at 100,000 by default
+
+Both the BufferList (`MaxListSize`) and StreamHub (`maxCacheSize`) styles keep a rolling cache that defaults to **100,000 elements** and automatically prunes the oldest results once that limit is exceeded. If you replay a large historical dataset through a hub or buffer list — for example, several years of minute bars — and expect every result back, the early results will have been pruned away.
+
+::: tip ✨ Raise the cache size for large datasets
+Set the limit explicitly when the full history must stay resident:
+
+```csharp
+// StreamHub: size the root hub (it cascades to chained hubs)
+BarHub barHub = new(maxCacheSize: 250_000);
+
+// BufferList: size the list
+SmaList smaList = new(20) { MaxListSize = 250_000 };
+```
+
+`maxCacheSize` is inherited by every chained hub, so size it for the **largest warmup in the whole chain**. Don't shrink it down to a single indicator's lookback — each hub validates the size against its own warmup floor at construction and throws `ArgumentOutOfRangeException` if it is too small. See [Stream hub memory management](/guide/styles/stream#memory-management) for details.
+:::
+
+### Corrections after pruning are approximate
+
+Once the cache has pruned old bars, a late arrival or correction that triggers a rebuild can no longer see the pruned history, so the rebuilt values for stateful indicators won't exactly match a hub that received the same data in order. Keep the cache large enough to cover your expected late-arrival window.
+
+### Mutate the root hub only
+
+Feed and correct streaming data through the `BarHub` (or `TradeTickHub`) you created — it cascades to every dependent hub. Calling `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed hub such as an `EmaHub` throws `InvalidOperationException`. See the [streaming guide](/guide/styles/stream#thread-safety).
+
+### `null` versus `NaN` results
+
+v3 returns `NaN` (not `null`) for incalculable values on `double` result properties. Update comparisons from `result.Value == null` to `double.IsNaN(result.Value)`. See [Step 5](#step-5-update-null-handling).
+
+### ADXR warmup shifted
+
+`Adxr` now begins one period later than in v2 to correct an off-by-one in the warmup. Expect the first non-`NaN` `Adxr` value at a slightly later index. See [Step 8](#step-8-update-adxr-expectations).
 
 ## Quick reference table
 

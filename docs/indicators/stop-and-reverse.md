@@ -17,30 +17,30 @@ features:
     details: ATR-based adaptive trailing stop bands
     icon:
       src: /assets/thumbs/indicators/atr-stop.png
-    link: /indicators/AtrStop
+    link: /indicators/atr-stop
 
   - title: Chandelier Exit
     details: Volatility-based trailing stop loss exit levels covering both long and short positions
     icon:
       src: /assets/thumbs/indicators/chandelier.png
-    link: /indicators/Chandelier
+    link: /indicators/chandelier
 
   - title: Parabolic SAR
     details: Accelerating trend and reversal stops
     icon:
       src: /assets/thumbs/indicators/parabolic-sar.png
-    link: /indicators/ParabolicSar
+    link: /indicators/parabolic-sar
 
   - title: SuperTrend
     details: ATR trend-following breakpoint thresholds around an HL2 midline
     icon:
       src: /assets/thumbs/indicators/super-trend.png
-    link: /indicators/SuperTrend
+    link: /indicators/super-trend
 
   - title: Volatility Stop
     details: ATR-based adaptive trailing stop bands<br/>(aka Wilder's Volatility System)
     icon:
       src: /assets/thumbs/indicators/volatility-stop.png
-    link: /indicators/VolatilityStop
+    link: /indicators/volatility-stop
     
 ---

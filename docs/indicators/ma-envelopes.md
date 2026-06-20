@@ -36,23 +36,23 @@ See links in the supported [MaType options](#matype-options) section below for d
 
 These are the supported moving average types:
 
-**`MaType.ALMA`** - [Arnaud Legoux Moving Average](/indicators/Alma)
+**`MaType.ALMA`** - [Arnaud Legoux Moving Average](/indicators/alma)
 
-**`MaType.DEMA`** - [Double Exponential Moving Average](/indicators/Dema)
+**`MaType.DEMA`** - [Double Exponential Moving Average](/indicators/dema)
 
-**`MaType.EPMA`** - [Endpoint Moving Average](/indicators/Epma)
+**`MaType.EPMA`** - [Endpoint Moving Average](/indicators/epma)
 
-**`MaType.EMA`** - [Exponential Moving Average](/indicators/Ema)
+**`MaType.EMA`** - [Exponential Moving Average](/indicators/ema)
 
-**`MaType.HMA`** - [Hull Moving Average](/indicators/Hma)
+**`MaType.HMA`** - [Hull Moving Average](/indicators/hma)
 
-**`MaType.SMA`** - [Simple Moving Average](/indicators/Sma) (default)
+**`MaType.SMA`** - [Simple Moving Average](/indicators/sma) (default)
 
-**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/Smma)
+**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/smma)
 
-**`MaType.TEMA`** - [Triple Exponential Moving Average](/indicators/Tema)
+**`MaType.TEMA`** - [Triple Exponential Moving Average](/indicators/tema)
 
-**`MaType.WMA`** - [Weighted Moving Average](/indicators/Wma)
+**`MaType.WMA`** - [Weighted Moving Average](/indicators/wma)
 
 ::: warning 🚩
 For ALMA, default values are used for `offset` and `sigma`.

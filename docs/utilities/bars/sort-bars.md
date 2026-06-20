@@ -29,7 +29,7 @@ var results = bars
   .ToRsi(14);
 ```
 
-## When to use
+## Common use cases
 
 ### Imported data
 

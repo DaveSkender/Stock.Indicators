@@ -1,8 +1,6 @@
 ---
 title: Double Exponential Moving Average (DEMA)
 description: Created by Patrick G. Mulloy, the Double Exponential Moving Average is a faster smoothed EMA of financial market prices.
-redirect_from:
- - /indicators/DoubleEma/
 ---
 
 # Double Exponential Moving Average (DEMA)

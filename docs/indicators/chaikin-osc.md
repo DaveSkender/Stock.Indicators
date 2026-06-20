@@ -5,7 +5,7 @@ description: Created by Marc Chaikin, the Chaikin Oscillator is the difference b
 
 # Chaikin Oscillator
 
-Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line](/indicators/Adl) (ADL).
+Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line](/indicators/adl) (ADL).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/264 "Community discussion about this indicator")
 
 <ClientOnly>

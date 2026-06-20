@@ -86,5 +86,5 @@ Both `Slope()` and `StdDev()` are optimized for performance and are used interna
 - [Helper utilities overview](/utilities/helpers/)
 - [Math helpers](/utilities/helpers/nullmath) - NullMath and DeMath utilities
 - [Customization guide](/guide/customization) - Build custom indicators
-- [Slope indicator](/indicators/Slope) - Built-in linear regression indicator
-- [Standard deviation indicator](/indicators/StdDev) - Built-in standard deviation indicator
+- [Slope indicator](/indicators/slope) - Built-in linear regression indicator
+- [Standard deviation indicator](/indicators/std-dev) - Built-in standard deviation indicator

@@ -1,30 +1,31 @@
 ---
-title: Fractal Chaos Bands (FCB)
-description: Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of Williams Fractal.
+title: Williams Fractal
+description: Created by Larry Williams, Fractal is a retrospective price pattern that identifies a central high or low point chevron.
 ---
 
-# Fractal Chaos Bands (FCB)
+# Williams Fractal
 
-Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of <a href="/indicators/Fractal/" rel="nofollow">Williams Fractal</a>.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/347 "Community discussion about this indicator")
+Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point chevron.
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
 <ClientOnly>
-  <StockIndicatorChart indicator="Fcb" />
+  <StockIndicatorChart indicator="Fractal" />
 </ClientOnly>
 
 ```csharp
 // C# usage syntax
-IReadOnlyList<FcbResult> results =
-  bars.ToFcb(windowSpan);
+IReadOnlyList<FractalResult> results =
+  bars.ToFractal(windowSpan);
 ```
 
 ## Parameters
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `windowSpan` | _`int`_ | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
+| `windowSpan` | _`int`_ | Evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
+| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  Default is `EndType.HighLow`. |
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/Fractal) for more information about Fractals and `windowSpan`.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
 ### Historical price bars requirements
 
@@ -32,34 +33,35 @@ You must have at least `2×S+1` periods of `bars` to cover the warmup periods; h
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
+<!--@include: ../shared/endtype-options.md-->
+
 ## Response
 
 ```csharp
-IReadOnlyList<FcbResult>
+IReadOnlyList<FractalResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
 - It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
-- The periods before the first fractal are `null` since they cannot be calculated.
+- The first and last `S` periods in `bars` are unable to be calculated since there's not enough prior/following data.
 
 ::: warning ️🖌️ Repaint warning
-Fractal Chaos Bands are based on [Williams Fractal](/indicators/Fractal), which uses future bars.  This indicator will never identify bands in the last `S` periods of `bars` since fractals are retroactively identified.
+This price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `bars`.  Fractals are retroactively identified.
 :::
 
-### `FcbResult`
+### `FractalResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `UpperBand` | _`decimal`_ | FCB upper band |
-| `LowerBand` | _`decimal`_ | FCB lower band |
+| `FractalBear` | _`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
+| `FractalBull` | _`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
 
 ### Utilities
 
 - [.Condense()](/utilities/results/condense)
 - [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods()](/utilities/results/remove-warmup-periods)
 - [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
 
 See [Utilities and helpers](/utilities/results/) for more information.
@@ -75,29 +77,29 @@ See [Chaining indicators](/guide/chaining) for more.
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
 
 ```csharp
-FcbList fcbList = new(windowSpan);
+FractalList fractalList = new(windowSpan);
 
 foreach (IBar bar in bars)  // simulating stream
 {
-  fcbList.Add(bar);
+  fractalList.Add(bar);
 }
 
-// based on `ICollection<FcbResult>`
-IReadOnlyList<FcbResult> results = fcbList;
+// based on `ICollection<FractalResult>`
+IReadOnlyList<FractalResult> results = fractalList;
 ```
 
 Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
 BarHub barHub = new();
-FcbHub observer = barHub.ToFcbHub(windowSpan);
+FractalHub observer = barHub.ToFractalHub(windowSpan);
 
 foreach (IBar bar in bars)  // simulating stream
 {
   barHub.Add(bar);
 }
 
-IReadOnlyList<FcbResult> results = observer.Results;
+IReadOnlyList<FractalResult> results = observer.Results;
 ```
 
 See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

@@ -5,7 +5,7 @@ description: Combine indicators to build indicators of indicators — feed one i
 
 # Chaining indicators
 
-**Chaining** lets you calculate an _indicator of indicators_ — for example an SMA of an [ADX](/indicators/Adx), or an [RSI of OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d). Instead of feeding raw bars into a single indicator, you feed the **results** of one indicator into the next.
+**Chaining** lets you calculate an _indicator of indicators_ — for example an SMA of an [ADX](/indicators/adx), or an [RSI of OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d). Instead of feeding raw bars into a single indicator, you feed the **results** of one indicator into the next.
 
 ```csharp
 // RSI of On-Balance Volume

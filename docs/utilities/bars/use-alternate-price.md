@@ -7,38 +7,15 @@ description: Specify which price element to analyze instead of the standard Clos
 
 `bars.Use()` can be used before most indicator calls to specify which price element to analyze. It cannot be used for indicators that require the full OHLCV bar profile.
 
-## Syntax
-
 ```csharp
 IReadOnlyList<TimeValue> barParts = bars.Use(CandlePart candlePart);
 ```
 
 ## Parameters
 
-**candlePart** - The price element to use for calculations. See [CandlePart options](#candlepart-options) below.
+**`candlePart`** - The price element to use for calculations
 
-## Usage
-
-```csharp
-// example: use HL2 price instead of
-// the standard Close price for RSI
-var results = bars
-  .Use(CandlePart.HL2)
-  .ToRsi(14);
-```
-
-## CandlePart options
-
-- `CandlePart.Open` - Open price
-- `CandlePart.High` - High price
-- `CandlePart.Low` - Low price
-- `CandlePart.Close` - Close price (default for most indicators)
-- `CandlePart.Volume` - Volume
-- `CandlePart.HL2` - (High + Low) / 2
-- `CandlePart.HLC3` - (High + Low + Close) / 3
-- `CandlePart.OC2` - (Open + Close) / 2
-- `CandlePart.OHL3` - (Open + High + Low) / 3
-- `CandlePart.OHLC4` - (Open + High + Low + Close) / 4
+<!--@include: ../../shared/candlepart-options.md-->
 
 ## Common use cases
 

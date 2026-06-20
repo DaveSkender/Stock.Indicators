@@ -5,7 +5,7 @@ description: Created by Welles Wilder, the ATR Trailing Stop indicator attempts 
 
 # ATR Trailing Stop
 
-Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](/indicators/Atr) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
+Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](/indicators/atr) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/724 "Community discussion about this indicator")
 
 <ClientOnly>
@@ -24,7 +24,7 @@ IReadOnlyList<AtrStopResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1.  Default is 21. |
 | `multiplier` | _`double`_ | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
-| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` is used as basis for stop offset.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`. |
+| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` is used as basis for stop offset. Default is `EndType.Close`. |
 
 ### Historical price bars requirements
 
@@ -32,11 +32,7 @@ You must have at least `N+100` periods of `bars` to cover the [warmup and conver
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### EndType options
-
-**`EndType.Close`** - Stop offset from `Close` price (default)
-
-**`EndType.HighLow`** - Stop offset from `High` or `Low` price
+<!--@include: ../shared/endtype-options.md-->
 
 ## Response
 

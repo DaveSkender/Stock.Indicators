@@ -17,25 +17,25 @@ features:
     details: Indecision candle pattern where open and close price are virtually identical
     icon:
       src: /assets/thumbs/indicators/doji.png
-    link: /indicators/Doji
+    link: /indicators/doji
 
   - title: Marubozu
     details: Uni-directional solid-body momentum candle pattern with consistent price movement
     icon:
       src: /assets/thumbs/indicators/marubozu.png
-    link: /indicators/Marubozu
+    link: /indicators/marubozu
 
   - title: Pivots
     details: Peak and trough chevron patterns with configurable periods wings and higher high, lower low identification
     icon:
       src: /assets/thumbs/indicators/pivots.png
-    link: /indicators/Pivots
+    link: /indicators/pivots
 
   - title: Fractal (Williams)
     details: Peak and trough chevron patterns with ±2 fixed period wings for short term pivots
     icon:
       src: /assets/thumbs/indicators/fractal.png
-    link: /indicators/Fractal
+    link: /indicators/fractal
     
 ---
 

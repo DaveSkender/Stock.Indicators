@@ -62,7 +62,7 @@ Unlike most indicators in this library, this indicator DOES NOT return the same 
 :::
 
 ::: warning ️🖌️ Repaint warning _(ATR variant)_
-When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/Atr) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `bars`.
+When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/atr) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `bars`.
 :::
 
 ### `RenkoResult`

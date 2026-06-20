@@ -103,4 +103,4 @@ var highVolumeCandles = candles
 
 - [Bar utilities overview](/utilities/bars/)
 - [Validate bar history](/utilities/bars/validate-bar-history) - Ensure data quality
-- [Candlestick patterns](/indicators/Marubozu) - Built-in pattern indicators
+- [Candlestick patterns](/indicators/marubozu) - Built-in pattern indicators

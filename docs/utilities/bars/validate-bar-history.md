@@ -70,9 +70,8 @@ badBars.Validate(); // throws
 
 The validator enforces chronological order and throws `InvalidBarsException` for any out-of-order (descending) bars.
 
-## When to use
-
-::: tip When validation is useful
+::: info When to use
+Validation is useful when:
 
 - **Importing from untrusted sources** - External APIs or user-uploaded files
 - **Data quality assurance** - Production systems requiring verified data

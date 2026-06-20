@@ -5,7 +5,7 @@ description: Pivots is an extended customizable version of Williams Fractal that
 
 # Pivots
 
-Pivots is an extended customizable version of <a href="/indicators/Fractal/" rel="nofollow">Williams Fractal</a> that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
+Pivots is an extended customizable version of [Williams Fractal](/indicators/fractal) that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/436 "Community discussion about this indicator")
 
 <ClientOnly>
@@ -25,7 +25,7 @@ IReadOnlyList<PivotsResult> results =
 | `leftSpan` | _`int`_ | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
 | `rightSpan` | _`int`_ | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
 | `maxTrendPeriods` | _`int`_ | Maximum lookback periods (`N`) for drawing trend lines between pivot points.  When pivot points are further apart than this value, the trend line tracking resets.  Must be greater than `leftSpan`.  Default is 20. |
-| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`. |
+| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `L+R+1`.
 
@@ -39,11 +39,7 @@ You must have at least `L+R+1` periods of `bars` to cover the warmup periods; ho
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### EndType options
-
-**`EndType.Close`** - Chevron point identified from `Close` price
-
-**`EndType.HighLow`** - Chevron point identified from `High` and `Low` price (default)
+<!--@include: ../shared/endtype-options.md-->
 
 ## Response
 
