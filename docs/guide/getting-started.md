@@ -19,11 +19,9 @@ Install-Package Skender.Stock.Indicators
 
 ## Prerequisite data
 
-Most indicators require that you provide historical bar data and additional configuration parameters.
+Most indicators require that you provide historical aggregate OHLCV price bar data and additional configuration parameters.
 
-You must get historical price bars from your own market data provider.  For clarification, the `GetBarsFromFeed()` method shown in the example below **is not part of this library**, but rather an example to represent your own acquisition of historical price bars.
-
-Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Bar` class ([see below](#historical-bars)); however, it can also be supplied as a generic [custom TBar type](#using-custom-bar-classes) if you prefer to use your own bar model.
+Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Bar` class ([see _**Historical bars**_ section below](#historical-bars)); however, it can also be supplied as a generic [custom `TBar` type](#using-custom-bar-classes) if you prefer to use your own `IBar` derived model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
@@ -78,6 +76,11 @@ SMA on 4/25/2018 was $255.6570
 SMA on 4/26/2018 was $255.9705
 ..
 ```
+
+::: info
+You must get price bar data from your own provider.
+_The `GetBarsFromFeed()` method shown above represents your own acquisition of price data and **is not part of this library**._
+:::
 
 See [individual indicator pages](/indicators) for specific usage guidance.
 
