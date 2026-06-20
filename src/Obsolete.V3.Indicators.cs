@@ -636,6 +636,14 @@ public static partial class Indicator
         => bars.ToSortedList().ToPivotPoints(windowSize, pointType);
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Rename `PeriodSize` to `BarInterval`.", false)]
+    public static IEnumerable<PivotPointsResult> GetPivotPoints(
+        this IEnumerable<IBar> bars,
+        PeriodSize windowSize,
+        PivotPointType pointType = PivotPointType.Standard)
+        => bars.ToSortedList().ToPivotPoints((BarInterval)windowSize, pointType);
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetPivots(..)` to `ToPivots(..)`", false)]
     public static IEnumerable<PivotsResult> GetPivots(
         this IEnumerable<IBar> bars,

@@ -7,6 +7,10 @@ description: Complete guide for migrating from Stock Indicators v2 to v3, includ
 
 This guide provides a comprehensive migration path from v2 to v3 of the Stock Indicators library. It includes all technical changes to the public API, syntax changes, and specific examples of deprecated and breaking changes.
 
+::: warning
+Most of the obsolete v2 syntax has been shimmed in library version `3.0` with `[Obsolete]` code analysis flags to aid migrations. These shims are (or will be) removed in version `3.1`, so start with any `3.0.x` version before upgrading further.
+:::
+
 ## Summary of breaking changes
 
 ### API method naming
@@ -16,7 +20,7 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 
 ### Market-data type renames (Quote → Bar)
 
-To align with industry-standard terminology (an OHLCV aggregate is universally a *bar*; a *quote* is a bid/ask snapshot), the core market-data types were renamed in v3. These are hard renames — update your code to the new names:
+To align with industry-standard terminology (an OHLCV aggregate is universally a *bar*; a *quote* is a bid/ask snapshot), the core market-data types were renamed in v3. The old names remain as deprecated aliases during a migration window, so existing code keeps working — update to the new names as the deprecation warnings guide you:
 
 - **`Quote` → `Bar`** (and the built-in `Quote` record → `Bar` record)
 - **`IQuote` → `IBar`** — custom market-data types now implement `IBar`
@@ -26,7 +30,7 @@ To align with industry-standard terminology (an OHLCV aggregate is universally a
 - **`Tick`/`ITick` → `TradeTick`/`ITradeTick`** (single trade print; `TickHub` → `TradeTickHub`)
 - Extension methods renamed accordingly: `ToQuoteHub()` → `ToBarHub()`, `ToQuotePart()` → `ToBarPart()`, etc.
 
-The old `Quote`, `IQuote`, and `PeriodSize` names remain as error-level `[Obsolete]` stubs that point to the new names, so the compiler tells you exactly what to rename. There are no runtime aliases — these names will not work at run time.
+The old `Quote`, `IQuote`, `PeriodSize`, `IReusableResult`, and `BasicData` names remain as **warning-level `[Obsolete]` aliases** of the new types, so existing code keeps compiling and running while deprecation warnings guide each rename. `Quote`/`IQuote` flow through the new generic API directly, and `PeriodSize` keeps working via obsolete `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads. Migrate at your own pace — and finish related member renames such as `Date` → `Timestamp` to clear all warnings. These shims will be removed in a future major version.
 
 > **New:** `BarInterval` now has a bidirectional string-code map — `interval.ToCode()` (e.g. `BarInterval.FiveMinutes` → `"5m"`) and `"5m".ToBarInterval()` (case-insensitive, with aliases like `"5min"`/`"1day"`).
 
