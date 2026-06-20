@@ -35,7 +35,7 @@ public record Bar
 {
     /// <inheritdoc/>
     [JsonIgnore]
-    public double Value => (double)Close;
+    double IReusable.Value => (double)Close;
 
     /// <inheritdoc/>
     [Obsolete("Use 'Timestamp' property instead.")]
