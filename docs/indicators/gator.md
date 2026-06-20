@@ -51,8 +51,8 @@ The first 150 periods will have decreasing magnitude, convergence-related precis
 | `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
 | `Upper` | _`double`_ | Absolute value of Alligator `Jaw-Teeth` |
 | `Lower` | _`double`_ | Absolute value of Alligator `Lips-Teeth` |
-| `UpperIsExpanding` | bool | Upper value is growing |
-| `LowerIsExpanding` | bool | Lower value is growing |
+| `UpperIsExpanding` | _`bool`_ | Upper value is growing |
+| `LowerIsExpanding` | _`bool`_ | Lower value is growing |
 
 ### Utilities
 

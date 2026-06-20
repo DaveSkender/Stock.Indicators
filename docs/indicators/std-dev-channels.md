@@ -54,7 +54,7 @@ Historical results are a function of the current period window position and will
 | `Centerline` | _`double`_ | Linear regression line (center line) |
 | `UpperChannel` | _`double`_ | Upper line is `D` standard deviations above the center line |
 | `LowerChannel` | _`double`_ | Lower line is `D` standard deviations below the center line |
-| `BreakPoint` | bool | Helper information.  Indicates first point in new window. |
+| `BreakPoint` | _`bool`_ | Helper information.  Indicates first point in new window. |
 
 ### Utilities
 
