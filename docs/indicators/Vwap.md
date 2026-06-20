@@ -30,7 +30,7 @@ IReadOnlyList<VwapResult> results =
 
 ### Historical price bars requirements
 
-You must have at least one historical bar to calculate; however, more is often needed to be useful.  Historical bars are typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `bars`, unless it is specified in the optional `startDate` parameter.
+You must have at least one historical bar to calculate; however, more is often needed to be useful.  Historical price bars are typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `bars`, unless it is specified in the optional `startDate` parameter.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
@@ -41,7 +41,7 @@ IReadOnlyList<VwapResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.
 - `Vwap` values before `startDate`, if specified, will be `null`.

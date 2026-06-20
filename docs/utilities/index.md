@@ -39,7 +39,7 @@ features:
 
 ## Overview
 
-The library provides utilities and helper functions to work with historical bars, indicator results, and numerical analysis.
+The library provides utilities and helper functions to work with historical price bars, indicator results, and numerical analysis.
 
 - Use **[Bar utilities](/utilities/bars/)** to sort, validate, resize, and transform your price data before calculating indicators.
 - Use **[Result utilities](/utilities/results/)** to condense, find, and trim indicator output after calculation.

@@ -92,6 +92,19 @@ public static partial class Indicator
         this IEnumerable<IBar> bars, BarInterval newSize)
         => bars.ToSortedList().Aggregate(newSize);
 
+    /// <summary>Obsolete. Rename PeriodSize to BarInterval.</summary>
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename `PeriodSize` to `BarInterval`.", false)]
+    public static IEnumerable<Bar> Aggregate(
+        this IEnumerable<IBar> bars, PeriodSize newSize)
+        => bars.ToSortedList().Aggregate((BarInterval)newSize);
+
+    /// <summary>Obsolete. Rename PeriodSize to BarInterval.</summary>
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename `PeriodSize` to `BarInterval`.", false)]
+    public static TimeSpan ToTimeSpan(this PeriodSize periodSize)
+        => ((BarInterval)periodSize).ToTimeSpan();
+
     /// <summary>Obsolete. Refactor to use List&lt;TBar&gt; bars input.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `List<TBar> bars` input.", false)]
@@ -143,16 +156,18 @@ public static partial class Indicator
 // CLASSES AND INTERFACES
 
 // NOTE: The IQuote/Quote/PeriodSize stubs below intentionally keep their
-// pre-rename names (issue #1933) to give v2 consumers a precise migration
-// error. Do not let bulk Quote->Bar / PeriodSize->BarInterval passes rename them.
+// pre-rename names (issue #1933) and are warning-level [Obsolete] aliases of
+// the new types, so v2 consumers' existing type references keep compiling and
+// running during a deprecation window while the warnings guide the rename.
+// Do not let bulk Quote->Bar / PeriodSize->BarInterval passes rename them.
 
 /// <summary>Obsolete. Rename IQuote to IBar.</summary>
-[Obsolete("Rename `IQuote` to `IBar`", true)]
+[Obsolete("Rename `IQuote` to `IBar`", false)]
 public interface IQuote : IBar;
 
 /// <summary>Obsolete. Rename Quote to Bar.</summary>
 [ExcludeFromCodeCoverage]
-[Obsolete("Rename `Quote` to `Bar`", true)]
+[Obsolete("Rename `Quote` to `Bar`", false)]
 [Serializable]
 public sealed record Quote(
     DateTime Timestamp,
@@ -168,7 +183,7 @@ public sealed record Quote(
 }
 
 /// <summary>Obsolete. Rename PeriodSize to BarInterval.</summary>
-[Obsolete("Rename `PeriodSize` to `BarInterval`", true)]
+[Obsolete("Rename `PeriodSize` to `BarInterval`", false)]
 public enum PeriodSize
 {
     /// <summary>Obsolete. Monthly period.</summary>
@@ -209,12 +224,12 @@ public enum PeriodSize
 }
 
 /// <summary>Obsolete. Rename IReusableResult to IReusable.</summary>
-[Obsolete("Rename `IReusableResult` to `IReusable`", true)]
+[Obsolete($"Rename `{nameof(IReusableResult)}` to `{nameof(IReusable)}`.", false)]
 public interface IReusableResult : IReusable;
 
 /// <summary>Obsolete. Rename BasicData to TimeValue.</summary>
 [ExcludeFromCodeCoverage]
-[Obsolete("Rename `BasicData` to `TimeValue`", true)]
+[Obsolete($"Rename `{nameof(BasicData)}` to `{nameof(TimeValue)}`.", false)]
 public sealed class BasicData : IReusable
 {
     /// <inheritdoc />
@@ -226,7 +241,7 @@ public sealed class BasicData : IReusable
 }
 
 /// <summary>Obsolete. Rename ChandelierType to Direction.</summary>
-[Obsolete($"Rename '{nameof(ChandelierType)}' to '{nameof(Direction)}'.")]
+[Obsolete($"Rename `{nameof(ChandelierType)}` to `{nameof(Direction)}`.", false)]
 [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Not really an issue.")]
 public enum ChandelierType
 {

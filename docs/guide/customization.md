@@ -51,7 +51,7 @@ public static class CustomIndicators
     /// <summary>
     /// ATR-weighted moving average (custom indicator example)
     /// </summary>
-    /// <param name="bars">Historical bars</param>
+    /// <param name="bars">Historical price bars</param>
     /// <param name="lookbackPeriods">Lookback period</param>
     /// <returns>Collection of AtrWmaResult</returns>
     public static IReadOnlyList<AtrWmaResult> ToAtrWma(
@@ -133,7 +133,7 @@ Use your custom indicator just like the built-in indicators:
 using Skender.Stock.Indicators;
 using Custom.Indicators;
 
-// Get historical bars
+// Get historical price bars
 IReadOnlyList<Bar> bars = GetBarsFromFeed("MSFT");
 
 // Calculate custom indicator

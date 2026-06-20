@@ -30,8 +30,8 @@ src/                                  # Source code root
 │   │   └── Math/                     # Math extensions
 │   ├── Interfaces/                   # Core interfaces
 │   ├── Models/                       # Core models
-│   ├── BarPart/                    # Bar part functionality
-│   ├── Bars/                       # Bar types and operations
+│   ├── BarPart/                      # Bar part functionality
+│   ├── Bars/                         # Bar types and operations
 │   ├── StreamHub/                    # Streaming infrastructure
 │   │   └── Providers/                # Stream providers
 │   └── Validation/                   # Validation utilities

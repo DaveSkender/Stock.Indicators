@@ -19,11 +19,9 @@ Install-Package Skender.Stock.Indicators
 
 ## Prerequisite data
 
-Most indicators require that you provide historical bar data and additional configuration parameters.
+Most indicators require that you provide historical aggregate OHLCV price bar data and additional configuration parameters.
 
-You must get historical bars from your own market data provider.  For clarification, the `GetBarsFromFeed()` method shown in the example below **is not part of this library**, but rather an example to represent your own acquisition of historical bars.
-
-Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Bar` class ([see below](#historical-bars)); however, it can also be supplied as a generic [custom TBar type](#using-custom-bar-classes) if you prefer to use your own bar model.
+Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Bar` class ([see _**Historical bars**_ section below](#historical-bars)); however, it can also be supplied as a generic [custom `TBar` type](#using-custom-bar-classes) if you prefer to use your own `IBar` derived model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
@@ -48,14 +46,14 @@ The examples on this page use the **Batch (Series)** style because it is the sim
 
 ## Example usage
 
-The example below uses the **Batch (Series)** style — the standard approach for converting a complete set of historical bars in one call.  For bars that arrive incrementally or from a live feed, see [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream).
+The example below uses the **Batch (Series)** style — the standard approach for converting a complete set of historical price bars in one call.  For bars that arrive incrementally or from a live feed, see [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream).
 
 ```csharp
 using Skender.Stock.Indicators;
 
 [..]
 
-// fetch historical bars from your feed (your method)
+// fetch historical price bars from your feed (your method)
 IReadOnlyList<Bar> bars = GetBarsFromFeed("MSFT");
 
 // calculate 20-period SMA
@@ -78,6 +76,11 @@ SMA on 4/25/2018 was $255.6570
 SMA on 4/26/2018 was $255.9705
 ..
 ```
+
+::: info
+You must get price bar data from your own provider.
+_The `GetBarsFromFeed()` method shown above represents your own acquisition of price data and **is not part of this library**._
+:::
 
 See [individual indicator pages](/indicators) for specific usage guidance.
 
@@ -114,7 +117,7 @@ Each indicator will need different amounts of price `bars` to calculate.  You ca
 ::: warning 🚩 IMPORTANT
 Applying the _minimum_ amount of bar history as possible is NOT a good way to optimize your system. Some indicators use a smoothing technique that converges to better precision over time. While you can calculate these with the minimum amount of bar data, the precision to two decimal points often requires 250 or more preceding historical records.
 
-For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical bars (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results. Occasionally, even more is required for optimal precision.
+For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical price bars (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results. Occasionally, even more is required for optimal precision.
 
 See [discussion on warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) for more information.
 :::
@@ -144,7 +147,7 @@ public record MyCustomBar : IBar
 ```
 
 ```csharp
-// fetch historical bars from your favorite feed
+// fetch historical price bars from your favorite feed
 IReadOnlyList<MyCustomBar> myBars = GetBarsFromFeed("MSFT");
 
 // example: get 20-period simple moving average
@@ -161,7 +164,7 @@ If you want to compute an indicator of indicators, such as an SMA of an ADX or a
 Example:
 
 ```csharp
-// fetch historical bars from your feed (your method)
+// fetch historical price bars from your feed (your method)
 IReadOnlyList<Bar> bars = GetBarsFromFeed("SPY");
 
 // calculate RSI of OBV

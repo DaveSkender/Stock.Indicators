@@ -2,7 +2,9 @@
 
 This document tracks remaining work and architectural direction for the v3 streaming indicators implementation.
 
-**Status (2026-05-31).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK; T231 pending maintainer decision), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **The §E pre-stable hardening pass shipped across PRs #2052–#2056; v3.0 stable is now pending only release-gate runtime work (RG001 baseline refresh, RG002 community feedback, RG004 Bar→Bar decision) and the §K release-mechanics sequence for the FacioQuo rebrand + repo transfer.** A pre-release confidence review (overall-review-v3 swarm, 2026-05-29) confirmed the rollback/replay engine is ship-quality — bit-exact across deep chains, aggregators, and long-run pruning, with 1,072 streaming tests green — and surfaced surface-level correctness, documentation, and tooling defects (tracked in §E), now **cleared**: shipped fixes, maintainer-deferred SR001, and two framework-scale items reclassified to v3.1 (ARCH-V31-11 prune-stable rollback, SR008e BufferList enforcement). All shipped quality-pass items are recorded in the appendix at the end of this document with their PR references; the body below carries only what is still open.
+**Status (2026-05-31).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK; T231 pending maintainer decision), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **The §E pre-stable hardening pass shipped across PRs #2052–#2056; v3.0 stable is now pending only release-gate runtime work (RG001 baseline refresh, RG002 community feedback, RG004 Quote→Bar decision) and the §K release-mechanics sequence for the FacioQuo rebrand + repo transfer.** A pre-release confidence review (overall-review-v3 swarm, 2026-05-29) confirmed the rollback/replay engine is ship-quality — bit-exact across deep chains, aggregators, and long-run pruning, with 1,072 streaming tests green — and surfaced surface-level correctness, documentation, and tooling defects (tracked in §E), now **cleared**: shipped fixes, maintainer-deferred SR001, and two framework-scale items reclassified to v3.1 (ARCH-V31-11 prune-stable rollback, SR008e BufferList enforcement). All shipped quality-pass items are recorded in the appendix at the end of this document with their PR references; the body below carries only what is still open.
+
+**Update (2026-06-19) — RG004 resolved: YES (shipped).** The `Quote → Bar` rename landed in v3.0 (PR #1933, bundled in #2102): `Quote`→`Bar`, `IQuote`→`IBar`, `QuoteHub`→`BarHub`, `QuotePart`→`BarPart`, `IQuoteProvider`→`IBarProvider`, `PeriodSize`→`BarInterval`, and `Tick`→`TradeTick` / `TickHub`→`TradeTickHub` across the public surface. The old names ship as **warning-level `[Obsolete]` aliases** in `src/Obsolete.V3.Other.cs` (not error-level), giving v2 consumers a clean migration window: `Quote`/`IQuote` flow through the generic `<TBar : IBar>` API directly, and `PeriodSize` keeps working through `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads — see `docs/migration.md`. **ARCH-V31-9 is therefore done in v3.0, not deferred to v3.1+.** Remaining release gates are RG001 (baseline refresh), RG002 (community feedback), and the §K release mechanics.
 
 **Coverage (verified 2026-05-24 via `CatalogShouldHaveExactStyleCounts` at `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:21`):**
 
@@ -23,7 +25,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 The quality pass landed across §B/§C/§D/§E/§F/§G — guidance docs aligned, test coverage hardened, architecture decisions formalized in `docs/decisions/0001-dual-track-bufferlist-streamhub.md` (ADR 0001), and documentation gaps closed. No architectural change was required. The Architect verdict (no blockers, four v3.1 refactors queued) and Tester verdict (parity strong; rigor gaps addressed by TC001 + TC002 + TC003) stand.
 
-What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001), close the community-feedback window (RG002), resolve the Bar→Bar rename decision (RG004), and execute the §K go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover). The branching-strategy migration (RG003 / K007) is the irreversible cut-over inside §K and depends on those decisions being final.
+What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001) and close the community-feedback window (RG002) — RG004 (Quote→Bar) is now resolved and shipped — then execute the §K go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover). The branching-strategy migration (RG003 / K007) is the irreversible cut-over inside §K and depends on those decisions being final.
 
 The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — offline SSE emulator, BenchmarkDotNet, deep-chain and lifecycle stress harnesses — with adversarial per-finding verification) returned a **ship-as-preview / hold-stable** verdict: continue the `preview.4` line, hold the K013 stable tag until §E clears. **§E has now cleared (PRs #2052–#2056)** — the engine needed no redesign and the pass closed out the silent-drop correction (SR002), the BufferList out-of-order contract (SR008, documented + tested), the prune+rollback characterization (SR003, documented; framework fix → ARCH-V31-11), observer-callback isolation (SR004/SR005, code-fixed), the doc/tooling fixes (SR011–SR016, SR018, SR021), and the offline emulator (SR021). SR001 (before-head silent drop) was reviewed and **deferred** by the maintainer. So the K013 stable hold is released from the §E side; remaining gates are §A (release-gate runtime) and §K (release mechanics).
 
@@ -31,7 +33,7 @@ The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — of
 
 | Bucket | Items | Estimated effort |
 | ------ | ----- | ---------------- |
-| Release gates | RG001 baseline refresh, RG002 community feedback window, RG004 Bar→Bar decision | 1 hour active + benchmark runtime + maintainer asyncs |
+| Release gates | RG001 baseline refresh, RG002 community feedback window (~~RG004 Quote→Bar decision~~ ✅ resolved — shipped in v3.0) | 1 hour active + benchmark runtime + maintainer asyncs |
 | ~~Pre-stable hardening~~ ✅ **shipped** | §E below — overall-review-v3 swarm (SR002/003/004/005/006/008/011–016/018/021) shipped in PRs #2052–#2056; SR001 maintainer-deferred; framework fixes → v3.1 (ARCH-V31-11, SR008e) | done |
 | Release mechanics | §K below — go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover, branching migration via K007 / RG003) | 6–10 hours active + NuGet/DNS propagation |
 | Residual cleanup | T231 baseline-folder delete (decision needed), T203 preview-features flag (deferred on CI SDK) | 30 min when unblocked |
@@ -62,10 +64,10 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 - [ ] **RG003 — Execute branching strategy migration** (10–16 hours). See [branching-strategy.plan.md](branching-strategy.plan.md). `origin/main` is ~25+ commits behind `origin/v3`; PR #1014 is the merge vehicle.
 
-- [ ] **RG004 — Decide on `Bar → Bar` rename for v3.0** (decision: 30 min; if YES, ~16–24 hours implementation in v3.0). **Maintainer decision pending.**
-  - **Context**: PR #1014 comment 1 (2024-07-01) proposed renaming `Bar` → `Bar` (with `TradeTick` reserved for individual bid/ask trades) and introducing `IBar` with `[Obsolete] IBar` as a base. v3.0 is the only realistic window because it's a breaking rename; doing it later means a v4.0.
-  - **Trade-off**: YES → cleaner nomenclature aligned with industry (Pine Script "bar", TA-Lib OHLCV "bar") and a clean `TradeTick`/`Bar` distinction now that `TradeTickHub` exists (PR #1875); pushes v3.0 ship date by ~2–3 working days for rename + `[Obsolete]` shim + docs + migration-guide updates. NO → less churn for consumers already migrating from v2; keeps `IBar` as the canonical bar interface; defers cleanup to a potential v4.x (see ARCH-V31-9 in v3.1+ section).
-  - **Action if YES**: scope expands by ~16–24 hours; update §C with a new rename item, refresh `docs/migration.md`, and ensure `[Obsolete]` shims in `Obsolete.V3.Other.cs` cover the rename. Move ARCH-V31-9 from v3.1+ into v3.0 as the implementation tracker.
+- [x] **RG004 — `Quote → Bar` rename for v3.0 — RESOLVED: YES, shipped** (PR #1933, bundled in #2102).
+  - **Context**: PR #1014 comment 1 (2024-07-01) proposed renaming `Quote` → `Bar` (with `Tick` reserved for individual bid/ask trades) and introducing `IBar` with `[Obsolete] IQuote` as a base. v3.0 was the only realistic window because it's a breaking rename; doing it later would have meant a v4.0.
+  - **Trade-off (historical)**: YES → cleaner nomenclature aligned with industry (Pine Script "bar", TA-Lib OHLCV "bar") and a clean `Tick`/`Bar` distinction now that `TradeTickHub` exists (PR #1875). NO → less churn for consumers already migrating from v2; would have kept `IQuote` as the canonical bar interface; deferred cleanup to a potential v4.x.
+  - **Outcome (YES)**: the rename shipped in v3.0 and `docs/migration.md` was refreshed. **Warning-level** `[Obsolete]` aliases in `Obsolete.V3.Other.cs` cover `Quote`/`IQuote`/`PeriodSize`/`IReusableResult`/`BasicData` so v2 code keeps compiling and running during a deprecation window; `PeriodSize` callers are served by `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads. ARCH-V31-9 is closed as done in v3.0.
 
 ### B. Pre-v3.0 cleanup pass
 
@@ -85,7 +87,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 ### D. Release mechanics — go-live launch checklist
 
-**Source**: incorporated 2026-05-24 from private project board item 58144081 ("v3 go-live launch checklist") and PR #1014 comment 3 (DNS/NuGet/deployer URL pointers). Tasks here are release plumbing executed by the maintainer; they run in parallel with §A release gates RG001/RG002/RG003 and depend on the §A RG004 (Bar→Bar) decision. Total active effort ~6–10 hours plus async waits for NuGet package indexing and DNS TTL.
+**Source**: incorporated 2026-05-24 from private project board item 58144081 ("v3 go-live launch checklist") and PR #1014 comment 3 (DNS/NuGet/deployer URL pointers). Tasks here are release plumbing executed by the maintainer; they run in parallel with §A release gates RG001/RG002/RG003. (The §A RG004 Quote→Bar decision is resolved — shipped in v3.0.) Total active effort ~6–10 hours plus async waits for NuGet package indexing and DNS TTL.
 
 > **Cross-cutting decision (already made)**: v3 ships under a new package identity `FacioQuo.Stock.Indicators` with the repo transferring to a FacioQuo org as `stock-indicators-dotnet`. K-items below assume that transition; if the rebrand is cancelled or postponed, items K001–K006 and K009–K011 collapse to a single "tag and release on existing `Skender.Stock.Indicators` package" item.
 
@@ -176,7 +178,7 @@ The v3 streaming engine is the headline of this release after a long development
 
 #### ⚠️ Pending maintainer decisions — highlighted, NOT in the next batch
 
-- **RG004 → ARCH-V31-9 — `Bar` → `Bar` rename.** One-way door: v3.0 is the only window before v4.0. Pure product call; needs the impact write-up + a YES/NO. (Detail in §A RG004 and ARCH-V31-9 below.)
+- **RG004 → ARCH-V31-9 — `Quote` → `Bar` rename — ✅ RESOLVED: YES, shipped in v3.0** (PR #1933). Old names ship as warning-level `[Obsolete]` aliases; see the 2026-06-19 update at the top. (Detail in §A RG004 and ARCH-V31-9 below.)
 - **SR001 — Before-head silent drop.** Deferred 2026-05-30; the 2026-05-31 quality steer reopens it — silent data loss on out-of-order / two-feed-merge / backfill is the canonical "obvious problem." Decide: surface the drop (status / `OnError` / dropped-bar callback) in v3.0, or hold the defer. (Detail in §E above.)
 - **ARCH-V31-11 — Prune-stable rollback (the SR003 real fix).** Largest correctness gap in the rollback engine but a multi-day, dozens-of-hubs effort. Decide: pull into v3.0 (engine bit-exact under every cache config) or ship the documented edge-config limitation. (Detail in v3.1+ below.)
 
@@ -184,7 +186,7 @@ The v3 streaming engine is the headline of this release after a long development
 
 ## v3.1+ Enhancements — Deferred Work
 
-> **Reclassified to v3.0 (see §L, 2026-05-31):** ARCH-V31-3, ARCH-V31-12, SR006c, SR007, SR017, SR020, TC-V31-1, TC-V31-4, TC-V31-7, TC-V31-8 — now v3.0-scheduled in §L; the detailed entries below are retained for reference. **Pending a v3.0 decision (see §L):** ARCH-V31-9 (RG004 Bar→Bar) and ARCH-V31-11 (prune-stable rollback). Everything else here is genuinely v3.1+.
+> **Reclassified to v3.0 (see §L, 2026-05-31):** ARCH-V31-3, ARCH-V31-12, SR006c, SR007, SR017, SR020, TC-V31-1, TC-V31-4, TC-V31-7, TC-V31-8 — now v3.0-scheduled in §L; the detailed entries below are retained for reference. **Pending a v3.0 decision (see §L):** ARCH-V31-11 (prune-stable rollback). (ARCH-V31-9 / RG004 Quote→Bar is now resolved — shipped in v3.0.) Everything else here is genuinely v3.1+.
 
 ### Framework architecture improvements (new — Architect findings)
 
@@ -246,10 +248,10 @@ The v3 streaming engine is the headline of this release after a long development
   - Source: Inspector F2.
   - `RollingMin`, `RollingMax`, `RollingSum`, `RegressionAccumulator` as shared utilities. Today indicators like Chandelier and Slope reinvent these per surface.
 
-- [ ] **ARCH-V31-9 — `Bar → Bar` rename (conditional on RG004 = NO)** (16–24 hours). **⚠️ PENDING v3.0 DECISION (see §L)** — one-way door; v3.0 is the only window before v4.0.
+- [x] **ARCH-V31-9 — `Quote → Bar` rename — ✅ DONE in v3.0** (RG004 = YES; PR #1933, bundled in #2102). Superseded the conditional-on-NO framing below; the rename shipped in v3.0 rather than being deferred.
   - Source: PR #1014 comment 1 (2024-07-01). **Only lands here if §A RG004 defers the rename out of v3.0.**
   - If RG004 = YES, this entry is moved into v3.0 §B (or §A) as the implementation tracker, not v3.1+.
-  - Scope: rename `Bar` → `Bar` and `IBar` → `IBar`; `[Obsolete]` shims preserve `Bar`/`IBar` for a deprecation window; refresh `docs/migration.md`; reserve `TradeTick` exclusively for individual bid/ask trades (already aligned with `TradeTickHub` per PR #1875). v4.0 would be the next available window if this slips here.
+  - Scope: rename `Quote` → `Bar` and `IQuote` → `IBar`; `[Obsolete]` shims preserve `Quote`/`IQuote` for a deprecation window; refresh `docs/migration.md`; reserve `TradeTick` exclusively for individual bid/ask trades (already aligned with `TradeTickHub` per PR #1875). v4.0 would be the next available window if this slips here.
 
 - [ ] **ARCH-V31-10 — External hub cache storage** (8–12 hours). Tracks open [Issue #1884](https://github.com/DaveSkender/Stock.Indicators/issues/1884).
   - Source: PR #1014 comment 5 (2024-07-01) + private project board entry.

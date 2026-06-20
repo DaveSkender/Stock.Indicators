@@ -37,7 +37,7 @@ IReadOnlyList<FisherTransformResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 
 ::: warning 🚩 ⚞ Convergence warning

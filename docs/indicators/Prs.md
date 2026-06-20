@@ -18,8 +18,8 @@ IReadOnlyList<PrsResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
-| `barsBase` | _`IReadOnlyList<TBar>`_ | [Historical bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
+| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
+| `barsBase` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
 | `lookbackPeriods` | _`int`_ | Optional.  Number of periods (`N`) to lookback to compute % ROC difference.  Must be greater than 0 if specified or `null`. |
 
 ### Historical price bars requirements
@@ -35,7 +35,7 @@ IReadOnlyList<PrsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The `N` periods will have `null` values for `PrsPercent` since there's not enough data to calculate.
 

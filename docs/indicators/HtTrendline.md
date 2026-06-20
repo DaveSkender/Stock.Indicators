@@ -31,7 +31,7 @@ IReadOnlyList<HtlResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `6` periods will have `null` values for `SmoothPrice` since there's not enough data to calculate.
 - The first `7` periods will have `null` values for `DcPeriods` since there is not enough data to calculate; and are generally unreliable for the first ~25 periods.

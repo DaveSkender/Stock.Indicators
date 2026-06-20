@@ -44,7 +44,7 @@ IReadOnlyList<ZigZagResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - If you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.
 - The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.

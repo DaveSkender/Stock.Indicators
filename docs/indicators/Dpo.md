@@ -26,7 +26,7 @@ IReadOnlyList<DpoResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N` historical bars to cover the warmup periods.
+You must have at least `N` historical price bars to cover the warmup periods.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
@@ -37,7 +37,7 @@ IReadOnlyList<DpoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N/2-2` and last `N/2+1` periods will be `null` since they cannot be calculated.
 

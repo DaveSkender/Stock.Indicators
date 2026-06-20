@@ -37,7 +37,7 @@ IReadOnlyList<CandleResult>
 ```
 
 - This method returns a time series of all available indicator values for the `bars` provided.
-- It always returns the same number of elements as there are in the historical bars.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The candlestick pattern is indicated on dates where `Match` is `Match.BullSignal` or `Match.BearSignal`.
 - `Price` is `Close` price; however, all OHLCV elements are included in `CandleProperties`.

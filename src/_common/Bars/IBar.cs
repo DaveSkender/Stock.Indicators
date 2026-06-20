@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Bar interface for standard OHLCV aggregate period.
 /// This is commonly known as a "bar" or "candle" and represents
-/// and asset price range over a specific time range,
+/// an asset price range over a specific time range,
 /// <para>
 /// If implementing your own custom <c>TBar:IBar</c> type:
 /// </para>
