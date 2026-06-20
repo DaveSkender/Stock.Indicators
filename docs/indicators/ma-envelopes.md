@@ -24,7 +24,7 @@ IReadOnlyList<MaEnvelopeResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
 | `percentOffset` | _`double`_ | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5. |
-| `movingAverageType` | MaType | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
+| `movingAverageType` | _`MaType`_ | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
 
 ### Historical price bars requirements
 
