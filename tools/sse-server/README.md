@@ -20,7 +20,7 @@ Endpoints:
 
 Query parameters:
 
-| argument | type | default | description |
+| param | type | default | description |
 | --------- | ---- | ------- | ----------- |
 | `interval` | _`int`_ | `100` | Delivery rate in milliseconds (how fast bars are sent) |
 | `batchSize` | _`int`_ | none (unlimited) | Maximum number of bars to send before closing stream |

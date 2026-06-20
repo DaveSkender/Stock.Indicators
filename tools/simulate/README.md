@@ -21,7 +21,7 @@ dotnet run -- sse [dataType] [interval] [count] [barInterval] [endpoint]
 
 Arguments (in order):
 
-| argument | type | default | description |
+| param | type | default | description |
 | -------- | ---- | ------- | ----------- |
 | `dataType` | _`string`_ | `bar` | Data type endpoint: `bar` or `trade` |
 | `interval` | _`int`_ | `100` | Delivery rate in milliseconds (how fast bars are sent) |
@@ -61,7 +61,7 @@ dotnet run -- coinbase-ticker [symbol] [count]
 
 Arguments (in order):
 
-| argument | type | default | description |
+| param | type | default | description |
 | -------- | ---- | ------- | ----------- |
 | `symbol` | _`string`_ | `BTC-USD` | Coinbase trading pair (e.g., `BTC-USD`, `ETH-USD`) |
 | `count` | _`int`_ | none (unlimited) | Maximum number of bars to process; omit for indefinite stream |
