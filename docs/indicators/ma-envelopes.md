@@ -24,35 +24,29 @@ IReadOnlyList<MaEnvelopeResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
 | `percentOffset` | _`double`_ | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5. |
-| `movingAverageType` | _`MaType`_ | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
+| `movingAverageType` | _`MaType`_ | Type of moving average (e.g. SMA, EMA, HMA).  See [`MaType` enum options](#matype-enum-options) below.  Default is `MaType.SMA`. |
 
 ### Historical price bars requirements
 
-See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `bars` and `lookbackPeriods`.
-
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### MaType options
+Detailed `bars` requirements for each of the [`MaType` enum options](#matype-enum-options) types can be found at the links in the following table.
+
+### `MaType` enum options
 
 These are the supported moving average types:
 
-**`MaType.ALMA`** - [Arnaud Legoux Moving Average](/indicators/alma)
-
-**`MaType.DEMA`** - [Double Exponential Moving Average](/indicators/dema)
-
-**`MaType.EPMA`** - [Endpoint Moving Average](/indicators/epma)
-
-**`MaType.EMA`** - [Exponential Moving Average](/indicators/ema)
-
-**`MaType.HMA`** - [Hull Moving Average](/indicators/hma)
-
-**`MaType.SMA`** - [Simple Moving Average](/indicators/sma) (default)
-
-**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/smma)
-
-**`MaType.TEMA`** - [Triple Exponential Moving Average](/indicators/tema)
-
-**`MaType.WMA`** - [Weighted Moving Average](/indicators/wma)
+| enum value    | moving average                                        |
+| ------------- | ----------------------------------------------------- |
+| `MaType.ALMA` | [Arnaud Legoux Moving Average](/indicators/alma)      |
+| `MaType.DEMA` | [Double Exponential Moving Average](/indicators/dema) |
+| `MaType.EPMA` | [Endpoint Moving Average](/indicators/epma)           |
+| `MaType.EMA`  | [Exponential Moving Average](/indicators/ema)         |
+| `MaType.HMA`  | [Hull Moving Average](/indicators/hma)                |
+| `MaType.SMA`  | [Simple Moving Average](/indicators/sma) (default)    |
+| `MaType.SMMA` | [Smoothed Moving Average](/indicators/smma)           |
+| `MaType.TEMA` | [Triple Exponential Moving Average](/indicators/tema) |
+| `MaType.WMA`  | [Weighted Moving Average](/indicators/wma)            |
 
 ::: warning 🚩
 For ALMA, default values are used for `offset` and `sigma`.
@@ -70,7 +64,7 @@ IReadOnlyList<MaEnvelopeResult>
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
 ::: warning 🚩 ⚞ Convergence warning
-Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See the [`MaType` enum options](#matype-enum-options) section above for more information.
 :::
 
 ### `MaEnvelopeResult`

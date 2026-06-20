@@ -15,7 +15,7 @@ IReadOnlyList<TimeValue> barParts = bars.Use(CandlePart candlePart);
 
 **`candlePart`** - The price element to use for calculations
 
-<!--@include: ../../shared/candlepart-options.md-->
+<!--@include: ../../shared/enum-candlepart.md-->
 
 ## Common use cases
 

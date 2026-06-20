@@ -5,14 +5,7 @@ description: Beta coefficient with Beta+/Beta- shows how strongly one asset's pr
 
 # Beta coefficient (β)
 
-[Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
-
-Beta coefficient (including `Beta+` and `Beta-`) measures how strongly an asset’s returns respond to broad market movements. Beta+ ([upside beta](https://en.wikipedia.org/wiki/Upside_beta)) and Beta- ([downside beta](https://en.wikipedia.org/wiki/Downside_beta)), introduced in extensions of the traditional Capital Asset Pricing framework[^1], capture asymmetric sensitivity during positive and negative market conditions. Beta represents non-diversifiable systematic risk and is a measure of market exposure, not idiosyncratic (asset-specific) risk.
-
-[^1]: [Portfolio Selection: Efficient Diversification of Investments, by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h)
-
-Beta coefficient with Beta+/Beta- shows how strongly one asset's price responds to systemic volatility of the entire market.  Upside Beta (Beta+) and Downside Beta (Beta-), popularized by Harry M. Markowitz, are also included. It measures an asset's non-diversifiable risk, systematic risk, or market risk. Beta is not a measure of idiosyncratic risk.
-
+[Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market. Beta measures an asset's non-diversifiable systematic risk — its market exposure — not its idiosyncratic, asset-specific risk. [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.  Beta+ and Beta- capture asymmetric sensitivity during rising and falling markets.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/268 "Community discussion about this indicator")
 
 <ClientOnly>
@@ -36,19 +29,18 @@ IReadOnlyList<BetaResult> results = barsEval
 
 ### Historical price bars requirements
 
-You must have at least `N` periods of `barsEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `N+1` periods. More than the minimum is typically specified.
+You must have at least `N` periods of `barsEval` and `barsMarket` to cover the warmup periods.  More than the minimum is typically provided, since a larger sample improves statistical quality — especially when using Beta +/-.
 
 `barsEval` and `barsMarket` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-#### BetaType options
+### `BetaType` options
 
-**`Standard`** - Standard Beta only.  Uses all historical price bars.
-
-**`Up`** - Upside Beta only.  Uses historical price bars from market up bars only.
-
-**`Down`** - Downside Beta only.  Uses historical price bars from market down bars only.
-
-**`All`** - Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
+| type                | description                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| `BetaType.Standard` | Standard Beta only.  Uses all historical price bars. (default)                             |
+| `BetaType.Up`       | Upside Beta only.  Uses market up bars only.                                               |
+| `BetaType.Down`     | Downside Beta only.  Uses market down bars only.                                           |
+| `BetaType.All`      | Returns all of the above.  Required for `Ratio` and `Convexity` values.  Note: 3× slower.  |
 
 ::: tip ✨ Pro tip
 Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `bars` and a value of 60 for `lookbackPeriods`.  If you only have smaller bars, use the [Aggregate()](/utilities/bars/resize-bar-history) utility to convert it.

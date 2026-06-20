@@ -1,6 +1,6 @@
 ---
 title: Migration from v2 to v3
-description: Complete guide for migrating from Stock Indicators v2 to v3, including breaking changes, API updates, and new streaming capabilities.
+description: Guide for migrating from Stock Indicators v2 to v3, including breaking changes, API updates, and new streaming capabilities.
 ---
 
 # Migration from v2 to v3
@@ -16,7 +16,7 @@ Most of the obsolete v2 syntax has been shimmed in library version `3.0` with `[
 ### API method naming
 
 - **All static time-series API methods**: Renamed from `GetX()` to `ToX()`
-  - Example: `quotes.GetSma(20)` → `quotes.ToSma(20)`
+  - Example: `GetSma(...)` → `ToSma(...)`
 
 ### Market-data type renames (Quote → Bar)
 
@@ -143,7 +143,7 @@ Add explicit `candlePart` parameter:
 var quoteParts = quotes.Use();
 
 // v3 - candlePart required
-var quoteParts = quotes.Use(CandlePart.Close);
+var barParts = bars.Use(CandlePart.Close);
 ```
 
 Handle new `TimeValue` return type:
@@ -153,26 +153,12 @@ Handle new `TimeValue` return type:
 var (timestamp, value) = quotes.Use(CandlePart.Close);
 
 // v3
-IReadOnlyList<TimeValue> quoteParts = quotes.Use(CandlePart.Close);
+IReadOnlyList<TimeValue> barParts = bars.Use(CandlePart.Close);
 ```
 
-### Step 5: Update null handling
+### Step 5: `Value` is now non-nullable
 
-Replace `null` checks with `double.NaN` checks:
-
-```csharp
-// v2
-if (result.Value != null)
-{
-    decimal value = result.Value.Value;
-}
-
-// v3
-if (!double.IsNaN(result.Value))
-{
-    double value = result.Value;
-}
-```
+The chainable `IReusable.Value` property changed from `double?` to `double`, returning `double.NaN` instead of `null`. This property exists mainly for internal chaining, so most code is unaffected — named result properties such as `SmaResult.Sma` remain nullable `double?`. If you do read `.Value` directly, replace `result.Value == null` checks with `double.IsNaN(result.Value)`.
 
 ### Step 6: Update class references
 
@@ -200,90 +186,19 @@ var adxResults = quotes.GetAdx(14);
 var firstAdxr = adxResults[40].Adxr; // not null
 
 // v3 - first ADXR at index 41
-var adxResults = quotes.ToAdx(14);
-var firstAdxr = adxResults[41].Adxr; // not NaN
-// adxResults[40].Adxr is now NaN
+var adxResults = bars.ToAdx(14);
+var firstAdxr = adxResults[41].Adxr; // not null
+// adxResults[40].Adxr is now null
 ```
 
 ## New v3 feature: streaming capabilities
 
-v3 introduces comprehensive streaming capabilities for real-time and incremental data processing. Most indicators now support three calculation styles.
+v3 adds incremental and real-time processing. Alongside the v2 **Series** (batch) style, most indicators now also support two streaming styles:
 
-### Calculation styles
+- **BufferList** — self-managed incremental updates, ideal for growing datasets.
+- **StreamHub** — reactive, observable hubs with cascading updates for live feeds.
 
-#### Series style (traditional batch processing)
-
-The Series style processes complete historical datasets and returns all results at once. This is the same pattern from v2 and remains the default approach for backtesting and historical analysis.
-
-```csharp
-// v2 and v3 Series style
-IReadOnlyList<SmaResult> results = quotes.ToSma(20);
-```
-
-**Use when:**
-
-- Processing complete historical datasets
-- Backtesting strategies
-- One-time calculations
-- No real-time requirements
-
-#### BufferList style (incremental processing)
-
-The BufferList style allows incremental calculations with efficient buffer management. Use this when you need to add data points incrementally without maintaining a full hub infrastructure.
-
-```csharp
-// v3 BufferList style
-SmaList smaList = new(20);
-
-foreach (IBar bar in bars)  // simulating stream
-{
-    smaList.Add(bar);
-}
-
-IReadOnlyList<SmaResult> results = smaList;
-```
-
-**Use when:**
-
-- Growing datasets with frequent appends
-- Accumulating historical data
-- Incremental calculations without real-time subscriptions
-- Memory-efficient processing
-
-#### StreamHub style (real-time observable patterns)
-
-The StreamHub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a single `BarHub` for coordinated real-time analysis.
-
-```csharp
-// v3 StreamHub style
-BarHub barHub = new();
-
-EmaHub emaFast = barHub.ToEmaHub(50);
-EmaHub emaSlow = barHub.ToEmaHub(200);
-
-// add bars to barHub (from stream)
-barHub.Add(newBar);
-// and the 2 EmaHub will be in sync
-
-if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
-&& emaFast.Results[^1].Ema > emaSlow.Results[^1].Ema)
-{
-    // cross over occurred
-}
-```
-
-> **Mutate the root hub only.** Feed and correct data through the `BarHub`
-> (or `TradeTickHub`) you created — it cascades to every dependent hub. Calling
-> `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed
-> hub such as an `EmaHub` throws `InvalidOperationException`. See the
-> [streaming guide](/guide/styles/stream#thread-safety) for details.
-
-**Use when:**
-
-- Live data feeds and WebSocket integration
-- Multiple indicators need coordinated updates
-- Trading applications requiring low latency
-- Real-time dashboards and monitoring
+See the [Indicator styles guide](/guide/styles/) for a full feature comparison and detailed usage. The examples below show the v2→v3 transition for each style.
 
 ### Migration examples
 
@@ -345,12 +260,6 @@ foreach (Bar newBar in stream)
 }
 ```
 
-### Performance considerations
-
-- **Series**: Best throughput for complete datasets, optimized for batch processing
-- **BufferList**: Balanced performance for incremental updates, ~10-20% overhead vs Series
-- **StreamHub**: Low latency per quote for real-time scenarios, ~20-30% overhead vs Series
-
 ### Streaming documentation
 
 For indicator-specific streaming examples, see the documentation for each indicator. Indicators with streaming support include a "Streaming" section with BufferList and StreamHub examples.
@@ -363,14 +272,18 @@ Popular indicators with complete streaming documentation:
 
 ## Known issues and tips
 
-A few v3 known sub-optimal behaviors worth noting before reporting an issue. These are in our backlog.
+A few v3 behaviors are known to be sub-optimal and are tracked in our backlog. They aren't breaking — the library stays usable — but we mention them here so you can recognize the symptoms and plan around them.
 
-### Streaming cache caps results at 100,000 by default
+### Streaming performance degrades after the cache prunes
 
-Both the BufferList (`MaxListSize`) and StreamHub (`maxCacheSize`) styles keep a rolling cache that defaults to **100,000 elements** and automatically prunes the oldest results once that limit is exceeded. If you replay a large historical dataset through a hub or buffer list — for example, several years of minute bars — and expect every result back, the early results will have been pruned away.
+Both the BufferList (`MaxListSize`) and StreamHub (`maxCacheSize`) styles keep a rolling cache that defaults to **100,000 elements**. Once that limit is exceeded, the oldest results are automatically pruned, and two symptoms follow:
+
+- **Throughput drops noticeably** once pruning begins — still functional, just slower.
+- **Early results are no longer retrievable**, and a late arrival or correction that triggers a rebuild can't see the pruned history, so rebuilt values for stateful indicators become approximate.
+
+If you replay a large historical dataset — for example, several years of minute bars — and need the full history resident or steady performance, raise the cache size so pruning never triggers:
 
 ::: tip ✨ Raise the cache size for large datasets
-Set the limit explicitly when the full history must stay resident:
 
 ```csharp
 // StreamHub: size the root hub (it cascades to chained hubs)
@@ -380,24 +293,8 @@ BarHub barHub = new(maxCacheSize: 250_000);
 SmaList smaList = new(20) { MaxListSize = 250_000 };
 ```
 
-`maxCacheSize` is inherited by every chained hub, so size it for the **largest warmup in the whole chain**. Don't shrink it down to a single indicator's lookback — each hub validates the size against its own warmup floor at construction and throws `ArgumentOutOfRangeException` if it is too small. See [Stream hub memory management](/guide/styles/stream#memory-management) for details.
+`maxCacheSize` is inherited by every chained hub, so size it for the **largest warmup in the whole chain**. Each hub validates the size against its own warmup floor at construction and throws `ArgumentOutOfRangeException` if it is too small. See [Stream hub memory management](/guide/styles/stream#memory-management) for details.
 :::
-
-### Corrections after pruning are approximate
-
-Once the cache has pruned old bars, a late arrival or correction that triggers a rebuild can no longer see the pruned history, so the rebuilt values for stateful indicators won't exactly match a hub that received the same data in order. Keep the cache large enough to cover your expected late-arrival window.
-
-### Mutate the root hub only
-
-Feed and correct streaming data through the `BarHub` (or `TradeTickHub`) you created — it cascades to every dependent hub. Calling `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed hub such as an `EmaHub` throws `InvalidOperationException`. See the [streaming guide](/guide/styles/stream#thread-safety).
-
-### `null` versus `NaN` results
-
-v3 returns `NaN` (not `null`) for incalculable values on `double` result properties. Update comparisons from `result.Value == null` to `double.IsNaN(result.Value)`. See [Step 5](#step-5-update-null-handling).
-
-### ADXR warmup shifted
-
-`Adxr` now begins one period later than in v2 to correct an off-by-one in the warmup. Expect the first non-`NaN` `Adxr` value at a slightly later index. See [Step 8](#step-8-update-adxr-expectations).
 
 ## Quick reference table
 

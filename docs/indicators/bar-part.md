@@ -33,7 +33,7 @@ You must have at least 1 period of `bars`.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc). See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-<!--@include: ../shared/candlepart-options.md-->
+<!--@include: ../shared/enum-candlepart.md-->
 
 ## Response
 

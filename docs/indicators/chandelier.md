@@ -24,7 +24,7 @@ IReadOnlyList<ChandelierResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
 | `multiplier` | _`double`_ | Multiplier number must be a positive value.  Default is 3. |
-| `type` | Direction | Direction of exit.  See [Direction options](#direction-options-for-type) below.  Default is `Direction.Long`. |
+| `type` | _`Direction`_ | Direction of exit. Default is `Direction.Long`. |
 
 ### Historical price bars requirements
 
@@ -32,12 +32,7 @@ You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### `Direction` options for `type`
-
-| enum value | description |
-| ------ | ----------- |
-| `Direction.Long` (default) | Trailing stop loss value for long positions, sits below price  |
-| `Direction.Short` | Trailing stop loss value for short positions, sits above price |
+<!--@include: ../shared/enum-direction.md-->
 
 ## Response
 

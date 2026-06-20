@@ -166,8 +166,4 @@ Special thanks to all of our community code contributors!
 
 <Contributors />
 
-Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to begin contributing.
-
-::: tip
-See our [full list of indicators and overlays](/indicators)
-:::
+Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to begin contributing, or browse the [full list of indicators and overlays](/indicators).

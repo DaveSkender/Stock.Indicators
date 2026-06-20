@@ -39,7 +39,7 @@ You must have at least `L+R+1` periods of `bars` to cover the warmup periods; ho
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-<!--@include: ../shared/endtype-options.md-->
+<!--@include: ../shared/enum-endtype.md-->
 
 ## Response
 

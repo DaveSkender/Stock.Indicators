@@ -32,7 +32,7 @@ IReadOnlyList<StochResult> results =
 | `smoothPeriods` | _`int`_ | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3. |
 | `kFactor` | _`double`_ | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3. |
 | `dFactor` | _`double`_ | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2. |
-| `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`. |
+| `movingAverageType` | _`MaType`_ | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [`MaType` enum options](#matype-enum-options) below.  Default is `MaType.SMA`. |
 
 ### Historical price bars requirements
 
@@ -40,13 +40,14 @@ You must have at least `N+S` periods of `bars` to cover the [warmup and converge
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
-### MaType options
+### `MaType` enum options
 
 These are the supported moving average types:
 
-**`MaType.SMA`** - [Simple Moving Average](/indicators/sma) (default)
-
-**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/smma)
+| enum value    | moving average                                        |
+| ------------- | ----------------------------------------------------- |
+| `MaType.SMA`  | [Simple Moving Average](/indicators/sma) (default)    |
+| `MaType.SMMA` | [Smoothed Moving Average](/indicators/smma)           |
 
 ## Response
 
