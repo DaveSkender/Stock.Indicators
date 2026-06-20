@@ -363,7 +363,7 @@ Popular indicators with complete streaming documentation:
 
 ## Known issues and tips
 
-A few v3 behaviors commonly trip up migrating code. Review these before reporting an issue.
+A few v3 known sub-optimal behaviors worth noting before reporting an issue. These are in our backlog.
 
 ### Streaming cache caps results at 100,000 by default
 

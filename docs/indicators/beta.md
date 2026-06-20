@@ -29,10 +29,10 @@ IReadOnlyList<BetaResult> results = barsEval
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
+| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsMarket`. |
 | `barsMarket` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
 | `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
-| `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below. |
+| `type` | _`BetaType`_ | Type of Beta to calculate.  Default is `BetaType.Standard`. See [`BetaType` options](#betatype-options) below. |
 
 ### Historical price bars requirements
 

@@ -82,12 +82,12 @@ Hubs provides a reactive, subscription-based pattern for streaming market data w
 
 ```csharp
 // create provider and subscribe observers
-BarHub barHub = new();
+BarHub barHub = new(); // provider
 SmaHub smaHub = barHub.ToSmaHub(20);
 RsiHub rsiHub = smaHub.ToRsiHub(14);  // RSI of SMA
 
 // publish bars - observers auto-update in cascade
-provider.Add(newBar);
+barHub.Add(newBar);
 
 // consume downstream hubs indicators
 IReadOnlyList<RsiResult> results = rsiHub.Results;

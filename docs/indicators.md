@@ -40,7 +40,7 @@ features:
     icon:
       src: /assets/thumbs/moving-average.png
     link: /indicators/moving-averages
-    details: Price smoothing    
+    details: Price smoothing
   - title: Price transforms
     icon:
       src: /assets/thumbs/price-transform.png

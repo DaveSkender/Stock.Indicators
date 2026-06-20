@@ -48,7 +48,7 @@ IReadOnlyList<CorrResult>
 | `VarianceB` | _`double`_ | Variance of B |
 | `Covariance` | _`double`_ | Covariance of A+B |
 | `Correlation` | _`double`_ | Correlation `R` |
-| `RSquared` | _`double`_ | R-squared (`R²`), aka Coefficient of determination.  Simple linear regression models is used (square of Correlation). |
+| `RSquared` | _`double`_ | R-squared (`R²`), aka Coefficient of determination |
 
 ### Utilities
 
