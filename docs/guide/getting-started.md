@@ -23,30 +23,28 @@ Most indicators require that you provide historical aggregate OHLCV price bar da
 
 Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Bar` class ([see _**Historical bars**_ section below](#historical-bars)); however, it can also be supplied as a generic [custom `TBar` type](#using-custom-bar-classes) if you prefer to use your own `IBar` derived model.
 
-For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
+For configurable indicator parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
 ## Implementation pattern
 
-The library supports three indicator styles, each following the same basic pattern:
+The library supports three indicator styles, each use the same pattern:
 
 ```csharp
 using Skender.Stock.Indicators;
 
 [..]
 
-// step 1: get bar(s) from your source
+// step 1: get price bar(s) from your source
 // step 2: calculate indicator value(s)
 ```
 
-- **[Batch (Series)](/guide/styles/batch)** — convert a full bar collection at once. This is the standard, default style and the one demonstrated on this page.
-- **[Buffer lists](/guide/styles/buffer)** — self-managed incrementing lists, for adding bars one at a time.
+The examples on this page depict the **Batch (Series)** style because it is the simplest starting point and covers most use cases. Buffer lists and stream hubs are first-class alternatives for incremental and streaming scenarios — see [Indicator styles](/guide/styles/) for a side-by-side comparison and guidance on choosing.
+
+- **[Batch (Series)](/guide/styles/batch)** — convert a full price data collection at once. This is the standard, default style and the one demonstrated on this page.
+- **[Buffer lists](/guide/styles/buffer)** — self-managed incrementing lists, for adding price bars one at a time.
 - **[Stream hubs](/guide/styles/stream)** — subscription-based hub-observer pattern, for live/streaming data and chained, real-time architectures.
 
-The examples on this page use the **Batch (Series)** style because it is the simplest starting point and covers most use cases. Buffer lists and stream hubs are first-class styles for incremental and streaming scenarios — see [Indicator styles](/guide/styles/) for a side-by-side comparison and guidance on choosing.
-
-## Example usage
-
-The example below uses the **Batch (Series)** style — the standard approach for converting a complete set of historical price bars in one call.  For bars that arrive incrementally or from a live feed, see [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream).
+### Example usage
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -95,7 +93,7 @@ See the [Guide](/guide/) for batch, buffer, and stream styles; chaining; custom 
 
 ## Historical bars
 
-You must provide historical price bars to the library in the standard OHLCV `IReadOnlyList<Bar>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom bar classes](#using-custom-bar-classes) if you prefer to use your own bar class.
+You must provide historical price bars to the library in the standard OHLCV `IReadOnlyList<Bar>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom bar classes](#using-custom-bar-classes) if you prefer to use your own `IBar` derived class.
 
 | name        | type     | notes       |
 | ----------- | -------- | ----------- |
@@ -155,7 +153,7 @@ IReadOnlyList<SmaResult> results = myBars.ToSma(20);
 ```
 
 ::: warning Custom bars must have value based equality
-When implementing your custom bar type, it must be either `record` class or implement `IEquatable<T>` to be compatible with streaming hubs
+When implementing your custom bar type, it must be either `record` class or implement `IEquatable<T>` to be compatible with the streaming hub internal de-duplication logic.
 :::
 
 ## Chaining: indicator of indicators
