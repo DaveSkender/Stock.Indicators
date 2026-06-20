@@ -107,6 +107,13 @@ jobs:
     needs: quick-check
 
     steps:
+
+      - name: Merge protection check
+        if: github.base_ref == 'main'
+        run: |
+          echo "::error title=Reverse merge prohibited::❌ Targeting 'main' from a maintenance branch is prohibited."
+          exit 1
+    
       - name: Checkout source
         uses: actions/checkout@v6
 
