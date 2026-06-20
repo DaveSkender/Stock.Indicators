@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Doji candlestick pattern from incremental quotes.
+/// Doji candlestick pattern from incremental bars.
 /// </summary>
-public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
+public class DojiList : BufferList<CandleResult>, IIncrementFromBar, IDoji
 {
     private readonly double maxPriceChangeFraction;
 
@@ -22,48 +22,48 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DojiList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="DojiList"/> class with initial bars.
     /// </summary>
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public DojiList(double maxPriceChangePercent, IReadOnlyList<IQuote> quotes)
-        : this(maxPriceChangePercent) => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    public DojiList(double maxPriceChangePercent, IReadOnlyList<IBar> bars)
+        : this(maxPriceChangePercent) => Add(bars);
 
     /// <inheritdoc />
     public double MaxPriceChangePercent { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
         decimal? matchPrice = null;
         Match matchType = Match.None;
 
         // Check for Doji pattern
-        if (quote.Open != 0
-            && Math.Abs((double)(quote.Close / quote.Open) - 1d) <= maxPriceChangeFraction)
+        if (bar.Open != 0
+            && Math.Abs((double)(bar.Close / bar.Open) - 1d) <= maxPriceChangeFraction)
         {
-            matchPrice = quote.Close;
+            matchPrice = bar.Close;
             matchType = Match.Neutral;
         }
 
         AddInternal(new CandleResult(
             timestamp: timestamp,
-            quote: quote,
+            bar: bar,
             match: matchType,
             price: matchPrice));
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -78,10 +78,10 @@ public static partial class Doji
     /// <summary>
     /// Creates a buffer list for Doji candlestick pattern detection.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="maxPriceChangePercent">Maximum price change percent threshold</param>
     public static DojiList ToDojiList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         double maxPriceChangePercent = 0.1)
-        => new(maxPriceChangePercent) { quotes };
+        => new(maxPriceChangePercent) { bars };
 }

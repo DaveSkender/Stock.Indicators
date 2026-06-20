@@ -3,7 +3,7 @@ namespace StaticSeries;
 public partial class SmaTests : StaticSeriesTestBase
 {
     /// <summary>
-    /// Manually calculated SMA(20) from default <see cref="TestBase.Quotes" /> quotes
+    /// Manually calculated SMA(20) from default <see cref="TestBase.Bars" /> bars
     /// </summary>
     private static readonly double[] expectedDefault = [
         double.NaN,
@@ -511,7 +511,7 @@ public partial class SmaTests : StaticSeriesTestBase
     ];
 
     /// <summary>
-    /// Manually calculated SMA(20) from <see cref="TestBase.LongestQuotes" /> quotes
+    /// Manually calculated SMA(20) from <see cref="TestBase.LongestBars" /> bars
     /// </summary>
     private static readonly double[] expectedLongest = [
         double.NaN,

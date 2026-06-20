@@ -6,12 +6,12 @@ public class Adx : BufferListTestBase
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<AdxResult> series
-       = Quotes.ToAdx(lookbackPeriods);
+       = Bars.ToAdx(lookbackPeriods);
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        AdxList sut = new(14, Quotes);
+        AdxList sut = new(14, Bars);
         sut.IsBetween(static x => x.Pdi, 0, 100);
         sut.IsBetween(static x => x.Mdi, 0, 100);
         sut.IsBetween(static x => x.Dx, 0, 100);
@@ -20,41 +20,41 @@ public class Adx : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         AdxList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        AdxList sut = new(lookbackPeriods) { Quotes };
+        AdxList sut = new(lookbackPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        AdxList sut = new(lookbackPeriods, Quotes);
+        AdxList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<AdxResult> expected = subset.ToAdx(lookbackPeriods);
 
         AdxList sut = new(lookbackPeriods, subset);
@@ -81,7 +81,7 @@ public class Adx : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<AdxResult> expected = series
             .Skip(series.Count - maxListSize)

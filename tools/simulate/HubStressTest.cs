@@ -20,8 +20,8 @@ internal sealed class HubStressTest : IDisposable
     // Lock object for thread-safe access - required per documented threading model
     private readonly object _hubLock = new();
 
-    // Primary quote hub with constrained cache size to force pruning
-    private readonly QuoteHub _quoteHub;
+    // Primary bar hub with constrained cache size to force pruning
+    private readonly BarHub _barHub;
 
     // Hubs modified in PR #1927 - these need special attention:
     private readonly StcHub _stcHub;           // Refactored to chain MacdHub
@@ -42,7 +42,7 @@ internal sealed class HubStressTest : IDisposable
     private readonly BollingerBandsHub _bollingerHub;
     private readonly AtrHub _atrHub;
 
-    private int _quotesProcessed;
+    private int _barsProcessed;
     private int _pruneEvents;
     private readonly List<string> _errors = [];
 
@@ -53,27 +53,27 @@ internal sealed class HubStressTest : IDisposable
         _maxCacheSize = maxCacheSize;
         _socketClient = new CoinbaseSocketClient();
 
-        // Create QuoteHub with constrained cache size to force pruning
-        _quoteHub = new QuoteHub(maxCacheSize);
+        // Create BarHub with constrained cache size to force pruning
+        _barHub = new BarHub(maxCacheSize);
 
         // Subscribe all hubs modified in PR #1927
-        _stcHub = _quoteHub.ToStcHub();                // STC: ChainHub<MacdResult, StcResult>
-        _slopeHub = _quoteHub.ToSlopeHub(20);          // Slope: removed lock wrapper
-        _epmaHub = _quoteHub.ToEpmaHub(20);            // EPMA: removed _globalIndexOffset
+        _stcHub = _barHub.ToStcHub();                // STC: ChainHub<MacdResult, StcResult>
+        _slopeHub = _barHub.ToSlopeHub(20);          // Slope: removed lock wrapper
+        _epmaHub = _barHub.ToEpmaHub(20);            // EPMA: removed _globalIndexOffset
 
         // Hubs with PruneState overrides (modified to use DateTime signature)
-        _connorsRsiHub = _quoteHub.ToConnorsRsiHub();
-        _fisherTransformHub = _quoteHub.ToFisherTransformHub(10);
-        _htTrendlineHub = _quoteHub.ToHtTrendlineHub();
-        _mamaHub = _quoteHub.ToMamaHub();
+        _connorsRsiHub = _barHub.ToConnorsRsiHub();
+        _fisherTransformHub = _barHub.ToFisherTransformHub(10);
+        _htTrendlineHub = _barHub.ToHtTrendlineHub();
+        _mamaHub = _barHub.ToMamaHub();
 
         // Reference hubs for baseline comparison
-        _emaHub = _quoteHub.ToEmaHub(20);
-        _smaHub = _quoteHub.ToSmaHub(20);
-        _rsiHub = _quoteHub.ToRsiHub(14);
-        _macdHub = _quoteHub.ToMacdHub();
-        _bollingerHub = _quoteHub.ToBollingerBandsHub(20, 2);
-        _atrHub = _quoteHub.ToAtrHub(14);
+        _emaHub = _barHub.ToEmaHub(20);
+        _smaHub = _barHub.ToSmaHub(20);
+        _rsiHub = _barHub.ToRsiHub(14);
+        _macdHub = _barHub.ToMacdHub();
+        _bollingerHub = _barHub.ToBollingerBandsHub(20, 2);
+        _atrHub = _barHub.ToAtrHub(14);
     }
 
     public async Task RunAsync()
@@ -84,7 +84,7 @@ internal sealed class HubStressTest : IDisposable
             Console.WriteLine("  HUB STRESS TEST - PR #1927 / Issue #1925");
             Console.WriteLine("==========================================");
             Console.WriteLine($"Symbol: {_symbol}");
-            Console.WriteLine($"Target quotes: {_targetCount}");
+            Console.WriteLine($"Target bars: {_targetCount}");
             Console.WriteLine($"Max cache size: {_maxCacheSize}");
             Console.WriteLine();
             Console.WriteLine("Testing hubs modified in PR #1927:");
@@ -93,7 +93,7 @@ internal sealed class HubStressTest : IDisposable
             Console.WriteLine("  - EpmaHub (removed _globalIndexOffset)");
             Console.WriteLine("  - ConnorsRsiHub, FisherTransformHub, HtTrendlineHub, MamaHub (PruneState changes)");
             Console.WriteLine();
-            Console.WriteLine($"Cache will prune when quotes exceed {_maxCacheSize}");
+            Console.WriteLine($"Cache will prune when bars exceed {_maxCacheSize}");
             Console.WriteLine("==========================================");
             Console.WriteLine();
 
@@ -120,7 +120,7 @@ internal sealed class HubStressTest : IDisposable
             }
 
             Console.WriteLine($"[HubStressTest] Successfully subscribed to {_symbol} trades");
-            Console.WriteLine("[HubStressTest] Processing quotes and monitoring for errors...");
+            Console.WriteLine("[HubStressTest] Processing bars and monitoring for errors...");
             Console.WriteLine();
 
             await completionSource.Task.ConfigureAwait(false);
@@ -160,8 +160,8 @@ internal sealed class HubStressTest : IDisposable
             {
                 try
                 {
-                    // Convert trade to Quote
-                    Quote quote = new(
+                    // Convert trade to Bar
+                    Bar bar = new(
                         Timestamp: trade.Timestamp,
                         Open: trade.Price,
                         High: trade.Price,
@@ -169,12 +169,12 @@ internal sealed class HubStressTest : IDisposable
                         Close: trade.Price,
                         Volume: trade.Quantity);
 
-                    int cacheSizeBefore = _quoteHub.Results.Count;
+                    int cacheSizeBefore = _barHub.Results.Count;
 
                     // This is the critical operation that can fail with threading issues
-                    _quoteHub.Add(quote);
+                    _barHub.Add(bar);
 
-                    int cacheSizeAfter = _quoteHub.Results.Count;
+                    int cacheSizeAfter = _barHub.Results.Count;
 
                     // Detect pruning
                     if (cacheSizeAfter < cacheSizeBefore + 1)
@@ -182,19 +182,19 @@ internal sealed class HubStressTest : IDisposable
                         _pruneEvents++;
                     }
 
-                    _quotesProcessed++;
+                    _barsProcessed++;
 
                     // Verify hub state consistency after each add
                     VerifyHubConsistency();
 
                     // Progress output
-                    if (_quotesProcessed % 50 == 0 || _quotesProcessed >= _targetCount)
+                    if (_barsProcessed % 50 == 0 || _barsProcessed >= _targetCount)
                     {
                         string countDisplay = _targetCount == int.MaxValue ? "∞" : _targetCount.ToString(CultureInfo.InvariantCulture);
-                        Console.WriteLine($"[{DateTime.UtcNow:HH:mm:ss}] Processed: {_quotesProcessed}/{countDisplay} | Cache: {cacheSizeAfter} | Prunes: {_pruneEvents} | Errors: {_errors.Count}");
+                        Console.WriteLine($"[{DateTime.UtcNow:HH:mm:ss}] Processed: {_barsProcessed}/{countDisplay} | Cache: {cacheSizeAfter} | Prunes: {_pruneEvents} | Errors: {_errors.Count}");
                     }
 
-                    if (_quotesProcessed >= _targetCount)
+                    if (_barsProcessed >= _targetCount)
                     {
                         completionSource.TrySetResult(true);
                         return;
@@ -202,7 +202,7 @@ internal sealed class HubStressTest : IDisposable
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
-                    string error = $"ArgumentOutOfRangeException at quote {_quotesProcessed}: {ex.Message}";
+                    string error = $"ArgumentOutOfRangeException at bar {_barsProcessed}: {ex.Message}";
                     Console.WriteLine($"[HubStressTest] ❌ {error}");
                     _errors.Add(error);
                     completionSource.TrySetException(ex);
@@ -210,7 +210,7 @@ internal sealed class HubStressTest : IDisposable
                 }
                 catch (IndexOutOfRangeException ex)
                 {
-                    string error = $"IndexOutOfRangeException at quote {_quotesProcessed}: {ex.Message}";
+                    string error = $"IndexOutOfRangeException at bar {_barsProcessed}: {ex.Message}";
                     Console.WriteLine($"[HubStressTest] ❌ {error}");
                     _errors.Add(error);
                     completionSource.TrySetException(ex);
@@ -218,7 +218,7 @@ internal sealed class HubStressTest : IDisposable
                 }
                 catch (InvalidOperationException ex)
                 {
-                    string error = $"InvalidOperationException at quote {_quotesProcessed}: {ex.Message}";
+                    string error = $"InvalidOperationException at bar {_barsProcessed}: {ex.Message}";
                     Console.WriteLine($"[HubStressTest] ❌ {error}");
                     _errors.Add(error);
                     completionSource.TrySetException(ex);
@@ -231,22 +231,22 @@ internal sealed class HubStressTest : IDisposable
     private void VerifyHubConsistency()
     {
         // Verify all hub result counts match or are within expected bounds
-        int quoteCount = _quoteHub.Results.Count;
+        int barCount = _barHub.Results.Count;
 
-        // All hubs should have the same count as quotes (1:1 mapping)
-        VerifyHubCount("STC", _stcHub.Results.Count, quoteCount);
-        VerifyHubCount("Slope", _slopeHub.Results.Count, quoteCount);
-        VerifyHubCount("EPMA", _epmaHub.Results.Count, quoteCount);
-        VerifyHubCount("ConnorsRsi", _connorsRsiHub.Results.Count, quoteCount);
-        VerifyHubCount("FisherTransform", _fisherTransformHub.Results.Count, quoteCount);
-        VerifyHubCount("HtTrendline", _htTrendlineHub.Results.Count, quoteCount);
-        VerifyHubCount("Mama", _mamaHub.Results.Count, quoteCount);
-        VerifyHubCount("EMA", _emaHub.Results.Count, quoteCount);
-        VerifyHubCount("SMA", _smaHub.Results.Count, quoteCount);
-        VerifyHubCount("RSI", _rsiHub.Results.Count, quoteCount);
-        VerifyHubCount("MACD", _macdHub.Results.Count, quoteCount);
-        VerifyHubCount("Bollinger", _bollingerHub.Results.Count, quoteCount);
-        VerifyHubCount("ATR", _atrHub.Results.Count, quoteCount);
+        // All hubs should have the same count as bars (1:1 mapping)
+        VerifyHubCount("STC", _stcHub.Results.Count, barCount);
+        VerifyHubCount("Slope", _slopeHub.Results.Count, barCount);
+        VerifyHubCount("EPMA", _epmaHub.Results.Count, barCount);
+        VerifyHubCount("ConnorsRsi", _connorsRsiHub.Results.Count, barCount);
+        VerifyHubCount("FisherTransform", _fisherTransformHub.Results.Count, barCount);
+        VerifyHubCount("HtTrendline", _htTrendlineHub.Results.Count, barCount);
+        VerifyHubCount("Mama", _mamaHub.Results.Count, barCount);
+        VerifyHubCount("EMA", _emaHub.Results.Count, barCount);
+        VerifyHubCount("SMA", _smaHub.Results.Count, barCount);
+        VerifyHubCount("RSI", _rsiHub.Results.Count, barCount);
+        VerifyHubCount("MACD", _macdHub.Results.Count, barCount);
+        VerifyHubCount("Bollinger", _bollingerHub.Results.Count, barCount);
+        VerifyHubCount("ATR", _atrHub.Results.Count, barCount);
 
         // Verify STC's chained MacdHub is in sync
         // STC chains from MacdHub, so we verify the chain relationship
@@ -275,13 +275,13 @@ internal sealed class HubStressTest : IDisposable
         Console.WriteLine("==========================================");
         Console.WriteLine("  HUB STRESS TEST SUMMARY");
         Console.WriteLine("==========================================");
-        Console.WriteLine($"Total quotes processed: {_quotesProcessed}");
-        Console.WriteLine($"Final cache size: {_quoteHub.Results.Count}");
+        Console.WriteLine($"Total bars processed: {_barsProcessed}");
+        Console.WriteLine($"Final cache size: {_barHub.Results.Count}");
         Console.WriteLine($"Prune events: {_pruneEvents}");
         Console.WriteLine();
 
         Console.WriteLine("Hub Result Counts:");
-        Console.WriteLine($"  QuoteHub:        {_quoteHub.Results.Count}");
+        Console.WriteLine($"  BarHub:        {_barHub.Results.Count}");
         Console.WriteLine($"  StcHub:          {_stcHub.Results.Count}");
         Console.WriteLine($"  SlopeHub:        {_slopeHub.Results.Count}");
         Console.WriteLine($"  EpmaHub:         {_epmaHub.Results.Count}");

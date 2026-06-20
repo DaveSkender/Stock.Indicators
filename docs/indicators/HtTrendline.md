@@ -15,14 +15,14 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 ```csharp
 // C# usage syntax
 IReadOnlyList<HtlResult> results =
-  quotes.ToHtTrendline();
+  bars.ToHtTrendline();
 ```
 
-## Historical quotes requirements
+## Historical price bars requirements
 
-You must have at least `100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -30,8 +30,8 @@ You must have at least `100` periods of `quotes` to cover the [warmup and conver
 IReadOnlyList<HtlResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `6` periods will have `null` values for `SmoothPrice` since there's not enough data to calculate.
 - The first `7` periods will have `null` values for `DcPeriods` since there is not enough data to calculate; and are generally unreliable for the first ~25 periods.
@@ -44,7 +44,7 @@ The first `100` periods will have decreasing magnitude, convergence-related prec
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `DcPeriods` | int | Dominant cycle periods (smoothed) |
 | `Trendline` | double | HT Trendline |
 | `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price |
@@ -65,12 +65,12 @@ See [Utilities and helpers](/utilities/results/) for more information.
 Use the streaming hub for real-time incremental calculations:
 
 ```csharp
-QuoteHub quoteHub = new();
-HtTrendlineHub observer = quoteHub.ToHtTrendlineHub();
+BarHub barHub = new();
+HtTrendlineHub observer = barHub.ToHtTrendlineHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<HtlResult> results = observer.Results;
@@ -83,9 +83,9 @@ Use the buffer-style `List<T>` when you need incremental calculations:
 ```csharp
 HtTrendlineList htlList = new();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  htlList.Add(quote);
+  htlList.Add(bar);
 }
 
 // based on `ICollection<HtlResult>`
@@ -100,7 +100,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HLC3)
     .ToHtTrendline(..);
 ```
@@ -109,7 +109,7 @@ Results can be further processed on `Trendline` with additional chain-enabled in
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToHtTrendline(..)
     .ToRsi(..);
 ```

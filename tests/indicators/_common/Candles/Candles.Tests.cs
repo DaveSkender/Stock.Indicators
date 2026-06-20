@@ -6,10 +6,10 @@ public class Candles : TestBaseWithPrecision
     [TestMethod]
     public void SortCandles()
     {
-        IReadOnlyList<Quote> quotes = Data.GetMismatch();
+        IReadOnlyList<Bar> bars = Data.GetMismatch();
 
         // sort
-        IReadOnlyList<CandleProperties> candles = quotes
+        IReadOnlyList<CandleProperties> candles = bars
             .ToCandles();  // not sorted
 
         // proper quantities
@@ -29,7 +29,7 @@ public class Candles : TestBaseWithPrecision
     [TestMethod]
     public void CandleValues()
     {
-        IReadOnlyList<CandleProperties> candles = Quotes
+        IReadOnlyList<CandleProperties> candles = Bars
             .ToCandles();
 
         // proper quantities
@@ -75,8 +75,8 @@ public class Candles : TestBaseWithPrecision
     public void ToCandles()
     {
         IReadOnlyList<CandleProperties> candles
-            = Quotes.ToCandles();
+            = Bars.ToCandles();
 
-        candles.Should().HaveCount(Quotes.Count);
+        candles.Should().HaveCount(Bars.Count);
     }
 }

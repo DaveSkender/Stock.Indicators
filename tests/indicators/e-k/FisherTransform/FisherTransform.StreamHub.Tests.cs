@@ -4,84 +4,84 @@ namespace StreamHubs;
 public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 10;
-    private readonly IReadOnlyList<FisherTransformResult> expectedOriginal = Quotes.ToFisherTransform(lookbackPeriods);
+    private readonly IReadOnlyList<FisherTransformResult> expectedOriginal = Bars.ToFisherTransform(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        FisherTransformHub observer = quoteHub.ToFisherTransformHub(lookbackPeriods);
+        FisherTransformHub observer = barHub.ToFisherTransformHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<FisherTransformResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<FisherTransformResult> expectedRevised = RevisedQuotes.ToFisherTransform(lookbackPeriods);
+        IReadOnlyList<FisherTransformResult> expectedRevised = RevisedBars.ToFisherTransform(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<FisherTransformResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<FisherTransformResult> expected = bars
             .ToFisherTransform(lookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        FisherTransformHub observer = quoteHub.ToFisherTransformHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        FisherTransformHub observer = barHub.ToFisherTransformHub(lookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -89,24 +89,24 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
     {
         const int fisherPeriods = 10;
         const int smaPeriods = 8;
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        FisherTransformHub observer = quoteHub
+        FisherTransformHub observer = barHub
             .ToSmaHub(smaPeriods)
             .ToFisherTransformHub(fisherPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
+        // emulate bar stream
+        for (int i = 0; i < length; i++) { barHub.Add(Bars[i]); }
 
         // final results
         IReadOnlyList<FisherTransformResult> actuals = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<FisherTransformResult> expected = Quotes
+        IReadOnlyList<FisherTransformResult> expected = Bars
             .ToSma(smaPeriods)
             .ToFisherTransform(fisherPeriods);
 
@@ -116,7 +116,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -124,41 +124,41 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
     {
         const int fisherPeriods = 10;
         const int smaPeriods = 5;
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToFisherTransformHub(fisherPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals
             = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> seriesList = RevisedQuotes
+        IReadOnlyList<SmaResult> seriesList = RevisedBars
             .ToFisherTransform(fisherPeriods)
             .ToSma(smaPeriods);
 
@@ -168,13 +168,13 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        FisherTransformHub hub = new(new QuoteHub(), 10);
+        FisherTransformHub hub = new(new BarHub(), 10);
         hub.ToString().Should().Be("FISHER(10)");
     }
 }

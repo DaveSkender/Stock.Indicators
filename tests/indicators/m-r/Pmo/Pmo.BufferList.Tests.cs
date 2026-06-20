@@ -8,12 +8,12 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     private const int signalPeriods = 10;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<PmoResult> series
-       = Quotes.ToPmo(timePeriods, smoothPeriods, signalPeriods);
+       = Bars.ToPmo(timePeriods, smoothPeriods, signalPeriods);
 
     [TestMethod]
     public void AddDateAndValue_IncrementsResults()
@@ -25,7 +25,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -39,7 +39,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -48,46 +48,46 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        PmoList sut = Quotes.ToPmoList(timePeriods, smoothPeriods, signalPeriods);
+        PmoList sut = Bars.ToPmoList(timePeriods, smoothPeriods, signalPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        PmoList sut = new(timePeriods, smoothPeriods, signalPeriods, Quotes);
+        PmoList sut = new(timePeriods, smoothPeriods, signalPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<PmoResult> expected = subset.ToPmo(timePeriods, smoothPeriods, signalPeriods);
 
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods, subset);
@@ -114,7 +114,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<PmoResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -132,7 +132,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<PmoResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -140,11 +140,11 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         sut.Should().HaveCount(maxListSize);
         sut.IsExactly(expected);
 
-        // Add more quotes to verify continued operation after pruning
-        List<Quote> moreQuotes = Quotes.TakeLast(50).ToList();
-        sut.Add(moreQuotes);
+        // Add more bars to verify continued operation after pruning
+        List<Bar> moreBars = Bars.TakeLast(50).ToList();
+        sut.Add(moreBars);
 
-        IReadOnlyList<PmoResult> allSeries = Quotes.Concat(moreQuotes).ToList()
+        IReadOnlyList<PmoResult> allSeries = Bars.Concat(moreBars).ToList()
             .ToPmo(timePeriods, smoothPeriods, signalPeriods);
 
         IReadOnlyList<PmoResult> expectedAfterMore

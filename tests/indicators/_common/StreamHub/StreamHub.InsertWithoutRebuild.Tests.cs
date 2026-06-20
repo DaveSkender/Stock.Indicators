@@ -2,7 +2,7 @@ namespace Observables;
 
 /// <summary>
 /// Covers the <c>InsertWithoutRebuild</c> branches of a root
-/// <see cref="QuoteHub"/>: a late arrival that lands mid-cache is inserted
+/// <see cref="BarHub"/>: a late arrival that lands mid-cache is inserted
 /// in place (no rebuild of the root's own cache), duplicates of that late
 /// arrival are suppressed, and downstream observers rebuild to match the
 /// corrected timeline exactly.
@@ -13,115 +13,115 @@ public class InsertWithoutRebuild : TestBase
     [TestMethod]
     public void LateArrival_MidCache_InsertsInPlace()
     {
-        List<Quote> quotes = Quotes.Take(20).ToList();
+        List<Bar> bars = Bars.Take(20).ToList();
 
-        QuoteHub quoteHub = new();
-        SmaHub observer = quoteHub.ToSmaHub(5);
+        BarHub barHub = new();
+        SmaHub observer = barHub.ToSmaHub(5);
 
         // skip index 10, then deliver it late
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
             if (i == 10)
             {
                 continue;
             }
 
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        quoteHub.Add(quotes[10]);
+        barHub.Add(bars[10]);
 
         // root cache is chronological and complete
-        quoteHub.Results.Should().HaveCount(quotes.Count);
-        quoteHub.Results[10].Timestamp.Should().Be(quotes[10].Timestamp);
+        barHub.Results.Should().HaveCount(bars.Count);
+        barHub.Results[10].Timestamp.Should().Be(bars[10].Timestamp);
 
         // observer matches the batch series exactly
-        observer.Results.IsExactly(quotes.ToSma(5));
+        observer.Results.IsExactly(bars.ToSma(5));
     }
 
     [TestMethod]
     public void LateArrival_DuplicateResend_IsSuppressed()
     {
-        List<Quote> quotes = Quotes.Take(20).ToList();
+        List<Bar> bars = Bars.Take(20).ToList();
 
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
             if (i == 10)
             {
                 continue;
             }
 
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        quoteHub.Add(quotes[10]);
-        quoteHub.Add(quotes[10]); // duplicate of the same late arrival
+        barHub.Add(bars[10]);
+        barHub.Add(bars[10]); // duplicate of the same late arrival
 
-        quoteHub.Results.Should().HaveCount(quotes.Count);
-        quoteHub.IsFaulted.Should().BeFalse();
+        barHub.Results.Should().HaveCount(bars.Count);
+        barHub.IsFaulted.Should().BeFalse();
     }
 
     [TestMethod]
     public void LateArrival_FirstPosition_InsertsAtFront()
     {
-        List<Quote> quotes = Quotes.Take(15).ToList();
+        List<Bar> bars = Bars.Take(15).ToList();
 
-        QuoteHub quoteHub = new();
-        SmaHub observer = quoteHub.ToSmaHub(5);
+        BarHub barHub = new();
+        SmaHub observer = barHub.ToSmaHub(5);
 
-        // withhold the earliest quote, then deliver it late;
-        // note: a root QuoteHub rejects arrivals older than its first
-        // cached item, so the late arrival here is the second quote
-        for (int i = 0; i < quotes.Count; i++)
+        // withhold the earliest bar, then deliver it late;
+        // note: a root BarHub rejects arrivals older than its first
+        // cached item, so the late arrival here is the second bar
+        for (int i = 0; i < bars.Count; i++)
         {
             if (i == 1)
             {
                 continue;
             }
 
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        quoteHub.Add(quotes[1]);
+        barHub.Add(bars[1]);
 
-        quoteHub.Results.Should().HaveCount(quotes.Count);
-        quoteHub.Results[1].Timestamp.Should().Be(quotes[1].Timestamp);
+        barHub.Results.Should().HaveCount(bars.Count);
+        barHub.Results[1].Timestamp.Should().Be(bars[1].Timestamp);
 
-        observer.Results.IsExactly(quotes.ToSma(5));
+        observer.Results.IsExactly(bars.ToSma(5));
     }
 
     [TestMethod]
     public void BatchAdd_UnsortedInput_IsSortedStably()
     {
-        List<Quote> quotes = Quotes.Take(30).ToList();
+        List<Bar> bars = Bars.Take(30).ToList();
 
         // shuffle deterministically
-        List<Quote> shuffled = [.. quotes];
+        List<Bar> shuffled = [.. bars];
         (shuffled[3], shuffled[22]) = (shuffled[22], shuffled[3]);
         (shuffled[8], shuffled[15]) = (shuffled[15], shuffled[8]);
 
-        QuoteHub quoteHub = new();
-        SmaHub observer = quoteHub.ToSmaHub(5);
+        BarHub barHub = new();
+        SmaHub observer = barHub.ToSmaHub(5);
 
-        quoteHub.Add(shuffled);
+        barHub.Add(shuffled);
 
-        quoteHub.Results.Should().HaveCount(quotes.Count);
-        observer.Results.IsExactly(quotes.ToSma(5));
+        barHub.Results.Should().HaveCount(bars.Count);
+        observer.Results.IsExactly(bars.ToSma(5));
     }
 
     [TestMethod]
     public void BatchAdd_SortedInput_FastPathMatchesSeries()
     {
-        List<Quote> quotes = Quotes.Take(30).ToList();
+        List<Bar> bars = Bars.Take(30).ToList();
 
-        QuoteHub quoteHub = new();
-        SmaHub observer = quoteHub.ToSmaHub(5);
+        BarHub barHub = new();
+        SmaHub observer = barHub.ToSmaHub(5);
 
-        quoteHub.Add(quotes);
+        barHub.Add(bars);
 
-        quoteHub.Results.Should().HaveCount(quotes.Count);
-        observer.Results.IsExactly(quotes.ToSma(5));
+        barHub.Results.Should().HaveCount(bars.Count);
+        observer.Results.IsExactly(bars.ToSma(5));
     }
 }

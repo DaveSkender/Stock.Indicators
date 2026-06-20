@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public class ConnorsRsiHub
     : ChainHub<IReusable, ConnorsRsiResult>, IConnorsRsi
 {
-    private readonly IReadOnlyList<IReusable> _quoteCache;  // Original quote provider's cache
+    private readonly IReadOnlyList<IReusable> _barCache;  // Original bar provider's cache
     private readonly List<double> streakBuffer;
     private readonly Queue<double> gainBuffer;
     private double streak;
@@ -24,7 +24,7 @@ public class ConnorsRsiHub
         ArgumentNullException.ThrowIfNull(provider);
         ConnorsRsi.Validate(rsiPeriods, streakPeriods, rankPeriods);
 
-        _quoteCache = provider.Results;  // Keep reference to original quotes
+        _barCache = provider.Results;  // Keep reference to original bars
         RsiPeriods = rsiPeriods;
         StreakPeriods = streakPeriods;
         RankPeriods = rankPeriods;
@@ -65,8 +65,8 @@ public class ConnorsRsiHub
         // Get RSI from the item (RsiResult)
         double? rsi = (item as RsiResult)?.Rsi;
 
-        // Get original quote value from the cached quote provider results
-        double currentValue = _quoteCache[i].Value;
+        // Get original bar value from the cached bar provider results
+        double currentValue = _barCache[i].Value;
         double currentStreak;
 
         if (i == 0)
@@ -264,8 +264,8 @@ public class ConnorsRsiHub
         // Replay values to restore state
         for (int i = 0; i <= restoreIndex; i++)
         {
-            // Get original quote value from the cached quote provider results
-            double value = _quoteCache[i].Value;
+            // Get original bar value from the cached bar provider results
+            double value = _barCache[i].Value;
 
             // Restore streak
             if (i == 0)

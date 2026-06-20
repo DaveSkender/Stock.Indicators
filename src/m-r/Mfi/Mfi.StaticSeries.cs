@@ -1,40 +1,40 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Money Flow Index (MFI) for a series of quotes indicator.
+/// Money Flow Index (MFI) for a series of bars indicator.
 /// </summary>
 public static partial class Mfi
 {
     /// <summary>
-    /// Converts a list of quotes to Money Flow Index (MFI) results.
+    /// Converts a list of bars to Money Flow Index (MFI) results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Number of periods to use for the MFI calculation. Default is 14.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are out of range.</exception>
     public static IReadOnlyList<MfiResult> ToMfi(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcMfi(lookbackPeriods);
 
     /// <summary>
-    /// Calculates the Money Flow Index (MFI) for a list of quotes.
+    /// Calculates the Money Flow Index (MFI) for a list of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Number of periods to use for the MFI calculation.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     private static List<MfiResult> CalcMfi(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<MfiResult> results = new(length);
 
         double[] tp = new double[length];  // true price
@@ -46,7 +46,7 @@ public static partial class Mfi
         // roll through source values, to get preliminary data
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
             double mfi;
 
             // true price

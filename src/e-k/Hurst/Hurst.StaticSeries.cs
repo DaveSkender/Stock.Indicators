@@ -23,7 +23,7 @@ public static partial class Hurst
         int length = source.Count;
         List<HurstResult> results = new(length);
 
-        // depends only on lookbackPeriods, not on quote values
+        // depends only on lookbackPeriods, not on bar values
         double[] alCorrections = PrecomputeAlCorrections(lookbackPeriods);
 
         // roll through source values

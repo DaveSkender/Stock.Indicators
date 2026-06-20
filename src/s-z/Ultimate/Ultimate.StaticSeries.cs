@@ -6,33 +6,33 @@ namespace Skender.Stock.Indicators;
 public static partial class Ultimate
 {
     /// <summary>
-    /// Calculates the Ultimate Oscillator for a series of quotes.
+    /// Calculates the Ultimate Oscillator for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="shortPeriods">Number of short lookback periods.</param>
     /// <param name="middlePeriods">Number of middle lookback periods.</param>
     /// <param name="longPeriods">Number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
     public static IReadOnlyList<UltimateResult> ToUltimate(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int shortPeriods = 7,
         int middlePeriods = 14,
         int longPeriods = 28)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcUltimate(shortPeriods, middlePeriods, longPeriods);
 
     /// <summary>
-    /// Calculates the Ultimate Oscillator for a series of quotes.
+    /// Calculates the Ultimate Oscillator for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="shortPeriods">Number of short lookback periods.</param>
     /// <param name="middlePeriods">Number of middle lookback periods.</param>
     /// <param name="longPeriods">Number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     private static List<UltimateResult> CalcUltimate(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
@@ -41,7 +41,7 @@ public static partial class Ultimate
         Validate(shortPeriods, middlePeriods, longPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<UltimateResult> results = new(length);
         double[] bp = new double[length]; // buying pressure
         double[] tr = new double[length]; // true range
@@ -51,7 +51,7 @@ public static partial class Ultimate
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
             double? ultimate;
 
             if (i > 0)

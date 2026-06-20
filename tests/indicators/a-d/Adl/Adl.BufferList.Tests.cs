@@ -4,63 +4,63 @@ namespace BufferLists;
 public class Adl : BufferListTestBase
 {
     private static readonly IReadOnlyList<AdlResult> series
-       = Quotes.ToAdl();
+       = Bars.ToAdl();
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         AdlList sut = [];
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        AdlList sut = new() { Quotes };
+        AdlList sut = new() { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        AdlList sut = new(Quotes);
+        AdlList sut = new(Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtorPartial_OnSplitInstantiation_IncrementsResults()
+    public void BarsCtorPartial_OnSplitInstantiation_IncrementsResults()
     {
         // Test split initialization: half on construction, half after
-        int splitPoint = Quotes.Count / 2;
-        List<Quote> firstHalf = Quotes.Take(splitPoint).ToList();
-        List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
+        int splitPoint = Bars.Count / 2;
+        List<Bar> firstHalf = Bars.Take(splitPoint).ToList();
+        List<Bar> secondHalf = Bars.Skip(splitPoint).ToList();
 
         AdlList sut = new(firstHalf);
 
-        foreach (Quote quote in secondHalf)
+        foreach (Bar bar in secondHalf)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<AdlResult> expected = subset.ToAdl();
 
         AdlList sut = new(subset);
@@ -87,7 +87,7 @@ public class Adl : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<AdlResult> expected = series
             .Skip(series.Count - maxListSize)

@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Williams %R from incremental quote values.
+/// Williams %R from incremental bar values.
 /// </summary>
-public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IWilliamsR
+public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromBar, IWilliamsR
 {
     private readonly Queue<(double High, double Low)> _buffer;
 
@@ -24,38 +24,38 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WilliamsRList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="WilliamsRList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public WilliamsRList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, (double)quote.High, (double)quote.Low, (double)quote.Close);
+        ArgumentNullException.ThrowIfNull(bar);
+        Add(bar.Timestamp, (double)bar.High, (double)bar.Low, (double)bar.Close);
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
     /// <summary>
-    /// Adds a new quote data point for Williams %R calculation.
+    /// Adds a new bar data point for Williams %R calculation.
     /// </summary>
     /// <param name="timestamp">Timestamp of the data point.</param>
     /// <param name="high">High price.</param>

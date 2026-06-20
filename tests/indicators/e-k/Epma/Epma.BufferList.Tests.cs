@@ -6,42 +6,42 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     private const int lookbackPeriods = 20;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<EpmaResult> series
-       = Quotes.ToEpma(lookbackPeriods);
+       = Bars.ToEpma(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         EpmaList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        EpmaList sut = new(lookbackPeriods) { Quotes };
+        EpmaList sut = new(lookbackPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        EpmaList sut = new(lookbackPeriods, Quotes);
+        EpmaList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -55,7 +55,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -64,7 +64,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     {
         EpmaList sut = new(lookbackPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -78,14 +78,14 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<EpmaResult> expected = subset.ToEpma(lookbackPeriods);
 
         EpmaList sut = new(lookbackPeriods, subset);
@@ -112,7 +112,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<EpmaResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -126,21 +126,21 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 150;
-        const int quotesSize = 1250;
+        const int barsSize = 1250;
 
         // Use a test data that exceeds all cache size thresholds
-        List<Quote> quotes = LongishQuotes
-            .Take(quotesSize)
+        List<Bar> bars = LongishBars
+            .Take(barsSize)
             .ToList();
 
         // Expected results after pruning (tail end)
-        IReadOnlyList<EpmaResult> expected = quotes
+        IReadOnlyList<EpmaResult> expected = bars
             .ToEpma(lookbackPeriods)
-            .Skip(quotesSize - maxListSize)
+            .Skip(barsSize - maxListSize)
             .ToList();
 
         // Generate buffer list
-        EpmaList sut = new(lookbackPeriods, quotes) {
+        EpmaList sut = new(lookbackPeriods, bars) {
             MaxListSize = maxListSize
         };
 

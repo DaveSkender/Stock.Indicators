@@ -7,6 +7,10 @@ description: Complete guide for migrating from Stock Indicators v2 to v3, includ
 
 This guide provides a comprehensive migration path from v2 to v3 of the Stock Indicators library. It includes all technical changes to the public API, syntax changes, and specific examples of deprecated and breaking changes.
 
+::: warning
+Most of the obsolete v2 syntax has been shimmed in library version `3.0` with `[Obsolete]` code analysis flags to aid migrations. These shims are (or will be) removed in version `3.1`, so start with any `3.0.x` version before upgrading further.
+:::
+
 ## Summary of breaking changes
 
 ### API method naming
@@ -14,12 +18,28 @@ This guide provides a comprehensive migration path from v2 to v3 of the Stock In
 - **All static time-series API methods**: Renamed from `GetX()` to `ToX()`
   - Example: `quotes.GetSma(20)` → `quotes.ToSma(20)`
 
-### Quote types and interfaces
+### Market-data type renames (Quote → Bar)
 
-- **`Quote` type**: Changed to immutable `record` type
-- **`IQuote.Date` property**: Renamed to `IQuote.Timestamp`. `Date` remains as an `[Obsolete]` alias in v3.x for backward compatibility and will be removed in v3.1 — update consumers to `Timestamp` now.
-- **`IQuote` interface**: Now a reusable (chainable) type
-- **Custom quote types**: Must implement the `IReusable` interface
+To align with industry-standard terminology (an OHLCV aggregate is universally a *bar*; a *quote* is a bid/ask snapshot), the core market-data types were renamed in v3. The old names remain as deprecated aliases during a migration window, so existing code keeps working — update to the new names as the deprecation warnings guide you:
+
+- **`Quote` → `Bar`** (and the built-in `Quote` record → `Bar` record)
+- **`IQuote` → `IBar`** — custom market-data types now implement `IBar`
+- **`QuoteHub` → `BarHub`**, **`QuoteProvider`/`IQuoteProvider` → `BarProvider`/`IBarProvider`**
+- **`QuoteAggregatorHub` → `BarAggregatorHub`**, **`QuotePart`/`IQuotePart` → `BarPart`/`IBarPart`**
+- **`PeriodSize` → `BarInterval`** (aggregation interval enum; member names unchanged)
+- **`Tick`/`ITick` → `TradeTick`/`ITradeTick`** (single trade print; `TickHub` → `TradeTickHub`)
+- Extension methods renamed accordingly: `ToQuoteHub()` → `ToBarHub()`, `ToQuotePart()` → `ToBarPart()`, etc.
+
+The old `Quote`, `IQuote`, `PeriodSize`, `IReusableResult`, and `BasicData` names remain as **warning-level `[Obsolete]` aliases** of the new types, so existing code keeps compiling and running while deprecation warnings guide each rename. `Quote`/`IQuote` flow through the new generic API directly, and `PeriodSize` keeps working via obsolete `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads. Migrate at your own pace — and finish related member renames such as `Date` → `Timestamp` to clear all warnings. These shims will be removed in a future major version.
+
+> **New:** `BarInterval` now has a bidirectional string-code map — `interval.ToCode()` (e.g. `BarInterval.FiveMinutes` → `"5m"`) and `"5m".ToBarInterval()` (case-insensitive, with aliases like `"5min"`/`"1day"`).
+
+### Quote/Bar interface details
+
+- **`Bar` type** (formerly `Quote`): Immutable `record` type
+- **`IBar.Date` property**: Renamed to `IBar.Timestamp`. `Date` remains as an `[Obsolete]` alias in v3.x for backward compatibility and will be removed in v3.1 — update consumers to `Timestamp` now.
+- **`IBar` interface** (formerly `IQuote`): Now a reusable (chainable) type
+- **Custom bar types**: Must implement the `IReusable` interface
 - **`IReusableResult`**: Renamed to `IReusable`
 - **`IReusable.Value` property**: Changed to non-nullable, returns `double.NaN` instead of `null`
 
@@ -66,12 +86,12 @@ var smaResults = quotes.GetSma(20); // [!code --]
 var smaResults = quotes.ToSma(20);  // [!code ++]
 ```
 
-### Step 2: Update `IQuote` property names
+### Step 2: Update `IBar` property names
 
-Rename `Date` to `Timestamp` in all custom quote classes:
+Rename `Date` to `Timestamp` in all custom bar classes (and implement `IBar` in place of the obsolete `IQuote`):
 
 ```csharp
-public class MyQuote : IQuote
+public class MyBar : IBar
 {
     public DateTime Date { get; set; }      // [!code --]
     public DateTime Timestamp { get; set; } // [!code ++]
@@ -83,9 +103,9 @@ public class MyQuote : IQuote
 }
 ```
 
-### Step 3: Update custom quote types
+### Step 3: Update custom bar types
 
-Change custom quote types to `record` or implement value based equality:
+Change custom bar types to `record` or implement value based equality:
 
 ```csharp
 // v2
@@ -98,13 +118,13 @@ public class MyQuote : IQuote
 }
 
 // v3 - option 1: use record
-public record MyQuote : IQuote
+public record MyBar : IBar
 {
     // properties...
 }
 
 // v3 - option 2: implement value-based equality
-public class MyQuote : IQuote, IEquatable<MyQuote>
+public class MyBar : IBar, IEquatable<MyBar>
 {
     // properties...
     
@@ -215,9 +235,9 @@ The BufferList style allows incremental calculations with efficient buffer manag
 // v3 BufferList style
 SmaList smaList = new(20);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-    smaList.Add(quote);
+    smaList.Add(bar);
 }
 
 IReadOnlyList<SmaResult> results = smaList;
@@ -232,17 +252,17 @@ IReadOnlyList<SmaResult> results = smaList;
 
 #### StreamHub style (real-time observable patterns)
 
-The StreamHub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a single `QuoteHub` for coordinated real-time analysis.
+The StreamHub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a single `BarHub` for coordinated real-time analysis.
 
 ```csharp
 // v3 StreamHub style
-QuoteHub quoteHub = new();
+BarHub barHub = new();
 
-EmaHub emaFast = quoteHub.ToEmaHub(50);
-EmaHub emaSlow = quoteHub.ToEmaHub(200);
+EmaHub emaFast = barHub.ToEmaHub(50);
+EmaHub emaSlow = barHub.ToEmaHub(200);
 
-// add quotes to quoteHub (from stream)
-quoteHub.Add(newQuote);
+// add bars to barHub (from stream)
+barHub.Add(newBar);
 // and the 2 EmaHub will be in sync
 
 if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
@@ -252,8 +272,8 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema  // or .Value
 }
 ```
 
-> **Mutate the root hub only.** Feed and correct data through the `QuoteHub`
-> (or `TickHub`) you created — it cascades to every dependent hub. Calling
+> **Mutate the root hub only.** Feed and correct data through the `BarHub`
+> (or `TradeTickHub`) you created — it cascades to every dependent hub. Calling
 > `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed
 > hub such as an `EmaHub` throws `InvalidOperationException`. See the
 > [streaming guide](/guide/styles/stream#thread-safety) for details.
@@ -283,9 +303,9 @@ foreach (Quote newQuote in stream)
 
 // v3 BufferList (efficient incremental updates)
 SmaList smaList = new(20);
-foreach (Quote newQuote in stream)
+foreach (Bar newBar in stream)
 {
-    smaList.Add(newQuote);
+    smaList.Add(newBar);
     
     // Note: smaList[^1] throws ArgumentOutOfRangeException if empty
     if (smaList.Count > 0)
@@ -313,14 +333,14 @@ foreach (Quote newQuote in stream)
 }
 
 // v3 StreamHub (coordinated real-time updates)
-QuoteHub quoteHub = new();
-SmaHub smaHub = quoteHub.ToSmaHub(20);
-RsiHub rsiHub = quoteHub.ToRsiHub(14);
-MacdHub macdHub = quoteHub.ToMacdHub();
+BarHub barHub = new();
+SmaHub smaHub = barHub.ToSmaHub(20);
+RsiHub rsiHub = barHub.ToRsiHub(14);
+MacdHub macdHub = barHub.ToMacdHub();
 
-foreach (Quote newQuote in stream)
+foreach (Bar newBar in stream)
 {
-    quoteHub.Add(newQuote);  // Single update propagates to all observers
+    barHub.Add(newBar);  // Single update propagates to all observers
     // Access latest results from each hub
 }
 ```
@@ -346,7 +366,12 @@ Popular indicators with complete streaming documentation:
 | v2 API | v3 API | Notes |
 | ------ | ------ | ----- |
 | `quotes.GetSma(20)` | `quotes.ToSma(20)` | Method prefix changed |
-| `IQuote.Date` | `IQuote.Timestamp` | Property renamed |
+| `Quote` | `Bar` | Type renamed (OHLCV bar) |
+| `IQuote` | `IBar` | Interface renamed |
+| `QuoteHub` | `BarHub` | Streaming hub renamed |
+| `PeriodSize` | `BarInterval` | Enum renamed |
+| `Tick` / `ITick` | `TradeTick` / `ITradeTick` | Type renamed (trade print) |
+| `IBar.Date` | `IBar.Timestamp` | Property renamed |
 | `quotes.Use()` | `quotes.Use(CandlePart.Close)` | Parameter now required |
 | `result.Value == null` | `double.IsNaN(result.Value)` | Null handling changed |
 | `Numerix` | `Numerical` | Class renamed |

@@ -5,40 +5,40 @@ namespace StressLoading;
 [TestClass, TestCategory("Integration")]
 public class StreamLoadTests
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
 
     [TestMethod]
-    public void StreamMany() // from quote provider
+    public void StreamMany() // from bar provider
     {
         /******************************************************
-         * Attaches many stream observers to one Quote provider
+         * Attaches many stream observers to one Bar provider
          * for a full sprectrum stream collective.
          *
          * Currently, it does not include any [direct] chains.
          *
          * This test covers most of the unusual test cases, like:
          *
-         *  - out of order quotes (late arrivals)
+         *  - out of order bars (late arrivals)
          *  - duplicates, but not to an overflow situation
          *
          ******************************************************/
 
-        int length = quotes.Count;
+        int length = bars.Count;
 
-        // setup quote hub
-        QuoteHub quoteHub = new();
+        // setup bar hub
+        BarHub barHub = new();
 
         // initialize observers
-        AdlHub adlHub = quoteHub.ToAdlHub();
-        AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
-        AtrHub atrHub = quoteHub.ToAtrHub();
-        AtrStopHub atrStopHub = quoteHub.ToAtrStopHub();
-        EmaHub emaHub = quoteHub.ToEmaHub(20);
-        QuotePartHub quotePartHub = quoteHub.ToQuotePartHub(CandlePart.OHL3);
-        SmaHub smaHub = quoteHub.ToSmaHub(20);
-        TrHub trHub = quoteHub.ToTrHub();
+        AdlHub adlHub = barHub.ToAdlHub();
+        AlligatorHub alligatorHub = barHub.ToAlligatorHub();
+        AtrHub atrHub = barHub.ToAtrHub();
+        AtrStopHub atrStopHub = barHub.ToAtrStopHub();
+        EmaHub emaHub = barHub.ToEmaHub(20);
+        BarPartHub barPartHub = barHub.ToBarPartHub(CandlePart.OHL3);
+        SmaHub smaHub = barHub.ToSmaHub(20);
+        TrHub trHub = barHub.ToTrHub();
 
-        // emulate adding quotes to hub
+        // emulate adding bars to hub
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
@@ -47,31 +47,31 @@ public class StreamLoadTests
                 continue;
             }
 
-            Quote q = quotes[i];
-            quoteHub.Add(q);
+            Bar q = bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
 
         // end all observations
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // get static equivalents for comparison
-        IReadOnlyList<AdlResult> staticAdl = quotes.ToAdl();
-        IReadOnlyList<AtrResult> staticAtr = quotes.ToAtr();
-        IReadOnlyList<AtrStopResult> staticAtrStop = quotes.ToAtrStop();
-        IReadOnlyList<AlligatorResult> staticAlligator = quotes.ToAlligator();
-        IReadOnlyList<EmaResult> staticEma = quotes.ToEma(20);
-        IReadOnlyList<TimeValue> staticQuotePart = quotes.Use(CandlePart.OHL3);
-        IReadOnlyList<SmaResult> staticSma = quotes.ToSma(20);
-        IReadOnlyList<TrResult> staticTr = quotes.ToTr();
+        IReadOnlyList<AdlResult> staticAdl = bars.ToAdl();
+        IReadOnlyList<AtrResult> staticAtr = bars.ToAtr();
+        IReadOnlyList<AtrStopResult> staticAtrStop = bars.ToAtrStop();
+        IReadOnlyList<AlligatorResult> staticAlligator = bars.ToAlligator();
+        IReadOnlyList<EmaResult> staticEma = bars.ToEma(20);
+        IReadOnlyList<TimeValue> staticBarPart = bars.Use(CandlePart.OHL3);
+        IReadOnlyList<SmaResult> staticSma = bars.ToSma(20);
+        IReadOnlyList<TrResult> staticTr = bars.ToTr();
 
         // final results should persist in scope
         IReadOnlyList<AdlResult> streamAdl = adlHub.Results;
@@ -79,7 +79,7 @@ public class StreamLoadTests
         IReadOnlyList<AtrStopResult> streamAtrStop = atrStopHub.Results;
         IReadOnlyList<AlligatorResult> streamAlligator = alligatorHub.Results;
         IReadOnlyList<EmaResult> streamEma = emaHub.Results;
-        IReadOnlyList<TimeValue> streamQuotePart = quotePartHub.Results;
+        IReadOnlyList<TimeValue> streamBarPart = barPartHub.Results;
         IReadOnlyList<SmaResult> streamSma = smaHub.Results;
         IReadOnlyList<TrResult> streamTr = trHub.Results;
 
@@ -90,7 +90,7 @@ public class StreamLoadTests
         streamAtr.Should().HaveCount(length);
         streamAtrStop.Should().HaveCount(length);
         streamEma.Should().HaveCount(length);
-        streamQuotePart.Should().HaveCount(length);
+        streamBarPart.Should().HaveCount(length);
         streamSma.Should().HaveCount(length);
         streamTr.Should().HaveCount(length);
 
@@ -100,7 +100,7 @@ public class StreamLoadTests
         streamAtrStop.IsExactly(staticAtrStop);
         streamAlligator.IsExactly(staticAlligator);
         streamEma.IsExactly(staticEma);
-        streamQuotePart.IsExactly(staticQuotePart);
+        streamBarPart.IsExactly(staticBarPart);
         streamSma.IsExactly(staticSma);
         streamTr.IsExactly(staticTr);
     }

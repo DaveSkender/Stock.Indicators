@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Streaming hub for Volume Weighted Average Price (VWAP).
 /// </summary>
-public class VwapHub : ChainHub<IQuote, VwapResult>
+public class VwapHub : ChainHub<IBar, VwapResult>
 {
     private readonly bool _autoAnchor;
     private readonly Queue<(DateTime Timestamp, double Volume, double VolumeTp)> _stateQueue = new();
@@ -14,7 +14,7 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
     private DateTime? _autoAnchorDate;
 
     internal VwapHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         DateTime? startDate = null)
         : base(provider)
     {
@@ -32,13 +32,13 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
 
     /// <inheritdoc/>
     protected override (VwapResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Set start date to first quote's timestamp if auto-anchoring
+        // Set start date to first bar's timestamp if auto-anchoring
         if (StartDate == null)
         {
             StartDate = item.Timestamp;
@@ -97,25 +97,25 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
         // Rebuild cumulative state from ProviderCache
         for (int p = 0; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
+            IBar bar = ProviderCache[p];
 
-            // Set start date to first quote if auto-anchoring
+            // Set start date to first bar if auto-anchoring
             if (StartDate == null)
             {
-                StartDate = quote.Timestamp;
+                StartDate = bar.Timestamp;
                 _autoAnchorDate ??= StartDate;
             }
 
-            if (quote.Timestamp >= StartDate.Value)
+            if (bar.Timestamp >= StartDate.Value)
             {
-                double volume = (double)quote.Volume;
-                double high = (double)quote.High;
-                double low = (double)quote.Low;
-                double close = (double)quote.Close;
+                double volume = (double)bar.Volume;
+                double high = (double)bar.High;
+                double low = (double)bar.Low;
+                double close = (double)bar.Close;
 
                 _cumVolume += volume;
                 _cumVolumeTp += volume * (high + low + close) / 3;
-                _stateQueue.Enqueue((quote.Timestamp, volume, volume * (high + low + close) / 3));
+                _stateQueue.Enqueue((bar.Timestamp, volume, volume * (high + low + close) / 3));
             }
         }
     }
@@ -142,17 +142,17 @@ public class VwapHub : ChainHub<IQuote, VwapResult>
 public static partial class Vwap
 {
     /// <summary>
-    /// Creates a VWAP streaming hub from a quotes provider.
+    /// Creates a VWAP streaming hub from a bars provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
-    /// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first quote.</param>
+    /// <param name="barProvider">Bar provider.</param>
+    /// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first bar.</param>
     /// <returns>A VWAP streaming hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     public static VwapHub ToVwapHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         DateTime? startDate = null)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new VwapHub(quoteProvider, startDate);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new VwapHub(barProvider, startDate);
     }
 }

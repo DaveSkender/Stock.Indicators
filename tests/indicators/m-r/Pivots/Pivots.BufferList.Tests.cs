@@ -1,51 +1,51 @@
 namespace BufferLists;
 
 [TestClass]
-public class Pivots : BufferListTestBase, ITestQuoteBufferList
+public class Pivots : BufferListTestBase, ITestBarBufferList
 {
     private const int leftSpan = 4;
     private const int rightSpan = 4;
     private const int maxTrendPeriods = 20;
 
     private static readonly IReadOnlyList<PivotsResult> series
-       = Quotes.ToPivots(leftSpan, rightSpan, maxTrendPeriods);
+       = Bars.ToPivots(leftSpan, rightSpan, maxTrendPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         PivotsList sut = new(leftSpan, rightSpan, maxTrendPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        PivotsList sut = Quotes.ToPivotsList(leftSpan, rightSpan, maxTrendPeriods);
+        PivotsList sut = Bars.ToPivotsList(leftSpan, rightSpan, maxTrendPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        PivotsList sut = new(leftSpan, rightSpan, maxTrendPeriods, EndType.HighLow, Quotes);
+        PivotsList sut = new(leftSpan, rightSpan, maxTrendPeriods, EndType.HighLow, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<PivotsResult> expected = subset.ToPivots(leftSpan, rightSpan, maxTrendPeriods);
 
         PivotsList sut = new(leftSpan, rightSpan, maxTrendPeriods, EndType.HighLow, subset);
@@ -72,7 +72,7 @@ public class Pivots : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<PivotsResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

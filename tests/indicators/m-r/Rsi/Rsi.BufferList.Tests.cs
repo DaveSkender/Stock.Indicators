@@ -6,15 +6,15 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<RsiResult> series
-       = Quotes.ToRsi(lookbackPeriods);
+       = Bars.ToRsi(lookbackPeriods);
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<RsiResult> sut = Data
             .GetRandom(2500)
@@ -24,34 +24,34 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         RsiList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        RsiList sut = Quotes.ToRsiList(lookbackPeriods);
+        RsiList sut = Bars.ToRsiList(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        RsiList sut = new(lookbackPeriods, Quotes);
+        RsiList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -65,7 +65,7 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -74,7 +74,7 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
     {
         RsiList sut = new(lookbackPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -88,21 +88,21 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
-        RsiList sut = new(14, Quotes);
+        RsiList sut = new(14, Bars);
         sut.IsBetween(static x => x.Rsi, 0, 100);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<RsiResult> expected = subset.ToRsi(lookbackPeriods);
 
         RsiList sut = new(lookbackPeriods, subset);
@@ -129,7 +129,7 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<RsiResult> expected = series
             .Skip(series.Count - maxListSize)

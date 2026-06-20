@@ -15,18 +15,18 @@ dotnet run -- --urls http://localhost:5001
 
 Endpoints:
 
-- `/quotes/random?interval=100&batchSize=1000&quoteInterval=1h` — continuous random quote stream
-- `/quotes/longest?interval=100&batchSize=1000&quoteInterval=5m` — deterministic stream using the longest quote dataset
+- `/bars/random?interval=100&batchSize=1000&barInterval=1h` — continuous random bar stream
+- `/bars/longest?interval=100&batchSize=1000&barInterval=5m` — deterministic stream using the longest bar dataset
 
 Query parameters:
 
 | Parameter | Type | Default | Description |
 | --------- | ---- | ------- | ----------- |
-| `interval` | int | `100` | Delivery rate in milliseconds (how fast quotes are sent) |
-| `batchSize` | int | none (unlimited) | Maximum number of quotes to send before closing stream |
-| `quoteInterval` | string | `1m` | Time warp: timestamp spacing between quotes (e.g., `1s`, `5m`, `1h`, `1d`) |
+| `interval` | int | `100` | Delivery rate in milliseconds (how fast bars are sent) |
+| `batchSize` | int | none (unlimited) | Maximum number of bars to send before closing stream |
+| `barInterval` | string | `1m` | Time warp: timestamp spacing between bars (e.g., `1s`, `5m`, `1h`, `1d`) |
 
-**Time warp feature**: The `quoteInterval` parameter enables fast testing of strategies that use longer timeframes. For example, `quoteInterval=1h` with `interval=100` delivers hourly-spaced quotes every 100ms, allowing you to test a full day (24 hours) of hourly data in just 2.4 seconds.
+**Time warp feature**: The `barInterval` parameter enables fast testing of strategies that use longer timeframes. For example, `barInterval=1h` with `interval=100` delivers hourly-spaced bars every 100ms, allowing you to test a full day (24 hours) of hourly data in just 2.4 seconds.
 
 Stopping the server:
 

@@ -9,7 +9,7 @@ public class RenkoAtr : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<RenkoResult> sut = Quotes
+        IReadOnlyList<RenkoResult> sut = Bars
             .ToRenkoAtr();
 
         // assertions
@@ -38,7 +38,7 @@ public class RenkoAtr : StaticSeriesTestBase
     [TestMethod]
     public void WithHighLowEndType_AsEndType_ReturnsExpectedResult()
     {
-        IReadOnlyList<RenkoResult> sut = Quotes
+        IReadOnlyList<RenkoResult> sut = Bars
             .ToRenkoAtr(14, EndType.HighLow);
 
         // assertions - HighLow produces more bricks than Close
@@ -57,7 +57,7 @@ public class RenkoAtr : StaticSeriesTestBase
     [TestMethod]
     public void WithCustomAtrPeriod_AsAtrPeriods_ReturnsExpectedResult()
     {
-        IReadOnlyList<RenkoResult> sut = Quotes
+        IReadOnlyList<RenkoResult> sut = Bars
             .ToRenkoAtr(20);
 
         // assertions - different ATR period results in different brick size and count
@@ -69,7 +69,7 @@ public class RenkoAtr : StaticSeriesTestBase
     [TestMethod]
     public void Results_WithDefaults_HaveRequiredValues()
     {
-        IReadOnlyList<RenkoResult> results = Quotes
+        IReadOnlyList<RenkoResult> results = Bars
             .ToRenkoAtr();
 
         results.Should().NotBeEmpty();
@@ -88,7 +88,7 @@ public class RenkoAtr : StaticSeriesTestBase
     [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
-        IReadOnlyList<RenkoResult> results = Quotes
+        IReadOnlyList<RenkoResult> results = Bars
             .ToRenkoAtr();
 
         foreach (RenkoResult r in results)
@@ -105,16 +105,16 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NullHistory_WithNullQuotes_ThrowsArgumentNullException()
+    public void NullHistory_WithNullBars_ThrowsArgumentNullException()
         => FluentActions
-            .Invoking(static () => ((IReadOnlyList<IQuote>)null!).ToRenkoAtr())
+            .Invoking(static () => ((IReadOnlyList<IBar>)null!).ToRenkoAtr())
             .Should()
             .ThrowExactly<ArgumentNullException>();
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<RenkoResult> sut = BadQuotes
+        IReadOnlyList<RenkoResult> sut = BadBars
             .ToRenkoAtr();
 
         sut.Should().NotBeNull();
@@ -122,20 +122,20 @@ public class RenkoAtr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<Quote> emptyQuotes = [];
+        IReadOnlyList<Bar> emptyBars = [];
 
-        IReadOnlyList<RenkoResult> sut = emptyQuotes
+        IReadOnlyList<RenkoResult> sut = emptyBars
             .ToRenkoAtr();
 
         sut.Should().BeEmpty();
     }
 
     [TestMethod]
-    public void InsufficientHistory_WithTooFewQuotes_ReturnsEmpty()
+    public void InsufficientHistory_WithTooFewBars_ReturnsEmpty()
     {
-        IReadOnlyList<RenkoResult> sut = Quotes
+        IReadOnlyList<RenkoResult> sut = Bars
             .Take(10)
             .ToList()
             .ToRenkoAtr(14);

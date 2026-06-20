@@ -16,15 +16,15 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 ```csharp
 // C# usage syntax
 IReadOnlyList<AtrResult> results =
-  quotes.ToAtr(lookbackPeriods);
+  bars.ToAtr(lookbackPeriods);
 
 // ATR with custom moving average
 IReadOnlyList<SmmaResult> results =
-  quotes.ToTr().ToSmma(lookbackPeriods);
+  bars.ToTr().ToSmma(lookbackPeriods);
 
 // raw True Range (TR) only
 IReadOnlyList<TrResult> results =
-  quote.ToTr();
+  bar.ToTr();
 ```
 
 ## Parameters
@@ -33,11 +33,11 @@ IReadOnlyList<TrResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -45,8 +45,8 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 IReadOnlyList<AtrResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for ATR since there's not enough data to calculate.
 
@@ -58,7 +58,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Tr` | double | True Range for current period |
 | `Atr` | double | Average True Range |
 | `Atrp` | double | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
@@ -78,12 +78,12 @@ Results can be further processed on `Atrp` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToAtr(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -94,24 +94,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 AtrList atrList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  atrList.Add(quote);
+  atrList.Add(bar);
 }
 
 // based on `ICollection<AtrResult>`
 IReadOnlyList<AtrResult> results = atrList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-AtrHub observer = quoteHub.ToAtrHub(lookbackPeriods);
+BarHub barHub = new();
+AtrHub observer = barHub.ToAtrHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<AtrResult> results = observer.Results;

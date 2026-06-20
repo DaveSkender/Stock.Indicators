@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Chaikin Money Flow (CMF) from incremental quotes.
+/// Chaikin Money Flow (CMF) from incremental bars.
 /// </summary>
-public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
+public class CmfList : BufferList<CmfResult>, IIncrementFromBar, ICmf
 {
     private readonly AdlList _adlList;
     private readonly Queue<(double Volume, double? Mfv)> _buffer;
@@ -25,27 +25,27 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CmfList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="CmfList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public CmfList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public CmfList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double volume = (double)quote.Volume;
+        DateTime timestamp = bar.Timestamp;
+        double volume = (double)bar.Volume;
 
         // Calculate ADL
-        _adlList.Add(quote);
+        _adlList.Add(bar);
         AdlResult adlResult = _adlList[^1];
 
         // Update buffer with consolidated tuple
@@ -82,13 +82,13 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -106,10 +106,10 @@ public static partial class Cmf
     /// <summary>
     /// Creates a buffer list for Chaikin Money Flow (CMF) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static CmfList ToCmfList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 20)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

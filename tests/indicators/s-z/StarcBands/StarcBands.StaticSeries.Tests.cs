@@ -10,7 +10,7 @@ public class StarcBands : StaticSeriesTestBase
         const int multiplier = 2;
         const int atrPeriods = 14;
 
-        IReadOnlyList<StarcBandsResult> sut = Quotes
+        IReadOnlyList<StarcBandsResult> sut = Bars
             .ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
         // proper quantities
@@ -47,9 +47,9 @@ public class StarcBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<StarcBandsResult> r = BadQuotes
+        IReadOnlyList<StarcBandsResult> r = BadBars
             .ToStarcBands(10, 3, 15);
 
         r.Should().HaveCount(502);
@@ -57,14 +57,14 @@ public class StarcBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<StarcBandsResult> r0 = Noquotes
+        IReadOnlyList<StarcBandsResult> r0 = Nobars
             .ToStarcBands(10);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<StarcBandsResult> r1 = Onequote
+        IReadOnlyList<StarcBandsResult> r1 = Onebar
             .ToStarcBands(10);
 
         r1.Should().HaveCount(1);
@@ -78,7 +78,7 @@ public class StarcBands : StaticSeriesTestBase
         const int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        IReadOnlyList<StarcBandsResult> sut = Quotes
+        IReadOnlyList<StarcBandsResult> sut = Bars
             .ToStarcBands(smaPeriods, multiplier, atrPeriods)
             .Condense();
 
@@ -99,7 +99,7 @@ public class StarcBands : StaticSeriesTestBase
         const int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        IReadOnlyList<StarcBandsResult> sut = Quotes
+        IReadOnlyList<StarcBandsResult> sut = Bars
             .ToStarcBands(smaPeriods, multiplier, atrPeriods)
             .RemoveWarmupPeriods();
 
@@ -117,14 +117,14 @@ public class StarcBands : StaticSeriesTestBase
     {
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStarcBands(1));
+            static () => Bars.ToStarcBands(1));
 
         // bad ATR period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStarcBands(20, 2, 1));
+            static () => Bars.ToStarcBands(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStarcBands(20, 0));
+            static () => Bars.ToStarcBands(20, 0));
     }
 }

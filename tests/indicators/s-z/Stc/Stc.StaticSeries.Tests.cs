@@ -10,7 +10,7 @@ public class Stc : StaticSeriesTestBase
         const int fastPeriods = 12;
         const int slowPeriods = 26;
 
-        IReadOnlyList<StcResult> sut = Quotes
+        IReadOnlyList<StcResult> sut = Bars
             .ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // proper quantities
@@ -37,7 +37,7 @@ public class Stc : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<StcResult> sut = Quotes
+        IReadOnlyList<StcResult> sut = Bars
             .Use(CandlePart.Close)
             .ToStc(9, 12, 26);
 
@@ -48,7 +48,7 @@ public class Stc : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<StcResult> sut = Quotes
+        IReadOnlyList<StcResult> sut = Bars
             .ToSma(2)
             .ToStc(9, 12, 26);
 
@@ -59,7 +59,7 @@ public class Stc : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToStc(9, 12, 26)
             .ToSma(10);
 
@@ -68,9 +68,9 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<StcResult> r = BadQuotes
+        IReadOnlyList<StcResult> r = BadBars
             .ToStc();
 
         r.Should().HaveCount(502);
@@ -78,14 +78,14 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<StcResult> r0 = Noquotes
+        IReadOnlyList<StcResult> r0 = Nobars
             .ToStc();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<StcResult> r1 = Onequote
+        IReadOnlyList<StcResult> r1 = Onebar
             .ToStc();
 
         r1.Should().HaveCount(1);
@@ -96,9 +96,9 @@ public class Stc : StaticSeriesTestBase
     {
         // stochastic SMMA variant initialization bug
 
-        RandomGbm quotes = new(58);
+        RandomGbm bars = new(58);
 
-        IReadOnlyList<StcResult> sut = quotes
+        IReadOnlyList<StcResult> sut = bars
             .ToStc();
 
         sut.Should().HaveCount(58);
@@ -111,7 +111,7 @@ public class Stc : StaticSeriesTestBase
         const int fastPeriods = 12;
         const int slowPeriods = 26;
 
-        IReadOnlyList<StcResult> sut = Quotes
+        IReadOnlyList<StcResult> sut = Bars
             .ToStc(cyclePeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
@@ -125,7 +125,7 @@ public class Stc : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StcResult> sut = Quotes.ToStc(9, 12, 26);
+        IReadOnlyList<StcResult> sut = Bars.ToStc(9, 12, 26);
         sut.IsBetween(static x => x.Stc, 0, 100);
     }
 
@@ -134,14 +134,14 @@ public class Stc : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStc(9, 0, 26));
+            static () => Bars.ToStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStc(9, 12, 12));
+            static () => Bars.ToStc(9, 12, 12));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStc(-1, 12, 26));
+            static () => Bars.ToStc(-1, 12, 26));
     }
 }

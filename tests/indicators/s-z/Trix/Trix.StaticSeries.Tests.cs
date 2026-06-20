@@ -6,7 +6,7 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<TrixResult> sut = Quotes
+        IReadOnlyList<TrixResult> sut = Bars
             .ToTrix(20);
 
         // proper quantities
@@ -35,7 +35,7 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<TrixResult> sut = Quotes
+        IReadOnlyList<TrixResult> sut = Bars
             .Use(CandlePart.Close)
             .ToTrix(20);
 
@@ -46,7 +46,7 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<TrixResult> sut = Quotes
+        IReadOnlyList<TrixResult> sut = Bars
             .ToSma(2)
             .ToTrix(20);
 
@@ -57,7 +57,7 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToTrix(20)
             .ToSma(10);
 
@@ -66,9 +66,9 @@ public class Trix : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<TrixResult> r = BadQuotes
+        IReadOnlyList<TrixResult> r = BadBars
             .ToTrix(15);
 
         r.Should().HaveCount(502);
@@ -76,14 +76,14 @@ public class Trix : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<TrixResult> r0 = Noquotes
+        IReadOnlyList<TrixResult> r0 = Nobars
             .ToTrix(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<TrixResult> r1 = Onequote
+        IReadOnlyList<TrixResult> r1 = Onebar
             .ToTrix(5);
 
         r1.Should().HaveCount(1);
@@ -92,7 +92,7 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<TrixResult> sut = Quotes
+        IReadOnlyList<TrixResult> sut = Bars
             .ToTrix(20)
             .RemoveWarmupPeriods();
 
@@ -110,7 +110,7 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToTrix(0))
+            .Invoking(static () => Bars.ToTrix(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

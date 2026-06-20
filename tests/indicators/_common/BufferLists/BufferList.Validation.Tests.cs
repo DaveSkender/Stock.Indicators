@@ -25,22 +25,22 @@ public class BufferListValidation : TestBase
     public void MaxListSize_SetBelowCurrentCount_PrunesImmediately()
     {
         SmaList sut = new(5);
-        sut.Add(Quotes.Take(50).ToList());
+        sut.Add(Bars.Take(50).ToList());
         sut.Should().HaveCount(50);
 
         sut.MaxListSize = 20;
 
         // oldest entries are pruned on assignment, newest are retained
         sut.Should().HaveCount(20);
-        sut[^1].Timestamp.Should().Be(Quotes[49].Timestamp);
-        sut[0].Timestamp.Should().Be(Quotes[30].Timestamp);
+        sut[^1].Timestamp.Should().Be(Bars[49].Timestamp);
+        sut[0].Timestamp.Should().Be(Bars[30].Timestamp);
     }
 
     [TestMethod]
     public void MaxListSize_SetAboveCurrentCount_DoesNotPrune()
     {
         SmaList sut = new(5);
-        sut.Add(Quotes.Take(50).ToList());
+        sut.Add(Bars.Take(50).ToList());
 
         sut.MaxListSize = 60;
 
@@ -51,10 +51,10 @@ public class BufferListValidation : TestBase
     public void UpdateInternal_WithinBounds_ReplacesItem()
     {
         TestList sut = new();
-        sut.AddItem(new SmaResult(Quotes[0].Timestamp, 1d));
-        sut.AddItem(new SmaResult(Quotes[1].Timestamp, 2d));
+        sut.AddItem(new SmaResult(Bars[0].Timestamp, 1d));
+        sut.AddItem(new SmaResult(Bars[1].Timestamp, 2d));
 
-        sut.UpdateItem(1, new SmaResult(Quotes[1].Timestamp, 99d));
+        sut.UpdateItem(1, new SmaResult(Bars[1].Timestamp, 99d));
 
         sut[1].Sma.Should().Be(99d);
         sut.Should().HaveCount(2);
@@ -64,10 +64,10 @@ public class BufferListValidation : TestBase
     public void UpdateInternal_OutOfBounds_Throws()
     {
         TestList sut = new();
-        sut.AddItem(new SmaResult(Quotes[0].Timestamp, 1d));
+        sut.AddItem(new SmaResult(Bars[0].Timestamp, 1d));
 
-        Action updateNegative = () => sut.UpdateItem(-1, new SmaResult(Quotes[0].Timestamp, 5d));
-        Action updateBeyondEnd = () => sut.UpdateItem(1, new SmaResult(Quotes[0].Timestamp, 5d));
+        Action updateNegative = () => sut.UpdateItem(-1, new SmaResult(Bars[0].Timestamp, 5d));
+        Action updateBeyondEnd = () => sut.UpdateItem(1, new SmaResult(Bars[0].Timestamp, 5d));
 
         updateNegative.Should().Throw<ArgumentOutOfRangeException>();
         updateBeyondEnd.Should().Throw<ArgumentOutOfRangeException>();

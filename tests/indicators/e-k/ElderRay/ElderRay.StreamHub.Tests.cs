@@ -1,95 +1,95 @@
 namespace StreamHubs;
 
 [TestClass]
-public class ElderRay : StreamHubTestBase, ITestQuoteObserver
+public class ElderRay : StreamHubTestBase, ITestBarObserver
 {
     private const int lookbackPeriods = 13;
-    private static readonly IReadOnlyList<ElderRayResult> expectedOriginal = Quotes.ToElderRay(lookbackPeriods);
+    private static readonly IReadOnlyList<ElderRayResult> expectedOriginal = Bars.ToElderRay(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotes = Quotes.ToList();
-        int length = quotes.Count;
+        List<Bar> bars = Bars.ToList();
+        int length = bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(bars.Take(20));
 
         // initialize observer
-        ElderRayHub observer = quoteHub.ToElderRayHub(lookbackPeriods);
+        ElderRayHub observer = barHub.ToElderRayHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<ElderRayResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = quotes[i];
-            quoteHub.Add(q);
+            Bar q = bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
-        quotes.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
+        bars.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<ElderRayResult> expectedRevised = quotes.ToElderRay(lookbackPeriods);
+        IReadOnlyList<ElderRayResult> expectedRevised = bars.ToElderRay(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<ElderRayResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<ElderRayResult> expected = bars
             .ToElderRay(lookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        ElderRayHub observer = quoteHub.ToElderRayHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        ElderRayHub observer = barHub.ToElderRayHub(lookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        ElderRayHub hub = new(new QuoteHub(), 14);
+        ElderRayHub hub = new(new BarHub(), 14);
         hub.ToString().Should().Be("ELDER-RAY(14)");
     }
 }

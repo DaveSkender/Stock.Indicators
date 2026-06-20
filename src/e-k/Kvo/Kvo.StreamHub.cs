@@ -6,28 +6,28 @@ namespace Skender.Stock.Indicators;
 public static partial class Kvo
 {
     /// <summary>
-    /// Creates a KVO streaming hub from a quote provider.
+    /// Creates a KVO streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A KVO hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     public static KvoHub ToKvoHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int fastPeriods = 34,
         int slowPeriods = 55,
         int signalPeriods = 13)
-        => new(quoteProvider, fastPeriods, slowPeriods, signalPeriods);
+        => new(barProvider, fastPeriods, slowPeriods, signalPeriods);
 }
 
 /// <summary>
 /// Streaming hub for Klinger Volume Oscillator (KVO) calculations.
 /// </summary>
 public class KvoHub
-    : ChainHub<IQuote, KvoResult>, IKvo
+    : ChainHub<IBar, KvoResult>, IKvo
 {
     private readonly int _fastPeriods;
     private readonly int _slowPeriods;
@@ -51,7 +51,7 @@ public class KvoHub
     private readonly RollbackRing<KvoState> _rollback = new();
 
     internal KvoHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods) : base(provider)
@@ -89,7 +89,7 @@ public class KvoHub
     public int SignalPeriods { get; init; }
     /// <inheritdoc/>
     protected override (KvoResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -253,7 +253,7 @@ public class KvoHub
         // Rebuild state by recalculating all values up to restoreIndex
         for (int i = 0; i <= restoreIndex; i++)
         {
-            IQuote item = ProviderCache[i];
+            IBar item = ProviderCache[i];
             double high = (double)item.High;
             double low = (double)item.Low;
             double close = (double)item.Close;

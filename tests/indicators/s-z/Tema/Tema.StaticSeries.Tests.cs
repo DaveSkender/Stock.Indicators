@@ -6,7 +6,7 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<TemaResult> sut = Quotes
+        IReadOnlyList<TemaResult> sut = Bars
             .ToTema(20);
 
         // proper quantities
@@ -30,7 +30,7 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<TemaResult> sut = Quotes
+        IReadOnlyList<TemaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToTema(20);
 
@@ -41,7 +41,7 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<TemaResult> sut = Quotes
+        IReadOnlyList<TemaResult> sut = Bars
             .ToSma(2)
             .ToTema(20);
 
@@ -52,7 +52,7 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToTema(20)
             .ToSma(10);
 
@@ -61,9 +61,9 @@ public class Tema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<TemaResult> r = BadQuotes
+        IReadOnlyList<TemaResult> r = BadBars
             .ToTema(15);
 
         r.Should().HaveCount(502);
@@ -71,14 +71,14 @@ public class Tema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<TemaResult> r0 = Noquotes
+        IReadOnlyList<TemaResult> r0 = Nobars
             .ToTema(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<TemaResult> r1 = Onequote
+        IReadOnlyList<TemaResult> r1 = Onebar
             .ToTema(5);
 
         r1.Should().HaveCount(1);
@@ -87,7 +87,7 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<TemaResult> sut = Quotes
+        IReadOnlyList<TemaResult> sut = Bars
             .ToTema(20)
             .RemoveWarmupPeriods();
 
@@ -104,7 +104,7 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToTema(0))
+            .Invoking(static () => Bars.ToTema(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

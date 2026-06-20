@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Average Directional Index (ADX) from incremental reusable values.
 /// </summary>
-public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
+public class AdxList : BufferList<AdxResult>, IIncrementFromBar, IAdx
 {
     private readonly Queue<AdxBuffer> _buffer;
 
@@ -23,28 +23,28 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AdxList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AdxList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public AdxList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public AdxList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; private init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
         AdxBuffer curr = new(
-            (double)quote.High,
-            (double)quote.Low,
-            (double)quote.Close);
+            (double)bar.High,
+            (double)bar.Low,
+            (double)bar.Close);
 
         // skip first period
         if (Count == 0)
@@ -167,13 +167,13 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -210,11 +210,11 @@ public static partial class Adx
     /// <summary>
     /// Creates a buffer list for Average Directional Index (ADX) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An initialized <see cref="AdxList" />.</returns>
     public static AdxList ToAdxList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

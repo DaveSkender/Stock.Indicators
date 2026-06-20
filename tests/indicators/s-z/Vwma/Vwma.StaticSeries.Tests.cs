@@ -6,7 +6,7 @@ public class Vwma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<VwmaResult> sut = Quotes
+        IReadOnlyList<VwmaResult> sut = Bars
             .ToVwma(10);
 
         // proper quantities
@@ -27,7 +27,7 @@ public class Vwma : StaticSeriesTestBase
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToVwma(10)
             .ToSma(10);
 
@@ -36,9 +36,9 @@ public class Vwma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<VwmaResult> r = BadQuotes
+        IReadOnlyList<VwmaResult> r = BadBars
             .ToVwma(15);
 
         r.Should().HaveCount(502);
@@ -46,14 +46,14 @@ public class Vwma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<VwmaResult> r0 = Noquotes
+        IReadOnlyList<VwmaResult> r0 = Nobars
             .ToVwma(4);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<VwmaResult> r1 = Onequote
+        IReadOnlyList<VwmaResult> r1 = Onebar
             .ToVwma(4);
 
         r1.Should().HaveCount(1);
@@ -62,7 +62,7 @@ public class Vwma : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<VwmaResult> sut = Quotes
+        IReadOnlyList<VwmaResult> sut = Bars
             .ToVwma(10)
             .RemoveWarmupPeriods();
 
@@ -79,7 +79,7 @@ public class Vwma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToVwma(0))
+            .Invoking(static () => Bars.ToVwma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

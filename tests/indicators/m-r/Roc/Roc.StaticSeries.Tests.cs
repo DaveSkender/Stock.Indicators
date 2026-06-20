@@ -6,7 +6,7 @@ public class Roc : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<RocResult> sut = Quotes
+        IReadOnlyList<RocResult> sut = Bars
             .ToRoc(20);
 
         // proper quantities
@@ -31,7 +31,7 @@ public class Roc : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<RocResult> sut = Quotes
+        IReadOnlyList<RocResult> sut = Bars
             .Use(CandlePart.Close)
             .ToRoc(20);
 
@@ -42,7 +42,7 @@ public class Roc : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<RocResult> sut = Quotes
+        IReadOnlyList<RocResult> sut = Bars
             .ToSma(2)
             .ToRoc(20);
 
@@ -53,7 +53,7 @@ public class Roc : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToRoc(20)
             .ToSma(10);
 
@@ -62,9 +62,9 @@ public class Roc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<RocResult> r = BadQuotes
+        IReadOnlyList<RocResult> r = BadBars
             .ToRoc(35);
 
         r.Should().HaveCount(502);
@@ -72,14 +72,14 @@ public class Roc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<RocResult> r0 = Noquotes
+        IReadOnlyList<RocResult> r0 = Nobars
             .ToRoc(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<RocResult> r1 = Onequote
+        IReadOnlyList<RocResult> r1 = Onebar
             .ToRoc(5);
 
         r1.Should().HaveCount(1);
@@ -88,7 +88,7 @@ public class Roc : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<RocResult> sut = Quotes
+        IReadOnlyList<RocResult> sut = Bars
             .ToRoc(20)
             .RemoveWarmupPeriods();
 
@@ -102,7 +102,7 @@ public class Roc : StaticSeriesTestBase
     [TestMethod] // bad lookback period
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToRoc(0))
+            .Invoking(static () => Bars.ToRoc(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

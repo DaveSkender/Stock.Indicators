@@ -4,12 +4,12 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Average Directional Index (ADX).
 /// </summary>
 public class AdxHub
-    : ChainHub<IQuote, AdxResult>, IAdx
+    : ChainHub<IBar, AdxResult>, IAdx
 {
     internal AdxHub(
-        IQuoteProvider<IQuote> quoteProvider,
+        IBarProvider<IBar> barProvider,
         int lookbackPeriods)
-        : base(quoteProvider)
+        : base(barProvider)
     {
         Adx.Validate(lookbackPeriods);
 
@@ -86,7 +86,7 @@ public class AdxHub
 
     /// <inheritdoc/>
     protected override (AdxResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -261,7 +261,7 @@ public class AdxHub
 
         for (int i = 0; i <= restoreIndex; i++)
         {
-            IQuote item = ProviderCache[i];
+            IBar item = ProviderCache[i];
 
             double high = (double)item.High;
             double low = (double)item.Low;
@@ -389,10 +389,10 @@ public static partial class Adx
     /// <summary>
     /// Creates a stream hub for ADX indicator calculations.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static AdxHub ToAdxHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 14)
-             => new(quoteProvider, lookbackPeriods);
+             => new(barProvider, lookbackPeriods);
 }

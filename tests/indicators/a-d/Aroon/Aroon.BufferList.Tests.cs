@@ -6,10 +6,10 @@ public class Aroon : BufferListTestBase
     private const int lookbackPeriods = 25;
 
     private static readonly IReadOnlyList<AroonResult> series
-        = Quotes.ToAroon(lookbackPeriods);
+        = Bars.ToAroon(lookbackPeriods);
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<AroonResult> sut = Data
             .GetRandom(2500)
@@ -23,48 +23,48 @@ public class Aroon : BufferListTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        AroonList sut = new(25, Quotes);
+        AroonList sut = new(25, Bars);
         sut.IsBetween(static x => x.AroonUp, 0, 100);
         sut.IsBetween(static x => x.AroonDown, 0, 100);
         sut.IsBetween(static x => x.Oscillator, -100, 100);
     }
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         AroonList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        AroonList sut = new(lookbackPeriods) { Quotes };
+        AroonList sut = new(lookbackPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        AroonList sut = new(lookbackPeriods, Quotes);
+        AroonList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<AroonResult> expected = subset.ToAroon(lookbackPeriods);
 
         AroonList sut = new(lookbackPeriods, subset);
@@ -91,7 +91,7 @@ public class Aroon : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<AroonResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

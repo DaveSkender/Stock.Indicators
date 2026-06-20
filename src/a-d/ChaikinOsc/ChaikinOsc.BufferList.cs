@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Chaikin Oscillator from incremental quotes.
+/// Chaikin Oscillator from incremental bars.
 /// </summary>
-public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote, IChaikinOsc
+public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromBar, IChaikinOsc
 {
     private readonly AdlList _adlList;
     private readonly EmaList _fastEmaList;
@@ -29,13 +29,13 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChaikinOscList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="ChaikinOscList"/> class with initial bars.
     /// </summary>
     /// <param name="fastPeriods">Number of periods to use for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods to use for the slow EMA.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public ChaikinOscList(int fastPeriods, int slowPeriods, IReadOnlyList<IQuote> quotes)
-        : this(fastPeriods, slowPeriods) => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    public ChaikinOscList(int fastPeriods, int slowPeriods, IReadOnlyList<IBar> bars)
+        : this(fastPeriods, slowPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int FastPeriods { get; init; }
@@ -44,14 +44,14 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
         // Calculate ADL
-        _adlList.Add(quote);
+        _adlList.Add(bar);
         AdlResult adlResult = _adlList[^1];
 
         // Calculate fast and slow EMAs of ADL
@@ -75,13 +75,13 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -100,12 +100,12 @@ public static partial class ChaikinOsc
     /// <summary>
     /// Creates a buffer list for Chaikin Oscillator calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="fastPeriods">Number of periods for the fast moving average</param>
     /// <param name="slowPeriods">Number of periods for the slow moving average</param>
     public static ChaikinOscList ToChaikinOscList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int fastPeriods = 3,
         int slowPeriods = 10)
-        => new(fastPeriods, slowPeriods) { quotes };
+        => new(fastPeriods, slowPeriods) { bars };
 }

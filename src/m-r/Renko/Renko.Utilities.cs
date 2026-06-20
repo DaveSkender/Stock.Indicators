@@ -6,16 +6,16 @@ namespace Skender.Stock.Indicators;
 public static partial class Renko
 {
     /// <summary>
-    /// Calculates the number of new bricks to be added based on the current quote and the last brick.
+    /// Calculates the number of new bricks to be added based on the current bar and the last brick.
     /// </summary>
-    /// <param name="q">Current quote.</param>
+    /// <param name="q">Current bar.</param>
     /// <param name="lastBrick">Last Renko brick.</param>
     /// <param name="brickSize">Size of each Renko brick.</param>
     /// <param name="endType">Type of price to use for the end of the brick.</param>
     /// <returns>Number of new bricks to be added.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the end type is out of range.</exception>
     internal static int GetNewBrickQuantity(
-        IQuote q,
+        IBar q,
         RenkoResult lastBrick,
         decimal brickSize,
         EndType endType)

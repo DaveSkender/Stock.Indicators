@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents the result of a Renko chart calculation.
 /// </summary>
-/// <inheritdoc cref="Quote"/>
+/// <inheritdoc cref="Bar"/>
 [Serializable]
 public record RenkoResult
 (
@@ -14,4 +14,4 @@ public record RenkoResult
     decimal Close,
     decimal Volume,
     bool IsUp
-) : Quote(Timestamp, Open, High, Low, Close, Volume);
+) : Bar(Timestamp, Open, High, Low, Close, Volume);

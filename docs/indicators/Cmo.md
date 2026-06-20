@@ -15,7 +15,7 @@ Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investope
 ```csharp
 // C# usage syntax
 IReadOnlyList<CmoResult> results =
-  quotes.ToCmo(lookbackPeriods);
+  bars.ToCmo(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<CmoResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N+1` periods of `quotes` to cover the warmup periods.
+You must have at least `N+1` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<CmoResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for CMO since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<CmoResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Cmo` | double | Chande Momentum Oscillator |
 
 ### Utilities
@@ -63,7 +63,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToCmo(..);
 ```
@@ -72,7 +72,7 @@ Results can be further processed on `Cmo` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToCmo(..)
     .ToEma(..);
 ```
@@ -86,24 +86,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 CmoList cmoList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  cmoList.Add(quote);
+  cmoList.Add(bar);
 }
 
 // based on `ICollection<CmoResult>`
 IReadOnlyList<CmoResult> results = cmoList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-CmoHub observer = quoteHub.ToCmoHub(lookbackPeriods);
+BarHub barHub = new();
+CmoHub observer = barHub.ToCmoHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<CmoResult> results = observer.Results;

@@ -15,7 +15,7 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<MacdResult> results =
-  quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
+  bars.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<MacdResult> results =
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average. Must be greater than `fastPeriods`. Default is 26. |
 | `signalPeriods` | int | Number of periods (`P`) for the moving average of MACD. Must be greater than or equal to 0. Default is 9. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
+You must have at least `2×(S+P)` or `S+P+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 IReadOnlyList<MacdResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `S-1` slow periods will have `null` values since there's not enough data to calculate.
 
@@ -51,7 +51,7 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Macd` | double | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`) |
 | `Signal` | double | Moving average of the `MACD` line |
 | `Histogram` | double | Gap between the `MACD` and `Signal` line |
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToMacd(..);
 ```
@@ -82,7 +82,7 @@ Results can be further processed on `Macd` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToMacd(..)
     .ToSlope(..);
 ```
@@ -96,24 +96,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 MacdList macdList = new(fastPeriods, slowPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  macdList.Add(quote);
+  macdList.Add(bar);
 }
 
 // based on `ICollection<MacdResult>`
 IReadOnlyList<MacdResult> results = macdList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-MacdHub observer = quoteHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
+BarHub barHub = new();
+MacdHub observer = barHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<MacdResult> results = observer.Results;

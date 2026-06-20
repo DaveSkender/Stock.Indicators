@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for ATR Trailing Stop using a stream hub.
 /// </summary>
 public class AtrStopHub
-    : StreamHub<IQuote, AtrStopResult>, IAtrStop
+    : StreamHub<IBar, AtrStopResult>, IAtrStop
 {
     internal AtrStopHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods,
         double multiplier,
         EndType endType) : base(provider)
@@ -43,7 +43,7 @@ public class AtrStopHub
 
     /// <inheritdoc/>
     protected override (AtrStopResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -57,13 +57,13 @@ public class AtrStopHub
             return (new AtrStopResult(item.Timestamp), i);
         }
 
-        QuoteD newQ = item.ToQuoteD();
+        BarD newBar = item.ToBarD();
         double prevClose = (double)ProviderCache[i - 1].Close;
 
         // initialize direction on first evaluation (when no prior ATR exists)
         if (Cache[i - 1].Atr is null)
         {
-            IsBullish = newQ.Close >= prevClose;
+            IsBullish = newBar.Close >= prevClose;
         }
 
         // calculate ATR
@@ -73,8 +73,8 @@ public class AtrStopHub
         {
             atr = Atr.Increment(
                 LookbackPeriods,
-                newQ.High,
-                newQ.Low,
+                newBar.High,
+                newBar.Low,
                 prevClose,
                 Cache[i - 1].Atr ?? double.NaN);
         }
@@ -102,15 +102,15 @@ public class AtrStopHub
         // potential bands for CLOSE
         if (EndType == EndType.Close)
         {
-            upperEval = newQ.Close + (Multiplier * atr);
-            lowerEval = newQ.Close - (Multiplier * atr);
+            upperEval = newBar.Close + (Multiplier * atr);
+            lowerEval = newBar.Close - (Multiplier * atr);
         }
 
         // potential bands for HIGH/LOW
         else
         {
-            upperEval = newQ.High + (Multiplier * atr);
-            lowerEval = newQ.Low - (Multiplier * atr);
+            upperEval = newBar.High + (Multiplier * atr);
+            lowerEval = newBar.Low - (Multiplier * atr);
         }
 
         // new upper band: can only go down, or reverse
@@ -130,12 +130,12 @@ public class AtrStopHub
         AtrStopResult r;
 
         // the upper band (short / buy-to-stop)
-        if (newQ.Close <= (IsBullish ? LowerBand : UpperBand))
+        if (newBar.Close <= (IsBullish ? LowerBand : UpperBand))
         {
             IsBullish = false;
 
             r = new AtrStopResult(
-                Timestamp: newQ.Timestamp,
+                Timestamp: newBar.Timestamp,
                 AtrStop: UpperBand,
                 BuyStop: UpperBand,
                 SellStop: null,
@@ -148,7 +148,7 @@ public class AtrStopHub
             IsBullish = true;
 
             r = new AtrStopResult(
-                Timestamp: newQ.Timestamp,
+                Timestamp: newBar.Timestamp,
                 AtrStop: LowerBand,
                 BuyStop: null,
                 SellStop: LowerBand,
@@ -190,15 +190,15 @@ public static partial class AtrStop
     /// <summary>
     /// Creates an ATR Stop hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="multiplier">ATR multiplier.</param>
     /// <param name="endType">Price end type to use.</param>
     /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
     public static AtrStopHub ToAtrStopHub(
-       this IQuoteProvider<IQuote> quoteProvider,
+       this IBarProvider<IBar> barProvider,
        int lookbackPeriods = 21,
        double multiplier = 3,
        EndType endType = EndType.Close)
-           => new(quoteProvider, lookbackPeriods, multiplier, endType);
+           => new(barProvider, lookbackPeriods, multiplier, endType);
 }

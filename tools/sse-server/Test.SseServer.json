@@ -1,17 +1,17 @@
 {
   "openapi": "3.1.1",
   "info": {
-    "title": "SSE Quote Server",
-    "description": "Server-Sent Events (SSE) endpoint for streaming quote data with configurable delivery rate and time intervals.",
+    "title": "SSE Bar Server",
+    "description": "Server-Sent Events (SSE) endpoint for streaming bar data with configurable delivery rate and time intervals.",
     "version": "v1"
   },
   "paths": {
-    "/quotes/random": {
+    "/bars/random": {
       "get": {
         "tags": [
-          "Quotes"
+          "Bars"
         ],
-        "operationId": "GetRandomQuotes",
+        "operationId": "GetRandomBars",
         "parameters": [
           {
             "name": "interval",
@@ -39,10 +39,10 @@
             }
           },
           {
-            "name": "quoteInterval",
+            "name": "barIntervalCode",
             "in": "query",
             "schema": {
-              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days)$",
+              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days|w|week|weeks|mo|month|months)$",
               "type": "string",
               "default": "1m"
             }
@@ -55,12 +55,12 @@
         }
       }
     },
-    "/quotes/longest": {
+    "/bars/longest": {
       "get": {
         "tags": [
-          "Quotes"
+          "Bars"
         ],
-        "operationId": "GetLongestQuotes",
+        "operationId": "GetLongestBars",
         "parameters": [
           {
             "name": "interval",
@@ -88,10 +88,10 @@
             }
           },
           {
-            "name": "quoteInterval",
+            "name": "barIntervalCode",
             "in": "query",
             "schema": {
-              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days)$",
+              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days|w|week|weeks|mo|month|months)$",
               "type": "string",
               "default": "1m"
             }
@@ -114,7 +114,7 @@
   },
   "tags": [
     {
-      "name": "Quotes"
+      "name": "Bars"
     }
   ]
 }

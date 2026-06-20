@@ -22,7 +22,7 @@ IReadOnlyList<TResult> condensedResults = results.Condense();
 ```csharp
 // example: only show Marubozu signals
 IReadOnlyList<CandleResult> results =
-  quotes.ToMarubozu(..).Condense();
+  bars.ToMarubozu(..).Condense();
 
 // condensed results only include dates with signals
 foreach (var result in results)
@@ -47,7 +47,7 @@ Show only dates when specific patterns occur:
 
 ```csharp
 // get all Doji patterns
-var dojiSignals = quotes
+var dojiSignals = bars
   .ToDoji()
   .Condense();
 
@@ -60,7 +60,7 @@ Build signal lists for trading systems:
 
 ```csharp
 // get Marubozu signals
-var signals = quotes
+var signals = bars
   .ToMarubozu()
   .Condense();
 
@@ -84,7 +84,7 @@ Reduce export size by including only meaningful data:
 
 ```csharp
 // export only significant events
-var condensed = quotes
+var condensed = bars
   .ToMarubozu()
   .Condense();
 
@@ -94,7 +94,7 @@ ExportToCsv(condensed, "marubozu-signals.csv");
 ## Important considerations
 
 ::: warning Data reduction
-`.Condense()` removes non-essential results and returns less data than the input `quotes`. The exact amount of reduction depends on the indicator and the data.
+`.Condense()` removes non-essential results and returns less data than the input `bars`. The exact amount of reduction depends on the indicator and the data.
 
 This is intentional behavior, but be aware that condensed results may have gaps in the timeline.
 :::

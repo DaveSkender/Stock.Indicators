@@ -5,7 +5,7 @@ description: Learn how to use Stream hub style for real-time indicator processin
 
 # Hub style indicators for advanced streaming
 
-Stream hub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a central `QuoteHub` for coordinated updates, making it ideal for live data feeds and complex event-driven architectures.
+Stream hub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a central `BarHub` for coordinated updates, making it ideal for live data feeds and complex event-driven architectures.
 
 ## When to use stream hubs
 
@@ -25,23 +25,23 @@ Stream hub style provides real-time processing with observable patterns and stat
 
 ## Basic usage
 
-Create a quote hub and subscribe indicators as observers:
+Create a bar hub and subscribe indicators as observers:
 
 ```csharp
 using Skender.Stock.Indicators;
 
-// create quote hub (the data source)
-QuoteHub quoteHub = new();
+// create bar hub (the data source)
+BarHub barHub = new();
 
 // subscribe indicators to the hub
-SmaHub smaHub = quoteHub.ToSmaHub(20);
-RsiHub rsiHub = quoteHub.ToRsiHub(14);
+SmaHub smaHub = barHub.ToSmaHub(20);
+RsiHub rsiHub = barHub.ToRsiHub(14);
 
-// stream quotes as they arrive
-foreach (Quote quote in liveQuotes)
+// stream bars as they arrive
+foreach (Bar bar in liveBars)
 {
-    // adding to quoteHub automatically updates all subscribers
-    quoteHub.Add(quote);
+    // adding to barHub automatically updates all subscribers
+    barHub.Add(bar);
 
     // safely get latest results
     if (smaHub.Results.Count > 0)
@@ -52,7 +52,7 @@ foreach (Quote quote in liveQuotes)
         // use results for trading logic, alerts, etc.
         if (sma.Sma is not null && rsi.Rsi > 70)
         {
-            Console.WriteLine($"{quote.Timestamp:d}: Overbought at {quote.Close:C2}");
+            Console.WriteLine($"{bar.Timestamp:d}: Overbought at {bar.Close:C2}");
         }
     }
 }
@@ -64,7 +64,7 @@ foreach (Quote quote in liveQuotes)
 
 The hub-observer architecture ensures coordinated updates:
 
-- Single quote update propagates to all subscribed indicators
+- Single bar update propagates to all subscribed indicators
 - Automatic cascade execution in correct sequence
 - Reduced coordination complexity
 - Minimal latency overhead
@@ -74,19 +74,19 @@ The hub-observer architecture ensures coordinated updates:
 Create sophisticated derived indicators. For the broader concept, see [Chaining indicators](/guide/chaining).
 
 ```csharp
-QuoteHub quoteHub = new();
+BarHub barHub = new();
 
 // chain RSI from EMA
-EmaHub emaHub = quoteHub.ToEmaHub(20);
+EmaHub emaHub = barHub.ToEmaHub(20);
 RsiHub rsiHub = emaHub.ToRsiHub(14);  // RSI of EMA
 
 // or chain directly
-RsiHub rsiOfEma = quoteHub
+RsiHub rsiOfEma = barHub
     .ToEmaHub(20)
     .ToRsiHub(14);
 
-// publish quote - both EMA and RSI update automatically
-quoteHub.Add(newQuote);
+// publish bar - both EMA and RSI update automatically
+barHub.Add(newBar);
 ```
 
 ### State management and rollback
@@ -94,33 +94,33 @@ quoteHub.Add(newQuote);
 Handle late-arriving data and corrections:
 
 ```csharp
-QuoteHub quoteHub = new();
-SmaHub smaHub = quoteHub.ToSmaHub(20);
+BarHub barHub = new();
+SmaHub smaHub = barHub.ToSmaHub(20);
 
-// add quotes normally
-quoteHub.Add(quote1);
-quoteHub.Add(quote2);
+// add bars normally
+barHub.Add(bar1);
+barHub.Add(bar2);
 
 // late-arriving data with earlier timestamp
-quoteHub.Add(lateQuote);  // triggers recalculation in dependent hubs
+barHub.Add(lateBar);  // triggers recalculation in dependent hubs
 
-// correct a bad value: re-add a quote with the same timestamp
-quoteHub.Add(correctedQuote);  // same timestamp, revised values → rebuild
+// correct a bad value: re-add a bar with the same timestamp
+barHub.Add(correctedBar);  // same timestamp, revised values → rebuild
 
-// or remove a bad quote (and everything at/after its timestamp)
-quoteHub.RemoveRange(badQuote.Timestamp, notify: true);  // triggers recalculation
+// or remove a bad bar (and everything at/after its timestamp)
+barHub.RemoveRange(badBar.Timestamp, notify: true);  // triggers recalculation
 
-// or remove a single quote by its timestamp
-quoteHub.Remove(badQuote);  // finds the entry by timestamp, then rebuilds
+// or remove a single bar by its timestamp
+barHub.Remove(badBar);  // finds the entry by timestamp, then rebuilds
 ```
 
-The hub automatically handles state rollback and recalculation when data arrives out of order or needs correction. To revise a single value in place, re-`Add` a quote with the same `Timestamp`; to drop data, remove it by timestamp with `RemoveRange(fromTimestamp, notify)`, by position with `RemoveAt(cacheIndex)`, or by quote with `Remove(quote)` (which locates the entry by timestamp). These mutations are **enforced to run on the root hub only** — the `QuoteHub` (or `TickHub`) you add quotes to. Calling `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed/chained hub throws `InvalidOperationException`; mutate the root hub, which cascades every change to the dependent hubs (see [Thread safety](#thread-safety)).
+The hub automatically handles state rollback and recalculation when data arrives out of order or needs correction. To revise a single value in place, re-`Add` a bar with the same `Timestamp`; to drop data, remove it by timestamp with `RemoveRange(fromTimestamp, notify)`, by position with `RemoveAt(cacheIndex)`, or by bar with `Remove(bar)` (which locates the entry by timestamp). These mutations are **enforced to run on the root hub only** — the `BarHub` (or `TradeTickHub`) you add bars to. Calling `Add`, `RemoveAt`, `RemoveRange`, `Remove`, or `Reinitialize` on a subscribed/chained hub throws `InvalidOperationException`; mutate the root hub, which cascades every change to the dependent hubs (see [Thread safety](#thread-safety)).
 
 ## Performance characteristics
 
 - **Overhead:** ~20-30% slower than batch style for equivalent datasets
 - **Memory:** Maintains cache and state for all subscribed indicators
-- **Latency:** Optimized for real-time updates, typically <1ms per quote
+- **Latency:** Optimized for real-time updates, typically <1ms per bar
 - **Scalability:** Supports multiple concurrent observers with single propagation
 
 ## Thread safety
@@ -128,7 +128,7 @@ The hub automatically handles state rollback and recalculation when data arrives
 Stream hubs follow a **single-writer** model. Internal locking protects cache *integrity* during the rebuild and rollback that out-of-order data triggers — but it does **not** make concurrent mutation safe. Two threads calling mutating methods at the same time can still interleave incorrectly.
 
 - **Internal locking** guards the cache so a rebuild never exposes a half-updated state to readers.
-- **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock / `Channel<Quote>`).
+- **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock / `Channel<Bar>`).
 - **Single-threaded usage** requires no additional synchronization.
 - **Multi-threaded usage** must serialize every external call that mutates the hub; reads of `Results` should also be coordinated with the writer (see the example below).
 
@@ -136,7 +136,7 @@ Stream hubs follow a **single-writer** model. Internal locking protects cache *i
 
 The library deliberately keeps the mutation surface small: `Results` is a read-only view, so you can't reach the underlying cache with `List` / `ICollection` methods. Stay within that surface:
 
-- ✅ **Do** feed and correct data through the **root** hub — the `QuoteHub` (or `TickHub`) you created and add quotes to. It cascades every change to the dependent hubs automatically.
+- ✅ **Do** feed and correct data through the **root** hub — the `BarHub` (or `TradeTickHub`) you created and add bars to. It cascades every change to the dependent hubs automatically.
 - ✅ **Do** read results through `Results`; if you hand them to another thread, call `Snapshot()` (an atomic, immutable copy taken under the hub's lock) rather than enumerating the live `Results` view while the writer mutates it.
 - ❌ **Don't** call `Add` / `RemoveAt` / `RemoveRange` / `Remove` / `Reinitialize` on a *subscribed* (chained) hub such as a `SmaHub` — these throw `InvalidOperationException`. Those hubs are driven by their provider; mutating one directly would desynchronize it from that provider, and a later rebuild could produce wrong results the hub can't heal from. Feed and correct through the root hub instead.
 - ❌ **Don't** mutate from more than one thread at a time (see the example below).
@@ -146,20 +146,20 @@ This single-writer expectation isn't unique to this library: most built-in .NET 
 ### Thread-safe external access example
 
 ```csharp
-QuoteHub quoteHub = new();
-SmaHub smaHub = quoteHub.ToSmaHub(20);
+BarHub barHub = new();
+SmaHub smaHub = barHub.ToSmaHub(20);
 
 // Use lock for coordinated multi-threaded access
 object hubLock = new();
 
-// Thread 1: Adding quotes
+// Thread 1: Adding bars
 Task producer = Task.Run(() =>
 {
-    foreach (Quote quote in liveQuotes)
+    foreach (Bar bar in liveBars)
     {
         lock (hubLock)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
     }
 });
@@ -190,13 +190,13 @@ Internal thread safety protects cache integrity during rebuild operations (trigg
 ### Reactive strategies
 
 ```csharp
-QuoteHub quoteHub = new();
+BarHub barHub = new();
 
-EmaHub emaFast = quoteHub.ToEmaHub(50);
-EmaHub emaSlow = quoteHub.ToEmaHub(200);
+EmaHub emaFast = barHub.ToEmaHub(50);
+EmaHub emaSlow = barHub.ToEmaHub(200);
 
-// add quotes to quoteHub (from stream)
-quoteHub.Add(newQuote);
+// add bars to barHub (from stream)
+barHub.Add(newBar);
 // and the 2 EmaHub will be in sync
 
 if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
@@ -209,59 +209,59 @@ if(emaFast.Results[^2].Ema < emaSlow.Results[^2].Ema
 ### Event-driven alerts
 
 ```csharp
-QuoteHub quoteHub = new();
-RsiHub rsiHub = quoteHub.ToRsiHub(14);
+BarHub barHub = new();
+RsiHub rsiHub = barHub.ToRsiHub(14);
 
-void ProcessLiveData(Quote quote)
+void ProcessLiveData(Bar bar)
 {
-    quoteHub.Add(quote);
+    barHub.Add(bar);
     
     RsiResult latest = rsiHub.Results[^1];
     
     if (latest?.Rsi > 70)
     {
-        TriggerAlert("Overbought", quote.Close, latest.Rsi);
+        TriggerAlert("Overbought", bar.Close, latest.Rsi);
     }
     else if (latest?.Rsi < 30)
     {
-        TriggerAlert("Oversold", quote.Close, latest.Rsi);
+        TriggerAlert("Oversold", bar.Close, latest.Rsi);
     }
 }
 ```
 
 ## WebSocket integration example
 
-This example demonstrates how to connect stream hubs to a live WebSocket feed. The pattern applies to any real-time data source (WebSocket, SSE, message queue, etc.) where quotes arrive asynchronously. The hub's `Add` method integrates each incoming quote, automatically propagating updates to all subscribed indicators.
+This example demonstrates how to connect stream hubs to a live WebSocket feed. The pattern applies to any real-time data source (WebSocket, SSE, message queue, etc.) where bars arrive asynchronously. The hub's `Add` method integrates each incoming bar, automatically propagating updates to all subscribed indicators.
 
-Because socket callbacks can fire concurrently, every `Add` must go through a single writer (see [Thread safety](#thread-safety) above). The handler below serializes with a lock; for higher throughput, post incoming quotes onto a single-consumer `Channel<Quote>` and call `Add` from one drain loop instead.
+Because socket callbacks can fire concurrently, every `Add` must go through a single writer (see [Thread safety](#thread-safety) above). The handler below serializes with a lock; for higher throughput, post incoming bars onto a single-consumer `Channel<Bar>` and call `Add` from one drain loop instead.
 
 ```csharp
 // setup hubs
-QuoteHub quoteHub = new();
-SmaHub smaHub = quoteHub.ToSmaHub(20);
+BarHub barHub = new();
+SmaHub smaHub = barHub.ToSmaHub(20);
 
 // single-writer gate: serialize every Add to the hub
 object hubLock = new();
 
 // WebSocket message handler (may be invoked concurrently)
-async Task OnQuoteReceived(WebSocketQuote wsQuote)
+async Task OnBarReceived(WebSocketBar wsBar)
 {
-    // convert WebSocket quote to library Quote
-    Quote quote = new()
+    // convert WebSocket bar to library Bar
+    Bar bar = new()
     {
-        Timestamp = wsQuote.Timestamp,
-        Open = wsQuote.Open,
-        High = wsQuote.High,
-        Low = wsQuote.Low,
-        Close = wsQuote.Close,
-        Volume = wsQuote.Volume
+        Timestamp = wsBar.Timestamp,
+        Open = wsBar.Open,
+        High = wsBar.High,
+        Low = wsBar.Low,
+        Close = wsBar.Close,
+        Volume = wsBar.Volume
     };
 
     // update hub through the single-writer gate -
     // all observers cascade automatically
     lock (hubLock)
     {
-        quoteHub.Add(quote);
+        barHub.Add(bar);
     }
 
     // in this example, the subscribing SmaHub will
@@ -275,22 +275,22 @@ Stream hubs automatically prune old results when the cache exceeds the configure
 
 ```csharp
 // default max cache size (100,000 items)
-QuoteHub quoteHub = new();
+BarHub barHub = new();
 
 // or configure custom max cache size
-QuoteHub limitedHub = new(maxCacheSize: 500);
+BarHub limitedHub = new(maxCacheSize: 500);
 
 // automatic FIFO pruning when limit reached
 SmaHub smaHub = limitedHub.ToSmaHub(20);
 
-// as new quotes arrive, oldest results are removed automatically
-foreach (Quote quote in liveQuotes)
+// as new bars arrive, oldest results are removed automatically
+foreach (Bar bar in liveBars)
 {
-    limitedHub.Add(quote);  // oldest pruned if over limit
+    limitedHub.Add(bar);  // oldest pruned if over limit
 }
 ```
 
-The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the QuoteHub.
+The default cache size is 100,000 items. For applications with different requirements, specify a custom `maxCacheSize` when creating the BarHub.
 
 ## Fault handling and recovery
 
@@ -301,12 +301,12 @@ A hub guards against runaway feedback (for example, an accidental circular chain
 - the offending `Add` throws `OverflowException` ("A repeated stream update exceeded the 100 attempt threshold…").
 
 ```csharp
-QuoteHub quoteHub = new();
-SmaHub smaHub = quoteHub.ToSmaHub(20);
+BarHub barHub = new();
+SmaHub smaHub = barHub.ToSmaHub(20);
 
 try
 {
-    quoteHub.Add(quote);
+    barHub.Add(bar);
 }
 catch (OverflowException)
 {
@@ -314,21 +314,21 @@ catch (OverflowException)
     // re-sent an identical tick 100+ times
 }
 
-if (quoteHub.IsFaulted)
+if (barHub.IsFaulted)
 {
     // clear the fault and resume streaming
-    quoteHub.ResetFault();
+    barHub.ResetFault();
 }
 ```
 
 `ResetFault()` clears the faulted state so the hub can keep processing. The threshold only trips on *byte-identical* repeats — a normal correction (same timestamp, **different** values) is handled as a rollback, not a fault. If your feed legitimately re-sends identical trade prints, dedupe upstream or vary a field before calling `Add` so a real burst of identical ticks doesn't trip the guard.
 
 ::: warning Reinitialize is a single-writer operation
-`Reinitialize()` unsubscribes, rebuilds the cache from the provider, then re-subscribes. Quotes that arrive in the brief window between the rebuild and the re-subscribe can be missed. Call `Reinitialize()` only when no concurrent `Add` is in flight — i.e. from the same single writer that feeds the hub.
+`Reinitialize()` unsubscribes, rebuilds the cache from the provider, then re-subscribes. Bars that arrive in the brief window between the rebuild and the re-subscribe can be missed. Call `Reinitialize()` only when no concurrent `Add` is in flight — i.e. from the same single writer that feeds the hub.
 :::
 
 ::: info Cache size inheritance
-Hubs will inherit the `maxCacheSize` of its provider.  For example, if you set a size of 1,000 for your `QuoteHub`, then a chained `SmaHub` will also have a maximum cache size of 1,000.
+Hubs will inherit the `maxCacheSize` of its provider.  For example, if you set a size of 1,000 for your `BarHub`, then a chained `SmaHub` will also have a maximum cache size of 1,000.
 :::
 
 ::: tip ✨ ✨ Optimize cache size for your use case
@@ -337,7 +337,7 @@ Set your `maxCacheSize` according to how you use the data produced in the hub ca
 
 ```csharp
 // configure a modest cache that still clears every warmup floor
-QuoteHub limitedHub = new(maxCacheSize: 500);
+BarHub limitedHub = new(maxCacheSize: 500);
 
 // automatic FIFO pruning when limit reached
 SmaHub smaHub = limitedHub.ToSmaHub(20);
@@ -345,7 +345,7 @@ SmaHub smaHub = limitedHub.ToSmaHub(20);
 
 Don't size the cache down to the indicator's lookback, though — two things bite:
 
-- **Inheritance.** The `QuoteHub`'s `maxCacheSize` flows to every chained hub (above), so the cache must satisfy the *largest* warmup in the whole chain, not just one indicator.
+- **Inheritance.** The `BarHub`'s `maxCacheSize` flows to every chained hub (above), so the cache must satisfy the *largest* warmup in the whole chain, not just one indicator.
 - **Warmup floor.** Each hub validates `maxCacheSize` against its own warmup requirement at construction and throws `ArgumentOutOfRangeException` if it's too small. That requirement is often a multiple of the lookback: RSI needs ~2× its period, TEMA and TRIX ~3×, and the Hilbert-transform trendline needs a fixed 63 periods regardless of lookback.
 
 Pick a floor comfortably above the deepest warmup in the chain (with headroom for late-arrival rollbacks), rather than the bare indicator minimum.

@@ -4,98 +4,98 @@ namespace StreamHubs;
 public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        AlligatorHub observer = quoteHub.ToAlligatorHub();
+        AlligatorHub observer = barHub.ToAlligatorHub();
 
         // fetch initial results (early)
         IReadOnlyList<AlligatorResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<AlligatorResult> expectedOriginal = Quotes.ToAlligator();
+        IReadOnlyList<AlligatorResult> expectedOriginal = Bars.ToAlligator();
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<AlligatorResult> expectedRevised = RevisedQuotes.ToAlligator();
+        IReadOnlyList<AlligatorResult> expectedRevised = RevisedBars.ToAlligator();
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<AlligatorResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<AlligatorResult> expected = bars
             .ToAlligator()
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        AlligatorHub observer = quoteHub.ToAlligatorHub();
+        BarHub barHub = new(maxCacheSize);
+        AlligatorHub observer = barHub.ToAlligatorHub();
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        AlligatorHub observer = quoteHub
+        AlligatorHub observer = barHub
             .ToSmaHub(10)
             .ToAlligatorHub();
 
-        // emulate adding quotes out of order
+        // emulate adding bars out of order
         // note: this works when graceful order
         for (int i = 0; i < length; i++)
         {
@@ -105,21 +105,21 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
                 continue;
             }
 
-            Quote q = quotesList[i];
-            quoteHub.Add(q);
+            Bar q = barsList[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotesList[80]);
+        barHub.Add(barsList[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<AlligatorResult> sut
@@ -127,23 +127,23 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
 
         // time-series, for comparison (revised)
         IReadOnlyList<AlligatorResult> expected
-           = RevisedQuotes
+           = RevisedBars
             .ToSma(10)
             .ToAlligator();
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        AlligatorHub hub = new(new QuoteHub(), 13, 8, 7, 5, 4, 3);
+        AlligatorHub hub = new(new BarHub(), 13, 8, 7, 5, 4, 3);
         hub.ToString().Should().Be("ALLIGATOR(13,8,7,5,4,3)");
     }
 }

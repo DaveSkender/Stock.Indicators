@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Chandelier Exit from incremental quotes.
+/// Chandelier Exit from incremental bars.
 /// </summary>
-public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote, IChandelier
+public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromBar, IChandelier
 {
     private readonly AtrList _atrList;
     private readonly Queue<(double High, double Low)> _buffer;
@@ -29,14 +29,14 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChandelierList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="ChandelierList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier to apply to the ATR.</param>
     /// <param name="type">Type of Chandelier Exit to calculate (Long or Short).</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public ChandelierList(int lookbackPeriods, double multiplier, Direction type, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, multiplier, type) => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    public ChandelierList(int lookbackPeriods, double multiplier, Direction type, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods, multiplier, type) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -48,16 +48,16 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     public Direction Type { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
+        DateTime timestamp = bar.Timestamp;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
 
         // Calculate ATR
-        _atrList.Add(quote);
+        _atrList.Add(bar);
         AtrResult atrResult = _atrList[^1];
 
         // Update buffer with consolidated tuple
@@ -107,13 +107,13 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -131,14 +131,14 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a buffer list for Chandelier Exit calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     /// <param name="type">Chandelier type</param>
     public static ChandelierList ToChandelierList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 22,
         double multiplier = 3,
         Direction type = Direction.Long)
-        => new(lookbackPeriods, multiplier, type) { quotes };
+        => new(lookbackPeriods, multiplier, type) { bars };
 }

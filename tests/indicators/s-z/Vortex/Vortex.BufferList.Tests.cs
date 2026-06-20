@@ -1,49 +1,49 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vortex : BufferListTestBase, ITestQuoteBufferList
+public class Vortex : BufferListTestBase, ITestBarBufferList
 {
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<VortexResult> series
-       = Quotes.ToVortex(lookbackPeriods);
+       = Bars.ToVortex(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         VortexList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        VortexList sut = Quotes.ToVortexList(lookbackPeriods);
+        VortexList sut = Bars.ToVortexList(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        VortexList sut = new(lookbackPeriods, Quotes);
+        VortexList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<VortexResult> expected = subset.ToVortex(lookbackPeriods);
 
         VortexList sut = new(lookbackPeriods, subset);
@@ -70,7 +70,7 @@ public class Vortex : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<VortexResult> expected = series
             .Skip(series.Count - maxListSize)

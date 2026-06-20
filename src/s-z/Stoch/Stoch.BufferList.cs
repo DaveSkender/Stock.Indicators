@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Stochastic Oscillator from incremental quote values.
+/// Stochastic Oscillator from incremental bar values.
 /// </summary>
-public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
+public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
 {
     private readonly Queue<(double High, double Low, double Close)> _hlcBuffer;
     private readonly Queue<double> _rawKBuffer;
@@ -47,7 +47,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StochList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="StochList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Number of periods to look back for the oscillator calculation.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
@@ -55,7 +55,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="kFactor">K factor for the Stochastic calculation.</param>
     /// <param name="dFactor">D factor for the Stochastic calculation.</param>
     /// <param name="movingAverageType">Type of moving average to use.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public StochList(
         int lookbackPeriods,
         int signalPeriods,
@@ -63,8 +63,8 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         double kFactor,
         double dFactor,
         MaType movingAverageType,
-        IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -85,25 +85,25 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     public MaType MovingAverageType { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, (double)quote.High, (double)quote.Low, (double)quote.Close);
+        ArgumentNullException.ThrowIfNull(bar);
+        Add(bar.Timestamp, (double)bar.High, (double)bar.Low, (double)bar.Close);
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
     /// <summary>
-    /// Adds a new quote data point for Stochastic calculation.
+    /// Adds a new bar data point for Stochastic calculation.
     /// </summary>
     /// <param name="timestamp">Timestamp of the data point.</param>
     /// <param name="high">High price.</param>

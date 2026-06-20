@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the Fractal Chaos Bands (FCB) using a stream hub.
 /// </summary>
 public class FcbHub
-    : StreamHub<IQuote, FcbResult>, IFcb
+    : StreamHub<IBar, FcbResult>, IFcb
 {
     internal FcbHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int windowSpan) : base(provider)
     {
         Fcb.Validate(windowSpan);
@@ -31,7 +31,7 @@ public class FcbHub
 
     /// <inheritdoc/>
     protected override (FcbResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -42,13 +42,13 @@ public class FcbHub
         {
             // look at the fractal from windowSpan periods ago
             int fractalIndex = i - WindowSpan;
-            IQuote fractalQuote = ProviderCache[fractalIndex];
+            IBar fractalBar = ProviderCache[fractalIndex];
 
             // check for bearish fractal (high point) at fractalIndex
             bool isBearishFractal = true;
             for (int p = fractalIndex - WindowSpan; p <= fractalIndex + WindowSpan; p++)
             {
-                if (p != fractalIndex && ProviderCache[p].High >= fractalQuote.High)
+                if (p != fractalIndex && ProviderCache[p].High >= fractalBar.High)
                 {
                     isBearishFractal = false;
                     break;
@@ -59,7 +59,7 @@ public class FcbHub
             bool isBullishFractal = true;
             for (int p = fractalIndex - WindowSpan; p <= fractalIndex + WindowSpan; p++)
             {
-                if (p != fractalIndex && ProviderCache[p].Low <= fractalQuote.Low)
+                if (p != fractalIndex && ProviderCache[p].Low <= fractalBar.Low)
                 {
                     isBullishFractal = false;
                     break;
@@ -69,12 +69,12 @@ public class FcbHub
             // update lines based on detected fractals
             if (isBearishFractal)
             {
-                UpperLine = fractalQuote.High;
+                UpperLine = fractalBar.High;
             }
 
             if (isBullishFractal)
             {
-                LowerLine = fractalQuote.Low;
+                LowerLine = fractalBar.Low;
             }
         }
 
@@ -114,11 +114,11 @@ public static partial class Fcb
     /// <summary>
     /// Creates a Fractal Chaos Bands (FCB) hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="windowSpan">Window span used for fractal detection.</param>
     /// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(
-       this IQuoteProvider<IQuote> quoteProvider,
+       this IBarProvider<IBar> barProvider,
        int windowSpan = 2)
-           => new(quoteProvider, windowSpan);
+           => new(barProvider, windowSpan);
 }

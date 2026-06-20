@@ -6,7 +6,7 @@ public class ZigZagTests : RegressionTestBase<ZigZagResult>
     public ZigZagTests() : base("zigzag-close.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToZigZag().IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToZigZag().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");

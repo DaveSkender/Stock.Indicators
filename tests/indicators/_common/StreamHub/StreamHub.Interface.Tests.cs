@@ -32,8 +32,8 @@ public class TestCompliance
         // Define observer and provider interface types
         Type[] observerTypes = [
             typeof(ITestChainObserver),
-            typeof(ITestQuoteObserver),
-            typeof(ITestTickObserver)
+            typeof(ITestBarObserver),
+            typeof(ITestTradeTickObserver)
         ];
 
         // Add more provider interfaces here if needed
@@ -58,10 +58,10 @@ public class TestCompliance
                 violations.Add($"{className}: Does not implement any observer interface");
             }
 
-            // Warn if both ITestChainObserver and ITestQuoteObserver are implemented (redundant)
-            if (implementedObservers.Contains(typeof(ITestChainObserver)) && implementedObservers.Contains(typeof(ITestQuoteObserver)))
+            // Warn if both ITestChainObserver and ITestBarObserver are implemented (redundant)
+            if (implementedObservers.Contains(typeof(ITestChainObserver)) && implementedObservers.Contains(typeof(ITestBarObserver)))
             {
-                warnings.Add($"{className}: Implements both ITestChainObserver and ITestQuoteObserver (redundant)");
+                warnings.Add($"{className}: Implements both ITestChainObserver and ITestBarObserver (redundant)");
             }
 
             // If implements provider, must also have a valid observer (already checked above)
@@ -92,9 +92,9 @@ public class TestCompliance
     }
 
     [TestMethod]
-    public void ChainObserver_DoesNotRedundantlyImplementQuoteObserver()
+    public void ChainObserver_DoesNotRedundantlyImplementBarObserver()
     {
-        // ITestChainObserver inherits ITestQuoteObserver, so implementing both is redundant
+        // ITestChainObserver inherits ITestBarObserver, so implementing both is redundant
 
         Assembly testAssembly = typeof(StreamHubTestBase).Assembly;
         Type[] allTypes = testAssembly.GetTypes();
@@ -103,7 +103,7 @@ public class TestCompliance
             .Where(static t => t.IsClass
                      && !t.IsAbstract
                      && typeof(ITestChainObserver).IsAssignableFrom(t)
-                     && t.GetInterfaces().Contains(typeof(ITestQuoteObserver)))
+                     && t.GetInterfaces().Contains(typeof(ITestBarObserver)))
             .ToList();
 
         // Note: This is informational only - it's not wrong to explicitly implement both,
@@ -111,8 +111,8 @@ public class TestCompliance
         if (redundantImplementations.Count > 0)
         {
             Console.WriteLine($"\nNote: {redundantImplementations.Count} test classes "
-                            + "explicitly implement both ITestChainObserver and ITestQuoteObserver "
-                            + "(ITestChainObserver already inherits ITestQuoteObserver):");
+                            + "explicitly implement both ITestChainObserver and ITestBarObserver "
+                            + "(ITestChainObserver already inherits ITestBarObserver):");
 
             foreach (Type t in redundantImplementations)
             {

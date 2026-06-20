@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Choppiness Index (CHOP) from incremental quotes.
+/// Choppiness Index (CHOP) from incremental bars.
 /// </summary>
-public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
+public class ChopList : BufferList<ChopResult>, IIncrementFromBar, IChop
 {
     private readonly Queue<(double TrueHigh, double TrueLow, double TrueRange)> _buffer;
     private double _previousClose;
@@ -26,26 +26,26 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChopList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="ChopList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public ChopList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public ChopList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
+        DateTime timestamp = bar.Timestamp;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
 
         double? chop = null;
 
@@ -100,13 +100,13 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -125,10 +125,10 @@ public static partial class Chop
     /// <summary>
     /// Creates a buffer list for Choppiness Index (CHOP) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static ChopList ToChopList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

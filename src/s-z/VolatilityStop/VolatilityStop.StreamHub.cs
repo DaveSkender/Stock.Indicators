@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the Volatility Stop using a stream hub.
 /// </summary>
 public class VolatilityStopHub
-    : StreamHub<IQuote, VolatilityStopResult>, IVolatilityStop
+    : StreamHub<IBar, VolatilityStopResult>, IVolatilityStop
 {
     internal VolatilityStopHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods,
         double multiplier) : base(provider)
     {
@@ -56,13 +56,13 @@ public class VolatilityStopHub
 
     /// <inheritdoc/>
     protected override (VolatilityStopResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // During initialization period (first lookbackPeriods quotes)
+        // During initialization period (first lookbackPeriods bars)
         if (i < LookbackPeriods)
         {
             // On the last initialization period, determine trend direction
@@ -292,13 +292,13 @@ public static partial class VolatilityStop
     /// <summary>
     /// Creates a Volatility Stop hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="multiplier">Multiplier used to scale ATR for SAR.</param>
     /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
     public static VolatilityStopHub ToVolatilityStopHub(
-       this IQuoteProvider<IQuote> quoteProvider,
+       this IBarProvider<IBar> barProvider,
        int lookbackPeriods = 7,
        double multiplier = 3)
-           => new(quoteProvider, lookbackPeriods, multiplier);
+           => new(barProvider, lookbackPeriods, multiplier);
 }

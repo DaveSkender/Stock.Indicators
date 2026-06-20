@@ -7,42 +7,42 @@ public class MgDynamic : BufferListTestBase, ITestChainBufferList
     private const double kFactor = 0.6;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<DynamicResult> series
-       = Quotes.ToDynamic(lookbackPeriods, kFactor);
+       = Bars.ToDynamic(lookbackPeriods, kFactor);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         DynamicList sut = new(lookbackPeriods, kFactor);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Bar q in Bars) { sut.Add(q); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        DynamicList sut = new(lookbackPeriods, kFactor) { Quotes };
+        DynamicList sut = new(lookbackPeriods, kFactor) { Bars };
 
         IReadOnlyList<DynamicResult> series
-            = Quotes.ToDynamic(lookbackPeriods, kFactor);
+            = Bars.ToDynamic(lookbackPeriods, kFactor);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        DynamicList sut = new(lookbackPeriods, kFactor, Quotes);
+        DynamicList sut = new(lookbackPeriods, kFactor, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -53,7 +53,7 @@ public class MgDynamic : BufferListTestBase, ITestChainBufferList
 
         foreach (IReusable item in reusables) { sut.Add(item); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -62,7 +62,7 @@ public class MgDynamic : BufferListTestBase, ITestChainBufferList
     {
         DynamicList sut = new(lookbackPeriods, kFactor) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -76,7 +76,7 @@ public class MgDynamic : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -89,7 +89,7 @@ public class MgDynamic : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<DynamicResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -101,7 +101,7 @@ public class MgDynamic : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<DynamicResult> expected = subset.ToDynamic(lookbackPeriods, kFactor);
 
         DynamicList sut = new(lookbackPeriods, kFactor, subset);

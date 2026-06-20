@@ -1,113 +1,113 @@
 namespace StreamHubs;
 
 [TestClass]
-public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
+public class VortexHubTests : StreamHubTestBase, ITestBarObserver
 {
     private const int lookbackPeriods = 14;
-    private readonly IReadOnlyList<VortexResult> expectedOriginal = Quotes.ToVortex(lookbackPeriods);
+    private readonly IReadOnlyList<VortexResult> expectedOriginal = Bars.ToVortex(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        VortexHub observer = quoteHub.ToVortexHub(lookbackPeriods);
+        VortexHub observer = barHub.ToVortexHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<VortexResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<VortexResult> expectedRevised = RevisedQuotes.ToVortex(lookbackPeriods);
+        IReadOnlyList<VortexResult> expectedRevised = RevisedBars.ToVortex(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<VortexResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<VortexResult> expected = bars
             .ToVortex(lookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        VortexHub observer = quoteHub.ToVortexHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        VortexHub observer = barHub.ToVortexHub(lookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         VortexHub lateHub = lateSource.ToVortexHub(lookbackPeriods);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         VortexHub freshHub = freshSource.ToVortexHub(lookbackPeriods);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -122,27 +122,27 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
         // Vortex emits first non-null result at lookback (= 14); index
         // 20 forces replay across the VM+ / VM- / TR rolling-sum
         // window transition that gates VI+/VI- emission.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 20;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         VortexHub lateHub = lateSource.ToVortexHub(lookbackPeriods);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         VortexHub freshHub = freshSource.ToVortexHub(lookbackPeriods);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -154,7 +154,7 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        VortexHub hub = new(new QuoteHub(), 14);
+        VortexHub hub = new(new BarHub(), 14);
         hub.ToString().Should().Be("VORTEX(14)");
     }
 }

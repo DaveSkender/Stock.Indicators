@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Aroon Oscillator from incremental quote values.
+/// Aroon Oscillator from incremental bar values.
 /// </summary>
-public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
+public class AroonList : BufferList<AroonResult>, IIncrementFromBar, IAroon
 {
     private readonly Queue<(DateTime Timestamp, double High, double Low)> _buffer;
 
@@ -22,28 +22,28 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AroonList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AroonList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public AroonList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public AroonList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <summary>
-    /// Adds a new quote to the Aroon list.
+    /// Adds a new bar to the Aroon list.
     /// </summary>
-    /// <param name="quote">Quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
-    public void Add(IQuote quote)
+    /// <param name="bar">Bar to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the bar is null.</exception>
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
         // Use BufferListUtilities extension method for consistent buffer management
-        _buffer.Update(LookbackPeriods + 1, (quote.Timestamp, (double)quote.High, (double)quote.Low));
+        _buffer.Update(LookbackPeriods + 1, (bar.Timestamp, (double)bar.High, (double)bar.Low));
 
         double? aroonUp = null;
         double? aroonDown = null;
@@ -85,7 +85,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
         }
 
         AddInternal(new AroonResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             AroonUp: aroonUp,
             AroonDown: aroonDown,
             Oscillator: aroonUp - aroonDown
@@ -93,17 +93,17 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     }
 
     /// <summary>
-    /// Adds a list of quotes to the Aroon list.
+    /// Adds a list of bars to the Aroon list.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public void Add(IReadOnlyList<IQuote> quotes)
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -125,13 +125,13 @@ public static partial class Aroon
     /// <summary>
     /// Creates a buffer list for Aroon calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An AroonList instance pre-populated with historical data.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static AroonList ToAroonList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 25)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

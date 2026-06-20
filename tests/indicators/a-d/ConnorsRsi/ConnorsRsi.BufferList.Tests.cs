@@ -8,15 +8,15 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     private const int rankPeriods = 100;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<ConnorsRsiResult> series
-       = Quotes.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+       = Bars.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<ConnorsRsiResult> sut = Data
             .GetRandom(2500)
@@ -26,34 +26,34 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        ConnorsRsiList sut = Quotes.ToConnorsRsiList(rsiPeriods, streakPeriods, rankPeriods);
+        ConnorsRsiList sut = Bars.ToConnorsRsiList(rsiPeriods, streakPeriods, rankPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, Quotes);
+        ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -67,7 +67,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -76,7 +76,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -90,21 +90,21 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        ConnorsRsiList sut = new(3, 2, 100, Quotes);
+        ConnorsRsiList sut = new(3, 2, 100, Bars);
         sut.IsBetween(static x => x.ConnorsRsi, 0, 100);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<ConnorsRsiResult> expected = subset.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, subset);
@@ -131,7 +131,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<ConnorsRsiResult> expected = series
             .Skip(series.Count - maxListSize)

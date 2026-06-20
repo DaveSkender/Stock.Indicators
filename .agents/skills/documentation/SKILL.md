@@ -87,12 +87,12 @@ Rules:
 ```csharp
 // C# usage syntax
 IReadOnlyList<{Indicator}Result> results =
-  quotes.To{Indicator}(param1, param2);
+  bars.To{Indicator}(param1, param2);
 ```
 ````
 
 - Use `// C# usage syntax` as the comment; add `(with Close price)` or similar qualifier when relevant
-- Show each meaningful overload on separate `quotes.To{Indicator}(...)` lines when multiple overloads exist
+- Show each meaningful overload on separate `bars.To{Indicator}(...)` lines when multiple overloads exist
 - Wrap long signatures to the next line for readability
 
 ### 4. Parameters section
@@ -113,16 +113,16 @@ Parameter description rules:
 - State validation constraints ("Must be greater than 0")
 - State default value when one exists ("Default is 14")
 
-#### Historical quotes requirements subsection
+#### Historical price bars requirements subsection
 
 Always present, even for parameter-free indicators:
 
 ```markdown
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 ```
 
 - Express the minimum in terms of formula variables (e.g., `N`, `2×(S+P)`, `S+P+100`)
@@ -137,8 +137,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<{Indicator}Result>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 ````
@@ -164,7 +164,7 @@ Adjust the period count and percentage to match the indicator's actual convergen
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `PropertyName` | double | What this value represents |
 ```
 
@@ -196,7 +196,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .To{Indicator}(..);
 ```
@@ -205,7 +205,7 @@ Results can be further processed on `{PrimaryValue}` with additional chain-enabl
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .To{Indicator}(..)
     .ToRsi(..);
 ```
@@ -213,7 +213,7 @@ var results = quotes
 
 Variations:
 
-- When the indicator can only read from `quotes` (not chains), replace the first block with: `This indicator must be generated from \`quotes\` and **cannot** be generated from results of another chain-enabled indicator or method.`
+- When the indicator can only read from `bars` (not chains), replace the first block with: `This indicator must be generated from \`bars\` and **cannot** be generated from results of another chain-enabled indicator or method.`
 - When the indicator can only output to chains (not read from them), describe that instead
 - When chaining outputs to a specific property, note which property is the chainable value (e.g., "Note: \`TenkanSen\` is the primary reusable value for chaining purposes.")
 
@@ -233,31 +233,31 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 {Indicator}List {indicator}List = new(param1, param2);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  {indicator}List.Add(quote);
+  {indicator}List.Add(bar);
 }
 
 // based on `ICollection<{Indicator}Result>`
 IReadOnlyList<{Indicator}Result> results = {indicator}List;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-{Indicator}Hub observer = quoteHub.To{Indicator}Hub(param1, param2);
+BarHub barHub = new();
+{Indicator}Hub observer = barHub.To{Indicator}Hub(param1, param2);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<{Indicator}Result> results = observer.Results;
 ```
 ````
 
-When the hub subscribes to an upstream chain-enabled hub (not a `QuoteHub`), adjust the hub variable type and creation accordingly.
+When the hub subscribes to an upstream chain-enabled hub (not a `BarHub`), adjust the hub variable type and creation accordingly.
 
 End the section with a cross-reference to the usage guides:
 
@@ -279,7 +279,7 @@ Use the Series (batch) implementation with periodic recalculation instead.
 
 Standard reasons by category:
 
-- **Dual-series indicators** (Beta, Correlation, Prs): "This indicator requires a second synchronized quote series, which cannot be expressed in the single-series streaming model."
+- **Dual-series indicators** (Beta, Correlation, Prs): "This indicator requires a second synchronized bar series, which cannot be expressed in the single-series streaming model."
 - **Lookahead/repaint indicators** (ZigZag): "This indicator requires lookahead to confirm reversal points; output repaints as new data arrives, making incremental results undefined."
 - **Full-dataset algorithms** (StdDevChannels): "This indicator recalculates the entire dataset on each new data point, making incremental streaming impractical."
 
@@ -311,10 +311,10 @@ When an indicator has multiple overloads worth showing upfront (e.g., Ichimoku),
 
 ```csharp
 // standard usage
-IReadOnlyList<...> results = quotes.ToIndicator(a, b);
+IReadOnlyList<...> results = bars.ToIndicator(a, b);
 
 // usage with custom option
-IReadOnlyList<...> results = quotes.ToIndicator(a, b, c);
+IReadOnlyList<...> results = bars.ToIndicator(a, b, c);
 ```
 
 ### Multi-variant indicators (substantially different parameter sets)
@@ -362,7 +362,7 @@ For static (non-chart) images referenced in prose:
 - [ ] H1 block: attribution, reference link, Discuss link, optional chart panel
 - [ ] Usage syntax: all meaningful overloads shown
 - [ ] Parameters table present (or section omitted if none)
-- [ ] Historical quotes requirements stated
+- [ ] Historical price bars requirements stated
 - [ ] Response section: return type, bullet list, result table, Utilities links
 - [ ] Chaining section: correct chainability direction described
 - [ ] Streaming section: full examples present, or "not applicable" note with architectural reason
@@ -374,7 +374,7 @@ For static (non-chart) images referenced in prose:
 - [ ] Update parameter table if parameters added, removed, or renamed
 - [ ] Update result table if result properties added, removed, or renamed
 - [ ] Update usage syntax examples to match new signatures
-- [ ] Update quotes requirements if warmup formula changed
+- [ ] Update bars requirements if warmup formula changed
 - [ ] Add or remove convergence warning as appropriate
 - [ ] Site builds without errors
 

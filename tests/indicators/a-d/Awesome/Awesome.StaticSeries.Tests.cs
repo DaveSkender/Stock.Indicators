@@ -6,7 +6,7 @@ public class Awesome : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AwesomeResult> sut = Quotes
+        IReadOnlyList<AwesomeResult> sut = Bars
             .ToAwesome();
 
         // proper quantities
@@ -34,7 +34,7 @@ public class Awesome : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<AwesomeResult> sut = Quotes
+        IReadOnlyList<AwesomeResult> sut = Bars
             .Use(CandlePart.Close)
             .ToAwesome();
 
@@ -45,7 +45,7 @@ public class Awesome : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<AwesomeResult> sut = Quotes
+        IReadOnlyList<AwesomeResult> sut = Bars
             .ToSma(2)
             .ToAwesome();
 
@@ -56,7 +56,7 @@ public class Awesome : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToAwesome()
             .ToSma(10);
 
@@ -65,9 +65,9 @@ public class Awesome : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AwesomeResult> r = BadQuotes
+        IReadOnlyList<AwesomeResult> r = BadBars
             .ToAwesome();
 
         r.Should().HaveCount(502);
@@ -75,14 +75,14 @@ public class Awesome : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AwesomeResult> r0 = Noquotes
+        IReadOnlyList<AwesomeResult> r0 = Nobars
             .ToAwesome();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AwesomeResult> r1 = Onequote
+        IReadOnlyList<AwesomeResult> r1 = Onebar
             .ToAwesome();
 
         r1.Should().HaveCount(1);
@@ -91,7 +91,7 @@ public class Awesome : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<AwesomeResult> sut = Quotes
+        IReadOnlyList<AwesomeResult> sut = Bars
             .ToAwesome()
             .RemoveWarmupPeriods();
 
@@ -108,10 +108,10 @@ public class Awesome : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAwesome(0, 34));
+            static () => Bars.ToAwesome(0, 34));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAwesome(25, 25));
+            static () => Bars.ToAwesome(25, 25));
     }
 }

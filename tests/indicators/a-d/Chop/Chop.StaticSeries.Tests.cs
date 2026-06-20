@@ -6,7 +6,7 @@ public class Chop : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<ChopResult> sut = Quotes
+        IReadOnlyList<ChopResult> sut = Bars
             .ToChop();
 
         // proper quantities
@@ -30,7 +30,7 @@ public class Chop : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToChop()
             .ToSma(10);
 
@@ -42,7 +42,7 @@ public class Chop : StaticSeriesTestBase
     public void SmallLookback_WithMinimalPeriods_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 2;
-        IReadOnlyList<ChopResult> sut = Quotes
+        IReadOnlyList<ChopResult> sut = Bars
             .ToChop(lookbackPeriods);
 
         // proper quantities
@@ -53,14 +53,14 @@ public class Chop : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<ChopResult> sut = Quotes.ToChop(14);
+        IReadOnlyList<ChopResult> sut = Bars.ToChop(14);
         sut.IsBetween(static x => x.Chop, 0, 100);
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ChopResult> r = BadQuotes
+        IReadOnlyList<ChopResult> r = BadBars
             .ToChop(20);
 
         r.Should().HaveCount(502);
@@ -68,14 +68,14 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ChopResult> r0 = Noquotes
+        IReadOnlyList<ChopResult> r0 = Nobars
             .ToChop();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ChopResult> r1 = Onequote
+        IReadOnlyList<ChopResult> r1 = Onebar
             .ToChop();
 
         r1.Should().HaveCount(1);
@@ -84,7 +84,7 @@ public class Chop : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<ChopResult> sut = Quotes
+        IReadOnlyList<ChopResult> sut = Bars
             .ToChop()
             .RemoveWarmupPeriods();
 
@@ -101,7 +101,7 @@ public class Chop : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToChop(1))
+            .Invoking(static () => Bars.ToChop(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

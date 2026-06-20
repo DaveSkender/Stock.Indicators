@@ -6,92 +6,92 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     private const int lookbackPeriods = 20;
 
     private static readonly IReadOnlyList<EpmaResult> series
-        = Quotes.ToEpma(lookbackPeriods);
+        = Bars.ToEpma(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider (warmup coverage)
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider (warmup coverage)
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        EpmaHub observer = quoteHub.ToEpmaHub(lookbackPeriods);
+        EpmaHub observer = barHub.ToEpmaHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<EpmaResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         actuals.Should().HaveCount(length);
         actuals.IsExactly(series);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<EpmaResult> expectedRevised = RevisedQuotes.ToEpma(lookbackPeriods);
+        IReadOnlyList<EpmaResult> expectedRevised = RevisedBars.ToEpma(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 100;  // 20 (lookback) + 80 extra for full EPMA calculation warmup
-        const int totalQuotes = 200;  // ~2x cache size
+        const int totalBars = 200;  // ~2x cache size
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<EpmaResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<EpmaResult> expected = bars
             .ToEpma(lookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        EpmaHub observer = quoteHub.ToEpmaHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        EpmaHub observer = barHub.ToEpmaHub(lookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        EpmaHub hub = new(new QuoteHub(), lookbackPeriods);
+        EpmaHub hub = new(new BarHub(), lookbackPeriods);
         hub.ToString().Should().Be($"EPMA({lookbackPeriods})");
     }
 
@@ -99,41 +99,41 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     public void ConsistencyWithSeries_StreamVsSeries_MatchesExactly()
     {
         // Compare stream results with series results
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        EpmaHub epmaHub = barHub.ToEpmaHub(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         IReadOnlyList<EpmaResult> streamResults = epmaHub.Results;
-        IReadOnlyList<EpmaResult> seriesResults = Quotes.ToEpma(lookbackPeriods);
+        IReadOnlyList<EpmaResult> seriesResults = Bars.ToEpma(lookbackPeriods);
 
         streamResults.Should().HaveCount(seriesResults.Count);
         streamResults.IsExactly(seriesResults);
     }
 
     [TestMethod]
-    public void RealTimeSimulation_WithIncrementalQuotes_MatchesSeriesExactly()
+    public void RealTimeSimulation_WithIncrementalBars_MatchesSeriesExactly()
     {
         // Simulate real-time data processing
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        EpmaHub epmaHub = barHub.ToEpmaHub(lookbackPeriods);
 
         // Process initial historical data
-        foreach (Quote quote in Quotes.Take(100))
+        foreach (Bar bar in Bars.Take(100))
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         int initialCount = epmaHub.Results.Count;
         initialCount.Should().Be(100);
 
-        // Process new incoming quotes
-        foreach (Quote quote in Quotes.Skip(100).Take(10))
+        // Process new incoming bars
+        foreach (Bar bar in Bars.Skip(100).Take(10))
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
 
             IReadOnlyList<EpmaResult> currentResults = epmaHub.Results;
             EpmaResult latestResult = currentResults[^1];
@@ -142,7 +142,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             if (latestResult.Epma.HasValue)
             {
                 latestResult.Epma.Should().BeOfType(typeof(double));
-                latestResult.Timestamp.Should().Be(quote.Timestamp);
+                latestResult.Timestamp.Should().Be(bar.Timestamp);
             }
         }
 
@@ -155,22 +155,22 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // Test EPMA observing another indicator chain
         const int smaPeriods = 10;
 
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub
+        BarHub barHub = new();
+        EpmaHub epmaHub = barHub
             .ToSmaHub(smaPeriods)
             .ToEpmaHub(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         IReadOnlyList<EpmaResult> streamResults = epmaHub.Results;
-        IReadOnlyList<EpmaResult> seriesResults = Quotes
+        IReadOnlyList<EpmaResult> seriesResults = Bars
             .ToSma(smaPeriods)
             .ToEpma(lookbackPeriods);
 
-        streamResults.Should().HaveCount(Quotes.Count);
+        streamResults.Should().HaveCount(Bars.Count);
         streamResults.IsExactly(seriesResults);
     }
 
@@ -180,55 +180,55 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // Test EPMA chaining to other indicators
         const int smaPeriods = 10;
 
-        QuoteHub quoteHub = new();
-        SmaHub smaHub = quoteHub
+        BarHub barHub = new();
+        SmaHub smaHub = barHub
             .ToEpmaHub(lookbackPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         IReadOnlyList<SmaResult> sut = smaHub.Results;
-        IReadOnlyList<SmaResult> expected = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedBars
             .ToEpma(lookbackPeriods)
             .ToSma(smaPeriods);
 
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         smaHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Chainable_WithOtherIndicators_ReturnsExpectedResult()
     {
         // Test EPMA chaining with other indicators
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        EpmaHub epmaHub = barHub.ToEpmaHub(lookbackPeriods);
         SmaHub smaHub = epmaHub.ToSmaHub(10);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         IReadOnlyList<SmaResult> chainedResults = smaHub.Results;
-        chainedResults.Should().HaveCount(Quotes.Count);
+        chainedResults.Should().HaveCount(Bars.Count);
 
         // Verify chained calculation matches expected with tolerance
-        IReadOnlyList<SmaResult> expectedChained = Quotes
+        IReadOnlyList<SmaResult> expectedChained = Bars
             .ToEpma(lookbackPeriods)
             .ToSma(10);
 
@@ -237,19 +237,19 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void Add_WithValidQuote_IncrementsResults()
+    public void Add_WithValidBar_IncrementsResults()
     {
         // Additional test for streaming functionality
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        EpmaHub epmaHub = barHub.ToEpmaHub(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         IReadOnlyList<EpmaResult> sut = epmaHub.Results;
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 }

@@ -10,7 +10,7 @@ public class ZigZag : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<ZigZagResult> sut =
-            Quotes.ToZigZag(EndType.Close, 3);
+            Bars.ToZigZag(EndType.Close, 3);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -61,7 +61,7 @@ public class ZigZag : StaticSeriesTestBase
     public void StandardHighLow_WithHighLowEndType_ReturnsExpectedResult()
     {
         IReadOnlyList<ZigZagResult> sut =
-            Quotes.ToZigZag(EndType.HighLow, 3);
+            Bars.ToZigZag(EndType.HighLow, 3);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -111,7 +111,7 @@ public class ZigZag : StaticSeriesTestBase
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToZigZag(EndType.Close, 3)
             .ToSma(10);
 
@@ -123,9 +123,9 @@ public class ZigZag : StaticSeriesTestBase
     public void NoEntry_ThresholdNeverMet_ReturnsExpected()
     {
         // thresholds are never met
-        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.thresholds.json");
+        IReadOnlyList<Bar> bars = Data.BarsFromJson("_issue0616.zigzag.thresholds.json");
 
-        IReadOnlyList<ZigZagResult> sut = quotes
+        IReadOnlyList<ZigZagResult> sut = bars
             .ToZigZag();
 
         sut.Should().HaveCountGreaterThan(0);
@@ -133,28 +133,28 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ZigZagResult> r1 = BadQuotes
+        IReadOnlyList<ZigZagResult> r1 = BadBars
             .ToZigZag();
 
         r1.Should().HaveCount(502);
 
-        IReadOnlyList<ZigZagResult> r2 = BadQuotes
+        IReadOnlyList<ZigZagResult> r2 = BadBars
             .ToZigZag(EndType.HighLow);
 
         r2.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ZigZagResult> r0 = Noquotes
+        IReadOnlyList<ZigZagResult> r0 = Nobars
             .ToZigZag();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ZigZagResult> r1 = Onequote
+        IReadOnlyList<ZigZagResult> r1 = Onebar
             .ToZigZag();
 
         r1.Should().HaveCount(1);
@@ -163,7 +163,7 @@ public class ZigZag : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<ZigZagResult> sut = Quotes
+        IReadOnlyList<ZigZagResult> sut = Bars
             .ToZigZag(EndType.Close, 3)
             .Condense();
 
@@ -176,24 +176,24 @@ public class ZigZag : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToZigZag(EndType.Close, 0));
+            static () => Bars.ToZigZag(EndType.Close, 0));
 
         // bad end type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToZigZag((EndType)int.MaxValue, 2));
+            static () => Bars.ToZigZag((EndType)int.MaxValue, 2));
     }
 
     [TestMethod]
     public void Issue0616_SchrodingerScenario_HighAndLowThresholdMet_IsDeterministic()
     {
-        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.schrodinger.json");
+        IReadOnlyList<Bar> bars = Data.BarsFromJson("_issue0616.zigzag.schrodinger.json");
 
-        IReadOnlyList<ZigZagResult> r1 = quotes.ToZigZag(EndType.Close, 0.25m).ToList();
+        IReadOnlyList<ZigZagResult> r1 = bars.ToZigZag(EndType.Close, 0.25m).ToList();
         r1.Should().HaveCount(342);
 
         // first period has High/Low that exceeds threhold
         // where it is both a H and L pivot simultaenously
-        IReadOnlyList<ZigZagResult> r2 = quotes.ToZigZag(EndType.HighLow, 3).ToList();
+        IReadOnlyList<ZigZagResult> r2 = bars.ToZigZag(EndType.HighLow, 3).ToList();
         r2.Should().HaveCount(342);
     }
 
@@ -201,9 +201,9 @@ public class ZigZag : StaticSeriesTestBase
     public void Issue0632_ThresholdNeverMet_ReturnsExpected()
     {
         // thresholds are never met
-        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0632.zigzag.thresholds.json");
+        IReadOnlyList<Bar> bars = Data.BarsFromJson("_issue0632.zigzag.thresholds.json");
 
-        IReadOnlyList<ZigZagResult> sut = quotes
+        IReadOnlyList<ZigZagResult> sut = bars
             .ToZigZag();
 
         sut.Should().HaveCount(17);
@@ -212,15 +212,15 @@ public class ZigZag : StaticSeriesTestBase
     [TestMethod]
     public void Issue1949_UserErrors()
     {
-        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1949.zigzag.csv");
+        IReadOnlyList<Bar> bars = Data.BarsFromCsv("_issue1949.zigzag.csv");
 
-        IReadOnlyList<ZigZagResult> r = quotes
+        IReadOnlyList<ZigZagResult> r = bars
             .ToZigZag(endType: EndType.HighLow, percentChange: 5.0m);
 
-        const string msg = "results size should match original quotes size";
+        const string msg = "results size should match original bars size";
 
         r.Should().HaveCount(1430, msg);
-        r.Should().HaveCount(quotes.Count, msg);
+        r.Should().HaveCount(bars.Count, msg);
         r.Where(static x => x.ZigZag is not null).Should().HaveCount(726);
         r.Where(static x => x.PointType is not null).Should().HaveCount(1);
         r[704].ZigZag.Should().Be(75540.8m);

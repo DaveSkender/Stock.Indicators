@@ -10,102 +10,102 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
+        TsiHub observer = barHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // test string output
         observer.ToString().Should().Be("TSI(25,13,7)");
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<TsiResult> sut = Quotes.ToTsiHub(25, 13, 7).Results;
+        IReadOnlyList<TsiResult> sut = Bars.ToTsiHub(25, 13, 7).Results;
         sut.IsBetween(static x => x.Tsi, -100, 100);
         sut.IsBetween(static x => x.Signal, -100, 100);
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
+        TsiHub observer = barHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<TsiResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<TsiResult> expectedOriginal = Quotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
+        IReadOnlyList<TsiResult> expectedOriginal = Bars.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<TsiResult> expectedRevised = RevisedQuotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
+        IReadOnlyList<TsiResult> expectedRevised = RevisedBars.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<TsiResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<TsiResult> expected = bars
             .ToTsi(lookbackPeriods, smoothPeriods, signalPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
+        BarHub barHub = new(maxCacheSize);
+        TsiHub observer = barHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -113,28 +113,28 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int emaPeriods = 12;
 
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        List<Bar> barsList = Bars.ToList();
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        TsiHub observer = quoteHub
+        TsiHub observer = barHub
             .ToEmaHub(emaPeriods)
             .ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
         IReadOnlyList<TsiResult> streamList = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<TsiResult> seriesList = quotesList
+        IReadOnlyList<TsiResult> seriesList = barsList
             .ToEma(emaPeriods)
             .ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
@@ -143,7 +143,7 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -151,18 +151,18 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int smaPeriods = 10;
 
-        List<Quote> quotes = Quotes.ToList();
-        int length = quotes.Count;
+        List<Bar> bars = Bars.ToList();
+        int length = bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
@@ -171,28 +171,28 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
                 continue;
             }
 
-            Quote q = quotes[i];
-            quoteHub.Add(q);
+            Bar q = bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
-        quotes.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
+        bars.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> streamList = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList = quotes
+        IReadOnlyList<SmaResult> seriesList = bars
             .ToTsi(lookbackPeriods, smoothPeriods, signalPeriods)
             .ToSma(smaPeriods);
 
@@ -201,6 +201,6 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

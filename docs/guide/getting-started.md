@@ -19,47 +19,43 @@ Install-Package Skender.Stock.Indicators
 
 ## Prerequisite data
 
-Most indicators require that you provide historical quote data and additional configuration parameters.
+Most indicators require that you provide historical aggregate OHLCV price bar data and additional configuration parameters.
 
-You must get historical quotes from your own market data provider.  For clarification, the `GetQuotesFromFeed()` method shown in the example below **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
+Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Bar` class ([see _**Historical bars**_ section below](#historical-bars)); however, it can also be supplied as a generic [custom `TBar` type](#using-custom-bar-classes) if you prefer to use your own `IBar` derived model.
 
-Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
-
-For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
+For configurable indicator parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
 ## Implementation pattern
 
-The library supports three indicator styles, each following the same basic pattern:
+The library supports three indicator styles, each use the same pattern:
 
 ```csharp
 using Skender.Stock.Indicators;
 
 [..]
 
-// step 1: get quote(s) from your source
+// step 1: get price bar(s) from your source
 // step 2: calculate indicator value(s)
 ```
 
-- **[Batch (Series)](/guide/styles/batch)** — convert a full quote collection at once. This is the standard, default style and the one demonstrated on this page.
-- **[Buffer lists](/guide/styles/buffer)** — self-managed incrementing lists, for adding quotes one at a time.
+The examples on this page depict the **Batch (Series)** style because it is the simplest starting point and covers most use cases. Buffer lists and stream hubs are first-class alternatives for incremental and streaming scenarios — see [Indicator styles](/guide/styles/) for a side-by-side comparison and guidance on choosing.
+
+- **[Batch (Series)](/guide/styles/batch)** — convert a full price data collection at once. This is the standard, default style and the one demonstrated on this page.
+- **[Buffer lists](/guide/styles/buffer)** — self-managed incrementing lists, for adding price bars one at a time.
 - **[Stream hubs](/guide/styles/stream)** — subscription-based hub-observer pattern, for live/streaming data and chained, real-time architectures.
 
-The examples on this page use the **Batch (Series)** style because it is the simplest starting point and covers most use cases. Buffer lists and stream hubs are first-class styles for incremental and streaming scenarios — see [Indicator styles](/guide/styles/) for a side-by-side comparison and guidance on choosing.
-
-## Example usage
-
-The example below uses the **Batch (Series)** style — the standard approach for converting a complete set of historical quotes in one call.  For quotes that arrive incrementally or from a live feed, see [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream).
+### Example usage
 
 ```csharp
 using Skender.Stock.Indicators;
 
 [..]
 
-// fetch historical quotes from your feed (your method)
-IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
+// fetch historical price bars from your feed (your method)
+IReadOnlyList<Bar> bars = GetBarsFromFeed("MSFT");
 
 // calculate 20-period SMA
-IReadOnlyList<SmaResult> results = quotes
+IReadOnlyList<SmaResult> results = bars
   .ToSma(20);
 
 // use results as needed for your use case (example only)
@@ -79,6 +75,11 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
+::: info
+You must get price bar data from your own provider.
+_The `GetBarsFromFeed()` method shown above represents your own acquisition of price data and **is not part of this library**._
+:::
+
 See [individual indicator pages](/indicators) for specific usage guidance.
 
 More examples available:
@@ -90,45 +91,45 @@ More examples available:
 See the [Guide](/guide/) for batch, buffer, and stream styles; chaining; custom indicators; and performance guidance.
 :::
 
-## Historical quotes
+## Historical bars
 
-You must provide historical price quotes to the library in the standard OHLCV `IReadOnlyList<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+You must provide historical price bars to the library in the standard OHLCV `IReadOnlyList<Bar>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom bar classes](#using-custom-bar-classes) if you prefer to use your own `IBar` derived class.
 
-| name        | type     | notes       |
-| ----------- | -------- | ----------- |
-| `Timestamp` | DateTime | Close date  |
-| `Open`      | decimal  | Open price  |
-| `High`      | decimal  | High price  |
-| `Low`       | decimal  | Low price   |
-| `Close`     | decimal  | Close price |
-| `Volume`    | decimal  | Volume      |
+| name        | type         | description |
+| :---------- | :----------- | :---------- |
+| `Timestamp` | _`DateTime`_ | Close date  |
+| `Open`      | _`decimal`_  | Open price  |
+| `High`      | _`decimal`_  | High price  |
+| `Low`       | _`decimal`_  | Low price   |
+| `Close`     | _`decimal`_  | Close price |
+| `Volume`    | _`decimal`_  | Volume      |
 
-### Where can I get historical quote data?
+### Where can I get historical bar data?
 
 There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data](https://github.com/DaveSkender/Stock.Indicators/discussions/579) for ideas.
 
-### How much historical quote data do I need?
+### How much historical bar data do I need?
 
-Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).
+Each indicator will need different amounts of price `bars` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical bar data (e.g. 3 years of daily data).
 
 ::: warning 🚩 IMPORTANT
-Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system. Some indicators use a smoothing technique that converges to better precision over time. While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
+Applying the _minimum_ amount of bar history as possible is NOT a good way to optimize your system. Some indicators use a smoothing technique that converges to better precision over time. While you can calculate these with the minimum amount of bar data, the precision to two decimal points often requires 250 or more preceding historical records.
 
-For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results. Occasionally, even more is required for optimal precision.
+For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical price bars (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results. Occasionally, even more is required for optimal precision.
 
 See [discussion on warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) for more information.
 :::
 
-### Using custom quote classes
+### Using custom bar classes
 
-If you would like to use your own custom `MyCustomQuote` class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
+If you would like to use your own custom `MyCustomBar` class, to avoid needing to transpose into the library `Bar` class, you only need to add the `IBar` interface.
 
 ```csharp
 using Skender.Stock.Indicators;
 
 [..]
 
-public record MyCustomQuote : IQuote
+public record MyCustomBar : IBar
 {
     // required base properties
     public DateTime Timestamp { get; set; }
@@ -138,21 +139,25 @@ public record MyCustomQuote : IQuote
     public decimal Close { get; set; }
     public decimal Volume { get; set; }
 
+    // IReusable interface (enables chaining)
+    [JsonIgnore]
+    public double Value => (double)Close;
+
     // custom properties
     public int MyOtherProperty { get; set; }
 }
 ```
 
 ```csharp
-// fetch historical quotes from your favorite feed
-IReadOnlyList<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
+// fetch historical price bars from your favorite feed
+IReadOnlyList<MyCustomBar> myBars = GetBarsFromFeed("MSFT");
 
 // example: get 20-period simple moving average
-IReadOnlyList<SmaResult> results = myQuotes.ToSma(20);
+IReadOnlyList<SmaResult> results = myBars.ToSma(20);
 ```
 
-::: warning Custom quotes must have value based equality
-When implementing your custom quote type, it must be either `record` class or implement `IEquatable<T>` to be compatible with streaming hubs
+::: warning Custom bars must have value based equality
+When implementing your custom bar type, it must be either `record` class or implement `IEquatable<T>` to be compatible with the streaming hub internal de-duplication logic.
 :::
 
 ## Chaining: indicator of indicators
@@ -161,12 +166,12 @@ If you want to compute an indicator of indicators, such as an SMA of an ADX or a
 Example:
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IReadOnlyList<Quote> quotes = GetQuotesFromFeed("SPY");
+// fetch historical price bars from your feed (your method)
+IReadOnlyList<Bar> bars = GetBarsFromFeed("SPY");
 
 // calculate RSI of OBV
 IReadOnlyList<RsiResult> results
-  = quotes
+  = bars
     .ToObv()
     .ToRsi(14);
 ```

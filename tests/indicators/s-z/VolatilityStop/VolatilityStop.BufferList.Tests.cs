@@ -1,49 +1,49 @@
 namespace BufferLists;
 
 [TestClass]
-public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
+public class VolatilityStop : BufferListTestBase, ITestBarBufferList
 {
     private const int lookbackPeriods = 14;
     private const double multiplier = 3;
     private static readonly IReadOnlyList<VolatilityStopResult> expected
-        = Quotes.ToVolatilityStop(lookbackPeriods, multiplier);
+        = Bars.ToVolatilityStop(lookbackPeriods, multiplier);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         VolatilityStopList sut = new(lookbackPeriods, multiplier);
 
-        foreach (Quote q in Quotes)
+        foreach (Bar q in Bars)
         {
             sut.Add(q);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        VolatilityStopList sut = Quotes.ToVolatilityStopList(lookbackPeriods, multiplier);
+        VolatilityStopList sut = Bars.ToVolatilityStopList(lookbackPeriods, multiplier);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        VolatilityStopList sut = new(lookbackPeriods, multiplier, Quotes);
+        VolatilityStopList sut = new(lookbackPeriods, multiplier, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<VolatilityStopResult> expected = subset.ToVolatilityStop(lookbackPeriods, multiplier);
 
         VolatilityStopList sut = new(lookbackPeriods, multiplier, subset);
@@ -68,7 +68,7 @@ public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = 100
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         sut.Should().HaveCount(100);
 

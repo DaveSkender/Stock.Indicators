@@ -8,44 +8,44 @@ public class Kvo : BufferListTestBase
     private const int signalPeriods = 13;
 
     private static readonly IReadOnlyList<KvoResult> series
-       = Quotes.ToKvo(fastPeriods, slowPeriods, signalPeriods);
+       = Bars.ToKvo(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         KvoList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        KvoList sut = Quotes.ToKvoList(fastPeriods, slowPeriods, signalPeriods);
+        KvoList sut = Bars.ToKvoList(fastPeriods, slowPeriods, signalPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        KvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
+        KvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<KvoResult> expected = subset.ToKvo(fastPeriods, slowPeriods, signalPeriods);
 
         KvoList sut = new(fastPeriods, slowPeriods, signalPeriods, subset);
@@ -72,7 +72,7 @@ public class Kvo : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<KvoResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

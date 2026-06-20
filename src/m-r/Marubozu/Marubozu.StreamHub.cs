@@ -4,12 +4,12 @@ namespace Skender.Stock.Indicators;
 /// Represents a hub for Marubozu candlestick pattern detection.
 /// </summary>
 public class MarubozuHub
-    : StreamHub<IQuote, CandleResult>, IMarubozu
+    : StreamHub<IBar, CandleResult>, IMarubozu
 {
     private readonly double _minBodyPercentDecimal;
 
     internal MarubozuHub(
-        IStreamObservable<IQuote> provider,
+        IStreamObservable<IBar> provider,
         double minBodyPercent) : base(provider)
     {
         Marubozu.Validate(minBodyPercent);
@@ -27,7 +27,7 @@ public class MarubozuHub
     public double MinBodyPercent { get; init; }
     /// <inheritdoc/>
     protected override (CandleResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -57,15 +57,15 @@ public class MarubozuHub
 public static partial class Marubozu
 {
     /// <summary>
-    /// Creates a Marubozu hub from a quote provider.
+    /// Creates a Marubozu hub from a bar provider.
     /// </summary>
-    /// <param name="provider">Quote provider.</param>
+    /// <param name="provider">Bar provider.</param>
     /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu. Default is 95.</param>
     /// <returns>A Marubozu hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the minBodyPercent is invalid.</exception>
     public static MarubozuHub ToMarubozuHub(
-        this IStreamObservable<IQuote> provider,
+        this IStreamObservable<IBar> provider,
         double minBodyPercent = 95)
         => new(provider, minBodyPercent);
 }

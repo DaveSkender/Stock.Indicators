@@ -83,7 +83,7 @@ Source: [Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discus
 
 - **Ease of use**: Clarity over convenience; zero hidden magic
 - **Unopinionated**: Implement reputable formulas without reinterpretation
-- **Single responsibility**: quotes + parameters → results; no signals, data fetching, trading logic, or storage
+- **Single responsibility**: bars + parameters → results; no signals, data fetching, trading logic, or storage
 - **Encapsulation**: No external service calls or third-party packages
 - **Broad instruments**: Support equities, commodities, forex, crypto (extreme scales, fractional volume)
 - **Simplicity**: Decline features diluting core purpose

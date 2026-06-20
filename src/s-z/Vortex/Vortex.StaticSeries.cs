@@ -6,34 +6,34 @@ namespace Skender.Stock.Indicators;
 public static partial class Vortex
 {
     /// <summary>
-    /// Calculates the Vortex indicator for a series of quotes.
+    /// Calculates the Vortex indicator for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bars"/> is null.</exception>
     public static IReadOnlyList<VortexResult> ToVortex(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcVortex(lookbackPeriods);
 
     /// <summary>
-    /// Calculates the Vortex indicator for a series of quotes.
+    /// Calculates the Vortex indicator for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     private static List<VortexResult> CalcVortex(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<VortexResult> results = new(length);
 
         double[] tr = new double[length];
@@ -47,7 +47,7 @@ public static partial class Vortex
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             // skip first period
             if (i == 0)

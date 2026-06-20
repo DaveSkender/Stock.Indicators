@@ -5,42 +5,42 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 {
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        PvoHub observer = quoteHub.ToPvoHub(12, 26, 9);
+        PvoHub observer = barHub.ToPvoHub(12, 26, 9);
 
         // test string output
         observer.ToString().Should().Be("PVO(12,26,9)");
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        PvoHub observer = quoteHub
+        PvoHub observer = barHub
             .ToPvoHub(12, 26, 9);
 
         // fetch initial results (early)
         IReadOnlyList<PvoResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -48,63 +48,63 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<PvoResult> expected = RevisedQuotes.ToPvo(12, 26, 9);
+        IReadOnlyList<PvoResult> expected = RevisedBars.ToPvo(12, 26, 9);
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<PvoResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<PvoResult> expected = bars
             .ToPvo(12, 26, 9)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        PvoHub observer = quoteHub.ToPvoHub(12, 26, 9);
+        BarHub barHub = new(maxCacheSize);
+        PvoHub observer = barHub.ToPvoHub(12, 26, 9);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -114,22 +114,22 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int pvoSlow = 26;
         const int pvoSignal = 9;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // initialize observer from QuotePartHub(Volume)
-        PvoHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Volume)
+        // initialize observer from BarPartHub(Volume)
+        PvoHub observer = barHub
+            .ToBarPartHub(CandlePart.Volume)
             .ToPvoHub(pvoFast, pvoSlow, pvoSignal);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
@@ -138,7 +138,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // time-series, for comparison
         IReadOnlyList<PvoResult> seriesList
-           = quotesList
+           = barsList
             .ToPvo(pvoFast, pvoSlow, pvoSignal);
 
         // assert
@@ -147,7 +147,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -158,73 +158,73 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int pvoSignal = 9;
         const int emaPeriods = 10;
 
-        // setup chain quoteHub
-        QuoteHub quoteHub = new();
-        PvoHub pvoHub = quoteHub.ToPvoHub(pvoFast, pvoSlow, pvoSignal);
+        // setup chain barHub
+        BarHub barHub = new();
+        PvoHub pvoHub = barHub.ToPvoHub(pvoFast, pvoSlow, pvoSignal);
 
         // initialize observer (EMA of PVO)
         EmaHub observer = pvoHub
             .ToEmaHub(emaPeriods);
 
-        // emulate live quotes
-        for (int i = 0; i < quotesCount; i++)
+        // emulate live bars
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<EmaResult> expected = RevisedQuotes
+        IReadOnlyList<EmaResult> expected = RevisedBars
             .ToPvo(pvoFast, pvoSlow, pvoSignal)
             .ToEma(emaPeriods);
 
         // assert
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
         pvoHub.EndTransmission();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void StreamingAccuracy_PartialQuotes_MatchesSeriesExactly()
+    public void StreamingAccuracy_PartialBars_MatchesSeriesExactly()
     {
         const int fastPeriods = 12;
         const int slowPeriods = 26;
         const int signalPeriods = 9;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        PvoHub observer = quoteHub
+        PvoHub observer = barHub
             .ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
 
-        // stream first 100 quotes
+        // stream first 100 bars
         for (int i = 0; i < 100; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // get streaming results
         IReadOnlyList<PvoResult> streamResults = observer.Results;
 
         // time-series for comparison
-        IReadOnlyList<PvoResult> seriesResults = quotesList.Take(100).ToList().ToPvo(fastPeriods, slowPeriods, signalPeriods);
+        IReadOnlyList<PvoResult> seriesResults = barsList.Take(100).ToList().ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
         // validate specific data points
         PvoResult streamResult = streamResults[50];
@@ -236,19 +236,19 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Parameters_WithCustomValues_AreSetCorrectly()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer with custom parameters
-        PvoHub observer = quoteHub
+        PvoHub observer = barHub
             .ToPvoHub(8, 21, 5);
 
         // verify parameters
@@ -256,20 +256,20 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         observer.SlowPeriods.Should().Be(21);
         observer.SignalPeriods.Should().Be(5);
 
-        // process some quotes
+        // process some bars
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // verify results consistency
         IReadOnlyList<PvoResult> streamResults = observer.Results;
-        IReadOnlyList<PvoResult> seriesResults = quotesList.Take(50).ToList().ToPvo(8, 21, 5);
+        IReadOnlyList<PvoResult> seriesResults = barsList.Take(50).ToList().ToPvo(8, 21, 5);
 
         streamResults.IsExactly(seriesResults);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

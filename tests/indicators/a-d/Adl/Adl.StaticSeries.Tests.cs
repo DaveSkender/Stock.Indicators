@@ -6,7 +6,7 @@ public class Adl : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AdlResult> sut = Quotes
+        IReadOnlyList<AdlResult> sut = Bars
             .ToAdl();
 
         // proper quantities
@@ -27,7 +27,7 @@ public class Adl : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToAdl()
             .ToSma(10);
 
@@ -39,9 +39,9 @@ public class Adl : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AdlResult> r = BadQuotes
+        IReadOnlyList<AdlResult> r = BadBars
             .ToAdl();
 
         r.Should().HaveCount(502);
@@ -49,32 +49,32 @@ public class Adl : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<AdlResult> r = BigQuotes
+        IReadOnlyList<AdlResult> r = BigBars
             .ToAdl();
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public void RandomQuotes_WorksAsExpected()
+    public void RandomBars_WorksAsExpected()
     {
-        IReadOnlyList<AdlResult> r = RandomQuotes
+        IReadOnlyList<AdlResult> r = RandomBars
             .ToAdl();
 
         r.Should().HaveCount(1000);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AdlResult> r0 = Noquotes
+        IReadOnlyList<AdlResult> r0 = Nobars
             .ToAdl();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AdlResult> r1 = Onequote
+        IReadOnlyList<AdlResult> r1 = Onebar
             .ToAdl();
 
         r1.Should().HaveCount(1);

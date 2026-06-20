@@ -4,7 +4,7 @@ namespace Test.Data;
 /// Geometric Brownian Motion (GMB) is a random simulator of market movement.
 /// GBM can be used for testing indicators, validation and Monte Carlo simulations of strategies.
 /// </summary>
-internal class RandomGbm : List<Quote>
+internal class RandomGbm : List<Bar>
 {
     private readonly double _volatility;
     private readonly double _drift;
@@ -21,11 +21,11 @@ internal class RandomGbm : List<Quote>
     /// RandomGbm data = new(Bars: 252, Volatility: 0.05, Drift: 0.0005, Seed: 100.0)
     /// </code>
     /// </summary>
-    /// <param name="bars">Number of bars (quotes) to pre-generate; 0 starts an empty generator to be filled incrementally via <see cref="Add(DateTime)"/>.</param>
+    /// <param name="bars">Number of bars (bars) to pre-generate; 0 starts an empty generator to be filled incrementally via <see cref="Add(DateTime)"/>.</param>
     /// <param name="volatility">How dynamic/volatile the series should be; default is 1.</param>
     /// <param name="drift">Incremental drift due to annual interest rate; default is 5%.</param>
     /// <param name="seed">Starting value of the random series; should not be 0.</param>
-    /// <param name="periodSize">Period size for the quotes.</param>
+    /// <param name="barInterval">Period size for the bars.</param>
     /// <param name="includeWeekends">Whether to include weekends in the generated data.</param>
     /// <exception cref="ArgumentException">Thrown when an invalid argument is provided.</exception>
     public RandomGbm(
@@ -33,7 +33,7 @@ internal class RandomGbm : List<Quote>
         double volatility = 1.0,
         double drift = 0.01,
         double seed = 1000.0,
-        PeriodSize periodSize = PeriodSize.OneMinute,
+        BarInterval barInterval = BarInterval.OneMinute,
         bool includeWeekends = true)
     {
         // validation (0 is allowed: produces an empty generator to fill incrementally)
@@ -52,7 +52,7 @@ internal class RandomGbm : List<Quote>
             throw new ArgumentException("Seed must be greater than zero.", nameof(seed));
         }
 
-        TimeSpan frequency = periodSize.ToTimeSpan();
+        TimeSpan frequency = barInterval.ToTimeSpan();
 
         if (!includeWeekends && (frequency < TimeSpan.FromHours(1) || frequency >= TimeSpan.FromDays(7)))
         {
@@ -79,9 +79,9 @@ internal class RandomGbm : List<Quote>
     }
 
     /// <summary>
-    /// Adds a new quote to the list.
+    /// Adds a new bar to the list.
     /// </summary>
-    /// <param name="timestamp">Timestamp of the quote.</param>
+    /// <param name="timestamp">Timestamp of the bar.</param>
     public void Add(DateTime timestamp)
     {
         double open = Price(_seed, _volatility * _volatility, _drift);
@@ -97,7 +97,7 @@ internal class RandomGbm : List<Quote>
 
         double volume = Price(_seed * 1000, _volatility * 2, drift: 0);
 
-        Quote quote = new(
+        Bar bar = new(
             Timestamp: timestamp,
             Open: (decimal)open,
             High: (decimal)high,
@@ -105,7 +105,7 @@ internal class RandomGbm : List<Quote>
             Close: (decimal)close,
             Volume: (decimal)volume);
 
-        Add(quote);
+        Add(bar);
         _seed = close;
     }
 

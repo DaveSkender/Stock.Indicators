@@ -1,91 +1,91 @@
 namespace StreamHubs;
 
 [TestClass]
-public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
+public class StarcBandsHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        StarcBandsHub observer = quoteHub.ToStarcBandsHub(5, 2, 10);
+        StarcBandsHub observer = barHub.ToStarcBandsHub(5, 2, 10);
 
         // fetch initial results (early)
         IReadOnlyList<StarcBandsResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<StarcBandsResult> expectedOriginal = Quotes.ToStarcBands(5, 2, 10);
+        IReadOnlyList<StarcBandsResult> expectedOriginal = Bars.ToStarcBands(5, 2, 10);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<StarcBandsResult> expectedRevised = RevisedQuotes.ToStarcBands(5, 2, 10);
+        IReadOnlyList<StarcBandsResult> expectedRevised = RevisedBars.ToStarcBands(5, 2, 10);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<StarcBandsResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<StarcBandsResult> expected = bars
             .ToStarcBands(5, 2, 10)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        StarcBandsHub observer = quoteHub.ToStarcBandsHub(5, 2, 10);
+        BarHub barHub = new(maxCacheSize);
+        StarcBandsHub observer = barHub.ToStarcBandsHub(5, 2, 10);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes);
-        StarcBandsHub observer = quoteHub.ToStarcBandsHub(5, 2, 10);
+        BarHub barHub = new();
+        barHub.Add(Bars);
+        StarcBandsHub observer = barHub.ToStarcBandsHub(5, 2, 10);
 
         observer.ToString().Should().Be("STARCBANDS(5,2,10)");
     }
@@ -93,33 +93,33 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void PrefilledProvider_OnRebuild_MatchesSeriesExactly()
     {
-        QuoteHub quoteHub = new();
-        List<Quote> quotes = Quotes.Take(25).ToList();
+        BarHub barHub = new();
+        List<Bar> bars = Bars.Take(25).ToList();
 
         for (int i = 0; i < 5; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        StarcBandsHub observer = quoteHub.ToStarcBandsHub(5, 2, 3);
+        StarcBandsHub observer = barHub.ToStarcBandsHub(5, 2, 3);
 
         IReadOnlyList<StarcBandsResult> initialResults = observer.Results;
-        IReadOnlyList<StarcBandsResult> expectedInitial = quotes
+        IReadOnlyList<StarcBandsResult> expectedInitial = bars
             .Take(5)
             .ToList()
             .ToStarcBands(5, 2, 3);
 
         initialResults.IsExactly(expectedInitial);
 
-        for (int i = 5; i < quotes.Count; i++)
+        for (int i = 5; i < bars.Count; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        observer.Results.IsExactly(quotes.ToStarcBands(5, 2, 3));
+        observer.Results.IsExactly(bars.ToStarcBands(5, 2, 3));
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

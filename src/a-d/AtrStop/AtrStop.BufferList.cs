@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// ATR Trailing Stop from incremental quote values.
+/// ATR Trailing Stop from incremental bar values.
 /// </summary>
-public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrStop
+public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromBar, IAtrStop
 {
     private readonly AtrList _atrList;
     private bool _isBullish;
@@ -39,18 +39,18 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AtrStopList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AtrStopList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="endType">Candle threshold point to use for reversals.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public AtrStopList(
         int lookbackPeriods,
         double multiplier,
         EndType endType,
-        IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, multiplier, endType) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods, multiplier, endType) => Add(bars);
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
@@ -62,29 +62,29 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     public EndType EndType { get; init; }
 
     /// <summary>
-    /// Adds a new quote to the AtrStop list.
+    /// Adds a new bar to the AtrStop list.
     /// </summary>
-    /// <param name="quote">Quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
-    public void Add(IQuote quote)
+    /// <param name="bar">Bar to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the bar is null.</exception>
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
         // Add to ATR list to get ATR calculation
-        _atrList.Add(quote);
+        _atrList.Add(bar);
         AtrResult atrResult = _atrList[^1];
 
         // Handle warmup periods - need LookbackPeriods values for initial ATR
         if (_atrList.Count < LookbackPeriods + 1)
         {
-            _previousClose = (double)quote.Close;
-            AddInternal(new AtrStopResult(Timestamp: quote.Timestamp));
+            _previousClose = (double)bar.Close;
+            AddInternal(new AtrStopResult(Timestamp: bar.Timestamp));
             return;
         }
 
-        double close = (double)quote.Close;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
+        double close = (double)bar.Close;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
 
         // Initialize direction on first evaluation
         if (!_isInitialized)
@@ -131,7 +131,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
             _isBullish = false;
 
             result = new AtrStopResult(
-                Timestamp: quote.Timestamp,
+                Timestamp: bar.Timestamp,
                 AtrStop: _upperBand,
                 BuyStop: _upperBand,
                 SellStop: null,
@@ -143,7 +143,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
             _isBullish = true;
 
             result = new AtrStopResult(
-                Timestamp: quote.Timestamp,
+                Timestamp: bar.Timestamp,
                 AtrStop: _lowerBand,
                 BuyStop: null,
                 SellStop: _lowerBand,
@@ -155,17 +155,17 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     }
 
     /// <summary>
-    /// Adds a list of quotes to the AtrStop list.
+    /// Adds a list of bars to the AtrStop list.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public void Add(IReadOnlyList<IQuote> quotes)
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -208,17 +208,17 @@ public static partial class AtrStop
     /// <summary>
     /// Creates a buffer list for ATR Trailing Stop calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="endType">Candle threshold point to use for reversals.</param>
     /// <returns>An AtrStopList instance pre-populated with historical data.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static AtrStopList ToAtrStopList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 21,
         double multiplier = 3,
         EndType endType = EndType.Close)
-        => new(lookbackPeriods, multiplier, endType) { quotes };
+        => new(lookbackPeriods, multiplier, endType) { bars };
 }

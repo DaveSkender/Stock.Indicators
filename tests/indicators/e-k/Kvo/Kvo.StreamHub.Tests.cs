@@ -1,28 +1,28 @@
 namespace StreamHubs;
 
 [TestClass]
-public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class KvoHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        KvoHub observer = quoteHub.ToKvoHub(34, 55, 13);
+        KvoHub observer = barHub.ToKvoHub(34, 55, 13);
 
         // fetch initial results (early)
         IReadOnlyList<KvoResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -30,131 +30,131 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // removal
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
-        IReadOnlyList<KvoResult> expected = RevisedQuotes.ToKvo(34, 55, 13);
+        IReadOnlyList<KvoResult> expected = RevisedBars.ToKvo(34, 55, 13);
 
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 70;  // 55 (longest period) + 15 extra
-        const int totalQuotes = 140;  // ~2x cache size
+        const int totalBars = 140;  // ~2x cache size
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<KvoResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<KvoResult> expected = bars
             .ToKvo(34, 55, 13)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        KvoHub observer = quoteHub.ToKvoHub(34, 55, 13);
+        BarHub barHub = new(maxCacheSize);
+        KvoHub observer = barHub.ToKvoHub(34, 55, 13);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        KvoHub hub = new(new QuoteHub(), 34, 55, 13);
+        KvoHub hub = new(new BarHub(), 34, 55, 13);
         hub.ToString().Should().Be("KVO(34,55,13)");
     }
 
     [TestMethod]
-    public void Standard_WithStandardQuotes_ReturnsExpectedResult()
+    public void Standard_WithStandardBars_ReturnsExpectedResult()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        KvoHub observer = quoteHub.ToKvoHub(34, 55, 13);
+        KvoHub observer = barHub.ToKvoHub(34, 55, 13);
 
-        // emulate quote stream
-        foreach (Quote q in Quotes)
+        // emulate bar stream
+        foreach (Bar q in Bars)
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         // final results
         IReadOnlyList<KvoResult> streamList = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<KvoResult> seriesList = Quotes.ToKvo(34, 55, 13);
+        IReadOnlyList<KvoResult> seriesList = Bars.ToKvo(34, 55, 13);
 
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Variants_WithAllConfigurations_ReturnsExpectedResult()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer with different parameters
-        KvoHub observer = quoteHub.ToKvoHub(20, 40, 10);
+        KvoHub observer = barHub.ToKvoHub(20, 40, 10);
 
-        // emulate quote stream
-        foreach (Quote q in Quotes)
+        // emulate bar stream
+        foreach (Bar q in Bars)
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         // final results
         IReadOnlyList<KvoResult> streamList = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<KvoResult> seriesList = Quotes.ToKvo(20, 40, 10);
+        IReadOnlyList<KvoResult> seriesList = Bars.ToKvo(20, 40, 10);
 
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -165,66 +165,66 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         const int kvoSignal = 13;
         const int smaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer - chain KVO to SMA
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToKvoHub(kvoFast, kvoSlow, kvoSignal)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> expected = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedBars
             .ToKvo(kvoFast, kvoSlow, kvoSignal)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void BadData_WithInvalidValues_DoesNotFail()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // bad fast periods
-        Action act = () => quoteHub.ToKvoHub(2, 55, 13);
+        Action act = () => barHub.ToKvoHub(2, 55, 13);
         act.Should().Throw<ArgumentOutOfRangeException>()
             .WithParameterName("fastPeriods");
 
         // bad slow periods (less than fast)
-        act = () => quoteHub.ToKvoHub(34, 30, 13);
+        act = () => barHub.ToKvoHub(34, 30, 13);
         act.Should().Throw<ArgumentOutOfRangeException>()
             .WithParameterName("slowPeriods");
 
         // bad signal periods
-        act = () => quoteHub.ToKvoHub(34, 55, 0);
+        act = () => barHub.ToKvoHub(34, 55, 0);
         act.Should().Throw<ArgumentOutOfRangeException>()
             .WithParameterName("signalPeriods");
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

@@ -63,7 +63,7 @@ Complete formatting requirements for Markdown files in this organization.
 ## Mermaid diagrams
 
 - Use ` ```mermaid ` with language identifier
-- Always quote labels within square brackets
+- Always bar labels within square brackets
 - Use stroke styling, not fill colors (theme compatibility)
 - Test rendering in both dark and light themes
 

@@ -6,7 +6,7 @@ public class HeikinAshi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<HeikinAshiResult> sut = Quotes
+        IReadOnlyList<HeikinAshiResult> sut = Bars
             .ToHeikinAshi();
 
         // proper quantities
@@ -22,31 +22,31 @@ public class HeikinAshi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseAsQuotes_WhenChained_ReturnsExpectedResult()
+    public void UseAsBars_WhenChained_ReturnsExpectedResult()
     {
-        IReadOnlyList<HeikinAshiResult> haQuotes = Quotes.ToHeikinAshi();
-        IReadOnlyList<SmaResult> haSma = haQuotes.ToSma(5);
+        IReadOnlyList<HeikinAshiResult> haBars = Bars.ToHeikinAshi();
+        IReadOnlyList<SmaResult> haSma = haBars.ToSma(5);
         Assert.AreEqual(498, haSma.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<HeikinAshiResult> r = BadQuotes
+        IReadOnlyList<HeikinAshiResult> r = BadBars
             .ToHeikinAshi();
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<HeikinAshiResult> r0 = Noquotes
+        IReadOnlyList<HeikinAshiResult> r0 = Nobars
             .ToHeikinAshi();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<HeikinAshiResult> r1 = Onequote
+        IReadOnlyList<HeikinAshiResult> r1 = Onebar
             .ToHeikinAshi();
 
         r1.Should().HaveCount(1);

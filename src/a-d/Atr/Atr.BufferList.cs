@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Average True Range (ATR) from incremental quotes.
+/// Average True Range (ATR) from incremental bars.
 /// </summary>
-public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
+public class AtrList : BufferList<AtrResult>, IIncrementFromBar, IAtr
 {
     private readonly int _lookbackPeriods;
     private double _previousClose;
@@ -28,26 +28,26 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AtrList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AtrList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public AtrList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public AtrList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
+        DateTime timestamp = bar.Timestamp;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
 
         // Handle first period - no ATR calculation possible
         if (!_isInitialized)
@@ -101,13 +101,13 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -127,10 +127,10 @@ public static partial class Atr
     /// <summary>
     /// Creates a buffer list for Average True Range calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static AtrList ToAtrList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

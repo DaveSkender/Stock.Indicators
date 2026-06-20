@@ -6,44 +6,44 @@ public class Doji : BufferListTestBase
     private const double maxPriceChangePercent = 0.1;
 
     private static readonly IReadOnlyList<CandleResult> series
-       = Quotes.ToDoji(maxPriceChangePercent);
+       = Bars.ToDoji(maxPriceChangePercent);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         DojiList sut = new(maxPriceChangePercent);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        DojiList sut = Quotes.ToDojiList(maxPriceChangePercent);
+        DojiList sut = Bars.ToDojiList(maxPriceChangePercent);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        DojiList sut = new(maxPriceChangePercent, Quotes);
+        DojiList sut = new(maxPriceChangePercent, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<CandleResult> expected = subset.ToDoji(maxPriceChangePercent);
 
         DojiList sut = new(maxPriceChangePercent, subset);
@@ -70,7 +70,7 @@ public class Doji : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<CandleResult> expected = series
             .Skip(series.Count - maxListSize)

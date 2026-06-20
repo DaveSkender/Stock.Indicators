@@ -1,15 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Pivot Points from incremental quotes.
+/// Pivot Points from incremental bars.
 /// </summary>
-public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
+public class PivotsList : BufferList<PivotsResult>, IIncrementFromBar
 {
     private readonly int _leftSpan;
     private readonly int _rightSpan;
     private readonly int _maxTrendPeriods;
     private readonly EndType _endType;
-    private readonly List<QuoteBuffer> _quoteBuffer;
+    private readonly List<BarBuffer> _barBuffer;
 
     private int? _lastHighIndex;
     private decimal? _lastHighValue;
@@ -41,27 +41,27 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         _maxTrendPeriods = maxTrendPeriods;
         _endType = endType;
 
-        // Buffer needs to hold enough quotes to compute fractals and track trends
-        _quoteBuffer = new List<QuoteBuffer>(leftSpan + rightSpan + maxTrendPeriods + 1);
+        // Buffer needs to hold enough bars to compute fractals and track trends
+        _barBuffer = new List<BarBuffer>(leftSpan + rightSpan + maxTrendPeriods + 1);
 
         Name = $"PIVOTS({leftSpan}, {rightSpan}, {maxTrendPeriods}, {endType})";
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PivotsList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="PivotsList"/> class with initial bars.
     /// </summary>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
     /// <param name="endType">Type of end point for the pivot calculation.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public PivotsList(
         int leftSpan,
         int rightSpan,
         int maxTrendPeriods,
         EndType endType,
-        IReadOnlyList<IQuote> quotes)
-        : this(leftSpan, rightSpan, maxTrendPeriods, endType) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(leftSpan, rightSpan, maxTrendPeriods, endType) => Add(bars);
 
     /// <inheritdoc />
     public int LeftSpan { get; init; }
@@ -76,24 +76,24 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     public EndType EndType { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
-        // Add quote to buffer
-        _quoteBuffer.Add(new QuoteBuffer(
-            quote.Timestamp,
-            quote.High,
-            quote.Low,
-            quote.Close));
+        // Add bar to buffer
+        _barBuffer.Add(new BarBuffer(
+            bar.Timestamp,
+            bar.High,
+            bar.Low,
+            bar.Close));
 
         // Trim buffer if it exceeds maximum needed size
         int maxBufferSize = _leftSpan + _rightSpan + _maxTrendPeriods + 1;
-        while (_quoteBuffer.Count > maxBufferSize && Count > maxBufferSize)
+        while (_barBuffer.Count > maxBufferSize && Count > maxBufferSize)
         {
-            _quoteBuffer.RemoveAt(0);
+            _barBuffer.RemoveAt(0);
         }
 
         // Initialize result with no values
@@ -109,21 +109,21 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         // Add result to list
         AddInternal(result);
 
-        // Need at least leftSpan + rightSpan + 1 quotes to identify fractals
-        if (_quoteBuffer.Count < _leftSpan + _rightSpan + 1)
+        // Need at least leftSpan + rightSpan + 1 bars to identify fractals
+        if (_barBuffer.Count < _leftSpan + _rightSpan + 1)
         {
             return;
         }
 
-        // Compute fractal for quote at position (Count - rightSpan - 1)
-        // This is the quote that now has rightSpan quotes after it
+        // Compute fractal for bar at position (Count - rightSpan - 1)
+        // This is the bar that now has rightSpan bars after it
         int fractalCheckIndex = Count - _rightSpan - 1;
         if (fractalCheckIndex < _leftSpan)
         {
             return;
         }
 
-        int bufferCheckIndex = _quoteBuffer.Count - _rightSpan - 1;
+        int bufferCheckIndex = _barBuffer.Count - _rightSpan - 1;
         if (bufferCheckIndex < _leftSpan)
         {
             return;
@@ -133,13 +133,13 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -147,7 +147,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     public override void Clear()
     {
         base.Clear();
-        _quoteBuffer.Clear();
+        _barBuffer.Clear();
         _lastHighIndex = null;
         _lastHighValue = null;
         _lastLowIndex = null;
@@ -206,12 +206,12 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
 
     private void ComputeFractalAndUpdatePivots(int resultIndex, int bufferIndex)
     {
-        QuoteBuffer evalQuote = _quoteBuffer[bufferIndex];
+        BarBuffer evalBar = _barBuffer[bufferIndex];
         bool isHighFractal = true;
         bool isLowFractal = true;
 
-        decimal evalHigh = _endType == EndType.Close ? evalQuote.Close : evalQuote.High;
-        decimal evalLow = _endType == EndType.Close ? evalQuote.Close : evalQuote.Low;
+        decimal evalHigh = _endType == EndType.Close ? evalBar.Close : evalBar.High;
+        decimal evalLow = _endType == EndType.Close ? evalBar.Close : evalBar.Low;
 
         // Check left and right wings
         for (int p = bufferIndex - _leftSpan; p <= bufferIndex + _rightSpan; p++)
@@ -221,7 +221,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
                 continue;
             }
 
-            QuoteBuffer wing = _quoteBuffer[p];
+            BarBuffer wing = _barBuffer[p];
             decimal wingHigh = _endType == EndType.Close ? wing.Close : wing.High;
             decimal wingLow = _endType == EndType.Close ? wing.Close : wing.Low;
 
@@ -337,7 +337,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         }
     }
 
-    private sealed record QuoteBuffer(DateTime Timestamp, decimal High, decimal Low, decimal Close);
+    private sealed record BarBuffer(DateTime Timestamp, decimal High, decimal Low, decimal Close);
 }
 
 public static partial class Pivots
@@ -345,17 +345,17 @@ public static partial class Pivots
     /// <summary>
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
     /// <param name="endType">Type of end point for the pivot calculation.</param>
     /// <returns>A new <see cref="PivotsList"/> instance.</returns>
     public static PivotsList ToPivotsList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int leftSpan = 2,
         int rightSpan = 2,
         int maxTrendPeriods = 20,
         EndType endType = EndType.HighLow)
-        => new(leftSpan, rightSpan, maxTrendPeriods, endType) { quotes };
+        => new(leftSpan, rightSpan, maxTrendPeriods, endType) { bars };
 }

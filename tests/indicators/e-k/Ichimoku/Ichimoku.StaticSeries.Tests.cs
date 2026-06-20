@@ -10,7 +10,7 @@ public class Ichimoku : StaticSeriesTestBase
         const int kijunPeriods = 26;
         const int senkouBPeriods = 52;
 
-        IReadOnlyList<IchimokuResult> sut = Quotes
+        IReadOnlyList<IchimokuResult> sut = Bars
             .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
         // proper quantities
@@ -52,32 +52,32 @@ public class Ichimoku : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Extended_WithMoreQuotes_ReturnsExpectedResult()
+    public void Extended_WithMoreBars_ReturnsExpectedResult()
     {
-        IReadOnlyList<IchimokuResult> sut = Quotes
+        IReadOnlyList<IchimokuResult> sut = Bars
             .ToIchimoku(3, 13, 40, 0, 0);
 
         sut.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<IchimokuResult> r = BadQuotes
+        IReadOnlyList<IchimokuResult> r = BadBars
             .ToIchimoku();
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<IchimokuResult> r0 = Noquotes
+        IReadOnlyList<IchimokuResult> r0 = Nobars
             .ToIchimoku();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<IchimokuResult> r1 = Onequote
+        IReadOnlyList<IchimokuResult> r1 = Onebar
             .ToIchimoku();
 
         r1.Should().HaveCount(1);
@@ -86,7 +86,7 @@ public class Ichimoku : StaticSeriesTestBase
     [TestMethod]
     public void Condense_WithNoThreshold_RemovesNullValues()
     {
-        IReadOnlyList<IchimokuResult> sut = Quotes
+        IReadOnlyList<IchimokuResult> sut = Bars
             .ToIchimoku()
             .Condense();
 
@@ -98,24 +98,24 @@ public class Ichimoku : StaticSeriesTestBase
     {
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToIchimoku(0));
+            static () => Bars.ToIchimoku(0));
 
         // bad short span period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToIchimoku(9, 0));
+            static () => Bars.ToIchimoku(9, 0));
 
         // bad long span period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToIchimoku(9, 26, 26));
+            static () => Bars.ToIchimoku(9, 26, 26));
 
         // invalid offsets
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToIchimoku(9, 26, 52, -1));
+            static () => Bars.ToIchimoku(9, 26, 52, -1));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToIchimoku(9, 26, 52, -1, 12));
+            static () => Bars.ToIchimoku(9, 26, 52, -1, 12));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToIchimoku(9, 26, 52, 12, -1));
+            static () => Bars.ToIchimoku(9, 26, 52, 12, -1));
     }
 }

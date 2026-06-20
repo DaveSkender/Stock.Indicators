@@ -6,7 +6,7 @@ public class Cci : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CciResult> sut = Quotes
+        IReadOnlyList<CciResult> sut = Bars
             .ToCci();
 
         // proper quantities
@@ -21,7 +21,7 @@ public class Cci : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToCci()
             .ToSma(10);
 
@@ -30,9 +30,9 @@ public class Cci : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<CciResult> r = BadQuotes
+        IReadOnlyList<CciResult> r = BadBars
             .ToCci(15);
 
         r.Should().HaveCount(502);
@@ -40,14 +40,14 @@ public class Cci : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<CciResult> r0 = Noquotes
+        IReadOnlyList<CciResult> r0 = Nobars
             .ToCci();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<CciResult> r1 = Onequote
+        IReadOnlyList<CciResult> r1 = Onebar
             .ToCci();
 
         r1.Should().HaveCount(1);
@@ -56,7 +56,7 @@ public class Cci : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<CciResult> sut = Quotes
+        IReadOnlyList<CciResult> sut = Bars
             .ToCci()
             .RemoveWarmupPeriods();
 
@@ -73,7 +73,7 @@ public class Cci : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToCci(0))
+            .Invoking(static () => Bars.ToCci(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

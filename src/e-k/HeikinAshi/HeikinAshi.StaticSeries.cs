@@ -6,18 +6,18 @@ namespace Skender.Stock.Indicators;
 public static partial class HeikinAshi
 {
     /// <summary>
-    /// Converts a list of quotes to Heikin-Ashi results.
+    /// Converts a list of bars to Heikin-Ashi results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>A list of Heikin-Ashi results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     public static IReadOnlyList<HeikinAshiResult> ToHeikinAshi(
-        this IReadOnlyList<IQuote> quotes)
+        this IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<HeikinAshiResult> results = new(length);
 
         decimal prevOpen = decimal.MinValue;
@@ -25,7 +25,7 @@ public static partial class HeikinAshi
 
         if (length > 0)
         {
-            IQuote q = quotes[0];
+            IBar q = bars[0];
             prevOpen = q.Open;
             prevClose = q.Close;
         }
@@ -33,7 +33,7 @@ public static partial class HeikinAshi
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
 
             // close
             decimal close = (q.Open + q.High + q.Low + q.Close) / 4;

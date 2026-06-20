@@ -6,7 +6,7 @@ public class Fcb : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<FcbResult> sut = Quotes
+        IReadOnlyList<FcbResult> sut = Bars
             .ToFcb();
 
         // proper quantities
@@ -41,23 +41,23 @@ public class Fcb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<FcbResult> r = BadQuotes
+        IReadOnlyList<FcbResult> r = BadBars
             .ToFcb();
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<FcbResult> r0 = Noquotes
+        IReadOnlyList<FcbResult> r0 = Nobars
             .ToFcb();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<FcbResult> r1 = Onequote
+        IReadOnlyList<FcbResult> r1 = Onebar
             .ToFcb();
 
         r1.Should().HaveCount(1);
@@ -66,7 +66,7 @@ public class Fcb : StaticSeriesTestBase
     [TestMethod]
     public void Condense_WithNoThreshold_RemovesNullValues()
     {
-        IReadOnlyList<FcbResult> sut = Quotes
+        IReadOnlyList<FcbResult> sut = Bars
             .ToFcb()
             .Condense();
 
@@ -81,7 +81,7 @@ public class Fcb : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<FcbResult> sut = Quotes
+        IReadOnlyList<FcbResult> sut = Bars
             .ToFcb()
             .RemoveWarmupPeriods();
 
@@ -99,7 +99,7 @@ public class Fcb : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToFcb(1))
+            .Invoking(static () => Bars.ToFcb(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

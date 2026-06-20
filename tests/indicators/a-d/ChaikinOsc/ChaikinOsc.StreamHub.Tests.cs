@@ -1,30 +1,30 @@
 namespace StreamHubs;
 
 [TestClass]
-public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class ChaikinOscHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider
-        QuoteHub quoteHub = new();
+        // setup bar provider
+        BarHub barHub = new();
 
-        // prefill quotes to provider
+        // prefill bars to provider
         for (int i = 0; i < 40; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        ChaikinOscHub chaikinOscHub = quoteHub
+        ChaikinOscHub chaikinOscHub = barHub
             .ToChaikinOscHub(3, 10);
 
         // fetch initial results (early)
         IReadOnlyList<ChaikinOscResult> actuals
             = chaikinOscHub.Results;
 
-        // emulate adding quotes to provider
-        for (int i = 40; i < quotesCount; i++)
+        // emulate adding bars to provider
+        for (int i = 40; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -32,86 +32,86 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<ChaikinOscResult> expected = RevisedQuotes.ToChaikinOsc(3, 10);
+        IReadOnlyList<ChaikinOscResult> expected = RevisedBars.ToChaikinOsc(3, 10);
 
         // assert
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         chaikinOscHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<ChaikinOscResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<ChaikinOscResult> expected = bars
             .ToChaikinOsc(3, 10)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        ChaikinOscHub observer = quoteHub.ToChaikinOscHub(3, 10);
+        BarHub barHub = new(maxCacheSize);
+        ChaikinOscHub observer = barHub.ToChaikinOscHub(3, 10);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void ChainObserver_FromQuoteHub_MatchesSeriesExactly()
+    public void ChainObserver_FromBarHub_MatchesSeriesExactly()
     {
-        // ChaikinOsc requires IQuote input, so similar to BOP pattern
+        // ChaikinOsc requires IBar input, so similar to BOP pattern
         const int fastPeriods = 3;
         const int slowPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider
-        QuoteHub quoteHub = new();
+        // setup bar provider
+        BarHub barHub = new();
 
         // initialize observer
-        ChaikinOscHub chaikinOscHub = quoteHub
+        ChaikinOscHub chaikinOscHub = barHub
             .ToChaikinOscHub(fastPeriods, slowPeriods);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
@@ -120,7 +120,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
 
         // time-series, for comparison
         IReadOnlyList<ChaikinOscResult> seriesList
-           = quotesList
+           = barsList
             .ToChaikinOsc(fastPeriods, slowPeriods);
 
         // assert
@@ -128,7 +128,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
         streamList.IsExactly(seriesList);
 
         chaikinOscHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -138,48 +138,48 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
         const int slowPeriods = 10;
         const int emaPeriods = 12;
 
-        // setup quote provider
-        QuoteHub quoteHub = new();
+        // setup bar provider
+        BarHub barHub = new();
 
         // initialize observer
-        EmaHub emaHub = quoteHub
+        EmaHub emaHub = barHub
             .ToChaikinOscHub(fastPeriods, slowPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = emaHub.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<EmaResult> expected = RevisedQuotes
+        IReadOnlyList<EmaResult> expected = RevisedBars
             .ToChaikinOsc(fastPeriods, slowPeriods)
             .ToEma(emaPeriods);
 
         // assert
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         emaHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        ChaikinOscHub hub = new(new QuoteHub(), 3, 10);
+        ChaikinOscHub hub = new(new BarHub(), 3, 10);
         hub.ToString().Should().Be("CHAIKIN_OSC(3,10)");
     }
 }

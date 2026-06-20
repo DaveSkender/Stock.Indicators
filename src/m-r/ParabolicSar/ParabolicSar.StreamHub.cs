@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Parabolic SAR.
 /// </summary>
 public class ParabolicSarHub
-    : ChainHub<IQuote, ParabolicSarResult>, IParabolicSar
+    : ChainHub<IBar, ParabolicSarResult>, IParabolicSar
 {
     private readonly Queue<(double High, double Low)> _buffer;
 
@@ -29,14 +29,14 @@ public class ParabolicSarHub
         bool FirstReversalFound);
 
     internal ParabolicSarHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
         : this(provider, accelerationStep, maxAccelerationFactor, accelerationStep)
     {
     }
     internal ParabolicSarHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor) : base(provider)
@@ -68,7 +68,7 @@ public class ParabolicSarHub
     public double InitialFactor { get; init; }
     /// <inheritdoc/>
     protected override (ParabolicSarResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -77,7 +77,7 @@ public class ParabolicSarHub
         double high = (double)item.High;
         double low = (double)item.Low;
 
-        // Skip first quote (initialize state only)
+        // Skip first bar (initialize state only)
         if (!_isInitialized)
         {
             _accelerationFactor = InitialFactor;
@@ -86,7 +86,7 @@ public class ParabolicSarHub
             _isRising = true;  // initial guess
             _isInitialized = true;
 
-            // Ensure prior-quote buffer contains the first quote for next-bar clamps
+            // Ensure prior-bar buffer contains the first bar for next-bar clamps
             _buffer.Update(2, (high, low));
 
             // snapshot state for O(1) near-tail rollback
@@ -106,7 +106,7 @@ public class ParabolicSarHub
             double sar = _priorSar + (_accelerationFactor * (_extremePoint - _priorSar));
 
             // SAR cannot be higher than last two lows
-            // _buffer contains the PREVIOUS quotes (not including current)
+            // _buffer contains the PREVIOUS bars (not including current)
             if (_buffer.Count >= 2)
             {
                 ((double _, double l2), (double _, double l1)) = PeekLastTwo();  // i-2, i-1
@@ -146,7 +146,7 @@ public class ParabolicSarHub
             double sar = _priorSar - (_accelerationFactor * (_priorSar - _extremePoint));
 
             // SAR cannot be lower than last two highs
-            // _buffer contains the PREVIOUS quotes (not including current)
+            // _buffer contains the PREVIOUS bars (not including current)
             if (_buffer.Count >= 2)
             {
                 ((double h2, double _), (double h1, double _)) = PeekLastTwo();  // i-2, i-1
@@ -207,7 +207,7 @@ public class ParabolicSarHub
 
         _priorSar = psar;
 
-        // Update buffer for last two quotes AFTER using it for calculations
+        // Update buffer for last two bars AFTER using it for calculations
         _buffer.Update(2, (high, low));
 
         // snapshot state for O(1) near-tail rollback
@@ -219,7 +219,7 @@ public class ParabolicSarHub
     }
 
     /// <summary>
-    /// Gets the two buffered prior quotes (oldest first) without
+    /// Gets the two buffered prior bars (oldest first) without
     /// boxing the queue enumerator, unlike LINQ <c>ElementAt</c>.
     /// </summary>
     private ((double High, double Low) Oldest, (double High, double Low) Latest) PeekLastTwo()
@@ -256,16 +256,16 @@ public class ParabolicSarHub
             _isInitialized = snapshot.IsInitialized;
             _firstReversalFound = snapshot.FirstReversalFound;
 
-            // Rebuild the prior-quote buffer exactly as sequential processing
-            // would leave it: the last two quotes up to restoreIndex (only the
-            // first quote when restoreIndex is 0)
+            // Rebuild the prior-bar buffer exactly as sequential processing
+            // would leave it: the last two bars up to restoreIndex (only the
+            // first bar when restoreIndex is 0)
             if (restoreIndex >= 1)
             {
-                IQuote prior = ProviderCache[restoreIndex - 1];
+                IBar prior = ProviderCache[restoreIndex - 1];
                 _buffer.Update(2, ((double)prior.High, (double)prior.Low));
             }
 
-            IQuote restore = ProviderCache[restoreIndex];
+            IBar restore = ProviderCache[restoreIndex];
             _buffer.Update(2, ((double)restore.High, (double)restore.Low));
 
             return;
@@ -274,13 +274,13 @@ public class ParabolicSarHub
         // Rebuild state by replaying history up to restoreIndex
         for (int p = 0; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            double high = (double)quote.High;
-            double low = (double)quote.Low;
+            IBar bar = ProviderCache[p];
+            double high = (double)bar.High;
+            double low = (double)bar.Low;
 
             if (p == 0)
             {
-                // Initialize state with first quote
+                // Initialize state with first bar
                 _accelerationFactor = InitialFactor;
                 _extremePoint = high;
                 _priorSar = low;
@@ -290,7 +290,7 @@ public class ParabolicSarHub
                 continue;
             }
 
-            // Replay the calculation logic for this quote
+            // Replay the calculation logic for this bar
             bool isReversal;
 
             if (_isRising)
@@ -374,30 +374,30 @@ public class ParabolicSarHub
 public static partial class ParabolicSar
 {
     /// <summary>
-    /// Creates a Parabolic SAR streaming hub from a quote provider.
+    /// Creates a Parabolic SAR streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="accelerationStep">Acceleration step for the SAR calculation. Default is 0.02.</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     /// <returns>A Parabolic SAR hub.</returns>
     public static ParabolicSarHub ToParabolicSarHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
-        => new(quoteProvider, accelerationStep, maxAccelerationFactor);
+        => new(barProvider, accelerationStep, maxAccelerationFactor);
 
     /// <summary>
-    /// Creates a Parabolic SAR streaming hub from a quote provider with custom initial factor.
+    /// Creates a Parabolic SAR streaming hub from a bar provider with custom initial factor.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
     /// <returns>A Parabolic SAR hub.</returns>
     public static ParabolicSarHub ToParabolicSarHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)
-        => new(quoteProvider, accelerationStep, maxAccelerationFactor, initialFactor);
+        => new(barProvider, accelerationStep, maxAccelerationFactor, initialFactor);
 }

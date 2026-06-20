@@ -6,7 +6,7 @@ public class StdDevChannelsTests : RegressionTestBase<StdDevChannelsResult>
     public StdDevChannelsTests() : base("stdev-channels.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToStdDevChannels(20).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToStdDevChannels(20).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");

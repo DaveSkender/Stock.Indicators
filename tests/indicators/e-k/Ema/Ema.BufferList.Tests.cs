@@ -6,37 +6,37 @@ public class Ema : BufferListTestBase, ITestChainBufferList
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes.Cast<IReusable>().ToList();
+       = Bars.Cast<IReusable>().ToList();
 
     private static readonly IReadOnlyList<EmaResult> series
-       = Quotes.ToEma(lookbackPeriods);
+       = Bars.ToEma(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         EmaList sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Bar q in Bars) { sut.Add(q); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        EmaList sut = Quotes.ToEmaList(lookbackPeriods);
+        EmaList sut = Bars.ToEmaList(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        EmaList sut = new(lookbackPeriods, Quotes);
+        EmaList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -47,7 +47,7 @@ public class Ema : BufferListTestBase, ITestChainBufferList
 
         foreach (IReusable item in reusables) { sut.Add(item); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -56,7 +56,7 @@ public class Ema : BufferListTestBase, ITestChainBufferList
     {
         EmaList sut = new(lookbackPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -70,7 +70,7 @@ public class Ema : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -83,7 +83,7 @@ public class Ema : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<EmaResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -95,7 +95,7 @@ public class Ema : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<EmaResult> expected = subset.ToEma(lookbackPeriods);
 
         EmaList sut = new(lookbackPeriods, subset);

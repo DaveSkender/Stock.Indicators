@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Volatility Stop from incremental quotes.
+/// Volatility Stop from incremental bars.
 /// </summary>
-public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFromQuote
+public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFromBar
 {
     private readonly int _lookbackPeriods;
     private readonly double _multiplier;
@@ -40,13 +40,13 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VolatilityStopList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="VolatilityStopList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the Average True Range.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public VolatilityStopList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, multiplier) => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    public VolatilityStopList(int lookbackPeriods, double multiplier, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods, multiplier) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -55,20 +55,20 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     public double Multiplier { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double close = (double)quote.Close;
+        DateTime timestamp = bar.Timestamp;
+        double close = (double)bar.Close;
 
         // Add to ATR list
-        _atrList.Add(quote);
+        _atrList.Add(bar);
 
         // Track close prices during initialization
         _closePrices.Add(close);
 
-        // During initialization period (first lookbackPeriods quotes)
+        // During initialization period (first lookbackPeriods bars)
         if (Count < _lookbackPeriods)
         {
             // On the last initialization period, determine trend direction
@@ -141,13 +141,13 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -197,12 +197,12 @@ public static partial class VolatilityStop
     /// <summary>
     /// Creates a buffer list for Volatility Stop calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     public static VolatilityStopList ToVolatilityStopList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 7,
         double multiplier = 3)
-        => new(lookbackPeriods, multiplier) { quotes };
+        => new(lookbackPeriods, multiplier) { bars };
 }

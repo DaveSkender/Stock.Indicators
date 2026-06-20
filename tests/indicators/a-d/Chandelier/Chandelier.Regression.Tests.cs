@@ -6,16 +6,16 @@ public class ChandelierTests : RegressionTestBase<ChandelierResult>
     public ChandelierTests() : base("chexit.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToChandelier(22, 3).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToChandelier(22, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToChandelierList(22, 3).IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Bars.ToChandelierList(22, 3).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream_AgainstBaseline_MatchesExactly()
     {
-        QuoteHub hub = new();
-        hub.Add(Quotes);
+        BarHub hub = new();
+        hub.Add(Bars);
         hub.ToChandelierHub(22, 3).Results.IsExactly(Expected);
         hub.EndTransmission();
     }

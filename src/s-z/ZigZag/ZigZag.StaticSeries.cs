@@ -1,29 +1,29 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods to convert a list of quotes to a ZigZag series.
+/// Provides methods to convert a list of bars to a ZigZag series.
 /// </summary>
 public static partial class ZigZag
 {
     /// <summary>
-    /// Converts a list of quotes to a ZigZag series.
+    /// Converts a list of bars to a ZigZag series.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="endType">Type of end to use (Close or HighLow).</param>
     /// <param name="percentChange">Percentage change threshold for ZigZag points.</param>
     /// <returns>A list of ZigZag results.</returns>
     public static IReadOnlyList<ZigZagResult> ToZigZag(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         EndType endType = EndType.Close,
         decimal percentChange = 5
     )
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(percentChange);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<ZigZagResult> results = new(length);
 
         if (length == 0)
@@ -31,7 +31,7 @@ public static partial class ZigZag
             return results;
         }
 
-        IQuote q0 = quotes[0];
+        IBar q0 = bars[0];
 
         ZigZagEval eval = GetZigZagEval(endType, 1, q0);
         decimal changeThreshold = percentChange / 100m;
@@ -57,7 +57,7 @@ public static partial class ZigZag
         // roll through source values, to find initial trend
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
             int index = i + 1;
 
             eval = GetZigZagEval(endType, index, q);
@@ -97,12 +97,12 @@ public static partial class ZigZag
         while (lastPoint.Index < length)
         {
             ZigZagPoint nextPoint = EvaluateNextPoint(
-                quotes, endType, changeThreshold, lastPoint);
+                bars, endType, changeThreshold, lastPoint);
 
             string lastDirection = lastPoint.PointType;
 
             // draw line (and reset last point)
-            DrawZigZagLine(results, quotes, lastPoint, nextPoint);
+            DrawZigZagLine(results, bars, lastPoint, nextPoint);
 
             // draw retrace line (and reset last high/low point)
             DrawRetraceLine(results, lastDirection, lastLowPoint,
@@ -115,13 +115,13 @@ public static partial class ZigZag
     /// <summary>
     /// Evaluates the next ZigZag point.
     /// </summary>
-    /// <param name="quotesList">List of quotes.</param>
+    /// <param name="barsList">List of bars.</param>
     /// <param name="endType">Type of end to use (Close or HighLow).</param>
     /// <param name="changeThreshold">Percentage change threshold for ZigZag points.</param>
     /// <param name="lastPoint">Last ZigZag point.</param>
     /// <returns>Next ZigZag point.</returns>
     internal static ZigZagPoint EvaluateNextPoint(
-        IReadOnlyList<IQuote> quotesList,
+        IReadOnlyList<IBar> barsList,
         EndType endType,
         decimal changeThreshold,
         ZigZagPoint lastPoint)
@@ -137,9 +137,9 @@ public static partial class ZigZag
         };
 
         // find extreme point before reversal point
-        for (int i = lastPoint.Index; i < quotesList.Count; i++)
+        for (int i = lastPoint.Index; i < barsList.Count; i++)
         {
-            IQuote q = quotesList[i];
+            IBar q = barsList[i];
             int index = i + 1;
             decimal? change;
 
@@ -183,7 +183,7 @@ public static partial class ZigZag
             }
 
             // add last unconfirmed end point
-            if (index == quotesList.Count)
+            if (index == barsList.Count)
             {
                 extremePoint.Index = index;
                 extremePoint.Value = trendUp ? eval.High : eval.Low;
@@ -198,11 +198,11 @@ public static partial class ZigZag
     /// Draws a ZigZag line between two points.
     /// </summary>
     /// <param name="results">List of ZigZag results.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lastPoint">Last ZigZag point.</param>
     /// <param name="nextPoint">Next ZigZag point.</param>
     private static void DrawZigZagLine(
-        List<ZigZagResult> results, IReadOnlyList<IQuote> quotes,
+        List<ZigZagResult> results, IReadOnlyList<IBar> bars,
         ZigZagPoint lastPoint, ZigZagPoint nextPoint)
     {
         if (nextPoint.Index != lastPoint.Index)
@@ -214,7 +214,7 @@ public static partial class ZigZag
             // add new line segment
             for (int i = lastPoint.Index; i < nextPoint.Index; i++)
             {
-                IQuote q = quotes[i];
+                IBar q = bars[i];
                 int index = i + 1;
 
                 ZigZagResult result = new(
@@ -328,17 +328,17 @@ public static partial class ZigZag
     }
 
     /// <summary>
-    /// Gets the ZigZag evaluation for a quote.
+    /// Gets the ZigZag evaluation for a bar.
     /// </summary>
     /// <param name="endType">Type of end to use (Close or HighLow).</param>
-    /// <param name="index">Index of the quote.</param>
-    /// <param name="q">Quote.</param>
+    /// <param name="index">Index of the bar.</param>
+    /// <param name="q">Bar.</param>
     /// <returns>ZigZag evaluation.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static ZigZagEval GetZigZagEval(
         EndType endType,
         int index,
-        IQuote q)
+        IBar q)
     {
         ZigZagEval eval = new() {
             Index = index

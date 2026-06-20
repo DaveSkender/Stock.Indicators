@@ -6,11 +6,11 @@ public class FractalTests : RegressionTestBase<FractalResult>
     public FractalTests() : base("fractal.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToFractal(2).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToFractal(2).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToFractalList(2).IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Bars.ToFractalList(2).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream_AgainstBaseline_MatchesExactly() => Quotes.ToFractalHub(2).Results.IsExactly(Expected);
+    public override void Stream_AgainstBaseline_MatchesExactly() => Bars.ToFractalHub(2).Results.IsExactly(Expected);
 }

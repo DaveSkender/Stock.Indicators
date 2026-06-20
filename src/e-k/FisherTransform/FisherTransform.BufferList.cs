@@ -100,7 +100,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        // prefer HL2 when source is an IQuote (Fisher Transform specification)
+        // prefer HL2 when source is an IBar (Fisher Transform specification)
         Add(value.Timestamp, value.Hl2OrValue());
     }
 
@@ -112,7 +112,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
         for (int i = 0; i < values.Count; i++)
         {
             IReusable v = values[i];
-            // prefer HL2 when source is an IQuote (Fisher Transform specification)
+            // prefer HL2 when source is an IBar (Fisher Transform specification)
             Add(v.Timestamp, v.Hl2OrValue());
         }
     }

@@ -11,7 +11,7 @@ description: Simple Moving Average (SMA) extended with Mean Absolute Deviation (
 ```csharp
 // C# usage syntax
 IReadOnlyList<SmaAnalysisResult> results =
-  quotes.ToSmaAnalysis(lookbackPeriods);
+  bars.ToSmaAnalysis(lookbackPeriods);
 ```
 
 ## Parameters
@@ -20,11 +20,11 @@ IReadOnlyList<SmaAnalysisResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window. Must be greater than 0. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -32,8 +32,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<SmaAnalysisResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -41,7 +41,7 @@ IReadOnlyList<SmaAnalysisResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Sma` | double | Simple moving average |
 | `Mad` | double | Mean absolute deviation |
 | `Mse` | double | Mean square error |
@@ -62,7 +62,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToSmaAnalysis(..);
 ```
@@ -71,7 +71,7 @@ Results can be further processed on `Sma` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToSmaAnalysis(..)
     .ToRsi(..);
 ```
@@ -85,7 +85,7 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 SmaAnalysisList smaAnalysisList = new(lookbackPeriods);
 
-foreach (IReusable value in quotes)  // simulating stream
+foreach (IReusable value in bars)  // simulating stream
 {
   smaAnalysisList.Add(value);
 }
@@ -97,12 +97,12 @@ IReadOnlyList<SmaAnalysisResult> results = smaAnalysisList;
 Subscribe to a chain-enabled hub for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-SmaAnalysisHub observer = quoteHub.ToSmaAnalysisHub(lookbackPeriods);
+BarHub barHub = new();
+SmaAnalysisHub observer = barHub.ToSmaAnalysisHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<SmaAnalysisResult> results = observer.Results;

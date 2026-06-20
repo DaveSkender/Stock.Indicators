@@ -1,16 +1,16 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents a hub for Heikin-Ashi quote transformation.
+/// Represents a hub for Heikin-Ashi bar transformation.
 /// </summary>
 public class HeikinAshiHub
-    : QuoteProvider<IQuote, HeikinAshiResult>
+    : BarProvider<IBar, HeikinAshiResult>
 {
     private decimal _prevOpen = decimal.MinValue;
     private decimal _prevClose = decimal.MinValue;
 
     internal HeikinAshiHub(
-        IQuoteProvider<IQuote> provider) : base(provider)
+        IBarProvider<IBar> provider) : base(provider)
     {
         Name = "HEIKINASHI";
         // Validate cache size for warmup requirements
@@ -20,7 +20,7 @@ public class HeikinAshiHub
     }
     /// <inheritdoc/>
     protected override (HeikinAshiResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -28,7 +28,7 @@ public class HeikinAshiHub
         decimal prevOpen;
         decimal prevClose;
 
-        // Get previous values from cache or initialize from first quote
+        // Get previous values from cache or initialize from first bar
         if (i == 0)
         {
             prevOpen = item.Open;
@@ -47,12 +47,12 @@ public class HeikinAshiHub
             prevOpen = _prevOpen;
             prevClose = _prevClose;
 
-            // If state is uninitialized, seed from first quote or current item
+            // If state is uninitialized, seed from first bar or current item
             if (prevOpen == decimal.MinValue || prevClose == decimal.MinValue)
             {
                 if (ProviderCache.Count > 0)
                 {
-                    IQuote q0 = ProviderCache[0];
+                    IBar q0 = ProviderCache[0];
                     prevOpen = q0.Open;
                     prevClose = q0.Close;
                 }
@@ -114,13 +114,13 @@ public class HeikinAshiHub
                 }
             }
 
-            // else: fall through to seed from first quote/defaults below
+            // else: fall through to seed from first bar/defaults below
         }
 
-        // reset to first quote if no cache
+        // reset to first bar if no cache
         if (ProviderCache.Count > 0)
         {
-            IQuote q0 = ProviderCache[0];
+            IBar q0 = ProviderCache[0];
             _prevOpen = q0.Open;
             _prevClose = q0.Close;
         }
@@ -135,12 +135,12 @@ public class HeikinAshiHub
 public static partial class HeikinAshi
 {
     /// <summary>
-    /// Creates a Heikin-Ashi hub from a quote provider.
+    /// Creates a Heikin-Ashi hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <returns>A Heikin-Ashi hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     public static HeikinAshiHub ToHeikinAshiHub(
-        this IQuoteProvider<IQuote> quoteProvider)
-        => new(quoteProvider);
+        this IBarProvider<IBar> barProvider)
+        => new(barProvider);
 }

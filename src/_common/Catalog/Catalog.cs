@@ -235,23 +235,23 @@ public static partial class Catalog
     /// Executes an indicator using only its ID and style with a typed result.
     /// </summary>
     /// <typeparam name="TResult">Expected indicator result type.</typeparam>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="id">Indicator ID (e.g., "EMA", "RSI", "MACD").</param>
     /// <param name="style">Indicator style (Series, Stream, or Buffer).</param>
     /// <param name="parameters">Optional parameter overrides.</param>
     /// <returns>Indicator results as a typed list.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
     /// <exception cref="ArgumentException">Thrown when id is null or empty.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
     internal static IReadOnlyList<TResult> ExecuteById<TResult>(
-        this IEnumerable<IQuote> quotes,
+        this IEnumerable<IBar> bars,
         string id,
         Style style,
         Dictionary<string, object>? parameters = null)
         where TResult : class
     {
         // Validate inputs
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -263,26 +263,26 @@ public static partial class Catalog
             ?? throw new InvalidOperationException($"Indicator '{id}' with style '{style}' not found in catalog.");
 
         // Execute using typed executor
-        return ListingExecutor.Execute<TResult>(quotes, listing, parameters);
+        return ListingExecutor.Execute<TResult>(bars, listing, parameters);
     }
 
     /// <summary>
     /// Executes an indicator from a JSON configuration string with a typed result.
     /// </summary>
     /// <typeparam name="TResult">Expected indicator result type.</typeparam>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="json">JSON configuration string containing indicator settings.</param>
     /// <returns>Indicator results as a typed list.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when json or quotes is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when json or bars is null.</exception>
     /// <exception cref="ArgumentException">Thrown when json is empty or invalid.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
     internal static IReadOnlyList<TResult> ExecuteFromJson<TResult>(
-        this IEnumerable<IQuote> quotes,
+        this IEnumerable<IBar> bars,
         string json)
         where TResult : class
     {
         // Validate inputs
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         ArgumentNullException.ThrowIfNull(json);
 
         if (string.IsNullOrWhiteSpace(json))
@@ -306,7 +306,7 @@ public static partial class Catalog
         Dictionary<string, object>? convertedParameters = ConvertJsonElementsInParameters(config.Parameters);
 
         // Execute using the parsed configuration
-        return quotes.ExecuteById<TResult>(config.Id, config.Style, convertedParameters);
+        return bars.ExecuteById<TResult>(config.Id, config.Style, convertedParameters);
     }
 
     /// <summary>

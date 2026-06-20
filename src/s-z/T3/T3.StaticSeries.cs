@@ -41,7 +41,7 @@ public static partial class T3
         double e5 = double.NaN;
         double e6 = double.NaN;
 
-        // roll through remaining quotes
+        // roll through remaining bars
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];

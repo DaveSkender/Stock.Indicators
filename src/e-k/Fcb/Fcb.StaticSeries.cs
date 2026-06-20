@@ -6,26 +6,26 @@ namespace Skender.Stock.Indicators;
 public static partial class Fcb
 {
     /// <summary>
-    /// Converts a list of quotes to FCB results.
+    /// Converts a list of bars to FCB results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Window span for the calculation. Default is 2.</param>
     /// <returns>A list of FCB results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
     public static IReadOnlyList<FcbResult> ToFcb(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int windowSpan = 2)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(windowSpan);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<FcbResult> results = new(length);
 
-        IReadOnlyList<FractalResult> fractals = quotes
+        IReadOnlyList<FractalResult> fractals = bars
             .ToFractal(windowSpan, windowSpan, EndType.HighLow);
 
         decimal? upperLine = null;

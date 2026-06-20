@@ -1,44 +1,44 @@
 namespace BufferLists;
 
 [TestClass]
-public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
+public class ParabolicSar : BufferListTestBase, ITestBarBufferList
 {
     private const double accelerationStep = 0.02;
     private const double maxAccelerationFactor = 0.2;
 
     private static readonly IReadOnlyList<ParabolicSarResult> series
-        = Quotes.ToParabolicSar(accelerationStep, maxAccelerationFactor);
+        = Bars.ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         ParabolicSarList sut = new(accelerationStep, maxAccelerationFactor);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Bar q in Bars) { sut.Add(q); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        ParabolicSarList sut = Quotes.ToParabolicSarList(accelerationStep, maxAccelerationFactor);
+        ParabolicSarList sut = Bars.ToParabolicSarList(accelerationStep, maxAccelerationFactor);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
         ParabolicSarList sut = new(
             accelerationStep,
             maxAccelerationFactor,
             accelerationStep,
-            Quotes);
+            Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -50,15 +50,15 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
         const double initialStep = 0.01;
 
         IReadOnlyList<ParabolicSarResult> seriesExt =
-            Quotes.ToParabolicSar(accelerationStepExt, maxAccelerationFactorExt, initialStep);
+            Bars.ToParabolicSar(accelerationStepExt, maxAccelerationFactorExt, initialStep);
 
         ParabolicSarList sut = new(
             accelerationStepExt,
             maxAccelerationFactorExt,
             initialStep,
-            Quotes);
+            Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(seriesExt);
     }
 
@@ -71,7 +71,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<ParabolicSarResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -83,7 +83,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<ParabolicSarResult> expected = subset.ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
         ParabolicSarList sut = new(

@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Represents a hub for Aroon Oscillator calculations.
 /// </summary>
 public class AroonHub
-    : ChainHub<IQuote, AroonResult>, IAroon
+    : ChainHub<IBar, AroonResult>, IAroon
 {
     internal AroonHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         Aroon.Validate(lookbackPeriods);
@@ -24,7 +24,7 @@ public class AroonHub
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (AroonResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -44,7 +44,7 @@ public class AroonHub
             // Look back over the specified period
             for (int p = i - LookbackPeriods; p <= i; p++)
             {
-                IQuote d = ProviderCache[p];
+                IBar d = ProviderCache[p];
 
                 if (d.High > lastHighPrice)
                 {
@@ -80,15 +80,15 @@ public class AroonHub
 public static partial class Aroon
 {
     /// <summary>
-    /// Creates an Aroon hub from a quote provider.
+    /// Creates an Aroon hub from a bar provider.
     /// </summary>
-    /// <param name="provider">Quote provider.</param>
+    /// <param name="provider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An Aroon hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static AroonHub ToAroonHub(
-        this IQuoteProvider<IQuote> provider,
+        this IBarProvider<IBar> provider,
         int lookbackPeriods = 25)
         => new(provider, lookbackPeriods);
 }

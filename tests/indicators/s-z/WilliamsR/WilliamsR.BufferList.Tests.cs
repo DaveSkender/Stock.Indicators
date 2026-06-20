@@ -6,10 +6,10 @@ public class WilliamsR : BufferListTestBase
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<WilliamsResult> series
-       = Quotes.ToWilliamsR(lookbackPeriods);
+       = Bars.ToWilliamsR(lookbackPeriods);
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<WilliamsResult> sut = Data
             .GetRandom(2500)
@@ -19,48 +19,48 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         WilliamsRList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        WilliamsRList sut = new(lookbackPeriods) { Quotes };
+        WilliamsRList sut = new(lookbackPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        WilliamsRList sut = new(lookbackPeriods, Quotes);
+        WilliamsRList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        WilliamsRList sut = new(14, Quotes);
+        WilliamsRList sut = new(14, Bars);
         sut.IsBetween(static x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
 
         WilliamsRList sut = new(lookbackPeriods, subset);
 
@@ -70,9 +70,9 @@ public class WilliamsR : BufferListTestBase
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
+        foreach (Bar bar in subset)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<WilliamsResult> expected = subset.ToWilliamsR(lookbackPeriods);
@@ -86,11 +86,11 @@ public class WilliamsR : BufferListTestBase
     {
         // Test that incremental addition produces same sut as batch
         WilliamsRList incremental = new(lookbackPeriods);
-        WilliamsRList batch = new(lookbackPeriods) { Quotes };
+        WilliamsRList batch = new(lookbackPeriods) { Bars };
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            incremental.Add(quote);
+            incremental.Add(bar);
         }
 
         incremental.Should().HaveCount(batch.Count);
@@ -110,11 +110,11 @@ public class WilliamsR : BufferListTestBase
     {
         // Test with minimal data
         WilliamsRList sut = new(5);
-        List<Quote> minimal = Quotes.Take(5).ToList();
+        List<Bar> minimal = Bars.Take(5).ToList();
 
-        foreach (Quote quote in minimal)
+        foreach (Bar bar in minimal)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         sut.Should().HaveCount(minimal.Count);
@@ -133,8 +133,8 @@ public class WilliamsR : BufferListTestBase
     public void BufferListExtension_VersusConstructor_MatchesExactly()
     {
         // Test extension method
-        WilliamsRList fromExtension = Quotes.ToWilliamsRList(lookbackPeriods);
-        WilliamsRList fromConstructor = new(lookbackPeriods) { Quotes };
+        WilliamsRList fromExtension = Bars.ToWilliamsRList(lookbackPeriods);
+        WilliamsRList fromConstructor = new(lookbackPeriods) { Bars };
 
         fromExtension.Should().HaveCount(fromConstructor.Count);
         fromExtension.IsExactly(fromConstructor);
@@ -149,9 +149,9 @@ public class WilliamsR : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<WilliamsResult> expected

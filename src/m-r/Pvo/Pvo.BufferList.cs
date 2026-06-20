@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Percentage Volume Oscillator (PVO) from incremental quotes.
+/// Percentage Volume Oscillator (PVO) from incremental bars.
 /// </summary>
-public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
+public class PvoList : BufferList<PvoResult>, IIncrementFromBar, IPvo
 {
     private readonly Queue<double> _fastBuffer;
     private readonly Queue<double> _slowBuffer;
@@ -45,18 +45,18 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PvoList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="PvoList"/> class with initial bars.
     /// </summary>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public PvoList(
         int fastPeriods,
         int slowPeriods,
         int signalPeriods,
-        IReadOnlyList<IQuote> quotes)
-        : this(fastPeriods, slowPeriods, signalPeriods) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(fastPeriods, slowPeriods, signalPeriods) => Add(bars);
 
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
@@ -175,20 +175,20 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, (double)quote.Volume);
+        ArgumentNullException.ThrowIfNull(bar);
+        Add(bar.Timestamp, (double)bar.Volume);
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i].Timestamp, (double)quotes[i].Volume);
+            Add(bars[i].Timestamp, (double)bars[i].Volume);
         }
     }
 
@@ -211,14 +211,14 @@ public static partial class Pvo
     /// <summary>
     /// Creates a buffer list for Percentage Volume Oscillator (PVO) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="fastPeriods">Number of periods for the fast moving average</param>
     /// <param name="slowPeriods">Number of periods for the slow moving average</param>
     /// <param name="signalPeriods">Number of periods for the signal line</param>
     public static PvoList ToPvoList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        => new(fastPeriods, slowPeriods, signalPeriods) { quotes };
+        => new(fastPeriods, slowPeriods, signalPeriods) { bars };
 }

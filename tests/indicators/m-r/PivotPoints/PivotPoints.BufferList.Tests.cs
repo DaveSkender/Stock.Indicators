@@ -1,50 +1,50 @@
 namespace BufferLists;
 
 [TestClass]
-public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
+public class PivotPoints : BufferListTestBase, ITestBarBufferList
 {
-    private const PeriodSize windowSize = PeriodSize.Month;
+    private const BarInterval windowSize = BarInterval.Month;
     private const PivotPointType pointType = PivotPointType.Standard;
 
     private static readonly IReadOnlyList<PivotPointsResult> series
-       = Quotes.ToPivotPoints(windowSize, pointType);
+       = Bars.ToPivotPoints(windowSize, pointType);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         PivotPointsList sut = new(windowSize, pointType);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        PivotPointsList sut = Quotes.ToPivotPointsList(windowSize, pointType);
+        PivotPointsList sut = Bars.ToPivotPointsList(windowSize, pointType);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        PivotPointsList sut = new(windowSize, pointType, Quotes);
+        PivotPointsList sut = new(windowSize, pointType, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<PivotPointsResult> expected = subset.ToPivotPoints(windowSize, pointType);
 
         PivotPointsList sut = new(windowSize, pointType, subset);
@@ -71,7 +71,7 @@ public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<PivotPointsResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

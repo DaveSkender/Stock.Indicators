@@ -7,7 +7,7 @@ public class BollingerBands : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<BollingerBandsResult> sut =
-            Quotes.ToBollingerBands();
+            Bars.ToBollingerBands();
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -39,7 +39,7 @@ public class BollingerBands : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<BollingerBandsResult> sut = Quotes
+        IReadOnlyList<BollingerBandsResult> sut = Bars
             .Use(CandlePart.Close)
             .ToBollingerBands();
 
@@ -50,7 +50,7 @@ public class BollingerBands : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<BollingerBandsResult> sut = Quotes
+        IReadOnlyList<BollingerBandsResult> sut = Bars
             .ToSma(2)
             .ToBollingerBands();
 
@@ -61,7 +61,7 @@ public class BollingerBands : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToBollingerBands()
             .ToSma(10);
 
@@ -70,9 +70,9 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<BollingerBandsResult> r = BadQuotes
+        IReadOnlyList<BollingerBandsResult> r = BadBars
             .ToBollingerBands(15, 3);
 
         r.Should().HaveCount(502);
@@ -80,14 +80,14 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<BollingerBandsResult> r0 = Noquotes
+        IReadOnlyList<BollingerBandsResult> r0 = Nobars
             .ToBollingerBands();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<BollingerBandsResult> r1 = Onequote
+        IReadOnlyList<BollingerBandsResult> r1 = Onebar
             .ToBollingerBands();
 
         r1.Should().HaveCount(1);
@@ -96,7 +96,7 @@ public class BollingerBands : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<BollingerBandsResult> sut = Quotes
+        IReadOnlyList<BollingerBandsResult> sut = Bars
             .ToBollingerBands()
             .RemoveWarmupPeriods();
 
@@ -117,10 +117,10 @@ public class BollingerBands : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToBollingerBands(1));
+            static () => Bars.ToBollingerBands(1));
 
         // bad standard deviation
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToBollingerBands(2, 0));
+            static () => Bars.ToBollingerBands(2, 0));
     }
 }

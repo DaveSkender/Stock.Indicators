@@ -100,18 +100,18 @@ public sealed class EmaUiObserver : IStreamObserver<EmaResult>, IDisposable
 Wire it up alongside the rest of the pipeline:
 
 ```csharp
-QuoteHub quoteHub = new();
-EmaHub emaHub = quoteHub.ToEmaHub(20);
+BarHub barHub = new();
+EmaHub emaHub = barHub.ToEmaHub(20);
 
 using EmaUiObserver ui = new(emaHub, result => uiDispatcher.Post(result));
 
-foreach (Quote q in liveQuotes)
+foreach (Bar q in liveBars)
 {
-    quoteHub.Add(q);
+    barHub.Add(q);
 }
 ```
 
-Every quote published to `quoteHub` cascades through `emaHub.OnAdd(...)`; the EMA result then notifies `ui.OnAdd(...)`, which posts to the UI thread. Disposing `ui` unsubscribes cleanly.
+Every bar published to `barHub` cascades through `emaHub.OnAdd(...)`; the EMA result then notifies `ui.OnAdd(...)`, which posts to the UI thread. Disposing `ui` unsubscribes cleanly.
 
 ## Re-exposing observer state as a chain provider
 

@@ -9,13 +9,13 @@ namespace Observables;
 /// Generic rollback-equivalence contract: for every Style.Stream listing in
 /// the catalog, a hub that has been rolled back via Rebuild(timestamp) and
 /// re-played from its provider must produce the same Results as a
-/// freshly-instantiated hub fed the same quotes once. This pins the
+/// freshly-instantiated hub fed the same bars once. This pins the
 /// RollbackState(int) contract across all 50+ overrides.
 /// </summary>
 /// <remarks>
 /// Scope: catalog-registered Style.Stream listings only. Hubs that override
-/// RollbackState but are NOT in the catalog (e.g. QuoteAggregatorHub,
-/// TickAggregatorHub) are out of scope and covered separately.
+/// RollbackState but are NOT in the catalog (e.g. BarAggregatorHub,
+/// TradeTickAggregatorHub) are out of scope and covered separately.
 /// This contract exercises Rebuild(timestamp) in isolation; subsequent
 /// live-add behaviour after rebuild is covered by per-indicator
 /// late-arrival tests inside each *.StreamHub.Tests.cs file.
@@ -29,11 +29,11 @@ public class StreamHubRollbackContractTests : TestBase
     [TestMethod]
     public void AllStreamHubs_AfterRebuild_MatchFreshStream()
     {
-        IReadOnlyList<Quote> quotes = Quotes.Take(TotalLength).ToList();
-        quotes.Should().HaveCount(TotalLength,
-            "the contract relies on a 500-quote fixture; default test data must supply at least that many");
+        IReadOnlyList<Bar> bars = Bars.Take(TotalLength).ToList();
+        bars.Should().HaveCount(TotalLength,
+            "the contract relies on a 500-bar fixture; default test data must supply at least that many");
 
-        DateTime rollbackTimestamp = quotes[PrefixLength].Timestamp;
+        DateTime rollbackTimestamp = bars[PrefixLength].Timestamp;
 
         IReadOnlyList<IndicatorListing> streamListings = Catalog.Get(Style.Stream);
         streamListings.Should().NotBeEmpty("the catalog must register Stream-style listings");
@@ -43,7 +43,7 @@ public class StreamHubRollbackContractTests : TestBase
 
         foreach (IndicatorListing listing in streamListings)
         {
-            ContractOutcome outcome = RunContract(listing, quotes, rollbackTimestamp);
+            ContractOutcome outcome = RunContract(listing, bars, rollbackTimestamp);
             string entry = $"{listing.Uiid} ({listing.MethodName}): {outcome.Detail}";
 
             switch (outcome.Verdict)
@@ -76,7 +76,7 @@ public class StreamHubRollbackContractTests : TestBase
 
     private static ContractOutcome RunContract(
         IndicatorListing listing,
-        IReadOnlyList<Quote> quotes,
+        IReadOnlyList<Bar> bars,
         DateTime rollbackTimestamp)
     {
         try
@@ -93,11 +93,11 @@ public class StreamHubRollbackContractTests : TestBase
                 return new ContractOutcome(Verdict.Skip, skipReason ?? "no matching factory found");
             }
 
-            (QuoteHub rebuildSource, object rebuildHub) = BuildHub(factory, listing);
-            (QuoteHub freshSource, object freshHub) = BuildHub(factory, listing);
+            (BarHub rebuildSource, object rebuildHub) = BuildHub(factory, listing);
+            (BarHub freshSource, object freshHub) = BuildHub(factory, listing);
 
-            rebuildSource.Add(quotes);
-            freshSource.Add(quotes);
+            rebuildSource.Add(bars);
+            freshSource.Add(bars);
 
             InvokeRebuild(rebuildHub, rollbackTimestamp);
 
@@ -153,15 +153,15 @@ public class StreamHubRollbackContractTests : TestBase
             return (null, $"no public static extension method named {methodName}");
         }
 
-        // Keep only overloads whose first parameter accepts a QuoteHub
-        // (i.e. IChainProvider<IReusable>, IQuoteProvider<IQuote>, or IStreamObservable<IQuote>)
+        // Keep only overloads whose first parameter accepts a BarHub
+        // (i.e. IChainProvider<IReusable>, IBarProvider<IBar>, or IStreamObservable<IBar>)
         MethodInfo[] viable = candidates
-            .Where(static m => FirstParameterAccepts<QuoteHub>(m))
+            .Where(static m => FirstParameterAccepts<BarHub>(m))
             .ToArray();
 
         if (viable.Length == 0)
         {
-            return (null, "no overload accepts a QuoteHub as its provider source");
+            return (null, "no overload accepts a BarHub as its provider source");
         }
 
         HashSet<string> listingParamNames = new(
@@ -180,9 +180,9 @@ public class StreamHubRollbackContractTests : TestBase
         return (best, null);
     }
 
-    private static (QuoteHub source, object hub) BuildHub(MethodInfo factory, IndicatorListing listing)
+    private static (BarHub source, object hub) BuildHub(MethodInfo factory, IndicatorListing listing)
     {
-        QuoteHub source = new();
+        BarHub source = new();
         ParameterInfo[] methodParams = factory.GetParameters();
         object?[] args = new object?[methodParams.Length];
         args[0] = source;

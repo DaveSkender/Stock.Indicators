@@ -6,11 +6,11 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        const PeriodSize periodSize = PeriodSize.Month;
+        const BarInterval barInterval = BarInterval.Month;
         const PivotPointType pointType = PivotPointType.Standard;
 
-        IReadOnlyList<PivotPointsResult> sut = Quotes
-            .ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<PivotPointsResult> sut = Bars
+            .ToPivotPoints(barInterval, pointType);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -87,11 +87,11 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Camarilla_AsPivotType_ReturnsExpectedResult()
     {
-        const PeriodSize periodSize = PeriodSize.Week;
+        const BarInterval barInterval = BarInterval.Week;
         const PivotPointType pointType = PivotPointType.Camarilla;
 
-        IReadOnlyList<Quote> h = Data.GetDefault(38);
-        IReadOnlyList<PivotPointsResult> sut = h.ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<Bar> h = Data.GetDefault(38);
+        IReadOnlyList<PivotPointsResult> sut = h.ToPivotPoints(barInterval, pointType);
 
         // proper quantities
         sut.Should().HaveCount(38);
@@ -157,11 +157,11 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Demark_AsPivotType_ReturnsExpectedResult()
     {
-        const PeriodSize periodSize = PeriodSize.Month;
+        const BarInterval barInterval = BarInterval.Month;
         const PivotPointType pointType = PivotPointType.Demark;
 
-        IReadOnlyList<PivotPointsResult> sut = Quotes
-            .ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<PivotPointsResult> sut = Bars
+            .ToPivotPoints(barInterval, pointType);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -242,11 +242,11 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Fibonacci_AsPivotType_ReturnsExpectedResult()
     {
-        const PeriodSize periodSize = PeriodSize.OneHour;
+        const BarInterval barInterval = BarInterval.OneHour;
         const PivotPointType pointType = PivotPointType.Fibonacci;
 
-        IReadOnlyList<Quote> h = Data.GetIntraday(300);
-        IReadOnlyList<PivotPointsResult> sut = h.ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<Bar> h = Data.GetIntraday(300);
+        IReadOnlyList<PivotPointsResult> sut = h.ToPivotPoints(barInterval, pointType);
 
         // proper quantities
         sut.Should().HaveCount(300);
@@ -313,11 +313,11 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Woodie_AsPivotType_ReturnsExpectedResult()
     {
-        const PeriodSize periodSize = PeriodSize.Day;
+        const BarInterval barInterval = BarInterval.Day;
         const PivotPointType pointType = PivotPointType.Woodie;
 
-        IReadOnlyList<Quote> h = Data.GetIntraday();
-        IReadOnlyList<PivotPointsResult> sut = h.ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<Bar> h = Data.GetIntraday();
+        IReadOnlyList<PivotPointsResult> sut = h.ToPivotPoints(barInterval, pointType);
 
         // proper quantities
         sut.Should().HaveCount(1564);
@@ -373,24 +373,24 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<PivotPointsResult> r = BadQuotes
-            .ToPivotPoints(PeriodSize.Week);
+        IReadOnlyList<PivotPointsResult> r = BadBars
+            .ToPivotPoints(BarInterval.Week);
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<PivotPointsResult> r0 = Noquotes
-            .ToPivotPoints(PeriodSize.Week);
+        IReadOnlyList<PivotPointsResult> r0 = Nobars
+            .ToPivotPoints(BarInterval.Week);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<PivotPointsResult> r1 = Onequote
-            .ToPivotPoints(PeriodSize.Week);
+        IReadOnlyList<PivotPointsResult> r1 = Onebar
+            .ToPivotPoints(BarInterval.Week);
 
         r1.Should().HaveCount(1);
     }
@@ -398,11 +398,11 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        const PeriodSize periodSize = PeriodSize.Month;
+        const BarInterval barInterval = BarInterval.Month;
         const PivotPointType pointType = PivotPointType.Standard;
 
-        IReadOnlyList<PivotPointsResult> sut = Quotes
-            .ToPivotPoints(periodSize, pointType)
+        IReadOnlyList<PivotPointsResult> sut = Bars
+            .ToPivotPoints(barInterval, pointType)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -425,12 +425,12 @@ public class PivotPointz : StaticSeriesTestBase
     {
         // bad pointtype size
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes
-                .ToPivotPoints(PeriodSize.Week, (PivotPointType)999));
+            static () => Bars
+                .ToPivotPoints(BarInterval.Week, (PivotPointType)999));
 
         // bad window size
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes
-                .ToPivotPoints(PeriodSize.ThreeMinutes));
+            static () => Bars
+                .ToPivotPoints(BarInterval.ThreeMinutes));
     }
 }

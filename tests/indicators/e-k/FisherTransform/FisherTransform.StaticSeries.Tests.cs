@@ -6,7 +6,7 @@ public class FisherTransform : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<FisherTransformResult> sut = Quotes
+        IReadOnlyList<FisherTransformResult> sut = Bars
             .ToFisherTransform();
 
         // proper quantities
@@ -48,7 +48,7 @@ public class FisherTransform : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<FisherTransformResult> sut = Quotes
+        IReadOnlyList<FisherTransformResult> sut = Bars
             .Use(CandlePart.Close)
             .ToFisherTransform();
 
@@ -59,7 +59,7 @@ public class FisherTransform : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<FisherTransformResult> sut = Quotes
+        IReadOnlyList<FisherTransformResult> sut = Bars
             .ToSma(2)
             .ToFisherTransform();
 
@@ -70,7 +70,7 @@ public class FisherTransform : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToFisherTransform()
             .ToSma(10);
 
@@ -79,9 +79,9 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<FisherTransformResult> r = BadQuotes
+        IReadOnlyList<FisherTransformResult> r = BadBars
             .ToFisherTransform(9);
 
         r.Should().HaveCount(502);
@@ -89,14 +89,14 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<FisherTransformResult> r0 = Noquotes
+        IReadOnlyList<FisherTransformResult> r0 = Nobars
             .ToFisherTransform();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<FisherTransformResult> r1 = Onequote
+        IReadOnlyList<FisherTransformResult> r1 = Onebar
             .ToFisherTransform();
 
         r1.Should().HaveCount(1);
@@ -108,7 +108,7 @@ public class FisherTransform : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToFisherTransform(0))
+            .Invoking(static () => Bars.ToFisherTransform(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

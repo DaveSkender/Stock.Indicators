@@ -77,7 +77,7 @@ Baselines should be regenerated when:
 ### "Method not found"
 
 - Verify the indicator has a MethodName specified in its catalog listing
-- Check that the method is a generic extension method with IQuote constraint
+- Check that the method is a generic extension method with IBar constraint
 
 ### "Parameter count mismatch"
 

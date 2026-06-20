@@ -9,7 +9,7 @@ public class SuperTrend : StaticSeriesTestBase
         const int lookbackPeriods = 14;
         const double multiplier = 3;
 
-        IReadOnlyList<SuperTrendResult> sut = Quotes
+        IReadOnlyList<SuperTrendResult> sut = Bars
             .ToSuperTrend(lookbackPeriods, multiplier);
 
         // proper quantities
@@ -51,7 +51,7 @@ public class SuperTrend : StaticSeriesTestBase
     [TestMethod]
     public void Bitcoin_WithBtcData_ReturnsExpectedResult()
     {
-        IReadOnlyList<Quote> h = Data.GetBitcoin();
+        IReadOnlyList<Bar> h = Data.GetBitcoin();
 
         IReadOnlyList<SuperTrendResult> sut = h
             .ToSuperTrend();
@@ -63,23 +63,23 @@ public class SuperTrend : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<SuperTrendResult> r = BadQuotes
+        IReadOnlyList<SuperTrendResult> r = BadBars
             .ToSuperTrend(7);
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<SuperTrendResult> r0 = Noquotes
+        IReadOnlyList<SuperTrendResult> r0 = Nobars
             .ToSuperTrend();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<SuperTrendResult> r1 = Onequote
+        IReadOnlyList<SuperTrendResult> r1 = Onebar
             .ToSuperTrend();
 
         r1.Should().HaveCount(1);
@@ -91,7 +91,7 @@ public class SuperTrend : StaticSeriesTestBase
         const int lookbackPeriods = 14;
         const double multiplier = 3;
 
-        IReadOnlyList<SuperTrendResult> sut = Quotes
+        IReadOnlyList<SuperTrendResult> sut = Bars
             .ToSuperTrend(lookbackPeriods, multiplier)
             .Condense();
 
@@ -110,7 +110,7 @@ public class SuperTrend : StaticSeriesTestBase
         const int lookbackPeriods = 14;
         const double multiplier = 3;
 
-        IReadOnlyList<SuperTrendResult> sut = Quotes
+        IReadOnlyList<SuperTrendResult> sut = Bars
             .ToSuperTrend(lookbackPeriods, multiplier)
             .RemoveWarmupPeriods();
 
@@ -128,10 +128,10 @@ public class SuperTrend : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSuperTrend(1));
+            static () => Bars.ToSuperTrend(1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSuperTrend(7, 0));
+            static () => Bars.ToSuperTrend(7, 0));
     }
 }

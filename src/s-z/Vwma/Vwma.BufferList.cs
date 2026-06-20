@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Volume Weighted Moving Average (VWMA) from incremental quote values.
+/// Volume Weighted Moving Average (VWMA) from incremental bar values.
 /// </summary>
-public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
+public class VwmaList : BufferList<VwmaResult>, IIncrementFromBar, IVwma
 {
     private readonly Queue<(double price, double volume)> _buffer;
 
@@ -25,34 +25,34 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VwmaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="VwmaList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public VwmaList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IBar> bars
     )
-        : this(lookbackPeriods) => Add(quotes);
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, (double)quote.Close, (double)quote.Volume);
+        ArgumentNullException.ThrowIfNull(bar);
+        Add(bar.Timestamp, (double)bar.Close, (double)bar.Volume);
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -101,10 +101,10 @@ public static partial class Vwma
     /// <summary>
     /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static VwmaList ToVwmaList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

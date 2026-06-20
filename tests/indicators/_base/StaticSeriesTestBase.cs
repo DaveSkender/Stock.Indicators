@@ -11,12 +11,12 @@ public abstract class StaticSeriesTestBase : TestBaseWithPrecision
     public abstract void DefaultParameters_ReturnsExpectedResults();
 
     /// <summary>
-    /// Tests proper handling of incompatible quote data
+    /// Tests proper handling of incompatible bar data
     /// </summary>
-    public abstract void BadQuotes_DoesNotFail();
+    public abstract void BadBars_DoesNotFail();
 
     /// <summary>
-    /// Tests that empty quotes sets return empty results set
+    /// Tests that empty bars sets return empty results set
     /// </summary>
-    public abstract void NoQuotes_ReturnsEmpty();
+    public abstract void NoBars_ReturnsEmpty();
 }

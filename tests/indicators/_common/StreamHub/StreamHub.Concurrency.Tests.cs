@@ -27,28 +27,28 @@ public class Concurrency : TestBase
     public void SingleWriterGate_OutOfOrderParallelProducers_ConvergeToSeries()
     {
         // N producers each feed a strided subset (ascending), funneled through a
-        // single-writer gate. Threads interleave, so quotes arrive globally out
+        // single-writer gate. Threads interleave, so bars arrive globally out
         // of order and drive rollback/replay. Regardless of arrival order, every
-        // quote is added exactly once under serialization, so a deep chain must
+        // bar is added exactly once under serialization, so a deep chain must
         // converge bit-for-bit to the batch Series.
         const int count = 500;
         const int producerCount = 8;
         const int emaPeriods = 20;
         const int smaPeriods = 10;
 
-        List<Quote> quotes = Quotes.Take(count).ToList();
-        IReadOnlyList<EmaResult> expectedEma = quotes.ToEma(emaPeriods);
+        List<Bar> bars = Bars.Take(count).ToList();
+        IReadOnlyList<EmaResult> expectedEma = bars.ToEma(emaPeriods);
         IReadOnlyList<SmaResult> expectedSma = expectedEma.ToSma(smaPeriods);
 
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(emaPeriods);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(emaPeriods);
         SmaHub smaHub = emaHub.ToSmaHub(smaPeriods);
 
-        // Seed the global-minimum quote first so no later out-of-order arrival is
-        // "before head". A standalone QuoteHub drops before-head quotes by
-        // design; once index 0 is the head, every other quote is >= it and lands
+        // Seed the global-minimum bar first so no later out-of-order arrival is
+        // "before head". A standalone BarHub drops before-head bars by
+        // design; once index 0 is the head, every other bar is >= it and lands
         // mid-cache (rollback) or at the tail.
-        quoteHub.Add(quotes[0]);
+        barHub.Add(bars[0]);
 
         object gate = new();
         Thread[] producers = new Thread[producerCount];
@@ -62,7 +62,7 @@ public class Concurrency : TestBase
 
                     lock (gate)
                     {
-                        quoteHub.Add(quotes[i]);
+                        barHub.Add(bars[i]);
                     }
                 }
             });
@@ -74,13 +74,13 @@ public class Concurrency : TestBase
             p.Join(ThreadBudget).Should().BeTrue("producer threads must finish promptly");
         }
 
-        quoteHub.Quotes.Should().HaveCount(count);
+        barHub.Bars.Should().HaveCount(count);
         emaHub.Results.IsExactly(expectedEma);
         smaHub.Results.IsExactly(expectedSma);
 
         smaHub.Unsubscribe();
         emaHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -97,13 +97,13 @@ public class Concurrency : TestBase
         const int emaPeriods = 20;
         const int readerCount = 4;
 
-        // the default fixture caps at ~500 quotes; feed all of them rather than a
+        // the default fixture caps at ~500 bars; feed all of them rather than a
         // larger constant that would silently truncate
-        List<Quote> quotes = Quotes.ToList();
-        IReadOnlyList<EmaResult> expected = quotes.ToEma(emaPeriods);
+        List<Bar> bars = Bars.ToList();
+        IReadOnlyList<EmaResult> expected = bars.ToEma(emaPeriods);
 
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(emaPeriods);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(emaPeriods);
 
         ConcurrentBag<Exception> failures = [];
         using CancellationTokenSource done = new();
@@ -138,9 +138,9 @@ public class Concurrency : TestBase
         readersStarted.Wait(ThreadBudget, TestContext.CancellationToken)
             .Should().BeTrue("all reader threads must be live before feeding");
 
-        foreach (Quote q in quotes)
+        foreach (Bar q in bars)
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         done.Cancel();
@@ -153,7 +153,7 @@ public class Concurrency : TestBase
         emaHub.Results.IsExactly(expected);
 
         emaHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -170,11 +170,11 @@ public class Concurrency : TestBase
         const int emaPeriods = 20;
 
         // feed the whole default fixture (a larger constant would silently truncate)
-        List<Quote> quotes = Quotes.ToList();
-        IReadOnlyList<EmaResult> expected = quotes.ToEma(emaPeriods);
+        List<Bar> bars = Bars.ToList();
+        IReadOnlyList<EmaResult> expected = bars.ToEma(emaPeriods);
 
-        QuoteHub quoteHub = new();
-        EmaHub stable = quoteHub.ToEmaHub(emaPeriods);
+        BarHub barHub = new();
+        EmaHub stable = barHub.ToEmaHub(emaPeriods);
 
         ConcurrentBag<Exception> failures = [];
         using CancellationTokenSource done = new();
@@ -186,7 +186,7 @@ public class Concurrency : TestBase
                 NoopObserver[] pool = [.. Enumerable.Range(0, 8).Select(_ => new NoopObserver())];
                 while (!done.Token.IsCancellationRequested)
                 {
-                    List<IDisposable> subs = [.. pool.Select(quoteHub.Subscribe)];
+                    List<IDisposable> subs = [.. pool.Select(barHub.Subscribe)];
                     churnStarted.Set();  // rendezvous: guarantee overlap with the feed
                     foreach (IDisposable s in subs)
                     {
@@ -207,9 +207,9 @@ public class Concurrency : TestBase
 
         try
         {
-            foreach (Quote q in quotes)
+            foreach (Bar q in bars)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
         catch (Exception ex)
@@ -226,7 +226,7 @@ public class Concurrency : TestBase
         stable.Results.IsExactly(expected);
 
         stable.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -240,13 +240,13 @@ public class Concurrency : TestBase
         const int removeIndex = 120;
         const int emaPeriods = 20;
 
-        List<Quote> quotes = Quotes.Take(count).ToList();
+        List<Bar> bars = Bars.Take(count).ToList();
 
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(emaPeriods);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(emaPeriods);
 
-        // seed the global-minimum quote first (see the convergence test for why)
-        quoteHub.Add(quotes[0]);
+        // seed the global-minimum bar first (see the convergence test for why)
+        barHub.Add(bars[0]);
 
         object gate = new();
 
@@ -262,7 +262,7 @@ public class Concurrency : TestBase
 
                     lock (gate)
                     {
-                        quoteHub.Add(quotes[i]);
+                        barHub.Add(bars[i]);
                     }
                 }
             });
@@ -277,24 +277,24 @@ public class Concurrency : TestBase
         // late arrival + removal (single writer)
         lock (gate)
         {
-            quoteHub.Add(quotes[skipIndex]);
-            quoteHub.RemoveAt(removeIndex);
+            barHub.Add(bars[skipIndex]);
+            barHub.RemoveAt(removeIndex);
         }
 
-        List<Quote> revised = [.. quotes];
+        List<Bar> revised = [.. bars];
         revised.RemoveAt(removeIndex);
 
         emaHub.Results.IsExactly(revised.ToEma(emaPeriods));
 
         emaHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
-    private sealed class NoopObserver : IStreamObserver<IQuote>
+    private sealed class NoopObserver : IStreamObserver<IBar>
     {
         public bool IsSubscribed => false;
         public void Unsubscribe() { }
-        public void OnAdd(IQuote item, bool notify, int? indexHint) { }
+        public void OnAdd(IBar item, bool notify, int? indexHint) { }
         public void OnRebuild(DateTime fromTimestamp) { }
         public void OnPrune(DateTime toTimestamp) { }
         public void OnError(Exception exception) { }

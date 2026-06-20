@@ -14,7 +14,7 @@ namespace Behavioral;
 [TestClass, TestCategory("Integration")]
 public class ConvergenceStreamHubs : TestBaseWithPrecision
 {
-    private static readonly int[] QuotesQuantities =
+    private static readonly int[] BarsQuantities =
         [14, 28, 40, 50, 75, 100, 150, 200, 250, 350, 500];
 
     // Convergence thresholds: quantity needed for stable final value
@@ -34,9 +34,9 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
         const int lookback = 14;
         AdxResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             AdxHub hub = qts.ToAdxHub(lookback);
 
             AdxResult l = hub.Results[^1];
@@ -64,9 +64,9 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
         const int lookback = 14;
         AtrResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             AtrHub hub = qts.ToAtrHub(lookback);
 
             AtrResult l = hub.Results[^1];
@@ -94,9 +94,9 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
         const int lookback = 14;
         EmaResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             EmaHub hub = qts.ToEmaHub(lookback);
 
             EmaResult l = hub.Results[^1];
@@ -124,9 +124,9 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
         const int fast = 12, slow = 26, signal = 9;
         MacdResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             MacdHub hub = qts.ToMacdHub(fast, slow, signal);
 
             MacdResult l = hub.Results[^1];
@@ -156,9 +156,9 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
         const int lookback = 14;
         RsiResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             RsiHub hub = qts.ToRsiHub(lookback);
 
             RsiResult l = hub.Results[^1];
@@ -186,9 +186,9 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
         const int lookback = 14;
         SmaResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             SmaHub hub = qts.ToSmaHub(lookback);
 
             SmaResult l = hub.Results[^1];
@@ -216,9 +216,9 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
         const int lookbackPeriods = 14, signalPeriods = 3, smoothPeriods = 3;
         StochResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             StochHub hub = qts.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
             StochResult l = hub.Results[^1];

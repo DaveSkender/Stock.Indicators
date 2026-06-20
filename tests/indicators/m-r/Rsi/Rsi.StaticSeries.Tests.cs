@@ -6,7 +6,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<RsiResult> sut = Quotes
+        IReadOnlyList<RsiResult> sut = Bars
             .ToRsi();
 
         // proper quantities
@@ -23,12 +23,12 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
-        IReadOnlyList<RsiResult> sut = Quotes.ToRsi(14);
+        IReadOnlyList<RsiResult> sut = Bars.ToRsi(14);
         sut.IsBetween(static x => x.Rsi, 0, 100);
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<RsiResult> sut = Data
             .GetRandom(2500)
@@ -41,7 +41,7 @@ public class Rsi : StaticSeriesTestBase
     public void SmallLookback_WithOnePeriod_ReturnsExpectedResult()
     {
         const int lookbackPeriods = 1;
-        IReadOnlyList<RsiResult> sut = Quotes
+        IReadOnlyList<RsiResult> sut = Bars
             .ToRsi(lookbackPeriods);
 
         // proper quantities
@@ -54,9 +54,9 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void CryptoData_WithBitcoinQuotes_ReturnsExpectedCount()
+    public void CryptoData_WithBitcoinBars_ReturnsExpectedCount()
     {
-        IReadOnlyList<Quote> btc = Data.GetBitcoin();
+        IReadOnlyList<Bar> btc = Data.GetBitcoin();
 
         IReadOnlyList<RsiResult> sut = btc
             .ToRsi(1);
@@ -67,7 +67,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<RsiResult> sut = Quotes
+        IReadOnlyList<RsiResult> sut = Bars
             .Use(CandlePart.Close)
             .ToRsi();
 
@@ -78,7 +78,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<RsiResult> sut = Quotes
+        IReadOnlyList<RsiResult> sut = Bars
             .ToSma(2)
             .ToRsi();
 
@@ -89,7 +89,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToRsi()
             .ToSma(10);
 
@@ -107,9 +107,9 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<RsiResult> sut = BadQuotes
+        IReadOnlyList<RsiResult> sut = BadBars
             .ToRsi(20);
 
         sut.Should().HaveCount(502);
@@ -117,14 +117,14 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<RsiResult> r0 = Noquotes
+        IReadOnlyList<RsiResult> r0 = Nobars
             .ToRsi();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<RsiResult> r1 = Onequote
+        IReadOnlyList<RsiResult> r1 = Onebar
             .ToRsi();
 
         r1.Should().HaveCount(1);
@@ -133,7 +133,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<RsiResult> sut = Quotes
+        IReadOnlyList<RsiResult> sut = Bars
             .ToRsi()
             .RemoveWarmupPeriods();
 
@@ -148,7 +148,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToRsi(0))
+            .Invoking(static () => Bars.ToRsi(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

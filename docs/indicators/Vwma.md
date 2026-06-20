@@ -15,7 +15,7 @@ Volume Weighted Moving Average is the volume adjusted average price over a lookb
 ```csharp
 // C# usage syntax
 IReadOnlyList<VwmaResult> results =
-  quotes.ToVwma(lookbackPeriods);
+  bars.ToVwma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<VwmaResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<VwmaResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Vwma` since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<VwmaResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Vwma` | double | Volume Weighted Moving Average |
 
 ### Utilities
@@ -63,12 +63,12 @@ Results can be further processed on `Vwma` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToVwma(..)
     .ToRsi(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -79,24 +79,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 VwmaList vwmaList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  vwmaList.Add(quote);
+  vwmaList.Add(bar);
 }
 
 // based on `ICollection<VwmaResult>`
 IReadOnlyList<VwmaResult> results = vwmaList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+BarHub barHub = new();
+VwmaHub observer = barHub.ToVwmaHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<VwmaResult> results = observer.Results;
@@ -113,6 +113,6 @@ VwmaList vwmaList = new(lookbackPeriods);
 vwmaList.Add(DateTime.Now, price: 100.50, volume: 1000);
 ```
 
-**Note:** VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.
+**Note:** VWMA requires both price and volume data, so it only supports methods that accept `IBar` or direct price/volume parameters.
 
 See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.

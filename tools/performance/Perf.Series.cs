@@ -5,8 +5,8 @@ namespace Performance;
 [ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class SeriesIndicators
 {
-    private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
+    private static readonly IReadOnlyList<Bar> q = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> o = Data.GetCompare();
     private const int n = 14;
 
     /* Parameter arguments should match the Catalog default values */
@@ -61,12 +61,12 @@ public class SeriesIndicators
     [Benchmark] public void ToMfiBatch() => q.ToMfi(14);
     [Benchmark] public void ToObvBatch() => q.ToObv();
     [Benchmark] public void ToParabolicSarBatch() => q.ToParabolicSar();
-    [Benchmark] public void ToPivotPointsBatch() => q.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard);
+    [Benchmark] public void ToPivotPointsBatch() => q.ToPivotPoints(BarInterval.Month, PivotPointType.Standard);
     [Benchmark] public void ToPivotsBatch() => q.ToPivots(2, 2, 20);
     [Benchmark] public void ToPmoBatch() => q.ToPmo(35, 20, 10);
     [Benchmark] public void ToPrsBatch() => q.ToPrs(o);
     [Benchmark] public void ToPvoBatch() => q.ToPvo();
-    [Benchmark] public void ToQuotePartBatch() => q.ToQuotePart(CandlePart.OHL3);
+    [Benchmark] public void ToBarPartBatch() => q.ToBarPart(CandlePart.OHL3);
     [Benchmark] public void ToRenkoBatch() => q.ToRenko(2.5m);
     [Benchmark] public void ToRenkoAtrBatch() => q.ToRenko(n);
     [Benchmark] public void ToRocBatch() => q.ToRoc(20);

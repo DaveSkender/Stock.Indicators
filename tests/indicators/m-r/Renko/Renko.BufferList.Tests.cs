@@ -1,22 +1,22 @@
 namespace BufferLists;
 
 [TestClass]
-public class Renko : BufferListTestBase, ITestQuoteBufferList
+public class Renko : BufferListTestBase, ITestBarBufferList
 {
     private const decimal brickSize = 1.0m;
     private const EndType endType = EndType.Close;
 
     private static readonly IReadOnlyList<RenkoResult> series
-       = Quotes.ToRenko(brickSize, endType);
+       = Bars.ToRenko(brickSize, endType);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         RenkoList sut = new(brickSize, endType);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         sut.Should().HaveCount(series.Count);
@@ -24,18 +24,18 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        RenkoList sut = new(brickSize, endType) { Quotes };
+        RenkoList sut = new(brickSize, endType) { Bars };
 
         sut.Should().HaveCount(series.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        RenkoList sut = new(brickSize, endType, Quotes);
+        RenkoList sut = new(brickSize, endType, Bars);
 
         sut.Should().HaveCount(series.Count);
         sut.IsExactly(series);
@@ -44,7 +44,7 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
 
         RenkoList sut = new(brickSize, endType, subset);
 
@@ -54,9 +54,9 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
+        foreach (Bar bar in subset)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<RenkoResult> expected = subset.ToRenko(brickSize, endType);
@@ -74,9 +74,9 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<RenkoResult> expected

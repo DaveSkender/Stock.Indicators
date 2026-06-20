@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Smi : BufferListTestBase, ITestQuoteBufferList
+public class Smi : BufferListTestBase, ITestBarBufferList
 {
     private const int lookbackPeriods = 13;
     private const int firstSmoothPeriods = 25;
@@ -9,44 +9,44 @@ public class Smi : BufferListTestBase, ITestQuoteBufferList
     private const int signalPeriods = 3;
 
     private static readonly IReadOnlyList<SmiResult> series
-       = Quotes.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
+       = Bars.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { Quotes };
+        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods, Quotes);
+        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<SmiResult> expected = subset.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods, subset);
@@ -73,7 +73,7 @@ public class Smi : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<SmiResult> expected = series
             .Skip(series.Count - maxListSize)

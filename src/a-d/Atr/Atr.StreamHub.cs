@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides functionality to calculate the Average True Range (ATR) for a series of quotes.
+/// Provides functionality to calculate the Average True Range (ATR) for a series of bars.
 /// </summary>
 public class AtrHub
-    : ChainHub<IQuote, AtrResult>, IAtr
+    : ChainHub<IBar, AtrResult>, IAtr
 {
-    internal AtrHub(IQuoteProvider<IQuote> provider,
+    internal AtrHub(IBarProvider<IBar> provider,
         int lookbackPeriods)
         : base(provider)
     {
@@ -27,7 +27,7 @@ public class AtrHub
 
     /// <inheritdoc/>
     protected override (AtrResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -83,13 +83,13 @@ public class AtrHub
 public static partial class Atr
 {
     /// <summary>
-    /// Converts the provided quote provider to an ATR hub with the specified lookback periods.
+    /// Converts the provided bar provider to an ATR hub with the specified lookback periods.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider to convert.</param>
+    /// <param name="barProvider">Bar provider to convert.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="AtrHub"/>.</returns>
     public static AtrHub ToAtrHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 14)
-             => new(quoteProvider, lookbackPeriods);
+             => new(barProvider, lookbackPeriods);
 }

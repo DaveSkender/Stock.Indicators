@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents a Stochastic Momentum Index (SMI) stream hub that calculates SMI with signal line.
 /// </summary>
 public sealed class SmiHub
-    : ChainHub<IQuote, SmiResult>, ISmi
+    : ChainHub<IBar, SmiResult>, ISmi
 {
 
     // Circular buffers for high/low tracking — zero heap allocation per tick
@@ -19,7 +19,7 @@ public sealed class SmiHub
     private double _lastSignal = double.NaN;
 
     internal SmiHub(
-        IStreamObservable<IQuote> provider,
+        IStreamObservable<IBar> provider,
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
@@ -70,7 +70,7 @@ public sealed class SmiHub
     public double KS { get; private init; }
     /// <inheritdoc/>
     protected override (SmiResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -167,7 +167,7 @@ public sealed class SmiHub
         // Rebuild state from cache up to the rollback point
         for (int p = 0; p <= restoreIndex; p++)
         {
-            IQuote q = ProviderCache[p];
+            IBar q = ProviderCache[p];
             _highBuffer.Add((double)q.High);
             _lowBuffer.Add((double)q.Low);
 
@@ -184,21 +184,21 @@ public sealed class SmiHub
 public static partial class Smi
 {
     /// <summary>
-    /// Creates a Stochastic Momentum Index (SMI) streaming hub from a quotes provider.
+    /// Creates a Stochastic Momentum Index (SMI) streaming hub from a bars provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">Number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">Number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">Number of periods for the signal line smoothing.</param>
     /// <returns>A Stochastic Momentum Index hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static SmiHub ToSmiHub(
-        this IStreamObservable<IQuote> quoteProvider,
+        this IStreamObservable<IBar> barProvider,
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
-        => new(quoteProvider, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
+        => new(barProvider, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 }

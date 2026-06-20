@@ -18,7 +18,7 @@ public record CandleProperties
     decimal Low,
     decimal Close,
     decimal Volume
-) : Quote(Timestamp, Open, High, Low, Close, Volume)
+) : Bar(Timestamp, Open, High, Low, Close, Volume)
 {
     /// <summary>
     /// Gets the size of the candlestick.

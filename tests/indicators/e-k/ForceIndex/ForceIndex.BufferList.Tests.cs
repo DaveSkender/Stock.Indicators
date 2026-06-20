@@ -6,37 +6,37 @@ public class ForceIndex : BufferListTestBase
     private const int lookbackPeriods = 2;
 
     private static readonly IReadOnlyList<ForceIndexResult> series
-       = Quotes.ToForceIndex(lookbackPeriods);
+       = Bars.ToForceIndex(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         ForceIndexList sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Bar q in Bars) { sut.Add(q); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        ForceIndexList sut = new(lookbackPeriods) { Quotes };
+        ForceIndexList sut = new(lookbackPeriods) { Bars };
 
         IReadOnlyList<ForceIndexResult> series
-            = Quotes.ToForceIndex(lookbackPeriods);
+            = Bars.ToForceIndex(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        ForceIndexList sut = new(lookbackPeriods, Quotes);
+        ForceIndexList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -49,7 +49,7 @@ public class ForceIndex : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<ForceIndexResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -61,7 +61,7 @@ public class ForceIndex : BufferListTestBase
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<ForceIndexResult> expected = subset.ToForceIndex(lookbackPeriods);
 
         ForceIndexList sut = new(lookbackPeriods, subset);

@@ -7,12 +7,12 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     private const int slowPeriods = 34;
 
     private static readonly IReadOnlyList<IReusable> reusables
-        = Quotes
-            .ToQuotePart(CandlePart.HL2)
+        = Bars
+            .ToBarPart(CandlePart.HL2)
             .ToList();
 
     private static readonly IReadOnlyList<AwesomeResult> series
-        = Quotes.ToAwesome(fastPeriods, slowPeriods);
+        = Bars.ToAwesome(fastPeriods, slowPeriods);
 
     [TestMethod]
     public void AddDateAndValue_IncrementsResults()
@@ -24,7 +24,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -38,7 +38,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -47,46 +47,46 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     {
         AwesomeList sut = new(fastPeriods, slowPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        AwesomeList sut = new(fastPeriods, slowPeriods) { Quotes };
+        AwesomeList sut = new(fastPeriods, slowPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        AwesomeList sut = new(fastPeriods, slowPeriods, Quotes);
+        AwesomeList sut = new(fastPeriods, slowPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<AwesomeResult> expected = subset.ToAwesome(fastPeriods, slowPeriods);
 
         AwesomeList sut = new(fastPeriods, slowPeriods, subset);
@@ -113,7 +113,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<AwesomeResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

@@ -9,7 +9,7 @@ For comprehensive performance analysis and results, see `PERFORMANCE_ANALYSIS.md
 The Stock Indicators library uses [BenchmarkDotNet](https://benchmarkdotnet.org/) for comprehensive performance testing. Benchmarks cover:
 
 - **Series-style indicators** - Traditional batch processing (Perf.Series.cs)
-- **Stream-style indicators** - Real-time streaming with QuoteHub (Perf.Stream.cs)
+- **Stream-style indicators** - Real-time streaming with BarHub (Perf.Stream.cs)
 - **Buffer-style indicators** - Incremental processing with BufferList (Perf.Buffer.cs)
 - **Style comparisons** - Performance comparison across different styles (Perf.StyleComparison.cs)
 - **Utility functions** - Core library utilities (Perf.Utility.cs)
@@ -68,7 +68,7 @@ The direct manual test (`ManualTestDirect`):
 
 - Uses precompiled delegates for common indicators (SMA, EMA, RSI, MACD, etc.)
 - Zero catalog/reflection overhead - measures pure indicator performance
-- Generates random quotes once before benchmarking (not counted in metrics)
+- Generates random bars once before benchmarking (not counted in metrics)
 - Runs all three indicator styles (Series, Buffer, Stream) with the same data
 - Best for accurate performance measurements and scalability testing
 
@@ -149,7 +149,7 @@ Typical execution times (for 502 periods of historical data):
 **Stream style** (real-time):
 
 - Best for: Live data feeds, WebSocket integration
-- Optimized for: Low latency per quote
+- Optimized for: Low latency per bar
 - Typical use: Trading applications, live dashboards
 
 ## Performance regression detection
@@ -204,7 +204,7 @@ The library includes two performance testing workflows:
 1. Manually triggered via GitHub Actions UI
 2. Accepts two inputs:
    - **keyword**: Indicator name (case-insensitive, e.g., "sma", "ema", "rsi")
-   - **periods**: Number of randomly generated quote periods (default: 500,000)
+   - **periods**: Number of randomly generated bar periods (default: 500,000)
 3. Runs all three styles (Series, Buffer, Stream) with the same data
 4. Ideal for testing scalability and performance with custom dataset sizes
 5. Generates GitHub Summary with results
@@ -253,7 +253,7 @@ Follow existing patterns in `Perf.*.cs` files:
 
 ```csharp
 [Benchmark]
-public object MyNewIndicator() => quotes.ToMyIndicator(14);
+public object MyNewIndicator() => bars.ToMyIndicator(14);
 ```
 
 ### Benchmark best practices
@@ -271,15 +271,15 @@ When adding streaming/buffer support to existing indicators, add comparison benc
 ```csharp
 [Benchmark]
 public IReadOnlyList<MyResult> MySeries()
-    => quotes.ToMyIndicator(14);
+    => bars.ToMyIndicator(14);
 
 [Benchmark]
 public MyList MyBuffer()
-    => new(14) { quotes };
+    => new(14) { bars };
 
 [Benchmark]
 public IReadOnlyList<MyResult> MyStream()
-    => quoteHub.ToMyIndicator(14).Results;
+    => barHub.ToMyIndicator(14).Results;
 ```
 
 ## Troubleshooting

@@ -15,7 +15,7 @@ Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine 
 ```csharp
 // C# usage syntax
 IReadOnlyList<AtrStopResult> results =
-  quotes.ToAtrStop(lookbackPeriods, multiplier, endType);
+  bars.ToAtrStop(lookbackPeriods, multiplier, endType);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<AtrStopResult> results =
 | `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
 | `endType` | EndType | Determines whether `Close` or `High/Low` is used as basis for stop offset.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### EndType options
 
@@ -44,8 +44,8 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 IReadOnlyList<AtrStopResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` AtrStop values since there's not enough data to calculate.
 
@@ -57,7 +57,7 @@ the line segment before the first reversal and the first `N+100` periods are unr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `AtrStop` | double | ATR Trailing Stop line contains both Upper and Lower segments |
 | `BuyStop` | double | Upper band only (green) |
 | `SellStop` | double | Lower band only (red) |
@@ -76,7 +76,7 @@ See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator is not chain-enabled and must be generated from `bars`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -87,24 +87,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 AtrStopList atrStopList = new(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  atrStopList.Add(quote);
+  atrStopList.Add(bar);
 }
 
 // based on `ICollection<AtrStopResult>`
 IReadOnlyList<AtrStopResult> results = atrStopList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
+BarHub barHub = new();
+AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<AtrStopResult> results = observer.Results;

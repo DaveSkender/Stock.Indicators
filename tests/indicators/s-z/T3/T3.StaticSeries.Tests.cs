@@ -6,7 +6,7 @@ public class T3 : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<T3Result> sut = Quotes
+        IReadOnlyList<T3Result> sut = Bars
             .ToT3();
 
         // proper quantities
@@ -36,7 +36,7 @@ public class T3 : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<T3Result> sut = Quotes
+        IReadOnlyList<T3Result> sut = Bars
             .Use(CandlePart.Close)
             .ToT3();
 
@@ -47,7 +47,7 @@ public class T3 : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<T3Result> sut = Quotes
+        IReadOnlyList<T3Result> sut = Bars
             .ToSma(2)
             .ToT3();
 
@@ -58,7 +58,7 @@ public class T3 : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToT3()
             .ToSma(10);
 
@@ -66,9 +66,9 @@ public class T3 : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<T3Result> r = BadQuotes
+        IReadOnlyList<T3Result> r = BadBars
             .ToT3();
 
         r.Should().HaveCount(502);
@@ -76,14 +76,14 @@ public class T3 : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<T3Result> r0 = Noquotes
+        IReadOnlyList<T3Result> r0 = Nobars
             .ToT3();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<T3Result> r1 = Onequote
+        IReadOnlyList<T3Result> r1 = Onebar
             .ToT3();
 
         r1.Should().HaveCount(1);
@@ -94,10 +94,10 @@ public class T3 : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToT3(0));
+            static () => Bars.ToT3(0));
 
         // bad volume factor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToT3(25, 0));
+            static () => Bars.ToT3(25, 0));
     }
 }

@@ -5,43 +5,43 @@ namespace GeneralApi;
 [TestClass, TestCategory("Integration")]
 public class UserInterface
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> quotesBad = Data.GetBad();
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> barsBad = Data.GetBad();
 
     [TestMethod]
-    public void QuoteValidation()
+    public void BarValidation()
     {
-        IReadOnlyList<Quote> clean = quotes;
+        IReadOnlyList<Bar> clean = bars;
 
         clean.Validate();
         clean.ToSma(6);
         clean.ToEma(5);
 
-        IReadOnlyList<Quote> reverse = quotes
+        IReadOnlyList<Bar> reverse = bars
             .OrderByDescending(x => x.Timestamp)
             .ToList();
 
         // has duplicates
-        InvalidQuotesException dx
-            = Assert.ThrowsExactly<InvalidQuotesException>(
-                () => quotesBad.Validate());
+        InvalidBarsException dx
+            = Assert.ThrowsExactly<InvalidBarsException>(
+                () => barsBad.Validate());
 
         dx.Message.Should().Contain("Duplicate date found");
 
         // out of order
-        InvalidQuotesException sx
-            = Assert.ThrowsExactly<InvalidQuotesException>(
+        InvalidBarsException sx
+            = Assert.ThrowsExactly<InvalidBarsException>(
                 () => reverse.Validate());
 
-        sx.Message.Should().Contain("Quotes are out of sequence");
+        sx.Message.Should().Contain("Bars are out of sequence");
     }
 
     [TestMethod]
-    public void QuoteValidationReturn()
+    public void BarValidationReturn()
     {
-        IReadOnlyList<Quote> h = quotes.Validate();
+        IReadOnlyList<Bar> h = bars.Validate();
 
-        Quote f = h[0];
-        Console.WriteLine($"Quote:{f}");
+        Bar f = h[0];
+        Console.WriteLine($"Bar:{f}");
     }
 }

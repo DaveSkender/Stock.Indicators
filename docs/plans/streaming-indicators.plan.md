@@ -4,11 +4,13 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 **Status (2026-05-31).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK; T231 pending maintainer decision), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **The §E pre-stable hardening pass shipped across PRs #2052–#2056; v3.0 stable is now pending only release-gate runtime work (RG001 baseline refresh, RG002 community feedback, RG004 Quote→Bar decision) and the §K release-mechanics sequence for the FacioQuo rebrand + repo transfer.** A pre-release confidence review (overall-review-v3 swarm, 2026-05-29) confirmed the rollback/replay engine is ship-quality — bit-exact across deep chains, aggregators, and long-run pruning, with 1,072 streaming tests green — and surfaced surface-level correctness, documentation, and tooling defects (tracked in §E), now **cleared**: shipped fixes, maintainer-deferred SR001, and two framework-scale items reclassified to v3.1 (ARCH-V31-11 prune-stable rollback, SR008e BufferList enforcement). All shipped quality-pass items are recorded in the appendix at the end of this document with their PR references; the body below carries only what is still open.
 
+**Update (2026-06-19) — RG004 resolved: YES (shipped).** The `Quote → Bar` rename landed in v3.0 (PR #1933, bundled in #2102): `Quote`→`Bar`, `IQuote`→`IBar`, `QuoteHub`→`BarHub`, `QuotePart`→`BarPart`, `IQuoteProvider`→`IBarProvider`, `PeriodSize`→`BarInterval`, and `Tick`→`TradeTick` / `TickHub`→`TradeTickHub` across the public surface. The old names ship as **warning-level `[Obsolete]` aliases** in `src/Obsolete.V3.Other.cs` (not error-level), giving v2 consumers a clean migration window: `Quote`/`IQuote` flow through the generic `<TBar : IBar>` API directly, and `PeriodSize` keeps working through `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads — see `docs/migration.md`. **ARCH-V31-9 is therefore done in v3.0, not deferred to v3.1+.** Remaining release gates are RG001 (baseline refresh), RG002 (community feedback), and the §K release mechanics.
+
 **Coverage (verified 2026-05-24 via `CatalogShouldHaveExactStyleCounts` at `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:21`):**
 
-- Series listings: 85 (84 indicators + `QuotePart`)
-- BufferList listings: 79 (78 indicators + `QuotePart`)
-- StreamHub listings: 79 (78 indicators + `QuotePart`)
+- Series listings: 85 (84 indicators + `BarPart`)
+- BufferList listings: 79 (78 indicators + `BarPart`)
+- StreamHub listings: 79 (78 indicators + `BarPart`)
 - Streaming docs coverage: 79 of 79
 - Non-streamable (Series only): Beta, Correlation, Prs, RenkoAtr, StdDevChannels, ZigZag
 
@@ -23,7 +25,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 The quality pass landed across §B/§C/§D/§E/§F/§G — guidance docs aligned, test coverage hardened, architecture decisions formalized in `docs/decisions/0001-dual-track-bufferlist-streamhub.md` (ADR 0001), and documentation gaps closed. No architectural change was required. The Architect verdict (no blockers, four v3.1 refactors queued) and Tester verdict (parity strong; rigor gaps addressed by TC001 + TC002 + TC003) stand.
 
-What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001), close the community-feedback window (RG002), resolve the Quote→Bar rename decision (RG004), and execute the §K go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover). The branching-strategy migration (RG003 / K007) is the irreversible cut-over inside §K and depends on those decisions being final.
+What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001) and close the community-feedback window (RG002) — RG004 (Quote→Bar) is now resolved and shipped — then execute the §K go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover). The branching-strategy migration (RG003 / K007) is the irreversible cut-over inside §K and depends on those decisions being final.
 
 The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — offline SSE emulator, BenchmarkDotNet, deep-chain and lifecycle stress harnesses — with adversarial per-finding verification) returned a **ship-as-preview / hold-stable** verdict: continue the `preview.4` line, hold the K013 stable tag until §E clears. **§E has now cleared (PRs #2052–#2056)** — the engine needed no redesign and the pass closed out the silent-drop correction (SR002), the BufferList out-of-order contract (SR008, documented + tested), the prune+rollback characterization (SR003, documented; framework fix → ARCH-V31-11), observer-callback isolation (SR004/SR005, code-fixed), the doc/tooling fixes (SR011–SR016, SR018, SR021), and the offline emulator (SR021). SR001 (before-head silent drop) was reviewed and **deferred** by the maintainer. So the K013 stable hold is released from the §E side; remaining gates are §A (release-gate runtime) and §K (release mechanics).
 
@@ -31,7 +33,7 @@ The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — of
 
 | Bucket | Items | Estimated effort |
 | ------ | ----- | ---------------- |
-| Release gates | RG001 baseline refresh, RG002 community feedback window, RG004 Quote→Bar decision | 1 hour active + benchmark runtime + maintainer asyncs |
+| Release gates | RG001 baseline refresh, RG002 community feedback window (~~RG004 Quote→Bar decision~~ ✅ resolved — shipped in v3.0) | 1 hour active + benchmark runtime + maintainer asyncs |
 | ~~Pre-stable hardening~~ ✅ **shipped** | §E below — overall-review-v3 swarm (SR002/003/004/005/006/008/011–016/018/021) shipped in PRs #2052–#2056; SR001 maintainer-deferred; framework fixes → v3.1 (ARCH-V31-11, SR008e) | done |
 | Release mechanics | §K below — go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover, branching migration via K007 / RG003) | 6–10 hours active + NuGet/DNS propagation |
 | Residual cleanup | T231 baseline-folder delete (decision needed), T203 preview-features flag (deferred on CI SDK) | 30 min when unblocked |
@@ -62,10 +64,10 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 - [ ] **RG003 — Execute branching strategy migration** (10–16 hours). See [branching-strategy.plan.md](branching-strategy.plan.md). `origin/main` is ~25+ commits behind `origin/v3`; PR #1014 is the merge vehicle.
 
-- [ ] **RG004 — Decide on `Quote → Bar` rename for v3.0** (decision: 30 min; if YES, ~16–24 hours implementation in v3.0). **Maintainer decision pending.**
-  - **Context**: PR #1014 comment 1 (2024-07-01) proposed renaming `Quote` → `Bar` (with `Tick` reserved for individual bid/ask trades) and introducing `IBar` with `[Obsolete] IQuote` as a base. v3.0 is the only realistic window because it's a breaking rename; doing it later means a v4.0.
-  - **Trade-off**: YES → cleaner nomenclature aligned with industry (Pine Script "bar", TA-Lib OHLCV "bar") and a clean `Tick`/`Bar` distinction now that `TickHub` exists (PR #1875); pushes v3.0 ship date by ~2–3 working days for rename + `[Obsolete]` shim + docs + migration-guide updates. NO → less churn for consumers already migrating from v2; keeps `IQuote` as the canonical bar interface; defers cleanup to a potential v4.x (see ARCH-V31-9 in v3.1+ section).
-  - **Action if YES**: scope expands by ~16–24 hours; update §C with a new rename item, refresh `docs/migration.md`, and ensure `[Obsolete]` shims in `Obsolete.V3.Other.cs` cover the rename. Move ARCH-V31-9 from v3.1+ into v3.0 as the implementation tracker.
+- [x] **RG004 — `Quote → Bar` rename for v3.0 — RESOLVED: YES, shipped** (PR #1933, bundled in #2102).
+  - **Context**: PR #1014 comment 1 (2024-07-01) proposed renaming `Quote` → `Bar` (with `Tick` reserved for individual bid/ask trades) and introducing `IBar` with `[Obsolete] IQuote` as a base. v3.0 was the only realistic window because it's a breaking rename; doing it later would have meant a v4.0.
+  - **Trade-off (historical)**: YES → cleaner nomenclature aligned with industry (Pine Script "bar", TA-Lib OHLCV "bar") and a clean `Tick`/`Bar` distinction now that `TradeTickHub` exists (PR #1875). NO → less churn for consumers already migrating from v2; would have kept `IQuote` as the canonical bar interface; deferred cleanup to a potential v4.x.
+  - **Outcome (YES)**: the rename shipped in v3.0 and `docs/migration.md` was refreshed. **Warning-level** `[Obsolete]` aliases in `Obsolete.V3.Other.cs` cover `Quote`/`IQuote`/`PeriodSize`/`IReusableResult`/`BasicData` so v2 code keeps compiling and running during a deprecation window; `PeriodSize` callers are served by `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads. ARCH-V31-9 is closed as done in v3.0.
 
 ### B. Pre-v3.0 cleanup pass
 
@@ -85,7 +87,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 ### D. Release mechanics — go-live launch checklist
 
-**Source**: incorporated 2026-05-24 from private project board item 58144081 ("v3 go-live launch checklist") and PR #1014 comment 3 (DNS/NuGet/deployer URL pointers). Tasks here are release plumbing executed by the maintainer; they run in parallel with §A release gates RG001/RG002/RG003 and depend on the §A RG004 (Quote→Bar) decision. Total active effort ~6–10 hours plus async waits for NuGet package indexing and DNS TTL.
+**Source**: incorporated 2026-05-24 from private project board item 58144081 ("v3 go-live launch checklist") and PR #1014 comment 3 (DNS/NuGet/deployer URL pointers). Tasks here are release plumbing executed by the maintainer; they run in parallel with §A release gates RG001/RG002/RG003. (The §A RG004 Quote→Bar decision is resolved — shipped in v3.0.) Total active effort ~6–10 hours plus async waits for NuGet package indexing and DNS TTL.
 
 > **Cross-cutting decision (already made)**: v3 ships under a new package identity `FacioQuo.Stock.Indicators` with the repo transferring to a FacioQuo org as `stock-indicators-dotnet`. K-items below assume that transition; if the rebrand is cancelled or postponed, items K001–K006 and K009–K011 collapse to a single "tag and release on existing `Skender.Stock.Indicators` package" item.
 
@@ -129,21 +131,21 @@ Source: pre-release confidence review (6 static finders + 4 worktree dynamic exe
 
 #### Correctness — stable blockers
 
-- [ ] **SR001 — Standalone QuoteHub silently drops before-head quotes** (High). `src/_common/Quotes/Quote.StreamHub.cs:90` returns on `item.Timestamp < Cache[0].Timestamp` with no exception, notification, or status. Empirically confirmed silent data loss on out-of-order / two-feed-merge / backfill patterns. Surface the drop (status / `OnError` / dropped-quote callback) and document the before-head policy on `IStreamHub.Add`. *(Reviewed 2026-05-30 — deferred; **⚠️ REOPENED 2026-05-31 as a pending v3.0 decision** per the quality steer — silent data loss is the canonical "obvious problem." See §L.)*
-- [x] **SR002 — Standalone QuoteHub silently drops same-timestamp value corrections below MinCacheSize** (High). `src/_common/Quotes/Quote.StreamHub.cs:117`. Empirically confirmed divergence at index < MinCacheSize (streamed root vs fresh hub); the general rollback path accepts the identical correction (harness S16), so the guard is provably over-broad. Route the correction through the general rollback path or surface the rejection. Free correctness win. *(PR #2053 — removed the over-broad guard; corrections now route through the existing replacement+rebuild path; correct for caches ≥ warmup, the pruned small-cache case stays SR003)*
+- [ ] **SR001 — Standalone BarHub silently drops before-head bars** (High). `src/_common/Bars/Bar.StreamHub.cs:90` returns on `item.Timestamp < Cache[0].Timestamp` with no exception, notification, or status. Empirically confirmed silent data loss on out-of-order / two-feed-merge / backfill patterns. Surface the drop (status / `OnError` / dropped-bar callback) and document the before-head policy on `IStreamHub.Add`. *(Reviewed 2026-05-30 — deferred; **⚠️ REOPENED 2026-05-31 as a pending v3.0 decision** per the quality steer — silent data loss is the canonical "obvious problem." See §L.)*
+- [x] **SR002 — Standalone BarHub silently drops same-timestamp value corrections below MinCacheSize** (High). `src/_common/Bars/Bar.StreamHub.cs:117`. Empirically confirmed divergence at index < MinCacheSize (streamed root vs fresh hub); the general rollback path accepts the identical correction (harness S16), so the guard is provably over-broad. Route the correction through the general rollback path or surface the rejection. Free correctness win. *(PR #2053 — removed the over-broad guard; corrections now route through the existing replacement+rebuild path; correct for caches ≥ warmup, the pruned small-cache case stays SR003)*
 - [x] **SR003 — Prune + sub-horizon rollback re-seeds Wilder/cumulative indicators from truncated history** (High; decision). `src/_common/StreamHub/StreamHub.cs:179` passes a `ProviderCache` index to `RollbackState`; `src/a-d/Adx/Adx.StreamHub.cs:228,255,294` and `src/a-d/Atr/Atr.StreamHub.cs:50` re-seed Wilder smoothing with **absolute** warmup gates, so after a head-prune the seed is rebuilt from a truncated suffix → silently wrong (non-null) ADX/ATR/AtrStop values vs the Series oracle. Analytically confirmed (two skeptics), **not** reproduced — the 100k default cache masks it; reachable via the `stream.md:277` minimal-cache advice. Decide: enforce `MinCacheSize ≥ true warmup span`, reject rollbacks preceding `ProviderCache[0]`, gate warmup on a prune-stable processed-count (as Slope does via `OnProviderPrune`), or document "small cache + deep late arrival unsupported." Add a small-cache prune+rollback oracle test. *(PR #2055 — confirmed AND scope-corrected: this is a framework-level property of **every** stateful hub, not just Wilder. Reproduced across EMA, ATR, ADX, RSI, SMMA, AtrStop, OBV (`StreamHub.RollbackAfterPrune.Tests.cs`); the rollback engine is exact with an adequate cache (positive control passes). Maintainer decision 2026-05-30: ship stable with the limitation **documented** (`stream.md` rollback-after-prune warning) — recursive smoothers drift transiently and re-converge, cumulative hubs (no warmup) carry a permanent offset with no leading nulls, and warmup/lookback indicators (window like SMA + recursive smoothers) lose their leading results to null where the retained cache no longer spans a full lookback after a post-prune rebuild; real framework fix reclassified to **ARCH-V31-11**.)*
-- [x] **SR008 — BufferList track has no out-of-order / duplicate / correction contract or test** (High). `src/s-z/Sma/Sma.BufferList.cs:38` and every sibling append blindly; `src/_common/BufferLists/IIncrementFromQuote.cs:21` and `IIncrementFromChain.cs:28` document a chronological precondition that nothing enforces and no test pins. A BufferList fed from the WebSocket source `stream.md` encourages is silently wrong on any reordered/re-sent tick. Enforce/guard the precondition or document it prominently + add an out-of-order test. Largest proven-vs-shipped gap (completeness-critic #1 residual risk). *(PR #2054 — document path: prominent precondition on `BufferList<T>` + both increment interfaces + `buffer.md`; `BufferList.OrderingContract.Tests.cs` pins ordered-matches-series, out-of-order-appended-verbatim, duplicate-appends-not-corrects. Enforcement deferred to SR008e.)*
+- [x] **SR008 — BufferList track has no out-of-order / duplicate / correction contract or test** (High). `src/s-z/Sma/Sma.BufferList.cs:38` and every sibling append blindly; `src/_common/BufferLists/IIncrementFromBar.cs:21` and `IIncrementFromChain.cs:28` document a chronological precondition that nothing enforces and no test pins. A BufferList fed from the WebSocket source `stream.md` encourages is silently wrong on any reordered/re-sent tick. Enforce/guard the precondition or document it prominently + add an out-of-order test. Largest proven-vs-shipped gap (completeness-critic #1 residual risk). *(PR #2054 — document path: prominent precondition on `BufferList<T>` + both increment interfaces + `buffer.md`; `BufferList.OrderingContract.Tests.cs` pins ordered-matches-series, out-of-order-appended-verbatim, duplicate-appends-not-corrects. Enforcement deferred to SR008e.)*
 
 #### Documentation / tooling — cheap, clear before stable
 
-- [x] **SR011 — `stream.md:112` rollback example calls non-existent `quoteHub.Remove(badQuote)` → does not compile** (High). No `Remove(TIn)` exists on the streaming surface; use `RemoveRange(badQuote.Timestamp, true)` or `RemoveAt`. Align the thread-safety bullets to name the real methods (`RemoveAt`/`RemoveRange`). *(PR #2052)*
+- [x] **SR011 — `stream.md:112` rollback example calls non-existent `barHub.Remove(badBar)` → does not compile** (High). No `Remove(TIn)` exists on the streaming surface; use `RemoveRange(badBar.Timestamp, true)` or `RemoveAt`. Align the thread-safety bullets to name the real methods (`RemoveAt`/`RemoveRange`). *(PR #2052)*
 - [x] **SR012 — `migration.md:311` flagship v2→v3 StreamHub example uses `ToSma`/`ToRsi`/`ToMacd` (missing `Hub` suffix) → does not compile** (High). *(PR #2052)*
 - [x] **SR013 — `stream.md:277` "minimize cache size" advice steers users into `ArgumentOutOfRangeException`** (Medium). `MaxCacheSize` is inherited by chained hubs (`StreamHub.cs:37`) and `ValidateCacheSize` floors at warmup (RSI 2×, TEMA 3×, MAMA 50). Warn re inheritance + the warmup multiplier; recommend a safe floor rather than "the indicator minimum." *(PR #2052)*
-- [x] **SR014 — `stream.md:241` WebSocket example calls `Add` from an async handler with no serialization, contradicting the page's own thread-safety contract** (Medium). Funnel `Add` through a single writer (lock / `SemaphoreSlim` / single-consumer `Channel<Quote>`), matching the thread-safe example shown earlier on the page. *(PR #2052)*
+- [x] **SR014 — `stream.md:241` WebSocket example calls `Add` from an async handler with no serialization, contradicting the page's own thread-safety contract** (Medium). Funnel `Add` through a single writer (lock / `SemaphoreSlim` / single-consumer `Channel<Bar>`), matching the thread-safe example shown earlier on the page. *(PR #2052)*
 - [x] **SR015 — Fault model undocumented for users** (Medium). `IsFaulted`/`ResetFault`/`OverflowException`/`OverflowCount` appear nowhere in the guide; 100 byte-identical same-timestamp ticks fault the hub (`StreamHub.cs:567`), a real trade-print pattern. Document the fault + recovery model in `stream.md`; consider not faulting on external (non-cascade) identical ticks. (`ResetFault()`-only recovery is verified to resume correctly.) *(PR #2052; "don't fault on external identical ticks" remains a v3.1 robustness option)*
 - [x] **SR016 — Docs claim empty `Results[^1]` throws `IndexOutOfRangeException`; actual is `ArgumentOutOfRangeException`** (Low). `stream.md:62` + two sibling pages (`migration.md:284`, `buffer.md:56`). *(PR #2052)*
-- [x] **SR018 — No same-timestamp tail-correction (different-value) test for any stateful hub** (High; test). The exact path SR002 exploits; `tests/indicators/_common/StreamHub/StreamHub.CacheMgmt.Tests.cs:284` only drives a stateless `QuotePartHub`. Add a correction-vs-fresh-oracle test (EMA family, Stoch/StochRsi buffer state, AtrStop direction latch) to the per-indicator late-arrival suite. *(PR #2053 — `StreamHub.SameTimestampCorrection.Tests.cs`: Sma/Atr/AtrStop/Stoch sub-MinCacheSize correction vs fresh-hub oracle; fails before SR002 fix, passes after)*
-- [x] **SR021 — Offline SSE emulator's `/quotes/random` endpoint returns HTTP 500** (Medium; tooling). `tools/sse-server/Program.cs:64` builds `RandomGbm(bars: 0, …)` but `tests/indicators/_testdata/TestData.Random.cs:40` throws on `bars <= 0`; the documented offline streaming-validation path (`dotnet run -- sse quote …`) delivers zero quotes. Pass a positive `bars` count. *(PR #2052 — verified HTTP 200 with quotes flowing)*
+- [x] **SR018 — No same-timestamp tail-correction (different-value) test for any stateful hub** (High; test). The exact path SR002 exploits; `tests/indicators/_common/StreamHub/StreamHub.CacheMgmt.Tests.cs:284` only drives a stateless `BarPartHub`. Add a correction-vs-fresh-oracle test (EMA family, Stoch/StochRsi buffer state, AtrStop direction latch) to the per-indicator late-arrival suite. *(PR #2053 — `StreamHub.SameTimestampCorrection.Tests.cs`: Sma/Atr/AtrStop/Stoch sub-MinCacheSize correction vs fresh-hub oracle; fails before SR002 fix, passes after)*
+- [x] **SR021 — Offline SSE emulator's `/bars/random` endpoint returns HTTP 500** (Medium; tooling). `tools/sse-server/Program.cs:64` builds `RandomGbm(bars: 0, …)` but `tests/indicators/_testdata/TestData.Random.cs:40` throws on `bars <= 0`; the documented offline streaming-validation path (`dotnet run -- sse bar …`) delivers zero bars. Pass a positive `bars` count. *(PR #2052 — verified HTTP 200 with bars flowing)*
 
 #### Robustness — document for v3.0, code-fix in v3.1
 
@@ -157,7 +159,7 @@ The v3 streaming engine is the headline of this release after a long development
 
 #### API / behavior finalization (one-way door — land before the stable tag)
 
-- [x] **ARCH-V31-12 — Guard mutation on subscribed (non-root) hubs + `Remove(IQuote)`** (2–3 hours). Make `Add`/`RemoveAt`/`RemoveRange`/`Reinitialize` throw `InvalidOperationException` (or a documented no-op) on a non-root hub — detect via `QuoteHub._isStandalone` / real-`Provider`-vs-inert-`BaseProvider<T>` — so a leaf can't be desynced from its provider; add `Remove(IQuote)` on the root hub (find-by-timestamp → `RemoveAt`/`RemoveRange`; no-op-or-throw if absent). Public-behavior change → tests + tighten `stream.md` from *documenting* the root-hub rule to *enforcing* it. (Approved as v3.1 in the #2052 review; reclassified to v3.0 because it's breaking.) *(PR #2059)*
+- [x] **ARCH-V31-12 — Guard mutation on subscribed (non-root) hubs + `Remove(IBar)`** (2–3 hours). Make `Add`/`RemoveAt`/`RemoveRange`/`Reinitialize` throw `InvalidOperationException` (or a documented no-op) on a non-root hub — detect via `BarHub._isStandalone` / real-`Provider`-vs-inert-`BaseProvider<T>` — so a leaf can't be desynced from its provider; add `Remove(IBar)` on the root hub (find-by-timestamp → `RemoveAt`/`RemoveRange`; no-op-or-throw if absent). Public-behavior change → tests + tighten `stream.md` from *documenting* the root-hub rule to *enforcing* it. (Approved as v3.1 in the #2052 review; reclassified to v3.0 because it's breaking.) *(PR #2059)*
 - [ ] **SR017 — `IDisposable` / chain teardown on `StreamHub`** — **DEFERRED from v3.0 → [#2068](https://github.com/DaveSkender/Stock.Indicators/issues/2068).** Built in PR #2060, then withdrawn: hubs hold no unmanaged resources, `EndTransmission`/`Unsubscribe` + GC proved sufficient (no observed need), and most of the feature's cost (CA2000 suppressions, the `MarkAsInternalHub` ownership flag, the re-entrancy guard) was self-induced by adding `IDisposable`. Adding `IDisposable` later is non-breaking, so deferral is reversible; revisit per #2068.
 - [x] **ARCH-V31-3 — `Snapshot()` for an immutable cache copy** (2 hours). Keep `Results` as the live view; add `Snapshot()` returning `IReadOnlyList<TOut>` taken under `CacheLock`. Backs the thread-safety guidance shipped in #2052 ("copy or snapshot before handing `Results` to another thread"). *(PR #2061)*
 
@@ -169,22 +171,22 @@ The v3 streaming engine is the headline of this release after a long development
 #### Test coverage — prove the rollback/concurrency engine before the tag
 
 - [x] **TC-V31-1 — StreamHub concurrency test suite** (4–6 hours). Parallel `Add` from N threads, interleaved late arrivals, concurrent observer subscribe/dispose. The safety net validating the documented single-writer / thread-safety contract. *(PR #2070)*
-- [x] **TC-V31-4 — Aggregator-hub rollback-equivalence** (2 hours). `QuoteAggregatorHub`/`TickAggregatorHub` override `RollbackState` but aren't in the catalog, so TC001 doesn't exercise them; catalog-register or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`. *(PR #2071)*
+- [x] **TC-V31-4 — Aggregator-hub rollback-equivalence** (2 hours). `BarAggregatorHub`/`TradeTickAggregatorHub` override `RollbackState` but aren't in the catalog, so TC001 doesn't exercise them; catalog-register or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`. *(PR #2071)*
 - [x] **SR020 — Deep-chain rebuild value-equality** (2 hours). `StreamHub.BoundsChecking.Tests.cs:810` asserts count/timestamp only after a chained `RemoveAt`; extend to `IsExactly` vs a Series-equivalent chain. *(PR #2071)*
-- [x] **TC-V31-8 — Chained-downstream late-arrival through an aggregator** (1–2 hours). `QuoteHub → AggregatorHub → EmaHub` (+ tick analog) late-arrival test; assert downstream `EmaHub.Results` bit-equality between late and fresh chains — catches a dropped-notification-per-replay regression. *(PR #2071)*
-- [x] **TC-V31-7 — BufferList bounded-value parity** (1–2 hours). Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each bounded `*.BufferList.Tests.cs` (RSI/Stoch/Aroon/MFI/Ultimate/ConnorsRsi/WilliamsR), matching the Series + StreamHub coverage. *(PR #2072)*
+- [x] **TC-V31-8 — Chained-downstream late-arrival through an aggregator** (1–2 hours). `BarHub → AggregatorHub → EmaHub` (+ tick analog) late-arrival test; assert downstream `EmaHub.Results` bit-equality between late and fresh chains — catches a dropped-notification-per-replay regression. *(PR #2071)*
+- [x] **TC-V31-7 — BufferList bounded-value parity** (1–2 hours). Add `Boundary_WithRandomBars_StaysWithinBounds` to each bounded `*.BufferList.Tests.cs` (RSI/Stoch/Aroon/MFI/Ultimate/ConnorsRsi/WilliamsR), matching the Series + StreamHub coverage. *(PR #2072)*
 
 #### ⚠️ Pending maintainer decisions — highlighted, NOT in the next batch
 
-- **RG004 → ARCH-V31-9 — `Quote` → `Bar` rename.** One-way door: v3.0 is the only window before v4.0. Pure product call; needs the impact write-up + a YES/NO. (Detail in §A RG004 and ARCH-V31-9 below.)
-- **SR001 — Before-head silent drop.** Deferred 2026-05-30; the 2026-05-31 quality steer reopens it — silent data loss on out-of-order / two-feed-merge / backfill is the canonical "obvious problem." Decide: surface the drop (status / `OnError` / dropped-quote callback) in v3.0, or hold the defer. (Detail in §E above.)
+- **RG004 → ARCH-V31-9 — `Quote` → `Bar` rename — ✅ RESOLVED: YES, shipped in v3.0** (PR #1933). Old names ship as warning-level `[Obsolete]` aliases; see the 2026-06-19 update at the top. (Detail in §A RG004 and ARCH-V31-9 below.)
+- **SR001 — Before-head silent drop.** Deferred 2026-05-30; the 2026-05-31 quality steer reopens it — silent data loss on out-of-order / two-feed-merge / backfill is the canonical "obvious problem." Decide: surface the drop (status / `OnError` / dropped-bar callback) in v3.0, or hold the defer. (Detail in §E above.)
 - **ARCH-V31-11 — Prune-stable rollback (the SR003 real fix).** Largest correctness gap in the rollback engine but a multi-day, dozens-of-hubs effort. Decide: pull into v3.0 (engine bit-exact under every cache config) or ship the documented edge-config limitation. (Detail in v3.1+ below.)
 
 ---
 
 ## v3.1+ Enhancements — Deferred Work
 
-> **Reclassified to v3.0 (see §L, 2026-05-31):** ARCH-V31-3, ARCH-V31-12, SR006c, SR007, SR017, SR020, TC-V31-1, TC-V31-4, TC-V31-7, TC-V31-8 — now v3.0-scheduled in §L; the detailed entries below are retained for reference. **Pending a v3.0 decision (see §L):** ARCH-V31-9 (RG004 Quote→Bar) and ARCH-V31-11 (prune-stable rollback). Everything else here is genuinely v3.1+.
+> **Reclassified to v3.0 (see §L, 2026-05-31):** ARCH-V31-3, ARCH-V31-12, SR006c, SR007, SR017, SR020, TC-V31-1, TC-V31-4, TC-V31-7, TC-V31-8 — now v3.0-scheduled in §L; the detailed entries below are retained for reference. **Pending a v3.0 decision (see §L):** ARCH-V31-11 (prune-stable rollback). (ARCH-V31-9 / RG004 Quote→Bar is now resolved — shipped in v3.0.) Everything else here is genuinely v3.1+.
 
 ### Framework architecture improvements (new — Architect findings)
 
@@ -246,14 +248,14 @@ The v3 streaming engine is the headline of this release after a long development
   - Source: Inspector F2.
   - `RollingMin`, `RollingMax`, `RollingSum`, `RegressionAccumulator` as shared utilities. Today indicators like Chandelier and Slope reinvent these per surface.
 
-- [ ] **ARCH-V31-9 — `Quote → Bar` rename (conditional on RG004 = NO)** (16–24 hours). **⚠️ PENDING v3.0 DECISION (see §L)** — one-way door; v3.0 is the only window before v4.0.
+- [x] **ARCH-V31-9 — `Quote → Bar` rename — ✅ DONE in v3.0** (RG004 = YES; PR #1933, bundled in #2102). Superseded the conditional-on-NO framing below; the rename shipped in v3.0 rather than being deferred.
   - Source: PR #1014 comment 1 (2024-07-01). **Only lands here if §A RG004 defers the rename out of v3.0.**
   - If RG004 = YES, this entry is moved into v3.0 §B (or §A) as the implementation tracker, not v3.1+.
-  - Scope: rename `Quote` → `Bar` and `IQuote` → `IBar`; `[Obsolete]` shims preserve `Quote`/`IQuote` for a deprecation window; refresh `docs/migration.md`; reserve `Tick` exclusively for individual bid/ask trades (already aligned with `TickHub` per PR #1875). v4.0 would be the next available window if this slips here.
+  - Scope: rename `Quote` → `Bar` and `IQuote` → `IBar`; `[Obsolete]` shims preserve `Quote`/`IQuote` for a deprecation window; refresh `docs/migration.md`; reserve `TradeTick` exclusively for individual bid/ask trades (already aligned with `TradeTickHub` per PR #1875). v4.0 would be the next available window if this slips here.
 
 - [ ] **ARCH-V31-10 — External hub cache storage** (8–12 hours). Tracks open [Issue #1884](https://github.com/DaveSkender/Stock.Indicators/issues/1884).
   - Source: PR #1014 comment 5 (2024-07-01) + private project board entry.
-  - Allow consumers to inject an external `List<TSeries>` cache for `StreamHub`/`BufferList` storage, enabling durable persistence and rehydration patterns (Redis, FusionCache, custom storage). Already prototyped via the `AbstractCache(List<TSeries> externalCache)` ctor stub in #1884; needs design + test scenarios for `IQuote` and `IResult/IReusable` caches.
+  - Allow consumers to inject an external `List<TSeries>` cache for `StreamHub`/`BufferList` storage, enabling durable persistence and rehydration patterns (Redis, FusionCache, custom storage). Already prototyped via the `AbstractCache(List<TSeries> externalCache)` ctor stub in #1884; needs design + test scenarios for `IBar` and `IResult/IReusable` caches.
 
 - [ ] **ARCH-V31-11 — Prune-stable rollback: framework state snapshot/restore** (large; the SR003 real fix — dedicated multi-PR effort, **do not bolt onto a hardening pass**). **⚠️ PENDING v3.0 DECISION (see §L)** — pull into v3.0 (engine bit-exact under every cache config) or ship the documented edge-config limitation.
   - Source: overall-review-v3 SR003, empirically confirmed and scope-corrected (PR #2055, `tests/indicators/_common/StreamHub/StreamHub.RollbackAfterPrune.Tests.cs`).
@@ -265,8 +267,8 @@ The v3 streaming engine is the headline of this release after a long development
 
 - [ ] **ARCH-V31-12 — Guard mutation on subscribed (non-root) hubs** (2–3 hours).
   - Source: PR #2052 review (maintainer, 2026-05-31) — approved to spec as v3.1.
-  - A hub already knows whether it is self-rooted (`QuoteHub._isStandalone`; non-root hubs hold a real `Provider`, not the inert `BaseProvider<T>`). Make the mutating surface — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize` — throw `InvalidOperationException` (or no-op under a documented contract) when called on a subscribed/chained hub, so a user cannot desync a leaf hub from its provider. Public-behavior change → land deliberately with tests; once enforced, tighten `stream.md` (which today only *documents* the "mutate the root hub" rule rather than enforcing it).
-  - Companion (same root-only constraint): a convenience `Remove(IQuote)` on the root `QuoteHub`/`TickHub` (find-by-timestamp → `RemoveAt`/`RemoveRange`; no-op-or-throw if absent), from the §E SR011 doc discussion. Decide whether to ship the two together.
+  - A hub already knows whether it is self-rooted (`BarHub._isStandalone`; non-root hubs hold a real `Provider`, not the inert `BaseProvider<T>`). Make the mutating surface — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize` — throw `InvalidOperationException` (or no-op under a documented contract) when called on a subscribed/chained hub, so a user cannot desync a leaf hub from its provider. Public-behavior change → land deliberately with tests; once enforced, tighten `stream.md` (which today only *documents* the "mutate the root hub" rule rather than enforcing it).
+  - Companion (same root-only constraint): a convenience `Remove(IBar)` on the root `BarHub`/`TradeTickHub` (find-by-timestamp → `RemoveAt`/`RemoveRange`; no-op-or-throw if absent), from the §E SR011 doc discussion. Decide whether to ship the two together.
 
 ### Streaming confidence-review follow-ups (overall-review-v3, 2026-05-29)
 
@@ -276,12 +278,12 @@ Non-blocking items from the same swarm review; the stable-blocking subset is in 
 - [ ] **SR010 — Cache the observer-notify snapshot** (2 hours). `src/_common/StreamHub/StreamHub.Observable.cs:147` allocates `_observers.ToArray()` on every notified tick (measured 104 B/hop; 192 B/add in a 2-hop chain). Snapshot only on subscribe/unsubscribe.
 - [x] **SR004c / SR005c — Isolate observer callbacks + error fan-out** (3–4 hours). Code half of §E SR004/SR005: wrap each `o.OnAdd`/`OnRebuild`/`OnPrune`/`OnError` in try/catch (Rx-style), route the failure to that observer's `OnError`, and continue notifying siblings. *(Pulled forward to v3.0 — PR #2056. Implemented as isolate + route-to-`OnError` + continue; quarantine/auto-unsubscribe intentionally NOT done per maintainer (isolate-and-continue chosen). If a self-healing quarantine of a persistently-throwing observer is later desired, that's a separate v3.1+ follow-up.)*
 - [x] **SR007 — Guard the `_observers` HashSet against Subscribe-during-stream races** (2–3 hours). `src/_common/StreamHub/StreamHub.Observable.cs:40,51,95` mutate `_observers` unsynchronized vs the notify-loop enumeration; constructing a downstream hub concurrent with `Add` is a real (out-of-contract) race. Guard `_observers` or formally document Subscribe as a serialized setup-phase action. Pairs with TC-V31-1. *(PR #2069 — see §L)*
-- [ ] **SR008e — Enforce the BufferList chronological-input precondition** (maintainer-gated; 2–4 hours). Code half of §E SR008 (documented + pinned in PR #2054). A guard in `BufferList.AddInternal` (`item.Timestamp < _internalList[^1].Timestamp` → throw) is viable: an experiment broke **exactly one** indicators-project test (`Pmo.CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers`, which itself re-feeds `Quotes.TakeLast(50)` out of order). Before adopting: confirm blast radius across the integration + public-api test projects and consumer impact (a new exception across all 79 BufferLists is a breaking change at stable), decide whether duplicates (`==`) are also rejected, settle the exception type/message, and update `BufferList.OrderingContract.Tests.cs` (which currently pins the *unenforced* behavior) plus the Pmo test.
+- [ ] **SR008e — Enforce the BufferList chronological-input precondition** (maintainer-gated; 2–4 hours). Code half of §E SR008 (documented + pinned in PR #2054). A guard in `BufferList.AddInternal` (`item.Timestamp < _internalList[^1].Timestamp` → throw) is viable: an experiment broke **exactly one** indicators-project test (`Pmo.CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers`, which itself re-feeds `Bars.TakeLast(50)` out of order). Before adopting: confirm blast radius across the integration + public-api test projects and consumer impact (a new exception across all 79 BufferLists is a breaking change at stable), decide whether duplicates (`==`) are also rejected, settle the exception type/message, and update `BufferList.OrderingContract.Tests.cs` (which currently pins the *unenforced* behavior) plus the Pmo test.
 - [x] **SR006c — Close the `Reinitialize` rebuild→subscribe race** (part of T205 / `src/_common/StreamHub/StreamHub.cs:233`). Code half of §E SR006: subscribe-before/atomic-with rebuild, or re-run a catch-up rebuild after Subscribe returns. *(PR #2069 — see §L)*
 - [ ] **SR017 — Chain lifecycle ergonomics** (3–4 hours). No `Dispose`/`DisposeChain` on `StreamHub` (it does not implement `IDisposable`); teardown is per-hub via `EndTransmission`/`Unsubscribe` and undiscoverable. Document the `EndTransmission`→`OnCompleted` teardown sequence in `stream.md` and consider implementing `IDisposable`. Surface the `Reinitialize` caveat in xmldoc.
 - [x] **SR020 — Deep-chain rebuild value-equality tests** (2 hours). `tests/indicators/_common/StreamHub/StreamHub.BoundsChecking.Tests.cs:810` asserts count/timestamp only after a chained `RemoveAt`; extend to `IsExactly` vs a Series-equivalent chain. StochRsi already pins one 3-deep chain and the empirical harness found no divergence — low priority. *(PR #2071 — see §L)*
 - [x] **SR019 — Aggregator rollback-equivalence coverage** — already tracked as **TC-V31-4**; the review reconfirms the gap (aggregator hubs excluded from the generic contract at `tests/indicators/_common/StreamHub/StreamHub.RollbackContract.Tests.cs:16`). *(PR #2071 — see §L)*
-- Minor cleanups (Low; batch when next touching the files): `OverflowCount` not reset alongside `LastItem` in `RemoveRange` (replay self-heals; `StreamHub.cs:190`); standalone same-timestamp replacement leaves base `LastItem` stale → one extra rebuild cascade on an idempotent re-send (`Quote.StreamHub.cs:135`); `RemoveRange(DateTime)` is the lone cache mutator with no `CacheLock` (defense-in-depth under the single-writer contract; `StreamHub.cs:175`); `_isRebuilding` is a non-volatile instance bool (add an "only read/written under CacheLock" invariant comment; `:23`); `Add(IEnumerable)` `OrderBy`-allocates + locks per item and `RemoveRange` allocates a delegate per rollback (micro-costs); `stream.md:128` "treat as thread-safe (… RemoveRange …)" wording over-promises versus the documented single-writer model.
+- Minor cleanups (Low; batch when next touching the files): `OverflowCount` not reset alongside `LastItem` in `RemoveRange` (replay self-heals; `StreamHub.cs:190`); standalone same-timestamp replacement leaves base `LastItem` stale → one extra rebuild cascade on an idempotent re-send (`Bar.StreamHub.cs:135`); `RemoveRange(DateTime)` is the lone cache mutator with no `CacheLock` (defense-in-depth under the single-writer contract; `StreamHub.cs:175`); `_isRebuilding` is a non-volatile instance bool (add an "only read/written under CacheLock" invariant comment; `:23`); `Add(IEnumerable)` `OrderBy`-allocates + locks per item and `RemoveRange` allocates a delegate per rollback (micro-costs); `stream.md:128` "treat as thread-safe (… RemoveRange …)" wording over-promises versus the documented single-writer model.
 
 ### Test coverage v3.1+
 
@@ -292,27 +294,27 @@ Non-blocking items from the same swarm review; the stable-blocking subset is in 
   - Source: Tester F7. Loose `NotBeEmpty`/`NotBeNull` should become exact `Results.Count`/`Parameters.Count` per indicator.
 
 - [ ] **TC-V31-3 — BufferList `MaxListSize` runtime trimming test** (1–2 hours).
-  - Source: Tester F8. Mirror TickHub's `WithCachePruning` pattern for BufferList.
+  - Source: Tester F8. Mirror TradeTickHub's `WithCachePruning` pattern for BufferList.
 
 - [x] **TC-V31-4 — Aggregator hub rollback-equivalence coverage** (2 hours). *(PR #2071 — see §L)*
-  - Source: TC001 follow-up. `QuoteAggregatorHub` and `TickAggregatorHub` override `RollbackState` but are not in the catalog, so TC001 does not exercise them. Decide whether to catalog-register them or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`.
+  - Source: TC001 follow-up. `BarAggregatorHub` and `TradeTickAggregatorHub` override `RollbackState` but are not in the catalog, so TC001 does not exercise them. Decide whether to catalog-register them or add two hand-built rollback-equivalence cases to `StreamHub.RollbackContract.Tests.cs`.
 
 - [ ] **TC-V31-5 — Compound-hub inner↔outer rollback interaction** (3 hours).
   - Source: TC001 follow-up. For compound hubs (StochRsi, Stc, ConnorsRsi, Gator, etc.) `Rebuild` on the outer hub does not exercise the inner hub's `RollbackState`. Inner is still validated via its own listing's TC001 row; the cross-hub interaction is not. Add a targeted test only if a real compound-hub rollback bug surfaces.
 
 - [ ] **TC-V31-6 — Aggregator gap-fill / missing-candle test variants** (2–3 hours).
   - Source: Discussion #1018 @elAndyG. Companion to T236 (`GapFillMode` enum) and G008 (docs).
-  - Add tests under `tests/indicators/_common/Quotes/Quote.AggregatorHub.Tests.cs`: synthesized tick sequences with intentional gaps (e.g., missing 1-minute bars during low-volume periods); assert behavior under each future `GapFillMode` value (None/ForwardFill/Interpolate). Today the test gap is in §D TC005 (boundary tests) — TC-V31-6 extends that pattern once T236 ships. Distinct from TC-V31-4 (which covers rollback equivalence on the aggregator hubs themselves).
+  - Add tests under `tests/indicators/_common/Bars/Bar.AggregatorHub.Tests.cs`: synthesized tick sequences with intentional gaps (e.g., missing 1-minute bars during low-volume periods); assert behavior under each future `GapFillMode` value (None/ForwardFill/Interpolate). Today the test gap is in §D TC005 (boundary tests) — TC-V31-6 extends that pattern once T236 ships. Distinct from TC-V31-4 (which covers rollback equivalence on the aggregator hubs themselves).
 
 - [x] **TC-V31-7 — BufferList parity for bounded-value invariant tests** (1–2 hours). *(PR #2072 — see §L)*
   - Source: PR #2021 scope decision. The bounded-value invariant work (RSI, Stoch, Aroon, MFI, Ultimate, ConnorsRSI, WilliamsR) shipped Series + StreamHub coverage but skipped BufferList. The math is identical across all three styles, so a BufferList violation would be a regression bug rather than an algorithmic edge case; still, a symmetry pass closes the contract.
-  - Add `Boundary_WithRandomQuotes_StaysWithinBounds` to each `*.BufferList.Tests.cs` sibling using `Data.GetRandom(2500)`, matching the Series and StreamHub pattern.
+  - Add `Boundary_WithRandomBars_StaysWithinBounds` to each `*.BufferList.Tests.cs` sibling using `Data.GetRandom(2500)`, matching the Series and StreamHub pattern.
 
 - [x] **TC-V31-8 — Chained-downstream late-arrival aggregator coverage** (1–2 hours). *(PR #2071 — see §L)*
-  - Source: TC005 self-review (Tester finding). The new TC005 tests exercise the aggregator hub in isolation. A `QuoteHub → AggregatorHub → EmaHub` (and tick analog) late-arrival test would additionally pin that the aggregator's upstream-triggered rebuild propagates downstream observer notifications correctly, catching a hypothetical regression where the rebuild silently dropped one notification per replay. Inline test per pattern; assert downstream `EmaHub.Results` bit-equality between late and fresh chains.
+  - Source: TC005 self-review (Tester finding). The new TC005 tests exercise the aggregator hub in isolation. A `BarHub → AggregatorHub → EmaHub` (and tick analog) late-arrival test would additionally pin that the aggregator's upstream-triggered rebuild propagates downstream observer notifications correctly, catching a hypothetical regression where the rebuild silently dropped one notification per replay. Inline test per pattern; assert downstream `EmaHub.Results` bit-equality between late and fresh chains.
 
 - [ ] **TC-V31-9 — Aggregator late-arrival × gap-fill interaction** (1–2 hours).
-  - Source: TC005 self-review (Tester observation). Late quote arriving into a bucket that was previously gap-filled should replace the gap bar with a real one rather than leave or duplicate it. Add `LateArrival_IntoGapFilledBucket_ReplacesGapBar` to both aggregator test files.
+  - Source: TC005 self-review (Tester observation). Late bar arriving into a bucket that was previously gap-filled should replace the gap bar with a real one rather than leave or duplicate it. Add `LateArrival_IntoGapFilledBucket_ReplacesGapBar` to both aggregator test files.
 
 Random-seed determinism (raised in PR #2021 self-review) was considered and rejected. The boundary assertion is that the indicator stays within its documented range **regardless of the input** — pinning the seed only proves the bound holds on one specific dataset, which actively narrows the test's reach rather than strengthening it. Determinism would hurt wider testability here, not help it. Secondary point: `RandomGbm._random` is a shared static instance, so a seeded overload would not yield reproducible failures under parallel execution anyway.
 
@@ -332,7 +334,7 @@ Random-seed determinism (raised in PR #2021 self-review) was considered and reje
 - [ ] **T205 — `Reinitialize()` optimization** (6–8 hours) **[highest leverage]**.
   - File: `src/_common/StreamHub/StreamHub.cs:230` (TODO in source).
 
-- [ ] **P001** — Moving Average family framework overhead (research). Acceptable for intended use (~40,000 quotes/sec).
+- [ ] **P001** — Moving Average family framework overhead (research). Acceptable for intended use (~40,000 bars/sec).
 - [ ] **P003** — Alligator/Gator BufferList research (merged with P016).
 - [ ] **P006** — Prs streaming support — depends on ARCH-V31-4 `JoinHub` design.
 
@@ -357,9 +359,9 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 - [ ] **T224** — Performance benchmark external data cache model (6–8 hours).
 - [ ] **T225** — Style comparison benchmark representative indicators (2–3 hours).
 - [ ] **T226** — `ISeries.UnixDate` property (3–4 hours, interface change).
-- [ ] **T227** — `QuotePart.Use` vs `ToQuotePart` deprecation decision (1–2 hours).
-- [ ] **T228** — `IQuotePart` rename to `IBarPartHub` evaluation (2–3 hours).
-- [ ] **T236** — `GapFillMode` enum for `Quote.AggregatorHub` (4–6 hours). Source: Discussion #1018 @elAndyG. Add `enum GapFillMode { None, ForwardFill, Interpolate }`; default `None` preserves current behavior. Companion to G008 (v3.0 docs) and TC-V31-6 (tests). Affects only the aggregator; downstream hubs see the post-fill quote stream.
+- [ ] **T227** — `BarPart.Use` vs `ToBarPart` deprecation decision (1–2 hours).
+- [ ] **T228** — `IBarPart` rename to `IBarPartHub` evaluation (2–3 hours).
+- [ ] **T236** — `GapFillMode` enum for `Bar.AggregatorHub` (4–6 hours). Source: Discussion #1018 @elAndyG. Add `enum GapFillMode { None, ForwardFill, Interpolate }`; default `None` preserves current behavior. Companion to G008 (v3.0 docs) and TC-V31-6 (tests). Affects only the aggregator; downstream hubs see the post-fill bar stream.
 
 ### Cleanup deferred to v3.1+
 
@@ -383,11 +385,11 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 - [ ] **RES-V32-3 — Pine Script-style "rebuild current open bar only" fast path** (Researcher F5).
   - For same-timestamp updates, only recompute from the open bar's prefix; for older out-of-order, opt-in `AllowLateArrivals` with documented repaint cost.
 
-- [ ] **#1323 / #1259** — Heap allocation reduction (struct Quote, ArrayPool, Span). Coordinated v3.2 push.
+- [ ] **#1323 / #1259** — Heap allocation reduction (struct Bar, ArrayPool, Span). Coordinated v3.2 push.
 
 - [ ] **Review [Discussion #1018](https://github.com/DaveSkender/Stock.Indicators/discussions/1018)** — community feedback on state rollback.
 
-- [ ] **E004–E006** — QuoteHub intra-period update semantics.
+- [ ] **E004–E006** — BarHub intra-period update semantics.
 - [ ] **E007–E008** — ADX DMI property expansion.
 - [ ] **E009** — BufferList configuration ([Issue #1831](https://github.com/DaveSkender/Stock.Indicators/issues/1831)).
 - [ ] **E010** — Composite naming for chained indicators.
@@ -408,7 +410,7 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 - [x] **G005** — Skills tree pruned to 10 tracked; root `AGENTS.md` skills index made exhaustive *(PR #2043)*.
 - [x] **G006** — Performance target bands aligned with measured reality (verified done, no-op).
 - [x] **G007** — Plan ↔ guidance cross-references confirmed via `AGENTS.md` (`tests/AGENTS.md` layout reconciled as G007-followup).
-- [x] **G008** — `fillGaps` semantics documented on `QuoteAggregatorHub` / `TickAggregatorHub` + `resize-quote-history.md`. Source: Discussion #1018 @elAndyG.
+- [x] **G008** — `fillGaps` semantics documented on `BarAggregatorHub` / `TradeTickAggregatorHub` + `resize-bar-history.md`. Source: Discussion #1018 @elAndyG.
 - [x] **T230** — `Stock.Indicators.sln.DotSettings.user` untrack verified (no-op).
 - [x] **T232** — 7 legacy `ArgumentNullException` sites migrated to `ThrowIfNull`; CA1510 global suppression removed *(PR #2045)*.
 - [x] **T233** — 14 `#pragma warning disable` directives audited; all intentional and load-bearing; DOC-ARCH-6 scope revised accordingly.
@@ -420,7 +422,7 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 - [x] **TC002** — Per-indicator late-arrival tests for 11 multi-stage hubs *(PR #2019)*.
 - [x] **TC003** — Bounded-value invariant test for RSI/Stoch/Aroon/MFI/Ultimate/ConnorsRSI/WilliamsR *(PR #2021)*. BufferList parity deferred to TC-V31-7.
 - [x] **TC004** — Macd StreamHub coverage parity (verified, no new code; cascaded-state audit complete).
-- [x] **TC005** — Quote/Tick aggregator boundary tests (late-arrival, partial-bucket, late-vs-fresh oracle) *(PR #2022)*. Latent duplicate-bar bug on mid-bucket late arrivals caught and fixed in the same PR via `Rebuild(DateTime)` override on both aggregator hubs.
+- [x] **TC005** — Bar/TradeTick aggregator boundary tests (late-arrival, partial-bucket, late-vs-fresh oracle) *(PR #2022)*. Latent duplicate-bar bug on mid-bucket late arrivals caught and fixed in the same PR via `Rebuild(DateTime)` override on both aggregator hubs.
 - [x] **TC006** — Catalog count assertions sharpened to exact `Be(85)/Be(79)/Be(79)/Be(243)`; consolidates **T219** *(PR #2023)*.
 
 ### Quality pass — architecture documentation
@@ -438,7 +440,7 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 
 ### Quality pass — documentation
 
-- [x] **D009** — QuotePart streaming variants documented (`ToQuotePartList` / `ToQuotePartHub`); coverage 79 of 79.
+- [x] **D009** — BarPart streaming variants documented (`ToBarPartList` / `ToBarPartHub`); coverage 79 of 79.
 - [x] **D010** — `docs/guide/custom-observers.md` with full `IStreamObserver<T>` contract and box-to-`IChainProvider<IReusable>` pattern. Source: Discussion #1018 @JGronholz, resolves Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895) *(PR #2038)*.
 - [x] **D011** — `docs/guide/testing.md` with canned-fixture recommendation and explicit rejection of per-type result interfaces (`IEmaResult` anti-pattern) *(PR #2039)*.
 
@@ -459,19 +461,19 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 
 ### Correctness & framework
 
-- **#1585** — QuoteHub self-healing limitation: cache exposures wrapped in `AsReadOnly()` (note: this prevents *mutation* but exposes a live view — see DOC-ARCH-3 above)
+- **#1585** — BarHub self-healing limitation: cache exposures wrapped in `AsReadOnly()` (note: this prevents *mutation* but exposes a live view — see DOC-ARCH-3 above)
 - **T200** — TEMA/DEMA StreamHub layered EMA state optimization
 - **T201** — Stochastic SMMA re-initialization on NaN (PR #1852)
 - **T202** — WilliamsR boundary rounding precision (boundary clamping + tests)
 - **T204** — StochRsi `Remove()` auto-healing evaluation (PR #1842)
 - **T207** — Removed redundant `RemoveWarmupPeriods` overrides for Epma, Hurst, Mfi, Stoch, Vwap (PR #1842)
-- **T208** — `Quote.Date` property deprecation shipped; full removal deferred to v4+ (`[Obsolete]` shim at `src/_common/Quotes/Quote.cs:41-46`)
+- **T208** — `Bar.Date` property deprecation shipped; full removal deferred to v4+ (`[Obsolete]` shim at `src/_common/Bars/Bar.cs:41-46`)
 - **T209** — PivotPoints `ToList()` removal (PR #1842)
-- **T211** — `ListingExecutor` simplified to use `IQuote` interface (PR #1842)
+- **T211** — `ListingExecutor` simplified to use `IBar` interface (PR #1842)
 - **T215** — Hurst Anis-Lloyd corrected R/S implementation (`HurstResult.HurstExponentAL` alongside raw `HurstExponent` across Series/BufferList/StreamHub) (PR #2007, #1636, #1643)
 - **T218** — Precision analysis test obsolescence review (clarified value of `BoundaryTests`)
 - **T222** — StreamHub cache management exact-value verification (Series parity is canonical)
-- **T223** — Renko StreamHub alternative testing approach via `ITestQuoteObserver` / `ITestChainProvider`
+- **T223** — Renko StreamHub alternative testing approach via `ITestBarObserver` / `ITestChainProvider`
 - **T229** — ATR utilities incremental method made public
 - **P002** — Slope BufferList research closed via PV001 *(PR #2024)*; future work options enumerated as PV-V31-1/2/3.
 
@@ -488,11 +490,11 @@ All items implemented in source; baselines pending refresh (RG001).
 - **P011** — Adl StreamHub: rolling-total state management (PR #1978 centralized signature)
 - **P012** — Pmo StreamHub: layered EMA state O(1) updates (PR #1979)
 - **P013** — Smi StreamHub: `RollingWindowMax/Min` deques replaced with fixed-size circular arrays
-- **P014** — Chandelier StreamHub: refactored to `ChainHub<IQuote, …>` (PR #1988)
+- **P014** — Chandelier StreamHub: refactored to `ChainHub<IBar, …>` (PR #1988)
 
 ### New streaming features
 
-- **Aggregator hubs for quote/tick quantization** (PR #1875) — `QuoteAggregatorHub`, `TickHub`, `Tick.AggregatorHub`. Net-new streaming capability.
+- **Aggregator hubs for bar/tick quantization** (PR #1875) — `BarAggregatorHub`, `TradeTickHub`, `TradeTick.AggregatorHub`. Net-new streaming capability.
 
 ### Documentation & site
 

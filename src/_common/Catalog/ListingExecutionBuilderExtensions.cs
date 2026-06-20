@@ -30,15 +30,15 @@ public static class ListingExecutionBuilderExtensions
             => new ListingExecutionBuilder(listing).WithParams(parameters);
 
     /// <summary>
-    /// Creates a customizable indicator builder from an indicator listing and sets the source quotes.
+    /// Creates a customizable indicator builder from an indicator listing and sets the source bars.
     /// </summary>
     /// <param name="listing">Base indicator listing.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>A <see cref="ListingExecutionBuilder"/> with quotes set.</returns>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    /// <returns>A <see cref="ListingExecutionBuilder"/> with bars set.</returns>
     public static ListingExecutionBuilder From(
         this IndicatorListing listing,
-        IEnumerable<IQuote> quotes)
-            => new ListingExecutionBuilder(listing).FromSource(quotes);
+        IEnumerable<IBar> bars)
+            => new ListingExecutionBuilder(listing).FromSource(bars);
 
     /// <summary>
     /// Creates a customizable indicator builder from an indicator listing and sets a series source.
@@ -78,29 +78,29 @@ public static class ListingExecutionBuilderExtensions
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
     /// <param name="listing">Indicator listing.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <returns>Indicator results.</returns>
     public static IReadOnlyList<TResult> Execute<TResult>(
         this IndicatorListing listing,
-        IEnumerable<IQuote> quotes)
+        IEnumerable<IBar> bars)
         where TResult : class
-        => ListingExecutor.Execute<TResult>(quotes, listing);
+        => ListingExecutor.Execute<TResult>(bars, listing);
 
     /// <summary>
-    /// Alternative syntax: Execute an indicator from quotes using a custom indicator builder.
+    /// Alternative syntax: Execute an indicator from bars using a custom indicator builder.
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="customIndicator">Custom indicator configuration.</param>
     /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when a required parameter is null</exception>
     public static IReadOnlyList<TResult> Execute<TResult>(
-        this IEnumerable<IQuote> quotes,
+        this IEnumerable<IBar> bars,
         ListingExecutionBuilder customIndicator)
         where TResult : class
         => customIndicator == null
             ? throw new ArgumentNullException(nameof(customIndicator))
-            : customIndicator.FromSource(quotes).Execute<TResult>();
+            : customIndicator.FromSource(bars).Execute<TResult>();
 
     /// <summary>
     /// Alternative syntax: Execute an indicator from a series using a custom indicator builder.

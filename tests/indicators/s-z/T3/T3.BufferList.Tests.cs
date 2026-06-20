@@ -7,68 +7,68 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     private const double volumeFactor = 0.7;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<T3Result> series
-       = Quotes.ToT3(lookbackPeriods, volumeFactor);
+       = Bars.ToT3(lookbackPeriods, volumeFactor);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         T3List sut = new(lookbackPeriods, volumeFactor);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        T3List sut = new(lookbackPeriods, volumeFactor) { Quotes };
+        T3List sut = new(lookbackPeriods, volumeFactor) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        T3List sut = new(lookbackPeriods, volumeFactor, Quotes);
+        T3List sut = new(lookbackPeriods, volumeFactor, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtorPartial_OnSplitInitialization_IncrementsResults()
+    public void BarsCtorPartial_OnSplitInitialization_IncrementsResults()
     {
         // Test split initialization: half on construction, half after
-        int splitPoint = Quotes.Count / 2;
-        List<Quote> firstHalf = Quotes.Take(splitPoint).ToList();
-        List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
+        int splitPoint = Bars.Count / 2;
+        List<Bar> firstHalf = Bars.Take(splitPoint).ToList();
+        List<Bar> secondHalf = Bars.Skip(splitPoint).ToList();
 
         T3List sut = new(lookbackPeriods, volumeFactor, firstHalf);
 
-        foreach (Quote q in secondHalf)
+        foreach (Bar q in secondHalf)
         {
             sut.Add(q);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<T3Result> expected = subset.ToT3(lookbackPeriods, volumeFactor);
 
         T3List sut = new(lookbackPeriods, volumeFactor, subset);
@@ -96,7 +96,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -105,7 +105,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     {
         T3List sut = new(lookbackPeriods, volumeFactor) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -119,7 +119,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -132,7 +132,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<T3Result> expected = series
             .Skip(series.Count - maxListSize)

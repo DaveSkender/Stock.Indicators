@@ -1,38 +1,38 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Keltner Channels for a series of quotes indicator.
+/// Keltner Channels for a series of bars indicator.
 /// </summary>
 public static partial class Keltner
 {
     /// <summary>
-    /// Converts a list of quotes to Keltner Channel results.
+    /// Converts a list of bars to Keltner Channel results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KeltnerResult> ToKeltner(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int emaPeriods = 20,
         double multiplier = 2,
         int atrPeriods = 10)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcKeltner(emaPeriods, multiplier, atrPeriods);
 
     /// <summary>
-    /// Calculates the Keltner Channel for a list of quotes.
+    /// Calculates the Keltner Channel for a list of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     private static List<KeltnerResult> CalcKeltner(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
@@ -41,21 +41,21 @@ public static partial class Keltner
         Validate(emaPeriods, multiplier, atrPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<KeltnerResult> results = new(length);
 
         IReadOnlyList<EmaResult> emaResults
-            = quotes.ToEma(emaPeriods);
+            = bars.ToEma(emaPeriods);
 
         List<AtrResult> atrResults
-            = quotes.CalcAtr(atrPeriods);
+            = bars.CalcAtr(atrPeriods);
 
         int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             if (i >= lookbackPeriods - 1)
             {

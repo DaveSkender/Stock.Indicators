@@ -6,7 +6,7 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<UlcerIndexResult> sut = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Bars
             .ToUlcerIndex();
 
         // proper quantities
@@ -21,7 +21,7 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<UlcerIndexResult> sut = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Bars
             .Use(CandlePart.Close)
             .ToUlcerIndex();
 
@@ -32,7 +32,7 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<UlcerIndexResult> sut = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Bars
             .ToSma(2)
             .ToUlcerIndex();
 
@@ -43,7 +43,7 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToUlcerIndex()
             .ToSma(10);
 
@@ -52,9 +52,9 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<UlcerIndexResult> r = BadQuotes
+        IReadOnlyList<UlcerIndexResult> r = BadBars
             .ToUlcerIndex(15);
 
         r.Should().HaveCount(502);
@@ -62,14 +62,14 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<UlcerIndexResult> r0 = Noquotes
+        IReadOnlyList<UlcerIndexResult> r0 = Nobars
             .ToUlcerIndex();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<UlcerIndexResult> r1 = Onequote
+        IReadOnlyList<UlcerIndexResult> r1 = Onebar
             .ToUlcerIndex();
 
         r1.Should().HaveCount(1);
@@ -78,7 +78,7 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<UlcerIndexResult> sut = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Bars
             .ToUlcerIndex()
             .RemoveWarmupPeriods();
 
@@ -95,7 +95,7 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToUlcerIndex(0))
+            .Invoking(static () => Bars.ToUlcerIndex(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

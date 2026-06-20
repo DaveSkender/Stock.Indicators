@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Elder Ray from incremental quote values.
+/// Elder Ray from incremental bar values.
 /// </summary>
-public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IElderRay
+public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromBar, IElderRay
 {
     private readonly EmaList _emaList;
 
@@ -25,44 +25,44 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ElderRayList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="ElderRayList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ElderRayList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IBar> bars
     )
-        : this(lookbackPeriods) => Add(quotes);
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
         // update EMA
-        _emaList.Add(quote);
+        _emaList.Add(bar);
         EmaResult emaResult = _emaList[^1];
 
         // calculate Elder Ray
         AddInternal(new ElderRayResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             Ema: emaResult.Ema,
-            BullPower: (double)quote.High - emaResult.Ema,
-            BearPower: (double)quote.Low - emaResult.Ema));
+            BullPower: (double)bar.High - emaResult.Ema,
+            BearPower: (double)bar.Low - emaResult.Ema));
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -79,10 +79,10 @@ public static partial class ElderRay
     /// <summary>
     /// Creates a buffer list for Elder Ray calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static ElderRayList ToElderRayList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 13)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

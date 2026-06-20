@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating Vortex Indicator hubs.
 /// </summary>
 public class VortexHub
-    : StreamHub<IQuote, VortexResult>, IVortex
+    : StreamHub<IBar, VortexResult>, IVortex
 {
 
     private readonly Queue<(double Tr, double Pvm, double Nvm)> _buffer;
@@ -14,7 +14,7 @@ public class VortexHub
     private bool _isInitialized;
 
     internal VortexHub(
-        IStreamObservable<IQuote> provider,
+        IStreamObservable<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         Vortex.Validate(lookbackPeriods);
@@ -36,7 +36,7 @@ public class VortexHub
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (VortexResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -125,28 +125,28 @@ public class VortexHub
             return;
         }
 
-        // Process first quote to initialize state
+        // Process first bar to initialize state
         if (restoreIndex >= 0)
         {
-            IQuote firstQuote = ProviderCache[0];
-            _prevHigh = (double)firstQuote.High;
-            _prevLow = (double)firstQuote.Low;
-            _prevClose = (double)firstQuote.Close;
+            IBar firstBar = ProviderCache[0];
+            _prevHigh = (double)firstBar.High;
+            _prevLow = (double)firstBar.Low;
+            _prevClose = (double)firstBar.Close;
             _isInitialized = true;
         }
 
-        // Rebuild buffer from quotes starting at index 1
+        // Rebuild buffer from bars starting at index 1
         int startIdx = Math.Max(1, restoreIndex + 1 - LookbackPeriods);
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            IQuote prevQuote = ProviderCache[p - 1];
+            IBar bar = ProviderCache[p];
+            IBar prevBar = ProviderCache[p - 1];
 
-            double high = (double)quote.High;
-            double low = (double)quote.Low;
-            double prevHigh = (double)prevQuote.High;
-            double prevLow = (double)prevQuote.Low;
-            double prevClose = (double)prevQuote.Close;
+            double high = (double)bar.High;
+            double low = (double)bar.Low;
+            double prevHigh = (double)prevBar.High;
+            double prevLow = (double)prevBar.Low;
+            double prevClose = (double)prevBar.Close;
 
             // Calculate trend information
             double highMinusPrevClose = Math.Abs(high - prevClose);
@@ -159,13 +159,13 @@ public class VortexHub
             _buffer.Enqueue((tr, pvm, nvm));
         }
 
-        // Update prev values to the last processed quote
+        // Update prev values to the last processed bar
         if (restoreIndex >= 0)
         {
-            IQuote lastQuote = ProviderCache[restoreIndex];
-            _prevHigh = (double)lastQuote.High;
-            _prevLow = (double)lastQuote.Low;
-            _prevClose = (double)lastQuote.Close;
+            IBar lastBar = ProviderCache[restoreIndex];
+            _prevHigh = (double)lastBar.High;
+            _prevLow = (double)lastBar.Low;
+            _prevClose = (double)lastBar.Close;
         }
     }
 
@@ -174,15 +174,15 @@ public class VortexHub
 public static partial class Vortex
 {
     /// <summary>
-    /// Converts the quote provider to a Vortex Indicator hub.
+    /// Converts the bar provider to a Vortex Indicator hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Vortex Indicator hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static VortexHub ToVortexHub(
-        this IStreamObservable<IQuote> quoteProvider,
+        this IStreamObservable<IBar> barProvider,
         int lookbackPeriods = 14)
-             => new(quoteProvider, lookbackPeriods);
+             => new(barProvider, lookbackPeriods);
 }

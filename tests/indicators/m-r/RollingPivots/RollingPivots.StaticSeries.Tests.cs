@@ -11,7 +11,7 @@ public class RollingPivots : StaticSeriesTestBase
         const PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<RollingPivotsResult> sut =
-            Quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
+            Bars.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -81,7 +81,7 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 0;
         const PivotPointType pointType = PivotPointType.Camarilla;
 
-        IReadOnlyList<Quote> h = Data.GetDefault(38);
+        IReadOnlyList<Bar> h = Data.GetDefault(38);
 
         IReadOnlyList<RollingPivotsResult> sut = h
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
@@ -154,7 +154,7 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 10;
         const PivotPointType pointType = PivotPointType.Demark;
 
-        IReadOnlyList<RollingPivotsResult> sut = Quotes
+        IReadOnlyList<RollingPivotsResult> sut = Bars
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
@@ -236,7 +236,7 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 15;
         const PivotPointType pointType = PivotPointType.Fibonacci;
 
-        IReadOnlyList<Quote> h = Data.GetIntraday(300);
+        IReadOnlyList<Bar> h = Data.GetIntraday(300);
 
         IReadOnlyList<RollingPivotsResult> sut =
             h.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
@@ -310,7 +310,7 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 16;
         const PivotPointType pointType = PivotPointType.Woodie;
 
-        IReadOnlyList<Quote> h = Data.GetIntraday();
+        IReadOnlyList<Bar> h = Data.GetIntraday();
 
         IReadOnlyList<RollingPivotsResult> sut = h
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
@@ -369,23 +369,23 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<RollingPivotsResult> r = BadQuotes
+        IReadOnlyList<RollingPivotsResult> r = BadBars
             .ToRollingPivots(5, 5);
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<RollingPivotsResult> r0 = Noquotes
+        IReadOnlyList<RollingPivotsResult> r0 = Nobars
             .ToRollingPivots(5, 2);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<RollingPivotsResult> r1 = Onequote
+        IReadOnlyList<RollingPivotsResult> r1 = Onebar
             .ToRollingPivots(5, 2);
 
         r1.Should().HaveCount(1);
@@ -398,7 +398,7 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 9;
         const PivotPointType pointType = PivotPointType.Standard;
 
-        IReadOnlyList<RollingPivotsResult> sut = Quotes
+        IReadOnlyList<RollingPivotsResult> sut = Bars
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType)
             .RemoveWarmupPeriods();
 
@@ -422,10 +422,10 @@ public class RollingPivots : StaticSeriesTestBase
     {
         // bad window period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToRollingPivots(0, 10));
+            static () => Bars.ToRollingPivots(0, 10));
 
         // bad offset period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToRollingPivots(10, -1));
+            static () => Bars.ToRollingPivots(10, -1));
     }
 }

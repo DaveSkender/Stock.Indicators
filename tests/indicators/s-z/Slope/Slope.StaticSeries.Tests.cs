@@ -7,7 +7,7 @@ public class Slope : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int n = 20;
-        IReadOnlyList<SlopeResult> sut = Quotes
+        IReadOnlyList<SlopeResult> sut = Bars
             .ToSlope(n);
 
         // proper quantities
@@ -52,7 +52,7 @@ public class Slope : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<SlopeResult> sut = Quotes
+        IReadOnlyList<SlopeResult> sut = Bars
             .Use(CandlePart.Close)
             .ToSlope(20);
 
@@ -63,7 +63,7 @@ public class Slope : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SlopeResult> sut = Quotes
+        IReadOnlyList<SlopeResult> sut = Bars
             .ToSma(2)
             .ToSlope(20);
 
@@ -74,7 +74,7 @@ public class Slope : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToSlope(20)
             .ToSma(10);
 
@@ -83,9 +83,9 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<SlopeResult> r = BadQuotes
+        IReadOnlyList<SlopeResult> r = BadBars
             .ToSlope(15);
 
         r.Should().HaveCount(502);
@@ -93,23 +93,23 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<SlopeResult> r = BigQuotes
+        IReadOnlyList<SlopeResult> r = BigBars
             .ToSlope(250);
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<SlopeResult> r0 = Noquotes
+        IReadOnlyList<SlopeResult> r0 = Nobars
             .ToSlope(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<SlopeResult> r1 = Onequote
+        IReadOnlyList<SlopeResult> r1 = Onebar
             .ToSlope(5);
 
         r1.Should().HaveCount(1);
@@ -118,7 +118,7 @@ public class Slope : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<SlopeResult> sut = Quotes
+        IReadOnlyList<SlopeResult> sut = Bars
             .ToSlope(20)
             .RemoveWarmupPeriods();
 
@@ -139,7 +139,7 @@ public class Slope : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToSlope(1))
+            .Invoking(static () => Bars.ToSlope(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

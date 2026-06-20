@@ -15,11 +15,11 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 ```csharp
 // C# usage syntax (Series)
 IReadOnlyList<VolatilityStopResult> results =
-  quotes.ToVolatilityStop(lookbackPeriods, multiplier);
+  bars.ToVolatilityStop(lookbackPeriods, multiplier);
 
-// Usage with QuoteHub (streaming)
-QuoteHub quoteHub = new();
-VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
+// Usage with BarHub (streaming)
+BarHub barHub = new();
+VolatilityStopHub observer = barHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
 ```
 
 ## Parameters
@@ -29,11 +29,11 @@ VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multi
 | `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7. |
 | `multiplier` | double | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -41,8 +41,8 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 IReadOnlyList<VolatilityStopResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first trend will have `null` values since it is not accurate and based on an initial guess.
 
@@ -54,7 +54,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Sar` | double | Stop and Reverse value contains both Upper and Lower segments |
 | `IsStop` | bool | Indicates a trend reversal |
 | `UpperBand` | double | Upper band only (bearish/red) |
@@ -77,12 +77,12 @@ Results can be further processed on `Sar` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToVolatilityStop(..)
     .ToEma(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -93,24 +93,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 VolatilityStopList volatilityStopList = new(lookbackPeriods, multiplier);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  volatilityStopList.Add(quote);
+  volatilityStopList.Add(bar);
 }
 
 // based on `ICollection<VolatilityStopResult>`
 IReadOnlyList<VolatilityStopResult> results = volatilityStopList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
+BarHub barHub = new();
+VolatilityStopHub observer = barHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<VolatilityStopResult> results = observer.Results;

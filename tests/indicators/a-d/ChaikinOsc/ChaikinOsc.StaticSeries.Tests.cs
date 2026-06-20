@@ -9,7 +9,7 @@ public class ChaikinOsc : StaticSeriesTestBase
         const int fastPeriods = 3;
         const int slowPeriods = 10;
 
-        IReadOnlyList<ChaikinOscResult> sut = Quotes
+        IReadOnlyList<ChaikinOscResult> sut = Bars
             .ToChaikinOsc(fastPeriods, slowPeriods);
 
         // proper quantities
@@ -27,7 +27,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToChaikinOsc()
             .ToSma(10);
 
@@ -36,9 +36,9 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ChaikinOscResult> r = BadQuotes
+        IReadOnlyList<ChaikinOscResult> r = BadBars
             .ToChaikinOsc(5, 15);
 
         r.Should().HaveCount(502);
@@ -46,14 +46,14 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ChaikinOscResult> r0 = Noquotes
+        IReadOnlyList<ChaikinOscResult> r0 = Nobars
             .ToChaikinOsc();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ChaikinOscResult> r1 = Onequote
+        IReadOnlyList<ChaikinOscResult> r1 = Onebar
             .ToChaikinOsc();
 
         r1.Should().HaveCount(1);
@@ -65,7 +65,7 @@ public class ChaikinOsc : StaticSeriesTestBase
         const int fastPeriods = 3;
         const int slowPeriods = 10;
 
-        IReadOnlyList<ChaikinOscResult> sut = Quotes
+        IReadOnlyList<ChaikinOscResult> sut = Bars
             .ToChaikinOsc(fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
@@ -84,10 +84,10 @@ public class ChaikinOsc : StaticSeriesTestBase
     {
         // bad fast lookback
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToChaikinOsc(0));
+            static () => Bars.ToChaikinOsc(0));
 
         // bad slow lookback
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToChaikinOsc(10, 5));
+            static () => Bars.ToChaikinOsc(10, 5));
     }
 }

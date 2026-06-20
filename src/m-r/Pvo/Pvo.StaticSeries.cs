@@ -6,20 +6,20 @@ namespace Skender.Stock.Indicators;
 public static partial class Pvo
 {
     /// <summary>
-    /// Converts a list of quotes to a list of PVO results.
+    /// Converts a list of bars to a list of PVO results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">Number of periods for the signal line.</param>
     /// <returns>A list of PVO results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     public static IReadOnlyList<PvoResult> ToPvo(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        => quotes
+        => bars
             .Use(CandlePart.Volume)
             .CalcPvo(fastPeriods, slowPeriods, signalPeriods);
 

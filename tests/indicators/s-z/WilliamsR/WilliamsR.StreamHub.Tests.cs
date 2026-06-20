@@ -1,17 +1,17 @@
 namespace StreamHubs;
 
 [TestClass]
-public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
+public class WilliamsRHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<WilliamsResult> sut = Quotes.ToWilliamsRHub(14).Results;
+        IReadOnlyList<WilliamsResult> sut = Bars.ToWilliamsRHub(14).Results;
         sut.IsBetween(static x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<WilliamsResult> sut = Data
             .GetRandom(2500)
@@ -22,118 +22,118 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider (warmup coverage)
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider (warmup coverage)
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
+        WilliamsRHub observer = barHub.ToWilliamsRHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<WilliamsResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<WilliamsResult> expectedOriginal = Quotes.ToWilliamsR(lookbackPeriods);
+        IReadOnlyList<WilliamsResult> expectedOriginal = Bars.ToWilliamsR(lookbackPeriods);
 
         actuals.Should().HaveCount(length);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<WilliamsResult> expectedRevised = RevisedQuotes.ToWilliamsR(lookbackPeriods);
+        IReadOnlyList<WilliamsResult> expectedRevised = RevisedBars.ToWilliamsR(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
         const int lookbackPeriods = 14;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<WilliamsResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<WilliamsResult> expected = bars
             .ToWilliamsR(lookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        WilliamsRHub observer = barHub.ToWilliamsRHub(lookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        WilliamsRHub hub = new(new QuoteHub(), 14);
+        WilliamsRHub hub = new(new BarHub(), 14);
         hub.ToString().Should().Be("WILLR(14)");
     }
 
     [TestMethod]
-    public void IncrementalUpdates_WithStreamedQuotes_MatchesSeriesExactly()
+    public void IncrementalUpdates_WithStreamedBars_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub with incremental updates
-        QuoteHub quoteHub = new();
-        WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
+        // setup bar provider hub with incremental updates
+        BarHub barHub = new();
+        WilliamsRHub observer = barHub.ToWilliamsRHub(lookbackPeriods);
 
-        // add quotes one by one
-        foreach (Quote quote in quotesList)
+        // add bars one by one
+        foreach (Bar bar in barsList)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         // close observations
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // verify consistency
-        IReadOnlyList<WilliamsResult> expected = Quotes.ToWilliamsR(lookbackPeriods);
+        IReadOnlyList<WilliamsResult> expected = Bars.ToWilliamsR(lookbackPeriods);
         observer.Cache.Should().HaveCount(expected.Count);
         observer.Cache.IsExactly(expected);
     }
@@ -143,8 +143,8 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     {
         const int lookbackPeriods = 21;
 
-        QuoteHub quoteHub = new();
-        WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
+        BarHub barHub = new();
+        WilliamsRHub observer = barHub.ToWilliamsRHub(lookbackPeriods);
 
         // verify properties
         observer.LookbackPeriods.Should().Be(lookbackPeriods);
@@ -154,8 +154,8 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void DefaultParameters_OnHubInstantiation_UseExpectedDefaults()
     {
-        QuoteHub quoteHub = new();
-        WilliamsRHub observer = quoteHub.ToWilliamsRHub();
+        BarHub barHub = new();
+        WilliamsRHub observer = barHub.ToWilliamsRHub();
 
         // verify default properties
         observer.LookbackPeriods.Should().Be(14);
@@ -168,21 +168,21 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
         // Test that streaming produces accurate results compared to batch processing
         const int lookbackPeriods = 14;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
         // streaming calculation
-        QuoteHub quoteHub = new();
-        WilliamsRHub streamObserver = quoteHub.ToWilliamsRHub(lookbackPeriods);
+        BarHub barHub = new();
+        WilliamsRHub streamObserver = barHub.ToWilliamsRHub(lookbackPeriods);
 
-        foreach (Quote quote in quotesList)
+        foreach (Bar bar in barsList)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // batch calculation
-        IReadOnlyList<WilliamsResult> batchResults = Quotes.ToWilliamsR(lookbackPeriods);
+        IReadOnlyList<WilliamsResult> batchResults = Bars.ToWilliamsR(lookbackPeriods);
 
         // compare results
         streamObserver.Cache.Should().HaveCount(batchResults.Count);
@@ -192,10 +192,10 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void ParameterValidation_InvalidLookback_ThrowsArgumentOutOfRangeException()
     {
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // Test parameter validation
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quoteHub.ToWilliamsRHub(0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quoteHub.ToWilliamsRHub(-1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => barHub.ToWilliamsRHub(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => barHub.ToWilliamsRHub(-1));
     }
 }

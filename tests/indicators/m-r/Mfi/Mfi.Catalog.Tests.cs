@@ -97,7 +97,7 @@ public class MfiTests : TestBase
     public void MfiSeries_FromCatalog_MatchesDirectCall()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes;
+        IReadOnlyList<Bar> bars = Bars;
         IndicatorListing listing = Mfi.SeriesListing;
 
         // Get default parameter value from catalog
@@ -105,10 +105,10 @@ public class MfiTests : TestBase
         int lookbackValue = (int)lookbackParam.DefaultValue!;
 
         // Act - Call using catalog metadata (via ListingExecutor)
-        IReadOnlyList<MfiResult> catalogResults = ListingExecutor.Execute<MfiResult>(quotes, listing);
+        IReadOnlyList<MfiResult> catalogResults = ListingExecutor.Execute<MfiResult>(bars, listing);
 
         // Act - Direct call
-        IReadOnlyList<MfiResult> directResults = quotes.ToMfi(lookbackValue);
+        IReadOnlyList<MfiResult> directResults = bars.ToMfi(lookbackValue);
 
         // Assert - Results should be identical
         catalogResults.IsExactly(directResults);

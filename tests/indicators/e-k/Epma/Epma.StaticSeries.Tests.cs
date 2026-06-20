@@ -6,7 +6,7 @@ public class Epma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<EpmaResult> sut = Quotes
+        IReadOnlyList<EpmaResult> sut = Bars
             .ToEpma(20);
 
         // proper quantities
@@ -33,7 +33,7 @@ public class Epma : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<EpmaResult> sut = Quotes
+        IReadOnlyList<EpmaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToEpma(20);
 
@@ -44,7 +44,7 @@ public class Epma : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<EpmaResult> sut = Quotes
+        IReadOnlyList<EpmaResult> sut = Bars
             .ToSma(2)
             .ToEpma(20);
 
@@ -55,7 +55,7 @@ public class Epma : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToEpma(20)
             .ToSma(10);
 
@@ -64,9 +64,9 @@ public class Epma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<EpmaResult> r = BadQuotes
+        IReadOnlyList<EpmaResult> r = BadBars
             .ToEpma(15);
 
         r.Should().HaveCount(502);
@@ -74,14 +74,14 @@ public class Epma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<EpmaResult> r0 = Noquotes
+        IReadOnlyList<EpmaResult> r0 = Nobars
             .ToEpma(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<EpmaResult> r1 = Onequote
+        IReadOnlyList<EpmaResult> r1 = Onebar
             .ToEpma(5);
 
         r1.Should().HaveCount(1);
@@ -90,7 +90,7 @@ public class Epma : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<EpmaResult> sut = Quotes
+        IReadOnlyList<EpmaResult> sut = Bars
             .ToEpma(20)
             .RemoveWarmupPeriods();
 
@@ -107,7 +107,7 @@ public class Epma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToEpma(0))
+            .Invoking(static () => Bars.ToEpma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

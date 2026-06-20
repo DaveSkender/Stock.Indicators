@@ -42,7 +42,7 @@ public static partial class StochRsi
         List<StochResult> stoResults =
             source
             .ToRsi(rsiPeriods)
-            .Select(static x => new QuoteD(
+            .Select(static x => new BarD(
                 Timestamp: x.Timestamp,
                 Open: 0,
                 High: x.Rsi.Null2NaN(),

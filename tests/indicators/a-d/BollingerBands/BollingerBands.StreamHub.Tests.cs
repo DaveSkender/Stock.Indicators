@@ -1,28 +1,28 @@
 namespace StreamHubs;
 
 [TestClass]
-public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class BollingerBandsHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(20, 2);
+        BollingerBandsHub observer = barHub.ToBollingerBandsHub(20, 2);
 
         // fetch initial results (early)
         IReadOnlyList<BollingerBandsResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -30,71 +30,71 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<BollingerBandsResult> expected = RevisedQuotes.ToBollingerBands(20, 2);
+        IReadOnlyList<BollingerBandsResult> expected = RevisedBars.ToBollingerBands(20, 2);
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<BollingerBandsResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<BollingerBandsResult> expected = bars
             .ToBollingerBands(20, 2)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(20, 2);
+        BarHub barHub = new(maxCacheSize);
+        BollingerBandsHub observer = barHub.ToBollingerBandsHub(20, 2);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes);
-        BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(20, 2);
+        BarHub barHub = new();
+        barHub.Add(Bars);
+        BollingerBandsHub observer = barHub.ToBollingerBandsHub(20, 2);
 
         observer.ToString().Should().Be("BB(20,2)");
     }
@@ -107,69 +107,69 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         const double standardDeviations = 2;
         const int smaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer - chain SMA to Bollinger Bands
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToBollingerBandsHub(lookbackPeriods, standardDeviations)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> expected = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedBars
             .ToBollingerBands(lookbackPeriods, standardDeviations)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         BollingerBandsHub lateHub = lateSource.ToBollingerBandsHub(20, 2);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         BollingerBandsHub freshHub = freshSource.ToBollingerBandsHub(20, 2);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -184,27 +184,27 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         // Bands emit first non-null result at lookbackPeriods (= 20); index
         // 25 forces replay across the rolling SMA + standard-deviation
         // window transition that gates upper/lower band emission.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 25;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         BollingerBandsHub lateHub = lateSource.ToBollingerBandsHub(20, 2);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         BollingerBandsHub freshHub = freshSource.ToBollingerBandsHub(20, 2);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -214,35 +214,35 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
     }
 
     [TestMethod]
-    public void PrefilledProviderRebuilds_WithPrefilledQuotes_MatchesSeriesExactly()
+    public void PrefilledProviderRebuilds_WithPrefilledBars_MatchesSeriesExactly()
     {
-        QuoteHub quoteHub = new();
-        List<Quote> quotes = Quotes.Take(25).ToList();
+        BarHub barHub = new();
+        List<Bar> bars = Bars.Take(25).ToList();
 
         for (int i = 0; i < 5; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(5, 2);
+        BollingerBandsHub observer = barHub.ToBollingerBandsHub(5, 2);
 
         IReadOnlyList<BollingerBandsResult> initialResults = observer.Results;
-        IReadOnlyList<BollingerBandsResult> expectedInitial = quotes
+        IReadOnlyList<BollingerBandsResult> expectedInitial = bars
             .Take(5)
             .ToList()
             .ToBollingerBands(5, 2);
 
         initialResults.IsExactly(expectedInitial);
 
-        for (int i = 5; i < quotes.Count; i++)
+        for (int i = 5; i < bars.Count; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
-        observer.Results.IsExactly(quotes.ToBollingerBands(5, 2));
+        observer.Results.IsExactly(bars.ToBollingerBands(5, 2));
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

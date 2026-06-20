@@ -15,7 +15,7 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 ```csharp
 // C# usage syntax
 IReadOnlyList<MfiResult> results =
-  quotes.ToMfi(lookbackPeriods);
+  bars.ToMfi(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<MfiResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N+1` historical quotes to cover the warmup periods.
+You must have at least `N+1` historical price bars to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N+1` historical quotes to cover the warmup periods.
 IReadOnlyList<MfiResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` MFI values since they cannot be calculated.
 
@@ -45,7 +45,7 @@ IReadOnlyList<MfiResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Mfi` | double | Money Flow Index |
 
 ### Utilities
@@ -64,24 +64,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 MfiList mfiList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  mfiList.Add(quote);
+  mfiList.Add(bar);
 }
 
 // based on `ICollection<MfiResult>`
 IReadOnlyList<MfiResult> results = mfiList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
+BarHub barHub = new();
+MfiHub observer = barHub.ToMfiHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<MfiResult> results = observer.Results;
@@ -95,11 +95,11 @@ Results can be further processed on `Mfi` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToMfi(..)
     .ToRsi(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.

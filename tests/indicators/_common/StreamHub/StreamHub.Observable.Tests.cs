@@ -6,107 +6,107 @@ public class StreamObservables : TestBase, ITestChainProvider
     [TestMethod]
     public void Prefill()
     {
-        IReadOnlyList<Quote> quotesList = Quotes
+        IReadOnlyList<Bar> barsList = Bars
             .Take(50)
             .ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(quotesList);
+        // prefill bars at provider
+        barHub.Add(barsList);
 
         // initialize observer
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Close);
+        BarPartHub observer = barHub
+            .ToBarPartHub(CandlePart.Close);
 
         // assert: prefilled
-        quoteHub.Cache.Should().HaveCount(50);
+        barHub.Cache.Should().HaveCount(50);
         observer.Cache.Should().HaveCount(50);
 
         // assert: same dates
         for (int i = 0; i < 50; i++)
         {
             IReusable r = observer.Cache[i];
-            IReusable q = quoteHub.Cache[i];
+            IReusable q = barHub.Cache[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Subscription()
     {
-        // setup quote provider hub, observer
-        QuoteHub quoteHub = new();
+        // setup bar provider hub, observer
+        BarHub barHub = new();
 
-        QuotePartHub observer
-            = quoteHub.ToQuotePartHub(CandlePart.OHLC4);
+        BarPartHub observer
+            = barHub.ToBarPartHub(CandlePart.OHLC4);
 
         // assert: subscribed
-        quoteHub.ObserverCount.Should().Be(1);
-        quoteHub.HasObservers.Should().BeTrue();
+        barHub.ObserverCount.Should().Be(1);
+        barHub.HasObservers.Should().BeTrue();
         observer.IsSubscribed.Should().BeTrue();
 
         // act: unsubscribe
         observer.Unsubscribe();
 
         // assert: not subscribed
-        quoteHub.ObserverCount.Should().Be(0);
-        quoteHub.HasObservers.Should().BeFalse();
+        barHub.ObserverCount.Should().Be(0);
+        barHub.HasObservers.Should().BeFalse();
         observer.IsSubscribed.Should().BeFalse();
 
         // act: resubscribe
-        quoteHub.Subscribe(observer);
+        barHub.Subscribe(observer);
 
         // assert: subscribed
-        quoteHub.ObserverCount.Should().Be(1);
-        quoteHub.HasObservers.Should().BeTrue();
+        barHub.ObserverCount.Should().Be(1);
+        barHub.HasObservers.Should().BeTrue();
         observer.IsSubscribed.Should().BeTrue();
 
         // act: end all subscriptions
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
 
         // assert: not subscribed
-        quoteHub.ObserverCount.Should().Be(0);
-        quoteHub.HasObservers.Should().BeFalse();
+        barHub.ObserverCount.Should().Be(0);
+        barHub.HasObservers.Should().BeFalse();
         observer.IsSubscribed.Should().BeFalse();
     }
 
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        EmaHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.HL2)
+        EmaHub observer = barHub
+            .ToBarPartHub(CandlePart.HL2)
             .ToEmaHub(11);
 
-        // emulate adding quotes to provider hub
-        quoteHub.Add(Quotes);
-        quoteHub.EndTransmission();
+        // emulate adding bars to provider hub
+        barHub.Add(Bars);
+        barHub.EndTransmission();
 
         // stream results
         IReadOnlyList<EmaResult> streamList
             = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList = Quotes
+        IReadOnlyList<EmaResult> seriesList = Bars
             .Use(CandlePart.HL2)
             .ToEma(11);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

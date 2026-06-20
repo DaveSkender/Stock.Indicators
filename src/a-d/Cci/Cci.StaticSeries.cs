@@ -1,45 +1,45 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Commodity Channel Index (CCI) on a series of quotes indicator.
+/// Commodity Channel Index (CCI) on a series of bars indicator.
 /// </summary>
 public static partial class Cci
 {
     /// <summary>
-    /// Calculates the Commodity Channel Index (CCI) for a series of quotes.
+    /// Calculates the Commodity Channel Index (CCI) for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
     public static IReadOnlyList<CciResult> ToCci(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 20)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcCci(lookbackPeriods);
 
     /// <summary>
-    /// Calculates the Commodity Channel Index (CCI) for a series of quotes.
+    /// Calculates the Commodity Channel Index (CCI) for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
     private static List<CciResult> CalcCci(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<CciResult> results = new(length);
         double[] tp = new double[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
             tp[i] = (q.High + q.Low + q.Close) / 3d;
 
             double? cci = null;

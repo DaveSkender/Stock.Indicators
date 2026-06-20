@@ -21,7 +21,7 @@ public class AlmaHub
         Sigma = sigma;
         Name = $"ALMA({lookbackPeriods},{offset},{sigma})";
 
-        // Pre-calculate weights once for O(1) application per quote
+        // Pre-calculate weights once for O(1) application per bar
         double m = offset * (lookbackPeriods - 1);
         double s = lookbackPeriods / sigma;
 
@@ -61,7 +61,7 @@ public class AlmaHub
 
         // Calculate ALMA efficiently using pre-calculated weights and a rolling window
         // This is O(lookbackPeriods) which is constant for a given configuration
-        // Weight calculation is done once in constructor, not on every quote
+        // Weight calculation is done once in constructor, not on every bar
         double? alma = null;
 
         if (i >= LookbackPeriods - 1)

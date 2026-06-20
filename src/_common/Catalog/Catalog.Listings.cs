@@ -311,10 +311,10 @@ public static partial class Catalog
         _listings.Add(Pvo.SeriesListing);
         _listings.Add(Pvo.StreamListing);
 
-        // Quote Part
-        _listings.Add(QuoteParts.BufferListing);
-        _listings.Add(QuoteParts.SeriesListing);
-        _listings.Add(QuoteParts.StreamListing);
+        // Bar Part
+        _listings.Add(BarParts.BufferListing);
+        _listings.Add(BarParts.SeriesListing);
+        _listings.Add(BarParts.StreamListing);
 
         // Renko
         _listings.Add(Renko.SeriesListing);

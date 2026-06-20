@@ -6,79 +6,79 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int LookbackPeriods = 20;
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
+        HmaHub observer = barHub.ToHmaHub(LookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<HmaResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<HmaResult> expectedOriginal = Quotes.ToHma(LookbackPeriods);
+        IReadOnlyList<HmaResult> expectedOriginal = Bars.ToHma(LookbackPeriods);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
-        IReadOnlyList<HmaResult> expectedRevised = RevisedQuotes.ToHma(LookbackPeriods);
+        barHub.RemoveAt(removeAtIndex);
+        IReadOnlyList<HmaResult> expectedRevised = RevisedBars.ToHma(LookbackPeriods);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<HmaResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<HmaResult> expected = bars
             .ToHma(LookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        HmaHub observer = barHub.ToHmaHub(LookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -86,32 +86,32 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int smaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        HmaHub observer = quoteHub
+        HmaHub observer = barHub
             .ToSmaHub(smaPeriods)
             .ToHmaHub(LookbackPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++) { barHub.Add(Bars[i]); }
 
         // final results
         IReadOnlyList<HmaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<HmaResult> expected = Quotes
+        IReadOnlyList<HmaResult> expected = Bars
             .ToSma(smaPeriods)
             .ToHma(LookbackPeriods);
 
         // assert, should equal series
         sut.IsExactly(expected);
-        sut.Should().HaveCount(quotesCount);
+        sut.Should().HaveCount(barsCount);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -120,91 +120,91 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int hmaPeriods = LookbackPeriods;
         const int smaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToHmaHub(hmaPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
-        for (int i = 0; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 0; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> expected = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedBars
             .ToHma(hmaPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void MidBufferMutation_WhenQuoteModified_RehydratesCorrectly()
+    public void MidBufferMutation_WhenBarModified_RehydratesCorrectly()
     {
-        List<Quote> quotesList = Quotes
+        List<Bar> barsList = Bars
             .Take(200)
             .ToList();
 
-        QuoteHub quoteHub = new();
-        HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
+        BarHub barHub = new();
+        HmaHub observer = barHub.ToHmaHub(LookbackPeriods);
 
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < barsList.Count; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         const int targetIndex = 120;
-        observer.Results.Should().HaveCount(quotesList.Count);
+        observer.Results.Should().HaveCount(barsList.Count);
         double? before = observer.Results[targetIndex].Hma;
 
-        Quote original = quotesList[targetIndex];
+        Bar original = barsList[targetIndex];
         const decimal delta = 1m;
-        Quote mutated = original with {
+        Bar mutated = original with {
             Open = original.Open + delta,
             High = original.High + delta,
             Low = original.Low + delta,
             Close = original.Close + delta
         };
 
-        quoteHub.RemoveAt(targetIndex);
-        quoteHub.Add(mutated);
-        quotesList[targetIndex] = mutated;
+        barHub.RemoveAt(targetIndex);
+        barHub.Add(mutated);
+        barsList[targetIndex] = mutated;
 
-        observer.Results.Should().HaveCount(quotesList.Count);
+        observer.Results.Should().HaveCount(barsList.Count);
         double? after = observer.Results[targetIndex].Hma;
         after.Should().NotBe(before);
 
-        IReadOnlyList<HmaResult> seriesList = quotesList.ToHma(LookbackPeriods);
+        IReadOnlyList<HmaResult> seriesList = barsList.ToHma(LookbackPeriods);
         observer.Results.IsExactly(seriesList);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -213,19 +213,19 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         int sqrtPeriods = (int)Math.Sqrt(LookbackPeriods);
         int minSamples = LookbackPeriods - 1 + sqrtPeriods - 1;
 
-        QuoteHub quoteHub = new();
-        HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
+        BarHub barHub = new();
+        HmaHub observer = barHub.ToHmaHub(LookbackPeriods);
 
         for (int i = 0; i < minSamples; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         observer.Results.Should().HaveCount(minSamples);
         observer.Results.Should().OnlyContain(static r => !r.Hma.HasValue);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -234,14 +234,14 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int injectionIndex = LookbackPeriods + 5;
         const int totalCount = injectionIndex + (LookbackPeriods * 2);
 
-        QuoteHub quoteHub = new();
-        HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
+        BarHub barHub = new();
+        HmaHub observer = barHub.ToHmaHub(LookbackPeriods);
 
         for (int i = 0; i < totalCount; i++)
         {
-            DateTime timestamp = Quotes[i].Timestamp;
-            double value = i == injectionIndex ? double.NaN : Quotes[i].Value;
-            quoteHub.Add(new SyntheticQuote(timestamp, value));
+            DateTime timestamp = Bars[i].Timestamp;
+            double value = i == injectionIndex ? double.NaN : Bars[i].Value;
+            barHub.Add(new SyntheticBar(timestamp, value));
         }
 
         observer.Results[injectionIndex].Hma.Should().BeNull();
@@ -260,17 +260,17 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         recoveryIndex.Should().NotBeNull();
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        HmaHub hub = new(new QuoteHub(), LookbackPeriods);
+        HmaHub hub = new(new BarHub(), LookbackPeriods);
         hub.ToString().Should().Be($"HMA({LookbackPeriods})");
     }
 
-    private sealed record SyntheticQuote(DateTime Timestamp, double RawValue) : IQuote
+    private sealed record SyntheticBar(DateTime Timestamp, double RawValue) : IBar
     {
         public decimal Open => 0m;
 

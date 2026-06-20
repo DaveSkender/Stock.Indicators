@@ -46,7 +46,7 @@ public record MacdResult
 
 | Input Type | Use Case | Examples |
 | ---------- | -------- | -------- |
-| `IQuote` | Requires OHLCV data | ATR, ADX, Stochastic, Chandelier |
+| `IBar` | Requires OHLCV data | ATR, ADX, Stochastic, Chandelier |
 | `IReusable` | Chains from another indicator | EMA-of-EMA, SMA-of-RSI |
 
-Most indicators accept `IQuote`. Use `IReusable` only for indicators explicitly designed to chain.
+Most indicators accept `IBar`. Use `IReusable` only for indicators explicitly designed to chain.

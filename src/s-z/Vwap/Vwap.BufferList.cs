@@ -1,48 +1,48 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Volume Weighted Average Price (VWAP) from incremental quotes.
+/// Volume Weighted Average Price (VWAP) from incremental bars.
 /// </summary>
 /// <remarks>
 /// Initializes a new instance of the <see cref="VwapList"/> class.
 /// </remarks>
-/// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first quote.</param>
-public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IIncrementFromQuote
+/// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first bar.</param>
+public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IIncrementFromBar
 {
     private readonly bool _autoAnchor = (startDate ?? default) == default;
     private double _cumVolume;
     private double _cumVolumeTp;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VwapList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="VwapList"/> class with initial bars.
     /// </summary>
-    /// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first quote.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
-        : this(startDate) => Add(quotes);
+    /// <param name="startDate">Start date for VWAP calculation. If null, auto-anchors to first bar.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    public VwapList(DateTime? startDate, IReadOnlyList<IBar> bars)
+        : this(startDate) => Add(bars);
 
     /// <inheritdoc />
     public DateTime? StartDate { get; private set; } = startDate;
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        // Set start date to first quote's timestamp if auto-anchoring
+        // Set start date to first bar's timestamp if auto-anchoring
         if (StartDate == null)
         {
-            StartDate = quote.Timestamp;
+            StartDate = bar.Timestamp;
         }
 
-        double volume = (double)quote.Volume;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
+        double volume = (double)bar.Volume;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
 
         double? vwap;
 
-        if (quote.Timestamp >= StartDate.Value)
+        if (bar.Timestamp >= StartDate.Value)
         {
             _cumVolume += volume;
             _cumVolumeTp += volume * (high + low + close) / 3;
@@ -55,18 +55,18 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
         }
 
         AddInternal(new VwapResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             Vwap: vwap));
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -90,18 +90,18 @@ public static partial class Vwap
     /// <summary>
     /// Creates a buffer list for VWAP calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="startDate">Starting date for calculation</param>
     public static VwapList ToVwapList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         DateTime startDate)
-        => new(startDate) { quotes };
+        => new(startDate) { bars };
 
     /// <summary>
-    /// Creates a buffer list for VWAP calculations starting from the first quote.
+    /// Creates a buffer list for VWAP calculations starting from the first bar.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public static VwapList ToVwapList(
-        this IReadOnlyList<IQuote> quotes)
-        => new(null) { quotes };
+        this IReadOnlyList<IBar> bars)
+        => new(null) { bars };
 }

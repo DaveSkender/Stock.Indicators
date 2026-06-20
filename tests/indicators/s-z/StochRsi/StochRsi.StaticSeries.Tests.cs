@@ -15,7 +15,7 @@ public class StochRsi : StaticSeriesTestBase
         const int smoothPeriods = 1;
 
         IReadOnlyList<StochRsiResult> sut =
-            Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+            Bars.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // assertions
 
@@ -45,7 +45,7 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StochRsiResult> sut = Quotes.ToStochRsi(14, 14, 3, 1);
+        IReadOnlyList<StochRsiResult> sut = Bars.ToStochRsi(14, 14, 3, 1);
         sut.IsBetween(static x => x.StochRsi, 0, 100);
         sut.IsBetween(static x => x.Signal, 0, 100);
     }
@@ -59,7 +59,7 @@ public class StochRsi : StaticSeriesTestBase
         const int smoothPeriods = 3;
 
         IReadOnlyList<StochRsiResult> sut =
-            Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+            Bars.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // assertions
 
@@ -89,7 +89,7 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<StochRsiResult> sut = Quotes
+        IReadOnlyList<StochRsiResult> sut = Bars
             .Use(CandlePart.Close)
             .ToStochRsi(14, 14, 3);
 
@@ -101,7 +101,7 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<StochRsiResult> sut = Quotes
+        IReadOnlyList<StochRsiResult> sut = Bars
             .ToSma(2)
             .ToStochRsi(14, 14, 3);
 
@@ -112,7 +112,7 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToStochRsi(14, 14, 3, 3)
             .ToSma(10);
 
@@ -121,9 +121,9 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<StochRsiResult> r = BadQuotes
+        IReadOnlyList<StochRsiResult> r = BadBars
             .ToStochRsi(15, 20, 3, 2);
 
         r.Should().HaveCount(502);
@@ -131,14 +131,14 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<StochRsiResult> r0 = Noquotes
+        IReadOnlyList<StochRsiResult> r0 = Nobars
             .ToStochRsi(10, 20, 3);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<StochRsiResult> r1 = Onequote
+        IReadOnlyList<StochRsiResult> r1 = Onebar
             .ToStochRsi(8, 13, 2);
 
         r1.Should().HaveCount(1);
@@ -152,7 +152,7 @@ public class StochRsi : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochRsiResult> sut = Quotes
+        IReadOnlyList<StochRsiResult> sut = Bars
             .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods();
 
@@ -178,7 +178,7 @@ public class StochRsi : StaticSeriesTestBase
 
         // Get results using current auto-healing implementation
         IReadOnlyList<StochRsiResult> results =
-            Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+            Bars.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // Verify correct behavior
         results.Should().HaveCount(502);
@@ -200,18 +200,18 @@ public class StochRsi : StaticSeriesTestBase
     {
         // bad RSI period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStochRsi(0, 14, 3));
+            static () => Bars.ToStochRsi(0, 14, 3));
 
         // bad STO period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStochRsi(14, 0, 3, 3));
+            static () => Bars.ToStochRsi(14, 0, 3, 3));
 
         // bad STO signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStochRsi(14, 14, 0));
+            static () => Bars.ToStochRsi(14, 14, 0));
 
         // bad STO smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStochRsi(14, 14, 3, 0));
+            static () => Bars.ToStochRsi(14, 14, 3, 0));
     }
 }

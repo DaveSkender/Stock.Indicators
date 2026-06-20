@@ -62,7 +62,7 @@ public class DpoHub
             {
                 // Check if there are positions in our cache that have null values
                 // but now have sufficient lookahead data for calculation
-                // This happens during normal streaming when quotes arrive in order
+                // This happens during normal streaming when bars arrive in order
 
                 // Look backwards from maxCalculableIndex to find positions with null DPO
                 for (int checkIndex = Math.Max(0, maxCalculableIndex - LookbackPeriods);
@@ -148,7 +148,7 @@ public class DpoHub
     /// <param name="restoreIndex">Last ProviderCache index to preserve, or -1 to reset.</param>
     /// <remarks>
     /// DPO calculation at any position relies on data values with an offset: DPO[i] = Value[i] - SMA[i + offset].
-    /// When a quote is inserted/removed at position p, all positions from (p - offset) onward
+    /// When a bar is inserted/removed at position p, all positions from (p - offset) onward
     /// are affected because their calculations depend on SMA values that include the mutation position.
     /// This override clears cache entries from the earlier affected position to ensure
     /// all offset-dependent positions are retroactively recalculated during rebuild.

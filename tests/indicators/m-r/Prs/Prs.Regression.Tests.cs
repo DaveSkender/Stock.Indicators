@@ -8,7 +8,7 @@ public class PrsTests : RegressionTestBase<PrsResult>
     private const int n = 20;
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => OtherQuotes.ToPrs(Quotes, n).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => OtherBars.ToPrs(Bars, n).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");

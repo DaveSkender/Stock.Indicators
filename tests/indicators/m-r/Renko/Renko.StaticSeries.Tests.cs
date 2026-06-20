@@ -9,7 +9,7 @@ public class Renko : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<RenkoResult> sut = Quotes
+        IReadOnlyList<RenkoResult> sut = Bars
             .ToRenko(2.5m);
 
         // assertions
@@ -47,7 +47,7 @@ public class Renko : StaticSeriesTestBase
     [TestMethod]
     public void StandardHighLow_AsEndType_ReturnsExpectedResult()
     {
-        IReadOnlyList<RenkoResult> sut = Quotes
+        IReadOnlyList<RenkoResult> sut = Bars
             .ToRenko(2.5m, EndType.HighLow);
 
         // assertions
@@ -83,7 +83,7 @@ public class Renko : StaticSeriesTestBase
     [TestMethod]
     public void Atr_WithAtrBrickSize_ReturnsExpectedResult()
     {
-        IReadOnlyList<RenkoResult> sut = Quotes
+        IReadOnlyList<RenkoResult> sut = Bars
             .ToRenkoAtr(14);
 
         // proper quantities
@@ -108,26 +108,26 @@ public class Renko : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void UseAsQuotes_AsSmaInput_ReturnsExpectedResult()
+    public void UseAsBars_AsSmaInput_ReturnsExpectedResult()
     {
-        IReadOnlyList<RenkoResult> renkoQuotes = Quotes.ToRenko(2.5m);
-        IReadOnlyList<SmaResult> renkoSma = renkoQuotes.ToSma(5);
+        IReadOnlyList<RenkoResult> renkoBars = Bars.ToRenko(2.5m);
+        IReadOnlyList<SmaResult> renkoSma = renkoBars.ToSma(5);
         renkoSma.Where(static x => x.Sma != null).Should().HaveCount(108);
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<RenkoResult> r = BadQuotes
+        IReadOnlyList<RenkoResult> r = BadBars
             .ToRenko(100m);
 
         r.Count.Should().NotBe(0);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<RenkoResult> r0 = Noquotes
+        IReadOnlyList<RenkoResult> r0 = Nobars
             .ToRenko(0.01m);
 
         r0.Should().BeEmpty();
@@ -138,10 +138,10 @@ public class Renko : StaticSeriesTestBase
     {
         // bad arguments
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToRenko(0));
+            static () => Bars.ToRenko(0));
 
         // bad end type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToRenko(2, (EndType)int.MaxValue));
+            static () => Bars.ToRenko(2, (EndType)int.MaxValue));
     }
 }

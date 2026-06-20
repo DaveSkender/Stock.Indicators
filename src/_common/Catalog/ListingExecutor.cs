@@ -11,7 +11,7 @@ internal static class ListingExecutor
     /// Executes an indicator method dynamically using catalog metadata.
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="listing">Indicator listing containing metadata.</param>
     /// <param name="parameters">
     /// Optional parameter value overrides. This dictionary provides user-specified values
@@ -21,15 +21,15 @@ internal static class ListingExecutor
     /// </param>
     /// <returns>Indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bars"/> is <c>null</c>.</exception>
     internal static IReadOnlyList<TResult> Execute<TResult>(
-        IEnumerable<IQuote> quotes,
+        IEnumerable<IBar> bars,
         IndicatorListing listing,
         Dictionary<string, object>? parameters = null)
         where TResult : class
     {
         // Validate inputs
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         ArgumentNullException.ThrowIfNull(listing);
 
         string methodName = listing.MethodName
@@ -60,7 +60,7 @@ internal static class ListingExecutor
         }
 
         // Build parameter array using catalog metadata and user overrides
-        List<object> parameterList = [quotes];
+        List<object> parameterList = [bars];
 
         // Add parameters based on catalog metadata
         if (listing.Parameters != null)
@@ -98,14 +98,14 @@ internal static class ListingExecutor
         // Find the method that matches our parameter count
         MethodInfo? targetMethod = methods.FirstOrDefault(m => m.GetParameters().Length == parameterList.Count) ?? throw new InvalidOperationException($"No {methodName} method found with {parameterList.Count} parameters");
 
-        // If the method is generic, make it specific for the IQuote interface type.
-        // Indicator methods that are generic use IQuote as the constraint.
+        // If the method is generic, make it specific for the IBar interface type.
+        // Indicator methods that are generic use IBar as the constraint.
         if (targetMethod.IsGenericMethodDefinition)
         {
             Type[] genericArguments = targetMethod.GetGenericArguments();
             if (genericArguments.Length == 1)
             {
-                targetMethod = targetMethod.MakeGenericMethod(typeof(IQuote));
+                targetMethod = targetMethod.MakeGenericMethod(typeof(IBar));
             }
         }
 
@@ -124,14 +124,14 @@ internal static class ListingExecutor
     /// This is a convenience method that creates the parameter dictionary automatically.
     /// </summary>
     /// <typeparam name="TResult">Expected result type.</typeparam>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="listing">Indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>Indicator results.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="listing"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">Thrown when an argument is invalid</exception>
     internal static IReadOnlyList<TResult> Execute<TResult>(
-        IEnumerable<IQuote> quotes,
+        IEnumerable<IBar> bars,
         IndicatorListing listing,
         params object[] parameterValues)
         where TResult : class
@@ -156,6 +156,6 @@ internal static class ListingExecutor
             }
         }
 
-        return Execute<TResult>(quotes, listing, parameters);
+        return Execute<TResult>(bars, listing, parameters);
     }
 }

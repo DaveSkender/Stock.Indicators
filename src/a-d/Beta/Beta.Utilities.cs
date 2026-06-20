@@ -6,11 +6,11 @@ public static partial class Beta
     /// parameter validation
     /// </summary>
     /// <typeparam name="T">Type of record</typeparam>
-    /// <param name="sourceEval">Eval quote series</param>
-    /// <param name="sourceMrkt">Market quote series</param>
+    /// <param name="sourceEval">Eval bar series</param>
+    /// <param name="sourceMrkt">Market bar series</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
-    /// <exception cref="InvalidQuotesException">Thrown when quotes are invalid or insufficient</exception>
+    /// <exception cref="InvalidBarsException">Thrown when bars are invalid or insufficient</exception>
     internal static void Validate<T>(
         IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceMrkt,
@@ -24,12 +24,12 @@ public static partial class Beta
                 "Lookback periods must be greater than 0 for Beta.");
         }
 
-        // check quotes
+        // check bars
         if (sourceEval.Count != sourceMrkt.Count)
         {
-            throw new InvalidQuotesException(
+            throw new InvalidBarsException(
                 nameof(sourceEval),
-                "Eval quotes should have the same number of Market quotes for Beta.");
+                "Eval bars should have the same number of Market bars for Beta.");
         }
     }
 }

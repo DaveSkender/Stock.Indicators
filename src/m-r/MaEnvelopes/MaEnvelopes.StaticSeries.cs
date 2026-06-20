@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
-/// Moving Average Envelopes for a series of quotes indicator.
+/// Moving Average Envelopes for a series of bars indicator.
 /// </summary>
 public static partial class MaEnvelopes
 {

@@ -4,27 +4,27 @@ namespace StreamHubs;
 public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        KamaHub observer = quoteHub
+        KamaHub observer = barHub
             .ToKamaHub(10, 2, 30);
 
         // fetch initial results (early)
         IReadOnlyList<KamaResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -32,63 +32,63 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<KamaResult> expected = RevisedQuotes.ToKama(10, 2, 30);
+        IReadOnlyList<KamaResult> expected = RevisedBars.ToKama(10, 2, 30);
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<KamaResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<KamaResult> expected = bars
             .ToKama(10, 2, 30)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        KamaHub observer = quoteHub.ToKamaHub(10, 2, 30);
+        BarHub barHub = new(maxCacheSize);
+        KamaHub observer = barHub.ToKamaHub(10, 2, 30);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -99,22 +99,22 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int slowPeriods = 30;
         const int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        KamaHub observer = quoteHub
+        KamaHub observer = barHub
             .ToSmaHub(smaPeriods)
             .ToKamaHub(erPeriods, fastPeriods, slowPeriods);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
@@ -123,7 +123,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // time-series, for comparison
         IReadOnlyList<KamaResult> seriesList
-           = quotesList
+           = barsList
             .ToSma(smaPeriods)
             .ToKama(erPeriods, fastPeriods, slowPeriods);
 
@@ -133,7 +133,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -144,20 +144,20 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int slowPeriods = 30;
         const int smaPeriods = 10;
 
-        List<Quote> quotes = Quotes.ToList();
+        List<Bar> bars = Bars.ToList();
 
-        int length = quotes.Count;
+        int length = bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToKamaHub(erPeriods, fastPeriods, slowPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
-        for (int i = 0; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 0; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -165,22 +165,22 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
-        quotes.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
+        bars.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> streamList
@@ -188,7 +188,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
-           = quotes.ToKama(erPeriods, fastPeriods, slowPeriods)
+           = bars.ToKama(erPeriods, fastPeriods, slowPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
@@ -197,13 +197,13 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        KamaHub hub = new(new QuoteHub(), 10, 2, 30);
+        KamaHub hub = new(new BarHub(), 10, 2, 30);
         hub.ToString().Should().Be("KAMA(10,2,30)");
     }
 }

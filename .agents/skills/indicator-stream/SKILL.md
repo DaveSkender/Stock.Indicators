@@ -1,6 +1,6 @@
 ---
 name: indicator-stream
-description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainHub or QuoteProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
+description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainHub or BarProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
 ---
 
 # StreamHub indicator development
@@ -10,18 +10,18 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 | Provider Base | Input | Output | Use Case |
 | ------------- | ----- | ------ | -------- |
 | `ChainHub<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
-| `ChainHub<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
-| `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
-| `QuoteProvider<TIn, TOut>` (self-rooted) | None | TOut | Source hubs with no upstream — bootstrap with an inert sentinel provider |
+| `ChainHub<IBar, TResult>` | OHLCV | IReusable | Bar-driven, chainable output |
+| `BarProvider<IBar, TResult>` | OHLCV | IBar | Bar-to-bar transformation |
+| `BarProvider<TIn, TOut>` (self-rooted) | None | TOut | Source hubs with no upstream — bootstrap with an inert sentinel provider |
 | `StreamHub<TProviderResult, TResult>` | Any hub result | Any result | Compound hubs (internal hub dependency) |
 
 Self-rooted source hubs (those that originate a stream rather than transform another hub's output) take an inert sentinel provider so the base-class constructor has something to subscribe to; the sentinel rejects subscriptions and carries no cache.
 
 ## Aggregator / quantizer hubs
 
-Hubs that bucket small bars (or raw ticks) into larger time periods derive from `QuoteProvider<TIn, IQuote>`. Conventions:
+Hubs that bucket small bars (or raw ticks) into larger time periods derive from `BarProvider<TIn, IBar>`. Conventions:
 
-- Constructors accept a `PeriodSize` enum **and** a custom `TimeSpan` overload; the enum overload throws for month-or-longer periods (use `TimeSpan` instead) since calendar arithmetic is not a fixed `TimeSpan`.
+- Constructors accept a `BarInterval` enum **and** a custom `TimeSpan` overload; the enum overload throws for month-or-longer periods (use `TimeSpan` instead) since calendar arithmetic is not a fixed `TimeSpan`.
 - Take an optional `fillGaps` flag. Default `false` (silent buckets are simply omitted from the output stream); `true` synthesizes zero-volume bars whose `Open`/`High`/`Low`/`Close` all carry forward the prior bar's close through the silent period.
 - Round the input timestamp down to the current bucket on every `OnAdd`, then either update the current bar in place or emit a new bucket.
 - Override `Rebuild(DateTime)` to align the requested rebuild timestamp to the bucket boundary before delegating to base — an upstream rebuild whose timestamp is mid-bucket must clear the in-cache partial bar, not duplicate it.
@@ -40,7 +40,7 @@ Use the project's performance-analysis document as the source of truth for measu
 | Review | 3x – framework floor | ⚠️ investigate |
 | Critical | indicator-specific algorithmic issue (e.g. O(n²)) | 🔴 fix |
 
-The "framework floor" is the per-tick overhead inherent to the observer pattern, cache management, and read-only collection wrappers. Simple stateless indicators routinely measure 6–11x against Series while still achieving tens of thousands of quotes per second; this is acceptable. Optimization effort should target indicator-specific algorithmic issues, not the framework floor.
+The "framework floor" is the per-tick overhead inherent to the observer pattern, cache management, and read-only collection wrappers. Simple stateless indicators routinely measure 6–11x against Series while still achieving tens of thousands of bars per second; this is acceptable. Optimization effort should target indicator-specific algorithmic issues, not the framework floor.
 
 Forbid O(n²) recalculation — rebuild entire history on each tick:
 
@@ -91,14 +91,14 @@ Replay up to `restoreIndex` (inclusive). The item at the rollback timestamp is r
 - Inherit `StreamHubTestBase`
 - Abstract method (compile error if missing): `ToStringOverride_ReturnsExpectedName()`
 - Implement ONE observer interface:
-  - `ITestChainObserver` (most indicators — chain input): inherits `ITestQuoteObserver`, adds `ChainObserver_ChainedProvider_MatchesSeriesExactly()`
-  - `ITestQuoteObserver` (direct quote input only): `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()`, `WithCachePruning_MatchesSeriesExactly()`
+  - `ITestChainObserver` (most indicators — chain input): inherits `ITestBarObserver`, adds `ChainObserver_ChainedProvider_MatchesSeriesExactly()`
+  - `ITestBarObserver` (direct bar input only): `BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()`, `WithCachePruning_MatchesSeriesExactly()`
 - If hub acts as chain provider, also implement `ITestChainProvider`: `ChainProvider_MatchesSeriesExactly()`
 
 ## Required implementation
 
 - [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists
-  - [ ] Uses appropriate provider base (ChainHub or QuoteProvider)
+  - [ ] Uses appropriate provider base (ChainHub or BarProvider)
   - [ ] Validates parameters in constructor; calls Reinitialize() as needed
   - [ ] Implements O(1) state updates; avoids O(n²) recalculation
   - [ ] Overrides RollbackState() when maintaining stateful fields

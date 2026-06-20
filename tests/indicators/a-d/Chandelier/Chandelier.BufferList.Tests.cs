@@ -8,44 +8,44 @@ public class Chandelier : BufferListTestBase
     private const Direction type = Direction.Long;
 
     private static readonly IReadOnlyList<ChandelierResult> series
-       = Quotes.ToChandelier(lookbackPeriods, multiplier, type);
+       = Bars.ToChandelier(lookbackPeriods, multiplier, type);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         ChandelierList sut = new(lookbackPeriods, multiplier, type);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        ChandelierList sut = new(lookbackPeriods, multiplier, type) { Quotes };
+        ChandelierList sut = new(lookbackPeriods, multiplier, type) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        ChandelierList sut = new(lookbackPeriods, multiplier, type, Quotes);
+        ChandelierList sut = new(lookbackPeriods, multiplier, type, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<ChandelierResult> expected = subset.ToChandelier(lookbackPeriods, multiplier, type);
 
         ChandelierList sut = new(lookbackPeriods, multiplier, type, subset);
@@ -72,7 +72,7 @@ public class Chandelier : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<ChandelierResult> expected = series
             .Skip(series.Count - maxListSize)

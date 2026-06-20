@@ -13,13 +13,13 @@ public static partial class Indicator
 {
     // UTILITIES
 
-    /// <summary>Obsolete. This method no longer supports IEnumerable&lt;IQuote&gt; and tuple return types.</summary>
+    /// <summary>Obsolete. This method no longer supports IEnumerable&lt;IBar&gt; and tuple return types.</summary>
     [ExcludeFromCodeCoverage]
-    [Obsolete("This method no longer supports IEnumerable<IQuote> and tuple return types.", false)]
+    [Obsolete("This method no longer supports IEnumerable<IBar> and tuple return types.", false)]
     public static IEnumerable<(DateTime Timestamp, double Value)> Use(
-        this IEnumerable<IQuote> quotes,
+        this IEnumerable<IBar> bars,
             CandlePart candlePart = CandlePart.Close)
-        => quotes
+        => bars
             .ToSortedList()
             .ToReusable(candlePart)
             .Select(static x => (x.Timestamp, x.Value));
@@ -31,8 +31,8 @@ public static partial class Indicator
     /// <summary>Obsolete. Rename Use() to Use(CandlePart.Close) for an explicit conversion.</summary>
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
     public static IEnumerable<(DateTime Timestamp, double Value)> Use(
-        this IReadOnlyList<IQuote> quotes)
-        => quotes.Select(static x => (x.Timestamp, x.Value));
+        this IReadOnlyList<IBar> bars)
+        => bars.Select(static x => (x.Timestamp, x.Value));
 
     /// <summary>Obsolete. Refactor to use ToSortedList().</summary>
     [ExcludeFromCodeCoverage]
@@ -69,35 +69,48 @@ public static partial class Indicator
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `ToReusable()`", false)]
     public static Collection<(DateTime Timestamp, double Value)> ToTupleCollection(
-        this IEnumerable<IQuote> quotes,
+        this IEnumerable<IBar> bars,
         CandlePart candlePart = CandlePart.Close)
-        => quotes
+        => bars
             .ToList()
             .ToReusable(candlePart)
             .Select(static x => (x.Timestamp, x.Value))
             .ToCollection();
 
-    /// <summary>Obsolete. Refactor to use List&lt;TQuote&gt; quotes input.</summary>
+    /// <summary>Obsolete. Refactor to use List&lt;TBar&gt; bars input.</summary>
     [ExcludeFromCodeCoverage]
-    [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
-    public static IReadOnlyList<TQuote> Validate<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-        => quotes.ToSortedList().Validate();
+    [Obsolete("Refactor to use `List<TBar> bars` input.", false)]
+    public static IReadOnlyList<TBar> Validate<TBar>(
+        this IEnumerable<TBar> bars)
+        where TBar : IBar
+        => bars.ToSortedList().Validate();
 
-    /// <summary>Obsolete. Refactor to use List&lt;TQuote&gt; quotes input.</summary>
+    /// <summary>Obsolete. Refactor to use List&lt;TBar&gt; bars input.</summary>
     [ExcludeFromCodeCoverage]
-    [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
-    public static IEnumerable<Quote> Aggregate(
-        this IEnumerable<IQuote> quotes, PeriodSize newSize)
-        => quotes.ToSortedList().Aggregate(newSize);
+    [Obsolete("Refactor to use `List<TBar> bars` input.", false)]
+    public static IEnumerable<Bar> Aggregate(
+        this IEnumerable<IBar> bars, BarInterval newSize)
+        => bars.ToSortedList().Aggregate(newSize);
 
-    /// <summary>Obsolete. Refactor to use List&lt;TQuote&gt; quotes input.</summary>
+    /// <summary>Obsolete. Rename PeriodSize to BarInterval.</summary>
     [ExcludeFromCodeCoverage]
-    [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
+    [Obsolete("Rename `PeriodSize` to `BarInterval`.", false)]
+    public static IEnumerable<Bar> Aggregate(
+        this IEnumerable<IBar> bars, PeriodSize newSize)
+        => bars.ToSortedList().Aggregate((BarInterval)newSize);
+
+    /// <summary>Obsolete. Rename PeriodSize to BarInterval.</summary>
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename `PeriodSize` to `BarInterval`.", false)]
+    public static TimeSpan ToTimeSpan(this PeriodSize periodSize)
+        => ((BarInterval)periodSize).ToTimeSpan();
+
+    /// <summary>Obsolete. Refactor to use List&lt;TBar&gt; bars input.</summary>
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `List<TBar> bars` input.", false)]
     public static IEnumerable<CandleProperties> ToCandles(
-        this IEnumerable<IQuote> quotes)
-        => quotes.ToSortedList().ToCandles();
+        this IEnumerable<IBar> bars)
+        => bars.ToSortedList().ToCandles();
 
     /// <summary>Obsolete. Refactor to use List.First(c => c.Timestamp == lookupDate).</summary>
     [ExcludeFromCodeCoverage]
@@ -142,13 +155,81 @@ public static partial class Indicator
 
 // CLASSES AND INTERFACES
 
+// NOTE: The IQuote/Quote/PeriodSize stubs below intentionally keep their
+// pre-rename names (issue #1933) and are warning-level [Obsolete] aliases of
+// the new types, so v2 consumers' existing type references keep compiling and
+// running during a deprecation window while the warnings guide the rename.
+// Do not let bulk Quote->Bar / PeriodSize->BarInterval passes rename them.
+
+/// <summary>Obsolete. Rename IQuote to IBar.</summary>
+[Obsolete("Rename `IQuote` to `IBar`", false)]
+public interface IQuote : IBar;
+
+/// <summary>Obsolete. Rename Quote to Bar.</summary>
+[ExcludeFromCodeCoverage]
+[Obsolete("Rename `Quote` to `Bar`", false)]
+[Serializable]
+public sealed record Quote(
+    DateTime Timestamp,
+    decimal Open,
+    decimal High,
+    decimal Low,
+    decimal Close,
+    decimal Volume) : IBar
+{
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => (double)Close;
+}
+
+/// <summary>Obsolete. Rename PeriodSize to BarInterval.</summary>
+[Obsolete("Rename `PeriodSize` to `BarInterval`", false)]
+public enum PeriodSize
+{
+    /// <summary>Obsolete. Monthly period.</summary>
+    Month = 0,
+
+    /// <summary>Obsolete. Weekly period.</summary>
+    Week = 1,
+
+    /// <summary>Obsolete. Daily period.</summary>
+    Day = 2,
+
+    /// <summary>Obsolete. Four-hour period.</summary>
+    FourHours = 3,
+
+    /// <summary>Obsolete. Two-hour period.</summary>
+    TwoHours = 4,
+
+    /// <summary>Obsolete. One-hour period.</summary>
+    OneHour = 5,
+
+    /// <summary>Obsolete. Thirty-minute period.</summary>
+    ThirtyMinutes = 6,
+
+    /// <summary>Obsolete. Fifteen-minute period.</summary>
+    FifteenMinutes = 7,
+
+    /// <summary>Obsolete. Five-minute period.</summary>
+    FiveMinutes = 8,
+
+    /// <summary>Obsolete. Three-minute period.</summary>
+    ThreeMinutes = 9,
+
+    /// <summary>Obsolete. Two-minute period.</summary>
+    TwoMinutes = 10,
+
+    /// <summary>Obsolete. One-minute period.</summary>
+    OneMinute = 11
+}
+
 /// <summary>Obsolete. Rename IReusableResult to IReusable.</summary>
-[Obsolete("Rename `IReusableResult` to `IReusable`", true)]
+[Obsolete($"Rename `{nameof(IReusableResult)}` to `{nameof(IReusable)}`.", false)]
 public interface IReusableResult : IReusable;
 
 /// <summary>Obsolete. Rename BasicData to TimeValue.</summary>
 [ExcludeFromCodeCoverage]
-[Obsolete("Rename `BasicData` to `TimeValue`", true)]
+[Obsolete($"Rename `{nameof(BasicData)}` to `{nameof(TimeValue)}`.", false)]
 public sealed class BasicData : IReusable
 {
     /// <inheritdoc />
@@ -160,7 +241,7 @@ public sealed class BasicData : IReusable
 }
 
 /// <summary>Obsolete. Rename ChandelierType to Direction.</summary>
-[Obsolete($"Rename '{nameof(ChandelierType)}' to '{nameof(Direction)}'.")]
+[Obsolete($"Rename `{nameof(ChandelierType)}` to `{nameof(Direction)}`.", false)]
 [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Not really an issue.")]
 public enum ChandelierType
 {

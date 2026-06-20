@@ -4,82 +4,82 @@ namespace StreamHubs;
 public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 20;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        TemaHub observer = quoteHub.ToTemaHub(lookbackPeriods);
+        TemaHub observer = barHub.ToTemaHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<TemaResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<TemaResult> expectedOriginal = Quotes.ToTema(lookbackPeriods);
+        IReadOnlyList<TemaResult> expectedOriginal = Bars.ToTema(lookbackPeriods);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
-        IReadOnlyList<TemaResult> expectedRevised = RevisedQuotes.ToTema(lookbackPeriods);
+        barHub.RemoveAt(removeAtIndex);
+        IReadOnlyList<TemaResult> expectedRevised = RevisedBars.ToTema(lookbackPeriods);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 65;  // 20*3 (triple smoothing) + 5 extra
-        const int totalQuotes = 130;  // ~2x cache size
+        const int totalBars = 130;  // ~2x cache size
         const int lookbackPeriods = 20;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<TemaResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<TemaResult> expected = bars
             .ToTema(lookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        TemaHub observer = quoteHub.ToTemaHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        TemaHub observer = barHub.ToTemaHub(lookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -88,32 +88,32 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int smaPeriods = 10;
         const int temaPeriods = 20;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        TemaHub observer = quoteHub
+        TemaHub observer = barHub
             .ToSmaHub(smaPeriods)
             .ToTemaHub(temaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++) { barHub.Add(Bars[i]); }
 
         // final results
         IReadOnlyList<TemaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<TemaResult> expected = Quotes
+        IReadOnlyList<TemaResult> expected = Bars
             .ToSma(smaPeriods)
             .ToTema(temaPeriods);
 
         // assert, should equal series
         sut.IsExactly(expected);
-        sut.Should().HaveCount(quotesCount);
+        sut.Should().HaveCount(barsCount);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -122,77 +122,77 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int temaPeriods = 20;
         const int smaPeriods = 10;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToTemaHub(temaPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
-        for (int i = 0; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 0; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> expected = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedBars
             .ToTema(temaPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        TemaHub hub = new(new QuoteHub(), 20);
+        TemaHub hub = new(new BarHub(), 20);
         hub.ToString().Should().Be("TEMA(20)");
     }
 
     [TestMethod]
     public void SettingsInheritance_FromParentHubs_PropagatesCorrectly()
     {
-        // setup quote hub (1st level)
-        QuoteHub quoteHub = new();
+        // setup bar hub (1st level)
+        BarHub barHub = new();
 
         // setup tema hub (2nd level)
-        TemaHub temaHub = quoteHub
+        TemaHub temaHub = barHub
             .ToTemaHub(lookbackPeriods: 20);
 
         // setup child hub (3rd level)
         SmaHub childHub = temaHub
             .ToSmaHub(lookbackPeriods: 5);
 
-        // note: despite `quoteHub` being parentless,
+        // note: despite `barHub` being parentless,
         // it has default properties; it should not
-        // inherit its own empty quoteHub settings
+        // inherit its own empty barHub settings
 
         // assert
-        quoteHub.Properties.Settings.Should().Be(0b00000000, "it has default settings, not inherited");
+        barHub.Properties.Settings.Should().Be(0b00000000, "it has default settings, not inherited");
         temaHub.Properties.Settings.Should().Be(0b00000000, "it has default properties");
         childHub.Properties.Settings.Should().Be(0b00000000, "it inherits default properties");
     }

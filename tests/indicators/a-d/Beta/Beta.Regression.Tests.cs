@@ -8,7 +8,7 @@ public class BetaTests : RegressionTestBase<BetaResult>
     private const int n = 50;
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => OtherQuotes.ToBeta(Quotes, n).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => OtherBars.ToBeta(Bars, n).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");
