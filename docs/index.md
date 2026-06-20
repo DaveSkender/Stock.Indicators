@@ -78,10 +78,12 @@ Buffer lists maintain internal state and automatically manage the warmup period,
 
 Hubs provides a reactive, subscription-based pattern for streaming market data with automatic cascading calculations for advances scenarios.
 
+### Example 1: Chained hubs
+
 ```csharp
-// create provider with chain of indicators
-BarHub provider = new BarHub();
-SmaHub smaHub = provider.ToSmaHub(20);
+// create provider and subscribe observers
+BarHub barHub = new();
+SmaHub smaHub = barHub.ToSmaHub(20);
 RsiHub rsiHub = smaHub.ToRsiHub(14);  // RSI of SMA
 
 // publish bars - observers auto-update in cascade
@@ -91,9 +93,11 @@ provider.Add(newBar);
 IReadOnlyList<RsiResult> results = rsiHub.Results;
 ```
 
-```csharp
-BarHub barHub = new();
+### Example 2: signal-based strategy
 
+```csharp
+// create provider and subscribe observers
+BarHub barHub = new();
 EmaHub emaFast = barHub.ToEmaHub(50);
 EmaHub emaSlow = barHub.ToEmaHub(200);
 
@@ -119,15 +123,13 @@ Chain indicators together for sophisticated technical analysis: create indicator
 ```csharp
 // example: calculate RSI of On-Balance Volume
 IReadOnlyList<RsiResult> results
-  = bars
-    .ToObv()
-    .ToRsi(14);
+  = bars.ToObv()
+        .ToRsi(14);
 
 // example: use custom candle price variants
 IReadOnlyList<EmaResult> results
-  = bars
-    .Use(CandlePart.HL2)
-    .ToEma(20);
+  = bars.Use(CandlePart.HL2)
+        .ToEma(20);
 ```
 
 See [Chaining indicators](/guide/chaining) for more.
@@ -164,6 +166,8 @@ Special thanks to all of our community code contributors!
 
 <Contributors />
 
-Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to see the full list.
+Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to begin contributing.
 
-» see our [full list of indicators and overlays](/indicators)
+::: tip
+See our [full list of indicators and overlays](/indicators)
+:::
