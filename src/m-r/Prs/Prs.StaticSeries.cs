@@ -22,7 +22,7 @@ public static partial class Prs
     /// </param>
     /// <returns>A list of PRS results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="sourceEval"/> is null.</exception>
-    /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
+    /// <exception cref="InvalidBarsException">Thrown when the timestamp sequence does not match.</exception>
     public static IReadOnlyList<PrsResult> ToPrs(
         this IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceBase,
@@ -45,7 +45,7 @@ public static partial class Prs
 
             if (e.Timestamp != b.Timestamp)
             {
-                throw new InvalidQuotesException(
+                throw new InvalidBarsException(
                     nameof(sourceEval), e.Timestamp,
                     "Timestamp sequence does not match.  "
                   + "Price Relative requires matching dates in provided histories.");

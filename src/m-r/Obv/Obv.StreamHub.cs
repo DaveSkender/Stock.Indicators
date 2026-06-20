@@ -3,10 +3,10 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating OBV hubs.
 /// </summary>
-public class ObvHub : ChainHub<IQuote, ObvResult>
+public class ObvHub : ChainHub<IBar, ObvResult>
 {
     internal ObvHub(
-        IQuoteProvider<IQuote> provider) : base(provider)
+        IBarProvider<IBar> provider) : base(provider)
     {
         Name = "OBV";
         // Validate cache size for warmup requirements
@@ -17,7 +17,7 @@ public class ObvHub : ChainHub<IQuote, ObvResult>
 
     /// <inheritdoc/>
     protected override (ObvResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -41,15 +41,15 @@ public class ObvHub : ChainHub<IQuote, ObvResult>
 public static partial class Obv
 {
     /// <summary>
-    /// Converts the quote provider to an OBV hub.
+    /// Converts the bar provider to an OBV hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <returns>An OBV hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     public static ObvHub ToObvHub(
-        this IQuoteProvider<IQuote> quoteProvider)
+        this IBarProvider<IBar> barProvider)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new(barProvider);
     }
 }

@@ -6,32 +6,32 @@ namespace Skender.Stock.Indicators;
 public static partial class StarcBands
 {
     /// <summary>
-    /// Converts a series of quotes to STARC Bands.
+    /// Converts a series of bars to STARC Bands.
     /// </summary>
-    /// <param name="quotes">Source series of quotes.</param>
+    /// <param name="bars">Source series of bars.</param>
     /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     public static IReadOnlyList<StarcBandsResult> ToStarcBands(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int smaPeriods = 5,
         double multiplier = 2,
         int atrPeriods = 10)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcStarcBands(smaPeriods, multiplier, atrPeriods);
 
     /// <summary>
-    /// Calculates the STARC Bands for a series of quotes.
+    /// Calculates the STARC Bands for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     private static List<StarcBandsResult> CalcStarcBands(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int smaPeriods,
         double multiplier,
         int atrPeriods)
@@ -40,10 +40,10 @@ public static partial class StarcBands
         Validate(smaPeriods, multiplier, atrPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<StarcBandsResult> results = new(length);
-        List<AtrResult> atrResults = quotes.CalcAtr(atrPeriods);
-        IReadOnlyList<SmaResult> smaResults = quotes.ToSma(smaPeriods);
+        List<AtrResult> atrResults = bars.CalcAtr(atrPeriods);
+        IReadOnlyList<SmaResult> smaResults = bars.ToSma(smaPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

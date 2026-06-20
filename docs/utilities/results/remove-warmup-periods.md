@@ -32,7 +32,7 @@ IReadOnlyList<TResult> results = results.RemoveWarmupPeriods(int removePeriods);
 ```csharp
 // auto remove recommended warmup periods
 IReadOnlyList<AdxResult> results =
-  quotes.ToAdx(14).RemoveWarmupPeriods();
+  bars.ToAdx(14).RemoveWarmupPeriods();
 ```
 
 ### Custom warmup removal
@@ -41,7 +41,7 @@ IReadOnlyList<AdxResult> results =
 // remove a specific quantity of periods
 int n = 14;
 IReadOnlyList<AdxResult> results =
-  quotes.ToAdx(n).RemoveWarmupPeriods(n + 100);
+  bars.ToAdx(n).RemoveWarmupPeriods(n + 100);
 ```
 
 ## Why remove warmup periods?
@@ -53,7 +53,7 @@ Most indicators need time to "warm up" before producing reliable values. During 
 A 20-period SMA needs 20 periods before it has enough data to calculate a full average:
 
 ```csharp
-var smaResults = quotes.ToSma(20);
+var smaResults = bars.ToSma(20);
 // First 19 results are null
 // 20th result is the first valid SMA value
 
@@ -68,7 +68,7 @@ var trimmed = smaResults.RemoveWarmupPeriods();
 Remove warmup periods before charting to avoid misleading early values:
 
 ```csharp
-var chartData = quotes
+var chartData = bars
   .ToAdx(14)
   .RemoveWarmupPeriods();
 
@@ -81,7 +81,7 @@ PlotChart(chartData);
 Ensure trading signals are based only on fully converged indicators:
 
 ```csharp
-var signals = quotes
+var signals = bars
   .ToRsi(14)
   .RemoveWarmupPeriods()
   .Where(r => r.Rsi > 70 || r.Rsi < 30);
@@ -92,8 +92,8 @@ var signals = quotes
 Remove warmup periods to compare indicators fairly:
 
 ```csharp
-var ema20 = quotes.ToEma(20).RemoveWarmupPeriods();
-var sma20 = quotes.ToSma(20).RemoveWarmupPeriods();
+var ema20 = bars.ToEma(20).RemoveWarmupPeriods();
+var sma20 = bars.ToSma(20).RemoveWarmupPeriods();
 
 // compare from same starting point
 ```
@@ -132,13 +132,13 @@ If you want more certainty, use a specific number for `removePeriods`.
 
 ```csharp
 // AVOID: auto-pruning on chained indicators
-var chainedResults = quotes
+var chainedResults = bars
   .ToEma(20)
   .ToRsi(14)
   .RemoveWarmupPeriods();  // ❌ May remove too much
 
 // BETTER: specify the amount
-var chainedResults = quotes
+var chainedResults = bars
   .ToEma(20)
   .ToRsi(14)
   .RemoveWarmupPeriods(300);  // ✅ Predictable

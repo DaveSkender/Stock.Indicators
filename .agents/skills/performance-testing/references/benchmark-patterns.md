@@ -17,16 +17,16 @@
 [ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class SeriesIndicators
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
 
     [Benchmark]
-    public void ToEma() => quotes.ToEma(14);
+    public void ToEma() => bars.ToEma(14);
 
     [Benchmark]
-    public void ToSma() => quotes.ToSma(20);
+    public void ToSma() => bars.ToSma(20);
 
     [Benchmark]
-    public void ToRsi() => quotes.ToRsi(14);
+    public void ToRsi() => bars.ToRsi(14);
 }
 ```
 
@@ -37,21 +37,21 @@ public class SeriesIndicators
 [ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class StreamIndicators
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
-    private static readonly QuoteHub quoteHub = new();
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
+    private static readonly BarHub barHub = new();
 
     [GlobalSetup]
     public void Setup()
     {
-        foreach (Quote quote in quotes)
-            quoteHub.Add(quote);
+        foreach (Bar bar in bars)
+            barHub.Add(bar);
     }
 
     [Benchmark]
-    public object EmaHub() => quoteHub.ToEmaHub(14).Results;
+    public object EmaHub() => barHub.ToEmaHub(14).Results;
 
     [Benchmark]
-    public object SmaHub() => quoteHub.ToSmaHub(20).Results;
+    public object SmaHub() => barHub.ToSmaHub(20).Results;
 }
 ```
 
@@ -62,13 +62,13 @@ public class StreamIndicators
 [ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class BufferIndicators
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
 
     [Benchmark]
-    public EmaList EmaList() => new(14) { quotes };
+    public EmaList EmaList() => new(14) { bars };
 
     [Benchmark]
-    public SmaList SmaList() => new(20) { quotes };
+    public SmaList SmaList() => new(20) { bars };
 }
 ```
 
@@ -80,24 +80,24 @@ public class BufferIndicators
 public class EmaStyleComparison
 {
     private const int LookbackPeriods = 14;
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
-    private static readonly QuoteHub quoteHub = new();
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
+    private static readonly BarHub barHub = new();
 
     [GlobalSetup]
     public void Setup()
     {
-        foreach (Quote quote in quotes)
-            quoteHub.Add(quote);
+        foreach (Bar bar in bars)
+            barHub.Add(bar);
     }
 
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<EmaResult> Series() => quotes.ToEma(LookbackPeriods);
+    public IReadOnlyList<EmaResult> Series() => bars.ToEma(LookbackPeriods);
 
     [Benchmark]
-    public IReadOnlyList<EmaResult> Buffer() => new EmaList(LookbackPeriods) { quotes };
+    public IReadOnlyList<EmaResult> Buffer() => new EmaList(LookbackPeriods) { bars };
 
     [Benchmark]
-    public IReadOnlyList<EmaResult> Stream() => quoteHub.ToEmaHub(LookbackPeriods).Results;
+    public IReadOnlyList<EmaResult> Stream() => barHub.ToEmaHub(LookbackPeriods).Results;
 }
 ```
 

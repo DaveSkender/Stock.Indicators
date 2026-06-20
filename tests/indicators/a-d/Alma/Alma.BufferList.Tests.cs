@@ -8,42 +8,42 @@ public class Alma : BufferListTestBase, ITestChainBufferList
     private const double sigma = 6;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<AlmaResult> series
-       = Quotes.ToAlma(lookbackPeriods, offset, sigma);
+       = Bars.ToAlma(lookbackPeriods, offset, sigma);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         AlmaList sut = new(lookbackPeriods, offset, sigma);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        AlmaList sut = Quotes.ToAlmaList(lookbackPeriods, offset, sigma);
+        AlmaList sut = Bars.ToAlmaList(lookbackPeriods, offset, sigma);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        AlmaList sut = new(lookbackPeriods, offset, sigma, Quotes);
+        AlmaList sut = new(lookbackPeriods, offset, sigma, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -57,7 +57,7 @@ public class Alma : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -66,7 +66,7 @@ public class Alma : BufferListTestBase, ITestChainBufferList
     {
         AlmaList sut = new(lookbackPeriods, offset, sigma) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -80,14 +80,14 @@ public class Alma : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<AlmaResult> expected = subset.ToAlma(lookbackPeriods, offset, sigma);
 
         AlmaList sut = new(lookbackPeriods, offset, sigma, subset);
@@ -114,7 +114,7 @@ public class Alma : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<AlmaResult> expected = series
             .Skip(series.Count - maxListSize)

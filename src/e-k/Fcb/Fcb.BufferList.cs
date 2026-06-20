@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Fractal Chaos Bands (FCB) from incremental quote values.
+/// Fractal Chaos Bands (FCB) from incremental bar values.
 /// </summary>
-public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
+public class FcbList : BufferList<FcbResult>, IIncrementFromBar, IFcb
 {
-    private readonly Queue<IQuote> _quoteBuffer;
+    private readonly Queue<IBar> _barBuffer;
     private readonly int _windowSpan;
     private decimal? _upperLine;
     private decimal? _lowerLine;
@@ -23,7 +23,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         WindowSpan = windowSpan;
 
         _windowSpan = windowSpan;
-        _quoteBuffer = new Queue<IQuote>((2 * windowSpan) + 1);
+        _barBuffer = new Queue<IBar>((2 * windowSpan) + 1);
         _upperLine = null;
         _lowerLine = null;
 
@@ -31,54 +31,54 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FcbList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="FcbList"/> class with initial bars.
     /// </summary>
     /// <param name="windowSpan">Window span for the calculation.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public FcbList(
         int windowSpan,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IBar> bars
     )
-        : this(windowSpan) => Add(quotes);
+        : this(windowSpan) => Add(bars);
 
     /// <inheritdoc />
     public int WindowSpan { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        // maintain buffer of quotes needed for fractal calculation
-        _quoteBuffer.Update((2 * _windowSpan) + 1, quote);
+        // maintain buffer of bars needed for fractal calculation
+        _barBuffer.Update((2 * _windowSpan) + 1, bar);
 
         // check if we can identify fractals
-        if (_quoteBuffer.Count >= (2 * _windowSpan) + 1)
+        if (_barBuffer.Count >= (2 * _windowSpan) + 1)
         {
-            // locate middle quote without copying the buffer
+            // locate middle bar without copying the buffer
             int midIndex = _windowSpan;
-            IQuote? midQuote = null;
+            IBar? midBar = null;
             int index = 0;
 
-            foreach (IQuote q in _quoteBuffer)
+            foreach (IBar q in _barBuffer)
             {
                 if (index == midIndex)
                 {
-                    midQuote = q;
+                    midBar = q;
                     break;
                 }
 
                 index++;
             }
 
-            decimal midHigh = midQuote!.High;
-            decimal midLow = midQuote.Low;
+            decimal midHigh = midBar!.High;
+            decimal midLow = midBar.Low;
 
             // check for bearish fractal (high point)
             bool isBearishFractal = true;
             index = 0;
 
-            foreach (IQuote q in _quoteBuffer)
+            foreach (IBar q in _barBuffer)
             {
                 if (index != midIndex && q.High >= midHigh)
                 {
@@ -93,7 +93,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
             bool isBullishFractal = true;
             index = 0;
 
-            foreach (IQuote q in _quoteBuffer)
+            foreach (IBar q in _barBuffer)
             {
                 if (index != midIndex && q.Low <= midLow)
                 {
@@ -121,19 +121,19 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
 
         // add result
         AddInternal(new FcbResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             UpperBand: _upperLine,
             LowerBand: _lowerLine));
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -141,7 +141,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     public override void Clear()
     {
         base.Clear();
-        _quoteBuffer.Clear();
+        _barBuffer.Clear();
         _upperLine = null;
         _lowerLine = null;
     }
@@ -152,10 +152,10 @@ public static partial class Fcb
     /// <summary>
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Time span for the window</param>
     public static FcbList ToFcbList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int windowSpan = 2)
-        => new(windowSpan) { quotes };
+        => new(windowSpan) { bars };
 }

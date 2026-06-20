@@ -1,14 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Chande Momentum Oscillator (CMO) on a series of quotes indicator.
+/// Chande Momentum Oscillator (CMO) on a series of bars indicator.
 /// </summary>
 public static partial class Cmo
 {
     /// <summary>
-    /// Calculates the Chande Momentum Oscillator (CMO) for a series of quotes.
+    /// Calculates the Chande Momentum Oscillator (CMO) for a series of bars.
     /// </summary>
-    /// <param name="source">Source list of quotes.</param>
+    /// <param name="source">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CmoResult"/> containing the CMO calculation results.</returns>
     public static IReadOnlyList<CmoResult> ToCmo(

@@ -7,9 +7,9 @@ public partial class SmaTests : StaticSeriesTestBase
     {
         TimeValue[] results =
         [
-            new TimeValue(Quotes[0].Timestamp, 0.0),
-            new TimeValue(Quotes[1].Timestamp, 4.0),
-            new TimeValue(Quotes[2].Timestamp, 8.0)
+            new TimeValue(Bars[0].Timestamp, 0.0),
+            new TimeValue(Bars[1].Timestamp, 4.0),
+            new TimeValue(Bars[2].Timestamp, 8.0)
         ];
 
         // calculate

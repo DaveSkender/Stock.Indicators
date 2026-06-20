@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Rolling Pivot Points from incremental quotes.
+/// Rolling Pivot Points from incremental bars.
 /// </summary>
-public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFromQuote
+public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFromBar
 {
-    private readonly Queue<IQuote> _buffer;
+    private readonly Queue<IBar> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RollingPivotsList"/> class.
@@ -23,24 +23,24 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         WindowPeriods = windowPeriods;
         OffsetPeriods = offsetPeriods;
         PointType = pointType;
-        _buffer = new Queue<IQuote>(windowPeriods + offsetPeriods + 1);
+        _buffer = new Queue<IBar>(windowPeriods + offsetPeriods + 1);
 
         Name = $"ROLLINGPIVOTS({20}, {0}, {PivotPointType.Standard})";
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RollingPivotsList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="RollingPivotsList"/> class with initial bars.
     /// </summary>
     /// <param name="windowPeriods">Number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">Number of periods to offset the window.</param>
     /// <param name="pointType">Type of pivot point calculation to use.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public RollingPivotsList(
         int windowPeriods,
         int offsetPeriods,
         PivotPointType pointType,
-        IReadOnlyList<IQuote> quotes)
-        : this(windowPeriods, offsetPeriods, pointType) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(windowPeriods, offsetPeriods, pointType) => Add(bars);
 
     /// <inheritdoc />
     public int WindowPeriods { get; }
@@ -58,28 +58,28 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     public int LookbackPeriods => WindowPeriods + OffsetPeriods;
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        // Update buffer with new quote
-        _buffer.Update(WindowPeriods + OffsetPeriods + 1, quote);
+        // Update buffer with new bar
+        _buffer.Update(WindowPeriods + OffsetPeriods + 1, bar);
 
         RollingPivotsResult result;
 
         // Check if we have enough data to calculate pivots
-        // Need buffer to contain windowPeriods + offsetPeriods + 1 quotes
+        // Need buffer to contain windowPeriods + offsetPeriods + 1 bars
         if (_buffer.Count > WindowPeriods + OffsetPeriods)
         {
             // Get the window data from buffer
-            // The buffer contains the last (windowPeriods + offsetPeriods + 1) quotes
-            // Current quote is the last element (bufferCount - 1)
+            // The buffer contains the last (windowPeriods + offsetPeriods + 1) bars
+            // Current bar is the last element (bufferCount - 1)
             // Window ends at (bufferCount - 1 - 1 - offsetPeriods) = (bufferCount - 2 - offsetPeriods)
-            // because the current quote itself is not part of the window when offsetPeriods = 0
+            // because the current bar itself is not part of the window when offsetPeriods = 0
 
             int bufferCount = _buffer.Count;
 
-            // Window ends offsetPeriods + 1 positions before the end (the "+1" accounts for the current quote)
+            // Window ends offsetPeriods + 1 positions before the end (the "+1" accounts for the current bar)
             int windowEndIndex = bufferCount - 2 - OffsetPeriods;
             int windowStartIndex = windowEndIndex - WindowPeriods + 1;
 
@@ -89,7 +89,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
 
             // scan the window in place (queue enumerates front-to-back) without copying the buffer
             int index = 0;
-            foreach (IQuote d in _buffer)
+            foreach (IBar d in _buffer)
             {
                 if (index > windowEndIndex)
                 {
@@ -112,10 +112,10 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
 
             // Calculate pivot points
             WindowPoint wp = PivotPoints.GetPivotPoint(
-                PointType, (double)quote.Open, windowHigh, windowLow, windowClose);
+                PointType, (double)bar.Open, windowHigh, windowLow, windowClose);
 
             result = new RollingPivotsResult {
-                Timestamp = quote.Timestamp,
+                Timestamp = bar.Timestamp,
                 PP = wp.PP,
                 S1 = wp.S1,
                 S2 = wp.S2,
@@ -129,20 +129,20 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         }
         else
         {
-            result = new RollingPivotsResult { Timestamp = quote.Timestamp };
+            result = new RollingPivotsResult { Timestamp = bar.Timestamp };
         }
 
         AddInternal(result);
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -159,14 +159,14 @@ public static partial class RollingPivots
     /// <summary>
     /// Creates a buffer list for Rolling Pivot Points calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowPeriods">Number of periods in the rolling window</param>
     /// <param name="offsetPeriods">Number of periods to offset</param>
     /// <param name="pointType">Type of pivot point calculation</param>
     public static RollingPivotsList ToRollingPivotsList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int windowPeriods = 20,
         int offsetPeriods = 0,
         PivotPointType pointType = PivotPointType.Standard)
-        => new(windowPeriods, offsetPeriods, pointType) { quotes };
+        => new(windowPeriods, offsetPeriods, pointType) { bars };
 }

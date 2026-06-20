@@ -64,7 +64,7 @@ on:
           - PRS
           - PSAR
           - PVO
-          - QUOTEPART
+          - BARPART
           - RENKO
           - RENKO-ATR
           - ROC
@@ -113,7 +113,7 @@ on:
         required: true
         default: true
       periods:
-        description: Number of randomly generated quote periods
+        description: Number of randomly generated bar periods
         type: number
         required: true
         default: 500000

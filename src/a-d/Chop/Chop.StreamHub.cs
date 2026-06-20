@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Choppiness Index (CHOP) on a series of quotes.
+/// Streaming hub for Choppiness Index (CHOP) on a series of bars.
 /// </summary>
 public class ChopHub
-    : ChainHub<IQuote, ChopResult>, IChop
+    : ChainHub<IBar, ChopResult>, IChop
 {
     private CircularDoubleBuffer _trueHighBuffer;
     private CircularDoubleBuffer _trueLowBuffer;
@@ -12,7 +12,7 @@ public class ChopHub
     private double _sumTrueRange;
 
     internal ChopHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         Chop.Validate(lookbackPeriods);
@@ -33,7 +33,7 @@ public class ChopHub
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (ChopResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -103,7 +103,7 @@ public class ChopHub
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote current = ProviderCache[p];
+            IBar current = ProviderCache[p];
             double prevClose = (double)ProviderCache[p - 1].Close;
 
             double trueHigh = Math.Max((double)current.High, prevClose);
@@ -121,15 +121,15 @@ public class ChopHub
 public static partial class Chop
 {
     /// <summary>
-    /// Creates a Choppiness Index (CHOP) streaming hub from a quote provider.
+    /// Creates a Choppiness Index (CHOP) streaming hub from a bar provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A ChopHub instance.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static ChopHub ToChopHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 14)
-             => new(quoteProvider, lookbackPeriods);
+             => new(barProvider, lookbackPeriods);
 }

@@ -6,7 +6,7 @@ public class Tsi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<TsiResult> sut = Quotes
+        IReadOnlyList<TsiResult> sut = Bars
             .ToTsi();
 
         // proper quantities
@@ -43,7 +43,7 @@ public class Tsi : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<TsiResult> sut = Quotes.ToTsi(25, 13, 7);
+        IReadOnlyList<TsiResult> sut = Bars.ToTsi(25, 13, 7);
         sut.IsBetween(static x => x.Tsi, -100, 100);
         sut.IsBetween(static x => x.Signal, -100, 100);
     }
@@ -51,7 +51,7 @@ public class Tsi : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<TsiResult> sut = Quotes
+        IReadOnlyList<TsiResult> sut = Bars
             .Use(CandlePart.Close)
             .ToTsi();
 
@@ -62,7 +62,7 @@ public class Tsi : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<TsiResult> sut = Quotes
+        IReadOnlyList<TsiResult> sut = Bars
             .ToSma(2)
             .ToTsi();
 
@@ -73,7 +73,7 @@ public class Tsi : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToTsi()
             .ToSma(10);
 
@@ -82,9 +82,9 @@ public class Tsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<TsiResult> r = BadQuotes
+        IReadOnlyList<TsiResult> r = BadBars
             .ToTsi();
 
         r.Should().HaveCount(502);
@@ -92,23 +92,23 @@ public class Tsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<TsiResult> r = BigQuotes
+        IReadOnlyList<TsiResult> r = BigBars
             .ToTsi();
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<TsiResult> r0 = Noquotes
+        IReadOnlyList<TsiResult> r0 = Nobars
             .ToTsi();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<TsiResult> r1 = Onequote
+        IReadOnlyList<TsiResult> r1 = Onebar
             .ToTsi();
 
         r1.Should().HaveCount(1);
@@ -117,7 +117,7 @@ public class Tsi : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<TsiResult> sut = Quotes
+        IReadOnlyList<TsiResult> sut = Bars
             .ToTsi()
             .RemoveWarmupPeriods();
 
@@ -134,14 +134,14 @@ public class Tsi : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToTsi(0));
+            static () => Bars.ToTsi(0));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToTsi(25, 0));
+            static () => Bars.ToTsi(25, 0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToTsi(25, 13, -1));
+            static () => Bars.ToTsi(25, 13, -1));
     }
 }

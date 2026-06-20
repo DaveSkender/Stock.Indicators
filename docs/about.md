@@ -9,7 +9,7 @@ head:
 
 # About this library
 
-**Stock Indicators for .NET** is an open-source C# library that transforms historical price quotes into technical indicators. The library provides industry-standard technical analysis indicators with a focus on accuracy, performance, and developer ergonomics.
+**Stock Indicators for .NET** is an open-source C# library that transforms historical price bars into technical indicators. The library provides industry-standard technical analysis indicators with a focus on accuracy, performance, and developer ergonomics.
 
 ## Project information
 
@@ -40,7 +40,7 @@ The `Skender.Stock.Indicators` NuGet library itself does not contain work produc
 
 ### Data providers and SDK libraries
 
-- **[Alpaca Markets](https://alpaca.markets)** - Market data used for quotes in our [demo site](https://charts.stockindicators.dev) and examples projects.
+- **[Alpaca Markets](https://alpaca.markets)** - Market data used for bars in our [demo site](https://charts.stockindicators.dev) and examples projects.
 - **[Coinbase](https://www.coinbase.com)** - Live cryptocurrency market data via WebSocket feeds for real-time testing.
 - **[JKorf/Coinbase.Net](https://github.com/JKorf/Coinbase.Net)** - .NET client library for Coinbase WebSocket API used for live market data streaming in testing tools. Licensed under the MIT License.
 

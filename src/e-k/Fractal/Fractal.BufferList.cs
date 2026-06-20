@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Williams Fractal from incremental quote values.
+/// Williams Fractal from incremental bar values.
 /// </summary>
-public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFractal
+public class FractalList : BufferList<FractalResult>, IIncrementFromBar, IFractal
 {
-    private readonly List<FractalBuffer> _quotes;
+    private readonly List<FractalBuffer> _bars;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalList"/> class.
@@ -31,29 +31,29 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
         RightSpan = rightSpan;
         EndType = endType;
 
-        _quotes = [];
+        _bars = [];
 
         Name = $"FRACTAL({2}, {EndType.HighLow})";
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FractalList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="FractalList"/> class with initial bars.
     /// </summary>
     /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>
-    public FractalList(int windowSpan, IReadOnlyList<IQuote> quotes, EndType endType = EndType.HighLow)
-        : this(windowSpan, endType) => Add(quotes);
+    public FractalList(int windowSpan, IReadOnlyList<IBar> bars, EndType endType = EndType.HighLow)
+        : this(windowSpan, endType) => Add(bars);
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FractalList"/> class with different spans and initial quotes.
+    /// Initializes a new instance of the <see cref="FractalList"/> class with different spans and initial bars.
     /// </summary>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>
-    public FractalList(int leftSpan, int rightSpan, IReadOnlyList<IQuote> quotes, EndType endType = EndType.HighLow)
-        : this(leftSpan, rightSpan, endType) => Add(quotes);
+    public FractalList(int leftSpan, int rightSpan, IReadOnlyList<IBar> bars, EndType endType = EndType.HighLow)
+        : this(leftSpan, rightSpan, endType) => Add(bars);
 
     /// <inheritdoc />
     public int LeftSpan { get; init; }
@@ -65,23 +65,23 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     public EndType EndType { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        // store the quote
-        _quotes.Add(new FractalBuffer(
-            quote.High,
-            quote.Low,
-            quote.Close,
-            quote.Timestamp));
+        // store the bar
+        _bars.Add(new FractalBuffer(
+            bar.High,
+            bar.Low,
+            bar.Close,
+            bar.Timestamp));
 
         // always add a result (initially null)
-        AddInternal(new FractalResult(quote.Timestamp, null, null));
+        AddInternal(new FractalResult(bar.Timestamp, null, null));
 
-        int length = _quotes.Count;
+        int length = _bars.Count;
 
-        // Calculate fractal for the quote that just became calculable (if any)
+        // Calculate fractal for the bar that just became calculable (if any)
         // We only need to calculate the newest calculable index, not recalculate a range
         // Previous fractals are already correct from earlier calls
         int lastCalculableIndex = length - RightSpan - 1;
@@ -90,7 +90,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
         if (lastCalculableIndex >= 0 && lastCalculableIndex + 1 > LeftSpan)
         {
             int i = lastCalculableIndex;
-            FractalBuffer center = _quotes[i];
+            FractalBuffer center = _bars[i];
             bool isHigh = true;
             bool isLow = true;
 
@@ -106,7 +106,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
                     continue;
                 }
 
-                FractalBuffer wing = _quotes[p];
+                FractalBuffer wing = _bars[p];
                 decimal wingHigh = EndType == EndType.Close ? wing.Close : wing.High;
                 decimal wingLow = EndType == EndType.Close ? wing.Close : wing.Low;
 
@@ -130,13 +130,13 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -144,7 +144,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     public override void Clear()
     {
         base.Clear();
-        _quotes.Clear();
+        _bars.Clear();
     }
     /// <inheritdoc />
     protected override void PruneList()
@@ -159,8 +159,8 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
         // remove from results
         base.PruneList();
 
-        // also remove from quotes
-        _quotes.RemoveRange(0, overflow);
+        // also remove from bars
+        _bars.RemoveRange(0, overflow);
     }
 
     internal class FractalBuffer(
@@ -181,28 +181,28 @@ public static partial class Fractal
     /// <summary>
     /// Creates a buffer list for Williams Fractal calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Number of periods to look back and forward for the calculation.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>
     /// <returns>An initialized <see cref="FractalList" />.</returns>
     public static FractalList ToFractalList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int windowSpan = 2,
         EndType endType = EndType.HighLow)
-        => new(windowSpan, quotes, endType);
+        => new(windowSpan, bars, endType);
 
     /// <summary>
     /// Creates a buffer list for Williams Fractal calculations with different left and right spans.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">Type of price to use for the calculation.</param>
     /// <returns>An initialized <see cref="FractalList" />.</returns>
     public static FractalList ToFractalList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int leftSpan,
         int rightSpan,
         EndType endType = EndType.HighLow)
-        => new(leftSpan, rightSpan, quotes, endType);
+        => new(leftSpan, rightSpan, bars, endType);
 }

@@ -10,7 +10,7 @@ public static partial class Correlation
     /// <param name="sourceB">Second series of values</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
-    /// <exception cref="InvalidQuotesException">Thrown when quotes are invalid or insufficient</exception>
+    /// <exception cref="InvalidBarsException">Thrown when bars are invalid or insufficient</exception>
     internal static void Validate<T>(
         IReadOnlyList<T> sourceA,
         IReadOnlyList<T> sourceB,
@@ -24,12 +24,12 @@ public static partial class Correlation
                 "Lookback periods must be greater than 0 for Correlation.");
         }
 
-        // check quotes
+        // check bars
         if (sourceA.Count != sourceB.Count)
         {
-            throw new InvalidQuotesException(
+            throw new InvalidBarsException(
                 nameof(sourceB),
-                "B quotes should have at least as many records as A quotes for Correlation.");
+                "B bars should have at least as many records as A bars for Correlation.");
         }
     }
 }

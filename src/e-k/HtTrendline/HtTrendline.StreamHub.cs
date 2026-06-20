@@ -40,7 +40,7 @@ public class HtTrendlineHub
         ArgumentNullException.ThrowIfNull(item);
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
-        double prValue = item.Hl2OrValue(); // Use HL2 for quotes, Value for reusables
+        double prValue = item.Hl2OrValue(); // Use HL2 for bars, Value for reusables
 
         pr.Add(prValue);
 
@@ -99,7 +99,7 @@ public class HtTrendlineHub
                     sumPr += pr[d];
                 }
 
-                // handle insufficient lookback quotes (trim scope)
+                // handle insufficient lookback bars (trim scope)
                 else
                 {
                     dcPeriods--;

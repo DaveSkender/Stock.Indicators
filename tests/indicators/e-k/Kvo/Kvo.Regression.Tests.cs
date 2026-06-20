@@ -6,25 +6,25 @@ public class KvoTests : RegressionTestBase<KvoResult>
     public KvoTests() : base("kvo.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToKvo(34, 55, 13).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToKvo(34, 55, 13).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToKvoList(34, 55, 13).IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Bars.ToKvoList(34, 55, 13).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream_AgainstBaseline_MatchesExactly()
     {
-        QuoteHub quoteHub = new();
-        KvoHub hub = quoteHub.ToKvoHub(34, 55, 13);
+        BarHub barHub = new();
+        KvoHub hub = barHub.ToKvoHub(34, 55, 13);
 
-        foreach (Quote q in Quotes)
+        foreach (Bar q in Bars)
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         hub.Results.IsExactly(Expected);
 
         hub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

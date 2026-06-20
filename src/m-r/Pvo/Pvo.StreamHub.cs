@@ -193,21 +193,21 @@ public static partial class Pvo
         => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
 
     /// <summary>
-    /// Creates a PVO streaming hub from a quote provider (extracts Volume).
+    /// Creates a PVO streaming hub from a bar provider (extracts Volume).
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="fastPeriods">Number of periods for the fast EMA. Default is 12.</param>
     /// <param name="slowPeriods">Number of periods for the slow EMA. Default is 26.</param>
     /// <param name="signalPeriods">Number of periods for the signal line. Default is 9.</param>
     /// <returns>A PVO hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     public static PvoHub ToPvoHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        => quoteProvider
-            .ToQuotePartHub(CandlePart.Volume)
+        => barProvider
+            .ToBarPartHub(CandlePart.Volume)
             .ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
 }

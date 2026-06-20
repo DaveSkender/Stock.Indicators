@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Keltner Channels from incremental quote values.
+/// Keltner Channels from incremental bar values.
 /// </summary>
-public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
+public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromBar
 {
     private readonly EmaList _emaList;
     private readonly AtrList _atrList;
@@ -34,18 +34,18 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KeltnerList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="KeltnerList"/> class with initial bars.
     /// </summary>
     /// <param name="emaPeriods">Number of periods for the EMA.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="atrPeriods">Number of periods for the ATR.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public KeltnerList(
         int emaPeriods,
         double multiplier,
         int atrPeriods,
-        IReadOnlyList<IQuote> quotes)
-        : this(emaPeriods, multiplier, atrPeriods) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(emaPeriods, multiplier, atrPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int EmaPeriods { get; init; }
@@ -57,12 +57,12 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     public int AtrPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        _emaList.Add(quote);
-        _atrList.Add(quote);
+        _emaList.Add(bar);
+        _atrList.Add(bar);
 
         if (Count >= _lookbackPeriods - 1)
         {
@@ -71,7 +71,7 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
             double? atrSpan = atr.Atr * Multiplier;
 
             AddInternal(new KeltnerResult(
-                Timestamp: quote.Timestamp,
+                Timestamp: bar.Timestamp,
                 UpperBand: ema.Ema + atrSpan,
                 Centerline: ema.Ema,
                 LowerBand: ema.Ema - atrSpan,
@@ -81,18 +81,18 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
         }
         else
         {
-            AddInternal(new KeltnerResult(quote.Timestamp));
+            AddInternal(new KeltnerResult(bar.Timestamp));
         }
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -110,14 +110,14 @@ public static partial class Keltner
     /// <summary>
     /// Creates a buffer list for Keltner Channels calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="emaPeriods">Number of periods for the exponential moving average</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     /// <param name="atrPeriods">Number of periods for ATR calculation</param>
     public static KeltnerList ToKeltnerList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int emaPeriods = 20,
         double multiplier = 2,
         int atrPeriods = 10)
-        => new(emaPeriods, multiplier, atrPeriods) { quotes };
+        => new(emaPeriods, multiplier, atrPeriods) { bars };
 }

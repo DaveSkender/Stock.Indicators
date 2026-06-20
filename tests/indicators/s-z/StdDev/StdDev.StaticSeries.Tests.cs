@@ -6,7 +6,7 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<StdDevResult> sut = Quotes
+        IReadOnlyList<StdDevResult> sut = Bars
             .ToStdDev(10);
 
         // proper quantities
@@ -39,7 +39,7 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<StdDevResult> sut = Quotes
+        IReadOnlyList<StdDevResult> sut = Bars
             .Use(CandlePart.Close)
             .ToStdDev(10);
 
@@ -50,7 +50,7 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<StdDevResult> sut = Quotes
+        IReadOnlyList<StdDevResult> sut = Bars
             .ToSma(2)
             .ToStdDev(10);
 
@@ -61,7 +61,7 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToStdDev(10)
             .ToSma(10);
 
@@ -70,9 +70,9 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<StdDevResult> r = BadQuotes
+        IReadOnlyList<StdDevResult> r = BadBars
             .ToStdDev(15);
 
         r.Should().HaveCount(502);
@@ -80,23 +80,23 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<StdDevResult> r = BigQuotes
+        IReadOnlyList<StdDevResult> r = BigBars
             .ToStdDev(200);
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<StdDevResult> r0 = Noquotes
+        IReadOnlyList<StdDevResult> r0 = Nobars
             .ToStdDev(10);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<StdDevResult> r1 = Onequote
+        IReadOnlyList<StdDevResult> r1 = Onebar
             .ToStdDev(10);
 
         r1.Should().HaveCount(1);
@@ -105,7 +105,7 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<StdDevResult> sut = Quotes
+        IReadOnlyList<StdDevResult> sut = Bars
             .ToStdDev(10)
             .RemoveWarmupPeriods();
 
@@ -121,7 +121,7 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod] // bad lookback period
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToStdDev(1))
+            .Invoking(static () => Bars.ToStdDev(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

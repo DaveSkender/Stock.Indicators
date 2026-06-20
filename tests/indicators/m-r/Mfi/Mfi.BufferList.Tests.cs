@@ -6,10 +6,10 @@ public class Mfi : BufferListTestBase
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<MfiResult> series
-       = Quotes.ToMfi(lookbackPeriods);
+       = Bars.ToMfi(lookbackPeriods);
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<MfiResult> sut = Data
             .GetRandom(2500)
@@ -21,46 +21,46 @@ public class Mfi : BufferListTestBase
     [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
-        MfiList sut = new(14, Quotes);
+        MfiList sut = new(14, Bars);
         sut.IsBetween(static x => x.Mfi, 0, 100);
     }
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         MfiList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        MfiList sut = new(lookbackPeriods) { Quotes };
+        MfiList sut = new(lookbackPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        MfiList sut = new(lookbackPeriods, Quotes);
+        MfiList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<MfiResult> expected = subset.ToMfi(lookbackPeriods);
 
         MfiList sut = new(lookbackPeriods, subset);
@@ -87,7 +87,7 @@ public class Mfi : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<MfiResult> expected = series
             .Skip(series.Count - maxListSize)

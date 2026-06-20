@@ -7,42 +7,42 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     private const double standardDeviations = 2;
 
     private static readonly IReadOnlyList<IReusable> reusables
-        = Quotes
+        = Bars
             .Cast<IReusable>()
             .ToList();
 
     private static readonly IReadOnlyList<BollingerBandsResult> series
-        = Quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
+        = Bars.ToBollingerBands(lookbackPeriods, standardDeviations);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { Quotes };
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations, Quotes);
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -56,7 +56,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -65,7 +65,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -79,14 +79,14 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<BollingerBandsResult> expected = subset.ToBollingerBands(lookbackPeriods, standardDeviations);
 
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations, subset);
@@ -113,7 +113,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<BollingerBandsResult> expected = series
             .Skip(series.Count - maxListSize)

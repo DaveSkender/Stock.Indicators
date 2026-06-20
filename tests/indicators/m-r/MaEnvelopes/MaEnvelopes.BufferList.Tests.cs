@@ -7,42 +7,42 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     private const double percentOffset = 2.5;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<MaEnvelopeResult> series
-       = Quotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
+       = Bars.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        MaEnvelopesList sut = Quotes.ToMaEnvelopesList(lookbackPeriods, percentOffset);
+        MaEnvelopesList sut = Bars.ToMaEnvelopesList(lookbackPeriods, percentOffset);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        MaEnvelopesList sut = new(lookbackPeriods, percentOffset, MaType.SMA, Quotes);
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset, MaType.SMA, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -56,7 +56,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -65,7 +65,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -79,27 +79,27 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public void WithEmaType_AsMaType_ReturnsExpectedResult()
     {
-        IReadOnlyList<MaEnvelopeResult> expected = Quotes.ToMaEnvelopes(
+        IReadOnlyList<MaEnvelopeResult> expected = Bars.ToMaEnvelopes(
             lookbackPeriods, percentOffset, MaType.EMA);
 
-        MaEnvelopesList sut = Quotes.ToMaEnvelopesList(
+        MaEnvelopesList sut = Bars.ToMaEnvelopesList(
             lookbackPeriods, percentOffset, MaType.EMA);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<MaEnvelopeResult> expected = subset.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset, MaType.SMA, subset);
@@ -126,7 +126,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<MaEnvelopeResult> expected = series
             .Skip(series.Count - maxListSize)

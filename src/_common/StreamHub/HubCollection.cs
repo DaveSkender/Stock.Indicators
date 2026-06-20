@@ -8,20 +8,20 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// <para>
 /// This collection stores hubs using the covariant <see cref="IStreamObservable{T}"/> interface
-/// to support heterogeneous hub types (e.g., EmaHub, RsiHub, QuoteHub) in a single collection.
+/// to support heterogeneous hub types (e.g., EmaHub, RsiHub, BarHub) in a single collection.
 /// All concrete hub implementations inherit from <see cref="StreamHub{TIn, TOut}"/> which implements
 /// both <see cref="IStreamHub{TIn, TOut}"/> and <see cref="IStreamObservable{T}"/>.
 /// </para>
 /// </remarks>
 /// <example>
 /// <code>
-/// QuoteHub quoteHub = new();
+/// BarHub barHub = new();
 ///
 /// HubCollection hubs =
 /// [
-///     quoteHub.ToEmaHub(12),
-///     quoteHub.ToEmaHub(26),
-///     quoteHub.ToRsiHub(14)
+///     barHub.ToEmaHub(12),
+///     barHub.ToEmaHub(26),
+///     barHub.ToRsiHub(14)
 /// ];
 ///
 /// // Access results from all hubs

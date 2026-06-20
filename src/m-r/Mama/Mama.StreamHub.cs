@@ -74,7 +74,7 @@ public class MamaHub
             ph.Add(0);
         }
 
-        // prefer HL2 when available (IQuote), matching static series behavior
+        // prefer HL2 when available (IBar), matching static series behavior
         pr[i] = item.Hl2OrValue();
 
         // Skip incalculable periods

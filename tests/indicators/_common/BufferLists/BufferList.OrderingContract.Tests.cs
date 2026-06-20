@@ -20,20 +20,20 @@ public class OrderingContract : TestBase
     public void OrderedInput_MatchesSeriesOracle()
     {
         // Positive control: chronological input reproduces the batch series exactly.
-        IReadOnlyList<Quote> quotes = Quotes.Take(60).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
 
         SmaList sut = new(20);
-        sut.Add(quotes);
+        sut.Add(bars);
 
-        sut.IsExactly(quotes.ToSma(20));
+        sut.IsExactly(bars.ToSma(20));
     }
 
     [TestMethod]
     public void OutOfOrderInput_IsAppendedVerbatim_NotSortedOrCorrected()
     {
-        // Swap two adjacent quotes to feed an out-of-order series.
-        IReadOnlyList<Quote> quotes = Quotes.Take(60).ToList();
-        List<Quote> scrambled = [.. quotes];
+        // Swap two adjacent bars to feed an out-of-order series.
+        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
+        List<Bar> scrambled = [.. bars];
         (scrambled[40], scrambled[41]) = (scrambled[41], scrambled[40]);
 
         SmaList sut = new(20);
@@ -59,16 +59,16 @@ public class OrderingContract : TestBase
     {
         // Unlike a StreamHub (which treats a same-timestamp re-send as a
         // correction/rollback), a buffer list appends a second row.
-        IReadOnlyList<Quote> quotes = Quotes.Take(30).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(30).ToList();
 
         SmaList sut = new(20);
-        sut.Add(quotes);
+        sut.Add(bars);
         int countBeforeResend = sut.Count;
 
-        sut.Add(quotes[^1]); // re-send the latest quote (same timestamp)
+        sut.Add(bars[^1]); // re-send the latest bar (same timestamp)
 
         sut.Should().HaveCount(countBeforeResend + 1);
-        sut[^1].Timestamp.Should().Be(quotes[^1].Timestamp);
-        sut[^2].Timestamp.Should().Be(quotes[^1].Timestamp);
+        sut[^1].Timestamp.Should().Be(bars[^1].Timestamp);
+        sut[^2].Timestamp.Should().Be(bars[^1].Timestamp);
     }
 }

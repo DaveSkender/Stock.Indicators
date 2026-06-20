@@ -15,7 +15,7 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 ```csharp
 // C# usage syntax
 IReadOnlyList<FisherTransformResult> results =
-  quotes.ToFisherTransform(lookbackPeriods);
+  bars.ToFisherTransform(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<FisherTransformResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `N` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N` periods of `quotes` to cover the [warmup and converge
 IReadOnlyList<FisherTransformResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 
 ::: warning ⚞ Convergence warning
@@ -48,7 +48,7 @@ The first `N+15` warmup periods will have unusable decreasing magnitude, converg
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Fisher` | double | Fisher Transform |
 | `Trigger` | double | FT offset by one period |
 
@@ -61,7 +61,7 @@ The first `N+15` warmup periods will have unusable decreasing magnitude, converg
 For pruning of warmup periods, we recommend using the following guidelines:
 
 ```csharp
-quotes.ToFisherTransform(lookbackPeriods)
+bars.ToFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToFisherTransform(..);
 ```
@@ -82,7 +82,7 @@ Results can be further processed on `Alma` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToFisherTransform(..)
     .ToRsi(..);
 ```
@@ -96,24 +96,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 FisherTransformList fisherList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  fisherList.Add(quote);
+  fisherList.Add(bar);
 }
 
 // based on `ICollection<FisherTransformResult>`
 IReadOnlyList<FisherTransformResult> results = fisherList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-FisherTransformHub observer = quoteHub.ToFisherTransformHub(lookbackPeriods);
+BarHub barHub = new();
+FisherTransformHub observer = barHub.ToFisherTransformHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<FisherTransformResult> results = observer.Results;

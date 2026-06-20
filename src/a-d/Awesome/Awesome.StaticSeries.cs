@@ -20,7 +20,7 @@ public static partial class Awesome
         // check parameter arguments
         Validate(fastPeriods, slowPeriods);
 
-        // prefer HL2 when IQuote
+        // prefer HL2 when IBar
         IReadOnlyList<IReusable> values
             = source.ToPreferredList(CandlePart.HL2);
 

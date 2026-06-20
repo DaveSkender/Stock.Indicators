@@ -3,10 +3,10 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating CMF stream hubs.
 /// </summary>
-public class CmfHub : ChainHub<IQuote, CmfResult>, ICmf
+public class CmfHub : ChainHub<IBar, CmfResult>, ICmf
 {
     internal CmfHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods)
         : base(provider)
     {
@@ -29,7 +29,7 @@ public class CmfHub : ChainHub<IQuote, CmfResult>, ICmf
 
     /// <inheritdoc/>
     protected override (CmfResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -56,7 +56,7 @@ public class CmfHub : ChainHub<IQuote, CmfResult>, ICmf
             // Sum over the lookback period
             for (int p = i + 1 - LookbackPeriods; p <= i; p++)
             {
-                IQuote q = ProviderCache[p];
+                IBar q = ProviderCache[p];
                 double h = (double)q.High;
                 double l = (double)q.Low;
                 double c = (double)q.Close;
@@ -92,18 +92,18 @@ public class CmfHub : ChainHub<IQuote, CmfResult>, ICmf
 public static partial class Cmf
 {
     /// <summary>
-    /// Converts the quote provider to a CMF hub.
+    /// Converts the bar provider to a CMF hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CMF hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static CmfHub ToCmfHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 20)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new(barProvider, lookbackPeriods);
     }
 }

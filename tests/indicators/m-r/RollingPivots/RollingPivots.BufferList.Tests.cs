@@ -1,51 +1,51 @@
 namespace BufferLists;
 
 [TestClass]
-public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
+public class RollingPivots : BufferListTestBase, ITestBarBufferList
 {
     private const int windowPeriods = 20;
     private const int offsetPeriods = 0;
     private const PivotPointType pointType = PivotPointType.Standard;
 
     private static readonly IReadOnlyList<RollingPivotsResult> series
-       = Quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
+       = Bars.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType) { Quotes };
+        RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType, Quotes);
+        RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<RollingPivotsResult> expected = subset.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType, subset);
@@ -72,7 +72,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<RollingPivotsResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -89,10 +89,10 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
         const int altOffsetPeriods = 2;
         const PivotPointType altPointType = PivotPointType.Fibonacci;
 
-        IReadOnlyList<RollingPivotsResult> expected = Quotes.ToRollingPivots(altWindowPeriods, altOffsetPeriods, altPointType);
-        RollingPivotsList sut = new(altWindowPeriods, altOffsetPeriods, altPointType) { Quotes };
+        IReadOnlyList<RollingPivotsResult> expected = Bars.ToRollingPivots(altWindowPeriods, altOffsetPeriods, altPointType);
+        RollingPivotsList sut = new(altWindowPeriods, altOffsetPeriods, altPointType) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(expected);
     }
 

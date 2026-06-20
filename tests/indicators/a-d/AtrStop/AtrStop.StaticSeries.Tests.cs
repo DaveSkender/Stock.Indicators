@@ -9,7 +9,7 @@ public class AtrStop : StaticSeriesTestBase
         const int lookbackPeriods = 21;
         const double multiplier = 3;
 
-        IReadOnlyList<AtrStopResult> sut = Quotes
+        IReadOnlyList<AtrStopResult> sut = Bars
             .ToAtrStop(lookbackPeriods, multiplier);
 
         // proper quantities
@@ -54,7 +54,7 @@ public class AtrStop : StaticSeriesTestBase
         const int lookbackPeriods = 21;
         const double multiplier = 3;
 
-        IReadOnlyList<AtrStopResult> sut = Quotes
+        IReadOnlyList<AtrStopResult> sut = Bars
             .ToAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
 
         // proper quantities
@@ -94,23 +94,23 @@ public class AtrStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<AtrStopResult> r = BadQuotes
+        IReadOnlyList<AtrStopResult> r = BadBars
             .ToAtrStop(7);
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<AtrStopResult> r0 = Noquotes
+        IReadOnlyList<AtrStopResult> r0 = Nobars
             .ToAtrStop();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<AtrStopResult> r1 = Onequote
+        IReadOnlyList<AtrStopResult> r1 = Onebar
             .ToAtrStop();
 
         r1.Should().HaveCount(1);
@@ -122,7 +122,7 @@ public class AtrStop : StaticSeriesTestBase
         const int lookbackPeriods = 21;
         const double multiplier = 3;
 
-        IReadOnlyList<AtrStopResult> sut = Quotes
+        IReadOnlyList<AtrStopResult> sut = Bars
             .ToAtrStop(lookbackPeriods, multiplier)
             .Condense();
 
@@ -141,7 +141,7 @@ public class AtrStop : StaticSeriesTestBase
         const int lookbackPeriods = 21;
         const double multiplier = 3;
 
-        IReadOnlyList<AtrStopResult> sut = Quotes
+        IReadOnlyList<AtrStopResult> sut = Bars
             .ToAtrStop(lookbackPeriods, multiplier)
             .RemoveWarmupPeriods();
 
@@ -159,10 +159,10 @@ public class AtrStop : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAtrStop(1));
+            static () => Bars.ToAtrStop(1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAtrStop(7, 0));
+            static () => Bars.ToAtrStop(7, 0));
     }
 }

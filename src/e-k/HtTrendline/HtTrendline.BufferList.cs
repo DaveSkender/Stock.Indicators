@@ -255,7 +255,7 @@ public class HtTrendlineList : BufferList<HtlResult>, IIncrementFromChain
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        // prefer HL2 when source is an IQuote to match StaticSeries behavior
+        // prefer HL2 when source is an IBar to match StaticSeries behavior
         Add(value.Timestamp, value.Hl2OrValue());
     }
 

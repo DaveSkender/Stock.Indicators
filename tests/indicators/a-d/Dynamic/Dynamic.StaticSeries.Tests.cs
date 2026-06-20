@@ -6,7 +6,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<DynamicResult> sut = Quotes
+        IReadOnlyList<DynamicResult> sut = Bars
             .ToDynamic(14);
 
         // assertions
@@ -30,7 +30,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<DynamicResult> sut = Quotes
+        IReadOnlyList<DynamicResult> sut = Bars
             .Use(CandlePart.Close)
             .ToDynamic(20);
 
@@ -42,7 +42,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<DynamicResult> sut = Quotes
+        IReadOnlyList<DynamicResult> sut = Bars
             .ToSma(10)
             .ToDynamic(14);
 
@@ -53,7 +53,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToDynamic(14)
             .ToSma(10);
 
@@ -62,9 +62,9 @@ public class McGinleyDynamic : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<DynamicResult> r = BadQuotes
+        IReadOnlyList<DynamicResult> r = BadBars
             .ToDynamic(15);
 
         r.Should().HaveCount(502);
@@ -72,14 +72,14 @@ public class McGinleyDynamic : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<DynamicResult> r0 = Noquotes
+        IReadOnlyList<DynamicResult> r0 = Nobars
             .ToDynamic(14);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<DynamicResult> r1 = Onequote
+        IReadOnlyList<DynamicResult> r1 = Onebar
             .ToDynamic(14);
 
         r1.Should().HaveCount(1);
@@ -90,10 +90,10 @@ public class McGinleyDynamic : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToDynamic(0));
+            static () => Bars.ToDynamic(0));
 
         // bad k-factor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToDynamic(14, 0));
+            static () => Bars.ToDynamic(14, 0));
     }
 }

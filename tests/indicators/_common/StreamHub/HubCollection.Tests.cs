@@ -18,11 +18,11 @@ public class HubCollectionTests : TestBase
     public void HubCollection_InitializeAsCollection_MixedHubTypes()
     {
         // arrange
-        QuoteHub quoteHub = new();
-        EmaHub emaFastHub = quoteHub.ToEmaHub(50);
-        EmaHub emaSlowHub = quoteHub.ToEmaHub(200);
-        RsiHub rsiHub = quoteHub.ToRsiHub(14);
-        DonchianHub donchianHub = quoteHub.ToDonchianHub(20);
+        BarHub barHub = new();
+        EmaHub emaFastHub = barHub.ToEmaHub(50);
+        EmaHub emaSlowHub = barHub.ToEmaHub(200);
+        RsiHub rsiHub = barHub.ToRsiHub(14);
+        DonchianHub donchianHub = barHub.ToDonchianHub(20);
 
         // act - collection initializer syntax with mixed hub types
         HubCollection hubs =
@@ -30,18 +30,18 @@ public class HubCollectionTests : TestBase
             emaFastHub,
             emaSlowHub,
             rsiHub,
-            quoteHub,   // QuoteProvider type
+            barHub,   // BarProvider type
             donchianHub // Non-reusable types
         ];
 
         // assert - verify hub references are the same (not copied)
         hubs.Should().NotBeNull();
         hubs.Should().HaveCount(5);
-        quoteHub.ObserverCount.Should().Be(4);
+        barHub.ObserverCount.Should().Be(4);
         hubs[0].Should().BeSameAs(emaFastHub);
         hubs[1].Should().BeSameAs(emaSlowHub);
         hubs[2].Should().BeSameAs(rsiHub);
-        hubs[3].Should().BeSameAs(quoteHub);
+        hubs[3].Should().BeSameAs(barHub);
         hubs[4].Should().BeSameAs(donchianHub);
     }
 
@@ -49,10 +49,10 @@ public class HubCollectionTests : TestBase
     public void HubCollection_UsingCtorWithEnumerable_HasHubRefs()
     {
         // arrange
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        EmaHub emaHub = quoteHub.ToEmaHub(200);
-        RsiHub rsiHub = quoteHub.ToRsiHub(14);
+        EmaHub emaHub = barHub.ToEmaHub(200);
+        RsiHub rsiHub = barHub.ToRsiHub(14);
 
         IEnumerable<IStreamObservable<IReusable>> hubEnumerable =
         [
@@ -65,7 +65,7 @@ public class HubCollectionTests : TestBase
 
         // assert - verify hub references are the same (not copied)
         hubs.Should().HaveCount(2);
-        quoteHub.ObserverCount.Should().Be(2);
+        barHub.ObserverCount.Should().Be(2);
         hubs[0].Should().BeSameAs(emaHub);
         hubs[1].Should().BeSameAs(rsiHub);
     }
@@ -74,12 +74,12 @@ public class HubCollectionTests : TestBase
     public void HubCollection_UseCtorWithList_HasHubRefs()
     {
         // arrange
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         List<IStreamObservable<IReusable>> hubList =
         [
-            quoteHub.ToEmaHub(20),
-            quoteHub.ToRsiHub(14)
+            barHub.ToEmaHub(20),
+            barHub.ToRsiHub(14)
         ];
 
         // act
@@ -87,18 +87,18 @@ public class HubCollectionTests : TestBase
 
         // assert - verify hub references are the same (not copied)
         hubs.Should().HaveCount(2);
-        quoteHub.ObserverCount.Should().Be(2);
+        barHub.ObserverCount.Should().Be(2);
         hubs[0].Should().BeSameAs(hubList[0]);
         hubs[1].Should().BeSameAs(hubList[1]);
     }
 
     [TestMethod]
-    public void HubCollection_WithQuoteIncrements_HasCorrectResults()
+    public void HubCollection_WithBarIncrements_HasCorrectResults()
     {
         // arrange
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(20);
-        RsiHub rsiHub = quoteHub.ToRsiHub(14);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(20);
+        RsiHub rsiHub = barHub.ToRsiHub(14);
 
         HubCollection hubs = [emaHub, rsiHub];
 
@@ -106,16 +106,16 @@ public class HubCollectionTests : TestBase
         emaHub.Results.Should().BeEmpty();
         rsiHub.Results.Should().BeEmpty();
 
-        // act - add quotes AFTER collection creation
-        foreach (Quote q in Quotes)
+        // act - add bars AFTER collection creation
+        foreach (Bar q in Bars)
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         // assert - verify exact same instance
         hubs[0].Should().BeSameAs(emaHub);
         hubs[1].Should().BeSameAs(rsiHub);
-        quoteHub.ObserverCount.Should().Be(2);
+        barHub.ObserverCount.Should().Be(2);
 
         // assert - contain equivalent results
         emaHub.Results.Should().HaveCount(502);
@@ -131,16 +131,16 @@ public class HubCollectionTests : TestBase
     public void HubCollection_ResultsSnapshot_ReturnsLiveView()
     {
         // arrange
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(20);
-        RsiHub rsiHub = quoteHub.ToRsiHub(14);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(20);
+        RsiHub rsiHub = barHub.ToRsiHub(14);
 
         HubCollection hubs = [emaHub, rsiHub];
 
-        // act - add initial quotes
+        // act - add initial bars
         for (int i = 0; i < 100; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // act - store results snapshot
@@ -153,10 +153,10 @@ public class HubCollectionTests : TestBase
         resultsSnapshot[0].Should().HaveCount(initialCount);
         resultsSnapshot[1].Should().HaveCount(initialCount);
 
-        // act - add MORE quotes after getting results
+        // act - add MORE bars after getting results
         for (int i = 100; i < 200; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // assert - final results count updated in snapshot
@@ -165,28 +165,28 @@ public class HubCollectionTests : TestBase
         resultsSnapshot[0].Should().HaveCount(finalCount);
         resultsSnapshot[1].Should().HaveCount(finalCount);
 
-        // assert - last element is from the newly added quotes
-        resultsSnapshot[0][^1].Timestamp.Should().Be(Quotes[199].Timestamp);
+        // assert - last element is from the newly added bars
+        resultsSnapshot[0][^1].Timestamp.Should().Be(Bars[199].Timestamp);
 
         // assert - provider shows correct observer count
-        quoteHub.ObserverCount.Should().Be(2);
+        barHub.ObserverCount.Should().Be(2);
     }
 
     [TestMethod]
     public void HubCollection_Results_ReturnsAllHubResults()
     {
         // arrange
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(20);
-        RsiHub rsiHub = quoteHub.ToRsiHub(14);
-        DonchianHub donchianHub = quoteHub.ToDonchianHub(20);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(20);
+        RsiHub rsiHub = barHub.ToRsiHub(14);
+        DonchianHub donchianHub = barHub.ToDonchianHub(20);
 
         HubCollection hubs = [emaHub, rsiHub, donchianHub];
 
-        // act - add quotes
-        foreach (Quote q in Quotes.Take(100))
+        // act - add bars
+        foreach (Bar q in Bars.Take(100))
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         // act - get results enumerable
@@ -210,16 +210,16 @@ public class HubCollectionTests : TestBase
     public void HubCollection_LastValues_ReturnsReusableValues()
     {
         // arrange
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(20);
-        RsiHub rsiHub = quoteHub.ToRsiHub(14);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(20);
+        RsiHub rsiHub = barHub.ToRsiHub(14);
 
         HubCollection hubs = [emaHub, rsiHub];
 
-        // act - add quotes
-        foreach (Quote q in Quotes.Take(100))
+        // act - add bars
+        foreach (Bar q in Bars.Take(100))
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         // act - get last values
@@ -241,16 +241,16 @@ public class HubCollectionTests : TestBase
     public void HubCollection_LastValues_WithNonReusable_ReturnsNaN()
     {
         // arrange
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(20);
-        DonchianHub donchianHub = quoteHub.ToDonchianHub(20);  // Non-reusable result
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(20);
+        DonchianHub donchianHub = barHub.ToDonchianHub(20);  // Non-reusable result
 
         HubCollection hubs = [emaHub, donchianHub];
 
-        // act - add quotes
-        foreach (Quote q in Quotes.Take(100))
+        // act - add bars
+        foreach (Bar q in Bars.Take(100))
         {
-            quoteHub.Add(q);
+            barHub.Add(q);
         }
 
         // act - get last values
@@ -271,13 +271,13 @@ public class HubCollectionTests : TestBase
     public void HubCollection_LastValues_WithEmptyResults_ReturnsNaN()
     {
         // arrange
-        QuoteHub quoteHub = new();
-        EmaHub emaHub = quoteHub.ToEmaHub(20);
-        RsiHub rsiHub = quoteHub.ToRsiHub(14);
+        BarHub barHub = new();
+        EmaHub emaHub = barHub.ToEmaHub(20);
+        RsiHub rsiHub = barHub.ToRsiHub(14);
 
         HubCollection hubs = [emaHub, rsiHub];
 
-        // act - get last values WITHOUT adding quotes
+        // act - get last values WITHOUT adding bars
         List<double> lastValues = hubs.LastValues.ToList();
 
         // assert - count matches hub count

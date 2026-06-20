@@ -1,41 +1,41 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Balance of Power (BOP) on a series of quotes indicator.
+/// Balance of Power (BOP) on a series of bars indicator.
 /// </summary>
 public static partial class Bop
 {
     /// <summary>
-    /// Calculates the Balance of Power (BOP) for a series of quotes.
+    /// Calculates the Balance of Power (BOP) for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="smoothPeriods">Number of periods to use for smoothing. Default is 14.</param>
     /// <returns>A read-only list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     public static IReadOnlyList<BopResult> ToBop(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int smoothPeriods = 14)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcBop(smoothPeriods);
 
     /// <summary>
-    /// Calculates the Balance of Power (BOP) for a series of quotes.
+    /// Calculates the Balance of Power (BOP) for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="smoothPeriods">Number of periods to use for smoothing.</param>
     /// <returns>A list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     private static List<BopResult> CalcBop(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int smoothPeriods)
     {
         // check parameter arguments
         Validate(smoothPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<BopResult> results = new(length);
 
-        double[] raw = quotes
+        double[] raw = bars
             .Select(static x => x.High - x.Low != 0 ?
                 (x.Close - x.Open) / (x.High - x.Low) : double.NaN)
             .ToArray();
@@ -57,7 +57,7 @@ public static partial class Bop
             }
 
             results.Add(new(
-                Timestamp: quotes[i].Timestamp,
+                Timestamp: bars[i].Timestamp,
                 Bop: bop.NaN2Null()));
         }
 

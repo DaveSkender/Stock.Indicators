@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Ultimate Oscillator from incremental quotes.
+/// Ultimate Oscillator from incremental bars.
 /// </summary>
-public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUltimate
+public class UltimateList : BufferList<UltimateResult>, IIncrementFromBar, IUltimate
 {
     private readonly Queue<(double Bp, double Tr)> _buffer;
     private readonly (double Bp, double Tr)[] _bufferArray;
@@ -35,18 +35,18 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UltimateList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="UltimateList"/> class with initial bars.
     /// </summary>
     /// <param name="shortPeriods">Number of short periods.</param>
     /// <param name="middlePeriods">Number of middle periods.</param>
     /// <param name="longPeriods">Number of long periods.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public UltimateList(
         int shortPeriods,
         int middlePeriods,
         int longPeriods,
-        IReadOnlyList<IQuote> quotes)
-        : this(shortPeriods, middlePeriods, longPeriods) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(shortPeriods, middlePeriods, longPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int ShortPeriods { get; init; }
@@ -58,14 +58,14 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     public int LongPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
-        double close = (double)quote.Close;
+        DateTime timestamp = bar.Timestamp;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
+        double close = (double)bar.Close;
 
         // Handle first period - no calculation possible
         if (!_isInitialized)
@@ -138,13 +138,13 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -163,14 +163,14 @@ public static partial class Ultimate
     /// <summary>
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="shortPeriods">Number of periods for short calculation</param>
     /// <param name="middlePeriods">Number of periods for middle calculation</param>
     /// <param name="longPeriods">Number of periods for long calculation</param>
     public static UltimateList ToUltimateList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int shortPeriods = 7,
         int middlePeriods = 14,
         int longPeriods = 28)
-        => new(shortPeriods, middlePeriods, longPeriods) { quotes };
+        => new(shortPeriods, middlePeriods, longPeriods) { bars };
 }

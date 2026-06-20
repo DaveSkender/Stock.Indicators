@@ -11,14 +11,14 @@ Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlesti
 ```csharp
 // C# usage syntax
 IReadOnlyList<HeikinAshiResult> results =
-  quotes.ToHeikinAshi();
+  bars.ToHeikinAshi();
 ```
 
-## Historical quotes requirements
+## Historical price bars requirements
 
-You must have at least two periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least two periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -26,48 +26,48 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 IReadOnlyList<HeikinAshiResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
-- `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
+- `HeikinAshiResult` is based on `IBar`, so it can be used as a direct replacement for `bars`.
 
 ### `HeikinAshiResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Open` | decimal | Modified open price |
 | `High` | decimal | Modified high price |
 | `Low` | decimal | Modified low price |
 | `Close` | decimal | Modified close price |
-| `Volume` | decimal | Volume (same as `quotes`) |
+| `Volume` | decimal | Volume (same as `bars`) |
 
 ### Utilities
 
 - [.Find(lookupDate)](/utilities/results/find-by-date)
 - [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
-- .ToQuotes() to convert to a `Quote` collection.  Example:
+- .ToBars() to convert to a `Bar` collection.  Example:
 
   ```csharp
-  IReadOnlyList<Quote> results = quotes
+  IReadOnlyList<Bar> results = bars
     .ToHeikinAshi()
-    .ToQuotes();
+    .ToBars();
   ```
 
 See [Utilities and helpers](/utilities/results/) for more information.
 
 ## Chaining
 
-Results are based in `IQuote` and can be further used in any indicator.
+Results are based in `IBar` and can be further used in any indicator.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToHeikinAshi(..)
     .ToRsi(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -78,24 +78,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 HeikinAshiList heikinAshiList = new();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  heikinAshiList.Add(quote);
+  heikinAshiList.Add(bar);
 }
 
 // based on `ICollection<HeikinAshiResult>`
 IReadOnlyList<HeikinAshiResult> results = heikinAshiList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-HeikinAshiHub observer = quoteHub.ToHeikinAshiHub();
+BarHub barHub = new();
+HeikinAshiHub observer = barHub.ToHeikinAshiHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<HeikinAshiResult> results = observer.Results;

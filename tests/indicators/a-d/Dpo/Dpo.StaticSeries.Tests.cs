@@ -7,7 +7,7 @@ public class Dpo : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         // get expected data
-        List<Quote> qot = [];
+        List<Bar> qot = [];
         List<DpoResult> exp = [];
 
         List<string> csvData = File.ReadAllLines("_testdata/results/dpo.standard.csv")
@@ -19,7 +19,7 @@ public class Dpo : StaticSeriesTestBase
             string[] csv = csvData[i].Split(",");
             DateTime date = Convert.ToDateTime(csv[1], invariantCulture);
 
-            qot.Add(new Quote(date, 0, 0, 0, Close: csv[5].ToDecimal(), 0));
+            qot.Add(new Bar(date, 0, 0, 0, Close: csv[5].ToDecimal(), 0));
             exp.Add(new(date, csv[7].ToDoubleNull(), csv[6].ToDoubleNull()));
         }
 
@@ -44,7 +44,7 @@ public class Dpo : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<DpoResult> sut = Quotes
+        IReadOnlyList<DpoResult> sut = Bars
             .Use(CandlePart.Close)
             .ToDpo(14);
 
@@ -55,7 +55,7 @@ public class Dpo : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<DpoResult> sut = Quotes
+        IReadOnlyList<DpoResult> sut = Bars
             .ToSma(2)
             .ToDpo(14);
 
@@ -66,7 +66,7 @@ public class Dpo : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToDpo(14)
             .ToSma(10);
 
@@ -75,9 +75,9 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<DpoResult> r = BadQuotes
+        IReadOnlyList<DpoResult> r = BadBars
             .ToDpo(5);
 
         r.Should().HaveCount(502);
@@ -85,14 +85,14 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<DpoResult> r0 = Noquotes
+        IReadOnlyList<DpoResult> r0 = Nobars
             .ToDpo(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<DpoResult> r1 = Onequote
+        IReadOnlyList<DpoResult> r1 = Onebar
             .ToDpo(5);
 
         r1.Should().HaveCount(1);
@@ -104,7 +104,7 @@ public class Dpo : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToDpo(0))
+            .Invoking(static () => Bars.ToDpo(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

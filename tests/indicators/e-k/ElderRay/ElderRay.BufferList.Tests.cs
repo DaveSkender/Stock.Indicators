@@ -6,37 +6,37 @@ public class ElderRay : BufferListTestBase
     private const int lookbackPeriods = 13;
 
     private static readonly IReadOnlyList<ElderRayResult> series
-       = Quotes.ToElderRay(lookbackPeriods);
+       = Bars.ToElderRay(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         ElderRayList sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Bar q in Bars) { sut.Add(q); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        ElderRayList sut = new(lookbackPeriods) { Quotes };
+        ElderRayList sut = new(lookbackPeriods) { Bars };
 
         IReadOnlyList<ElderRayResult> series
-            = Quotes.ToElderRay(lookbackPeriods);
+            = Bars.ToElderRay(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        ElderRayList sut = new(lookbackPeriods, Quotes);
+        ElderRayList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -49,7 +49,7 @@ public class ElderRay : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<ElderRayResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -61,7 +61,7 @@ public class ElderRay : BufferListTestBase
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<ElderRayResult> expected = subset.ToElderRay(lookbackPeriods);
 
         ElderRayList sut = new(lookbackPeriods, subset);

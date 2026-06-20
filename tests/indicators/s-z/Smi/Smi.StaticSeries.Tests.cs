@@ -6,7 +6,7 @@ public class Smi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmiResult> sut = Quotes
+        IReadOnlyList<SmiResult> sut = Bars
             .ToSmi(14, 20, 5);
 
         // proper quantities
@@ -47,7 +47,7 @@ public class Smi : StaticSeriesTestBase
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToSmi(14, 20, 5)
             .ToSma(10);
 
@@ -58,7 +58,7 @@ public class Smi : StaticSeriesTestBase
     [TestMethod]
     public void NoSignal_WithSignalPeriodOne_EqualsOscillator()
     {
-        IReadOnlyList<SmiResult> sut = Quotes
+        IReadOnlyList<SmiResult> sut = Bars
             .ToSmi(5, 20, 20, 1);
 
         // signal equals oscillator
@@ -72,7 +72,7 @@ public class Smi : StaticSeriesTestBase
     [TestMethod]
     public void SmallPeriods_WithMinimalParameters_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmiResult> sut = Quotes
+        IReadOnlyList<SmiResult> sut = Bars
             .ToSmi(1, 1, 1, 5);
 
         // sample values
@@ -90,9 +90,9 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<SmiResult> r = BadQuotes
+        IReadOnlyList<SmiResult> r = BadBars
             .ToSmi(5, 5, 1, 5);
 
         r.Should().HaveCount(502);
@@ -100,14 +100,14 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<SmiResult> r0 = Noquotes
+        IReadOnlyList<SmiResult> r0 = Nobars
             .ToSmi(5, 5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<SmiResult> r1 = Onequote
+        IReadOnlyList<SmiResult> r1 = Onebar
             .ToSmi(5, 3, 3);
 
         r1.Should().HaveCount(1);
@@ -116,7 +116,7 @@ public class Smi : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<SmiResult> sut = Quotes
+        IReadOnlyList<SmiResult> sut = Bars
             .ToSmi(14, 20, 5)
             .RemoveWarmupPeriods();
 
@@ -133,18 +133,18 @@ public class Smi : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSmi(0, 5, 5, 5));
+            static () => Bars.ToSmi(0, 5, 5, 5));
 
         // bad first smooth period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSmi(14, 0, 5, 5));
+            static () => Bars.ToSmi(14, 0, 5, 5));
 
         // bad second smooth period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSmi(14, 3, 0, 5));
+            static () => Bars.ToSmi(14, 3, 0, 5));
 
         // bad signal
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSmi(9, 3, 1, 0));
+            static () => Bars.ToSmi(9, 3, 1, 0));
     }
 }

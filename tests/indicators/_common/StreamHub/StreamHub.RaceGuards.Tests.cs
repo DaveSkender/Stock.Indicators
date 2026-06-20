@@ -17,8 +17,8 @@ public class RaceGuards : TestBase
         // 30 initial items are present when the hub rebuilds; a 31st is injected
         // during Subscribe to simulate an item arriving in the rebuild→subscribe
         // gap. The catch-up rebuild must fold it in.
-        List<IReusable> initial = Quotes.Take(30).Cast<IReusable>().ToList();
-        IReusable gapItem = Quotes[30];
+        List<IReusable> initial = Bars.Take(30).Cast<IReusable>().ToList();
+        IReusable gapItem = Bars[30];
 
         GapInjectingProvider provider = new(initial, gapItem);
 
@@ -40,14 +40,14 @@ public class RaceGuards : TestBase
         // subscribe/unsubscribe. Without synchronization, the notify loop's
         // snapshot of the observer set races the churn's mutation and throws
         // (or corrupts). With the guard, neither thread faults.
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // a stable population so each notify fan-out enumerates a non-trivial
         // set (widens the race window the guard must close)
         List<IDisposable> baseSubs = [];
         for (int i = 0; i < 64; i++)
         {
-            baseSubs.Add(quoteHub.Subscribe(new NoopObserver()));
+            baseSubs.Add(barHub.Subscribe(new NoopObserver()));
         }
 
         ConcurrentBag<Exception> failures = [];
@@ -59,7 +59,7 @@ public class RaceGuards : TestBase
                 NoopObserver[] pool = [.. Enumerable.Range(0, 16).Select(_ => new NoopObserver())];
                 while (!done.Token.IsCancellationRequested)
                 {
-                    foreach (IDisposable s in pool.Select(quoteHub.Subscribe).ToList())
+                    foreach (IDisposable s in pool.Select(barHub.Subscribe).ToList())
                     {
                         s.Dispose();
                     }
@@ -72,13 +72,13 @@ public class RaceGuards : TestBase
         });
         churn.Start();
 
-        // single writer: many synthetic, strictly-increasing quotes
+        // single writer: many synthetic, strictly-increasing bars
         try
         {
             DateTime t = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             for (int i = 0; i < 30_000; i++)
             {
-                quoteHub.Add(new Quote(t, 100m, 101m, 99m, 100m, 1000));
+                barHub.Add(new Bar(t, 100m, 101m, 99m, 100m, 1000));
                 t = t.AddMinutes(1);
             }
         }
@@ -100,7 +100,7 @@ public class RaceGuards : TestBase
             s.Dispose();
         }
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ public class RaceGuards : TestBase
         ConcurrentBag<Exception> failures = [];
         using CancellationTokenSource done = new();
 
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         Thread teardown = new(() => {
             try
@@ -124,10 +124,10 @@ public class RaceGuards : TestBase
                 {
                     foreach (NoopObserver o in pool)
                     {
-                        quoteHub.Subscribe(o);
+                        barHub.Subscribe(o);
                     }
 
-                    quoteHub.EndTransmission();
+                    barHub.EndTransmission();
                 }
             }
             catch (Exception ex)
@@ -142,7 +142,7 @@ public class RaceGuards : TestBase
             DateTime t = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             for (int i = 0; i < 20_000; i++)
             {
-                quoteHub.Add(new Quote(t, 100m, 101m, 99m, 100m, 1000));
+                barHub.Add(new Bar(t, 100m, 101m, 99m, 100m, 1000));
                 t = t.AddMinutes(1);
             }
         }
@@ -158,7 +158,7 @@ public class RaceGuards : TestBase
 
         failures.Should().BeEmpty();
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -204,11 +204,11 @@ public class RaceGuards : TestBase
         }
     }
 
-    private sealed class NoopObserver : IStreamObserver<IQuote>
+    private sealed class NoopObserver : IStreamObserver<IBar>
     {
         public bool IsSubscribed => false;
         public void Unsubscribe() { }
-        public void OnAdd(IQuote item, bool notify, int? indexHint) { }
+        public void OnAdd(IBar item, bool notify, int? indexHint) { }
         public void OnRebuild(DateTime fromTimestamp) { }
         public void OnPrune(DateTime toTimestamp) { }
         public void OnError(Exception exception) { }

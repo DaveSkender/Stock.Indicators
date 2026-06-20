@@ -13,14 +13,14 @@ public static partial class Prs
     /// Validates the parameters for PRS calculations.
     /// </summary>
     /// <typeparam name="T">Type of the source values.</typeparam>
-    /// <param name="quotesEval">List of evaluation quotes.</param>
-    /// <param name="quotesBase">List of base quotes.</param>
+    /// <param name="barsEval">List of evaluation bars.</param>
+    /// <param name="barsBase">List of base bars.</param>
     /// <param name="lookbackPeriods">Number of periods for the lookback calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
-    /// <exception cref="InvalidQuotesException">Thrown when there are insufficient quotes or mismatched quote counts.</exception>
+    /// <exception cref="InvalidBarsException">Thrown when there are insufficient bars or mismatched bar counts.</exception>
     internal static void Validate<T>(
-        IReadOnlyList<T> quotesEval,
-        IReadOnlyList<T> quotesBase,
+        IReadOnlyList<T> barsEval,
+        IReadOnlyList<T> barsBase,
         int? lookbackPeriods)
         where T : IReusable
     {
@@ -32,26 +32,26 @@ public static partial class Prs
                 "Lookback periods must be greater than 0 for Price Relative Strength.");
         }
 
-        // check quotes
-        int qtyHistoryEval = quotesEval.Count;
-        int qtyHistoryBase = quotesBase.Count;
+        // check bars
+        int qtyHistoryEval = barsEval.Count;
+        int qtyHistoryBase = barsBase.Count;
 
         if (qtyHistoryEval < lookbackPeriods)
         {
-            string message = "Insufficient quotes provided for Price Relative Strength.  " +
+            string message = "Insufficient bars provided for Price Relative Strength.  " +
                 string.Format(
                     invariantCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
+                    "You provided {0} periods of bars when at least {1} are required.",
                     qtyHistoryEval, lookbackPeriods);
 
-            throw new InvalidQuotesException(nameof(quotesEval), message);
+            throw new InvalidBarsException(nameof(barsEval), message);
         }
 
         if (qtyHistoryBase != qtyHistoryEval)
         {
-            throw new InvalidQuotesException(
-                nameof(quotesBase),
-                "Base quotes should have at least as many records as Eval quotes for PRS.");
+            throw new InvalidBarsException(
+                nameof(barsBase),
+                "Base bars should have at least as many records as Eval bars for PRS.");
         }
     }
 

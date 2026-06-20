@@ -9,8 +9,8 @@ namespace Test.DataGenerator;
 /// </summary>
 internal static class IndicatorExecutor
 {
-    private static readonly IReadOnlyList<Quote> Quotes = TestData.GetDefault();
-    private static readonly IReadOnlyList<Quote> OtherQuotes = TestData.GetCompare();
+    private static readonly IReadOnlyList<Bar> Bars = TestData.GetDefault();
+    private static readonly IReadOnlyList<Bar> OtherBars = TestData.GetCompare();
 
     /// <summary>
     /// Executes an indicator and returns its results.
@@ -28,11 +28,11 @@ internal static class IndicatorExecutor
             throw new InvalidOperationException($"Method name not specified for indicator '{listing.Uiid}'");
         }
 
-        // Check if this indicator uses SeriesParameter (requires dual quote lists)
+        // Check if this indicator uses SeriesParameter (requires dual bar lists)
         bool isDualInput = listing.Parameters?.Any(p => p.DataType == "IReadOnlyList<T> where T : IReusable") == true;
 
         // Find all types in the indicators assembly
-        Assembly indicatorsAssembly = typeof(Quote).Assembly;
+        Assembly indicatorsAssembly = typeof(Bar).Assembly;
 
         // Calculate expected parameter count for method lookup
         // Extension source (this) counts as parameter 1
@@ -114,9 +114,9 @@ internal static class IndicatorExecutor
             throw new InvalidOperationException($"Method '{methodName}' not found for indicator '{listing.Uiid}'");
         }
 
-        // Make generic method with Quote type if it's generic, otherwise use method directly
+        // Make generic method with Bar type if it's generic, otherwise use method directly
         MethodInfo targetMethod = method.IsGenericMethod
-            ? method.MakeGenericMethod(typeof(Quote))
+            ? method.MakeGenericMethod(typeof(Bar))
             : method;
 
         // Prepare parameters
@@ -171,15 +171,15 @@ internal static class IndicatorExecutor
     {
         ParameterInfo[] methodParams = method.GetParameters();
 
-        // For dual-input indicators, first parameter is OtherQuotes (extension source)
-        // For single-input indicators, first parameter is Quotes
-        List<object?> parameters = isDualInput ? new List<object?>() { OtherQuotes } : new List<object?>() { Quotes };
+        // For dual-input indicators, first parameter is OtherBars (extension source)
+        // For single-input indicators, first parameter is Bars
+        List<object?> parameters = isDualInput ? new List<object?>() { OtherBars } : new List<object?>() { Bars };
 
         // Add additional parameters from the listing with their default values
         if (listing.Parameters?.Count > 0)
         {
             bool firstSeriesParamSkipped = false;
-            int paramIndex = 1; // Start at 1 because first param is quotes (extension source)
+            int paramIndex = 1; // Start at 1 because first param is bars (extension source)
 
             foreach (IndicatorParam param in listing.Parameters)
             {
@@ -205,7 +205,7 @@ internal static class IndicatorExecutor
                     }
 
                     // Dual-input indicator: add the comparison source and advance index
-                    parameters.Add(Quotes);
+                    parameters.Add(Bars);
                     paramIndex++;
 
                     continue;
@@ -218,10 +218,10 @@ internal static class IndicatorExecutor
                 {
                     ParameterInfo methodParam = methodParams[paramIndex];
 
-                    // For DateTime parameters (like VWAP startDate), use the first quote date
+                    // For DateTime parameters (like VWAP startDate), use the first bar date
                     if (methodParam.ParameterType == typeof(DateTime))
                     {
-                        value = Quotes[0].Timestamp;
+                        value = Bars[0].Timestamp;
                     }
                 }
 

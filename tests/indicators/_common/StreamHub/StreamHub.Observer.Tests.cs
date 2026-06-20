@@ -6,43 +6,43 @@ public class StreamObservers : TestBase
     [TestMethod]
     public void RebuildCache()
     {
-        const int qtyQuotes = 5000;
+        const int qtyBars = 5000;
 
-        // setup: many random quotes (massive)
-        IReadOnlyList<Quote> quotesList
-            = Data.GetRandom(qtyQuotes).ToList();
+        // setup: many random bars (massive)
+        IReadOnlyList<Bar> barsList
+            = Data.GetRandom(qtyBars).ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        length.Should().Be(qtyQuotes); // check rando
+        length.Should().Be(qtyBars); // check rando
 
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Close);
+        BarPartHub observer = barHub
+            .ToBarPartHub(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // original results
         IReadOnlyList<TimeValue> original = observer.Results.ToList();
 
-        // quotes to replace
-        Quote q1000original = quotesList[1000] with { /* copy */ };
+        // bars to replace
+        Bar q1000original = barsList[1000] with { /* copy */ };
         TimeValue r1000original = observer.Cache[1000] with { /* copy */ };
 
-        // modify results (keeping quoteHub intact)
-        Quote q1000modified = quotesList[1000] with { Close = 12345m };
-        TimeValue r1000modified = q1000modified.ToQuotePart(CandlePart.Close);
+        // modify results (keeping barHub intact)
+        Bar q1000modified = barsList[1000] with { Close = 12345m };
+        TimeValue r1000modified = q1000modified.ToBarPart(CandlePart.Close);
 
         observer.Cache.Insert(1000, r1000modified); // add directly to cache
 
         IReadOnlyList<TimeValue> modified = observer.Results.ToList();
 
         // precondition: prefilled, modified
-        quoteHub.Cache.Should().HaveCount(length);
+        barHub.Cache.Should().HaveCount(length);
         observer.Cache.Should().HaveCount(length + 1);
 
         observer.Cache[1000].Value.Should().Be(12345);
@@ -57,6 +57,6 @@ public class StreamObservers : TestBase
         observer.Results.IsExactly(original);
 
         observer.Cache[1000].Value.Should().NotBe(12345);
-        observer.Cache[1000].Value.Should().Be((double)quotesList[1000].Close);
+        observer.Cache[1000].Value.Should().Be((double)barsList[1000].Close);
     }
 }

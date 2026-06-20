@@ -6,49 +6,49 @@ namespace Skender.Stock.Indicators;
 public static partial class Fractal
 {
     /// <summary>
-    /// Converts a list of quotes to Fractal results using the same span for both left and right wings.
+    /// Converts a list of bars to Fractal results using the same span for both left and right wings.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="windowSpan">Number of periods to look back and forward for the calculation. Default is 2.</param>
     /// <param name="endType">Type of price to use for the calculation. Default is HighLow.</param>
     /// <returns>A list of Fractal results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
     public static IReadOnlyList<FractalResult> ToFractal(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int windowSpan = 2,
         EndType endType = EndType.HighLow)
-        => quotes
+        => bars
             .ToFractal(windowSpan, windowSpan, endType);
 
     /// <summary>
-    /// Converts a list of quotes to Fractal results using different spans for left and right wings.
+    /// Converts a list of bars to Fractal results using different spans for left and right wings.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">Number of periods to look forward for the calculation.</param>
     /// <param name="endType">Type of price to use for the calculation. Default is HighLow.</param>
     /// <returns>A list of Fractal results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the left or right span is invalid.</exception>
     public static IReadOnlyList<FractalResult> ToFractal(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int leftSpan,
         int rightSpan,
         EndType endType = EndType.HighLow)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(Math.Min(leftSpan, rightSpan));
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<FractalResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
             decimal? fractalBear = null;
             decimal? fractalBull = null;
 
@@ -73,7 +73,7 @@ public static partial class Fractal
                     }
 
                     // evaluate wing periods
-                    IQuote wing = quotes[p];
+                    IBar wing = bars[p];
 
                     decimal wingHigh = endType == EndType.Close ?
                         wing.Close : wing.High;

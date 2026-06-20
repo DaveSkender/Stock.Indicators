@@ -6,24 +6,24 @@ namespace Skender.Stock.Indicators;
 public static partial class Renko
 {
     /// <summary>
-    /// Converts a list of quotes to a list of Renko chart results.
+    /// Converts a list of bars to a list of Renko chart results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="brickSize">Size of each Renko brick.</param>
     /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     public static IReadOnlyList<RenkoResult> ToRenko(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         decimal brickSize,
         EndType endType = EndType.Close)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(brickSize);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<RenkoResult> results = new(length);
 
         if (length == 0)
@@ -32,7 +32,7 @@ public static partial class Renko
         }
 
         // first brick baseline
-        IQuote q0 = quotes[0];
+        IBar q0 = bars[0];
 
         int decimals = brickSize.GetDecimalPlaces();
         decimal baseline = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
@@ -50,7 +50,7 @@ public static partial class Renko
         // roll through source values
         for (int i = 1; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
 
             // track high/low/volume between bricks
             h = Math.Max(h, q.High);

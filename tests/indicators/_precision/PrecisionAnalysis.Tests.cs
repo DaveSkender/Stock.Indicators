@@ -20,12 +20,12 @@ public class BoundaryTests : TestBase
     public void RSI_WithMonotonicallyIncreasingPrices_StaysBelow100()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyIncreasing(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetMonotonicallyIncreasing(100);
 
         // Act
-        IReadOnlyList<RsiResult> seriesResults = quotes.ToRsi(14);
-        IReadOnlyList<RsiResult> bufferResults = new RsiList(14, quotes);
-        IReadOnlyList<RsiResult> streamResults = quotes.ToRsiHub(14).Results;
+        IReadOnlyList<RsiResult> seriesResults = bars.ToRsi(14);
+        IReadOnlyList<RsiResult> bufferResults = new RsiList(14, bars);
+        IReadOnlyList<RsiResult> streamResults = bars.ToRsiHub(14).Results;
 
         // Analyze
         AnalyzeBounds("RSI Series (increasing)", seriesResults, static x => x.Rsi, 0, 100);
@@ -41,12 +41,12 @@ public class BoundaryTests : TestBase
     public void RSI_WithMonotonicallyDecreasingPrices_StaysAbove0()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyDecreasing(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetMonotonicallyDecreasing(100);
 
         // Act
-        IReadOnlyList<RsiResult> seriesResults = quotes.ToRsi(14);
-        IReadOnlyList<RsiResult> bufferResults = new RsiList(14, quotes);
-        IReadOnlyList<RsiResult> streamResults = quotes.ToRsiHub(14).Results;
+        IReadOnlyList<RsiResult> seriesResults = bars.ToRsi(14);
+        IReadOnlyList<RsiResult> bufferResults = new RsiList(14, bars);
+        IReadOnlyList<RsiResult> streamResults = bars.ToRsiHub(14).Results;
 
         // Analyze
         AnalyzeBounds("RSI Series (decreasing)", seriesResults, static x => x.Rsi, 0, 100);
@@ -62,7 +62,7 @@ public class BoundaryTests : TestBase
     public void Stoch_WithCloseEqualsHigh_StaysBelow100()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetCloseEqualsHigh(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetCloseEqualsHigh(100);
 
         // Using minimal smoothing/signal periods to test raw oscillator boundary
         const int lookbackPeriods = 14;
@@ -70,11 +70,11 @@ public class BoundaryTests : TestBase
         const int smoothPeriods = 1;
 
         // Act
-        IReadOnlyList<StochResult> seriesResults = quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> seriesResults = bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
         IReadOnlyList<StochResult> bufferResults = new StochList(
             lookbackPeriods, signalPeriods, smoothPeriods,
-            kFactor: 1, dFactor: 1, movingAverageType: MaType.SMA, quotes);
-        IReadOnlyList<StochResult> streamResults = quotes.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods).Results;
+            kFactor: 1, dFactor: 1, movingAverageType: MaType.SMA, bars);
+        IReadOnlyList<StochResult> streamResults = bars.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods).Results;
 
         // Analyze
         AnalyzeBounds("Stoch Series (close=high)", seriesResults, static x => x.Oscillator, 0, 100);
@@ -90,7 +90,7 @@ public class BoundaryTests : TestBase
     public void Stoch_WithCloseEqualsLow_StaysAbove0()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetCloseEqualsLow(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetCloseEqualsLow(100);
 
         // Using minimal smoothing/signal periods to test raw oscillator boundary
         const int lookbackPeriods = 14;
@@ -98,11 +98,11 @@ public class BoundaryTests : TestBase
         const int smoothPeriods = 1;
 
         // Act
-        IReadOnlyList<StochResult> seriesResults = quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> seriesResults = bars.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
         IReadOnlyList<StochResult> bufferResults = new StochList(
             lookbackPeriods, signalPeriods, smoothPeriods,
-            kFactor: 1, dFactor: 1, movingAverageType: MaType.SMA, quotes);
-        IReadOnlyList<StochResult> streamResults = quotes.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods).Results;
+            kFactor: 1, dFactor: 1, movingAverageType: MaType.SMA, bars);
+        IReadOnlyList<StochResult> streamResults = bars.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods).Results;
 
         // Analyze
         AnalyzeBounds("Stoch Series (close=low)", seriesResults, static x => x.Oscillator, 0, 100);
@@ -118,12 +118,12 @@ public class BoundaryTests : TestBase
     public void StochRSI_WithMonotonicallyIncreasingPrices_StaysWithinBounds()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyIncreasing(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetMonotonicallyIncreasing(100);
 
         // Act
-        IReadOnlyList<StochRsiResult> seriesResults = quotes.ToStochRsi(14, 14, 3, 1);
-        IReadOnlyList<StochRsiResult> bufferResults = new StochRsiList(14, 14, 3, 1, quotes);
-        IReadOnlyList<StochRsiResult> streamResults = quotes.ToStochRsiHub(14, 14, 3, 1).Results;
+        IReadOnlyList<StochRsiResult> seriesResults = bars.ToStochRsi(14, 14, 3, 1);
+        IReadOnlyList<StochRsiResult> bufferResults = new StochRsiList(14, 14, 3, 1, bars);
+        IReadOnlyList<StochRsiResult> streamResults = bars.ToStochRsiHub(14, 14, 3, 1).Results;
 
         // Analyze
         AnalyzeBounds("StochRSI Series (increasing)", seriesResults, static x => x.StochRsi, 0, 100);
@@ -138,12 +138,12 @@ public class BoundaryTests : TestBase
     public void CMO_WithAlternatingPrices_StaysWithinBounds()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetAlternating(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetAlternating(100);
 
         // Act
-        IReadOnlyList<CmoResult> seriesResults = quotes.ToCmo(14);
-        IReadOnlyList<CmoResult> bufferResults = new CmoList(14, quotes);
-        IReadOnlyList<CmoResult> streamResults = quotes.ToCmoHub(14).Results;
+        IReadOnlyList<CmoResult> seriesResults = bars.ToCmo(14);
+        IReadOnlyList<CmoResult> bufferResults = new CmoList(14, bars);
+        IReadOnlyList<CmoResult> streamResults = bars.ToCmoHub(14).Results;
 
         // Analyze
         AnalyzeBounds("CMO Series (alternating)", seriesResults, static x => x.Cmo, -100, 100);
@@ -158,12 +158,12 @@ public class BoundaryTests : TestBase
     public void MFI_WithMonotonicallyIncreasingPrices_StaysWithinBounds()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyIncreasing(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetMonotonicallyIncreasing(100);
 
         // Act
-        IReadOnlyList<MfiResult> seriesResults = quotes.ToMfi(14);
-        IReadOnlyList<MfiResult> bufferResults = new MfiList(14, quotes);
-        IReadOnlyList<MfiResult> streamResults = quotes.ToMfiHub(14).Results;
+        IReadOnlyList<MfiResult> seriesResults = bars.ToMfi(14);
+        IReadOnlyList<MfiResult> bufferResults = new MfiList(14, bars);
+        IReadOnlyList<MfiResult> streamResults = bars.ToMfiHub(14).Results;
 
         // Analyze
         AnalyzeBounds("MFI Series (increasing)", seriesResults, static x => x.Mfi, 0, 100);
@@ -178,12 +178,12 @@ public class BoundaryTests : TestBase
     public void WilliamsR_WithCloseEqualsHigh_StaysWithinBounds()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetCloseEqualsHigh(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetCloseEqualsHigh(100);
 
         // Act
-        IReadOnlyList<WilliamsResult> seriesResults = quotes.ToWilliamsR(14);
-        IReadOnlyList<WilliamsResult> bufferResults = new WilliamsRList(14, quotes);
-        IReadOnlyList<WilliamsResult> streamResults = quotes.ToWilliamsRHub(14).Results;
+        IReadOnlyList<WilliamsResult> seriesResults = bars.ToWilliamsR(14);
+        IReadOnlyList<WilliamsResult> bufferResults = new WilliamsRList(14, bars);
+        IReadOnlyList<WilliamsResult> streamResults = bars.ToWilliamsRHub(14).Results;
 
         // Analyze
         AnalyzeBounds("WilliamsR Series (close=high)", seriesResults, static x => x.WilliamsR, -100, 0);
@@ -198,12 +198,12 @@ public class BoundaryTests : TestBase
     public void TSI_WithMonotonicallyIncreasingPrices_StaysWithinBounds()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = BoundaryQuotes.GetMonotonicallyIncreasing(100);
+        IReadOnlyList<Bar> bars = BoundaryBars.GetMonotonicallyIncreasing(100);
 
         // Act
-        IReadOnlyList<TsiResult> seriesResults = quotes.ToTsi(25, 13, 7);
-        IReadOnlyList<TsiResult> bufferResults = new TsiList(25, 13, 7, quotes);
-        IReadOnlyList<TsiResult> streamResults = quotes.ToTsiHub(25, 13, 7).Results;
+        IReadOnlyList<TsiResult> seriesResults = bars.ToTsi(25, 13, 7);
+        IReadOnlyList<TsiResult> bufferResults = new TsiList(25, 13, 7, bars);
+        IReadOnlyList<TsiResult> streamResults = bars.ToTsiHub(25, 13, 7).Results;
 
         // Analyze
         AnalyzeBounds("TSI Series (increasing)", seriesResults, static x => x.Tsi, -100, 100);

@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Force Index from incremental quote values.
+/// Force Index from incremental bar values.
 /// </summary>
-public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote, IForceIndex
+public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromBar, IForceIndex
 {
     private readonly Queue<double> _rawFiBuffer;
     private double _sumRawFi;
@@ -33,36 +33,36 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ForceIndexList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="ForceIndexList"/> class with initial bars.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ForceIndexList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IBar> bars
     )
-        : this(lookbackPeriods) => Add(quotes);
+        : this(lookbackPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
         // skip first period
         if (Count == 0)
         {
-            _previousClose = (double)quote.Close;
-            AddInternal(new ForceIndexResult(quote.Timestamp));
+            _previousClose = (double)bar.Close;
+            AddInternal(new ForceIndexResult(bar.Timestamp));
             return;
         }
 
         double? fi = null;
 
         // calculate raw Force Index
-        double? rawFi = (double)quote.Volume * ((double)quote.Close - _previousClose);
+        double? rawFi = (double)bar.Volume * ((double)bar.Close - _previousClose);
 
         if (rawFi.HasValue)
         {
@@ -94,21 +94,21 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
         }
 
         _previousFi = fi;
-        _previousClose = (double)quote.Close;
+        _previousClose = (double)bar.Close;
 
         AddInternal(new ForceIndexResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             ForceIndex: fi));
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -128,10 +128,10 @@ public static partial class ForceIndex
     /// <summary>
     /// Creates a buffer list for Force Index calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static ForceIndexList ToForceIndexList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 2)
-        => new(lookbackPeriods) { quotes };
+        => new(lookbackPeriods) { bars };
 }

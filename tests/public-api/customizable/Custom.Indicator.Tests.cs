@@ -10,15 +10,15 @@ public class CustomIndicators
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> badQuotes = Data.GetBad();
-    private static readonly IReadOnlyList<Quote> onequote = Data.GetDefault(1);
-    private static readonly IReadOnlyList<Quote> noquotes = [];
+    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> badBars = Data.GetBad();
+    private static readonly IReadOnlyList<Bar> onebar = Data.GetDefault(1);
+    private static readonly IReadOnlyList<Bar> nobars = [];
 
     [TestMethod]
     public void Standard()
     {
-        IReadOnlyList<CustomReusable> results = quotes
+        IReadOnlyList<CustomReusable> results = bars
             .GetIndicator(20);
 
         // proper quantities
@@ -37,7 +37,7 @@ public class CustomIndicators
     [TestMethod]
     public void CandlePartOpen()
     {
-        IReadOnlyList<CustomReusable> results = quotes
+        IReadOnlyList<CustomReusable> results = bars
             .Use(CandlePart.Open)
             .GetIndicator(20);
 
@@ -56,7 +56,7 @@ public class CustomIndicators
     [TestMethod]
     public void CandlePartVolume()
     {
-        IReadOnlyList<CustomReusable> results = quotes
+        IReadOnlyList<CustomReusable> results = bars
             .Use(CandlePart.Volume)
             .GetIndicator(20);
 
@@ -78,7 +78,7 @@ public class CustomIndicators
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<EmaResult> results = quotes
+        IReadOnlyList<EmaResult> results = bars
             .GetIndicator(10)
             .ToEma(10);
 
@@ -87,11 +87,11 @@ public class CustomIndicators
     }
 
     [TestMethod]
-    public void QuoteToSortedList()
+    public void BarToSortedList()
     {
-        IReadOnlyList<Quote> mismatch = Data.GetMismatch();
+        IReadOnlyList<Bar> mismatch = Data.GetMismatch();
 
-        IReadOnlyList<Quote> h = mismatch.ToSortedList();
+        IReadOnlyList<Bar> h = mismatch.ToSortedList();
 
         // proper quantities
         Assert.HasCount(502, h);
@@ -121,7 +121,7 @@ public class CustomIndicators
     [TestMethod]
     public void BadData()
     {
-        IReadOnlyList<CustomReusable> r = badQuotes
+        IReadOnlyList<CustomReusable> r = badBars
             .GetIndicator(15);
 
         Assert.HasCount(502, r);
@@ -129,14 +129,14 @@ public class CustomIndicators
     }
 
     [TestMethod]
-    public void NoQuotesExist()
+    public void NoBarsExist()
     {
-        IReadOnlyList<CustomReusable> r0 = noquotes
+        IReadOnlyList<CustomReusable> r0 = nobars
             .GetIndicator(5);
 
         Assert.IsEmpty(r0);
 
-        IReadOnlyList<CustomReusable> r1 = onequote
+        IReadOnlyList<CustomReusable> r1 = onebar
             .GetIndicator(5);
 
         Assert.HasCount(1, r1);
@@ -145,7 +145,7 @@ public class CustomIndicators
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<CustomReusable> results = quotes
+        IReadOnlyList<CustomReusable> results = bars
             .GetIndicator(20)
             .RemoveWarmupPeriods(19);
 
@@ -157,5 +157,5 @@ public class CustomIndicators
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => quotes.GetIndicator(0));
+            static () => bars.GetIndicator(0));
 }

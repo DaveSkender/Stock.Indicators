@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// On-Balance Volume (OBV) from incremental quote values.
+/// On-Balance Volume (OBV) from incremental bar values.
 /// </summary>
-public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
+public class ObvList : BufferList<ObvResult>, IIncrementFromBar
 {
     private double _previousClose = double.NaN;
     private double _obvValue;
@@ -14,48 +14,48 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
     public ObvList() { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ObvList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="ObvList"/> class with initial bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public ObvList(IReadOnlyList<IQuote> quotes)
-        : this() => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    public ObvList(IReadOnlyList<IBar> bars)
+        : this() => Add(bars);
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
         // Handle volume direction changes in streaming mode
         if (!double.IsNaN(_previousClose))
         {
-            if ((double)quote.Close > _previousClose)
+            if ((double)bar.Close > _previousClose)
             {
-                _obvValue += (double)quote.Volume;
+                _obvValue += (double)bar.Volume;
             }
-            else if ((double)quote.Close < _previousClose)
+            else if ((double)bar.Close < _previousClose)
             {
-                _obvValue -= (double)quote.Volume;
+                _obvValue -= (double)bar.Volume;
             }
-            // No change if quote.Close == _previousClose
+            // No change if bar.Close == _previousClose
         }
 
         // Add result with current OBV value
         AddInternal(new ObvResult(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             Obv: _obvValue));
 
         // Update previous close for next iteration
-        _previousClose = (double)quote.Close;
+        _previousClose = (double)bar.Close;
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -73,8 +73,8 @@ public static partial class Obv
     /// <summary>
     /// Creates a buffer list for On-Balance Volume (OBV) calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public static ObvList ToObvList(
-        this IReadOnlyList<IQuote> quotes)
-        => new() { quotes };
+        this IReadOnlyList<IBar> bars)
+        => new() { bars };
 }

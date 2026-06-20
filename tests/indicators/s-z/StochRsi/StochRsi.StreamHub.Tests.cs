@@ -6,85 +6,85 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StochRsiResult> sut = Quotes.ToStochRsiHub(14, 14, 3, 1).Results;
+        IReadOnlyList<StochRsiResult> sut = Bars.ToStochRsiHub(14, 14, 3, 1).Results;
         sut.IsBetween(static x => x.StochRsi, 0, 100);
         sut.IsBetween(static x => x.Signal, 0, 100);
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
+        StochRsiHub observer = barHub.ToStochRsiHub(14, 14, 3, 1);
 
         // fetch initial results (early)
         IReadOnlyList<StochRsiResult> sut = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
-        IReadOnlyList<StochRsiResult> expectedOriginal = Quotes.ToStochRsi(14, 14, 3, 1);
+        IReadOnlyList<StochRsiResult> expectedOriginal = Bars.ToStochRsi(14, 14, 3, 1);
         sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<StochRsiResult> expectedRevised = RevisedQuotes.ToStochRsi(14, 14, 3, 1);
+        IReadOnlyList<StochRsiResult> expectedRevised = RevisedBars.ToStochRsi(14, 14, 3, 1);
         sut.IsExactly(expectedRevised);
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<StochRsiResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<StochRsiResult> expected = bars
             .ToStochRsi(14, 14, 3, 1)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
+        BarHub barHub = new(maxCacheSize);
+        StochRsiHub observer = barHub.ToStochRsiHub(14, 14, 3, 1);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -96,22 +96,22 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         const int signalPeriods = 3;
         const int smoothPeriods = 1;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        StochRsiHub observer = quoteHub
+        StochRsiHub observer = barHub
             .ToEmaHub(emaPeriods)
             .ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
@@ -120,7 +120,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
 
         // time-series, for comparison
         IReadOnlyList<StochRsiResult> seriesList
-           = quotesList
+           = barsList
             .ToEma(emaPeriods)
             .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
@@ -129,14 +129,14 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Provider_IsRsiHub()
     {
-        QuoteHub quoteHub = new();
-        StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
+        BarHub barHub = new();
+        StochRsiHub observer = barHub.ToStochRsiHub(14, 14, 3, 1);
 
         System.Reflection.PropertyInfo property = typeof(StochRsiHub)
             .GetProperty(
@@ -149,7 +149,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         provider.Should().BeOfType<RsiHub>();
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -161,48 +161,48 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         const int smoothPeriods = 1;
         const int emaPeriods = 12;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        EmaHub observer = quoteHub
+        EmaHub observer = barHub
             .ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<EmaResult> expected = RevisedQuotes
+        IReadOnlyList<EmaResult> expected = RevisedBars
             .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        StochRsiHub hub = new(new QuoteHub(), 14, 14, 3, 1);
+        StochRsiHub hub = new(new BarHub(), 14, 14, 3, 1);
         hub.ToString().Should().Be("STOCH-RSI(14,14,3,1)");
     }
 }

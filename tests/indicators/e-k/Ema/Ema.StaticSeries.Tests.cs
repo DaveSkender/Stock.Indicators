@@ -14,7 +14,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<EmaResult> sut = Quotes.ToEma(20);
+        IReadOnlyList<EmaResult> sut = Bars.ToEma(20);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -29,14 +29,14 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void UsePart_OpenPrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<EmaResult> sut = Quotes
+        IReadOnlyList<EmaResult> sut = Bars
             .Use(CandlePart.Open)
             .ToEma(20);
 
         // assertions
 
         // proper quantities
-        // should always be the same number of results as there is quotes
+        // should always be the same number of results as there is bars
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Ema != null).Should().HaveCount(483);
 
@@ -49,7 +49,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<EmaResult> sut = Quotes
+        IReadOnlyList<EmaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToEma(20);
 
@@ -61,7 +61,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<EmaResult> sut = Quotes
+        IReadOnlyList<EmaResult> sut = Bars
             .ToSma(2)
             .ToEma(20);
 
@@ -73,7 +73,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToEma(20)
             .ToSma(10);
 
@@ -85,7 +85,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void ChaineeMore_FromRsi_ReturnsExpectedResult()
     {
-        IReadOnlyList<EmaResult> sut = Quotes
+        IReadOnlyList<EmaResult> sut = Bars
             .ToRsi()
             .ToEma(20);
 
@@ -102,22 +102,22 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<EmaResult> r = BadQuotes.ToEma(15);
+        IReadOnlyList<EmaResult> r = BadBars.ToEma(15);
 
         r.Should().HaveCount(502);
         r.Where(static x => x.Ema is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<EmaResult> r0 = Noquotes.ToEma(10);
+        IReadOnlyList<EmaResult> r0 = Nobars.ToEma(10);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<EmaResult> r1 = Onequote.ToEma(10);
+        IReadOnlyList<EmaResult> r1 = Onebar.ToEma(10);
 
         r1.Should().HaveCount(1);
     }
@@ -125,7 +125,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<EmaResult> sut = Quotes.ToEma(20)
+        IReadOnlyList<EmaResult> sut = Bars.ToEma(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -139,7 +139,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToEma(0))
+            .Invoking(static () => Bars.ToEma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

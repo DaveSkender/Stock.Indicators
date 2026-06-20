@@ -38,25 +38,25 @@ public class RollbackAfterPrune : TestBase
     /// </summary>
     private static int CountMismatches<T>(
         int cacheSize,
-        Func<QuoteHub, IReadOnlyList<T>> attach,
+        Func<BarHub, IReadOnlyList<T>> attach,
         Func<T, double?> selector)
         where T : ISeries
     {
-        IReadOnlyList<Quote> originals = Quotes.Take(Total).ToList();
+        IReadOnlyList<Bar> originals = Bars.Take(Total).ToList();
 
-        QuoteHub subjectSource = new(maxCacheSize: cacheSize);
+        BarHub subjectSource = new(maxCacheSize: cacheSize);
         IReadOnlyList<T> subject = attach(subjectSource);
         subjectSource.Add(originals);
 
         // correct the earliest still-cached bar (== earliest overall when no prune)
-        Quote head = (Quote)subjectSource.Quotes[0];
+        Bar head = (Bar)subjectSource.Bars[0];
         int headIndex = 0;
         for (int j = 0; j < originals.Count; j++)
         {
             if (originals[j].Timestamp == head.Timestamp) { headIndex = j; break; }
         }
 
-        Quote corrected = head with {
+        Bar corrected = head with {
             Open = head.Open * 1.05m,
             High = head.High * 1.05m,
             Low = head.Low * 1.05m,
@@ -64,9 +64,9 @@ public class RollbackAfterPrune : TestBase
         };
         subjectSource.Add(corrected);
 
-        List<Quote> correctedSequence = [.. originals];
+        List<Bar> correctedSequence = [.. originals];
         correctedSequence[headIndex] = corrected;
-        QuoteHub oracleSource = new(maxCacheSize: cacheSize);
+        BarHub oracleSource = new(maxCacheSize: cacheSize);
         IReadOnlyList<T> oracle = attach(oracleSource);
         oracleSource.Add(correctedSequence);
 

@@ -1,6 +1,8 @@
 # Redirect old URLs to new locations
-/indicators/BasicQuote /indicators/QuotePart 301
-/indicators/BasicQuote/ /indicators/QuotePart 301
+/indicators/BasicQuote /indicators/BarPart 301
+/indicators/BasicQuote/ /indicators/BarPart 301
+/indicators/QuotePart /indicators/BarPart 301
+/indicators/QuotePart/ /indicators/BarPart 301
 
 # Alternative indicator names (aliases from legacy Jekyll site)
 /indicators/AtrTrailingStop /indicators/AtrStop 301
@@ -43,16 +45,16 @@
 /indicators/MomentumOscillator/ /indicators/Roc 301
 /indicators/NormalizedAverageTrueRange /indicators/Atr 301
 /indicators/NormalizedAverageTrueRange/ /indicators/Atr 301
-/indicators/HL2 /indicators/QuotePart 301
-/indicators/HL2/ /indicators/QuotePart 301
-/indicators/HLC3 /indicators/QuotePart 301
-/indicators/HLC3/ /indicators/QuotePart 301
-/indicators/OC2 /indicators/QuotePart 301
-/indicators/OC2/ /indicators/QuotePart 301
-/indicators/OHL3 /indicators/QuotePart 301
-/indicators/OHL3/ /indicators/QuotePart 301
-/indicators/OHLC4 /indicators/QuotePart 301
-/indicators/OHLC4/ /indicators/QuotePart 301
+/indicators/HL2 /indicators/BarPart 301
+/indicators/HL2/ /indicators/BarPart 301
+/indicators/HLC3 /indicators/BarPart 301
+/indicators/HLC3/ /indicators/BarPart 301
+/indicators/OC2 /indicators/BarPart 301
+/indicators/OC2/ /indicators/BarPart 301
+/indicators/OHL3 /indicators/BarPart 301
+/indicators/OHL3/ /indicators/BarPart 301
+/indicators/OHLC4 /indicators/BarPart 301
+/indicators/OHLC4/ /indicators/BarPart 301
 /indicators/PriceChannels /indicators/Donchian 301
 /indicators/PriceChannels/ /indicators/Donchian 301
 /indicators/RSquared /indicators/Correlation 301
@@ -84,3 +86,17 @@
 /guide /guide/getting-started 301
 /customization /guide/customization 301
 /customization/ /guide/customization 301
+
+# Market-data terminology rename (quotes -> bars)
+/utilities/quotes /utilities/bars 301
+/utilities/quotes/ /utilities/bars 301
+/utilities/quotes/extended-candle-properties /utilities/bars/extended-candle-properties 301
+/utilities/quotes/extended-candle-properties/ /utilities/bars/extended-candle-properties 301
+/utilities/quotes/resize-quote-history /utilities/bars/resize-bar-history 301
+/utilities/quotes/resize-quote-history/ /utilities/bars/resize-bar-history 301
+/utilities/quotes/sort-quotes /utilities/bars/sort-bars 301
+/utilities/quotes/sort-quotes/ /utilities/bars/sort-bars 301
+/utilities/quotes/use-alternate-price /utilities/bars/use-alternate-price 301
+/utilities/quotes/use-alternate-price/ /utilities/bars/use-alternate-price 301
+/utilities/quotes/validate-quote-history /utilities/bars/validate-bar-history 301
+/utilities/quotes/validate-quote-history/ /utilities/bars/validate-bar-history 301

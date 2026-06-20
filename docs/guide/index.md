@@ -32,7 +32,7 @@ features:
     link: /guide/customization
     linkText: Learn more
   - title: Utilities
-    details: Helper functions for quote manipulation, result processing, and numerical analysis
+    details: Helper functions for bar manipulation, result processing, and numerical analysis
     link: /utilities
     linkText: Learn more
   - title: Code samples

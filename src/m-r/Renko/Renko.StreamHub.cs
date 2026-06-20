@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for generating Renko chart series in a streaming manner.
 /// </summary>
 public class RenkoHub
-    : QuoteProvider<IQuote, RenkoResult>, IRenko
+    : BarProvider<IBar, RenkoResult>, IRenko
 {
 
     private RenkoResult lastBrick
@@ -12,11 +12,11 @@ public class RenkoHub
             default, default, default, default);
 
     // Track the last provider index used to form the lastBrick
-    // This allows aggregating quotes even when provider cache is pruned
+    // This allows aggregating bars even when provider cache is pruned
     private int lastBrickProviderIndex = -1;
 
     internal RenkoHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         decimal brickSize,
         EndType endType) : base(provider)
     {
@@ -33,14 +33,14 @@ public class RenkoHub
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Renko is a transformation hub that doesn't have 1:1 timestamp alignment with input quotes.
-    /// Bricks are only created when price moves by brickSize, so not every quote produces a brick.
+    /// Renko is a transformation hub that doesn't have 1:1 timestamp alignment with input bars.
+    /// Bricks are only created when price moves by brickSize, so not every bar produces a brick.
     /// Provider-driven pruning would incorrectly remove bricks, so Renko opts out.
     /// </remarks>
     protected override bool ShouldPruneOnProviderPrune => false;
 
     /// <summary>
-    /// Renko hub settings. Since it can produce 0 or many bricks per quote,
+    /// Renko hub settings. Since it can produce 0 or many bricks per bar,
     /// the default 1:1 in/out is not used and must be skipped to prevent
     /// same-date triggered rebuilds when caching.
     /// </summary>
@@ -52,7 +52,7 @@ public class RenkoHub
     /// <inheritdoc/>
     public EndType EndType { get; }
     /// <inheritdoc/>
-    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    public override void OnAdd(IBar item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         lock (CacheLock)
@@ -63,7 +63,7 @@ public class RenkoHub
 
     /// <inheritdoc />
     protected override (RenkoResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
         => throw new InvalidOperationException(); // not used
 
     /// <summary>
@@ -117,7 +117,7 @@ public class RenkoHub
     {
         int decimals = BrickSize.GetDecimalPlaces();
 
-        IQuote q0 = ProviderCache[0];
+        IBar q0 = ProviderCache[0];
 
         decimal baseline
             = Math.Round(q0.Close,
@@ -134,13 +134,13 @@ public class RenkoHub
     }
 
     /// <summary>
-    /// custom: build 0 to many bricks per quote
+    /// custom: build 0 to many bricks per bar
     /// </summary>
     /// <param name="item">Item to process</param>
     /// <param name="notify">Whether to notify observers</param>
     /// <param name="indexHint">Optional index hint for performance</param>
     /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
-    private void ToIndicator(IQuote item, bool notify, int? indexHint)
+    private void ToIndicator(IBar item, bool notify, int? indexHint)
     {
         int providerIndex = indexHint
             ?? throw new InvalidOperationException($"{nameof(indexHint)} cannot be empty");
@@ -174,8 +174,8 @@ public class RenkoHub
             decimal l = decimal.MaxValue;
             decimal sumV = 0;  // cumulative
 
-            // Aggregate quotes from last brick to current quote
-            // Find the starting index by looking for quotes after lastBrick timestamp
+            // Aggregate bars from last brick to current bar
+            // Find the starting index by looking for bars after lastBrick timestamp
             int startIndex = ProviderCache.IndexOf(lastBrick.Timestamp, true) + 1;
 
             // Ensure startIndex is valid and within bounds
@@ -191,7 +191,7 @@ public class RenkoHub
 
             for (int w = startIndex; w <= providerIndex; w++)
             {
-                IQuote pq = ProviderCache[w];
+                IBar pq = ProviderCache[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);
@@ -231,15 +231,15 @@ public class RenkoHub
 public static partial class Renko
 {
     /// <summary>
-    /// Converts a quote provider to a Renko hub.
+    /// Converts a bar provider to a Renko hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="brickSize">Size of each Renko brick.</param>
     /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A Renko hub.</returns>
     public static RenkoHub ToRenkoHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         decimal brickSize,
         EndType endType = EndType.Close)
-        => new(quoteProvider, brickSize, endType);
+        => new(barProvider, brickSize, endType);
 }

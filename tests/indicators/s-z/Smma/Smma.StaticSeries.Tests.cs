@@ -6,7 +6,7 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmmaResult> sut = Quotes
+        IReadOnlyList<SmmaResult> sut = Bars
             .ToSmma(20);
 
         // proper quantities
@@ -28,7 +28,7 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmmaResult> sut = Quotes
+        IReadOnlyList<SmmaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToSmma(20);
 
@@ -39,7 +39,7 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmmaResult> sut = Quotes
+        IReadOnlyList<SmmaResult> sut = Bars
             .ToSma(2)
             .ToSmma(20);
 
@@ -50,7 +50,7 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToSmma(20)
             .ToSma(10);
 
@@ -59,9 +59,9 @@ public class Smma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<SmmaResult> r = BadQuotes
+        IReadOnlyList<SmmaResult> r = BadBars
             .ToSmma(15);
 
         r.Should().HaveCount(502);
@@ -69,14 +69,14 @@ public class Smma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<SmmaResult> r0 = Noquotes
+        IReadOnlyList<SmmaResult> r0 = Nobars
             .ToSmma(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<SmmaResult> r1 = Onequote
+        IReadOnlyList<SmmaResult> r1 = Onebar
             .ToSmma(5);
 
         r1.Should().HaveCount(1);
@@ -85,7 +85,7 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<SmmaResult> sut = Quotes
+        IReadOnlyList<SmmaResult> sut = Bars
             .ToSmma(20)
             .RemoveWarmupPeriods();
 
@@ -100,7 +100,7 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToSmma(0))
+            .Invoking(static () => Bars.ToSmma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

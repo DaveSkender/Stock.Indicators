@@ -10,10 +10,10 @@ hero:
       text: ← All categories
       link: /indicators/
 features:
-  - title: Basic Quote Transforms
+  - title: Basic Bar Transforms
     icon:
-      src: /assets/thumbs/indicators/quote-part.png
-    link: /indicators/QuotePart
+      src: /assets/thumbs/indicators/bar-part.png
+    link: /indicators/BarPart
     details: HL2, HLC3, OC2, OHL3, OHLC4
   - title: Ehlers Fisher Transform
     icon:

@@ -54,7 +54,7 @@ IndicatorListing indicatorListing = IndicatorRegistry
         ?? throw new InvalidOperationException("Indicator 'EMA' (Series) not found.");
 
 IReadOnlyList<EmaResult> emaResults = indicatorListing
-                .From(quotes)
+                .From(bars)
                 .WithParamValue("lookbackPeriods", 20)
                 .Execute<EmaResult>();
 ```
@@ -63,11 +63,11 @@ Dynamic shortcuts via `CatalogUtility` (no generic type required):
 
 ```csharp
 // by ID + Style (typed)
-IReadOnlyList<EmaResult> emaResultsById = quotes.ExecuteById<EmaResult>("EMA", Style.Series, new() { ["lookbackPeriods"] = 20 });
+IReadOnlyList<EmaResult> emaResultsById = bars.ExecuteById<EmaResult>("EMA", Style.Series, new() { ["lookbackPeriods"] = 20 });
 
 // from JSON config (typed)
 string rsiConfigJson = "{\"id\":\"RSI\",\"style\":\"Series\",\"parameters\":{\"lookbackPeriods\":14}}";
-IReadOnlyList<RsiResult> rsiResultsFromJson = quotes.ExecuteFromJson<RsiResult>(rsiConfigJson);
+IReadOnlyList<RsiResult> rsiResultsFromJson = bars.ExecuteFromJson<RsiResult>(rsiConfigJson);
 ```
 
 Config round-trip via `IndicatorConfig`:
@@ -78,7 +78,7 @@ IndicatorConfig emaConfig = new IndicatorConfig {
         Style = Style.Series,
         Parameters = new() { ["lookbackPeriods"] = 20 }
 };
-IReadOnlyList<EmaResult> emaResultsFromConfig = emaConfig.Execute<EmaResult>(quotes);
+IReadOnlyList<EmaResult> emaResultsFromConfig = emaConfig.Execute<EmaResult>(bars);
 ```
 
 ## Best practices

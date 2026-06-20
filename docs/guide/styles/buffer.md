@@ -1,18 +1,18 @@
 ---
 title: Buffer list style
-description: Learn how to use Buffer list style indicators for efficient incremental quote-by-quote processing
+description: Learn how to use Buffer list style indicators for efficient incremental bar-by-bar processing
 ---
 
 # Buffer style indicators for incremental processing
 
-Buffer list style provides efficient incremental processing for growing datasets. Use this when quotes arrive sequentially and you need to add them one at a time without the overhead of a full hub infrastructure.
+Buffer list style provides efficient incremental processing for growing datasets. Use this when bars arrive sequentially and you need to add them one at a time without the overhead of a full hub infrastructure.
 
 ## When to use buffer lists
 
 **Ideal for:**
 
 - Building up historical data incrementally
-- Processing data feeds where quotes arrive sequentially
+- Processing data feeds where bars arrive sequentially
 - Self-managed incremental calculations
 - Scenarios without multi-indicator coordination needs
 - Memory-efficient processing with auto-pruning
@@ -25,7 +25,7 @@ Buffer list style provides efficient incremental processing for growing datasets
 
 ## Basic usage
 
-Buffer lists maintain incremental state as you add new quotes:
+Buffer lists maintain incremental state as you add new bars:
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -33,10 +33,10 @@ using Skender.Stock.Indicators;
 // create buffer list with lookback period
 SmaList smaList = new(lookbackPeriods: 20);
 
-// add quotes incrementally (e.g., from a data feed)
-foreach (Quote quote in quotes)
+// add bars incrementally (e.g., from a data feed)
+foreach (Bar bar in bars)
 {
-    smaList.Add(quote);
+    smaList.Add(bar);
 
     // safely get latest result
     if (smaList.Count > 0)
@@ -56,8 +56,8 @@ foreach (Quote quote in quotes)
 Using `smaList[^1]` on an empty list throws `ArgumentOutOfRangeException`. Always check `Count > 0` first, or use `smaList.LastOrDefault()` which returns `null` when empty.
 :::
 
-::: warning Add quotes in chronological order
-A buffer list is a single-pass accumulator: every `Add` assumes the new value is the newest one. It does **not** reorder input, detect duplicates, or correct revised values — feeding an out-of-order, repeated, or late-arriving quote produces silently incorrect results. If your data can arrive out of order (e.g. a raw WebSocket feed, or merging two sources), sort by timestamp before adding, or use a [Stream hub](/guide/styles/stream) instead — stream hubs are built for late arrivals, same-timestamp corrections, and rollback.
+::: warning Add bars in chronological order
+A buffer list is a single-pass accumulator: every `Add` assumes the new value is the newest one. It does **not** reorder input, detect duplicates, or correct revised values — feeding an out-of-order, repeated, or late-arriving bar produces silently incorrect results. If your data can arrive out of order (e.g. a raw WebSocket feed, or merging two sources), sort by timestamp before adding, or use a [Stream hub](/guide/styles/stream) instead — stream hubs are built for late arrivals, same-timestamp corrections, and rollback.
 :::
 
 ## Key features
@@ -69,11 +69,11 @@ Buffer lists are read-only result lists you append to. The base `BufferList<TRes
 ```csharp
 SmaList smaList = new(20);
 
-// add individual quotes
-smaList.Add(quote);
+// add individual bars
+smaList.Add(bar);
 
 // or add batches
-smaList.Add(quoteList);
+smaList.Add(barList);
 
 // read-only list access
 int count = smaList.Count;
@@ -116,10 +116,10 @@ Unlike series or stream-hub chaining, this is orchestrated by you rather than th
 // create OBV buffer list
 ObvList obvList = new();
 
-// add quotes to OBV
-foreach (var quote in quotes)
+// add bars to OBV
+foreach (var bar in bars)
 {
-    obvList.Add(quote);
+    obvList.Add(bar);
 }
 
 // chain RSI from OBV results
@@ -140,7 +140,7 @@ if (rsiList.Count > 0)
 
 - **Overhead:** ~10-20% slower than batch style for equivalent datasets
 - **Memory:** Maintains internal buffers for lookback periods
-- **Latency:** Optimized for per-quote updates, typically O(1) or O(log n)
+- **Latency:** Optimized for per-bar updates, typically O(1) or O(log n)
 - **Thread safety:** Not thread-safe; synchronize external access if needed
 
 ## Usage patterns
@@ -150,10 +150,10 @@ if (rsiList.Count > 0)
 ```csharp
 SmaList smaList = new(20);
 
-foreach (var quote in streamingQuotes)
+foreach (var bar in streamingBars)
 {
-    // add new quote
-    smaList.Add(quote);
+    // add new bar
+    smaList.Add(bar);
 
     // list auto-adds incremental SMA value
     if (smaList.Count > 0)
@@ -170,12 +170,12 @@ foreach (var quote in streamingQuotes)
 SmaList smaList = new(20);
 
 // add initial batch
-smaList.Add(historicalQuotes);
+smaList.Add(historicalBars);
 
-// then add new quotes incrementally
-while (newQuote = GetNextQuote())
+// then add new bars incrementally
+while (newBar = GetNextBar())
 {
-    smaList.Add(newQuote);
+    smaList.Add(newBar);
     if (smaList.Count > 0)
     {
         ProcessLatestResult(smaList[^1]);

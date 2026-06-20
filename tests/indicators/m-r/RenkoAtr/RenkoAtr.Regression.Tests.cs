@@ -6,7 +6,7 @@ public class RenkoAtrTests : RegressionTestBase<RenkoResult>
     public RenkoAtrTests() : base("renko-atr.standard.json") { }
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToRenkoAtr().IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToRenkoAtr().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer_AgainstBaseline_MatchesExactly() => Assert.Inconclusive("Test not yet implemented");

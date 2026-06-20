@@ -13,7 +13,7 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochResult> sut = Quotes
+        IReadOnlyList<StochResult> sut = Bars
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // proper quantities
@@ -51,7 +51,7 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StochResult> sut = Quotes.ToStoch(14, 3, 3);
+        IReadOnlyList<StochResult> sut = Bars.ToStoch(14, 3, 3);
         sut.IsBetween(static x => x.Oscillator, 0, 100);
         sut.IsBetween(static x => x.Signal, 0, 100);
     }
@@ -63,7 +63,7 @@ public class Stoch : StaticSeriesTestBase
     public void Extended_WithExtraParameters_ReturnsExpectedResult()
     {
         IReadOnlyList<StochResult> sut =
-            Quotes.ToStoch(9, 3, 3, 5, 4, MaType.SMMA);
+            Bars.ToStoch(9, 3, 3, 5, 4, MaType.SMMA);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -105,7 +105,7 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToStoch()
             .ToSma(10);
 
@@ -120,7 +120,7 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 1;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochResult> sut = Quotes
+        IReadOnlyList<StochResult> sut = Bars
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // signal equals oscillator
@@ -138,7 +138,7 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 10;
         const int smoothPeriods = 1;
 
-        IReadOnlyList<StochResult> sut = Quotes
+        IReadOnlyList<StochResult> sut = Bars
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
@@ -158,7 +158,7 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 10;
         const int smoothPeriods = 1;
 
-        IReadOnlyList<StochResult> sut = Quotes
+        IReadOnlyList<StochResult> sut = Bars
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
@@ -170,9 +170,9 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<StochResult> r = BadQuotes
+        IReadOnlyList<StochResult> r = BadBars
             .ToStoch(15);
 
         r.Should().HaveCount(502);
@@ -181,14 +181,14 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<StochResult> r0 = Noquotes
+        IReadOnlyList<StochResult> r0 = Nobars
             .ToStoch();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<StochResult> r1 = Onequote
+        IReadOnlyList<StochResult> r1 = Onebar
             .ToStoch();
 
         r1.Should().HaveCount(1);
@@ -201,7 +201,7 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochResult> sut = Quotes
+        IReadOnlyList<StochResult> sut = Bars
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods();
 
@@ -215,7 +215,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
@@ -235,10 +235,10 @@ public class Stoch : StaticSeriesTestBase
     public void Issue1127_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
+        IReadOnlyList<Bar> bars = Data.BarsFromCsv("_issue1127.williamr.revisit.csv");
 
         // get indicators (using Fast Stochastic parameters to match Williams %R)
-        IReadOnlyList<StochResult> sut = quotes
+        IReadOnlyList<StochResult> sut = bars
             .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
 
         // analyze boundary
@@ -254,7 +254,7 @@ public class Stoch : StaticSeriesTestBase
         // This verifies that SMMA correctly initializes with SMA (not just current value)
         // when prevK or prevD becomes NaN during processing
 
-        IReadOnlyList<StochResult> sut = BadQuotes
+        IReadOnlyList<StochResult> sut = BadBars
             .ToStoch(14, 3, 3, 3, 2, MaType.SMMA);
 
         // Should produce valid results without NaN propagation
@@ -272,26 +272,26 @@ public class Stoch : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStoch(0));
+            static () => Bars.ToStoch(0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStoch(14, 0));
+            static () => Bars.ToStoch(14, 0));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStoch(14, 3, 0));
+            static () => Bars.ToStoch(14, 3, 0));
 
         // bad kFactor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStoch(9, 3, 1, 0, 2, MaType.SMA));
+            static () => Bars.ToStoch(9, 3, 1, 0, 2, MaType.SMA));
 
         // bad dFactor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStoch(9, 3, 1, 3, 0, MaType.SMA));
+            static () => Bars.ToStoch(9, 3, 1, 3, 0, MaType.SMA));
 
         // bad MA type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStoch(9, 3, 3, 3, 2, MaType.ALMA));
+            static () => Bars.ToStoch(9, 3, 3, 3, 2, MaType.ALMA));
     }
 }

@@ -8,10 +8,10 @@ public class Ultimate : BufferListTestBase
     private const int longPeriods = 28;
 
     private static readonly IReadOnlyList<UltimateResult> series
-       = Quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
+       = Bars.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<UltimateResult> sut = Data
             .GetRandom(2500)
@@ -23,46 +23,46 @@ public class Ultimate : BufferListTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        UltimateList sut = new(7, 14, 28, Quotes);
+        UltimateList sut = new(7, 14, 28, Bars);
         sut.IsBetween(static x => x.Ultimate, 0, 100);
     }
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        UltimateList sut = new(shortPeriods, middlePeriods, longPeriods) { Quotes };
+        UltimateList sut = new(shortPeriods, middlePeriods, longPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        UltimateList sut = new(shortPeriods, middlePeriods, longPeriods, Quotes);
+        UltimateList sut = new(shortPeriods, middlePeriods, longPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
 
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods, subset);
 
@@ -72,9 +72,9 @@ public class Ultimate : BufferListTestBase
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
+        foreach (Bar bar in subset)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<UltimateResult> expected = subset.ToUltimate(shortPeriods, middlePeriods, longPeriods);
@@ -92,9 +92,9 @@ public class Ultimate : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
         IReadOnlyList<UltimateResult> expected

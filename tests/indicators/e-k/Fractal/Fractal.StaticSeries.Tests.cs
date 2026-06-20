@@ -9,7 +9,7 @@ public class Fractal : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<FractalResult> sut = Quotes
+        IReadOnlyList<FractalResult> sut = Bars
             .ToFractal();
 
         // proper quantities
@@ -46,7 +46,7 @@ public class Fractal : StaticSeriesTestBase
     [TestMethod]
     public void StandardSpan4_WithSpanFour_ReturnsExpectedResult()
     {
-        IReadOnlyList<FractalResult> sut = Quotes
+        IReadOnlyList<FractalResult> sut = Bars
             .ToFractal(4, 4);
 
         // proper quantities
@@ -81,23 +81,23 @@ public class Fractal : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<FractalResult> r = BadQuotes
+        IReadOnlyList<FractalResult> r = BadBars
             .ToFractal();
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<FractalResult> r0 = Noquotes
+        IReadOnlyList<FractalResult> r0 = Nobars
             .ToFractal();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<FractalResult> r1 = Onequote
+        IReadOnlyList<FractalResult> r1 = Onebar
             .ToFractal();
 
         r1.Should().HaveCount(1);
@@ -106,7 +106,7 @@ public class Fractal : StaticSeriesTestBase
     [TestMethod]
     public void Condense_WithNoThreshold_RemovesNullValues()
     {
-        IReadOnlyList<FractalResult> sut = Quotes
+        IReadOnlyList<FractalResult> sut = Bars
             .ToFractal()
             .Condense();
 
@@ -119,7 +119,7 @@ public class Fractal : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToFractal(1))
+            .Invoking(static () => Bars.ToFractal(1))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

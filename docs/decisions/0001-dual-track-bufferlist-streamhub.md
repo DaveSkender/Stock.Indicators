@@ -13,7 +13,7 @@ informed: library consumers (via `docs/migration.md` and per-indicator doc pages
 v3 adds incremental computation alongside the v2 batch Series API. Two distinct in-process incremental computation models ship side-by-side:
 
 - **BufferList** — synchronous, pull-based, owns its in-memory list, callable from a tight `foreach` loop. Each indicator exposes a `*List` factory and a typed `*List : List<TResult>` class that derives from `BufferList<TResult>`.
-- **StreamHub** — asynchronous, push-based, observer-chain composable, rollback-aware, fault-tracking, thread-safe. Each indicator exposes a `*Hub` factory and a typed `*Hub : ChainProvider<TIn, TOut>` (or `QuoteProvider`) class that derives from `StreamHub<TIn, TOut>`.
+- **StreamHub** — asynchronous, push-based, observer-chain composable, rollback-aware, fault-tracking, thread-safe. Each indicator exposes a `*Hub` factory and a typed `*Hub : ChainProvider<TIn, TOut>` (or `BarProvider`) class that derives from `StreamHub<TIn, TOut>`.
 
 Both styles must produce results bit-equal to the canonical Series implementation for the same inputs. Why ship both? The question recurred in PR #1014 review threads, Discussion #1018, and every onboarding swarm review since the streaming framework landed. This ADR captures the rationale so future contributors can reason about the trade-offs without re-litigating them.
 
@@ -65,8 +65,8 @@ It is **reopened for reconsideration** in v3.1+ if:
 
 - **Pro**: one mental model, one implementation per indicator, one set of tests.
 - **Pro**: live composition (`hub.Use(...).ToOtherHub(...)`) becomes the canonical surface.
-- **Con**: ~1.5–2× slowdown for batch warmup workloads. Consumers feeding a backtest engine ~40,000 quotes/sec would see consistent overhead they cannot opt out of.
-- **Con**: forces every consumer through observer-chain ceremony even when the workload is "fill a `List<T>` and walk it once". `foreach (var q in quotes) hub.Add(q); var results = hub.Results;` is strictly worse than `var list = new EmaList(20); foreach (var q in quotes) list.Add(q);` for the common case.
+- **Con**: ~1.5–2× slowdown for batch warmup workloads. Consumers feeding a backtest engine ~40,000 bars/sec would see consistent overhead they cannot opt out of.
+- **Con**: forces every consumer through observer-chain ceremony even when the workload is "fill a `List<T>` and walk it once". `foreach (var q in bars) hub.Add(q); var results = hub.Results;` is strictly worse than `var list = new EmaList(20); foreach (var q in bars) list.Add(q);` for the common case.
 - **Con**: rollback and fault-tracking machinery is always live — non-zero per-emit cost even when the workload has no late arrivals.
 
 ### Option 2 — Single unified pull primitive (BufferList only) with Rx adapter

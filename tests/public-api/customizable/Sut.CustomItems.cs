@@ -2,13 +2,13 @@ namespace Sut;
 
 // SUBJECT UNDER TEST (SUT)
 
-public sealed record CustomQuote : IQuote
+public sealed record CustomBar : IBar
 {
     // override, redirect required properties
     DateTime ISeries.Timestamp
         => CloseDate;
 
-    decimal IQuote.Close
+    decimal IBar.Close
         => CloseValue;
 
     // custom properties
@@ -27,7 +27,7 @@ public sealed record CustomQuote : IQuote
 }
 
 [Serializable]
-public record CustomQuoteInherited
+public record CustomBarInherited
 (
     DateTime CloseDate,
     decimal Open,
@@ -36,7 +36,7 @@ public record CustomQuoteInherited
     decimal Close,
     decimal Volume,
     int MyOtherProperty
-) : Quote(CloseDate, Open, High, Low, Close, Volume);
+) : Bar(CloseDate, Open, High, Low, Close, Volume);
 
 public sealed record CustomReusable : IReusable
 {

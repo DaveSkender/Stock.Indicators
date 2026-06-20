@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Calculates Ichimoku Cloud indicator from incremental quote values with buffered state management.
+/// Calculates Ichimoku Cloud indicator from incremental bar values with buffered state management.
 /// </summary>
-public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIchimoku
+public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchimoku
 {
     // Historical results buffer for lookback (needed for offset calculations)
     private readonly List<(DateTime Timestamp, double? TenkanSen, double? KijunSen)> _historicalResults;
@@ -49,22 +49,22 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IchimokuList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="IchimokuList"/> class with initial bars.
     /// </summary>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
     /// <param name="chikouOffset">Number of periods for the Chikou offset.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="bars">Initial bars to populate the list.</param>
     public IchimokuList(
         int tenkanPeriods,
         int kijunPeriods,
         int senkouBPeriods,
         int senkouOffset,
         int chikouOffset,
-        IReadOnlyList<IQuote> quotes)
-        : this(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset) => Add(bars);
 
     /// <inheritdoc/>
     public int TenkanPeriods { get; init; }
@@ -82,20 +82,20 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     public int ChikouOffset { get; init; }
 
     /// <summary>
-    /// Adds a new quote to the Ichimoku list.
+    /// Adds a new bar to the Ichimoku list.
     /// </summary>
-    /// <param name="quote">Quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
-    public void Add(IQuote quote)
+    /// <param name="bar">Bar to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the bar is null.</exception>
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
         // Update rolling buffers using BufferUtilities
-        _tenkanBuffer.Update(TenkanPeriods, ((double)quote.High, (double)quote.Low));
-        _kijunBuffer.Update(KijunPeriods, ((double)quote.High, (double)quote.Low));
+        _tenkanBuffer.Update(TenkanPeriods, ((double)bar.High, (double)bar.Low));
+        _kijunBuffer.Update(KijunPeriods, ((double)bar.High, (double)bar.Low));
 
         // Store historical high/low for Senkou B lookback
-        _historicalHighLow.Add(((double)quote.High, (double)quote.Low));
+        _historicalHighLow.Add(((double)bar.High, (double)bar.Low));
 
         // Calculate Tenkan-sen (conversion line)
         double? tenkanSen = null;
@@ -112,7 +112,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         }
 
         // Store historical Tenkan and Kijun for offset lookback
-        _historicalResults.Add((quote.Timestamp, tenkanSen, kijunSen));
+        _historicalResults.Add((bar.Timestamp, tenkanSen, kijunSen));
 
         // Calculate Senkou Span A (leading span A)
         double? senkouSpanA = null;
@@ -145,7 +145,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         // ChikouSpan for the current result will be null (can't see future in streaming)
         // Create and emit the result immediately
         IchimokuResult result = new(
-            Timestamp: quote.Timestamp,
+            Timestamp: bar.Timestamp,
             TenkanSen: tenkanSen,
             KijunSen: kijunSen,
             SenkouSpanA: senkouSpanA,
@@ -160,38 +160,38 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         {
             int pastIndex = Count - ChikouOffset - 1;
             IchimokuResult pastResult = this[pastIndex];
-            IchimokuResult updatedResult = pastResult with { ChikouSpan = (double)quote.Close };
+            IchimokuResult updatedResult = pastResult with { ChikouSpan = (double)bar.Close };
             UpdateInternal(pastIndex, updatedResult);
         }
     }
 
     /// <summary>
-    /// Adds a list of quotes to the Ichimoku list.
+    /// Adds a list of bars to the Ichimoku list.
     /// </summary>
-    /// <param name="quotes">List of quotes to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public void Add(IReadOnlyList<IQuote> quotes)
+    /// <param name="bars">List of bars to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
         // Pre-populate the future close buffer with all closes for Chikou Span calculation
         // This allows us to look ahead for Chikou values during batch processing
-        List<double> allCloses = new(quotes.Count);
-        for (int i = 0; i < quotes.Count; i++)
+        List<double> allCloses = new(bars.Count);
+        for (int i = 0; i < bars.Count; i++)
         {
-            allCloses.Add((double)quotes[i].Close);
+            allCloses.Add((double)bars[i].Close);
         }
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            IQuote quote = quotes[i];
+            IBar bar = bars[i];
 
             // Update rolling buffers using BufferUtilities
-            _tenkanBuffer.Update(TenkanPeriods, ((double)quote.High, (double)quote.Low));
-            _kijunBuffer.Update(KijunPeriods, ((double)quote.High, (double)quote.Low));
+            _tenkanBuffer.Update(TenkanPeriods, ((double)bar.High, (double)bar.Low));
+            _kijunBuffer.Update(KijunPeriods, ((double)bar.High, (double)bar.Low));
 
             // Store historical high/low for Senkou B lookback
-            _historicalHighLow.Add(((double)quote.High, (double)quote.Low));
+            _historicalHighLow.Add(((double)bar.High, (double)bar.Low));
 
             // Calculate Tenkan-sen (conversion line)
             double? tenkanSen = null;
@@ -208,7 +208,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             }
 
             // Store historical Tenkan and Kijun for offset lookback
-            _historicalResults.Add((quote.Timestamp, tenkanSen, kijunSen));
+            _historicalResults.Add((bar.Timestamp, tenkanSen, kijunSen));
 
             // Calculate Senkou Span A (leading span A)
             double? senkouSpanA = null;
@@ -247,7 +247,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
 
             // Create and add the result
             IchimokuResult result = new(
-                Timestamp: quote.Timestamp,
+                Timestamp: bar.Timestamp,
                 TenkanSen: tenkanSen,
                 KijunSen: kijunSen,
                 SenkouSpanA: senkouSpanA,
@@ -372,21 +372,21 @@ public static partial class Ichimoku
     /// <summary>
     /// Creates a buffer list for Ichimoku Cloud calculations.
     /// </summary>
-    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="bars">Historical price bars.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
     /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line). Default is 26.</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B). Default is 52.</param>
     /// <param name="senkouOffset">Number of periods for the Senkou offset. Default is 26.</param>
     /// <param name="chikouOffset">Number of periods for the Chikou offset. Default is 26.</param>
     /// <returns>An IchimokuList instance pre-populated with historical data.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static IchimokuList ToIchimokuList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int tenkanPeriods = 9,
         int kijunPeriods = 26,
         int senkouBPeriods = 52,
         int senkouOffset = 26,
         int chikouOffset = 26)
-        => new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset) { quotes };
+        => new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset) { bars };
 }

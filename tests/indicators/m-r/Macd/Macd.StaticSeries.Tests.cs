@@ -11,7 +11,7 @@ public class Macd : StaticSeriesTestBase
         const int signalPeriods = 9;
 
         IReadOnlyList<MacdResult> sut =
-            Quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
+            Bars.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -45,7 +45,7 @@ public class Macd : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<MacdResult> sut = Quotes
+        IReadOnlyList<MacdResult> sut = Bars
             .Use(CandlePart.Close)
             .ToMacd();
 
@@ -56,7 +56,7 @@ public class Macd : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<MacdResult> sut = Quotes
+        IReadOnlyList<MacdResult> sut = Bars
             .ToSma(2)
             .ToMacd();
 
@@ -67,7 +67,7 @@ public class Macd : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToMacd()
             .ToSma(10);
 
@@ -76,9 +76,9 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<MacdResult> r = BadQuotes
+        IReadOnlyList<MacdResult> r = BadBars
             .ToMacd(10, 20, 5);
 
         r.Should().HaveCount(502);
@@ -86,14 +86,14 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<MacdResult> r0 = Noquotes
+        IReadOnlyList<MacdResult> r0 = Nobars
             .ToMacd();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<MacdResult> r1 = Onequote
+        IReadOnlyList<MacdResult> r1 = Onebar
             .ToMacd();
 
         r1.Should().HaveCount(1);
@@ -106,7 +106,7 @@ public class Macd : StaticSeriesTestBase
         const int slowPeriods = 26;
         const int signalPeriods = 9;
 
-        IReadOnlyList<MacdResult> sut = Quotes
+        IReadOnlyList<MacdResult> sut = Bars
             .ToMacd(fastPeriods, slowPeriods, signalPeriods)
             .RemoveWarmupPeriods();
 
@@ -124,14 +124,14 @@ public class Macd : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMacd(0));
+            static () => Bars.ToMacd(0));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMacd(12, 12));
+            static () => Bars.ToMacd(12, 12));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMacd(12, 26, -1));
+            static () => Bars.ToMacd(12, 26, -1));
     }
 }

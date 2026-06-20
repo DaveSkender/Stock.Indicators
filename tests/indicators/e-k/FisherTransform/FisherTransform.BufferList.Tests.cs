@@ -6,42 +6,42 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
     private const int lookbackPeriods = 10;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<FisherTransformResult> series
-       = Quotes.ToFisherTransform(lookbackPeriods);
+       = Bars.ToFisherTransform(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         FisherTransformList sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Bar q in Bars) { sut.Add(q); }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        FisherTransformList sut = new(lookbackPeriods) { Quotes };
+        FisherTransformList sut = new(lookbackPeriods) { Bars };
 
         IReadOnlyList<FisherTransformResult> series
-            = Quotes.ToFisherTransform(lookbackPeriods);
+            = Bars.ToFisherTransform(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        FisherTransformList sut = new(lookbackPeriods, Quotes);
+        FisherTransformList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -54,7 +54,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<FisherTransformResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -66,7 +66,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<FisherTransformResult> expected = subset.ToFisherTransform(lookbackPeriods);
 
         FisherTransformList sut = new(lookbackPeriods, subset);
@@ -95,10 +95,10 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
         }
 
         // For FisherTransform with IReusable, we're using Close values
-        // whereas with IQuote we use HL2, so we need to compare to reusable series
+        // whereas with IBar we use HL2, so we need to compare to reusable series
         IReadOnlyList<FisherTransformResult> reusableSeries = reusables.ToFisherTransform(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(reusableSeries);
     }
 
@@ -112,8 +112,8 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        // FisherTransform with IReusable derived from IQuote should use HL2, same as IQuote
-        sut.Should().HaveCount(Quotes.Count);
+        // FisherTransform with IReusable derived from IBar should use HL2, same as IBar
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -122,8 +122,8 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
     {
         FisherTransformList sut = new(lookbackPeriods) { reusables };
 
-        // FisherTransform with IReusable derived from IQuote should use HL2, same as IQuote
-        sut.Should().HaveCount(Quotes.Count);
+        // FisherTransform with IReusable derived from IBar should use HL2, same as IBar
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 }

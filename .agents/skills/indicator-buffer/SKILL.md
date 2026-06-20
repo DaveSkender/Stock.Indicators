@@ -1,6 +1,6 @@
 ---
 name: indicator-buffer
-description: Implement BufferList incremental indicators with efficient state management. Use for IIncrementFromChain or IIncrementFromQuote implementations. Covers interface selection, constructor patterns, and BufferListTestBase testing requirements.
+description: Implement BufferList incremental indicators with efficient state management. Use for IIncrementFromChain or IIncrementFromBar implementations. Covers interface selection, constructor patterns, and BufferListTestBase testing requirements.
 ---
 
 # BufferList indicator development
@@ -10,7 +10,7 @@ description: Implement BufferList incremental indicators with efficient state ma
 | Interface | Additional Inputs | Use Case |
 | --------- | ----------------- | -------- |
 | `IIncrementFromChain` | `IReusable`, `(DateTime, double)` | Chainable single-value indicators |
-| `IIncrementFromQuote` | (none — only IQuote from base) | Requires OHLCV properties |
+| `IIncrementFromBar` | (none — only IBar from base) | Requires OHLCV properties |
 
 See [references/interface-selection.md](references/interface-selection.md) for decision tree.
 
@@ -35,8 +35,8 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
 ```
 
 ```csharp
-// IIncrementFromQuote — chaining ctor takes IReadOnlyList<IQuote>
-public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
+// IIncrementFromBar — chaining ctor takes IReadOnlyList<IBar>
+public class AdxList : BufferList<AdxResult>, IIncrementFromBar, IAdx
 {
     public AdxList(int lookbackPeriods)
     {
@@ -44,8 +44,8 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         LookbackPeriods = lookbackPeriods;
     }
 
-    public AdxList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods) => Add(quotes);
+    public AdxList(int lookbackPeriods, IReadOnlyList<IBar> bars)
+        : this(lookbackPeriods) => Add(bars);
 }
 ```
 
@@ -71,7 +71,7 @@ public override void Clear()
 
 - Inherit `BufferListTestBase`
 - `IIncrementFromChain` → implement `ITestChainBufferList`
-- `IIncrementFromQuote` → implement `ITestQuoteBufferList`
+- `IIncrementFromBar` → implement `ITestBarBufferList`
 - Series parity: `bufferResults.IsExactly(seriesResults)`
 
 ## Required implementation

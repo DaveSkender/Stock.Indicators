@@ -6,51 +6,51 @@ public class Bop : BufferListTestBase
     private const int smoothPeriods = 14;
 
     private static readonly IReadOnlyList<BopResult> series
-       = Quotes.ToBop(smoothPeriods);
+       = Bars.ToBop(smoothPeriods);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         BopList sut = new(smoothPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        BopList sut = new(smoothPeriods) { Quotes };
+        BopList sut = new(smoothPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        BopList sut = new(smoothPeriods, Quotes);
+        BopList sut = new(smoothPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        BopList sut = new(14, Quotes);
+        BopList sut = new(14, Bars);
         sut.IsBetween(static x => x.Bop, -1, 1);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<BopResult> expected = subset.ToBop(smoothPeriods);
 
         BopList sut = new(smoothPeriods, subset);
@@ -77,7 +77,7 @@ public class Bop : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<BopResult> expected = series
             .Skip(series.Count - maxListSize)

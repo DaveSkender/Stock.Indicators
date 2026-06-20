@@ -1,41 +1,41 @@
 namespace StreamHubs;
 
 [TestClass]
-public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class RenkoHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
-    // NOTE: Renko transforms quotes to variable brick counts (non-1:1 timestamps).
+    // NOTE: Renko transforms bars to variable brick counts (non-1:1 timestamps).
     // Intentionally excluded from comprehensive provider history testing (Add/Remove)
-    // as quote transformations don't preserve timestamp mappings.
-    // TODO: Revisit to explore alternative testing approach for quote transformations.
+    // as bar transformations don't preserve timestamp mappings.
+    // TODO: Revisit to explore alternative testing approach for bar transformations.
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;
 
-        List<Quote> quotes = Quotes.ToList();
+        List<Bar> bars = Bars.ToList();
 
-        int length = quotes.Count;
+        int length = bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotes[i]);
+            barHub.Add(bars[i]);
         }
 
         // initialize observer
-        RenkoHub observer = quoteHub
+        RenkoHub observer = barHub
             .ToRenkoHub(brickSize, endType);
 
         // fetch initial results (early)
         IReadOnlyList<RenkoResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 50; i < length; i++)
         {
             // skip one (add later)
@@ -44,25 +44,25 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
                 continue;
             }
 
-            Quote q = quotes[i];
-            quoteHub.Add(q);
+            Bar q = bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(quotes[80]);
+        barHub.Add(bars[80]);
 
         // delete
-        quoteHub.RemoveAt(350);
-        quotes.RemoveAt(350);
+        barHub.RemoveAt(350);
+        bars.RemoveAt(350);
 
         // time-series, for comparison
-        IReadOnlyList<RenkoResult> seriesList = quotes
+        IReadOnlyList<RenkoResult> seriesList = bars
             .ToRenko(brickSize, endType);
 
         // assert, should equal series
@@ -71,43 +71,43 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
-        // NOTE: Renko transforms quotes to bricks (non-1:1 mapping).
-        // Quote pruning removes oldest quotes, but brick count != quote count.
+        // NOTE: Renko transforms bars to bricks (non-1:1 mapping).
+        // Bar pruning removes oldest bars, but brick count != bar count.
         // Use timestamp-based alignment to match streaming results against
         // the corresponding tail of the full static series.
 
-        const int maxCacheSize = 100;  // Sufficient for quote retention
-        const int totalQuotes = 200;  // ~2x cache size
+        const int maxCacheSize = 100;  // Sufficient for bar retention
+        const int totalBars = 200;  // ~2x cache size
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
         // Get full series results
-        List<RenkoResult> fullSeries = quotes
+        List<RenkoResult> fullSeries = bars
             .ToRenko(brickSize, endType)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        RenkoHub observer = quoteHub.ToRenkoHub(brickSize, endType);
+        BarHub barHub = new(maxCacheSize);
+        RenkoHub observer = barHub.ToRenkoHub(brickSize, endType);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
-        // Verify cache was pruned (quotes, not results)
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        // Verify cache was pruned (bars, not results)
+        barHub.Bars.Should().HaveCount(maxCacheSize);
 
-        // Renko bricks don't map 1:1 with quotes. Align the static series
+        // Renko bricks don't map 1:1 with bars. Align the static series
         // with the streaming hub by matching on the first brick's timestamp.
         // Any bricks before that date in the static series represent periods
-        // that were pruned from the quote hub and must be discarded.
+        // that were pruned from the bar hub and must be discarded.
         DateTime firstDate = observer.Results[0].Timestamp;
         int startIndex = fullSeries.FindIndex(r => r.Timestamp == firstDate);
         startIndex.Should().BeGreaterThanOrEqualTo(0,
@@ -117,7 +117,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -127,25 +127,25 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         const EndType endType = EndType.Close;
         const int smaPeriods = 50;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToRenkoHub(brickSize, endType)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream (Renko transforms to bricks, no Add/Remove)
-        for (int i = 0; i < quotesCount; i++)
+        // emulate bar stream (Renko transforms to bricks, no Add/Remove)
+        for (int i = 0; i < barsCount; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> expected = Quotes
+        IReadOnlyList<SmaResult> expected = Bars
             .ToRenko(brickSize, endType)
             .ToSma(smaPeriods);
 
@@ -155,37 +155,37 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // Renko is bricks-from-price, not 1:1 with quotes — the late-arrival
+        // Renko is bricks-from-price, not 1:1 with bars — the late-arrival
         // path must reproduce the same brick sequence as the fresh stream.
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         RenkoHub lateHub = lateSource.ToRenkoHub(brickSize, endType);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         RenkoHub freshHub = freshSource.ToRenkoHub(brickSize, endType);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        // Renko brick count is data-dependent (not 1:1 with quotes), so
+        // Renko brick count is data-dependent (not 1:1 with bars), so
         // pin the oracle's non-emptiness before equality to guard against
         // trivial empty-vs-empty pass if the hub ever falls silent.
         freshHub.Results.Should().NotBeEmpty();
@@ -206,27 +206,27 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         // formation window in the default fixture.
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 60;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         RenkoHub lateHub = lateSource.ToRenkoHub(brickSize, endType);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         RenkoHub freshHub = freshSource.ToRenkoHub(brickSize, endType);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        // Renko brick count is data-dependent (not 1:1 with quotes), so
+        // Renko brick count is data-dependent (not 1:1 with bars), so
         // pin the oracle's non-emptiness before equality to guard against
         // trivial empty-vs-empty pass if the hub ever falls silent.
         freshHub.Results.Should().NotBeEmpty();
@@ -242,30 +242,30 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        RenkoHub hub = new(new QuoteHub(), 2.5m, EndType.Close);
+        RenkoHub hub = new(new BarHub(), 2.5m, EndType.Close);
         hub.ToString().Should().Be("RENKO(2.5,CLOSE)");
     }
 
     [TestMethod]
     public void SettingsInheritance_InHubChain_PropagatesProperties()
     {
-        // setup quote hub (1st level)
-        QuoteHub quoteHub = new();
+        // setup bar hub (1st level)
+        BarHub barHub = new();
 
         // setup renko hub (2nd level)
-        RenkoHub renkoHub = quoteHub
+        RenkoHub renkoHub = barHub
             .ToRenkoHub(brickSize: 2.5m, endType: EndType.Close);
 
         // setup child hub (3rd level)
         SmaHub childHub = renkoHub
             .ToSmaHub(lookbackPeriods: 5);
 
-        // note: dispite `quoteHub` being parentless,
+        // note: dispite `barHub` being parentless,
         // it has default properties; it should not
-        // inherit its own empty quoteHub settings
+        // inherit its own empty barHub settings
 
         // assert
-        quoteHub.Properties.Settings.Should().Be(0b00000000, "is has default settings, not inherited");
+        barHub.Properties.Settings.Should().Be(0b00000000, "is has default settings, not inherited");
         renkoHub.Properties.Settings.Should().Be(0b00000010, "it has custom Renko properties");
         childHub.Properties.Settings.Should().Be(0b00000010, "it inherits Renko properties");
     }

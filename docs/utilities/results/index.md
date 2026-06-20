@@ -14,7 +14,7 @@ Utilities for working with indicator results after calculation.
 Remove non-essential results so only meaningful data records are returned.
 
 ```csharp
-var signals = quotes.ToMarubozu().Condense();
+var signals = bars.ToMarubozu().Condense();
 ```
 
 [See more →](/utilities/results/condense)

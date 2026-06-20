@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// STARC Bands from incremental quotes.
+/// STARC Bands from incremental bars.
 /// </summary>
-public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote, IStarcBands
+public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromBar, IStarcBands
 {
     private readonly SmaList _smaList;
     private readonly AtrList _atrList;
@@ -32,18 +32,18 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StarcBandsList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="StarcBandsList"/> class with initial bars.
     /// </summary>
     /// <param name="smaPeriods">Number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">Multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">Number of periods for the ATR calculation.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public StarcBandsList(
         int smaPeriods,
         double multiplier,
         int atrPeriods,
-        IReadOnlyList<IQuote> quotes)
-        : this(smaPeriods, multiplier, atrPeriods) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(smaPeriods, multiplier, atrPeriods) => Add(bars);
 
     /// <inheritdoc />
     public int SmaPeriods { get; init; }
@@ -55,15 +55,15 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
     public int AtrPeriods { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
+        DateTime timestamp = bar.Timestamp;
 
-        // Add quote to both component lists
-        _smaList.Add(quote);
-        _atrList.Add(quote);
+        // Add bar to both component lists
+        _smaList.Add(bar);
+        _atrList.Add(bar);
 
         // Get the latest results from each component
         SmaResult smaResult = _smaList[^1];
@@ -88,13 +88,13 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -112,14 +112,14 @@ public static partial class StarcBands
     /// <summary>
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="smaPeriods">Number of periods for the simple moving average</param>
     /// <param name="multiplier">Multiplier for calculation</param>
     /// <param name="atrPeriods">Number of periods for ATR calculation</param>
     public static StarcBandsList ToStarcBandsList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int smaPeriods = 5,
         double multiplier = 2,
         int atrPeriods = 10)
-        => new(smaPeriods, multiplier, atrPeriods) { quotes };
+        => new(smaPeriods, multiplier, atrPeriods) { bars };
 }

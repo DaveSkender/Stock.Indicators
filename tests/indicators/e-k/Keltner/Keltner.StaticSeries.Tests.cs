@@ -10,7 +10,7 @@ public class Keltner : StaticSeriesTestBase
         const int multiplier = 2;
         const int atrPeriods = 10;
 
-        IReadOnlyList<KeltnerResult> sut = Quotes
+        IReadOnlyList<KeltnerResult> sut = Bars
             .ToKeltner(emaPeriods, multiplier, atrPeriods);
 
         // proper quantities
@@ -37,9 +37,9 @@ public class Keltner : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<KeltnerResult> r = BadQuotes
+        IReadOnlyList<KeltnerResult> r = BadBars
             .ToKeltner(10, 3, 15);
 
         r.Should().HaveCount(502);
@@ -47,14 +47,14 @@ public class Keltner : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<KeltnerResult> r0 = Noquotes
+        IReadOnlyList<KeltnerResult> r0 = Nobars
             .ToKeltner();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<KeltnerResult> r1 = Onequote
+        IReadOnlyList<KeltnerResult> r1 = Onebar
             .ToKeltner();
 
         r1.Should().HaveCount(1);
@@ -67,7 +67,7 @@ public class Keltner : StaticSeriesTestBase
         const int multiplier = 2;
         const int atrPeriods = 10;
 
-        IReadOnlyList<KeltnerResult> sut = Quotes
+        IReadOnlyList<KeltnerResult> sut = Bars
             .ToKeltner(emaPeriods, multiplier, atrPeriods)
             .Condense();
 
@@ -89,7 +89,7 @@ public class Keltner : StaticSeriesTestBase
         const int atrPeriods = 10;
         int n = Math.Max(emaPeriods, atrPeriods);
 
-        IReadOnlyList<KeltnerResult> sut = Quotes
+        IReadOnlyList<KeltnerResult> sut = Bars
             .ToKeltner(emaPeriods, multiplier, atrPeriods)
             .RemoveWarmupPeriods();
 
@@ -108,14 +108,14 @@ public class Keltner : StaticSeriesTestBase
     {
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKeltner(1));
+            static () => Bars.ToKeltner(1));
 
         // bad ATR period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKeltner(20, 2, 1));
+            static () => Bars.ToKeltner(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKeltner(20, 0));
+            static () => Bars.ToKeltner(20, 0));
     }
 }

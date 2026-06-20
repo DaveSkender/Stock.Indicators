@@ -15,7 +15,7 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 ```csharp
 // C# usage syntax
 IReadOnlyList<TsiResult> results =
-  quotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
+  bars.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<TsiResult> results =
 | `smoothPeriods` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13. |
 | `signalPeriods` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N+M+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a two-stage EMA smoothing technique, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
+You must have at least `N+M+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a two-stage EMA smoothing technique, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `N+M+100` periods of `quotes` to cover the [warmup and co
 IReadOnlyList<TsiResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N+M-1` periods will have `null` values since there's not enough data to calculate.
 - `Signal` will be `null` for all periods if `signalPeriods=0`.
@@ -52,7 +52,7 @@ The first `N+M+250` periods will have decreasing magnitude, convergence-related 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Tsi` | double | True Strength Index |
 | `Signal` | double | Signal line (EMA of TSI) |
 
@@ -72,24 +72,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 TsiList tsiList = new(lookbackPeriods, smoothPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  tsiList.Add(quote);
+  tsiList.Add(bar);
 }
 
 // based on `ICollection<TsiResult>`
 IReadOnlyList<TsiResult> results = tsiList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
+BarHub barHub = new();
+TsiHub observer = barHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<TsiResult> results = observer.Results;
@@ -103,7 +103,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToTsi(..);
 ```
@@ -112,7 +112,7 @@ Results can be further processed on `Tsi` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToTsi(..)
     .ToSlope(..);
 ```

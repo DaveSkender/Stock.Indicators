@@ -1,61 +1,61 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vwap : BufferListTestBase, ITestQuoteBufferList
+public class Vwap : BufferListTestBase, ITestBarBufferList
 {
     private static readonly DateTime startDate = DateTime.Parse("2018-12-31", invariantCulture);
 
     private static readonly IReadOnlyList<VwapResult> series
-       = Quotes.ToVwap(startDate);
+       = Bars.ToVwap(startDate);
 
     private static readonly IReadOnlyList<VwapResult> seriesDefault
-       = Quotes.ToVwap();
+       = Bars.ToVwap();
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         VwapList sut = new(startDate);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        VwapList sut = Quotes.ToVwapList(startDate);
+        VwapList sut = Bars.ToVwapList(startDate);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        VwapList sut = new(startDate, Quotes);
+        VwapList sut = new(startDate, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public void DefaultStartDate_OnExtensionInvocation_IncrementsResults()
     {
-        VwapList sut = Quotes.ToVwapList();
+        VwapList sut = Bars.ToVwapList();
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(seriesDefault);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<VwapResult> expected = subset.ToVwap(startDate);
 
         VwapList sut = new(startDate, subset);
@@ -82,7 +82,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<VwapResult> expected = series
             .Skip(series.Count - maxListSize)

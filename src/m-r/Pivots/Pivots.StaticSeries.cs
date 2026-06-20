@@ -6,28 +6,28 @@ namespace Skender.Stock.Indicators;
 public static partial class Pivots
 {
     /// <summary>
-    /// Converts a list of quotes to a list of pivot points results.
+    /// Converts a list of bars to a list of pivot points results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="leftSpan">Number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">Number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">Maximum number of periods for trend calculation.</param>
     /// <param name="endType">Type of end point for the pivot calculation.</param>
     /// <returns>A list of pivot points results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     public static IReadOnlyList<PivotsResult> ToPivots(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int leftSpan = 2,
         int rightSpan = 2,
         int maxTrendPeriods = 20,
         EndType endType = EndType.HighLow)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(leftSpan, rightSpan, maxTrendPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
 
         decimal?[] highLine = new decimal?[length];
         PivotTrend?[] highTrend = new PivotTrend?[length];
@@ -36,7 +36,7 @@ public static partial class Pivots
         PivotTrend?[] lowTrend = new PivotTrend?[length];
 
         List<(decimal? highPoint, decimal? lowPoint)> fractals
-           = quotes
+           = bars
             .ToFractal(leftSpan, rightSpan, endType)
             .Select(static f => (f.FractalBear, f.FractalBull))
             .ToList();
@@ -128,7 +128,7 @@ public static partial class Pivots
 
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
             (decimal? highPoint, decimal? lowPoint) = fractals[i];
 
             decimal? hl = highLine[i];

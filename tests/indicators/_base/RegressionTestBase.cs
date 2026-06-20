@@ -11,14 +11,14 @@ public abstract class RegressionTestBase<TResult>(string filename) : TestBase
 {
     protected IReadOnlyList<TResult> Expected { get; init; } = TestData.ResultsFromJson<TResult>(filename);
 
-    private static QuoteHub CreateQuoteHub()
+    private static BarHub CreateBarHub()
     {
-        QuoteHub hub = new();
-        hub.Add(Quotes);
+        BarHub hub = new();
+        hub.Add(Bars);
         return hub;
     }
 
-    protected static QuoteHub QuoteHub { get; } = CreateQuoteHub();
+    protected static BarHub BarHub { get; } = CreateBarHub();
 
     public abstract void Series_AgainstBaseline_MatchesExactly();
     public abstract void Buffer_AgainstBaseline_MatchesExactly();

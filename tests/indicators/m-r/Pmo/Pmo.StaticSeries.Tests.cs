@@ -6,7 +6,7 @@ public class Pmo : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<PmoResult> sut = Quotes
+        IReadOnlyList<PmoResult> sut = Bars
             .ToPmo();
 
         // proper quantities
@@ -27,7 +27,7 @@ public class Pmo : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<PmoResult> sut = Quotes
+        IReadOnlyList<PmoResult> sut = Bars
             .Use(CandlePart.Close)
             .ToPmo();
 
@@ -38,7 +38,7 @@ public class Pmo : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<PmoResult> sut = Quotes
+        IReadOnlyList<PmoResult> sut = Bars
             .ToSma(2)
             .ToPmo();
 
@@ -49,7 +49,7 @@ public class Pmo : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToPmo()
             .ToSma(10);
 
@@ -58,9 +58,9 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<PmoResult> r = BadQuotes
+        IReadOnlyList<PmoResult> r = BadBars
             .ToPmo(25, 15, 5);
 
         r.Should().HaveCount(502);
@@ -68,14 +68,14 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<PmoResult> r0 = Noquotes
+        IReadOnlyList<PmoResult> r0 = Nobars
             .ToPmo();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<PmoResult> r1 = Onequote
+        IReadOnlyList<PmoResult> r1 = Onebar
             .ToPmo();
 
         r1.Should().HaveCount(1);
@@ -84,7 +84,7 @@ public class Pmo : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<PmoResult> sut = Quotes
+        IReadOnlyList<PmoResult> sut = Bars
             .ToPmo()
             .RemoveWarmupPeriods();
 
@@ -101,14 +101,14 @@ public class Pmo : StaticSeriesTestBase
     {
         // bad time period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPmo(1));
+            static () => Bars.ToPmo(1));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPmo(5, 0));
+            static () => Bars.ToPmo(5, 0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPmo(5, 5, 0));
+            static () => Bars.ToPmo(5, 5, 0));
     }
 }

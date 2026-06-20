@@ -15,11 +15,11 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 ```csharp
 // C# usage syntax (standard)
 IReadOnlyList<ParabolicSarResult> results =
-  quotes.ToParabolicSar(accelerationStep, maxAccelerationFactor);
+  bars.ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
 // alternate usage with custom initial Factor
 IReadOnlyList<ParabolicSarResult> results =
-  quotes.ToParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
+  bars.ToParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
 ```
 
 ## Parameters
@@ -30,11 +30,11 @@ IReadOnlyList<ParabolicSarResult> results =
 | `maxAccelerationFactor` | double | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2 |
 | `initialFactor` | double | Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least two historical quotes to cover the warmup periods; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals, before your intended usage period.
+You must have at least two historical price bars to cover the warmup periods; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals, before your intended usage period.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -42,8 +42,8 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 IReadOnlyList<ParabolicSarResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first trend will have `null` values since it is not accurate and based on an initial guess.
 
@@ -51,7 +51,7 @@ IReadOnlyList<ParabolicSarResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Sar` | double | Stop and Reverse value |
 | `IsReversal` | bool | Indicates a trend reversal |
 
@@ -70,12 +70,12 @@ Results can be further processed on `Sar` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToParabolicSar(..)
     .ToEma(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -86,24 +86,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 ParabolicSarList psarList = new(accelerationStep, maxAccelerationFactor);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  psarList.Add(quote);
+  psarList.Add(bar);
 }
 
 // based on `ICollection<ParabolicSarResult>`
 IReadOnlyList<ParabolicSarResult> results = psarList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-ParabolicSarHub observer = quoteHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
+BarHub barHub = new();
+ParabolicSarHub observer = barHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<ParabolicSarResult> results = observer.Results;

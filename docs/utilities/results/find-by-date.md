@@ -25,7 +25,7 @@ TResult? result = results.Find(DateTime lookupDate);
 
 ```csharp
 // calculate indicator series
-IReadOnlyList<SmaResult> results = quotes.ToSma(20);
+IReadOnlyList<SmaResult> results = bars.ToSma(20);
 
 // find result on a specific date
 DateTime lookupDate = DateTime.Parse("2024-01-15");
@@ -41,7 +41,7 @@ Console.WriteLine($"SMA on {lookupDate:d}: {result?.Sma}");
 Get the indicator value for a specific trading day:
 
 ```csharp
-var rsiResults = quotes.ToRsi(14);
+var rsiResults = bars.ToRsi(14);
 var todayRsi = rsiResults.Find(DateTime.Today);
 
 Console.WriteLine($"Today's RSI: {todayRsi.Rsi}");
@@ -52,7 +52,7 @@ Console.WriteLine($"Today's RSI: {todayRsi.Rsi}");
 Compare indicator values between different dates:
 
 ```csharp
-var emaResults = quotes.ToEma(20);
+var emaResults = bars.ToEma(20);
 
 var jan1 = emaResults.Find(DateTime.Parse("2024-01-01"));
 var feb1 = emaResults.Find(DateTime.Parse("2024-02-01"));

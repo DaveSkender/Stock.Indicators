@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBufferListCache
+public class Ichimoku : BufferListTestBase, ITestBarBufferList, ITestCustomBufferListCache
 {
     private const int tenkanPeriods = 9;
     private const int kijunPeriods = 26;
@@ -10,44 +10,44 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
     private const int chikouOffset = 26;
 
     private static readonly IReadOnlyList<IchimokuResult> series
-        = Quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
+        = Bars.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        IchimokuList sut = Quotes.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
+        IchimokuList sut = Bars.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, Quotes);
+        IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<IchimokuResult> expected = subset.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
         IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, subset);
@@ -74,7 +74,7 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<IchimokuResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -87,21 +87,21 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
     public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 150;
-        const int quotesSize = 1000;
+        const int barsSize = 1000;
 
         // Use a test data that exceeds all cache size thresholds
-        List<Quote> quotes = LongishQuotes
-            .Take(quotesSize)
+        List<Bar> bars = LongishBars
+            .Take(barsSize)
             .ToList();
 
         // Expected results after pruning (tail end)
-        IReadOnlyList<IchimokuResult> expected = quotes
+        IReadOnlyList<IchimokuResult> expected = bars
             .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset)
-            .Skip(quotesSize - maxListSize)
+            .Skip(barsSize - maxListSize)
             .ToList();
 
         // Generate buffer list
-        IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, quotes) {
+        IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, bars) {
             MaxListSize = maxListSize
         };
 

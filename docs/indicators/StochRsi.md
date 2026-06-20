@@ -15,7 +15,7 @@ Created by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stoc
 ```csharp
 // C# usage syntax
 IReadOnlyList<StochRsiResult> results =
-  quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+  bars.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```
 
 ## Parameters
@@ -27,13 +27,13 @@ IReadOnlyList<StochRsiResult> results =
 | `signalPeriods` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5. |
 | `smoothPeriods` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant). |
 
-The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.ToStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
+The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `bars.ToStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S+M` and `R+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
+You must have at least `N` periods of `bars`, where `N` is the greater of `R+S+M` and `R+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -41,8 +41,8 @@ You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S
 IReadOnlyList<StochRsiResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.
 
@@ -54,7 +54,7 @@ The first `10×R` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `StochRsi` | double | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price |
 | `Signal` | double | %D Signal Line = Simple moving average of %K based on `G` periods |
 
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToStochRsi(..);
 ```
@@ -82,7 +82,7 @@ Results can be further processed on `StochRsi` with additional chain-enabled ind
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToStochRsi(..)
     .ToSlope(..);
 ```
@@ -96,24 +96,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 StochRsiList stochRsiList = new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  stochRsiList.Add(quote);
+  stochRsiList.Add(bar);
 }
 
 // based on `ICollection<StochRsiResult>`
 IReadOnlyList<StochRsiResult> results = stochRsiList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-StochRsiHub observer = quoteHub.ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+BarHub barHub = new();
+StochRsiHub observer = barHub.ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<StochRsiResult> results = observer.Results;
@@ -126,7 +126,7 @@ When the StochRSI hub is chained from an existing `RsiHub` instance it will reus
 
 ```csharp
 // creates a new internal RSI hub
-var stochRsiHub = quotes
+var stochRsiHub = bars
   .ToStochRsiHub();
 ```
 
@@ -135,7 +135,7 @@ As an option, if you have an existing RSI hub you may reuse it:
 ```csharp
 
 // existing hub
-var rsiHub = quotes
+var rsiHub = bars
   .ToRsiHub();
 
 // does not create a 2nd internal hub

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Marks an inert root provider — the placeholder backing a self-rooted
-/// <see cref="QuoteHub"/> or <see cref="TickHub"/> that has no upstream data.
+/// <see cref="BarHub"/> or <see cref="TradeTickHub"/> that has no upstream data.
 /// A hub whose provider is inert is a <em>root</em> hub: it owns its own input
 /// timeline and is the only kind of hub whose mutating API may be called
 /// directly. Every hub that subscribes to a real provider is non-root and is
@@ -14,13 +14,13 @@ internal interface IInertProvider;
 /// Inert provider for base Hub initialization.
 /// It has no upstream data and cannot be observed.
 /// Used only as a workaround for initializing a self-rooted hub
-/// (e.g. <see cref="QuoteHub"/>, <see cref="TickHub"/>) that has no
+/// (e.g. <see cref="BarHub"/>, <see cref="TradeTickHub"/>) that has no
 /// upstream provider. Scheduled for replacement by a dedicated
 /// <c>StreamSource&lt;T&gt;</c> root in a future release.
 /// </summary>
 /// <typeparam name="T">Type of record</typeparam>
 /// <remarks>
-/// Only used to initialize a <see cref="QuoteHub"/> base that does not have its own provider.
+/// Only used to initialize a <see cref="BarHub"/> base that does not have its own provider.
 /// </remarks>
 /// <param name="maxCacheSize">Maximum cache size for the provider.</param>
 internal class BaseProvider<T>(int maxCacheSize = 0)

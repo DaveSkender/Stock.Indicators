@@ -7,7 +7,7 @@ public class RemoveWarmup : TestBase
     public void Standard()
     {
         // specific periods
-        IReadOnlyList<HeikinAshiResult> sut = Quotes
+        IReadOnlyList<HeikinAshiResult> sut = Bars
             .ToHeikinAshi()
             .RemoveWarmupPeriods(102);
 
@@ -15,14 +15,14 @@ public class RemoveWarmup : TestBase
 
         // bad remove period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAdx().RemoveWarmupPeriods(-1));
+            static () => Bars.ToAdx().RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]
     public void TooMany()
     {
         // more than available
-        IReadOnlyList<HeikinAshiResult> sut = Quotes
+        IReadOnlyList<HeikinAshiResult> sut = Bars
             .ToHeikinAshi()
             .RemoveWarmupPeriods(600);
 

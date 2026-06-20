@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 /// Provides streaming hub for Force Index calculations.
 /// </summary>
 public class ForceIndexHub
-    : ChainHub<IQuote, ForceIndexResult>, IForceIndex
+    : ChainHub<IBar, ForceIndexResult>, IForceIndex
 {
     private readonly double _k;
     private double _sumRawFi;
 
     internal ForceIndexHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         ForceIndex.Validate(lookbackPeriods);
@@ -32,23 +32,23 @@ public class ForceIndexHub
 
     /// <inheritdoc />
     protected override (ForceIndexResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double fi = double.NaN;
 
-        // skip first period (need prior quote for delta)
+        // skip first period (need prior bar for delta)
         if (i > 0)
         {
-            // get current and previous quotes
-            IQuote currentQuote = ProviderCache[i];
-            IQuote previousQuote = ProviderCache[i - 1];
+            // get current and previous bars
+            IBar currentBar = ProviderCache[i];
+            IBar previousBar = ProviderCache[i - 1];
 
             // calculate raw Force Index
-            double rawFi = (double)currentQuote.Volume
-                * ((double)currentQuote.Close - (double)previousQuote.Close);
+            double rawFi = (double)currentBar.Volume
+                * ((double)currentBar.Close - (double)previousBar.Close);
 
             if (i >= LookbackPeriods)
             {
@@ -97,8 +97,8 @@ public class ForceIndexHub
 
             for (int i = 1; i <= endIndex && i < ProviderCache.Count; i++)
             {
-                IQuote curr = ProviderCache[i];
-                IQuote prev = ProviderCache[i - 1];
+                IBar curr = ProviderCache[i];
+                IBar prev = ProviderCache[i - 1];
                 _sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
             }
         }
@@ -110,18 +110,18 @@ public class ForceIndexHub
 public static partial class ForceIndex
 {
     /// <summary>
-    /// Converts the quote provider to a Force Index hub.
+    /// Converts the bar provider to a Force Index hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Force Index hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static ForceIndexHub ToForceIndexHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 2)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new(barProvider, lookbackPeriods);
     }
 }

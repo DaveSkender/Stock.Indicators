@@ -6,8 +6,8 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<HurstResult> sut = LongestQuotes
-            .ToHurst(LongestQuotes.Count - 1);
+        IReadOnlyList<HurstResult> sut = LongestBars
+            .ToHurst(LongestBars.Count - 1);
 
         // assertions
 
@@ -25,7 +25,7 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
-        IReadOnlyList<HurstResult> sut = Quotes.ToHurst(100);
+        IReadOnlyList<HurstResult> sut = Bars.ToHurst(100);
         sut.IsBetween(static x => x.HurstExponent, 0, 1);
         sut.IsBetween(static x => x.HurstExponentAL, 0, 1);
     }
@@ -35,7 +35,7 @@ public class Hurst : StaticSeriesTestBase
     {
         // lookbackPeriods=500 produces chunk sizes [500, 250, 125, 62, 31, 15]
         // that straddle the n=340 Stirling/exact-gamma branch boundary.
-        IReadOnlyList<HurstResult> sut = Quotes.ToHurst(500);
+        IReadOnlyList<HurstResult> sut = Bars.ToHurst(500);
 
         sut.Should().HaveCount(502);
         sut.Count(static x => x.HurstExponent != null).Should().Be(2);
@@ -49,7 +49,7 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<HurstResult> sut = Quotes
+        IReadOnlyList<HurstResult> sut = Bars
             .Use(CandlePart.Close)
             .ToHurst();
 
@@ -65,7 +65,7 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToHurst()
             .ToSma(10);
 
@@ -76,7 +76,7 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<HurstResult> sut = Quotes
+        IReadOnlyList<HurstResult> sut = Bars
             .ToSma(10)
             .ToHurst();
 
@@ -85,9 +85,9 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<HurstResult> r = BadQuotes
+        IReadOnlyList<HurstResult> r = BadBars
             .ToHurst(150);
 
         r.Should().HaveCount(502);
@@ -96,14 +96,14 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<HurstResult> r0 = Noquotes
+        IReadOnlyList<HurstResult> r0 = Nobars
             .ToHurst();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<HurstResult> r1 = Onequote
+        IReadOnlyList<HurstResult> r1 = Onebar
             .ToHurst();
 
         r1.Should().HaveCount(1);
@@ -112,7 +112,7 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<HurstResult> sut = LongestQuotes.ToHurst(LongestQuotes.Count - 1)
+        IReadOnlyList<HurstResult> sut = LongestBars.ToHurst(LongestBars.Count - 1)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -129,7 +129,7 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToHurst(19))
+            .Invoking(static () => Bars.ToHurst(19))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

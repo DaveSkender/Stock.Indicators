@@ -6,11 +6,11 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<HtlResult> sut = Quotes
+        IReadOnlyList<HtlResult> sut = Bars
             .ToHtTrendline();
 
         // proper quantities
-        // should always be the same number of sut as there is quotes
+        // should always be the same number of sut as there is bars
         sut.Should().HaveCount(502);
         sut.Where(static x => x.DcPeriods != null).Should().HaveCount(495);
         sut.Where(static x => x.Trendline != null).Should().HaveCount(502);
@@ -59,7 +59,7 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<HtlResult> sut = Quotes
+        IReadOnlyList<HtlResult> sut = Bars
             .Use(CandlePart.Close)
             .ToHtTrendline();
 
@@ -70,7 +70,7 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<HtlResult> sut = Quotes
+        IReadOnlyList<HtlResult> sut = Bars
             .ToSma(2)
             .ToHtTrendline();
 
@@ -81,7 +81,7 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToHtTrendline()
             .ToSma(10);
 
@@ -90,9 +90,9 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<HtlResult> r = BadQuotes
+        IReadOnlyList<HtlResult> r = BadBars
             .ToHtTrendline();
 
         r.Should().HaveCount(502);
@@ -102,7 +102,7 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<HtlResult> sut = Quotes
+        IReadOnlyList<HtlResult> sut = Bars
             .ToHtTrendline()
             .RemoveWarmupPeriods();
 
@@ -117,7 +117,7 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public void PennyData_WithSmallPrices_ReturnsExpectedResult()
     {
-        IReadOnlyList<Quote> penny = Data.GetPenny();
+        IReadOnlyList<Bar> penny = Data.GetPenny();
 
         IReadOnlyList<HtlResult> r = penny
             .ToHtTrendline();
@@ -126,14 +126,14 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<HtlResult> r0 = Noquotes
+        IReadOnlyList<HtlResult> r0 = Nobars
             .ToHtTrendline();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<HtlResult> r1 = Onequote
+        IReadOnlyList<HtlResult> r1 = Onebar
             .ToHtTrendline();
 
         r1.Should().HaveCount(1);

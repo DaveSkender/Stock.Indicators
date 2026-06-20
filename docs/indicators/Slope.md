@@ -15,7 +15,7 @@ description: Slope of the best fit line is determined by an ordinary least-squar
 ```csharp
 // C# usage syntax
 IReadOnlyList<SlopeResult> results =
-  quotes.ToSlope(lookbackPeriods);
+  bars.ToSlope(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<SlopeResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,19 +36,19 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<SlopeResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
-- `Line` values are only provided for the last `N` periods of your quote history
+- `Line` values are only provided for the last `N` periods of your bar history
 
-> &#128073; **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
+> &#128073; **Repaint warning**: the `Line` will be continuously repainted since it is based on the last bar and lookback period.
 
 ### `SlopeResult`
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Slope` | double | Slope `m` of the best-fit line of price |
 | `Intercept` | double | Y-Intercept `b` of the best-fit line |
 | `StdDev` | double | Standard Deviation of price over `N` lookback periods |
@@ -70,7 +70,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToEma(..)
     .ToSlope(..);
 ```
@@ -79,7 +79,7 @@ Results can be further processed on `Slope` with additional chain-enabled indica
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToSlope(..)
     .ToRsi(..);
 ```
@@ -93,24 +93,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 SlopeList slopeList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  slopeList.Add(quote);
+  slopeList.Add(bar);
 }
 
 // based on `ICollection<SlopeResult>`
 IReadOnlyList<SlopeResult> results = slopeList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-SlopeHub observer = quoteHub.ToSlopeHub(lookbackPeriods);
+BarHub barHub = new();
+SlopeHub observer = barHub.ToSlopeHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<SlopeResult> results = observer.Results;

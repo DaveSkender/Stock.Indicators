@@ -6,7 +6,7 @@
 result.Value.Should().BeApproximately(expected, Money6);
 results.Should().HaveCount(502);
 act.Should().Throw<ArgumentOutOfRangeException>();
-act.Should().Throw<ArgumentNullException>().WithParameterName("quotes");
+act.Should().Throw<ArgumentNullException>().WithParameterName("bars");
 ```
 
 ## Precision constants
@@ -27,20 +27,20 @@ Defined in `TestBaseWithPrecision`. Use for `BeApproximately()` with manually ca
 Use `IsExactly()` (NOT `Should().Be()`):
 
 ```csharp
-buffer.IsExactly(quotes.ToIndicator(14));
+buffer.IsExactly(bars.ToIndicator(14));
 ```
 
 ## BufferList constraints
 
 Inherit `BufferListTestBase`.
 
-`IIncrementFromQuote` → implement `ITestQuoteBufferList`:
+`IIncrementFromBar` → implement `ITestBarBufferList`:
 
 - `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
 - `Clear_WithState_ResetsState()`
-- `AddQuote_IncrementsResults()`
-- `AddQuotesBatch_IncrementsResults()`
-- `QuotesCtor_OnInstantiation_IncrementsResults()`
+- `AddBar_IncrementsResults()`
+- `AddBarsBatch_IncrementsResults()`
+- `BarsCtor_OnInstantiation_IncrementsResults()`
 
 `IIncrementFromChain` → implement `ITestChainBufferList` (all above, plus):
 
@@ -60,8 +60,8 @@ Inherit `StreamHubTestBase`. Abstract method (compile error if missing):
 
 Implement ONE observer interface:
 
-- `ITestChainObserver`: `ChainObserver_ChainedProvider_MatchesSeriesExactly()` + inherits all `ITestQuoteObserver` methods
-- `ITestQuoteObserver`: `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()`, `WithCachePruning_MatchesSeriesExactly()`
+- `ITestChainObserver`: `ChainObserver_ChainedProvider_MatchesSeriesExactly()` + inherits all `ITestBarObserver` methods
+- `ITestBarObserver`: `BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()`, `WithCachePruning_MatchesSeriesExactly()`
 
 If hub acts as chain provider, also implement `ITestChainProvider`:
 

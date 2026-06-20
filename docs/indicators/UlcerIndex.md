@@ -15,7 +15,7 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 ```csharp
 // C# usage syntax
 IReadOnlyList<UlcerIndexResult> results =
-  quotes.ToUlcerIndex(lookbackPeriods);
+  bars.ToUlcerIndex(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,11 +24,11 @@ IReadOnlyList<UlcerIndexResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N` periods of `quotes` to cover the warmup periods.
+You must have at least `N` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -36,8 +36,8 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<UlcerIndexResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -45,7 +45,7 @@ IReadOnlyList<UlcerIndexResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `UlcerIndex` | double | Ulcer Index |
 
 ### Utilities
@@ -63,7 +63,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToUlcerIndex(..);
 ```
@@ -72,7 +72,7 @@ Results can be further processed on `UlcerIndex` with additional chain-enabled i
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToUlcerIndex(..)
     .ToRsi(..);
 ```
@@ -86,24 +86,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 UlcerIndexList ulcerIndexList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  ulcerIndexList.Add(quote);
+  ulcerIndexList.Add(bar);
 }
 
 // based on `ICollection<UlcerIndexResult>`
 IReadOnlyList<UlcerIndexResult> results = ulcerIndexList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-UlcerIndexHub observer = quoteHub.ToUlcerIndexHub(lookbackPeriods);
+BarHub barHub = new();
+UlcerIndexHub observer = barHub.ToUlcerIndexHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<UlcerIndexResult> results = observer.Results;

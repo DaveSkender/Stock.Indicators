@@ -8,44 +8,44 @@ public class Keltner : BufferListTestBase
     private const int atrPeriods = 10;
 
     private static readonly IReadOnlyList<KeltnerResult> series
-       = Quotes.ToKeltner(emaPeriods, multiplier, atrPeriods);
+       = Bars.ToKeltner(emaPeriods, multiplier, atrPeriods);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         KeltnerList sut = new(emaPeriods, multiplier, atrPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        KeltnerList sut = Quotes.ToKeltnerList(emaPeriods, multiplier, atrPeriods);
+        KeltnerList sut = Bars.ToKeltnerList(emaPeriods, multiplier, atrPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        KeltnerList sut = new(emaPeriods, multiplier, atrPeriods, Quotes);
+        KeltnerList sut = new(emaPeriods, multiplier, atrPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<KeltnerResult> expected = subset.ToKeltner(emaPeriods, multiplier, atrPeriods);
 
         KeltnerList sut = new(emaPeriods, multiplier, atrPeriods, subset);
@@ -72,7 +72,7 @@ public class Keltner : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<KeltnerResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

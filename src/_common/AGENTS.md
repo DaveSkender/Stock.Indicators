@@ -4,7 +4,7 @@
 
 This file (AGENTS.md) carries the **operational guidance for AI agents and contributors** editing files in `src/_common/`: framework-level invariants, repo-specific file locations, registration conventions, and boundaries. Its companion [README.md](README.md) carries the **public directory inventory and per-file descriptions** for anyone browsing the source on GitHub. The two files are deliberately non-overlapping — keep behavioral rules here and descriptive inventory there.
 
-This folder holds the streaming framework (`StreamHub/`, `BufferLists/`), the catalog system (`Catalog/`), core types (`Quotes/`, `Reusable/`, `QuotePart/`), and shared utilities.
+This folder holds the streaming framework (`StreamHub/`, `BufferLists/`), the catalog system (`Catalog/`), core types (`Bars/`, `TradeTicks/`, `Reusable/`, `BarPart/`), and shared utilities.
 
 Before changing anything stateful in this directory, consult [docs/plans/streaming-indicators.plan.md](../../docs/plans/streaming-indicators.plan.md) — it is the source of truth for active streaming work, release gates, and v3.1+ architecture decisions (retiring `BaseProvider<T>`, multi-input `JoinHub`, Rx / `IAsyncEnumerable` adapters).
 
@@ -12,10 +12,10 @@ Before changing anything stateful in this directory, consult [docs/plans/streami
 
 | Working on | Load |
 | ---------- | ---- |
-| `StreamHub/`, `Quotes/Quote.StreamHub.cs`, `Quotes/*.AggregatorHub.cs`, any `**/*.StreamHub.cs` | `#skill:indicator-stream` |
+| `StreamHub/`, `Bars/Bar.StreamHub.cs`, `Bars/*.AggregatorHub.cs`, any `**/*.StreamHub.cs` | `#skill:indicator-stream` |
 | `BufferLists/`, any `**/*.BufferList.cs` | `#skill:indicator-buffer` |
 | `Catalog/`, any `**/*.Catalog.cs` | `#skill:indicator-catalog` |
-| `Quotes/`, new aggregator hubs | `#skill:indicator-stream` + sections below |
+| `Bars/`, new aggregator hubs | `#skill:indicator-stream` + sections below |
 
 Skills carry the portable patterns. The sections below carry the repository-specific specifics the skills intentionally do not duplicate.
 
@@ -32,18 +32,18 @@ Hubs that originate a stream (no upstream provider) bootstrap their base class w
 
 Canonical examples:
 
-- `src/_common/Quotes/Quote.StreamHub.cs:24` — `QuoteHub` (default IQuote source)
-- `src/_common/Quotes/Tick.StreamHub.cs:24` — `TickHub` (default ITick source)
+- `src/_common/Bars/Bar.StreamHub.cs:24` — `BarHub` (default IBar source)
+- `src/_common/TradeTicks/TradeTick.StreamHub.cs:24` — `TradeTickHub` (default ITradeTick source)
 
 `BaseProvider<T>` is acknowledged in its source comments as a workaround pending a cleaner `StreamSource<T>` root class — that refactor is queued for v3.1 in the streaming plan. Do not extend `BaseProvider<T>` beyond the existing self-rooted sources.
 
 ### Aggregator hubs
 
-`Quote.AggregatorHub.cs` and `Tick.AggregatorHub.cs` quantize incoming bars/ticks into larger time periods. They:
+`Bar.AggregatorHub.cs` and `TradeTick.AggregatorHub.cs` quantize incoming bars/ticks into larger time periods. They:
 
-- Derive from `QuoteProvider<TIn, IQuote>`
-- Accept a `PeriodSize` (or raw `TimeSpan`) plus an optional `fillGaps` flag
-- Emit closed bars at period boundaries; reject `PeriodSize.Month` (use `TimeSpan` overload for custom periods)
+- Derive from `BarProvider<TIn, IBar>`
+- Accept a `BarInterval` (or raw `TimeSpan`) plus an optional `fillGaps` flag
+- Emit closed bars at period boundaries; reject `BarInterval.Month` (use `TimeSpan` overload for custom periods)
 - Inherit the standard `RollbackState(int)` semantics so out-of-order ticks reconstruct correctly
 
 When implementing a new quantizer, prefer extending the aggregator pattern over writing bespoke bucketing.
@@ -75,7 +75,7 @@ Audit of overrides against the formalized contract is queued for v3.1. When addi
 `BufferList<TResult>` (`src/_common/BufferLists/BufferList.cs`) is a standalone `IReadOnlyList` for synchronous incremental compute. `MaxListSize` enables pruning when long-running. Two interfaces drive incremental adds:
 
 - `IIncrementFromChain` — `Add(DateTime, double)`, `Add(IReusable)`, `Add(IReadOnlyList<IReusable>)` — for chainable single-value indicators
-- `IIncrementFromQuote` — `Add(IQuote)`, `Add(IReadOnlyList<IQuote>)` — for indicators requiring full OHLCV
+- `IIncrementFromBar` — `Add(IBar)`, `Add(IReadOnlyList<IBar>)` — for indicators requiring full OHLCV
 
 The implementation uses the C# `field` keyword at `BufferList.cs:54,56`, which is the sole reason `<EnablePreviewFeatures>true</EnablePreviewFeatures>` remains in `src/Indicators.csproj`. C# 14 / .NET 10 ships `field` as GA — removing the preview flag is queued as a quick-win cleanup in the streaming plan.
 
@@ -102,7 +102,7 @@ See the parent [src/AGENTS.md](../AGENTS.md#nan-handling-policy) for the canonic
 
 ✅ Always register new indicators in `Catalog.Listings.cs` in Buffer → Series → Stream order
 
-⚠️ Ask before adding new derivations of `BaseProvider<T>` — the class is a documented workaround scheduled for replacement; current usage is limited to `QuoteHub` and `TickHub`
+⚠️ Ask before adding new derivations of `BaseProvider<T>` — the class is a documented workaround scheduled for replacement; current usage is limited to `BarHub` and `TradeTickHub`
 
 ⚠️ Ask before adding `#pragma warning disable` directives in this folder — current footprint is exactly two intentional suppressions: (1) `IDE0010` at `StreamHub/StreamHub.cs:2`, covering the `Act` enum switch in `AppendCache` whose `default => throw` is a deliberate "would never happen" safety net for `Act.Ignore`; and (2) `CA1031, RCS1075` scoped to the notification region in `StreamHub/StreamHub.Observable.cs` (the `NotifyObserversOn*` methods + `IsolateObserverFault`), where catching the general `Exception` and the deliberate empty catch are required for the observer-isolation boundary. `BufferLists/` carries zero. New pragmas anywhere under `_common/` require explicit justification
 

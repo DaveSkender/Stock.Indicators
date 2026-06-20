@@ -6,29 +6,29 @@ namespace Skender.Stock.Indicators;
 public static partial class Donchian
 {
     /// <summary>
-    /// Converts a list of quotes to Donchian Channel results.
+    /// Converts a list of bars to Donchian Channel results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Donchian Channel results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<DonchianResult> ToDonchian(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 20)
     {
         // check parameter arguments
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<DonchianResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IQuote q = quotes[i];
+            IBar q = bars[i];
 
             if (i >= lookbackPeriods)
             {
@@ -38,7 +38,7 @@ public static partial class Donchian
                 // high/low over prior periods
                 for (int p = i - lookbackPeriods; p < i; p++)
                 {
-                    IQuote d = quotes[p];
+                    IBar d = bars[p];
 
                     if ((double)d.High > highHigh)
                     {

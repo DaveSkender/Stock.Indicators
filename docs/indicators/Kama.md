@@ -15,7 +15,7 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ```csharp
 // C# usage syntax
 IReadOnlyList<KamaResult> results =
-  quotes.ToKama(erPeriods, fastPeriods, slowPeriods);
+  bars.ToKama(erPeriods, fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<KamaResult> results =
 | `fastPeriods` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2. |
 | `slowPeriods` | int | Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
+You must have at least `6×E` or `E+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more,
 IReadOnlyList<KamaResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `E-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -51,7 +51,7 @@ The first `10×E` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Er` | double | Efficiency Ratio is the fractal efficiency of price changes |
 | `Kama` | double | Kaufman's adaptive moving average |
 
@@ -72,7 +72,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToKama(..);
 ```
@@ -81,7 +81,7 @@ Results can be further processed on `Kama` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToKama(..)
     .ToRsi(..);
 ```
@@ -95,24 +95,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 KamaList kamaList = new(erPeriods, fastPeriods, slowPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  kamaList.Add(quote);
+  kamaList.Add(bar);
 }
 
 // based on `ICollection<KamaResult>`
 IReadOnlyList<KamaResult> results = kamaList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-KamaHub observer = quoteHub.ToKamaHub(erPeriods, fastPeriods, slowPeriods);
+BarHub barHub = new();
+KamaHub observer = barHub.ToKamaHub(erPeriods, fastPeriods, slowPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<KamaResult> results = observer.Results;

@@ -8,42 +8,42 @@ public class Stc : BufferListTestBase, ITestChainBufferList
     private const int slowPeriods = 26;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<StcResult> series
-       = Quotes.ToStc(cyclePeriods, fastPeriods, slowPeriods);
+       = Bars.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         StcList sut = new(cyclePeriods, fastPeriods, slowPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        StcList sut = Quotes.ToStcList(cyclePeriods, fastPeriods, slowPeriods);
+        StcList sut = Bars.ToStcList(cyclePeriods, fastPeriods, slowPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        StcList sut = new(cyclePeriods, fastPeriods, slowPeriods, Quotes);
+        StcList sut = new(cyclePeriods, fastPeriods, slowPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -57,7 +57,7 @@ public class Stc : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -66,7 +66,7 @@ public class Stc : BufferListTestBase, ITestChainBufferList
     {
         StcList sut = new(cyclePeriods, fastPeriods, slowPeriods) { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -80,14 +80,14 @@ public class Stc : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(100).ToList();
+        List<Bar> subset = Bars.Take(100).ToList();
         IReadOnlyList<StcResult> expected = subset.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
         StcList sut = new(cyclePeriods, fastPeriods, slowPeriods, subset);
@@ -114,7 +114,7 @@ public class Stc : BufferListTestBase, ITestChainBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<StcResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -127,7 +127,7 @@ public class Stc : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        StcList sut = new(9, 12, 26, Quotes);
+        StcList sut = new(9, 12, 26, Bars);
         sut.IsBetween(static x => x.Stc, 0, 100);
     }
 }

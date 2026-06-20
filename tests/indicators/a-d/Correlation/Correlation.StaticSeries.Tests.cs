@@ -6,11 +6,11 @@ public class Correlation : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CorrResult> sut = Quotes
-            .ToCorrelation(OtherQuotes, 20);
+        IReadOnlyList<CorrResult> sut = Bars
+            .ToCorrelation(OtherBars, 20);
 
         // proper quantities
-        // should always be the same number of sut as there is quotes
+        // should always be the same number of sut as there is bars
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Correlation != null).Should().HaveCount(483);
 
@@ -35,7 +35,7 @@ public class Correlation : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<CorrResult> sut = Quotes.ToCorrelation(OtherQuotes, 20);
+        IReadOnlyList<CorrResult> sut = Bars.ToCorrelation(OtherBars, 20);
         sut.IsBetween(static x => x.Correlation, -1, 1);
         sut.IsBetween(static x => x.RSquared, 0, 1);
     }
@@ -43,9 +43,9 @@ public class Correlation : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<CorrResult> sut = Quotes
+        IReadOnlyList<CorrResult> sut = Bars
             .Use(CandlePart.Close)
-            .ToCorrelation(OtherQuotes.Use(CandlePart.Close), 20);
+            .ToCorrelation(OtherBars.Use(CandlePart.Close), 20);
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Correlation != null).Should().HaveCount(483);
@@ -54,8 +54,8 @@ public class Correlation : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
-            .ToCorrelation(OtherQuotes, 20)
+        IReadOnlyList<SmaResult> sut = Bars
+            .ToCorrelation(OtherBars, 20)
             .ToSma(10);
 
         sut.Should().HaveCount(502);
@@ -65,9 +65,9 @@ public class Correlation : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<CorrResult> sut = Quotes
+        IReadOnlyList<CorrResult> sut = Bars
             .ToSma(2)
-            .ToCorrelation(OtherQuotes.ToSma(2), 20);
+            .ToCorrelation(OtherBars.ToSma(2), 20);
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Correlation != null).Should().HaveCount(482);
@@ -75,34 +75,34 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<CorrResult> r = BadQuotes
-            .ToCorrelation(BadQuotes, 15);
+        IReadOnlyList<CorrResult> r = BadBars
+            .ToCorrelation(BadBars, 15);
 
         r.Should().HaveCount(502);
         r.Where(static x => x.Correlation is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<CorrResult> r = BigQuotes
-            .ToCorrelation(BigQuotes, 150);
+        IReadOnlyList<CorrResult> r = BigBars
+            .ToCorrelation(BigBars, 150);
 
         r.Should().HaveCount(1246);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<CorrResult> r0 = Noquotes
-            .ToCorrelation(Noquotes, 10);
+        IReadOnlyList<CorrResult> r0 = Nobars
+            .ToCorrelation(Nobars, 10);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<CorrResult> r1 = Onequote
-            .ToCorrelation(Onequote, 10);
+        IReadOnlyList<CorrResult> r1 = Onebar
+            .ToCorrelation(Onebar, 10);
 
         r1.Should().HaveCount(1);
     }
@@ -110,8 +110,8 @@ public class Correlation : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<CorrResult> sut = Quotes
-            .ToCorrelation(OtherQuotes, 20)
+        IReadOnlyList<CorrResult> sut = Bars
+            .ToCorrelation(OtherBars, 20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -127,15 +127,15 @@ public class Correlation : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToCorrelation(OtherQuotes, 0));
+            () => Bars.ToCorrelation(OtherBars, 0));
 
-        // bad eval quotes
-        IReadOnlyList<Quote> eval = Data.GetCompare(300);
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            () => Quotes.ToCorrelation(eval, 30));
+        // bad eval bars
+        IReadOnlyList<Bar> eval = Data.GetCompare(300);
+        Assert.ThrowsExactly<InvalidBarsException>(
+            () => Bars.ToCorrelation(eval, 30));
 
-        // mismatched quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            () => MismatchQuotes.ToCorrelation(OtherQuotes, 20));
+        // mismatched bars
+        Assert.ThrowsExactly<InvalidBarsException>(
+            () => MismatchBars.ToCorrelation(OtherBars, 20));
     }
 }

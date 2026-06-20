@@ -14,7 +14,7 @@ public static partial class Beta
     /// <param name="type">Type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
     /// <returns>A list of Beta results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
-    /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceEval and sourceMrkt do not match.</exception>
+    /// <exception cref="InvalidBarsException">Thrown when the timestamps of sourceEval and sourceMrkt do not match.</exception>
     public static IReadOnlyList<BetaResult> ToBeta(
         this IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceMrkt,
@@ -34,7 +34,7 @@ public static partial class Beta
         bool calcUp = type is BetaType.All or BetaType.Up;
         bool calcDn = type is BetaType.All or BetaType.Down;
 
-        // convert quotes to returns
+        // convert bars to returns
         double[] evalReturns = new double[length];
         double[] mrktReturns = new double[length];
         double prevE = 0;
@@ -47,10 +47,10 @@ public static partial class Beta
 
             if (eval.Timestamp != mrkt.Timestamp)
             {
-                throw new InvalidQuotesException(
+                throw new InvalidBarsException(
                     nameof(sourceEval), eval.Timestamp,
                     "Timestamp sequence does not match.  " +
-                    "Beta requires matching dates in provided quotes.");
+                    "Beta requires matching dates in provided bars.");
             }
 
             evalReturns[i] = prevE != 0 ? (eval.Value / prevE) - 1d : 0;

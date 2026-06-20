@@ -6,7 +6,7 @@ public class Marubozu : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CandleResult> sut = Quotes
+        IReadOnlyList<CandleResult> sut = Bars
             .ToMarubozu();
 
         // proper quantities
@@ -40,23 +40,23 @@ public class Marubozu : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<CandleResult> r = BadQuotes
+        IReadOnlyList<CandleResult> r = BadBars
             .ToMarubozu();
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<CandleResult> r0 = Noquotes
+        IReadOnlyList<CandleResult> r0 = Nobars
             .ToMarubozu();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<CandleResult> r1 = Onequote
+        IReadOnlyList<CandleResult> r1 = Onebar
             .ToMarubozu();
 
         r1.Should().HaveCount(1);
@@ -65,7 +65,7 @@ public class Marubozu : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<CandleResult> sut = Quotes
+        IReadOnlyList<CandleResult> sut = Bars
             .ToMarubozu()
             .Condense();
 
@@ -77,9 +77,9 @@ public class Marubozu : StaticSeriesTestBase
     {
         // bad minimum body percent values
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMarubozu(79.9));
+            static () => Bars.ToMarubozu(79.9));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMarubozu(100.1));
+            static () => Bars.ToMarubozu(100.1));
     }
 }

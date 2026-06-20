@@ -4,12 +4,12 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for identifying Doji candlestick patterns.
 /// </summary>
 public class DojiHub
-    : StreamHub<IQuote, CandleResult>, IDoji
+    : StreamHub<IBar, CandleResult>, IDoji
 {
     private readonly double _maxPriceChangePercentDecimal;
 
     internal DojiHub(
-        IStreamObservable<IQuote> provider,
+        IStreamObservable<IBar> provider,
         double maxPriceChangePercent) : base(provider)
     {
         Doji.Validate(maxPriceChangePercent);
@@ -27,7 +27,7 @@ public class DojiHub
     public double MaxPriceChangePercent { get; init; }
     /// <inheritdoc/>
     protected override (CandleResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -46,7 +46,7 @@ public class DojiHub
         // Candidate result
         CandleResult r = new(
             timestamp: item.Timestamp,
-            quote: item,
+            bar: item,
             match: matchType,
             price: matchPrice);
 
@@ -57,15 +57,15 @@ public class DojiHub
 public static partial class Doji
 {
     /// <summary>
-    /// Creates a Doji hub from a quote provider.
+    /// Creates a Doji hub from a bar provider.
     /// </summary>
-    /// <param name="provider">Quote provider.</param>
+    /// <param name="provider">Bar provider.</param>
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price. Default is 0.1.</param>
     /// <returns>A Doji hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the maxPriceChangePercent is invalid.</exception>
     public static DojiHub ToDojiHub(
-        this IStreamObservable<IQuote> provider,
+        this IStreamObservable<IBar> provider,
         double maxPriceChangePercent = 0.1)
         => new(provider, maxPriceChangePercent);
 }

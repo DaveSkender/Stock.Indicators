@@ -11,7 +11,7 @@ public class Pvo : StaticSeriesTestBase
         const int signalPeriods = 9;
 
         IReadOnlyList<PvoResult> sut =
-            Quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
+            Bars.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -49,7 +49,7 @@ public class Pvo : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToPvo()
             .ToSma(10);
 
@@ -58,9 +58,9 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<PvoResult> r = BadQuotes
+        IReadOnlyList<PvoResult> r = BadBars
             .ToPvo(10, 20, 5);
 
         r.Should().HaveCount(502);
@@ -68,14 +68,14 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<PvoResult> r0 = Noquotes
+        IReadOnlyList<PvoResult> r0 = Nobars
             .ToPvo();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<PvoResult> r1 = Onequote
+        IReadOnlyList<PvoResult> r1 = Onebar
             .ToPvo();
 
         r1.Should().HaveCount(1);
@@ -88,7 +88,7 @@ public class Pvo : StaticSeriesTestBase
         const int slowPeriods = 26;
         const int signalPeriods = 9;
 
-        IReadOnlyList<PvoResult> sut = Quotes
+        IReadOnlyList<PvoResult> sut = Bars
             .ToPvo(fastPeriods, slowPeriods, signalPeriods)
             .RemoveWarmupPeriods();
 
@@ -106,14 +106,14 @@ public class Pvo : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPvo(0));
+            static () => Bars.ToPvo(0));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPvo(12, 12));
+            static () => Bars.ToPvo(12, 12));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPvo(12, 26, -1));
+            static () => Bars.ToPvo(12, 26, -1));
     }
 }

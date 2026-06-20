@@ -32,7 +32,7 @@ public static partial class Hma
         IReadOnlyList<WmaResult> wmaN2
             = source.ToWma(lookbackPeriods / 2);
 
-        // roll through source values, to get interim synthetic quotes
+        // roll through source values, to get interim synthetic bars
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];

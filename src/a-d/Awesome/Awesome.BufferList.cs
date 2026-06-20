@@ -90,7 +90,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        // Prefer HL2 when source is IQuote (Awesome Oscillator specification)
+        // Prefer HL2 when source is IBar (Awesome Oscillator specification)
         Add(value.Timestamp, value.Hl2OrValue());
     }
 
@@ -102,7 +102,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
         for (int i = 0; i < values.Count; i++)
         {
             IReusable v = values[i];
-            // Prefer HL2 when source is IQuote (Awesome Oscillator specification)
+            // Prefer HL2 when source is IBar (Awesome Oscillator specification)
             Add(v.Timestamp, v.Hl2OrValue());
         }
     }

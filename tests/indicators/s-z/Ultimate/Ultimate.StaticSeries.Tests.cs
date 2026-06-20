@@ -6,7 +6,7 @@ public class Ultimate : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<UltimateResult> sut = Quotes
+        IReadOnlyList<UltimateResult> sut = Bars
             .ToUltimate();
 
         // proper quantities
@@ -27,12 +27,12 @@ public class Ultimate : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<UltimateResult> sut = Quotes.ToUltimate(7, 14, 28);
+        IReadOnlyList<UltimateResult> sut = Bars.ToUltimate(7, 14, 28);
         sut.IsBetween(static x => x.Ultimate, 0, 100);
     }
 
     [TestMethod]
-    public void Boundary_WithRandomQuotes_StaysWithinBounds()
+    public void Boundary_WithRandomBars_StaysWithinBounds()
     {
         IReadOnlyList<UltimateResult> sut = Data
             .GetRandom(2500)
@@ -44,7 +44,7 @@ public class Ultimate : StaticSeriesTestBase
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToUltimate()
             .ToSma(10);
 
@@ -53,9 +53,9 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<UltimateResult> r = BadQuotes
+        IReadOnlyList<UltimateResult> r = BadBars
             .ToUltimate(1, 2, 3);
 
         r.Should().HaveCount(502);
@@ -63,14 +63,14 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<UltimateResult> r0 = Noquotes
+        IReadOnlyList<UltimateResult> r0 = Nobars
             .ToUltimate();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<UltimateResult> r1 = Onequote
+        IReadOnlyList<UltimateResult> r1 = Onebar
             .ToUltimate();
 
         r1.Should().HaveCount(1);
@@ -79,7 +79,7 @@ public class Ultimate : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<UltimateResult> sut = Quotes
+        IReadOnlyList<UltimateResult> sut = Bars
             .ToUltimate()
             .RemoveWarmupPeriods();
 
@@ -95,14 +95,14 @@ public class Ultimate : StaticSeriesTestBase
     {
         // bad short period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToUltimate(0));
+            static () => Bars.ToUltimate(0));
 
         // bad middle period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToUltimate(7, 6));
+            static () => Bars.ToUltimate(7, 6));
 
         // bad long period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToUltimate(7, 14, 11));
+            static () => Bars.ToUltimate(7, 14, 11));
     }
 }

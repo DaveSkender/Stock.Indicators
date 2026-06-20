@@ -15,7 +15,7 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 ```csharp
 // C# usage syntax
 IReadOnlyList<ConnorsRsiResult> results =
-  quotes.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+  bars.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<ConnorsRsiResult> results =
 | `streakPeriods` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2. |
 | `rankPeriods` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-`N` is the greater of `R+100`, `S`, and `P+2`.  You must have at least `N` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
+`N` is the greater of `R+100`, `S`, and `P+2`.  You must have at least `N` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ IReadOnlyList<ConnorsRsiResult> results =
 IReadOnlyList<ConnorsRsiResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `MAX(R,S,P)+1` periods will have `null` `ConnorsRsi` values since there's not enough data to calculate all three component scores (RSI of close, RSI of streak, percent rank) and combine them.
 
@@ -51,7 +51,7 @@ The first `N` periods will have decreasing magnitude, convergence-related precis
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Rsi` | double | `RSI(R)` of the price. |
 | `RsiStreak` | double | `RSI(S)` of the Streak. |
 | `PercentRank` | double | Percentile rank of the period gain value. |
@@ -72,7 +72,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToConnorsRsi(..);
 ```
@@ -81,7 +81,7 @@ Results can be further processed on `ConnorsRsi` with additional chain-enabled i
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToConnorsRsi(..)
     .ToSma(..);
 ```
@@ -95,24 +95,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 ConnorsRsiList connorsRsiList = new(rsiPeriods, streakPeriods, rankPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  connorsRsiList.Add(quote);
+  connorsRsiList.Add(bar);
 }
 
 // based on `ICollection<ConnorsRsiResult>`
 IReadOnlyList<ConnorsRsiResult> results = connorsRsiList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-ConnorsRsiHub observer = quoteHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
+BarHub barHub = new();
+ConnorsRsiHub observer = barHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<ConnorsRsiResult> results = observer.Results;

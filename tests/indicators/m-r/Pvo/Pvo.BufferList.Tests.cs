@@ -1,51 +1,51 @@
 namespace BufferLists;
 
 [TestClass]
-public class Pvo : BufferListTestBase, ITestQuoteBufferList
+public class Pvo : BufferListTestBase, ITestBarBufferList
 {
     private const int fastPeriods = 12;
     private const int slowPeriods = 26;
     private const int signalPeriods = 9;
 
     private static readonly IReadOnlyList<PvoResult> series
-       = Quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
+       = Bars.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        PvoList sut = Quotes.ToPvoList(fastPeriods, slowPeriods, signalPeriods);
+        PvoList sut = Bars.ToPvoList(fastPeriods, slowPeriods, signalPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
+        PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<PvoResult> expected = subset.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, subset);
@@ -72,7 +72,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<PvoResult> expected
             = series.Skip(series.Count - maxListSize).ToList();

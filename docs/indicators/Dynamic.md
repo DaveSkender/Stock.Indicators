@@ -15,7 +15,7 @@ Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<DynamicResult> results =
-  quotes.ToDynamic(lookbackPeriods, kFactor);
+  bars.ToDynamic(lookbackPeriods, kFactor);
 ```
 
 ## Parameters
@@ -25,11 +25,11 @@ IReadOnlyList<DynamicResult> results =
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 | `kFactor` | double | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6 |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `2` periods of `quotes`, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `4×N` data points prior to the intended usage date for better precision.
+You must have at least `2` periods of `bars`, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `4×N` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### Pro tips
 
@@ -43,8 +43,8 @@ You must have at least `2` periods of `quotes`, to cover the [warmup and converg
 IReadOnlyList<DynamicResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first period will have a `null` value since there's not enough data to calculate.
 
@@ -56,7 +56,7 @@ The first `4×N` periods will have decreasing magnitude, convergence-related pre
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Dynamic` | double | McGinley Dynamic |
 
 ### Utilities
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToDynamic(..);
 ```
@@ -82,7 +82,7 @@ Results can be further processed on `Dynamic` with additional chain-enabled indi
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToDynamic(..)
     .ToRsi(..);
 ```
@@ -96,24 +96,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 DynamicList dynamicList = new(lookbackPeriods, kFactor);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  dynamicList.Add(quote);
+  dynamicList.Add(bar);
 }
 
 // based on `ICollection<DynamicResult>`
 IReadOnlyList<DynamicResult> results = dynamicList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-DynamicHub observer = quoteHub.ToDynamicHub(lookbackPeriods, kFactor);
+BarHub barHub = new();
+DynamicHub observer = barHub.ToDynamicHub(lookbackPeriods, kFactor);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<DynamicResult> results = observer.Results;

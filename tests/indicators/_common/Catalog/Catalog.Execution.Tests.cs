@@ -6,7 +6,7 @@ namespace Catalogging;
 /// Catalog execution tests validating dynamic invocation by ID and JSON config:
 /// - ExecuteById for RSI/EMA/SMA (with/without parameters) matching direct calls
 /// - JSON-based execution (valid, minimal, invalid inputs)
-/// - Error handling for invalid id/style, null quotes, bad parameter types
+/// - Error handling for invalid id/style, null bars, bad parameter types
 /// - Defaults usage when required parameters are omitted
 /// </summary>
 [TestClass]
@@ -18,15 +18,15 @@ public class CatalogExecutionTests : TestBase
         // Arrange
         const string id = "RSI";
         const Style style = Style.Series;
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
 
         // Act
-        IReadOnlyList<RsiResult> sut = quotes.ExecuteById<RsiResult>(id, style);
+        IReadOnlyList<RsiResult> sut = bars.ExecuteById<RsiResult>(id, style);
 
         // Assert
         sut.Should().NotBeNullOrEmpty();
 
-        IReadOnlyList<RsiResult> directResults = quotes.ToRsi();
+        IReadOnlyList<RsiResult> directResults = bars.ToRsi();
         sut.Should().HaveCount(directResults.Count);
 
         for (int i = 0; i < sut.Count; i++)
@@ -40,15 +40,15 @@ public class CatalogExecutionTests : TestBase
     public void ExecuteByIdRsiWithParameters()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
         Dictionary<string, object> parameters = new() { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<RsiResult> sut = quotes.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
+        IReadOnlyList<RsiResult> sut = bars.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
 
         // Assert
         sut.Should().NotBeNullOrEmpty();
-        IReadOnlyList<RsiResult> directResults = quotes.ToRsi(10);
+        IReadOnlyList<RsiResult> directResults = bars.ToRsi(10);
         sut.Should().HaveCount(directResults.Count);
         for (int i = 0; i < sut.Count; i++)
         {
@@ -61,15 +61,15 @@ public class CatalogExecutionTests : TestBase
     public void ExecuteByIdEmaWithParameters()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
         Dictionary<string, object> parameters = new() { { "lookbackPeriods", 20 } };
 
         // Act
-        IReadOnlyList<EmaResult> sut = quotes.ExecuteById<EmaResult>("EMA", Style.Series, parameters);
+        IReadOnlyList<EmaResult> sut = bars.ExecuteById<EmaResult>("EMA", Style.Series, parameters);
 
         // Assert
         sut.Should().NotBeNullOrEmpty();
-        IReadOnlyList<EmaResult> directResults = quotes.ToEma(20);
+        IReadOnlyList<EmaResult> directResults = bars.ToEma(20);
         sut.Should().HaveCount(directResults.Count);
         for (int i = 0; i < sut.Count; i++)
         {
@@ -82,15 +82,15 @@ public class CatalogExecutionTests : TestBase
     public void ExecuteByIdSmaWithParameters()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
         Dictionary<string, object> parameters = new() { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<SmaResult> sut = quotes.ExecuteById<SmaResult>("SMA", Style.Series, parameters);
+        IReadOnlyList<SmaResult> sut = bars.ExecuteById<SmaResult>("SMA", Style.Series, parameters);
 
         // Assert
         sut.Should().NotBeNullOrEmpty();
-        IReadOnlyList<SmaResult> directResults = quotes.ToSma(10);
+        IReadOnlyList<SmaResult> directResults = bars.ToSma(10);
         sut.Should().HaveCount(directResults.Count);
         for (int i = 0; i < sut.Count; i++)
         {
@@ -103,26 +103,26 @@ public class CatalogExecutionTests : TestBase
     public void ExecuteByIdInvalidInputs()
     {
         // invalid id
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        Action a1 = () => quotes.ExecuteById<RsiResult>("INVALID_INDICATOR", Style.Series);
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
+        Action a1 = () => bars.ExecuteById<RsiResult>("INVALID_INDICATOR", Style.Series);
         a1.Should().Throw<InvalidOperationException>().WithMessage("*not found in catalog*");
 
-        // null quotes
-        IEnumerable<IQuote> nullQuotes = null!;
-        Action a2 = () => nullQuotes.ExecuteById<RsiResult>("RSI", Style.Series);
-        a2.Should().Throw<ArgumentNullException>().WithMessage("*quotes*");
+        // null bars
+        IEnumerable<IBar> nullBars = null!;
+        Action a2 = () => nullBars.ExecuteById<RsiResult>("RSI", Style.Series);
+        a2.Should().Throw<ArgumentNullException>().WithMessage("*bars*");
 
         // empty id
-        Action a3 = () => quotes.ExecuteById<RsiResult>(string.Empty, Style.Series);
+        Action a3 = () => bars.ExecuteById<RsiResult>(string.Empty, Style.Series);
         a3.Should().Throw<ArgumentException>().WithMessage("*ID cannot be null or empty*");
 
         // invalid style
-        Action a4 = () => quotes.ExecuteById<object>("RSI", (Style)999);
+        Action a4 = () => bars.ExecuteById<object>("RSI", (Style)999);
         a4.Should().Throw<InvalidOperationException>().WithMessage("*not found in catalog*");
 
         // mismatched parameter type
         Dictionary<string, object> badParams = new() { { "lookbackPeriods", "invalid_string" } };
-        Action a5 = () => quotes.ExecuteById<RsiResult>("RSI", Style.Series, badParams);
+        Action a5 = () => bars.ExecuteById<RsiResult>("RSI", Style.Series, badParams);
         a5.Should().Throw<ArgumentException>();
     }
 
@@ -130,15 +130,15 @@ public class CatalogExecutionTests : TestBase
     public void ExecuteByIdMissingRequiredParametersUsesDefaults()
     {
         // Arrange
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
         Dictionary<string, object> parameters = [];
 
         // Act
-        IReadOnlyList<RsiResult> sut = quotes.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
+        IReadOnlyList<RsiResult> sut = bars.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
 
         // Assert
         sut.Should().NotBeNullOrEmpty();
-        IReadOnlyList<RsiResult> defaultResults = quotes.ToRsi();
+        IReadOnlyList<RsiResult> defaultResults = bars.ToRsi();
         sut.Should().HaveCount(defaultResults.Count);
         for (int i = 0; i < sut.Count; i++)
         {
@@ -157,14 +157,14 @@ public class CatalogExecutionTests : TestBase
             Parameters = new Dictionary<string, object> { { "lookbackPeriods", 14 } }
         };
         string json = JsonSerializer.Serialize(config);
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
 
         // Act
-        IReadOnlyList<RsiResult> sut = quotes.ExecuteFromJson<RsiResult>(json);
+        IReadOnlyList<RsiResult> sut = bars.ExecuteFromJson<RsiResult>(json);
 
         // Assert
         sut.Should().NotBeNullOrEmpty();
-        IReadOnlyList<RsiResult> directResults = quotes.ToRsi(14);
+        IReadOnlyList<RsiResult> directResults = bars.ToRsi(14);
         sut.Should().HaveCount(directResults.Count);
         for (int i = 0; i < sut.Count; i++)
         {
@@ -178,32 +178,32 @@ public class CatalogExecutionTests : TestBase
     {
         IndicatorConfig config = new() { Id = "EMA", Style = Style.Series };
         string json = JsonSerializer.Serialize(config);
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
 
-        IReadOnlyList<EmaResult> sut = quotes.ExecuteFromJson<EmaResult>(json);
+        IReadOnlyList<EmaResult> sut = bars.ExecuteFromJson<EmaResult>(json);
         sut.Should().NotBeNullOrEmpty();
     }
 
     [TestMethod]
     public void ExecuteFromJsonInvalidInputs()
     {
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
 
-        Action a1 = () => quotes.ExecuteFromJson<object>("{ invalid json }");
+        Action a1 = () => bars.ExecuteFromJson<object>("{ invalid json }");
         a1.Should().Throw<ArgumentException>().WithMessage("*Invalid JSON configuration*");
 
         const string nullJson = null!;
-        Action a2 = () => quotes.ExecuteFromJson<object>(nullJson);
+        Action a2 = () => bars.ExecuteFromJson<object>(nullJson);
         a2.Should().Throw<ArgumentNullException>().WithMessage("*json*");
 
-        Action a3 = () => quotes.ExecuteFromJson<object>(string.Empty);
+        Action a3 = () => bars.ExecuteFromJson<object>(string.Empty);
         a3.Should().Throw<ArgumentException>().WithMessage("*JSON configuration cannot be null or empty*");
 
-        IEnumerable<IQuote> nullQuotes = null!;
+        IEnumerable<IBar> nullBars = null!;
         IndicatorConfig cfg = new() { Id = "RSI", Style = Style.Series };
         string json = JsonSerializer.Serialize(cfg);
-        Action a4 = () => nullQuotes.ExecuteFromJson<object>(json);
-        a4.Should().Throw<ArgumentNullException>().WithMessage("*quotes*");
+        Action a4 = () => nullBars.ExecuteFromJson<object>(json);
+        a4.Should().Throw<ArgumentNullException>().WithMessage("*bars*");
     }
 
     [TestMethod]
@@ -218,8 +218,8 @@ public class CatalogExecutionTests : TestBase
           }
         }
         """;
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        Action act = () => quotes.ExecuteFromJson<RsiResult>(json);
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
+        Action act = () => bars.ExecuteFromJson<RsiResult>(json);
         act.Should().Throw<ArgumentException>();
     }
 
@@ -232,8 +232,8 @@ public class CatalogExecutionTests : TestBase
           "Style": 0
         }
         """;
-        IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        Action act = () => quotes.ExecuteFromJson<RsiResult>(json);
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
+        Action act = () => bars.ExecuteFromJson<RsiResult>(json);
         act.Should().Throw<InvalidOperationException>().WithMessage("*not found in catalog*");
     }
 }

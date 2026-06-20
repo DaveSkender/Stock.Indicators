@@ -17,7 +17,7 @@ Created by Patrick G. Mulloy, the [Double exponential moving average](https://en
 ```csharp
 // C# usage syntax
 IReadOnlyList<DemaResult> results =
-  quotes.ToDema(lookbackPeriods);
+  bars.ToDema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<DemaResult> results =
 | ----- | ---- | ----------- |
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+You must have at least `3×N` or `2×N+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is mo
 IReadOnlyList<DemaResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -51,7 +51,7 @@ The first `2×N+100` periods will have decreasing magnitude, convergence-related
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Dema` | double | Double exponential moving average |
 
 ### Utilities
@@ -69,7 +69,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToDema(..);
 ```
@@ -78,7 +78,7 @@ Results can be further processed on `Dema` with additional chain-enabled indicat
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToDema(..)
     .ToRsi(..);
 ```
@@ -92,24 +92,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 DemaList demaList = new(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  demaList.Add(quote);
+  demaList.Add(bar);
 }
 
 // based on `ICollection<DemaResult>`
 IReadOnlyList<DemaResult> results = demaList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-DemaHub observer = quoteHub.ToDemaHub(lookbackPeriods);
+BarHub barHub = new();
+DemaHub observer = barHub.ToDemaHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<DemaResult> results = observer.Results;

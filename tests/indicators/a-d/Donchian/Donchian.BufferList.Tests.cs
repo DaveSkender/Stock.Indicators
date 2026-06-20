@@ -6,44 +6,44 @@ public class Donchian : BufferListTestBase
     private const int lookbackPeriods = 20;
 
     private static readonly IReadOnlyList<DonchianResult> series
-       = Quotes.ToDonchian(lookbackPeriods);
+       = Bars.ToDonchian(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes_WithValidQuotes_IncrementsResults()
+    public void AddBars_WithValidBars_IncrementsResults()
     {
         DonchianList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_WithValidQuotes_IncrementsResults()
+    public void AddBarsBatch_WithValidBars_IncrementsResults()
     {
-        DonchianList sut = Quotes.ToDonchianList(lookbackPeriods);
+        DonchianList sut = Bars.ToDonchianList(lookbackPeriods);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        DonchianList sut = new(lookbackPeriods, Quotes);
+        DonchianList sut = new(lookbackPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<DonchianResult> expected = subset.ToDonchian(lookbackPeriods);
 
         DonchianList sut = new(lookbackPeriods, subset);
@@ -70,7 +70,7 @@ public class Donchian : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<DonchianResult> expected = series
             .Skip(series.Count - maxListSize)

@@ -15,7 +15,7 @@ Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a dou
 ```csharp
 // C# usage syntax (standard)
 IReadOnlyList<SmiResult> results =
-  quotes.ToSmi(lookbackPeriods, firstSmoothPeriods,
+  bars.ToSmi(lookbackPeriods, firstSmoothPeriods,
                  secondSmoothPeriods, signalPeriods);
 ```
 
@@ -28,11 +28,11 @@ IReadOnlyList<SmiResult> results =
 | `secondSmoothPeriods` | int | Second smoothing factor lookback.  Must be greater than 0.  Default is 2. |
 | `signalPeriods` | int | EMA of SMI lookback periods.  Must be greater than 0. Default is 3. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -40,8 +40,8 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 IReadOnlyList<SmiResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` SMI values since there's not enough data to calculate.
 
@@ -53,7 +53,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Smi` | double | Stochastic Momentum Index (SMI) |
 | `Signal` | double | Signal line: an Exponential Moving Average (EMA) of SMI |
 
@@ -72,12 +72,12 @@ Results can be further processed on `Smi` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToSmi(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -89,25 +89,25 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 SmiList smiList = new(lookbackPeriods, firstSmoothPeriods,
                  secondSmoothPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  smiList.Add(quote);
+  smiList.Add(bar);
 }
 
 // based on `ICollection<SmiResult>`
 IReadOnlyList<SmiResult> results = smiList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-SmiHub observer = quoteHub.ToSmiHub(lookbackPeriods, firstSmoothPeriods,
+BarHub barHub = new();
+SmiHub observer = barHub.ToSmiHub(lookbackPeriods, firstSmoothPeriods,
                  secondSmoothPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<SmiResult> results = observer.Results;

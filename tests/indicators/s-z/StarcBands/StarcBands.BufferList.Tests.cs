@@ -1,51 +1,51 @@
 namespace BufferLists;
 
 [TestClass]
-public class StarcBands : BufferListTestBase, ITestQuoteBufferList
+public class StarcBands : BufferListTestBase, ITestBarBufferList
 {
     private const int smaPeriods = 5;
     private const double multiplier = 2;
     private const int atrPeriods = 10;
 
     private static readonly IReadOnlyList<StarcBandsResult> series
-       = Quotes.ToStarcBands(smaPeriods, multiplier, atrPeriods);
+       = Bars.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods) { Quotes };
+        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods) { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods, Quotes);
+        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods, Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<StarcBandsResult> expected = subset.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods, subset);
@@ -72,7 +72,7 @@ public class StarcBands : BufferListTestBase, ITestQuoteBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<StarcBandsResult> expected = series
             .Skip(series.Count - maxListSize)

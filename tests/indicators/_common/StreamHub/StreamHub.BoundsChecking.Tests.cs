@@ -9,84 +9,84 @@ namespace Observables;
 public class BoundsCheckingTests : TestBase
 {
     /// <summary>
-    /// Test Case 1: Initialize AtrStopHub with exactly LookbackPeriods quotes.
+    /// Test Case 1: Initialize AtrStopHub with exactly LookbackPeriods bars.
     /// This tests the boundary condition where warmup period just completes.
     /// </summary>
     [TestMethod]
     public void AtrStopHub_WithExactlyLookbackPeriods_ShouldNotThrow()
     {
-        // Arrange - use exactly 21 quotes (default LookbackPeriods for AtrStop)
+        // Arrange - use exactly 21 bars (default LookbackPeriods for AtrStop)
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        // Act - add exactly lookbackPeriods quotes
-        quoteHub.Add(Quotes.Take(lookbackPeriods));
+        // Act - add exactly lookbackPeriods bars
+        barHub.Add(Bars.Take(lookbackPeriods));
 
         // Create hub after data is added
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Assert - should not throw and should have correct count
         observer.Results.Should().HaveCount(lookbackPeriods);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 2: Initialize AtrStopHub with one less than LookbackPeriods quotes,
+    /// Test Case 2: Initialize AtrStopHub with one less than LookbackPeriods bars,
     /// then add one more to reach exactly the boundary.
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_AddQuoteToReachBoundary_ShouldNotThrow()
+    public void AtrStopHub_AddBarToReachBoundary_ShouldNotThrow()
     {
         // Arrange - use one less than lookbackPeriods
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // Initialize with one less than lookback
-        quoteHub.Add(Quotes.Take(lookbackPeriods - 1));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        barHub.Add(Bars.Take(lookbackPeriods - 1));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
-        // Act - add the quote that reaches exactly lookbackPeriods
-        quoteHub.Add(Quotes[lookbackPeriods - 1]);
+        // Act - add the bar that reaches exactly lookbackPeriods
+        barHub.Add(Bars[lookbackPeriods - 1]);
 
         // Assert - should not throw and should have correct count
         observer.Results.Should().HaveCount(lookbackPeriods);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 3: Remove a quote from the middle and trigger rebuild.
+    /// Test Case 3: Remove a bar from the middle and trigger rebuild.
     /// This tests RollbackState when i > LookbackPeriods.
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_RemoveQuoteAndRebuild_ShouldNotThrow()
+    public void AtrStopHub_RemoveBarAndRebuild_ShouldNotThrow()
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
-        // Act - remove a quote in the middle (after warmup period)
+        // Act - remove a bar in the middle (after warmup period)
         // This should trigger RollbackState with i > LookbackPeriods
-        quoteHub.RemoveAt(30);
+        barHub.RemoveAt(30);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(49);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 4: Add a late arrival quote that triggers rebuild.
+    /// Test Case 4: Add a late arrival bar that triggers rebuild.
     /// This tests the scenario where rebuild starts from a middle index.
     /// </summary>
     [TestMethod]
@@ -94,9 +94,9 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        // Add quotes but skip one in the middle
+        // Add bars but skip one in the middle
         for (int i = 0; i < 50; i++)
         {
             if (i == 30)
@@ -104,21 +104,21 @@ public class BoundsCheckingTests : TestBase
                 continue;  // Skip index 30
             }
 
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
         observer.Results.Should().HaveCount(49);
 
         // Act - insert the late arrival
-        quoteHub.Add(Quotes[30]);
+        barHub.Add(Bars[30]);
 
-        // Assert - should not throw and should have all quotes
+        // Assert - should not throw and should have all bars
         observer.Results.Should().HaveCount(50);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -129,18 +129,18 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange - use minimum valid lookback period of 2 for AtrStop
         const int lookbackPeriods = 2;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(10));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(10));
 
         // Act - create hub with minimum lookback
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(10);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -151,31 +151,31 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        // Pre-fill with warmup data (26 quotes initially)
-        quoteHub.Add(Quotes.Take(lookbackPeriods + 5));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        // Pre-fill with warmup data (26 bars initially)
+        barHub.Add(Bars.Take(lookbackPeriods + 5));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
         int initialCount = observer.Results.Count;  // Should be 26
 
-        // Act - add more quotes (15 more)
+        // Act - add more bars (15 more)
         for (int i = lookbackPeriods + 5; i < lookbackPeriods + 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         int afterAddCount = observer.Results.Count;  // Should be 41
 
-        // Remove some quotes (2 removals)
-        quoteHub.RemoveAt(25);
-        quoteHub.RemoveAt(20);
+        // Remove some bars (2 removals)
+        barHub.RemoveAt(25);
+        barHub.RemoveAt(20);
 
         // Assert - should not throw and count should be afterAddCount - 2
         observer.Results.Should().HaveCount(afterAddCount - 2);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -186,20 +186,20 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 14;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        AtrHub observer = quoteHub.ToAtrHub(lookbackPeriods);
+        AtrHub observer = barHub.ToAtrHub(lookbackPeriods);
 
-        // Act - remove a quote after warmup
-        quoteHub.RemoveAt(30);
+        // Act - remove a bar after warmup
+        barHub.RemoveAt(30);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(49);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -211,20 +211,20 @@ public class BoundsCheckingTests : TestBase
         // Arrange
         const int emaPeriods = 20;
         const int atrPeriods = 10;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        KeltnerHub observer = quoteHub.ToKeltnerHub(emaPeriods, 2, atrPeriods);
+        KeltnerHub observer = barHub.ToKeltnerHub(emaPeriods, 2, atrPeriods);
 
-        // Act - remove a quote after warmup
-        quoteHub.RemoveAt(35);
+        // Act - remove a bar after warmup
+        barHub.RemoveAt(35);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(49);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -235,20 +235,20 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 14;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        StochHub observer = quoteHub.ToStochHub(lookbackPeriods);
+        StochHub observer = barHub.ToStochHub(lookbackPeriods);
 
-        // Act - remove a quote after warmup
-        quoteHub.RemoveAt(30);
+        // Act - remove a bar after warmup
+        barHub.RemoveAt(30);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(49);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -258,38 +258,38 @@ public class BoundsCheckingTests : TestBase
     public void AtrStopHub_EmptyProvider_ShouldNotThrow()
     {
         // Arrange
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // Act - create hub with empty provider
-        AtrStopHub observer = quoteHub.ToAtrStopHub();
+        AtrStopHub observer = barHub.ToAtrStopHub();
 
         // Assert - should not throw and should be empty
         observer.Results.Should().BeEmpty();
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 11: Test single quote scenario.
+    /// Test Case 11: Test single bar scenario.
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_SingleQuote_ShouldNotThrow()
+    public void AtrStopHub_SingleBar_ShouldNotThrow()
     {
         // Arrange
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(1));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(1));
 
-        // Act - create hub with single quote
-        AtrStopHub observer = quoteHub.ToAtrStopHub();
+        // Act - create hub with single bar
+        AtrStopHub observer = barHub.ToAtrStopHub();
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(1);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -302,25 +302,25 @@ public class BoundsCheckingTests : TestBase
         // Arrange - use small max cache size
         const int maxCacheSize = 40;
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new(maxCacheSize);
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
-        // Add enough quotes to trigger pruning
-        quoteHub.Add(Quotes.Take(60));
+        // Add enough bars to trigger pruning
+        barHub.Add(Bars.Take(60));
 
         // At this point, cache should be pruned to maxCacheSize
         observer.Results.Should().HaveCount(maxCacheSize);
 
-        // Act - remove a quote and trigger rebuild
+        // Act - remove a bar and trigger rebuild
         const int removeIndex = 30;
-        quoteHub.RemoveAt(removeIndex);
+        barHub.RemoveAt(removeIndex);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(maxCacheSize - 1);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -332,10 +332,10 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
         observer.Results.Should().HaveCount(50);
 
         // Act / Assert - reinitializing a subscribed hub is forbidden
@@ -343,7 +343,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -354,9 +354,9 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        // Add quotes but skip several in the middle
+        // Add bars but skip several in the middle
         int[] skipIndices = [25, 30, 35];
         for (int i = 0; i < 50; i++)
         {
@@ -365,24 +365,24 @@ public class BoundsCheckingTests : TestBase
                 continue;
             }
 
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
         observer.Results.Should().HaveCount(47);
 
         // Act - insert late arrivals in reverse order
         foreach (int idx in skipIndices.Reverse())
         {
-            quoteHub.Add(Quotes[idx]);
+            barHub.Add(Bars[idx]);
         }
 
-        // Assert - should not throw and should have all quotes
+        // Assert - should not throw and should have all bars
         observer.Results.Should().HaveCount(50);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -393,20 +393,20 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int atrPeriods = 10;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        SuperTrendHub observer = quoteHub.ToSuperTrendHub(atrPeriods);
+        SuperTrendHub observer = barHub.ToSuperTrendHub(atrPeriods);
 
-        // Act - remove a quote after warmup
-        quoteHub.RemoveAt(30);
+        // Act - remove a bar after warmup
+        barHub.RemoveAt(30);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(49);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -418,49 +418,49 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
         // Create observer with empty provider
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
         observer.Results.Should().BeEmpty();
 
         // Act - now add data
-        quoteHub.Add(Quotes.Take(50));
+        barHub.Add(Bars.Take(50));
 
-        // Assert - should not throw and should have all quotes
+        // Assert - should not throw and should have all bars
         observer.Results.Should().HaveCount(50);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 17: Add quotes one by one, then remove one at the boundary.
+    /// Test Case 17: Add bars one by one, then remove one at the boundary.
     /// </summary>
     [TestMethod]
     public void AtrStopHub_AddOneByOneThenRemoveAtBoundary_ShouldNotThrow()
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
-        // Add quotes one by one
+        // Add bars one by one
         for (int i = 0; i < lookbackPeriods + 5; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // Act - remove exactly at the boundary (index = lookbackPeriods)
-        quoteHub.RemoveAt(lookbackPeriods);
+        barHub.RemoveAt(lookbackPeriods);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(lookbackPeriods + 4);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -471,9 +471,9 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Act - call Rebuild directly
         observer.Rebuild();
@@ -483,7 +483,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -494,12 +494,12 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Get a timestamp in the middle (after warmup)
-        DateTime rebuildTimestamp = Quotes[30].Timestamp;
+        DateTime rebuildTimestamp = Bars[30].Timestamp;
 
         // Act - rebuild from specific timestamp
         observer.Rebuild(rebuildTimestamp);
@@ -509,7 +509,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -519,15 +519,15 @@ public class BoundsCheckingTests : TestBase
     public void ChainedHubs_RemoveAndRebuild_ShouldNotThrow()
     {
         // Arrange
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        // Create a chain: QuoteHub -> AtrHub -> SmaHub
-        AtrHub atrHub = quoteHub.ToAtrHub(14);
+        // Create a chain: BarHub -> AtrHub -> SmaHub
+        AtrHub atrHub = barHub.ToAtrHub(14);
         SmaHub smaHub = atrHub.ToSmaHub(10);
 
-        // Act - remove a quote, which should cascade rebuild through the chain
-        quoteHub.RemoveAt(35);
+        // Act - remove a bar, which should cascade rebuild through the chain
+        barHub.RemoveAt(35);
 
         // Assert - should not throw
         atrHub.Results.Should().HaveCount(49);
@@ -536,7 +536,7 @@ public class BoundsCheckingTests : TestBase
         // Cleanup
         smaHub.Unsubscribe();
         atrHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -547,65 +547,65 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        // Add only 5 quotes (less than lookback period)
-        quoteHub.Add(Quotes.Take(5));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        // Add only 5 bars (less than lookback period)
+        barHub.Add(Bars.Take(5));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Act - try to remove from small dataset
-        quoteHub.RemoveAt(2);
+        barHub.RemoveAt(2);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(4);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 22: Remove all quotes after warmup.
+    /// Test Case 22: Remove all bars after warmup.
     /// </summary>
     [TestMethod]
     public void AtrStopHub_RemoveAllAfterWarmup_ShouldNotThrow()
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(30));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(30));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
-        // Act - remove all quotes after warmup period (indices 21-29)
+        // Act - remove all bars after warmup period (indices 21-29)
         for (int i = 29; i >= lookbackPeriods; i--)
         {
-            quoteHub.RemoveAt(i);
+            barHub.RemoveAt(i);
         }
 
-        // Assert - should not throw and should have only warmup quotes left
+        // Assert - should not throw and should have only warmup bars left
         observer.Results.Should().HaveCount(lookbackPeriods);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 23: Remove quotes from the beginning.
+    /// Test Case 23: Remove bars from the beginning.
     /// </summary>
     [TestMethod]
     public void AtrStopHub_RemoveFromBeginning_ShouldNotThrow()
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
-        // Act - remove first few quotes
+        // Act - remove first few bars
         for (int i = 0; i < 5; i++)
         {
-            quoteHub.RemoveAt(0);
+            barHub.RemoveAt(0);
         }
 
         // Assert - should not throw
@@ -613,7 +613,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -624,20 +624,20 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 7;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods);
+        VolatilityStopHub observer = barHub.ToVolatilityStopHub(lookbackPeriods);
 
-        // Act - remove a quote after warmup
-        quoteHub.RemoveAt(30);
+        // Act - remove a bar after warmup
+        barHub.RemoveAt(30);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(49);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -648,38 +648,38 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 22;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        ChandelierHub observer = quoteHub.ToChandelierHub(lookbackPeriods);
+        ChandelierHub observer = barHub.ToChandelierHub(lookbackPeriods);
 
-        // Act - remove a quote after warmup
-        quoteHub.RemoveAt(35);
+        // Act - remove a bar after warmup
+        barHub.RemoveAt(35);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(49);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 26: Test Renko Hub (asymmetric - can produce 0 or many bricks per quote).
+    /// Test Case 26: Test Renko Hub (asymmetric - can produce 0 or many bricks per bar).
     /// </summary>
     [TestMethod]
     public void RenkoHub_RemoveAndRebuild_ShouldNotThrow()
     {
         // Arrange
         const decimal brickSize = 2.5m;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(100));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(100));
 
-        RenkoHub observer = quoteHub.ToRenkoHub(brickSize);
+        RenkoHub observer = barHub.ToRenkoHub(brickSize);
         int initialBrickCount = observer.Results.Count;
 
-        // Act - remove a quote in the middle
-        quoteHub.RemoveAt(50);
+        // Act - remove a bar in the middle
+        barHub.RemoveAt(50);
 
         // Assert - should not throw
         // Renko count may vary since it's asymmetric
@@ -687,7 +687,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -698,20 +698,20 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const decimal brickSize = 0.5m;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
 
-        RenkoHub observer = quoteHub.ToRenkoHub(brickSize);
+        RenkoHub observer = barHub.ToRenkoHub(brickSize);
 
-        // Act - remove a quote
-        quoteHub.RemoveAt(25);
+        // Act - remove a bar
+        barHub.RemoveAt(25);
 
         // Assert - should not throw
         observer.Results.Should().NotBeNull();
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -723,12 +723,12 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Get timestamp to remove from
-        DateTime removeFromTimestamp = Quotes[30].Timestamp;
+        DateTime removeFromTimestamp = Bars[30].Timestamp;
 
         // Act / Assert - mutating a subscribed hub is forbidden
         Assert.ThrowsExactly<InvalidOperationException>(
@@ -739,7 +739,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -751,9 +751,9 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Act / Assert - mutating a subscribed hub is forbidden
         Assert.ThrowsExactly<InvalidOperationException>(
@@ -764,7 +764,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -776,9 +776,9 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Act / Assert - mutating a subscribed hub is forbidden
         Assert.ThrowsExactly<InvalidOperationException>(
@@ -789,7 +789,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -801,21 +801,21 @@ public class BoundsCheckingTests : TestBase
     public void DeeplyChainedHubs_RemoveAndRebuild_MatchesSeries()
     {
         // Arrange
-        List<Quote> quotes = Quotes.Take(100).ToList();
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
+        List<Bar> bars = Bars.Take(100).ToList();
+        BarHub barHub = new();
+        barHub.Add(bars);
 
-        // Create a deep chain: QuoteHub -> AtrHub -> EmaHub -> SmaHub
-        AtrHub atrHub = quoteHub.ToAtrHub(14);
+        // Create a deep chain: BarHub -> AtrHub -> EmaHub -> SmaHub
+        AtrHub atrHub = barHub.ToAtrHub(14);
         EmaHub emaHub = atrHub.ToEmaHub(10);
         SmaHub smaHub = emaHub.ToSmaHub(5);
 
-        // Act - remove a quote, triggering cascade through all levels
+        // Act - remove a bar, triggering cascade through all levels
         const int removeIndex = 60;
-        quoteHub.RemoveAt(removeIndex);
+        barHub.RemoveAt(removeIndex);
 
-        // Assert - every level matches the equivalent batch chain on the revised quotes
-        List<Quote> revised = [.. quotes];
+        // Assert - every level matches the equivalent batch chain on the revised bars
+        List<Bar> revised = [.. bars];
         revised.RemoveAt(removeIndex);
 
         IReadOnlyList<AtrResult> expectedAtr = revised.ToAtr(14);
@@ -831,7 +831,7 @@ public class BoundsCheckingTests : TestBase
         smaHub.Unsubscribe();
         emaHub.Unsubscribe();
         atrHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -842,18 +842,18 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(40));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(40));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Act - interleaved add and remove operations
         for (int i = 40; i < 60; i++)
         {
-            quoteHub.Add(Quotes[i]);
-            if (i % 5 == 0 && quoteHub.Quotes.Count > lookbackPeriods + 5)
+            barHub.Add(Bars[i]);
+            if (i % 5 == 0 && barHub.Bars.Count > lookbackPeriods + 5)
             {
                 // Remove from the middle occasionally
-                quoteHub.RemoveAt(lookbackPeriods + 2);
+                barHub.RemoveAt(lookbackPeriods + 2);
             }
         }
 
@@ -863,7 +863,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -876,40 +876,40 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 10;  // Small lookback for easier testing
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        // Add just enough quotes to get past lookback
-        quoteHub.Add(Quotes.Take(15));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        // Add just enough bars to get past lookback
+        barHub.Add(Bars.Take(15));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Verify initial state
         observer.Results.Should().HaveCount(15);
 
-        // Act - remove a quote after warmup, triggering RollbackState
+        // Act - remove a bar after warmup, triggering RollbackState
         // This should call RollbackState with i > lookbackPeriods
-        quoteHub.RemoveAt(12);
+        barHub.RemoveAt(12);
 
         // Assert - should not throw
         observer.Results.Should().HaveCount(14);
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Test Case 34: Test with BadQuotes data (edge case data).
+    /// Test Case 34: Test with BadBars data (edge case data).
     /// </summary>
     [TestMethod]
-    public void AtrStopHub_WithBadQuotes_ShouldNotThrow()
+    public void AtrStopHub_WithBadBars_ShouldNotThrow()
     {
-        // Arrange - BadQuotes may have unusual values
+        // Arrange - BadBars may have unusual values
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(BadQuotes);
+        BarHub barHub = new();
+        barHub.Add(BadBars);
 
         // Act - create hub
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Assert - should not throw (count may differ from input due to duplicates)
         observer.Results.Should().NotBeNull();
@@ -917,7 +917,7 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -928,12 +928,12 @@ public class BoundsCheckingTests : TestBase
     {
         // Arrange
         const int lookbackPeriods = 21;
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-        AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods);
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        AtrStopHub observer = barHub.ToAtrStopHub(lookbackPeriods);
 
         // Get timestamp at exactly lookback
-        DateTime rebuildTimestamp = Quotes[lookbackPeriods].Timestamp;
+        DateTime rebuildTimestamp = Bars[lookbackPeriods].Timestamp;
 
         // Act - rebuild from exactly lookback
         observer.Rebuild(rebuildTimestamp);
@@ -943,6 +943,6 @@ public class BoundsCheckingTests : TestBase
 
         // Cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

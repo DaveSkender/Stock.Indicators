@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the SuperTrend using a stream hub.
 /// </summary>
 public class SuperTrendHub
-    : StreamHub<IQuote, SuperTrendResult>, ISuperTrend
+    : StreamHub<IBar, SuperTrendResult>, ISuperTrend
 {
     internal SuperTrendHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods,
         double multiplier) : base(provider)
     {
@@ -42,7 +42,7 @@ public class SuperTrendHub
 
     /// <inheritdoc/>
     protected override (SuperTrendResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -56,14 +56,14 @@ public class SuperTrendHub
             return (new SuperTrendResult(item.Timestamp, null, null, null), i);
         }
 
-        QuoteD newQ = item.ToQuoteD();
+        BarD newBar = item.ToBarD();
         double prevClose = (double)ProviderCache[i - 1].Close;
 
         // initialize direction on first evaluation
         if (i == LookbackPeriods)
         {
-            double mid = (newQ.High + newQ.Low) / 2;
-            IsBullish = newQ.Close >= mid;
+            double mid = (newBar.High + newBar.Low) / 2;
+            IsBullish = newBar.Close >= mid;
         }
 
         // calculate ATR
@@ -73,8 +73,8 @@ public class SuperTrendHub
         {
             atr = Atr.Increment(
                 LookbackPeriods,
-                newQ.High,
-                newQ.Low,
+                newBar.High,
+                newBar.Low,
                 prevClose,
                 PrevAtr);
         }
@@ -99,7 +99,7 @@ public class SuperTrendHub
         PrevAtr = atr;
 
         // calculate mid point
-        double mid2 = (newQ.High + newQ.Low) / 2;
+        double mid2 = (newBar.High + newBar.Low) / 2;
 
         // potential bands
         double upperEval = mid2 + (Multiplier * atr);
@@ -121,12 +121,12 @@ public class SuperTrendHub
         SuperTrendResult r;
 
         // the upper band (bearish / short)
-        if (newQ.Close <= (IsBullish ? LowerBand : UpperBand))
+        if (newBar.Close <= (IsBullish ? LowerBand : UpperBand))
         {
             IsBullish = false;
 
             r = new SuperTrendResult(
-                Timestamp: newQ.Timestamp,
+                Timestamp: newBar.Timestamp,
                 SuperTrend: (decimal?)UpperBand,
                 UpperBand: (decimal?)UpperBand,
                 LowerBand: null);
@@ -138,7 +138,7 @@ public class SuperTrendHub
             IsBullish = true;
 
             r = new SuperTrendResult(
-                Timestamp: newQ.Timestamp,
+                Timestamp: newBar.Timestamp,
                 SuperTrend: (decimal?)LowerBand,
                 UpperBand: null,
                 LowerBand: (decimal?)LowerBand);
@@ -184,7 +184,7 @@ public class SuperTrendHub
         // Replay up to restoreIndex to rebuild state
         for (int i = 0; i <= restoreIndex; i++)
         {
-            IQuote item = ProviderCache[i];
+            IBar item = ProviderCache[i];
 
             // Skip warmup periods
             if (i < LookbackPeriods)
@@ -262,13 +262,13 @@ public static partial class SuperTrend
     /// <summary>
     /// Creates a SuperTrend hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods.</param>
     /// <param name="multiplier">ATR multiplier used for band calculation.</param>
     /// <returns>An instance of <see cref="SuperTrendHub"/>.</returns>
     public static SuperTrendHub ToSuperTrendHub(
-       this IQuoteProvider<IQuote> quoteProvider,
+       this IBarProvider<IBar> barProvider,
        int lookbackPeriods = 10,
        double multiplier = 3)
-           => new(quoteProvider, lookbackPeriods, multiplier);
+           => new(barProvider, lookbackPeriods, multiplier);
 }

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <inheritdoc />
 public class UltimateHub
-    : ChainHub<IQuote, UltimateResult>, IUltimate
+    : ChainHub<IBar, UltimateResult>, IUltimate
 {
     // Rolling-sum queues for O(1) per-update calculation.
     // Each queue holds (BuyingPressure, TrueRange) pairs for its window.
@@ -15,7 +15,7 @@ public class UltimateHub
     private double _sumBp3, _sumTr3;   // running sums for long window
 
     internal UltimateHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
@@ -53,7 +53,7 @@ public class UltimateHub
 
     /// <inheritdoc/>
     protected override (UltimateResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -65,7 +65,7 @@ public class UltimateHub
         }
 
         // compute buying pressure and true range from provider cache (O(1))
-        IQuote prev = ProviderCache[i - 1];
+        IBar prev = ProviderCache[i - 1];
         double high = (double)item.High;
         double low = (double)item.Low;
         double close = (double)item.Close;
@@ -118,8 +118,8 @@ public class UltimateHub
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote current = ProviderCache[p];
-            IQuote previous = ProviderCache[p - 1];
+            IBar current = ProviderCache[p];
+            IBar previous = ProviderCache[p - 1];
 
             double bp = (double)current.Close - Math.Min((double)current.Low, (double)previous.Close);
             double tr = Math.Max((double)current.High, (double)previous.Close) - Math.Min((double)current.Low, (double)previous.Close);
@@ -155,17 +155,17 @@ public class UltimateHub
 public static partial class Ultimate
 {
     /// <summary>
-    /// Converts the provided quote provider to an Ultimate Oscillator hub with the specified periods.
+    /// Converts the provided bar provider to an Ultimate Oscillator hub with the specified periods.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider to convert.</param>
+    /// <param name="barProvider">Bar provider to convert.</param>
     /// <param name="shortPeriods">Number of short lookback periods.</param>
     /// <param name="middlePeriods">Number of middle lookback periods.</param>
     /// <param name="longPeriods">Number of long lookback periods.</param>
     /// <returns>An instance of <see cref="UltimateHub"/>.</returns>
     public static UltimateHub ToUltimateHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int shortPeriods = 7,
         int middlePeriods = 14,
         int longPeriods = 28)
-             => new(quoteProvider, shortPeriods, middlePeriods, longPeriods);
+             => new(barProvider, shortPeriods, middlePeriods, longPeriods);
 }

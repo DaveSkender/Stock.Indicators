@@ -9,7 +9,7 @@ public class Mama : StaticSeriesTestBase
         const double fastLimit = 0.5;
         const double slowLimit = 0.05;
 
-        IReadOnlyList<MamaResult> sut = Quotes
+        IReadOnlyList<MamaResult> sut = Bars
             .ToMama(fastLimit, slowLimit);
 
         // proper quantities
@@ -49,7 +49,7 @@ public class Mama : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<MamaResult> sut = Quotes
+        IReadOnlyList<MamaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToMama();
 
@@ -60,7 +60,7 @@ public class Mama : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<MamaResult> sut = Quotes
+        IReadOnlyList<MamaResult> sut = Bars
             .ToSma(2)
             .ToMama();
 
@@ -71,7 +71,7 @@ public class Mama : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToMama()
             .ToSma(10);
 
@@ -80,9 +80,9 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<MamaResult> r = BadQuotes
+        IReadOnlyList<MamaResult> r = BadBars
             .ToMama();
 
         r.Should().HaveCount(502);
@@ -90,13 +90,13 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<MamaResult> r0 = Noquotes.ToMama();
+        IReadOnlyList<MamaResult> r0 = Nobars.ToMama();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<MamaResult> r1 = Onequote.ToMama();
+        IReadOnlyList<MamaResult> r1 = Onebar.ToMama();
 
         r1.Should().HaveCount(1);
     }
@@ -107,7 +107,7 @@ public class Mama : StaticSeriesTestBase
         const double fastLimit = 0.5;
         const double slowLimit = 0.05;
 
-        IReadOnlyList<MamaResult> sut = Quotes
+        IReadOnlyList<MamaResult> sut = Bars
             .ToMama(fastLimit, slowLimit)
             .RemoveWarmupPeriods();
 
@@ -124,14 +124,14 @@ public class Mama : StaticSeriesTestBase
     {
         // bad fast period (same as slow period)
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMama(0.5, 0.5));
+            static () => Bars.ToMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMama(1, 0.5));
+            static () => Bars.ToMama(1, 0.5));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMama(0.5, 0));
+            static () => Bars.ToMama(0.5, 0));
     }
 }

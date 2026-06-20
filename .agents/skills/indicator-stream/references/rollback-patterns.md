@@ -56,7 +56,7 @@ protected override void RollbackState(int restoreIndex)
     int windowStart = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
     for (int p = windowStart; p <= restoreIndex; p++)
     {
-        IQuote q = ProviderCache[p];
+        IBar q = ProviderCache[p];
         _highWindow.Add((double)q.High);
         _lowWindow.Add((double)q.Low);
     }

@@ -6,28 +6,28 @@ namespace Skender.Stock.Indicators;
 public static partial class Donchian
 {
     /// <summary>
-    /// Creates a Donchian Channels streaming hub from a quotes provider.
+    /// Creates a Donchian Channels streaming hub from a bars provider.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="DonchianHub"/>.</returns>
     public static DonchianHub ToDonchianHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 20)
-        => new(quoteProvider, lookbackPeriods);
+        => new(barProvider, lookbackPeriods);
 }
 
 /// <summary>
 /// Streaming hub for Donchian Channels.
 /// </summary>
 public class DonchianHub
-    : StreamHub<IQuote, DonchianResult>, IDonchian
+    : StreamHub<IBar, DonchianResult>, IDonchian
 {
     private CircularDoubleBuffer _highBuffer;
     private CircularDoubleBuffer _lowBuffer;
 
     internal DonchianHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods) : base(provider)
     {
         Donchian.Validate(lookbackPeriods);
@@ -47,7 +47,7 @@ public class DonchianHub
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (DonchianResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -101,9 +101,9 @@ public class DonchianHub
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            _highBuffer.Add((double)quote.High);
-            _lowBuffer.Add((double)quote.Low);
+            IBar bar = ProviderCache[p];
+            _highBuffer.Add((double)bar.High);
+            _lowBuffer.Add((double)bar.Low);
         }
     }
 }

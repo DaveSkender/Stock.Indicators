@@ -6,24 +6,24 @@ namespace Skender.Stock.Indicators;
 public static partial class AtrStop
 {
     /// <summary>
-    /// Calculates the ATR Trailing Stop (High/Low offset) from a series of quotes.
+    /// Calculates the ATR Trailing Stop (High/Low offset) from a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR.</param>
     /// <param name="endType">Candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
     public static IReadOnlyList<AtrStopResult> ToAtrStop(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 21,
         double multiplier = 3,
         EndType endType = EndType.Close)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
 
     private static List<AtrStopResult> CalcAtrStop(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods,
         double multiplier,
         EndType endType)
@@ -32,9 +32,9 @@ public static partial class AtrStop
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<AtrStopResult> results = new(length);
-        List<AtrResult> atrResults = quotes.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrResults = bars.CalcAtr(lookbackPeriods);
 
         // prevailing direction and bands
         bool isBullish = true;
@@ -47,12 +47,12 @@ public static partial class AtrStop
             // handle warmup periods
             if (i < lookbackPeriods)
             {
-                results.Add(new(Timestamp: quotes[i].Timestamp));
+                results.Add(new(Timestamp: bars[i].Timestamp));
                 continue;
             }
 
-            QuoteD q = quotes[i];
-            QuoteD p = quotes[i - 1];
+            BarD q = bars[i];
+            BarD p = bars[i - 1];
 
             // evaluate bands
             double upperEval;

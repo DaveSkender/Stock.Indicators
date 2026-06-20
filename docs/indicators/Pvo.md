@@ -15,7 +15,7 @@ The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=te
 ```csharp
 // C# usage syntax
 IReadOnlyList<PvoResult> results =
-  quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
+  bars.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -26,11 +26,11 @@ IReadOnlyList<PvoResult> results =
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26. |
 | `signalPeriods` | int | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
+You must have at least `2×(S+P)` or `S+P+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -38,8 +38,8 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 IReadOnlyList<PvoResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `S-1` slow periods will have `null` values since there's not enough data to calculate.
 
@@ -51,7 +51,7 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Pvo` | double | Normalized difference between two Volume moving averages |
 | `Signal` | double | Moving average of the `Pvo` line |
 | `Histogram` | double | Gap between the `Pvo` and `Signal` line |
@@ -71,12 +71,12 @@ Results can be further processed on `Pvo` with additional chain-enabled indicato
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToPvo(..)
     .ToSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 See [Chaining indicators](/guide/chaining) for more.
 
@@ -87,24 +87,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 PvoList pvoList = new(fastPeriods, slowPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  pvoList.Add(quote);
+  pvoList.Add(bar);
 }
 
 // based on `ICollection<PvoResult>`
 IReadOnlyList<PvoResult> results = pvoList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-PvoHub observer = quoteHub.ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
+BarHub barHub = new();
+PvoHub observer = barHub.ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<PvoResult> results = observer.Results;

@@ -10,19 +10,19 @@ public record CandleResult : IReusable
     /// Initializes a new instance of the <see cref="CandleResult"/> record.
     /// </summary>
     /// <param name="timestamp">Timestamp of record.</param>
-    /// <param name="quote">Quote used for the analysis.</param>
+    /// <param name="bar">Bar used for the analysis.</param>
     /// <param name="match">Match result of the analysis.</param>
     /// <param name="price">Price associated with the result.</param>
     public CandleResult(
         DateTime timestamp,
-        IQuote quote,
+        IBar bar,
         Match match,
         decimal? price)
     {
         Timestamp = timestamp;
         Price = price;
         Match = match;
-        Candle = quote.ToCandle();
+        Candle = bar.ToCandle();
     }
 
     /// <summary>

@@ -4,7 +4,7 @@ namespace Utilities;
 [TestCategory("Utilities")]
 public class Numericals : TestBase
 {
-    private readonly double[] _closePrice = LongishQuotes
+    private readonly double[] _closePrice = LongishBars
         .Select(static x => (double)x.Close)
         .ToArray();
 
@@ -58,7 +58,7 @@ public class Numericals : TestBase
     [TestMethod]
     public void RoundDownDate()
     {
-        TimeSpan interval = PeriodSize.OneHour.ToTimeSpan();
+        TimeSpan interval = BarInterval.OneHour.ToTimeSpan();
         DateTime evDate = DateTime.Parse("2020-12-15 09:35:45", invariantCulture);
 
         DateTime rnDate = evDate.RoundDown(interval);
@@ -70,18 +70,18 @@ public class Numericals : TestBase
     [TestMethod]
     public void ToTimeSpan()
     {
-        Assert.AreEqual(PeriodSize.OneMinute.ToTimeSpan(), TimeSpan.FromMinutes(1));
-        Assert.AreEqual(PeriodSize.TwoMinutes.ToTimeSpan(), TimeSpan.FromMinutes(2));
-        Assert.AreEqual(PeriodSize.ThreeMinutes.ToTimeSpan(), TimeSpan.FromMinutes(3));
-        Assert.AreEqual(PeriodSize.FiveMinutes.ToTimeSpan(), TimeSpan.FromMinutes(5));
-        Assert.AreEqual(PeriodSize.FifteenMinutes.ToTimeSpan(), TimeSpan.FromHours(0.25));
-        Assert.AreEqual(PeriodSize.ThirtyMinutes.ToTimeSpan(), TimeSpan.FromHours(0.5));
-        Assert.AreEqual(PeriodSize.OneHour.ToTimeSpan(), TimeSpan.FromMinutes(60));
-        Assert.AreEqual(PeriodSize.TwoHours.ToTimeSpan(), TimeSpan.FromHours(2));
-        Assert.AreEqual(PeriodSize.FourHours.ToTimeSpan(), TimeSpan.FromHours(4));
-        Assert.AreEqual(PeriodSize.Day.ToTimeSpan(), TimeSpan.FromHours(24));
-        Assert.AreEqual(PeriodSize.Week.ToTimeSpan(), TimeSpan.FromDays(7));
+        Assert.AreEqual(BarInterval.OneMinute.ToTimeSpan(), TimeSpan.FromMinutes(1));
+        Assert.AreEqual(BarInterval.TwoMinutes.ToTimeSpan(), TimeSpan.FromMinutes(2));
+        Assert.AreEqual(BarInterval.ThreeMinutes.ToTimeSpan(), TimeSpan.FromMinutes(3));
+        Assert.AreEqual(BarInterval.FiveMinutes.ToTimeSpan(), TimeSpan.FromMinutes(5));
+        Assert.AreEqual(BarInterval.FifteenMinutes.ToTimeSpan(), TimeSpan.FromHours(0.25));
+        Assert.AreEqual(BarInterval.ThirtyMinutes.ToTimeSpan(), TimeSpan.FromHours(0.5));
+        Assert.AreEqual(BarInterval.OneHour.ToTimeSpan(), TimeSpan.FromMinutes(60));
+        Assert.AreEqual(BarInterval.TwoHours.ToTimeSpan(), TimeSpan.FromHours(2));
+        Assert.AreEqual(BarInterval.FourHours.ToTimeSpan(), TimeSpan.FromHours(4));
+        Assert.AreEqual(BarInterval.Day.ToTimeSpan(), TimeSpan.FromHours(24));
+        Assert.AreEqual(BarInterval.Week.ToTimeSpan(), TimeSpan.FromDays(7));
 
-        TimeSpan.Zero.Should().Be(PeriodSize.Month.ToTimeSpan());
+        TimeSpan.Zero.Should().Be(BarInterval.Month.ToTimeSpan());
     }
 }

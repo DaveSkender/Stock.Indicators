@@ -6,31 +6,31 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void Remove()
     {
-        QuoteHub quoteHub = new();
-        SmaHub observer = quoteHub.ToSmaHub(20);
+        BarHub barHub = new();
+        SmaHub observer = barHub.ToSmaHub(20);
 
-        List<Quote> quotes = Quotes.Take(21).ToList();
+        List<Bar> bars = Bars.Take(21).ToList();
 
-        quoteHub.Add(quotes);
+        barHub.Add(bars);
 
         Console.WriteLine(observer.Results.ToStringOut());
 
         // Verify StreamHub matches Series for same input
-        IReadOnlyList<SmaResult> seriesBeforeRemove = quotes.ToSma(20);
+        IReadOnlyList<SmaResult> seriesBeforeRemove = bars.ToSma(20);
         observer.Results[19].Sma.Should().Be(seriesBeforeRemove[19].Sma);
 
-        // Create new quote list with the removed item (more efficient than LINQ Where)
-        List<Quote> quotesAfterRemove = [.. quotes];
-        quotesAfterRemove.RemoveAt(14);
+        // Create new bar list with the removed item (more efficient than LINQ Where)
+        List<Bar> barsAfterRemove = [.. bars];
+        barsAfterRemove.RemoveAt(14);
 
-        quoteHub.RemoveAt(14);
-        quoteHub.EndTransmission();
+        barHub.RemoveAt(14);
+        barHub.EndTransmission();
 
         Console.WriteLine(observer.Results.ToStringOut());
 
-        // After removal, we have 20 quotes, period is 20, so SMA starts at index 19
+        // After removal, we have 20 bars, period is 20, so SMA starts at index 19
         // StreamHub result at index 19 should match Series result at index 19 (last element)
-        IReadOnlyList<SmaResult> seriesAfterRemove = quotesAfterRemove.ToSma(20);
+        IReadOnlyList<SmaResult> seriesAfterRemove = barsAfterRemove.ToSma(20);
         observer.Results[19].Sma.Should().Be(seriesAfterRemove[19].Sma);
     }
 
@@ -40,15 +40,15 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void ActAddOld()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // add base quotes
-        QuoteHub quoteHub = new();
+        // add base bars
+        BarHub barHub = new();
 
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Close);
+        BarPartHub observer = barHub
+            .ToBarPartHub(CandlePart.Close);
 
-        // emulate incremental quotes
+        // emulate incremental bars
         for (int i = 0; i < length; i++)
         {
             // skip one
@@ -57,35 +57,35 @@ public class CacheManagement : TestBase
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
         }
 
         // add late
-        quoteHub.Add(Quotes[100]);
+        barHub.Add(Bars[100]);
 
         // assert same as original
         for (int i = 0; i < length; i++)
         {
-            Quote q = Quotes[i];
+            Bar q = Bars[i];
             TimeValue r = observer.Cache[i];
 
-            // compare quote to result cache
+            // compare bar to result cache
             r.Timestamp.Should().Be(q.Timestamp);
             r.Value.Should().Be(q.Value);
         }
 
         // close observations
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void Overflowing()
     {
         // initialize
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        Quote dup = new(
+        Bar dup = new(
             Timestamp: DateTime.Now,
             Open: 1.00m,
             High: 2.00m,
@@ -93,33 +93,33 @@ public class CacheManagement : TestBase
             Close: 1.75m,
             Volume: 1000);
 
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Close);
+        BarPartHub observer = barHub
+            .ToBarPartHub(CandlePart.Close);
 
         // overflowing, under threshold
         for (int i = 0; i <= 100; i++)
         {
-            quoteHub.Add(dup);
+            barHub.Add(dup);
         }
 
         // assert: no fault, no overflow (yet)
 
-        quoteHub.Quotes.Should().HaveCount(1);
+        barHub.Bars.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
-        quoteHub.IsFaulted.Should().BeFalse();
-        quoteHub.OverflowCount.Should().Be(100);
-        quoteHub.HasObservers.Should().BeTrue();
+        barHub.IsFaulted.Should().BeFalse();
+        barHub.OverflowCount.Should().Be(100);
+        barHub.HasObservers.Should().BeTrue();
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void OverflowedAndReset()
     {
         // initialize
-        QuoteHub quoteHub = new();
+        BarHub barHub = new();
 
-        Quote dup = new(
+        Bar dup = new(
             Timestamp: DateTime.Now,
             Open: 1.00m,
             High: 2.00m,
@@ -127,8 +127,8 @@ public class CacheManagement : TestBase
             Close: 1.75m,
             Volume: 1000);
 
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(CandlePart.Close);
+        BarPartHub observer = barHub
+            .ToBarPartHub(CandlePart.Close);
 
         // overflowed, over threshold
         Assert.ThrowsExactly<OverflowException>(
@@ -136,36 +136,36 @@ public class CacheManagement : TestBase
 
                 for (int i = 0; i <= 101; i++)
                 {
-                    quoteHub.Add(dup);
+                    barHub.Add(dup);
                 }
             });
 
         // assert: faulted
 
-        quoteHub.Quotes.Should().HaveCount(1);
+        barHub.Bars.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
-        quoteHub.IsFaulted.Should().BeTrue();
-        quoteHub.OverflowCount.Should().Be(101);
-        quoteHub.HasObservers.Should().BeTrue();
+        barHub.IsFaulted.Should().BeTrue();
+        barHub.OverflowCount.Should().Be(101);
+        barHub.HasObservers.Should().BeTrue();
 
         // act: reset
 
-        quoteHub.ResetFault();
+        barHub.ResetFault();
 
         for (int i = 0; i < 100; i++)
         {
-            quoteHub.Add(dup);
+            barHub.Add(dup);
         }
 
         // assert: no fault, no overflow (yet)
 
-        quoteHub.Quotes.Should().HaveCount(1);
+        barHub.Bars.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
-        quoteHub.IsFaulted.Should().BeFalse();
-        quoteHub.OverflowCount.Should().Be(100);
-        quoteHub.HasObservers.Should().BeTrue(); // not lost
+        barHub.IsFaulted.Should().BeFalse();
+        barHub.OverflowCount.Should().Be(100);
+        barHub.HasObservers.Should().BeTrue(); // not lost
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -174,11 +174,11 @@ public class CacheManagement : TestBase
         const int maxCacheSize = 30;
 
         // initialize
-        QuoteHub quoteHub = new(maxCacheSize);
-        SmaHub observer = quoteHub.ToSmaHub(20);
+        BarHub barHub = new(maxCacheSize);
+        SmaHub observer = barHub.ToSmaHub(20);
 
         // sets max cache size
-        quoteHub.MaxCacheSize.Should().Be(maxCacheSize);
+        barHub.MaxCacheSize.Should().Be(maxCacheSize);
 
         // inherits max cache size
         observer.MaxCacheSize.Should().Be(maxCacheSize);
@@ -190,27 +190,27 @@ public class CacheManagement : TestBase
         const int maxCacheSize = 30;
 
         // initialize
-        QuoteHub quoteHub = new(maxCacheSize);
-        SmaHub observer = quoteHub.ToSmaHub(20);
-        IReadOnlyList<SmaResult> seriesList = Quotes.ToSma(20);
+        BarHub barHub = new(maxCacheSize);
+        SmaHub observer = barHub.ToSmaHub(20);
+        IReadOnlyList<SmaResult> seriesList = Bars.ToSma(20);
 
-        // add quotes
-        quoteHub.Add(Quotes.Take(maxCacheSize));
+        // add bars
+        barHub.Add(Bars.Take(maxCacheSize));
 
         // assert: cache size is full size
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
-        // add more quotes to exceed max cache size
-        quoteHub.Add(Quotes.Skip(maxCacheSize).Take(10));
+        // add more bars to exceed max cache size
+        barHub.Add(Bars.Skip(maxCacheSize).Take(10));
 
         // assert: cache size is pruned
-        quoteHub.Results.Should().HaveCount(maxCacheSize);
+        barHub.Results.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // assert: correct values remain
-        quoteHub.Quotes.IsExactly(
-            Quotes.Skip(10).Take(maxCacheSize));
+        barHub.Bars.IsExactly(
+            Bars.Skip(10).Take(maxCacheSize));
 
         observer.Results.IsExactly(
             seriesList.Skip(10).Take(maxCacheSize));
@@ -224,30 +224,30 @@ public class CacheManagement : TestBase
         const EndType endType = EndType.Close;
 
         // initialize
-        QuoteHub quoteHub = new(maxCacheSize);
-        RenkoHub observer = quoteHub.ToRenkoHub(brickSize, endType);
-        IReadOnlyList<RenkoResult> seriesList = Quotes.ToRenko(brickSize, endType);
+        BarHub barHub = new(maxCacheSize);
+        RenkoHub observer = barHub.ToRenkoHub(brickSize, endType);
+        IReadOnlyList<RenkoResult> seriesList = Bars.ToRenko(brickSize, endType);
 
-        // add quotes (Renko produces asymmetric results - can be 0 or many bricks per quote)
-        quoteHub.Add(Quotes.Take(maxCacheSize));
+        // add bars (Renko produces asymmetric results - can be 0 or many bricks per bar)
+        barHub.Add(Bars.Take(maxCacheSize));
 
-        // assert: cache size is at or under max (Renko may produce fewer results than quotes)
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        // assert: cache size is at or under max (Renko may produce fewer results than bars)
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCountLessThanOrEqualTo(maxCacheSize);
 
-        // add more quotes to exceed max cache size
-        quoteHub.Add(Quotes.Skip(maxCacheSize).Take(10));
+        // add more bars to exceed max cache size
+        barHub.Add(Bars.Skip(maxCacheSize).Take(10));
 
-        // assert: quote cache is pruned to max size
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        // assert: bar cache is pruned to max size
+        barHub.Bars.Should().HaveCount(maxCacheSize);
 
         // assert: Renko cache is pruned by date, not count
-        // (should contain all Renko bricks from the most recent maxCacheSize quotes)
-        DateTime oldestQuoteDate = quoteHub.Quotes[0].Timestamp;
-        observer.Results.Should().OnlyContain(r => r.Timestamp >= oldestQuoteDate,
-            "Renko bricks should be pruned by date to match the oldest quote in cache");
+        // (should contain all Renko bricks from the most recent maxCacheSize bars)
+        DateTime oldestBarDate = barHub.Bars[0].Timestamp;
+        observer.Results.Should().OnlyContain(r => r.Timestamp >= oldestBarDate,
+            "Renko bricks should be pruned by date to match the oldest bar in cache");
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
@@ -257,59 +257,59 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void CacheReferencesAreImmutable()
     {
-        QuoteHub quoteHub = new();
-        SmaHub observer = quoteHub.ToSmaHub(20);
+        BarHub barHub = new();
+        SmaHub observer = barHub.ToSmaHub(20);
 
-        List<Quote> quotes = Quotes.Take(25).ToList();
-        quoteHub.Add(quotes);
+        List<Bar> bars = Bars.Take(25).ToList();
+        barHub.Add(bars);
 
         // verify StreamHub.Results cannot be cast to mutable list
         IReadOnlyList<SmaResult> results = observer.Results;
         bool canCastResults = results is List<SmaResult>;
         canCastResults.Should().BeFalse("Results should not be castable to List<T>");
 
-        // verify QuoteHub.Quotes cannot be cast to mutable list
-        IReadOnlyList<IQuote> quotesRef = quoteHub.Quotes;
-        bool canCastQuotes = quotesRef is List<IQuote>;
-        canCastQuotes.Should().BeFalse("Quotes should not be castable to List<T>");
+        // verify BarHub.Bars cannot be cast to mutable list
+        IReadOnlyList<IBar> barsRef = barHub.Bars;
+        bool canCastBars = barsRef is List<IBar>;
+        canCastBars.Should().BeFalse("Bars should not be castable to List<T>");
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     /// <summary>
-    /// Verifies that adding a quote with the same timestamp replaces the existing quote
-    /// instead of clearing the cache (standalone QuoteHub vulnerability fix).
+    /// Verifies that adding a bar with the same timestamp replaces the existing bar
+    /// instead of clearing the cache (standalone BarHub vulnerability fix).
     /// </summary>
     [TestMethod]
-    public void UpdateQuoteWithSameTimestamp()
+    public void UpdateBarWithSameTimestamp()
     {
-        QuoteHub quoteHub = new();
-        QuotePartHub observer = quoteHub.ToQuotePartHub(CandlePart.Close);
+        BarHub barHub = new();
+        BarPartHub observer = barHub.ToBarPartHub(CandlePart.Close);
 
         DateTime timestamp = new(2020, 1, 1, 10, 0, 0);
 
-        // add initial quote
-        Quote q1 = new(timestamp, 100m, 105m, 95m, 102m, 1000);
-        quoteHub.Add(q1);
+        // add initial bar
+        Bar q1 = new(timestamp, 100m, 105m, 95m, 102m, 1000);
+        barHub.Add(q1);
 
-        quoteHub.Quotes.Should().HaveCount(1);
-        quoteHub.Quotes[0].Close.Should().Be(102m);
+        barHub.Bars.Should().HaveCount(1);
+        barHub.Bars[0].Close.Should().Be(102m);
         observer.Results.Should().HaveCount(1);
         observer.Results[0].Value.Should().Be(102);
 
-        // add updated quote with same timestamp but different values
-        // should replace the existing quote and notify observers to rebuild
-        Quote q2 = new(timestamp, 100m, 110m, 90m, 108m, 1500);
-        quoteHub.Add(q2);
+        // add updated bar with same timestamp but different values
+        // should replace the existing bar and notify observers to rebuild
+        Bar q2 = new(timestamp, 100m, 110m, 90m, 108m, 1500);
+        barHub.Add(q2);
 
-        // QuoteHub should still have 1 quote with updated values
-        quoteHub.Quotes.Should().HaveCount(1);
-        quoteHub.Quotes[0].Close.Should().Be(108m);
+        // BarHub should still have 1 bar with updated values
+        barHub.Bars.Should().HaveCount(1);
+        barHub.Bars[0].Close.Should().Be(108m);
 
-        // observer should rebuild from QuoteHub's cache with updated values
+        // observer should rebuild from BarHub's cache with updated values
         observer.Results.Should().HaveCount(1);
         observer.Results[0].Value.Should().Be(108);
 
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

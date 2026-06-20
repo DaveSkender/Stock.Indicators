@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Stochastic Oscillator.
 /// </summary>
 public class StochHub
-    : StreamHub<IQuote, StochResult>, IStoch
+    : StreamHub<IBar, StochResult>, IStoch
 {
 
     private CircularDoubleBuffer _highBuffer;
@@ -12,7 +12,7 @@ public class StochHub
     private readonly Queue<double> _rawKBuffer;
 
     internal StochHub(
-        IStreamObservable<IQuote> provider,
+        IStreamObservable<IBar> provider,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods) : this(provider, lookbackPeriods, signalPeriods, smoothPeriods, 3, 2, MaType.SMA)
@@ -22,7 +22,7 @@ public class StochHub
     /// <summary>
     /// Initializes a new instance of the <see cref="StochHub"/> class with extended parameters.
     /// </summary>
-    /// <param name="provider">Quote provider.</param>
+    /// <param name="provider">Bar provider.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
@@ -30,7 +30,7 @@ public class StochHub
     /// <param name="dFactor">D factor for the Stochastic calculation.</param>
     /// <param name="movingAverageType">Type of moving average to use.</param>
     internal StochHub(
-        IStreamObservable<IQuote> provider,
+        IStreamObservable<IBar> provider,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -83,7 +83,7 @@ public class StochHub
     public MaType MovingAverageType { get; init; }
     /// <inheritdoc/>
     protected override (StochResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -314,9 +314,9 @@ public class StochHub
         int startIdx = Math.Max(0, restoreIndex + 1 - LookbackPeriods);
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
-            double cachedHigh = (double)quote.High;
-            double cachedLow = (double)quote.Low;
+            IBar bar = ProviderCache[p];
+            double cachedHigh = (double)bar.High;
+            double cachedLow = (double)bar.Low;
 
             _highBuffer.Add(cachedHigh);
             _lowBuffer.Add(cachedLow);
@@ -334,7 +334,7 @@ public class StochHub
 
                 for (int r = rStart; r <= p; r++)
                 {
-                    IQuote q = ProviderCache[r];
+                    IBar q = ProviderCache[r];
                     double h = (double)q.High;
                     double l = (double)q.Low;
                     if (h > hh)
@@ -379,26 +379,26 @@ public class StochHub
 public static partial class Stoch
 {
     /// <summary>
-    /// Converts the quote provider to a Stochastic Oscillator hub.
+    /// Converts the bar provider to a Stochastic Oscillator hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
     /// <returns>A Stochastic Oscillator hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static StochHub ToStochHub(
-        this IStreamObservable<IQuote> quoteProvider,
+        this IStreamObservable<IBar> barProvider,
         int lookbackPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 3)
-             => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods);
+             => new(barProvider, lookbackPeriods, signalPeriods, smoothPeriods);
 
     /// <summary>
-    /// Converts the quote provider to a Stochastic Oscillator hub with extended parameters.
+    /// Converts the bar provider to a Stochastic Oscillator hub with extended parameters.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
@@ -406,15 +406,15 @@ public static partial class Stoch
     /// <param name="dFactor">D factor for the Stochastic calculation.</param>
     /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <returns>A Stochastic Oscillator hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static StochHub ToStoch(
-        this IStreamObservable<IQuote> quoteProvider,
+        this IStreamObservable<IBar> barProvider,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
         double kFactor,
         double dFactor,
         MaType movingAverageType)
-             => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
+             => new(barProvider, lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
 }

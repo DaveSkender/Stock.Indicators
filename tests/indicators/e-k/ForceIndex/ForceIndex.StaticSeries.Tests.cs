@@ -6,7 +6,7 @@ public class ForceIndex : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<ForceIndexResult> r = Quotes.ToForceIndex(13).ToList();
+        IReadOnlyList<ForceIndexResult> r = Bars.ToForceIndex(13).ToList();
 
         // proper quantities
         r.Should().HaveCount(502);
@@ -25,7 +25,7 @@ public class ForceIndex : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToForceIndex(13)
             .ToSma(10);
 
@@ -34,9 +34,9 @@ public class ForceIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<ForceIndexResult> r = BadQuotes
+        IReadOnlyList<ForceIndexResult> r = BadBars
             .ToForceIndex();
 
         r.Should().HaveCount(502);
@@ -44,14 +44,14 @@ public class ForceIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<ForceIndexResult> r0 = Noquotes
+        IReadOnlyList<ForceIndexResult> r0 = Nobars
             .ToForceIndex(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<ForceIndexResult> r1 = Onequote
+        IReadOnlyList<ForceIndexResult> r1 = Onebar
             .ToForceIndex(5);
 
         r1.Should().HaveCount(1);
@@ -60,7 +60,7 @@ public class ForceIndex : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<ForceIndexResult> sut = Quotes
+        IReadOnlyList<ForceIndexResult> sut = Bars
             .ToForceIndex(13)
             .RemoveWarmupPeriods();
 
@@ -77,7 +77,7 @@ public class ForceIndex : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToForceIndex(0))
+            .Invoking(static () => Bars.ToForceIndex(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

@@ -232,7 +232,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        // Prefer HL2 when source is IQuote (Alligator specification)
+        // Prefer HL2 when source is IBar (Alligator specification)
         Add(value.Timestamp, value.Hl2OrValue());
     }
 
@@ -244,7 +244,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         for (int i = 0; i < values.Count; i++)
         {
             IReusable v = values[i];
-            // Prefer HL2 when source is IQuote (Alligator specification)
+            // Prefer HL2 when source is IBar (Alligator specification)
             Add(v.Timestamp, v.Hl2OrValue());
         }
     }

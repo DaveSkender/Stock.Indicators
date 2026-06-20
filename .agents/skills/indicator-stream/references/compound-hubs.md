@@ -169,7 +169,7 @@ protected override void RollbackState(DateTime timestamp)
 ```csharp
 // WRONG - Creates new hub on every tick
 protected override (GatorResult result, int index)
-    ToIndicator(IQuote item, int? indexHint)
+    ToIndicator(IBar item, int? indexHint)
 {
     var alligator = item.ToAlligatorHub();  // FORBIDDEN - O(n²) disaster
     var alligatorResult = alligator.GetNext(item);

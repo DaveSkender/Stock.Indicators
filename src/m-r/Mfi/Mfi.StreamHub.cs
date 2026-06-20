@@ -3,13 +3,13 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Streaming hub for Money Flow Index (MFI).
 /// </summary>
-public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
+public class MfiHub : ChainHub<IBar, MfiResult>, IMfi
 {
     private readonly Queue<(double TruePrice, double MoneyFlow, int Direction)> _buffer;
     private double? _prevTruePrice;
 
     internal MfiHub(
-        IQuoteProvider<IQuote> provider,
+        IBarProvider<IBar> provider,
         int lookbackPeriods)
         : base(provider)
     {
@@ -29,7 +29,7 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (MfiResult result, int index)
-        ToIndicator(IQuote item, int? indexHint)
+        ToIndicator(IBar item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -120,13 +120,13 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
 
         for (int p = startIdx; p <= restoreIndex; p++)
         {
-            IQuote quote = ProviderCache[p];
+            IBar bar = ProviderCache[p];
 
             // Calculate true price
-            double truePrice = ((double)quote.High + (double)quote.Low + (double)quote.Close) / 3;
+            double truePrice = ((double)bar.High + (double)bar.Low + (double)bar.Close) / 3;
 
             // Calculate raw money flow
-            double moneyFlow = truePrice * (double)quote.Volume;
+            double moneyFlow = truePrice * (double)bar.Volume;
 
             // Determine direction
             int direction = _prevTruePrice == null || truePrice == _prevTruePrice
@@ -145,18 +145,18 @@ public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
 public static partial class Mfi
 {
     /// <summary>
-    /// Converts the quote provider to an MFI hub.
+    /// Converts the bar provider to an MFI hub.
     /// </summary>
-    /// <param name="quoteProvider">Quote provider.</param>
+    /// <param name="barProvider">Bar provider.</param>
     /// <param name="lookbackPeriods">Number of lookback periods. Default is 14.</param>
     /// <returns>An MFI hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bar provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static MfiHub ToMfiHub(
-        this IQuoteProvider<IQuote> quoteProvider,
+        this IBarProvider<IBar> barProvider,
         int lookbackPeriods = 14)
     {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(barProvider);
+        return new(barProvider, lookbackPeriods);
     }
 }

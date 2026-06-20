@@ -6,9 +6,9 @@ namespace Skender.Stock.Indicators;
 public static partial class StdDevChannels
 {
     /// <summary>
-    /// Converts a series of quotes to Standard Deviation Channels.
+    /// Converts a series of bars to Standard Deviation Channels.
     /// </summary>
-    /// <param name="source">Source series of quotes.</param>
+    /// <param name="source">Source series of bars.</param>
     /// <param name="lookbackPeriods">
     /// The number of periods for the lookback. Default is 20.</param>
     /// <param name="stdDeviations">Number of standard deviations for the channel width.</param>

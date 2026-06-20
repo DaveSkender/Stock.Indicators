@@ -10,7 +10,7 @@ public class Kama : StaticSeriesTestBase
         const int fastPeriods = 2;
         const int slowPeriods = 30;
 
-        IReadOnlyList<KamaResult> sut = Quotes
+        IReadOnlyList<KamaResult> sut = Bars
             .ToKama(erPeriods, fastPeriods, slowPeriods);
 
         // proper quantities
@@ -51,14 +51,14 @@ public class Kama : StaticSeriesTestBase
     [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
-        IReadOnlyList<KamaResult> sut = Quotes.ToKama(10, 2, 30);
+        IReadOnlyList<KamaResult> sut = Bars.ToKama(10, 2, 30);
         sut.IsBetween(static x => x.Er, 0, 1);
     }
 
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<KamaResult> sut = Quotes
+        IReadOnlyList<KamaResult> sut = Bars
             .Use(CandlePart.Close)
             .ToKama();
 
@@ -69,7 +69,7 @@ public class Kama : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<KamaResult> sut = Quotes
+        IReadOnlyList<KamaResult> sut = Bars
             .ToSma(2)
             .ToKama();
 
@@ -80,7 +80,7 @@ public class Kama : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToKama()
             .ToSma(10);
 
@@ -89,9 +89,9 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<KamaResult> r = BadQuotes
+        IReadOnlyList<KamaResult> r = BadBars
             .ToKama();
 
         r.Should().HaveCount(502);
@@ -99,14 +99,14 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<KamaResult> r0 = Noquotes
+        IReadOnlyList<KamaResult> r0 = Nobars
             .ToKama();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<KamaResult> r1 = Onequote
+        IReadOnlyList<KamaResult> r1 = Onebar
             .ToKama();
 
         r1.Should().HaveCount(1);
@@ -119,7 +119,7 @@ public class Kama : StaticSeriesTestBase
         const int fastPeriods = 2;
         const int slowPeriods = 30;
 
-        IReadOnlyList<KamaResult> sut = Quotes
+        IReadOnlyList<KamaResult> sut = Bars
             .ToKama(erPeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
@@ -136,14 +136,14 @@ public class Kama : StaticSeriesTestBase
     {
         // bad ER period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKama(0));
+            static () => Bars.ToKama(0));
 
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKama(10, 0));
+            static () => Bars.ToKama(10, 0));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKama(10, 5, 5));
+            static () => Bars.ToKama(10, 5, 5));
     }
 }

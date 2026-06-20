@@ -6,7 +6,7 @@ public class Pivots : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<PivotsResult> sut = Quotes
+        IReadOnlyList<PivotsResult> sut = Bars
             .ToPivots(4, 4);
 
         // proper quantities
@@ -85,23 +85,23 @@ public class Pivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<PivotsResult> r = BadQuotes
+        IReadOnlyList<PivotsResult> r = BadBars
             .ToPivots();
 
         r.Should().HaveCount(502);
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<PivotsResult> r0 = Noquotes
+        IReadOnlyList<PivotsResult> r0 = Nobars
             .ToPivots();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<PivotsResult> r1 = Onequote
+        IReadOnlyList<PivotsResult> r1 = Onebar
             .ToPivots();
 
         r1.Should().HaveCount(1);
@@ -110,7 +110,7 @@ public class Pivots : StaticSeriesTestBase
     [TestMethod]
     public void Condense_RemovesNullResults_ReturnsCondensed()
     {
-        IReadOnlyList<PivotsResult> sut = Quotes
+        IReadOnlyList<PivotsResult> sut = Bars
             .ToPivots(4, 4)
             .Condense();
         sut.Should().HaveCount(67);
@@ -121,28 +121,28 @@ public class Pivots : StaticSeriesTestBase
     {
         // bad left span
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPivots(1));
+            static () => Bars.ToPivots(1));
 
         // bad right span
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPivots(2, 1));
+            static () => Bars.ToPivots(2, 1));
 
         // bad lookback window
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToPivots(20, 10, 20, EndType.Close));
+            static () => Bars.ToPivots(20, 10, 20, EndType.Close));
     }
 
     [TestMethod]
     public void Issue1950_WithKnownCsv_ProducesExpectedPivots()
     {
-        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1950.pivots.csv");
+        IReadOnlyList<Bar> bars = Data.BarsFromCsv("_issue1950.pivots.csv");
 
-        IReadOnlyList<PivotsResult> r = quotes.ToPivots(maxTrendPeriods: 100);
+        IReadOnlyList<PivotsResult> r = bars.ToPivots(maxTrendPeriods: 100);
 
-        const string msg = "results size should match original quotes size";
+        const string msg = "results size should match original bars size";
 
         r.Should().HaveCount(1430, msg);
-        r.Should().HaveCount(quotes.Count, msg);
+        r.Should().HaveCount(bars.Count, msg);
         r.Where(static x => x.HighPoint is not null).Should().HaveCount(194);
         r.Where(static x => x.LowPoint is not null).Should().HaveCount(193);
     }

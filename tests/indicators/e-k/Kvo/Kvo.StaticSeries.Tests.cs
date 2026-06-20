@@ -7,7 +7,7 @@ public class Kvo : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<KvoResult> sut =
-            Quotes.ToKvo();
+            Bars.ToKvo();
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -47,7 +47,7 @@ public class Kvo : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToKvo()
             .ToSma(10);
 
@@ -56,9 +56,9 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<KvoResult> r = BadQuotes
+        IReadOnlyList<KvoResult> r = BadBars
             .ToKvo();
 
         r.Should().HaveCount(502);
@@ -66,14 +66,14 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<KvoResult> r0 = Noquotes
+        IReadOnlyList<KvoResult> r0 = Nobars
             .ToKvo();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<KvoResult> r1 = Onequote
+        IReadOnlyList<KvoResult> r1 = Onebar
             .ToKvo();
 
         r1.Should().HaveCount(1);
@@ -82,7 +82,7 @@ public class Kvo : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<KvoResult> sut = Quotes
+        IReadOnlyList<KvoResult> sut = Bars
             .ToKvo()
             .RemoveWarmupPeriods();
 
@@ -99,14 +99,14 @@ public class Kvo : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKvo(2));
+            static () => Bars.ToKvo(2));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKvo(20, 20));
+            static () => Bars.ToKvo(20, 20));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToKvo(34, 55, 0));
+            static () => Bars.ToKvo(34, 55, 0));
     }
 }

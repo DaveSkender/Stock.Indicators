@@ -21,7 +21,7 @@ public static partial class FisherTransform
         ArgumentNullException.ThrowIfNull(source, nameof(source));
         Validate(lookbackPeriods);
 
-        // prefer HL2 when IQuote
+        // prefer HL2 when IBar
         IReadOnlyList<IReusable> values
             = source.ToPreferredList(CandlePart.HL2);
 

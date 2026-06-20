@@ -6,45 +6,45 @@ namespace Skender.Stock.Indicators;
 public static partial class ElderRay
 {
     /// <summary>
-    /// Converts a list of quotes to Elder Ray results.
+    /// Converts a list of bars to Elder Ray results.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Elder Ray results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<ElderRayResult> ToElderRay(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 13)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcElderRay(lookbackPeriods);
 
     /// <summary>
     /// Calculates the Elder Ray indicator.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Elder Ray results.</returns>
     private static List<ElderRayResult> CalcElderRay(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<ElderRayResult> results = new(length);
 
         // EMA
         IReadOnlyList<EmaResult> emaResults
-            = quotes.ToEma(lookbackPeriods);
+            = bars.ToEma(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
             EmaResult e = emaResults[i];
 
             results.Add(new(

@@ -5,8 +5,8 @@ namespace Performance;
 [ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class SeriesIndicators
 {
-    private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
+    private static readonly IReadOnlyList<Bar> q = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> o = Data.GetCompare();
     private const int n = 14;
 
     /* Parameter arguments should match the Catalog default values */

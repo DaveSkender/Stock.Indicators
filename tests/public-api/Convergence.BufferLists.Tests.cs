@@ -14,7 +14,7 @@ namespace Behavioral;
 [TestClass, TestCategory("Integration")]
 public class ConvergenceBufferLists : TestBaseWithPrecision
 {
-    private static readonly int[] QuotesQuantities =
+    private static readonly int[] BarsQuantities =
         [5, 14, 28, 40, 50, 75, 100, 110, 120, 130, 140, 150, 160, 175, 200, 250, 350, 500, 600, 700, 800, 900, 1000];
 
     // Convergence thresholds: quantity needed for stable final value
@@ -34,9 +34,9 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
         const int lookback = 14;
         AdxResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             AdxList buffer = qts.ToAdxList(lookback);
 
             AdxResult l = buffer[^1];
@@ -64,9 +64,9 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
         const int lookback = 14;
         AtrResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             AtrList buffer = qts.ToAtrList(lookback);
 
             AtrResult l = buffer[^1];
@@ -94,9 +94,9 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
         const int lookback = 14;
         EmaResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             EmaList buffer = qts.ToEmaList(lookback);
 
             EmaResult l = buffer[^1];
@@ -124,9 +124,9 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
         const int fast = 12, slow = 26, signal = 9;
         MacdResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             MacdList buffer = qts.ToMacdList(fast, slow, signal);
 
             MacdResult l = buffer[^1];
@@ -156,9 +156,9 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
         const int lookback = 14;
         RsiResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             RsiList buffer = qts.ToRsiList(lookback);
 
             RsiResult l = buffer[^1];
@@ -186,9 +186,9 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
         const int lookback = 14;
         SmaResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             SmaList buffer = qts.ToSmaList(lookback);
 
             SmaResult l = buffer[^1];
@@ -216,9 +216,9 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
         const int lookbackPeriods = 14, signalPeriods = 3, smoothPeriods = 3;
         StochResult? convergedResult = null;
 
-        foreach (int qty in QuotesQuantities)
+        foreach (int qty in BarsQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<Bar> qts = Data.GetLongish(qty);
             StochList buffer = qts.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
 
             StochResult l = buffer[^1];

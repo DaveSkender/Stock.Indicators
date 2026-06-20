@@ -5,19 +5,19 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 {
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        MacdHub observer = quoteHub
+        MacdHub observer = barHub
             .ToMacdHub(12, 26, 9);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // test string output
@@ -25,30 +25,30 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
+        // prefill bars at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         // initialize observer
-        MacdHub observer = quoteHub
+        MacdHub observer = barHub
             .ToMacdHub(12, 26, 9);
 
         // fetch initial results (early)
         IReadOnlyList<MacdResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -56,63 +56,63 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<MacdResult> expected = RevisedQuotes.ToMacd(12, 26, 9);
+        IReadOnlyList<MacdResult> expected = RevisedBars.ToMacd(12, 26, 9);
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<MacdResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<MacdResult> expected = bars
             .ToMacd(12, 26, 9)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        MacdHub observer = quoteHub.ToMacdHub(12, 26, 9);
+        BarHub barHub = new(maxCacheSize);
+        MacdHub observer = barHub.ToMacdHub(12, 26, 9);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -123,22 +123,22 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int macdSlow = 26;
         const int macdSignal = 9;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        int length = quotesList.Count;
+        int length = barsList.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        MacdHub observer = quoteHub
+        MacdHub observer = barHub
             .ToEmaHub(emaPeriods)
             .ToMacdHub(macdFast, macdSlow, macdSignal);
 
-        // emulate quote stream
+        // emulate bar stream
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // final results
@@ -147,7 +147,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // time-series, for comparison
         IReadOnlyList<MacdResult> seriesList
-           = quotesList
+           = barsList
             .ToEma(emaPeriods)
             .ToMacd(macdFast, macdSlow, macdSignal);
 
@@ -157,7 +157,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -168,73 +168,73 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int macdSlow = 10;
         const int macdSignal = 3;
 
-        // setup chain quoteHub
-        QuoteHub quoteHub = new();
-        SmaHub smaHub = quoteHub.ToSmaHub(smaPeriods);
+        // setup chain barHub
+        BarHub barHub = new();
+        SmaHub smaHub = barHub.ToSmaHub(smaPeriods);
 
         // initialize observer
         MacdHub observer = smaHub
             .ToMacdHub(macdFast, macdSlow, macdSignal);
 
-        // emulate live quotes
-        for (int i = 0; i < quotesCount; i++)
+        // emulate live bars
+        for (int i = 0; i < barsCount; i++)
         {
             if (i == 80) { continue; }  // Skip for late arrival
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            if (i is > 100 and < 105) { barHub.Add(q); }  // Duplicate bars
         }
 
-        quoteHub.Add(Quotes[80]);  // Late arrival
-        quoteHub.RemoveAt(removeAtIndex);  // Remove
+        barHub.Add(Bars[80]);  // Late arrival
+        barHub.RemoveAt(removeAtIndex);  // Remove
 
         // final results
         IReadOnlyList<MacdResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<MacdResult> expected = RevisedQuotes
+        IReadOnlyList<MacdResult> expected = RevisedBars
             .ToSma(smaPeriods)
             .ToMacd(macdFast, macdSlow, macdSignal);
 
         // assert
-        sut.Should().HaveCount(quotesCount - 1);
+        sut.Should().HaveCount(barsCount - 1);
         sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
         smaHub.EndTransmission();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void StreamingAccuracy_PartialQuotes_MatchesSeriesExactly()
+    public void StreamingAccuracy_PartialBars_MatchesSeriesExactly()
     {
         const int fastPeriods = 12;
         const int slowPeriods = 26;
         const int signalPeriods = 9;
 
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        MacdHub observer = quoteHub
+        MacdHub observer = barHub
             .ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
 
-        // stream first 100 quotes
+        // stream first 100 bars
         for (int i = 0; i < 100; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // get streaming results
         IReadOnlyList<MacdResult> streamResults = observer.Results;
 
         // time-series for comparison
-        IReadOnlyList<MacdResult> seriesResults = quotesList.Take(100).ToList().ToMacd(fastPeriods, slowPeriods, signalPeriods);
+        IReadOnlyList<MacdResult> seriesResults = barsList.Take(100).ToList().ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // validate specific data points
         MacdResult streamResult = streamResults[50];
@@ -248,36 +248,36 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void LateArrival_MidStream_MatchesFreshStream()
     {
-        // Skip one quote during streaming, then add it after the cache
+        // Skip one bar during streaming, then add it after the cache
         // head has advanced; result cache must equal a fresh hub that
-        // received the same quotes in correct timestamp order.
-        const int totalQuotes = 300;
+        // received the same bars in correct timestamp order.
+        const int totalBars = 300;
         const int lateIndex = 150;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         MacdHub lateHub = lateSource.ToMacdHub(12, 26, 9);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         MacdHub freshHub = freshSource.ToMacdHub(12, 26, 9);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -293,27 +293,27 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // (= 26 + 9 - 1 = 34), so a late arrival at index 40 forces the
         // rollback path to replay across the most-fragile state transition
         // in the three-stage EMA cascade.
-        const int totalQuotes = 300;
+        const int totalBars = 300;
         const int lateIndex = 40;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
 
-        QuoteHub lateSource = new();
+        BarHub lateSource = new();
         MacdHub lateHub = lateSource.ToMacdHub(12, 26, 9);
-        for (int i = 0; i < totalQuotes; i++)
+        for (int i = 0; i < totalBars; i++)
         {
             if (i == lateIndex) { continue; }
 
-            lateSource.Add(quotes[i]);
+            lateSource.Add(bars[i]);
         }
 
-        lateSource.Add(quotes[lateIndex]);
+        lateSource.Add(bars[lateIndex]);
 
-        QuoteHub freshSource = new();
+        BarHub freshSource = new();
         MacdHub freshHub = freshSource.ToMacdHub(12, 26, 9);
-        freshSource.Add(quotes);
+        freshSource.Add(bars);
 
-        lateHub.Results.Should().HaveCount(totalQuotes);
+        lateHub.Results.Should().HaveCount(totalBars);
         lateHub.Results.IsExactly(freshHub.Results);
 
         lateHub.Unsubscribe();
@@ -325,13 +325,13 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void Parameters_WithCustomValues_AreSetCorrectly()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        List<Bar> barsList = Bars.ToList();
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer with custom parameters
-        MacdHub observer = quoteHub
+        MacdHub observer = barHub
             .ToMacdHub(8, 21, 5);
 
         // verify parameters
@@ -339,20 +339,20 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         observer.SlowPeriods.Should().Be(21);
         observer.SignalPeriods.Should().Be(5);
 
-        // process some quotes
+        // process some bars
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            barHub.Add(barsList[i]);
         }
 
         // verify results consistency
         IReadOnlyList<MacdResult> streamResults = observer.Results;
-        IReadOnlyList<MacdResult> seriesResults = quotesList.Take(50).ToList().ToMacd(8, 21, 5);
+        IReadOnlyList<MacdResult> seriesResults = barsList.Take(50).ToList().ToMacd(8, 21, 5);
 
         streamResults.IsExactly(seriesResults);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 }

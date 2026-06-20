@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Marubozu candlestick pattern from incremental quotes.
+/// Marubozu candlestick pattern from incremental bars.
 /// </summary>
-public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMarubozu
+public class MarubozuList : BufferList<CandleResult>, IIncrementFromBar, IMarubozu
 {
     private readonly double minBodyPercent;
 
@@ -22,23 +22,23 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MarubozuList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="MarubozuList"/> class with initial bars.
     /// </summary>
     /// <param name="minBodyPercent">Minimum body percentage to qualify as a Marubozu.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public MarubozuList(double minBodyPercent, IReadOnlyList<IQuote> quotes)
-        : this(minBodyPercent) => Add(quotes);
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    public MarubozuList(double minBodyPercent, IReadOnlyList<IBar> bars)
+        : this(minBodyPercent) => Add(bars);
 
     /// <inheritdoc />
     public double MinBodyPercent { get; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        CandleProperties candle = quote.ToCandle();
+        DateTime timestamp = bar.Timestamp;
+        CandleProperties candle = bar.ToCandle();
 
         decimal? matchPrice = null;
         Match matchType = Match.None;
@@ -46,7 +46,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
         // check for current signal
         if (candle.BodyPct >= minBodyPercent)
         {
-            matchPrice = quote.Close;
+            matchPrice = bar.Close;
             matchType = candle.IsBullish ? Match.BullSignal : Match.BearSignal;
         }
 
@@ -60,13 +60,13 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -79,10 +79,10 @@ public static partial class Marubozu
     /// <summary>
     /// Creates a buffer list for Marubozu candlestick pattern calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="minBodyPercent">Minimum body percent threshold</param>
     public static MarubozuList ToMarubozuList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         double minBodyPercent = 95)
-        => new(minBodyPercent) { quotes };
+        => new(minBodyPercent) { bars };
 }

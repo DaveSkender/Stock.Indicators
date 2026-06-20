@@ -15,7 +15,7 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 ```csharp
 // C# usage syntax
 IReadOnlyList<AwesomeResult> results =
-  quotes.ToAwesome(fastPeriods, slowPeriods);
+  bars.ToAwesome(fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -25,11 +25,11 @@ IReadOnlyList<AwesomeResult> results =
 | `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5. |
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34. |
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least `S` periods of `quotes` to cover the warmup periods.
+You must have at least `S` periods of `bars` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -37,8 +37,8 @@ You must have at least `S` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<AwesomeResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first period `S-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -46,7 +46,7 @@ IReadOnlyList<AwesomeResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `Oscillator` | double | Awesome Oscillator |
 | `Normalized` | double | `100 × Oscillator ÷ (median price)` |
 
@@ -65,7 +65,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .Use(CandlePart.HL2)
     .ToAwesome(..);
 ```
@@ -74,7 +74,7 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 
 ```csharp
 // example
-var results = quotes
+var results = bars
     .ToAwesome(..)
     .ToRsi(..);
 ```
@@ -88,24 +88,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 AwesomeList awesomeList = new(fastPeriods, slowPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  awesomeList.Add(quote);
+  awesomeList.Add(bar);
 }
 
 // based on `ICollection<AwesomeResult>`
 IReadOnlyList<AwesomeResult> results = awesomeList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-AwesomeHub observer = quoteHub.ToAwesomeHub(fastPeriods, slowPeriods);
+BarHub barHub = new();
+AwesomeHub observer = barHub.ToAwesomeHub(fastPeriods, slowPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<AwesomeResult> results = observer.Results;

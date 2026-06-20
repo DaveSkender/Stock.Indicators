@@ -10,7 +10,7 @@ public class StdDevChannels : StaticSeriesTestBase
         const double standardDeviations = 2;
 
         IReadOnlyList<StdDevChannelsResult> sut =
-            Quotes.ToStdDevChannels(lookbackPeriods, standardDeviations);
+            Bars.ToStdDevChannels(lookbackPeriods, standardDeviations);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -68,7 +68,7 @@ public class StdDevChannels : StaticSeriesTestBase
         // full history linear regression
 
         IReadOnlyList<StdDevChannelsResult> sut =
-            Quotes.ToStdDevChannels(Quotes.Count);
+            Bars.ToStdDevChannels(Bars.Count);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -98,7 +98,7 @@ public class StdDevChannels : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<StdDevChannelsResult> sut = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Bars
             .Use(CandlePart.Close)
             .ToStdDevChannels();
 
@@ -109,7 +109,7 @@ public class StdDevChannels : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<StdDevChannelsResult> sut = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Bars
             .ToSma(2)
             .ToStdDevChannels();
 
@@ -118,9 +118,9 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<StdDevChannelsResult> r = BadQuotes
+        IReadOnlyList<StdDevChannelsResult> r = BadBars
             .ToStdDevChannels();
 
         r.Should().HaveCount(502);
@@ -128,14 +128,14 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<StdDevChannelsResult> r0 = Noquotes
+        IReadOnlyList<StdDevChannelsResult> r0 = Nobars
             .ToStdDevChannels();
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<StdDevChannelsResult> r1 = Onequote
+        IReadOnlyList<StdDevChannelsResult> r1 = Onebar
             .ToStdDevChannels();
 
         r1.Should().HaveCount(1);
@@ -147,7 +147,7 @@ public class StdDevChannels : StaticSeriesTestBase
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
 
-        IReadOnlyList<StdDevChannelsResult> sut = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Bars
             .ToStdDevChannels(lookbackPeriods, standardDeviations)
             .Condense();
 
@@ -166,7 +166,7 @@ public class StdDevChannels : StaticSeriesTestBase
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
 
-        IReadOnlyList<StdDevChannelsResult> sut = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Bars
             .ToStdDevChannels(lookbackPeriods, standardDeviations)
             .RemoveWarmupPeriods();
 
@@ -184,10 +184,10 @@ public class StdDevChannels : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStdDevChannels(0));
+            static () => Bars.ToStdDevChannels(0));
 
         // bad standard deviations
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStdDevChannels(20, 0));
+            static () => Bars.ToStdDevChannels(20, 0));
     }
 }

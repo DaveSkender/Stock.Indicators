@@ -1,87 +1,87 @@
 namespace StreamHubs;
 
 [TestClass]
-public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class VwmaHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 10;
-    private readonly IReadOnlyList<VwmaResult> expectedOriginal = Quotes.ToVwma(lookbackPeriods);
+    private readonly IReadOnlyList<VwmaResult> expectedOriginal = Bars.ToVwma(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        VwmaHub observer = barHub.ToVwmaHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<VwmaResult> actuals = observer.Results;
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival, should equal series
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
         actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
-        IReadOnlyList<VwmaResult> expectedRevised = RevisedQuotes.ToVwma(lookbackPeriods);
+        IReadOnlyList<VwmaResult> expectedRevised = RevisedBars.ToVwma(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<VwmaResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<VwmaResult> expected = bars
             .ToVwma(lookbackPeriods)
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        BarHub barHub = new(maxCacheSize);
+        VwmaHub observer = barHub.ToVwmaHub(lookbackPeriods);
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
@@ -89,41 +89,41 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     {
         const int vwmaPeriods = 20;
         const int smaPeriods = 10;
-        int length = Quotes.Count;
+        int length = Bars.Count;
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        SmaHub observer = quoteHub
+        SmaHub observer = barHub
             .ToVwmaHub(vwmaPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate adding quotes to provider hub
+        // emulate adding bars to provider hub
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
+            // resend duplicate bars
+            if (i is > 100 and < 105) { barHub.Add(q); }
         }
 
         // late arrival
-        quoteHub.Add(Quotes[80]);
+        barHub.Add(Bars[80]);
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // final results
         IReadOnlyList<SmaResult> actuals
             = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> seriesList = RevisedQuotes
+        IReadOnlyList<SmaResult> seriesList = RevisedBars
             .ToVwma(vwmaPeriods)
             .ToSma(smaPeriods);
 
@@ -133,38 +133,38 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        VwmaHub observer = barHub.ToVwmaHub(lookbackPeriods);
 
         observer.ToString().Should().Be($"VWMA({lookbackPeriods})");
     }
 
     [TestMethod]
-    public void EmptyProvider_NoQuotes_ReturnsEmptyResults()
+    public void EmptyProvider_NoBars_ReturnsEmptyResults()
     {
-        QuoteHub quoteHub = new();
-        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        VwmaHub observer = barHub.ToVwmaHub(lookbackPeriods);
 
         IReadOnlyList<VwmaResult> sut = observer.Results;
         sut.Should().BeEmpty();
     }
 
     [TestMethod]
-    public void InsufficientQuotes_WithFewerThanLookback_ProducesNullResults()
+    public void InsufficientBars_WithFewerThanLookback_ProducesNullResults()
     {
-        QuoteHub quoteHub = new();
-        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        VwmaHub observer = barHub.ToVwmaHub(lookbackPeriods);
 
-        // Add fewer quotes than required
+        // Add fewer bars than required
         for (int i = 0; i < lookbackPeriods - 1; i++)
         {
-            quoteHub.Add(Quotes[i]);
+            barHub.Add(Bars[i]);
         }
 
         IReadOnlyList<VwmaResult> sut = observer.Results;
@@ -173,13 +173,13 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ZeroVolume_WithZeroVolumeQuotes_HandlesGracefully()
+    public void ZeroVolume_WithZeroVolumeBars_HandlesGracefully()
     {
-        QuoteHub quoteHub = new();
-        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        BarHub barHub = new();
+        VwmaHub observer = barHub.ToVwmaHub(lookbackPeriods);
 
-        // Create quotes with zero volume
-        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(static q => new Quote(
+        // Create bars with zero volume
+        List<Bar> zeroVolumeBars = Bars.Take(20).Select(static q => new Bar(
             Timestamp: q.Timestamp,
             Open: q.Open,
             High: q.High,
@@ -188,9 +188,9 @@ public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
             Volume: 0
         )).ToList();
 
-        foreach (Quote quote in zeroVolumeQuotes)
+        foreach (Bar bar in zeroVolumeBars)
         {
-            quoteHub.Add(quote);
+            barHub.Add(bar);
         }
 
         IReadOnlyList<VwmaResult> sut = observer.Results;

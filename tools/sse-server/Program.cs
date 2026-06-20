@@ -18,9 +18,9 @@ builder.Logging.AddFilter(
 builder.Services.AddOpenApi(options => {
     options.AddDocumentTransformer((document, _, _) => {
         document.Info = new() {
-            Title = "SSE Quote Server",
+            Title = "SSE Bar Server",
             Version = "v1",
-            Description = "Server-Sent Events (SSE) endpoint for streaming quote data with configurable delivery rate and time intervals."
+            Description = "Server-Sent Events (SSE) endpoint for streaming bar data with configurable delivery rate and time intervals."
         };
 
         return Task.CompletedTask;
@@ -35,12 +35,12 @@ JsonSerializerOptions jsonOptions = new() {
     PropertyNameCaseInsensitive = true
 };
 
-// Streams randomly generated quote data via Server-Sent Events (SSE)
-app.MapGet("/quotes/random", async (
+// Streams randomly generated bar data via Server-Sent Events (SSE)
+app.MapGet("/bars/random", async (
     HttpContext context,
     int interval = 100,
     int? batchSize = null,
-    string quoteInterval = "1m"
+    string barIntervalCode = "1m"
 ) => {
     // Validate interval parameter
     if (interval <= 0)
@@ -54,30 +54,30 @@ app.MapGet("/quotes/random", async (
     context.Response.Headers.CacheControl = "no-cache";
 
     int delivered = 0;
-    TimeSpan timestampIncrement = ParseInterval(quoteInterval);
+    TimeSpan timestampIncrement = ParseInterval(barIntervalCode);
 
     Console.WriteLine(
-        $"[Random] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
+        $"[Random] Starting stream - delivery: {interval}ms, barIntervalCode: {barIntervalCode}, batchSize: {batchSize?.ToString(CultureInfo.InvariantCulture) ?? "unlimited"}");
 
     // Use Test.Data.RandomGbm as a purely incremental generator: start empty
-    // (bars: 0) and append one quote per iteration via generator.Add(...) below.
-    PeriodSize periodSize = Test.SseServer.Utilities.ParseQuoteIntervalToPeriodSize(quoteInterval);
-    RandomGbm generator = new(bars: 0, seed: 1000.0, periodSize: periodSize);
+    // (bars: 0) and append one bar per iteration via generator.Add(...) below.
+    BarInterval barInterval = barIntervalCode.ToBarInterval();
+    RandomGbm generator = new(bars: 0, seed: 1000.0, barInterval: barInterval);
     DateTime currentTimestamp = DateTime.UtcNow.AddMinutes(-1000);
 
     try
     {
         while (!context.RequestAborted.IsCancellationRequested)
         {
-            // Generate next random quote
+            // Generate next random bar
             generator.Add(currentTimestamp);
-            Quote quote = generator[^1];
+            Bar bar = generator[^1];
 
-            // Serialize quote as JSON
-            string json = JsonSerializer.Serialize(quote, jsonOptions);
+            // Serialize bar as JSON
+            string json = JsonSerializer.Serialize(bar, jsonOptions);
 
             // Write SSE event manually
-            string sseData = $"event: quote\ndata: {json}\n\n";
+            string sseData = $"event: bar\ndata: {json}\n\n";
             await context.Response
                 .WriteAsync(sseData, context.RequestAborted)
                 .ConfigureAwait(false);
@@ -88,13 +88,13 @@ app.MapGet("/quotes/random", async (
 
             if (delivered % 100 == 0)
             {
-                Console.WriteLine($"[Random] Delivered {delivered} quotes");
+                Console.WriteLine($"[Random] Delivered {delivered} bars");
             }
 
             // Check if we've reached the batch size limit
             if (batchSize.HasValue && delivered >= batchSize.Value)
             {
-                Console.WriteLine($"[Random] Batch complete - delivered {delivered} quotes");
+                Console.WriteLine($"[Random] Batch complete - delivered {delivered} bars");
                 break;
             }
 
@@ -104,32 +104,32 @@ app.MapGet("/quotes/random", async (
     }
     catch (OperationCanceledException)
     {
-        Console.WriteLine($"[Random] Client disconnected - delivered {delivered} quotes");
+        Console.WriteLine($"[Random] Client disconnected - delivered {delivered} bars");
     }
     catch (IOException)
     {
-        Console.WriteLine($"[Random] Connection closed - delivered {delivered} quotes");
+        Console.WriteLine($"[Random] Connection closed - delivered {delivered} bars");
     }
 })
-.WithName("GetRandomQuotes")
-.WithTags("Quotes")
+.WithName("GetRandomBars")
+.WithTags("Bars")
 .AddOpenApiOperationTransformer((operation, _, _) => {
-    // Add regex pattern validation for quoteInterval parameter
-    Microsoft.OpenApi.IOpenApiParameter? quoteIntervalParam = operation.Parameters?.FirstOrDefault(p => p.Name == "quoteInterval");
-    if (quoteIntervalParam is Microsoft.OpenApi.OpenApiParameter concreteParam && concreteParam.Schema is Microsoft.OpenApi.OpenApiSchema schema)
+    // Add regex pattern validation for barIntervalCode parameter
+    Microsoft.OpenApi.IOpenApiParameter? barIntervalCodeParam = operation.Parameters?.FirstOrDefault(p => p.Name == "barIntervalCode");
+    if (barIntervalCodeParam is Microsoft.OpenApi.OpenApiParameter concreteParam && concreteParam.Schema is Microsoft.OpenApi.OpenApiSchema schema)
     {
-        schema.Pattern = @"^\d+(\.\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days)$";
+        schema.Pattern = @"^\d+(\.\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days|w|week|weeks|mo|month|months)$";
     }
 
     return Task.CompletedTask;
 });
 
-// Streams historical quote data from the longest available dataset via Server-Sent Events (SSE)
-app.MapGet("/quotes/longest", async (
+// Streams historical bar data from the longest available dataset via Server-Sent Events (SSE)
+app.MapGet("/bars/longest", async (
     HttpContext context,
     int interval = 100,
     int? batchSize = null,
-    string quoteInterval = "1m",
+    string barIntervalCode = "1m",
     string? scenario = null
 ) => {
     // Validate interval parameter
@@ -143,48 +143,48 @@ app.MapGet("/quotes/longest", async (
     context.Response.ContentType = "text/event-stream";
     context.Response.Headers.CacheControl = "no-cache";
 
-    IReadOnlyList<Quote> longestQuotes = TestData.GetLongest();
+    IReadOnlyList<Bar> longestBars = TestData.GetLongest();
 
     // Guard against empty data
-    if (longestQuotes == null || longestQuotes.Count == 0)
+    if (longestBars == null || longestBars.Count == 0)
     {
-        Console.WriteLine("[Longest] ERROR: No quote data available from TestData.GetLongest()");
+        Console.WriteLine("[Longest] ERROR: No bar data available from TestData.GetLongest()");
         context.Response.StatusCode = 500;
-        await context.Response.WriteAsync("Server error: No quote data available").ConfigureAwait(false);
+        await context.Response.WriteAsync("Server error: No bar data available").ConfigureAwait(false);
         return;
     }
 
-    int totalQuotes = batchSize ?? longestQuotes.Count;
+    int totalBars = batchSize ?? longestBars.Count;
     int delivered = 0;
-    TimeSpan timestampIncrement = ParseInterval(quoteInterval);
-    DateTime baseTimestamp = longestQuotes[0].Timestamp;
-    List<Quote>? streamedQuotes = scenario is null ? null : [];
+    TimeSpan timestampIncrement = ParseInterval(barIntervalCode);
+    DateTime baseTimestamp = longestBars[0].Timestamp;
+    List<Bar>? streamedBars = scenario is null ? null : [];
 
     Console.WriteLine(
-        $"[Longest] Starting stream - delivery: {interval}ms, quoteInterval: {quoteInterval}, total: {totalQuotes} quotes");
+        $"[Longest] Starting stream - delivery: {interval}ms, barIntervalCode: {barIntervalCode}, total: {totalBars} bars");
 
     try
     {
-        for (int i = 0; i < totalQuotes && i < longestQuotes.Count; i++)
+        for (int i = 0; i < totalBars && i < longestBars.Count; i++)
         {
-            Quote originalQuote = longestQuotes[i];
+            Bar originalBar = longestBars[i];
 
-            // Create quote with time-warped timestamp
-            Quote quote = new(
+            // Create bar with time-warped timestamp
+            Bar bar = new(
                 Timestamp: baseTimestamp + (timestampIncrement * i),
-                Open: originalQuote.Open,
-                High: originalQuote.High,
-                Low: originalQuote.Low,
-                Close: originalQuote.Close,
-                Volume: originalQuote.Volume);
+                Open: originalBar.Open,
+                High: originalBar.High,
+                Low: originalBar.Low,
+                Close: originalBar.Close,
+                Volume: originalBar.Volume);
 
-            streamedQuotes?.Add(quote);
+            streamedBars?.Add(bar);
 
-            // Serialize quote as JSON
-            string json = JsonSerializer.Serialize(quote, jsonOptions);
+            // Serialize bar as JSON
+            string json = JsonSerializer.Serialize(bar, jsonOptions);
 
             // Write SSE event manually
-            string sseData = $"event: quote\ndata: {json}\n\n";
+            string sseData = $"event: bar\ndata: {json}\n\n";
             await context.Response
                 .WriteAsync(sseData, context.RequestAborted)
                 .ConfigureAwait(false);
@@ -194,37 +194,37 @@ app.MapGet("/quotes/longest", async (
 
             if (delivered % 100 == 0)
             {
-                Console.WriteLine($"[Longest] Delivered {delivered}/{totalQuotes} quotes");
+                Console.WriteLine($"[Longest] Delivered {delivered}/{totalBars} bars");
             }
 
             // Wait for the specified interval
             await Task.Delay(interval, context.RequestAborted).ConfigureAwait(false);
         }
 
-        if (streamedQuotes is not null)
+        if (streamedBars is not null)
         {
-            await SendScenarioEvents(context, scenario, streamedQuotes, interval, jsonOptions).ConfigureAwait(false);
+            await SendScenarioEvents(context, scenario, streamedBars, interval, jsonOptions).ConfigureAwait(false);
         }
 
-        Console.WriteLine($"[Longest] Stream complete - delivered {delivered} quotes");
+        Console.WriteLine($"[Longest] Stream complete - delivered {delivered} bars");
     }
     catch (OperationCanceledException)
     {
-        Console.WriteLine($"[Longest] Client disconnected - delivered {delivered}/{totalQuotes} quotes");
+        Console.WriteLine($"[Longest] Client disconnected - delivered {delivered}/{totalBars} bars");
     }
     catch (IOException)
     {
-        Console.WriteLine($"[Longest] Connection closed - delivered {delivered}/{totalQuotes} quotes");
+        Console.WriteLine($"[Longest] Connection closed - delivered {delivered}/{totalBars} bars");
     }
 })
-.WithName("GetLongestQuotes")
-.WithTags("Quotes")
+.WithName("GetLongestBars")
+.WithTags("Bars")
 .AddOpenApiOperationTransformer((operation, _, _) => {
-    // Add regex pattern validation for quoteInterval parameter
-    Microsoft.OpenApi.IOpenApiParameter? quoteIntervalParam = operation.Parameters?.FirstOrDefault(p => p.Name == "quoteInterval");
-    if (quoteIntervalParam is Microsoft.OpenApi.OpenApiParameter concreteParam && concreteParam.Schema is Microsoft.OpenApi.OpenApiSchema schema)
+    // Add regex pattern validation for barIntervalCode parameter
+    Microsoft.OpenApi.IOpenApiParameter? barIntervalCodeParam = operation.Parameters?.FirstOrDefault(p => p.Name == "barIntervalCode");
+    if (barIntervalCodeParam is Microsoft.OpenApi.OpenApiParameter concreteParam && concreteParam.Schema is Microsoft.OpenApi.OpenApiSchema schema)
     {
-        schema.Pattern = @"^\d+(\.\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days)$";
+        schema.Pattern = @"^\d+(\.\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days|w|week|weeks|mo|month|months)$";
     }
 
     return Task.CompletedTask;
@@ -232,8 +232,8 @@ app.MapGet("/quotes/longest", async (
 
 Console.WriteLine("SSE Server starting...");
 Console.WriteLine("Endpoints:");
-Console.WriteLine("  - /quotes/random?interval=100&batchSize=1000&quoteInterval=1h");
-Console.WriteLine("  - /quotes/longest?interval=100&batchSize=1000&quoteInterval=5m");
+Console.WriteLine("  - /bars/random?interval=100&batchSize=1000&barIntervalCode=1h");
+Console.WriteLine("  - /bars/longest?interval=100&batchSize=1000&barIntervalCode=5m");
 Console.WriteLine("  - /openapi/v1.json for OpenAPI JSON specification");
 
 // Map OpenAPI endpoint (dev environment only for security)
@@ -286,7 +286,7 @@ static TimeSpan ParseInterval(string intervalString)
 static async Task SendScenarioEvents(
     HttpContext context,
     string? scenario,
-    IReadOnlyList<Quote> streamedQuotes,
+    IReadOnlyList<Bar> streamedBars,
     int interval,
     JsonSerializerOptions jsonOptions)
 {
@@ -295,9 +295,9 @@ static async Task SendScenarioEvents(
         return;
     }
 
-    List<SseQuoteAction> actions = scenario switch {
-        "stc-rollbacks" => BuildStcRollbackActions(streamedQuotes),
-        "allhubs-rollbacks" => BuildAllHubsRollbackActions(streamedQuotes),
+    List<SseBarAction> actions = scenario switch {
+        "stc-rollbacks" => BuildStcRollbackActions(streamedBars),
+        "allhubs-rollbacks" => BuildAllHubsRollbackActions(streamedBars),
         _ => []
     };
 
@@ -306,7 +306,7 @@ static async Task SendScenarioEvents(
         return;
     }
 
-    foreach (SseQuoteAction action in actions)
+    foreach (SseBarAction action in actions)
     {
         string json = JsonSerializer.Serialize(action.Payload, jsonOptions);
         string sseData = $"event: {action.EventType}\ndata: {json}\n\n";
@@ -318,99 +318,99 @@ static async Task SendScenarioEvents(
     }
 }
 
-static List<SseQuoteAction> BuildStcRollbackActions(IReadOnlyList<Quote> streamedQuotes)
+static List<SseBarAction> BuildStcRollbackActions(IReadOnlyList<Bar> streamedBars)
 {
-    List<SseQuoteAction> actions = [];
+    List<SseBarAction> actions = [];
 
-    // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
-    // Use same-timestamp revisions (Add) for the last quote and also test Remove operations.
+    // After streaming 2000 bars with MaxCacheSize=1500, cache contains bars 500-1999.
+    // Use same-timestamp revisions (Add) for the last bar and also test Remove operations.
 
-    if (streamedQuotes.Count > 0)
+    if (streamedBars.Count > 0)
     {
-        Quote lastQuote = streamedQuotes[^1];
+        Bar lastBar = streamedBars[^1];
 
-        // Add a Remove action for a quote inside the cached window (not the last quote)
+        // Add a Remove action for a bar inside the cached window (not the last bar)
         // This exercises the remove/rollback and rebuild-on-remove paths
-        // Cache contains quotes 500-1999, so removing quote at index 1900 (cache index ~1400)
-        if (streamedQuotes.Count > 1900)
+        // Cache contains bars 500-1999, so removing bar at index 1900 (cache index ~1400)
+        if (streamedBars.Count > 1900)
         {
-            const int removeIndex = 1900; // Quote within cache range
-            const int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
-            actions.Add(SseQuoteAction.Remove(cacheIndex, streamedQuotes[removeIndex]));
+            const int removeIndex = 1900; // Bar within cache range
+            const int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached bar)
+            actions.Add(SseBarAction.Remove(cacheIndex, streamedBars[removeIndex]));
         }
 
-        // Perform multiple revisions on the last quote to test rollback functionality
-        actions.Add(SseQuoteAction.Add(new Quote(
-            lastQuote.Timestamp,
-            lastQuote.Open,
-            lastQuote.High,
-            lastQuote.Low,
-            lastQuote.Close * 0.99m,
-            lastQuote.Volume)));
-        actions.Add(SseQuoteAction.Add(new Quote(
-            lastQuote.Timestamp,
-            lastQuote.Open,
-            lastQuote.High,
-            lastQuote.Low,
-            lastQuote.Close * 1.01m,
-            lastQuote.Volume)));
+        // Perform multiple revisions on the last bar to test rollback functionality
+        actions.Add(SseBarAction.Add(new Bar(
+            lastBar.Timestamp,
+            lastBar.Open,
+            lastBar.High,
+            lastBar.Low,
+            lastBar.Close * 0.99m,
+            lastBar.Volume)));
+        actions.Add(SseBarAction.Add(new Bar(
+            lastBar.Timestamp,
+            lastBar.Open,
+            lastBar.High,
+            lastBar.Low,
+            lastBar.Close * 1.01m,
+            lastBar.Volume)));
         // Restore original values (create new instance to avoid duplicate detection)
-        actions.Add(SseQuoteAction.Add(new Quote(
-            lastQuote.Timestamp,
-            lastQuote.Open,
-            lastQuote.High,
-            lastQuote.Low,
-            lastQuote.Close,
-            lastQuote.Volume)));
+        actions.Add(SseBarAction.Add(new Bar(
+            lastBar.Timestamp,
+            lastBar.Open,
+            lastBar.High,
+            lastBar.Low,
+            lastBar.Close,
+            lastBar.Volume)));
     }
 
     return actions;
 }
 
-static List<SseQuoteAction> BuildAllHubsRollbackActions(IReadOnlyList<Quote> streamedQuotes)
+static List<SseBarAction> BuildAllHubsRollbackActions(IReadOnlyList<Bar> streamedBars)
 {
-    List<SseQuoteAction> actions = [];
+    List<SseBarAction> actions = [];
 
-    // After streaming 2000 quotes with MaxCacheSize=1500, cache contains quotes 500-1999.
-    // Use same-timestamp revisions (Add) for the last quote and also test Remove operations.
+    // After streaming 2000 bars with MaxCacheSize=1500, cache contains bars 500-1999.
+    // Use same-timestamp revisions (Add) for the last bar and also test Remove operations.
 
-    if (streamedQuotes.Count > 0)
+    if (streamedBars.Count > 0)
     {
-        Quote lastQuote = streamedQuotes[^1];
+        Bar lastBar = streamedBars[^1];
 
-        // Add a Remove action for a quote inside the cached window (not the last quote)
+        // Add a Remove action for a bar inside the cached window (not the last bar)
         // This exercises the remove/rollback and rebuild-on-remove paths
-        // Cache contains quotes 500-1999, so removing quote at index 1800 (cache index ~1300)
-        if (streamedQuotes.Count > 1800)
+        // Cache contains bars 500-1999, so removing bar at index 1800 (cache index ~1300)
+        if (streamedBars.Count > 1800)
         {
-            const int removeIndex = 1800; // Quote within cache range
-            const int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached quote)
-            actions.Add(SseQuoteAction.Remove(cacheIndex, streamedQuotes[removeIndex]));
+            const int removeIndex = 1800; // Bar within cache range
+            const int cacheIndex = removeIndex - 500; // Approximate cache index (500 is the first cached bar)
+            actions.Add(SseBarAction.Remove(cacheIndex, streamedBars[removeIndex]));
         }
 
-        // Perform multiple revisions on the last quote to test rollback functionality
-        actions.Add(SseQuoteAction.Add(new Quote(
-            lastQuote.Timestamp,
-            lastQuote.Open,
-            lastQuote.High,
-            lastQuote.Low,
-            lastQuote.Close * 0.99m,
-            lastQuote.Volume)));
-        actions.Add(SseQuoteAction.Add(new Quote(
-            lastQuote.Timestamp,
-            lastQuote.Open,
-            lastQuote.High,
-            lastQuote.Low,
-            lastQuote.Close * 1.01m,
-            lastQuote.Volume)));
+        // Perform multiple revisions on the last bar to test rollback functionality
+        actions.Add(SseBarAction.Add(new Bar(
+            lastBar.Timestamp,
+            lastBar.Open,
+            lastBar.High,
+            lastBar.Low,
+            lastBar.Close * 0.99m,
+            lastBar.Volume)));
+        actions.Add(SseBarAction.Add(new Bar(
+            lastBar.Timestamp,
+            lastBar.Open,
+            lastBar.High,
+            lastBar.Low,
+            lastBar.Close * 1.01m,
+            lastBar.Volume)));
         // Restore original values (create new instance to avoid duplicate detection)
-        actions.Add(SseQuoteAction.Add(new Quote(
-            lastQuote.Timestamp,
-            lastQuote.Open,
-            lastQuote.High,
-            lastQuote.Low,
-            lastQuote.Close,
-            lastQuote.Volume)));
+        actions.Add(SseBarAction.Add(new Bar(
+            lastBar.Timestamp,
+            lastBar.Open,
+            lastBar.High,
+            lastBar.Low,
+            lastBar.Close,
+            lastBar.Volume)));
     }
 
     return actions;

@@ -46,7 +46,7 @@ public class AwesomeHub
 
             for (int p = i + 1 - SlowPeriods; p <= i; p++)
             {
-                // Use HL2 when available (IQuote), matching static series behavior
+                // Use HL2 when available (IBar), matching static series behavior
                 double value = ProviderCache[p].Hl2OrValue();
                 sumSlow += value;
 

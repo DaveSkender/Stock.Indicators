@@ -6,7 +6,7 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToSma(20);
 
         // proper quantities
@@ -23,9 +23,9 @@ public partial class SmaTests : StaticSeriesTestBase
         sut[501].Sma.Should().BeApproximately(251.860, Money12);
 
         // matches manual calculations with high precision
-        for (int i = 0; i < Quotes.Count; i++)
+        for (int i = 0; i < Bars.Count; i++)
         {
-            sut[i].Timestamp.Should().Be(Quotes[i].Timestamp);
+            sut[i].Timestamp.Should().Be(Bars[i].Timestamp);
 
             if (double.IsNaN(expectedDefault[i]))
             {
@@ -38,9 +38,9 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void LongestQuotes_ReturnsExpectedResults()
+    public void LongestBars_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmaResult> sut = LongestQuotes
+        IReadOnlyList<SmaResult> sut = LongestBars
             .ToSma(20);
 
         // proper quantities
@@ -49,9 +49,9 @@ public partial class SmaTests : StaticSeriesTestBase
         sut.Should().HaveCount(expectedLongest.Length);
 
         // matches manual calculations with high precision
-        for (int i = 0; i < LongestQuotes.Count; i++)
+        for (int i = 0; i < LongestBars.Count; i++)
         {
-            sut[i].Timestamp.Should().Be(LongestQuotes[i].Timestamp);
+            sut[i].Timestamp.Should().Be(LongestBars[i].Timestamp);
 
             if (double.IsNaN(expectedLongest[i]))
             {
@@ -66,7 +66,7 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public void CandlePartOpen_UseOpenPart_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .Use(CandlePart.Open)
             .ToSma(20);
 
@@ -85,7 +85,7 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public void CandlePartVolume_UseVolumePart_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .Use(CandlePart.Volume)
             .ToSma(20);
 
@@ -107,7 +107,7 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToEma_ReturnsExpectedResult()
     {
-        IReadOnlyList<EmaResult> sut = Quotes
+        IReadOnlyList<EmaResult> sut = Bars
             .ToSma(10)
             .ToEma(10);
 
@@ -125,9 +125,9 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<SmaResult> r = BadQuotes
+        IReadOnlyList<SmaResult> r = BadBars
             .ToSma(15);
 
         r.Should().HaveCount(502);
@@ -135,14 +135,14 @@ public partial class SmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<SmaResult> r0 = Noquotes
+        IReadOnlyList<SmaResult> r0 = Nobars
             .ToSma(5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<SmaResult> r1 = Onequote
+        IReadOnlyList<SmaResult> r1 = Onebar
             .ToSma(5);
 
         r1.Should().HaveCount(1);
@@ -151,7 +151,7 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<SmaResult> sut = Quotes
+        IReadOnlyList<SmaResult> sut = Bars
             .ToSma(20)
             .RemoveWarmupPeriods();
 
@@ -188,7 +188,7 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException()
         => FluentActions
-            .Invoking(static () => Quotes.ToSma(0))
+            .Invoking(static () => Bars.ToSma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
 }

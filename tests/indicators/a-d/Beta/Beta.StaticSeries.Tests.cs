@@ -6,8 +6,8 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void All_WithAllBetaType_ReturnsExpectedResult()
     {
-        IReadOnlyList<BetaResult> sut = OtherQuotes
-            .ToBeta(Quotes, 20, BetaType.All);
+        IReadOnlyList<BetaResult> sut = OtherBars
+            .ToBeta(Bars, 20, BetaType.All);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -50,8 +50,8 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<BetaResult> sut = OtherQuotes
-            .ToBeta(Quotes, 20);
+        IReadOnlyList<BetaResult> sut = OtherBars
+            .ToBeta(Bars, 20);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -65,8 +65,8 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void Up_WithUpBetaType_ReturnsExpectedResult()
     {
-        IReadOnlyList<BetaResult> sut = OtherQuotes
-            .ToBeta(Quotes, 20, BetaType.Up);
+        IReadOnlyList<BetaResult> sut = OtherBars
+            .ToBeta(Bars, 20, BetaType.Up);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -80,8 +80,8 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void Down_WithDownBetaType_ReturnsExpectedResult()
     {
-        IReadOnlyList<BetaResult> sut = OtherQuotes
-            .ToBeta(Quotes, 20, BetaType.Down);
+        IReadOnlyList<BetaResult> sut = OtherBars
+            .ToBeta(Bars, 20, BetaType.Down);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -95,9 +95,9 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable_ClosePrice_ReturnsExpectedResult()
     {
-        IReadOnlyList<BetaResult> sut = OtherQuotes
+        IReadOnlyList<BetaResult> sut = OtherBars
             .Use(CandlePart.Close)
-            .ToBeta(Quotes.Use(CandlePart.Close), 20);
+            .ToBeta(Bars.Use(CandlePart.Close), 20);
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Beta != null).Should().HaveCount(482);
@@ -106,8 +106,8 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void ChainFromResults_ToSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<SmaResult> sut = OtherQuotes
-            .ToBeta(Quotes, 20)
+        IReadOnlyList<SmaResult> sut = OtherBars
+            .ToBeta(Bars, 20)
             .ToSma(10);
 
         sut.Should().HaveCount(502);
@@ -117,9 +117,9 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void Chainee_FromSma_ReturnsExpectedResult()
     {
-        IReadOnlyList<BetaResult> sut = Quotes
+        IReadOnlyList<BetaResult> sut = Bars
             .ToSma(2)
-            .ToBeta(OtherQuotes.ToSma(2), 20);
+            .ToBeta(OtherBars.ToSma(2), 20);
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Beta != null).Should().HaveCount(481);
@@ -127,32 +127,32 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadQuotes_DoesNotFail()
+    public override void BadBars_DoesNotFail()
     {
-        IReadOnlyList<BetaResult> r1 = BadQuotes
-            .ToBeta(BadQuotes, 15);
+        IReadOnlyList<BetaResult> r1 = BadBars
+            .ToBeta(BadBars, 15);
 
         r1.Should().HaveCount(502);
         r1.Where(static x => x.Beta is double.NaN).Should().BeEmpty();
 
-        IReadOnlyList<BetaResult> r2 = BadQuotes
-            .ToBeta(BadQuotes, 15, BetaType.Up);
+        IReadOnlyList<BetaResult> r2 = BadBars
+            .ToBeta(BadBars, 15, BetaType.Up);
 
         r2.Should().HaveCount(502);
         r2.Where(static x => x.BetaUp is double.NaN).Should().BeEmpty();
 
-        IReadOnlyList<BetaResult> r3 = BadQuotes
-            .ToBeta(BadQuotes, 15, BetaType.Down);
+        IReadOnlyList<BetaResult> r3 = BadBars
+            .ToBeta(BadBars, 15, BetaType.Down);
 
         r3.Should().HaveCount(502);
         r3.Where(static x => x.BetaDown is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
-    public void BigQuoteValues_DoesNotFail()
+    public void BigBarValues_DoesNotFail()
     {
-        IReadOnlyList<BetaResult> r = BigQuotes
-            .ToBeta(BigQuotes, 150, BetaType.All);
+        IReadOnlyList<BetaResult> r = BigBars
+            .ToBeta(BigBars, 150, BetaType.All);
 
         r.Should().HaveCount(1246);
     }
@@ -163,17 +163,17 @@ public class Beta : StaticSeriesTestBase
         // should produce 0.91 for 5-yr monthly values
         // multiple reputable sites show this number
         /*
-          https://finance.yahoo.com/quote/MSFT
+          https://finance.yahoo.com/bar/MSFT
           https://www.zacks.com/stock/chart/MSFT/fundamental/beta
           https://www.nasdaq.com/market-activity/stocks/msft
         */
 
-        IReadOnlyList<Quote> evalQuotes = Data.GetMsft();
-        IReadOnlyList<Quote> mktQuotes = Data.GetSpx();
+        IReadOnlyList<Bar> evalBars = Data.GetMsft();
+        IReadOnlyList<Bar> mktBars = Data.GetSpx();
 
-        IReadOnlyList<BetaResult> sut = evalQuotes
-            .Aggregate(PeriodSize.Month)
-            .ToBeta(mktQuotes.Aggregate(PeriodSize.Month), 60);
+        IReadOnlyList<BetaResult> sut = evalBars
+            .Aggregate(BarInterval.Month)
+            .ToBeta(mktBars.Aggregate(BarInterval.Month), 60);
 
         sut[385].Beta.Should().BeApproximately(0.91, 0.005);
     }
@@ -181,8 +181,8 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
-        IReadOnlyList<BetaResult> sut = OtherQuotes
-            .ToBeta(Quotes, 20)
+        IReadOnlyList<BetaResult> sut = OtherBars
+            .ToBeta(Bars, 20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -196,8 +196,8 @@ public class Beta : StaticSeriesTestBase
     public void SameSame_AgainstSelf_ReturnsBetaOne()
     {
         // Beta should be 1 if evaluating against self
-        IReadOnlyList<BetaResult> sut = Quotes
-            .ToBeta(Quotes, 20);
+        IReadOnlyList<BetaResult> sut = Bars
+            .ToBeta(Bars, 20);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -209,23 +209,23 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes_ReturnsEmpty()
+    public override void NoBars_ReturnsEmpty()
     {
-        IReadOnlyList<BetaResult> r0 = Noquotes
-            .ToBeta(Noquotes, 5);
+        IReadOnlyList<BetaResult> r0 = Nobars
+            .ToBeta(Nobars, 5);
 
         r0.Should().BeEmpty();
 
-        IReadOnlyList<BetaResult> r1 = Onequote
-            .ToBeta(Onequote, 5);
+        IReadOnlyList<BetaResult> r1 = Onebar
+            .ToBeta(Onebar, 5);
 
         r1.Should().HaveCount(1);
     }
 
     [TestMethod]
-    public void NoMatch_MismatchedTimestamps_ThrowsInvalidQuotesException()
+    public void NoMatch_MismatchedTimestamps_ThrowsInvalidBarsException()
     {
-        IReadOnlyList<Quote> quoteA =
+        IReadOnlyList<Bar> barA =
         [
             new(DateTime.Parse("1/1/2020", invariantCulture), 0, 0, 0, 1234, 0),
             new(DateTime.Parse("1/2/2020", invariantCulture), 0, 0, 0, 1234, 0),
@@ -238,7 +238,7 @@ public class Beta : StaticSeriesTestBase
             new(DateTime.Parse("1/9/2020", invariantCulture), 0, 0, 0, 1234, 0)
         ];
 
-        IReadOnlyList<Quote> quoteB =
+        IReadOnlyList<Bar> barB =
         [
             new(DateTime.Parse("1/1/2020", invariantCulture), 0, 0, 0, 1234, 0),
             new(DateTime.Parse("1/2/2020", invariantCulture), 0, 0, 0, 1234, 0),
@@ -251,8 +251,8 @@ public class Beta : StaticSeriesTestBase
             new(DateTime.Parse("1/9/2020", invariantCulture), 0, 0, 0, 1234, 0)
         ];
 
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            () => quoteA.ToBeta(quoteB, 3));
+        Assert.ThrowsExactly<InvalidBarsException>(
+            () => barA.ToBeta(barB, 3));
     }
 
     [TestMethod]
@@ -260,12 +260,12 @@ public class Beta : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToBeta(OtherQuotes, 0));
+            () => Bars.ToBeta(OtherBars, 0));
 
-        // bad evaluation quotes
-        IReadOnlyList<Quote> eval = Data.GetCompare(300).ToList();
+        // bad evaluation bars
+        IReadOnlyList<Bar> eval = Data.GetCompare(300).ToList();
 
-        Assert.ThrowsExactly<InvalidQuotesException>(
-            () => Quotes.ToBeta(eval, 30));
+        Assert.ThrowsExactly<InvalidBarsException>(
+            () => Bars.ToBeta(eval, 30));
     }
 }

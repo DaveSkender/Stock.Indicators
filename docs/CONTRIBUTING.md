@@ -62,7 +62,7 @@ dotnet restore        # restore NuGet packages
 
 - Review the `tests/indicators` folder for examples of unit tests.  Just copy one of these.
 - New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to include your manual calculations spreadsheet in the appropriate indicator test folder when [submitting changes](#submitting-changes).
-- Historical Stock Quotes are automatically added to unit test methods.  A `Data.Quotes.xlsx` Excel file is included in the `tests/_common` folder that is an exact copy of what is used in the unit tests.  Use a copy of this file for your manual calculations to ensure that it is correct.  Do not commit changes to the original file.
+- Historical Stock Bars are automatically added to unit test methods.  A `Data.Bars.xlsx` Excel file is included in the `tests/_common` folder that is an exact copy of what is used in the unit tests.  Use a copy of this file for your manual calculations to ensure that it is correct.  Do not commit changes to the original file.
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request when submitting changes.
 
@@ -76,7 +76,7 @@ Running the performance benchmark application in `Release` mode will produce [be
 dotnet run -c Release
 
 # run specific benchmark categories (~15-20 minutes each)
-# NOTE: pass filters after `--` and quote the pattern, otherwise the
+# NOTE: pass filters after `--` and bar the pattern, otherwise the
 # shell expands globs like *Series* to the matching Perf.*.cs filenames.
 dotnet run -c Release -- --filter "*Series*"
 dotnet run -c Release -- --filter "*Stream*"
@@ -196,7 +196,7 @@ This repository is optimized for AI coding agents with:
 When using AI coding agents:
 
 - Follow the established patterns documented in the `AGENTS.md` files and skills
-- Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in `AGENTS.md`)
+- Understand the numerical precision approach: `decimal` for public bar inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in `AGENTS.md`)
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 

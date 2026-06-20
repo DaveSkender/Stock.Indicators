@@ -8,29 +8,29 @@ namespace Skender.Stock.Indicators;
 public static partial class Stoch
 {
     /// <summary>
-    /// Calculates the Stochastic Oscillator for a series of quotes.
+    /// Calculates the Stochastic Oscillator for a series of bars.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     public static IReadOnlyList<StochResult> ToStoch(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 3)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcStoch(
                 lookbackPeriods,
                 signalPeriods,
                 smoothPeriods, 3, 2, MaType.SMA);
 
     /// <summary>
-    /// Calculates the Stochastic Oscillator for a series of quotes with specified factors and moving average type.
+    /// Calculates the Stochastic Oscillator for a series of bars with specified factors and moving average type.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
@@ -39,15 +39,15 @@ public static partial class Stoch
     /// <param name="movingAverageType">Type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     public static IReadOnlyList<StochResult> ToStoch(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
         double kFactor,
         double dFactor,
         MaType movingAverageType)
-        => quotes
-            .ToQuoteDList()
+        => bars
+            .ToBarDList()
             .CalcStoch(
                 lookbackPeriods,
                 signalPeriods,
@@ -59,43 +59,43 @@ public static partial class Stoch
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations.
     /// </summary>
-    /// <param name="quotes">List of quotes to process.</param>
+    /// <param name="bars">List of bars to process.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
-    /// <returns>A StochList instance initialized with the provided quotes.</returns>
+    /// <returns>A StochList instance initialized with the provided bars.</returns>
     public static StochList ToStochList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 3)
-        => new(lookbackPeriods, signalPeriods, smoothPeriods) { quotes };
+        => new(lookbackPeriods, signalPeriods, smoothPeriods) { bars };
 
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations with extended parameters.
     /// </summary>
-    /// <param name="quotes">List of quotes to process.</param>
+    /// <param name="bars">List of bars to process.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
     /// <param name="kFactor">Factor for the %K line.</param>
     /// <param name="dFactor">Factor for the %D line.</param>
     /// <param name="movingAverageType">Type of moving average to use.</param>
-    /// <returns>A StochList instance initialized with the provided quotes and extended parameters.</returns>
+    /// <returns>A StochList instance initialized with the provided bars and extended parameters.</returns>
     public static StochList ToStochList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
         double kFactor,
         double dFactor,
         MaType movingAverageType)
-        => new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { quotes };
+        => new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { bars };
 
     /// <summary>
-    /// Calculates the Stochastic Oscillator for a series of quotes.
+    /// Calculates the Stochastic Oscillator for a series of bars.
     /// </summary>
-    /// <param name="quotes">Source list of quotes.</param>
+    /// <param name="bars">Source list of bars.</param>
     /// <param name="lookbackPeriods">Lookback period for the oscillator.</param>
     /// <param name="signalPeriods">Signal period for the oscillator.</param>
     /// <param name="smoothPeriods">Smoothing period for the oscillator.</param>
@@ -105,7 +105,7 @@ public static partial class Stoch
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     internal static List<StochResult> CalcStoch(
-        this List<QuoteD> quotes,
+        this List<BarD> bars,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -119,7 +119,7 @@ public static partial class Stoch
             kFactor, dFactor, movingAverageType);
 
         // initialize
-        int length = quotes.Count;
+        int length = bars.Count;
         List<StochResult> results = new(length);
 
         double[] o = new double[length]; // %K oscillator (initial)
@@ -131,7 +131,7 @@ public static partial class Stoch
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotes[i];
+            BarD q = bars[i];
 
             // initial %K oscillator
             if (i >= lookbackPeriods - 1)
@@ -142,7 +142,7 @@ public static partial class Stoch
 
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    QuoteD x = quotes[p];
+                    BarD x = bars[p];
 
                     if (double.IsNaN(x.High)
                      || double.IsNaN(x.Low)

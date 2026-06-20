@@ -15,23 +15,23 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 ```csharp
 // C# usage syntax (batch)
 IReadOnlyList<IchimokuResult> results =
-  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+  bars.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
 // usage with custom offset
 IReadOnlyList<IchimokuResult> results =
-  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
+  bars.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
 
 // usage with different custom offsets
 IReadOnlyList<IchimokuResult> results =
-  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
+  bars.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
 // buffered usage (incremental)
-IchimokuList buffer = quotes.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IchimokuList buffer = bars.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods);
 IReadOnlyList<IchimokuResult> results = buffer;
 
 // streaming usage (real-time)
-QuoteHub quoteHub = new();
-IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+BarHub barHub = new();
+IchimokuHub observer = barHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
 IReadOnlyList<IchimokuResult> results = observer.Results;
 ```
 
@@ -48,11 +48,11 @@ IReadOnlyList<IchimokuResult> results = observer.Results;
 
 See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
 
-### Historical quotes requirements
+### Historical price bars requirements
 
-You must have at least the greater of `T`,`K`, `S`, and offset periods for `quotes` to cover the warmup periods; though, given the leading and lagging nature, we recommend notably more.
+You must have at least the greater of `T`,`K`, `S`, and offset periods for `bars` to cover the warmup periods; though, given the leading and lagging nature, we recommend notably more.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-quotes) for more information.
+`bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -60,8 +60,8 @@ You must have at least the greater of `T`,`K`, `S`, and offset periods for `quot
 IReadOnlyList<IchimokuResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `bars` provided.
+- It always returns the same number of elements as there are in the historical price bars.
 - It does not return a single incremental indicator value.
 - The first `T-1`, `K-1`, and `S-1` periods will have various `null` values since there's not enough data to calculate.  Custom offset periods may also increase `null` results for warmup periods.
 
@@ -69,7 +69,7 @@ IReadOnlyList<IchimokuResult>
 
 | property | type | description |
 | -------- | ---- | ----------- |
-| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Timestamp` | DateTime | Date from evaluated `TBar` |
 | `TenkanSen` | double | Conversion / signal line |
 | `KijunSen` | double | Base line |
 | `SenkouSpanA` | double | Leading span A |
@@ -90,7 +90,7 @@ Results can be used for chaining in subsequent indicators when streaming.
 
 ```csharp
 // example: chain to another indicator (streaming)
-var emaHub = quotes
+var emaHub = bars
     .ToIchimokuHub()
     .ToEmaHub(14);
 ```
@@ -106,24 +106,24 @@ Use the buffer-style `List<T>` when you need incremental calculations without a 
 ```csharp
 IchimokuList ichimokuList = new(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  ichimokuList.Add(quote);
+  ichimokuList.Add(bar);
 }
 
 // based on `ICollection<IchimokuResult>`
 IReadOnlyList<IchimokuResult> results = ichimokuList;
 ```
 
-Subscribe to a `QuoteHub` for advanced streaming scenarios:
+Subscribe to a `BarHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub quoteHub = new();
-IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+BarHub barHub = new();
+IchimokuHub observer = barHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IBar bar in bars)  // simulating stream
 {
-  quoteHub.Add(quote);
+  barHub.Add(bar);
 }
 
 IReadOnlyList<IchimokuResult> results = observer.Results;

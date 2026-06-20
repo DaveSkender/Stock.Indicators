@@ -5,7 +5,7 @@ namespace Performance;
 [ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class BufferIndicators
 {
-    private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> q = Data.GetDefault();
     private const int n = 14;
 
     /* Parameter arguments should match the Perf.Series.cs equivalents */
@@ -55,10 +55,10 @@ public class BufferIndicators
     [Benchmark] public MfiList MfiList() => q.ToMfiList(14);
     [Benchmark] public ObvList ObvList() => q.ToObvList();
     [Benchmark] public ParabolicSarList ParabolicSarList() => q.ToParabolicSarList();
-    [Benchmark] public PivotPointsList PivotPointsList() => q.ToPivotPointsList(PeriodSize.Month, PivotPointType.Standard);
+    [Benchmark] public PivotPointsList PivotPointsList() => q.ToPivotPointsList(BarInterval.Month, PivotPointType.Standard);
     [Benchmark] public PivotsList PivotsList() => q.ToPivotsList(2, 2, 20);
     [Benchmark] public PmoList PmoList() => q.ToPmoList(35, 20, 10);
-    [Benchmark] public QuotePartList QuotePartList() => q.ToQuotePartList(CandlePart.OHL3);
+    [Benchmark] public BarPartList BarPartList() => q.ToBarPartList(CandlePart.OHL3);
     [Benchmark] public PvoList PvoList() => q.ToPvoList();
     [Benchmark] public RenkoList RenkoList() => q.ToRenkoList(2.5m);
     [Benchmark] public RocList RocList() => q.ToRocList(20);

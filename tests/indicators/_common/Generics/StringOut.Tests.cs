@@ -6,24 +6,24 @@ namespace Utilities;
 public class StringOutputs : TestBase
 {
     [TestMethod]
-    public void ToConsoleQuoteType()
+    public void ToConsoleBarType()
     {
         DateTime timestamp = DateTime.TryParse(
             "2017-02-03", CultureInfo.InvariantCulture, out DateTime d) ? d : default;
 
-        Quote quote = new(timestamp, 216.1579m, 216.875m, 215.84m, 216.67m, 98765432832);
+        Bar bar = new(timestamp, 216.1579m, 216.875m, 215.84m, 216.67m, 98765432832);
 
-        string sut = quote.ToConsole();
-        string val = quote.ToStringOut();
+        string sut = bar.ToConsole();
+        string val = bar.ToStringOut();
 
         sut.Should().Be(val);
     }
 
     [TestMethod]
-    public void ToConsoleQuoteList()
+    public void ToConsoleBarList()
     {
-        string sut = Quotes.ToConsole();
-        string val = Quotes.ToStringOut();
+        string sut = Bars.ToConsole();
+        string val = Bars.ToStringOut();
         int length = sut.Split(Environment.NewLine).Length;
 
         sut.Should().Be(val);
@@ -31,14 +31,14 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToStringOutQuoteType()
+    public void ToStringOutBarType()
     {
         DateTime timestamp = DateTime.TryParse(
             "2017-02-03", CultureInfo.InvariantCulture, out DateTime d) ? d : default;
 
-        Quote quote = new(timestamp, 216.1m, 216.875m, 215.84m, 216.67m, 85273832);
+        Bar bar = new(timestamp, 216.1m, 216.875m, 215.84m, 216.67m, 85273832);
 
-        string sut = quote.ToStringOut();
+        string sut = bar.ToStringOut();
         Console.WriteLine(sut);
 
         // note description has max of 30 "-" characters
@@ -88,11 +88,11 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToFixedWidthQuoteStandard()
+    public void ToFixedWidthBarStandard()
     {
         /* based on what we know about the test data precision */
 
-        string output = Quotes.ToStringOut(limitQty: 12);
+        string output = Bars.ToStringOut(limitQty: 12);
         Console.WriteLine(output);
 
         string expected = """
@@ -117,7 +117,7 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToFixedWidthQuoteWithArgs()
+    public void ToFixedWidthBarWithArgs()
     {
         Dictionary<string, string> args = new()
         {
@@ -126,7 +126,7 @@ public class StringOutputs : TestBase
             { "Volume", "F0" }
         };
 
-        string output = Quotes.Take(12).ToStringOut(args);
+        string output = Bars.Take(12).ToStringOut(args);
         Console.WriteLine(output);
 
         string expected = """
@@ -151,7 +151,7 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToFixedWidthQuoteIntraday()
+    public void ToFixedWidthBarIntraday()
     {
         string output = Intraday.ToStringOut(limitQty: 12);
         Console.WriteLine(output);
@@ -178,13 +178,13 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToFixedWidthQuoteMinutes()
+    public void ToFixedWidthBarMinutes()
     {
-        List<Quote> quotes = [];
+        List<Bar> bars = [];
         for (int i = 0; i < 20; i++)
         {
             DateTime timestamp = new DateTime(2023, 1, 1, 9, 30, 0).AddMinutes(i);
-            quotes.Add(new Quote(timestamp, 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
+            bars.Add(new Bar(timestamp, 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
         }
 
         string expected = """
@@ -213,7 +213,7 @@ public class StringOutputs : TestBase
 
             """.WithDefaultLineEndings();
 
-        string output = quotes.ToStringOut();
+        string output = bars.ToStringOut();
         Console.WriteLine(output);
 
         string[] lines = output.Split(Environment.NewLine);
@@ -223,13 +223,13 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToFixedWidthQuoteSeconds()
+    public void ToFixedWidthBarSeconds()
     {
-        List<Quote> quotes = [];
+        List<Bar> bars = [];
         for (int i = 0; i < 20; i++)
         {
             DateTime timestamp = new DateTime(2023, 1, 1, 9, 30, 0).AddSeconds(i);
-            quotes.Add(new Quote(timestamp, 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
+            bars.Add(new Bar(timestamp, 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
         }
 
         string expected = """
@@ -258,7 +258,7 @@ public class StringOutputs : TestBase
 
             """.WithDefaultLineEndings();
 
-        string output = quotes.ToStringOut();
+        string output = bars.ToStringOut();
         Console.WriteLine(output);
 
         string[] lines = output.Split(Environment.NewLine);
@@ -270,7 +270,7 @@ public class StringOutputs : TestBase
     [TestMethod]
     public void ToFixedWidthResultEma()
     {
-        IReadOnlyList<EmaResult> ema = Quotes.ToEma(14);
+        IReadOnlyList<EmaResult> ema = Bars.ToEma(14);
         string output = ema.ToStringOut(startIndex: ema.Count - 21, endIndex: ema.Count - 1);
         Console.WriteLine(output);
 
@@ -309,7 +309,7 @@ public class StringOutputs : TestBase
     [TestMethod]
     public void ToFixedWidthResultHtTrendline()
     {
-        string output = Quotes.ToHtTrendline().ToStringOut(startIndex: 90, endIndex: 110);
+        string output = Bars.ToHtTrendline().ToStringOut(startIndex: 90, endIndex: 110);
         Console.WriteLine(output);
 
         // TODO: fix after adding index range

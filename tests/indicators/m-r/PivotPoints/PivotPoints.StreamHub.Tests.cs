@@ -1,19 +1,19 @@
 namespace StreamHubs;
 
 [TestClass]
-public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
+public class PivotPointsHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
-        // prefill quotes at provider (batch)
-        quoteHub.Add(Quotes.Take(20));
+        // prefill bars at provider (batch)
+        barHub.Add(Bars.Take(20));
 
         // initialize observer
-        PivotPointsHub observer = quoteHub
+        PivotPointsHub observer = barHub
             .ToPivotPointsHub();
 
         observer.Results.Should().HaveCount(20);
@@ -22,8 +22,8 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<PivotPointsResult> actuals
             = observer.Results;
 
-        // emulate adding quotes to provider hub
-        for (int i = 20; i < quotesCount; i++)
+        // emulate adding bars to provider hub
+        for (int i = 20; i < barsCount; i++)
         {
             // skip one (add later)
             if (i is 30 or 80)
@@ -31,80 +31,80 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
                 continue;
             }
 
-            Quote q = Quotes[i];
-            quoteHub.Add(q);
+            Bar q = Bars[i];
+            barHub.Add(q);
 
-            // resend duplicate quotes
+            // resend duplicate bars
             if (i is > 100 and < 105)
             {
-                quoteHub.Add(q);
+                barHub.Add(q);
             }
         }
 
         // late arrivals
-        quoteHub.Add(Quotes[30]);  // rebuilds complete series
-        quoteHub.Add(Quotes[80]);  // rebuilds from insertion point
+        barHub.Add(Bars[30]);  // rebuilds complete series
+        barHub.Add(Bars[80]);  // rebuilds from insertion point
 
         // delete
-        quoteHub.RemoveAt(removeAtIndex);
+        barHub.RemoveAt(removeAtIndex);
 
         // time-series, for comparison
-        IReadOnlyList<PivotPointsResult> expected = RevisedQuotes.ToPivotPoints();
+        IReadOnlyList<PivotPointsResult> expected = RevisedBars.ToPivotPoints();
 
         // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.Should().HaveCount(barsCount - 1);
         actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public void WithCachePruning_MatchesSeriesExactly()
     {
         const int maxCacheSize = 50;
-        const int totalQuotes = 100;
+        const int totalBars = 100;
 
-        IReadOnlyList<Quote> quotes = Quotes.Take(totalQuotes).ToList();
-        IReadOnlyList<PivotPointsResult> expected = quotes
+        IReadOnlyList<Bar> bars = Bars.Take(totalBars).ToList();
+        IReadOnlyList<PivotPointsResult> expected = bars
             .ToPivotPoints()
             .TakeLast(maxCacheSize)
             .ToList();
 
         // Setup with cache limit
-        QuoteHub quoteHub = new(maxCacheSize);
-        PivotPointsHub observer = quoteHub.ToPivotPointsHub();
+        BarHub barHub = new(maxCacheSize);
+        PivotPointsHub observer = barHub.ToPivotPointsHub();
 
-        // Stream more quotes than cache can hold
-        quoteHub.Add(quotes);
+        // Stream more bars than cache can hold
+        barHub.Add(bars);
 
         // Verify cache was pruned
-        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        barHub.Bars.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // Streaming results should match last N from full series (original series with front chopped off)
-        // NOT recomputation on just the cached quotes (which would have different warmup)
+        // NOT recomputation on just the cached bars (which would have different warmup)
         observer.Results.IsExactly(expected);
 
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithWeekly()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithWeekly()
     {
         // Test with weekly window size
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        PivotPointsHub observer = quoteHub
-            .ToPivotPointsHub(PeriodSize.Week);
+        PivotPointsHub observer = barHub
+            .ToPivotPointsHub(BarInterval.Week);
 
-        // add quotes to quoteHub
-        quoteHub.Add(Quotes);
+        // add bars to barHub
+        barHub.Add(Bars);
 
         // stream results
         IReadOnlyList<PivotPointsResult> streamList
@@ -112,32 +112,32 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // time-series, for comparison
         IReadOnlyList<PivotPointsResult> seriesList
-           = Quotes
-            .ToPivotPoints(PeriodSize.Week);
+           = Bars
+            .ToPivotPoints(BarInterval.Week);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithCamarilla()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithCamarilla()
     {
         // Test with Camarilla pivot point type
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        PivotPointsHub observer = quoteHub
+        PivotPointsHub observer = barHub
             .ToPivotPointsHub(pointType: PivotPointType.Camarilla);
 
-        // add quotes to quoteHub
-        quoteHub.Add(Quotes);
+        // add bars to barHub
+        barHub.Add(Bars);
 
         // stream results
         IReadOnlyList<PivotPointsResult> streamList
@@ -145,32 +145,32 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // time-series, for comparison
         IReadOnlyList<PivotPointsResult> seriesList
-           = Quotes
+           = Bars
             .ToPivotPoints(pointType: PivotPointType.Camarilla);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithDemark()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithDemark()
     {
         // Test with Demark pivot point type
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        PivotPointsHub observer = quoteHub
+        PivotPointsHub observer = barHub
             .ToPivotPointsHub(pointType: PivotPointType.Demark);
 
-        // add quotes to quoteHub
-        quoteHub.Add(Quotes);
+        // add bars to barHub
+        barHub.Add(Bars);
 
         // stream results
         IReadOnlyList<PivotPointsResult> streamList
@@ -178,32 +178,32 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // time-series, for comparison
         IReadOnlyList<PivotPointsResult> seriesList
-           = Quotes
+           = Bars
             .ToPivotPoints(pointType: PivotPointType.Demark);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithFibonacci()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithFibonacci()
     {
         // Test with Fibonacci pivot point type
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        PivotPointsHub observer = quoteHub
+        PivotPointsHub observer = barHub
             .ToPivotPointsHub(pointType: PivotPointType.Fibonacci);
 
-        // add quotes to quoteHub
-        quoteHub.Add(Quotes);
+        // add bars to barHub
+        barHub.Add(Bars);
 
         // stream results
         IReadOnlyList<PivotPointsResult> streamList
@@ -211,32 +211,32 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // time-series, for comparison
         IReadOnlyList<PivotPointsResult> seriesList
-           = Quotes
+           = Bars
             .ToPivotPoints(pointType: PivotPointType.Fibonacci);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
-    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithWoodie()
+    public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithWoodie()
     {
         // Test with Woodie pivot point type
 
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
+        // setup bar provider hub
+        BarHub barHub = new();
 
         // initialize observer
-        PivotPointsHub observer = quoteHub
+        PivotPointsHub observer = barHub
             .ToPivotPointsHub(pointType: PivotPointType.Woodie);
 
-        // add quotes to quoteHub
-        quoteHub.Add(Quotes);
+        // add bars to barHub
+        barHub.Add(Bars);
 
         // stream results
         IReadOnlyList<PivotPointsResult> streamList
@@ -244,25 +244,25 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // time-series, for comparison
         IReadOnlyList<PivotPointsResult> seriesList
-           = Quotes
+           = Bars
             .ToPivotPoints(pointType: PivotPointType.Woodie);
 
         // assert, should equal series
-        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().HaveCount(Bars.Count);
         streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        barHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        PivotPointsHub hub1 = new(new QuoteHub(), PeriodSize.Month, PivotPointType.Standard);
+        PivotPointsHub hub1 = new(new BarHub(), BarInterval.Month, PivotPointType.Standard);
         hub1.ToString().Should().Be("PIVOT-POINTS(Month,Standard)");
 
-        PivotPointsHub hub2 = new(new QuoteHub(), PeriodSize.Week, PivotPointType.Camarilla);
+        PivotPointsHub hub2 = new(new BarHub(), BarInterval.Week, PivotPointType.Camarilla);
         hub2.ToString().Should().Be("PIVOT-POINTS(Week,Camarilla)");
     }
 }

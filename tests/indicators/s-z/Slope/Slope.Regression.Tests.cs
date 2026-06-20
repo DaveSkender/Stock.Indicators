@@ -8,11 +8,11 @@ public class SlopeTests : RegressionTestBase<SlopeResult>
     private const int n = 14;
 
     [TestMethod]
-    public override void Series_AgainstBaseline_MatchesExactly() => Quotes.ToSlope(n).IsExactly(Expected);
+    public override void Series_AgainstBaseline_MatchesExactly() => Bars.ToSlope(n).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer_AgainstBaseline_MatchesExactly() => Quotes.ToSlopeList(n).IsExactly(Expected);
+    public override void Buffer_AgainstBaseline_MatchesExactly() => Bars.ToSlopeList(n).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream_AgainstBaseline_MatchesExactly() => Quotes.ToSlopeHub(n).Results.IsExactly(Expected);
+    public override void Stream_AgainstBaseline_MatchesExactly() => Bars.ToSlopeHub(n).Results.IsExactly(Expected);
 }

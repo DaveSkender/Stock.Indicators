@@ -98,17 +98,17 @@ for test_file in "${test_files[@]}"; do
         fi
 
         # Check which interfaces are implemented
-        has_quote_observer=$(echo "$class_line" | grep -c "ITestQuoteObserver" || true)
-        has_tick_observer=$(echo "$class_line" | grep -c "ITestTickObserver" || true)
+        has_bar_observer=$(echo "$class_line" | grep -c "ITestBarObserver" || true)
+        has_tradetick_observer=$(echo "$class_line" | grep -c "ITestTradeTickObserver" || true)
         has_chain_observer=$(echo "$class_line" | grep -c "ITestChainObserver" || true)
         has_chain_provider=$(echo "$class_line" | grep -c "ITestChainProvider" || true)
 
         # Validation: Should implement at least one observer interface
-        observer_count=$((has_quote_observer + has_tick_observer + has_chain_observer))
+        observer_count=$((has_bar_observer + has_tradetick_observer + has_chain_observer))
 
-        # Note: ITestChainObserver inherits ITestQuoteObserver, so if both appear, that's valid
-        if [[ $has_chain_observer -eq 1 ]] && [[ $has_quote_observer -eq 1 ]]; then
-            observer_count=1  # This is valid - ChainObserver includes QuoteObserver
+        # Note: ITestChainObserver inherits ITestBarObserver, so if both appear, that's valid
+        if [[ $has_chain_observer -eq 1 ]] && [[ $has_bar_observer -eq 1 ]]; then
+            observer_count=1  # This is valid - ChainObserver includes BarObserver
         fi
 
         if [[ $observer_count -eq 0 ]]; then
@@ -117,9 +117,9 @@ for test_file in "${test_files[@]}"; do
         fi
 
         # Check for required test methods based on interfaces
-        if [[ $has_quote_observer -eq 1 ]] || [[ $has_chain_observer -eq 1 ]]; then
-            if ! grep -q "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file"; then
-                test_method_issues_list+=("$indicator_name: Missing QuoteObserver test method")
+        if [[ $has_bar_observer -eq 1 ]] || [[ $has_chain_observer -eq 1 ]]; then
+            if ! grep -q "BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file"; then
+                test_method_issues_list+=("$indicator_name: Missing BarObserver test method")
                 test_method_issues=$((test_method_issues + 1))
             fi
         fi
@@ -169,15 +169,15 @@ for test_file in "${test_files[@]}"; do
 
     if [[ -f "$test_file" ]]; then
         # Look for the canonical test method with provider history mutations
-        has_quote_observer_method=$(grep -c "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" || true)
+        has_bar_observer_method=$(grep -c "BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" || true)
 
-        if [[ $has_quote_observer_method -gt 0 ]]; then
+        if [[ $has_bar_observer_method -gt 0 ]]; then
             # Check if the method includes late Add and Remove operations
-            has_add=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -E -c "\\.Add\\([^)]*\\[80\\]\\)" || true)
-            has_remove=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.RemoveAt(" || true)
+            has_add=$(grep -A 50 "BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -E -c "\\.Add\\([^)]*\\[80\\]\\)" || true)
+            has_remove=$(grep -A 50 "BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.RemoveAt(" || true)
 
             if [[ $has_add -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
-                provider_history_issues+=("$indicator_name: QuoteObserver test missing Add/Remove operations")
+                provider_history_issues+=("$indicator_name: BarObserver test missing Add/Remove operations")
                 provider_history_missing=$((provider_history_missing + 1))
             fi
         fi

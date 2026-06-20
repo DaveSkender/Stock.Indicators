@@ -31,7 +31,7 @@ internal static class Data
         return results;
     }
 
-    internal static IReadOnlyList<Quote> QuotesFromJson(string filename)
+    internal static IReadOnlyList<Bar> BarsFromJson(string filename)
     {
         // Check if baseline file exists
         string filepath = Path.Combine("_testdata", "quotes", filename);
@@ -43,93 +43,93 @@ internal static class Data
 
         // Load and deserialize file
         string json = File.ReadAllText(filepath);
-        List<Quote> quotes = JsonSerializer.Deserialize<List<Quote>>(json, JsonOptions);
+        List<Bar> bars = JsonSerializer.Deserialize<List<Bar>>(json, JsonOptions);
 
-        Assert.IsNotNull(quotes, $"Failed to deserialize baseline file: {filepath}");
+        Assert.IsNotNull(bars, $"Failed to deserialize baseline file: {filepath}");
 
-        return quotes;
+        return bars;
     }
 
-    internal static IReadOnlyList<Quote> QuotesFromCsv(string filename, int days = int.MaxValue)
+    internal static IReadOnlyList<Bar> BarsFromCsv(string filename, int days = int.MaxValue)
         => File.ReadAllLines(Path.Combine("_testdata", "quotes", filename))
             .Skip(1)
-            .Select(Utilities.QuoteFromCsv)
+            .Select(Utilities.BarFromCsv)
             .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
     // DEFAULT: SnP 500 ~2 years of daily data
-    internal static IReadOnlyList<Quote> GetDefault(int days = 502)
-        => QuotesFromCsv("default.csv", days);
+    internal static IReadOnlyList<Bar> GetDefault(int days = 502)
+        => BarsFromCsv("default.csv", days);
 
     // RANDOM: gaussian brownaian motion
-    internal static IReadOnlyList<Quote> GetRandom(
+    internal static IReadOnlyList<Bar> GetRandom(
         int bars = 502,
-        PeriodSize periodSize = PeriodSize.OneMinute,
+        BarInterval barInterval = BarInterval.OneMinute,
         bool includeWeekends = true)
         => new RandomGbm(
             bars: bars,
-            periodSize: periodSize,
+            barInterval: barInterval,
             includeWeekends: includeWeekends);
 
     // sorted by filename
 
     // BAD DATA
-    internal static IReadOnlyList<Quote> GetBad(int days = 502)
-        => QuotesFromCsv("bad.csv", days);
+    internal static IReadOnlyList<Bar> GetBad(int days = 502)
+        => BarsFromCsv("bad.csv", days);
 
     // BITCOIN DATA
-    internal static IReadOnlyList<Quote> GetBitcoin(int days = 1246)
-        => QuotesFromCsv("bitcoin.csv", days);
+    internal static IReadOnlyList<Bar> GetBitcoin(int days = 1246)
+        => BarsFromCsv("bitcoin.csv", days);
 
     // BTCUSD, 69288 records, 15-minute bars
-    internal static IReadOnlyList<Quote> GetBtcUsdNan(int bars = 69288)
-        => QuotesFromCsv("btcusd15x69k.csv", bars);
+    internal static IReadOnlyList<Bar> GetBtcUsdNan(int bars = 69288)
+        => BarsFromCsv("btcusd15x69k.csv", bars);
 
     // COMPARE DATA ~2 years of TSLA data (matches default time)
-    internal static IReadOnlyList<Quote> GetCompare(int days = 502)
-        => QuotesFromCsv("compare.csv", days);
+    internal static IReadOnlyList<Bar> GetCompare(int days = 502)
+        => BarsFromCsv("compare.csv", days);
 
     // INTRADAY DATA
-    internal static IReadOnlyList<Quote> GetIntraday(int days = 1564)
-        => QuotesFromCsv("intraday.csv", days);
+    internal static IReadOnlyList<Bar> GetIntraday(int days = 1564)
+        => BarsFromCsv("intraday.csv", days);
 
     // LONGEST DATA ~62 years of SnP 500 daily data (15,821)
-    internal static IReadOnlyList<Quote> GetLongest()
-        => QuotesFromCsv("longest.csv");
+    internal static IReadOnlyList<Bar> GetLongest()
+        => BarsFromCsv("longest.csv");
 
     // LONGISH DATA ~20 years of SnP 500 daily data
-    internal static IReadOnlyList<Quote> GetLongish(int days = 5285)
-        => QuotesFromCsv("longish.csv", days);
+    internal static IReadOnlyList<Bar> GetLongish(int days = 5285)
+        => BarsFromCsv("longish.csv", days);
 
     // MISMATCH DATA is in incorrect sequence
-    internal static IReadOnlyList<Quote> GetMismatch()
+    internal static IReadOnlyList<Bar> GetMismatch()
         => File.ReadAllLines(Path.Combine("_testdata", "quotes", "mismatch.csv"))
             .Skip(1)
-            .Select(Utilities.QuoteFromCsv)
+            .Select(Utilities.BarFromCsv)
             .ToList();  // not sorted
 
     // MSFT, 30 years, daily
-    internal static IReadOnlyList<Quote> GetMsft(int days = 8111)
-        => QuotesFromCsv("msft.csv", days);
+    internal static IReadOnlyList<Bar> GetMsft(int days = 8111)
+        => BarsFromCsv("msft.csv", days);
 
     // PENNY DATA
-    internal static IReadOnlyList<Quote> GetPenny()
-        => QuotesFromCsv("penny.csv");
+    internal static IReadOnlyList<Bar> GetPenny()
+        => BarsFromCsv("penny.csv");
 
     // SPX, 30 years, daily
-    internal static IReadOnlyList<Quote> GetSpx(int days = 8111)
-        => QuotesFromCsv("spx.csv", days);
+    internal static IReadOnlyList<Bar> GetSpx(int days = 8111)
+        => BarsFromCsv("spx.csv", days);
 
     // TOO BIG DATA
-    internal static IReadOnlyList<Quote> GetTooBig(int days = 1246)
-        => QuotesFromCsv("toobig.csv", days);
+    internal static IReadOnlyList<Bar> GetTooBig(int days = 1246)
+        => BarsFromCsv("toobig.csv", days);
 
     // MAX SIZE DATA
-    internal static IReadOnlyList<Quote> GetMax(int days = 502)
-        => QuotesFromCsv("toobig.csv", days);
+    internal static IReadOnlyList<Bar> GetMax(int days = 502)
+        => BarsFromCsv("toobig.csv", days);
 
     // ZEROS (200)
-    internal static IReadOnlyList<Quote> GetZeros(int days = 200)
-        => QuotesFromCsv("zeros.csv", days);
+    internal static IReadOnlyList<Bar> GetZeros(int days = 200)
+        => BarsFromCsv("zeros.csv", days);
 }

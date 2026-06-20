@@ -4,42 +4,42 @@ namespace BufferLists;
 public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustomBufferListCache
 {
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
+       = Bars
         .Cast<IReusable>()
         .ToList();
 
     private static readonly IReadOnlyList<HtlResult> series
-       = Quotes.ToHtTrendline();
+       = Bars.ToHtTrendline();
 
     [TestMethod]
-    public void AddQuote_IncrementsResults()
+    public void AddBar_IncrementsResults()
     {
         HtTrendlineList sut = new();
 
-        foreach (Quote quote in Quotes)
+        foreach (Bar bar in Bars)
         {
-            sut.Add(quote);
+            sut.Add(bar);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void AddQuotesBatch_IncrementsResults()
+    public void AddBarsBatch_IncrementsResults()
     {
-        HtTrendlineList sut = new() { Quotes };
+        HtTrendlineList sut = new() { Bars };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
-    public void QuotesCtor_OnInstantiation_IncrementsResults()
+    public void BarsCtor_OnInstantiation_IncrementsResults()
     {
-        HtTrendlineList sut = new(Quotes);
+        HtTrendlineList sut = new(Bars);
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -53,7 +53,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
             sut.Add(item);
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -62,7 +62,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     {
         HtTrendlineList sut = new() { reusables };
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
@@ -76,14 +76,14 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
             sut.Add(item.Timestamp, item.Hl2OrValue());
         }
 
-        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().HaveCount(Bars.Count);
         sut.IsExactly(series);
     }
 
     [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        List<Bar> subset = Bars.Take(80).ToList();
         IReadOnlyList<HtlResult> expected = subset.ToHtTrendline();
 
         HtTrendlineList sut = new(subset);
@@ -108,7 +108,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
 
         HtTrendlineList sut = new() { MaxListSize = maxListSize };
 
-        sut.Add(Quotes);
+        sut.Add(Bars);
 
         IReadOnlyList<HtlResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -122,31 +122,31 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 200;
-        const int quotesSize = 750;
+        const int barsSize = 750;
 
         // Use test data that exceeds custom cache thresholds
-        List<Quote> quotes = LongishQuotes
-            .Take(quotesSize)
+        List<Bar> bars = LongishBars
+            .Take(barsSize)
             .ToList();
 
         // Expected results after pruning (tail end)
-        IReadOnlyList<HtlResult> expected = quotes
+        IReadOnlyList<HtlResult> expected = bars
             .ToHtTrendline()
-            .Skip(quotesSize - maxListSize)
+            .Skip(barsSize - maxListSize)
             .ToList();
 
         // Generate buffer list
-        HtTrendlineList sut = new(quotes) { MaxListSize = maxListSize };
+        HtTrendlineList sut = new(bars) { MaxListSize = maxListSize };
 
         sut.Should().HaveCount(maxListSize);
         sut.IsExactly(expected);
 
-        // Add more quotes to verify continued operation after pruning
-        List<Quote> moreQuotes = LongishQuotes.Skip(quotesSize).Take(50).ToList();
-        sut.Add(moreQuotes);
+        // Add more bars to verify continued operation after pruning
+        List<Bar> moreBars = LongishBars.Skip(barsSize).Take(50).ToList();
+        sut.Add(moreBars);
 
-        IReadOnlyList<HtlResult> allSeries = quotes
-            .Concat(moreQuotes)
+        IReadOnlyList<HtlResult> allSeries = bars
+            .Concat(moreBars)
             .ToList()
             .ToHtTrendline();
 

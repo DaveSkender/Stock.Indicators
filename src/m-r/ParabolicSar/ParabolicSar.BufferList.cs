@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Parabolic SAR (Stop and Reverse) from incremental quotes.
+/// Parabolic SAR (Stop and Reverse) from incremental bars.
 /// </summary>
-public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQuote, IParabolicSar
+public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromBar, IParabolicSar
 {
     private readonly Queue<(double High, double Low)> _buffer;
     private readonly double _accelerationStep;
@@ -57,18 +57,18 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ParabolicSarList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="ParabolicSarList"/> class with initial bars.
     /// </summary>
     /// <param name="accelerationStep">Acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">Initial acceleration factor for the SAR calculation.</param>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     public ParabolicSarList(
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor,
-        IReadOnlyList<IQuote> quotes)
-        : this(accelerationStep, maxAccelerationFactor, initialFactor) => Add(quotes);
+        IReadOnlyList<IBar> bars)
+        : this(accelerationStep, maxAccelerationFactor, initialFactor) => Add(bars);
 
     /// <inheritdoc />
     public double AccelerationStep { get; init; }
@@ -80,15 +80,15 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     public double InitialFactor { get; init; }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
+    public void Add(IBar bar)
     {
-        ArgumentNullException.ThrowIfNull(quote);
+        ArgumentNullException.ThrowIfNull(bar);
 
-        DateTime timestamp = quote.Timestamp;
-        double high = (double)quote.High;
-        double low = (double)quote.Low;
+        DateTime timestamp = bar.Timestamp;
+        double high = (double)bar.High;
+        double low = (double)bar.Low;
 
-        // Skip first quote (initialize state only)
+        // Skip first bar (initialize state only)
         if (!_isInitialized)
         {
             _accelerationFactor = _initialFactor;
@@ -98,7 +98,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
             _isInitialized = true;
 
             AddInternal(new ParabolicSarResult(timestamp));
-            // Ensure prior-quote buffer contains the first quote for next-bar clamps
+            // Ensure prior-bar buffer contains the first bar for next-bar clamps
             _buffer.Update(2, (high, low));
             return;
         }
@@ -112,7 +112,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
             double sar = _priorSar + (_accelerationFactor * (_extremePoint - _priorSar));
 
             // SAR cannot be higher than last two lows
-            // _buffer contains the PREVIOUS quotes (not including current)
+            // _buffer contains the PREVIOUS bars (not including current)
             if (_buffer.Count >= 2)
             {
                 (double _, double l1) = _buffer.ElementAt(1);  // i-1
@@ -153,7 +153,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
             double sar = _priorSar - (_accelerationFactor * (_priorSar - _extremePoint));
 
             // SAR cannot be lower than last two highs
-            // _buffer contains the PREVIOUS quotes (not including current)
+            // _buffer contains the PREVIOUS bars (not including current)
             if (_buffer.Count >= 2)
             {
                 (double h1, double _) = _buffer.ElementAt(1);  // i-1
@@ -198,7 +198,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         AddInternal(result);
         _priorSar = psar;
 
-        // Update buffer for last two quotes AFTER using it for calculations
+        // Update buffer for last two bars AFTER using it for calculations
         _buffer.Update(2, (high, low));
 
         // If this is the first reversal, nullify all previous results (including this one)
@@ -210,13 +210,13 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     }
 
     /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IBar> bars)
     {
-        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(bars);
 
-        for (int i = 0; i < quotes.Count; i++)
+        for (int i = 0; i < bars.Count; i++)
         {
-            Add(quotes[i]);
+            Add(bars[i]);
         }
     }
 
@@ -290,26 +290,26 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="accelerationStep">Acceleration step increment</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
     public static ParabolicSarList ToParabolicSarList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
-        => new(accelerationStep, maxAccelerationFactor) { quotes };
+        => new(accelerationStep, maxAccelerationFactor) { bars };
 
     /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations with custom initial factor.
     /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
     /// <param name="accelerationStep">Acceleration step increment</param>
     /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
     /// <param name="initialFactor">Initial acceleration factor</param>
     public static ParabolicSarList ToParabolicSarList(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)
-        => new(accelerationStep, maxAccelerationFactor, initialFactor) { quotes };
+        => new(accelerationStep, maxAccelerationFactor, initialFactor) { bars };
 }
