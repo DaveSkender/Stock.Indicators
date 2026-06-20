@@ -141,7 +141,7 @@ public record MyCustomBar : IBar
 
     // IReusable interface (enables chaining)
     [JsonIgnore]
-    double IReusable.Value => (double)Close;
+    public double Value => (double)Close;
 
     // custom properties
     public int MyOtherProperty { get; set; }
