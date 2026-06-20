@@ -83,10 +83,10 @@ When multiple bricks are drawn from a single `bar` period, the extra information
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/results#find-by-date)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/results/) for more information.
+See [Utilities and helpers](/utilities/) for more information.
 
 ## Chaining
 

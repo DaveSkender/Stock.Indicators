@@ -60,11 +60,11 @@ This price pattern uses future bars and will never identify a `fractal` in the l
 
 ### Utilities
 
-- [.Condense()](/utilities/results/condense)
-- [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
+- [.Condense()](/utilities/results#condense)
+- [.Find(lookupDate)](/utilities/results#find-by-date)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/results/) for more information.
+See [Utilities and helpers](/utilities/) for more information.
 
 ## Chaining
 

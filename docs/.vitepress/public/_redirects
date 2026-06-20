@@ -275,13 +275,3 @@
 # Market-data terminology rename (quotes -> bars)
 /utilities/quotes /utilities/bars 301
 /utilities/quotes/ /utilities/bars 301
-/utilities/quotes/extended-candle-properties /utilities/bars/extended-candle-properties 301
-/utilities/quotes/extended-candle-properties/ /utilities/bars/extended-candle-properties 301
-/utilities/quotes/resize-quote-history /utilities/bars/resize-bar-history 301
-/utilities/quotes/resize-quote-history/ /utilities/bars/resize-bar-history 301
-/utilities/quotes/sort-quotes /utilities/bars/sort-bars 301
-/utilities/quotes/sort-quotes/ /utilities/bars/sort-bars 301
-/utilities/quotes/use-alternate-price /utilities/bars/use-alternate-price 301
-/utilities/quotes/use-alternate-price/ /utilities/bars/use-alternate-price 301
-/utilities/quotes/validate-quote-history /utilities/bars/validate-bar-history 301
-/utilities/quotes/validate-quote-history/ /utilities/bars/validate-bar-history 301

@@ -54,9 +54,9 @@ The first `N+15` warmup periods will have unusable decreasing magnitude, converg
 
 ### Utilities
 
-- [.Condense()](/utilities/results/condense)
-- [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
+- [.Condense()](/utilities/results#condense)
+- [.Find(lookupDate)](/utilities/results#find-by-date)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results#remove-warmup-periods)
 
 For pruning of warmup periods, we recommend using the following guidelines:
 
@@ -65,7 +65,7 @@ bars.ToFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
-See [Utilities and helpers](/utilities/results/) for more information.
+See [Utilities and helpers](/utilities/) for more information.
 
 ## Chaining
 

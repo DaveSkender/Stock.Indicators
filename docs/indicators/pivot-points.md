@@ -89,11 +89,11 @@ The last window is repainted when it does not contain a full window of data.
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities/results/find-by-date)
-- [.RemoveWarmupPeriods()](/utilities/results/remove-warmup-periods)
-- [.RemoveWarmupPeriods(removePeriods)](/utilities/results/remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/results#find-by-date)
+- [.RemoveWarmupPeriods()](/utilities/results#remove-warmup-periods)
+- [.RemoveWarmupPeriods(removePeriods)](/utilities/results#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/results/) for more information.
+See [Utilities and helpers](/utilities/) for more information.
 
 ## Chaining
 

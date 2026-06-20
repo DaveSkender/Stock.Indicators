@@ -125,34 +125,35 @@ export default defineConfig({
             { text: 'Overview', link: '/utilities/' },
             {
               text: 'Bar utilities',
-              collapsed: false,
+              link: '/utilities/bars',
+              collapsed: true,
               items: [
-                { text: 'Overview', link: '/utilities/bars/' },
-                { text: 'Use alternate price', link: '/utilities/bars/use-alternate-price' },
-                { text: 'Sort bars', link: '/utilities/bars/sort-bars' },
-                { text: 'Resize bar history', link: '/utilities/bars/resize-bar-history' },
-                { text: 'Extended candle properties', link: '/utilities/bars/extended-candle-properties' },
-                { text: 'Validate bar history', link: '/utilities/bars/validate-bar-history' },
+                { text: 'Use alternate price', link: '/utilities/bars#use-alternate-price' },
+                { text: 'Sort bars', link: '/utilities/bars#sort-bars' },
+                { text: 'Validate bar history', link: '/utilities/bars#validate-bar-history' },
+                { text: 'Resize bar history', link: '/utilities/bars#resize-bar-history' },
+                { text: 'Extended candle properties', link: '/utilities/bars#extended-candle-properties' },
               ]
             },
             {
               text: 'Result utilities',
-              collapsed: false,
+              link: '/utilities/results',
+              collapsed: true,
               items: [
-                { text: 'Overview', link: '/utilities/results/' },
-                { text: 'Condense', link: '/utilities/results/condense' },
-                { text: 'Find by date', link: '/utilities/results/find-by-date' },
-                { text: 'Remove warmup periods', link: '/utilities/results/remove-warmup-periods' },
-                { text: 'Sort results', link: '/utilities/results/sort-results' },
+                { text: 'Condense', link: '/utilities/results#condense' },
+                { text: 'Find by date', link: '/utilities/results#find-by-date' },
+                { text: 'Remove warmup periods', link: '/utilities/results#remove-warmup-periods' },
+                { text: 'Sort results', link: '/utilities/results#sort-results' },
               ]
             },
             {
               text: 'Helper utilities',
-              collapsed: false,
+              link: '/utilities/helpers',
+              collapsed: true,
               items: [
-                { text: 'Overview', link: '/utilities/helpers/' },
-                { text: 'Numerical methods', link: '/utilities/helpers/numerical-methods' },
-                { text: 'Math helpers', link: '/utilities/helpers/nullmath' },
+                { text: 'Numerical methods', link: '/utilities/helpers#numerical-methods' },
+                { text: 'NullMath', link: '/utilities/helpers#nullmath' },
+                { text: 'DeMath', link: '/utilities/helpers#demath' },
               ]
             },
             { text: 'Indicator catalog', link: '/utilities/catalog' },
