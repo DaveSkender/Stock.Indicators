@@ -95,14 +95,14 @@ See the [Guide](/guide/) for batch, buffer, and stream styles; chaining; custom 
 
 You must provide historical price bars to the library in the standard OHLCV `IReadOnlyList<Bar>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom bar classes](#using-custom-bar-classes) if you prefer to use your own `IBar` derived class.
 
-| name        | type     | notes       |
-| ----------- | -------- | ----------- |
-| `Timestamp` | DateTime | Close date  |
-| `Open`      | decimal  | Open price  |
-| `High`      | decimal  | High price  |
-| `Low`       | decimal  | Low price   |
-| `Close`     | decimal  | Close price |
-| `Volume`    | decimal  | Volume      |
+| name        | type         | description |
+| :---------- | :----------- | :---------- |
+| `Timestamp` | _`DateTime`_ | Close date  |
+| `Open`      | _`decimal`_  | Open price  |
+| `High`      | _`decimal`_  | High price  |
+| `Low`       | _`decimal`_  | Low price   |
+| `Close`     | _`decimal`_  | Close price |
+| `Volume`    | _`decimal`_  | Volume      |
 
 ### Where can I get historical bar data?
 
@@ -138,6 +138,10 @@ public record MyCustomBar : IBar
     public decimal Low { get; set; }
     public decimal Close { get; set; }
     public decimal Volume { get; set; }
+
+    // IReusable interface (enables chaining)
+    [JsonIgnore]
+    double IReusable.Value => (double)Close;
 
     // custom properties
     public int MyOtherProperty { get; set; }
