@@ -22,7 +22,7 @@ layout: page
 
 ### Performance benchmarking
 
-Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
+Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://v2.dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
 ```bash
 # from /tests/performance folder

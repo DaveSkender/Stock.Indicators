@@ -20,7 +20,7 @@
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://dotnet.stockindicators.dev</PackageProjectUrl>
+    <PackageProjectUrl>https://v2.dotnet.stockindicators.dev</PackageProjectUrl>
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageTags>
        Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;Algo;
