@@ -35,10 +35,10 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.287.0
+        uses: ruby/setup-ruby@v1.314.0
         with:
           ruby-version: 3.3
           bundler-cache: true
@@ -70,11 +70,11 @@ jobs:
 
       - name: Publish to Cloudflare Pages
         id: deploy
-        uses: cloudflare/wrangler-action@v3.14.1
+        uses: cloudflare/wrangler-action@v3.15.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "latest"
           command: >
             pages deploy docs/_site
-            --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
+            --project-name=stock-indicators-dotnet-v2
