@@ -1,12 +1,9 @@
 {
-  // key references:
-  // https://code.visualstudio.com/docs/devcontainers/create-dev-container
-  // https://github.com/devcontainers/features
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "stock.indicators",
   "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:2": {
       "version": "lts"
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
@@ -14,7 +11,6 @@
       "additionalVersions": "9.0,8.0"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/copilot-cli:1": {},
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
     }
@@ -27,16 +23,11 @@
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
-        "bierner.github-markdown-preview",
-        "CodeRabbit.coderabbit-vscode",
-        "codacy-app.codacy",
         "DavidAnson.vscode-markdownlint",
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
-        "GitHub.copilot-chat",
         "ms-dotnettools.csdevkit",
-        "ms-azuretools.vscode-containers",
         "redhat.vscode-yaml"
       ]
     }

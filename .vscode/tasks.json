@@ -3,52 +3,24 @@
   // Schema: https://code.visualstudio.com/docs/reference/tasks-appendix
   "$schema": "vscode://schemas/tasks",
   "version": "2.0.0",
-  "inputs": [
-    {
-      "id": "roslynatorCommand",
-      "description": "Select command type for Roslynator",
-      "options": [
-        "analyze",
-        "fix"
-      ],
-      "default": "fix",
-      "type": "pickString"
-    },
-    {
-      "id": "roslynatorSeverity",
-      "description": "Select severity level (depth) for Roslynator action",
-      "options": [
-        "error",
-        "warning",
-        "info",
-        "hidden"
-      ],
-      "default": "info",
-      "type": "pickString"
-    }
-  ],
   // defaults
   "group": "none",
-  "presentation": {
-    "clear": true,
-    "echo": true,
-    "panel": "dedicated",
-    "focus": true,
-    "reveal": "always",
-    "revealProblems": "onProblem",
-    "showReuseMessage": false
-  },
-  "problemMatcher": [],
   "options": {
     "cwd": "${workspaceFolder}"
   },
+  "presentation": {
+    "clear": true,
+    "panel": "dedicated",
+    "showReuseMessage": false
+  },
+  "problemMatcher": [],
   // tasks
   "tasks": [
     {
       "label": "Setup: Dev tools",
       "detail": "Complete one-time environment setup (global tools and packages)",
       "type": "shell",
-      "command": "bash .devcontainer/startup.sh",
+      "command": "bash tools/scripts/setup.sh",
       "problemMatcher": [
         "$msCompile",
         "$eslint-compact"
@@ -112,22 +84,12 @@
       "label": "Install: Website Ruby packages",
       "detail": "Install Ruby gems for docs site (Jekyll)",
       "type": "shell",
-      "command": "export PATH=\"$(brew --prefix ruby@3.3 2>/dev/null)/bin:$(brew --prefix ruby 2>/dev/null)/bin:/opt/homebrew/opt/ruby@3.3/bin:/usr/local/opt/ruby@3.3/bin:$PATH\" && eval \"$(rbenv init - zsh 2>/dev/null || true)\" && gem install bundler --no-document && bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
+      "command": "bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {
           "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
           "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "problemMatcher": {
-        "owner": "bundle",
-        "fileLocation": "relative",
-        "pattern": {
-          "regexp": "^(.*):(\\d+):\\s+(.*)$",
-          "file": 1,
-          "line": 2,
-          "message": 3
         }
       }
     },
@@ -135,7 +97,8 @@
       "label": "Update: Website Ruby packages",
       "detail": "Install then update Ruby gems conservatively and clean",
       "type": "shell",
-      "command": "export PATH=\"$(brew --prefix ruby@3.3 2>/dev/null)/bin:$(brew --prefix ruby 2>/dev/null)/bin:/opt/homebrew/opt/ruby@3.3/bin:/usr/local/opt/ruby@3.3/bin:$PATH\" && eval \"$(rbenv init - zsh 2>/dev/null || true)\" && gem install bundler --no-document && rm -f Gemfile.lock && rm -rf vendor/bundle && bundle lock --add-platform x86_64-linux x64-mingw-ucrt arm64-darwin x86_64-darwin && bundle install && bundle clean --force && echo '✓ Update complete!'",
+      "command": "rm -f Gemfile.lock && rm -rf vendor/bundle && bundle lock --add-platform x86_64-linux x64-mingw-ucrt arm64-darwin x86_64-darwin && bundle update --all && bundle clean --force && echo '✓ Update complete!'",
+      "dependsOn":"Install: Website Ruby packages",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {
@@ -473,17 +436,6 @@
           "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
           "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
         }
-      },
-      "problemMatcher": {
-        "owner": "website",
-        "pattern": {
-          "regexp": "^$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
-        }
       }
     },
     {
@@ -499,17 +451,6 @@
         "env": {
           "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
           "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "problemMatcher": {
-        "owner": "website",
-        "pattern": {
-          "regexp": "^$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
         }
       }
     },
