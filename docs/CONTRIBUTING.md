@@ -276,15 +276,16 @@ Packages are deployed via two separate GitHub Actions workflows:
 
 #### Production package deploy (manual)
 
-**Trigger:** Creating a GitHub Release
+**Trigger:** Publishing a GitHub Release
 
 - Published to `nuget.org` only
 - Version comes directly from release tag (strips 'v' prefix)
 - Examples:
   - Tag `2.8.0` → deploys `2.8.0` (stable)
   - Tag `3.0.0-preview.2` → deploys `3.0.0-preview.2` (preview)
-- Draft releases: Dry-run mode (build only, no deploy)
 - Published releases: Full deployment to nuget.org
+- Manual dry-run: Run the workflow from the Actions tab ("Run workflow") and supply the release tag — build only, no deploy
+- Saving a draft release does **not** trigger the workflow
 - Git tag already exists (from release creation)
 
 **Workflow:** `.github/workflows/deploy-package-nuget.yml`
@@ -298,7 +299,7 @@ Packages are deployed via two separate GitHub Actions workflows:
 | CI build | Push to v3 | `3.0.0-ci.567` | GitHub Packages | Run 567 |
 | Production | Release tag `2.8.0` | `2.8.0` | nuget.org | Stable version |
 | Production | Release tag `3.0.0-preview.2` | `3.0.0-preview.2` | nuget.org | Preview version |
-| Draft release | Release tag `2.8.1` (draft) | `2.8.1` | None (dry-run) | Build only, no deploy |
+| Dry-run | Manual run, tag `2.8.1` | `2.8.1` | None (dry-run) | Build only, no deploy |
 
 For technical details, see:
 
