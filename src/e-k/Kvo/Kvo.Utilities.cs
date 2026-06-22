@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 // KLINGER VOLUME OSCILLATOR (UTILIITES)
 

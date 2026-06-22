@@ -1,5 +1,5 @@
 using Alpaca.Markets;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 string symbol = "AAPL";
 

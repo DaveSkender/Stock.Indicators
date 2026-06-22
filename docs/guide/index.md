@@ -16,7 +16,7 @@ hero:
 
 features:
   - title: Getting started
-    details: Install the Skender.Stock.Indicators NuGet library and calculate your first indicator in minutes.
+    details: Install the FacioQuo.Stock.Indicators NuGet library and calculate your first indicator in minutes.
     link: /guide/getting-started
     linkText: First-time setup
   - title: Indicator styles

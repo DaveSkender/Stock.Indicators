@@ -1,3 +1,3 @@
 global using BenchmarkDotNet.Attributes;
-global using Skender.Stock.Indicators;
+global using FacioQuo.Stock.Indicators;
 global using Test.Data;

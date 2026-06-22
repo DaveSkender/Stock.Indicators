@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 #pragma warning disable CS1591, IND001, RCS1163
 
 // OBSOLETE IN v3.0.0

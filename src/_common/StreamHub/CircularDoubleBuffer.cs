@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Fixed-size circular buffer for <c>double</c> values with O(capacity) max/min scan.

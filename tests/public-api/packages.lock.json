@@ -165,13 +165,13 @@
           "System.Drawing.Common": "6.0.0"
         }
       },
-      "Skender.Stock.Indicators": {
+      "FacioQuo.Stock.Indicators": {
         "type": "Project"
       },
       "tests.indicators": {
         "type": "Project",
         "dependencies": {
-          "Skender.Stock.Indicators": "[1.0.0, )"
+          "FacioQuo.Stock.Indicators": "[1.0.0, )"
         }
       }
     }

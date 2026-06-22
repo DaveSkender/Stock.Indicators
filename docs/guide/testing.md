@@ -23,7 +23,7 @@ Indicators in this library are deterministic: given the same input bars and para
 
 ```csharp
 using FluentAssertions;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 [TestMethod]
 public void StrategyEnters_WhenRsiCrossesBelow30()

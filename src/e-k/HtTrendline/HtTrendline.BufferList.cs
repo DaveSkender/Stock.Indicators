@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Hilbert Transform Instantaneous Trendline (HTL) from incremental reusable values.

@@ -2,14 +2,14 @@
 [![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/assets/social-banner.png)](https://dotnet.StockIndicators.dev/)
 
 [![GitHub Stars](https://img.shields.io/github/stars/DaveSkender/Stock.Indicators?logo=github&label=Stars)](https://github.com/DaveSkender/Stock.Indicators)
-[![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet)](https://www.nuget.org/packages/Skender.Stock.Indicators)
+[![NuGet package](https://img.shields.io/nuget/v/facioquo.stock.indicators?color=blue&logo=NuGet&label=NuGet)](https://www.nuget.org/packages/FacioQuo.Stock.Indicators)
 
 > [!IMPORTANT]
-> This branch contains **vNext (v3)** code that is under development. For the currently released stable version (v2), please see the [`main` branch](https://github.com/DaveSkender/Stock.Indicators/blob/main/README.md). After v3.0 stable ships, the `v2` branch becomes the long-term `netstandard2.0`/`netstandard2.1` maintenance line on the `Skender.Stock.Indicators` package — security and compatibility patches only, no new features. See [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) for details.
+> This branch contains **vNext (v3)** code that is under development. For the currently released stable version (v2), please see the [`main` branch](https://github.com/DaveSkender/Stock.Indicators/blob/main/README.md). After v3.0 stable ships, the `v2` branch becomes the long-term `netstandard2.0`/`netstandard2.1` maintenance line on the `FacioQuo.Stock.Indicators` package — security and compatibility patches only, no new features. See [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) for details.
 
 # Stock Indicators for .NET
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price bars and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) that produces financial market technical indicators.  Send in historical price bars and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
 Build your technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV](https://dotnet.stockindicators.dev/guide/#historical-bars) price bars sources for equities, commodities, forex, cryptocurrencies, and others.  [Stock Indicators for Python](https://python.stockindicators.dev/) is also available.
 

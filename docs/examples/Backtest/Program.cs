@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // See ConsoleApp first.  This is more advanced.
 

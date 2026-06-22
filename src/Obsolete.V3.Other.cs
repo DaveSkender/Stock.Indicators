@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 #pragma warning disable RCS1141,RCS1142,RCS1228
 
 /// <summary>

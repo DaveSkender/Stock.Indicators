@@ -217,7 +217,7 @@ Follow these conventions for all file naming:
 **Priority**: Medium - Improves navigation without changing functionality
 
 - [ ] Task 3.1: Rename `_common/` → `Common/`
-  - Update namespace declarations from `Skender.Stock.Indicators` (stay the same)
+  - Update namespace declarations from `FacioQuo.Stock.Indicators` (stay the same)
   - Update project file references
   - Update all path references in documentation
 
@@ -538,7 +538,7 @@ tests/                                # Tests
 3. **Functional Separation**: Clear separation between series, stream, buffer, catalog, and models
 4. **Test Organization**: Test structure mirrors source structure, making tests easy to locate
 5. **Common Directory**: Consolidation of shared functionality in `_common/` is logical
-6. **Namespace Consistency**: Single namespace `Skender.Stock.Indicators` keeps public API clean
+6. **Namespace Consistency**: Single namespace `FacioQuo.Stock.Indicators` keeps public API clean
 
 #### What's not working well
 
@@ -775,7 +775,7 @@ After applying recommended patterns with Series suffix, ConnorsRsi would be:
 
 ### A.5: Namespace considerations
 
-**Current**: All files use `namespace Skender.Stock.Indicators;`
+**Current**: All files use `namespace FacioQuo.Stock.Indicators;`
 
 **Recommendation**: Keep single namespace for public API simplicity
 

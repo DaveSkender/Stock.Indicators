@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Builder for creating IndicatorListing instances using a fluent interface.
