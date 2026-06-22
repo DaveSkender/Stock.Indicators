@@ -124,6 +124,8 @@ jobs:
         if: success() && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: test-results/unit/**/coverage.cobertura.xml
+        continue-on-error: true
 
   lint-full:
     runs-on: ubuntu-latest
