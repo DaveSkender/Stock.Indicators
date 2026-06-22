@@ -9,7 +9,7 @@ head:
 
 # About this library
 
-**Stock Indicators for .NET** is an open-source C# [NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price bars into technical indicators. The library provides industry-standard technical analysis indicators with a focus on accuracy, performance, and developer ergonomics.
+**Stock Indicators for .NET** is an open-source C# [NuGet library](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) that transforms historical price bars into technical indicators. The library provides industry-standard technical analysis indicators with a focus on accuracy, performance, and developer ergonomics.
 
 ## Project information
 

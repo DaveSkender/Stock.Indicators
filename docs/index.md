@@ -25,12 +25,12 @@ import LandingCharts from './.vitepress/components/LandingCharts.vue'
 
 <a href="https://www.nuget.org/packages/FacioQuo.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/facioquo.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms financial market price data into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) that transforms financial market price data into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
 
 Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-bars) price bars from any market: equities, commodities, forex, or cryptocurrencies.
 
 ::: tip ✨ v3 adds streaming support
-Our new stream hub and buffer list style indicators enable your incremental and real-time price data scenarios.
+Our new **`FacioQuo.Stock.Indicators`** NuGet library, formerly named `Skender.Stock.Indicators`, adds stream hub and buffer list style indicators enable your incremental and real-time price data scenarios.
 Still on v2? See our [migration guide →](/migration/v3)
 :::
 
