@@ -4,12 +4,11 @@ name: CI
 # a fail-fast approach in multiple stages.
 
 on:
+  pull_request:
   push:
     branches:
       - "main"
       - "v[0-9]*"
-  pull_request:
-    branches: ["*"]
   workflow_dispatch:
 
 permissions:
@@ -22,10 +21,10 @@ concurrency:
 
 jobs:
   quick-check:
-    name: quick check
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Merge protection check
         if: github.base_ref == 'main'
         run: |
