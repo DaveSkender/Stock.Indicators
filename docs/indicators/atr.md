@@ -6,7 +6,7 @@ description: Created by J. Welles Wilder, True Range and Average True Range is a
 # Average True Range (ATR) / True Range (TR)
 
 Created by J. Welles Wilder, True Range and [Average True Range](https://en.wikipedia.org/wiki/Average_true_range) are measures of volatility that capture gaps and limits between periods. See [True Range (TR)](/indicators/tr) for dedicated TR documentation, including streaming support.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/269 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/269 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Atr" withOverlay />
@@ -34,7 +34,7 @@ IReadOnlyList<TrResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

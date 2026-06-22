@@ -6,7 +6,7 @@ description: Created by Alexander Elder, the Force Index depicts volume-based bu
 # Force Index
 
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure based on the change in price.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/382 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/382 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="ForceIndex" withOverlay />
@@ -26,7 +26,7 @@ IReadOnlyList<ForceIndexResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N+100` for `2×N` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` for `2×N` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

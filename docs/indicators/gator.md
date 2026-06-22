@@ -6,7 +6,7 @@ description: Created by Bill Williams, the Gator Oscillator is an expanded oscil
 # Gator Oscillator
 
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](/indicators/alligator)'s three moving averages.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/385 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Gator" withOverlay />
@@ -25,7 +25,7 @@ IReadOnlyList<GatorResult> results = bars
 
 ## Historical price bars requirements
 
-If using default settings, you must have at least 121 periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/alligator#historical-price-bars-requirements) for Historical price bars requirements.
+If using default settings, you must have at least 121 periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](/indicators/alligator#historical-price-bars-requirements) for Historical price bars requirements.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

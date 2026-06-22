@@ -1,6 +1,6 @@
 # Stock Indicators project principles
 
-Six core principles govern engineering decisions ([Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discussions/648)).
+Six core principles govern engineering decisions ([Discussion #648](https://github.com/facioquo/stock-indicators-dotnet/discussions/648)).
 
 ## Core principles
 
@@ -22,7 +22,7 @@ All indicators MUST be mathematically correct, deterministic, and reproducible a
 1. **Primary**: Manual calculation spreadsheets in `tests/indicators/` (all implementations MUST match exactly)
 2. **Authoritative**: Original creator publications, expert textbooks, reputable institutional specs, cited Wikipedia
 3. **Acceptable**: Third-party implementations citing authoritative sources, community-validated calculators
-4. **Prohibited**: TradingView ([#801](https://github.com/DaveSkender/Stock.Indicators/discussions/801)), uncited calculators, sources without formula references
+4. **Prohibited**: TradingView ([#801](https://github.com/facioquo/stock-indicators-dotnet/discussions/801)), uncited calculators, sources without formula references
 
 **Documentation requirements:**
 
@@ -30,7 +30,7 @@ All indicators MUST be mathematically correct, deterministic, and reproducible a
 
 **NaN handling**: Use non-nullable `double` with IEEE 754 NaN propagation. See [src/AGENTS.md](../src/AGENTS.md) NaN handling policy section for implementation guidelines.
 
-**Reputation criteria** ([#1024](https://github.com/DaveSkender/Stock.Indicators/discussions/1024)):
+**Reputation criteria** ([#1024](https://github.com/facioquo/stock-indicators-dotnet/discussions/1024)):
 
 Indicators MUST be created by recognized experts, published in established venues, and time-tested in the financial industry.
 
@@ -77,7 +77,7 @@ Low allocation, cache-friendly, single-pass O(n) computations.
 
 ### 6. Scope & stewardship
 
-Source: [Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
+Source: [Discussion #648](https://github.com/facioquo/stock-indicators-dotnet/discussions/648)
 
 **Rules:**
 

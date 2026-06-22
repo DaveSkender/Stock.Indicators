@@ -6,7 +6,7 @@ description: Created by John Ehlers, the Fisher Transform converts financial mar
 # Ehlers Fisher Transform
 
 Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/terms/f/fisher-transform.asp) converts prices into a Gaussian normal distribution.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/409 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="FisherTransform" withOverlay />
@@ -26,7 +26,7 @@ IReadOnlyList<FisherTransformResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `N` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

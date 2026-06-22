@@ -6,7 +6,7 @@ description: Created by William Blau, the Stochastic Momentum Index (SMI) oscill
 # Stochastic Momentum Index (SMI)
 
 Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a double-smoothed variant of the [Stochastic Oscillator](/indicators/stoch), depicted on a scale from -100 to 100.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/625 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/625 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Smi" withOverlay />
@@ -30,7 +30,7 @@ IReadOnlyList<SmiResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

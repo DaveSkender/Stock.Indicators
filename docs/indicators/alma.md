@@ -5,8 +5,8 @@ description: Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, ALMA is a nor
 
 # Arnaud Legoux Moving Average (ALMA)
 
-Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA](https://github.com/DaveSkender/Stock.Indicators/files/5654531/ALMA-Arnaud-Legoux-Moving-Average.pdf) is a normal Gaussian distribution weighted moving average of price.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/209 "Community discussion about this indicator")
+Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA](https://github.com/facioquo/stock-indicators-dotnet/files/5654531/ALMA-Arnaud-Legoux-Moving-Average.pdf) is a normal Gaussian distribution weighted moving average of price.
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/209 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Alma" />

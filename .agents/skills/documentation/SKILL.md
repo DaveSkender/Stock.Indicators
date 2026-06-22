@@ -67,7 +67,7 @@ description: One-sentence description of what the indicator measures.
 # Full Indicator Name (ABBR)
 
 Created by Author Name, [Indicator Name](https://en.wikipedia.org/wiki/...) is a brief description of what it measures.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/{id} "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/{id} "Community discussion about this indicator")
 
 <IndicatorChartPanel indicator-key="{IndicatorKey}" />
 ```

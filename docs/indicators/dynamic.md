@@ -6,7 +6,7 @@ description: Created by John R. McGinley, the McGinley Dynamic is a more respons
 # McGinley Dynamic
 
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/866 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/866 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Dynamic" />
@@ -27,7 +27,7 @@ IReadOnlyList<DynamicResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `2` periods of `bars`, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `4×N` data points prior to the intended usage date for better precision.
+You must have at least `2` periods of `bars`, to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `4×N` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

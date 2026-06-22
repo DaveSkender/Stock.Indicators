@@ -6,7 +6,7 @@ description: Mean absolute deviation (MAD), mean square error (MSE), and mean ab
 # SMA with extended analysis
 
 [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) with extended statistical analysis including mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).  See also [Simple Moving Average](/indicators/sma).
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/240 "Community discussion about this indicator")
 
 ```csharp
 // C# usage syntax

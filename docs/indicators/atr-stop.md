@@ -6,7 +6,7 @@ description: Created by Welles Wilder, the ATR Trailing Stop indicator attempts 
 # ATR Trailing Stop
 
 Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](/indicators/atr) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/724 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/724 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="AtrStop" />
@@ -28,7 +28,7 @@ IReadOnlyList<AtrStopResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

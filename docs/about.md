@@ -16,7 +16,7 @@ head:
 | | |
 | --- | --- |
 | **License** | [Apache 2.0](https://opensource.org/licenses/Apache-2.0) |
-| **Source code** | [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) |
+| **Source code** | [GitHub repository](https://github.com/facioquo/stock-indicators-dotnet) |
 | **Package** | [FacioQuo.Stock.Indicators](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) (NuGet.org) |
 | **Documentation** | [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) |
 | **Demo site** | [charts.stockindicators.dev](https://charts.stockindicators.dev) |
@@ -54,8 +54,8 @@ The `FacioQuo.Stock.Indicators` NuGet library itself does not contain work produ
 
 ### Get help
 
-- [GitHub Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) - Ask questions and share ideas
-- [GitHub Issues](https://github.com/DaveSkender/Stock.Indicators/issues) - Report bugs or request features
+- [GitHub Discussions](https://github.com/facioquo/stock-indicators-dotnet/discussions) - Ask questions and share ideas
+- [GitHub Issues](https://github.com/facioquo/stock-indicators-dotnet/issues) - Report bugs or request features
 - [Twitter/X](https://twitter.com/messages/compose?recipient_id=27475431) - Direct message @daveskender
 
 ### Contributing
@@ -66,13 +66,13 @@ This library is maintained by [Dave Skender](https://github.com/DaveSkender) and
 - Check the [project backlog](https://github.com/users/DaveSkender/projects/1)
 - Submit pull requests with improvements
 
-Special thanks to all [community contributors](https://github.com/DaveSkender/Stock.Indicators/graphs/contributors) who have helped improve this library.
+Special thanks to all [community contributors](https://github.com/facioquo/stock-indicators-dotnet/graphs/contributors) who have helped improve this library.
 
 ### Support the project
 
 If you find this library useful, consider:
 
-- Adding a ⭐ on [GitHub](https://github.com/DaveSkender/Stock.Indicators)
+- Adding a ⭐ on [GitHub](https://github.com/facioquo/stock-indicators-dotnet)
 - [Becoming a sponsor](https://github.com/sponsors/facioquo)
 - Sharing the library with others
 
@@ -96,11 +96,11 @@ This library follows strict quality standards:
 - Comprehensive unit test and regression test coverage
 - Performance testing and benchmarking with `BenchmarkDotNet`
 - Continuous integration and automated testing
-- Designed with a balanced set of [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
+- Designed with a balanced set of [guiding principles](https://github.com/facioquo/stock-indicators-dotnet/discussions/648)
 
 ## Resources and references
 
-Technical indicator formulas and methodologies are based on industry-standard references from [reputable authors](https://github.com/DaveSkender/Stock.Indicators/discussions/1024) including:
+Technical indicator formulas and methodologies are based on industry-standard references from [reputable authors](https://github.com/facioquo/stock-indicators-dotnet/discussions/1024) including:
 
 - Published financial analysis textbooks
 - Academic papers on technical analysis

@@ -21,7 +21,7 @@
     <Copyright>@2020 Dave Skender</Copyright>
     <Description>Transform financial market price data into technical analysis indicators such as MACD, Stochastic RSI, Average True Range, Parabolic SAR, and more.</Description>
 
-    <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
+    <RepositoryUrl>https://github.com/facioquo/stock-indicators-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 

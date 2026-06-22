@@ -153,20 +153,20 @@ This repository uses the standard Apache 2.0 open-source license. Please review 
 
 ## Share your ideas with the community
 
-**Need help?** Have ideas? [Start a new discussion, ask a question 💬](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant. You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+**Need help?** Have ideas? [Start a new discussion, ask a question 💬](https://github.com/facioquo/stock-indicators-dotnet/discussions), or [submit an issue](https://github.com/facioquo/stock-indicators-dotnet/issues) if it is publicly relevant. You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 ## Give back with patronage
 
-Thank you for your support! This software is crafted with care by unpaid enthusiasts who 💖 all forms of encouragement. If you or your organization use this library or like what we're doing, add a ⭐ on the [GitHub Repo](https://github.com/DaveSkender/Stock.Indicators) as a token of appreciation.
+Thank you for your support! This software is crafted with care by unpaid enthusiasts who 💖 all forms of encouragement. If you or your organization use this library or like what we're doing, add a ⭐ on the [GitHub Repo](https://github.com/facioquo/stock-indicators-dotnet) as a token of appreciation.
 
 If you want to buy me a beer or are interested in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/facioquo). Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 
 ## Contribute to help others
 
-This NuGet package is an open-source project [on GitHub](https://github.com/DaveSkender/Stock.Indicators). If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](/contributing) and [the backlog](https://github.com/users/DaveSkender/projects/1).
+This NuGet package is an open-source project [on GitHub](https://github.com/facioquo/stock-indicators-dotnet). If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](/contributing) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
 Special thanks to all of our community code contributors!
 
 <Contributors />
 
-Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to begin contributing, or browse the [full list of indicators and overlays](/indicators).
+Visit our [GitHub repository](https://github.com/facioquo/stock-indicators-dotnet) to begin contributing, or browse the [full list of indicators and overlays](/indicators).
