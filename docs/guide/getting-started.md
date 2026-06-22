@@ -75,11 +75,6 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
-::: info BYOD: bring your own data
-You must get price bar data from your own provider.
-_The `GetBarsFromFeed()` method shown above represents your own acquisition of price data and **is not part of this library**._
-:::
-
 See [individual indicator pages](/indicators) for specific usage guidance.
 
 More examples available:
@@ -105,6 +100,11 @@ You must provide historical price bars to the library in the standard OHLCV `IRe
 | `Volume`    | _`decimal`_  | Volume      |
 
 ### Where can I get historical bar data?
+
+::: info BYOD: bring your own data
+You must get price bar data from your own provider.
+_The `GetBarsFromFeed()` method shown in our examples represents your own acquisition of price data and **is not part of this library**._
+:::
 
 There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data](https://github.com/DaveSkender/Stock.Indicators/discussions/579) for ideas.
 
