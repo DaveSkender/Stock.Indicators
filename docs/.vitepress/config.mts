@@ -1,8 +1,19 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { defineConfig } from 'vitepress'
+import { defineConfig, type HeadConfig } from 'vitepress'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const isProduction = process.env.NODE_ENV === 'production'
+
+// Google Analytics (gtag) head entries — injected only in production builds.
+const googleAnalytics: HeadConfig[] = [
+  ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R' }],
+  ['script', {}, `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-7602GXEZ0R', { cookie_flags: 'SameSite=Lax; Secure' });`],
+]
 
 // Shared top-level navigation — referenced once and reused in every sidebar context
 const siteNav = {
@@ -45,6 +56,9 @@ export default defineConfig({
     ['meta', { property: 'og:image', content: '/assets/social-banner.png' }],
     ['meta', { name: 'twitter:card', content: 'summary' }],
     ['meta', { name: 'twitter:site', content: '@daveskender' }],
+    // Google Analytics (gtag) — production builds only, to keep dev/preview
+    // sessions out of analytics data.
+    ...(isProduction ? googleAnalytics : []),
   ],
 
   themeConfig: {
