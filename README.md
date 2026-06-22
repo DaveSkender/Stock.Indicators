@@ -7,11 +7,7 @@
 
 # Stock Indicators for .NET v2
 
-> ️⚠️ **v2 Deprecation warning** —
-> our newer v3+ was renamed → [**`FacioQuo.Stock.Indicators`**](https://www.nuget.org/packages/FacioQuo.Stock.Indicators)
->
-> `Skender.Stock.Indicators` v2 will stop receiving maintenance updates at the end of 2026.
->
+> ️🚩 **v2 deprecation warning** — our newer v3+ was renamed to [**`FacioQuo.Stock.Indicators`**](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) and v2 [**`Skender.Stock.Indicators`**](https://www.nuget.org/packages/Skender.Stock.Indicators) will stop receiving maintenance updates at the end of 2026. [Migrate to v3 →](https://dotnet.stockindicators.dev/migration/v3)
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
