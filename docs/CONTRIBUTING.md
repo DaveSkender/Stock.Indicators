@@ -68,7 +68,7 @@ dotnet restore        # restore NuGet packages
 
 ### Performance benchmarking
 
-Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
+Running the performance benchmark application in `Release` mode will produce benchmark performance data.
 
 ```bash
 # from /tools/performance folder

@@ -33,7 +33,6 @@ The site is built with [VitePress](https://vitepress.dev) and Vue 3.
 | `docs/guide/customization.md` | Custom indicators guide |
 | `docs/indicators.md` | Indicators landing/index page |
 | `docs/utilities/` | Utility API reference pages |
-| `docs/performance.md` | Performance benchmarks reference |
 
 **Excluded from build**: `AGENTS.md`, `PRINCIPLES.md`, and `README.md` are excluded via `srcExclude` in `config.mts` and must not be linked from indicator pages.
 

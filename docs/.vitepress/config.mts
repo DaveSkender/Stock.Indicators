@@ -72,7 +72,7 @@ export default defineConfig({
           { text: 'Chaining', link: '/guide/chaining' },
           { text: 'Custom indicators', link: '/guide/customization' },
           { text: 'Custom observers', link: '/guide/custom-observers' },
-          { text: 'Testing consumers', link: '/guide/testing' },
+          { text: 'Testing your code', link: '/guide/testing' },
         ]
       },
       {
@@ -88,7 +88,6 @@ export default defineConfig({
           { text: 'Migration (v2→v3)', link: '/migration/v3' },
           { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' },
           { text: 'Contributing', link: '/contributing' },
-          { text: 'Performance', link: '/performance' },
           { text: 'About', link: '/about' },
         ]
       }
@@ -113,7 +112,7 @@ export default defineConfig({
             { text: 'Chaining', link: '/guide/chaining' },
             { text: 'Custom indicators', link: '/guide/customization' },
             { text: 'Custom observers', link: '/guide/custom-observers' },
-            { text: 'Testing consumers', link: '/guide/testing' },
+            { text: 'Testing your code', link: '/guide/testing' },
           ]
         }
       ],

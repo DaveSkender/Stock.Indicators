@@ -88,7 +88,7 @@ More examples available:
 - [Demo site](https://charts.stockindicators.dev) (a stock chart)
 
 ::: tip For a deeper guide
-See the [Guide](/guide/) for batch, buffer, and stream styles; chaining; custom indicators; and performance guidance.
+See the [Guide](/guide/) for batch, buffer, and stream styles; chaining; custom indicators.
 :::
 
 ## Historical bars

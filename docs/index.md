@@ -1,12 +1,12 @@
 ---
 title: Stock Indicators for .NET
-titleTemplate: Transform price bars into trading insights
+titleTemplate: Transform price quotes into trading insights
 layout: home
 isHome: true
 
 hero:
   name: stock indicators <small>for .NET</small>
-  tagline: Transform price bars into trade indicators and market insights.
+  tagline: Transform price quotes into trade indicators and market insights.
   actions:
     - theme: brand
       text: get started
@@ -23,13 +23,16 @@ hero:
 import LandingCharts from './.vitepress/components/LandingCharts.vue'
 </script>
 
-<p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
-</p>
+<a href="https://www.nuget.org/packages/FacioQuo.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/facioquo.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price bars into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms financial market price data into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
 
-Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-bars) price bars from any market: equities, commodities, forex, or cryptocurrencies. A [Python version](https://python.stockindicators.dev/) is also available.
+Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-bars) price bars from any market: equities, commodities, forex, or cryptocurrencies.
+
+::: tip ✨ v3 adds streaming support
+Our new stream hub and buffer list style indicators enable your incremental and real-time price data scenarios.
+Still on v2? See our [migration guide →](/migration/v3)
+:::
 
 ## Industry-standard indicators with extensibility
 
