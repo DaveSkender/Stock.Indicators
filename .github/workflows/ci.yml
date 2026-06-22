@@ -67,6 +67,7 @@ jobs:
           -warnAsError
 
   lint-and-test:
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     needs: quick-check
 
@@ -127,6 +128,7 @@ jobs:
         continue-on-error: true
 
   lint-full:
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     needs: lint-and-test
 
