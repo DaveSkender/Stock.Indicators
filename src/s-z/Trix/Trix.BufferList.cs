@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Triple Exponential Moving Average Oscillator (TRIX) from incremental reusable values.

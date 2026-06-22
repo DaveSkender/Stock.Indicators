@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 #pragma warning disable IDE0010 // Missing cases in switch expression
 

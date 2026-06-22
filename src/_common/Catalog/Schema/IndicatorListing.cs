@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Represents an indicator listing with its configuration and parameters.

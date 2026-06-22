@@ -12,8 +12,8 @@
     <GenerateRequiresPreviewFeaturesAttribute>false</GenerateRequiresPreviewFeaturesAttribute>
     <!-- end preview features -->
 
-    <AssemblyName>Skender.Stock.Indicators</AssemblyName>
-    <RootNamespace>Skender.Stock.Indicators</RootNamespace>
+    <AssemblyName>FacioQuo.Stock.Indicators</AssemblyName>
+    <RootNamespace>FacioQuo.Stock.Indicators</RootNamespace>
     <NeutralLanguage>en-US</NeutralLanguage>
 
     <Authors>Dave Skender</Authors>
@@ -28,7 +28,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://dotnet.stockindicators.dev</PackageProjectUrl>
-    <PackageId>Skender.Stock.Indicators</PackageId>
+    <PackageId>FacioQuo.Stock.Indicators</PackageId>
     <PackageTags>
      Stock;Market;Indicators;Technical;Analysis;Algorithmic;Trading;Trade;Finance;
     </PackageTags>

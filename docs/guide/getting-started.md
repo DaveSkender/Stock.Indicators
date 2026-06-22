@@ -7,14 +7,14 @@ description: Install the Stock Indicators for .NET library and calculate your fi
 
 ## Installation and setup
 
-Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
+Find and install the [FacioQuo.Stock.Indicators](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) NuGet package into your Project.  See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
 
 ```bash
 # dotnet CLI example
-dotnet add package Skender.Stock.Indicators
+dotnet add package FacioQuo.Stock.Indicators
 
 # package manager example
-Install-Package Skender.Stock.Indicators
+Install-Package FacioQuo.Stock.Indicators
 ```
 
 ## Prerequisite data
@@ -30,7 +30,7 @@ For configurable indicator parameters, default values are provided when there is
 The library supports three indicator styles, each use the same pattern:
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 [..]
 
@@ -47,7 +47,7 @@ The examples on this page depict the **Batch (Series)** style because it is the 
 ### Example usage
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 [..]
 
@@ -125,7 +125,7 @@ See [discussion on warmup and convergence](https://github.com/DaveSkender/Stock.
 If you would like to use your own custom `MyCustomBar` class, to avoid needing to transpose into the library `Bar` class, you only need to add the `IBar` interface.
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 [..]
 

@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 using Test.Data;
 using Test.SseServer;
 using TestData = Test.Data.Data;

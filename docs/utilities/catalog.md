@@ -20,7 +20,7 @@ _The Catalog_ provides a programmatic way to interact with indicators and option
 All query methods are on the static `Catalog` class and return `IndicatorListing` metadata (no calculations are run).
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // all listings
 IReadOnlyList<IndicatorListing> all = Catalog.Get();

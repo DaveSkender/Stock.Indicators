@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 // Test-only extension methods for StreamHub creation from IReadOnlyList<IBar>.
 // These create standalone pre-populated hubs for testing convenience.

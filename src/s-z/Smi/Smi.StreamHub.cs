@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Represents a Stochastic Momentum Index (SMI) stream hub that calculates SMI with signal line.
