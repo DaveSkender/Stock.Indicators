@@ -6,7 +6,7 @@ description: Standard deviation represents the volatility of historical financia
 # Standard deviation (σ, volatility)
 
 [Standard deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV), includes Z-score.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/239 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="StdDev" withOverlay />

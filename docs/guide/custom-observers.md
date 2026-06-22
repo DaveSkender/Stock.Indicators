@@ -8,7 +8,7 @@ description: Implement IStreamObserver to observe a streaming hub for UI dispatc
 Subscribing a **custom observer** to a stream hub is the supported way to add your own behavior to streaming data today. Use it to *react to a hub's output* — push updates into a UI, persist values to a database, ship them to a message bus, feed an alerting pipeline, or filter/transform results and re-emit them to downstream indicators. This page covers that path.
 
 ::: info Custom indicator hubs are not yet supported
-This page is about **observing and integrating** with a hub's output, not authoring a brand-new full-featured indicator hub. Subclassing the streaming base classes to add your own *indicator calculation* is **not yet a first-class extension point** for code outside the library — the base classes and their cache/rollback plumbing are largely internal. That capability is planned for a future release; see [#2097](https://github.com/DaveSkender/Stock.Indicators/issues/2097). Until then, the observer pattern below — optionally combined with `IChainProvider<IReusable>` — is the way to thread custom processing into a streaming pipeline. For custom *calculation* logic today, use the [Series (batch) style](/guide/customization).
+This page is about **observing and integrating** with a hub's output, not authoring a brand-new full-featured indicator hub. Subclassing the streaming base classes to add your own *indicator calculation* is **not yet a first-class extension point** for code outside the library — the base classes and their cache/rollback plumbing are largely internal. That capability is planned for a future release; see [#2097](https://github.com/facioquo/stock-indicators-dotnet/issues/2097). Until then, the observer pattern below — optionally combined with `IChainProvider<IReusable>` — is the way to thread custom processing into a streaming pipeline. For custom *calculation* logic today, use the [Series (batch) style](/guide/customization).
 :::
 
 ## What observers are for
@@ -20,7 +20,7 @@ This page is about **observing and integrating** with a hub's output, not author
 | Log every value the hub emits | Subscribe a custom `IStreamObserver<T>` |
 | Trigger external alerts on threshold crosses | Subscribe a custom `IStreamObserver<T>` |
 | Filter/transform results and feed downstream chained indicators | Implement `IChainProvider<IReusable>` in addition to `IStreamObserver<T>` (see below) |
-| Author a brand-new indicator hub (custom calculation) | Not yet supported externally — planned for a future release ([#2097](https://github.com/DaveSkender/Stock.Indicators/issues/2097)) |
+| Author a brand-new indicator hub (custom calculation) | Not yet supported externally — planned for a future release ([#2097](https://github.com/facioquo/stock-indicators-dotnet/issues/2097)) |
 
 Subscribing does not modify the source hub. The hub keeps its cache, its rollback behavior, and its other subscribers. Your observer is a peer subscriber that receives the same notifications; if it throws, the hub isolates it so the other subscribers are unaffected (see [If an observer throws](#if-an-observer-throws)).
 

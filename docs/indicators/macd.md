@@ -6,7 +6,7 @@ description: Created by Gerald Appel, MACD is a simple oscillator view of two co
 # Moving Average Convergence / Divergence (MACD)
 
 Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple oscillator view of two converging / diverging exponential moving averages and their differences.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/248 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/248 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Macd" withOverlay />
@@ -28,7 +28,7 @@ IReadOnlyList<MacdResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `2×(S+P)` or `S+P+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
+You must have at least `2×(S+P)` or `S+P+100` worth of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

@@ -6,7 +6,7 @@ description: Created by Karl Pearson, the correlation coefficient depicts the li
 # Correlation coefficient
 
 Created by Karl Pearson, the [Correlation coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear statistical correlation between two price bar histories; includes R-squared (R²) / coefficient of determination, variance, and covariance.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/259 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/259 "Community discussion about this indicator")
 
 ```csharp
 // C# usage syntax

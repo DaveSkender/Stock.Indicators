@@ -9,8 +9,8 @@ description: >-
 # Contributing guidelines
 
 <p style="display:flex; justify-content:left; gap:1rem; flex-wrap:wrap;">
-<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy quality grade."><img src="https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f" alt="Codacy quality grade" /></a>
-<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy code coverage."><img src="https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f" alt="Codacy code coverage" /></a>
+<a href="https://app.codacy.com/gh/facioquo/stock-indicators-dotnet/dashboard" aria-label="View Codacy quality grade."><img src="https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f" alt="Codacy quality grade" /></a>
+<a href="https://app.codacy.com/gh/facioquo/stock-indicators-dotnet/dashboard" aria-label="View Codacy code coverage."><img src="https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f" alt="Codacy code coverage" /></a>
 </p>
 
 **Thanks for taking the time to contribute!**
@@ -33,9 +33,9 @@ If you have general interest in contributing, but are not sure where to start, p
 
 ## Reporting bugs and feature requests
 
-If you suspect a problem, please [report a bug Issue](https://github.com/DaveSkender/Stock.Indicators/issues/new?labels=bug&template=bug_report.md) with a detailed description of the problem, steps to reproduce, code samples, and any reference materials.  For enhancements, [create a feature Issue](https://github.com/DaveSkender/Stock.Indicators/issues/new?labels=enhancement&template=feature_request.md).
+If you suspect a problem, please [report a bug Issue](https://github.com/facioquo/stock-indicators-dotnet/issues/new?labels=bug&template=bug_report.md) with a detailed description of the problem, steps to reproduce, code samples, and any reference materials.  For enhancements, [create a feature Issue](https://github.com/facioquo/stock-indicators-dotnet/issues/new?labels=enhancement&template=feature_request.md).
 
-Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area for general ideation and help/usage questions.
+Use the [Discussions](https://github.com/facioquo/stock-indicators-dotnet/discussions) area for general ideation and help/usage questions.
 
 ## Project management
 
@@ -44,8 +44,8 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 
 ## Developing
 
-- Read this first: [A Step by Step Guide to Making Your First GitHub Contribution](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940).  I also have a discussion [on Forking](https://github.com/DaveSkender/Stock.Indicators/discussions/503) if you have questions.
-- If you want to work on something specific, please mention your intention on the related [Issue](https://github.com/DaveSkender/Stock.Indicators/issues).  If an Issue does not exist for your contribution, please create one before starting.  This will help us reserve that feature and avoid duplicative efforts.
+- Read this first: [A Step by Step Guide to Making Your First GitHub Contribution](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940).  I also have a discussion [on Forking](https://github.com/facioquo/stock-indicators-dotnet/discussions/503) if you have questions.
+- If you want to work on something specific, please mention your intention on the related [Issue](https://github.com/facioquo/stock-indicators-dotnet/issues).  If an Issue does not exist for your contribution, please create one before starting.  This will help us reserve that feature and avoid duplicative efforts.
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include [tests](#testing).
 - Do not commingle multiple contributions on different topics.  Please keep changes small and separate.
 
@@ -120,7 +120,7 @@ dotnet run --project tools/baselining -- --all
 dotnet run --project tools/baselining -- --indicator SMA
 ```
 
-Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
+Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/facioquo/stock-indicators-dotnet/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
 
 When reviewing PRs with baseline changes, verify the reason is documented, review numeric differences, and ensure no unexpected indicators were affected.
 
@@ -191,7 +191,7 @@ If you want to contribute administratively, do code reviews, or provide general 
 
 ## Standards and design guidelines
 
-- [Guiding principles for this project](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
+- [Guiding principles for this project](https://github.com/facioquo/stock-indicators-dotnet/discussions/648)
 - [.NET Design Guidelines](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines)
 - [NuGet Best Practices](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
@@ -276,15 +276,16 @@ Packages are deployed via two separate GitHub Actions workflows:
 
 #### Production package deploy (manual)
 
-**Trigger:** Creating a GitHub Release
+**Trigger:** Publishing a GitHub Release
 
 - Published to `nuget.org` only
 - Version comes directly from release tag (strips 'v' prefix)
 - Examples:
   - Tag `2.8.0` → deploys `2.8.0` (stable)
   - Tag `3.0.0-preview.2` → deploys `3.0.0-preview.2` (preview)
-- Draft releases: Dry-run mode (build only, no deploy)
 - Published releases: Full deployment to nuget.org
+- Manual dry-run: Run the workflow from the Actions tab ("Run workflow") and supply the release tag — build only, no deploy
+- Saving a draft release does **not** trigger the workflow
 - Git tag already exists (from release creation)
 
 **Workflow:** `.github/workflows/deploy-package-nuget.yml`
@@ -298,13 +299,13 @@ Packages are deployed via two separate GitHub Actions workflows:
 | CI build | Push to v3 | `3.0.0-ci.567` | GitHub Packages | Run 567 |
 | Production | Release tag `2.8.0` | `2.8.0` | nuget.org | Stable version |
 | Production | Release tag `3.0.0-preview.2` | `3.0.0-preview.2` | nuget.org | Preview version |
-| Draft release | Release tag `2.8.1` (draft) | `2.8.1` | None (dry-run) | Build only, no deploy |
+| Dry-run | Manual run, tag `2.8.1` | `2.8.1` | None (dry-run) | Build only, no deploy |
 
 For technical details, see:
 
-- GitVersion configuration: [`src/gitversion.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/gitversion.yml)
-- CI workflow: [`deploy-package-github.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package-github.yml)
-- Production workflow: [`deploy-package-nuget.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package-nuget.yml)
+- GitVersion configuration: [`src/gitversion.yml`](https://github.com/facioquo/stock-indicators-dotnet/blob/main/src/gitversion.yml)
+- CI workflow: [`deploy-package-github.yml`](https://github.com/facioquo/stock-indicators-dotnet/blob/main/.github/workflows/deploy-package-github.yml)
+- Production workflow: [`deploy-package-nuget.yml`](https://github.com/facioquo/stock-indicators-dotnet/blob/main/.github/workflows/deploy-package-nuget.yml)
 
 ## License
 
@@ -314,7 +315,7 @@ This repository uses a standard Apache 2.0 open-source license.  It enables open
 
 ## Contact info
 
-[Start a new discussion](https://github.com/DaveSkender/Stock.Indicators/discussions) or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+[Start a new discussion](https://github.com/facioquo/stock-indicators-dotnet/discussions) or [submit an issue](https://github.com/facioquo/stock-indicators-dotnet/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 Thanks,
 Dave Skender

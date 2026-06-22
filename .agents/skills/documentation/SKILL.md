@@ -67,7 +67,7 @@ description: One-sentence description of what the indicator measures.
 # Full Indicator Name (ABBR)
 
 Created by Author Name, [Indicator Name](https://en.wikipedia.org/wiki/...) is a brief description of what it measures.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/{id} "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/{id} "Community discussion about this indicator")
 
 <IndicatorChartPanel indicator-key="{IndicatorKey}" />
 ```
@@ -351,7 +351,7 @@ A second `<IndicatorChartPanel>` mid-page is valid when it illustrates a behavio
 For static (non-chart) images referenced in prose:
 
 - Store in `docs/.vitepress/public/assets/`
-- Optimize to `webp` format at 832px width: `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
+- Optimize to `webp` format at 832px width: `cwebp -resize 832 0 -q 100 example.png -o example-832.webp`
 - Reference via absolute path from public root: `/assets/filename-832.webp`
 
 ## Checklist: adding a new indicator page

@@ -161,8 +161,8 @@ When ready to test v3 migration:
 
 - [Stock Indicators Documentation](https://dotnet.stockindicators.dev)
 - [v2 NuGet Package](https://www.nuget.org/packages/FacioQuo.Stock.Indicators/2.6.1)
-- [GitHub Repository](https://github.com/DaveSkender/Stock.Indicators)
-- [Migration Guides](https://github.com/DaveSkender/Stock.Indicators/discussions)
+- [GitHub Repository](https://github.com/facioquo/stock-indicators-dotnet)
+- [Migration Guides](https://github.com/facioquo/stock-indicators-dotnet/discussions)
 
 ## Contributing
 

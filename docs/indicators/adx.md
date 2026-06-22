@@ -6,7 +6,7 @@ description: Created by J. Welles Wilder, the Average Directional Index (ADX) is
 # Average Directional Index (ADX)
 
 Created by J. Welles Wilder, the [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is part of the Directional Movement system (commonly referred to as DMI). This system includes the Positive and Negative Directional Indicators (+DI and −DI), the Directional Index (DX), and ADX, and is used to measure the strength of price trends.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/270 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Adx" withOverlay />
@@ -26,7 +26,7 @@ IReadOnlyList<AdxResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `2×N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

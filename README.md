@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD041 -->
-[![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/assets/social-banner.png)](https://dotnet.StockIndicators.dev/)
+[![image](https://raw.githubusercontent.com/facioquo/stock-indicators-dotnet/main/docs/.offline/social-banner.png)](https://dotnet.StockIndicators.dev)
 
-[![GitHub Stars](https://img.shields.io/github/stars/DaveSkender/Stock.Indicators?logo=github&label=Stars)](https://github.com/DaveSkender/Stock.Indicators)
+[![GitHub Stars](https://img.shields.io/github/stars/facioquo/stock-indicators-dotnet?logo=github&label=Stars)](https://github.com/facioquo/stock-indicators-dotnet)
 [![NuGet package](https://img.shields.io/nuget/v/facioquo.stock.indicators?color=blue&logo=NuGet&label=NuGet)](https://www.nuget.org/packages/FacioQuo.Stock.Indicators)
 
 # Stock Indicators for .NET
@@ -10,7 +10,7 @@
 
 Build your technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV](https://dotnet.stockindicators.dev/guide/#historical-bars) price bars sources for equities, commodities, forex, cryptocurrencies, and others.
 
-> _This **`FacioQuo.Stock.Indicators`** NuGet library was formerly named `Skender.Stock.Indicators`_
+> _This **`FacioQuo.Stock.Indicators`** NuGet package was formerly named `Skender.Stock.Indicators`_
 
 ## Streaming support
 
@@ -49,6 +49,6 @@ Visit our project site for more information:
 - [Indicators and overlays](https://dotnet.stockindicators.dev/indicators/)
 - [Guide and Pro tips](https://dotnet.stockindicators.dev/guide/)
 - [Demo site](https://charts.stockindicators.dev/) (a stock chart)
-- [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
-- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
+- [Release notes](https://github.com/facioquo/stock-indicators-dotnet/releases)
+- [Discussions](https://github.com/facioquo/stock-indicators-dotnet/discussions)
 - [Contributing](https://dotnet.stockindicators.dev/contributing/)

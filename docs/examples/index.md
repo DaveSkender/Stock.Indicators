@@ -185,4 +185,4 @@ for (int i = 1; i < quotesList.Count; i++)
 ## More info
 
 - Tutorial: [Create a simple C# console app](https://docs.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-console)
-- These files can also be found in the [/docs/examples](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples) GitHub repo folder
+- These files can also be found in the [/docs/examples](https://github.com/facioquo/stock-indicators-dotnet/tree/main/docs/examples) GitHub repo folder

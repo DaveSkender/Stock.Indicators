@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thank you &#128150; for taking the time report a bug in the [`FacioQuo.Stock.Indicators` NuGet library](https://www.nuget.org/packages/FacioQuo.Stock.Indicators)!
-        > Before reporting, please review known [issues](https://github.com/DaveSkender/Stock.Indicators/issues?q=is%3Aissue), community [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions), and [Help! Results don't match TradingView!](https://github.com/DaveSkender/Stock.Indicators/discussions/801)
+        > Before reporting, please review known [issues](https://github.com/facioquo/stock-indicators-dotnet/issues?q=is%3Aissue), community [discussions](https://github.com/facioquo/stock-indicators-dotnet/discussions), and [Help! Results don't match TradingView!](https://github.com/facioquo/stock-indicators-dotnet/discussions/801)
   - type: textarea
     id: what-happened
     attributes:

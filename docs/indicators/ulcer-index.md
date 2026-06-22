@@ -6,7 +6,7 @@ description: Created by Peter Martin, the Ulcer Index is a measure of downside p
 # Ulcer Index (UI)
 
 Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_index) is a measure of downside price volatility over a lookback window.  Often called the "heart attack" score, it measures the amount of pain seen from drawdowns in financial market prices and portfolio value.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/232 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/232 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="UlcerIndex" withOverlay />

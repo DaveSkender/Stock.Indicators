@@ -6,7 +6,7 @@ description: Created by Tushar Chande and Stanley Kroll, Stochastic RSI is a Sto
 # Stochastic RSI
 
 Created by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-indicators/stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator](/indicators/stoch).
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/236 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/236 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="StochRsi" withOverlay />
@@ -31,7 +31,7 @@ The original Stochastic RSI formula uses a the Fast variant of the Stochastic ca
 
 ### Historical price bars requirements
 
-You must have at least `N` periods of `bars`, where `N` is the greater of `R+S+M` and `R+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
+You must have at least `N` periods of `bars`, where `N` is the greater of `R+S+M` and `R+100` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

@@ -106,7 +106,7 @@ You must get price bar data from your own provider.
 _The `GetBarsFromFeed()` method shown in our examples represents your own acquisition of price data and **is not part of this library**._
 :::
 
-There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data](https://github.com/DaveSkender/Stock.Indicators/discussions/579) for ideas.
+There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data](https://github.com/facioquo/stock-indicators-dotnet/discussions/579) for ideas.
 
 ### How much historical bar data do I need?
 
@@ -117,7 +117,7 @@ Applying the _minimum_ amount of bar history as possible is NOT a good way to op
 
 For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical price bars (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results. Occasionally, even more is required for optimal precision.
 
-See [discussion on warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) for more information.
+See [discussion on warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) for more information.
 :::
 
 ### Using custom bar classes

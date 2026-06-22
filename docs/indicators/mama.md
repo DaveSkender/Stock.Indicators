@@ -6,7 +6,7 @@ description: Created by John Ehlers, the MAMA indicator is a 5-period adaptive m
 # MESA Adaptive Moving Average (MAMA)
 
 Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of high/low price that uses classic electrical radio-frequency signal processing algorithms to reduce noise.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/211 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Mama" />
@@ -27,7 +27,7 @@ IReadOnlyList<MamaResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `50` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `50` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

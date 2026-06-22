@@ -381,7 +381,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/DaveSkender/Stock.Indicators' },
+      { icon: 'github', link: 'https://github.com/facioquo/stock-indicators-dotnet' },
     ],
 
     search: {
@@ -389,7 +389,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/DaveSkender/Stock.Indicators/edit/main/docs/:path',
+      pattern: 'https://github.com/facioquo/stock-indicators-dotnet/edit/main/docs/:path',
       text: 'Edit this page on GitHub'
     },
 
@@ -454,6 +454,7 @@ export default defineConfig({
     'pages/**',
     '_indicators/**',
     'decisions/**',
+    `assets/**`,
     'examples/Backtest/**',
     'examples/ConsoleApp/**',
     'examples/CustomIndicatorsUsage/**',

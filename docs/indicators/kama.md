@@ -6,7 +6,7 @@ description: Created by Perry Kaufman, KAMA is an volatility adaptive (adjusted)
 # Kaufman's Adaptive Moving Average (KAMA)
 
 Created by Perry Kaufman, [KAMA](https://www.google.com/search?q=Kaufman+Adaptive+Moving+Average+(KAMA)) is an volatility adaptive moving average of price over configurable lookback periods.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/210 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/210 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Kama" />
@@ -28,7 +28,7 @@ IReadOnlyList<KamaResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `6×E` or `E+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
+You must have at least `6×E` or `E+100` periods of `bars`, whichever is more, to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

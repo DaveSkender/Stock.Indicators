@@ -83,7 +83,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 ### C. Infrastructure — deferred but listed for context
 
-- [ ] **File reorganization** — [#1810](https://github.com/DaveSkender/Stock.Indicators/issues/1810). See [file-reorg.plan.md](file-reorg.plan.md). ~500 file renames, 55–87 hours, deferred to v3.1.
+- [ ] **File reorganization** — [#1810](https://github.com/facioquo/stock-indicators-dotnet/issues/1810). See [file-reorg.plan.md](file-reorg.plan.md). ~500 file renames, 55–87 hours, deferred to v3.1.
 
 ### D. Release mechanics — go-live launch checklist
 
@@ -93,26 +93,26 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 #### Package and naming
 
-- [ ] **K001 — Reserve and publish `FacioQuo.Stock.Indicators` package** (1 hour active + NuGet indexing). Cut the v3.0 stable as the first listed version on this package ID; do not publish previews here (previews remain on `FacioQuo.Stock.Indicators` for continuity per K003).
-- [ ] **K002 — Add "previously known as FacioQuo.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
-- [ ] **K003 — Unlist all `3.0.0-preview.*` versions on `FacioQuo.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
-- [ ] **K004 — Release final `FacioQuo.Stock.Indicators` v2.x patch with "we moved" notice** (1–2 hours). Stays in draft until cut-over. Release note: "We moved to `FacioQuo.Stock.Indicators` — install that package for v3+. This v2 line remains on `v2` branch for netstandard2.x compatibility maintenance only (per RG005)."
+- [ ] **K001 — Reserve and publish `FacioQuo.Stock.Indicators` package** (1 hour active + NuGet indexing). Cut the v3.0 stable as the first listed version on this package ID; do not publish previews here (previews remain on `Skender.Stock.Indicators` for continuity per K003).
+- [ ] **K002 — Add "previously known as Skender.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
+- [ ] **K003 — Unlist all `3.0.0-preview.*` versions on `Skender.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
+- [ ] **K004 — Release final `Skender.Stock.Indicators` v2.x patch with "we moved" notice** (1–2 hours). Stays in draft until cut-over. Release note: "We moved to `FacioQuo.Stock.Indicators` — install that package for v3+. This v2 line remains on `v2` branch for netstandard2.x compatibility maintenance only (per RG005)."
 
 #### Source repo and project transfer
 
-- [ ] **K005 — Transfer `DaveSkender/Stock.Indicators` → `facioquo/stock-indicators-dotnet`** (1 hour + GitHub's auto-forwarding propagation). Confirms GitHub's HTTP redirect from old to new URLs; verify a few links from external blog posts continue resolving. Audit and prune obsolete contributors during transfer. **Companion repos already transferred** per project board: `Stock.Indicators.Python` → `stock-indicators-python`, `Stock.Indicators.Python.QuickStart` → `stock-indicators-python-quickstart`, `Stock.Charts` → `stock-charts`. Re-verify before cut-over.
+- [x] **K005 — Transfer `DaveSkender/Stock.Indicators` → `facioquo/stock-indicators-dotnet`** (1 hour + GitHub's auto-forwarding propagation). Confirms GitHub's HTTP redirect from old to new URLs; verify a few links from external blog posts continue resolving. Audit and prune obsolete contributors during transfer. **Companion repos already transferred** per project board: `Stock.Indicators.Python` → `stock-indicators-python`, `Stock.Indicators.Python.QuickStart` → `stock-indicators-python-quickstart`, `Stock.Charts` → `stock-charts`. Re-verify before cut-over.
 - [ ] **K006 — Transfer or reconnect Stock.Indicators project boards** (30 min). The public Stock.Indicators project, if any, plus link the private `DaveSkender/projects/6` to the new repo location.
 
 #### Branching and v2 maintenance
 
-- [ ] **K007 — Execute branching-strategy migration** — canonical entry is §A **RG003** (with effort estimate + PR #1014 reference); see [branching-strategy.plan.md](branching-strategy.plan.md). This is the irreversible cut-over; do not start until K001–K006 are queued and the §A RG004 decision is final.
+- [x] **K007 — Execute branching-strategy migration** — canonical entry is §A **RG003** (with effort estimate + PR #1014 reference); see [branching-strategy.plan.md](branching-strategy.plan.md). This is the irreversible cut-over; do not start until K001–K006 are queued and the §A RG004 decision is final.
 
 #### Documentation and URL/DNS
 
-- [ ] **K009 — Lowercase all doc-site page URLs + Jekyll/VitePress redirects for old casing** (1–2 hours). Required because GitHub Pages canonical URLs and external inbound links may be case-sensitive depending on the docs platform. Audit `docs/` page paths; add redirect rules for any URL that changes case. Verify a sample of external blog post inbound links continue resolving.
+- [x] **K009 — Lowercase all doc-site page URLs + Jekyll/VitePress redirects for old casing** (1–2 hours). Required because GitHub Pages canonical URLs and external inbound links may be case-sensitive depending on the docs platform. Audit `docs/` page paths; add redirect rules for any URL that changes case. Verify a sample of external blog post inbound links continue resolving.
 - [ ] **K010 — Cut `dotnet.stockindicators.dev` DNS to production doc site; remove `/v3` preview pointer** (15 min + DNS TTL). Update CloudFlare CNAME/A records; remove the temporary `dotnet.stockindicators.dev/v3` pointer added during preview phase per PR #1014 comment 3.
 - [ ] **K011 — Update NuGet release-notes URL and release-deployer URL references to new package name** (30 min). Search source/build pipelines for `FacioQuo.Stock.Indicators` references in release-note URLs, deployer config, badge URLs; replace with `FacioQuo.Stock.Indicators` equivalents. Per PR #1014 comment 3.
-- [ ] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/DaveSkender/Stock.Indicators` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
+- [ ] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/facioquo/stock-indicators-dotnet` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
 
 #### Cut-over and finalize
 
@@ -160,7 +160,7 @@ The v3 streaming engine is the headline of this release after a long development
 #### API / behavior finalization (one-way door — land before the stable tag)
 
 - [x] **ARCH-V31-12 — Guard mutation on subscribed (non-root) hubs + `Remove(IBar)`** (2–3 hours). Make `Add`/`RemoveAt`/`RemoveRange`/`Reinitialize` throw `InvalidOperationException` (or a documented no-op) on a non-root hub — detect via `BarHub._isStandalone` / real-`Provider`-vs-inert-`BaseProvider<T>` — so a leaf can't be desynced from its provider; add `Remove(IBar)` on the root hub (find-by-timestamp → `RemoveAt`/`RemoveRange`; no-op-or-throw if absent). Public-behavior change → tests + tighten `stream.md` from *documenting* the root-hub rule to *enforcing* it. (Approved as v3.1 in the #2052 review; reclassified to v3.0 because it's breaking.) *(PR #2059)*
-- [ ] **SR017 — `IDisposable` / chain teardown on `StreamHub`** — **DEFERRED from v3.0 → [#2068](https://github.com/DaveSkender/Stock.Indicators/issues/2068).** Built in PR #2060, then withdrawn: hubs hold no unmanaged resources, `EndTransmission`/`Unsubscribe` + GC proved sufficient (no observed need), and most of the feature's cost (CA2000 suppressions, the `MarkAsInternalHub` ownership flag, the re-entrancy guard) was self-induced by adding `IDisposable`. Adding `IDisposable` later is non-breaking, so deferral is reversible; revisit per #2068.
+- [ ] **SR017 — `IDisposable` / chain teardown on `StreamHub`** — **DEFERRED from v3.0 → [#2068](https://github.com/facioquo/stock-indicators-dotnet/issues/2068).** Built in PR #2060, then withdrawn: hubs hold no unmanaged resources, `EndTransmission`/`Unsubscribe` + GC proved sufficient (no observed need), and most of the feature's cost (CA2000 suppressions, the `MarkAsInternalHub` ownership flag, the re-entrancy guard) was self-induced by adding `IDisposable`. Adding `IDisposable` later is non-breaking, so deferral is reversible; revisit per #2068.
 - [x] **ARCH-V31-3 — `Snapshot()` for an immutable cache copy** (2 hours). Keep `Results` as the live view; add `Snapshot()` returning `IReadOnlyList<TOut>` taken under `CacheLock`. Backs the thread-safety guidance shipped in #2052 ("copy or snapshot before handing `Results` to another thread"). *(PR #2061)*
 
 #### Correctness — small real races in the key features
@@ -253,7 +253,7 @@ The v3 streaming engine is the headline of this release after a long development
   - If RG004 = YES, this entry is moved into v3.0 §B (or §A) as the implementation tracker, not v3.1+.
   - Scope: rename `Quote` → `Bar` and `IQuote` → `IBar`; `[Obsolete]` shims preserve `Quote`/`IQuote` for a deprecation window; refresh `docs/migration/v3.md`; reserve `TradeTick` exclusively for individual bid/ask trades (already aligned with `TradeTickHub` per PR #1875). v4.0 would be the next available window if this slips here.
 
-- [ ] **ARCH-V31-10 — External hub cache storage** (8–12 hours). Tracks open [Issue #1884](https://github.com/DaveSkender/Stock.Indicators/issues/1884).
+- [ ] **ARCH-V31-10 — External hub cache storage** (8–12 hours). Tracks open [Issue #1884](https://github.com/facioquo/stock-indicators-dotnet/issues/1884).
   - Source: PR #1014 comment 5 (2024-07-01) + private project board entry.
   - Allow consumers to inject an external `List<TSeries>` cache for `StreamHub`/`BufferList` storage, enabling durable persistence and rehydration patterns (Redis, FusionCache, custom storage). Already prototyped via the `AbstractCache(List<TSeries> externalCache)` ctor stub in #1884; needs design + test scenarios for `IBar` and `IResult/IReusable` caches.
 
@@ -340,7 +340,7 @@ Random-seed determinism (raised in PR #2021 self-review) was considered and reje
 
 ### Series batch processing optimizations
 
-See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). Series-side; not streaming.
+See [Issue #1259](https://github.com/facioquo/stock-indicators-dotnet/issues/1259). Series-side; not streaming.
 
 - [ ] **S001** — Rolling SMA optimization for Series (2–5x for SMA-dependent indicators).
 - [ ] **S002** — SMA warmup optimization in EMA family (10–30% for EMA, DEMA, TEMA, T3, MACD).
@@ -387,11 +387,11 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259). 
 
 - [ ] **#1323 / #1259** — Heap allocation reduction (struct Bar, ArrayPool, Span). Coordinated v3.2 push.
 
-- [ ] **Review [Discussion #1018](https://github.com/DaveSkender/Stock.Indicators/discussions/1018)** — community feedback on state rollback.
+- [ ] **Review [Discussion #1018](https://github.com/facioquo/stock-indicators-dotnet/discussions/1018)** — community feedback on state rollback.
 
 - [ ] **E004–E006** — BarHub intra-period update semantics.
 - [ ] **E007–E008** — ADX DMI property expansion.
-- [ ] **E009** — BufferList configuration ([Issue #1831](https://github.com/DaveSkender/Stock.Indicators/issues/1831)).
+- [ ] **E009** — BufferList configuration ([Issue #1831](https://github.com/facioquo/stock-indicators-dotnet/issues/1831)).
 - [ ] **E010** — Composite naming for chained indicators.
 
 ---
@@ -441,7 +441,7 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 ### Quality pass — documentation
 
 - [x] **D009** — BarPart streaming variants documented (`ToBarPartList` / `ToBarPartHub`); coverage 79 of 79.
-- [x] **D010** — `docs/guide/custom-observers.md` with full `IStreamObserver<T>` contract and box-to-`IChainProvider<IReusable>` pattern. Source: Discussion #1018 @JGronholz, resolves Issue [#1895](https://github.com/DaveSkender/Stock.Indicators/issues/1895) *(PR #2038)*.
+- [x] **D010** — `docs/guide/custom-observers.md` with full `IStreamObserver<T>` contract and box-to-`IChainProvider<IReusable>` pattern. Source: Discussion #1018 @JGronholz, resolves Issue [#1895](https://github.com/facioquo/stock-indicators-dotnet/issues/1895) *(PR #2038)*.
 - [x] **D011** — `docs/guide/testing.md` with canned-fixture recommendation and explicit rejection of per-type result interfaces (`IEmaResult` anti-pattern) *(PR #2039)*.
 
 ### Quality pass — BufferList performance decisions

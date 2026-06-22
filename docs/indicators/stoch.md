@@ -6,7 +6,7 @@ description: Created by George Lane, the Stochastic Oscillator, also known as KD
 # Stochastic Oscillator
 
 Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator), also known as KDJ Index, is a momentum oscillator that compares current price with recent highs and lows and is presented on a scale of 0 to 100.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/237 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/237 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Stoch" withOverlay />
@@ -36,7 +36,7 @@ IReadOnlyList<StochResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N+S` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
+You must have at least `N+S` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

@@ -6,7 +6,7 @@ description: Created by J. Welles Wilder, Volatility Stop, also known his Volati
 # Volatility Stop
 
 Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR](/indicators/atr) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR](/indicators/parabolic-sar) and [SuperTrend](/indicators/super-trend).
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/564 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/564 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="VolatilityStop" />
@@ -31,7 +31,7 @@ VolatilityStopHub observer = barHub.ToVolatilityStopHub(lookbackPeriods, multipl
 
 ### Historical price bars requirements
 
-You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals.
+You must have at least `N+100` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient bars to capture prior trend reversals.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

@@ -1,0 +1,7 @@
+This social-banner.png must remain at path docs/assets/social-banner.png to allow
+legacy Skender.Stock.Indicators published NuGet package README.md images to render.
+
+Old link used for v2.3.0 → v2.7.1:
+https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/assets/social-banner.png
+
+(it has a 301 redirect to its facioquo/stock-indicators-dotnet repo variant)

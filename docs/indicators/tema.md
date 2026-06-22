@@ -6,7 +6,7 @@ description: Created by Patrick G. Mulloy, the Triple Exponential Moving Average
 # Triple Exponential Moving Average (TEMA)
 
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/808 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/808 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Tema" />
@@ -26,7 +26,7 @@ IReadOnlyList<TemaResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N` periods of `bars` to produce any TEMA values.  However, due to the nature of the smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.  See [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) guidance for more information.
+You must have at least `N` periods of `bars` to produce any TEMA values.  However, due to the nature of the smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.  See [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) guidance for more information.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

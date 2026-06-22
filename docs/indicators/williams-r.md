@@ -6,7 +6,7 @@ description: Created by Larry Williams, the Williams %R momentum oscillator comp
 # Williams %R
 
 Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Williams_%25R) momentum oscillator compares current price with recent highs and lows and is presented on scale of -100 to 0.  It is exactly the same as the fast variant of [Stochastic Oscillator](/indicators/stoch), but with a different scaling.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/229 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/229 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="WilliamsR" withOverlay     showRightAxisLabels=false />

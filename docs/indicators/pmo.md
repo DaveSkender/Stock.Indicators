@@ -6,7 +6,7 @@ description: Created by Carl Swenlin, the DecisionPoint Price Momentum Oscillato
 # Price Momentum Oscillator (PMO)
 
 Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo) is double-smoothed momentum indicator based on Rate of Change (ROC).
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/244 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/244 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Pmo" withOverlay />
@@ -28,7 +28,7 @@ IReadOnlyList<PmoResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N` periods of `bars`, where `N` is the greater of `T+S`, `2×T`, or `T+100` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N` periods of `bars`, where `N` is the greater of `T+S`, `2×T`, or `T+100` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

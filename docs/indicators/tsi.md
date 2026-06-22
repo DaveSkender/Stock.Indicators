@@ -6,7 +6,7 @@ description: Created by William Blau, the True Strength Index is a momentum osci
 # True Strength Index (TSI)
 
 Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki/True_strength_index) is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
-[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/300 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/300 "Community discussion about this indicator")
 
 <ClientOnly>
   <StockIndicatorChart indicator="Tsi" withOverlay />
@@ -28,7 +28,7 @@ IReadOnlyList<TsiResult> results =
 
 ### Historical price bars requirements
 
-You must have at least `N+M+100` periods of `bars` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a two-stage EMA smoothing technique, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
+You must have at least `N+M+100` periods of `bars` to cover the [warmup and convergence](https://github.com/facioquo/stock-indicators-dotnet/discussions/688) periods.  Since this uses a two-stage EMA smoothing technique, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 

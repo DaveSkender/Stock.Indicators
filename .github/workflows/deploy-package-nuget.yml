@@ -1,12 +1,16 @@
 name: Deploy package (NuGet.org)
 
 ## Production Package Deployment
-# Deploys packages to nuget.org when a GitHub Release is published or created.
+# Deploys packages to nuget.org when a GitHub Release is published.
 # Version comes directly from the release tag (strips 'v' prefix).
 #
 # Trigger behavior:
 #   - Release published: Full deployment to nuget.org
-#   - Release created as draft: Dry-run mode (build only, no deploy)
+#   - Manual workflow_dispatch: Dry-run mode (build only, no deploy)
+#
+# Saving a draft GitHub Release does NOT trigger this workflow.
+# To validate a build without publishing, run the workflow manually
+# (Actions tab → "Run workflow") and supply the release tag.
 #
 # Version examples:
 #   - Tag v2.8.0 → deploys 2.8.0 (stable)
@@ -17,7 +21,13 @@ name: Deploy package (NuGet.org)
 
 on:
   release:
-    types: [published, created]
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to dry-run (e.g. v3.0.0). Build only, no deploy."
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -48,31 +58,37 @@ jobs:
       - name: Extract version from release tag
         id: version_info
         run: |
-          # Extract version from release tag (strip 'v' prefix)
-          TAG="${{ github.event.release.tag_name }}"
-          VERSION="${TAG#v}"
+          # Tag source depends on trigger:
+          #   - release published → release tag
+          #   - workflow_dispatch  → manual tag input
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            TAG="${{ github.event.inputs.tag }}"
+          else
+            TAG="${{ github.event.release.tag_name }}"
+          fi
+          VERSION="${TAG#v}"  # strip 'v' prefix
 
           if [[ -z "$VERSION" ]]; then
             echo "::error::Could not extract version from tag: $TAG"
             exit 1
           fi
 
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Production version from tag: $VERSION"
 
       - name: Determine deployment mode
         id: settings
         run: |
-          # Draft releases = dry-run mode
-          # Published releases = full deployment
-          IS_DRAFT="${{ github.event.release.draft }}"
-
-          if [[ "$IS_DRAFT" == "true" ]]; then
-            echo "dry_run=true" >> $GITHUB_OUTPUT
-            echo "🔍 DRY RUN mode (draft release)"
-          else
+          # Fail-safe: default to dry-run. Only a published GitHub Release
+          # performs the irreversible deployment to nuget.org; every other
+          # trigger (manual workflow_dispatch, etc.) builds without deploying.
+          if [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
             echo "dry_run=false" >> $GITHUB_OUTPUT
             echo "🚀 DEPLOY mode (published release)"
+          else
+            echo "dry_run=true" >> $GITHUB_OUTPUT
+            echo "🔍 DRY RUN mode (default; not a published release)"
           fi
 
       - name: Install dependencies
@@ -123,7 +139,7 @@ jobs:
         run: |
           MODE="🚀 PRODUCTION DEPLOY"
           if [[ "${{ steps.settings.outputs.dry_run }}" == "true" ]]; then
-            MODE="🔍 DRY RUN (Draft Release)"
+            MODE="🔍 DRY RUN (Manual Trigger)"
           fi
 
           {
@@ -131,7 +147,7 @@ jobs:
             echo "| ----------------- | ------------------------------------------------ |"
             echo "| **Mode**          | $MODE                                            |"
             echo "| Package Version   | ${{ steps.version_info.outputs.version }}        |"
-            echo "| Release Tag       | ${{ github.event.release.tag_name }}             |"
+            echo "| Release Tag       | ${{ steps.version_info.outputs.tag }}            |"
             echo "| Target            | nuget.org                                        |"
             echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
           } >> $GITHUB_STEP_SUMMARY
@@ -176,22 +192,21 @@ jobs:
           path: NuGet
 
       - name: NuGet login (OIDC → temp API key)
-        if: ${{ env.dry_run != 'true' }}
+        if: ${{ env.dry_run == 'false' }}
         uses: NuGet/login@v1
         id: nuget_login
         with:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Publish package to nuget.org
-        if: ${{ env.dry_run != 'true' }}
+        if: ${{ env.dry_run == 'false' }}
         run: >
           dotnet nuget push NuGet/*.nupkg
           --source "${{ env.NUGET_PUBLISH_URL }}"
           --api-key "${{ steps.nuget_login.outputs.NUGET_API_KEY }}"
-          --skip-duplicate
 
       - name: Production package published
-        if: ${{ env.dry_run != 'true' }}
+        if: ${{ env.dry_run == 'false' }}
         run: |
           echo "📦 Published production package ${{ env.name }} version ${{ env.version }} to nuget.org"
           echo "   Release: ${{ github.event.release.html_url }}"
