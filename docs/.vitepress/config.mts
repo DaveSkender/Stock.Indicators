@@ -454,6 +454,7 @@ export default defineConfig({
     'pages/**',
     '_indicators/**',
     'decisions/**',
+    `assets/**`,
     'examples/Backtest/**',
     'examples/ConsoleApp/**',
     'examples/CustomIndicatorsUsage/**',
