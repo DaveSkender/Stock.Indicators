@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -53,7 +53,7 @@ jobs:
           dotnet run -c Release -- --filter 'Performance.StyleComparison*'
 
       - name: Save test results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: test-summaries
           path: tools/performance/BenchmarkDotNet.Artifacts/results
