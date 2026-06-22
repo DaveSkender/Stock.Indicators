@@ -160,7 +160,7 @@ IReadOnlyList<SmaResult> results = myBars.ToSma(20);
 When implementing your custom bar type, it must be either `record` class or implement `IEquatable<T>` to be compatible with the streaming hub internal de-duplication logic.
 :::
 
-## Chaining: indicator of indicators
+## Chaining indicator
 
 If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), use _**chaining**_ to calculate an indicator from prior results.
 Example:

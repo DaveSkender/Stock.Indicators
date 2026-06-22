@@ -185,18 +185,18 @@ Always write a clear log message for your commits. One-line messages are fine fo
 
 After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/FacioQuo.Stock.Indicators).  Please be patient with turnaround time.
 
-## Code reviews and administration
+## Code reviews and admin
 
 If you want to contribute administratively, do code reviews, or provide general user support, we're also currently seeking a few core people to help.  Please [contact us](#contact-info) if interested.
 
-## Standards and design guidelines
+## Standards and guidelines
 
 - [Guiding principles for this project](https://github.com/facioquo/stock-indicators-dotnet/discussions/648)
 - [.NET Design Guidelines](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines)
 - [NuGet Best Practices](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
 
-## Versioning
+## Versioning & deployment
 
 We use [GitVersion](https://gitversion.net) for automated [semantic versioning](https://semver.org). Version numbers are automatically generated based on branch names, commit messages, and Git history.
 

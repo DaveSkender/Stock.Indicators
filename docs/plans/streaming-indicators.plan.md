@@ -60,9 +60,9 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 - [ ] **RG001 — Refresh performance baselines** (1 hour + runtime). `tools/performance/baselines/*.json` is dated 2026-02-28, pre-P004/P009/P010/P011/P012/P013/P014 and pre-centralized-RollbackState. Run `cd tools/performance && dotnet run -c Release`; copy `BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json` to `baselines/`; optionally tag `baseline-v3.0.0.json`. **Without this, CI regression detection compares against stale numbers.**
 
-- [ ] **RG002 — Get and incorporate final community feedback** (ongoing). Time-boxed by maintainer.
+- [x] **RG002 — Get and incorporate final community feedback** (ongoing). Time-boxed by maintainer.
 
-- [ ] **RG003 — Execute branching strategy migration** (10–16 hours). See [branching-strategy.plan.md](branching-strategy.plan.md). `origin/main` is ~25+ commits behind `origin/v3`; PR #1014 is the merge vehicle.
+- [x] **RG003 — Execute branching strategy migration** (10–16 hours). See [branching-strategy.plan.md](branching-strategy.plan.md). `origin/main` is ~25+ commits behind `origin/v3`; PR #1014 is the merge vehicle.
 
 - [x] **RG004 — `Quote → Bar` rename for v3.0 — RESOLVED: YES, shipped** (PR #1933, bundled in #2102).
   - **Context**: PR #1014 comment 1 (2024-07-01) proposed renaming `Quote` → `Bar` (with `Tick` reserved for individual bid/ask trades) and introducing `IBar` with `[Obsolete] IQuote` as a base. v3.0 was the only realistic window because it's a breaking rename; doing it later would have meant a v4.0.
@@ -94,8 +94,8 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 #### Package and naming
 
 - [ ] **K001 — Reserve and publish `FacioQuo.Stock.Indicators` package** (1 hour active + NuGet indexing). Cut the v3.0 stable as the first listed version on this package ID; do not publish previews here (previews remain on `Skender.Stock.Indicators` for continuity per K003).
-- [ ] **K002 — Add "previously known as Skender.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
-- [ ] **K003 — Unlist all `3.0.0-preview.*` versions on `Skender.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
+- [x] **K002 — Add "previously known as Skender.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
+- [x] **K003 — Unlist all `3.0.0-preview.*` versions on `Skender.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
 - [ ] **K004 — Release final `Skender.Stock.Indicators` v2.x patch with "we moved" notice** (1–2 hours). Stays in draft until cut-over. Release note: "We moved to `FacioQuo.Stock.Indicators` — install that package for v3+. This v2 line remains on `v2` branch for netstandard2.x compatibility maintenance only (per RG005)."
 
 #### Source repo and project transfer
@@ -110,9 +110,9 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 #### Documentation and URL/DNS
 
 - [x] **K009 — Lowercase all doc-site page URLs + Jekyll/VitePress redirects for old casing** (1–2 hours). Required because GitHub Pages canonical URLs and external inbound links may be case-sensitive depending on the docs platform. Audit `docs/` page paths; add redirect rules for any URL that changes case. Verify a sample of external blog post inbound links continue resolving.
-- [ ] **K010 — Cut `dotnet.stockindicators.dev` DNS to production doc site; remove `/v3` preview pointer** (15 min + DNS TTL). Update CloudFlare CNAME/A records; remove the temporary `dotnet.stockindicators.dev/v3` pointer added during preview phase per PR #1014 comment 3.
-- [ ] **K011 — Update NuGet release-notes URL and release-deployer URL references to new package name** (30 min). Search source/build pipelines for `FacioQuo.Stock.Indicators` references in release-note URLs, deployer config, badge URLs; replace with `FacioQuo.Stock.Indicators` equivalents. Per PR #1014 comment 3.
-- [ ] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/facioquo/stock-indicators-dotnet` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
+- [x] **K010 — Cut `dotnet.stockindicators.dev` DNS to production doc site; remove `/v3` preview pointer** (15 min + DNS TTL). Update CloudFlare CNAME/A records; remove the temporary `dotnet.stockindicators.dev/v3` pointer added during preview phase per PR #1014 comment 3.
+- [x] **K011 — Update NuGet release-notes URL and release-deployer URL references to new package name** (30 min). Search source/build pipelines for `FacioQuo.Stock.Indicators` references in release-note URLs, deployer config, badge URLs; replace with `FacioQuo.Stock.Indicators` equivalents. Per PR #1014 comment 3.
+- [x] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/facioquo/stock-indicators-dotnet` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
 
 #### Cut-over and finalize
 
@@ -121,7 +121,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
   - Before deploy, run `bash docs/.vitepress/test-a11y.sh` and resolve any regressions. (Last open item carried over from the now-retired `documentation-site.plan.md`; the site IA work itself is complete.)
 - [ ] **K015 — Update examples project to consume released `FacioQuo.Stock.Indicators` 3.0.0** (30 min). Bump package reference; verify build; push.
 - [ ] **K016 — Cascade meta updates to Python and Charts repos** (1 hour). README badges, "previously known as" notices, link refs in companion repo READMEs and doc sites. Mostly mechanical given the python and charts repos already transferred.
-- [ ] **K017 — `FacioQuo.Stock.Indicators` long-term wind-down** (15 min set-up + ongoing). The library is **not** unlisted at v3 cut-over (preview-version unlisting is handled by K003). Instead, `FacioQuo.Stock.Indicators` remains listed as a v2-only maintenance package for ~1 year following v3.0 release, accepting only security/compatibility patches per the [branching-strategy](branching-strategy.plan.md) v2-branch role (RG005 + K008). After the ~12-month maintenance window, transition the listing to a more fully deprecated state (NuGet may not support full unlisting once installs have occurred; document the chosen mechanism — e.g., a final `[Deprecated]` package metadata update with a "please migrate to FacioQuo.Stock.Indicators" notice — in this checklist when reached).
+- [ ] **K017 — `Skender.Stock.Indicators` long-term wind-down** (15 min set-up + ongoing). The library is **not** unlisted at v3 cut-over (preview-version unlisting is handled by K003). Instead, `Skender.Stock.Indicators` remains listed as a v2-only maintenance package for ~1 year following v3.0 release, accepting only security/compatibility patches per the [branching-strategy](branching-strategy.plan.md) v2-branch role (RG005 + K008). After the ~12-month maintenance window, transition the listing to a more fully deprecated state (NuGet may not support full unlisting once installs have occurred; document the chosen mechanism — e.g., a final `[Deprecated]` package metadata update with a "please migrate to FacioQuo.Stock.Indicators" notice — in this checklist when reached).
 
 ### E. Pre-stable hardening — overall-review-v3 swarm review (2026-05-29)
 

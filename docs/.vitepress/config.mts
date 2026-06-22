@@ -85,8 +85,7 @@ export default defineConfig({
           },
           { text: 'Chaining', link: '/guide/chaining' },
           { text: 'Custom indicators', link: '/guide/customization' },
-          { text: 'Custom observers', link: '/guide/custom-observers' },
-          { text: 'Testing your code', link: '/guide/testing' },
+          { text: 'Custom observers', link: '/guide/custom-observers' }
         ]
       },
       {
@@ -125,8 +124,7 @@ export default defineConfig({
             },
             { text: 'Chaining', link: '/guide/chaining' },
             { text: 'Custom indicators', link: '/guide/customization' },
-            { text: 'Custom observers', link: '/guide/custom-observers' },
-            { text: 'Testing your code', link: '/guide/testing' },
+            { text: 'Custom observers', link: '/guide/custom-observers' }
           ]
         }
       ],

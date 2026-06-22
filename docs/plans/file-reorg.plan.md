@@ -1,11 +1,12 @@
 # File Reorganization Plan
 
 **Status**: Deferred to v3.1
-**Author**: Copilot Agent
 **Date**: 2025-12-28 (last substantive content); 2026-05-25 (status/cross-reference refresh)
 **Related Issue**: [#1810](https://github.com/facioquo/stock-indicators-dotnet/issues/1810) — Major File Renaming Refactor
 
 **Related plans**: [streaming-indicators.plan.md](streaming-indicators.plan.md) is the v3.0 source of truth and tracks this work in **§J Infrastructure — deferred but listed for context** as the single deferred item. This plan is the detailed catalog of the file/directory renames and naming-convention decisions to execute when v3.1 work begins. It is intentionally **out of scope for v3.0** to avoid churning the codebase during the release-hardening window.
+
+> This out of date, but notionally correct.
 
 ---
 
