@@ -226,7 +226,7 @@ jobs:
 
     steps:
       - name: Cleanup old packages
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         continue-on-error: true
         with:
           script: |
