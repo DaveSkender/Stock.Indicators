@@ -100,7 +100,7 @@ public static class Program
          This approach will vary widely depending on where you are
          getting your quote history.
 
-         See https://github.com/DaveSkender/Stock.Indicators/discussions/579
+         See https://github.com/facioquo/stock-indicators-dotnet/discussions/579
          for free or inexpensive market data providers and examples.
 
          The return type of IEnumerable<Quote> can also be List<Quote>

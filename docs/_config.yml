@@ -3,7 +3,7 @@
 
 title: Stock Indicators for .NET
 tagline: "Transform price quotes into trading insights."
-repository: DaveSkender/Stock.Indicators
+repository: facioquo/stock-indicators-dotnet
 locale: en_US
 baseurl: ""
 url: "https://v2.dotnet.stockindicators.dev"

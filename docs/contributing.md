@@ -10,12 +10,12 @@ layout: page
 
 # Contributing guidelines for v2
 
-> This abbreviated guidelines augments the main [contributing guidelines](https://github.com/DaveSkender/Stock.Indicators#contributing-ov-file) and is tailored for maintenance of v2
+> This abbreviated guidelines augments the main [contributing guidelines](https://github.com/facioquo/stock-indicators-dotnet#contributing-ov-file) and is tailored for maintenance of v2
 
 ## Testing
 
 - Review the `tests/indicators` folder for examples of unit tests.  Just copy one of these.
-- New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to include your manual calculations spreadsheet in the appropriate indicator test folder when [submitting changes](https://github.com/DaveSkender/Stock.Indicators#contributing-ov-file#submitting-changes).
+- New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to include your manual calculations spreadsheet in the appropriate indicator test folder when [submitting changes](https://github.com/facioquo/stock-indicators-dotnet#contributing-ov-file#submitting-changes).
 - Historical Stock Quotes are automatically added to unit test methods.  A `Data.Quotes.xlsx` Excel file is included in the `tests/_common` folder that is an exact copy of what is used in the unit tests.  Use a copy of this file for your manual calculations to ensure that it is correct.  Do not commit changes to the original file.
 - We expect all unit tests to execute successfully and all _Errors and Warning_ resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request when submitting changes.
@@ -47,7 +47,7 @@ See [docs/README.md] for more information about setup and usage.
 
 Packages are deployed via two separate GitHub Actions workflows using two different modes:
 
-1. **Incremental CI packages** (`2.7.2-ci.1234` versions) are available via [GitHub Packages](https://github.com/DaveSkender/Stock.Indicators/pkgs/nuget/Skender.Stock.Indicators) and are intended for contributor and internal use.
+1. **Incremental CI packages** (`2.7.2-ci.1234` versions) are available via [GitHub Packages](https://github.com/facioquo/stock-indicators-dotnet/pkgs/nuget/Skender.Stock.Indicators) and are intended for contributor and internal use.
 2. **Generally available packages** (`2.7.3` versions) are available on [NuGet.org](https://www.nuget.org/packages/Skender.Stock.Indicators) and are intentionally deployed for public use.
 
 #### Internal and CI package deploy (automatic)
@@ -64,7 +64,7 @@ Packages are deployed via two separate GitHub Actions workflows using two differ
 
 #### Production package deploy (manual)
 
-**Trigger:** Creating a [GitHub Release](https://github.com/DaveSkender/Stock.Indicators/releases)
+**Trigger:** Creating a [GitHub Release](https://github.com/facioquo/stock-indicators-dotnet/releases)
 
 - Published to `nuget.org` only
 - Version comes directly from Release tag (strips 'v' prefix)
@@ -102,9 +102,9 @@ We use a standard [semantic versioning](https://semver.org) convention
 
 For technical details, see:
 
-- GitVersion configuration: [`src/gitversion.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/gitversion.yml)
-- CI workflow: [`deploy-package-github.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/v2/.github/workflows/deploy-package-github.yml)
-- Production workflow: [`deploy-package-nuget.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/v2/.github/workflows/deploy-package-nuget.yml)
+- GitVersion configuration: [`src/gitversion.yml`](https://github.com/facioquo/stock-indicators-dotnet/blob/main/src/gitversion.yml)
+- CI workflow: [`deploy-package-github.yml`](https://github.com/facioquo/stock-indicators-dotnet/blob/v2/.github/workflows/deploy-package-github.yml)
+- Production workflow: [`deploy-package-nuget.yml`](https://github.com/facioquo/stock-indicators-dotnet/blob/v2/.github/workflows/deploy-package-nuget.yml)
 
 ## Development environment setup
 
@@ -115,4 +115,4 @@ In order to develop, you can either use our repo-defined Dev Container or instal
 
 ## Getting help
 
-[Start a new discussion](https://github.com/DaveSkender/Stock.Indicators/discussions) or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.
+[Start a new discussion](https://github.com/facioquo/stock-indicators-dotnet/discussions) or [submit an issue](https://github.com/facioquo/stock-indicators-dotnet/issues) if it is publicly relevant.
