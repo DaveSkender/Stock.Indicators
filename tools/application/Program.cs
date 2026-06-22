@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Test.Application;
 
 /// <summary>
-/// Test application for FacioQuo.Stock.Indicators v2 API
+/// Test application for Skender.Stock.Indicators v2 API
 /// This application demonstrates all public interfaces available in the library
 /// to facilitate migration testing to v3.
 /// </summary>
@@ -18,7 +18,7 @@ public static class Program
         }
 
         Console.WriteLine("===========================================");
-        Console.WriteLine("Testing FacioQuo.Stock.Indicators v2");
+        Console.WriteLine("Testing Skender.Stock.Indicators v2");
         Console.WriteLine("===========================================\n");
 
         // Generate test data

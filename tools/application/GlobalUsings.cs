@@ -1,1 +1,1 @@
-global using FacioQuo.Stock.Indicators;
+global using Skender.Stock.Indicators;

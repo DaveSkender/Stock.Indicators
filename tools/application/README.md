@@ -1,8 +1,8 @@
-# Test Application for FacioQuo.Stock.Indicators v2
+# Test Application for Skender.Stock.Indicators v2
 
 ## Overview
 
-This test application is designed to exercise all public interfaces of the **FacioQuo.Stock.Indicators v2** NuGet package. It serves as a comprehensive API validation tool to ensure clean migration paths when transitioning to future package versions (v3+).
+This test application is designed to exercise all public interfaces of the **Skender.Stock.Indicators v2** NuGet package. It serves as a comprehensive API validation tool to ensure clean migration paths when transitioning to future package versions (v3+).
 
 ## Purpose
 

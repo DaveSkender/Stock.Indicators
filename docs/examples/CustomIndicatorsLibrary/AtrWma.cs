@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using FacioQuo.Stock.Indicators;
+using Skender.Stock.Indicators;
 
 namespace Custom.Stock.Indicators;
 

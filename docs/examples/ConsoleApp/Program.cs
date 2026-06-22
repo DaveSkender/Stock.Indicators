@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
-using FacioQuo.Stock.Indicators;
+using Skender.Stock.Indicators;
 
 /* BASIC CONSOLE APP | SIMPLE MOVING AVERAGE */
 

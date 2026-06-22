@@ -1,6 +1,6 @@
 using System.Text.Json;
 using Custom.Stock.Indicators;
-using FacioQuo.Stock.Indicators;
+using Skender.Stock.Indicators;
 
 // USE CUSTOM INDICATORS exactly the same as
 // other indicators in the library
