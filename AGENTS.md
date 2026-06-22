@@ -2,6 +2,8 @@
 
 This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
+You are working in a legacy v2 maintenance version of this repository.
+
 ## Repository layout
 
 ```text
@@ -88,24 +90,6 @@ Skills are defined in `.agents/skills/` following the Agent Skills specification
 - **src/**: See `src/AGENTS.md` for implementation details, technical constraints, and code quality standards
 - **tests/**: See `tests/AGENTS.md` for test organization and writing guidance
 - **docs/**: See `docs/AGENTS.md` for documentation site development
-
-## MCP tools guidance
-
-### When to use MCP tools
-
-The following MCP servers are configured in .vscode/mcp.json and should be used in these scenarios:
-
-- `mslearn/*`: Research C# coding conventions, .NET best practices, performance optimization, and language features. Use when implementing indicators or utility functions that require knowledge of official Microsoft standards.
-- `context7/*`: Look up documentation for NuGet package dependencies or external libraries used in the project. Use when integrating third-party functionality.
-- `github/web_search`: Research indicator algorithms, financial calculations, and external technical analysis standards. Use for mathematical validation and algorithm research.
-- `github/*`: Get recently failed CI workflow job details, research recent library changes, pull requests, issues, and discussions. Use when updating documentation or implementing features that depend on understanding recent repository context.
-
-Do NOT use MCP tools for:
-
-- Local file operations (use file read/edit tools)
-- Simple code formatting (use `dotnet format`)
-- Markdown linting (use `markdownlint-cli2`)
-- Running local build tests (use `dotnet build` and `dotnet test`)
 
 ## Pull request guidelines
 

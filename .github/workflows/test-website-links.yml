@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -44,7 +44,7 @@ jobs:
       - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "https://dotnet.stockindicators.dev"
+          find: "https://v2.dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
           regex: false
 
