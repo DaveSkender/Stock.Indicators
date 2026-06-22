@@ -1,0 +1,2512 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "sar": null,
+    "isReversal": null
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "sar": 212.83,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "sar": 212.83,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "sar": 212.9924,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "sar": 213.234056,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "sar": 213.46121264,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "sar": 213.6747398816,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "sar": 213.82,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "sar": 213.82,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "sar": 214.012,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "sar": 214.19248,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "sar": 214.3621312,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "sar": 214.521603328,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "sar": 214.67150712832,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "sar": 214.9529865580544,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "sar": 215.35468790224894,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "sar": 215.93492535397905,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "sar": 216.61603580442198,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "sar": 217.50147007571448,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "sar": 218.34000546208588,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "sar": 219.02760447891043,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "sar": 219.94608358312834,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "sar": 220.68086686650267,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "sar": 221.30669349320215,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "sar": 221.80735479456172,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "sar": 222.28588383564937,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "sar": 222.6687070685195,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "sar": 222.98,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "sar": 223.792,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "sar": 227.04,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "sar": 226.9776,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "sar": 226.845696,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "sar": 226.63535424,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "sar": 226.3221259008,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "sar": 226.033955828736,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "sar": 225.76883936243712,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "sar": 222.72,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "sar": 222.78979999999999,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "sar": 222.85820399999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "sar": 222.92523991999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "sar": 226.21,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "sar": 226.11860000000001,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "sar": 225.919056,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "sar": 225.72749376000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "sar": 225.4468441344,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "sar": 224.992696603648,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "sar": 224.57488087535617,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "sar": 219.77,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "sar": 219.8632,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "sar": 219.95453600000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "sar": 220.04404528,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "sar": 220.1317643744,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "sar": 220.336493799424,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "sar": 220.53303404744705,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "sar": 220.72171268554916,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "sar": 220.9028441781272,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "sar": 221.0767304110021,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "sar": 225.25,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "sar": 225.1574,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "sar": 225.066652,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "sar": 224.97771896,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "sar": 224.8905645808,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "sar": 224.805153289184,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "sar": 220.62,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "sar": 220.713,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "sar": 220.95368,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "sar": 221.3332592,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "sar": 221.69006364799998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "sar": 222.02545982911997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "sar": 222.34073223937276,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "sar": 222.6370883050104,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "sar": 222.91566300670976,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "sar": 223.1775232263072,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "sar": 223.5201213682026,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "sar": 223.93310923138236,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "sar": 224.41033612361647,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "sar": 224.8302957887825,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "sar": 225.1998602941286,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "sar": 225.52507705883318,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "sar": 225.89256627059655,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "sar": 228.36,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "sar": 228.36,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "sar": 228.1612,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "sar": 227.97035200000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "sar": 223.39,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "sar": 223.48139999999998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "sar": 223.67894399999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "sar": 224.04020735999998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "sar": 224.3797949184,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "sar": 224.699007223296,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "sar": 224.99906678989825,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "sar": 225.4743414467064,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "sar": 226.11290730203575,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "sar": 226.68761657183217,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "sar": 227.20485491464896,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "sar": 227.67036942318407,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "sar": 228.08933248086566,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "sar": 228.6162125831618,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "sar": 229.07986707318238,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "sar": 229.4878830244005,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "sar": 229.84693706147243,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "sar": 229.97,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "sar": 229.97,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "sar": 230.4,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "sar": 230.81300000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "sar": 231.14,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "sar": 231.14,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "sar": 231.19,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "sar": 233.35,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "sar": 233.2848,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "sar": 233.220904,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "sar": 233.04406784,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "sar": 232.8743051264,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "sar": 232.711332921344,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "sar": 232.55487960449022,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "sar": 232.40468442031062,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "sar": 232.2604970434982,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "sar": 232.12207716175826,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "sar": 228.8,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "sar": 228.88080000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "sar": 229.05276800000001,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "sar": 229.38140192,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "sar": 229.6903178048,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "sar": 229.980698736512,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "sar": 230.42304283759105,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "sar": 230.97173855383195,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "sar": 231.46556469844876,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "sar": 231.91000822860389,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "sar": 232.4344072411714,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "sar": 232.89587837223084,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "sar": 233.39625540011852,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "sar": 233.82657964410194,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "sar": 234.19665849392766,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "sar": 234.5149263047778,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "sar": 234.7886366221089,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "sar": 234.91,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "sar": 235.1284,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "sar": 235.316224,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "sar": 237.33,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "sar": 237.33,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "sar": 237.13160000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "sar": 236.94113600000003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "sar": 236.75829056000003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "sar": 236.58275893760003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "sar": 236.41424858009603,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "sar": 236.13679366529027,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "sar": 235.72105017206704,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "sar": 235.20694515486034,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "sar": 234.74425063937431,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "sar": 234.3278255754369,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "sar": 230.58,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "sar": 230.65220000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "sar": 230.722956,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "sar": 230.79229688,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "sar": 230.9554050048,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "sar": 231.273080704512,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "sar": 231.71363424815104,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "sar": 232.11894350829897,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "sar": 232.49182802763505,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "sar": 232.83488178542424,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "sar": 233.1504912425903,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "sar": 233.60644211833127,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "sar": 234.18886906413152,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "sar": 234.8022273951531,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "sar": 235.4226710119286,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "sar": 236.04499022978146,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "sar": 236.76999218382517,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "sar": 237.34999374706013,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "sar": 237.8279949976481,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "sar": 238.21039599811849,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "sar": 239.74,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "sar": 239.6996,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "sar": 237.72,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "sar": 237.7662,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "sar": 237.811476,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "sar": 237.93181696,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "sar": 238.1627079424,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "sar": 238.49609130700802,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "sar": 238.9314821763072,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "sar": 239.54450431515033,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "sar": 240.17667371102928,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "sar": 240.72033939148517,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "sar": 241.30908508884755,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "sar": 241.80363147463194,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "sar": 242.2727778091982,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "sar": 242.74022224735856,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "sar": 243.16017779788686,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "sar": 243.4981422383095,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "sar": 245.26,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "sar": 243.72,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "sar": 243.72,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "sar": 243.8412,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "sar": 246.75,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "sar": 246.6828,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "sar": 243.39,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "sar": 243.4646,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "sar": 243.53770799999998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "sar": 243.60935383999998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "sar": 243.77017968639998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "sar": 243.92457249894397,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "sar": 244.15109814900734,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "sar": 244.47341029708676,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "sar": 244.8780692673781,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "sar": 245.24226234064028,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "sar": 245.57003610657625,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "sar": 245.65,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "sar": 248.52,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "sar": 248.46560000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "sar": 248.32497600000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "sar": 248.22,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "sar": 248.22,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "sar": 244.95,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "sar": 245.0376,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "sar": 245.123448,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "sar": 245.30251008,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "sar": 245.5759594752,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "sar": 246.08348271718398,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "sar": 246.73713444546559,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "sar": 247.7214783120097,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "sar": 248.58770091456853,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "sar": 249.57642278652892,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "sar": 250.4267235964149,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "sar": 251.1579822929168,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "sar": 251.74,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "sar": 251.96,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "sar": 252.47660000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "sar": 253.064344,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "sar": 253.66116208,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "sar": 254.1505529056,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "sar": 254.51,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "sar": 255.34799999999998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "sar": 256.0184,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "sar": 256.55472,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "sar": 256.86,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "sar": 258.7,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "sar": 258.66679999999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "sar": 258.634264,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "sar": 257.04,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "sar": 256.81,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "sar": 256.81,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "sar": 257.041,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "sar": 257.44732,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "sar": 258.04958799999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "sar": 258.76243744,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "sar": 259.64969619839997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "sar": 260.41273873062397,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "sar": 261.2971005337241,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "sar": 262.47842243765376,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "sar": 263.934737950123,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "sar": 265.0997903600984,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "sar": 266.0318322880787,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "sar": 266.839465830463,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "sar": 267.9255726643704,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "sar": 268.97245813149635,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "sar": 270.0179665051971,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "sar": 270.85437320415764,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "sar": 271.8954985633261,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "sar": 276.06,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "sar": 275.9558,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "sar": 275.730768,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "sar": 275.51473728,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "sar": 274.8988530432,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "sar": 273.194944799744,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "sar": 270.7914503197696,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "sar": 268.6283052877926,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "sar": 266.1637086532575,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "sar": 263.00338944180146,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "sar": 260.28551491994926,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "sar": 243.59,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "sar": 243.919,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "sar": 244.68104000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "sar": 245.91037760000003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "sar": 247.06595494400003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "sar": 248.15219764736003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "sar": 249.17326578851842,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "sar": 250.13306984120732,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "sar": 251.54322425391072,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "sar": 253.25190182851964,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "sar": 254.78971164566767,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "sar": 268.63,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "sar": 268.3584,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "sar": 268.092232,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "sar": 267.83138736,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "sar": 267.5757596128,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "sar": 255.05,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "sar": 255.32080000000002,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "sar": 255.891568,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "sar": 256.74227392,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "sar": 257.5419374848,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "sar": 258.29362123571195,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "sar": 259.00020396156924,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "sar": 259.6643917238751,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "sar": 259.75,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "sar": 270.07,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "sar": 269.7618,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "sar": 268.944128,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "sar": 268.15916288,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "sar": 267.4055963648,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "sar": 266.682172510208,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "sar": 265.98768560979966,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "sar": 264.80402447321165,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "sar": 263.69138300481893,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "sar": 262.6455000245298,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "sar": 261.662370023058,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "sar": 260.7382278216745,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "sar": 259.86953415237406,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "sar": 259.0529621032316,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "sar": 258.2853843770377,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "sar": 246.26,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "sar": 246.509,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "sar": 247.02223999999998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "sar": 247.91670559999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "sar": 249.07056915199996,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "sar": 250.13212361983997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "sar": 251.10875373025277,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "sar": 252.00725343183254,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "sar": 262.34,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "sar": 262.138,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "sar": 261.94003999999995,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "sar": 261.7460391999999,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "sar": 261.55591841599994,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "sar": 261.36960004767997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "sar": 261.18700804672636,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "sar": 260.7595277248573,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "sar": 260.34914661586305,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "sar": 259.9551807512285,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "sar": 250.5,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "sar": 250.709,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "sar": 251.21664,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "sar": 251.9914416,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "sar": 253.034526272,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "sar": 253.99416417024,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "sar": 254.8770310366208,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "sar": 255.68926855369114,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "sar": 256.4365270693958,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "sar": 257.12400490384414,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "sar": 257.9316044134597,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "sar": 258.65844397211373,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "sar": 259.3125995749024,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "sar": 265.2,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "sar": 265.07439999999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "sar": 264.951312,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "sar": 258.92,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "sar": 259.0396,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "sar": 259.322016,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "sar": 259.74849504,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "sar": 260.4374154368,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "sar": 261.30267389312,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "sar": 262.081406503808,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "sar": 263.04963772335105,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "sar": 263.9016811965489,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "sar": 264.7904458290321,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "sar": 265.5547834129676,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "sar": 266.2121137351521,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "sar": 270.25,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "sar": 270.1588,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "sar": 270.06942399999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "sar": 269.98183551999995,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "sar": 269.8959988096,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "sar": 269.555358857216,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "sar": 269.22834450292737,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "sar": 268.91441072281026,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "sar": 268.4269460794416,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "sar": 267.9687293146751,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "sar": 267.5380055557946,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "sar": 267.13312522244695,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "sar": 260.79,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "sar": 260.93280000000004,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "sar": 261.295088,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "sar": 261.87798272000003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "sar": 262.42590375680004,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "sar": 263.14543145625606,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "sar": 264.0208883106304,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "sar": 264.80879947956737,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "sar": 265.7737435420193,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "sar": 266.8022194461366,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "sar": 267.68670872367744,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "sar": 268.4473695023626,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "sar": 269.10153777203186,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "sar": 269.9588917285068,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "sar": 271.08589121737555,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "sar": 272.01003079824795,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "sar": 276.22,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "sar": 276.12260000000003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "sar": 276.027148,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "sar": 275.93360504000003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "sar": 275.74226083840006,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "sar": 271.15,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "sar": 271.2634,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "sar": 271.525264,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "sar": 271.77665344,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "sar": 272.0179873024,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "sar": 272.249667810304,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "sar": 272.4720810978918,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "sar": 277.81,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "sar": 277.6964,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "sar": 277.58507199999997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "sar": 272.13,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "sar": 272.2428,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "sar": 272.51588799999996,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "sar": 272.77805248,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "sar": 273.0297303808,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "sar": 273.413146557952,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "sar": 274.0672948333158,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "sar": 274.8695653499842,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "sar": 275.8896175079861,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "sar": 276.78726340702775,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "sar": 277.5771917981844,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "sar": 278.27232878240227,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "sar": 283.37,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "sar": 283.278,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "sar": 283.08648,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "sar": 282.9026208,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "sar": 282.72611596800004,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "sar": 278.49,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "sar": 278.574,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "sar": 278.74784,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "sar": 278.9147264,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "sar": 279.173042816,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "sar": 279.50559939072,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "sar": 280.10603945164803,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "sar": 280.8253147174503,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "sar": 281.45827695135625,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "sar": 282.0152837171935,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "sar": 282.38,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "sar": 282.38,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "sar": 282.8264,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "sar": 282.91,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "sar": 283.2928,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "sar": 286.1,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "sar": 286.09,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "sar": 285.81719999999996,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "sar": 285.382368,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "sar": 284.97362591999996,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "sar": 283.86613584639997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "sar": 281.85952226176,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "sar": 280.053570035584,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "sar": 278.4282130320256,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "sar": 276.9653917288231,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "sar": 275.6488525559408,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "sar": 274.4639673003467,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "sar": 273.39757057031204,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "sar": 272.52,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "sar": 271.2684,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "sar": 269.448624,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "sar": 267.88361664,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "sar": 265.9694379776,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "sar": 264.42,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "sar": 253.54,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "sar": 253.8012,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "sar": 254.332352,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "sar": 255.18541087999998,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "sar": 255.98728622719997,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "sar": 256.997903329024,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "sar": 258.7251129961216,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "sar": 260.604899436587,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "sar": 262.25911150419654,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "sar": 263.71481812369296,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "sar": 274.39,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "sar": 274.1408,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "sar": 273.596368,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "sar": 273.07371328,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "sar": 272.5719647488,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "sar": 271.623246863872,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "sar": 270.7314520520397,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "sar": 269.6073358878765,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "sar": 268.5731490168464,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "sar": 256.68,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "sar": 256.9046,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "sar": 257.382816,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "sar": 258.11404704,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "sar": 259.3521232768,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "sar": 273.59,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "sar": 273.2396,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "sar": 272.896208,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "sar": 272.07395968000003,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "sar": 271.2846012928,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "sar": 270.526817241088,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "sar": 269.7993445514445,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "sar": 269.1009707693867,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "sar": 267.7971125232235,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "sar": 266.14374352136565,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "sar": 263.85936916922907,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "sar": 260.8414448689216,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "sar": 257.29644258727257,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "sar": 252.91621177330896,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "sar": 248.68689365411333,
+    "isReversal": false
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "sar": 229.42,
+    "isReversal": true
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "sar": 229.7662,
+    "isReversal": false
+  }
+]

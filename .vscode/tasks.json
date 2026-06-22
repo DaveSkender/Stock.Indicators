@@ -5,13 +5,19 @@
   "version": "2.0.0",
   "inputs": [
     {
+      "id": "perfFilter",
+      "description": "Performance benchmark wildcard filter (e.g., *Sma* or *ToEma*)",
+      "default": "*Sma*",
+      "type": "promptString"
+    },
+    {
       "id": "roslynatorCommand",
       "description": "Select command type for Roslynator",
       "options": [
         "analyze",
         "fix"
       ],
-      "default": "fix",
+      "default": "analyze",
       "type": "pickString"
     },
     {
@@ -23,37 +29,70 @@
         "info",
         "hidden"
       ],
-      "default": "info",
+      "default": "hidden",
       "type": "pickString"
+    },
+    {
+      "id": "simulationMode",
+      "description": "Select simulation mode (data source)",
+      "options": [
+        "sse",
+        "coinbase"
+      ],
+      "default": "sse",
+      "type": "pickString"
+    },
+    {
+      "id": "dataType",
+      "description": "Data type: bar (candles/klines) or trade (ticker/transactions)",
+      "options": [
+        "bar",
+        "trade"
+      ],
+      "default": "bar",
+      "type": "pickString"
+    },
+    {
+      "id": "deliveryInterval",
+      "description": "Delivery rate in milliseconds (how fast data is sent)",
+      "default": "50",
+      "type": "promptString"
+    },
+    {
+      "id": "count",
+      "description": "Maximum count (leave empty for unlimited)",
+      "default": "",
+      "type": "promptString"
+    },
+    {
+      "id": "barIntervalCode",
+      "description": "Bar interval / timestamp spacing (e.g., 1s, 1m, 5m, 1h, 1d)",
+      "default": "1m",
+      "type": "promptString"
+    },
+    {
+      "id": "coinbaseSymbol",
+      "description": "Coinbase trading pair (e.g., BTC-USD, ETH-USD)",
+      "default": "BTC-USD",
+      "type": "promptString"
     }
   ],
   // defaults
   "group": "none",
-  "presentation": {
-    "clear": true,
-    "echo": true,
-    "panel": "dedicated",
-    "focus": true,
-    "reveal": "always",
-    "revealProblems": "onProblem",
-    "showReuseMessage": false
-  },
-  "problemMatcher": [],
   "options": {
     "cwd": "${workspaceFolder}"
   },
+  "presentation": {
+    "clear": true,
+    "panel": "dedicated",
+    "showReuseMessage": false
+  },
+  "problemMatcher": [],
   // tasks
   "tasks": [
-    {
-      "label": "Setup: Dev tools",
-      "detail": "Complete one-time environment setup (global tools and packages)",
-      "type": "shell",
-      "command": "bash .devcontainer/startup.sh",
-      "problemMatcher": [
-        "$msCompile",
-        "$eslint-compact"
-      ]
-    },
+    // ===================================
+    // Install and update dependencies
+    // ===================================
     {
       "label": "Initialize: Pull, rebuild, fixers, and unit test",
       "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
@@ -61,11 +100,26 @@
       "dependsOn": [
         "Git: pull",
         "Clean: .NET Solution (dotnet clean)",
+        "Setup: Dev tools",
         "Build: .NET Solution (not incremental)",
         "Lint: .NET code & markdown files (fix)",
         "Test: Unit tests"
       ],
       "dependsOrder": "sequence"
+    },
+    {
+      "label": "Setup: Dev tools",
+      "detail": "Complete one-time environment setup (global tools and packages)",
+      "dependsOn": [
+        "Install: .NET tools",
+        "Install: All code dependencies",
+        "Install: Chrome for Puppeteer"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [
+        "$msCompile",
+        "$eslint-compact"
+      ]
     },
     {
       "label": "Git: pull",
@@ -82,10 +136,10 @@
     },
     {
       "label": "Install: All code dependencies",
-      "detail": "Restore .NET packages and Ruby gems",
+      "detail": "Restore .NET and NPM packages",
       "dependsOn": [
         "Install: .NET packages",
-        "Install: Website Ruby packages"
+        "Install: Node packages"
       ],
       "dependsOrder": "parallel"
     },
@@ -93,68 +147,71 @@
       "label": "Install: .NET packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
-      "command": "dotnet restore && dotnet restore docs/Examples && dotnet outdated --exclude FluentAssertions",
+      "command": "dotnet restore && dotnet restore docs/examples && dotnet tool run dotnet-outdated --exclude FluentAssertions",
+      "dependsOn": "Install: .NET tools",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Install: Chrome for Puppeteer",
+      "detail": "Install Chrome browser for Puppeteer-based accessibility testing",
+      "type": "shell",
+      "command": "pnpm dlx puppeteer browsers install chrome",
+      "presentation": {
+        "echo": false,
+        "clear": true,
+        "panel": "shared"
+      }
     },
     {
       "label": "Inspect: .NET packages",
       "detail": "List outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
-      "command": "dotnet outdated --exclude FluentAssertions && dotnet outdated docs/Examples"
+      "command": "dotnet tool run dotnet-outdated --exclude FluentAssertions && dotnet tool run dotnet-outdated docs/examples",
+      "dependsOn": "Install: .NET tools"
     },
     {
       "label": "Update: .NET packages (outdated --upgrade)",
       "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
-      "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples"
+      "command": "dotnet tool run dotnet-outdated --upgrade --exclude FluentAssertions && dotnet tool run dotnet-outdated --upgrade docs/examples",
+      "dependsOn": "Install: .NET tools"
     },
     {
-      "label": "Install: Website Ruby packages",
-      "detail": "Install Ruby gems for docs site (Jekyll)",
+      "label": "Install: Node packages",
+      "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
-      "command": "export PATH=\"$(brew --prefix ruby@3.3 2>/dev/null)/bin:$(brew --prefix ruby 2>/dev/null)/bin:/opt/homebrew/opt/ruby@3.3/bin:/usr/local/opt/ruby@3.3/bin:$PATH\" && eval \"$(rbenv init - zsh 2>/dev/null || true)\" && gem install bundler --no-document && bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
+      "command": "pnpm install --config.confirmModulesPurge=false",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
+      }
+    },
+
+    {
+      "label": "Check: Node packages",
+      "detail": "Check for dependency updates in root and all workspace packages",
+      "type": "shell",
+      "command": "npx npm-check-updates --deep --peer",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "bundle",
-        "fileLocation": "relative",
-        "pattern": {
-          "regexp": "^(.*):(\\d+):\\s+(.*)$",
-          "file": 1,
-          "line": 2,
-          "message": 3
-        }
+    },
+    {
+      "label": "Update: Node packages",
+      "detail": "Update dependencies in root and all workspace packages to latest versions",
+      "type": "shell",
+      "command": "npx npm-check-updates --deep --peer --upgrade && pnpm install --config.confirmModulesPurge=false",
+      "dependsOn": "Install: Node packages",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
-      "label": "Update: Website Ruby packages",
-      "detail": "Install then update Ruby gems conservatively and clean",
+      "label": "Clean: Website build cache",
+      "detail": "Delete the dist build outputs cache.",
       "type": "shell",
-      "command": "export PATH=\"$(brew --prefix ruby@3.3 2>/dev/null)/bin:$(brew --prefix ruby 2>/dev/null)/bin:/opt/homebrew/opt/ruby@3.3/bin:/usr/local/opt/ruby@3.3/bin:$PATH\" && eval \"$(rbenv init - zsh 2>/dev/null || true)\" && gem install bundler --no-document && rm -f Gemfile.lock && rm -rf vendor/bundle && bundle lock --add-platform x86_64-linux x64-mingw-ucrt arm64-darwin x86_64-darwin && bundle install && bundle clean --force && echo '✓ Update complete!'",
+      "command": "rm -rf dist",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      }
-    },
-    {
-      "label": "Clean: Website Jekyll build cache",
-      "detail": "Delete the _site build outputs cache.",
-      "type": "shell",
-      "command": "bundle exec jekyll clean",
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
@@ -162,33 +219,59 @@
       "detail": "Clean build outputs (bin/obj) for solution",
       "type": "shell",
       "command": "dotnet clean -v minimal --nologo && dotnet clean -c Release -v minimal --nologo",
-      "group": "build",
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Delete: Temporary caches",
-      "detail": "Delete bin, obj, node_modules, other caches, and lock files",
+      "label": "Clean: .NET (full)",
+      "detail": "Delete .NET build artifacts and caches (bin, obj, TestResults, BenchmarkDotNet.Artifacts)",
       "type": "shell",
-      "command": "bash tools/scripts/clean.sh",
-      "group": "build",
+      "command": "bash tools/scripts/dotnet-clean.sh",
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Delete: Temporary caches (and restore)",
-      "detail": "Delete temporary caches then restore",
+      "label": "Clean: Docs (vitepress)",
+      "detail": "Clean VitePress build outputs and docs caches",
       "type": "shell",
-      "command": "bash tools/scripts/clean.sh && dotnet restore --force-evaluate",
-      "group": "build",
-      "problemMatcher": "$msCompile"
+      "command": "bash tools/scripts/docs-clean.sh",
+      "dependsOn": [
+        "Stop: All hosted servers"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     },
     {
-      "label": "Delete: Temporary caches (and build)",
-      "detail": "Delete temporary caches then rebuild",
+      "label": "Clean: Docs (node)",
+      "detail": "Run package-manager clean for docs (pnpm)",
       "type": "shell",
-      "command": "bash tools/scripts/clean.sh && dotnet build --no-incremental",
-      "group": "build",
-      "problemMatcher": "$msCompile"
+      "command": "pnpm --prefix docs run clean",
+      "dependsOn": [
+        "Stop: All hosted servers"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     },
+    {
+      "label": "Clean: Docs (full)",
+      "detail": "Stop doc servers then run both node and VitePress doc cleaning",
+      "dependsOn": [
+        "Stop: All hosted servers",
+        "Clean: Docs (node)",
+        "Clean: Docs (vitepress)"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Clean: All",
+      "detail": "Run full workspace clean for docs and .NET artifacts",
+      "dependsOn": [
+        "Clean: Docs (full)",
+        "Clean: .NET (full)"
+      ],
+      "dependsOrder": "sequence"
+    },
+    // ===================================
+    // Build
+    // ===================================
     {
       "label": "Build: .NET Solution (incremental)",
       "detail": "Incremental build of solution (default)",
@@ -210,20 +293,18 @@
     },
     {
       "label": "Build: Website",
-      "detail": "Build the Jekyll website dist package in docs/_site folder",
+      "detail": "Build VitePress website for production",
       "type": "shell",
-      "command": "bundle exec jekyll build && echo '✓ Build complete!'",
-      "group": "build",
-      "dependsOn": "Install: Website Ruby packages",
+      "command": "pnpm run docs:build",
+      "dependsOn": "Install: Node packages",
       "dependsOrder": "sequence",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
+    // ===================================
+    // Test, lint, and format
+    // ===================================
     {
       "label": "Lint: .NET format",
       "detail": "Verify code formatting and style with 'dotnet format'",
@@ -253,17 +334,21 @@
       "label": "Lint: .NET Roslynator (analyze)",
       "detail": "Verify code formatting and style with Roslynator",
       "type": "shell",
-      "command": "dotnet tool run roslynator analyze --properties TargetFramework=net10.0 --severity-level info --verbosity normal",
+      "command": "dotnet tool run roslynator analyze --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
       "dependsOn": "Install: .NET tools",
       "dependsOrder": "sequence",
       "group": "test",
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "clear": true,
+        "revealProblems": "onProblem"
+      }
     },
     {
       "label": "Lint: .NET Roslynator (fix)",
       "detail": "Fix code formatting and style with Roslynator",
       "type": "shell",
-      "command": "dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level info --verbosity normal",
+      "command": "dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
       "dependsOn": "Install: .NET tools",
       "dependsOrder": "sequence",
       "group": "test",
@@ -310,8 +395,8 @@
       "detail": "Run Roslynator analysis and markdown lint (fast for dev loop)",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
-        "Lint: .NET code",
-        "Lint: Markdown"
+        "Lint: Markdown",
+        "Lint: .NET code"
       ],
       "dependsOrder": "sequence",
       "group": "test",
@@ -324,11 +409,10 @@
       "label": "Lint: .NET code & markdown files (fix)",
       "detail": "Auto-fix code and markdown issues with Roslynator (fast for dev loop)",
       "dependsOn": [
-        "Lint: .NET code (fix)",
-        "Lint: Markdown (fix)"
+        "Lint: Markdown (fix)",
+        "Lint: .NET code (fix)"
       ],
       "dependsOrder": "sequence",
-      "group": "none",
       "problemMatcher": [
         "$msCompile",
         "$markdownlint"
@@ -339,9 +423,9 @@
       "detail": "Run complete linting (Roslynator + dotnet format + markdown)",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
+        "Lint: Markdown",
         "Lint: .NET Roslynator (analyze)",
-        "Lint: .NET format",
-        "Lint: Markdown"
+        "Lint: .NET format"
       ],
       "dependsOrder": "sequence",
       "group": "test",
@@ -354,12 +438,12 @@
       "label": "Lint: All (fix)",
       "detail": "Auto-fix all code and markdown issues (includes dotnet format)",
       "dependsOn": [
+        "Build: .NET Solution (incremental)",
+        "Lint: Markdown (fix)",
         "Lint: .NET Roslynator (fix)",
-        "Lint: .NET format (fix)",
-        "Lint: Markdown (fix)"
+        "Lint: .NET format (fix)"
       ],
       "dependsOrder": "sequence",
-      "group": "none",
       "problemMatcher": [
         "$msCompile",
         "$markdownlint"
@@ -388,15 +472,21 @@
       "label": "Test: Integration",
       "detail": "Run integration tests only (requires external dependencies)",
       "type": "shell",
-      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo",
+      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo; test_exit=$?; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue'; exit $test_exit",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Test: All tests",
-      "detail": "Run all tests including integration tests",
-      "type": "shell",
-      "command": "dotnet test --no-restore --nologo",
+      "label": "Test: All",
+      "detail": "Run all unit, regression, and integration tests (excluding performance or website tests)",
+      "dependsOn": [
+        "Build: .NET Solution (incremental)",
+        "Test: Unit tests",
+        "Test: Regression tests",
+        "Test: Integration",
+        "Stop: SseServer hosts"
+      ],
+      "dependsOrder": "sequence",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
@@ -441,6 +531,81 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "Test: Performance (spot check)",
+      "detail": "Quick indicator performance benchmark using filter pattern (e.g., *Sma* matches ToSma, SmaHub, SmaList)",
+      "type": "shell",
+      "command": "dotnet run --project Tests.Performance.csproj -c Release -- --filter \"${input:perfFilter}\" --job short --warmupCount 3 --iterationCount 5 --exporters json markdown",
+      "options": {
+        "cwd": "${workspaceFolder}/tools/performance"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Test: Website links (htmlproofer)",
+      "detail": "Build website and check for broken links with htmlproofer (uses Docker)",
+      "type": "shell",
+      "command": "bash .vitepress/test-links.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "dependsOn": "Start: Docker Desktop",
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Test: Website a11y (pa11y)",
+      "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
+      "type": "shell",
+      "command": "bash .vitepress/test-a11y.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "dependsOn": "Install: Chrome for Puppeteer",
+      "dependsOrder": "sequence"
+    },
+    // ===================================
+    // Code review and verification
+    // ===================================
+    {
+      "label": "Review: CodeRabbit CLI (plain)",
+      "detail": "Perform a full code review with CodeRabbit CLI in plain text response mode",
+      "type": "shell",
+      "command": "coderabbit",
+      "args": [
+        "--plain"
+      ]
+    },
+    {
+      "label": "Review: CodeRabbit CLI (prompt-only)",
+      "detail": "Perform a full code review with CodeRabbit CLI in prompt-only response mode",
+      "type": "shell",
+      "command": "coderabbit",
+      "args": [
+        "--prompt-only"
+      ]
+    },
+    {
+      "label": "Review: CodeRabbit CLI (uncommitted, plain)",
+      "detail": "Perform a code review on uncommitted with CodeRabbit CLI in plain text response mode",
+      "type": "shell",
+      "command": "coderabbit",
+      "args": [
+        "--plain",
+        "--type",
+        "uncommitted"
+      ]
+    },
+    {
+      "label": "Review: CodeRabbit CLI (uncommitted, prompt-only)",
+      "detail": "Perform a code review on uncommitted with CodeRabbit CLI in prompt-only response mode",
+      "type": "shell",
+      "command": "coderabbit",
+      "args": [
+        "--prompt-only",
+        "--type",
+        "uncommitted"
+      ]
+    },
+    {
       "label": "Verify: Quick checks (build + lint + unit test)",
       "detail": "Complete CI verification: build, lint, and test",
       "group": "test",
@@ -451,8 +616,11 @@
       ],
       "dependsOrder": "sequence"
     },
+    // ===================================
+    // Serve, run, and generate
+    // ===================================
     {
-      "label": "Generate: Test baseline data (all)",
+      "label": "Run: Generate test baseline data (all)",
       "detail": "Generate all regression test baseline JSON files",
       "type": "shell",
       "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",
@@ -460,57 +628,35 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Website (and open)",
-      "detail": "Serve Jekyll docs website with LiveReload and open browser",
+      "label": "Run: Website (dev server)",
+      "detail": "Serve VitePress website with hot reload (port 5173)",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Website Ruby packages",
+      "command": "pnpm run docs:dev",
+      "dependsOn": [
+        "Stop: All hosted servers",
+        "Install: Node packages"
+      ],
       "dependsOrder": "sequence",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+      "runOptions": {
+        "instanceLimit": 1
       },
-      "problemMatcher": {
-        "owner": "website",
-        "pattern": {
-          "regexp": "^$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
-        }
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
-      "label": "Run: Website",
-      "detail": "Serve Jekyll docs website with LiveReload",
+      "label": "Run: Website (prod preview)",
+      "detail": "Preview production build of VitePress website",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Install: Website Ruby packages",
-      "dependsOrder": "sequence",
+      "command": "pnpm run docs:preview",
+      "dependsOn": [
+        "Build: Website",
+        "Stop: VitePress servers"
+      ],
       "isBackground": true,
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "problemMatcher": {
-        "owner": "website",
-        "pattern": {
-          "regexp": "^$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
@@ -522,12 +668,211 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Test simulation",
-      "detail": "Run streaming indicators simulation demo",
+      "label": "Run: Simulation with inputs",
+      "detail": "Run simulation with configurable mode, data type, intervals, and count",
       "type": "shell",
-      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- ${input:simulationMode} ${input:dataType} ${input:deliveryInterval} \"${input:count}\" ${input:barIntervalCode} ${input:coinbaseSymbol}",
       "group": "none",
-      "problemMatcher": "$msCompile"
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Starting.*simulation",
+          "endsPattern": "^Strategy complete|^Stream complete|^Client disconnected"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Run: Simulation (default SSE)",
+      "detail": "Run SSE simulation with defaults: bar data, 50ms delivery, 1m intervals, unlimited count",
+      "type": "shell",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse bar 50 '' 1m",
+      "windows": {
+        "command": "dotnet run --project tools/simulate/Test.Simulation.csproj -- sse bar 50 \"\" 1m"
+      },
+      "group": "none",
+      "isBackground": true,
+      "dependsOn": "Stop: Simulation hosts",
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Starting.*simulation",
+          "endsPattern": "^Strategy complete|^Stream complete|^Client disconnected"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Run: SSE Server",
+      "detail": "Start SSE server on localhost:5001",
+      "type": "shell",
+      "command": "dotnet run --project tools/sse-server/Test.SseServer.csproj -- --urls http://localhost:5001",
+      "isBackground": true,
+      "dependsOn": "Stop: SseServer hosts",
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Building...|^SSE Server starting",
+          "endsPattern": "^Now listening on:"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Show: Running servers",
+      "detail": "Display all running VitePress, Simulation, and SSE Server processes",
+      "type": "shell",
+      "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node.exe):' && (tasklist //fi \"imagename eq node.exe\" 2>/dev/null | grep -E 'node|PID' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet.exe):' && (tasklist //fi \"imagename eq dotnet.exe\" 2>/dev/null | grep -E 'dotnet|PID' || echo '   No processes found')",
+      "linux": {
+        "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node):' && (ps aux | grep -E '[n]ode.*vitepress|PID.*CMD' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet):' && (ps aux | grep -E '[d]otnet.*(simulate|sse-server)|PID.*CMD' || echo '   No processes found')"
+      },
+      "osx": {
+        "command": "echo '=== Running Servers ===' && echo '' && echo 'VitePress (node):' && (ps aux | grep -E '[n]ode.*vitepress|PID.*CMD' || echo '   No processes found') && echo '' && echo 'Simulation/SSE Server (dotnet):' && (ps aux | grep -E '[d]otnet.*(simulate|sse-server)|PID.*CMD' || echo '   No processes found')"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Stop: VitePress servers",
+      "detail": "Stop VitePress dev/preview servers on default ports (5173/5174)",
+      "type": "shell",
+      "command": "netstat -ano 2>/dev/null | grep -E ':(5173|5174)\\\\s' | awk '{print $5}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null && echo '[OK] VitePress servers successfully stopped' || echo '[INFO] No VitePress server processes found'",
+      "linux": {
+        "command": "(lsof -ti:5173,5174 2>/dev/null | xargs -r kill -9 2>/dev/null && echo '[OK] VitePress servers successfully stopped') || echo '[INFO] No VitePress server processes found'"
+      },
+      "osx": {
+        "command": "(lsof -ti:5173,5174 2>/dev/null | xargs kill -9 2>/dev/null && echo '[OK] VitePress servers successfully stopped') || echo '[INFO] No VitePress server processes found'"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Stop: All hosted servers",
+      "detail": "Stop all hosted servers: VitePress, Simulation, and SSE Server",
+      "dependsOn": [
+        "Stop: VitePress servers",
+        "Stop: Simulation hosts",
+        "Stop: SseServer hosts"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Stop: Simulation hosts",
+      "detail": "Stop dotnet processes running tools/simulate or Test.Simulation",
+      "type": "shell",
+      "command": "(powershell.exe -NoProfile -Command 'Stop-Process -Name Test.Simulation -Force -ErrorAction SilentlyContinue' && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'",
+      "linux": {
+        "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
+      },
+      "osx": {
+        "command": "(pkill -9 -f 'dotnet.*(Test\\.Simulation|tools/simulate)' 2>/dev/null && echo '[OK] Simulation hosts successfully stopped') || echo '[INFO] No Simulation server processes found'"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Stop: SseServer hosts",
+      "detail": "Stop dotnet/Test.SseServer processes running tools/sse-server or Test.SseServer.exe",
+      "type": "shell",
+      "command": "(netstat -ano 2>/dev/null | grep -E ':5001\\s' | awk '{print $NF}' | sort -u | xargs -I {} taskkill //PID {} //F 2>/dev/null; powershell.exe -NoProfile -Command 'Stop-Process -Name Test.SseServer -Force -ErrorAction SilentlyContinue' && echo '[OK] SSE Server hosts successfully stopped') || echo '[INFO] No SSE Server server processes found'",
+      "linux": {
+        "command": "((lsof -ti:5001 2>/dev/null | xargs -r kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
+      },
+      "osx": {
+        "command": "((lsof -ti:5001 2>/dev/null | xargs kill -9 2>/dev/null); (pkill -9 -f 'dotnet.*(Test\\.SseServer|tools/sse-server)' 2>/dev/null)) && echo '[OK] SSE Server hosts successfully stopped' || echo '[INFO] No SSE Server server processes found'"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Start: Docker Desktop",
+      "detail": "Ensure Docker Desktop is running (waits for daemon to be ready)",
+      "type": "shell",
+      "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))",
+      "windows": {
+        "command": "Write-Host 'Checking Docker...'; if (docker info 2>$null) { Write-Host '✅ Docker is ready' } else { Write-Host 'Waiting for Docker...'; $timeout = 60; $elapsed = 0; while (-not (docker info 2>$null)) { if ($elapsed -ge $timeout) { Write-Host '❌ Docker failed to start'; exit 1 }; Start-Sleep -Seconds 2; $elapsed += 2 }; Write-Host '✅ Docker is ready' }",
+        "options": {
+          "shell": {
+            "executable": "powershell.exe",
+            "args": [
+              "-Command"
+            ]
+          }
+        }
+      },
+      "linux": {
+        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))"
+      },
+      "osx": {
+        "command": "echo 'Checking Docker...' && (docker info > /dev/null 2>&1 || (echo 'Starting Docker Desktop...' && open -a Docker)) && (docker info > /dev/null 2>&1 && echo '✅ Docker is ready' || (echo 'Waiting for Docker...' && timeout=60 && elapsed=0 && until docker info > /dev/null 2>&1; do if [ $elapsed -ge $timeout ]; then echo '❌ Docker failed to start'; exit 1; fi; sleep 2; elapsed=$((elapsed + 2)); done && echo '✅ Docker is ready'))"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "docker",
+        "pattern": {
+          "regexp": "^$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Checking Docker...$",
+          "endsPattern": "^✅ Docker is ready$"
+        }
+      },
+      "presentation": {
+        "echo": false,
+        "clear": true,
+        "panel": "shared"
+      }
     }
   ]
 }

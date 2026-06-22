@@ -1,33 +1,78 @@
-# Documentation website development
+# Documentation website
 
-This folder contains the Jekyll-based documentation website for Stock Indicators.
+This folder contains the VitePress documentation site for Stock Indicators at [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev).
 
-## Quick reference
+Load #skill:vitepress for VitePress configuration, routing, theme, and component guidance.
 
-- Follow documentation instructions in .github/instructions/docs.instructions.md
-- Follow markdown instructions in .github/instructions/markdown.instructions.md
-- Use `bundle exec jekyll serve --livereload` for local development
-- Site will be available at `http://127.0.0.1:4000`
+Load #skill:markdown for general Markdown authoring standards, linting workflow, and validation.
 
-## Adding indicator documentation
-
-- Add or update files in `_indicators/` directory
-- Place image assets in `assets/` folder
-- Include comprehensive examples with sample data
-- Ensure proper YAML front matter
-
-## Testing documentation changes
+## Quick start
 
 ```bash
-# Install dependencies (first time)
-bundle install
+# one-time per gh CLI token (see "Indy Charts" below for why)
+gh auth refresh --scopes read:packages
 
-# Start local server with live reload
-bundle exec jekyll serve --livereload
-
-# Lint markdown
-npx markdownlint-cli2 --fix
+# from /docs folder — opens at http://localhost:5173/
+NODE_AUTH_TOKEN=$(gh auth token) pnpm install
+pnpm run docs:dev
 ```
 
----
-Last updated: December 30, 2025
+## Indy Charts
+
+Indy Charts ([`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts/pkgs/npm/indy-charts)) is a public npm package hosted in the facioquo GitHub org's [GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package) registry, with source code in the [`facioquo/stock-charts`](https://github.com/facioquo/stock-charts) repository. It is not, and must not be, published to the npmjs.org public registry.
+
+- **CI**: GitHub Actions workflows authenticate using the auto-generated `GITHUB_TOKEN` plus a `packages: read` permission in the workflow's `permissions:` block.
+- **Local development**: developers extend their normal `gh` CLI session token with the `read:packages` scope once per token lifetime:
+
+  ```bash
+  gh auth refresh --scopes read:packages
+  ```
+
+  Then `NODE_AUTH_TOKEN=$(gh auth token) pnpm install` (or the equivalent VS Code task) pulls the package.
+
+## Build and preview
+
+```bash
+# Production build
+pnpm run docs:build
+
+# Preview production build (port 4173)
+pnpm run docs:preview
+```
+
+## Visual inspection with Playwright
+
+Use the Playwright MCP tool to visually inspect docs work against the dev server.
+
+Start the dev server first (port 5173):
+
+```bash
+# from /docs folder
+pnpm run docs:dev
+```
+
+Then use the #tool:playwright MCP tool to navigate, screenshot, and inspect pages:
+
+- Navigate to `http://localhost:5173/<page-path>` to inspect any page
+- Take screenshots to verify layout, typography, and component rendering
+- Inspect element state, check link targets, and validate page structure
+
+## Content guidelines
+
+- Add indicator pages to the `indicators/` directory
+- Place image assets in `.vitepress/public/assets/`
+- Use HTML `<img>` tags instead of Markdown image syntax (avoids SSR import issues)
+- Optimize images to webp: `cwebp -resize 832 0 -q 100 input.png -o output.webp`
+- All pages require YAML front matter with title, description, and layout metadata
+
+## VitePress alert blocks
+
+Use VitePress native container syntax instead of GitHub alert syntax in docs pages:
+
+- `::: tip ✨` — helpful suggestions
+- `::: warning 🚩` — important warnings
+- `::: danger` — critical warnings
+- `::: info` — informational highlights (default)
+- `::: details` — collapsible sections
+
+GitHub alert blocks (`> [!NOTE]`, `> [!WARNING]`) are still preferred in non-website Markdown files.

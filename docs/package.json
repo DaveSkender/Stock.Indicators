@@ -1,0 +1,30 @@
+{
+  "name": "stock-indicators-docs",
+  "version": "1.0.0",
+  "description": "Stock Indicators for .NET documentation",
+  "type": "module",
+  "packageManager": "pnpm@11.8.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules dist .vitepress/dist .vitepress/cache _site && rm -f pnpm-lock.yaml package-lock.json yarn.lock",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview",
+    "test:charts": "playwright test"
+  },
+  "devDependencies": {
+    "@octokit/rest": "^22.0.1",
+    "@playwright/test": "^1.61.0",
+    "@types/node": "^26",
+    "sass-embedded": "^1.100.0",
+    "vitepress": "2.0.0-alpha.17",
+    "vue": "^3.5.38"
+  },
+  "dependencies": {
+    "@facioquo/indy-charts": "^0.7.0",
+    "chart.js": "^4.5.1",
+    "chartjs-plugin-annotation": "^3.1.0"
+  }
+}

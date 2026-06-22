@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Performance.Program</StartupObject>
+
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- MSTEST0001 is for test assemblies; this isn't a test project -->
+    <NoWarn>$(NoWarn);MSTEST0001</NoWarn>
+
+    <IsTestProject>false</IsTestProject>
+    <TestProjectType>None</TestProjectType>
+    <ExcludeFromTestDiscovery>true</ExcludeFromTestDiscovery>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      Override PrivateAssets default (All) so BenchmarkDotNet's compile assets flow
+      to the child harness project that BDN auto-generates at runtime.
+      This project is not a true leaf node: BDN creates a ProjectReference child from it.
+    -->
+    <PackageReference Include="BenchmarkDotNet"
+                      PrivateAssets="contentfiles;analyzers;build;buildMultitargeting;buildTransitive;native" />
+    <PackageReference Include="Roslynator.Analyzers" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Indicators.csproj" />
+    <ProjectReference Include="..\..\tests\indicators\Tests.Indicators.csproj" />
+  </ItemGroup>
+
+</Project>

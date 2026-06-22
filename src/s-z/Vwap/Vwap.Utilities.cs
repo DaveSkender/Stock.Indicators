@@ -1,17 +1,34 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the VWAP (Volume Weighted Average Price) indicator.
+/// </summary>
+public static partial class Vwap
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<VwapResult> RemoveWarmupPeriods(
-        this IEnumerable<VwapResult> results)
+    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the VWAP calculation.
+    /// </summary>
+    /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
+    /// <param name="startDate">Optional start date for the VWAP calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the start date is earlier than the first bar's timestamp.
+    /// </exception>
+    internal static void Validate(
+        IReadOnlyList<BarD> bars,
+        DateTime? startDate)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Vwap != null);
+        // nothing to do for 0 length
+        if (bars.Count == 0)
+        {
+            return;
+        }
 
-        return results.Remove(removePeriods);
+        // check parameter arguments (intentionally after bars check)
+        if (startDate < bars[0].Timestamp)
+        {
+            throw new ArgumentOutOfRangeException(nameof(startDate), startDate,
+                "Start Timestamp must be within the bars range for VWAP.");
+        }
     }
 }

@@ -1,0 +1,120 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "SSE Bar Server",
+    "description": "Server-Sent Events (SSE) endpoint for streaming bar data with configurable delivery rate and time intervals.",
+    "version": "v1"
+  },
+  "paths": {
+    "/bars/random": {
+      "get": {
+        "tags": [
+          "Bars"
+        ],
+        "operationId": "GetRandomBars",
+        "parameters": [
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "batchSize",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          },
+          {
+            "name": "barIntervalCode",
+            "in": "query",
+            "schema": {
+              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days|w|week|weeks|mo|month|months)$",
+              "type": "string",
+              "default": "1m"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/bars/longest": {
+      "get": {
+        "tags": [
+          "Bars"
+        ],
+        "operationId": "GetLongestBars",
+        "parameters": [
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "batchSize",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          },
+          {
+            "name": "barIntervalCode",
+            "in": "query",
+            "schema": {
+              "pattern": "^\\d+(\\.\\d+)?(s|sec|second|seconds|m|min|minute|minutes|h|hr|hour|hours|d|day|days|w|week|weeks|mo|month|months)$",
+              "type": "string",
+              "default": "1m"
+            }
+          },
+          {
+            "name": "scenario",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Bars"
+    }
+  ]
+}

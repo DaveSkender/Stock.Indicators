@@ -1,0 +1,5022 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.046085073044840774,
+    "returnsMrkt": 0.005921052631578938
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0010573153002335633,
+    "returnsMrkt": -0.0007941698589181145
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009966923925027515,
+    "returnsMrkt": 0.0035999812987985713
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009912230906947261,
+    "returnsMrkt": -0.0033075561352837735
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00609650639916981,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.000609039892113028,
+    "returnsMrkt": 0.0028043935498949235
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0006094110477516956,
+    "returnsMrkt": -0.0024702866464693107
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.035541617666274616,
+    "returnsMrkt": 0.0022895056536771374
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009127234490010516,
+    "returnsMrkt": -0.003542958370239102
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01180066219543252,
+    "returnsMrkt": 0.0021988304093567557
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02265480785366658,
+    "returnsMrkt": -0.003687797591261255
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003979323925172196,
+    "returnsMrkt": 0.0036545940120882303
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017120908756588893,
+    "returnsMrkt": -0.0025675738761029576
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.022858749799132383,
+    "returnsMrkt": 0.006412056538425581
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0005498605710695381,
+    "returnsMrkt": 0.008649955820118072
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007702283176798885,
+    "returnsMrkt": -0.0010604453870625141
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017425052473170055,
+    "returnsMrkt": -0.0015692790547401358
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009171773077683354,
+    "returnsMrkt": -0.006194526627218977
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005186928939073576,
+    "returnsMrkt": -9.303190994502941E-05
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010677569166038126,
+    "returnsMrkt": 0.0004186825455898546
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009268175252768351,
+    "returnsMrkt": 0.0006510113926994077
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008745776187636389,
+    "returnsMrkt": 0.006877643013151191
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.025623682011697735,
+    "returnsMrkt": -0.0017999723081182362
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0011250339449895286,
+    "returnsMrkt": 4.623636027378808E-05
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017865465278856574,
+    "returnsMrkt": 0.0013407924545749683
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027167277167277293,
+    "returnsMrkt": 0.005910056330224345
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00011144130757800852,
+    "returnsMrkt": 0.00394748921325605
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04223154923299788,
+    "returnsMrkt": 0.005440746159473209
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0013542409123306065,
+    "returnsMrkt": 0.004001637033331784
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004341946045982037,
+    "returnsMrkt": 0.005208569228678961
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.038640263082642234,
+    "returnsMrkt": -0.0008560872307831202
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012195575385759438,
+    "returnsMrkt": 0.0015783540022547005
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.018954560481945215,
+    "returnsMrkt": 0.005988293561458802
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01398752658711555,
+    "returnsMrkt": -0.0008951349415925458
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.06405615882417459,
+    "returnsMrkt": 0.0006719526945302423
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003945466619789784,
+    "returnsMrkt": 0.0012534694242993805
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.041906614785992224,
+    "returnsMrkt": 0.0015648752570867064
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015270275758437313,
+    "returnsMrkt": -0.0026784518548278458
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00012000480019191961,
+    "returnsMrkt": 0.013965355176581262
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018398528117749002,
+    "returnsMrkt": -0.006268485410320879
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004351644841903646,
+    "returnsMrkt": 0.0006219181733373436
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001431013236872336,
+    "returnsMrkt": -0.002974472807991013
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010429521117789942,
+    "returnsMrkt": -0.0029833466916021623
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006919023291363291,
+    "returnsMrkt": -0.0018757536510204398
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00797990845384211,
+    "returnsMrkt": 0.001297597207928769
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004940792160065377,
+    "returnsMrkt": 0.003485566181070654
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010176864048586198,
+    "returnsMrkt": 0.0004898468115424048
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04805622131047649,
+    "returnsMrkt": -0.003827836382249483
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00879844961240317,
+    "returnsMrkt": 0.008668066663688023
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "beta": 0.4535472457953331,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.024713565088179124,
+    "returnsMrkt": -0.0019490586932446874
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "beta": 0.22344077283858205,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0020988360999809608,
+    "returnsMrkt": -0.0017753317651236777
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "beta": 0.2177022601691051,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0016061185468452255,
+    "returnsMrkt": -0.00111155573340449
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "beta": 0.791673266253938,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.04291386682956633,
+    "returnsMrkt": -0.012819371494703136
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "beta": 0.861145615552814,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017273017392691825,
+    "returnsMrkt": 0.0023446658851113966
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "beta": 0.8580033894514423,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0009019254146895861,
+    "returnsMrkt": -0.0010796221322537658
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "beta": 0.8217483919628371,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03289112175209996,
+    "returnsMrkt": -0.0007205259839683231
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "beta": 0.7723424619851653,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.026827785377717017,
+    "returnsMrkt": -0.001036502929247507
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "beta": 0.8450499074815813,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.026755976611649634,
+    "returnsMrkt": 0.0073081607795371095
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "beta": 0.8051270065556353,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00025229771129930967,
+    "returnsMrkt": 0.0009404809888486909
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "beta": 0.7879282859544137,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0019467878001298011,
+    "returnsMrkt": 0.0031767337807606655
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "beta": 0.895637577976516,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0013672999424294563,
+    "returnsMrkt": -0.0023192542705500196
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "beta": 0.7070752201237134,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.07265540783327329,
+    "returnsMrkt": -0.0017434842862890099
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "beta": 0.7586422810764131,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01735227120460947,
+    "returnsMrkt": 0.0006269592476488839
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "beta": 0.788143875586527,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02864669081330251,
+    "returnsMrkt": -0.0029538131041890736
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "beta": 0.8985856867220007,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012542372881355845,
+    "returnsMrkt": 0.002783014633270575
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "beta": 0.8602842690155227,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012855708068296057,
+    "returnsMrkt": -0.0010295434198747122
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "beta": 0.8590161502703864,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.032557678323527295,
+    "returnsMrkt": 0.0006273244611731954
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "beta": 0.8285283910371549,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.011780146611607312,
+    "returnsMrkt": -0.0012090815458332127
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "beta": 1.0571823273622833,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03845032554824923,
+    "returnsMrkt": -0.004393830703012913
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "beta": 0.8389626871685829,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02412073844495355,
+    "returnsMrkt": -0.006484733855714686
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "beta": 0.6737703079085686,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.008421052631578996,
+    "returnsMrkt": 0.008884054029553168
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "beta": 0.7538092884495229,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003947717622080682,
+    "returnsMrkt": -0.003010153652619363
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "beta": 0.7723618609592867,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01755203996669441,
+    "returnsMrkt": -0.0018475958722004027
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "beta": 0.6243349109578715,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009852055511914037,
+    "returnsMrkt": 0.008171557562076659
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "beta": 0.5804556881446359,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010214538362368186,
+    "returnsMrkt": -0.003179436657561263
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "beta": 0.46818266390691815,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007951570680628128,
+    "returnsMrkt": 0.010961365678346713
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "beta": 0.5420399903184624,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.018699477323637526,
+    "returnsMrkt": 0.005821187344472012
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "beta": 0.3962520802796811,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.011536377832308209,
+    "returnsMrkt": -0.0006185111552904354
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "beta": 0.40137987069982733,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004965019183028718,
+    "returnsMrkt": 0.0008399275009947083
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "beta": 0.40017869260514194,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017626283899815354,
+    "returnsMrkt": -0.002164310954063664
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "beta": 0.3988358698137816,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027891871238895805,
+    "returnsMrkt": 0.002523128679562614
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "beta": 0.39111207220603955,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012204565870582051,
+    "returnsMrkt": 0.00035323207347226493
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "beta": 0.35618645174317654,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.024679356517921525,
+    "returnsMrkt": -0.001191737288135597
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "beta": 0.2945894878369345,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0500289370458491,
+    "returnsMrkt": 0.0011489681382297334
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "beta": 0.4512440530245589,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04362688688824212,
+    "returnsMrkt": 0.003928492606488643
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "beta": 0.45503373189094576,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003761958813037203,
+    "returnsMrkt": -0.00013190291945130994
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "beta": 0.46180400835099994,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04580227220938182,
+    "returnsMrkt": -0.000923442240886585
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "beta": 0.5024156208636933,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012326464545850735,
+    "returnsMrkt": 0.0018045774647887924
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "beta": 0.7269269173710201,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006518664288789111,
+    "returnsMrkt": -0.002064935635517018
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "beta": 0.7324824695356043,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005292479108635062,
+    "returnsMrkt": -0.001672977018578825
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "beta": 0.5050933065496748,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.027492995905298523,
+    "returnsMrkt": 0.0055124360557416985
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "beta": 0.4880584668240318,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0035773078384195856,
+    "returnsMrkt": -0.000921012236305363
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "beta": 0.9223045354498188,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03438377338254306,
+    "returnsMrkt": -0.017734855136084415
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "beta": 0.9545859508138935,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.022704256639769937,
+    "returnsMrkt": 0.004022166607078992
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "beta": 0.8719142123882486,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007123235162588726,
+    "returnsMrkt": 0.0064987091605093195
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "beta": 0.8629514689687746,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0015442524852812278,
+    "returnsMrkt": 0.005085795153016104
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "beta": 0.8175936163729098,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02091187369099412,
+    "returnsMrkt": 0.0022440269283230396
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "beta": 1.0059050643926628,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.020930691765944864,
+    "returnsMrkt": 0.002326806567740869
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "beta": 1.2075448387503225,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.021307459222487113,
+    "returnsMrkt": 0.004774210503263099
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "beta": 1.242261153552239,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.026228576839314455,
+    "returnsMrkt": -0.00021795989537931604
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "beta": 1.2044810675201312,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.030632958110352604,
+    "returnsMrkt": -0.0008720296490080104
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "beta": 1.1944218673383602,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017636526410026665,
+    "returnsMrkt": -0.0002618372245254408
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "beta": 0.6414958301717925,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001876777807102381,
+    "returnsMrkt": 0.007988126937011675
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "beta": 0.6037019195128397,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0015277492140904902,
+    "returnsMrkt": 0.0033344881344188337
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "beta": 0.5660470277606947,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02198028542003816,
+    "returnsMrkt": -0.0007769001683284316
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "beta": 0.5607879677134625,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01592191638834506,
+    "returnsMrkt": -0.0031964062027557416
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "beta": 0.6126654035146064,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01927164517500346,
+    "returnsMrkt": 0.0018633271222427972
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "beta": 0.4964219873252378,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.028777978590296183,
+    "returnsMrkt": 0.0005190311418685756
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "beta": 0.5854828922918932,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0342702702702703,
+    "returnsMrkt": -0.001556285664879753
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "beta": 0.5982407004617933,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0047296540915706675,
+    "returnsMrkt": -0.0001731901627988197
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "beta": 0.7538547205271644,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04718531517227942,
+    "returnsMrkt": 0.0048934695998614774
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "beta": 0.9085488622537357,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01252826173693311,
+    "returnsMrkt": -0.0012928248222365823
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "beta": 0.9526486209294799,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013975726369989117,
+    "returnsMrkt": -0.0018985976267529292
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "beta": 0.8494983227484586,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010497149251345483,
+    "returnsMrkt": 0.00021616013142544688
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "beta": 0.7279578792457304,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004308023694130192,
+    "returnsMrkt": 0.008298755186721962
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "beta": 0.6918353262654179,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006598161168199113,
+    "returnsMrkt": -0.006730109739368939
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "beta": 0.6880104710040197,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.011175585643670605,
+    "returnsMrkt": -0.000258944370117864
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "beta": 0.6476335748893467,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.016498405951115958,
+    "returnsMrkt": -0.0004316857327865131
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "beta": 0.4516972759468455,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0021954470609759635,
+    "returnsMrkt": 0.0011660548477649968
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "beta": 0.6218010320776657,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.015543095579606203,
+    "returnsMrkt": 0.0006901906651712864
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "beta": 1.0952048901423102,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.040054041166653453,
+    "returnsMrkt": -0.008061039744805432
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "beta": 1.1667894516085504,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.024477743742583602,
+    "returnsMrkt": 0.008952240232932063
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "beta": 1.3790820447537318,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.028256653377868757,
+    "returnsMrkt": -0.0087866649437911
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "beta": 1.535882831333657,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0023839223839223767,
+    "returnsMrkt": 0.0018685091035501866
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "beta": 1.5537914158363044,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.024861038135007396,
+    "returnsMrkt": 0.0016915336571825534
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "beta": 1.534212064340306,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.07240088480517282,
+    "returnsMrkt": 0.002294869019268342
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "beta": 1.8645327047913345,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.05582561374545225,
+    "returnsMrkt": -0.009158458614135001
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "beta": 1.8696185329467019,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.014214940258394648,
+    "returnsMrkt": 0.0064963376351585556
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "beta": 1.8764031507954677,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009035182938509578,
+    "returnsMrkt": 0.0010829542993284758
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "beta": 1.88845346051587,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03534250909666192,
+    "returnsMrkt": -0.0007356122890522787
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "beta": 1.8032533378304045,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0070289102133120895,
+    "returnsMrkt": 0.007491447624821346
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "beta": 1.7801169483829389,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.018542121874241202,
+    "returnsMrkt": 0.0016762657955815552
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "beta": 1.7631365824050294,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.013512259979592267,
+    "returnsMrkt": 0.004677107916756018
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "beta": 1.8023159807266924,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.025047287814997765,
+    "returnsMrkt": -0.00012812847014598283
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "beta": 1.6963838612977835,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027130206214600827,
+    "returnsMrkt": 0.0005552945196702908
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "beta": 1.6179699570583108,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009078722885693447,
+    "returnsMrkt": 0.005379098360655643
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "beta": 1.682393930551239,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01432699993851072,
+    "returnsMrkt": 0.0004670912951167949
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "beta": 1.6766522896089748,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004607177497575332,
+    "returnsMrkt": -0.0008913034251517571
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "beta": 1.633496353114214,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.042996345919610324,
+    "returnsMrkt": -0.0002548853016143271
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "beta": 1.6321611189007055,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.008525049632138182,
+    "returnsMrkt": 0.0024220277045976513
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "beta": 1.7805670668563776,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012514723203769229,
+    "returnsMrkt": 4.238904667031029E-05
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "beta": 1.8250904292897387,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02730841936891104,
+    "returnsMrkt": -0.0009325194981349982
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "beta": 1.7636920129039564,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018238354362256626,
+    "returnsMrkt": -0.0011455239711496423
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "beta": 1.7693525959543501,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03461963171874527,
+    "returnsMrkt": -0.0005946565858216957
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "beta": 1.8759697688464783,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012056759514019966,
+    "returnsMrkt": 0.002252539419439925
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "beta": 1.9296134943389907,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.019776574772350397,
+    "returnsMrkt": 0.00046645746756013295
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "beta": 1.7411211982449306,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0650526251189052,
+    "returnsMrkt": -0.0019073453990591238
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "beta": 1.742684867782429,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.028292373735918863,
+    "returnsMrkt": 0.001783590963139181
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "beta": 1.6609326526115307,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00487517861645792,
+    "returnsMrkt": 0.0018651971174226123
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "beta": 1.559976463265526,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.028296308809865778,
+    "returnsMrkt": -0.0024540915630024696
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "beta": 1.625779659090073,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0046273478998960504,
+    "returnsMrkt": -4.24160162877385E-05
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "beta": 1.642525898907967,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.022364041482133556,
+    "returnsMrkt": -0.014125132555673381
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "beta": 1.7880480119708957,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006949915588069899,
+    "returnsMrkt": 0.001505894501333982
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "beta": 1.7937092836656208,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.016570262944644698,
+    "returnsMrkt": 0.009880998410447983
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "beta": 1.82104347884081,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004040681693238124,
+    "returnsMrkt": -8.508103969018244E-05
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "beta": 1.8983694874584593,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0016007506968787055,
+    "returnsMrkt": 0.0017443097213358794
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "beta": 1.8853739590367338,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.030282990273070465,
+    "returnsMrkt": -0.015586511509385947
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "beta": 1.8864674732245796,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012673334848829376,
+    "returnsMrkt": -0.001596272488027961
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "beta": 1.8285709015165597,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.027629079606285467,
+    "returnsMrkt": 0.0007778065854291416
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "beta": 1.76844772632709,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010329722370212568,
+    "returnsMrkt": 0.010492227979274737
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "beta": 1.504772635299489,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03345539768565975,
+    "returnsMrkt": -0.003589283425201928
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "beta": 1.511707186415861,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0004535533066871711,
+    "returnsMrkt": -0.0023585917063339013
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "beta": 1.4690787830421776,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013827104524976597,
+    "returnsMrkt": 0.002364167812929807
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "beta": 1.4699420109983412,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006866829478523129,
+    "returnsMrkt": 4.288348556968913E-05
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "beta": 1.5754433144999282,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004918127639877312,
+    "returnsMrkt": 0.0011149228130360456
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "beta": 1.7187515713645756,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01675495163519103,
+    "returnsMrkt": 0.004754561809303448
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "beta": 1.7187896163990384,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007701455348547492,
+    "returnsMrkt": 0.006010998848957616
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "beta": 1.729772725156792,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001404889013767896,
+    "returnsMrkt": 0.001398423595220022
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "beta": 1.7402454151801114,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01634777715250424,
+    "returnsMrkt": -0.007151622868266205
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "beta": 1.700774836293595,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.014474098229354415,
+    "returnsMrkt": 0.0034097689881509297
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "beta": 1.5232954851007696,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01764722955910969,
+    "returnsMrkt": -0.00012743182397423336
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "beta": 1.456412444032949,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02056415960754121,
+    "returnsMrkt": -0.0011895152725263092
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "beta": 1.7291879590901769,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.05908561444379745,
+    "returnsMrkt": 0.010675853855641959
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "beta": 1.711848612639261,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002584618768731617,
+    "returnsMrkt": 0.0033667199730662567
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "beta": 1.7340734077921858,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009593383873190975,
+    "returnsMrkt": 0.0005033134804126593
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "beta": 1.8175473432484825,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.031155284930235005,
+    "returnsMrkt": -0.00033537352226031825
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "beta": 1.4402284180361982,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005746213324859806,
+    "returnsMrkt": 0.0013419441415751798
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "beta": 1.4410267089480593,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.013664727100392238,
+    "returnsMrkt": 0.0021358572744785143
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "beta": 1.4316843322006207,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02571428571428569,
+    "returnsMrkt": 0.0010029671110367566
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "beta": 1.4816564331220907,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0031724873367101614,
+    "returnsMrkt": 0.0003339873919760983
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "beta": 1.577497173698082,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.019871091974004496,
+    "returnsMrkt": -0.0026710070531280605
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "beta": 1.6165683554747996,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.04199410609037335,
+    "returnsMrkt": 0.00020923128426164617
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "beta": 1.6322344357490735,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.017374462388561218,
+    "returnsMrkt": -0.0020500376537528897
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "beta": 1.6187206903643203,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0007536450331893096,
+    "returnsMrkt": 0.0006288517167651886
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "beta": 1.55050878318567,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012396813902968762,
+    "returnsMrkt": 0.0038545332662978105
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "beta": 1.634397918126298,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004017948793148984,
+    "returnsMrkt": 0.0012103505843070739
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "beta": 1.6283122984500646,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004416961130742081,
+    "returnsMrkt": 0.003543290674892674
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "beta": 1.6014452181272638,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0012606273819992797,
+    "returnsMrkt": 0.004320013292348657
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "beta": 1.6615723990255495,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01935408309665343,
+    "returnsMrkt": 0.002150715526511693
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "beta": 1.6942576288574585,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.019733440569885685,
+    "returnsMrkt": 0.001155592241023573
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "beta": 1.6549779069006003,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0009013830596320549,
+    "returnsMrkt": 0.005936186000494725
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "beta": 1.6041173003244782,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004362142233979682,
+    "returnsMrkt": -0.0011474469305794432
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "beta": 1.6912288151974113,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03906074871105136,
+    "returnsMrkt": -0.001641092967916702
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "beta": 1.7085115052861821,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03688691899457619,
+    "returnsMrkt": 0.002630064929727949
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "beta": 1.727691236349562,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0027841052897998875,
+    "returnsMrkt": 0.0015984916796458748
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "beta": 1.7217802425086062,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003045685279187804,
+    "returnsMrkt": -0.001514097475140197
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "beta": 1.8918282906302093,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0003092667566352292,
+    "returnsMrkt": 0.0012295081967212962
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "beta": 1.8568394284274903,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013977557161740206,
+    "returnsMrkt": 0.0013507981989355766
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "beta": 1.8640690042462504,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.014689104392469954,
+    "returnsMrkt": 0.0006949270326617185
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "beta": 1.9725745663221623,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010962754743499614,
+    "returnsMrkt": 0.0009803921568627416
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "beta": 1.981119767971571,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.021798971222021346,
+    "returnsMrkt": 0.0002448579823701724
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "beta": 1.9904606079620748,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.019072794974560048,
+    "returnsMrkt": 0.005181558547531662
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "beta": 2.062708388722263,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02341350333236758,
+    "returnsMrkt": -0.003896578317165278
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "beta": 2.0703156198092647,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0009494985460802852,
+    "returnsMrkt": 0.0017521698382299
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "beta": 2.21776455111208,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03409023537084244,
+    "returnsMrkt": -0.004921900423039416
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "beta": 2.217176502797308,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001012767002209758,
+    "returnsMrkt": 0.0012672198830887549
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "beta": 2.083668319743334,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.016249195204954492,
+    "returnsMrkt": 0.008165264962848084
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "beta": 1.9789842663578596,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002462056284476599,
+    "returnsMrkt": -0.0037256013606543625
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "beta": 1.9798821835636478,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03577230692326916,
+    "returnsMrkt": 0.0015852369726037097
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "beta": 2.1110068162510656,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03152052604590838,
+    "returnsMrkt": 0.001298648593807128
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "beta": 2.64590179480111,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.06795814127320288,
+    "returnsMrkt": 0.00040530134154748154
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "beta": 2.830883492487098,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.022822963309496735,
+    "returnsMrkt": 0.003322124539156368
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "beta": 2.858570217536195,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010813812930837385,
+    "returnsMrkt": 0.0015748031496063408
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "beta": 2.778513050517555,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010799920734526847,
+    "returnsMrkt": -0.0007256894049345597
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "beta": 2.775551432329884,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005423950334912719,
+    "returnsMrkt": 0.0017348503187282205
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "beta": 2.5950867217433635,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004599362659745698,
+    "returnsMrkt": -0.0036247935881429383
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "beta": 2.602659611020765,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0,
+    "returnsMrkt": -0.00032337604591936575
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "beta": 2.601929072901919,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04095844747351385,
+    "returnsMrkt": 0.000930006873963718
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "beta": 2.826839220727329,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.021242866201648614,
+    "returnsMrkt": -0.0023430556677708214
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "beta": 2.5672601820720278,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00842241658568188,
+    "returnsMrkt": -0.004980563654033099
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "beta": 2.4065099065704194,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003854802441374927,
+    "returnsMrkt": 0.008505270011801569
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "beta": 2.1938951547104395,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008159999999999945,
+    "returnsMrkt": -0.002945686385279589
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "beta": 1.200316566788082,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.020028566894143784,
+    "returnsMrkt": 0.001699785503257889
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "beta": 1.548547427504247,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.029377469715618387,
+    "returnsMrkt": 0.006545190093329545
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "beta": 1.6034574772841257,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.016393442622950727,
+    "returnsMrkt": -0.000883073094368414
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "beta": 1.7376175344036933,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009436980166346753,
+    "returnsMrkt": 0.0022899843316861457
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "beta": 1.6985510107434196,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003993028046268332,
+    "returnsMrkt": -0.00048100048100041537
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "beta": 1.4922571745844648,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0023357848552760796,
+    "returnsMrkt": 0.01014597369265302
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "beta": 1.5697939853305944,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03152259486695008,
+    "returnsMrkt": -0.0005954980348563677
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "beta": 1.5182912432416853,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004259608506210544,
+    "returnsMrkt": 0.008739175339636196
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "beta": 1.442986749160105,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007511737089202053,
+    "returnsMrkt": -0.0020871071906749528
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "beta": 1.3730952759224493,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004338890157570163,
+    "returnsMrkt": -0.0011838522552384267
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "beta": 1.284556535344303,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004914809960681499,
+    "returnsMrkt": -0.0035952747817155073
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "beta": 1.2315325417575267,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.031478432663812894,
+    "returnsMrkt": 0.00015860428231562196
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "beta": 1.271448204130202,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00644831769137455,
+    "returnsMrkt": 0.0031715826197271646
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "beta": 1.3314426541156996,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012498393522683449,
+    "returnsMrkt": 0.005453683212140348
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "beta": 1.4509634491133638,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.043727985275918035,
+    "returnsMrkt": 0.0030264916280167142
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "beta": 1.50500467782174,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03684898604481446,
+    "returnsMrkt": 0.0017633919824444622
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "beta": 1.4818834757304937,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005864586693252849,
+    "returnsMrkt": -0.00011735252699096588
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "beta": 1.4386367351469425,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003362534289000907,
+    "returnsMrkt": -0.0041078205078048935
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "beta": 1.5536302779153517,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.016455059338838174,
+    "returnsMrkt": 0.008328095537397884
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "beta": 1.4197479600911123,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013335274421313104,
+    "returnsMrkt": 0.006350319463923837
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "beta": 1.390587607451424,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0229291468704812,
+    "returnsMrkt": -0.0038326042352212486
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "beta": 1.319392519548781,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00640289942615524,
+    "returnsMrkt": -0.0005440696409140244
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "beta": 1.332637920355537,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008146391877925652,
+    "returnsMrkt": 0.0020608134380588616
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "beta": 1.3933179881428077,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01947777844780807,
+    "returnsMrkt": -0.0002328198362500089
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "beta": 1.4562087454944415,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.024323493234932214,
+    "returnsMrkt": -0.0012031826120706413
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "beta": 1.473965853800725,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.017807053484194424,
+    "returnsMrkt": 0.00046630916297507596
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "beta": 1.5009629601619836,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.011936850211782923,
+    "returnsMrkt": 0.002058572205391185
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "beta": 1.5222846270639576,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012715626585489526,
+    "returnsMrkt": -0.003759835652544785
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "beta": 1.683534064783721,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02948450297093297,
+    "returnsMrkt": 0.00715897595517867
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "beta": 1.6938077086165868,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010233051508439117,
+    "returnsMrkt": 0.006335470910917129
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "beta": 1.5545360260586258,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.008289992119779321,
+    "returnsMrkt": 0.004184261036468184
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "beta": 1.5469342548233775,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006229737461064033,
+    "returnsMrkt": 0.00668985817500678
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "beta": 1.3698336827540456,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.06263819571672258,
+    "returnsMrkt": 0.001822738664843948
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "beta": 1.360052948147014,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.008085372016289782,
+    "returnsMrkt": 0.0022742779167614913
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "beta": 1.5838543353425514,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0033264407084419023,
+    "returnsMrkt": -0.0015505634974662952
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "beta": 1.607922677016939,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009408602150537515,
+    "returnsMrkt": 0.007310329154198714
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "beta": 1.5167047731717056,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005119100458647607,
+    "returnsMrkt": 0.006505226742874459
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "beta": 1.3838905289195407,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.011421093331746901,
+    "returnsMrkt": -0.003399708596406148
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "beta": 1.3531470190607122,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02087866847026998,
+    "returnsMrkt": 0.009521667416404256
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "beta": 1.341787558808741,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007460536928217576,
+    "returnsMrkt": -0.0016709988860007519
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "beta": 1.3713585152008705,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015816815160925257,
+    "returnsMrkt": 0.00453784638274124
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "beta": 1.350637907665419,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004399748585795171,
+    "returnsMrkt": 0.008146036212833607
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "beta": 1.3491847708876306,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0034986915462511536,
+    "returnsMrkt": 0.0020935101186321248
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "beta": 1.4014151722272905,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01955837750503142,
+    "returnsMrkt": -0.00036651517372809916
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "beta": 1.4481700926916246,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.023851513486946696,
+    "returnsMrkt": 0.0004033145119894943
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "beta": 1.4939846991337835,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015430636180547408,
+    "returnsMrkt": 0.011581455011911101
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "beta": 1.148176108600076,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.019483739244567477,
+    "returnsMrkt": -0.0066301945581681565
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "beta": 1.226946948102146,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010614253426029174,
+    "returnsMrkt": -0.010248741702531206
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "beta": 1.2373189871129093,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0245503441096524,
+    "returnsMrkt": 0.0005159007996462517
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "beta": 1.3291174268339299,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.014281279105867739,
+    "returnsMrkt": -0.0011417627343376369
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "beta": 1.13599508974056,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.015748031496062964,
+    "returnsMrkt": -0.021792035398229936
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "beta": 0.8992659153347587,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.030894545454545508,
+    "returnsMrkt": -0.041803309585736526
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "beta": 0.8113174696937694,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0025215381382643898,
+    "returnsMrkt": 0.01970889063729353
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "beta": 0.7489338358252855,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03302691858550166,
+    "returnsMrkt": -0.005439604953512478
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "beta": 1.178500899352062,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.08628985507246367,
+    "returnsMrkt": -0.03750969743987598
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "beta": 1.10381503380045,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.015258699996827718,
+    "returnsMrkt": 0.015032442671180535
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "beta": 1.101471187800201,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017105856581405954,
+    "returnsMrkt": 0.01469070118319693
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "beta": 1.1194132012536415,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.025116396921420314,
+    "returnsMrkt": 0.002465174518704094
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "beta": 1.0700239379381475,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004171043687820619,
+    "returnsMrkt": 0.01350560131152645
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "beta": 1.1144363278678016,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.036486612267692564,
+    "returnsMrkt": 0.01274792990564233
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "beta": 1.1125283284072305,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004250606160385528,
+    "returnsMrkt": 0.0003042287800427701
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "beta": 1.1113796065241488,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0021461146382903973,
+    "returnsMrkt": -0.0062728102189781865
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "beta": 1.1157089198527095,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004391074469038303,
+    "returnsMrkt": -0.004973411377634962
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "beta": 1.1159519056182803,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03861386138613865,
+    "returnsMrkt": 0.0013072398016071851
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "beta": 1.0956023193076159,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01698587399254703,
+    "returnsMrkt": 0.015935184118573087
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "beta": 1.0943178372996367,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015253515125692285,
+    "returnsMrkt": 0.011603295789553325
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "beta": 1.1028332381941814,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.017990039729170237,
+    "returnsMrkt": -0.012478983747431283
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "beta": 1.1229246574512717,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.022593236274537798,
+    "returnsMrkt": -0.01013960879270559
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "beta": 1.1561683815537478,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03535824637089724,
+    "returnsMrkt": -0.01452432824981853
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "beta": 1.1807412784125397,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01266128788565557,
+    "returnsMrkt": 0.005158437730287568
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "beta": 1.1378037827794523,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005281690140845008,
+    "returnsMrkt": 0.01153727427072071
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "beta": 1.1313004601071708,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.015449227538623211,
+    "returnsMrkt": 0.002555788670608461
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "beta": 1.1281646772876763,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012492382693479742,
+    "returnsMrkt": -0.00038048854729455517
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "beta": 1.116422882387089,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009629852542882955,
+    "returnsMrkt": 0.004834043848964686
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "beta": 1.0498097554277965,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0058644788817988625,
+    "returnsMrkt": 0.017424902458426317
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "beta": 1.0309276492771613,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.056056484396491024,
+    "returnsMrkt": -0.0012658699132506168
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "beta": 1.0348526156115572,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010621979103354495,
+    "returnsMrkt": -0.006449207828518211
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "beta": 1.0619457159773138,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.04449450035104141,
+    "returnsMrkt": -0.005140327179948945
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "beta": 1.0423233219384358,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003153415179254715,
+    "returnsMrkt": -0.0010937205355457946
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "beta": 1.0552838570194416,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013052825552825498,
+    "returnsMrkt": 0.0010949180699235672
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "beta": 1.0818360099228148,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.024241481250972474,
+    "returnsMrkt": -0.013539505940033836
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "beta": 1.080153012781918,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00959943870391633,
+    "returnsMrkt": 0.001682214405872351
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "beta": 1.05825490192626,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.019256158428594405,
+    "returnsMrkt": -0.001908396946564861
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "beta": 1.049825870297765,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.023473288471866693,
+    "returnsMrkt": -0.02500956022944545
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "beta": 1.0539886339344644,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02445810417340666,
+    "returnsMrkt": -0.02129745842485098
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "beta": 0.9904480531349865,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008755057372156205,
+    "returnsMrkt": 0.02737145834168242
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "beta": 1.111782028441442,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.08218817805246892,
+    "returnsMrkt": -0.017007333437353722
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "beta": 1.1308813778518056,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.07665305537645972,
+    "returnsMrkt": -0.0029761904761904656
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "beta": 1.1477124772557332,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03239196213825757,
+    "returnsMrkt": 0.012776119402985175
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "beta": 1.1958209756596698,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.05129072257919065,
+    "returnsMrkt": -0.021575100212214093
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "beta": 1.2572788292383008,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.05960868187579216,
+    "returnsMrkt": 0.012812788689400278
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "beta": 1.3359135017928443,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.07255261092213972,
+    "returnsMrkt": 0.010707487309644659
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "beta": 1.3869932784003878,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.06544922283404198,
+    "returnsMrkt": 0.007886682884721052
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "beta": 1.3674851504230645,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.020999607483972338,
+    "returnsMrkt": -0.02230700354264814
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "beta": 1.3478307247955026,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.032208486468426334,
+    "returnsMrkt": 0.004937485068089442
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "beta": 1.3986859342664786,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.05192294414140708,
+    "returnsMrkt": 0.015928361993818863
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "beta": 1.4151265437673142,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012372825730226356,
+    "returnsMrkt": -0.00526521060842422
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "beta": 1.3891250555749266,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.022762768750207774,
+    "returnsMrkt": 0.008233679670652583
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "beta": 1.3805966682055635,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02128672470076176,
+    "returnsMrkt": -0.002916585650398651
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "beta": 1.3455407390762422,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03039888126789636,
+    "returnsMrkt": 0.008190327613104564
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "beta": 1.3518833773875325,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012087496995295433,
+    "returnsMrkt": 0.010715667311411936
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "beta": 1.494507606294381,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.019673954603913968,
+    "returnsMrkt": 0.0007272170551537727
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "beta": 1.5285787205300092,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.022941878302369156,
+    "returnsMrkt": -0.005545781381473214
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "beta": 1.576822975496528,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03279125566515584,
+    "returnsMrkt": -0.008461213030268033
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "beta": 1.4415095166718452,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02367006615214995,
+    "returnsMrkt": -0.00015515301966573247
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "beta": 1.4707350052065942,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00031760595687613247,
+    "returnsMrkt": -0.013461613065911315
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "beta": 1.4726897465506765,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009772101883863571,
+    "returnsMrkt": 0.0024773889107352343
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "beta": 1.4705414398409014,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017065089600627026,
+    "returnsMrkt": 0.010159651669085612
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "beta": 1.5217861933226993,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.030124702255849733,
+    "returnsMrkt": 0.0009319664492077884
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "beta": 1.4692532742545057,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0006120783460282775,
+    "returnsMrkt": -0.007681564245810013
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "beta": 1.4754219328868512,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.020483157536577146,
+    "returnsMrkt": 0.0017593244194229474
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "beta": 1.4680059174091753,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004101093624966579,
+    "returnsMrkt": -0.0067127190414862925
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "beta": 1.4853890320405305,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.05545409264486134,
+    "returnsMrkt": -0.002200306471258462
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "beta": 1.510380240695847,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03388996308665848,
+    "returnsMrkt": 0.012955306162630631
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "beta": 1.5392064441813889,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.029514774388792464,
+    "returnsMrkt": 0.003382055667858763
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "beta": 1.540773023287068,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0026422697096805114,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "beta": 1.5520202987072522,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.016160545749577704,
+    "returnsMrkt": 0.009647049707489197
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "beta": 1.5145601987768134,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005963825973602899,
+    "returnsMrkt": 0.009363008442056842
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "beta": 1.4783127530846905,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012982755229165255,
+    "returnsMrkt": 0.0030413625304135383
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "beta": 1.4720926780171275,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03019331694678795,
+    "returnsMrkt": 0.0004927228623410329
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "beta": 1.5281707297831535,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.026680823372264295,
+    "returnsMrkt": -0.006894722885176563
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "beta": 1.5385621042901316,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008093461890351206,
+    "returnsMrkt": 0.004196070951745234
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "beta": 1.5403217908187046,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006771851438145737,
+    "returnsMrkt": -0.0008357075023742722
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "beta": 1.561638960988337,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02713151050818874,
+    "returnsMrkt": -0.0025092194806675128
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "beta": 1.6873877287476151,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027707535582689236,
+    "returnsMrkt": 0.007508480390288508
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "beta": 1.7103483390179544,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0333227881472109,
+    "returnsMrkt": -0.0027615949156387654
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "beta": 1.7221192873472162,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.014763099523653622,
+    "returnsMrkt": 0.0027313076135198067
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "beta": 1.6905762320625277,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004371663023614025,
+    "returnsMrkt": -0.002042900919305257
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "beta": 1.686412806451548,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0035990642432968123,
+    "returnsMrkt": -0.0023882633913340223
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "beta": 1.6097946885152112,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017608032992648237,
+    "returnsMrkt": -0.011475908192734585
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "beta": 1.6263750366540488,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.028051874823794787,
+    "returnsMrkt": 0.013338971323133775
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "beta": 1.6438639140790674,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.023961332784862233,
+    "returnsMrkt": -0.006145442130420009
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "beta": 1.670100650798586,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.024900783198117393,
+    "returnsMrkt": 0.009847704110843791
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "beta": 1.7813095874165525,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.016859708039202337,
+    "returnsMrkt": 0.004724647541293425
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "beta": 1.8609608283459143,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.018905439104940358,
+    "returnsMrkt": 0.0007523888345497554
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "beta": 2.294822446990723,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.09744787551952738,
+    "returnsMrkt": 0.008345237200210631
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "beta": 2.077643975730779,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010672926447574449,
+    "returnsMrkt": -0.00011184014315546165
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "beta": 1.9885743357125663,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0049669397956280115,
+    "returnsMrkt": 0.0029454531896648817
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "beta": 1.9730427643615307,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.045457407290814045,
+    "returnsMrkt": 0.0013382899628253675
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "beta": 1.8775296644617498,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03212887684432397,
+    "returnsMrkt": 0.0012993762993762648
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "beta": 1.7295513083720448,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005863990430901245,
+    "returnsMrkt": -0.003188609988506008
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "beta": 1.5621527385587033,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03753117930274397,
+    "returnsMrkt": 0.0025292914264458677
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "beta": 1.4291333090215017,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001257967125125825,
+    "returnsMrkt": -0.001298556746929691
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "beta": 1.4693022942548155,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03534634391490066,
+    "returnsMrkt": -0.002043242440002979
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "beta": 1.6567105710328338,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.049294825122023544,
+    "returnsMrkt": -0.003834270185757216
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "beta": 1.4794728225111076,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027428733512977033,
+    "returnsMrkt": 0.0017189835575484036
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "beta": 1.5852768255119836,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.040610678593120286,
+    "returnsMrkt": -0.006267253599940292
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "beta": 1.7142468645917144,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03994129665333368,
+    "returnsMrkt": 0.0018019370823636471
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "beta": 1.617253020438481,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0018583460719959755,
+    "returnsMrkt": -0.013602638087386598
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "beta": 1.8165573195822902,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.026996186300711766,
+    "returnsMrkt": 0.00220339626942212
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "beta": 1.9233775624644542,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007309941520467822,
+    "returnsMrkt": -0.008263522990030747
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "beta": 1.921652879938451,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015761973875181523,
+    "returnsMrkt": 0.005695065550586742
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "beta": 1.99680687886438,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01994684651215961,
+    "returnsMrkt": 0.0014442079659471307
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "beta": 1.8811751091155464,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02297711036594252,
+    "returnsMrkt": 0.0021252371916509194
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "beta": 2.0175861651848868,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0722535589578297,
+    "returnsMrkt": -0.0035219268348103405
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "beta": 2.135557329384022,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005468699736215665,
+    "returnsMrkt": 0.00817086611180784
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "beta": 2.0676129770179896,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008409884849270854,
+    "returnsMrkt": 0.008443908323281013
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "beta": 2.1459499373249824,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.031110391712528385,
+    "returnsMrkt": 0.009008672248803862
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "beta": 2.15330475208048,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012432890647075645,
+    "returnsMrkt": 0.003593524247026858
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "beta": 2.2093592016556913,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0108847334635781,
+    "returnsMrkt": -0.007308970099667578
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "beta": 2.0865347625126898,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007054176072234797,
+    "returnsMrkt": 0.00907333035847091
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "beta": 2.171845015432005,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006820119352088705,
+    "returnsMrkt": 0.0007738797169809519
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "beta": 2.1025089273280373,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.027503371279831823,
+    "returnsMrkt": -0.0008837500460286973
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "beta": 2.1075618547643877,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.040599806514027614,
+    "returnsMrkt": 0.004054103858769809
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "beta": 2.07573970483825,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0035947813691159514,
+    "returnsMrkt": 0.0020922805858385463
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "beta": 2.082517042633356,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.011178014512891798,
+    "returnsMrkt": -0.003772893772893693
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "beta": 2.123690372229925,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.020766324204478104,
+    "returnsMrkt": -0.001139831599073382
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "beta": 2.2408666570119777,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.033101600867402214,
+    "returnsMrkt": 0.0018405359640727426
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "beta": 2.18621054783578,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.019030343007915507,
+    "returnsMrkt": 0.0050338036449144585
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "beta": 2.2802145832940988,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03802575395891461,
+    "returnsMrkt": 0.00855482031221455
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "beta": 2.2275083919113645,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006769450022672929,
+    "returnsMrkt": -0.0023924312176025753
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "beta": 2.304859717278755,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.030882113158323676,
+    "returnsMrkt": -0.006758475346099191
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "beta": 2.3413793852511686,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02358839760414555,
+    "returnsMrkt": -0.005231388329979936
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "beta": 2.3413960581986575,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027466657476651557,
+    "returnsMrkt": 0.0049279199764635795
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "beta": 2.2776622210413215,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009056148118333551,
+    "returnsMrkt": -0.001646783283319908
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "beta": 2.655643565968266,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.16188006913974218,
+    "returnsMrkt": 0.005425021076939984
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "beta": 2.609692729481644,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003919436974309076,
+    "returnsMrkt": 0.004302016114331675
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "beta": 2.554107640414728,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.017749949737197346,
+    "returnsMrkt": 0.0036664609576360085
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "beta": 2.7105671645228444,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.10988625398403462,
+    "returnsMrkt": 0.0032913773148146586
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "beta": 3.147693084649331,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.024316990278473005,
+    "returnsMrkt": -0.0004326039150654992
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "beta": 3.3876721223925155,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.04830696117081601,
+    "returnsMrkt": -0.0013344393551412148
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "beta": 3.1815191731295624,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008625336927223781,
+    "returnsMrkt": -0.006717226435536183
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "beta": 3.1999011211735517,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0025879771582886235,
+    "returnsMrkt": -0.0037449098312973828
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "beta": 2.9850929881224664,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.024606492522656565,
+    "returnsMrkt": 0.0063866282252471596
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "beta": 3.0200338473115673,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02574502358761932,
+    "returnsMrkt": -0.0074702639976791385
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "beta": 2.3910780246273253,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009566270040449965,
+    "returnsMrkt": 0.008074534161490732
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "beta": 2.1666669438930604,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.08928305261588909,
+    "returnsMrkt": 0.0035518828603529062
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "beta": 2.1741168884039417,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009623567921440257,
+    "returnsMrkt": 0.0021308100689805265
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "beta": 2.2026287083070986,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04363895733367906,
+    "returnsMrkt": 0.002342511171976369
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "beta": 2.1848996197817363,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008077042559800907,
+    "returnsMrkt": -0.0006112249667422631
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "beta": 2.22853678933938,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004787961696306353,
+    "returnsMrkt": -0.001331126780831804
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "beta": 2.1705369321776726,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008497344579818655,
+    "returnsMrkt": 0.006052091213660349
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "beta": 2.052929732035049,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010996840344464465,
+    "returnsMrkt": 0.007877681097146372
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "beta": 2.1550493749899706,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.023209195978325492,
+    "returnsMrkt": 0.0004973887092762919
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "beta": 1.931727261548477,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.021964984287821565,
+    "returnsMrkt": 0.005362025496253642
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "beta": 1.895167263290525,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006098160716042189,
+    "returnsMrkt": -0.004026561175473287
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "beta": 1.7610514497148095,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004915058551871798,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "beta": 1.855289479298372,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.04213352781276947,
+    "returnsMrkt": -0.001702248386410421
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "beta": 2.2878002896220817,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.028413220280325224,
+    "returnsMrkt": -0.0026998223801065757
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "beta": 2.2149124927715538,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0007480230818550648,
+    "returnsMrkt": -0.0029920923274204814
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "beta": 2.6617038966859177,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.06303612742480857,
+    "returnsMrkt": -0.0019649874955339763
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "beta": 2.667428155099615,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.08456161677556606,
+    "returnsMrkt": 0.0017540719527473492
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "beta": 2.6253021777197274,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.021225919439579743,
+    "returnsMrkt": 0.0032875929102345047
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "beta": 2.600452085177396,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.03972230174634994,
+    "returnsMrkt": 0.00024932326542237426
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "beta": 2.2675434221780697,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0037172162180768575,
+    "returnsMrkt": 0.005911049389310419
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "beta": 2.3804607228630106,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.019830028328611915,
+    "returnsMrkt": 0.0001769974158378762
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "beta": 2.4211097218625306,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0012195121951219523,
+    "returnsMrkt": -0.0053089827988956895
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "beta": 2.1085232047655857,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.033509700176366786,
+    "returnsMrkt": 0.005444064901793277
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "beta": 2.094651444953059,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04934025828186406,
+    "returnsMrkt": 0.0010616838305552712
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "beta": 2.033256462617053,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002307537957327299,
+    "returnsMrkt": 0.008095591614522668
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "beta": 2.2295894308491997,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0025810344249657113,
+    "returnsMrkt": -0.0009117688315333217
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "beta": 2.173108023247103,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0019391507856902912,
+    "returnsMrkt": -0.003334503334503247
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "beta": 2.107778647033835,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004371329418045855,
+    "returnsMrkt": -0.0009156541644655958
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "beta": 1.8255704842094658,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.028539154124721744,
+    "returnsMrkt": -0.0029962282773450255
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "beta": 1.8001638738937387,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0066541766263971125,
+    "returnsMrkt": 0.002793098571630681
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "beta": 1.9042820973516565,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.13901534859521336,
+    "returnsMrkt": 0.00010577160385016882
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "beta": 2.3743319265607314,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.17347131472598853,
+    "returnsMrkt": 0.003490093774236591
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "beta": 2.463136336691656,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.031155455423237832,
+    "returnsMrkt": -0.0005972246618652921
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "beta": 2.620184737512612,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.020663078865191586,
+    "returnsMrkt": 0.0005624296962878361
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "beta": 2.680807612526034,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.043995929443690684,
+    "returnsMrkt": -0.00783445756042711
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "beta": 3.049293940223576,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.07053897739772197,
+    "returnsMrkt": -0.005594702737155344
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "beta": 3.013022105923089,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.043481580454285074,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "beta": 2.8357958734129287,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.04885057471264376,
+    "returnsMrkt": -0.0014599579816969577
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "beta": 1.5711972076510778,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.022526636225266405,
+    "returnsMrkt": -0.03166678553598168
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "beta": 1.4075942881783954,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01810183743382121,
+    "returnsMrkt": -0.022022538115931467
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "beta": 1.0856300169626776,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02596836220909471,
+    "returnsMrkt": 0.013895164934478066
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "beta": 1.0652280634600084,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0031300718757245605,
+    "returnsMrkt": -0.005608170844939586
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "beta": 1.4377587178920508,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.06548788474132294,
+    "returnsMrkt": 0.021849555538955512
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "beta": 1.3045263613430709,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.017390361184424608,
+    "returnsMrkt": 0.00018275521766142333
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "beta": 1.3265356661368728,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.028957244830377316,
+    "returnsMrkt": -0.01443502411928077
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "beta": 1.3156383698432428,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01481565685271502,
+    "returnsMrkt": -0.0005561941488374522
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "beta": 1.3417333991332907,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0036538461538460076,
+    "returnsMrkt": -0.00448912962825565
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "beta": 1.1496454560430076,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.1271891166890209,
+    "returnsMrkt": -0.00506838594268233
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "beta": 1.0755400129665835,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.019174542734752165,
+    "returnsMrkt": -0.030303030303030387
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "beta": 1.3727160343322427,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.09136915077989616,
+    "returnsMrkt": 0.01792336217552526
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "beta": 1.1430294278531195,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.05094327637680229,
+    "returnsMrkt": -0.0175698239222829
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "beta": 1.2357009883068595,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.011937141130250906,
+    "returnsMrkt": -0.005562207887519821
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "beta": 1.1041928208200809,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.014782738539644735,
+    "returnsMrkt": 0.014837832588852073
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "beta": 1.0950849856978768,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.022491664140648737,
+    "returnsMrkt": 0.010678608336204043
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "beta": 1.1086220119413481,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.020633226609747313,
+    "returnsMrkt": 0.010641520866469856
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "beta": 1.0983836869787549,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006186824677588243,
+    "returnsMrkt": -0.005920485629707262
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "beta": 1.0697532539931407,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.014462630986403546,
+    "returnsMrkt": 0.005503411361151844
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "beta": 1.0940046352257156,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0009958992384299092,
+    "returnsMrkt": 0.006335520149953089
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "beta": 1.0742475168049401,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02081745147481384,
+    "returnsMrkt": 0.02142005662345392
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "beta": 1.107837492655762,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00930606617647034,
+    "returnsMrkt": -0.001823553010686041
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "beta": 1.0980659413324463,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0025327262379054583,
+    "returnsMrkt": -0.009755562863093314
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "beta": 1.2197926488987636,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.054862914039542465,
+    "returnsMrkt": -0.018707106486606118
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "beta": 1.212554782562332,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.022488529340739083,
+    "returnsMrkt": -0.0018800526414739505
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "beta": 1.1869481266162634,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015558114132199652,
+    "returnsMrkt": -0.0068186099077038875
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "beta": 1.1743374772299398,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01290697674418606,
+    "returnsMrkt": 0.010430890608405408
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "beta": 1.1657236043002317,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01684651589943753,
+    "returnsMrkt": 0.0025901873193439062
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "beta": 1.1064096131999952,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0023708052270610125,
+    "returnsMrkt": -0.01688632619439867
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "beta": 1.1387640521277524,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.016917984553144638,
+    "returnsMrkt": -0.018509349887649074
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "beta": 1.1005266048437166,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.026763360096693445,
+    "returnsMrkt": 0.0033758876256257953
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "beta": 1.146177499895223,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0365475028829948,
+    "returnsMrkt": -0.006651713202877163
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "beta": 1.2417728727662534,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.06190344658257385,
+    "returnsMrkt": 0.016117729502452605
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "beta": 1.2298691979253047,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0060115606936416155,
+    "returnsMrkt": 0.0033716475095786347
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "beta": 1.1958134761537804,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.011485229123051832,
+    "returnsMrkt": 0.023025813349625945
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "beta": 1.1871536710343868,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.019260068416362408,
+    "returnsMrkt": -0.0021649061251914903
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "beta": 1.2235134848729698,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027288448574024793,
+    "returnsMrkt": 0.006097332884450024
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "beta": 1.225393408698404,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.022854371148139707,
+    "returnsMrkt": 0.01323616894705526
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "beta": 1.087994387521375,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003375268487265881,
+    "returnsMrkt": -0.032401291648319286
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "beta": 1.0879844190117187,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009341117597998272,
+    "returnsMrkt": -0.001516932761955192
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "beta": 1.0796340163411517,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.014047264914890167,
+    "returnsMrkt": -0.023244331345664504
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "beta": 1.0928336956830942,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02008604313331097,
+    "returnsMrkt": 0.0019053544348097695
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "beta": 1.1239569966148315,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00440914692592087,
+    "returnsMrkt": 0.00023286501591246456
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "beta": 1.0170772086742035,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0004362525902497083,
+    "returnsMrkt": 0.005005432252056297
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "beta": 1.0256618177118138,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.027795962902345872,
+    "returnsMrkt": -0.00030886838346000367
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "beta": 1.0649632068685804,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.029406300591841683,
+    "returnsMrkt": -0.01846058780365345
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "beta": 1.101614609239107,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.04727789778786462,
+    "returnsMrkt": -0.019634074365532217
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "beta": 1.0715400536625999,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03269043108891578,
+    "returnsMrkt": -0.0010836410338738167
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "beta": 1.0908878549824623,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012046405364507407,
+    "returnsMrkt": -0.01498654023865964
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "beta": 1.1451709244943407,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.052827582064450374,
+    "returnsMrkt": -0.016275085658345567
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "beta": 1.1071638672347521,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.013919715898281337,
+    "returnsMrkt": -0.020483476385951827
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "beta": 1.2414278117003492,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0762422991525159,
+    "returnsMrkt": -0.026414934597637774
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "beta": 1.3887127454876371,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.10393039710213614,
+    "returnsMrkt": 0.05052393582329673
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "beta": 1.3509337249844402,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03054371492532726,
+    "returnsMrkt": 0.007656967840734996
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "beta": 1.2945404627201862,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.05611615474646503,
+    "returnsMrkt": -0.0012733097839481289
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "beta": 1.278922849043207,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003204840207266302,
+    "returnsMrkt": 0.00876002467612591
+  }
+]

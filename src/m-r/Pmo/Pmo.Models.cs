@@ -1,18 +1,20 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Price Momentum Oscillator (PMO) calculation.
+/// </summary>
+/// <param name="Timestamp">Timestamp of the PMO result.</param>
+/// <param name="Pmo">PMO value.</param>
+/// <param name="Signal">Signal line value.</param>
 [Serializable]
-public sealed class PmoResult : ResultBase, IReusableResult
+public record PmoResult
+(
+    DateTime Timestamp,
+    double? Pmo,
+    double? Signal
+) : IReusable
 {
-    public PmoResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Pmo { get; set; }
-    public double? Signal { get; set; }
-
-    // internal use only
-    internal double? RocEma { get; set; }
-
-    double? IReusableResult.Value => Pmo;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Pmo.Null2NaN();
 }

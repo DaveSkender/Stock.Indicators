@@ -8,26 +8,23 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NODE_VERSION: 24
 
 jobs:
   deploy:
     name: Cloudflare Pages
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     environment:
       name: stockindicators.dev
@@ -36,37 +33,44 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.287.0
         with:
-          ruby-version: 3.3
-          bundler-cache: true
+          fetch-depth: 0 # required for proper Last Updated page dates
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+          package_json_file: docs/package.json
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: docs/pnpm-lock.yaml
+
+      - name: Configure pnpm registry auth
+        run: pnpm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm packages
+        run: pnpm install --frozen-lockfile
 
       - name: Define tag
         id: tag
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
-      - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "YYYY.MM.DD"
-          replace: "${{ steps.tag.outputs.version }}"
-          regex: false
-
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
+        run: pnpm run docs:build
         env:
-          JEKYLL_ENV: production
-          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
-        run: bundle exec jekyll build
+          NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
+        run: pnpm run docs:build
         env:
-          JEKYLL_ENV: preview
-          RUBYOPT: "-r ${{ github.workspace }}/docs/_plugins/liquid_ruby32_patch.rb"
-        run: bundle exec jekyll build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to Cloudflare Pages
         id: deploy
@@ -74,7 +78,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "latest"
           command: >
-            pages deploy docs/_site
+            pages deploy docs/.vitepress/dist
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}

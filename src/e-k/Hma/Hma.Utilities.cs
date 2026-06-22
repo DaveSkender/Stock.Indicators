@@ -1,17 +1,34 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for Hull Moving Average (HMA) calculations.
+/// </summary>
+public static partial class Hma
 {
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<HmaResult> RemoveWarmupPeriods(
-        this IEnumerable<HmaResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(static x => x.Hma != null);
+    /// <summary>
+    /// Returns the minimum number of source items required to produce a valid HMA result.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="sqrtPeriods">Square root of the lookback periods (pre-computed).</param>
+    /// <returns>Minimum warmup period count (lookbackPeriods + sqrtPeriods - 1).</returns>
+    public static int WarmupPeriod(int lookbackPeriods, int sqrtPeriods)
+        => lookbackPeriods + sqrtPeriods - 1;
 
-        return results.Remove(removePeriods);
+    /// <summary>
+    /// Validates the lookback periods for HMA calculations.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 1.
+    /// </exception>
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for HMA.");
+        }
     }
 }

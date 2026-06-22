@@ -1,124 +1,142 @@
-# Stock Indicators for .NET v2
+# Stock Indicators for .NET
 
-This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
+This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/FacioQuo.Stock.Indicators">FacioQuo.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
+
+- Multi-targets `net10.0`, `net9.0`, and `net8.0` with analyzers enabled for strict code quality.
+- Active development expands streaming indicator support — consult [docs/plans/streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) before modifying stateful pipelines (BufferList or StreamHub).
+- Documentation at <a href="https://dotnet.stockindicators.dev">dotnet.stockindicators.dev</a> is sourced from the `docs/` content in this repository.
+
+## Primary directive
+
+Provide financial market developers with mathematically exact, high-performance technical analysis indicators they can depend on in production — so they can build trading and analytics applications with full confidence in numerical correctness.
+
+## Secondary directives
+
+1. Surface every indicator's behavior, limitations, and integration path through clear documentation and ergonomic APIs, so developers can discover and use any indicator without guesswork (not as important as primary)
+2. Protect downstream users from silent numerical errors through comprehensive validation, deterministic warmup, and ≥ 98% test coverage — ensuring every deployment succeeds (not as important as #1)
+3. Ensure all three indicator styles — Series, Buffer, Stream — produce identical results, so developers can switch between batch and real-time APIs without concern for numerical differences (not as important as #2)
+
+## AI-first development model
+
+This repository is optimized for AI agent contributions. Agents are the primary contributors; humans set direction, review, and validate outcomes.
+
+- **Agents**: infer and proceed autonomously, generate complete implementations (code + tests + docs) in one pass, execute quality gates before yielding, document assumptions
+- **Humans**: set strategic direction, make architectural decisions, review agent output, validate outcomes — not micromanage implementation
+- **Voice**: imperative, present tense; no historical context; outcome-focused
+
+## Guiding principles
+
+This library follows six core principles that balance usability, performance, precision, and security: **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
+
+See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and rationale. This file (AGENTS.md) provides operational implementation guidance.
 
 ## Repository layout
 
-```text
-src/
-├── _common/          # Shared utilities, base classes, and common types
-├── a-d/              # Indicators A-D (alphabetical organization)
-├── e-k/              # Indicators E-K
-├── m-r/              # Indicators M-R
-├── s-z/              # Indicators S-Z
-└── Indicators.csproj # Main project file
-
-tests/
-├── indicators/       # Unit tests for indicators
-├── other/            # Integration and utility tests
-└── performance/      # Performance benchmarks
-
-docs/
-└── [Jekyll-based documentation website]
+```plaintext
+(root)
+├── src/                   # Library source code
+│    ├── _common/          # Shared utilities, base classes, and common types
+│    ├── a-d/              # Indicators A-D (alphabetical organization)
+│    ├── e-k/              # Indicators E-K
+│    ├── m-r/              # Indicators M-R
+│    ├── s-z/              # Indicators S-Z
+│    └── Indicators.csproj # Main project file
+├── tests/                 # Unit, integration, performance, and simulation suites
+├── tools/                 # Performance benchmarks, baselines, and analysis scripts
+├── docs/                  # Public documentation site (VitePress)
+│    └── plans/            # Active multi-release implementation plans
+└── Stock.Indicators.sln   # Primary solution for src + tests
 ```
 
-## Build and verification
+Active plans tracked in `docs/plans/`:
 
-- Use the solution tasks (`Restore`, `Build`, `Test`) or run `dotnet restore`, `dotnet build`, and `dotnet test --no-restore` from the repository root
-- Keep analyzers clean; **treat all warnings and errors as failures that must be fixed**
-- Do not accept or ignore warnings regardless of scope or reason
-- Do not suppress issues as a way to remove warnings or errors—you must fix the underlying problem
-- Update documentation as needed and in accordance with markdown instructions
-- Update the matching `docs/_indicators/<Indicator>.md` file whenever an indicator changes. Keep the primary public API example, parameter details, warmup guidance, and outputs in sync with the implementation
+- [streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) — source of truth for v3.0 release; cross-references the two operational plans below
+- [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) — v2 → v3 branch migration mechanics (gate RG003 in the streaming plan)
+- [file-reorg.plan.md](docs/plans/file-reorg.plan.md) — file/directory rename catalog, deferred to v3.1
 
-See subfolder AGENTS.md files for detailed domain-specific guidance.
-
-### Linting and testing
-
-- **Markdown**: `npx markdownlint-cli2` (auto-fix with `npx markdownlint-cli2 --fix`)
-- **Roslynator**: `dotnet tool run roslynator fix --properties TargetFramework=net10.0 --severity-level info` (fast for dev loop)
-- **All linters**: `dotnet format && npx markdownlint-cli2` (auto-fix with both `--fix` flags)
-- **Build**: `dotnet build "Stock.Indicators.sln" -v minimal --nologo`
-- **Test**: `dotnet test "Stock.Indicators.sln" --no-restore --nologo`
-
-VS Code tasks are organized for speed vs. completeness:
-
-- **Fast development** (Roslynator only, ~seconds): Use `Lint: .NET code & markdown files (fix)` for regular development
-- **Comprehensive** (Roslynator + dotnet format, slower): Use `Lint: All (fix)` before committing to ensure CI compliance
-
-Individual tools available: `Lint: .NET format`, `Lint: .NET Roslynator (analyze)`, `Lint: Markdown` and their `(fix)` variants.
-
-### Code completion checklist
-
-**Before finishing any code work, execute these quality gates**:
+## Commands
 
 ```bash
+# Build
+dotnet build "Stock.Indicators.sln" -v minimal --nologo
+
+# Test (unit; integration tests run in CI only)
+dotnet test "Stock.Indicators.sln" --no-restore --nologo
+
+# Lint: .NET format
+dotnet format --severity info --no-restore
+
+# Lint: Markdown
+npx markdownlint-cli2 --fix
+
+# All quality gates (abbreviated)
 dotnet format --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2
 ```
 
-This ensures:
-
-1. All code passes linting (markdown + .NET) with **zero warnings and zero errors**
-2. All projects build successfully with **zero warnings and zero errors**
-3. All tests pass
-4. **All warnings must be fixed**—do not ignore or defer warnings
-
-See the [Code Completion skill](.agents/skills/code-completion/SKILL.md) for detailed checklist and troubleshooting.
+See the code-completion skill for the complete quality gates checklist, Roslynator commands, and VS Code task equivalents.
 
 ## Skills for development
 
-This repository uses Agent Skills (`.agents/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
+This repository uses Agent Skills (.agents/skills/) for domain-specific guidance. Skills are automatically loaded when relevant:
 
 | Skill | Description | When to use |
 | ----- | ----------- | ----------- |
-| [code-completion](.agents/skills/code-completion/SKILL.md) | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
+| indicator-series | Series indicator development - mathematical precision, validation patterns, test coverage | Implementing new Series indicators, validating calculations, structuring tests |
+| indicator-buffer | BufferList indicator development - incremental processing, interface selection, buffer management | Implementing BufferList indicators, choosing interfaces, managing state efficiently |
+| indicator-stream | StreamHub indicator development - implementation patterns, provider selection, state management | Implementing StreamHub indicators, choosing provider base classes, optimizing real-time processing |
+| indicator-catalog | Catalog entry creation and registration | Creating indicator catalog entries for automation |
+| performance-testing | Benchmarking with BenchmarkDotNet, regression detection | Adding performance tests, optimizing indicator performance |
+| code-completion | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
+| testing-standards | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
+| documentation | Writing and updating VitePress indicator documentation pages | Adding a new indicator doc page, updating an existing one, structural consistency audits |
+| vitepress | VitePress documentation site development - configuration, routing, theme, components | Working on the docs/ site, VitePress config, or custom theme |
+| markdown | Markdown authoring, linting workflow, formatting rules, validation checklist | Creating or modifying any Markdown file |
 
-Additional path-specific instruction files:
-
-| Pattern | File | Purpose |
-| ------- | ---- | ------- |
-| `**/*.md` | `.github/instructions/markdown.instructions.md` | Markdown authoring standards |
-| `docs/**` | `.github/instructions/docs.instructions.md` | Jekyll documentation site |
-| `src/**` | `src/AGENTS.md` | Formula protection rules |
-
-Skills are defined in `.agents/skills/` following the Agent Skills specification.
+Skills are defined in .agents/skills/ following the Agent Skills specification.
 
 ## Folder-specific guidance
 
-- **src/**: See `src/AGENTS.md` for implementation details, technical constraints, and code quality standards
-- **tests/**: See `tests/AGENTS.md` for test organization and writing guidance
-- **docs/**: See `docs/AGENTS.md` for documentation site development
+Subfolder AGENTS.md files provide domain-specific context:
+
+- Documentation site: docs/AGENTS.md for VitePress development
+- Source code: src/AGENTS.md for implementation constraints
+- Test suite: tests/AGENTS.md for test organization
 
 ## MCP tools guidance
 
-### When to use MCP tools
+MCP servers configured in .vscode/mcp.json provide research and documentation lookup:
 
-The following MCP servers are configured in .vscode/mcp.json and should be used in these scenarios:
+- microsoft-docs/* - C# coding conventions, .NET best practices, performance optimization
+- context7/* - NuGet package dependencies and external libraries
+- github/web_search - Indicator algorithms, financial calculations, technical analysis standards  
+- github/* - CI workflow details, repository changes, pull requests, issues
 
-- `mslearn/*`: Research C# coding conventions, .NET best practices, performance optimization, and language features. Use when implementing indicators or utility functions that require knowledge of official Microsoft standards.
-- `context7/*`: Look up documentation for NuGet package dependencies or external libraries used in the project. Use when integrating third-party functionality.
-- `github/web_search`: Research indicator algorithms, financial calculations, and external technical analysis standards. Use for mathematical validation and algorithm research.
-- `github/*`: Get recently failed CI workflow job details, research recent library changes, pull requests, issues, and discussions. Use when updating documentation or implementing features that depend on understanding recent repository context.
-
-Do NOT use MCP tools for:
-
-- Local file operations (use file read/edit tools)
-- Simple code formatting (use `dotnet format`)
-- Markdown linting (use `markdownlint-cli2`)
-- Running local build tests (use `dotnet build` and `dotnet test`)
+Use MCP tools for research; use direct file operations for local work.
 
 ## Pull request guidelines
 
-- PR titles must follow <a href="https://www.conventionalcommits.org">Conventional Commits</a> format: `type: Subject` (subject starts uppercase, ≤ 65 characters).
-- Supported types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
-- Link or reference the governing spec/task thread when applicable.
-- Ensure lint, build, and tests pass before finishing changes or requesting reviews
+PR titles follow Conventional Commits format: `type: Subject` (≤65 characters, subject starts uppercase).
 
-Examples of PR titles:
+Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
 
-- `feat: Add RSI indicator`
-- `fix: Resolve MACD calculation error`
-- `plan: Define streaming indicators approach`
-- `docs: Update API documentation`
+Examples: `feat: Add RSI indicator`, `fix: Resolve MACD calculation error`, `docs: Update API documentation`
 
 Do not add "Co-authored-by" trailers to commit messages.
+
+## Boundaries
+
+✅ Always run quality gates (format + build + test + markdownlint) before marking work complete
+
+✅ Always load the relevant skill before working in a domain area
+
+✅ Always keep Series results as canonical truth — fix Stream/Buffer to match, not the reverse
+
+⚠️ Ask before renaming or removing any public API member — requires a MAJOR version bump
+
+⚠️ Ask before suppressing any compiler or linting warning — treat all warnings as errors
+
+🚫 Never duplicate indicator calculations from authoritative sources — cite and implement from reference
+
+🚫 Never merge without all quality gates passing — no exceptions for "minor" changes
+
+🚫 Never embed transient plan-item IDs (e.g. `TC001`, `T203`, `G005`, `RG002`) in source files, tests, comments, commit messages, or PR titles. These IDs live in `docs/plans/*.plan.md` and are pruned once items ship, so references in code rot into dead pointers. Encode the underlying intent (test names, descriptive comments for non-obvious constraints, indicator behavior in xmldoc) instead. The PR description body may reference the plan ID once for traceability; nothing committed under `src/`, `tests/`, or `docs/indicators/` should.

@@ -1,13 +1,15 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Vortex indicator calculation.
+/// </summary>
+/// <param name="Timestamp">Timestamp of the data point.</param>
+/// <param name="Pvi">Positive vortex indicator value at this point.</param>
+/// <param name="Nvi">Negative vortex indicator value at this point.</param>
 [Serializable]
-public sealed class VortexResult : ResultBase
-{
-    public VortexResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Pvi { get; set; }
-    public double? Nvi { get; set; }
-}
+public record VortexResult
+(
+    DateTime Timestamp,
+    double? Pvi = null,
+    double? Nvi = null
+) : ISeries;

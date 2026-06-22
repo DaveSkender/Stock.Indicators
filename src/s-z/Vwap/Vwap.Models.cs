@@ -1,14 +1,18 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Volume Weighted Average Price (VWAP) calculation.
+/// </summary>
+/// <param name="Timestamp">Timestamp of the data point.</param>
+/// <param name="Vwap">Value of the VWAP at this point.</param>
 [Serializable]
-public sealed class VwapResult : ResultBase, IReusableResult
+public record VwapResult
+(
+   DateTime Timestamp,
+   double? Vwap
+) : IReusable
 {
-    public VwapResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Vwap { get; set; }
-
-    double? IReusableResult.Value => Vwap;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Vwap.Null2NaN();
 }
