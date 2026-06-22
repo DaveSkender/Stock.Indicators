@@ -57,7 +57,7 @@ When changing indicators or public APIs:
 
 - Update XML documentation for changed public APIs
 - Update `docs/indicators/{IndicatorName}.md`
-- Update `docs/migration.md` for notable and breaking changes from v2
+- Update `docs/migration/v3.md` for notable and breaking changes from v2
 - Update `src/Obsolete.V3.*.cs` for deprecated APIs
 
 ### Step 5: Verify
@@ -95,7 +95,7 @@ New or updated indicators require:
 When changing public APIs:
 
 - Add `[Obsolete]` with migration message
-- Update `docs/migration.md`
+- Update `docs/migration/v3.md`
 - Update `src/Obsolete.V3.Indicators.cs` and `src/Obsolete.V3.Other.cs`
 
 See [references/quality-gates.md](references/quality-gates.md) for the quick reference table of all commands and configuration file locations.

@@ -12,7 +12,7 @@ const siteNav = {
     { text: 'Guide', link: '/guide/' },
     { text: 'Indicators', link: '/indicators' },
     { text: 'Utilities', link: '/utilities/' },
-    { text: 'Migration (v2→v3)', link: '/migration' },
+    { text: 'Migration (v2→v3)', link: '/migration/v3' },
     { text: 'Contributing', link: '/contributing' },
     { text: 'About', link: '/about' },
   ]
@@ -85,7 +85,7 @@ export default defineConfig({
       {
         text: 'More',
         items: [
-          { text: 'Migration (v2→v3)', link: '/migration' },
+          { text: 'Migration (v2→v3)', link: '/migration/v3' },
           { text: 'Legacy docs (v2)', link: 'https://v2.dotnet.stockindicators.dev' },
           { text: 'Contributing', link: '/contributing' },
           { text: 'Performance', link: '/performance' },
@@ -170,7 +170,7 @@ export default defineConfig({
           ]
         }
       ],
-      '/migration': [siteNav],
+      '/migration/v3': [siteNav],
       '/performance': [siteNav],
       '/contributing': [siteNav],
       '/about': [siteNav],

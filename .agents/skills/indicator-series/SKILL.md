@@ -52,7 +52,7 @@ Beyond the `.StaticSeries.cs` file, ensure:
 - [ ] **Performance benchmark**: Add to `tools/performance/Perf.Series.cs`
 - [ ] **Public documentation**: Update `docs/indicators/{Indicator}.md`
 - [ ] **Regression baseline tests**: Add to `tests/indicators/**/{Indicator}.Regression.Tests.cs` inheriting from `RegressionTestBase<TResult>` with `[TestCategory("Regression")]` on the class — these compare the full result set to a frozen `*.standard.json` baseline so it can be filtered via `--filter TestCategory=Regression`
-- [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
+- [ ] **Migration guide**: Update `docs/migration/v3.md` for notable and breaking changes from v2
 
 ## Precision testing
 

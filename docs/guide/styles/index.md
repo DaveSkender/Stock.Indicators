@@ -12,7 +12,7 @@ hero:
       link: /indicators
     - theme: alt
       text: v2→v3 migration
-      link: /migration
+      link: /migration/v3
 
 features:
   - title: Batch (Series)

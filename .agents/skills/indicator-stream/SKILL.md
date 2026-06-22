@@ -111,7 +111,7 @@ Replay up to `restoreIndex` (inclusive). The item at the rollback timestamp is r
 - [ ] **Performance benchmark**: Add to `tools/performance/Perf.Stream.cs`
 - [ ] **Public documentation**: Update `docs/indicators/{IndicatorName}.md`
 - [ ] **Regression tests**: Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
-- [ ] **Migration guide**: Update `docs/migration.md` for notable and breaking changes from v2
+- [ ] **Migration guide**: Update `docs/migration/v3.md` for notable and breaking changes from v2
 
 ## References
 
