@@ -139,7 +139,7 @@ See [Chaining indicators](/guide/chaining) for more.
 
 ## Optimized for modern .NET frameworks
 
-Our [NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators) directly targets all actively [supported Microsoft .NET platforms](https://dotnet.microsoft.com/platform/support/policy) for peak performance.
+Our [NuGet library](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) directly targets all actively [supported Microsoft .NET platforms](https://dotnet.microsoft.com/platform/support/policy) for peak performance.
 
 - .NET 10.0, 9.0, 8.0
 

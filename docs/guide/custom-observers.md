@@ -63,7 +63,7 @@ Even with that safety net, design your callbacks to be robust:
 Subscribe an observer to any hub's `Results` provider via `Subscribe(observer)`:
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // observer that pushes every EMA value into a UI dispatcher
 public sealed class EmaUiObserver : IStreamObserver<EmaResult>, IDisposable

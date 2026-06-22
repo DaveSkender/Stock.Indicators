@@ -22,7 +22,7 @@ Working example code is available in the [CustomIndicatorsLibrary](https://githu
 Create your results class by implementing the `IReusable` interface or inheriting from existing result patterns. This allows your custom indicator to be chainable with other indicators.
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 namespace Custom.Indicators;
 
@@ -42,7 +42,7 @@ public record AtrWmaResult : IReusable
 Create your custom algorithm following the same patterns as the main library.
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 namespace Custom.Indicators;
 
@@ -130,7 +130,7 @@ public static class CustomIndicators
 Use your custom indicator just like the built-in indicators:
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 using Custom.Indicators;
 
 // Get historical price bars

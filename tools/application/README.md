@@ -77,7 +77,7 @@ The application generates synthetic test data programmatically:
 ### Prerequisites
 
 - .NET 9.0 SDK or later
-- NuGet package: Skender.Stock.Indicators v2
+- NuGet package: FacioQuo.Stock.Indicators v2
 
 ### Build and Run
 
@@ -101,7 +101,7 @@ When run successfully, the application displays:
 
 ```text
 ===========================================
-Testing Skender.Stock.Indicators v2
+Testing FacioQuo.Stock.Indicators v2
 ===========================================
 
 Generating test data...
@@ -160,7 +160,7 @@ When ready to test v3 migration:
 ## Additional Resources
 
 - [Stock Indicators Documentation](https://dotnet.stockindicators.dev)
-- [v2 NuGet Package](https://www.nuget.org/packages/Skender.Stock.Indicators/2.6.1)
+- [v2 NuGet Package](https://www.nuget.org/packages/FacioQuo.Stock.Indicators/2.6.1)
 - [GitHub Repository](https://github.com/DaveSkender/Stock.Indicators)
 - [Migration Guides](https://github.com/DaveSkender/Stock.Indicators/discussions)
 

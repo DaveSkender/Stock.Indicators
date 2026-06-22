@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Standalone indicator lists with buffering cache.

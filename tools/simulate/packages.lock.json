@@ -187,7 +187,7 @@
           "libsodium": "[1.0.20.1, 1.0.21)"
         }
       },
-      "Skender.Stock.Indicators": {
+      "FacioQuo.Stock.Indicators": {
         "type": "Project"
       }
     }

@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
 public abstract class BarProvider<TIn, TOut> : StreamHub<TIn, TOut>, IBarProvider<TOut>

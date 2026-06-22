@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Bar interval, the time period of aggregation represented by a single <see cref="IBar"/>.

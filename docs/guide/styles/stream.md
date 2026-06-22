@@ -28,7 +28,7 @@ Stream hub style provides real-time processing with observable patterns and stat
 Create a bar hub and subscribe indicators as observers:
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // create bar hub (the data source)
 BarHub barHub = new();

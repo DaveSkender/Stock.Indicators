@@ -28,7 +28,7 @@ Buffer list style provides efficient incremental processing for growing datasets
 Buffer lists maintain incremental state as you add new bars:
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // create buffer list with lookback period
 SmaList smaList = new(lookbackPeriods: 20);

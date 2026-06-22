@@ -1,5 +1,5 @@
 using System.Globalization;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 namespace Test.Data;
 

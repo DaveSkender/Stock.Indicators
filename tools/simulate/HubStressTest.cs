@@ -2,7 +2,7 @@ using System.Globalization;
 using Coinbase.Net.Clients;
 using Coinbase.Net.Objects.Models;
 using CryptoExchange.Net.Objects.Sockets;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 namespace Test.Simulation;
 

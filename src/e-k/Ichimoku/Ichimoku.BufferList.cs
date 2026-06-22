@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Calculates Ichimoku Cloud indicator from incremental bar values with buffered state management.

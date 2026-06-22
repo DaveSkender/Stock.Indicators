@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Represents a strongly typed collection of StreamHub objects.

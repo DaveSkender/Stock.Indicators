@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Component or composite value of an OHLCV bar aggregate (e.g., Close, High, HL2, and others).

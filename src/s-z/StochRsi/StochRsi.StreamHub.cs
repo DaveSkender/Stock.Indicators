@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Represents a Stochastic RSI stream hub that calculates Stochastic oscillator on RSI values.
