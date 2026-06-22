@@ -1,7 +1,7 @@
 namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
-/// Provides streaming hub for Slope and Linear Regression calculations.
+/// Provides streaming hub for Slope and linear regression calculations.
 /// </summary>
 /// <remarks>
 /// The Slope indicator exhibits legitimate historical repaint behavior where Line values
@@ -224,7 +224,7 @@ public class SlopeHub
         double? slope = (sumSqXy / sumSqX).NaN2Null();
         double? intercept = (avgY - (slope * avgX)).NaN2Null();
 
-        // Calculate Standard Deviation and R-Squared
+        // Calculate Standard deviation and R-squared
         double stdDevX = Math.Sqrt(sumSqX / LookbackPeriods);
         double stdDevY = Math.Sqrt(sumSqY / LookbackPeriods);
 

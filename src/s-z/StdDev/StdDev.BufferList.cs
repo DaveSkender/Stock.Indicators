@@ -1,7 +1,7 @@
 namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
-/// Standard Deviation from incremental reusable values.
+/// Standard deviation from incremental reusable values.
 /// </summary>
 public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
 {
@@ -64,7 +64,7 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
 
             stdDev = Math.Sqrt(sumSq / LookbackPeriods);
 
-            // Calculate z-score
+            // Calculate Z-score
             zScore = stdDev == 0 ? double.NaN : (value - mean.Value) / stdDev.Value;
             zScore = zScore.Value.NaN2Null();
         }
@@ -105,7 +105,7 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
 public static partial class StdDev
 {
     /// <summary>
-    /// Creates a buffer list for Standard Deviation calculations.
+    /// Creates a buffer list for Standard deviation calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>

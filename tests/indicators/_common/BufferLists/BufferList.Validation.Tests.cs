@@ -78,10 +78,7 @@ public class BufferListValidation : TestBase
     /// </summary>
     private sealed class TestList : BufferList<SmaResult>
     {
-        public TestList()
-        {
-            Name = "TEST";
-        }
+        public TestList() => Name = "TEST";
 
         public void AddItem(SmaResult item) => AddInternal(item);
 

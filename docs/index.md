@@ -1,12 +1,12 @@
 ---
 title: Stock Indicators for .NET
-titleTemplate: Transform price bars into trading insights
+titleTemplate: Transform price quotes into trading insights
 layout: home
 isHome: true
 
 hero:
   name: stock indicators <small>for .NET</small>
-  tagline: Transform price bars into trade indicators and market insights.
+  tagline: Transform price quotes into trade indicators and market insights.
   actions:
     - theme: brand
       text: get started
@@ -23,13 +23,16 @@ hero:
 import LandingCharts from './.vitepress/components/LandingCharts.vue'
 </script>
 
-<p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
 <a href="https://www.nuget.org/packages/FacioQuo.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/facioquo.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
-</p>
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) that transforms historical price bars into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) that transforms financial market price data into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [many other indicators](/indicators).
 
-Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-bars) price bars from any market: equities, commodities, forex, or cryptocurrencies. A [Python version](https://python.stockindicators.dev/) is also available.
+Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide/getting-started#historical-bars) price bars from any market: equities, commodities, forex, or cryptocurrencies.
+
+::: tip ✨ v3 adds streaming support
+Our new **`FacioQuo.Stock.Indicators`** NuGet library, formerly named `Skender.Stock.Indicators`, adds stream hub and buffer list style indicators to enable your incremental and real-time price data scenarios.
+Still on v2? See our [migration guide →](/migration/v3)
+:::
 
 ## Industry-standard indicators with extensibility
 
@@ -78,22 +81,26 @@ Buffer lists maintain internal state and automatically manage the warmup period,
 
 Hubs provides a reactive, subscription-based pattern for streaming market data with automatic cascading calculations for advances scenarios.
 
+### Example 1: Chained hubs
+
 ```csharp
-// create provider with chain of indicators
-BarHub provider = new BarHub();
-SmaHub smaHub = provider.ToSmaHub(20);
+// create provider and subscribe observers
+BarHub barHub = new(); // provider
+SmaHub smaHub = barHub.ToSmaHub(20);
 RsiHub rsiHub = smaHub.ToRsiHub(14);  // RSI of SMA
 
 // publish bars - observers auto-update in cascade
-provider.Add(newBar);
+barHub.Add(newBar);
 
 // consume downstream hubs indicators
 IReadOnlyList<RsiResult> results = rsiHub.Results;
 ```
 
-```csharp
-BarHub barHub = new();
+### Example 2: signal-based strategy
 
+```csharp
+// create provider and subscribe observers
+BarHub barHub = new();
 EmaHub emaFast = barHub.ToEmaHub(50);
 EmaHub emaSlow = barHub.ToEmaHub(200);
 
@@ -114,20 +121,18 @@ See the [guide](/guide/getting-started) and the [full list of indicators and ove
 
 ## Powerful chaining for advanced analysis
 
-Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/Slope) (direction) of any result, or apply [moving averages](/indicators/Sma) to indicator outputs.
+Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/slope) (direction) of any result, or apply [moving averages](/indicators/sma) to indicator outputs.
 
 ```csharp
 // example: calculate RSI of On-Balance Volume
 IReadOnlyList<RsiResult> results
-  = bars
-    .ToObv()
-    .ToRsi(14);
+  = bars.ToObv()
+        .ToRsi(14);
 
 // example: use custom candle price variants
 IReadOnlyList<EmaResult> results
-  = bars
-    .Use(CandlePart.HL2)
-    .ToEma(20);
+  = bars.Use(CandlePart.HL2)
+        .ToEma(20);
 ```
 
 See [Chaining indicators](/guide/chaining) for more.
@@ -164,6 +169,4 @@ Special thanks to all of our community code contributors!
 
 <Contributors />
 
-Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to see the full list.
-
-» see our [full list of indicators and overlays](/indicators)
+Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to begin contributing, or browse the [full list of indicators and overlays](/indicators).

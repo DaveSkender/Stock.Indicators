@@ -2,92 +2,111 @@
 title: Oscillators
 description: Momentum and strength indicators that measure price velocity and market conditions.
 layout: home
+
 hero:
   name: Oscillators
   tagline: Momentum and strength indicators that measure price velocity and market conditions.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
+
 features:
+
   - title: Awesome Oscillator
+    details: Gap size between a fast and slow period modified moving average (aka&nbsp;Super&nbsp;AO)
     icon:
       src: /assets/thumbs/indicators/awesome.png
-    link: /indicators/Awesome
-    details: Bill Williams momentum bars
+    link: /indicators/awesome
+
   - title: Chande Momentum Oscillator (CMO)
+    details: Weighted percent of higher prices over a lookback window (net momentum over period)
     icon:
       src: /assets/thumbs/indicators/cmo.png
-    link: /indicators/Cmo
-    details: Net momentum over a period
+    link: /indicators/cmo
+
   - title: Commodity Channel Index (CCI)
+    details: Price deviation from typical price range, often used to identify cyclical trends
     icon:
       src: /assets/thumbs/indicators/cci.png
-    link: /indicators/Cci
-    details: Price deviation from average
+    link: /indicators/cci
+
   - title: ConnorsRSI
+    details: Composite incorporating RSI, winning/losing streaks, and percentile gain metrics
     icon:
       src: /assets/thumbs/indicators/connors-rsi.png
-    link: /indicators/ConnorsRsi
-    details: Three-component RSI composite
+    link: /indicators/connors-rsi
+
   - title: Detrended Price Oscillator (DPO)
+    details: Removes trend, isolates cycles via price and an offset simple moving average
     icon:
       src: /assets/thumbs/indicators/dpo.png
-    link: /indicators/Dpo
-    details: Removes trend, isolates cycles
+    link: /indicators/dpo
+
   - title: Gator Oscillator
+    details: Dual histogram showing expansion and contraction between Alligator averages
     icon:
       src: /assets/thumbs/indicators/gator.png
-    link: /indicators/Gator
-    details: Alligator lines divergence
+    link: /indicators/gator
+
   - title: Price Momentum Oscillator (PMO)
+    details: Double-smoothed momentum indicator based on Rate of Change (ROC)    
     icon:
       src: /assets/thumbs/indicators/pmo.png
-    link: /indicators/Pmo
-    details: Double-smoothed ROC oscillator
+    link: /indicators/pmo
+
   - title: Relative Strength Index (RSI)
+    details: Classic momentum measure of strength of the winning / losing streak
     icon:
       src: /assets/thumbs/indicators/rsi.png
-    link: /indicators/Rsi
-    details: Classic momentum oscillator
+    link: /indicators/rsi
+
   - title: Schaff Trend Cycle (STC)
+    details: Cycle-based stochastic oscillator view of two converging / diverging EMA
     icon:
       src: /assets/thumbs/indicators/stc.png
-    link: /indicators/Stc
-    details: Cycle-based trend oscillator
+    link: /indicators/stc
+
   - title: Stochastic Momentum Index (SMI)
+    details: Double smoothed Stochastic Oscillator
     icon:
       src: /assets/thumbs/indicators/smi.png
-    link: /indicators/Smi
-    details: Stochastic with dual smoothing
-  - title: Stochastic Oscillator (KDJ)
+    link: /indicators/smi
+
+  - title: Stochastic Oscillator
+    details: Momentum oscillator comparing price with recent highs and lows (aka&nbsp;KDJ&nbsp;Index)
     icon:
       src: /assets/thumbs/indicators/stoch.png
-    link: /indicators/Stoch
-    details: Close relative to high/low range
+    link: /indicators/stoch
+
   - title: Stochastic RSI
+    details: Stochastic interpretation of the Relative Strength Index
     icon:
       src: /assets/thumbs/indicators/stoch-rsi.png
-    link: /indicators/StochRsi
-    details: RSI applied to stochastic
+    link: /indicators/stoch-rsi
+
   - title: Triple EMA Oscillator (TRIX)
+    details: Rate of change of a triple-smoothed Exponential Moving Average
     icon:
       src: /assets/thumbs/indicators/trix.png
-    link: /indicators/Trix
-    details: Triple-smoothed EMA oscillator
+    link: /indicators/trix
+
   - title: True Strength Index (TSI)
+    details: Double-smoothed momentum direction and overbought / oversold conditions
     icon:
       src: /assets/thumbs/indicators/tsi.png
-    link: /indicators/Tsi
-    details: Double-smoothed momentum
+    link: /indicators/tsi
+
   - title: Ultimate Oscillator
+    details: Weighs buying power against true range price and oversold / overbought conditions
     icon:
       src: /assets/thumbs/indicators/ultimate.png
-    link: /indicators/Ultimate
-    details: Composite multi-period oscillator
+    link: /indicators/ultimate
+
   - title: Williams %R
+    details: Fast stochastic momentum oscillator comparing price with recent highs and lows
     icon:
       src: /assets/thumbs/indicators/williams-r.png
-    link: /indicators/WilliamsR
-    details: Fast stochastic-style oscillator
+    link: /indicators/williams-r
+    
 ---

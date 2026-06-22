@@ -3,7 +3,7 @@ status: accepted
 date: 2026-05-26
 deciders: Dave Skender (maintainer), AI agent contributors
 consulted: streaming-indicators swarm review (2026-05-24) — Architect, Inspector, Tester, Stercorator, Researcher, Designer, Skills-auditor personas
-informed: library consumers (via `docs/migration.md` and per-indicator doc pages)
+informed: library consumers (via `docs/migration/v3.md` and per-indicator doc pages)
 ---
 
 # Use dual-track BufferList and StreamHub for incremental indicators

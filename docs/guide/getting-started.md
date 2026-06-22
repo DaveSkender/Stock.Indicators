@@ -40,7 +40,7 @@ using FacioQuo.Stock.Indicators;
 
 The examples on this page depict the **Batch (Series)** style because it is the simplest starting point and covers most use cases. Buffer lists and stream hubs are first-class alternatives for incremental and streaming scenarios — see [Indicator styles](/guide/styles/) for a side-by-side comparison and guidance on choosing.
 
-- **[Batch (Series)](/guide/styles/batch)** — convert a full price data collection at once. This is the standard, default style and the one demonstrated on this page.
+- **[Batch (Series)](/guide/styles/batch)** — convert a full price data collection at once. This is the standard style.
 - **[Buffer lists](/guide/styles/buffer)** — self-managed incrementing lists, for adding price bars one at a time.
 - **[Stream hubs](/guide/styles/stream)** — subscription-based hub-observer pattern, for live/streaming data and chained, real-time architectures.
 
@@ -75,11 +75,6 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
-::: info
-You must get price bar data from your own provider.
-_The `GetBarsFromFeed()` method shown above represents your own acquisition of price data and **is not part of this library**._
-:::
-
 See [individual indicator pages](/indicators) for specific usage guidance.
 
 More examples available:
@@ -88,15 +83,15 @@ More examples available:
 - [Demo site](https://charts.stockindicators.dev) (a stock chart)
 
 ::: tip For a deeper guide
-See the [Guide](/guide/) for batch, buffer, and stream styles; chaining; custom indicators; and performance guidance.
+See the [Guide](/guide/) for batch, buffer, and stream styles; chaining; custom indicators.
 :::
 
 ## Historical bars
 
 You must provide historical price bars to the library in the standard OHLCV `IReadOnlyList<Bar>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom bar classes](#using-custom-bar-classes) if you prefer to use your own `IBar` derived class.
 
-| name        | type         | description |
-| :---------- | :----------- | :---------- |
+| property | type | description |
+| :------- | :--- | :---------- |
 | `Timestamp` | _`DateTime`_ | Close date  |
 | `Open`      | _`decimal`_  | Open price  |
 | `High`      | _`decimal`_  | High price  |
@@ -105,6 +100,11 @@ You must provide historical price bars to the library in the standard OHLCV `IRe
 | `Volume`    | _`decimal`_  | Volume      |
 
 ### Where can I get historical bar data?
+
+::: info BYOD: bring your own data
+You must get price bar data from your own provider.
+_The `GetBarsFromFeed()` method shown in our examples represents your own acquisition of price data and **is not part of this library**._
+:::
 
 There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data](https://github.com/DaveSkender/Stock.Indicators/discussions/579) for ideas.
 
@@ -156,7 +156,7 @@ IReadOnlyList<MyCustomBar> myBars = GetBarsFromFeed("MSFT");
 IReadOnlyList<SmaResult> results = myBars.ToSma(20);
 ```
 
-::: warning Custom bars must have value based equality
+::: warning 🚩 Custom bars must have value based equality
 When implementing your custom bar type, it must be either `record` class or implement `IEquatable<T>` to be compatible with the streaming hub internal de-duplication logic.
 :::
 

@@ -118,7 +118,7 @@ public class RollbackAfterPrune : TestBase
         CountMismatches(SmallCache, s => s.ToAdxHub(14).Results, r => r.Adx)
             .Should().BeGreaterThan(0, "Wilder ADX re-seeds from truncated history after a prune (SR003)");
 
-        CountMismatches(SmallCache, s => s.ToObvHub().Results, r => (double?)r.Obv)
+        CountMismatches(SmallCache, s => s.ToObvHub().Results, r => r.Obv)
             .Should().BeGreaterThan(0, "cumulative OBV restarts its running total from truncated history after a prune (SR003)");
 
         // Pure window indicator: SMA does not drift in value, but its leading

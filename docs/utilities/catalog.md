@@ -157,7 +157,7 @@ IReadOnlyList<EmaResult> emaWithParams = indicatorListing
 
 The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `FromSource(bars)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata.
 
-::: tip Disambiguate the bars overload
+::: tip ✨ Tip: disambiguate the bars overload
 Because `Bar` implements both `IBar` and `IReusable`, a `bars` collection matches both `FromSource(bars)` and the `FromSource(series, …)` chaining overload. Cast to `(IEnumerable<IBar>)` (as above) to select the bars overload. The simpler `listing.Execute<TResult>(bars)` form needs no cast.
 :::
 

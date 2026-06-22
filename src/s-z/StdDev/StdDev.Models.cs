@@ -1,7 +1,7 @@
 namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
-/// Represents the result of a Standard Deviation calculation.
+/// Represents the result of a Standard deviation calculation.
 /// </summary>
 /// <param name="Timestamp">Timestamp of the data point.</param>
 /// <param name="StdDev">Value of the standard deviation at this point.</param>

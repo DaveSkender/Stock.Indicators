@@ -4,7 +4,7 @@ Visit [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) to read o
 
 This site is built with [VitePress](https://vitepress.dev) and deployed to Cloudflare Pages.
 
-## Local Development
+## Local development
 
 The site renders charts via [`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts) from GitHub Packages, which needs an authenticated install. Add the `read:packages` scope to your gh CLI token once, then install and run:
 
@@ -42,7 +42,7 @@ pnpm run docs:build
 
 The built site will be in `.vitepress/dist/`
 
-## Preview Build
+Alternative production preview build:
 
 ```bash
 pnpm run docs:preview

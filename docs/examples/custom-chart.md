@@ -114,6 +114,6 @@ The full Vue 3 SFC that drives the live demo is at [`docs/examples/StaticChart.v
 - **Theme sync** — re-render the chart on `document.documentElement` class changes to follow the page's dark/light mode. Guard against re-rendering for unrelated `<html>` class mutations (VitePress toggles other classes too).
 - **Cleanup** — call `overlayChart.destroy()` from your unmount hook; it releases the wrapper state and the underlying Chart.js instance in one call.
 
-::: tip Direct lower-level use is opt-in
+::: tip ✨ Tip: direct lower-level use is opt-in
 For most pages you should use the higher-level `<StockIndicatorChart>` from `@facioquo/indy-charts/vue` (registered globally in `.vitepress/theme/index.ts`). It fetches quotes + indicators from the configured API, manages its own lifecycle, and respects the central indicator catalog. Drop down to `OverlayChart` only when you genuinely need to ship data inline.
 :::

@@ -16,7 +16,7 @@ public static partial class BollingerBands
             .AddResult("UpperBand", "Upper Band", ResultType.Default)
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .AddResult("PercentB", "%B", ResultType.Default, isReusable: true)
-            .AddResult("ZScore", "Z-Score", ResultType.Default)
+            .AddResult("ZScore", "Z-score", ResultType.Default)
             .AddResult("Width", "Width", ResultType.Default)
             .Build();
 
