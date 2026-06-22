@@ -40,7 +40,7 @@ using FacioQuo.Stock.Indicators;
 
 The examples on this page depict the **Batch (Series)** style because it is the simplest starting point and covers most use cases. Buffer lists and stream hubs are first-class alternatives for incremental and streaming scenarios — see [Indicator styles](/guide/styles/) for a side-by-side comparison and guidance on choosing.
 
-- **[Batch (Series)](/guide/styles/batch)** — convert a full price data collection at once. This is the standard, default style and the one demonstrated on this page.
+- **[Batch (Series)](/guide/styles/batch)** — convert a full price data collection at once. This is the standard style.
 - **[Buffer lists](/guide/styles/buffer)** — self-managed incrementing lists, for adding price bars one at a time.
 - **[Stream hubs](/guide/styles/stream)** — subscription-based hub-observer pattern, for live/streaming data and chained, real-time architectures.
 
@@ -75,7 +75,7 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
-::: info
+::: info BYOD: bring your own data
 You must get price bar data from your own provider.
 _The `GetBarsFromFeed()` method shown above represents your own acquisition of price data and **is not part of this library**._
 :::
