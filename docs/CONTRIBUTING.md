@@ -51,7 +51,7 @@ Use the [Discussions](https://github.com/facioquo/stock-indicators-dotnet/discus
 
 ### Initial setup
 
-The recommended setup uses VS Code with the dev container (automated) or the **Setup: Dev tools** VS Code task.  For manual setup, run these commands once after cloning:
+The recommended setup uses VS Code with the dev container (automated) or use the **Setup: Dev tools** VS Code task to check for prerequisites.  For manual setup, run these commands once after cloning:
 
 ```bash
 dotnet tool restore   # install .NET CLI tools
@@ -65,6 +65,25 @@ dotnet restore        # restore NuGet packages
 - Historical Stock Bars are automatically added to unit test methods.  A `Data.Bars.xlsx` Excel file is included in the `tests/_common` folder that is an exact copy of what is used in the unit tests.  Use a copy of this file for your manual calculations to ensure that it is correct.  Do not commit changes to the original file.
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request when submitting changes.
+
+### Regression baseline testing
+
+Regression baselines detect unintended behavioral changes in indicators. Each baseline is a JSON file with expected outputs for standard test data.
+
+```bash
+# run all regression baseline tests
+dotnet test --filter "TestCategory=Regression"
+
+# regenerate all baselines (locally)
+dotnet run --project tools/baselining -- --all
+
+# regenerate specific baseline
+dotnet run --project tools/baselining -- --indicator SMA
+```
+
+Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/facioquo/stock-indicators-dotnet/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
+
+When reviewing PRs with baseline changes, verify the reason is documented, review numeric differences, and ensure no unexpected indicators were affected.
 
 ### Performance benchmarking
 
@@ -104,25 +123,6 @@ Use the regression detection script to compare results with baseline:
 # from tools/performance directory
 pwsh detect-regressions.ps1
 ```
-
-### Regression baseline testing
-
-Regression baselines detect unintended behavioral changes in indicators. Each baseline is a JSON file with expected outputs for standard test data.
-
-```bash
-# run all regression baseline tests
-dotnet test --filter "TestCategory=Regression"
-
-# regenerate all baselines (locally)
-dotnet run --project tools/baselining -- --all
-
-# regenerate specific baseline
-dotnet run --project tools/baselining -- --indicator SMA
-```
-
-Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/facioquo/stock-indicators-dotnet/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
-
-When reviewing PRs with baseline changes, verify the reason is documented, review numeric differences, and ensure no unexpected indicators were affected.
 
 ## Documentation
 
@@ -195,22 +195,6 @@ If you want to contribute administratively, do code reviews, or provide general 
 - [.NET Design Guidelines](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines)
 - [NuGet Best Practices](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
-
-## AI coding agents
-
-This repository is optimized for AI coding agents with:
-
-- **AGENTS.md files** (root and subdirectories) providing repository context, coding patterns, and domain knowledge
-- **Agent skills** in `.agents/skills/` with domain-specific expertise for indicator development, testing, and performance
-- **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
-- **MCP server configurations** in `.vscode/mcp.json` for extended AI tools with financial mathematics and .NET performance analysis
-
-When using AI coding agents:
-
-- Follow the established patterns documented in the `AGENTS.md` files and skills
-- Understand the numerical precision approach: `decimal` for public bar inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in `AGENTS.md`)
-- Include comprehensive unit tests for any new indicators
-- Validate mathematical accuracy against reference implementations
 
 ## Versioning
 
