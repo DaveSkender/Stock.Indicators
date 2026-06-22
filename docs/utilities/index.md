@@ -15,29 +15,51 @@ hero:
       link: /utilities/catalog
 
 features:
-  - title: Bar utilities
+
+  - title: Utilities for price bars
     details: Prepare and transform historical price bars before using them with indicators.
-    link: /utilities/bars/
+    link: /utilities/bars
     linkText: 5 utilities
-  - title: Result utilities
+
+  - title: Utilities for indicator results
     details: Work with indicator results after calculation and analysis.
-    link: /utilities/results/
+    link: /utilities/results
     linkText: 4 utilities
-  - title: Helper utilities
+
+  - title: Additional utilities
     details: Numerical methods and math helpers for creating custom indicators.
-    link: /utilities/helpers/
-    linkText: 2 utilities
-  - title: Indicator catalog
+    link: /utilities/helpers
+    linkText: Slope, StdDev, NullMath, DeMath
+
+  - title: Indicator catalog utility
     details: Programmatic access to indicator metadata for dynamic UIs.
     link: /utilities/catalog
     linkText: Learn more
 ---
 
-## Overview
+## [Utilities for price bars](/utilities/bars)
 
-The library provides utilities and helper functions to work with historical price bars, indicator results, and numerical analysis.
+- [use alternate price](/utilities/bars#use-alternate-price)
+- [sort bars](/utilities/bars#sort-bars)
+- [validate bar history](/utilities/bars#validate-bar-history)
+- [resize price bar history](/utilities/bars#resize-bar-history)
+- [extended candle properties](/utilities/bars#extended-candle-properties).
 
-- Use **[Bar utilities](/utilities/bars/)** to sort, validate, resize, and transform your price data before calculating indicators.
-- Use **[Result utilities](/utilities/results/)** to condense, find, and trim indicator output after calculation.
-- Use **[Helper utilities](/utilities/helpers/)** when building custom indicators that need numerical methods or null-safe math.
-- Use the **[Indicator catalog](/utilities/catalog)** to discover indicator metadata programmatically for dynamic UIs.
+## [Utilities for indicator results](/utilities/results)
+
+- [remove warmup periods](/utilities/results#remove-warmup-periods)
+- [condense](/utilities/results#condense)
+- [find by date](/utilities/results#find-by-date)
+- [sort results](/utilities/results#sort-results).
+
+## [Additional utilities](/utilities/helpers)
+
+Numerical and math tools for [custom indicator development](/guide/customization):
+
+- [numerical methods](/utilities/helpers#numerical-methods) (slope, standard deviation)
+- [`NullMath`](/utilities/helpers#nullmath) null-safe math operations
+- [`DeMath`](/utilities/helpers#demath) deterministic precision math
+
+## [Indicator catalog utility](/utilities/catalog)
+
+Use the [Indicator catalog](/utilities/catalog) to discover indicator metadata programmatically — build pickers and configuration UIs, or execute a selected indicator without hard-coding its method call.

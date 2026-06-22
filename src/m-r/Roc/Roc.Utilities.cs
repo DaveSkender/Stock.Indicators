@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Provides utility methods for Rate of Change (ROC) calculations.

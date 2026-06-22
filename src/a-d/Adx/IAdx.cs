@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Interface for Average Directional Index (ADX) streaming and buffered list.

@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Streaming hub for PVO (Percentage Volume Oscillator).

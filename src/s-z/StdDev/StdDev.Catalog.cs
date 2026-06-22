@@ -1,21 +1,21 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 public static partial class StdDev
 {
     /// <summary>
-    /// Standard Deviation Common Base Listing
+    /// Standard deviation Common Base Listing
     /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
-            .WithName("Standard Deviation")
+            .WithName("Standard deviation")
             .WithId("STDEV")
             .WithCategory(Category.PriceCharacteristic)
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
-            .AddResult("StdDev", "Standard Deviation", ResultType.Default, isReusable: true)
+            .AddResult("StdDev", "Standard deviation", ResultType.Default, isReusable: true)
             .Build();
 
     /// <summary>
-    /// Standard Deviation Series Listing
+    /// Standard deviation Series Listing
     /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
@@ -24,7 +24,7 @@ public static partial class StdDev
             .Build();
 
     /// <summary>
-    /// Standard Deviation Stream Listing
+    /// Standard deviation Stream Listing
     /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
@@ -33,7 +33,7 @@ public static partial class StdDev
             .Build();
 
     /// <summary>
-    /// Standard Deviation Buffer Listing
+    /// Standard deviation Buffer Listing
     /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)

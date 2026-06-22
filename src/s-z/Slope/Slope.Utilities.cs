@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Defines the interface for Slope calculations.
@@ -12,7 +12,7 @@ public interface ISlope
 }
 
 /// <summary>
-/// Provides utility methods for Slope and Linear Regression calculations.
+/// Provides utility methods for Slope and linear regression calculations.
 /// </summary>
 public static partial class Slope
 {
@@ -28,7 +28,7 @@ public static partial class Slope
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Slope/Linear Regression.");
+                "Lookback periods must be greater than 1 for Slope/Linear regression.");
         }
     }
 }

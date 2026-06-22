@@ -1,5 +1,5 @@
 using System.Reflection;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 using TestData = Test.Data.Data;
 
 namespace Test.DataGenerator;

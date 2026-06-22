@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 public static partial class Slope
 {
@@ -13,8 +13,8 @@ public static partial class Slope
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the slope calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Slope", "Slope", ResultType.Default, isReusable: true)
             .AddResult("Intercept", "Intercept", ResultType.Default)
-            .AddResult("StdDev", "Standard Deviation", ResultType.Default)
-            .AddResult("RSquared", "R-Squared", ResultType.Default)
+            .AddResult("StdDev", "Standard deviation", ResultType.Default)
+            .AddResult("RSquared", "R-squared", ResultType.Default)
             .AddResult("Line", "Line", ResultType.Default)
             .Build();
 

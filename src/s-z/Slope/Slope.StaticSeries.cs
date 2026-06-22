@@ -1,12 +1,12 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
-/// Slope and Linear Regression indicator.
+/// Slope and linear regression indicator.
 /// </summary>
 public static partial class Slope
 {
     /// <summary>
-    /// Calculates Slope and Linear Regression for a given source list and lookback period.
+    /// Calculates Slope and linear regression for a given source list and lookback period.
     /// </summary>
     /// <param name="source">Source list to analyze.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
@@ -72,7 +72,7 @@ public static partial class Slope
             double? slope = (sumSqXy / sumSqX).NaN2Null();
             double? intercept = (avgY - (slope * avgX)).NaN2Null();
 
-            // calculate Standard Deviation and R-Squared
+            // calculate Standard deviation and R-squared
             double stdDevX = Math.Sqrt(sumSqX / lookbackPeriods);
             double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
 

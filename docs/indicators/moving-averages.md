@@ -2,92 +2,112 @@
 title: Moving averages
 description: Price smoothing indicators that reduce noise and reveal underlying trends.
 layout: home
+
 hero:
   name: Moving averages
   tagline: Price smoothing indicators that reduce noise and reveal underlying trends.
   actions:
     - theme: alt
-      text: ← All categories
+      text: ← all categories
       link: /indicators/
+
 features:
-  - title: Arnaud Legoux MA (ALMA)
+
+  - title: Arnaud Legoux Moving Average (ALMA)
+    details: Normal Gaussian distribution weighted moving average of price, low lag
     icon:
       src: /assets/thumbs/indicators/alma.png
-    link: /indicators/Alma
-    details: Gaussian kernel, low lag
-  - title: Double EMA (DEMA)
+    link: /indicators/alma
+
+  - title: Double Exponential Moving Average (DEMA)
+    details: Reduced lag double-smoothed Exponential Moving Average (EMA)
     icon:
       src: /assets/thumbs/indicators/dema.png
-    link: /indicators/Dema
-    details: Reduced lag exponential MA
-  - title: Endpoint MA (EPMA)
+    link: /indicators/dema
+
+  - title: Endpoint Moving Average (EPMA)
+    details: Least squares regression endpoint based<br/>(aka Least Squares Moving Average / LSMA)
     icon:
       src: /assets/thumbs/indicators/epma.png
-    link: /indicators/Epma
-    details: Least squares regression endpoint
-  - title: Exponential MA (EMA)
+    link: /indicators/epma
+
+  - title: Exponential Moving Average (EMA)
+    details: Classic exponential weighted moving average
     icon:
       src: /assets/thumbs/indicators/ema.png
-    link: /indicators/Ema
-    details: Classic exponential weighting
-  - title: Hilbert Transform Trendline
+    link: /indicators/ema
+
+  - title: Hilbert Transform Instantaneous Trendline
+    details: Cycle-adaptive 5-period trendline of high/low price signal (incl. Dominant Cycle Periods)
     icon:
       src: /assets/thumbs/indicators/ht-trendline.png
-    link: /indicators/HtTrendline
-    details: Cycle-adaptive smooth average
-  - title: Hull MA (HMA)
+    link: /indicators/ht-trendline
+
+  - title: Hull Moving Average (HMA)
+    details: Lag reducing double-smoothed Weighted Moving Averages (WMA)
     icon:
       src: /assets/thumbs/indicators/hma.png
-    link: /indicators/Hma
-    details: Low-lag weighted average
-  - title: Kaufman's Adaptive MA (KAMA)
+    link: /indicators/hma
+
+  - title: Kaufman's Adaptive Moving Average (KAMA)
+    details: Efficiency ratio adaptive, adjusted, double-smoothed Exponential Moving Averages (EMA)
     icon:
       src: /assets/thumbs/indicators/kama.png
-    link: /indicators/Kama
-    details: Efficiency ratio adaptive MA
+    link: /indicators/kama
+
   - title: McGinley Dynamic
+    details: Self-adjusting speed factored, modified Exponential Moving Average (EMA)
     icon:
       src: /assets/thumbs/indicators/dynamic.png
-    link: /indicators/Dynamic
-    details: Self-adjusting speed factor
-  - title: MESA Adaptive MA (MAMA)
+    link: /indicators/dynamic
+
+  - title: MESA Adaptive Moving Average (MAMA)
+    details: Cycle-following fast/slow adaptive 5-period trendline of high/low price signals
     icon:
       src: /assets/thumbs/indicators/mama.png
-    link: /indicators/Mama
-    details: MESA cycle-following MA
-  - title: Simple MA (SMA)
+    link: /indicators/mama
+
+  - title: Simple Moving Average (SMA)
+    details: Classic rolling window average price
     icon:
       src: /assets/thumbs/indicators/sma.png
-    link: /indicators/Sma
-    details: Classic period average
-  - title: Smoothed MA (SMMA)
+    link: /indicators/sma
+
+  - title: Smoothed Moving Average (SMMA)
+    details: Double-smoothed SMA, aka Modified Moving Average (MMA) and Running Moving Average (RMA)
     icon:
       src: /assets/thumbs/indicators/smma.png
-    link: /indicators/Smma
-    details: Smoothed, modified, and running MAs
-  - title: T3 Moving Average
+    link: /indicators/smma
+
+  - title: T3 Moving Average (Tillson)
+    details: 6-level Exponential Moving Averages (EMA) adjusted to reduce lag and overshooting
     icon:
       src: /assets/thumbs/indicators/t3.png
-    link: /indicators/T3
-    details: Tillson low-lag filter
+    link: /indicators/t3
+
   - title: Triple EMA (TEMA)
+    details: Triple-stacked low-lag Exponential Moving Average (EMA)
     icon:
       src: /assets/thumbs/indicators/tema.png
-    link: /indicators/Tema
-    details: Triple-stacked low-lag EMA
+    link: /indicators/tema
+
   - title: Volume-weighted average price (VWAP)
+    details: Volume weighted average of price, typically used on intraday data
     icon:
-      src: /assets/thumbs/indicators/vwap.png
-    link: /indicators/Vwap
-    details: Volume-weighted price average
+      src: /assets/thumbs/indicators/vwap2.png
+    link: /indicators/vwap
+
   - title: Volume-weighted moving average (VWMA)
+    details: Volume adjusted average price over a rolling window period
     icon:
-      src: /assets/thumbs/indicators/vwma.png
-    link: /indicators/Vwma
-    details: Moving average adjusted for volume
-  - title: Weighted MA (WMA)
+      src: /assets/thumbs/indicators/vwma2.png
+    link: /indicators/vwma
+
+  - title: Weighted Moving Average (WMA)
+    details: Linear time-weighted rolling average price
     icon:
       src: /assets/thumbs/indicators/wma.png
-    link: /indicators/Wma
-    details: Linearly weighted average
+    link: /indicators/wma
 ---
+
+See also: [Moving Average Envelopes](/indicators/ma-envelopes)

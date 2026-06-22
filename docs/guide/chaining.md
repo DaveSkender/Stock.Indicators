@@ -5,7 +5,7 @@ description: Combine indicators to build indicators of indicators — feed one i
 
 # Chaining indicators
 
-**Chaining** lets you calculate an _indicator of indicators_ — for example an SMA of an [ADX](/indicators/Adx), or an [RSI of OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d). Instead of feeding raw bars into a single indicator, you feed the **results** of one indicator into the next.
+**Chaining** lets you calculate an _indicator of indicators_ — for example an SMA of an [ADX](/indicators/adx), or an [RSI of OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d). Instead of feeding raw bars into a single indicator, you feed the **results** of one indicator into the next.
 
 ```csharp
 // RSI of On-Balance Volume
@@ -14,7 +14,7 @@ IReadOnlyList<RsiResult> results = bars
     .ToRsi(14);
 ```
 
-You can also start a chain from a chosen price field with [`Use(CandlePart)`](/utilities/bars/use-alternate-price):
+You can also start a chain from a chosen price field with [`Use(CandlePart)`](/utilities/bars#use-alternate-price):
 
 ```csharp
 // EMA of the HL2 price (average of high and low)
@@ -43,5 +43,5 @@ Chaining is available in all three [indicator styles](/guide/styles/); the conce
 ## See also
 
 - [Indicator styles](/guide/styles/) — compare batch, buffer, and stream
-- [Use alternate price](/utilities/bars/use-alternate-price) — start a chain from a chosen price field
+- [Use alternate price](/utilities/bars#use-alternate-price) — start a chain from a chosen price field
 - [Creating custom indicators](/guide/customization) — make your own indicators chainable

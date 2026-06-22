@@ -28,7 +28,7 @@ Stream hub style provides real-time processing with observable patterns and stat
 Create a bar hub and subscribe indicators as observers:
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // create bar hub (the data source)
 BarHub barHub = new();
@@ -181,8 +181,8 @@ Task consumer = Task.Run(() =>
 });
 ```
 
-::: warning
-Internal thread safety protects cache integrity during rebuild operations (triggered by out-of-order data). However, external synchronization is still required when multiple threads access the same hub instance concurrently.
+::: warning 🚩 Data corruption risk
+Internal thread-safety protects cache integrity during rebuilds (e.g., out-of-order data reconciliation). However, a hub instance is not safe for concurrent external use from multiple threads. Callers must ensure only one thread accesses a given instance at a time.
 :::
 
 ## Advanced patterns
@@ -323,7 +323,7 @@ if (barHub.IsFaulted)
 
 `ResetFault()` clears the faulted state so the hub can keep processing. The threshold only trips on *byte-identical* repeats — a normal correction (same timestamp, **different** values) is handled as a rollback, not a fault. If your feed legitimately re-sends identical trade prints, dedupe upstream or vary a field before calling `Add` so a real burst of identical ticks doesn't trip the guard.
 
-::: warning Reinitialize is a single-writer operation
+::: warning 🚩 Reinitialize is a single-writer operation
 `Reinitialize()` unsubscribes, rebuilds the cache from the provider, then re-subscribes. Bars that arrive in the brief window between the rebuild and the re-subscribe can be missed. Call `Reinitialize()` only when no concurrent `Add` is in flight — i.e. from the same single writer that feeds the hub.
 :::
 
@@ -331,7 +331,7 @@ if (barHub.IsFaulted)
 Hubs will inherit the `maxCacheSize` of its provider.  For example, if you set a size of 1,000 for your `BarHub`, then a chained `SmaHub` will also have a maximum cache size of 1,000.
 :::
 
-::: tip ✨ ✨ Optimize cache size for your use case
+::: tip ✨ Optimize cache size for your use case
 
 Set your `maxCacheSize` according to how you use the data produced in the hub cache. If you only need the latest indicator values and don't read history, a smaller cache saves memory.
 
@@ -352,7 +352,7 @@ Pick a floor comfortably above the deepest warmup in the chain (with headroom fo
 
 :::
 
-::: warning Corrections after pruning are approximate for stateful indicators
+::: warning 🚩 Corrections after pruning are approximate for stateful indicators
 Once the cache has pruned old bars, a correction or late arrival that triggers a rebuild can no longer see the pruned history, so the rebuilt results don't match a hub that received the same data in order:
 
 - **Indicators with a warmup/lookback** (window indicators like SMA, and recursive smoothers like EMA and the Wilder family) lose their leading results to `null` — the earliest retained bars no longer have enough history to recompute their warmup. For a pure window indicator like SMA the *remaining* values stay exact; the leading ones just disappear.

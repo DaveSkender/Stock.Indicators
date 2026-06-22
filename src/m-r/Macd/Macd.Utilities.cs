@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Provides utility methods for the MACD (Moving Average Convergence Divergence) oscillator.

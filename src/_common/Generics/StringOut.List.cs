@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Provides extension methods for converting ISeries lists to formatted strings.

@@ -68,7 +68,7 @@ dotnet restore        # restore NuGet packages
 
 ### Performance benchmarking
 
-Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
+Running the performance benchmark application in `Release` mode will produce benchmark performance data.
 
 ```bash
 # from /tools/performance folder
@@ -134,8 +134,20 @@ Build the site locally to test that it works properly.
 # one-time: grant your gh CLI token read:packages access
 gh auth refresh --scopes read:packages
 
-# from /docs folder — site opens at http://localhost:5173/
-NODE_AUTH_TOKEN=$(gh auth token) pnpm install
+# print and copy token
+gh auth token
+```
+
+```shell
+# ~/Users/{username}/.npmrc
+@facioquo:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken={token}
+```
+
+```bash
+# run dev server for documentation site from /docs folder
+# site opens at http://localhost:5173/
+cd docs
 pnpm run docs:dev
 ```
 
@@ -171,7 +183,7 @@ Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `
 
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
-After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/FacioQuo.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 

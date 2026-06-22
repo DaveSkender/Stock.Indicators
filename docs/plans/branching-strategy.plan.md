@@ -2,7 +2,7 @@
 
 This document outlines the migration from the current dual-branch model to a production-ready branching strategy with `main` as the primary development branch.
 
-**Related plans**: [streaming-indicators.plan.md](streaming-indicators.plan.md) is the v3.0 source of truth. This plan covers the operational mechanics referenced by **RG003** (release gate) and **§K Release mechanics — K007, K008** (FacioQuo rebrand sequencing) in the streaming plan. The package rename (`Skender.Stock.Indicators` → `FacioQuo.Stock.Indicators`) and repo transfer to `facioquo/stock-indicators-dotnet` are sequenced in §K of the streaming plan; the mechanical branch-and-CI steps below remain authoritative for the merge itself.
+**Related plans**: [streaming-indicators.plan.md](streaming-indicators.plan.md) is the v3.0 source of truth. This plan covers the operational mechanics referenced by **RG003** (release gate) and **§K Release mechanics — K007, K008** (FacioQuo rebrand sequencing) in the streaming plan. The package rename (`FacioQuo.Stock.Indicators` → `FacioQuo.Stock.Indicators`) and repo transfer to `facioquo/stock-indicators-dotnet` are sequenced in §K of the streaming plan; the mechanical branch-and-CI steps below remain authoritative for the merge itself.
 
 ## Current State
 
@@ -29,20 +29,20 @@ This document outlines the migration from the current dual-branch model to a pro
 
 **Deployment configuration:**
 
-- v2 patches: Deploy from `v2` branch to **`Skender.Stock.Indicators`** on NuGet.org (security/compat maintenance releases only)
+- v2 patches: Deploy from `v2` branch to **`FacioQuo.Stock.Indicators`** on NuGet.org (security/compat maintenance releases only)
 - v3 stable: Deploy from `main` branch to **`FacioQuo.Stock.Indicators`** on NuGet.org (new package identity per streaming plan §K)
-- v3 previews: Continue on `Skender.Stock.Indicators` until cut-over; first listed version on `FacioQuo.Stock.Indicators` is `3.0.0` stable (streaming plan K001 + K003)
+- v3 previews: Continue on `FacioQuo.Stock.Indicators` until cut-over; first listed version on `FacioQuo.Stock.Indicators` is `3.0.0` stable (streaming plan K001 + K003)
 
 > The two NuGet package identities split permanently at cut-over. `main` never publishes to the legacy package; `v2` never publishes to FacioQuo. See streaming plan §K and `CLAUDE.local.md` for the full multi-phase rebrand sequence.
 
 ### v2 branch role — netstandard2.x maintenance line
 
-After v3.0 stable ships, the `v2` branch becomes the **long-term maintenance line** for the `Skender.Stock.Indicators` package on older runtimes that v3 no longer targets. Specifically:
+After v3.0 stable ships, the `v2` branch becomes the **long-term maintenance line** for the `FacioQuo.Stock.Indicators` package on older runtimes that v3 no longer targets. Specifically:
 
-- **Targets retained on `v2`**: `netstandard2.0` and `netstandard2.1` consumers continue to receive support through the `Skender.Stock.Indicators` package built from this branch. v3 (`FacioQuo.Stock.Indicators`) targets `net8.0;net9.0;net10.0` and intentionally drops netstandard, per streaming plan **RG005** (decision confirmed 2026-05-24).
+- **Targets retained on `v2`**: `netstandard2.0` and `netstandard2.1` consumers continue to receive support through the `FacioQuo.Stock.Indicators` package built from this branch. v3 (`FacioQuo.Stock.Indicators`) targets `net8.0;net9.0;net10.0` and intentionally drops netstandard, per streaming plan **RG005** (decision confirmed 2026-05-24).
 - **Accepted changes**: security fixes, runtime/SDK compatibility patches, and CVE-driven dependency bumps only. **No new indicators, no API additions, no behavioral changes.** Bug fixes that backport cleanly from v3 are acceptable; anything that would change the public surface area is not.
-- **Package identity**: `v2` publishes exclusively to `Skender.Stock.Indicators` on NuGet.org. Release notes on those publishes carry the standing "We moved to `FacioQuo.Stock.Indicators` for v3+" deprecation banner (streaming plan K002/K004).
-- **Sunset window**: roughly 12 months from v3.0 stable release, after which the `Skender.Stock.Indicators` package transitions to the long-term deprecated state described in streaming plan K017. The `v2` branch itself may be archived as a tag at that point.
+- **Package identity**: `v2` publishes exclusively to `FacioQuo.Stock.Indicators` on NuGet.org. Release notes on those publishes carry the standing "We moved to `FacioQuo.Stock.Indicators` for v3+" deprecation banner (streaming plan K002/K004).
+- **Sunset window**: roughly 12 months from v3.0 stable release, after which the `FacioQuo.Stock.Indicators` package transitions to the long-term deprecated state described in streaming plan K017. The `v2` branch itself may be archived as a tag at that point.
 - **PR targeting on `v2`**: contributors should target `v2` only for fixes that match the criteria above; everything else targets `main`. Branch protection settings (per Phase 4 below) enforce the no-direct-push rule.
 
 This entry is the canonical home for the v2 maintenance commitment; streaming plan §K **K008** is the reciprocal one-line cross-reference, and README.md carries a short consumer-facing pointer.

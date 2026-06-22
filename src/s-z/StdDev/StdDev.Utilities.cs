@@ -1,7 +1,7 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
-/// Provides utility methods for Standard Deviation (StdDev) calculations.
+/// Provides utility methods for Standard deviation (StdDev) calculations.
 /// </summary>
 public static partial class StdDev
 {
@@ -17,7 +17,7 @@ public static partial class StdDev
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Standard Deviation.");
+                "Lookback periods must be greater than 1 for Standard deviation.");
         }
     }
 }

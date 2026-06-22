@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Provides a catalog of all registered indicators.
@@ -379,7 +379,7 @@ public static partial class Catalog
         _listings.Add(Stc.SeriesListing);
         _listings.Add(Stc.StreamListing);
 
-        // Standard Deviation
+        // Standard deviation
         _listings.Add(StdDev.BufferListing);
         _listings.Add(StdDev.SeriesListing);
         _listings.Add(StdDev.StreamListing);

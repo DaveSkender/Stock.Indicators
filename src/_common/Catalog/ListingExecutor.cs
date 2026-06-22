@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Provides utility methods for dynamic indicator execution based on catalog metadata.

@@ -8,13 +8,13 @@
         "resolved": "4.15.0",
         "contentHash": "E8fu71Y+vzhniJKy1K13Rzwm8Vjcj7CDFBpflqncKUZfc3SzuF0kMBiyMmgXNPkjWTdE3Z+30HlGgYjHONZY/Q=="
       },
-      "Skender.Stock.Indicators": {
+      "FacioQuo.Stock.Indicators": {
         "type": "Project"
       },
       "tests.indicators": {
         "type": "Project",
         "dependencies": {
-          "Skender.Stock.Indicators": "[1.0.0, )"
+          "FacioQuo.Stock.Indicators": "[1.0.0, )"
         }
       }
     }

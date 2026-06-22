@@ -28,7 +28,7 @@ Series batch style is the fastest and simplest way to calculate indicators from 
 All series-style indicators produce complete results for the entire bar history provided. The results are returned as a time series dataset, not just a single value.
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // fetch historical price bars from your data source
 IReadOnlyList<Bar> bars = GetBarsFromFeed("MSFT");

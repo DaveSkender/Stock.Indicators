@@ -89,7 +89,7 @@ async function getErrorKind(page: Page, testId: string): Promise<string | null> 
 
 test('SMA overlay chart renders from static fixture data', async ({ page }) => {
   await mockStockChartsApi(page)
-  await page.goto('/indicators/Sma')
+  await page.goto('/indicators/sma')
 
   const prefix = getTestIdPrefix('Sma')
   const root = page.locator(`[data-testid="${prefix}-root"]`)
@@ -109,7 +109,7 @@ test('SMA overlay chart renders from static fixture data', async ({ page }) => {
 
 test('RSI oscillator chart renders from static fixture data', async ({ page }) => {
   await mockStockChartsApi(page)
-  await page.goto('/indicators/Rsi')
+  await page.goto('/indicators/rsi')
 
   const prefix = getTestIdPrefix('Rsi')
   const root = page.locator(`[data-testid="${prefix}-root"]`)

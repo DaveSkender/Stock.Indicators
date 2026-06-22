@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// MESA Adaptive Moving Average (MAMA) for a series of bars indicator.

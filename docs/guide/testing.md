@@ -1,178 +1,192 @@
 ---
-title: Testing consumers of Stock Indicators
-description: Recommended patterns for testing code that consumes Stock Indicators — when to use canned fixtures, when to wrap, and why we don't recommend mocking.
+title: Testing your analysis code
+description: How to write automated tests for trading and technical-analysis code that consumes Stock Indicators — signals, confluence rules, backtests, and live alerts.
 ---
 
-# Testing consumers of Stock Indicators
+# Testing your analysis code
 
-This guide is for developers writing **automated tests for application code that consumes Stock Indicators** — trading systems, analytics services, dashboards, alerting pipelines, etc. It is not about testing indicators themselves; the library's own test suite handles that.
+This guide is for the **technical analyst or trading-system developer** writing tests for *their own* code on top of Stock Indicators — signal generators, entry/exit rules, screeners, backtests, and live alerts.
 
-The short version:
+You don't need to test the indicators. The library already proves that `ToRsi(14)` returns the right numbers and that every output style agrees. Your tests should prove **your trading logic**: that a golden cross fires a buy, that an oversold reading inside an uptrend triggers an entry, that your alert raises at the right moment.
 
-- **Use canned `IBar` fixtures and assert against known indicator values.** This is the same pattern the library's own test suite uses, and it gives the strongest correctness signal for the lowest maintenance cost.
-- **Don't mock the indicator types.** Indicators are deterministic pure functions of their inputs; mocking a deterministic function adds no signal.
-- **Wrap our types behind your own interface only when your service layer genuinely needs that abstraction** — for example, when you need to swap between live, backtest, and replay data sources.
+Two habits make that easy:
 
-## Recommended pattern: canned fixtures + known results
+1. **Keep each rule a pure function of indicator results.** Then a test is just *"given these values, expect this signal."*
+2. **Feed it real result objects — never a mock.** Indicators are deterministic; constructing an `RsiResult` with the value you want is the real type your code receives.
 
-Indicators in this library are deterministic: given the same input bars and parameters, you get the same output values to within `double` precision. The cleanest way to test code that consumes those outputs is to:
+## Make your trading rules testable
 
-1. Build (or check in) a small, fixed `IReadOnlyList<IBar>` fixture.
-2. Run the indicator to get the canonical results.
-3. Assert your consumer code does the right thing with those results.
+Pull each decision into a small function that takes indicator results and returns a signal. It becomes trivially testable — no data feed, no mocking framework.
+
+### Moving-average crossover
+
+A classic entry/exit rule: buy when a fast average crosses above a slow one, sell on the reverse.
 
 ```csharp
-using FluentAssertions;
-using Skender.Stock.Indicators;
+public enum Signal { None, Buy, Sell }
 
-[TestMethod]
-public void StrategyEnters_WhenRsiCrossesBelow30()
+// buy on an up-cross, sell on a down-cross
+public static Signal Crossover(
+    SmaResult fastPrev, SmaResult fastNow,
+    SmaResult slowPrev, SmaResult slowNow)
 {
-    // 1. canned input fixture (replace with your own)
-    IReadOnlyList<Bar> bars = CannedBars.OneMonthOfMsft();
+    if (fastPrev.Sma is null || slowPrev.Sma is null
+     || fastNow.Sma is null || slowNow.Sma is null)
+    {
+        return Signal.None;   // still warming up
+    }
 
-    // 2. compute the indicator the consumer depends on
-    IReadOnlyList<RsiResult> rsi = bars.ToRsi(14);
+    bool wasBelow = fastPrev.Sma <= slowPrev.Sma;
+    bool isAbove = fastNow.Sma > slowNow.Sma;
 
-    // 3. exercise consumer logic
-    var strategy = new MeanReversionStrategy();
-    StrategyDecision decision = strategy.Decide(bars[^1], rsi[^1]);
-
-    decision.Action.Should().Be(StrategyAction.Enter);
-    decision.Reason.Should().Be("RSI(14) crossed below 30");
+    return (wasBelow, isAbove) switch {
+        (true, true) => Signal.Buy,     // crossed up
+        (false, false) => Signal.Sell,  // crossed down
+        _ => Signal.None
+    };
 }
 ```
 
-This is exactly the shape of the library's own indicator tests (see e.g. `tests/indicators/m-r/Rsi/Rsi.StaticSeries.Tests.cs`). It validates the *interaction* between your code and the real indicator output, which is what production will actually run.
+```csharp
+[TestMethod]
+public void Crossover_FastRisesAboveSlow_IsBuy()
+{
+    DateTime t = default;  // timestamps don't affect the rule
 
-### Where to source canned bars
+    Signal signal = Strategy.Crossover(
+        fastPrev: new(t, 99), fastNow: new(t, 101),
+        slowPrev: new(t, 100), slowNow: new(t, 100));
 
-Most consumer test suites end up keeping their own `IBar` fixtures — typically a CSV or JSON file checked into the test project with 100–500 bars of representative market data. The library's test suite uses `tests/indicators/_testdata/bars/default.csv` (502 bars of historical S&P 500 daily bars) as its canonical fixture; you can mirror that approach or use your own production-representative sample.
+    signal.Should().Be(Signal.Buy);
+}
+```
 
-A small helper class loads the CSV once per test class:
+### Multi-indicator confluence
+
+Real strategies combine indicators. Here: only enter long when momentum is oversold **and** price sits above its long-term trend.
 
 ```csharp
-internal static class CannedBars
+public static bool ShouldEnterLong(IBar bar, RsiResult rsi, SmaResult trend)
+    => rsi.Rsi <= 30
+    && trend.Sma is not null
+    && (double)bar.Close > trend.Sma;
+```
+
+```csharp
+[TestMethod]
+public void ShouldEnterLong_OversoldInUptrend_IsTrue()
 {
-    private static readonly Lazy<IReadOnlyList<Bar>> _oneMonth = new(
-        () => LoadCsv("Data/msft-1mo.csv"));
+    DateTime t = default;
+    IBar bar = new Bar(t, Open: 104, High: 106, Low: 103, Close: 105, Volume: 0);
 
-    public static IReadOnlyList<Bar> OneMonthOfMsft() => _oneMonth.Value;
+    bool enter = Strategy.ShouldEnterLong(
+        bar,
+        rsi: new(t, Rsi: 25),       // oversold
+        trend: new(t, Sma: 100));   // price (105) is above trend
 
-    private static IReadOnlyList<Bar> LoadCsv(string relativePath)
+    enter.Should().BeTrue();
+}
+```
+
+Test the *near misses* too — an oversold reading **below** the trend line should not enter. Those are the cases real money depends on.
+
+## Backtesting over historical bars
+
+For end-to-end coverage, run the indicators over a fixed set of bars and assert on **your** output — the signals and metrics your code produces, not the indicator values:
+
+```csharp
+[TestMethod]
+public void GoldenCrossBacktest_SignalsAlternate()
+{
+    IReadOnlyList<Bar> bars = TestData.DailyBars();
+
+    IReadOnlyList<SmaResult> fast = bars.ToSma(50);
+    IReadOnlyList<SmaResult> slow = bars.ToSma(200);
+
+    List<Signal> signals = [];
+    for (int i = 1; i < bars.Count; i++)
     {
-        // your CSV loader — return List<Bar> sorted by Timestamp ascending
-        ...
+        Signal s = Strategy.Crossover(fast[i - 1], fast[i], slow[i - 1], slow[i]);
+        if (s != Signal.None) { signals.Add(s); }
+    }
+
+    // a real invariant of crossovers: you can't buy twice without selling between
+    signals.Should().NotBeEmpty();
+    for (int i = 1; i < signals.Count; i++)
+    {
+        signals[i].Should().NotBe(signals[i - 1]);
     }
 }
 ```
 
-## Why we don't recommend mocking the indicator types
+Assert on properties that hold for *any* representative data — signal counts, alternation, that a backtest's net result is finite — rather than hard-coding values tied to one dataset.
 
-A common instinct is to mock `IReadOnlyList<EmaResult>` or to introduce a wrapper interface so the indicator can be substituted in tests. We recommend against this for indicator-output consumption:
+## Live streaming alerts
 
-- **The indicators are pure functions.** `bars.ToEma(20)` has no I/O, no clock, no randomness, no external dependencies. Mocking it just lets you hardcode whatever return value you want — which validates nothing about the consumer's interaction with real indicator behavior. The hardcoded mock will agree with itself in every test, even if the consumer logic is wrong.
-- **Mocks drift from reality.** If a future library version corrects a calculation rounding or changes a warmup-period default, mocked tests keep passing while real production behavior diverges. Canned-fixture tests catch this immediately.
-- **Per-type result interfaces (`IEmaResult`, `ISmaResult`, …) actively encourage anti-patterns.** They invite user-defined result subclasses that diverge from canonical formulas without solving any real testing problem. The library deliberately does not provide them.
-
-The right unit-test boundary is **between your business logic and the indicator output**, not between your business logic and the indicator type. Inject the *result list*, not a mocked indicator service:
+If your code reacts to a live feed, wire your observer to a hub and replay a fixture as the "live" stream, then assert on the side effects your code produced. Here `RsiAlertObserver` is your own `IStreamObserver<RsiResult>` that invokes `onAlert` whenever `Rsi <= threshold`; see [Custom observers](/guide/custom-observers) for that pattern.
 
 ```csharp
-// GOOD: inject the result list
-public StrategyDecision Decide(IBar latest, RsiResult rsi)
+[TestMethod]
+public void Alerting_OnStreamedBars_FiresOnlyWhenOversold()
 {
-    if (rsi.Rsi is < 30) return new(StrategyAction.Enter, "RSI(14) crossed below 30");
-    ...
-}
+    IReadOnlyList<Bar> bars = TestData.DailyBars();
 
-// AVOID: injecting a "rsi service" wrapper just so it can be mocked
-public StrategyDecision Decide(IBar latest, IRsiService rsi)  // anti-pattern
-{
-    var rsiResult = rsi.Calculate(...);  // pointless layer
-    ...
+    BarHub barHub = new();
+    RsiHub rsiHub = barHub.ToRsiHub(14);
+
+    List<RsiResult> alerts = [];
+    using var observer = new RsiAlertObserver(rsiHub, threshold: 30, onAlert: alerts.Add);
+
+    foreach (Bar bar in bars) { barHub.Add(bar); }   // replay the feed
+
+    alerts.Should().OnlyContain(r => r.Rsi <= 30);
+
+    barHub.EndTransmission();
 }
 ```
 
-## When wrapping our types is appropriate
+You can also test the observer with no hub at all — call its `OnAdd(...)` directly with constructed results and assert it raised the right alert. That isolates your reaction logic completely.
 
-There **are** cases where a thin wrapper around the library makes sense — but the motivation is data-source abstraction, not mocking. If your service layer needs to swap between live broker bars, backtest CSVs, and replay buffers, a `IMarketDataSource` interface that returns `IReadOnlyList<IBar>` from each implementation is fine:
+## Don't mock the indicators
+
+Avoid mocking the result types or hiding indicators behind a wrapper interface just to substitute them:
+
+- **They're pure functions.** `bars.ToEma(20)` has no I/O, clock, or randomness. A mock just returns whatever you hardcode — it agrees with itself even when your logic is wrong.
+- **Mocks drift from reality.** If a future version changes a warmup default or rounding, mocked tests keep passing while production diverges. Tests built on real results catch it.
+
+Inject the **result**, not a mockable service. The right seam is between your logic and the indicator *output*, which is exactly what the pure-function rules above use.
+
+## When a wrapper helps
+
+A thin wrapper is warranted for **data-source abstraction**, not mocking — for example, swapping live, backtest, and replay feeds behind one interface:
 
 ```csharp
 public interface IMarketDataSource
 {
     IReadOnlyList<IBar> GetBars(string symbol, DateTime from, DateTime to);
 }
-
-public sealed class CsvBacktestDataSource : IMarketDataSource { ... }
-public sealed class LiveBrokerDataSource  : IMarketDataSource { ... }
-public sealed class ReplayDataSource      : IMarketDataSource { ... }
 ```
 
-This abstracts **where the bars come from**, which is a real concern. It does not abstract the indicator, which doesn't need abstracting. Your test code then exercises real indicator calls against the canned-CSV source:
+This abstracts *where bars come from* (a real concern); it does not abstract the indicator (which doesn't need it). Tests then run real indicator calls against a CSV-backed source.
+
+## Where to get bars for tests
+
+Keep a small fixture — a CSV or JSON of 100–500 representative bars — and load it once:
 
 ```csharp
-[TestMethod]
-public void Strategy_OnTwoYearsOfMsft_HasPositiveSharpe()
+internal static class TestData
 {
-    IMarketDataSource source = new CsvBacktestDataSource("Data/msft-2y.csv");
-    var bars = source.GetBars("MSFT", from, to);
+    private static readonly Lazy<IReadOnlyList<Bar>> _daily = new(
+        () => LoadCsv("Data/sp500-daily.csv"));  // return bars sorted by Timestamp
 
-    var rsi  = bars.ToRsi(14);
-    var sma  = bars.ToSma(50);
-    var decisions = strategy.RunBacktest(bars, rsi, sma);
-
-    decisions.SharpeRatio().Should().BeGreaterThan(0);
+    public static IReadOnlyList<Bar> DailyBars() => _daily.Value;
 }
 ```
 
-## Streaming-specific testing
-
-For consumers that integrate with `StreamHub` or `BufferList`, the same canned-fixture pattern applies — feed the same fixture as a stream and assert on the observer side.
-
-### Replaying a fixture through a stream
-
-```csharp
-[TestMethod]
-public void Alerting_FiresOnRsiOversold_AcrossLiveStream()
-{
-    IReadOnlyList<Bar> bars = CannedBars.OneMonthOfMsft();
-
-    BarHub barHub = new();
-    RsiHub rsiHub = barHub.ToRsiHub(14);
-
-    var captured = new List<RsiResult>();
-    using var observer = new RsiAlertObserver(rsiHub, captured.Add);
-
-    // replay the fixture as a "live" feed
-    foreach (Bar q in bars)
-    {
-        barHub.Add(q);
-    }
-
-    captured.Should().Contain(r => r.Rsi is < 30);
-}
-```
-
-### Asserting Stream/Buffer parity with Series
-
-The library guarantees that Series, BufferList, and StreamHub produce numerically identical results for the same inputs. Consumer tests can rely on this — pick whichever style fits the test scenario (typically Series for speed, StreamHub for behavioral tests of observer wiring). When your test needs to assert your code behaves identically regardless of style, a direct equality assertion works:
-
-```csharp
-IReadOnlyList<EmaResult> series = bars.ToEma(20);
-EmaList               buffer    = bars.ToEmaList(20);
-
-buffer.Should().Equal(series, (b, s) => b.Timestamp == s.Timestamp && b.Ema == s.Ema);
-```
-
-This is the same parity invariant the library's own test suite asserts via `IsExactly(series)` — see e.g. `tests/indicators/e-k/Ema/Ema.BufferList.Tests.cs`.
-
-### Testing custom observers
-
-For consumer code that implements `IStreamObserver<T>` directly (UI dispatchers, persistence layers, alert pipelines), the same approach works — drive the source hub with a canned fixture and assert on the observer's captured side effects. See [Custom observers](/guide/custom-observers) for the observer-implementation patterns.
+Need a starting fixture? The library ships representative daily data you can copy from `tests/indicators/_testdata/quotes/default.csv` (~502 S&P 500 bars), and the [example projects](/examples/) include downloadable sample quote files.
 
 ## See also
 
-- [Stream hubs](/guide/styles/stream) — source-side streaming guide
-- [Custom observers](/guide/custom-observers) — implementing `IStreamObserver<T>` for external integration
+- [Example usage code](/examples/) — complete working console, backtest, and streaming projects
+- [Custom observers](/guide/custom-observers) — implementing `IStreamObserver<T>` for live integration
 - [Custom indicators](/guide/customization) — adding indicator math, not consuming output
-- The library's own test suite under `tests/indicators/` for representative shapes

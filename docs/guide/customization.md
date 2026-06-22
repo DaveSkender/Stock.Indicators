@@ -7,11 +7,11 @@ description: Learn how to create your own custom technical indicators using the 
 
 At some point in your journey, you may want to create your own custom indicators. The following guide shows you how to create custom indicators that work seamlessly with this library.
 
-::: warning Series style only
+::: warning 🚩 Series style only
 Custom indicators are currently supported for the **Batch (Series)** style only. Creating custom [Buffer list](/guide/styles/buffer) or [Stream hub](/guide/styles/stream) indicators is not yet supported as a first-class extension point; support is planned for a future release (buffer lists: [#2096](https://github.com/DaveSkender/Stock.Indicators/issues/2096), stream hubs: [#2097](https://github.com/DaveSkender/Stock.Indicators/issues/2097)). To integrate custom logic with streaming data today, see [Custom observers](/guide/custom-observers).
 :::
 
-::: tip
+::: tip ✨
 Working example code is available in the [CustomIndicatorsLibrary](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary) project.
 :::
 
@@ -22,7 +22,7 @@ Working example code is available in the [CustomIndicatorsLibrary](https://githu
 Create your results class by implementing the `IReusable` interface or inheriting from existing result patterns. This allows your custom indicator to be chainable with other indicators.
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 namespace Custom.Indicators;
 
@@ -42,7 +42,7 @@ public record AtrWmaResult : IReusable
 Create your custom algorithm following the same patterns as the main library.
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 namespace Custom.Indicators;
 
@@ -130,7 +130,7 @@ public static class CustomIndicators
 Use your custom indicator just like the built-in indicators:
 
 ```csharp
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 using Custom.Indicators;
 
 // Get historical price bars

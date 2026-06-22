@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Represents the result of a Simple Moving Average (SMA) calculation
@@ -6,9 +6,9 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <param name="Timestamp">Timestamp of the data point.</param>
 /// <param name="Sma">Simple Moving Average (SMA) at this point.</param>
-/// <param name="Mad">Mean Absolute Deviation (MAD) at this point.</param>
-/// <param name="Mse">Mean Square Error (MSE) at this point.</param>
-/// <param name="Mape">Mean Absolute Percentage Error (MAPE) at this point.</param>
+/// <param name="Mad">Mean absolute deviation (MAD) at this point.</param>
+/// <param name="Mse">Mean square error (MSE) at this point.</param>
+/// <param name="Mape">Mean absolute percentage error (MAPE) at this point.</param>
 [Serializable]
 public record SmaAnalysisResult
 (

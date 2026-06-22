@@ -14,7 +14,7 @@ public class StdDevTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Standard Deviation");
+        listing.Name.Should().Be("Standard deviation");
         listing.Uiid.Should().Be("STDEV");
         listing.Style.Should().Be(Style.Series);
         listing.Category.Should().Be(Category.PriceCharacteristic);
@@ -31,7 +31,7 @@ public class StdDevTests : TestBase
 
         IndicatorResult stddevResult = listing.Results.SingleOrDefault(static r => r.DataName == "StdDev");
         stddevResult.Should().NotBeNull();
-        stddevResult?.DisplayName.Should().Be("Standard Deviation");
+        stddevResult?.DisplayName.Should().Be("Standard deviation");
         stddevResult.IsReusable.Should().Be(true);
     }
 
@@ -43,7 +43,7 @@ public class StdDevTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Standard Deviation");
+        listing.Name.Should().Be("Standard deviation");
         listing.Uiid.Should().Be("STDEV");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceCharacteristic);
@@ -60,7 +60,7 @@ public class StdDevTests : TestBase
 
         IndicatorResult stddevResult = listing.Results.SingleOrDefault(static r => r.DataName == "StdDev");
         stddevResult.Should().NotBeNull();
-        stddevResult!.DisplayName.Should().Be("Standard Deviation");
+        stddevResult!.DisplayName.Should().Be("Standard deviation");
         stddevResult.IsReusable.Should().Be(true);
     }
 
@@ -72,7 +72,7 @@ public class StdDevTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Standard Deviation");
+        listing.Name.Should().Be("Standard deviation");
         listing.Uiid.Should().Be("STDEV");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceCharacteristic);
@@ -89,7 +89,7 @@ public class StdDevTests : TestBase
 
         IndicatorResult stddevResult = listing.Results.SingleOrDefault(static r => r.DataName == "StdDev");
         stddevResult.Should().NotBeNull();
-        stddevResult!.DisplayName.Should().Be("Standard Deviation");
+        stddevResult!.DisplayName.Should().Be("Standard deviation");
         stddevResult.IsReusable.Should().Be(true);
     }
 }

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 #pragma warning disable IDE0072 // Missing cases in switch statement
 

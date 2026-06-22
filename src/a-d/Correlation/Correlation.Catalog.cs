@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 public static partial class Correlation
 {
@@ -17,7 +17,7 @@ public static partial class Correlation
             .AddResult("VarianceB", "Variance B", ResultType.Default)
             .AddResult("Covariance", "Covariance", ResultType.Default)
             .AddResult("Correlation", "Correlation", ResultType.Default, isReusable: true)
-            .AddResult("RSquared", "R-Squared", ResultType.Default)
+            .AddResult("RSquared", "R-squared", ResultType.Default)
             .Build();
 
     /// <summary>

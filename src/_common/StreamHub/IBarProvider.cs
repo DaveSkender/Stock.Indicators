@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <inheritdoc/>
 public interface IBarProvider<out T> : IChainProvider<T>

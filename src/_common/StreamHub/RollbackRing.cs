@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Fixed-size ring of recent <c>(timestamp, state)</c> snapshots that makes

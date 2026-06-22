@@ -1,7 +1,7 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
-/// Interface for Standard Deviation (StdDev) calculations.
+/// Interface for Standard deviation (StdDev) calculations.
 /// </summary>
 public interface IStdDev
 {

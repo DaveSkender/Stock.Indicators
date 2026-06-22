@@ -69,8 +69,8 @@ Then use the #tool:playwright MCP tool to navigate, screenshot, and inspect page
 
 Use VitePress native container syntax instead of GitHub alert syntax in docs pages:
 
-- `::: tip` — helpful suggestions
-- `::: warning` — important warnings
+- `::: tip ✨` — helpful suggestions
+- `::: warning 🚩` — important warnings
 - `::: danger` — critical warnings
 - `::: info` — informational highlights (default)
 - `::: details` — collapsible sections

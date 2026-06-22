@@ -33,6 +33,42 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void SwappingHistories_ReturnsSameResults()
+    {
+        const int lookbackPeriods = 20;
+
+        IReadOnlyList<CorrResult> sutA = Bars
+            .ToCorrelation(OtherBars, lookbackPeriods);
+
+        IReadOnlyList<CorrResult> sutB = OtherBars
+            .ToCorrelation(Bars, lookbackPeriods);
+
+        sutA.Should().HaveCount(502);
+        sutB.Should().HaveCount(502);
+
+        sutA.Should().BeEquivalentTo(
+            expectation: sutB,
+            config: options => options
+                .WithStrictOrdering()
+                .ComparingByMembers<CorrResult>()
+                .Excluding(r => r.VarianceA)
+                .Excluding(r => r.VarianceB),
+            because: "Correlation is bi-directional");
+
+        sutA.Select(a => a.VarianceA).Should().BeEquivalentTo(
+            expectation: sutB.Select(b => b.VarianceB),
+            config: options => options
+                .WithStrictOrdering(),
+            because: "Variance vectors must map inversely");
+
+        sutB.Select(b => b.VarianceA).Should().BeEquivalentTo(
+            expectation: sutA.Select(a => a.VarianceB),
+            config: options => options
+                .WithStrictOrdering(),
+            because: "Variance vectors must map inversely");
+    }
+
+    [TestMethod]
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<CorrResult> sut = Bars.ToCorrelation(OtherBars, 20);

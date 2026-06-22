@@ -1,4 +1,4 @@
-namespace Skender.Stock.Indicators;
+namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
 /// Represents the result of Bollinger Bands calculation.
@@ -8,7 +8,7 @@ namespace Skender.Stock.Indicators;
 /// <param name="UpperBand">Upper Bollinger Band.</param>
 /// <param name="LowerBand">Lower Bollinger Band.</param>
 /// <param name="PercentB">The %B value.</param>
-/// <param name="ZScore">Z-Score value.</param>
+/// <param name="ZScore">Z-score value.</param>
 /// <param name="Width">Width of the Bollinger Bands.</param>
 [Serializable]
 public record BollingerBandsResult

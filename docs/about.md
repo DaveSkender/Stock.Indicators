@@ -9,7 +9,7 @@ head:
 
 # About this library
 
-**Stock Indicators for .NET** is an open-source C# library that transforms historical price bars into technical indicators. The library provides industry-standard technical analysis indicators with a focus on accuracy, performance, and developer ergonomics.
+**Stock Indicators for .NET** is an open-source C# [NuGet library](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) that transforms historical price bars into technical indicators. The library provides industry-standard technical analysis indicators with a focus on accuracy, performance, and developer ergonomics.
 
 ## Project information
 
@@ -17,7 +17,7 @@ head:
 | --- | --- |
 | **License** | [Apache 2.0](https://opensource.org/licenses/Apache-2.0) |
 | **Source code** | [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) |
-| **Package** | [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) (NuGet.org) |
+| **Package** | [FacioQuo.Stock.Indicators](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) (NuGet.org) |
 | **Documentation** | [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) |
 | **Demo site** | [charts.stockindicators.dev](https://charts.stockindicators.dev) |
 
@@ -30,7 +30,7 @@ This NuGet library project is developed with support from [community contributor
 Our documentation, examples, and testing is additionally built upon the work of several excellent open-source projects and data providers.
 
 ::: tip Documentation and testing only
-The `Skender.Stock.Indicators` NuGet library itself does not contain work products or inherit licensing from any of these providers.
+The `FacioQuo.Stock.Indicators` NuGet library itself does not contain work products or inherit licensing from any of these providers.
 :::
 
 ### Chart libraries

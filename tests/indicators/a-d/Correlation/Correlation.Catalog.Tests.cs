@@ -47,7 +47,7 @@ public class CorrelationTests : TestBase
         correlationResult3.IsReusable.Should().Be(true);
         IndicatorResult rsquaredResult4 = listing.Results.SingleOrDefault(static r => r.DataName == "RSquared");
         rsquaredResult4.Should().NotBeNull();
-        rsquaredResult4?.DisplayName.Should().Be("R-Squared");
+        rsquaredResult4?.DisplayName.Should().Be("R-squared");
         rsquaredResult4.IsReusable.Should().Be(false);
     }
 }
