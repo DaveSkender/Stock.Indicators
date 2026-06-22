@@ -94,7 +94,7 @@ If you want to buy me a beer or are interested in ongoing support as a patron, [
 
 ## Contribute to help others
 
-This NuGet package is an open-source project [on GitHub](https://github.com/DaveSkender/Stock.Indicators).  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog](https://github.com/users/DaveSkender/projects/1).
+This NuGet package is an open-source project [on GitHub](https://github.com/facioquo/stock-indicators-dotnet).  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
 Special thanks to all of our community code contributors!
 

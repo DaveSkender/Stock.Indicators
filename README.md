@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD041 -->
-[![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/v2/docs/assets/social-banner.png)](https://v2.dotnet.stockindicators.dev/)
+[![image](https://github.com/facioquo/stock-indicators-dotnet/blob/c6b7b771cfb91cb885bf33cae90284675833a3cf/docs/assets/social-banner.png)](https://v2.dotnet.stockindicators.dev/)
 
-[![GitHub Stars](https://img.shields.io/github/stars/DaveSkender/Stock.Indicators?logo=github&label=Stars)](https://github.com/DaveSkender/Stock.Indicators)
+[![GitHub Stars](https://img.shields.io/github/stars/facioquo/stock-indicators-dotnet?logo=github&label=Stars)](https://github.com/facioquo/stock-indicators-dotnet)
 [![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 [![NuGet](https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 
@@ -18,6 +18,6 @@ Visit our project site for more information:
 - [Overview](https://v2.dotnet.stockindicators.dev/)
 - [Indicators and overlays](https://v2.dotnet.stockindicators.dev/indicators/)
 - [Guide and Pro tips](https://v2.dotnet.stockindicators.dev/guide/)
-- [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
-- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
+- [Release notes](https://github.com/facioquo/stock-indicators-dotnet/releases)
+- [Discussions](https://github.com/facioquo/stock-indicators-dotnet/discussions)
 - [Contributing](https://v2.dotnet.stockindicators.dev/contributing/)
