@@ -462,6 +462,8 @@ export default defineConfig({
     'plans/**',
     'shared/**',
     'tests/**',
+    'test-results/**',
+    'playwright-report/**',
     'vendor/**',
     '.pa11yci',
     '_headers',

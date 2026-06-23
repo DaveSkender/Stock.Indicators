@@ -477,7 +477,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Test: All",
+      "label": "Test: All (library)",
       "detail": "Run all unit, regression, and integration tests (excluding performance or website tests)",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
@@ -489,6 +489,16 @@
       "dependsOrder": "sequence",
       "group": "test",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Test: All",
+      "detail": "Run all unit, regression, integration, and website tests (excluding performance tests)",
+      "dependsOn": [
+        "Test: All (library)",
+        "Test: All (website)"
+      ],
+      "dependsOrder": "parallel",
+      "group": "test"
     },
     {
       "label": "Test: Unit tests with coverage",
@@ -548,7 +558,10 @@
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "dependsOn": "Start: Docker Desktop",
+      "dependsOn": [
+        "Install: Node packages",
+        "Start: Docker Desktop"
+      ],
       "dependsOrder": "sequence"
     },
     {
@@ -556,11 +569,38 @@
       "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
       "type": "shell",
       "command": "bash .vitepress/test-a11y.sh",
+      "dependsOn": [
+        "Stop: VitePress servers",
+        "Install: Node packages",
+        "Install: Chrome for Puppeteer"
+      ],
+      "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "dependsOn": "Install: Chrome for Puppeteer",
-      "dependsOrder": "sequence"
+      }
+    },
+    {
+      "label": "Test: Website charts (playwright)",
+      "detail": "Run Playwright chart rendering tests for the website",
+      "type": "shell",
+      "command": "pnpm run test:charts",
+      "dependsOn": "Install: Node packages",
+      "dependsOrder": "sequence",
+      "group": "test",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      }
+    },
+    {
+      "label": "Test: All (website)",
+      "detail": "Run all website tests: links, accessibility, and charts",
+      "dependsOn": [
+        "Test: Website links (htmlproofer)",
+        "Test: Website a11y (pa11y)",
+        "Test: Website charts (playwright)"
+      ],
+      "dependsOrder": "sequence",
+      "group": "test"
     },
     // ===================================
     // Code review and verification
