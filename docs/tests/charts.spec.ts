@@ -8,8 +8,6 @@ import { getTestIdPrefix } from '@facioquo/indy-charts/vue'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const FIXTURES = join(__dirname, '../.vitepress/public/data/chart-api')
 
-const API_BASE = 'https://stock-charts-api.azurewebsites.net'
-
 // Static fixture data loaded once
 const quotesJson = readFileSync(join(FIXTURES, 'quotes.json'), 'utf8')
 const indicatorsJson = readFileSync(join(FIXTURES, 'indicators.json'), 'utf8')
@@ -17,32 +15,38 @@ const smaJson = readFileSync(join(FIXTURES, 'sma.json'), 'utf8')
 const rsiJson = readFileSync(join(FIXTURES, 'rsi.json'), 'utf8')
 
 /**
- * Intercept all stock-charts API requests and respond with static fixture data.
- * Falls back gracefully when the live API is unavailable (CI or offline dev).
+ * Intercept all stock-charts API requests and respond with static fixture data,
+ * so the suite is hermetic and never depends on the live API.
+ *
+ * The API serves indicator data from per-indicator endpoints keyed by UIID
+ * (e.g. `/SMA/`, `/RSI/`, `/MACD/`) — NOT `/indicators/<name>`. The listings
+ * fixture (`indicators.json`) carries those absolute endpoints, so the client
+ * requests `/<UIID>/` and the routes below must match that shape.
  */
 async function mockStockChartsApi(page: Page): Promise<void> {
-  await page.route(`${API_BASE}/quotes`, (route: Route) =>
-    route.fulfill({ contentType: 'application/json', body: quotesJson })
-  )
-
-  await page.route(`${API_BASE}/indicators`, (route: Route) =>
-    route.fulfill({ contentType: 'application/json', body: indicatorsJson })
-  )
-
-  // Routes are matched LIFO (last-registered = highest priority). The catch-all
-  // below is registered before sma** and rsi**, so specific routes shadow it.
-  // Any other indicator endpoint: return empty array (chart shows empty state)
-  await page.route(`${API_BASE}/indicators/**`, (route: Route) =>
+  // Routes are matched LIFO (last-registered = highest priority). This catch-all
+  // is registered first, so every specific route below shadows it. Any indicator
+  // endpoint we don't explicitly fixture returns an empty array → the chart
+  // reaches the (tolerated) empty state instead of touching the network.
+  await page.route(/stock-charts-api\.azurewebsites\.net\/.+/, (route: Route) =>
     route.fulfill({ contentType: 'application/json', body: '[]' })
   )
 
-  // SMA indicator data
-  await page.route(`${API_BASE}/indicators/sma**`, (route: Route) =>
+  await page.route(/\/quotes(?:\?|$)/, (route: Route) =>
+    route.fulfill({ contentType: 'application/json', body: quotesJson })
+  )
+
+  await page.route(/\/indicators(?:\?|$)/, (route: Route) =>
+    route.fulfill({ contentType: 'application/json', body: indicatorsJson })
+  )
+
+  // SMA indicator data — endpoint is `/SMA/?lookbackPeriods=...`
+  await page.route(/\/SMA\//i, (route: Route) =>
     route.fulfill({ contentType: 'application/json', body: smaJson })
   )
 
-  // RSI indicator data
-  await page.route(`${API_BASE}/indicators/rsi**`, (route: Route) =>
+  // RSI indicator data — endpoint is `/RSI/?lookbackPeriods=...`
+  await page.route(/\/RSI\//i, (route: Route) =>
     route.fulfill({ contentType: 'application/json', body: rsiJson })
   )
 }
