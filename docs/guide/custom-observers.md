@@ -5,7 +5,7 @@ description: Implement an observer of a streaming hub for UI dispatch, persisten
 
 # Custom observers (external integration)
 
-Subscribing a **custom observer** to **integrating** with a hub's event stream. Use it to *react to a hub's output* — push updates into a UI, persist values to a database, ship them to a message bus, feed an alerting pipeline, or filter/transform results and re-emit them to downstream indicators.
+Subscribing a **custom observer** is the supported way to integrate with a hub's event stream. Use it to *react to a hub's output* — push updates into a UI, persist values to a database, ship them to a message bus, feed an alerting pipeline, or filter/transform results and re-emit them to downstream indicators.
 
 ## When to use an observer
 
@@ -20,13 +20,13 @@ Subscribing a **custom observer** to **integrating** with a hub's event stream. 
 Subscribing does not modify the source hub. The hub keeps its cache, its rollback behavior, and its other subscribers. Your observer is a peer subscriber that receives the same notifications; if it throws, the hub isolates it so the other subscribers are unaffected (see [If an observer throws](#if-an-observer-throws)).
 
 ::: info Fully customizable stream hubs are not yet supported
-Stream hub customization has not been implemented yet (see [#2097](https://github.com/facioquo/stock-indicators-dotnet/issues/2097)). Until then, this observer pattern is the only and idiomatic way to thread custom processing into a streaming pipeline.
+Stream hub customization has not been implemented yet (see [#2097](https://github.com/facioquo/stock-indicators-dotnet/issues/2097)). Until then, this observer pattern is the supported, idiomatic way to thread custom processing into a streaming pipeline.
 :::
 
 ## `IStreamObserver` interface
 
 ```csharp
-public interface IStreamObserver<T>
+public interface IStreamObserver<in T>
 {
     bool IsSubscribed { get; }
 
@@ -112,7 +112,7 @@ foreach (Bar q in liveBars)
 
 Every bar published to `barHub` cascades through `emaHub.OnAdd(...)`; the EMA result then notifies `ui.OnAdd(...)`, which posts to the UI thread. Disposing `ui` unsubscribes cleanly.
 
-## Observable observer chains
+## Observer as a chain provider
 
 If you want downstream indicators to chain off your observer's processed output (rather than the raw hub output), implement `IChainProvider<IReusable>` on the same type. The pattern is a thin box that re-emits each item through its own subscriber list:
 

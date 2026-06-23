@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Skender.Stock.Indicators" Version="3.0.0-preview.3.1" PrivateAssets="All" />
+    <PackageReference Include="FacioQuo.Stock.Indicators" Version="3.0.0-preview.5" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

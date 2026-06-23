@@ -6,7 +6,7 @@
 
 **Related plans**: [streaming-indicators.plan.md](streaming-indicators.plan.md) is the v3.0 source of truth and tracks this work in **§J Infrastructure — deferred but listed for context** as the single deferred item. This plan is the detailed catalog of the file/directory renames and naming-convention decisions to execute when v3.1 work begins. It is intentionally **out of scope for v3.0** to avoid churning the codebase during the release-hardening window.
 
-> This out of date, but notionally correct.
+> This plan is out of date in specifics, but notionally correct.
 
 ---
 

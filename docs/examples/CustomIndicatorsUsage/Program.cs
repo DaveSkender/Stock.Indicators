@@ -1,6 +1,6 @@
 using System.Text.Json;
 using Custom.Stock.Indicators;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // USE CUSTOM INDICATORS exactly the same as
 // other indicators in the library
@@ -9,13 +9,12 @@ using Skender.Stock.Indicators;
 // We're mocking with a simple JSON file import
 string json = File.ReadAllText("quotes.data.json");
 
-IReadOnlyList<Quote> quotes = JsonSerializer
-    .Deserialize<IReadOnlyCollection<Quote>>(json)
+IReadOnlyList<Bar> bars = JsonSerializer
+    .Deserialize<IReadOnlyCollection<Bar>>(json)
     .ToSortedList();
 
 // Calculate 10-period custom AtrWma
-IReadOnlyList<AtrWmaResult> results = quotes
-            .GetAtrWma(10);
+IReadOnlyList<AtrWmaResult> results = bars.GetAtrWma(10);
 
 // Show results
 Console.WriteLine("ATR WMA Results ---------------------------");

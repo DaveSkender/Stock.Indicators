@@ -1,9 +1,9 @@
 ---
-title: Helper utilities
+title: Additional utilities
 description: Numerical methods and math helpers (NullMath, DeMath) for custom indicator development.
 ---
 
-# Helper utilities
+# Additional utilities
 
 Numerical and math helpers for building [custom indicators](/guide/customization). These are the same internal tools the library's built-in indicators use.
 
@@ -76,4 +76,5 @@ If you are contributing a custom indicator that uses transcendental functions an
 
 - [Bar utilities](/utilities/bars) — prepare and transform price bars
 - [Result utilities](/utilities/results) — work with indicator results
+- [Indicator catalog](/utilities/catalog) — discover indicator metadata programmatically
 - [Slope indicator](/indicators/slope) and [Standard deviation indicator](/indicators/std-dev) — built-in equivalents

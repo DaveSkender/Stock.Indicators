@@ -1,5 +1,5 @@
 using Alpaca.Markets;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 string symbol = "AAPL";
 
@@ -8,13 +8,13 @@ string symbol = "AAPL";
  We're using Alpaca SDK for .NET to access their public APIs.
 
  This approach will vary widely depending on where you are
- getting your quote history.
+ getting your aggregate price bars (quote history).
 
  See https://github.com/facioquo/stock-indicators-dotnet/discussions/579
  for free or inexpensive market data providers and examples.
 
- The return type of IEnumerable<Quote> can also be List<Quote>
- or ICollection<Quote> or other IEnumerable compatible types.
+ The return type of IEnumerable<Bar> can also be List<Bar>
+ or ICollection<Bar> or other IEnumerable compatible types.
 
  ************************************************************/
 
@@ -49,12 +49,12 @@ DateTime from = into.Subtract(TimeSpan.FromDays(1000));
 HistoricalBarsRequest request = new(symbol, from, into, BarTimeFrame.Minute);
 
 // fetch minute-bar quotes in Alpaca's format
-IPage<IBar> barSet = await client.ListHistoricalBarsAsync(request);
+IPage<Alpaca.Markets.IBar> barSet = await client.ListHistoricalBarsAsync(request);
 
 // convert library compatible quotes
-List<Quote> quotes = barSet
+List<Bar> bars = barSet
     .Items
-    .Select(bar => new Quote(
+    .Select(bar => new Bar(
         Timestamp: bar.TimeUtc,
         Open: bar.Open,
         High: bar.High,
@@ -65,7 +65,7 @@ List<Quote> quotes = barSet
     .ToList();
 
 // calculate 10-period SMA
-IEnumerable<SmaResult> results = quotes.ToSma(10);
+IEnumerable<SmaResult> results = bars.ToSma(10);
 
 if (results == null || !results.Any())
 {
@@ -81,13 +81,13 @@ foreach (SmaResult r in results.TakeLast(10))
     Console.WriteLine($"SMA on {r.Timestamp:u} was ${r.Sma:N3}");
 }
 
-// analyze results (compare to quote values)
+// analyze results (compare to bar values)
 Console.WriteLine();
 Console.WriteLine($"{symbol} Analysis --------------------------");
 
 /************************************************************
   Results are usually returned with the same number of
-  elements as the provided quotes; see individual indicator
+  elements as the provided bar; see individual indicator
   docs for more information.
 
   As such, converting to List means they can be indexed
@@ -97,11 +97,11 @@ Console.WriteLine($"{symbol} Analysis --------------------------");
 List<SmaResult> resultsList = results
     .ToList();
 
-for (int i = quotes.Count - 25; i < quotes.Count; i++)
+for (int i = bars.Count - 25; i < bars.Count; i++)
 {
     // only showing ~25 records for brevity
 
-    Quote q = quotes[i];
+    Bar q = bars[i];
     SmaResult r = resultsList[i];
 
     bool isBullish = (double)q.Close > r.Sma;

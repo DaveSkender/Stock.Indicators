@@ -233,6 +233,8 @@ void ProcessLiveData(Bar bar)
 
 This example demonstrates how to connect stream hubs to a live WebSocket feed. The pattern applies to any real-time data source (WebSocket, SSE, message queue, etc.) where bars arrive asynchronously. The hub's `Add` method integrates each incoming bar, automatically propagating updates to all subscribed indicators.
 
+If your feed delivers raw trade ticks or finer-grained bars than you want to analyze, quantize them first with a [streaming aggregator hub](/utilities/bars#streaming-aggregator-hubs) — `TradeTickHub` → `TradeTickAggregatorHub` for ticks, or `BarAggregatorHub` for bar-to-bar resampling — then chain your indicator hubs off the aggregated output.
+
 Because socket callbacks can fire concurrently, every `Add` must go through a single writer (see [Thread safety](#thread-safety) above). The handler below serializes with a lock; for higher throughput, post incoming bars onto a single-consumer `Channel<Bar>` and call `Add` from one drain loop instead.
 
 ```csharp
@@ -367,4 +369,5 @@ This only happens when `maxCacheSize` is **smaller than the history you revise**
 - [Batch style](/guide/styles/batch) for one-time calculations
 - [Buffer lists](/guide/styles/buffer) for simple incremental processing
 - [Custom observers](/guide/custom-observers) for subscribing an observer to a hub to push results into a UI, persistence, or alerting pipeline
+- [Streaming aggregator hubs](/utilities/bars#streaming-aggregator-hubs) for quantizing live ticks or bars into larger period bars in real time
 - [Indicators](/indicators) for available stream hub indicators

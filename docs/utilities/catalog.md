@@ -11,8 +11,8 @@ Use the indicator catalog to discover indicators, inspect their parameters and r
 - Build configuration UIs from indicator metadata, or export it to JSON or Markdown
 - Execute a selected indicator from its listing, without hard-coding the method call
 
-::: info Non-idiomatic
-_The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide/getting-started) for normal syntax examples.
+::: warning Non-idiomatic
+_The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide/getting-started) for normal usage.
 :::
 
 ## Browse and search the catalog
@@ -179,3 +179,10 @@ IReadOnlyList<EmaResult> results = config.Execute<EmaResult>(bars);
 ```
 
 Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluent configuration, or `IndicatorConfig.FromBuilder(builder)` to capture an existing builder's settings back into a config for storage.
+
+## See also
+
+- [Bar utilities](/utilities/bars) — prepare and transform price bars
+- [Result utilities](/utilities/results) — work with indicator results after calculation
+- [Additional helper utilities](/utilities/helpers) — math and numerical methods for custom indicators
+- [Indicators](/indicators) — the full indicator reference behind the catalog metadata

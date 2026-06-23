@@ -51,7 +51,7 @@ Use the [Discussions](https://github.com/facioquo/stock-indicators-dotnet/discus
 
 ### Initial setup
 
-The recommended setup uses VS Code with the dev container (automated) or use the **Setup: Dev tools** VS Code task to check for prerequisites.  For manual setup, run these commands once after cloning:
+The recommended setup uses VS Code with the dev container (automated) or the **Setup: Dev tools** VS Code task to check for prerequisites.  For manual setup, run these commands once after cloning:
 
 ```bash
 dotnet tool restore   # install .NET CLI tools
