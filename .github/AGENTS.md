@@ -27,13 +27,7 @@ Ensure developers and AI agents across all organization repositories receive con
 
 Agent skills live in `/.agents/skills/`, not in `.github/`.
 
-## Skills
-
-- Execute #skill:agent-customization before authoring instruction files
-
 ## Boundaries
-
-✅ Always load #skill:agent-customization before editing any file in `instructions/`
 
 ⚠️ Ask before deleting any instruction file — verify no `applyTo` pattern depends on it
 

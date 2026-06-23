@@ -720,7 +720,6 @@ Analysis of "Dynamic" (McGinley Dynamic) and "ConnorsRsi" indicators reveals sys
 
 **Recommended**: Option C (Hybrid) - Matches existing successful patterns like EMA, SMA where directory name is short but class name can be slightly different.
 
-<!-- markdownlint-disable MD060 -->
 #### Test class naming patterns - current inconsistent state
 
 **Current observed patterns** (INCONSISTENT - needs standardization):

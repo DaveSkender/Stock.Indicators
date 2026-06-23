@@ -97,8 +97,9 @@ Exit codes:
 ## Creating baselines
 
 ```bash
-cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json \
-   baselines/baseline-v3.0.0.json
+# baselines/ holds one report per benchmark class
+# (Performance.SeriesIndicators-report-full.json, etc.)
+cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json baselines/
 ```
 
 ## Required optimization patterns

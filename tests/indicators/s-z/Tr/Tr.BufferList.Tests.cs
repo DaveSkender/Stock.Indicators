@@ -9,9 +9,7 @@ public class Tr : BufferListTestBase
     [TestMethod]
     public void AddBars_WithValidBars_IncrementsResults()
     {
-#pragma warning disable IDE0028 // Collection expression incompatible with IBar Add overloads
         TrList sut = new();
-#pragma warning restore IDE0028
 
         foreach (Bar bar in Bars)
         {

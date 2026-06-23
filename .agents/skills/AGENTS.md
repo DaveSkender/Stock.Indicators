@@ -40,7 +40,6 @@ npx skills check             # Check for available skill updates (from source)
 npx skills update            # Update all skills (from sources), use <name> for one
 npx skills init .agents/skills/<name>  # Scaffold a new skill directory and SKILL.md file
 npx skills remove <name>     # Remove (delete) a skill
-pnpm run lint:skills         # Validate all skills against the official spec
 
 # Install specific skill for specific agent from a source repository
 npx skills add <owner/repo> --skill <name> --agent <agent> --yes

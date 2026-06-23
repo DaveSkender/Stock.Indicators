@@ -129,26 +129,25 @@ Override RollbackState only when maintaining **additional state** beyond the int
 **Example**: StochRSI maintains rolling windows and buffers for processing RSI values:
 
 ```csharp
-private readonly RollingWindowMax<double> _rsiMaxWindow;
-private readonly RollingWindowMin<double> _rsiMinWindow;
+private readonly CircularDoubleBuffer _rsiBuffer;
 private readonly Queue<double> kBuffer;
 private readonly Queue<double> signalBuffer;
 
-protected override void RollbackState(DateTime timestamp)
+// The base class computes restoreIndex (last ProviderCache index to preserve,
+// or -1 to reset all state) before calling this override.
+protected override void RollbackState(int restoreIndex)
 {
-    int targetIndex = ProviderCache.IndexGte(timestamp);
-
-    // Clear all compound state
-    _rsiMaxWindow.Clear();
-    _rsiMinWindow.Clear();
+    // Reset compound state
+    _rsiBuffer.Clear();
     kBuffer.Clear();
     signalBuffer.Clear();
 
-    if (targetIndex <= 0) return;
+    if (restoreIndex < 0)
+    {
+        return;
+    }
 
-    // Rebuild state up to targetIndex - 1 (exclusive of rollback timestamp)
-    int restoreIndex = targetIndex - 1;
-
+    // Replay the internal hub's cached results up to and including restoreIndex
     for (int i = 0; i <= restoreIndex; i++)
     {
         double rsiValue = ProviderCache[i].Value;  // ProviderCache holds RSI results

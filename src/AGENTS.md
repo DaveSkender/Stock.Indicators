@@ -75,7 +75,7 @@ A new fully-streamable indicator costs **seven files plus a documentation page**
 | `{Name}.StreamHub.cs` | Live `StreamHub` form | ~75 LOC |
 | `{Name}.Catalog.cs` | Catalog listing builders (Common/Series/Buffer/Stream) | ~45 LOC |
 
-If a new indicator exceeds these guidelines by a wide margin without algorithmic justification, treat the excess as accidental complexity and look for a missing shared kernel (see `Ema.Increment`, `Sma.Increment`, `Tr.Increment`, `Atr.Increment` in `_common/`-adjacent siblings). Documentation under `docs/indicators/{Name}.md` and a test set under `tests/indicators/{a-d|e-k|m-r|s-z}/{Name}/*.Tests.cs` are required and have their own budgets.
+If a new indicator exceeds these guidelines by a wide margin without algorithmic justification, treat the excess as accidental complexity and look for a missing shared kernel (see `Ema.Increment`, `Sma.Average`, `Tr.Increment`, `Atr.Increment` in `_common/`-adjacent siblings). Documentation under `docs/indicators/{Name}.md` and a test set under `tests/indicators/{a-d|e-k|m-r|s-z}/{Name}/*.Tests.cs` are required and have their own budgets.
 
 ## Boundaries
 

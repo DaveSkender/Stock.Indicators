@@ -17,16 +17,16 @@
 [ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class SeriesIndicators
 {
-    private static readonly IReadOnlyList<Bar> bars = Data.GetDefault();
+    private static readonly IReadOnlyList<Bar> q = Data.GetDefault();
 
     [Benchmark]
-    public void ToEma() => bars.ToEma(14);
+    public void ToEmaBatch() => q.ToEma(14);
 
     [Benchmark]
-    public void ToSma() => bars.ToSma(20);
+    public void ToSmaBatch() => q.ToSma(20);
 
     [Benchmark]
-    public void ToRsi() => bars.ToRsi(14);
+    public void ToRsiBatch() => q.ToRsi(14);
 }
 ```
 
@@ -104,8 +104,8 @@ public class EmaStyleComparison
 ## Running specific benchmarks
 
 ```bash
-# Single indicator
-dotnet run -c Release --filter *.ToEma
+# Single indicator (Series benchmarks carry a `Batch` suffix; Stream use `Hub`)
+dotnet run -c Release --filter *.ToEmaBatch
 
 # All EMA benchmarks
 dotnet run -c Release --filter *Ema*
@@ -114,7 +114,7 @@ dotnet run -c Release --filter *Ema*
 dotnet run -c Release --filter *Stream*
 
 # Multiple indicators
-dotnet run -c Release --filter *.ToEma --filter *.ToSma
+dotnet run -c Release --filter *.ToEmaBatch --filter *.ToSmaBatch
 ```
 
 ## Interpreting results

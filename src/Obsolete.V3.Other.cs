@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FacioQuo.Stock.Indicators;
-#pragma warning disable RCS1141,RCS1142,RCS1228
+#pragma warning disable RCS1141,RCS1142
 
 /// <summary>
 /// OBSOLETE IN v3.0.0

@@ -1,4 +1,3 @@
-<!-- markdownlint-disable MD041 -->
 [![image](https://raw.githubusercontent.com/facioquo/stock-indicators-dotnet/6ac2854d7677b69abb1b615bdf93048cb12ea207/docs/.offline/social-banner.png)](https://dotnet.StockIndicators.dev)
 
 [![GitHub Stars](https://img.shields.io/github/stars/facioquo/stock-indicators-dotnet?logo=github&label=Stars)](https://github.com/facioquo/stock-indicators-dotnet)
