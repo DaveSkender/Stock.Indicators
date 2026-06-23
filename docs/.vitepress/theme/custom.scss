@@ -355,3 +355,18 @@
     mask-size: 1.75ex 1.75ex;
   }
 }
+
+// Code-comment contrast (WCAG 2.1 AA, 4.5:1).
+// VitePress' default Shiki theme colours comments `#6A737D` for both light and
+// dark. On the dark code-block background that is only 3.75:1, and on the light
+// background ~4.45:1 — both fail pa11y. VitePress renders each token's colour
+// via `color: var(--shiki-light|dark)`, set inline per span, so we raise the
+// contrast by redefining those custom properties on the comment spans only.
+// `!important` is required to beat the inline declaration.
+.vp-doc span[style*="--shiki-dark:#6A737D"] {
+  --shiki-dark: #9ba7b4 !important;
+}
+
+.vp-doc span[style*="--shiki-light:#6A737D"] {
+  --shiki-light: #57606a !important;
+}

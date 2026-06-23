@@ -5,7 +5,7 @@ description: The Percentage Volume Oscillator is a simple oscillator view of the
 
 # Percentage Volume Oscillator (PVO)
 
-The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:percentage_volume_oscillator_pvo) is a simple oscillator view of the rate of change between two converging / diverging exponential moving averages of Volume.
+The [Percentage Volume Oscillator](https://www.google.com/search?q=Percentage+Volume+Oscillator+(PVO)) is a simple oscillator view of the rate of change between two converging / diverging exponential moving averages of Volume.
 [[Discuss] &#128172;](https://github.com/facioquo/stock-indicators-dotnet/discussions/305 "Community discussion about this indicator")
 
 <ClientOnly>
