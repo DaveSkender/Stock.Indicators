@@ -1,6 +1,6 @@
 ---
 title: Balance of Power (BOP)
-description: Created by Igor Levshin, the [Balance of Power](https://www.google.com/search?q=Balance+of+Power+(BOP)+indicator) (aka Balance of Market Power) is a momentum oscillator that depicts the strength of buying and selling pressure.
+description: Created by Igor Levshin, the Balance of Power (aka Balance of Market Power) is a momentum oscillator that depicts the strength of buying and selling pressure.
 ---
 
 # Balance of Power (BOP)
