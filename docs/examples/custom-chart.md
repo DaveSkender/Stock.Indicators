@@ -102,7 +102,7 @@ function buildEmaDataset(quotes: Quote[], period: number): ChartDataset<'line', 
 
 ## Vue component source
 
-The full Vue 3 SFC that drives the live demo is at [`docs/examples/StaticChart.vue`](StaticChart.vue) — that file is the source of truth (mount, theme observer, teardown, and EMA helpers). The page embeds it via `<ClientOnly>` so the Chart.js code only runs in the browser.
+The full Vue 3 SFC that drives the live demo is at [`docs/examples/StaticChart.vue`](https://github.com/facioquo/stock-indicators-dotnet/blob/main/docs/examples/StaticChart.vue) — that file is the source of truth (mount, theme observer, teardown, and EMA helpers). The page embeds it via `<ClientOnly>` so the Chart.js code only runs in the browser.
 
 ## Key points
 
