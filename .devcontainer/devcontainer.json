@@ -6,7 +6,7 @@
   "name": "stock.indicators",
   "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:2": {
       "version": "lts"
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
@@ -24,15 +24,11 @@
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
-        "CodeRabbit.coderabbit-vscode",
-        "codacy-app.codacy",
         "DavidAnson.vscode-markdownlint",
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
-        "GitHub.copilot-chat",
         "ms-dotnettools.csdevkit",
-        "ms-azuretools.vscode-containers",
         "redhat.vscode-yaml"
       ]
     }
@@ -47,7 +43,7 @@
   ],
   "portsAttributes": {
     "5173": {
-      "label": "VitePress Doc Site",
+      "label": "website",
       "onAutoForward": "notify"
     }
   },

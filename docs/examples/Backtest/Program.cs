@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 // See ConsoleApp first.  This is more advanced.
 
@@ -18,18 +18,17 @@ using Skender.Stock.Indicators;
 
  ************************************************************/
 
-// Fetch historical quotes from data provider.
+// Fetch historical price bars from data provider.
 // We're mocking with a simple JSON file import
 string json = File.ReadAllText("quotes.data.json");
 
-IReadOnlyList<Quote> quotes = JsonSerializer
-    .Deserialize<IReadOnlyCollection<Quote>>(json)
+IReadOnlyList<Bar> bars = JsonSerializer
+    .Deserialize<IReadOnlyCollection<Bar>>(json)
     .ToSortedList();
 
 // Calculate Stochastic RSI
 List<StochRsiResult> resultsList =
-    quotes
-        .ToStochRsi(14, 14, 3)
+    bars.ToStochRsi(14, 14, 3)
         .ToList();
 
 // initialize
@@ -41,16 +40,16 @@ Console.WriteLine("   Date         Close  StRSI Signal  Cross    Net Gains");
 Console.WriteLine("-------------------------------------------------------");
 
 // roll through source values
-for (int i = 1; i < quotes.Count; i++)
+for (int i = 1; i < bars.Count; i++)
 {
-    Quote q = quotes[i];
+    Bar b = bars[i];
 
     StochRsiResult e = resultsList[i]; // evaluation period
     StochRsiResult l = resultsList[i - 1]; // last (prior) period
     string cross = string.Empty;
 
     // unrealized gain on open trade
-    decimal trdGain = trdQty * (q.Close - trdPrice);
+    decimal trdGain = trdQty * (b.Close - trdPrice);
 
     // check for LONG event
     // condition: Stoch RSI was <= 20 and Stoch RSI crosses over Signal
@@ -62,7 +61,7 @@ for (int i = 1; i < quotes.Count; i++)
         // emulates BTC + BTO
         rlzGain += trdGain;
         trdQty = 1;
-        trdPrice = q.Close;
+        trdPrice = b.Close;
         cross = "LONG";
     }
 
@@ -76,15 +75,15 @@ for (int i = 1; i < quotes.Count; i++)
         // emulates STC + STO
         rlzGain += trdGain;
         trdQty = -1;
-        trdPrice = q.Close;
+        trdPrice = b.Close;
         cross = "SHORT";
     }
 
     if (cross != string.Empty)
     {
         Console.WriteLine(
-            $"{q.Timestamp,10:yyyy-MM-dd} " +
-            $"{q.Close,10:c2}" +
+            $"{b.Timestamp,10:yyyy-MM-dd} " +
+            $"{b.Close,10:c2}" +
             $"{e.StochRsi,7:N1}" +
             $"{e.Signal,7:N1}" +
             $"{cross,7}" +

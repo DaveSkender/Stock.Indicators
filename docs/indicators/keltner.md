@@ -68,7 +68,7 @@ See [Utilities and helpers](/utilities/) for more information.
 
 ## Chaining
 
-Results can be further processed on `Centerline` with other [chained indicators](/guide/getting-started#chaining-indicator-of-indicators).
+Results can be further processed on `Centerline` with other [chained indicators](/guide/chaining).
 
 This indicator must be generated from `bars` and **cannot** be generated from results of another chain-enabled indicator or method.
 

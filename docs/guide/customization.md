@@ -7,13 +7,11 @@ description: Learn how to create your own custom technical indicators using the 
 
 At some point in your journey, you may want to create your own custom indicators. The following guide shows you how to create custom indicators that work seamlessly with this library.
 
-::: warning 🚩 Series style only
+::: warning 🚩 Series (batch) style only
 Custom indicators are currently supported for the **Batch (Series)** style only. Creating custom [Buffer list](/guide/styles/buffer) or [Stream hub](/guide/styles/stream) indicators is not yet supported as a first-class extension point; support is planned for a future release (buffer lists: [#2096](https://github.com/facioquo/stock-indicators-dotnet/issues/2096), stream hubs: [#2097](https://github.com/facioquo/stock-indicators-dotnet/issues/2097)). To integrate custom logic with streaming data today, see [Custom observers](/guide/custom-observers).
 :::
 
-::: tip ✨
-Working example code is available in the [CustomIndicatorsLibrary](https://github.com/facioquo/stock-indicators-dotnet/tree/main/docs/examples/CustomIndicatorsLibrary) project.
-:::
+> ✨ Working example code is available in the [CustomIndicatorsLibrary](https://github.com/facioquo/stock-indicators-dotnet/tree/main/docs/examples/CustomIndicatorsLibrary) project.
 
 ## Creating a custom indicator
 
@@ -189,6 +187,6 @@ For complete working examples, see:
 
 ## See also
 
+- [Custom stream hub observers](/guide/custom-observers) - React to new stream data
 - [Utilities and helpers](/utilities/) - Tools for working with bars and results
-- [Guide](/guide/) - General usage patterns and indicator styles
 - [Contributing guidelines](/contributing) - How to contribute indicators to the library

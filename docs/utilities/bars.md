@@ -103,6 +103,8 @@ Each aggregated bar takes the first **Open**, highest **High**, lowest **Low**, 
 Partial period windows at the start, end, or market open/close can be misleading. For example, a lone 4:00pm minute bar aggregated into 15-minute bars yields a 4:00pm bar holding just one minute of data, while the prior 3:45pm bar holds the full 15 minutes. Filter out partial periods if they could skew your analysis.
 :::
 
+### Streaming aggregator hubs
+
 For live feeds, the aggregator hubs convert small bars or raw ticks into larger period bars in real time. Both accept a `BarInterval` or custom `TimeSpan` (`BarInterval.Month` is not supported in streaming — use the `TimeSpan` overload):
 
 ```csharp
@@ -139,4 +141,5 @@ bool isBullish = candle.IsBullish;
 ## See also
 
 - [Result utilities](/utilities/results) — work with indicator results after calculation
-- [Helper utilities](/utilities/helpers) — math and numerical methods for custom indicators
+- [Additional helper utilities](/utilities/helpers) — math and numerical methods for custom indicators
+- [Indicator catalog](/utilities/catalog) — discover indicator metadata programmatically

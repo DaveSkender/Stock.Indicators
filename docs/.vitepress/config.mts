@@ -85,8 +85,7 @@ export default defineConfig({
           },
           { text: 'Chaining', link: '/guide/chaining' },
           { text: 'Custom indicators', link: '/guide/customization' },
-          { text: 'Custom observers', link: '/guide/custom-observers' },
-          { text: 'Testing your code', link: '/guide/testing' },
+          { text: 'Custom observers', link: '/guide/custom-observers' }
         ]
       },
       {
@@ -125,8 +124,7 @@ export default defineConfig({
             },
             { text: 'Chaining', link: '/guide/chaining' },
             { text: 'Custom indicators', link: '/guide/customization' },
-            { text: 'Custom observers', link: '/guide/custom-observers' },
-            { text: 'Testing your code', link: '/guide/testing' },
+            { text: 'Custom observers', link: '/guide/custom-observers' }
           ]
         }
       ],
@@ -142,9 +140,10 @@ export default defineConfig({
               collapsed: true,
               items: [
                 { text: 'Use alternate price', link: '/utilities/bars#use-alternate-price' },
-                { text: 'Sort bars', link: '/utilities/bars#sort-bars' },
+                { text: 'Sort price bars', link: '/utilities/bars#sort-bars' },
                 { text: 'Validate bar history', link: '/utilities/bars#validate-bar-history' },
                 { text: 'Resize bar history', link: '/utilities/bars#resize-bar-history' },
+                { text: 'Streaming aggregator hubs', link: '/utilities/bars#streaming-aggregator-hubs' },
                 { text: 'Extended candle properties', link: '/utilities/bars#extended-candle-properties' },
               ]
             },
@@ -153,14 +152,14 @@ export default defineConfig({
               link: '/utilities/results',
               collapsed: true,
               items: [
+                { text: 'Remove warmup periods', link: '/utilities/results#remove-warmup-periods' },
                 { text: 'Condense', link: '/utilities/results#condense' },
                 { text: 'Find by date', link: '/utilities/results#find-by-date' },
-                { text: 'Remove warmup periods', link: '/utilities/results#remove-warmup-periods' },
                 { text: 'Sort results', link: '/utilities/results#sort-results' },
               ]
             },
             {
-              text: 'Helper utilities',
+              text: 'Additional utilities',
               link: '/utilities/helpers',
               collapsed: true,
               items: [

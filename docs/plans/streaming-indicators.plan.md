@@ -2,7 +2,7 @@
 
 This document tracks remaining work and architectural direction for the v3 streaming indicators implementation.
 
-**Status (2026-05-31).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK; T231 pending maintainer decision), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **The §E pre-stable hardening pass shipped across PRs #2052–#2056; v3.0 stable is now pending only release-gate runtime work (RG001 baseline refresh, RG002 community feedback, RG004 Quote→Bar decision) and the §K release-mechanics sequence for the FacioQuo rebrand + repo transfer.** A pre-release confidence review (overall-review-v3 swarm, 2026-05-29) confirmed the rollback/replay engine is ship-quality — bit-exact across deep chains, aggregators, and long-run pruning, with 1,072 streaming tests green — and surfaced surface-level correctness, documentation, and tooling defects (tracked in §E), now **cleared**: shipped fixes, maintainer-deferred SR001, and two framework-scale items reclassified to v3.1 (ARCH-V31-11 prune-stable rollback, SR008e BufferList enforcement). All shipped quality-pass items are recorded in the appendix at the end of this document with their PR references; the body below carries only what is still open.
+**Status (2026-05-31).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK; T231 pending maintainer decision), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **The §E pre-stable hardening pass shipped across PRs #2052–#2056; v3.0 stable is now pending only RG001 (baseline refresh) — RG002 (community feedback) and RG003 (branching migration) are complete and RG004 (Quote→Bar) shipped — plus the remaining §K release-mechanics sequence (package publish K001/K004, cut-over K013–K017) for the FacioQuo rebrand + repo transfer.** A pre-release confidence review (overall-review-v3 swarm, 2026-05-29) confirmed the rollback/replay engine is ship-quality — bit-exact across deep chains, aggregators, and long-run pruning, with 1,072 streaming tests green — and surfaced surface-level correctness, documentation, and tooling defects (tracked in §E), now **cleared**: shipped fixes, maintainer-deferred SR001, and two framework-scale items reclassified to v3.1 (ARCH-V31-11 prune-stable rollback, SR008e BufferList enforcement). All shipped quality-pass items are recorded in the appendix at the end of this document with their PR references; the body below carries only what is still open.
 
 **Update (2026-06-19) — RG004 resolved: YES (shipped).** The `Quote → Bar` rename landed in v3.0 (PR #1933, bundled in #2102): `Quote`→`Bar`, `IQuote`→`IBar`, `QuoteHub`→`BarHub`, `QuotePart`→`BarPart`, `IQuoteProvider`→`IBarProvider`, `PeriodSize`→`BarInterval`, and `Tick`→`TradeTick` / `TickHub`→`TradeTickHub` across the public surface. The old names ship as **warning-level `[Obsolete]` aliases** in `src/Obsolete.V3.Other.cs` (not error-level), giving v2 consumers a clean migration window: `Quote`/`IQuote` flow through the generic `<TBar : IBar>` API directly, and `PeriodSize` keeps working through `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads — see `docs/migration/v3.md`. **ARCH-V31-9 is therefore done in v3.0, not deferred to v3.1+.** Remaining release gates are RG001 (baseline refresh), RG002 (community feedback), and the §K release mechanics.
 
@@ -14,7 +14,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 - Streaming docs coverage: 79 of 79
 - Non-streamable (Series only): Beta, Correlation, Prs, RenkoAtr, StdDevChannels, ZigZag
 
-**Related plans**: [Branching Strategy Migration](branching-strategy.plan.md) (required for v3.0 stable release), [File Reorganization](file-reorg.plan.md) (deferred to v3.1).
+**Related plans**: [File Reorganization](file-reorg.plan.md) (deferred to v3.1). The Branching Strategy Migration plan has been retired — its migration completed (RG003 / K007, via PR #1014).
 
 **Related guidance** (cross-reference for contributors and AI agents):
 `AGENTS.md` (root), `src/AGENTS.md`, `tests/AGENTS.md`, `docs/AGENTS.md`, `.agents/skills/indicator-stream/SKILL.md`, `.agents/skills/indicator-buffer/SKILL.md`, `.agents/skills/indicator-catalog/SKILL.md`, `.agents/skills/performance-testing/SKILL.md`. Guidance docs are in alignment with the shipped v3 surface as of the §B closeout.
@@ -25,7 +25,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 The quality pass landed across §B/§C/§D/§E/§F/§G — guidance docs aligned, test coverage hardened, architecture decisions formalized in `docs/decisions/0001-dual-track-bufferlist-streamhub.md` (ADR 0001), and documentation gaps closed. No architectural change was required. The Architect verdict (no blockers, four v3.1 refactors queued) and Tester verdict (parity strong; rigor gaps addressed by TC001 + TC002 + TC003) stand.
 
-What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001) and close the community-feedback window (RG002) — RG004 (Quote→Bar) is now resolved and shipped — then execute the §K go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover). The branching-strategy migration (RG003 / K007) is the irreversible cut-over inside §K and depends on those decisions being final.
+What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001) — RG002 (community feedback) and RG003 (branching migration) are complete and RG004 (Quote→Bar) shipped — then execute the remaining §K go-live launch checklist (package publish, DNS cutover, doc-site deploy). The branching-strategy migration (RG003 / K007) — the irreversible cut-over inside §K — has already been executed via PR #1014.
 
 The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — offline SSE emulator, BenchmarkDotNet, deep-chain and lifecycle stress harnesses — with adversarial per-finding verification) returned a **ship-as-preview / hold-stable** verdict: continue the `preview.4` line, hold the K013 stable tag until §E clears. **§E has now cleared (PRs #2052–#2056)** — the engine needed no redesign and the pass closed out the silent-drop correction (SR002), the BufferList out-of-order contract (SR008, documented + tested), the prune+rollback characterization (SR003, documented; framework fix → ARCH-V31-11), observer-callback isolation (SR004/SR005, code-fixed), the doc/tooling fixes (SR011–SR016, SR018, SR021), and the offline emulator (SR021). SR001 (before-head silent drop) was reviewed and **deferred** by the maintainer. So the K013 stable hold is released from the §E side; remaining gates are §A (release-gate runtime) and §K (release mechanics).
 
@@ -33,7 +33,7 @@ The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — of
 
 | Bucket | Items | Estimated effort |
 | ------ | ----- | ---------------- |
-| Release gates | RG001 baseline refresh, RG002 community feedback window (~~RG004 Quote→Bar decision~~ ✅ resolved — shipped in v3.0) | 1 hour active + benchmark runtime + maintainer asyncs |
+| Release gates | RG001 baseline refresh (~~RG002 community feedback~~ ✅ done; ~~RG003 branching migration~~ ✅ done — PR #1014; ~~RG004 Quote→Bar decision~~ ✅ resolved — shipped in v3.0) | 1 hour active + benchmark runtime |
 | ~~Pre-stable hardening~~ ✅ **shipped** | §E below — overall-review-v3 swarm (SR002/003/004/005/006/008/011–016/018/021) shipped in PRs #2052–#2056; SR001 maintainer-deferred; framework fixes → v3.1 (ARCH-V31-11, SR008e) | done |
 | Release mechanics | §K below — go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover, branching migration via K007 / RG003) | 6–10 hours active + NuGet/DNS propagation |
 | Residual cleanup | T231 baseline-folder delete (decision needed), T203 preview-features flag (deferred on CI SDK) | 30 min when unblocked |
@@ -60,9 +60,9 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 - [ ] **RG001 — Refresh performance baselines** (1 hour + runtime). `tools/performance/baselines/*.json` is dated 2026-02-28, pre-P004/P009/P010/P011/P012/P013/P014 and pre-centralized-RollbackState. Run `cd tools/performance && dotnet run -c Release`; copy `BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json` to `baselines/`; optionally tag `baseline-v3.0.0.json`. **Without this, CI regression detection compares against stale numbers.**
 
-- [ ] **RG002 — Get and incorporate final community feedback** (ongoing). Time-boxed by maintainer.
+- [x] **RG002 — Get and incorporate final community feedback** (ongoing). Time-boxed by maintainer.
 
-- [ ] **RG003 — Execute branching strategy migration** (10–16 hours). See [branching-strategy.plan.md](branching-strategy.plan.md). `origin/main` is ~25+ commits behind `origin/v3`; PR #1014 is the merge vehicle.
+- [x] **RG003 — Execute branching strategy migration** (10–16 hours). Completed via PR #1014 (the merge vehicle); `v3` was promoted to `main`. The standalone branching-strategy plan has been retired now that the migration shipped.
 
 - [x] **RG004 — `Quote → Bar` rename for v3.0 — RESOLVED: YES, shipped** (PR #1933, bundled in #2102).
   - **Context**: PR #1014 comment 1 (2024-07-01) proposed renaming `Quote` → `Bar` (with `Tick` reserved for individual bid/ask trades) and introducing `IBar` with `[Obsolete] IQuote` as a base. v3.0 was the only realistic window because it's a breaking rename; doing it later would have meant a v4.0.
@@ -94,8 +94,8 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 #### Package and naming
 
 - [ ] **K001 — Reserve and publish `FacioQuo.Stock.Indicators` package** (1 hour active + NuGet indexing). Cut the v3.0 stable as the first listed version on this package ID; do not publish previews here (previews remain on `Skender.Stock.Indicators` for continuity per K003).
-- [ ] **K002 — Add "previously known as Skender.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
-- [ ] **K003 — Unlist all `3.0.0-preview.*` versions on `Skender.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
+- [x] **K002 — Add "previously known as Skender.Stock.Indicators" banner** (30 min). Visible in README header, repo summary/About, NuGet package description, and the first paragraph of release notes for v3.0.0. Keep the v2 download-count badge alongside the new badge for the deprecation window.
+- [x] **K003 — Unlist all `3.0.0-preview.*` versions on `Skender.Stock.Indicators`** (30 min). After K001 publishes, mark `3.0.0-preview.1014.15`, `3.0.0-preview.1014.12`, `3.0.0-preview.1014.25`, `3.0.0-preview.2`, etc. as unlisted on NuGet.org with a description note pointing to `FacioQuo.Stock.Indicators 3.0.0`.
 - [ ] **K004 — Release final `Skender.Stock.Indicators` v2.x patch with "we moved" notice** (1–2 hours). Stays in draft until cut-over. Release note: "We moved to `FacioQuo.Stock.Indicators` — install that package for v3+. This v2 line remains on `v2` branch for netstandard2.x compatibility maintenance only (per RG005)."
 
 #### Source repo and project transfer
@@ -105,14 +105,14 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 #### Branching and v2 maintenance
 
-- [x] **K007 — Execute branching-strategy migration** — canonical entry is §A **RG003** (with effort estimate + PR #1014 reference); see [branching-strategy.plan.md](branching-strategy.plan.md). This is the irreversible cut-over; do not start until K001–K006 are queued and the §A RG004 decision is final.
+- [x] **K007 — Execute branching-strategy migration** — canonical entry is §A **RG003** (with effort estimate + PR #1014 reference). This was the irreversible cut-over; it shipped after the §A RG004 decision was finalized (YES). The standalone branching-strategy plan has since been retired.
 
 #### Documentation and URL/DNS
 
 - [x] **K009 — Lowercase all doc-site page URLs + Jekyll/VitePress redirects for old casing** (1–2 hours). Required because GitHub Pages canonical URLs and external inbound links may be case-sensitive depending on the docs platform. Audit `docs/` page paths; add redirect rules for any URL that changes case. Verify a sample of external blog post inbound links continue resolving.
-- [ ] **K010 — Cut `dotnet.stockindicators.dev` DNS to production doc site; remove `/v3` preview pointer** (15 min + DNS TTL). Update CloudFlare CNAME/A records; remove the temporary `dotnet.stockindicators.dev/v3` pointer added during preview phase per PR #1014 comment 3.
-- [ ] **K011 — Update NuGet release-notes URL and release-deployer URL references to new package name** (30 min). Search source/build pipelines for `FacioQuo.Stock.Indicators` references in release-note URLs, deployer config, badge URLs; replace with `FacioQuo.Stock.Indicators` equivalents. Per PR #1014 comment 3.
-- [ ] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/facioquo/stock-indicators-dotnet` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
+- [x] **K010 — Cut `dotnet.stockindicators.dev` DNS to production doc site; remove `/v3` preview pointer** (15 min + DNS TTL). Update CloudFlare CNAME/A records; remove the temporary `dotnet.stockindicators.dev/v3` pointer added during preview phase per PR #1014 comment 3.
+- [x] **K011 — Update NuGet release-notes URL and release-deployer URL references to new package name** (30 min). Search source/build pipelines for `FacioQuo.Stock.Indicators` references in release-note URLs, deployer config, badge URLs; replace with `FacioQuo.Stock.Indicators` equivalents. Per PR #1014 comment 3.
+- [x] **K012 — Update in-repo GitHub URLs to lowercase canonical form** (30 min). Grep source/docs/markdown for `github.com/facioquo/stock-indicators-dotnet` references; replace with the new owner/repo (and lowercase) per K005. Jekyll/VitePress redirects (K009) handle inbound external links; this item handles outbound links from within the repo.
 
 #### Cut-over and finalize
 
@@ -121,7 +121,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
   - Before deploy, run `bash docs/.vitepress/test-a11y.sh` and resolve any regressions. (Last open item carried over from the now-retired `documentation-site.plan.md`; the site IA work itself is complete.)
 - [ ] **K015 — Update examples project to consume released `FacioQuo.Stock.Indicators` 3.0.0** (30 min). Bump package reference; verify build; push.
 - [ ] **K016 — Cascade meta updates to Python and Charts repos** (1 hour). README badges, "previously known as" notices, link refs in companion repo READMEs and doc sites. Mostly mechanical given the python and charts repos already transferred.
-- [ ] **K017 — `FacioQuo.Stock.Indicators` long-term wind-down** (15 min set-up + ongoing). The library is **not** unlisted at v3 cut-over (preview-version unlisting is handled by K003). Instead, `FacioQuo.Stock.Indicators` remains listed as a v2-only maintenance package for ~1 year following v3.0 release, accepting only security/compatibility patches per the [branching-strategy](branching-strategy.plan.md) v2-branch role (RG005 + K008). After the ~12-month maintenance window, transition the listing to a more fully deprecated state (NuGet may not support full unlisting once installs have occurred; document the chosen mechanism — e.g., a final `[Deprecated]` package metadata update with a "please migrate to FacioQuo.Stock.Indicators" notice — in this checklist when reached).
+- [ ] **K017 — `Skender.Stock.Indicators` long-term wind-down** (15 min set-up + ongoing). The library is **not** unlisted at v3 cut-over (preview-version unlisting is handled by K003). Instead, `Skender.Stock.Indicators` remains listed as a v2-only maintenance package for ~1 year following v3.0 release, accepting only security/compatibility patches per the retired branching-strategy plan's v2-branch role (RG005 + K008). After the ~12-month maintenance window, transition the listing to a more fully deprecated state (NuGet may not support full unlisting once installs have occurred; document the chosen mechanism — e.g., a final `[Deprecated]` package metadata update with a "please migrate to FacioQuo.Stock.Indicators" notice — in this checklist when reached).
 
 ### E. Pre-stable hardening — overall-review-v3 swarm review (2026-05-29)
 
@@ -442,7 +442,7 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 
 - [x] **D009** — BarPart streaming variants documented (`ToBarPartList` / `ToBarPartHub`); coverage 79 of 79.
 - [x] **D010** — `docs/guide/custom-observers.md` with full `IStreamObserver<T>` contract and box-to-`IChainProvider<IReusable>` pattern. Source: Discussion #1018 @JGronholz, resolves Issue [#1895](https://github.com/facioquo/stock-indicators-dotnet/issues/1895) *(PR #2038)*.
-- [x] **D011** — `docs/guide/testing.md` with canned-fixture recommendation and explicit rejection of per-type result interfaces (`IEmaResult` anti-pattern) *(PR #2039)*.
+- [x] **D011** — `docs/guide/testing.md` with canned-fixture recommendation and explicit rejection of per-type result interfaces (`IEmaResult` anti-pattern) *(PR #2039; page subsequently retired as no-longer-relevant in the final v3.0 docs-cleanup PR — see git history for the original guidance)*.
 
 ### Quality pass — BufferList performance decisions
 
@@ -457,7 +457,7 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 
 ### Quality pass — release mechanics docs
 
-- [x] **K008** — v2-branch netstandard2.x maintenance role canonicalized in [branching-strategy.plan.md](branching-strategy.plan.md); README reciprocal pointer added *(PR #2047)*.
+- [x] **K008** — v2-branch netstandard2.x maintenance role canonicalized in the branching-strategy plan (since retired); README reciprocal pointer added *(PR #2047)*.
 
 ### Correctness & framework
 

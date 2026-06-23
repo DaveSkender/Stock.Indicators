@@ -7,7 +7,7 @@ description: Install the Stock Indicators for .NET library and calculate your fi
 
 ## Installation and setup
 
-Find and install the [FacioQuo.Stock.Indicators](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) NuGet package into your Project.  See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
+Find and install the [FacioQuo.Stock.Indicators](https://www.nuget.org/packages/FacioQuo.Stock.Indicators) NuGet package into your Project.
 
 ```bash
 # dotnet CLI example
@@ -16,6 +16,8 @@ dotnet add package FacioQuo.Stock.Indicators
 # package manager example
 Install-Package FacioQuo.Stock.Indicators
 ```
+
+> See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
 
 ## Prerequisite data
 
@@ -160,7 +162,7 @@ IReadOnlyList<SmaResult> results = myBars.ToSma(20);
 When implementing your custom bar type, it must be either `record` class or implement `IEquatable<T>` to be compatible with the streaming hub internal de-duplication logic.
 :::
 
-## Chaining: indicator of indicators
+## Chaining indicators
 
 If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), use _**chaining**_ to calculate an indicator from prior results.
 Example:

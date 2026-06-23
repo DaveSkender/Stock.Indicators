@@ -27,10 +27,12 @@ The site is built with [VitePress](https://vitepress.dev) and Vue 3.
 | `docs/.vitepress/public/data/` | Chart JSON files (one per indicator key) |
 | `docs/guide/getting-started.md` | Get started: install + first call |
 | `docs/guide/index.md` | Guide overview + style comparison |
-| `docs/guide/batch.md` | Batch (Series) style guide |
-| `docs/guide/buffer.md` | Buffer list style guide |
-| `docs/guide/stream.md` | Stream hub style guide |
+| `docs/guide/styles/batch.md` | Batch (Series) style guide |
+| `docs/guide/styles/buffer.md` | Buffer list style guide |
+| `docs/guide/styles/stream.md` | Stream hub style guide |
+| `docs/guide/chaining.md` | Indicator chaining guide |
 | `docs/guide/customization.md` | Custom indicators guide |
+| `docs/guide/custom-observers.md` | Custom observer integration guide |
 | `docs/indicators.md` | Indicators landing/index page |
 | `docs/utilities/` | Utility API reference pages |
 
@@ -219,7 +221,7 @@ Variations:
 End the section with a cross-reference to the usage guide:
 
 ```markdown
-See [Chaining indicators](/guide/batch#chaining-indicators) for more.
+See [Chaining indicators](/guide/chaining) for more.
 ```
 
 ### 7. Streaming section
@@ -261,7 +263,7 @@ When the hub subscribes to an upstream chain-enabled hub (not a `BarHub`), adjus
 End the section with a cross-reference to the usage guides:
 
 ```markdown
-See [Buffer lists](/guide/buffer) and [Stream hubs](/guide/stream) for full usage guides.
+See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.
 ```
 
 ### 7a. Streaming not applicable

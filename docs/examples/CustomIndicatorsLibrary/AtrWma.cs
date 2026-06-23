@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 namespace Custom.Stock.Indicators;
 
@@ -20,26 +20,26 @@ public static class CustomIndicators
 {
     // Custom ATR WMA calculation
     public static IReadOnlyList<AtrWmaResult> GetAtrWma(
-        this IReadOnlyList<IQuote> quotes,
+        this IReadOnlyList<IBar> bars,
         int lookbackPeriods)
     {
         // sort quotes and convert to list
-        List<IQuote> quotesList = quotes
+        List<IBar> barsList = bars
             .OrderBy(x => x.Timestamp)
             .ToList();
 
         // initialize results
-        List<AtrWmaResult> results = new(quotesList.Count);
+        List<AtrWmaResult> results = new(barsList.Count);
 
         // perform pre-requisite calculations to get ATR values
-        List<AtrResult> atrResults = quotes
+        List<AtrResult> atrResults = bars
             .ToAtr(lookbackPeriods)
             .ToList();
 
         // roll through source values
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < barsList.Count; i++)
         {
-            IQuote q = quotesList[i];
+            IBar b = barsList[i];
             double atrWma = double.NaN;
 
             // only do calculations after uncalculable periods
@@ -50,7 +50,7 @@ public static class CustomIndicators
 
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    double close = (double)quotesList[p].Close;
+                    double close = (double)barsList[p].Close;
                     double atr = atrResults[p].Atr ?? double.NaN;
 
                     sumWma += atr * close;
@@ -62,7 +62,7 @@ public static class CustomIndicators
 
             // add record to results
             results.Add(new AtrWmaResult(
-                Timestamp: q.Timestamp,
+                Timestamp: b.Timestamp,
                 AtrWma: atrWma.NaN2Null()));
         }
 

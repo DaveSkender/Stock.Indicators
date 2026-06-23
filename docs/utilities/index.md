@@ -19,7 +19,7 @@ features:
   - title: Utilities for price bars
     details: Prepare and transform historical price bars before using them with indicators.
     link: /utilities/bars
-    linkText: 5 utilities
+    linkText: 6 utilities
 
   - title: Utilities for indicator results
     details: Work with indicator results after calculation and analysis.
@@ -40,10 +40,11 @@ features:
 ## [Utilities for price bars](/utilities/bars)
 
 - [use alternate price](/utilities/bars#use-alternate-price)
-- [sort bars](/utilities/bars#sort-bars)
+- [sort price bars](/utilities/bars#sort-bars)
 - [validate bar history](/utilities/bars#validate-bar-history)
 - [resize price bar history](/utilities/bars#resize-bar-history)
-- [extended candle properties](/utilities/bars#extended-candle-properties).
+- [streaming aggregator hubs](/utilities/bars#streaming-aggregator-hubs)
+- [extended candle properties](/utilities/bars#extended-candle-properties)
 
 ## [Utilities for indicator results](/utilities/results)
 
@@ -52,7 +53,7 @@ features:
 - [find by date](/utilities/results#find-by-date)
 - [sort results](/utilities/results#sort-results).
 
-## [Additional utilities](/utilities/helpers)
+## [Additional helper utilities](/utilities/helpers)
 
 Numerical and math tools for [custom indicator development](/guide/customization):
 

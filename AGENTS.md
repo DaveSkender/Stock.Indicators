@@ -3,7 +3,7 @@
 This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/FacioQuo.Stock.Indicators">FacioQuo.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
 - Multi-targets `net10.0`, `net9.0`, and `net8.0` with analyzers enabled for strict code quality.
-- Active development expands streaming indicator support — consult [docs/plans/streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) before modifying stateful pipelines (BufferList or StreamHub).
+- Active development expands streaming indicator support — see [src/_common/AGENTS.md](src/_common/AGENTS.md) for the framework guidance before modifying stateful pipelines (BufferList or StreamHub).
 - Documentation at <a href="https://dotnet.stockindicators.dev">dotnet.stockindicators.dev</a> is sourced from the `docs/` content in this repository.
 
 ## Primary directive
@@ -47,12 +47,6 @@ See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and ration
 │    └── plans/            # Active multi-release implementation plans
 └── Stock.Indicators.sln   # Primary solution for src + tests
 ```
-
-Active plans tracked in `docs/plans/`:
-
-- [streaming-indicators.plan.md](docs/plans/streaming-indicators.plan.md) — source of truth for v3.0 release; cross-references the two operational plans below
-- [branching-strategy.plan.md](docs/plans/branching-strategy.plan.md) — v2 → v3 branch migration mechanics (gate RG003 in the streaming plan)
-- [file-reorg.plan.md](docs/plans/file-reorg.plan.md) — file/directory rename catalog, deferred to v3.1
 
 ## Commands
 
@@ -139,4 +133,4 @@ Do not add "Co-authored-by" trailers to commit messages.
 
 🚫 Never merge without all quality gates passing — no exceptions for "minor" changes
 
-🚫 Never embed transient plan-item IDs (e.g. `TC001`, `T203`, `G005`, `RG002`) in source files, tests, comments, commit messages, or PR titles. These IDs live in `docs/plans/*.plan.md` and are pruned once items ship, so references in code rot into dead pointers. Encode the underlying intent (test names, descriptive comments for non-obvious constraints, indicator behavior in xmldoc) instead. The PR description body may reference the plan ID once for traceability; nothing committed under `src/`, `tests/`, or `docs/indicators/` should.
+🚫 Never embed transient or ephemeral plan-item IDs (e.g. `TC001`, `T203`, `G005`, `RG002`) in source files, tests, comments, commit messages, or PR titles. These IDs live in `docs/plans/*.plan.md` only and are pruned once items ship.

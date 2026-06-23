@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
-using Skender.Stock.Indicators;
+using FacioQuo.Stock.Indicators;
 
 /* BASIC CONSOLE APP | SIMPLE MOVING AVERAGE */
 
@@ -8,12 +8,12 @@ using Skender.Stock.Indicators;
 // We're mocking with a simple JSON file import
 string json = File.ReadAllText("quotes.data.json");
 
-IReadOnlyList<Quote> quotes = JsonSerializer
-    .Deserialize<IReadOnlyCollection<Quote>>(json)
+IReadOnlyList<Bar> bars = JsonSerializer
+    .Deserialize<IReadOnlyCollection<Bar>>(json)
     .ToSortedList();
 
 // Calculate 10-period SMA
-IEnumerable<SmaResult> results = quotes.ToSma(10);
+IEnumerable<SmaResult> results = bars.ToSma(10);
 
 // show results
 Console.WriteLine("SMA Results ---------------------------");
@@ -40,7 +40,7 @@ Console.WriteLine("SMA Analysis --------------------------");
 
 /************************************************************
   Results are usually returned with the same number of
-  elements as the provided quotes; see individual indicator
+  elements as the provided price bars; see individual indicator
   docs for more information.
 
   As such, converting to List means they can be indexed
@@ -50,14 +50,14 @@ Console.WriteLine("SMA Analysis --------------------------");
 List<SmaResult> resultsList
     = results.ToList();
 
-for (int i = quotes.Count - 25; i < quotes.Count; i++)
+for (int i = bars.Count - 25; i < bars.Count; i++)
 {
     // only showing ~25 records for brevity
 
-    Quote q = quotes[i];
+    Bar b = bars[i];
     SmaResult r = resultsList[i];
 
-    bool isBullish = (double)q.Close > r.Sma;
+    bool isBullish = (double)b.Close > r.Sma;
 
     Console.WriteLine($"SMA on {r.Timestamp:u} was ${r.Sma:N3}"
                     + $" and Bullishness is {isBullish}");

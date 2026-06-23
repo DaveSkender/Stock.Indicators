@@ -6,7 +6,7 @@ This file (AGENTS.md) carries the **operational guidance for AI agents and contr
 
 This folder holds the streaming framework (`StreamHub/`, `BufferLists/`), the catalog system (`Catalog/`), core types (`Bars/`, `TradeTicks/`, `Reusable/`, `BarPart/`), and shared utilities.
 
-Before changing anything stateful in this directory, consult [docs/plans/streaming-indicators.plan.md](../../docs/plans/streaming-indicators.plan.md) — it is the source of truth for active streaming work, release gates, and v3.1+ architecture decisions (retiring `BaseProvider<T>`, multi-input `JoinHub`, Rx / `IAsyncEnumerable` adapters).
+Stateful changes here (cache, rollback, pruning, notification) must preserve the framework invariants documented below. Load the relevant skill first for the portable patterns.
 
 ## Skills to load
 
@@ -32,10 +32,10 @@ Hubs that originate a stream (no upstream provider) bootstrap their base class w
 
 Canonical examples:
 
-- `src/_common/Bars/Bar.StreamHub.cs:24` — `BarHub` (default IBar source)
-- `src/_common/TradeTicks/TradeTick.StreamHub.cs:24` — `TradeTickHub` (default ITradeTick source)
+- `src/_common/Bars/Bar.StreamHub.cs` — `BarHub` (default IBar source)
+- `src/_common/TradeTicks/TradeTick.StreamHub.cs` — `TradeTickHub` (default ITradeTick source)
 
-`BaseProvider<T>` is acknowledged in its source comments as a workaround pending a cleaner `StreamSource<T>` root class — that refactor is queued for v3.1 in the streaming plan. Do not extend `BaseProvider<T>` beyond the existing self-rooted sources.
+`BaseProvider<T>` is acknowledged in its source comments as a workaround pending a cleaner `StreamSource<T>` root class. Do not extend `BaseProvider<T>` beyond the existing self-rooted sources.
 
 ### Aggregator hubs
 
@@ -50,25 +50,25 @@ When implementing a new quantizer, prefer extending the aggregator pattern over 
 
 ### Thread safety contract
 
-`StreamHub<TIn, TOut>` (`src/_common/StreamHub/StreamHub.cs`) is thread-safe by holding `CacheLock` (private `object` monitor at line 16) for the duration of every cache-mutating operation. Two invariants matter when subclassing:
+`StreamHub<TIn, TOut>` (`src/_common/StreamHub/StreamHub.cs`) is thread-safe by holding `CacheLock` (a private `object` monitor) for the duration of every cache-mutating operation. Two invariants matter when subclassing:
 
 1. **Observer notification happens inside `CacheLock`.** `Rebuild` and `RemoveAt` call `NotifyObserversOnRebuild` / `NotifyObserversOnPrune` inside the lock specifically to prevent new items from being added between cache mutation and downstream notification. Subclasses must not release the lock before notifying.
-2. **`_isRebuilding` flag (line 23) suppresses self-rebuild during `Rebuild`.** While `Rebuild` is replaying provider items through `OnAdd`/`AppendCache`, the flag forces `Act.Add` instead of recursing into another `Rebuild`. Observer cascading is still allowed and desired. Do not bypass this flag from subclass code.
+2. **The `_isRebuilding` flag suppresses self-rebuild during `Rebuild`.** While `Rebuild` is replaying provider items through `OnAdd`/`AppendCache`, the flag forces `Act.Add` instead of recursing into another `Rebuild`. Observer cascading is still allowed and desired. Do not bypass this flag from subclass code.
 
-`Results` returns `Cache.AsReadOnly()` — a **live read-only view**, not an immutable snapshot. The view forbids mutation (closing #1585's deviant-mutation hole) but enumeration during a concurrent `Add` will throw `InvalidOperationException`. Consumers iterating while upstream may emit must snapshot first (`.ToList()`). Subclass code accessing `Cache[i-1]` directly is safe because it executes inside `ToIndicator`, which holds the lock transitively via `OnAdd`.
+`Results` returns `Cache.AsReadOnly()` — a **live read-only view**, not an immutable snapshot. The view forbids mutation (closing #1585's deviant-mutation hole) but enumeration during a concurrent `Add` will throw `InvalidOperationException`. Consumers iterating while upstream may emit should call `Snapshot()` first. Subclass code accessing `Cache[i-1]` directly is safe because it executes inside `ToIndicator`, which holds the lock transitively via `OnAdd`.
 
-A `Snapshot()` method returning an immutable copy under the lock is queued for v3.1 (see the streaming plan).
+`Snapshot()` (on `StreamHub<TIn, TOut>`, surfaced via `IStreamObservable<T>.Snapshot()`) returns an immutable copy taken under `CacheLock`.
 
 ### `RollbackState(int restoreIndex)` index contract
 
-Implemented by ~55 hubs. The base contract is:
+Implemented by the stateful hubs. The base contract is:
 
 - The base class computes `restoreIndex` via `IndexBefore` **before** calling `RollbackState`
 - `restoreIndex` is the last `ProviderCache` index to **preserve**, or `-1` to reset all state
 - Existing cache entries at `[restoreIndex + 1, Count)` have already been removed before this method is invoked
 - The item at the rollback timestamp will be recalculated via normal `ToIndicator` processing — do not re-emit it from `RollbackState`
 
-Audit of overrides against the formalized contract is queued for v3.1. When adding new hubs, follow the canonical pattern in `src/_common/StreamHub/StreamHub.cs:377` and the examples in `references/rollback-patterns.md` of the indicator-stream skill.
+When adding new hubs, follow the canonical `RollbackState` pattern in `src/_common/StreamHub/StreamHub.cs` and the examples in `references/rollback-patterns.md` of the indicator-stream skill.
 
 ## BufferList framework specifics
 
@@ -77,7 +77,7 @@ Audit of overrides against the formalized contract is queued for v3.1. When addi
 - `IIncrementFromChain` — `Add(DateTime, double)`, `Add(IReusable)`, `Add(IReadOnlyList<IReusable>)` — for chainable single-value indicators
 - `IIncrementFromBar` — `Add(IBar)`, `Add(IReadOnlyList<IBar>)` — for indicators requiring full OHLCV
 
-The implementation uses the C# `field` keyword at `BufferList.cs:54,56`, which is the sole reason `<EnablePreviewFeatures>true</EnablePreviewFeatures>` remains in `src/Indicators.csproj`. C# 14 / .NET 10 ships `field` as GA — removing the preview flag is queued as a quick-win cleanup in the streaming plan.
+The implementation uses the C# `field` keyword in `BufferList.cs`, which is currently why `<EnablePreviewFeatures>true</EnablePreviewFeatures>` remains in `src/Indicators.csproj`.
 
 ## Catalog framework specifics
 
@@ -88,7 +88,7 @@ The implementation uses the C# `field` keyword at `BufferList.cs:54,56`, which i
 - Within each block: **Buffer → Series → Stream** registration order
 - Blank line between indicator blocks
 
-Backing field in this repository is `_listings` (private static `List<IndicatorListing>`). The catalog test `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs` asserts the current counts (Series=85, Stream=79, Buffer=79); sharpening the loose `BeGreaterThan` assertions to exact counts is queued as a follow-up in the streaming plan.
+Backing field in this repository is `_listings` (private static `List<IndicatorListing>`). The catalog test `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs` asserts the exact per-style listing counts — update it when adding or removing a listing.
 
 ## NaN handling policy
 
@@ -102,9 +102,9 @@ See the parent [src/AGENTS.md](../AGENTS.md#nan-handling-policy) for the canonic
 
 ✅ Always register new indicators in `Catalog.Listings.cs` in Buffer → Series → Stream order
 
-⚠️ Ask before adding new derivations of `BaseProvider<T>` — the class is a documented workaround scheduled for replacement; current usage is limited to `BarHub` and `TradeTickHub`
+⚠️ Ask before adding new derivations of `BaseProvider<T>` — the class is a documented workaround; current usage is limited to `BarHub` and `TradeTickHub`
 
-⚠️ Ask before adding `#pragma warning disable` directives in this folder — current footprint is exactly two intentional suppressions: (1) `IDE0010` at `StreamHub/StreamHub.cs:2`, covering the `Act` enum switch in `AppendCache` whose `default => throw` is a deliberate "would never happen" safety net for `Act.Ignore`; and (2) `CA1031, RCS1075` scoped to the notification region in `StreamHub/StreamHub.Observable.cs` (the `NotifyObserversOn*` methods + `IsolateObserverFault`), where catching the general `Exception` and the deliberate empty catch are required for the observer-isolation boundary. `BufferLists/` carries zero. New pragmas anywhere under `_common/` require explicit justification
+⚠️ Ask before adding `#pragma warning disable` directives in this folder — existing suppressions are deliberate and tightly scoped (the load-bearing one is `CA1031, RCS1075` around the observer-isolation notification region in `StreamHub/StreamHub.Observable.cs`, where catching the general `Exception` and the deliberate empty catch are required for the observer-isolation boundary). New pragmas require explicit justification; prefer fixing the underlying issue, and keep `BufferLists/` pragma-free
 
 🚫 Never expose `Cache` mutation from a subclass — go through `AppendCache`, `RemoveRange`, or `RemoveAt`
 

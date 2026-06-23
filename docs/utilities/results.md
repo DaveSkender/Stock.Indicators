@@ -115,4 +115,5 @@ Built-in indicators preserve the chronological order of the input bars, so their
 ## See also
 
 - [Bar utilities](/utilities/bars) — prepare and transform price bars
-- [Helper utilities](/utilities/helpers) — math and numerical methods for custom indicators
+- [Additional helper utilities](/utilities/helpers) — math and numerical methods for custom indicators
+- [Indicator catalog](/utilities/catalog) — discover indicator metadata programmatically

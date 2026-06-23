@@ -115,30 +115,25 @@ protected override void RollbackState(int restoreIndex)
 ## Pattern: Previous value tracking
 
 ```csharp
-private double _prevEma = double.NaN;
+// Only when a hub keeps a running scalar it cannot re-read from the cache.
+private double _prevValue = double.NaN;
 
 protected override void RollbackState(int restoreIndex)
 {
     if (restoreIndex < 0)
     {
-        _prevEma = double.NaN;
+        _prevValue = double.NaN;
         return;
     }
 
-    // Restore previous EMA from cache at restoreIndex
-    if (restoreIndex >= LookbackPeriods)
-    {
-        EmaResult prior = Cache[restoreIndex];
-        _prevEma = prior.Ema ?? double.NaN;
-    }
-    else
-    {
-        _prevEma = double.NaN;
-    }
+    // Restore the running value from the cache at the restore index
+    _prevValue = restoreIndex >= LookbackPeriods
+        ? Cache[restoreIndex].Value
+        : double.NaN;
 }
 ```
 
-**Reference**: `EmaHub.RollbackState`
+**Note**: prefer reading `Cache[i - 1]` directly inside `ToIndicator` over storing a duplicate previous-value field — that is exactly why `EmaHub` needs **no** `RollbackState` override. Reach for this stored-state pattern only when the value cannot be recovered from the cache.
 
 ## Pattern: Compound hub state
 
