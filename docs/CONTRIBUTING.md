@@ -8,11 +8,6 @@ description: >-
 
 # Contributing guidelines
 
-<p style="display:flex; justify-content:left; gap:1rem; flex-wrap:wrap;">
-<a href="https://app.codacy.com/gh/facioquo/stock-indicators-dotnet/dashboard" aria-label="View Codacy quality grade."><img src="https://app.codacy.com/project/badge/Grade/ca51220c29aa4d5697a9559bafdcdc17" alt="Codacy quality grade" /></a>
-<a href="https://app.codacy.com/gh/facioquo/stock-indicators-dotnet/dashboard" aria-label="View Codacy code coverage."><img src="https://app.codacy.com/project/badge/Coverage/ca51220c29aa4d5697a9559bafdcdc17" alt="Codacy code coverage" /></a>
-</p>
-
 **Thanks for taking the time to contribute!**
 
 This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
