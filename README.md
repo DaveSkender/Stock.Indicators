@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD041 -->
-[![image](https://raw.githubusercontent.com/facioquo/stock-indicators-dotnet/b826b3bc420299dc0797235e1c96cb3a89d11bb5/docs/assets/social-banner.png)](https://dotnet.StockIndicators.dev)
+[![image](https://raw.githubusercontent.com/facioquo/stock-indicators-dotnet/b826b3bc420299dc0797235e1c96cb3a89d11bb5/docs/assets/social-banner.png)](https://dotnet.stockindicators.dev)
 
 [![GitHub Stars](https://img.shields.io/github/stars/facioquo/stock-indicators-dotnet?logo=github&label=Stars)](https://github.com/facioquo/stock-indicators-dotnet)
 [![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet)](https://www.nuget.org/packages/Skender.Stock.Indicators)
