@@ -46,6 +46,9 @@ The library provides three distinct indicator styles to support different use ca
 | Complexity | lowest | moderate | highest |
 | Chainable | yes | manual | yes |
 | Pruning | with utility | auto-preset | auto-preset |
+| Healing | no | no | yes |
+
+Healing: Built-in handling of out-of-order and de-deplication of incoming data.
 
 ## Which style to use?
 
@@ -53,7 +56,7 @@ Start with **Batch (Series)** style unless you have a specific need for incremen
 
 - Use **[Batch](/guide/styles/batch)** when you have a complete historical dataset and need to calculate indicators once. Fastest and simplest.
 - Use **[Buffer lists](/guide/styles/buffer)** when bars arrive one at a time and you need incremental processing without the overhead of a full hub infrastructure.
-- Use **[Stream hubs](/guide/styles/stream)** when you need coordinated, automatic updates across multiple chained indicators from a live data feed.
+- Use **[Stream hubs](/guide/styles/stream)** when you need coordinated, automatic updates across multiple chained indicators from a live data feed with self-healing.
 
 ## Getting started
 
