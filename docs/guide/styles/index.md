@@ -44,7 +44,7 @@ The library provides three distinct indicator styles to support different use ca
 | Class type | static | instance | instance |
 | Base interface | `IReadOnlyList` | `IReadOnlyList` (+ `Add`) | `IStreamHub` |
 | Complexity | lowest | moderate | highest |
-| Chainable | yes | yes | yes |
+| Chainable | yes | manual | yes |
 | Pruning | with utility | auto-preset | auto-preset |
 
 ## Which style to use?
