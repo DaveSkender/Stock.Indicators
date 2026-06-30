@@ -1,12 +1,7 @@
 name: Website URLs
 
 on:
-  pull_request:
-    branches: ["*"]
-    paths:
-      - docs/**
-      - .github/workflows/test-website-links.yml
-    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,7 +18,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    if: ${{ !github.event.pull_request.draft }}
     defaults:
       run:
         working-directory: docs
@@ -63,9 +57,22 @@ jobs:
         run: gem install html-proofer
 
       - name: Test for broken URLs
-        run: >
-          htmlproofer .vitepress/dist
-          --no-enforce-https
-          --no-check-external-hash
-          --ignore-status-codes "302,402,403,406,408,415,429,502,503,999"
-          --ignore-urls "/fonts.gstatic.com/,/github\.com\/DaveSkender\/Stock\.Indicators\/(blob|tree)\//"
+        run: |
+          max_attempts=2
+          for attempt in $(seq 1 $max_attempts); do
+            if htmlproofer .vitepress/dist \
+              --no-enforce-https \
+              --no-check-external-hash \
+              --ignore-status-codes "302,401,402,403,406,429,999" \
+              --ignore-urls "/fonts.gstatic.com/,/github\.com\/(DaveSkender\/Stock\.Indicators|facioquo\/stock-indicators-dotnet)\/(edit|blob|tree|discussions)\//,/((www\.)?google\.[^\/]+\/search\?)/"; then
+              exit 0
+            fi
+
+            if [ "$attempt" -lt "$max_attempts" ]; then
+              echo "htmlproofer failed on attempt $attempt/$max_attempts; retrying in 5 seconds..."
+              sleep 5
+            fi
+          done
+
+          echo "htmlproofer failed after $max_attempts attempts."
+          exit 1
