@@ -42,11 +42,12 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // inherit max cache size from provider
         MaxCacheSize = provider.MaxCacheSize;
 
-        // start the cache empty and let List<T> growth amortize: a fixed
+        // start the cache empty and let growth amortize: a fixed
         // pre-allocation (formerly 800 slots, ~6.4KB per hub) dominates the
         // footprint of multi-symbol deployments with thousands of hubs,
-        // while growth-on-demand costs only a handful of one-time copies
-        Cache = [];
+        // while growth-on-demand costs only a handful of one-time copies.
+        // PruningList gives O(1) amortized front pruning once capped.
+        Cache = new PruningList<TOut>();
 
         // build read-only cache reference
         Results = Cache.AsReadOnly();
@@ -114,7 +115,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets the cache of stored values (base).
     /// </summary>
-    internal List<TOut> Cache { get; }
+    internal PruningList<TOut> Cache { get; }
 
     /// <summary>
     /// Gets the current count of repeated caching attempts.
