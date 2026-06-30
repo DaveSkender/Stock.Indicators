@@ -4,9 +4,11 @@ import { defineConfig, type HeadConfig } from 'vitepress'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const isProduction = process.env.NODE_ENV === 'production'
+// Analytics must be explicitly enabled for production builds by
+// setting `ANALYTICS_ENABLED=true` (opt-in). This fails safely off.
+const analyticsEnabled = process.env.ANALYTICS_ENABLED === 'true'
 
-// Google Analytics (gtag) head entries — injected only in production builds.
+// Google Analytics (gtag) head entries — injected only when analyticsEnabled is true.
 const googleAnalytics: HeadConfig[] = [
   ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R' }],
   ['script', {}, `window.dataLayer = window.dataLayer || [];
@@ -56,9 +58,9 @@ export default defineConfig({
     ['meta', { property: 'og:image', content: '/assets/social-banner.png' }],
     ['meta', { name: 'twitter:card', content: 'summary' }],
     ['meta', { name: 'twitter:site', content: '@daveskender' }],
-    // Google Analytics (gtag) — production builds only, to keep dev/preview
-    // sessions out of analytics data.
-    ...(isProduction ? googleAnalytics : []),
+
+    // Google Analytics (gtag) — injected only when analytics are enabled.
+    ...(analyticsEnabled ? (googleAnalytics as HeadConfig[]) : []),
   ],
 
   themeConfig: {

@@ -185,7 +185,6 @@
         "cwd": "${workspaceFolder}/docs"
       }
     },
-
     {
       "label": "Check: Node packages",
       "detail": "Check for dependency updates in root and all workspace packages",
