@@ -63,13 +63,14 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: pnpm run docs:build
         env:
-          NODE_ENV: production
+          ANALYTICS_ENABLED: "true"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
         run: pnpm run docs:build
         env:
+          ANALYTICS_ENABLED: "false"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to Cloudflare Pages
