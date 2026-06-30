@@ -146,8 +146,6 @@ cd docs
 pnpm run docs:dev
 ```
 
-See `docs/README.md` if you need the longer rationale for the `NODE_AUTH_TOKEN` prefix.
-
 When adding or updating indicators:
 
 - Add or update the `/docs/indicators/` documentation files.
