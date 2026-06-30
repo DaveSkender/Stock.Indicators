@@ -34,7 +34,7 @@ Use the [Discussions](https://github.com/facioquo/stock-indicators-dotnet/discus
 
 ## Project management
 
-- Planned work is managed in [the backlog](https://github.com/users/DaveSkender/projects/1).
+- Planned work is managed in [the backlog](https://github.com/orgs/facioquo/projects/27).
 - Work items are primarily entered as Notes (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
 
 ## Developing
