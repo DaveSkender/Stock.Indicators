@@ -208,8 +208,15 @@ internal sealed class PruningList<T> : IList<T>, IReadOnlyList<T>
     /// <returns>An array containing the live (retained) elements.</returns>
     public T[] ToArray()
     {
-        T[] array = new T[Count];
-        _items.CopyTo(_head, array, 0, Count);
+        int count = Count;
+
+        if (count == 0)
+        {
+            return [];
+        }
+
+        T[] array = new T[count];
+        _items.CopyTo(_head, array, 0, count);
         return array;
     }
 
