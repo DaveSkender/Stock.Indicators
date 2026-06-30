@@ -76,11 +76,7 @@ jobs:
       - name: Publish to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v3.14.1
-        env:
-          NODE_VERSION: 24.15.0
         with:
-          secrets: |
-            NODE_VERSION
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: >

@@ -60,7 +60,7 @@ export default defineConfig({
     ['meta', { name: 'twitter:site', content: '@daveskender' }],
 
     // Google Analytics (gtag) — injected only when analytics are enabled.
-    ...(analyticsEnabled ? (googleAnalytics as HeadConfig[]) : []),
+    ...(analyticsEnabled ? googleAnalytics : []),
   ],
 
   themeConfig: {
