@@ -13,7 +13,7 @@ Load #skill:markdown for general Markdown authoring standards, linting workflow,
 gh auth refresh --scopes read:packages
 
 # from /docs folder — opens at http://localhost:5173/
-NODE_AUTH_TOKEN=$(gh auth token) pnpm install
+pnpm install
 pnpm run docs:dev
 ```
 
@@ -21,14 +21,16 @@ pnpm run docs:dev
 
 Indy Charts ([`@facioquo/indy-charts`](https://github.com/facioquo/stock-charts/pkgs/npm/indy-charts)) is a public npm package hosted in the facioquo GitHub org's [GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package) registry, with source code in the [`facioquo/stock-charts`](https://github.com/facioquo/stock-charts) repository. It is not, and must not be, published to the npmjs.org public registry.
 
-- **CI**: GitHub Actions workflows authenticate using the auto-generated `GITHUB_TOKEN` plus a `packages: read` permission in the workflow's `permissions:` block.
-- **Local development**: developers extend their normal `gh` CLI session token with the `read:packages` scope once per token lifetime:
+## Local development auth to enable `pnpm install` or `pnpm add`
 
-  ```bash
-  gh auth refresh --scopes read:packages
-  ```
+Extend the scopes of your local GitHub CLI (`gh`) auth token with `gh auth refresh --scopes read:packages`, confirm with `gh auth status`, then store in your user level `~/.npmrc` (not in the project `.npmrc`), which is read at a trusted level where variable expansion is not restricted..
 
-  Then `NODE_AUTH_TOKEN=$(gh auth token) pnpm install` (or the equivalent VS Code task) pulls the package.
+```bash
+# Write token to your user-level ~/.npmrc (not the project .npmrc)
+pnpm config set "//npm.pkg.github.com/:_authToken" "$(gh auth token)"
+```
+
+Then `pnpm install` (or the equivalent VS Code task) pulls the package.
 
 ## Build and preview
 
