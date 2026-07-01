@@ -2,9 +2,9 @@
 
 This document tracks remaining work and architectural direction for the v3 streaming indicators implementation.
 
-**Status (2026-05-31).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK; T231 pending maintainer decision), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **The §E pre-stable hardening pass shipped across PRs #2052–#2056; v3.0 stable is now pending only RG001 (baseline refresh) — RG002 (community feedback) and RG003 (branching migration) are complete and RG004 (Quote→Bar) shipped — plus the remaining §K release-mechanics sequence (package publish K001/K004, cut-over K013–K017) for the FacioQuo rebrand + repo transfer.** A pre-release confidence review (overall-review-v3 swarm, 2026-05-29) confirmed the rollback/replay engine is ship-quality — bit-exact across deep chains, aggregators, and long-run pruning, with 1,072 streaming tests green — and surfaced surface-level correctness, documentation, and tooling defects (tracked in §E), now **cleared**: shipped fixes, maintainer-deferred SR001, and two framework-scale items reclassified to v3.1 (ARCH-V31-11 prune-stable rollback, SR008e BufferList enforcement). All shipped quality-pass items are recorded in the appendix at the end of this document with their PR references; the body below carries only what is still open.
+**Status (2026-07-01).** The focused quality pass shipped across §B Guidance alignment (G001–G008), §C Pre-v3.0 cleanup (T230/T232–T234; T203 deferred on CI SDK), §D Test coverage hardening (TC001–TC006), §E Architecture documentation (DOC-ARCH-1 through DOC-ARCH-7; ADR 0001 in `docs/decisions/` codifies the dual-track model), §F PV001 (Slope BufferList O(1) verification), §G Documentation (D009/D010/D011), and §I (T216 ConnorsRsi doc + T217 CMO test). The architecture is unchanged. **RG001 baseline refresh is now complete (including both `*-report-full.json` and `*-report-github.md` baseline artifacts), RG002/RG003 are complete, and RG004 shipped; remaining v3.0 work is §K release mechanics plus deferred T203.** A pre-release confidence review (overall-review-v3 swarm, 2026-05-29) confirmed the rollback/replay engine is ship-quality — bit-exact across deep chains, aggregators, and long-run pruning, with 1,072 streaming tests green — and surfaced surface-level correctness, documentation, and tooling defects (tracked in §E), now **cleared**: shipped fixes, maintainer-deferred SR001, and two framework-scale items reclassified to v3.1 (ARCH-V31-11 prune-stable rollback, SR008e BufferList enforcement). All shipped quality-pass items are recorded in the appendix at the end of this document with their PR references; the body below carries only what is still open.
 
-**Update (2026-06-19) — RG004 resolved: YES (shipped).** The `Quote → Bar` rename landed in v3.0 (PR #1933, bundled in #2102): `Quote`→`Bar`, `IQuote`→`IBar`, `QuoteHub`→`BarHub`, `QuotePart`→`BarPart`, `IQuoteProvider`→`IBarProvider`, `PeriodSize`→`BarInterval`, and `Tick`→`TradeTick` / `TickHub`→`TradeTickHub` across the public surface. The old names ship as **warning-level `[Obsolete]` aliases** in `src/Obsolete.V3.Other.cs` (not error-level), giving v2 consumers a clean migration window: `Quote`/`IQuote` flow through the generic `<TBar : IBar>` API directly, and `PeriodSize` keeps working through `Aggregate(PeriodSize)`/`GetPivotPoints(PeriodSize)` forwarding overloads — see `docs/migration/v3.md`. **ARCH-V31-9 is therefore done in v3.0, not deferred to v3.1+.** Remaining release gates are RG001 (baseline refresh), RG002 (community feedback), and the §K release mechanics.
+**Update (2026-06-30) — RG001 resolved: YES (shipped).** Performance baselines were refreshed from current BenchmarkDotNet runs, with both machine-readable and human-readable artifacts committed in `tools/performance/baselines/` (`Performance.*-report-full.json` and `Performance.*-report-github.md`).
 
 **Coverage (verified 2026-05-24 via `CatalogShouldHaveExactStyleCounts` at `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:21`):**
 
@@ -25,7 +25,7 @@ This document tracks remaining work and architectural direction for the v3 strea
 
 The quality pass landed across §B/§C/§D/§E/§F/§G — guidance docs aligned, test coverage hardened, architecture decisions formalized in `docs/decisions/0001-dual-track-bufferlist-streamhub.md` (ADR 0001), and documentation gaps closed. No architectural change was required. The Architect verdict (no blockers, four v3.1 refactors queued) and Tester verdict (parity strong; rigor gaps addressed by TC001 + TC002 + TC003) stand.
 
-What remains before tagging v3.0.0 is **operational, not implementation work**: refresh performance baselines against the post-fix code (RG001) — RG002 (community feedback) and RG003 (branching migration) are complete and RG004 (Quote→Bar) shipped — then execute the remaining §K go-live launch checklist (package publish, DNS cutover, doc-site deploy). The branching-strategy migration (RG003 / K007) — the irreversible cut-over inside §K — has already been executed via PR #1014.
+What remains before tagging v3.0.0 is **operational, not implementation work**: execute the remaining §K go-live launch checklist (package publish, DNS cutover, doc-site deploy). RG001 baseline refresh, RG002 community feedback, RG003 branching migration, and RG004 Quote→Bar are complete. The branching-strategy migration (RG003 / K007) — the irreversible cut-over inside §K — has already been executed via PR #1014.
 
 The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — offline SSE emulator, BenchmarkDotNet, deep-chain and lifecycle stress harnesses — with adversarial per-finding verification) returned a **ship-as-preview / hold-stable** verdict: continue the `preview.4` line, hold the K013 stable tag until §E clears. **§E has now cleared (PRs #2052–#2056)** — the engine needed no redesign and the pass closed out the silent-drop correction (SR002), the BufferList out-of-order contract (SR008, documented + tested), the prune+rollback characterization (SR003, documented; framework fix → ARCH-V31-11), observer-callback isolation (SR004/SR005, code-fixed), the doc/tooling fixes (SR011–SR016, SR018, SR021), and the offline emulator (SR021). SR001 (before-head silent drop) was reviewed and **deferred** by the maintainer. So the K013 stable hold is released from the §E side; remaining gates are §A (release-gate runtime) and §K (release mechanics).
 
@@ -33,10 +33,10 @@ The 2026-05-29 confidence review (6 static finders + 4 dynamic exercisers — of
 
 | Bucket | Items | Estimated effort |
 | ------ | ----- | ---------------- |
-| Release gates | RG001 baseline refresh (~~RG002 community feedback~~ ✅ done; ~~RG003 branching migration~~ ✅ done — PR #1014; ~~RG004 Quote→Bar decision~~ ✅ resolved — shipped in v3.0) | 1 hour active + benchmark runtime |
+| Release gates | ~~RG001 baseline refresh~~ ✅ done (2026-06-30), ~~RG002 community feedback~~ ✅ done, ~~RG003 branching migration~~ ✅ done — PR #1014, ~~RG004 Quote→Bar decision~~ ✅ resolved — shipped in v3.0 | done |
 | ~~Pre-stable hardening~~ ✅ **shipped** | §E below — overall-review-v3 swarm (SR002/003/004/005/006/008/011–016/018/021) shipped in PRs #2052–#2056; SR001 maintainer-deferred; framework fixes → v3.1 (ARCH-V31-11, SR008e) | done |
 | Release mechanics | §K below — go-live launch checklist (FacioQuo rebrand, repo transfer, DNS cutover, branching migration via K007 / RG003) | 6–10 hours active + NuGet/DNS propagation |
-| Residual cleanup | T231 baseline-folder delete (decision needed), T203 preview-features flag (deferred on CI SDK) | 30 min when unblocked |
+| Residual cleanup | ~~T231 baseline-folder delete~~ ✅ done, T203 preview-features flag (deferred on CI SDK) | 30 min when unblocked |
 
 ### v3.1+ direction — what's worth tackling next
 
@@ -58,7 +58,7 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
 
 ### A. Release gates — non-implementation
 
-- [ ] **RG001 — Refresh performance baselines** (1 hour + runtime). `tools/performance/baselines/*.json` is dated 2026-02-28, pre-P004/P009/P010/P011/P012/P013/P014 and pre-centralized-RollbackState. Run `cd tools/performance && dotnet run -c Release`; copy `BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json` to `baselines/`; optionally tag `baseline-v3.0.0.json`. **Without this, CI regression detection compares against stale numbers.**
+- [x] **RG001 — Refresh performance baselines** (completed 2026-06-30). Baselines now reflect post-fix runs; refresh procedure copies both `Performance.*-report-full.json` and `Performance.*-report-github.md` from `BenchmarkDotNet.Artifacts/results/` to `tools/performance/baselines/`.
 
 - [x] **RG002 — Get and incorporate final community feedback** (ongoing). Time-boxed by maintainer.
 
@@ -77,9 +77,8 @@ Medium-priority enhancements (composite naming E010, MaEnvelopes remaining MA ty
   - **Re-attempt trigger**: ship this item when `setup-dotnet@v4` resolves `10.x` + `ga` to an SDK whose Roslyn ships `field` as GA. Quick re-verification: bump a no-op csproj change in a throwaway PR, watch the `quick check` job — if it passes without `EnablePreviewFeatures=true`, T203 is ready.
   - **Alternative path if waiting is unacceptable**: pin a specific SDK via `global.json` to a version known to have `field` GA, then drop the preview flag. Has the side effect of pinning all CI to one SDK rev; ask before introducing.
 
-- [ ] **T231 — Delete `tools/performance/baselines/before-fixes/`** (10 min, decision needed).
-  - **Evidence**: 22 historical JSON snapshots tracked in git. Their value (regression detection against pre-v3-fixes baseline) ends when v3.0 ships.
-  - **Action**: Two options — (a) delete and rely on git history + tagged commit `baseline/v3-streaming-prefixes`; (b) keep through v3.0 release and delete in first v3.1 patch. Pick (a) unless there's an external CI dependency.
+- [x] **T231 — Delete `tools/performance/baselines/before-fixes/`** (completed 2026-07-01).
+  - **Resolution**: deleted; historical snapshots remain available through git history/tags when needed.
 
 ### C. Infrastructure — deferred but listed for context
 
@@ -479,7 +478,7 @@ Retained for traceability. PR descriptions hold the change narrative; entries he
 
 ### Performance — StreamHub
 
-All items implemented in source; baselines pending refresh (RG001).
+All items implemented in source; baselines refreshed (RG001 complete).
 
 - **P004** — ForceIndex StreamHub O(n²) → O(1) incremental update with rolling sum (PR #1860)
 - **P005** — Slope StreamHub: cached slope/intercept state (PR #1859); 43% overhead reduction
@@ -502,4 +501,4 @@ All items implemented in source; baselines pending refresh (RG001).
 - **D008** — SmaAnalysis and Tr indicator doc pages created (PR #1989)
 - **PRs #1981, #1991, #1992** — Website 3-pillar IA reorganization; VitePress with Vue chart components
 - **PRs #1976, #2005** — Streaming plan updates and missing BufferList/StreamHub doc sections for Alligator, AtrStop, Tsi
-- **T213** — Performance documentation consolidated into single `tools/performance/PERFORMANCE_ANALYSIS.md`
+- **T213** — Performance documentation consolidated under `tools/performance/benchmarking.md` and `tools/performance/baselines/README.md`

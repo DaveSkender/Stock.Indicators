@@ -154,6 +154,7 @@ This approach aligns with Constitution §1: Mathematical Precision:
 
 For streaming and buffer indicators experiencing performance issues, consult:
 
-- Analysis: [tools/performance/PERFORMANCE_ANALYSIS.md](../../tools/performance/PERFORMANCE_ANALYSIS.md) - Comprehensive performance analysis and root cause analysis
+- Benchmarking guide: [tools/performance/benchmarking.md](../../tools/performance/benchmarking.md) - Running benchmarks, spot checks, and baseline refresh workflow
+- Baselines guide: [tools/performance/baselines/README.md](../../tools/performance/baselines/README.md) - Baseline file conventions and regression checks
 - Active plan: [docs/plans/streaming-indicators.plan.md](../../docs/plans/streaming-indicators.plan.md) - Streaming indicators plan (release gates, test hardening, performance verification)
 - Project principles: [docs/PRINCIPLES.md](../../docs/PRINCIPLES.md) - Performance First principles

@@ -4,7 +4,7 @@ namespace Performance;
 // Supports environment variable-driven testing for specific indicators with custom data sizes
 //
 // Usage:
-//   PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+//   PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release -- --filter "Performance.ManualTestDirect*"
 //
 // Environment Variables:
 //   PERF_TEST_KEYWORD - Indicator keyword (sma, ema, rsi, macd, etc.)
@@ -317,4 +317,3 @@ public class ManualTestDirect
     }
 
 }
-
