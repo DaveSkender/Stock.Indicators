@@ -4,17 +4,21 @@ namespace Performance;
 // Supports environment variable-driven testing for specific indicators with custom data sizes
 //
 // Usage:
-//   PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+//   PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release -- --filter "Performance.ManualTestDirect*"
 //
 // Environment Variables:
 //   PERF_TEST_KEYWORD - Indicator keyword (sma, ema, rsi, macd, etc.)
 //   PERF_TEST_PERIODS - Number of bar periods to generate (default: 500000)
+//   PERF_TEST_CAP     - Optional cache/list cap (MaxListSize / maxCacheSize). When set
+//                       below PERF_TEST_PERIODS this exercises the steady-state pruning
+//                       path; when unset it defaults to PERF_TEST_PERIODS (no pruning).
 
 [ShortRunJob, WarmupCount(3), IterationCount(5)]
 public class ManualTestDirect
 {
     private static readonly string Keyword = Environment.GetEnvironmentVariable("PERF_TEST_KEYWORD")?.ToUpperInvariant() ?? "SMA";
     private static readonly int Periods = int.TryParse(Environment.GetEnvironmentVariable("PERF_TEST_PERIODS"), out int p) ? p : 500000;
+    private static readonly int Cap = int.TryParse(Environment.GetEnvironmentVariable("PERF_TEST_CAP"), out int c) ? c : Periods;
     private static readonly IReadOnlyList<Bar> Bars = Data.GetRandom(Periods);
     private static readonly IReadOnlyList<Bar> CompareBars = Data.GetRandom(Periods);
 
@@ -24,6 +28,7 @@ public class ManualTestDirect
         Console.WriteLine("Manual Test Configuration:");
         Console.WriteLine($"  Keyword: {Keyword}");
         Console.WriteLine($"  Periods: {Periods:N0}");
+        Console.WriteLine($"  Cap (MaxListSize/maxCacheSize): {Cap:N0}");
         Console.WriteLine($"  Generated {Bars.Count:N0} bars");
     }
 
@@ -127,81 +132,81 @@ public class ManualTestDirect
         // Create BufferList and set MaxListSize to match test data size
         // This prevents O(n²) pruning behavior when Periods > default MaxListSize (100,000)
         dynamic list = Keyword switch {
-            "ADL" => new AdlList() { MaxListSize = Periods },
-            "ADX" => new AdxList(14) { MaxListSize = Periods },
-            "ALLIGATOR" => new AlligatorList() { MaxListSize = Periods },
-            "ALMA" => new AlmaList(9, 0.85, 6) { MaxListSize = Periods },
-            "AROON" => new AroonList() { MaxListSize = Periods },
-            "ATR" => new AtrList(14) { MaxListSize = Periods },
-            "ATR-STOP" => new AtrStopList() { MaxListSize = Periods },
-            "AWESOME" => new AwesomeList() { MaxListSize = Periods },
-            "BB" => new BollingerBandsList(20, 2) { MaxListSize = Periods },
-            "BOP" => new BopList(14) { MaxListSize = Periods },
-            "CCI" => new CciList(14) { MaxListSize = Periods },
-            "CHAIKIN-OSC" => new ChaikinOscList() { MaxListSize = Periods },
-            "CHANDELIER" or "CHEXIT" => new ChandelierList() { MaxListSize = Periods },
-            "CHOP" => new ChopList(14) { MaxListSize = Periods },
-            "CMF" => new CmfList(14) { MaxListSize = Periods },
-            "CMO" => new CmoList(14) { MaxListSize = Periods },
-            "CRSI" => new ConnorsRsiList(3, 2, 100) { MaxListSize = Periods },
-            "DEMA" => new DemaList(14) { MaxListSize = Periods },
-            "DOJI" => new DojiList() { MaxListSize = Periods },
-            "DONCHIAN" => new DonchianList(20) { MaxListSize = Periods },
-            "DPO" => new DpoList(14) { MaxListSize = Periods },
-            "DYNAMIC" => new DynamicList(14) { MaxListSize = Periods },
-            "ELDER-RAY" => new ElderRayList(13) { MaxListSize = Periods },
-            "EMA" => new EmaList(20) { MaxListSize = Periods },
-            "EPMA" => new EpmaList(14) { MaxListSize = Periods },
-            "FCB" => new FcbList(2) { MaxListSize = Periods },
-            "FISHER" => new FisherTransformList(10) { MaxListSize = Periods },
-            "FORCE" => new ForceIndexList(2) { MaxListSize = Periods },
-            "FRACTAL" => new FractalList() { MaxListSize = Periods },
-            "GATOR" => new GatorList() { MaxListSize = Periods },
-            "HEIKINASHI" => new HeikinAshiList() { MaxListSize = Periods },
-            "HMA" => new HmaList(14) { MaxListSize = Periods },
-            "HTL" => new HtTrendlineList() { MaxListSize = Periods },
-            "HURST" => new HurstList(100) { MaxListSize = Periods },
-            "ICHIMOKU" => new IchimokuList() { MaxListSize = Periods },
-            "KAMA" => new KamaList(10, 2, 30) { MaxListSize = Periods },
-            "KELTNER" => new KeltnerList(20, 2, 10) { MaxListSize = Periods },
-            "KVO" => new KvoList(34, 55, 13) { MaxListSize = Periods },
-            "MA-ENV" => new MaEnvelopesList(20, 2.5, MaType.SMA) { MaxListSize = Periods },
-            "MACD" => new MacdList(12, 26, 9) { MaxListSize = Periods },
-            "MAMA" => new MamaList(0.5, 0.05) { MaxListSize = Periods },
-            "MARUBOZU" => new MarubozuList(95) { MaxListSize = Periods },
-            "MFI" => new MfiList(14) { MaxListSize = Periods },
-            "OBV" => new ObvList() { MaxListSize = Periods },
-            "PMO" => new PmoList(35, 20, 10) { MaxListSize = Periods },
-            "PSAR" => new ParabolicSarList() { MaxListSize = Periods },
-            "PVO" => new PvoList() { MaxListSize = Periods },
-            "RENKO" => new RenkoList(2.5m) { MaxListSize = Periods },
-            "ROC" => new RocList(20) { MaxListSize = Periods },
-            "ROC-WB" => new RocWbList(20, 5, 5) { MaxListSize = Periods },
-            "RSI" => new RsiList(14) { MaxListSize = Periods },
-            "SLOPE" => new SlopeList(14) { MaxListSize = Periods },
-            "SMA" => new SmaList(14) { MaxListSize = Periods },
-            "SMA-ANALYSIS" => new SmaAnalysisList(14) { MaxListSize = Periods },
-            "SMI" => new SmiList(13, 25, 2, 3) { MaxListSize = Periods },
-            "SMMA" => new SmmaList(14) { MaxListSize = Periods },
-            "STARC" => new StarcBandsList(5, 2, 10) { MaxListSize = Periods },
-            "STC" => new StcList(10, 23, 50) { MaxListSize = Periods },
-            "STDEV" => new StdDevList(14) { MaxListSize = Periods },
-            "STOCH" => new StochList(14, 3, 3) { MaxListSize = Periods },
-            "STOCH-RSI" => new StochRsiList(14, 14, 3, 1) { MaxListSize = Periods },
-            "SUPERTREND" => new SuperTrendList(10, 3) { MaxListSize = Periods },
-            "T3" => new T3List(5, 0.7) { MaxListSize = Periods },
-            "TEMA" => new TemaList(14) { MaxListSize = Periods },
-            "TR" => new TrList() { MaxListSize = Periods },
-            "TRIX" => new TrixList(14) { MaxListSize = Periods },
-            "TSI" => new TsiList(25, 13, 7) { MaxListSize = Periods },
-            "ULCER" => new UlcerIndexList(14) { MaxListSize = Periods },
-            "UO" => new UltimateList(7, 14, 28) { MaxListSize = Periods },
-            "VOL-STOP" => new VolatilityStopList(7, 3) { MaxListSize = Periods },
-            "VORTEX" => new VortexList(14) { MaxListSize = Periods },
-            "VWAP" => new VwapList() { MaxListSize = Periods },
-            "VWMA" => new VwmaList(14) { MaxListSize = Periods },
-            "WILLR" => new WilliamsRList() { MaxListSize = Periods },
-            "WMA" => new WmaList(14) { MaxListSize = Periods },
+            "ADL" => new AdlList() { MaxListSize = Cap },
+            "ADX" => new AdxList(14) { MaxListSize = Cap },
+            "ALLIGATOR" => new AlligatorList() { MaxListSize = Cap },
+            "ALMA" => new AlmaList(9, 0.85, 6) { MaxListSize = Cap },
+            "AROON" => new AroonList() { MaxListSize = Cap },
+            "ATR" => new AtrList(14) { MaxListSize = Cap },
+            "ATR-STOP" => new AtrStopList() { MaxListSize = Cap },
+            "AWESOME" => new AwesomeList() { MaxListSize = Cap },
+            "BB" => new BollingerBandsList(20, 2) { MaxListSize = Cap },
+            "BOP" => new BopList(14) { MaxListSize = Cap },
+            "CCI" => new CciList(14) { MaxListSize = Cap },
+            "CHAIKIN-OSC" => new ChaikinOscList() { MaxListSize = Cap },
+            "CHANDELIER" or "CHEXIT" => new ChandelierList() { MaxListSize = Cap },
+            "CHOP" => new ChopList(14) { MaxListSize = Cap },
+            "CMF" => new CmfList(14) { MaxListSize = Cap },
+            "CMO" => new CmoList(14) { MaxListSize = Cap },
+            "CRSI" => new ConnorsRsiList(3, 2, 100) { MaxListSize = Cap },
+            "DEMA" => new DemaList(14) { MaxListSize = Cap },
+            "DOJI" => new DojiList() { MaxListSize = Cap },
+            "DONCHIAN" => new DonchianList(20) { MaxListSize = Cap },
+            "DPO" => new DpoList(14) { MaxListSize = Cap },
+            "DYNAMIC" => new DynamicList(14) { MaxListSize = Cap },
+            "ELDER-RAY" => new ElderRayList(13) { MaxListSize = Cap },
+            "EMA" => new EmaList(20) { MaxListSize = Cap },
+            "EPMA" => new EpmaList(14) { MaxListSize = Cap },
+            "FCB" => new FcbList(2) { MaxListSize = Cap },
+            "FISHER" => new FisherTransformList(10) { MaxListSize = Cap },
+            "FORCE" => new ForceIndexList(2) { MaxListSize = Cap },
+            "FRACTAL" => new FractalList() { MaxListSize = Cap },
+            "GATOR" => new GatorList() { MaxListSize = Cap },
+            "HEIKINASHI" => new HeikinAshiList() { MaxListSize = Cap },
+            "HMA" => new HmaList(14) { MaxListSize = Cap },
+            "HTL" => new HtTrendlineList() { MaxListSize = Cap },
+            "HURST" => new HurstList(100) { MaxListSize = Cap },
+            "ICHIMOKU" => new IchimokuList() { MaxListSize = Cap },
+            "KAMA" => new KamaList(10, 2, 30) { MaxListSize = Cap },
+            "KELTNER" => new KeltnerList(20, 2, 10) { MaxListSize = Cap },
+            "KVO" => new KvoList(34, 55, 13) { MaxListSize = Cap },
+            "MA-ENV" => new MaEnvelopesList(20, 2.5, MaType.SMA) { MaxListSize = Cap },
+            "MACD" => new MacdList(12, 26, 9) { MaxListSize = Cap },
+            "MAMA" => new MamaList(0.5, 0.05) { MaxListSize = Cap },
+            "MARUBOZU" => new MarubozuList(95) { MaxListSize = Cap },
+            "MFI" => new MfiList(14) { MaxListSize = Cap },
+            "OBV" => new ObvList() { MaxListSize = Cap },
+            "PMO" => new PmoList(35, 20, 10) { MaxListSize = Cap },
+            "PSAR" => new ParabolicSarList() { MaxListSize = Cap },
+            "PVO" => new PvoList() { MaxListSize = Cap },
+            "RENKO" => new RenkoList(2.5m) { MaxListSize = Cap },
+            "ROC" => new RocList(20) { MaxListSize = Cap },
+            "ROC-WB" => new RocWbList(20, 5, 5) { MaxListSize = Cap },
+            "RSI" => new RsiList(14) { MaxListSize = Cap },
+            "SLOPE" => new SlopeList(14) { MaxListSize = Cap },
+            "SMA" => new SmaList(14) { MaxListSize = Cap },
+            "SMA-ANALYSIS" => new SmaAnalysisList(14) { MaxListSize = Cap },
+            "SMI" => new SmiList(13, 25, 2, 3) { MaxListSize = Cap },
+            "SMMA" => new SmmaList(14) { MaxListSize = Cap },
+            "STARC" => new StarcBandsList(5, 2, 10) { MaxListSize = Cap },
+            "STC" => new StcList(10, 23, 50) { MaxListSize = Cap },
+            "STDEV" => new StdDevList(14) { MaxListSize = Cap },
+            "STOCH" => new StochList(14, 3, 3) { MaxListSize = Cap },
+            "STOCH-RSI" => new StochRsiList(14, 14, 3, 1) { MaxListSize = Cap },
+            "SUPERTREND" => new SuperTrendList(10, 3) { MaxListSize = Cap },
+            "T3" => new T3List(5, 0.7) { MaxListSize = Cap },
+            "TEMA" => new TemaList(14) { MaxListSize = Cap },
+            "TR" => new TrList() { MaxListSize = Cap },
+            "TRIX" => new TrixList(14) { MaxListSize = Cap },
+            "TSI" => new TsiList(25, 13, 7) { MaxListSize = Cap },
+            "ULCER" => new UlcerIndexList(14) { MaxListSize = Cap },
+            "UO" => new UltimateList(7, 14, 28) { MaxListSize = Cap },
+            "VOL-STOP" => new VolatilityStopList(7, 3) { MaxListSize = Cap },
+            "VORTEX" => new VortexList(14) { MaxListSize = Cap },
+            "VWAP" => new VwapList() { MaxListSize = Cap },
+            "VWMA" => new VwmaList(14) { MaxListSize = Cap },
+            "WILLR" => new WilliamsRList() { MaxListSize = Cap },
+            "WMA" => new WmaList(14) { MaxListSize = Cap },
             _ => throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect Buffer benchmark. Some indicators only have Series implementations."),
         };
 
@@ -218,7 +223,7 @@ public class ManualTestDirect
     {
         // Create fresh hub and set maxCacheSize to match test data size
         // This prevents O(n²) pruning behavior when Periods > default maxCacheSize (100,000)
-        BarHub barHub = new(maxCacheSize: Periods);
+        BarHub barHub = new(maxCacheSize: Cap);
 
         // Subscribe FIRST — observer wired up before bars arrive
         object hub = Keyword switch {

@@ -10,16 +10,22 @@ description: Benchmark indicator performance with BenchmarkDotNet. Use for Serie
 ```bash
 cd tools/performance
 
-# Run all benchmarks (~15-20 minutes)
+# Run all benchmarks (can take several hours)
 dotnet run -c Release
 
 # Run specific category
-dotnet run -c Release --filter *StreamIndicators*
-dotnet run -c Release --filter *BufferIndicators*
-dotnet run -c Release --filter *SeriesIndicators*
+dotnet run -c Release -- --filter "*StreamIndicators*"
+dotnet run -c Release -- --filter "*BufferIndicators*"
+dotnet run -c Release -- --filter "*SeriesIndicators*"
 
 # Run specific indicator
-dotnet run -c Release --filter *.EmaHub
+dotnet run -c Release -- --filter "*.EmaHub"
+
+# Fast spot-check with direct harness (large-N friendly)
+PERF_TEST_KEYWORD=ema PERF_TEST_PERIODS=500000 dotnet run -c Release -- --filter "Performance.ManualTestDirect*"
+
+# Exercise pruning path (Cap < Periods)
+PERF_TEST_KEYWORD=adl PERF_TEST_PERIODS=500000 PERF_TEST_CAP=100000 dotnet run -c Release -- --filter "Performance.ManualTestDirect*"
 ```
 
 ## Adding benchmarks
@@ -60,7 +66,7 @@ public IReadOnlyList<MyResult> MyIndicatorStream() => barHub.ToMyIndicator(14).R
 
 ## Performance targets
 
-**Note**: These are optimization goals for future v3.1+ effort. Current implementations vary—see `PERFORMANCE_ANALYSIS.md` for actual measured performance. Some indicator families (e.g., EMA) have inherent framework overhead due to simple operation costs.
+**Note**: These are optimization goals for future v3.1+ effort. Current implementations vary by indicator family.
 
 | Style | Target vs Series | Use Case |
 | ----- | ---------------- | -------- |
@@ -97,9 +103,9 @@ Exit codes:
 ## Creating baselines
 
 ```bash
-# baselines/ holds one report per benchmark class
-# (Performance.SeriesIndicators-report-full.json, etc.)
+# baselines/ keeps machine + human baseline artifacts per benchmark class
 cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json baselines/
+cp BenchmarkDotNet.Artifacts/results/Performance.*-report-github.md baselines/
 ```
 
 ## Required optimization patterns

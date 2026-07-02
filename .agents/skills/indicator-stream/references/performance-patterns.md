@@ -174,5 +174,5 @@ Run benchmarks:
 
 ```bash
 cd tools/performance
-dotnet run -c Release --filter *.MyIndicatorHub
+dotnet run -c Release -- --filter "*.MyIndicatorHub"
 ```

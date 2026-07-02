@@ -19,7 +19,7 @@ public static class Program
         else
         {
             // with filter, run based on arguments (e.g. filter)
-            // example: dotnet run -c Release --filter *.GetAdx
+            // example: dotnet run -c Release -- --filter "*.ToAdxBatch"
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, config);
         }
     }

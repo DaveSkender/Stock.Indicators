@@ -9,6 +9,7 @@
     "**/.git/**",
     "**/.vs/**",
     "**/BenchmarkDotNet.Artifacts/**",
+    "tools/performance/baselines/**",
     "**/*playwright*/**"
   ],
   "config": {
