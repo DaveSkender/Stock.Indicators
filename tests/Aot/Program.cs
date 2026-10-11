@@ -30,6 +30,12 @@ foreach (IndicatorListing listing in Catalog.Get()
         outcome = $"rejected {ex.GetType().Name}: {ex.Message}";
     }
 
+    if (listing.GetMethodOverloads().Count == 0)
+    {
+        outcome += " NO-OVERLOADS";
+        failures++;
+    }
+
     if (listing.ResultRecordType is null)
     {
         outcome += " NO-RESULT-RECORD-TYPE";
