@@ -10,7 +10,7 @@ public static partial class SuperTrend
             .WithName("SuperTrend")
             .WithId("SUPERTREND")
             .WithCategory(Category.PriceTrend)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SuperTrend calculation", isRequired: false, defaultValue: 10, minimum: 1, maximum: 50)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SuperTrend calculation", isRequired: false, defaultValue: 10, minimum: 2, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", description: "Multiplier for the ATR calculation", isRequired: false, defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
             .AddResult(nameof(SuperTrendResult.SuperTrend), "SuperTrend", IndicatorResult.PricePane, ResultType.Default, isReusable: false)
             .AddResult(nameof(SuperTrendResult.UpperBand), "Upper Band", IndicatorResult.PricePane, ResultType.Default)

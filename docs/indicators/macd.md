@@ -24,7 +24,7 @@ IReadOnlyList<MacdResult> results =
 | ----- | ----------- |
 | `fastPeriods`<br>_`int`_ | Number of periods (`F`) for the faster moving average. Must be greater than 0. Default is 12. |
 | `slowPeriods`<br>_`int`_ | Number of periods (`S`) for the slower moving average. Must be greater than `fastPeriods`. Default is 26. |
-| `signalPeriods`<br>_`int`_ | Number of periods (`P`) for the moving average of MACD. Must be greater than or equal to 0. Default is 9. |
+| `signalPeriods`<br>_`int`_ | Number of periods (`P`) for the moving average of MACD. Must be greater than 0. Default is 9. |
 
 ### Historical price bars requirements
 

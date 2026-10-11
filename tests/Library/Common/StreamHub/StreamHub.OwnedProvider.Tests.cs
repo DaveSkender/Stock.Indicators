@@ -113,7 +113,7 @@ public class OwnedProviderRelease : TestBase
         BarHub barHub = new();
         barHub.Add(Bars.Take(100));
 
-        MacdHub macdHub = barHub.ToMacdHub(23, 50, 0);
+        MacdHub macdHub = barHub.ToMacdHub(23, 50, 1);
         AlligatorHub alligatorHub = barHub.ToAlligatorHub();
 
         macdHub.ToStcHub(10).Unsubscribe();

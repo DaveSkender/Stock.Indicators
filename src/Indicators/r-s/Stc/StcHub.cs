@@ -15,7 +15,7 @@ public class StcHub
         int fastPeriods,
         int slowPeriods)
         : this(
-            provider.ToMacdHub(fastPeriods, slowPeriods, 0),
+            provider.ToMacdHub(fastPeriods, slowPeriods, 1),
             cyclePeriods)
         => OwnProvider();
 

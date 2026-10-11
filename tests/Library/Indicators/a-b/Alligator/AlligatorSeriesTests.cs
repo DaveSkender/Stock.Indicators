@@ -139,11 +139,13 @@ public class AlligatorSeriesTests : StaticSeriesTestBase
 
         // bad teeth offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Bars.ToAlligator(13, 8, 8, 0));
+            static () => Bars.ToAlligator(13, 8, 8, 0))
+            .Message.Should().Contain("Teeth offset periods");
 
         // bad lips offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Bars.ToAlligator(13, 8, 8, 5, 5, 0));
+            static () => Bars.ToAlligator(13, 8, 8, 5, 5, 0))
+            .Message.Should().Contain("Lips offset periods");
 
         // bad jaw + offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

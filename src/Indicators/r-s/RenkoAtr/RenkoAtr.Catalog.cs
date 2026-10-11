@@ -10,7 +10,7 @@ public static partial class RenkoAtr
             .WithName("Renko (ATR)")
             .WithId("RENKO-ATR")
             .WithCategory(Category.PriceTrend)
-            .AddParameter<int>("atrPeriods", "ATR Periods", description: "Number of periods for the ATR calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 100)
+            .AddParameter<int>("atrPeriods", "ATR Periods", description: "Number of periods for the ATR calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 100)
             .AddEnumParameter<EndType>("endType", "End Type", description: "Type of price to use for the calculation", isRequired: false, defaultValue: EndType.Close)
             .AddResult(nameof(RenkoResult.Open), "Open", IndicatorResult.PricePane, ResultType.Default)
             .AddResult(nameof(RenkoResult.High), "High", IndicatorResult.PricePane, ResultType.Default)

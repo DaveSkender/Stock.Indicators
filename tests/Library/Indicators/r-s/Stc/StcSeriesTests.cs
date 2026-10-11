@@ -140,8 +140,14 @@ public class StcSeriesTests : StaticSeriesTestBase
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToStc(9, 12, 12));
 
-        // bad signal period
+        // bad cycle period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToStc(-1, 12, 26));
+
+        // a zero cycle leaves the stochastic step no window, in every style
+        Action series = static () => Bars.ToStc(0, 12, 26);
+        Action hub = static () => new BarHub().ToStcHub(0, 12, 26);
+        series.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("cyclePeriods");
+        hub.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("cyclePeriods");
     }
 }

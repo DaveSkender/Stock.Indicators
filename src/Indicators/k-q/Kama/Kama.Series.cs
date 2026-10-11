@@ -47,7 +47,7 @@ public static partial class Kama
             double er;
             double kama;
 
-            if (results[i - 1].Kama is not null)
+            if (i > 0 && results[i - 1].Kama is not null)
             {
                 double newVal = source[i].Value;
 

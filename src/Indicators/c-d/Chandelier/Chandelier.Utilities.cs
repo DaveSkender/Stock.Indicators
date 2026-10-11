@@ -11,7 +11,7 @@ public static partial class Chandelier
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Multiplier for the ATR calculation, must be greater than 0.</param>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown when the lookback periods are less than or equal to 0,
+    /// Thrown when the lookback periods are less than or equal to 1,
     /// or the multiplier is less than or equal to 0.
     /// </exception>
     internal static void Validate(
@@ -19,10 +19,11 @@ public static partial class Chandelier
         double multiplier)
     {
         // check parameter arguments
-        if (lookbackPeriods <= 0)
+        // the ATR it builds on needs at least two periods
+        if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Chandelier Exit.");
+                "Lookback periods must be greater than 1 for Chandelier Exit.");
         }
 
         if (multiplier <= 0)

@@ -10,7 +10,7 @@ public static partial class AtrStop
             .WithName("ATR Trailing Stop")
             .WithId("ATR-STOP")
             .WithCategory(Category.PriceTrend)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 2, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
             .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
             .AddResult(nameof(AtrStopResult.AtrStop), "ATR Trailing Stop", IndicatorResult.PricePane, ResultType.Default, isReusable: true)

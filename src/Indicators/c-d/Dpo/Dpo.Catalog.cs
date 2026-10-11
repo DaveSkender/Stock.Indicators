@@ -10,7 +10,7 @@ public static partial class Dpo
             .WithName("Detrended Price Oscillator")
             .WithId("DPO")
             .WithCategory(Category.Oscillator)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult(nameof(DpoResult.Dpo), "DPO", "Dpo", ResultType.Default, isReusable: true)
             .AddResult(nameof(DpoResult.Sma), "SMA", IndicatorResult.PricePane, ResultType.Default)
             .Build();

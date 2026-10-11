@@ -14,7 +14,7 @@ public static partial class Alligator
             .AddParameter<int>("jawOffset", "Jaw Offset", description: "Offset periods for the Jaw line", isRequired: false, defaultValue: 8, minimum: 1, maximum: 50)
             .AddParameter<int>("teethPeriods", "Teeth Periods", description: "Lookback periods for the Teeth line", isRequired: false, defaultValue: 8, minimum: 2, maximum: 250)
             .AddParameter<int>("teethOffset", "Teeth Offset", description: "Offset periods for the Teeth line", isRequired: false, defaultValue: 5, minimum: 1, maximum: 50)
-            .AddParameter<int>("lipsPeriods", "Lips Periods", description: "Lookback periods for the Lips line", isRequired: false, defaultValue: 5, minimum: 2, maximum: 250)
+            .AddParameter<int>("lipsPeriods", "Lips Periods", description: "Lookback periods for the Lips line", isRequired: false, defaultValue: 5, minimum: 1, maximum: 250)
             .AddParameter<int>("lipsOffset", "Lips Offset", description: "Offset periods for the Lips line", isRequired: false, defaultValue: 3, minimum: 1, maximum: 50)
             .AddResult(nameof(AlligatorResult.Jaw), "Jaw", IndicatorResult.PricePane, ResultType.Default)
             .AddResult(nameof(AlligatorResult.Teeth), "Teeth", IndicatorResult.PricePane, ResultType.Default)

@@ -107,4 +107,14 @@ public class TemaSeriesTests : StaticSeriesTestBase
             .Invoking(static () => Bars.ToTema(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
+
+    [TestMethod]
+    public void ToTema_LookbackOne_MatchesInEveryStyle()
+    {
+        // the first bar has no previous result in any style
+        IReadOnlyList<TemaResult> series = Bars.ToTema(1);
+
+        Bars.ToTemaList(1).IsExactly(series);
+        Bars.ToTemaHub(1).Results.IsExactly(series);
+    }
 }

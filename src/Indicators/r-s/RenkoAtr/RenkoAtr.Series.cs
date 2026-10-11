@@ -12,11 +12,19 @@ public static partial class RenkoAtr
     /// <param name="atrPeriods">Number of periods for calculating ATR.</param>
     /// <param name="endType">Price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">The ATR periods are less than or equal to 1.</exception>
     public static IReadOnlyList<RenkoResult> ToRenkoAtr(
         this IReadOnlyList<IBar> bars,
         int atrPeriods = 14,
         EndType endType = EndType.Close)
     {
+        // checked here so the error names this method's parameter, not ATR's
+        if (atrPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(atrPeriods), atrPeriods,
+                "ATR periods must be greater than 1 for Renko ATR.");
+        }
+
         // initialize
         List<AtrResult> atrResults = bars
             .ToBarDList()

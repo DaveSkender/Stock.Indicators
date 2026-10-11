@@ -20,7 +20,7 @@ IReadOnlyList<StcResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `cyclePeriods`<br>_`int`_ | Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10. |
+| `cyclePeriods`<br>_`int`_ | Number of periods (`C`) for the Trend Cycle.  Must be greater than 0.  Default is 10. |
 | `fastPeriods`<br>_`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
 | `slowPeriods`<br>_`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
 

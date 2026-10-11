@@ -10,16 +10,17 @@ public static partial class Epma
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown when the lookback periods are less than or equal to 0.
+    /// Thrown when the lookback periods are less than or equal to 1.
     /// </exception>
     internal static void Validate(
         int lookbackPeriods)
     {
         // check parameter arguments
-        if (lookbackPeriods <= 0)
+        // a linear regression needs at least two points
+        if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Epma.");
+                "Lookback periods must be greater than 1 for Epma.");
         }
     }
 

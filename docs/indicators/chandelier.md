@@ -20,7 +20,7 @@ IReadOnlyList<ChandelierResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the lookback evaluation.  Default is 22. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 22. |
 | `multiplier`<br>_`double`_ | Multiplier number must be a positive value.  Default is 3. |
 | `type`<br>_`Direction`_ | Direction of exit. Default is `Direction.Long`. |
 

@@ -94,4 +94,17 @@ public class ChandelierSeriesTests : StaticSeriesTestBase
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToChandelier(25, 2, (Direction)int.MaxValue));
     }
+
+    [TestMethod]
+    public void ToChandelier_LookbackOne_ThrowsInEveryStyle()
+    {
+        // ATR needs at least 2 periods, so every style rejects 1
+        Action series = static () => Bars.ToChandelier(1);
+        Action list = static () => Bars.ToChandelierList(1);
+        Action hub = static () => new BarHub().ToChandelierHub(1);
+
+        series.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("lookbackPeriods");
+        list.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("lookbackPeriods");
+        hub.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("lookbackPeriods");
+    }
 }

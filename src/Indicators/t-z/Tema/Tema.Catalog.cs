@@ -10,7 +10,7 @@ public static partial class Tema
             .WithName("Triple Exponential Moving Average")
             .WithId("TEMA")
             .WithCategory(Category.MovingAverage)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the TEMA calculation", isRequired: false, defaultValue: 20, minimum: 2, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the TEMA calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
             .AddResult(nameof(TemaResult.Tema), "TEMA", IndicatorResult.PricePane, ResultType.Default, isReusable: true)
             .Build();
 

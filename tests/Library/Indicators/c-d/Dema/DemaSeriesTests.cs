@@ -105,4 +105,14 @@ public class DemaSeriesTests : StaticSeriesTestBase
     public void Exceptions_InvalidLookback_ThrowsArgumentOutOfRangeException() =>
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToDema(0));
+
+    [TestMethod]
+    public void ToDema_LookbackOne_MatchesInEveryStyle()
+    {
+        // the first bar has no previous result in any style
+        IReadOnlyList<DemaResult> series = Bars.ToDema(1);
+
+        Bars.ToDemaList(1).IsExactly(series);
+        Bars.ToDemaHub(1).Results.IsExactly(series);
+    }
 }

@@ -20,7 +20,7 @@ IReadOnlyList<EpmaResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 10. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1.  Default is 10. |
 
 ### Historical price bars requirements
 
