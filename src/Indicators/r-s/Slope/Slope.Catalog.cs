@@ -24,7 +24,7 @@ public static partial class Slope
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToSlope")
+            .WithMethodName(typeof(Slope), "ToSlope")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class Slope
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToSlopeList")
+            .WithMethodName(typeof(Slope), "ToSlopeList")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class Slope
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToSlopeHub")
+            .WithMethodName(typeof(Slope), "ToSlopeHub")
             .Build();
 }

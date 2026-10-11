@@ -20,7 +20,7 @@ public static partial class Doji
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToDoji")
+            .WithMethodName(typeof(Doji), "ToDoji")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Doji
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToDojiHub")
+            .WithMethodName(typeof(Doji), "ToDojiHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Doji
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToDojiList")
+            .WithMethodName(typeof(Doji), "ToDojiList")
             .Build();
 }

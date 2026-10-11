@@ -20,7 +20,7 @@ public static partial class Smma
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToSmma")
+            .WithMethodName(typeof(Smma), "ToSmma")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Smma
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToSmmaHub")
+            .WithMethodName(typeof(Smma), "ToSmmaHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Smma
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToSmmaList")
+            .WithMethodName(typeof(Smma), "ToSmmaList")
             .Build();
 }

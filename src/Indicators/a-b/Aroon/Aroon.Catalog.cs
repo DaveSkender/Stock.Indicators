@@ -22,7 +22,7 @@ public static partial class Aroon
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToAroon")
+            .WithMethodName(typeof(Aroon), "ToAroon")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class Aroon
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToAroonHub")
+            .WithMethodName(typeof(Aroon), "ToAroonHub")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class Aroon
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToAroonList")
+            .WithMethodName(typeof(Aroon), "ToAroonList")
             .Build();
 }

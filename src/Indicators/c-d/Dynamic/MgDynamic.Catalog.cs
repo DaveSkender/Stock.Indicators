@@ -21,7 +21,7 @@ public static partial class MgDynamic
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToDynamic")
+            .WithMethodName(typeof(MgDynamic), "ToDynamic")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class MgDynamic
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToDynamicHub")
+            .WithMethodName(typeof(MgDynamic), "ToDynamicHub")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class MgDynamic
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToDynamicList")
+            .WithMethodName(typeof(MgDynamic), "ToDynamicList")
             .Build();
 }

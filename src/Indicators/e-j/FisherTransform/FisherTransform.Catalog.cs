@@ -21,7 +21,7 @@ public static partial class FisherTransform
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToFisherTransform")
+            .WithMethodName(typeof(FisherTransform), "ToFisherTransform")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class FisherTransform
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToFisherTransformHub")
+            .WithMethodName(typeof(FisherTransform), "ToFisherTransformHub")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class FisherTransform
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToFisherTransformList")
+            .WithMethodName(typeof(FisherTransform), "ToFisherTransformList")
             .Build();
 }

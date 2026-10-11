@@ -19,7 +19,7 @@ internal static class CatalogReflection
     private static readonly Assembly IndicatorsAssembly = typeof(Catalog).Assembly;
 
     /// <summary>
-    /// Gets every public static overload with the given method name.
+    /// Gets every public static overload of a listing's method.
     /// </summary>
     /// <remarks>
     /// Delegates to the library's own <see cref="CatalogMethodResolver"/> so the tests
@@ -27,10 +27,27 @@ internal static class CatalogReflection
     /// would make the derivation tests compare a value against a copy of the function
     /// that produced it.
     /// </remarks>
+    /// <param name="listing">Catalog listing naming the method.</param>
+    /// <returns>All matching overloads; empty when the method resolves to nothing.</returns>
+    internal static IReadOnlyList<MethodInfo> GetOverloads(IndicatorListing listing)
+        => CatalogMethodResolver.GetOverloads(listing);
+
+    /// <summary>
+    /// Gets every public static method with the given name on any static class in the library.
+    /// </summary>
+    /// <remarks>
+    /// An assembly-wide scan, independent of the resolver: it shows whether a listing's
+    /// declaring type holds every overload its method name has.
+    /// </remarks>
     /// <param name="methodName">Method name from a catalog listing.</param>
-    /// <returns>All matching overloads; empty when the name resolves to nothing.</returns>
-    internal static IReadOnlyList<MethodInfo> GetOverloads(string methodName)
-        => CatalogMethodResolver.GetOverloads(methodName).ToList();
+    /// <returns>All matching methods across the library's static classes.</returns>
+    internal static IReadOnlyList<MethodInfo> GetAssemblyOverloads(string methodName)
+        => IndicatorsAssembly.GetTypes()
+            .Where(static t => t is { IsClass: true, IsAbstract: true, IsSealed: true })
+            .SelectMany(static t => t.GetMethods(
+                BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            .Where(m => m.Name == methodName)
+            .ToList();
 
     /// <summary>
     /// Gets the result record type produced by an indicator method, for any style.

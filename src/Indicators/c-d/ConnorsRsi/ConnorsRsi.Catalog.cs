@@ -26,7 +26,7 @@ public static partial class ConnorsRsi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToConnorsRsi")
+            .WithMethodName(typeof(ConnorsRsi), "ToConnorsRsi")
             .Build();
 
     /// <summary>
@@ -35,7 +35,7 @@ public static partial class ConnorsRsi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToConnorsRsiList")
+            .WithMethodName(typeof(ConnorsRsi), "ToConnorsRsiList")
             .Build();
 
     /// <summary>
@@ -44,6 +44,6 @@ public static partial class ConnorsRsi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToConnorsRsiHub")
+            .WithMethodName(typeof(ConnorsRsi), "ToConnorsRsiHub")
             .Build();
 }

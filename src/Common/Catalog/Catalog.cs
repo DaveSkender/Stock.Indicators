@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using System.Text.Json;
@@ -14,16 +15,8 @@ namespace FacioQuo.Stock.Indicators;
 /// </remarks>
 public static partial class Catalog
 {
-    private static readonly JsonSerializerOptions InboundJsonOptions = new() {
-        PropertyNameCaseInsensitive = true,
-        Converters = { new StyleJsonConverter() }
-    };
-
-    private static readonly JsonSerializerOptions OutboundJsonOptions = new() {
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Converters = { new JsonStringEnumConverter() }
-    };
+    private const string ReflectionJson
+        = "Serializes catalog types with reflection-based System.Text.Json.";
 
     /// <summary>
     /// Gets all indicator catalog listings
@@ -124,13 +117,15 @@ public static partial class Catalog
     /// <param name="catalog">Catalog of indicator listings.</param>
     /// <param name="filePath">Optional file path to save the JSON output. If provided, the content will be written to this file.</param>
     /// <returns>A JSON string containing all catalog properties according to the defined schema.</returns>
+    [RequiresUnreferencedCode(ReflectionJson)]
+    [RequiresDynamicCode(ReflectionJson)]
     public static string ToJson(
         this IReadOnlyList<IndicatorListing> catalog,
         string? filePath = null)
     {
         ArgumentNullException.ThrowIfNull(catalog);
 
-        string json = JsonSerializer.Serialize(catalog, OutboundJsonOptions);
+        string json = JsonSerializer.Serialize(catalog, JsonOptions.Outbound);
 
         // Save to file if path is provided
         if (!string.IsNullOrWhiteSpace(filePath))
@@ -276,6 +271,8 @@ public static partial class Catalog
     /// <exception cref="ArgumentNullException">Thrown when json or bars is null.</exception>
     /// <exception cref="ArgumentException">Thrown when json is empty or invalid.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
+    [RequiresUnreferencedCode(ReflectionJson)]
+    [RequiresDynamicCode(ReflectionJson)]
     internal static IReadOnlyList<TResult> ExecuteFromJson<TResult>(
         this IEnumerable<IBar> bars,
         string json)
@@ -294,7 +291,7 @@ public static partial class Catalog
         IndicatorConfig config;
         try
         {
-            config = JsonSerializer.Deserialize<IndicatorConfig>(json, InboundJsonOptions)
+            config = JsonSerializer.Deserialize<IndicatorConfig>(json, JsonOptions.Inbound)
                 ?? throw new ArgumentException("Failed to parse JSON configuration - result was null.", nameof(json));
         }
         catch (JsonException ex)
@@ -417,5 +414,25 @@ public static partial class Catalog
             JsonSerializerOptions options)
 #pragma warning restore S1172, IDE0060
                 => writer.WriteStringValue(value.ToString());
+    }
+
+    /// <summary>
+    /// Reflection-based serializer options, kept behind the same trim and AOT
+    /// requirements as the methods that use them.
+    /// </summary>
+    [RequiresUnreferencedCode(ReflectionJson)]
+    [RequiresDynamicCode(ReflectionJson)]
+    private static class JsonOptions
+    {
+        internal static readonly JsonSerializerOptions Inbound = new() {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new StyleJsonConverter() }
+        };
+
+        internal static readonly JsonSerializerOptions Outbound = new() {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Converters = { new JsonStringEnumConverter() }
+        };
     }
 }

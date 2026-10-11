@@ -25,7 +25,7 @@ public static partial class AtrStop
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToAtrStop")
+            .WithMethodName(typeof(AtrStop), "ToAtrStop")
             .Build();
 
     /// <summary>
@@ -34,7 +34,7 @@ public static partial class AtrStop
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToAtrStopHub")
+            .WithMethodName(typeof(AtrStop), "ToAtrStopHub")
             .Build();
 
     /// <summary>
@@ -43,6 +43,6 @@ public static partial class AtrStop
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToAtrStopList")
+            .WithMethodName(typeof(AtrStop), "ToAtrStopList")
             .Build();
 }

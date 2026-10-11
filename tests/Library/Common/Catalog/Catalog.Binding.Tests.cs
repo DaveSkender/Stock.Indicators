@@ -39,7 +39,7 @@ public class CatalogBindingTests : TestBase
             }
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             if (overloads.Count == 0)
             {
@@ -59,6 +59,43 @@ public class CatalogBindingTests : TestBase
     }
 
     [TestMethod]
+    public void EveryListingDeclaresTheClassHoldingAllItsOverloads()
+    {
+        List<string> violations = [];
+
+        foreach (IndicatorListing listing in Catalog.Get())
+        {
+            if (string.IsNullOrWhiteSpace(listing.MethodName))
+            {
+                continue;
+            }
+
+            IEnumerable<MethodInfo> declared = CatalogReflection.GetOverloads(listing);
+            IEnumerable<MethodInfo> everywhere = CatalogReflection.GetAssemblyOverloads(listing.MethodName);
+
+            if (!declared.ToHashSet().SetEquals(everywhere))
+            {
+                violations.Add(
+                    $"{CatalogReflection.Describe(listing)}: '{listing.MethodName}' is declared outside "
+                  + $"{listing.MethodDeclaringType?.Name ?? "(no declaring type)"}");
+            }
+        }
+
+        string.Join(Environment.NewLine, violations).Should().BeEmpty(
+            "a listing resolves its method only on its declaring type, so that type must hold every overload");
+    }
+
+    [TestMethod]
+    public void ListingWithoutDeclaringTypeResolvesThroughTheCatalog()
+    {
+        IndicatorListing catalogListing = Catalog.Get("EMA", Style.Series)!;
+        IndicatorListing external = catalogListing with { MethodDeclaringType = null };
+
+        CatalogReflection.GetOverloads(external).Should()
+            .BeEquivalentTo(CatalogReflection.GetOverloads(catalogListing));
+    }
+
+    [TestMethod]
     public void EveryResultDataNameExistsOnResultRecord()
     {
         List<string> violations = [];
@@ -68,7 +105,7 @@ public class CatalogBindingTests : TestBase
             string identity = CatalogReflection.Describe(listing);
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             List<Type> resultTypes = overloads
                 .Select(CatalogReflection.GetResultType)
@@ -116,7 +153,7 @@ public class CatalogBindingTests : TestBase
             string identity = CatalogReflection.Describe(listing);
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             if (overloads.Count == 0)
             {
@@ -159,7 +196,7 @@ public class CatalogBindingTests : TestBase
             }
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             string[] catalogNames = listing.Parameters
                 .Select(static p => p.ParameterName)
@@ -258,7 +295,7 @@ public class CatalogBindingTests : TestBase
                 .Select(static p => p.ParameterName)
                 .ToArray();
 
-            MethodInfo method = CatalogReflection.GetOverloads(listing.MethodName)
+            MethodInfo method = CatalogReflection.GetOverloads(listing)
                 .FirstOrDefault(m => CatalogReflection.IsContiguousRun(
                     catalogNames, CatalogReflection.GetParameterNames(m)));
 
@@ -325,7 +362,7 @@ public class CatalogBindingTests : TestBase
         foreach (IndicatorListing listing in Catalog.Get())
         {
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             if (overloads.Count == 0)
             {

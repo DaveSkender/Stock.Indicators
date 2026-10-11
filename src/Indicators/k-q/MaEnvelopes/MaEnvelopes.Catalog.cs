@@ -24,7 +24,7 @@ public static partial class MaEnvelopes
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToMaEnvelopes")
+            .WithMethodName(typeof(MaEnvelopes), "ToMaEnvelopes")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class MaEnvelopes
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToMaEnvelopesList")
+            .WithMethodName(typeof(MaEnvelopes), "ToMaEnvelopesList")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class MaEnvelopes
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToMaEnvelopesHub")
+            .WithMethodName(typeof(MaEnvelopes), "ToMaEnvelopesHub")
             .Build();
 }

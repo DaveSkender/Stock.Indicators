@@ -20,7 +20,7 @@ public static partial class Vwap
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToVwap")
+            .WithMethodName(typeof(Vwap), "ToVwap")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Vwap
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToVwapList")
+            .WithMethodName(typeof(Vwap), "ToVwapList")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Vwap
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToVwapHub")
+            .WithMethodName(typeof(Vwap), "ToVwapHub")
             .Build();
 }

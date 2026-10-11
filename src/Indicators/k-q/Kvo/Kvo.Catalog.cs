@@ -23,7 +23,7 @@ public static partial class Kvo
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToKvo")
+            .WithMethodName(typeof(Kvo), "ToKvo")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class Kvo
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToKvoList")
+            .WithMethodName(typeof(Kvo), "ToKvoList")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class Kvo
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToKvoHub")
+            .WithMethodName(typeof(Kvo), "ToKvoHub")
             .Build();
 }

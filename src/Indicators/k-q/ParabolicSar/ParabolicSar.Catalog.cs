@@ -22,7 +22,7 @@ public static partial class ParabolicSar
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToParabolicSar")
+            .WithMethodName(typeof(ParabolicSar), "ToParabolicSar")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class ParabolicSar
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToParabolicSarList")
+            .WithMethodName(typeof(ParabolicSar), "ToParabolicSarList")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class ParabolicSar
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToParabolicSarHub")
+            .WithMethodName(typeof(ParabolicSar), "ToParabolicSarHub")
             .Build();
 }

@@ -20,7 +20,7 @@ public static partial class Vwma
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToVwma")
+            .WithMethodName(typeof(Vwma), "ToVwma")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Vwma
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToVwmaHub")
+            .WithMethodName(typeof(Vwma), "ToVwmaHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Vwma
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToVwmaList")
+            .WithMethodName(typeof(Vwma), "ToVwmaList")
             .Build();
 }

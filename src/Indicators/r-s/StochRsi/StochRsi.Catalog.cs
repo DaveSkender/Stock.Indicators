@@ -24,7 +24,7 @@ public static partial class StochRsi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToStochRsi")
+            .WithMethodName(typeof(StochRsi), "ToStochRsi")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class StochRsi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToStochRsiHub")
+            .WithMethodName(typeof(StochRsi), "ToStochRsiHub")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class StochRsi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToStochRsiList")
+            .WithMethodName(typeof(StochRsi), "ToStochRsiList")
             .Build();
 }

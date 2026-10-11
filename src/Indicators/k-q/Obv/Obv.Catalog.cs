@@ -19,7 +19,7 @@ public static partial class Obv
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToObv")
+            .WithMethodName(typeof(Obv), "ToObv")
             .Build();
 
     /// <summary>
@@ -28,7 +28,7 @@ public static partial class Obv
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToObvHub")
+            .WithMethodName(typeof(Obv), "ToObvHub")
             .Build();
 
     /// <summary>
@@ -37,6 +37,6 @@ public static partial class Obv
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToObvList")
+            .WithMethodName(typeof(Obv), "ToObvList")
             .Build();
 }

@@ -20,7 +20,7 @@ public static partial class UlcerIndex
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToUlcerIndex")
+            .WithMethodName(typeof(UlcerIndex), "ToUlcerIndex")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class UlcerIndex
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToUlcerIndexHub")
+            .WithMethodName(typeof(UlcerIndex), "ToUlcerIndexHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class UlcerIndex
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToUlcerIndexList")
+            .WithMethodName(typeof(UlcerIndex), "ToUlcerIndexList")
             .Build();
 }

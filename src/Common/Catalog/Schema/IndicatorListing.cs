@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FacioQuo.Stock.Indicators;
 
@@ -11,12 +12,16 @@ public record IndicatorListing
     /// <summary>
     /// Gets or sets the unique identifier of the indicator.
     /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+        Justification = "MinLength reads a string's Length directly; only non-string, non-ICollection values reflect for a Count property.")]
     [MinLength(2), UrlSafe]
     public required string Uiid { get; init; }
 
     /// <summary>
     /// Gets or sets the name of the indicator.
     /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+        Justification = "MinLength reads a string's Length directly; only non-string, non-ICollection values reflect for a Count property.")]
     [MinLength(5)]
     public required string Name { get; init; }
 
@@ -53,9 +58,7 @@ public record IndicatorListing
     /// <c>IReadOnlyList&lt;EmaResult&gt;</c>, <c>EmaList</c>, and <c>EmaHub</c>
     /// respectively. It is the record whose properties
     /// <see cref="IndicatorResult.DataName"/> names. It is <c>null</c> when
-    /// <see cref="MethodName"/> is unset, and can also be <c>null</c> if the method
-    /// cannot be resolved — which trimming or NativeAOT publishing may cause, since
-    /// the derivation reflects over the assembly. Check for <c>null</c> before use.
+    /// <see cref="MethodName"/> is unset.
     /// </remarks>
     public string? ResultRecordType { get; init; }
 
@@ -81,6 +84,17 @@ public record IndicatorListing
     /// Gets or sets the method name for automation use cases.
     /// </summary>
     public string? MethodName { get; init; }
+
+    /// <summary>
+    /// Gets the static class declaring <see cref="MethodName"/>.
+    /// </summary>
+    /// <remarks>
+    /// The annotation keeps that class's public methods through trimming, so catalog
+    /// execution never has to search the assembly for them.
+    /// </remarks>
+    [JsonIgnore]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
+    internal Type? MethodDeclaringType { get; init; }
 
     /// <summary>
     /// Gets or sets the legend template for the indicator.

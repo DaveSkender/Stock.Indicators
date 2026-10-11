@@ -20,7 +20,7 @@ public static partial class Ema
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToEma")
+            .WithMethodName(typeof(Ema), "ToEma")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Ema
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToEmaHub")
+            .WithMethodName(typeof(Ema), "ToEmaHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Ema
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToEmaList")
+            .WithMethodName(typeof(Ema), "ToEmaList")
             .Build();
 }

@@ -26,6 +26,6 @@ public static partial class Correlation
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToCorrelation")
+            .WithMethodName(typeof(Correlation), "ToCorrelation")
             .Build();
 }

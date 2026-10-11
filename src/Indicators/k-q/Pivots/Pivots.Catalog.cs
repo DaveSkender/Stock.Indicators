@@ -28,7 +28,7 @@ public static partial class Pivots
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToPivots")
+            .WithMethodName(typeof(Pivots), "ToPivots")
             .Build();
 
     /// <summary>
@@ -37,7 +37,7 @@ public static partial class Pivots
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToPivotsList")
+            .WithMethodName(typeof(Pivots), "ToPivotsList")
             .Build();
 
     /// <summary>
@@ -46,6 +46,6 @@ public static partial class Pivots
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToPivotsHub")
+            .WithMethodName(typeof(Pivots), "ToPivotsHub")
             .Build();
 }

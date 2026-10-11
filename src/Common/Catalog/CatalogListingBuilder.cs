@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace FacioQuo.Stock.Indicators;
@@ -11,6 +12,9 @@ internal class CatalogListingBuilder
     private string _id = string.Empty;
     private Category _category = Category.Undefined;
     private string? _methodName;
+
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
+    private Type? _methodDeclaringType;
     private readonly List<IndicatorParam> _parameters = [];
     private readonly List<IndicatorResult> _results = [];
 
@@ -39,6 +43,7 @@ internal class CatalogListingBuilder
         _id = baseListing.Uiid;
         _category = baseListing.Category;
         _methodName = baseListing.MethodName;
+        _methodDeclaringType = baseListing.MethodDeclaringType;
         CurrentStyle = baseListing.Style;
 
         // `with` copies every property, so one added later is never silently dropped;
@@ -101,12 +106,16 @@ internal class CatalogListingBuilder
     }
 
     /// <summary>
-    /// Sets the method name for automation use cases.
+    /// Sets the indicator method that executes this listing.
     /// </summary>
+    /// <param name="declaringType">Static class declaring the method.</param>
     /// <param name="methodName">Method name.</param>
     /// <returns>Builder instance for method chaining.</returns>
-    internal CatalogListingBuilder WithMethodName(string methodName)
+    internal CatalogListingBuilder WithMethodName(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type declaringType,
+        string methodName)
     {
+        _methodDeclaringType = declaringType;
         _methodName = methodName;
         return this;
     }
@@ -301,7 +310,8 @@ internal class CatalogListingBuilder
             Parameters = _parameters.Count > 0 ? _parameters : null,
             Results = _results,
             MethodName = _methodName,
-            ResultRecordType = CatalogMethodResolver.GetResultTypeName(_methodName),
+            MethodDeclaringType = _methodDeclaringType,
+            ResultRecordType = CatalogMethodResolver.GetResultTypeName(_methodDeclaringType, _methodName),
             LegendTemplate = GenerateLegendTemplate()
         };
     }

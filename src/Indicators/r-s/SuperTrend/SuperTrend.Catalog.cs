@@ -23,7 +23,7 @@ public static partial class SuperTrend
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToSuperTrend")
+            .WithMethodName(typeof(SuperTrend), "ToSuperTrend")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class SuperTrend
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToSuperTrendHub")
+            .WithMethodName(typeof(SuperTrend), "ToSuperTrendHub")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class SuperTrend
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToSuperTrendList")
+            .WithMethodName(typeof(SuperTrend), "ToSuperTrendList")
             .Build();
 }

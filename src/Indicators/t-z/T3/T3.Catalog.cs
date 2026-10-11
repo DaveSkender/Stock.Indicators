@@ -21,7 +21,7 @@ public static partial class T3
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToT3")
+            .WithMethodName(typeof(T3), "ToT3")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class T3
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToT3Hub")
+            .WithMethodName(typeof(T3), "ToT3Hub")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class T3
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToT3List")
+            .WithMethodName(typeof(T3), "ToT3List")
             .Build();
 }

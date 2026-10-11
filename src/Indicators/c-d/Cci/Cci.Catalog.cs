@@ -20,7 +20,7 @@ public static partial class Cci
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToCci")
+            .WithMethodName(typeof(Cci), "ToCci")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Cci
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToCciHub")
+            .WithMethodName(typeof(Cci), "ToCciHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Cci
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToCciList")
+            .WithMethodName(typeof(Cci), "ToCciList")
             .Build();
 }

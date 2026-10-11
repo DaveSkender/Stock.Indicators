@@ -70,13 +70,13 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToConsole{T}(T)"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToConsole)}` instead.", false)]
-    public static string ToConsole<T>(T obj) where T : ISeries
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(T obj) where T : ISeries
         => obj.ToConsole();
 
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToConsole{T}(IReadOnlyList{T}, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToConsole)}` instead.", false)]
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IReadOnlyList<T> source,
         IDictionary<string, string>? args = null)
         where T : ISeries
@@ -85,7 +85,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToConsole{T}(IReadOnlyList{T}, ValueTuple{string, string}[])"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToConsole)}` instead.", false)]
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IReadOnlyList<T> source,
         params (string key, string value)[] args)
         where T : ISeries
@@ -94,7 +94,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToConsole{T}(IEnumerable{T}, Func{T, bool}, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToConsole)}` instead.", false)]
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source,
         Func<T, bool> filter,
         IDictionary<string, string>? args = null)
@@ -104,7 +104,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToConsole{T}(IEnumerable{T}, Func{T, bool}, ValueTuple{string, string}[])"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToConsole)}` instead.", false)]
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source,
         Func<T, bool> filter,
         params (string key, string value)[] args)
@@ -114,7 +114,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToConsole{T}(IEnumerable{T}, Func{T, bool}, int, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToConsole)}` instead.", false)]
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source,
         Func<T, bool> filter,
         int limitQty = int.MaxValue,
@@ -125,7 +125,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToConsole{T}(IEnumerable{T}, Func{T, bool}, int, ValueTuple{string, string}[])"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToConsole)}` instead.", false)]
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source,
         Func<T, bool> filter,
         int limitQty,
@@ -136,13 +136,13 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(T)"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(T obj) where T : ISeries
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(T obj) where T : ISeries
         => obj.ToStringOut();
 
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IEnumerable{T}, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source, IDictionary<string, string>? args = null)
         where T : ISeries
         => source.ToStringOut(args);
@@ -150,7 +150,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IEnumerable{T}, int, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source, int limitQty, IDictionary<string, string>? args = null)
         where T : ISeries
         => source.ToStringOut(limitQty, args);
@@ -158,7 +158,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IEnumerable{T}, int, int, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source, int startIndex, int endIndex, IDictionary<string, string>? args = null)
         where T : ISeries
         => source.ToStringOut(startIndex, endIndex, args);
@@ -166,7 +166,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IEnumerable{T}, Func{T, bool}, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source,
         Func<T, bool> filter,
         IDictionary<string, string>? args = null)
@@ -176,7 +176,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IEnumerable{T}, Func{T, bool}, int, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IEnumerable<T> source,
         Func<T, bool> filter,
         int limitQty,
@@ -187,7 +187,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IReadOnlyList{T}, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IReadOnlyList<T> source,
         IDictionary<string, string>? args = null)
         where T : ISeries
@@ -196,7 +196,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IReadOnlyList{T}, int, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IReadOnlyList<T> source,
         int limitQty,
         IDictionary<string, string>? args = null)
@@ -206,7 +206,7 @@ public static class StringOut
     /// <summary>Obsolete. Use <see cref="StringOutExtensions.ToStringOut{T}(IReadOnlyList{T}, int, int, IDictionary{string, string})"/> instead.</summary>
     [ExcludeFromCodeCoverage]
     [Obsolete($"Use `{nameof(StringOutExtensions)}.{nameof(StringOutExtensions.ToStringOut)}` instead.", false)]
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IReadOnlyList<T> source,
         int startIndex,
         int endIndex,

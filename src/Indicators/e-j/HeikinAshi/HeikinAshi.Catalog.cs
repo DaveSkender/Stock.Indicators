@@ -23,7 +23,7 @@ public static partial class HeikinAshi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToHeikinAshi")
+            .WithMethodName(typeof(HeikinAshi), "ToHeikinAshi")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class HeikinAshi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToHeikinAshiList")
+            .WithMethodName(typeof(HeikinAshi), "ToHeikinAshiList")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class HeikinAshi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToHeikinAshiHub")
+            .WithMethodName(typeof(HeikinAshi), "ToHeikinAshiHub")
             .Build();
 }

@@ -30,7 +30,7 @@ public class CatalogChartPaneTests : TestBase
 
         foreach (IndicatorListing listing in Catalog.Get())
         {
-            Type resultType = CatalogReflection.GetOverloads(listing.MethodName)
+            Type resultType = CatalogReflection.GetOverloads(listing)
                 .Select(CatalogReflection.GetResultType)
                 .FirstOrDefault(static t => t is not null);
 
@@ -73,7 +73,7 @@ public class CatalogChartPaneTests : TestBase
 
         foreach (IndicatorListing listing in Catalog.Get(Style.Series))
         {
-            Type resultType = CatalogReflection.GetOverloads(listing.MethodName)
+            Type resultType = CatalogReflection.GetOverloads(listing)
                 .Select(CatalogReflection.GetResultType)
                 .FirstOrDefault(static t => t is not null);
 

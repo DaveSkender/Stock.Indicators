@@ -23,7 +23,7 @@ public static partial class Donchian
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToDonchian")
+            .WithMethodName(typeof(Donchian), "ToDonchian")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class Donchian
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToDonchianHub")
+            .WithMethodName(typeof(Donchian), "ToDonchianHub")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class Donchian
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToDonchianList")
+            .WithMethodName(typeof(Donchian), "ToDonchianList")
             .Build();
 }

@@ -19,7 +19,7 @@ internal static readonly IndicatorListing CommonListing =
 internal static readonly IndicatorListing SeriesListing =
     new CatalogListingBuilder(CommonListing)
         .WithStyle(Style.Series)
-        .WithMethodName("ToEma")
+        .WithMethodName(typeof(Ema), "ToEma")
         .Build();
 ```
 

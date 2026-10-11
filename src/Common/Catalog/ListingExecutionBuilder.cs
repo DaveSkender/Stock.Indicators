@@ -234,21 +234,12 @@ public class ListingExecutionBuilder
                     $"Parameter '{parameterName}' expects a series (IReadOnlyList<T> where T : IReusable), but received {value.GetType().Name}", nameof(value));
             }
 
-            // Check if the series elements implement IReusable
-            Type valueType = value.GetType();
-
-            if ((valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(List<>))
-              || valueType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IReadOnlyList<>)))
+            // Covariance makes any list of reference-type IReusable elements an
+            // IEnumerable<IReusable>, so no reflection over the value's type is needed.
+            if (value is not IEnumerable<IReusable>)
             {
-                Type? elementType = valueType.GetGenericArguments().FirstOrDefault()
-                    ?? valueType.GetInterfaces()
-                        .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IReadOnlyList<>))?.GetGenericArguments().FirstOrDefault();
-
-                if (elementType != null && !typeof(IReusable).IsAssignableFrom(elementType))
-                {
-                    throw new ArgumentException(
-                        $"Parameter '{parameterName}' expects series elements to implement IReusable, but received {elementType.Name}", nameof(value));
-                }
+                throw new ArgumentException(
+                    $"Parameter '{parameterName}' expects series elements to implement IReusable, but received {value.GetType().Name}", nameof(value));
             }
         }
         // Validate basic parameter types

@@ -21,7 +21,7 @@ public static partial class Hurst
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToHurst")
+            .WithMethodName(typeof(Hurst), "ToHurst")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class Hurst
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToHurstList")
+            .WithMethodName(typeof(Hurst), "ToHurstList")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class Hurst
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToHurstHub")
+            .WithMethodName(typeof(Hurst), "ToHurstHub")
             .Build();
 }

@@ -21,7 +21,7 @@ public static partial class Fcb
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToFcb")
+            .WithMethodName(typeof(Fcb), "ToFcb")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class Fcb
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToFcbHub")
+            .WithMethodName(typeof(Fcb), "ToFcbHub")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class Fcb
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToFcbList")
+            .WithMethodName(typeof(Fcb), "ToFcbList")
             .Build();
 }

@@ -32,6 +32,6 @@ public static partial class Prs
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToPrs")
+            .WithMethodName(typeof(Prs), "ToPrs")
             .Build();
 }

@@ -21,7 +21,7 @@ public static partial class Vortex
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToVortex")
+            .WithMethodName(typeof(Vortex), "ToVortex")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class Vortex
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToVortexList")
+            .WithMethodName(typeof(Vortex), "ToVortexList")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class Vortex
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToVortexHub")
+            .WithMethodName(typeof(Vortex), "ToVortexHub")
             .Build();
 }

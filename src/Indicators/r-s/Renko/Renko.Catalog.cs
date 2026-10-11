@@ -26,7 +26,7 @@ public static partial class Renko
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToRenko")
+            .WithMethodName(typeof(Renko), "ToRenko")
             .Build();
 
     /// <summary>
@@ -35,7 +35,7 @@ public static partial class Renko
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToRenkoHub")
+            .WithMethodName(typeof(Renko), "ToRenkoHub")
             .Build();
 
     /// <summary>
@@ -44,6 +44,6 @@ public static partial class Renko
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToRenkoList")
+            .WithMethodName(typeof(Renko), "ToRenkoList")
             .Build();
 }

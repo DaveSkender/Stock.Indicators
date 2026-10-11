@@ -23,7 +23,7 @@ public static partial class ElderRay
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToElderRay")
+            .WithMethodName(typeof(ElderRay), "ToElderRay")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class ElderRay
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToElderRayHub")
+            .WithMethodName(typeof(ElderRay), "ToElderRayHub")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class ElderRay
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToElderRayList")
+            .WithMethodName(typeof(ElderRay), "ToElderRayList")
             .Build();
 }

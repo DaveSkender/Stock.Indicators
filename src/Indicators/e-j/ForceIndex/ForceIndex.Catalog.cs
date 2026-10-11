@@ -20,7 +20,7 @@ public static partial class ForceIndex
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToForceIndex")
+            .WithMethodName(typeof(ForceIndex), "ToForceIndex")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class ForceIndex
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToForceIndexList")
+            .WithMethodName(typeof(ForceIndex), "ToForceIndexList")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class ForceIndex
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToForceIndexHub")
+            .WithMethodName(typeof(ForceIndex), "ToForceIndexHub")
             .Build();
 }

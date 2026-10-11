@@ -20,7 +20,7 @@ public static partial class WilliamsR
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToWilliamsR")
+            .WithMethodName(typeof(WilliamsR), "ToWilliamsR")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class WilliamsR
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToWilliamsRHub")
+            .WithMethodName(typeof(WilliamsR), "ToWilliamsRHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class WilliamsR
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToWilliamsRList")
+            .WithMethodName(typeof(WilliamsR), "ToWilliamsRList")
             .Build();
 }

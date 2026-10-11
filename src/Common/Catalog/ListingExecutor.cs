@@ -44,10 +44,9 @@ internal static class ListingExecutor
         string methodName = listing.MethodName
             ?? throw new InvalidOperationException("MethodName is required for dynamic execution");
 
-        // Find the method's overloads across the library's static classes
-        List<MethodInfo> methods = CatalogMethodResolver.GetOverloads(methodName).ToList();
+        MethodInfo[] methods = CatalogMethodResolver.GetOverloads(listing);
 
-        if (methods.Count == 0)
+        if (methods.Length == 0)
         {
             throw new InvalidOperationException($"Method '{methodName}' not found");
         }
@@ -172,17 +171,6 @@ internal static class ListingExecutor
             foreach (ParameterInfo optional in targetMethod.GetParameters().Skip(parameterList.Count))
             {
                 parameterList.Add(optional.DefaultValue);
-            }
-        }
-
-        // If the method is generic, make it specific for the IBar interface type.
-        // Indicator methods that are generic use IBar as the constraint.
-        if (targetMethod.IsGenericMethodDefinition)
-        {
-            Type[] genericArguments = targetMethod.GetGenericArguments();
-            if (genericArguments.Length == 1)
-            {
-                targetMethod = targetMethod.MakeGenericMethod(typeof(IBar));
             }
         }
 

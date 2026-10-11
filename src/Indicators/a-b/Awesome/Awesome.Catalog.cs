@@ -22,7 +22,7 @@ public static partial class Awesome
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToAwesome")
+            .WithMethodName(typeof(Awesome), "ToAwesome")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class Awesome
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToAwesomeHub")
+            .WithMethodName(typeof(Awesome), "ToAwesomeHub")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class Awesome
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToAwesomeList")
+            .WithMethodName(typeof(Awesome), "ToAwesomeList")
             .Build();
 }

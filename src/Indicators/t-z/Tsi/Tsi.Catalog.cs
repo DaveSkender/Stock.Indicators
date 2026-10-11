@@ -23,7 +23,7 @@ public static partial class Tsi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToTsi")
+            .WithMethodName(typeof(Tsi), "ToTsi")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class Tsi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToTsiList")
+            .WithMethodName(typeof(Tsi), "ToTsiList")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class Tsi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToTsiHub")
+            .WithMethodName(typeof(Tsi), "ToTsiHub")
             .Build();
 }

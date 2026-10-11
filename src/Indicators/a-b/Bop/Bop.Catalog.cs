@@ -20,7 +20,7 @@ public static partial class Bop
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToBop")
+            .WithMethodName(typeof(Bop), "ToBop")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Bop
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToBopHub")
+            .WithMethodName(typeof(Bop), "ToBopHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Bop
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToBopList")
+            .WithMethodName(typeof(Bop), "ToBopList")
             .Build();
 }

@@ -24,7 +24,7 @@ public static partial class Pvo
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToPvo")
+            .WithMethodName(typeof(Pvo), "ToPvo")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class Pvo
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToPvoList")
+            .WithMethodName(typeof(Pvo), "ToPvoList")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class Pvo
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToPvoHub")
+            .WithMethodName(typeof(Pvo), "ToPvoHub")
             .Build();
 }

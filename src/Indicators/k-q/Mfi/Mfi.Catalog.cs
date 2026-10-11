@@ -20,7 +20,7 @@ public static partial class Mfi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToMfi")
+            .WithMethodName(typeof(Mfi), "ToMfi")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Mfi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToMfiHub")
+            .WithMethodName(typeof(Mfi), "ToMfiHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Mfi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToMfiList")
+            .WithMethodName(typeof(Mfi), "ToMfiList")
             .Build();
 }

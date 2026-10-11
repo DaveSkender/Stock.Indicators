@@ -26,7 +26,7 @@ public static partial class RenkoAtr
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToRenkoAtr")
+            .WithMethodName(typeof(RenkoAtr), "ToRenkoAtr")
             .Build();
 
     // BufferList and StreamHub not implemented - would require buffering all bars

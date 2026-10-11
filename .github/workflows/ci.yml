@@ -131,6 +131,36 @@ jobs:
           coverage-reports: test-results/unit/*.cobertura.xml
         continue-on-error: true
 
+  native-aot:
+    name: NativeAOT smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quick-check
+    if: ${{ !github.event.pull_request.draft }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+
+      - name: Install NativeAOT prerequisites
+        run: sudo apt-get install -y --no-install-recommends clang zlib1g-dev
+
+      - name: Publish NativeAOT smoke app
+        # TreatWarningsAsErrors in the project fails the publish on any IL2xxx/IL3xxx
+        run: dotnet publish tests/Aot --configuration Release --output aot-out
+
+      - name: Compare NativeAOT and JIT catalog runs
+        run: |
+          dotnet run --project tests/Aot --configuration Release > jit.txt
+          ./aot-out/Tests.Aot > aot.txt
+          diff jit.txt aot.txt
+
   gate:
     runs-on: ubuntu-latest
     timeout-minutes: 20
