@@ -49,7 +49,7 @@ A `csharp` block opening with `// C# usage syntax`, plus a qualifier when useful
 
 ### Parameters
 
-`## Parameters` with a `| param | type | description |` table. Write the type as italic code (`` _`int`_ ``). Each description names the formula variable (`` `N` ``), the validation constraint ("Must be greater than 0."), and the default when one exists. Variants with distinct parameter sets get an H3 table each (`renko.md`).
+`## Parameters` with a `| param | description |` table. The first cell holds the name in code, a `<br>`, then the type as italic code (`` `lookbackPeriods`<br>_`int`_ ``), so the description keeps its width at phone size. Each description names the formula variable (`` `N` ``), the validation constraint ("Must be greater than 0."), and the default when one exists. Variants with distinct parameter sets get an H3 table each (`renko.md`).
 
 Omit `## Parameters` when the method takes none.
 
@@ -76,7 +76,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### Result table
 
-`` ### `{Name}Result` `` with a `| property | type | description |` table. `Timestamp` is the first row, described as "Date from evaluated `TBar`". Each type is the property's declared C# type in italic code (`` _`double`_ ``, `` _`decimal`_ ``). Place a `::: warning 🚩` caveat immediately after the table it qualifies.
+`` ### `{Name}Result` `` with a `| property | description |` table. The first cell holds the name, a `<br>`, then the property's declared C# type in italic code (`` `Adx`<br>_`double`_ ``). `Timestamp` is the first row, described as "Date from evaluated `TBar`". Place a `::: warning 🚩` caveat immediately after the table it qualifies.
 
 ### Utilities
 

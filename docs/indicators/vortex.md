@@ -18,9 +18,9 @@ IReadOnlyList<VortexResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30. |
 
 ### Historical price bars requirements
 
@@ -41,11 +41,11 @@ IReadOnlyList<VortexResult>
 
 ### `VortexResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Pvi` | _`double`_ | Positive Vortex Indicator (VI+) |
-| `Nvi` | _`double`_ | Negative Vortex Indicator (VI-) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Pvi`<br>_`double`_ | Positive Vortex Indicator (VI+) |
+| `Nvi`<br>_`double`_ | Negative Vortex Indicator (VI-) |
 
 ### Utilities
 

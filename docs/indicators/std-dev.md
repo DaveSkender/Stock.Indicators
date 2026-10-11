@@ -23,9 +23,9 @@ StdDevHub observer = barHub.ToStdDevHub(lookbackPeriods);
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical price bars requirements
 
@@ -46,12 +46,12 @@ IReadOnlyList<StdDevResult>
 
 ### `StdDevResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `StdDev` | _`double`_ | Standard deviation of price |
-| `Mean` | _`double`_ | Mean value of price |
-| `ZScore` | _`double`_ | Z-score of current price (number of standard deviations from mean) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `StdDev`<br>_`double`_ | Standard deviation of price |
+| `Mean`<br>_`double`_ | Mean value of price |
+| `ZScore`<br>_`double`_ | Z-score of current price (number of standard deviations from mean) |
 
 ### Utilities
 

@@ -35,10 +35,10 @@ IReadOnlyList<TrResult>
 
 ### `TrResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Tr` | _`double`_ | True Range |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Tr`<br>_`double`_ | True Range |
 
 ### Utilities
 

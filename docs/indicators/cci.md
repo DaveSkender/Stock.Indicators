@@ -18,9 +18,9 @@ IReadOnlyList<CciResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
 
 ### Historical price bars requirements
 
@@ -41,10 +41,10 @@ IReadOnlyList<CciResult>
 
 ### `CciResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Cci` | _`double`_ | Commodity Channel Index |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Cci`<br>_`double`_ | Commodity Channel Index |
 
 ### Utilities
 

@@ -19,21 +19,21 @@ IReadOnlyList<RenkoResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `endType` | _`EndType`_ | Price threshold used to spawn new bricks, on both variants.  Default is `EndType.Close` |
+| param | description |
+| ----- | ----------- |
+| `endType`<br>_`EndType`_ | Price threshold used to spawn new bricks, on both variants.  Default is `EndType.Close` |
 
 ### Fixed brick size
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `brickSize` | _`decimal`_ | Brick size.  Must be greater than 0. |
+| param | description |
+| ----- | ----------- |
+| `brickSize`<br>_`decimal`_ | Brick size.  Must be greater than 0. |
 
 ### ATR-derived brick size
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `atrPeriods` | _`int`_ | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
+| param | description |
+| ----- | ----------- |
+| `atrPeriods`<br>_`int`_ | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
 
 ### Historical price bars requirements
 
@@ -66,15 +66,15 @@ When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indi
 
 ### `RenkoResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Formation date of brick(s) |
-| `Open` | _`decimal`_ | Brick open price |
-| `High` | _`decimal`_ | Highest high during elapsed `bars` periods |
-| `Low` | _`decimal`_ | Lowest low during elapsed `bars` periods |
-| `Close` | _`decimal`_ | Brick close price |
-| `Volume` | _`decimal`_ | Sum of Volume over elapsed `bars` periods |
-| `IsUp` |  _`bool`_ | Direction of brick (true=up,false=down) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Formation date of brick(s) |
+| `Open`<br>_`decimal`_ | Brick open price |
+| `High`<br>_`decimal`_ | Highest high during elapsed `bars` periods |
+| `Low`<br>_`decimal`_ | Lowest low during elapsed `bars` periods |
+| `Close`<br>_`decimal`_ | Brick close price |
+| `Volume`<br>_`decimal`_ | Sum of Volume over elapsed `bars` periods |
+| `IsUp`<br>_`bool`_ | Direction of brick (true=up,false=down) |
 
 ::: warning 🚩 Multiple bricks per period
 When multiple bricks are drawn from a single `bar` period, the extra information about `High` and `Low` wicks and `Volume` is potentially confusing to interpret.  `High` and `Low` wicks will be the same across the multiple bricks; and `Volume` is portioning evenly across the number of bricks.  For example, if within one `bar` period 3 bricks are drawn, the `Volume` for each brick will be `(sum of bars Volume since last brick) / 3`.

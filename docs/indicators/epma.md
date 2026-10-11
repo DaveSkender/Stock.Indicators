@@ -18,9 +18,9 @@ IReadOnlyList<EpmaResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical price bars requirements
 
@@ -41,10 +41,10 @@ IReadOnlyList<EpmaResult>
 
 ### `EpmaResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Epma` | _`double`_ | Endpoint moving average |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Epma`<br>_`double`_ | Endpoint moving average |
 
 ### Utilities
 

@@ -18,9 +18,9 @@ IReadOnlyList<UlcerIndexResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14. |
 
 ### Historical price bars requirements
 
@@ -41,10 +41,10 @@ IReadOnlyList<UlcerIndexResult>
 
 ### `UlcerIndexResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `UlcerIndex` | _`double`_ | Ulcer Index |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `UlcerIndex`<br>_`double`_ | Ulcer Index |
 
 ### Utilities
 

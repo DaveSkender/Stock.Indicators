@@ -18,9 +18,9 @@ IReadOnlyList<BopResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `smoothPeriods` | _`int`_ | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14. |
+| param | description |
+| ----- | ----------- |
+| `smoothPeriods`<br>_`int`_ | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14. |
 
 ### Historical price bars requirements
 
@@ -41,10 +41,10 @@ IReadOnlyList<BopResult>
 
 ### `BopResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Bop` | _`double`_ | Balance of Power |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Bop`<br>_`double`_ | Balance of Power |
 
 ### Utilities
 

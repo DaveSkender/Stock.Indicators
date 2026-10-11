@@ -18,10 +18,10 @@ IReadOnlyList<PivotPointsResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `windowSize` | BarInterval | Size of the lookback window.  Default is `BarInterval.Month` |
-| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
+| param | description |
+| ----- | ----------- |
+| `windowSize`<br>BarInterval | Size of the lookback window.  Default is `BarInterval.Month` |
+| `pointType`<br>PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
 ### Historical price bars requirements
 
@@ -72,18 +72,18 @@ The last window is repainted when it does not contain a full window of data.
 
 ### `PivotPointsResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `R4` | _`double`_ | Resistance level 4 (Camarilla only) |
-| `R3` | _`double`_ | Resistance level 3 |
-| `R2` | _`double`_ | Resistance level 2 |
-| `R1` | _`double`_ | Resistance level 1 |
-| `PP` | _`double`_ | Pivot Point |
-| `S1` | _`double`_ | Support level 1 |
-| `S2` | _`double`_ | Support level 2 |
-| `S3` | _`double`_ | Support level 3 |
-| `S4` | _`double`_ | Support level 4 (Camarilla only) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `R4`<br>_`double`_ | Resistance level 4 (Camarilla only) |
+| `R3`<br>_`double`_ | Resistance level 3 |
+| `R2`<br>_`double`_ | Resistance level 2 |
+| `R1`<br>_`double`_ | Resistance level 1 |
+| `PP`<br>_`double`_ | Pivot Point |
+| `S1`<br>_`double`_ | Support level 1 |
+| `S2`<br>_`double`_ | Support level 2 |
+| `S3`<br>_`double`_ | Support level 3 |
+| `S4`<br>_`double`_ | Support level 4 (Camarilla only) |
 
 ### Utilities
 

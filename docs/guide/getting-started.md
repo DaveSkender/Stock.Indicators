@@ -127,14 +127,14 @@ SMA on 4/26/2018 was $255.9705
 
 Provide historical price bars as an OHLCV `IReadOnlyList<Bar>`, `List`, or `ICollection`, with a consistent frequency (day, hour, minute, etc.). To use your own class instead, see [using custom bar classes](#using-custom-bar-classes).
 
-| property | type | description |
-| :------- | :--- | :---------- |
-| `Timestamp` | _`DateTime`_ | Close date  |
-| `Open`      | _`decimal`_  | Open price  |
-| `High`      | _`decimal`_  | High price  |
-| `Low`       | _`decimal`_  | Low price   |
-| `Close`     | _`decimal`_  | Close price |
-| `Volume`    | _`decimal`_  | Volume      |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Close date |
+| `Open`<br>_`decimal`_ | Open price |
+| `High`<br>_`decimal`_ | High price |
+| `Low`<br>_`decimal`_ | Low price |
+| `Close`<br>_`decimal`_ | Close price |
+| `Volume`<br>_`decimal`_ | Volume |
 
 ### Where can I get historical bar data?
 

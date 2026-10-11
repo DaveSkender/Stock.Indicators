@@ -15,11 +15,11 @@ IReadOnlyList<PrsResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
-| `barsBase` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
-| `lookbackPeriods` | _`int`_ | Optional.  Number of periods (`N`) to lookback to compute % ROC difference.  Must be greater than 0 if specified or `null`. |
+| param | description |
+| ----- | ----------- |
+| `barsEval`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
+| `barsBase`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
+| `lookbackPeriods`<br>_`int`_ | Optional.  Number of periods (`N`) to lookback to compute % ROC difference.  Must be greater than 0 if specified or `null`. |
 
 ### Historical price bars requirements
 
@@ -40,11 +40,11 @@ IReadOnlyList<PrsResult>
 
 ### `PrsResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Prs` | _`double`_ | Price Relative Strength is the ratio of `Eval` / `Base` price values |
-| `PrsPercent` | _`double`_ | Percent change difference between `Eval` and `Base` over `N` periods |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Prs`<br>_`double`_ | Price Relative Strength is the ratio of `Eval` / `Base` price values |
+| `PrsPercent`<br>_`double`_ | Percent change difference between `Eval` and `Base` over `N` periods |
 
 ::: info Example
 At period `i`, `Prs` is `Eval[i] / Base[i]` and `PrsPercent` is the difference in `Eval` percent change and `Base` percent change over the prior `N` periods. Example: if `Eval` gains 10% and `Base` gains 3%, `PrsPercent` depicts +7% relative outperformance.

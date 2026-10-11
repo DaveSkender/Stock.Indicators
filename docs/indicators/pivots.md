@@ -18,12 +18,12 @@ IReadOnlyList<PivotsResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `leftSpan` | _`int`_ | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
-| `rightSpan` | _`int`_ | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
-| `maxTrendPeriods` | _`int`_ | Maximum lookback periods (`N`) for drawing trend lines between pivot points.  When pivot points are further apart than this value, the trend line tracking resets.  Must be greater than `leftSpan`.  Default is 20. |
-| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  Default is `EndType.HighLow`. |
+| param | description |
+| ----- | ----------- |
+| `leftSpan`<br>_`int`_ | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2. |
+| `rightSpan`<br>_`int`_ | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2. |
+| `maxTrendPeriods`<br>_`int`_ | Maximum lookback periods (`N`) for drawing trend lines between pivot points.  When pivot points are further apart than this value, the trend line tracking resets.  Must be greater than `leftSpan`.  Default is 20. |
+| `endType`<br>_`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `L+R+1`.
 
@@ -56,15 +56,15 @@ This price pattern looks forward and backward in the historical price bars so it
 
 ### `PivotsResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `HighPoint` | _`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
-| `LowPoint` | _`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
-| `HighLine` | _`decimal`_ | Drawn line between two high points in the `maxTrendPeriods` |
-| `LowLine` | _`decimal`_ | Drawn line between two low points in the `maxTrendPeriods` |
-| `HighTrend` | _`PivotTrend`_ | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below. |
-| `LowTrend` | _`PivotTrend`_ | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below. |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `HighPoint`<br>_`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
+| `LowPoint`<br>_`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
+| `HighLine`<br>_`decimal`_ | Drawn line between two high points in the `maxTrendPeriods` |
+| `LowLine`<br>_`decimal`_ | Drawn line between two low points in the `maxTrendPeriods` |
+| `HighTrend`<br>_`PivotTrend`_ | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below. |
+| `LowTrend`<br>_`PivotTrend`_ | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below. |
 
 #### PivotTrend values
 

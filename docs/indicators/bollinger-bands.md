@@ -18,10 +18,10 @@ IReadOnlyList<BollingerBandsResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20. |
-| `standardDeviations` | _`double`_ | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20. |
+| `standardDeviations`<br>_`double`_ | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2. |
 
 ### Historical price bars requirements
 
@@ -42,15 +42,15 @@ IReadOnlyList<BollingerBandsResult>
 
 ### `BollingerBandsResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Sma` | _`double`_ | Simple moving average (SMA) of price (center line) |
-| `UpperBand` | _`double`_ | Upper line is `D` standard deviations above the SMA |
-| `LowerBand` | _`double`_ | Lower line is `D` standard deviations below the SMA |
-| `PercentB` | _`double`_ | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)` |
-| `ZScore` | _`double`_ | Z-score of current price (number of standard deviations from mean) |
-| `Width` | _`double`_ | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma` |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Sma`<br>_`double`_ | Simple moving average (SMA) of price (center line) |
+| `UpperBand`<br>_`double`_ | Upper line is `D` standard deviations above the SMA |
+| `LowerBand`<br>_`double`_ | Lower line is `D` standard deviations below the SMA |
+| `PercentB`<br>_`double`_ | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)` |
+| `ZScore`<br>_`double`_ | Z-score of current price (number of standard deviations from mean) |
+| `Width`<br>_`double`_ | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma` |
 
 ### Utilities
 
