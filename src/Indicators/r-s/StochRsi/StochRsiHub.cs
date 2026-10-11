@@ -224,7 +224,11 @@ public static partial class StochRsi
         int stochPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 1)
-        => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+    {
+        // validate before the inner hub subscribes, so a bad argument cannot strand it
+        StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        return new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+    }
 
     /// <summary>
     /// Creates a new Stochastic RSI hub, using RSI values from an existing RSI hub.

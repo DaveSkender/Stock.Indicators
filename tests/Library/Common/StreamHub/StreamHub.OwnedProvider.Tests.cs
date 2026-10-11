@@ -9,17 +9,17 @@ public class OwnedProviderRelease : TestBase
 {
     public static IEnumerable<object[]> HubsWithOwnedProvider =>
     [
-        ["StochRsi", (Func<BarHub, Action>)(b => b.ToStochRsiHub().Unsubscribe)],
-        ["ConnorsRsi", (Func<BarHub, Action>)(b => b.ToConnorsRsiHub().Unsubscribe)],
-        ["Epma", (Func<BarHub, Action>)(b => b.ToEpmaHub(10).Unsubscribe)],
-        ["Gator", (Func<BarHub, Action>)(b => b.ToGatorHub().Unsubscribe)],
-        ["Stc", (Func<BarHub, Action>)(b => b.ToStcHub().Unsubscribe)],
-        ["Pvo", (Func<BarHub, Action>)(b => b.ToPvoHub().Unsubscribe)],
+        ["StochRsi", (Func<BarHub, object>)(b => b.ToStochRsiHub())],
+        ["ConnorsRsi", (Func<BarHub, object>)(b => b.ToConnorsRsiHub())],
+        ["Epma", (Func<BarHub, object>)(b => b.ToEpmaHub(10))],
+        ["Gator", (Func<BarHub, object>)(b => b.ToGatorHub())],
+        ["Stc", (Func<BarHub, object>)(b => b.ToStcHub())],
+        ["Pvo", (Func<BarHub, object>)(b => b.ToPvoHub())],
     ];
 
     [TestMethod]
     [DynamicData(nameof(HubsWithOwnedProvider))]
-    public void Unsubscribe_ReleasesOwnedProvider(string name, Func<BarHub, Action> subscribe)
+    public void Unsubscribe_ReleasesOwnedProvider(string name, Func<BarHub, object> subscribe)
     {
         ArgumentNullException.ThrowIfNull(subscribe);
 
@@ -28,15 +28,44 @@ public class OwnedProviderRelease : TestBase
         SmaHub other = barHub.ToSmaHub(5);  // unrelated observer must survive
         int baseline = barHub.ObserverCount;
 
-        Action unsubscribe = subscribe(barHub);
+        object hub = subscribe(barHub);
         barHub.ObserverCount.Should().Be(baseline + 1, name);
 
-        unsubscribe();
+        // the added observer is the inner hub: an outer hub that observes bars is checked
+        // on barHub, and one that observes another result type cannot be on it at all
+        bool outerOnBarHub = hub is IStreamObserver<IBar> direct && barHub.HasSubscriber(direct);
+        outerOnBarHub.Should().BeFalse(name);
+
+        ((IReleasableHub)hub).Unsubscribe();
 
         barHub.ObserverCount.Should().Be(baseline, $"{name} left its inner hub subscribed");
         other.IsSubscribed.Should().BeTrue();
 
         barHub.EndTransmission();
+    }
+
+    public static IEnumerable<object[]> InvalidArguments =>
+    [
+        ["StochRsi", (Action<BarHub>)(b => b.ToStochRsiHub(14, 0))],
+        ["ConnorsRsi", (Action<BarHub>)(b => b.ToConnorsRsiHub(3, 2, 1))],
+        ["Epma", (Action<BarHub>)(b => b.ToEpmaHub(0))],  // control: SlopeHub validates before it subscribes
+        ["Stc", (Action<BarHub>)(b => b.ToStcHub(-1))],
+        ["Pvo", (Action<BarHub>)(b => b.ToPvoHub(0))],
+    ];
+
+    [TestMethod]
+    [DynamicData(nameof(InvalidArguments))]
+    public void InvalidArgument_LeavesNoInnerHubSubscribed(string name, Action<BarHub> subscribe)
+    {
+        ArgumentNullException.ThrowIfNull(subscribe);
+
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+
+        Action act = () => subscribe(barHub);
+
+        act.Should().Throw<ArgumentOutOfRangeException>(name);
+        barHub.ObserverCount.Should().Be(0, $"{name} stranded its inner hub");
     }
 
     [TestMethod]

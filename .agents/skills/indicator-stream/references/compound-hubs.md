@@ -40,6 +40,8 @@ internal StochRsiHub(
 
 The provider constructor ends with `OwnProvider()`, because only it built the inner hub. `Unsubscribe()` then releases that inner hub once it has no other observers, instead of leaving it subscribed and computing every update. The hub constructor never calls it: a caller-supplied hub may still be in use. A factory that builds the inner hub outside a constructor marks the returned hub the same way (`ToPvoHub` over bars).
 
+Validate in the `To…Hub` factory before the provider constructor builds the inner hub, so an invalid argument throws with nothing subscribed; the hub constructor still validates for direct callers.
+
 Read inner-hub parameters (`rsiHub.LookbackPeriods`, `macdHub.FastPeriods`) from the hub rather than taking them again.
 
 ## Extension methods

@@ -208,6 +208,9 @@ public static partial class Pvo
         int slowPeriods = 26,
         int signalPeriods = 9)
     {
+        // validate before the inner hub subscribes, so a bad argument cannot strand it
+        Pvo.Validate(fastPeriods, slowPeriods, signalPeriods);
+
         PvoHub hub = barProvider
             .ToBarPartHub(CandlePart.Volume)
             .ToPvoHub(fastPeriods, slowPeriods, signalPeriods);

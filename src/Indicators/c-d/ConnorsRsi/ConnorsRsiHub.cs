@@ -412,5 +412,9 @@ public static partial class ConnorsRsi
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100)
-        => new(chainProvider, rsiPeriods, streakPeriods, rankPeriods);
+    {
+        // validate before the inner hub subscribes, so a bad argument cannot strand it
+        ConnorsRsi.Validate(rsiPeriods, streakPeriods, rankPeriods);
+        return new(chainProvider, rsiPeriods, streakPeriods, rankPeriods);
+    }
 }
