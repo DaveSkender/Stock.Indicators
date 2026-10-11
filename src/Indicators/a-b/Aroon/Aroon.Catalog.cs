@@ -14,6 +14,8 @@ public static partial class Aroon
             .AddResult(nameof(AroonResult.AroonUp), "Aroon Up", "Aroon", ResultType.Default)
             .AddResult(nameof(AroonResult.AroonDown), "Aroon Down", "Aroon", ResultType.Default)
             .AddResult(nameof(AroonResult.Oscillator), "Oscillator", "Oscillator", ResultType.Default, isReusable: true)
+            .WithPane("Aroon", 0, 100, 70, 50, 30)
+            .WithPane("Oscillator", -100, 100, 0)
             .Build();
 
     /// <summary>

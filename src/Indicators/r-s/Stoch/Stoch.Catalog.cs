@@ -15,6 +15,7 @@ public static partial class Stoch
             .AddParameter<int>("smoothPeriods", "Smooth Periods", description: "Number of periods for smoothing", isRequired: false, defaultValue: 3, minimum: 1, maximum: 50)
             .AddResult(nameof(StochResult.Oscillator), "%K", "Stoch", ResultType.Default, isReusable: true)
             .AddResult(nameof(StochResult.Signal), "%D", "Stoch", ResultType.Default)
+            .WithPane("Stoch", null, null, 80, 20)
             .Build();
 
     /// <summary>

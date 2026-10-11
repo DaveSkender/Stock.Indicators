@@ -12,6 +12,7 @@ public static partial class Mfi
             .WithCategory(Category.VolumeBased)
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the MFI calculation", defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult(nameof(MfiResult.Mfi), "MFI", "Mfi", ResultType.Default, isReusable: true)
+            .WithPane("Mfi", 0, 100, 80, 20)
             .Build();
 
     /// <summary>
