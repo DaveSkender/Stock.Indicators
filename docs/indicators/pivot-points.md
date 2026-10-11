@@ -75,15 +75,15 @@ The last window is repainted when it does not contain a full window of data.
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `R4`<br>_`double`_ | Resistance level 4 (Camarilla only) |
-| `R3`<br>_`double`_ | Resistance level 3 |
-| `R2`<br>_`double`_ | Resistance level 2 |
-| `R1`<br>_`double`_ | Resistance level 1 |
-| `PP`<br>_`double`_ | Pivot Point |
-| `S1`<br>_`double`_ | Support level 1 |
-| `S2`<br>_`double`_ | Support level 2 |
-| `S3`<br>_`double`_ | Support level 3 |
-| `S4`<br>_`double`_ | Support level 4 (Camarilla only) |
+| `R4`<br>_`double?`_ | Resistance level 4 (Camarilla only) |
+| `R3`<br>_`double?`_ | Resistance level 3 |
+| `R2`<br>_`double?`_ | Resistance level 2 |
+| `R1`<br>_`double?`_ | Resistance level 1 |
+| `PP`<br>_`double?`_ | Pivot Point |
+| `S1`<br>_`double?`_ | Support level 1 |
+| `S2`<br>_`double?`_ | Support level 2 |
+| `S3`<br>_`double?`_ | Support level 3 |
+| `S4`<br>_`double?`_ | Support level 4 (Camarilla only) |
 
 ### Utilities
 

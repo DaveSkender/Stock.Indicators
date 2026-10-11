@@ -59,12 +59,12 @@ This price pattern looks forward and backward in the historical price bars so it
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `HighPoint`<br>_`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
-| `LowPoint`<br>_`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
-| `HighLine`<br>_`decimal`_ | Drawn line between two high points in the `maxTrendPeriods` |
-| `LowLine`<br>_`decimal`_ | Drawn line between two low points in the `maxTrendPeriods` |
-| `HighTrend`<br>_`PivotTrend`_ | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below. |
-| `LowTrend`<br>_`PivotTrend`_ | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below. |
+| `HighPoint`<br>_`decimal?`_ | Value indicates a **high** point; otherwise `null` is returned. |
+| `LowPoint`<br>_`decimal?`_ | Value indicates a **low** point; otherwise `null` is returned. |
+| `HighLine`<br>_`decimal?`_ | Drawn line between two high points in the `maxTrendPeriods` |
+| `LowLine`<br>_`decimal?`_ | Drawn line between two low points in the `maxTrendPeriods` |
+| `HighTrend`<br>_`PivotTrend?`_ | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below. |
+| `LowTrend`<br>_`PivotTrend?`_ | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below. |
 
 #### PivotTrend values
 

@@ -60,10 +60,10 @@ The last line segment will always be redrawn back to the last known pivot.  Do n
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `ZigZag`<br>_`decimal`_ | Zig Zag line for `percentChange` |
-| `PointType`<br>_`string`_ | Zig Zag endpoint type (`H` for high point, `L` for low point) |
-| `RetraceHigh`<br>_`decimal`_ | Retrace line for high points |
-| `RetraceLow`<br>_`decimal`_ | Retrace line for low points |
+| `ZigZag`<br>_`decimal?`_ | Zig Zag line for `percentChange` |
+| `PointType`<br>_`string?`_ | Zig Zag endpoint type (`H` for high point, `L` for low point) |
+| `RetraceHigh`<br>_`decimal?`_ | Retrace line for high points |
+| `RetraceLow`<br>_`decimal?`_ | Retrace line for low points |
 
 ### Utilities
 

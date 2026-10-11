@@ -43,7 +43,7 @@ IReadOnlyList<ChopResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Chop`<br>_`double`_ | Choppiness Index |
+| `Chop`<br>_`double?`_ | Choppiness Index |
 
 ### Utilities
 

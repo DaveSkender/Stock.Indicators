@@ -51,8 +51,8 @@ The first `N+M+250` periods will have decreasing magnitude, convergence-related 
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Tsi`<br>_`double`_ | True Strength Index |
-| `Signal`<br>_`double`_ | Signal line (EMA of TSI) |
+| `Tsi`<br>_`double?`_ | True Strength Index |
+| `Signal`<br>_`double?`_ | Signal line (EMA of TSI) |
 
 ### Utilities
 

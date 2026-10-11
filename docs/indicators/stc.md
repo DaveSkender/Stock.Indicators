@@ -50,7 +50,7 @@ The first `S+C+250` periods will have decreasing magnitude, convergence-related 
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Stc`<br>_`double`_ | Schaff Trend Cycle |
+| `Stc`<br>_`double?`_ | Schaff Trend Cycle |
 
 ### Utilities
 

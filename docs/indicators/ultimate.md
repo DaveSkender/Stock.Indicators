@@ -46,7 +46,7 @@ IReadOnlyList<UltimateResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Ultimate`<br>_`double`_ | Ultimate Oscillator |
+| `Ultimate`<br>_`double?`_ | Ultimate Oscillator |
 
 ### Utilities
 

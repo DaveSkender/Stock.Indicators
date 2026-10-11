@@ -49,7 +49,7 @@ IReadOnlyList<VwapResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Vwap`<br>_`double`_ | Volume Weighted Average Price |
+| `Vwap`<br>_`double?`_ | Volume Weighted Average Price |
 
 ### Utilities
 

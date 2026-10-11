@@ -61,13 +61,13 @@ IReadOnlyList<BetaResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Beta`<br>_`double`_ | Beta coefficient based |
-| `BetaUp`<br>_`double`_ | Beta+ (Up Beta) |
-| `BetaDown`<br>_`double`_ | Beta- (Down Beta) |
-| `Ratio`<br>_`double`_ | Beta ratio is `BetaUp/BetaDown` |
-| `Convexity`<br>_`double`_ | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code> |
-| `ReturnsEval`<br>_`double`_ | Returns of evaluated bars (`R`) |
-| `ReturnsMrkt`<br>_`double`_ | Returns of market bars (`Rm`) |
+| `Beta`<br>_`double?`_ | Beta coefficient based |
+| `BetaUp`<br>_`double?`_ | Beta+ (Up Beta) |
+| `BetaDown`<br>_`double?`_ | Beta- (Down Beta) |
+| `Ratio`<br>_`double?`_ | Beta ratio is `BetaUp/BetaDown` |
+| `Convexity`<br>_`double?`_ | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code> |
+| `ReturnsEval`<br>_`double?`_ | Returns of evaluated bars (`R`) |
+| `ReturnsMrkt`<br>_`double?`_ | Returns of market bars (`Rm`) |
 
 ### Utilities
 

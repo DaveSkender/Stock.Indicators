@@ -44,7 +44,7 @@ IReadOnlyList<SmaResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Sma`<br>_`double`_ | Simple moving average |
+| `Sma`<br>_`double?`_ | Simple moving average |
 
 ### Utilities
 
@@ -70,10 +70,10 @@ IReadOnlyList<SmaAnalysisResult> analysis =
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Sma`<br>_`double`_ | Simple moving average |
-| `Mad`<br>_`double`_ | Mean absolute deviation |
-| `Mse`<br>_`double`_ | Mean square error |
-| `Mape`<br>_`double`_ | Mean absolute percentage error |
+| `Sma`<br>_`double?`_ | Simple moving average |
+| `Mad`<br>_`double?`_ | Mean absolute deviation |
+| `Mse`<br>_`double?`_ | Mean square error |
+| `Mape`<br>_`double?`_ | Mean absolute percentage error |
 
 ## Chaining
 

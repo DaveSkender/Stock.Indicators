@@ -38,7 +38,7 @@ IReadOnlyList<TrResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Tr`<br>_`double`_ | True Range |
+| `Tr`<br>_`double?`_ | True Range |
 
 ### Utilities
 

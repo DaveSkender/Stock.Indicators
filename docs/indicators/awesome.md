@@ -45,8 +45,8 @@ IReadOnlyList<AwesomeResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Oscillator`<br>_`double`_ | Awesome Oscillator |
-| `Normalized`<br>_`double`_ | `100 × Oscillator ÷ (median price)` |
+| `Oscillator`<br>_`double?`_ | Awesome Oscillator |
+| `Normalized`<br>_`double?`_ | `100 × Oscillator ÷ (median price)` |
 
 ### Utilities
 

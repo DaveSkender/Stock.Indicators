@@ -44,7 +44,7 @@ IReadOnlyList<WilliamsResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `WilliamsR`<br>_`double`_ | Oscillator over prior `N` lookback periods |
+| `WilliamsR`<br>_`double?`_ | Oscillator over prior `N` lookback periods |
 
 ### Utilities
 

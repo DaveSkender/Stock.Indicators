@@ -48,7 +48,7 @@ The first `2×N+100` periods will have decreasing magnitude, convergence-related
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Dema`<br>_`double`_ | Double exponential moving average |
+| `Dema`<br>_`double?`_ | Double exponential moving average |
 
 ### Utilities
 

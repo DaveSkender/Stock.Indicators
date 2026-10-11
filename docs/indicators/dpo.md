@@ -44,8 +44,8 @@ IReadOnlyList<DpoResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Sma`<br>_`double`_ | Simple moving average offset by `N/2+1` periods |
-| `Dpo`<br>_`double`_ | Detrended Price Oscillator (DPO) |
+| `Sma`<br>_`double?`_ | Simple moving average offset by `N/2+1` periods |
+| `Dpo`<br>_`double?`_ | Detrended Price Oscillator (DPO) |
 
 ### Utilities
 

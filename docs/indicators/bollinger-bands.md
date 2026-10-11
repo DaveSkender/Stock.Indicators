@@ -45,12 +45,12 @@ IReadOnlyList<BollingerBandsResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Sma`<br>_`double`_ | Simple moving average (SMA) of price (center line) |
-| `UpperBand`<br>_`double`_ | Upper line is `D` standard deviations above the SMA |
-| `LowerBand`<br>_`double`_ | Lower line is `D` standard deviations below the SMA |
-| `PercentB`<br>_`double`_ | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)` |
-| `ZScore`<br>_`double`_ | Z-score of current price (number of standard deviations from mean) |
-| `Width`<br>_`double`_ | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma` |
+| `Sma`<br>_`double?`_ | Simple moving average (SMA) of price (center line) |
+| `UpperBand`<br>_`double?`_ | Upper line is `D` standard deviations above the SMA |
+| `LowerBand`<br>_`double?`_ | Lower line is `D` standard deviations below the SMA |
+| `PercentB`<br>_`double?`_ | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)` |
+| `ZScore`<br>_`double?`_ | Z-score of current price (number of standard deviations from mean) |
+| `Width`<br>_`double?`_ | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma` |
 
 ### Utilities
 

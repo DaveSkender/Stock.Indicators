@@ -44,7 +44,7 @@ IReadOnlyList<CciResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Cci`<br>_`double`_ | Commodity Channel Index |
+| `Cci`<br>_`double?`_ | Commodity Channel Index |
 
 ### Utilities
 

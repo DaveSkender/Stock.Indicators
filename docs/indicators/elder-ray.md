@@ -48,9 +48,9 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Ema`<br>_`double`_ | Exponential moving average |
-| `BullPower`<br>_`double`_ | Bull Power |
-| `BearPower`<br>_`double`_ | Bear Power |
+| `Ema`<br>_`double?`_ | Exponential moving average |
+| `BullPower`<br>_`double?`_ | Bull Power |
+| `BearPower`<br>_`double?`_ | Bear Power |
 
 ### Utilities
 

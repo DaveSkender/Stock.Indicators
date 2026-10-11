@@ -58,7 +58,7 @@ The first `3×N+100` periods will have decreasing magnitude, convergence-related
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Tema`<br>_`double`_ | Triple exponential moving average |
+| `Tema`<br>_`double?`_ | Triple exponential moving average |
 
 ### Utilities
 

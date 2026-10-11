@@ -44,7 +44,7 @@ IReadOnlyList<WmaResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Wma`<br>_`double`_ | Weighted moving average |
+| `Wma`<br>_`double?`_ | Weighted moving average |
 
 ### Utilities
 

@@ -48,7 +48,7 @@ The first `N+15` warmup periods will have unusable decreasing magnitude, converg
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
 | `Fisher`<br>_`double`_ | Fisher Transform |
-| `Trigger`<br>_`double`_ | FT offset by one period |
+| `Trigger`<br>_`double?`_ | FT offset by one period |
 
 ### Utilities
 

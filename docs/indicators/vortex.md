@@ -44,8 +44,8 @@ IReadOnlyList<VortexResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Pvi`<br>_`double`_ | Positive Vortex Indicator (VI+) |
-| `Nvi`<br>_`double`_ | Negative Vortex Indicator (VI-) |
+| `Pvi`<br>_`double?`_ | Positive Vortex Indicator (VI+) |
+| `Nvi`<br>_`double?`_ | Negative Vortex Indicator (VI-) |
 
 ### Utilities
 
