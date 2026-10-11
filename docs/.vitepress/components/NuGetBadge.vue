@@ -7,7 +7,7 @@
   <p class="nuget-badge">
     <a href="https://www.nuget.org/packages/FacioQuo.Stock.Indicators" aria-label="Get the NuGet package.">
       <img
-        src="https://img.shields.io/nuget/v/facioquo.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200"
+        src="https://img.shields.io/nuget/v/facioquo.stock.indicators?logo=NuGet&label=NuGet&color=blue"
         alt="NuGet Package"
         height="20"
       />
