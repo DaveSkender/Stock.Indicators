@@ -33,11 +33,11 @@ You must have at least `2` windows of `bars` to cover the warmup periods.  For e
 
 **`BarInterval.Month`** - Use the prior month's data to calculate current month's Pivot Points
 
-**`BarInterval.Week`** - [..] weekly
+**`BarInterval.Week`** - Use the prior week's data to calculate current week's Pivot Points
 
-**`BarInterval.Day`** - [..] daily.  Commonly used for intraday data.
+**`BarInterval.Day`** - Use the prior day's data to calculate current day's Pivot Points.  Commonly used for intraday data.
 
-**`BarInterval.OneHour`** - [..] hourly
+**`BarInterval.OneHour`** - Use the prior hour's data to calculate current hour's Pivot Points
 
 ### PivotPointType options
 
