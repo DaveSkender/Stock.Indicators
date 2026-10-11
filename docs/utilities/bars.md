@@ -18,7 +18,9 @@ var results = bars
   .ToSma(20);
 ```
 
-**`candlePart`** — the price element to use for calculations.
+### `candlePart` parameter
+
+The price element to use for calculations.
 
 <!--@include: ../shared/enum-candlepart.md-->
 
@@ -155,6 +157,8 @@ decimal? bodySize = candle.Body;
 decimal? upperWick = candle.UpperWick;
 bool isBullish = candle.IsBullish;
 ```
+
+### Return type
 
 <!--@include: ../shared/candle-properties.md-->
 
