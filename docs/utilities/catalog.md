@@ -167,7 +167,9 @@ The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `Wi
 A few indicators have an overload that means "this argument was not given" rather than "this argument took its default". `ToPrs(sourceEval, sourceBase)` computes no `PrsPercent` at all — no value in the parameter's advertised range (`Minimum: 1`, `Maximum: 250`) produces that, and the only override that does is the `int.MinValue` sentinel the overload forwards internally, which the catalog gives you no way to discover. `WithoutParam` drops the argument instead of supplying one:
 
 ```csharp
-IndicatorListing prs = Catalog.Get("PRS", Style.Series);
+IndicatorListing prs = Catalog
+  .Get("PRS", Style.Series)
+  ?? throw new InvalidOperationException("Indicator 'PRS' (Series) not found.");
 
 // declared default: lookbackPeriods = 20, PrsPercent computed
 IReadOnlyList<PrsResult> withPercent = prs
