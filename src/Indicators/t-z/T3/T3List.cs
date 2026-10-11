@@ -37,7 +37,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
         C3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
         C4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
 
-        Name = $"T3({5}, {0.7})";
+        Name = FormattableString.Invariant($"T3({lookbackPeriods}, {volumeFactor})");
     }
 
     /// <summary>

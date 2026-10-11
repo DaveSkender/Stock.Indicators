@@ -6,7 +6,9 @@ namespace FacioQuo.Stock.Indicators;
 public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
 {
     private readonly MacdList _macdList;
-    private readonly StochList _stochList;
+    private readonly Queue<double> _rawKBuffer = new(3);
+    private CircularDoubleBuffer _macdBuffer;  // mutable struct: never readonly
+    private int _index;  // position in the full series, capped once warmup ends
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StcList"/> class.
@@ -27,7 +29,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         SlowPeriods = slowPeriods;
 
         _macdList = new MacdList(fastPeriods, slowPeriods, 1);
-        _stochList = new StochList(cyclePeriods, 3, 3, 3, 2, MaType.SMA);
+        _macdBuffer = new CircularDoubleBuffer(cyclePeriods);
 
         Name = $"STC({cyclePeriods}, {fastPeriods}, {slowPeriods})";
     }
@@ -58,35 +60,52 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Add to MACD list
         _macdList.Add(timestamp, value);
+        double macd = _macdList[^1].Macd ?? double.NaN;
 
-        // Get the latest MACD result
-        MacdResult macdResult = _macdList[^1];
-
-        // If MACD has a value, feed it to the Stochastic calculation
-        // MACD value is used as high, low, and close for stochastic calculation
-        if (macdResult.Macd.HasValue)
+        // the stochastic's warmup counts every input, as Series does,
+        // not only those with a MACD value
+        int i = _index;
+        if (_index < SlowPeriods + CyclePeriods)
         {
-            double macdValue = macdResult.Macd.Value;
-            _stochList.Add(timestamp, macdValue, macdValue, macdValue);
+            _index++;
         }
 
-        // Create STC result from the Stochastic result
-        StcResult result;
-        if (_stochList.Count > 0)
+        if (!double.IsNaN(macd))
         {
-            StochResult stochResult = _stochList[^1];
-            result = new StcResult(
-                Timestamp: timestamp,
-                Stc: stochResult.Oscillator);
-        }
-        else
-        {
-            result = new StcResult(timestamp, null);
+            _macdBuffer.Add(macd);
         }
 
-        AddInternal(result);
+        double rawK = double.NaN;
+        if (!double.IsNaN(macd) && _macdBuffer.IsFull)
+        {
+            double highHigh = _macdBuffer.GetMax();
+            double lowLow = _macdBuffer.GetMin();
+
+            rawK = (highHigh - lowLow) != 0
+                 ? 100 * (macd - lowLow) / (highHigh - lowLow)
+                 : 0;
+        }
+
+        _rawKBuffer.Enqueue(rawK);
+        if (_rawKBuffer.Count > 3)
+        {
+            _ = _rawKBuffer.Dequeue();
+        }
+
+        double? stc = null;
+        if (i >= SlowPeriods + CyclePeriods)
+        {
+            double sum = 0;
+            foreach (double k in _rawKBuffer)
+            {
+                sum += k;
+            }
+
+            stc = (sum / 3).NaN2Null();
+        }
+
+        AddInternal(new StcResult(timestamp, stc));
     }
 
     /// <inheritdoc />
@@ -112,7 +131,9 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
     {
         base.Clear();
         _macdList.Clear();
-        _stochList.Clear();
+        _macdBuffer.Clear();
+        _rawKBuffer.Clear();
+        _index = 0;
     }
     /// <summary>
     /// Overrides list pruning to synchronize the nested child lists.
@@ -123,7 +144,6 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         // Keep enough history to support calculations
         int minSize = Math.Max(SlowPeriods, CyclePeriods) + 1;
         _macdList.MaxListSize = Math.Max(minSize, MaxListSize + 1);
-        _stochList.MaxListSize = Math.Max(minSize, MaxListSize + 1);
 
         // Call base implementation to prune the outer result list
         base.PruneList();

@@ -25,7 +25,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         PointType = pointType;
         _buffer = new Queue<IBar>(windowPeriods + offsetPeriods + 1);
 
-        Name = $"ROLLINGPIVOTS({20}, {0}, {PivotPointType.Standard})";
+        Name = FormattableString.Invariant($"ROLLINGPIVOTS({windowPeriods}, {offsetPeriods}, {pointType})");
     }
 
     /// <summary>

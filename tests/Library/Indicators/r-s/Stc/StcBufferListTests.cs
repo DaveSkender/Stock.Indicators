@@ -130,4 +130,40 @@ public class StcBufferListTests : BufferListTestBase, ITestChainBufferList
         StcList sut = new(9, 12, 26, Bars);
         sut.IsBetween(static x => x.Stc, 0, 100);
     }
+
+    public static IEnumerable<object[]> SmallCycles =>
+    [
+        [1, 1, 2],
+        [2, 12, 26],
+        [3, 5, 10],
+    ];
+
+    [TestMethod]
+    [DynamicData(nameof(SmallCycles))]
+    public void SmallCycle_MatchesSeries(int cycle, int fast, int slow)
+    {
+        // the list used to start its stochastic warmup at the first MACD value,
+        // so short cycles left nulls where Series has values
+        IReadOnlyList<StcResult> expected = Bars.ToStc(cycle, fast, slow);
+
+        Bars.ToStcList(cycle, fast, slow).IsExactly(expected);
+
+        StcList pruned = new(cycle, fast, slow) { MaxListSize = 40 };
+        pruned.Add(reusables);
+        pruned.IsExactly(expected.Skip(expected.Count - 40).ToList());
+    }
+
+    [TestMethod]
+    public void Clear_ThenRefill_MatchesSeries()
+    {
+        // Clear must reset the warmup index and the MACD and raw-K windows
+        IReadOnlyList<StcResult> expected = Bars.ToStc(3, 5, 10);
+        StcList sut = new(3, 5, 10);
+
+        sut.Add(reusables.Take(80).ToList());
+        sut.Clear();
+        sut.Add(reusables);
+
+        sut.IsExactly(expected);
+    }
 }

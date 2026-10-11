@@ -20,7 +20,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         StandardDeviations = standardDeviations;
         _buffer = new Queue<double>(lookbackPeriods);
 
-        Name = $"BOLLINGERBANDS({lookbackPeriods}, {2})";
+        Name = FormattableString.Invariant($"BOLLINGERBANDS({lookbackPeriods}, {standardDeviations})");
     }
 
     /// <summary>

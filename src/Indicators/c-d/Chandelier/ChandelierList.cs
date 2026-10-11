@@ -25,7 +25,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromBar, I
         _atrList = new AtrList(lookbackPeriods);
         _buffer = new Queue<(double, double)>(lookbackPeriods);
 
-        Name = $"CHANDELIER({22}, {3}, {Direction.Long})";
+        Name = FormattableString.Invariant($"CHANDELIER({lookbackPeriods}, {multiplier}, {type})");
     }
 
     /// <summary>

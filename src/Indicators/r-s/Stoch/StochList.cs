@@ -43,7 +43,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
         _rawKBuffer = new Queue<double>(smoothPeriods);
         _smoothKBuffer = new Queue<double>(signalPeriods);
 
-        Name = $"STOCH({14}, {3}, {3}, {3}, {2}, {MaType.SMA})";
+        Name = FormattableString.Invariant($"STOCH({lookbackPeriods}, {signalPeriods}, {smoothPeriods}, {kFactor}, {dFactor}, {movingAverageType})");
     }
 
     /// <summary>

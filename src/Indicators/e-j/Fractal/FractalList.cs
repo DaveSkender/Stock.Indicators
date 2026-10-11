@@ -33,7 +33,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromBar, IFracta
 
         _bars = [];
 
-        Name = $"FRACTAL({2}, {EndType.HighLow})";
+        Name = FormattableString.Invariant($"FRACTAL({leftSpan}, {rightSpan}, {endType})");
     }
 
     /// <summary>
