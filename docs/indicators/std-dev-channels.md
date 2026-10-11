@@ -49,9 +49,9 @@ Historical results are a function of the current period window position and will
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Centerline`<br>_`double`_ | Linear regression line (center line) |
-| `UpperChannel`<br>_`double`_ | Upper line is `D` standard deviations above the center line |
-| `LowerChannel`<br>_`double`_ | Lower line is `D` standard deviations below the center line |
+| `Centerline`<br>_`double?`_ | Linear regression line (center line) |
+| `UpperChannel`<br>_`double?`_ | Upper line is `D` standard deviations above the center line |
+| `LowerChannel`<br>_`double?`_ | Lower line is `D` standard deviations below the center line |
 | `BreakPoint`<br>_`bool`_ | Helper information.  Indicates first point in new window. |
 
 ### Utilities

@@ -49,8 +49,8 @@ The first `50` periods will have decreasing magnitude, convergence-related preci
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Mama`<br>_`double`_ | MESA adaptive moving average (MAMA) |
-| `Fama`<br>_`double`_ | Following adaptive moving average (FAMA) |
+| `Mama`<br>_`double?`_ | MESA adaptive moving average (MAMA) |
+| `Fama`<br>_`double?`_ | Following adaptive moving average (FAMA) |
 
 ### Utilities
 

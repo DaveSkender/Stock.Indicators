@@ -43,7 +43,7 @@ IReadOnlyList<VwmaResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Vwma`<br>_`double`_ | Volume Weighted Moving Average |
+| `Vwma`<br>_`double?`_ | Volume Weighted Moving Average |
 
 ### Utilities
 

@@ -56,9 +56,9 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Tr`<br>_`double`_ | True Range for current period |
-| `Atr`<br>_`double`_ | Average True Range |
-| `Atrp`<br>_`double`_ | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
+| `Tr`<br>_`double?`_ | True Range for current period |
+| `Atr`<br>_`double?`_ | Average True Range |
+| `Atrp`<br>_`double?`_ | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
 
 ### Utilities
 

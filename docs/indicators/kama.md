@@ -50,8 +50,8 @@ The first `10×E` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Er`<br>_`double`_ | Efficiency Ratio is the fractal efficiency of price changes |
-| `Kama`<br>_`double`_ | Kaufman's adaptive moving average |
+| `Er`<br>_`double?`_ | Efficiency Ratio is the fractal efficiency of price changes |
+| `Kama`<br>_`double?`_ | Kaufman's adaptive moving average |
 
 More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` window. ER would be zero if prices are unchanged over the `erPeriods` window.
 

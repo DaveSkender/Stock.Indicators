@@ -50,8 +50,8 @@ The first `L+150` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Oscillator`<br>_`double`_ | Klinger Oscillator |
-| `Signal`<br>_`double`_ | EMA of Klinger Oscillator (signal line) |
+| `Oscillator`<br>_`double?`_ | Klinger Oscillator |
+| `Signal`<br>_`double?`_ | EMA of Klinger Oscillator (signal line) |
 
 ### Utilities
 

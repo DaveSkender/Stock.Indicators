@@ -70,9 +70,9 @@ Some moving average variants have decreasing magnitude, convergence-related prec
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Centerline`<br>_`double`_ | Moving average |
-| `UpperEnvelope`<br>_`double`_ | Upper envelope band |
-| `LowerEnvelope`<br>_`double`_ | Lower envelope band |
+| `Centerline`<br>_`double?`_ | Moving average |
+| `UpperEnvelope`<br>_`double?`_ | Upper envelope band |
+| `LowerEnvelope`<br>_`double?`_ | Lower envelope band |
 
 The moving average `Centerline` is based on the `movingAverageType` type specified.
 

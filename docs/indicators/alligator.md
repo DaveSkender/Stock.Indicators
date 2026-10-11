@@ -53,9 +53,9 @@ The first `JP+JO+100` periods will have decreasing magnitude, convergence-relate
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Jaw`<br>_`double`_ | Alligator's Jaw |
-| `Teeth`<br>_`double`_ | Alligator's Teeth |
-| `Lips`<br>_`double`_ | Alligator's Lips |
+| `Jaw`<br>_`double?`_ | Alligator's Jaw |
+| `Teeth`<br>_`double?`_ | Alligator's Teeth |
+| `Lips`<br>_`double?`_ | Alligator's Lips |
 
 ### Utilities
 

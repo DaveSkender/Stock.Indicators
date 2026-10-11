@@ -37,8 +37,8 @@ IReadOnlyList<AdlResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `MoneyFlowMultiplier`<br>_`double`_ | Money Flow Multiplier |
-| `MoneyFlowVolume`<br>_`double`_ | Money Flow Volume |
+| `MoneyFlowMultiplier`<br>_`double?`_ | Money Flow Multiplier |
+| `MoneyFlowVolume`<br>_`double?`_ | Money Flow Volume |
 | `Adl`<br>_`double`_ | Accumulation Distribution Line (ADL) |
 
 ::: warning 🚩 Relative values only

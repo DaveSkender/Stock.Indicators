@@ -52,8 +52,8 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Smi`<br>_`double`_ | Stochastic Momentum Index (SMI) |
-| `Signal`<br>_`double`_ | Signal line: an Exponential Moving Average (EMA) of SMI |
+| `Smi`<br>_`double?`_ | Stochastic Momentum Index (SMI) |
+| `Signal`<br>_`double?`_ | Signal line: an Exponential Moving Average (EMA) of SMI |
 
 ### Utilities
 

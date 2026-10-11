@@ -44,7 +44,7 @@ IReadOnlyList<EpmaResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Epma`<br>_`double`_ | Endpoint moving average |
+| `Epma`<br>_`double?`_ | Endpoint moving average |
 
 ### Utilities
 

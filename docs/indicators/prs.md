@@ -43,8 +43,8 @@ IReadOnlyList<PrsResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Prs`<br>_`double`_ | Price Relative Strength is the ratio of `Eval` / `Base` price values |
-| `PrsPercent`<br>_`double`_ | Percent change difference between `Eval` and `Base` over `N` periods |
+| `Prs`<br>_`double?`_ | Price Relative Strength is the ratio of `Eval` / `Base` price values |
+| `PrsPercent`<br>_`double?`_ | Percent change difference between `Eval` and `Base` over `N` periods |
 
 ::: info Example
 At period `i`, `Prs` is `Eval[i] / Base[i]` and `PrsPercent` is the difference in `Eval` percent change and `Base` percent change over the prior `N` periods. Example: if `Eval` gains 10% and `Base` gains 3%, `PrsPercent` depicts +7% relative outperformance.
