@@ -10,22 +10,22 @@ Created by Karl Pearson, the [Correlation coefficient](https://en.wikipedia.org/
 ```csharp
 // C# usage syntax
 IReadOnlyList<CorrResult> results =
-  barsA.ToCorrelation(barsB, lookbackPeriods);
+  sourceA.ToCorrelation(sourceB, lookbackPeriods);
 ```
 
 ## Parameters
 
 | param | description |
 | ----- | ----------- |
-| `barsA`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) (A) must have at least the same matching date elements of `barsB`. |
-| `barsB`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
+| `sourceA`<br>_`IReadOnlyList<IReusable>`_ | [Historical price bars](/guide/getting-started#historical-bars) (A) must have at least the same matching date elements of `sourceB`. |
+| `sourceB`<br>_`IReadOnlyList<IReusable>`_ | [Historical price bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `sourceA`. |
 | `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical price bars requirements
 
 You must have at least `N` periods for both versions of `bars` to cover the warmup periods. More than the minimum is typically specified.
 
-`barsA` and `barsB` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
+`sourceA` and `sourceB` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -70,7 +70,7 @@ var results = bars
 ```
 
 ::: warning 🚩 Matching inputs required
-Both `barsA` and `barsB` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
+Both `sourceA` and `sourceB` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 :::
 
 Results can be further processed on `Correlation` with additional chain-enabled indicators.

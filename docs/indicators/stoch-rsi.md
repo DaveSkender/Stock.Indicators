@@ -19,9 +19,9 @@ IReadOnlyList<StochRsiResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `rsiPeriods`<br>_`int`_ | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14. |
-| `stochPeriods`<br>_`int`_ | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`. |
-| `signalPeriods`<br>_`int`_ | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5. |
+| `rsiPeriods`<br>_`int`_ | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Default is 14. |
+| `stochPeriods`<br>_`int`_ | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`.  Default is 14. |
+| `signalPeriods`<br>_`int`_ | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.  Default is 3. |
 | `smoothPeriods`<br>_`int`_ | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant). |
 
 The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `bars.ToStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.

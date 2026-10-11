@@ -20,9 +20,9 @@ IReadOnlyList<RocWbResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20. |
-| `emaPeriods`<br>_`int`_ | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3. |
-| `stdDevPeriods`<br>_`int`_ | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.  Default is 20. |
+| `emaPeriods`<br>_`int`_ | Number of periods for the ROC EMA line.  Must be greater than 0.  Default is 5. |
+| `stdDevPeriods`<br>_`int`_ | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Default is 5. |
 
 ### Historical price bars requirements
 
