@@ -43,6 +43,7 @@ public class ConnorsRsiHub
         int requiredWarmup = (rsiPeriods * 2) + Math.Max(streakPeriods, rankPeriods);
         ValidateCacheSize(requiredWarmup, Name);
 
+        OwnProvider();
         Reinitialize();
     }
 

@@ -28,7 +28,7 @@ public sealed class StochRsiHub
             stochPeriods,
             signalPeriods,
             smoothPeriods)
-    { }
+        => OwnProvider();
 
     internal StochRsiHub(
         RsiHub rsiHub,

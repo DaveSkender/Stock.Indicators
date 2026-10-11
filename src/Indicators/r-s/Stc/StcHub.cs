@@ -17,7 +17,7 @@ public class StcHub
         : this(
             provider.ToMacdHub(fastPeriods, slowPeriods, 0),
             cyclePeriods)
-    { }
+        => OwnProvider();
 
     internal StcHub(
         MacdHub macdHub,

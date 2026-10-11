@@ -18,7 +18,7 @@ public class EpmaHub
         IChainProvider<IReusable> provider,
         int lookbackPeriods)
         : this(provider.ToSlopeHub(lookbackPeriods), lookbackPeriods)
-    { }
+        => OwnProvider();
 
     internal EpmaHub(
         SlopeHub slopeHub,

@@ -207,7 +207,12 @@ public static partial class Pvo
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        => barProvider
+    {
+        PvoHub hub = barProvider
             .ToBarPartHub(CandlePart.Volume)
             .ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
+
+        hub.OwnProvider();
+        return hub;
+    }
 }
