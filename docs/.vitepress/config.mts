@@ -143,7 +143,7 @@ export default defineConfig({
           {
             text: 'Indicator styles',
             items: [
-              { text: 'Overview', link: '/guide/styles' },
+              { text: 'Styles overview', link: '/guide/styles' },
               { text: 'Batch (Series)', link: '/guide/styles/batch' },
               { text: 'Buffer lists', link: '/guide/styles/buffer' },
               { text: 'Stream hubs', link: '/guide/styles/stream' }]
@@ -191,7 +191,7 @@ export default defineConfig({
             {
               text: 'Indicator styles',
               items: [
-                { text: 'Overview', link: '/guide/styles' },
+                { text: 'Styles overview', link: '/guide/styles' },
                 { text: 'Batch (Series)', link: '/guide/styles/batch' },
                 { text: 'Buffer lists', link: '/guide/styles/buffer' },
                 { text: 'Stream hubs', link: '/guide/styles/stream' }]
@@ -308,12 +308,11 @@ export default defineConfig({
             { text: 'ConnorsRSI', link: '/indicators/connors-rsi' },
             { text: 'Detrended Price Oscillator', link: '/indicators/dpo' },
             { text: 'Gator Oscillator', link: '/indicators/gator' },
-            { text: 'KDJ Index', link: '/indicators/stoch' },
             { text: 'Price Momentum Oscillator', link: '/indicators/pmo' },
             { text: 'Relative Strength Index', link: '/indicators/rsi' },
             { text: 'Schaff Trend Cycle', link: '/indicators/stc' },
             { text: 'Stochastic Momentum Index', link: '/indicators/smi' },
-            { text: 'Stochastic Oscillator', link: '/indicators/stoch' },
+            { text: 'Stochastic Oscillator (KDJ)', link: '/indicators/stoch' },
             { text: 'Stochastic RSI', link: '/indicators/stoch-rsi' },
             { text: 'Triple EMA Oscillator (TRIX)', link: '/indicators/trix' },
             { text: 'True Strength Index', link: '/indicators/tsi' },
