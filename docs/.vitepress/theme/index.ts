@@ -73,8 +73,8 @@ export default {
       defaults: {
         barCount: 250,
         quoteCount: 250,
-        showTooltips: false,
-        showRightAxisLabels: false
+        showTooltips: true,
+        showRightAxisLabels: true
       },
       theme: {
         observeVitePressDarkMode: true,
