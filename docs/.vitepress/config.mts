@@ -475,7 +475,18 @@ export default defineConfig({
     ],
 
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        miniSearch: {
+          searchOptions: {
+            prefix: true,
+            boost: { title: 4, text: 2, titles: 2 },
+            // A page's H1 entry (no parent headings) outranks its section fragments
+            boostDocument: (_id: string, _term: string, fields?: Record<string, unknown>) =>
+              Array.isArray(fields?.titles) && fields.titles.length === 0 ? 3 : 1
+          }
+        }
+      }
     },
 
     editLink: {
