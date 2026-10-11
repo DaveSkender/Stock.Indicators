@@ -18,11 +18,11 @@ IReadOnlyList<PvoResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `fastPeriods` | _`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12. |
-| `slowPeriods` | _`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26. |
-| `signalPeriods` | _`int`_ | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9. |
+| param | description |
+| ----- | ----------- |
+| `fastPeriods`<br>_`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12. |
+| `slowPeriods`<br>_`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26. |
+| `signalPeriods`<br>_`int`_ | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9. |
 
 ### Historical price bars requirements
 
@@ -47,12 +47,12 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 
 ### `PvoResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Pvo` | _`double`_ | Normalized difference between two Volume moving averages |
-| `Signal` | _`double`_ | Moving average of the `Pvo` line |
-| `Histogram` | _`double`_ | Gap between the `Pvo` and `Signal` line |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Pvo`<br>_`double`_ | Normalized difference between two Volume moving averages |
+| `Signal`<br>_`double`_ | Moving average of the `Pvo` line |
+| `Histogram`<br>_`double`_ | Gap between the `Pvo` and `Signal` line |
 
 ### Utilities
 

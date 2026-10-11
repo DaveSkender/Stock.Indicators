@@ -22,9 +22,9 @@ IReadOnlyList<SmaAnalysisResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window. Must be greater than 0. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback window. Must be greater than 0. |
 
 ### Historical price bars requirements
 
@@ -45,13 +45,13 @@ IReadOnlyList<SmaAnalysisResult>
 
 ### `SmaAnalysisResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Sma` | _`double`_ | Simple moving average |
-| `Mad` | _`double`_ | Mean absolute deviation |
-| `Mse` | _`double`_ | Mean square error |
-| `Mape` | _`double`_ | Mean absolute percentage error |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Sma`<br>_`double`_ | Simple moving average |
+| `Mad`<br>_`double`_ | Mean absolute deviation |
+| `Mse`<br>_`double`_ | Mean square error |
+| `Mape`<br>_`double`_ | Mean absolute percentage error |
 
 ### Utilities
 

@@ -18,10 +18,10 @@ IReadOnlyList<MamaResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `fastLimit` | _`double`_ | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5. |
-| `slowLimit` | _`double`_ | Slow limit threshold.  Must be greater than 0.  Default is 0.05. |
+| param | description |
+| ----- | ----------- |
+| `fastLimit`<br>_`double`_ | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5. |
+| `slowLimit`<br>_`double`_ | Slow limit threshold.  Must be greater than 0.  Default is 0.05. |
 
 ### Historical price bars requirements
 
@@ -46,11 +46,11 @@ The first `50` periods will have decreasing magnitude, convergence-related preci
 
 ### `MamaResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Mama` | _`double`_ | MESA adaptive moving average (MAMA) |
-| `Fama` | _`double`_ | Following adaptive moving average (FAMA) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Mama`<br>_`double`_ | MESA adaptive moving average (MAMA) |
+| `Fama`<br>_`double`_ | Following adaptive moving average (FAMA) |
 
 ### Utilities
 

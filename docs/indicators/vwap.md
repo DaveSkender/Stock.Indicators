@@ -22,9 +22,9 @@ IReadOnlyList<VwapResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `startDate` | _`DateTime`_ | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `bars` is used when not provided. |
+| param | description |
+| ----- | ----------- |
+| `startDate`<br>_`DateTime`_ | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `bars` is used when not provided. |
 
 ### Historical price bars requirements
 
@@ -46,10 +46,10 @@ IReadOnlyList<VwapResult>
 
 ### `VwapResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Vwap` | _`double`_ | Volume Weighted Average Price |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Vwap`<br>_`double`_ | Volume Weighted Average Price |
 
 ### Utilities
 

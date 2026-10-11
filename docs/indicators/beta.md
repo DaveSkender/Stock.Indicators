@@ -17,12 +17,12 @@ IReadOnlyList<BetaResult> results = barsEval
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `barsEval` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsMarket`. |
-| `barsMarket` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
-| `type` | _`BetaType`_ | Type of Beta to calculate.  Default is `BetaType.Standard`. See [`BetaType` options](#betatype-options) below. |
+| param | description |
+| ----- | ----------- |
+| `barsEval`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsMarket`. |
+| `barsMarket`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
+| `type`<br>_`BetaType`_ | Type of Beta to calculate.  Default is `BetaType.Standard`. See [`BetaType` options](#betatype-options) below. |
 
 ### Historical price bars requirements
 
@@ -58,16 +58,16 @@ IReadOnlyList<BetaResult>
 
 ### `BetaResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Beta` | _`double`_ | Beta coefficient based |
-| `BetaUp` | _`double`_ | Beta+ (Up Beta) |
-| `BetaDown` | _`double`_ | Beta- (Down Beta) |
-| `Ratio` | _`double`_ | Beta ratio is `BetaUp/BetaDown` |
-| `Convexity` | _`double`_ | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code> |
-| `ReturnsEval` | _`double`_ | Returns of evaluated bars (`R`) |
-| `ReturnsMrkt` | _`double`_ | Returns of market bars (`Rm`) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Beta`<br>_`double`_ | Beta coefficient based |
+| `BetaUp`<br>_`double`_ | Beta+ (Up Beta) |
+| `BetaDown`<br>_`double`_ | Beta- (Down Beta) |
+| `Ratio`<br>_`double`_ | Beta ratio is `BetaUp/BetaDown` |
+| `Convexity`<br>_`double`_ | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code> |
+| `ReturnsEval`<br>_`double`_ | Returns of evaluated bars (`R`) |
+| `ReturnsMrkt`<br>_`double`_ | Returns of market bars (`Rm`) |
 
 ### Utilities
 

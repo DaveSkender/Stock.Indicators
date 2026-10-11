@@ -18,11 +18,11 @@ IReadOnlyList<PmoResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `timePeriods` | _`int`_ | Number of periods (`T`) for first ROC smoothing.  Must be greater than 1.  Default is 35. |
-| `smoothPeriods` | _`int`_ | Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20. |
-| `signalPeriods` | _`int`_ | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10. |
+| param | description |
+| ----- | ----------- |
+| `timePeriods`<br>_`int`_ | Number of periods (`T`) for first ROC smoothing.  Must be greater than 1.  Default is 35. |
+| `smoothPeriods`<br>_`int`_ | Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20. |
+| `signalPeriods`<br>_`int`_ | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10. |
 
 ### Historical price bars requirements
 
@@ -47,11 +47,11 @@ The first `T+S+250` periods will have decreasing magnitude, convergence-related 
 
 ### `PmoResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Pmo` | _`double`_ | Price Momentum Oscillator |
-| `Signal` | _`double`_ | Signal line is EMA of PMO |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Pmo`<br>_`double`_ | Price Momentum Oscillator |
+| `Signal`<br>_`double`_ | Signal line is EMA of PMO |
 
 ### Utilities
 

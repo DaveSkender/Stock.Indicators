@@ -18,11 +18,11 @@ IReadOnlyList<ConnorsRsiResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `rsiPeriods` | _`int`_ | Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3. |
-| `streakPeriods` | _`int`_ | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2. |
-| `rankPeriods` | _`int`_ | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100. |
+| param | description |
+| ----- | ----------- |
+| `rsiPeriods`<br>_`int`_ | Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3. |
+| `streakPeriods`<br>_`int`_ | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2. |
+| `rankPeriods`<br>_`int`_ | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100. |
 
 ### Historical price bars requirements
 
@@ -47,13 +47,13 @@ The first `N` periods will have decreasing magnitude, convergence-related precis
 
 ### `ConnorsRsiResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Rsi` | _`double`_ | `RSI(R)` of the price. |
-| `RsiStreak` | _`double`_ | `RSI(S)` of the Streak. |
-| `PercentRank` | _`double`_ | Percentile rank of the period gain value. |
-| `ConnorsRsi` | _`double`_ | ConnorsRSI |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Rsi`<br>_`double`_ | `RSI(R)` of the price. |
+| `RsiStreak`<br>_`double`_ | `RSI(S)` of the Streak. |
+| `PercentRank`<br>_`double`_ | Percentile rank of the period gain value. |
+| `ConnorsRsi`<br>_`double`_ | ConnorsRSI |
 
 ### Utilities
 

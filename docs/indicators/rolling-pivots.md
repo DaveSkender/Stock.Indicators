@@ -18,11 +18,11 @@ IReadOnlyList<RollingPivotsResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `windowPeriods` | _`int`_ | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range. |
-| `offsetPeriods` | _`int`_ | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
-| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
+| param | description |
+| ----- | ----------- |
+| `windowPeriods`<br>_`int`_ | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range. |
+| `offsetPeriods`<br>_`int`_ | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
+| `pointType`<br>PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
 For example, a window of 8 with an offset of 4 would evaluate bars like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `bars` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](/indicators/pivot-points) indicator.
 
@@ -61,18 +61,18 @@ Historical results are a function of the rolling window position and will shift 
 
 ### `RollingPivotsResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `R4` | _`double`_ | Resistance level 4 (Camarilla only) |
-| `R3` | _`double`_ | Resistance level 3 |
-| `R2` | _`double`_ | Resistance level 2 |
-| `R1` | _`double`_ | Resistance level 1 |
-| `PP` | _`double`_ | Pivot Point |
-| `S1` | _`double`_ | Support level 1 |
-| `S2` | _`double`_ | Support level 2 |
-| `S3` | _`double`_ | Support level 3 |
-| `S4` | _`double`_ | Support level 4 (Camarilla only) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `R4`<br>_`double`_ | Resistance level 4 (Camarilla only) |
+| `R3`<br>_`double`_ | Resistance level 3 |
+| `R2`<br>_`double`_ | Resistance level 2 |
+| `R1`<br>_`double`_ | Resistance level 1 |
+| `PP`<br>_`double`_ | Pivot Point |
+| `S1`<br>_`double`_ | Support level 1 |
+| `S2`<br>_`double`_ | Support level 2 |
+| `S3`<br>_`double`_ | Support level 3 |
+| `S4`<br>_`double`_ | Support level 4 (Camarilla only) |
 
 ### Utilities
 

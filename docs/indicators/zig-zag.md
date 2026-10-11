@@ -17,10 +17,10 @@ IReadOnlyList<ZigZagResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used for percent change threshold. Default is `EndType.Close`. |
-| `percentChange` | _`decimal`_ | Percent change required to establish a line endpoint.  **Example: 3.5% would be entered as 3.5 (not 0.035)**.  Must be greater than 0.  Typical values range from 3 to 10.  Default is 5. |
+| param | description |
+| ----- | ----------- |
+| `endType`<br>_`EndType`_ | Determines whether `Close` or `High/Low` are used for percent change threshold. Default is `EndType.Close`. |
+| `percentChange`<br>_`decimal`_ | Percent change required to establish a line endpoint.  **Example: 3.5% would be entered as 3.5 (not 0.035)**.  Must be greater than 0.  Typical values range from 3 to 10.  Default is 5. |
 
 ::: tip ✨ Tip: adjust `percentChange` for bar interval sizes
 Use a percent change threshold that is appropriate for your price bar interval size. For example, `5%` works well for `Day`-sized price bar aggregates, but `Hourly` or `Minute`-sized bars typically need smaller values (e.g., `1%` or `0.1%`), depending on the asset class and typical price volatility.
@@ -57,13 +57,13 @@ The last line segment will always be redrawn back to the last known pivot.  Do n
 
 ### `ZigZagResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `ZigZag` | _`decimal`_ | Zig Zag line for `percentChange` |
-| `PointType` | _`string`_ | Zig Zag endpoint type (`H` for high point, `L` for low point) |
-| `RetraceHigh` | _`decimal`_ | Retrace line for high points |
-| `RetraceLow` | _`decimal`_ | Retrace line for low points |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `ZigZag`<br>_`decimal`_ | Zig Zag line for `percentChange` |
+| `PointType`<br>_`string`_ | Zig Zag endpoint type (`H` for high point, `L` for low point) |
+| `RetraceHigh`<br>_`decimal`_ | Retrace line for high points |
+| `RetraceLow`<br>_`decimal`_ | Retrace line for low points |
 
 ### Utilities
 

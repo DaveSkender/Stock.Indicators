@@ -92,10 +92,10 @@ IReadOnlyList<Bar> hourlyBars = minuteBars.Aggregate(BarInterval.OneHour);
 IReadOnlyList<Bar> customBars = minuteBars.Aggregate(TimeSpan.FromMinutes(45));
 ```
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `newSize` | `BarInterval` | Target period size: `Month`, `Week`, `Day`, `FourHours`, `TwoHours`, `OneHour`, `ThirtyMinutes`, `FifteenMinutes`, `FiveMinutes`, `ThreeMinutes`, `TwoMinutes`, `OneMinute`. |
-| `timeSpan` | `TimeSpan` | Any value greater than `TimeSpan.Zero`, for custom periods. |
+| param | description |
+| ----- | ----------- |
+| `newSize`<br>`BarInterval` | Target period size: `Month`, `Week`, `Day`, `FourHours`, `TwoHours`, `OneHour`, `ThirtyMinutes`, `FifteenMinutes`, `FiveMinutes`, `ThreeMinutes`, `TwoMinutes`, `OneMinute`. |
+| `timeSpan`<br>`TimeSpan` | Any value greater than `TimeSpan.Zero`, for custom periods. |
 
 Each aggregated bar takes the first **Open**, highest **High**, lowest **Low**, last **Close**, summed **Volume**, and the period's starting **Timestamp**.
 

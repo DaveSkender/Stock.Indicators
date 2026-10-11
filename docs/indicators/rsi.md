@@ -18,9 +18,9 @@ IReadOnlyList<RsiResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14. |
 
 ### Historical price bars requirements
 
@@ -45,10 +45,10 @@ The first `10×N` periods will have decreasing magnitude, convergence-related pr
 
 ### `RsiResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Rsi` | _`double`_ | Relative Strength Index |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Rsi`<br>_`double`_ | Relative Strength Index |
 
 ### Utilities
 

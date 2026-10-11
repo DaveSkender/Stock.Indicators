@@ -35,14 +35,14 @@ IReadOnlyList<IchimokuResult> results = observer.Results;
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `tenkanPeriods` | _`int`_ | Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9. |
-| `kijunPeriods` | _`int`_ | Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26. |
-| `senkouBPeriods` | _`int`_ | Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52. |
-| `offsetPeriods` | _`int`_ | Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`. |
-| `senkouOffset` | _`int`_ | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`. |
-| `chikouOffset` | _`int`_ | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`. |
+| param | description |
+| ----- | ----------- |
+| `tenkanPeriods`<br>_`int`_ | Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9. |
+| `kijunPeriods`<br>_`int`_ | Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26. |
+| `senkouBPeriods`<br>_`int`_ | Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52. |
+| `offsetPeriods`<br>_`int`_ | Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`. |
+| `senkouOffset`<br>_`int`_ | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`. |
+| `chikouOffset`<br>_`int`_ | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`. |
 
 See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
 
@@ -65,14 +65,14 @@ IReadOnlyList<IchimokuResult>
 
 ### `IchimokuResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `TenkanSen` | _`double`_ | Conversion / signal line |
-| `KijunSen` | _`double`_ | Base line |
-| `SenkouSpanA` | _`double`_ | Leading span A |
-| `SenkouSpanB` | _`double`_ | Leading span B |
-| `ChikouSpan` | _`double`_ | Lagging span |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `TenkanSen`<br>_`double`_ | Conversion / signal line |
+| `KijunSen`<br>_`double`_ | Base line |
+| `SenkouSpanA`<br>_`double`_ | Leading span A |
+| `SenkouSpanB`<br>_`double`_ | Leading span B |
+| `ChikouSpan`<br>_`double`_ | Lagging span |
 
 ### Utilities
 

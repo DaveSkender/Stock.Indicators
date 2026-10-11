@@ -15,11 +15,11 @@ IReadOnlyList<CorrResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `barsA` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) (A) must have at least the same matching date elements of `barsB`. |
-| `barsB` | _`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
+| param | description |
+| ----- | ----------- |
+| `barsA`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) (A) must have at least the same matching date elements of `barsB`. |
+| `barsB`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) (B) must have at least the same matching date elements of `barsA`. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical price bars requirements
 
@@ -40,14 +40,14 @@ IReadOnlyList<CorrResult>
 
 ### `CorrResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `VarianceA` | _`double`_ | Variance of A |
-| `VarianceB` | _`double`_ | Variance of B |
-| `Covariance` | _`double`_ | Covariance of A+B |
-| `Correlation` | _`double`_ | Correlation `R` |
-| `RSquared` | _`double`_ | R-squared (`R²`), aka Coefficient of determination |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `VarianceA`<br>_`double`_ | Variance of A |
+| `VarianceB`<br>_`double`_ | Variance of B |
+| `Covariance`<br>_`double`_ | Covariance of A+B |
+| `Correlation`<br>_`double`_ | Correlation `R` |
+| `RSquared`<br>_`double`_ | R-squared (`R²`), aka Coefficient of determination |
 
 ### Utilities
 
