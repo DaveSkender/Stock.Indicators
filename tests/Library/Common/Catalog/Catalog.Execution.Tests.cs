@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 
 namespace Catalogging;
@@ -483,6 +484,19 @@ public class CatalogExecutionTests : TestBase
 
         act.Should().Throw<ArgumentException>()
             .WithMessage("*IReadOnlyList<IReusable>*received HashSet<Bar>*");
+    }
+
+    [TestMethod]
+    public void SeriesNestedInAGenericTypeIsRejectedWithItsName()
+    {
+        // Dictionary<,>.ValueCollection is generic but its Name has no arity suffix
+        IndicatorListing listing = Catalog.Get("CORR", Style.Series);
+        Dictionary<string, Bar> byId = Bars.Take(5).ToDictionary(static b => b.Timestamp.ToString("O", CultureInfo.InvariantCulture));
+
+        Action act = () => listing.WithParamValue("sourceB", byId.Values);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("*received ValueCollection*");
     }
 
     private readonly record struct ReusableStruct(DateTime Timestamp, double Value) : IReusable;

@@ -91,8 +91,14 @@ public class CatalogBindingTests : TestBase
         IndicatorListing ema = Catalog.Get("EMA", Style.Series);
         IndicatorListing sma = Catalog.Get("SMA", Style.Series);
 
-        CatalogReflection.GetOverloads(ema with { MethodName = sma.MethodName })
-            .Should().BeEquivalentTo(CatalogReflection.GetOverloads(sma));
+        IndicatorListing copy = ema with { MethodName = sma.MethodName };
+
+        CatalogReflection.GetOverloads(copy)
+            .Should().NotBeEmpty()
+            .And.BeEquivalentTo(CatalogReflection.GetOverloads(sma));
+
+        copy.Execute<SmaResult>(Bars)
+            .Should().BeEquivalentTo(Bars.ToSma(20));
     }
 
     [TestMethod]

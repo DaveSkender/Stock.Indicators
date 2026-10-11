@@ -51,8 +51,9 @@ public record IndicatorListing
     /// Gets the name of the result record type returned by the indicator method.
     /// </summary>
     /// <remarks>
-    /// Derived from <see cref="MethodName"/> when the listing is built, so it cannot
-    /// drift from the method it describes. This is the record type, not the method's
+    /// Derived from <see cref="MethodName"/> when the catalog builds the listing, so a
+    /// catalog listing cannot drift from the method it describes; a <c>with</c> copy that
+    /// changes <see cref="MethodName"/> keeps the original value. This is the record type, not the method's
     /// literal return type: it is <c>EmaResult</c> for <c>ToEma</c>, <c>ToEmaList</c>,
     /// and <c>ToEmaHub</c> alike, even though those return
     /// <c>IReadOnlyList&lt;EmaResult&gt;</c>, <c>EmaList</c>, and <c>EmaHub</c>

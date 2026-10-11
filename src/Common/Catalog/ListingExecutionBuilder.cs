@@ -220,9 +220,9 @@ public class ListingExecutionBuilder
     /// <param name="type">Type to name.</param>
     /// <returns>Readable type name.</returns>
     private static string DisplayName(Type type)
-        => type.IsGenericType
-            ? $"{type.Name[..type.Name.IndexOf('`', StringComparison.Ordinal)]}<{string.Join(", ", type.GetGenericArguments().Select(DisplayName))}>"
-            : type.Name;
+        => type.IsGenericType && type.Name.IndexOf('`', StringComparison.Ordinal) is int tick and >= 0
+            ? $"{type.Name[..tick]}<{string.Join(", ", type.GetGenericArguments().Select(DisplayName))}>"
+            : type.Name; // a type nested in a generic, such as ValueCollection, has no arity suffix
 
     /// <summary>
     /// Validates that a parameter value is compatible with the expected parameter type.
@@ -241,7 +241,7 @@ public class ListingExecutionBuilder
             if (value is not System.Collections.IEnumerable)
             {
                 throw new ArgumentException(
-                    $"Parameter '{parameterName}' expects a series (IReadOnlyList<T> where T : IReusable), but received {value.GetType().Name}", nameof(value));
+                    $"Parameter '{parameterName}' expects a series (IReadOnlyList<T> where T : IReusable), but received {DisplayName(value.GetType())}", nameof(value));
             }
 
             // Indicator methods take IReadOnlyList<IReusable>, which by covariance accepts
