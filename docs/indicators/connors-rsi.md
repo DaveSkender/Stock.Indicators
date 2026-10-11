@@ -50,6 +50,7 @@ The first `N` periods will have decreasing magnitude, convergence-related precis
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Streak`<br>_`double`_ | Consecutive up (positive) or down (negative) periods in the price |
 | `Rsi`<br>_`double`_ | `RSI(R)` of the price. |
 | `RsiStreak`<br>_`double`_ | `RSI(S)` of the Streak. |
 | `PercentRank`<br>_`double`_ | Percentile rank of the period gain value. |

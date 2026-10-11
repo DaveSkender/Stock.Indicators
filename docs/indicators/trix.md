@@ -20,7 +20,7 @@ IReadOnlyList<TrixResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0.  Default is 14. |
 
 ### Historical price bars requirements
 

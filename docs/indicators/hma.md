@@ -20,7 +20,7 @@ IReadOnlyList<HmaResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1.  Default is 14. |
 
 ### Historical price bars requirements
 

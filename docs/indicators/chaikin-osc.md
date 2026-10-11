@@ -53,6 +53,8 @@ The first `S+100` periods will have decreasing magnitude, convergence-related pr
 | `MoneyFlowVolume`<br>_`double`_ | Money Flow Volume |
 | `Adl`<br>_`double`_ | Accumulation Distribution Line (ADL) |
 | `Oscillator`<br>_`double`_ | Chaikin Oscillator |
+| `FastEma`<br>_`double`_ | Fast EMA of the ADL |
+| `SlowEma`<br>_`double`_ | Slow EMA of the ADL |
 
 ::: warning 🚩 Relative values only
 Absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
