@@ -18,10 +18,6 @@ var results = bars
   .ToSma(20);
 ```
 
-**`candlePart`** — the price element to use for calculations.
-
-<!--@include: ../shared/enum-candlepart.md-->
-
 ::: warning 🚩 Incompatible indicators
 Some indicators require the full OHLCV bar profile and cannot be used with `.Use()`:
 
@@ -29,6 +25,12 @@ Some indicators require the full OHLCV bar profile and cannot be used with `.Use
 - Volume-based indicators (OBV, CMF, etc.) unless using `CandlePart.Volume`
 - Candlestick pattern indicators
 :::
+
+### `candlePart` parameter
+
+The price element to use for calculations.
+
+<!--@include: ../shared/enum-candlepart.md-->
 
 The bar-part selector also has incremental and live streaming variants that emit `TimeValue` results:
 
@@ -155,6 +157,8 @@ decimal? bodySize = candle.Body;
 decimal? upperWick = candle.UpperWick;
 bool isBullish = candle.IsBullish;
 ```
+
+### Return type
 
 <!--@include: ../shared/candle-properties.md-->
 
