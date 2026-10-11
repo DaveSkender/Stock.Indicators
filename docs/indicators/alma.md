@@ -46,7 +46,7 @@ IReadOnlyList<AlmaResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Alma`<br>_`double`_ | Arnaud Legoux Moving Average |
+| `Alma`<br>_`double?`_ | Arnaud Legoux Moving Average |
 
 ### Utilities
 

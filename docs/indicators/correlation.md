@@ -43,11 +43,11 @@ IReadOnlyList<CorrResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `VarianceA`<br>_`double`_ | Variance of A |
-| `VarianceB`<br>_`double`_ | Variance of B |
-| `Covariance`<br>_`double`_ | Covariance of A+B |
-| `Correlation`<br>_`double`_ | Correlation `R` |
-| `RSquared`<br>_`double`_ | R-squared (`R²`), aka Coefficient of determination |
+| `VarianceA`<br>_`double?`_ | Variance of A |
+| `VarianceB`<br>_`double?`_ | Variance of B |
+| `Covariance`<br>_`double?`_ | Covariance of A+B |
+| `Correlation`<br>_`double?`_ | Correlation `R` |
+| `RSquared`<br>_`double?`_ | R-squared (`R²`), aka Coefficient of determination |
 
 ### Utilities
 

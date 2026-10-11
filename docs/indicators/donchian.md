@@ -44,10 +44,10 @@ IReadOnlyList<DonchianResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `UpperBand`<br>_`double`_ | Upper line is the highest High over `N` periods |
-| `Centerline`<br>_`double`_ | Simple average of Upper and Lower bands |
-| `LowerBand`<br>_`double`_ | Lower line is the lowest Low over `N` periods |
-| `Width`<br>_`double`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
+| `UpperBand`<br>_`double?`_ | Upper line is the highest High over `N` periods |
+| `Centerline`<br>_`double?`_ | Simple average of Upper and Lower bands |
+| `LowerBand`<br>_`double?`_ | Lower line is the lowest Low over `N` periods |
+| `Width`<br>_`double?`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 

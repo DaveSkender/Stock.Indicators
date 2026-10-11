@@ -50,8 +50,8 @@ Fractal Chaos Bands are based on [Williams Fractal](/indicators/fractal), which 
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `UpperBand`<br>_`decimal`_ | FCB upper band |
-| `LowerBand`<br>_`decimal`_ | FCB lower band |
+| `UpperBand`<br>_`decimal?`_ | FCB upper band |
+| `LowerBand`<br>_`decimal?`_ | FCB lower band |
 
 ### Utilities
 

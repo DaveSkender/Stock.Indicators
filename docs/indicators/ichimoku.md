@@ -68,11 +68,11 @@ IReadOnlyList<IchimokuResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `TenkanSen`<br>_`double`_ | Conversion / signal line |
-| `KijunSen`<br>_`double`_ | Base line |
-| `SenkouSpanA`<br>_`double`_ | Leading span A |
-| `SenkouSpanB`<br>_`double`_ | Leading span B |
-| `ChikouSpan`<br>_`double`_ | Lagging span |
+| `TenkanSen`<br>_`double?`_ | Conversion / signal line |
+| `KijunSen`<br>_`double?`_ | Base line |
+| `SenkouSpanA`<br>_`double?`_ | Leading span A |
+| `SenkouSpanB`<br>_`double?`_ | Leading span B |
+| `ChikouSpan`<br>_`double?`_ | Lagging span |
 
 ### Utilities
 

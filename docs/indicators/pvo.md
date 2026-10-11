@@ -50,9 +50,9 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Pvo`<br>_`double`_ | Normalized difference between two Volume moving averages |
-| `Signal`<br>_`double`_ | Moving average of the `Pvo` line |
-| `Histogram`<br>_`double`_ | Gap between the `Pvo` and `Signal` line |
+| `Pvo`<br>_`double?`_ | Normalized difference between two Volume moving averages |
+| `Signal`<br>_`double?`_ | Moving average of the `Pvo` line |
+| `Histogram`<br>_`double?`_ | Gap between the `Pvo` and `Signal` line |
 
 ### Utilities
 

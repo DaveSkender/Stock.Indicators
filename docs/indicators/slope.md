@@ -49,11 +49,11 @@ The `Line` is continuously repainted since it is based on the last bar and lookb
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Slope`<br>_`double`_ | Slope `𝑚` of the best-fit line of price |
-| `Intercept`<br>_`double`_ | Y-intercept `𝑏` of the best-fit line |
-| `StdDev`<br>_`double`_ | Standard deviation of price over `N` lookback periods |
-| `RSquared`<br>_`double`_ | R-squared (R&sup2;), aka Coefficient of determination |
-| `Line`<br>_`decimal`_ | Best-fit line `𝑦` over the last `N` periods (i.e. `𝑦=𝑚𝑥+𝑏` using last period values) |
+| `Slope`<br>_`double?`_ | Slope `𝑚` of the best-fit line of price |
+| `Intercept`<br>_`double?`_ | Y-intercept `𝑏` of the best-fit line |
+| `StdDev`<br>_`double?`_ | Standard deviation of price over `N` lookback periods |
+| `RSquared`<br>_`double?`_ | R-squared (R&sup2;), aka Coefficient of determination |
+| `Line`<br>_`decimal?`_ | Best-fit line `𝑦` over the last `N` periods (i.e. `𝑦=𝑚𝑥+𝑏` using last period values) |
 
 ### Utilities
 

@@ -48,11 +48,11 @@ The first `2×N+100` periods will have decreasing magnitude, convergence-related
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Pdi`<br>_`double`_ | Plus Directional Index (+DI) |
-| `Mdi`<br>_`double`_ | Minus Directional Index (-DI) |
-| `Dx`<br>_`double`_ | Directional Index (DX) |
-| `Adx`<br>_`double`_ | Average Directional Index (ADX) |
-| `Adxr`<br>_`double`_ | Average Directional Index Rating (ADXR) |
+| `Pdi`<br>_`double?`_ | Plus Directional Index (+DI) |
+| `Mdi`<br>_`double?`_ | Minus Directional Index (-DI) |
+| `Dx`<br>_`double?`_ | Directional Index (DX) |
+| `Adx`<br>_`double?`_ | Average Directional Index (ADX) |
+| `Adxr`<br>_`double?`_ | Average Directional Index Rating (ADXR) |
 
 ### Utilities
 

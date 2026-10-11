@@ -50,9 +50,9 @@ The first `A+150` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `UpperBand`<br>_`double`_ | Upper STARC band |
-| `Centerline`<br>_`double`_ | SMA of price |
-| `LowerBand`<br>_`double`_ | Lower STARC band |
+| `UpperBand`<br>_`double?`_ | Upper STARC band |
+| `Centerline`<br>_`double?`_ | SMA of price |
+| `LowerBand`<br>_`double?`_ | Lower STARC band |
 
 ### Utilities
 

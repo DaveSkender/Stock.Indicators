@@ -48,7 +48,7 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Smma`<br>_`double`_ | Smoothed moving average |
+| `Smma`<br>_`double?`_ | Smoothed moving average |
 
 ### Utilities
 
