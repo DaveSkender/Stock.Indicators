@@ -266,10 +266,9 @@ export default defineConfig({
           link: '/indicators/price-trends',
           collapsed: true,
           items: [
-            { text: 'Average Directional Index (ADX)', link: '/indicators/adx' },
+            { text: 'Average Directional Index (ADX / DMI)', link: '/indicators/adx' },
             { text: 'Aroon', link: '/indicators/aroon' },
             { text: 'ATR Trailing Stop', link: '/indicators/atr-stop' },
-            { text: 'Directional Movement Index (DMI)', link: '/indicators/adx' },
             { text: 'Elder-ray Index', link: '/indicators/elder-ray' },
             { text: 'Ichimoku Cloud', link: '/indicators/ichimoku' },
             { text: 'Moving Average Convergence / Divergence', link: '/indicators/macd' },
