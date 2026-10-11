@@ -19,16 +19,16 @@ IReadOnlyList<BetaResult> results = barsEval
 
 | param | description |
 | ----- | ----------- |
-| `barsEval`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsMarket`. |
-| `barsMarket`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
+| `sourceEval`<br>_`IReadOnlyList<IReusable>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `sourceMrkt`. |
+| `sourceMrkt`<br>_`IReadOnlyList<IReusable>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `sourceEval`. |
 | `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-. |
 | `type`<br>_`BetaType`_ | Type of Beta to calculate.  Default is `BetaType.Standard`. See [`BetaType` options](#betatype-options) below. |
 
 ### Historical price bars requirements
 
-You must have at least `N` periods of `barsEval` and `barsMarket` to cover the warmup periods.  More than the minimum is typically provided, since a larger sample improves statistical quality — especially when using Beta +/-.
+You must have at least `N` periods of `sourceEval` and `sourceMrkt` to cover the warmup periods.  More than the minimum is typically provided, since a larger sample improves statistical quality — especially when using Beta +/-.
 
-`barsEval` and `barsMarket` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
+`sourceEval` and `sourceMrkt` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ### `BetaType` options
 
