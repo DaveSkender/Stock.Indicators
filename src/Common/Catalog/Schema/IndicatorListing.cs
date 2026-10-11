@@ -96,7 +96,7 @@ public record IndicatorListing
     /// including one built outside the catalog, resolves a method some catalog listing names.
     /// </remarks>
     /// <returns>
-    /// The overloads of <see cref="MethodName"/>; empty when it is unset or names no method.
+    /// The overloads of <see cref="MethodName"/>; empty when it is unset or no catalog listing names the method.
     /// </returns>
     public IReadOnlyList<MethodInfo> GetMethodOverloads()
         => Array.AsReadOnly(CatalogMethodResolver.GetOverloads(MethodName));
