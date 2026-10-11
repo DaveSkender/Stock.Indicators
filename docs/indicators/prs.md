@@ -17,15 +17,15 @@ IReadOnlyList<PrsResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `barsEval`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `barsBase`. |
-| `barsBase`<br>_`IReadOnlyList<TBar>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `barsEval`. |
+| `sourceEval`<br>_`IReadOnlyList<IReusable>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the evaluation subject.  You must have the same number of periods as `sourceBase`. |
+| `sourceBase`<br>_`IReadOnlyList<IReusable>`_ | [Historical price bars](/guide/getting-started#historical-bars) used as the benchmark basis for comparison.  This is usually market index data.  You must have the same number of periods as `sourceEval`. |
 | `lookbackPeriods`<br>_`int`_ | Optional.  Number of periods (`N`) to lookback to compute % ROC difference.  Must be greater than 0 if specified or `null`. |
 
 ### Historical price bars requirements
 
 You must have at least `N+1` periods of price bars to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `2` periods. More than the minimum is typically specified.
 
-`barsEval` and `barsBase` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
+`sourceEval` and `sourceBase` must have consistent frequency (day, hour, minute, etc).  Mismatch histories will throw `InvalidBarsException`. See [the Guide](/guide/getting-started#historical-bars) for more information.
 
 ## Response
 
@@ -70,7 +70,7 @@ var results = barsEval
 ```
 
 ::: warning
-Both `barsEval` and `barsBase` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
+Both `sourceEval` and `sourceBase` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 :::
 
 Results can be further processed on `Beta` with additional chain-enabled indicators.

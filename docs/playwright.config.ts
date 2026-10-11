@@ -10,6 +10,7 @@ import { defineConfig, devices } from '@playwright/test'
  *   agent-features - llms.txt, Markdown page actions, and WebMCP tools
  *   analytics      - controls that keep test runs out of production analytics
  *   layout         - page layout behavior (theme flash, landing hero)
+ *   parity         - indicator page tables against the catalog snapshot
  *
  * Run via the package scripts, or drive Playwright directly:
  *   pnpm run test          # all projects
@@ -70,6 +71,12 @@ export default defineConfig({
       testMatch: /(theme-flash|landing)\.spec\.ts/,
       fullyParallel: true,
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      // Source-only drift check of indicator pages against the catalog snapshot.
+      name: 'parity',
+      testMatch: /catalog-parity\.spec\.ts/,
+      fullyParallel: true,
     },
     {
       // Verifies the controls that keep automated runs out of the production
