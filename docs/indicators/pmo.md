@@ -50,8 +50,8 @@ The first `T+S+250` periods will have decreasing magnitude, convergence-related 
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Pmo`<br>_`double`_ | Price Momentum Oscillator |
-| `Signal`<br>_`double`_ | Signal line is EMA of PMO |
+| `Pmo`<br>_`double?`_ | Price Momentum Oscillator |
+| `Signal`<br>_`double?`_ | Signal line is EMA of PMO |
 
 ### Utilities
 

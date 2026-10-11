@@ -56,8 +56,8 @@ This price pattern uses future bars and will never identify a `fractal` in the l
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `FractalBear`<br>_`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
-| `FractalBull`<br>_`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
+| `FractalBear`<br>_`decimal?`_ | Value indicates a **high** point; otherwise `null` is returned. |
+| `FractalBull`<br>_`decimal?`_ | Value indicates a **low** point; otherwise `null` is returned. |
 
 ### Utilities
 

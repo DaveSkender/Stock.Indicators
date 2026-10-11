@@ -44,9 +44,9 @@ IReadOnlyList<CmfResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `MoneyFlowMultiplier`<br>_`double`_ | Money Flow Multiplier |
-| `MoneyFlowVolume`<br>_`double`_ | Money Flow Volume |
-| `Cmf`<br>_`double`_ | Chaikin Money Flow = SMA of MFV |
+| `MoneyFlowMultiplier`<br>_`double?`_ | Money Flow Multiplier |
+| `MoneyFlowVolume`<br>_`double?`_ | Money Flow Volume |
+| `Cmf`<br>_`double?`_ | Chaikin Money Flow = SMA of MFV |
 
 ::: warning 🚩 Relative values only
 Absolute values in MFV and CMF are somewhat meaningless.  Use with caution.

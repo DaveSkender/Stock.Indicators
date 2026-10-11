@@ -55,7 +55,7 @@ The first `4×N` periods will have decreasing magnitude, convergence-related pre
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Dynamic`<br>_`double`_ | McGinley Dynamic |
+| `Dynamic`<br>_`double?`_ | McGinley Dynamic |
 
 ### Utilities
 

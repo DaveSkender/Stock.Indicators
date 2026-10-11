@@ -50,10 +50,10 @@ The first `N+250` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `UpperBand`<br>_`double`_ | Upper band of Keltner Channel |
-| `Centerline`<br>_`double`_ | EMA of price |
-| `LowerBand`<br>_`double`_ | Lower band of Keltner Channel |
-| `Width`<br>_`double`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
+| `UpperBand`<br>_`double?`_ | Upper band of Keltner Channel |
+| `Centerline`<br>_`double?`_ | EMA of price |
+| `LowerBand`<br>_`double?`_ | Lower band of Keltner Channel |
+| `Width`<br>_`double?`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 

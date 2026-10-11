@@ -44,7 +44,7 @@ IReadOnlyList<UlcerIndexResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `UlcerIndex`<br>_`double`_ | Ulcer Index |
+| `UlcerIndex`<br>_`double?`_ | Ulcer Index |
 
 ### Utilities
 

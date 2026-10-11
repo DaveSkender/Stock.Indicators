@@ -44,7 +44,7 @@ IReadOnlyList<HmaResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Hma`<br>_`double`_ | Hull moving average |
+| `Hma`<br>_`double?`_ | Hull moving average |
 
 ### Utilities
 

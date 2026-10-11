@@ -3,7 +3,7 @@
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Price`<br>_`decimal`_ | Price of the most relevant OHLC candle element when a signal is present |
+| `Price`<br>_`decimal?`_ | Price of the most relevant OHLC candle element when a signal is present |
 | `Match`<br>_`Match`_ | Indicates a [matching signal type](#match) for this candlestick pattern |
 | `Candle`<br>_`CandleProperties`_ | Characteristics of the candle body and wicks |
 

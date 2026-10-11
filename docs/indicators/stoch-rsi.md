@@ -52,8 +52,8 @@ The first `10×R` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `StochRsi`<br>_`double`_ | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price |
-| `Signal`<br>_`double`_ | %D Signal Line = Simple moving average of %K based on `G` periods |
+| `StochRsi`<br>_`double?`_ | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price |
+| `Signal`<br>_`double?`_ | %D Signal Line = Simple moving average of %K based on `G` periods |
 
 ### Utilities
 

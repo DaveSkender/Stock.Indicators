@@ -41,10 +41,10 @@ IReadOnlyList<RocWbResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Roc`<br>_`double`_ | Rate of Change over `N` lookback periods (%, not decimal) |
-| `RocEma`<br>_`double`_ | Exponential moving average (EMA) of `Roc` |
-| `UpperBand`<br>_`double`_ | Upper band of ROC (overbought indicator) |
-| `LowerBand`<br>_`double`_ | Lower band of ROC (oversold indicator) |
+| `Roc`<br>_`double?`_ | Rate of Change over `N` lookback periods (%, not decimal) |
+| `RocEma`<br>_`double?`_ | Exponential moving average (EMA) of `Roc` |
+| `UpperBand`<br>_`double?`_ | Upper band of ROC (overbought indicator) |
+| `LowerBand`<br>_`double?`_ | Lower band of ROC (oversold indicator) |
 
 ### Utilities
 

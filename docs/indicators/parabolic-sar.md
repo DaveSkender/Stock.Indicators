@@ -50,8 +50,8 @@ IReadOnlyList<ParabolicSarResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Sar`<br>_`double`_ | Stop and Reverse value |
-| `IsReversal`<br>_`bool`_ | Indicates a trend reversal |
+| `Sar`<br>_`double?`_ | Stop and Reverse value |
+| `IsReversal`<br>_`bool?`_ | Indicates a trend reversal |
 
 ### Utilities
 
