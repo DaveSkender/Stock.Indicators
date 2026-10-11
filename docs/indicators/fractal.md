@@ -25,9 +25,11 @@ IReadOnlyList<FractalResult> results =
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
+An overload takes `leftSpan` and `rightSpan` in place of `windowSpan` to evaluate an asymmetric window: `bars.ToFractal(leftSpan, rightSpan, endType)`.  Each span must be at least 2, and the total evaluation window size is `leftSpan+rightSpan+1`.
+
 ### Historical price bars requirements
 
-You must have at least `2×S+1` periods of `bars` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least `2×S+1` periods of `bars` (`leftSpan+rightSpan+1` for the overload) to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
 `bars` is a collection of generic `TBar` historical price bars.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/getting-started#historical-bars) for more information.
 
