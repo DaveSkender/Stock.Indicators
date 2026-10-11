@@ -18,9 +18,9 @@ IReadOnlyList<FisherTransformResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10. |
 
 ### Historical price bars requirements
 
@@ -44,11 +44,11 @@ The first `N+15` warmup periods will have unusable decreasing magnitude, converg
 
 ### `FisherTransformResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Fisher` | _`double`_ | Fisher Transform |
-| `Trigger` | _`double`_ | FT offset by one period |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Fisher`<br>_`double`_ | Fisher Transform |
+| `Trigger`<br>_`double`_ | FT offset by one period |
 
 ### Utilities
 

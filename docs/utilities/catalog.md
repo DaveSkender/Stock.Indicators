@@ -59,42 +59,42 @@ IReadOnlyList<IndicatorListing> matches
 
 Each `IndicatorListing` describes one indicator-and-style combination. This is the metadata you bind a UI to.
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `Uiid` | `string` | Unique indicator ID (e.g. `"EMA"`) |
-| `Name` | `string` | Display name |
-| `Style` | `Style` | `Series`, `Buffer`, or `Stream` |
-| `Category` | `Category` | Indicator category (see below) |
-| `Parameters` | `IReadOnlyList<IndicatorParam>?` | Input parameters (`null` when there are none) |
-| `Results` | `IReadOnlyList<IndicatorResult>` | Output fields the indicator produces |
-| `ResultRecordType` | `string?` | Name of the result record the method returns (e.g. `"EmaResult"`), the same for all three styles — the record type, not the method's literal return type (`EmaList` for Buffer, `EmaHub` for Stream). `null` when `MethodName` is unset. Derived when the catalog builds the listing, so a `with` copy that changes `MethodName` keeps the original value |
-| `MethodName` | `string?` | Method name, for automation use cases |
-| `LegendTemplate` | `string` | Legend template for charting |
+| Property | Description |
+| ----- | ----------- |
+| `Uiid`<br>`string` | Unique indicator ID (e.g. `"EMA"`) |
+| `Name`<br>`string` | Display name |
+| `Style`<br>`Style` | `Series`, `Buffer`, or `Stream` |
+| `Category`<br>`Category` | Indicator category (see below) |
+| `Parameters`<br>`IReadOnlyList<IndicatorParam>?` | Input parameters (`null` when there are none) |
+| `Results`<br>`IReadOnlyList<IndicatorResult>` | Output fields the indicator produces |
+| `ResultRecordType`<br>`string?` | Name of the result record the method returns (e.g. `"EmaResult"`), the same for all three styles — the record type, not the method's literal return type (`EmaList` for Buffer, `EmaHub` for Stream). `null` when `MethodName` is unset. Derived when the catalog builds the listing, so a `with` copy that changes `MethodName` keeps the original value |
+| `MethodName`<br>`string?` | Method name, for automation use cases |
+| `LegendTemplate`<br>`string` | Legend template for charting |
 
 `GetMethodOverloads()` returns the public static overloads of `MethodName` as `IReadOnlyList<MethodInfo>`, for a caller that reads their parameters or invokes them directly. The list is empty when `MethodName` is unset or no catalog listing names the method. The methods survive trimming and NativeAOT publishing, so no assembly scan is needed.
 
 `IndicatorParam` (each input parameter):
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `DisplayName` | `string` | Human-friendly label |
-| `ParameterName` | `string` | Method parameter name (use this with `WithParamValue`) |
-| `DataType` | `string` | Parameter type name |
-| `Description` | `string?` | Optional description |
-| `IsRequired` | `bool` | Whether the caller must supply the parameter. `false` means omitting it yields `DefaultValue` |
-| `DefaultValue` | `object?` | Default value, if any |
-| `Minimum` / `Maximum` | `double?` | Recommended bounds, if any |
-| `EnumOptions` | `Dictionary<int, string>?` | Allowed values for enum parameters (`null` otherwise) |
+| Property | Description |
+| ----- | ----------- |
+| `DisplayName`<br>`string` | Human-friendly label |
+| `ParameterName`<br>`string` | Method parameter name (use this with `WithParamValue`) |
+| `DataType`<br>`string` | Parameter type name |
+| `Description`<br>`string?` | Optional description |
+| `IsRequired`<br>`bool` | Whether the caller must supply the parameter. `false` means omitting it yields `DefaultValue` |
+| `DefaultValue`<br>`object?` | Default value, if any |
+| `Minimum` / `Maximum`<br>`double?` | Recommended bounds, if any |
+| `EnumOptions`<br>`Dictionary<int, string>?` | Allowed values for enum parameters (`null` otherwise) |
 
 `IndicatorResult` (each output field):
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `DisplayName` | `string` | Human-friendly label |
-| `DataName` | `string` | Result property name (e.g. `"Ema"`) |
-| `DataType` | `ResultType` | Charting/display hint |
-| `IsReusable` | `bool` | `true` for the field exposed as the chainable `IReusable.Value` |
-| `ChartPane` | `string?` | Chart pane the result draws in: `"Price"` (`IndicatorResult.PricePane`) for the price axis, another name for a separate pane, `null` when not charted |
+| Property | Description |
+| ----- | ----------- |
+| `DisplayName`<br>`string` | Human-friendly label |
+| `DataName`<br>`string` | Result property name (e.g. `"Ema"`) |
+| `DataType`<br>`ResultType` | Charting/display hint |
+| `IsReusable`<br>`bool` | `true` for the field exposed as the chainable `IReusable.Value` |
+| `ChartPane`<br>`string?` | Chart pane the result draws in: `"Price"` (`IndicatorResult.PricePane`) for the price axis, another name for a separate pane, `null` when not charted |
 
 Results with the same `ChartPane` share units, so group a listing's results by it and draw each group as one chart. Bollinger Bands, for example, puts its bands on `"Price"` and `PercentB`, `ZScore` and `Width` each in a pane of its own. A `null` pane marks a flag or pattern code, such as a PSAR reversal, which has no axis to draw on.
 

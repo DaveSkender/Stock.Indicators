@@ -18,10 +18,10 @@ IReadOnlyList<FractalResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `windowSpan` | _`int`_ | Evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
-| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  Default is `EndType.HighLow`. |
+| param | description |
+| ----- | ----------- |
+| `windowSpan`<br>_`int`_ | Evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
+| `endType`<br>_`EndType`_ | Determines whether `Close` or `High/Low` are used to find end points.  Default is `EndType.HighLow`. |
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
@@ -51,11 +51,11 @@ This price pattern uses future bars and will never identify a `fractal` in the l
 
 ### `FractalResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `FractalBear` | _`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
-| `FractalBull` | _`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `FractalBear`<br>_`decimal`_ | Value indicates a **high** point; otherwise `null` is returned. |
+| `FractalBull`<br>_`decimal`_ | Value indicates a **low** point; otherwise `null` is returned. |
 
 ### Utilities
 

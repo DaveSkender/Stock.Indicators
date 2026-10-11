@@ -18,9 +18,9 @@ IReadOnlyList<HurstResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the Hurst Analysis.  Must be at least 20.  Default is 100. |
 
 ### Historical price bars requirements
 
@@ -41,11 +41,11 @@ IReadOnlyList<HurstResult>
 
 ### `HurstResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `HurstExponent` | _`double`_ | Hurst Exponent (`H`) from raw rescaled range (R/S) analysis |
-| `HurstExponentAL` | _`double`_ | [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `HurstExponent`<br>_`double`_ | Hurst Exponent (`H`) from raw rescaled range (R/S) analysis |
+| `HurstExponentAL`<br>_`double`_ | [Anis-Lloyd corrected](https://en.wikipedia.org/wiki/Hurst_exponent#Rescaled_range_(R/S)_analysis) Hurst Exponent (`H`). Removes finite-sample bias from the raw R/S estimate. |
 
 ### Utilities
 

@@ -18,11 +18,11 @@ IReadOnlyList<KvoResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `fastPeriods` | _`int`_ | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34. |
-| `slowPeriods` | _`int`_ | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55. |
-| `signalPeriods` | _`int`_ | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13. |
+| param | description |
+| ----- | ----------- |
+| `fastPeriods`<br>_`int`_ | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34. |
+| `slowPeriods`<br>_`int`_ | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55. |
+| `signalPeriods`<br>_`int`_ | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13. |
 
 ### Historical price bars requirements
 
@@ -47,11 +47,11 @@ The first `L+150` periods will have decreasing magnitude, convergence-related pr
 
 ### `KvoResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Oscillator` | _`double`_ | Klinger Oscillator |
-| `Signal` | _`double`_ | EMA of Klinger Oscillator (signal line) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Oscillator`<br>_`double`_ | Klinger Oscillator |
+| `Signal`<br>_`double`_ | EMA of Klinger Oscillator (signal line) |
 
 ### Utilities
 

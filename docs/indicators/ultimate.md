@@ -18,11 +18,11 @@ IReadOnlyList<UltimateResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `shortPeriods` | _`int`_ | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7. |
-| `middlePeriods` | _`int`_ | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
-| `longPeriods` | _`int`_ | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
+| param | description |
+| ----- | ----------- |
+| `shortPeriods`<br>_`int`_ | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7. |
+| `middlePeriods`<br>_`int`_ | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
+| `longPeriods`<br>_`int`_ | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
 
 ### Historical price bars requirements
 
@@ -43,10 +43,10 @@ IReadOnlyList<UltimateResult>
 
 ### `UltimateResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Ultimate` | _`double`_ | Ultimate Oscillator |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Ultimate`<br>_`double`_ | Ultimate Oscillator |
 
 ### Utilities
 

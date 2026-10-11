@@ -35,10 +35,10 @@ IReadOnlyList<ObvResult>
 
 ### `ObvResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Obv` | _`double`_ | On-balance Volume |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Obv`<br>_`double`_ | On-balance Volume |
 
 ::: warning 🚩 Relative values only
 Absolute values in OBV are somewhat meaningless. Use with caution.

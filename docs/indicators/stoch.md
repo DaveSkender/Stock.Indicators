@@ -23,14 +23,14 @@ IReadOnlyList<StochResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14. |
-| `signalPeriods` | _`int`_ | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3. |
-| `smoothPeriods` | _`int`_ | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3. |
-| `kFactor` | _`double`_ | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3. |
-| `dFactor` | _`double`_ | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2. |
-| `movingAverageType` | _`MaType`_ | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [`MaType` enum options](#matype-enum-options) below.  Default is `MaType.SMA`. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14. |
+| `signalPeriods`<br>_`int`_ | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3. |
+| `smoothPeriods`<br>_`int`_ | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3. |
+| `kFactor`<br>_`double`_ | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3. |
+| `dFactor`<br>_`double`_ | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2. |
+| `movingAverageType`<br>_`MaType`_ | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [`MaType` enum options](#matype-enum-options) below.  Default is `MaType.SMA`. |
 
 ### Historical price bars requirements
 
@@ -64,12 +64,12 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `StochResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Oscillator` or `K` | _`double`_ | %K Oscillator |
-| `Signal` or `D` | _`double`_ | %D Simple moving average of Oscillator |
-| `PercentJ` or `J` | _`double`_ | %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D` |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Oscillator` or `K`<br>_`double`_ | %K Oscillator |
+| `Signal` or `D`<br>_`double`_ | %D Simple moving average of Oscillator |
+| `PercentJ` or `J`<br>_`double`_ | %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D` |
 
 Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangeably with the standard outputs.
 

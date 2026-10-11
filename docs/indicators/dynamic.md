@@ -18,10 +18,10 @@ IReadOnlyList<DynamicResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
-| `kFactor` | _`double`_ | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6 |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| `kFactor`<br>_`double`_ | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6 |
 
 ### Historical price bars requirements
 
@@ -52,10 +52,10 @@ The first `4×N` periods will have decreasing magnitude, convergence-related pre
 
 ### `DynamicResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Dynamic` | _`double`_ | McGinley Dynamic |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Dynamic`<br>_`double`_ | McGinley Dynamic |
 
 ### Utilities
 

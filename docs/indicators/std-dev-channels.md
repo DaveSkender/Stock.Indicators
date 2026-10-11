@@ -18,10 +18,10 @@ IReadOnlyList<StdDevChannelsResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `bars` evaluation window ([see below](#alternative-depiction-for-full-bars-variant)).  Default is 20. |
-| `stdDeviations` | _`double`_ | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `bars` evaluation window ([see below](#alternative-depiction-for-full-bars-variant)).  Default is 20. |
+| `stdDeviations`<br>_`double`_ | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2. |
 
 ### Historical price bars requirements
 
@@ -46,13 +46,13 @@ Historical results are a function of the current period window position and will
 
 ### `StdDevChannelsResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Centerline` | _`double`_ | Linear regression line (center line) |
-| `UpperChannel` | _`double`_ | Upper line is `D` standard deviations above the center line |
-| `LowerChannel` | _`double`_ | Lower line is `D` standard deviations below the center line |
-| `BreakPoint` | _`bool`_ | Helper information.  Indicates first point in new window. |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Centerline`<br>_`double`_ | Linear regression line (center line) |
+| `UpperChannel`<br>_`double`_ | Upper line is `D` standard deviations above the center line |
+| `LowerChannel`<br>_`double`_ | Lower line is `D` standard deviations below the center line |
+| `BreakPoint`<br>_`bool`_ | Helper information.  Indicates first point in new window. |
 
 ### Utilities
 

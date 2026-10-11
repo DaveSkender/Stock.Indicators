@@ -18,14 +18,14 @@ IReadOnlyList<AlligatorResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `jawPeriods` | _`int`_ | Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13. |
-| `jawOffset` | _`int`_ | Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8. |
-| `teethPeriods` | _`int`_ | Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8. |
-| `teethOffset` | _`int`_ | Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5. |
-| `lipsPeriods` | _`int`_ | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5. |
-| `lipsOffset` | _`int`_ | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3. |
+| param | description |
+| ----- | ----------- |
+| `jawPeriods`<br>_`int`_ | Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13. |
+| `jawOffset`<br>_`int`_ | Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8. |
+| `teethPeriods`<br>_`int`_ | Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8. |
+| `teethOffset`<br>_`int`_ | Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5. |
+| `lipsPeriods`<br>_`int`_ | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5. |
+| `lipsOffset`<br>_`int`_ | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3. |
 
 ### Historical price bars requirements
 
@@ -50,12 +50,12 @@ The first `JP+JO+100` periods will have decreasing magnitude, convergence-relate
 
 ### `AlligatorResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Jaw` | _`double`_ | Alligator's Jaw |
-| `Teeth` | _`double`_ | Alligator's Teeth |
-| `Lips` | _`double`_ | Alligator's Lips |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Jaw`<br>_`double`_ | Alligator's Jaw |
+| `Teeth`<br>_`double`_ | Alligator's Teeth |
+| `Lips`<br>_`double`_ | Alligator's Lips |
 
 ### Utilities
 

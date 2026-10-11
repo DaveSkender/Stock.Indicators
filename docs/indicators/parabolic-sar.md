@@ -22,11 +22,11 @@ IReadOnlyList<ParabolicSarResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `accelerationStep` | _`double`_ | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02 |
-| `maxAccelerationFactor` | _`double`_ | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2 |
-| `initialFactor` | _`double`_ | Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`. |
+| param | description |
+| ----- | ----------- |
+| `accelerationStep`<br>_`double`_ | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02 |
+| `maxAccelerationFactor`<br>_`double`_ | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2 |
+| `initialFactor`<br>_`double`_ | Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`. |
 
 ### Historical price bars requirements
 
@@ -47,11 +47,11 @@ IReadOnlyList<ParabolicSarResult>
 
 ### `ParabolicSarResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Sar` | _`double`_ | Stop and Reverse value |
-| `IsReversal` | _`bool`_ | Indicates a trend reversal |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Sar`<br>_`double`_ | Stop and Reverse value |
+| `IsReversal`<br>_`bool`_ | Indicates a trend reversal |
 
 ### Utilities
 

@@ -18,9 +18,9 @@ IReadOnlyList<SmmaResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical price bars requirements
 
@@ -45,10 +45,10 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `SmmaResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Smma` | _`double`_ | Smoothed moving average |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Smma`<br>_`double`_ | Smoothed moving average |
 
 ### Utilities
 

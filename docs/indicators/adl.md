@@ -34,12 +34,12 @@ IReadOnlyList<AdlResult>
 
 ### `AdlResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `MoneyFlowMultiplier` | _`double`_ | Money Flow Multiplier |
-| `MoneyFlowVolume` | _`double`_ | Money Flow Volume |
-| `Adl` | _`double`_ | Accumulation Distribution Line (ADL) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `MoneyFlowMultiplier`<br>_`double`_ | Money Flow Multiplier |
+| `MoneyFlowVolume`<br>_`double`_ | Money Flow Volume |
+| `Adl`<br>_`double`_ | Accumulation Distribution Line (ADL) |
 
 ::: warning 🚩 Relative values only
 Absolute values in ADL and MFV are somewhat meaningless.  Use with caution.

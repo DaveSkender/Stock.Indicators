@@ -18,11 +18,11 @@ IReadOnlyList<MaEnvelopeResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
-| `percentOffset` | _`double`_ | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5. |
-| `movingAverageType` | _`MaType`_ | Type of moving average (e.g. SMA, EMA, HMA).  See [`MaType` enum options](#matype-enum-options) below.  Default is `MaType.SMA`. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
+| `percentOffset`<br>_`double`_ | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5. |
+| `movingAverageType`<br>_`MaType`_ | Type of moving average (e.g. SMA, EMA, HMA).  See [`MaType` enum options](#matype-enum-options) below.  Default is `MaType.SMA`. |
 
 ### Historical price bars requirements
 
@@ -67,12 +67,12 @@ Some moving average variants have decreasing magnitude, convergence-related prec
 
 ### `MaEnvelopeResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Centerline` | _`double`_ | Moving average |
-| `UpperEnvelope` | _`double`_ | Upper envelope band |
-| `LowerEnvelope` | _`double`_ | Lower envelope band |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Centerline`<br>_`double`_ | Moving average |
+| `UpperEnvelope`<br>_`double`_ | Upper envelope band |
+| `LowerEnvelope`<br>_`double`_ | Lower envelope band |
 
 The moving average `Centerline` is based on the `movingAverageType` type specified.
 
