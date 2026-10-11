@@ -86,17 +86,6 @@ public record IndicatorListing
     public string? MethodName { get; init; }
 
     /// <summary>
-    /// Gets the static class declaring <see cref="MethodName"/>.
-    /// </summary>
-    /// <remarks>
-    /// The annotation keeps that class's public methods through trimming, so catalog
-    /// execution never has to search the assembly for them.
-    /// </remarks>
-    [JsonIgnore]
-    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
-    internal Type? MethodDeclaringType { get; init; }
-
-    /// <summary>
     /// Gets or sets the legend template for the indicator.
     /// </summary>
     public required string LegendTemplate { get; init; }

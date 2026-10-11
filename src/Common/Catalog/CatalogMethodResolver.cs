@@ -5,46 +5,24 @@ using System.Reflection;
 namespace FacioQuo.Stock.Indicators;
 
 /// <summary>
-/// Resolves indicator methods and their result record types from a catalog listing.
+/// Resolves indicator methods and their result record types from a catalog method name.
 /// </summary>
 /// <remarks>
-/// A listing names its method and the static class declaring it. Reflection reaches only
-/// that class, through a <see cref="DynamicallyAccessedMembersAttribute"/> annotation the
-/// trimmer and NativeAOT compiler honor, so resolution survives a trimmed publish.
+/// Each catalog listing registers its method when it is built, naming the static class
+/// that declares it. Reflection reaches only that class, through a
+/// <see cref="DynamicallyAccessedMembersAttribute"/> annotation the trimmer and NativeAOT
+/// compiler honor, so resolution survives a trimmed publish. Later lookups are by name.
 /// </remarks>
 internal static class CatalogMethodResolver
 {
     private const DynamicallyAccessedMemberTypes MethodMembers
         = DynamicallyAccessedMemberTypes.PublicMethods;
 
-    private static readonly ConcurrentDictionary<(Type, string), MethodInfo[]> Overloads = new();
+    private static readonly ConcurrentDictionary<string, MethodInfo[]> OverloadsByName
+        = new(StringComparer.Ordinal);
 
     /// <summary>
-    /// Gets every public static overload of a listing's method.
-    /// </summary>
-    /// <remarks>
-    /// A listing built outside the catalog may carry only <see cref="IndicatorListing.MethodName"/>;
-    /// its declaring class is then taken from the catalog listing with the same method name.
-    /// </remarks>
-    /// <param name="listing">Listing naming the method.</param>
-    /// <returns>All matching overloads; empty when the method cannot be resolved.</returns>
-    internal static MethodInfo[] GetOverloads(IndicatorListing listing)
-    {
-        if (string.IsNullOrWhiteSpace(listing.MethodName))
-        {
-            return [];
-        }
-
-        Type? declaringType = listing.MethodDeclaringType
-            ?? FindCatalogListing(listing.MethodName)?.MethodDeclaringType;
-
-        return declaringType is null
-            ? []
-            : GetOverloads(declaringType, listing.MethodName);
-    }
-
-    /// <summary>
-    /// Gets the name of the result record type produced by a named indicator method.
+    /// Registers a catalog method and gets the name of the result record type it produces.
     /// </summary>
     /// <param name="declaringType">Static class declaring the method.</param>
     /// <param name="methodName">Method name from a catalog listing.</param>
@@ -52,15 +30,55 @@ internal static class CatalogMethodResolver
     /// Result record type name, or <c>null</c> when the method does not exist or its
     /// result record cannot be determined.
     /// </returns>
-    internal static string? GetResultTypeName(
+    internal static string? Register(
         [DynamicallyAccessedMembers(MethodMembers)] Type? declaringType,
         string? methodName)
-        => declaringType is null || string.IsNullOrWhiteSpace(methodName)
-            ? null
-            : GetOverloads(declaringType, methodName)
-                .Select(GetResultType)
-                .FirstOrDefault(static t => t is not null)
-                ?.Name;
+    {
+        if (declaringType is null || string.IsNullOrWhiteSpace(methodName))
+        {
+            return null;
+        }
+
+        MethodInfo[] overloads = GetStaticMethods(declaringType)
+            .Where(m => string.Equals(m.Name, methodName, StringComparison.Ordinal))
+            .ToArray();
+
+        // only names that resolve are kept, so a mistyped name stays unresolvable
+        if (overloads.Length > 0)
+        {
+            OverloadsByName[methodName] = overloads;
+        }
+
+        return overloads
+            .Select(GetResultType)
+            .FirstOrDefault(static t => t is not null)
+            ?.Name;
+    }
+
+    /// <summary>
+    /// Gets every public static overload of a catalog method.
+    /// </summary>
+    /// <param name="methodName">Method name from a listing.</param>
+    /// <returns>
+    /// All overloads; empty when no catalog listing names the method.
+    /// </returns>
+    internal static MethodInfo[] GetOverloads(string? methodName)
+    {
+        if (string.IsNullOrWhiteSpace(methodName))
+        {
+            return [];
+        }
+
+        if (OverloadsByName.TryGetValue(methodName, out MethodInfo[]? overloads))
+        {
+            return overloads;
+        }
+
+        // building the catalog registers every catalog method
+        _ = Catalog.Listings;
+
+        return OverloadsByName.TryGetValue(methodName, out overloads) ? overloads : [];
+    }
 
     /// <summary>
     /// Gets the result record type produced by an indicator method, for any style.
@@ -109,32 +127,6 @@ internal static class CatalogMethodResolver
         }
 
         return null;
-    }
-
-    private static IndicatorListing? FindCatalogListing(string methodName)
-        => Catalog.Listings.FirstOrDefault(
-            l => string.Equals(l.MethodName, methodName, StringComparison.Ordinal));
-
-    private static MethodInfo[] GetOverloads(
-        [DynamicallyAccessedMembers(MethodMembers)] Type declaringType,
-        string methodName)
-    {
-        if (Overloads.TryGetValue((declaringType, methodName), out MethodInfo[]? overloads))
-        {
-            return overloads;
-        }
-
-        overloads = GetStaticMethods(declaringType)
-            .Where(m => string.Equals(m.Name, methodName, StringComparison.Ordinal))
-            .ToArray();
-
-        // only names that resolve are cached, so caller-supplied names cannot grow the cache
-        if (overloads.Length > 0)
-        {
-            Overloads[(declaringType, methodName)] = overloads;
-        }
-
-        return overloads;
     }
 
     /// <summary>

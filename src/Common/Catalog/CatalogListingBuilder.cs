@@ -15,6 +15,8 @@ internal class CatalogListingBuilder
 
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
     private Type? _methodDeclaringType;
+
+    private readonly string? _inheritedResultRecordType;
     private readonly List<IndicatorParam> _parameters = [];
     private readonly List<IndicatorResult> _results = [];
 
@@ -43,7 +45,7 @@ internal class CatalogListingBuilder
         _id = baseListing.Uiid;
         _category = baseListing.Category;
         _methodName = baseListing.MethodName;
-        _methodDeclaringType = baseListing.MethodDeclaringType;
+        _inheritedResultRecordType = baseListing.ResultRecordType;
         CurrentStyle = baseListing.Style;
 
         // `with` copies every property, so one added later is never silently dropped;
@@ -310,8 +312,10 @@ internal class CatalogListingBuilder
             Parameters = _parameters.Count > 0 ? _parameters : null,
             Results = _results,
             MethodName = _methodName,
-            MethodDeclaringType = _methodDeclaringType,
-            ResultRecordType = CatalogMethodResolver.GetResultTypeName(_methodDeclaringType, _methodName),
+            // a listing inheriting its method keeps the result record already derived for it
+            ResultRecordType = _methodDeclaringType is null
+                ? _inheritedResultRecordType
+                : CatalogMethodResolver.Register(_methodDeclaringType, _methodName),
             LegendTemplate = GenerateLegendTemplate()
         };
     }

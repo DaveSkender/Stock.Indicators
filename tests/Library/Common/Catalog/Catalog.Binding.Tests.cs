@@ -76,8 +76,8 @@ public class CatalogBindingTests : TestBase
             if (!declared.ToHashSet().SetEquals(everywhere))
             {
                 violations.Add(
-                    $"{CatalogReflection.Describe(listing)}: '{listing.MethodName}' is declared outside "
-                  + $"{listing.MethodDeclaringType?.Name ?? "(no declaring type)"}");
+                    $"{CatalogReflection.Describe(listing)}: '{listing.MethodName}' is also declared "
+                  + "outside the class its listing names");
             }
         }
 
@@ -86,13 +86,23 @@ public class CatalogBindingTests : TestBase
     }
 
     [TestMethod]
-    public void ListingWithoutDeclaringTypeResolvesThroughTheCatalog()
+    public void CopiedListingResolvesTheMethodItNames()
     {
-        IndicatorListing catalogListing = Catalog.Get("EMA", Style.Series)!;
-        IndicatorListing external = catalogListing with { MethodDeclaringType = null };
+        IndicatorListing ema = Catalog.Get("EMA", Style.Series);
+        IndicatorListing sma = Catalog.Get("SMA", Style.Series);
 
-        CatalogReflection.GetOverloads(external).Should()
-            .BeEquivalentTo(CatalogReflection.GetOverloads(catalogListing));
+        CatalogReflection.GetOverloads(ema with { MethodName = sma.MethodName })
+            .Should().BeEquivalentTo(CatalogReflection.GetOverloads(sma));
+    }
+
+    [TestMethod]
+    public void MethodNoListingNamesDoesNotResolve()
+    {
+        // a library static method outside the catalog, such as a utility, is not an
+        // indicator method a listing can execute
+        IndicatorListing listing = Catalog.Get("EMA", Style.Series) with { MethodName = "ToSortedList" };
+
+        CatalogReflection.GetOverloads(listing).Should().BeEmpty();
     }
 
     [TestMethod]

@@ -44,7 +44,7 @@ internal static class ListingExecutor
         string methodName = listing.MethodName
             ?? throw new InvalidOperationException("MethodName is required for dynamic execution");
 
-        MethodInfo[] methods = CatalogMethodResolver.GetOverloads(listing);
+        MethodInfo[] methods = CatalogMethodResolver.GetOverloads(methodName);
 
         if (methods.Length == 0)
         {

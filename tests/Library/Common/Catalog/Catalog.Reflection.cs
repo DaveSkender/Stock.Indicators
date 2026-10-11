@@ -30,7 +30,7 @@ internal static class CatalogReflection
     /// <param name="listing">Catalog listing naming the method.</param>
     /// <returns>All matching overloads; empty when the method resolves to nothing.</returns>
     internal static IReadOnlyList<MethodInfo> GetOverloads(IndicatorListing listing)
-        => CatalogMethodResolver.GetOverloads(listing);
+        => CatalogMethodResolver.GetOverloads(listing.MethodName);
 
     /// <summary>
     /// Gets every public static method with the given name on any static class in the library.

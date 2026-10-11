@@ -208,6 +208,14 @@ IReadOnlyList<EmaResult> results = config.Execute<EmaResult>(bars);
 
 Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluent configuration, or `IndicatorConfig.FromBuilder(builder)` to capture an existing builder's settings back into a config for storage.
 
+## Trimming and NativeAOT
+
+Catalog lookup and execution work in trimmed and NativeAOT apps. A listing's method resolves by `MethodName` among the methods catalog listings name, so a listing you build yourself can name any catalog indicator method, but not another library method.
+
+::: warning Reflection-based helpers
+`ToJson` serializes with reflection, so it carries `[RequiresUnreferencedCode]` and `[RequiresDynamicCode]` and raises IL2026 and IL3050 in a trimmed or NativeAOT build. `ToStringOut` and `ToConsole` require the public properties of `T` to be preserved, which an unannotated generic caller sees as IL2091.
+:::
+
 ## See also
 
 - [Bar utilities](/utilities/bars) — prepare and transform price bars

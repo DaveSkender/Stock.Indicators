@@ -215,6 +215,16 @@ public class ListingExecutionBuilder
             : ListingExecutor.Execute<TResult>(_bars, BaseListing, _parameterOverrides, _omittedParameters);
 
     /// <summary>
+    /// Formats a type name with its generic arguments, such as <c>HashSet&lt;Bar&gt;</c>.
+    /// </summary>
+    /// <param name="type">Type to name.</param>
+    /// <returns>Readable type name.</returns>
+    private static string DisplayName(Type type)
+        => type.IsGenericType
+            ? $"{type.Name[..type.Name.IndexOf('`', StringComparison.Ordinal)]}<{string.Join(", ", type.GetGenericArguments().Select(DisplayName))}>"
+            : type.Name;
+
+    /// <summary>
     /// Validates that a parameter value is compatible with the expected parameter type.
     /// </summary>
     /// <param name="parameterName">Name of the parameter.</param>
@@ -236,10 +246,10 @@ public class ListingExecutionBuilder
 
             // Indicator methods take IReadOnlyList<IReusable>, which by covariance accepts
             // only reference-type elements; a list of IReusable structs cannot bind.
-            if (value is not IEnumerable<IReusable>)
+            if (value is not IReadOnlyList<IReusable>)
             {
                 throw new ArgumentException(
-                    $"Parameter '{parameterName}' expects a series assignable to IReadOnlyList<IReusable> (reference-type elements implementing IReusable), but received {value.GetType().Name}", nameof(value));
+                    $"Parameter '{parameterName}' expects a series assignable to IReadOnlyList<IReusable> (reference-type elements implementing IReusable), but received {DisplayName(value.GetType())}", nameof(value));
             }
         }
         // Validate basic parameter types

@@ -473,5 +473,17 @@ public class CatalogExecutionTests : TestBase
             .WithMessage("*sourceB*IReadOnlyList<IReusable>*");
     }
 
+    [TestMethod]
+    public void SeriesThatIsNotAListIsRejectedBeforeExecution()
+    {
+        IndicatorListing listing = Catalog.Get("CORR", Style.Series);
+        HashSet<Bar> series = [.. Bars.Take(5)];
+
+        Action act = () => listing.WithParamValue("sourceB", series);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("*IReadOnlyList<IReusable>*received HashSet<Bar>*");
+    }
+
     private readonly record struct ReusableStruct(DateTime Timestamp, double Value) : IReusable;
 }
