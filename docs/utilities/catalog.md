@@ -158,7 +158,7 @@ IReadOnlyList<EmaResult> emaWithParams = indicatorListing
   .Execute<EmaResult>();
 ```
 
-The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `WithoutParam(name)`, `FromSource(bars)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata.
+The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `WithoutParam(name)`, `FromSource(bars)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata. A series value must be assignable to `IReadOnlyList<IReusable>`, so its elements are reference types; a list of `IReusable` structs is rejected.
 
 ### Leave a parameter out
 

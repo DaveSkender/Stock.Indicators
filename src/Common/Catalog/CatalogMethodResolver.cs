@@ -119,12 +119,18 @@ internal static class CatalogMethodResolver
         [DynamicallyAccessedMembers(MethodMembers)] Type declaringType,
         string methodName)
     {
-        if (!Overloads.TryGetValue((declaringType, methodName), out MethodInfo[]? overloads))
+        if (Overloads.TryGetValue((declaringType, methodName), out MethodInfo[]? overloads))
         {
-            overloads = GetStaticMethods(declaringType)
-                .Where(m => string.Equals(m.Name, methodName, StringComparison.Ordinal))
-                .ToArray();
+            return overloads;
+        }
 
+        overloads = GetStaticMethods(declaringType)
+            .Where(m => string.Equals(m.Name, methodName, StringComparison.Ordinal))
+            .ToArray();
+
+        // only names that resolve are cached, so caller-supplied names cannot grow the cache
+        if (overloads.Length > 0)
+        {
             Overloads[(declaringType, methodName)] = overloads;
         }
 

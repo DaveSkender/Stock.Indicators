@@ -307,13 +307,6 @@ internal static class ListingExecutor
     /// <returns><c>true</c> when every argument is assignable to its parameter.</returns>
     private static bool Accepts(MethodInfo method, List<object?> arguments)
     {
-        // a generic definition's parameter types are still open, so they cannot be
-        // tested until the type argument is substituted further below
-        if (method.IsGenericMethodDefinition)
-        {
-            return true;
-        }
-
         ParameterInfo[] parameters = method.GetParameters();
 
         for (int i = 0; i < parameters.Length; i++)

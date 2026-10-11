@@ -458,4 +458,20 @@ public class CatalogExecutionTests : TestBase
             .WithMessage("*sourceEval, sourceBase*")
             .WithMessage("*name the one to bind*");
     }
+
+    [TestMethod]
+    public void SeriesOfReusableStructsIsRejectedBeforeExecution()
+    {
+        // IReadOnlyList<IReusable> cannot hold a struct list by covariance, so no
+        // indicator method could bind it; reject at the builder, not at invoke
+        IndicatorListing listing = Catalog.Get("CORR", Style.Series);
+        List<ReusableStruct> series = [new(DateTime.UnixEpoch, 1d)];
+
+        Action act = () => listing.WithParamValue("sourceB", series);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("*sourceB*IReadOnlyList<IReusable>*");
+    }
+
+    private readonly record struct ReusableStruct(DateTime Timestamp, double Value) : IReusable;
 }

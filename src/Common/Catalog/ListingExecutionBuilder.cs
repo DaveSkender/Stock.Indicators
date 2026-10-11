@@ -234,12 +234,12 @@ public class ListingExecutionBuilder
                     $"Parameter '{parameterName}' expects a series (IReadOnlyList<T> where T : IReusable), but received {value.GetType().Name}", nameof(value));
             }
 
-            // Covariance makes any list of reference-type IReusable elements an
-            // IEnumerable<IReusable>, so no reflection over the value's type is needed.
+            // Indicator methods take IReadOnlyList<IReusable>, which by covariance accepts
+            // only reference-type elements; a list of IReusable structs cannot bind.
             if (value is not IEnumerable<IReusable>)
             {
                 throw new ArgumentException(
-                    $"Parameter '{parameterName}' expects series elements to implement IReusable, but received {value.GetType().Name}", nameof(value));
+                    $"Parameter '{parameterName}' expects a series assignable to IReadOnlyList<IReusable> (reference-type elements implementing IReusable), but received {value.GetType().Name}", nameof(value));
             }
         }
         // Validate basic parameter types

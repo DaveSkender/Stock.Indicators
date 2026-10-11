@@ -164,7 +164,7 @@ jobs:
   gate:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    needs: ["lint-and-test", "test-regression"]
+    needs: ["lint-and-test", "test-regression", "native-aot"]
     if: ${{ !github.event.pull_request.draft }}
 
     steps:
