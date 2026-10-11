@@ -251,7 +251,7 @@ export default defineConfig({
         {
           text: 'Examples',
           items: [
-            { text: 'Getting started', link: '/examples/' },
+            { text: 'Example usage code', link: '/examples/' },
             { text: 'Custom chart (bring your own data)', link: '/examples/custom-chart' },
           ]
         }
