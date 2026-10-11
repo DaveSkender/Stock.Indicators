@@ -92,7 +92,9 @@ public record IndicatorListing
     /// </summary>
     /// <remarks>
     /// The methods are preserved through trimming and NativeAOT publishing, so a caller
-    /// can read their parameters or invoke them without scanning the assembly.
+    /// can read their parameters or invoke them without scanning the assembly. A listing
+    /// built outside the catalog with only <see cref="MethodName"/> set resolves through
+    /// the catalog listing with the same method name.
     /// </remarks>
     /// <returns>
     /// The overloads of <see cref="MethodName"/>; empty when it is unset or names no method.

@@ -28,7 +28,9 @@ public class CatalogMethodOverloadsTests
         IndicatorListing listing = Catalog.Get("EMA", Style.Series)!;
 
         MethodInfo method = listing.GetMethodOverloads()
-            .Single(static m => m.GetParameters().Length == 2);
+            .Single(static m => m.GetParameters()
+                .Select(static p => p.ParameterType)
+                .SequenceEqual([typeof(IReadOnlyList<IReusable>), typeof(int)]));
 
         object result = method.Invoke(null, [bars, 20]);
 
@@ -43,6 +45,30 @@ public class CatalogMethodOverloadsTests
         overloads.Should().NotBeAssignableTo<MethodInfo[]>();
         overloads.Should().BeAssignableTo<ICollection<MethodInfo>>()
             .Which.IsReadOnly.Should().BeTrue();
+    }
+
+    [TestMethod]
+    public void ListingNamingNoMethodHasNoOverloads()
+    {
+        IndicatorListing listing = Catalog.Get("EMA", Style.Series)! with { MethodName = "NoSuchMethod" };
+
+        listing.GetMethodOverloads().Should().BeEmpty();
+    }
+
+    [TestMethod]
+    public void ListingBuiltWithOnlyMethodNameResolvesThroughTheCatalog()
+    {
+        IndicatorListing catalogListing = Catalog.Get("EMA", Style.Series)!;
+        IndicatorListing external = new() {
+            Uiid = "MY-EMA",
+            Name = "My EMA",
+            Category = catalogListing.Category,
+            Results = catalogListing.Results,
+            LegendTemplate = "My EMA",
+            MethodName = "ToEma"
+        };
+
+        external.GetMethodOverloads().Should().Equal(catalogListing.GetMethodOverloads());
     }
 
     [TestMethod]
