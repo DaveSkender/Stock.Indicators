@@ -18,9 +18,9 @@ IReadOnlyList<ForceIndexResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
 
 ### Historical price bars requirements
 
@@ -45,10 +45,10 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `ForceIndexResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `ForceIndex` | _`double`_ | Force Index |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `ForceIndex`<br>_`double`_ | Force Index |
 
 ### Utilities
 

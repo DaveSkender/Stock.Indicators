@@ -26,9 +26,9 @@ IReadOnlyList<TrResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to consider.  Must be greater than 1. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) to consider.  Must be greater than 1. |
 
 ### Historical price bars requirements
 
@@ -53,12 +53,12 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `AtrResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Tr` | _`double`_ | True Range for current period |
-| `Atr` | _`double`_ | Average True Range |
-| `Atrp` | _`double`_ | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Tr`<br>_`double`_ | True Range for current period |
+| `Atr`<br>_`double`_ | Average True Range |
+| `Atrp`<br>_`double`_ | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks. |
 
 ### Utilities
 

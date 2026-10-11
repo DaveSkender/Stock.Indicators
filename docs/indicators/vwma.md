@@ -17,9 +17,9 @@ IReadOnlyList<VwmaResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical price bars requirements
 
@@ -40,10 +40,10 @@ IReadOnlyList<VwmaResult>
 
 ### `VwmaResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Vwma` | _`double`_ | Volume Weighted Moving Average |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Vwma`<br>_`double`_ | Volume Weighted Moving Average |
 
 ### Utilities
 

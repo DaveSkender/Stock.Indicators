@@ -18,9 +18,9 @@ IReadOnlyList<SlopeResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
 
 ### Historical price bars requirements
 
@@ -46,14 +46,14 @@ The `Line` is continuously repainted since it is based on the last bar and lookb
 
 ### `SlopeResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Slope` | _`double`_ | Slope `𝑚` of the best-fit line of price |
-| `Intercept` | _`double`_ | Y-intercept `𝑏` of the best-fit line |
-| `StdDev` | _`double`_ | Standard deviation of price over `N` lookback periods |
-| `RSquared` | _`double`_ | R-squared (R&sup2;), aka Coefficient of determination |
-| `Line` | _`decimal`_ | Best-fit line `𝑦` over the last `N` periods (i.e. `𝑦=𝑚𝑥+𝑏` using last period values) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Slope`<br>_`double`_ | Slope `𝑚` of the best-fit line of price |
+| `Intercept`<br>_`double`_ | Y-intercept `𝑏` of the best-fit line |
+| `StdDev`<br>_`double`_ | Standard deviation of price over `N` lookback periods |
+| `RSquared`<br>_`double`_ | R-squared (R&sup2;), aka Coefficient of determination |
+| `Line`<br>_`decimal`_ | Best-fit line `𝑦` over the last `N` periods (i.e. `𝑦=𝑚𝑥+𝑏` using last period values) |
 
 ### Utilities
 

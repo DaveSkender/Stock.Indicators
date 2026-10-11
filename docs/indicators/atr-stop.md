@@ -18,11 +18,11 @@ IReadOnlyList<AtrStopResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1.  Default is 21. |
-| `multiplier` | _`double`_ | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
-| `endType` | _`EndType`_ | Determines whether `Close` or `High/Low` is used as basis for stop offset. Default is `EndType.Close`. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1.  Default is 21. |
+| `multiplier`<br>_`double`_ | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
+| `endType`<br>_`EndType`_ | Determines whether `Close` or `High/Low` is used as basis for stop offset. Default is `EndType.Close`. |
 
 ### Historical price bars requirements
 
@@ -49,13 +49,13 @@ the line segment before the first reversal and the first `N+100` periods are unr
 
 ### `AtrStopResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `AtrStop` | _`double`_ | ATR Trailing Stop line contains both Upper and Lower segments |
-| `BuyStop` | _`double`_ | Upper band only (green) |
-| `SellStop` | _`double`_ | Lower band only (red) |
-| `Atr` | _`double`_ | Average True Range |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `AtrStop`<br>_`double`_ | ATR Trailing Stop line contains both Upper and Lower segments |
+| `BuyStop`<br>_`double`_ | Upper band only (green) |
+| `SellStop`<br>_`double`_ | Lower band only (red) |
+| `Atr`<br>_`double`_ | Average True Range |
 
 `BuyStop` and `SellStop` values are provided to differentiate buy vs sell stop lines and to clearly demark trend reversal.  `AtrStop` is the contiguous combination of both upper and lower line data.
 
