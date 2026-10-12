@@ -8,6 +8,9 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     private readonly RsiList _rsiList;
     private readonly StochList _stochList;
 
+    // rows seen since construction or Clear; Count shrinks when the list prunes
+    private int _rowsSeen;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiList"/> class.
     /// </summary>
@@ -69,30 +72,16 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
         // Add to RSI list
         _rsiList.Add(timestamp, value);
 
-        // Get the latest RSI result
-        RsiResult rsiResult = _rsiList[^1];
+        // Series runs Stoch over every row, warmup NaN included, so its windows line up by index
+        double rsi = _rsiList[^1].Rsi.Null2NaN();
+        _stochList.Add(timestamp, rsi, rsi, rsi);
 
-        // If RSI has a value, feed it to the Stochastic calculation
-        if (rsiResult.Rsi.HasValue)
-        {
-            double rsiValue = rsiResult.Rsi.Value;
-            _stochList.Add(timestamp, rsiValue, rsiValue, rsiValue);
-        }
+        StochResult stoch = _stochList[^1];
 
-        // Create StochRsi result from the Stochastic result
-        StochRsiResult result;
-        if (_stochList.Count > 0)
-        {
-            StochResult stochResult = _stochList[^1];
-            result = new StochRsiResult(
-                Timestamp: timestamp,
-                StochRsi: stochResult.Oscillator,
-                Signal: stochResult.Signal);
-        }
-        else
-        {
-            result = new StochRsiResult(timestamp);
-        }
+        // Series leaves the first rsiPeriods + stochPeriods - 1 rows empty
+        StochRsiResult result = _rowsSeen++ >= RsiPeriods + StochPeriods - 1
+            ? new(timestamp, stoch.Oscillator, stoch.Signal)
+            : new(timestamp);
 
         AddInternal(result);
     }
@@ -121,6 +110,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
         base.Clear();
         _rsiList.Clear();
         _stochList.Clear();
+        _rowsSeen = 0;
     }
 }
 
