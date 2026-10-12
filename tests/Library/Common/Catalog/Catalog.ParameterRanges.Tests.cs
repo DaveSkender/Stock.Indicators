@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Reflection;
 
 namespace Catalogging;
@@ -167,7 +166,7 @@ public class CatalogParameterRangeTests : TestBase
         {
             if (listing.Style == Style.Stream)
             {
-                InvokeHub(listing, args);
+                _ = CatalogReflection.ExecuteHub(listing, args, Bars);
                 return null;
             }
 
@@ -188,50 +187,5 @@ public class CatalogParameterRangeTests : TestBase
         {
             return ex;
         }
-    }
-
-    /// <summary>
-    /// Builds a stream listing's hub on a prefilled <see cref="BarHub"/>, which the catalog
-    /// executor cannot do: every provider argument gets the bar hub, every other argument
-    /// its catalog default unless overridden.
-    /// </summary>
-    private static void InvokeHub(IndicatorListing listing, Dictionary<string, object> args)
-    {
-        BarHub provider = new();
-        provider.Add(Bars);
-
-        MethodInfo method = CatalogMethodResolver.GetOverloads(listing.MethodName)
-            .Where(m => m.GetParameters() is [ParameterInfo first, ..]
-                && first.ParameterType.IsInstanceOfType(provider))
-            .OrderByDescending(m => m.GetParameters()
-                .Count(p => listing.Parameters?.Any(lp => lp.ParameterName == p.Name) == true))
-            .First();
-
-        object[] arguments = method.GetParameters()
-            .Select(p => p.ParameterType.IsInstanceOfType(provider)
-                ? provider
-                : Coerce(args.TryGetValue(p.Name!, out object v)
-                    ? v
-                    : listing.Parameters?.FirstOrDefault(lp => lp.ParameterName == p.Name)?.DefaultValue
-                        ?? (p.HasDefaultValue ? p.DefaultValue : null), p.ParameterType))
-            .ToArray();
-
-        try
-        {
-            _ = method.Invoke(null, arguments);
-        }
-        finally
-        {
-            provider.EndTransmission();
-        }
-    }
-
-    private static object Coerce(object value, Type type)
-    {
-        Type target = Nullable.GetUnderlyingType(type) ?? type;
-
-        return value is null || target.IsInstanceOfType(value) ? value
-            : target.IsEnum ? Enum.ToObject(target, value)
-            : Convert.ChangeType(value, target, CultureInfo.InvariantCulture);
     }
 }
