@@ -9,6 +9,20 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private readonly IReadOnlyList<StcResult> expectedOriginal = Bars.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
     [TestMethod]
+    public void ShortFastPeriods_MatchesSeries()
+    {
+        // a MACD at its window's high or low must score exactly 100 or 0, as in Series
+        BarHub barHub = new();
+        StcHub observer = barHub.ToStcHub(10, 2, 50);
+        barHub.Add(Bars);
+
+        observer.Results.IsExactly(Bars.ToStc(10, 2, 50));
+
+        observer.Unsubscribe();
+        barHub.EndTransmission();
+    }
+
+    [TestMethod]
     public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Bars.Count;

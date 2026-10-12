@@ -17,6 +17,19 @@ public static partial class Stc
             static i => i + 250);
 
     /// <summary>
+    /// Scores a MACD value within its window's range, giving exactly 0 and 100 at the
+    /// extremes as Series' stochastic does; the division can miss them by a digit.
+    /// </summary>
+    /// <param name="macd">MACD value to score.</param>
+    /// <param name="highHigh">Highest MACD in the window.</param>
+    /// <param name="lowLow">Lowest MACD in the window.</param>
+    /// <returns>Raw %K from 0 to 100.</returns>
+    internal static double RawK(double macd, double highHigh, double lowLow)
+        => highHigh == lowLow || macd <= lowLow ? 0
+         : macd >= highHigh ? 100
+         : 100 * (macd - lowLow) / (highHigh - lowLow);
+
+    /// <summary>
     /// Validates the parameters for STC calculation.
     /// </summary>
     /// <param name="cyclePeriods">Number of periods for the cycle.</param>

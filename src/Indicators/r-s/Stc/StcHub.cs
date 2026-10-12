@@ -73,9 +73,7 @@ public class StcHub
             double highHigh = _macdBuffer.GetMax();
             double lowLow = _macdBuffer.GetMin();
 
-            rawK = (highHigh - lowLow) != 0
-                 ? 100 * (macd - lowLow) / (highHigh - lowLow)
-                 : 0;
+            rawK = Stc.RawK(macd, highHigh, lowLow);
         }
 
         _rawKBuffer.Enqueue(rawK);
@@ -155,7 +153,7 @@ public class StcHub
 
                 MacdResult macdAtP = ProviderCache[p];
                 double macdAtPValue = macdAtP.Macd ?? double.NaN;
-                double rawAtP = (hh - ll) != 0 ? 100 * (macdAtPValue - ll) / (hh - ll) : 0;
+                double rawAtP = Stc.RawK(macdAtPValue, hh, ll);
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }

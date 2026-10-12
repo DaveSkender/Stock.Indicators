@@ -16,6 +16,11 @@ public class StcBufferListTests : BufferListTestBase, ITestChainBufferList
        = Bars.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
     [TestMethod]
+    public void ShortFastPeriods_MatchesSeries() =>
+        // a MACD at its window's high or low must score exactly 100 or 0, as in Series
+        Bars.ToStcList(10, 2, 50).IsExactly(Bars.ToStc(10, 2, 50));
+
+    [TestMethod]
     public void AddBar_IncrementsResults()
     {
         StcList sut = new(cyclePeriods, fastPeriods, slowPeriods);
