@@ -44,7 +44,7 @@ IReadOnlyList<BopResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Bop`<br>_`double`_ | Balance of Power |
+| `Bop`<br>_`double?`_ | Balance of Power |
 
 ### Utilities
 

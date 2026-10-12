@@ -53,10 +53,10 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Sar`<br>_`double`_ | Stop and Reverse value contains both Upper and Lower segments |
-| `IsStop`<br>_`bool`_ | Indicates a trend reversal |
-| `UpperBand`<br>_`double`_ | Upper band only (bearish/red) |
-| `LowerBand`<br>_`double`_ | Lower band only (bullish/green) |
+| `Sar`<br>_`double?`_ | Stop and Reverse value contains both Upper and Lower segments |
+| `IsStop`<br>_`bool?`_ | Indicates a trend reversal |
+| `UpperBand`<br>_`double?`_ | Upper band only (bearish/red) |
+| `LowerBand`<br>_`double?`_ | Lower band only (bullish/green) |
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `Sar` is the contiguous combination of both upper and lower line data.
 

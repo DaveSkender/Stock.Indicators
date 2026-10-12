@@ -44,7 +44,7 @@ IReadOnlyList<MfiResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Mfi`<br>_`double`_ | Money Flow Index |
+| `Mfi`<br>_`double?`_ | Money Flow Index |
 
 ### Utilities
 

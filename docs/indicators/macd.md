@@ -50,11 +50,11 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Macd`<br>_`double`_ | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`) |
-| `Signal`<br>_`double`_ | Moving average of the `MACD` line |
-| `Histogram`<br>_`double`_ | Gap between the `MACD` and `Signal` line |
-| `FastEma`<br>_`double`_ | Fast Exponential Moving Average |
-| `SlowEma`<br>_`double`_ | Slow Exponential Moving Average |
+| `Macd`<br>_`double?`_ | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`) |
+| `Signal`<br>_`double?`_ | Moving average of the `MACD` line |
+| `Histogram`<br>_`double?`_ | Gap between the `MACD` and `Signal` line |
+| `FastEma`<br>_`double?`_ | Fast Exponential Moving Average |
+| `SlowEma`<br>_`double?`_ | Slow Exponential Moving Average |
 
 ### Utilities
 

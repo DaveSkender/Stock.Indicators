@@ -44,7 +44,7 @@ IReadOnlyList<CmoResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Cmo`<br>_`double`_ | Chande Momentum Oscillator |
+| `Cmo`<br>_`double?`_ | Chande Momentum Oscillator |
 
 ### Utilities
 

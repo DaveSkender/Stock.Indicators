@@ -48,7 +48,7 @@ The first `10×N` periods will have decreasing magnitude, convergence-related pr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Rsi`<br>_`double`_ | Relative Strength Index |
+| `Rsi`<br>_`double?`_ | Relative Strength Index |
 
 ### Utilities
 

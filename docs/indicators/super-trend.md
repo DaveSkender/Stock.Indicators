@@ -49,9 +49,9 @@ the line segment before the first reversal and the first `N+100` periods are unr
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `SuperTrend`<br>_`decimal`_ | SuperTrend line contains both Upper and Lower segments |
-| `UpperBand`<br>_`decimal`_ | Upper band only (bearish/red) |
-| `LowerBand`<br>_`decimal`_ | Lower band only (bullish/green) |
+| `SuperTrend`<br>_`decimal?`_ | SuperTrend line contains both Upper and Lower segments |
+| `UpperBand`<br>_`decimal?`_ | Upper band only (bearish/red) |
+| `LowerBand`<br>_`decimal?`_ | Lower band only (bullish/green) |
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `SuperTrend` is the contiguous combination of both upper and lower line data.
 

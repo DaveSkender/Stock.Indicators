@@ -46,9 +46,9 @@ IReadOnlyList<AroonResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `AroonUp`<br>_`double`_ | Based on last High price |
-| `AroonDown`<br>_`double`_ | Based on last Low price |
-| `Oscillator`<br>_`double`_ | AroonUp - AroonDown |
+| `AroonUp`<br>_`double?`_ | Based on last High price |
+| `AroonDown`<br>_`double?`_ | Based on last Low price |
+| `Oscillator`<br>_`double?`_ | AroonUp - AroonDown |
 
 ### Utilities
 

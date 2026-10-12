@@ -49,9 +49,9 @@ IReadOnlyList<StdDevResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `StdDev`<br>_`double`_ | Standard deviation of price |
-| `Mean`<br>_`double`_ | Mean value of price |
-| `ZScore`<br>_`double`_ | Z-score of current price (number of standard deviations from mean) |
+| `StdDev`<br>_`double?`_ | Standard deviation of price |
+| `Mean`<br>_`double?`_ | Mean value of price |
+| `ZScore`<br>_`double?`_ | Z-score of current price (number of standard deviations from mean) |
 
 ### Utilities
 

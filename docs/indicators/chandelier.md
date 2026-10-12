@@ -48,7 +48,7 @@ IReadOnlyList<ChandelierResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `ChandelierExit`<br>_`double`_ | Exit line |
+| `ChandelierExit`<br>_`double?`_ | Exit line |
 
 ### Utilities
 

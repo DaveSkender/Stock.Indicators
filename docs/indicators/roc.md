@@ -44,8 +44,8 @@ IReadOnlyList<RocResult>
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `Momentum`<br>_`double`_ | Raw change in price over `N` periods |
-| `Roc`<br>_`double`_ | Percent change in price (%, not decimal) |
+| `Momentum`<br>_`double?`_ | Raw change in price over `N` periods |
+| `Roc`<br>_`double?`_ | Percent change in price (%, not decimal) |
 
 ### Utilities
 

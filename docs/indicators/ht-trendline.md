@@ -43,9 +43,9 @@ The first `100` periods will have decreasing magnitude, convergence-related prec
 | property | description |
 | ----- | ----------- |
 | `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
-| `DcPeriods`<br>_`int`_ | Dominant cycle periods (smoothed) |
-| `Trendline`<br>_`double`_ | HT Trendline |
-| `SmoothPrice`<br>_`double`_ | Weighted moving average of `(H+L)/2` price |
+| `DcPeriods`<br>_`int?`_ | Dominant cycle periods (smoothed) |
+| `Trendline`<br>_`double?`_ | HT Trendline |
+| `SmoothPrice`<br>_`double?`_ | Weighted moving average of `(H+L)/2` price |
 
 ### Utilities
 
