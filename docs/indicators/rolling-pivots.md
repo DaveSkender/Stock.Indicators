@@ -20,8 +20,8 @@ IReadOnlyList<RollingPivotsResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `windowPeriods`<br>_`int`_ | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range. |
-| `offsetPeriods`<br>_`int`_ | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`. |
+| `windowPeriods`<br>_`int`_ | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.  Default is 20. |
+| `offsetPeriods`<br>_`int`_ | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.  Default is 0. |
 | `pointType`<br>_`PivotPointType`_ | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
 For example, a window of 8 with an offset of 4 would evaluate bars like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `bars` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](/indicators/pivot-points) indicator.

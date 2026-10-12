@@ -25,7 +25,7 @@ StdDevHub observer = barHub.ToStdDevHub(lookbackPeriods);
 
 | param | description |
 | ----- | ----------- |
-| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size. |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 14. |
 
 ### Historical price bars requirements
 
