@@ -20,7 +20,7 @@ public static partial class Trix
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToTrix")
+            .WithMethodName(typeof(Trix), "ToTrix")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Trix
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToTrixHub")
+            .WithMethodName(typeof(Trix), "ToTrixHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Trix
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToTrixList")
+            .WithMethodName(typeof(Trix), "ToTrixList")
             .Build();
 }

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Not in Stock.Indicators.sln, so the gate build, Roslynator, and dotnet format skip it;
+       only the native-aot CI job builds it -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- PublishAot adds an ILCompiler package pinned to the SDK patch and the host RID,
+         so a committed lock file would fail locked-mode restore on any other machine -->
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Indicators.csproj" />
+
+    <!-- analyze every library member, not only those Program reaches -->
+    <TrimmerRootAssembly Include="FacioQuo.Stock.Indicators" />
+  </ItemGroup>
+
+</Project>

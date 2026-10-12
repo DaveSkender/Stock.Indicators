@@ -22,7 +22,7 @@ public static partial class Cmf
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToCmf")
+            .WithMethodName(typeof(Cmf), "ToCmf")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class Cmf
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToCmfHub")
+            .WithMethodName(typeof(Cmf), "ToCmfHub")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class Cmf
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToCmfList")
+            .WithMethodName(typeof(Cmf), "ToCmfList")
             .Build();
 }

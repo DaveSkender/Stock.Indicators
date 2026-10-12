@@ -24,7 +24,7 @@ public static partial class Macd
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToMacd")
+            .WithMethodName(typeof(Macd), "ToMacd")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class Macd
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToMacdHub")
+            .WithMethodName(typeof(Macd), "ToMacdHub")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class Macd
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToMacdList")
+            .WithMethodName(typeof(Macd), "ToMacdList")
             .Build();
 }

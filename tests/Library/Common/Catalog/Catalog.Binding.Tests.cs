@@ -39,7 +39,7 @@ public class CatalogBindingTests : TestBase
             }
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             if (overloads.Count == 0)
             {
@@ -59,6 +59,73 @@ public class CatalogBindingTests : TestBase
     }
 
     [TestMethod]
+    public void EveryListingDeclaresTheClassHoldingAllItsOverloads()
+    {
+        List<string> violations = [];
+
+        foreach (IndicatorListing listing in Catalog.Get())
+        {
+            if (string.IsNullOrWhiteSpace(listing.MethodName))
+            {
+                continue;
+            }
+
+            IEnumerable<MethodInfo> declared = CatalogReflection.GetOverloads(listing);
+            IEnumerable<MethodInfo> everywhere = CatalogReflection.GetAssemblyOverloads(listing.MethodName);
+
+            if (!declared.ToHashSet().SetEquals(everywhere))
+            {
+                violations.Add(
+                    $"{CatalogReflection.Describe(listing)}: '{listing.MethodName}' is also declared "
+                  + "outside the class its listing names");
+            }
+        }
+
+        string.Join(Environment.NewLine, violations).Should().BeEmpty(
+            "a listing resolves its method only on its declaring type, so that type must hold every overload");
+    }
+
+    [TestMethod]
+    public void RegisteringOneMethodNameFromTwoClassesThrows()
+    {
+        CatalogMethodResolver.Register(typeof(FirstDeclarer), nameof(FirstDeclarer.ToDuplicateName));
+
+        Action second = () => CatalogMethodResolver.Register(typeof(SecondDeclarer), nameof(SecondDeclarer.ToDuplicateName));
+
+        second.Should().Throw<InvalidOperationException>()
+            .WithMessage("*ToDuplicateName*FirstDeclarer*SecondDeclarer*");
+    }
+
+    [TestMethod]
+    public void CopiedListingResolvesTheMethodItNames()
+    {
+        IndicatorListing ema = Catalog.Get("EMA", Style.Series);
+        IndicatorListing sma = Catalog.Get("SMA", Style.Series);
+
+        IndicatorListing copy = ema with { MethodName = sma.MethodName };
+
+        CatalogReflection.GetOverloads(copy)
+            .Should().NotBeEmpty()
+            .And.BeEquivalentTo(CatalogReflection.GetOverloads(sma));
+
+        copy.Execute<SmaResult>(Bars)
+            .Should().BeEquivalentTo(Bars.ToSma(20));
+
+        // derived when the catalog builds a listing, so a copy keeps the original's
+        copy.ResultRecordType.Should().Be(ema.ResultRecordType);
+    }
+
+    [TestMethod]
+    public void MethodNoListingNamesDoesNotResolve()
+    {
+        // a library static method outside the catalog, such as a utility, is not an
+        // indicator method a listing can execute
+        IndicatorListing listing = Catalog.Get("EMA", Style.Series) with { MethodName = "ToSortedList" };
+
+        CatalogReflection.GetOverloads(listing).Should().BeEmpty();
+    }
+
+    [TestMethod]
     public void EveryResultDataNameExistsOnResultRecord()
     {
         List<string> violations = [];
@@ -68,7 +135,7 @@ public class CatalogBindingTests : TestBase
             string identity = CatalogReflection.Describe(listing);
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             List<Type> resultTypes = overloads
                 .Select(CatalogReflection.GetResultType)
@@ -116,7 +183,7 @@ public class CatalogBindingTests : TestBase
             string identity = CatalogReflection.Describe(listing);
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             if (overloads.Count == 0)
             {
@@ -159,7 +226,7 @@ public class CatalogBindingTests : TestBase
             }
 
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             string[] catalogNames = listing.Parameters
                 .Select(static p => p.ParameterName)
@@ -258,7 +325,7 @@ public class CatalogBindingTests : TestBase
                 .Select(static p => p.ParameterName)
                 .ToArray();
 
-            MethodInfo method = CatalogReflection.GetOverloads(listing.MethodName)
+            MethodInfo method = CatalogReflection.GetOverloads(listing)
                 .FirstOrDefault(m => CatalogReflection.IsContiguousRun(
                     catalogNames, CatalogReflection.GetParameterNames(m)));
 
@@ -325,7 +392,7 @@ public class CatalogBindingTests : TestBase
         foreach (IndicatorListing listing in Catalog.Get())
         {
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             if (overloads.Count == 0)
             {
@@ -346,5 +413,15 @@ public class CatalogBindingTests : TestBase
 
         string.Join(Environment.NewLine, violations).Should().BeEmpty(
             "a listing must bind to a method of its own style; all three styles share a result record, so the record alone cannot reveal a cross-style mistake");
+    }
+
+    private static class FirstDeclarer
+    {
+        public static int ToDuplicateName() => 1;
+    }
+
+    private static class SecondDeclarer
+    {
+        public static int ToDuplicateName() => 2;
     }
 }

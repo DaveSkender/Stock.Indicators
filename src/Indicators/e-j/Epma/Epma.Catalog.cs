@@ -20,7 +20,7 @@ public static partial class Epma
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToEpma")
+            .WithMethodName(typeof(Epma), "ToEpma")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Epma
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToEpmaHub")
+            .WithMethodName(typeof(Epma), "ToEpmaHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Epma
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToEpmaList")
+            .WithMethodName(typeof(Epma), "ToEpmaList")
             .Build();
 }

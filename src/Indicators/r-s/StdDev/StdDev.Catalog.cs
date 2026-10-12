@@ -20,7 +20,7 @@ public static partial class StdDev
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToStdDev")
+            .WithMethodName(typeof(StdDev), "ToStdDev")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class StdDev
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToStdDevHub")
+            .WithMethodName(typeof(StdDev), "ToStdDevHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class StdDev
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToStdDevList")
+            .WithMethodName(typeof(StdDev), "ToStdDevList")
             .Build();
 }

@@ -25,7 +25,7 @@ public static partial class RocWb
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToRocWb")
+            .WithMethodName(typeof(RocWb), "ToRocWb")
             .Build();
 
     /// <summary>
@@ -34,7 +34,7 @@ public static partial class RocWb
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToRocWbHub")
+            .WithMethodName(typeof(RocWb), "ToRocWbHub")
             .Build();
 
     /// <summary>
@@ -43,6 +43,6 @@ public static partial class RocWb
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToRocWbList")
+            .WithMethodName(typeof(RocWb), "ToRocWbList")
             .Build();
 }

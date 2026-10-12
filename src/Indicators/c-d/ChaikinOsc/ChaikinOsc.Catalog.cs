@@ -24,7 +24,7 @@ public static partial class ChaikinOsc
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToChaikinOsc")
+            .WithMethodName(typeof(ChaikinOsc), "ToChaikinOsc")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class ChaikinOsc
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToChaikinOscHub")
+            .WithMethodName(typeof(ChaikinOsc), "ToChaikinOscHub")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class ChaikinOsc
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToChaikinOscList")
+            .WithMethodName(typeof(ChaikinOsc), "ToChaikinOscList")
             .Build();
 }

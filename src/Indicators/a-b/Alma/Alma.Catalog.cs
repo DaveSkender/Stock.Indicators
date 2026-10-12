@@ -22,7 +22,7 @@ public static partial class Alma
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToAlma")
+            .WithMethodName(typeof(Alma), "ToAlma")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class Alma
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToAlmaHub")
+            .WithMethodName(typeof(Alma), "ToAlmaHub")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class Alma
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToAlmaList")
+            .WithMethodName(typeof(Alma), "ToAlmaList")
             .Build();
 }

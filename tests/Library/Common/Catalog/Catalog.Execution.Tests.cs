@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 
 namespace Catalogging;
@@ -458,4 +459,45 @@ public class CatalogExecutionTests : TestBase
             .WithMessage("*sourceEval, sourceBase*")
             .WithMessage("*name the one to bind*");
     }
+
+    [TestMethod]
+    public void SeriesOfReusableStructsIsRejectedBeforeExecution()
+    {
+        // IReadOnlyList<IReusable> cannot hold a struct list by covariance, so no
+        // indicator method could bind it; reject at the builder, not at invoke
+        IndicatorListing listing = Catalog.Get("CORR", Style.Series);
+        List<ReusableStruct> series = [new(DateTime.UnixEpoch, 1d)];
+
+        Action act = () => listing.WithParamValue("sourceB", series);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("*sourceB*IReadOnlyList<IReusable>*");
+    }
+
+    [TestMethod]
+    public void SeriesThatIsNotAListIsRejectedBeforeExecution()
+    {
+        IndicatorListing listing = Catalog.Get("CORR", Style.Series);
+        HashSet<Bar> series = [.. Bars.Take(5)];
+
+        Action act = () => listing.WithParamValue("sourceB", series);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("*IReadOnlyList<IReusable>*received HashSet<Bar>*");
+    }
+
+    [TestMethod]
+    public void SeriesNestedInAGenericTypeIsRejectedWithItsName()
+    {
+        // Dictionary<,>.ValueCollection is generic but its Name has no arity suffix
+        IndicatorListing listing = Catalog.Get("CORR", Style.Series);
+        Dictionary<string, Bar> byId = Bars.Take(5).ToDictionary(static b => b.Timestamp.ToString("O", CultureInfo.InvariantCulture));
+
+        Action act = () => listing.WithParamValue("sourceB", byId.Values);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("*received ValueCollection*");
+    }
+
+    private readonly record struct ReusableStruct(DateTime Timestamp, double Value) : IReusable;
 }

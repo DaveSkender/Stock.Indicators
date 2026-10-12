@@ -20,7 +20,7 @@ public static partial class Chop
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToChop")
+            .WithMethodName(typeof(Chop), "ToChop")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Chop
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToChopHub")
+            .WithMethodName(typeof(Chop), "ToChopHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Chop
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToChopList")
+            .WithMethodName(typeof(Chop), "ToChopList")
             .Build();
 }

@@ -26,7 +26,7 @@ public static partial class Ichimoku
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToIchimoku")
+            .WithMethodName(typeof(Ichimoku), "ToIchimoku")
             .Build();
 
     /// <summary>
@@ -35,7 +35,7 @@ public static partial class Ichimoku
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToIchimokuHub")
+            .WithMethodName(typeof(Ichimoku), "ToIchimokuHub")
             .Build();
 
     /// <summary>
@@ -44,6 +44,6 @@ public static partial class Ichimoku
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToIchimokuList")
+            .WithMethodName(typeof(Ichimoku), "ToIchimokuList")
             .Build();
 }

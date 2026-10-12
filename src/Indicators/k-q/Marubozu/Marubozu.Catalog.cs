@@ -20,7 +20,7 @@ public static partial class Marubozu
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToMarubozu")
+            .WithMethodName(typeof(Marubozu), "ToMarubozu")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Marubozu
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToMarubozuHub")
+            .WithMethodName(typeof(Marubozu), "ToMarubozuHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Marubozu
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToMarubozuList")
+            .WithMethodName(typeof(Marubozu), "ToMarubozuList")
             .Build();
 }

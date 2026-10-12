@@ -7,6 +7,7 @@ This folder holds the library's test projects. Benchmarks live in `tools/perform
 | `Library/Tests.Indicators.csproj` | Unit and regression tests: per-indicator tests under `Indicators/{a-b … t-z}/{Name}/`, plus `Common/`, `Precision/`, `Obsolete/` shim tests, `TestBase/`, and `TestTools/` |
 | `PublicApi/Tests.PublicApi.csproj` | Public-surface tests: `Convergence.*` checks that Series, BufferList, and StreamHub agree end to end; `Customizable/` and `Guide/` cover consumer scenarios |
 | `Integration/Tests.Integration.csproj` | Tests against live external services, including the SSE thread-safety suite |
+| `Aot/Tests.Aot.csproj` | NativeAOT smoke app, outside the solution: its native output must match its JIT output |
 
 `[TestCategory("Regression")]` and `[TestCategory("Integration")]` select the regression and integration tests; the `.runsettings` files filter on them.
 
@@ -22,6 +23,13 @@ dotnet test tests/Library/Tests.Indicators.csproj --settings tests/tests.regress
 # Public API and integration tests
 dotnet test tests/PublicApi/Tests.PublicApi.csproj
 dotnet test tests/Integration/Tests.Integration.csproj
+
+# NativeAOT smoke (as the native-aot CI job runs it)
+dotnet publish tests/Aot --configuration Release --output aot-out
+dotnet build tests/Aot --configuration Release
+dotnet run --project tests/Aot --configuration Release --no-build > jit.txt
+./aot-out/Tests.Aot > aot.txt
+diff jit.txt aot.txt
 ```
 
 ## Boundaries

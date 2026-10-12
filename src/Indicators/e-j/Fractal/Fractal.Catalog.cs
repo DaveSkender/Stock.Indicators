@@ -22,7 +22,7 @@ public static partial class Fractal
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToFractal")
+            .WithMethodName(typeof(Fractal), "ToFractal")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class Fractal
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToFractalHub")
+            .WithMethodName(typeof(Fractal), "ToFractalHub")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class Fractal
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToFractalList")
+            .WithMethodName(typeof(Fractal), "ToFractalList")
             .Build();
 }

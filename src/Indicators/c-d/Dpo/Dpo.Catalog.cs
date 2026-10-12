@@ -21,7 +21,7 @@ public static partial class Dpo
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToDpo")
+            .WithMethodName(typeof(Dpo), "ToDpo")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class Dpo
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToDpoList")
+            .WithMethodName(typeof(Dpo), "ToDpoList")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class Dpo
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToDpoHub")
+            .WithMethodName(typeof(Dpo), "ToDpoHub")
             .Build();
 }

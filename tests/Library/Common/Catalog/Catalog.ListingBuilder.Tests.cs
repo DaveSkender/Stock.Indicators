@@ -164,7 +164,7 @@ public class CatalogListingBuilderTests : TestBase
 
         IndicatorListing series = new CatalogListingBuilder(common)
             .WithStyle(Style.Series)
-            .WithMethodName("ToTest")
+            .WithMethodName(typeof(Ema), "ToTest")
             .Build();
 
         series.Parameters.Should().BeEquivalentTo(common.Parameters);

@@ -24,6 +24,6 @@ public static partial class ZigZag
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToZigZag")
+            .WithMethodName(typeof(ZigZag), "ToZigZag")
             .Build();
 }

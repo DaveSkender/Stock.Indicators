@@ -22,7 +22,7 @@ public static partial class VolatilityStop
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToVolatilityStop")
+            .WithMethodName(typeof(VolatilityStop), "ToVolatilityStop")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class VolatilityStop
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToVolatilityStopList")
+            .WithMethodName(typeof(VolatilityStop), "ToVolatilityStopList")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class VolatilityStop
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToVolatilityStopHub")
+            .WithMethodName(typeof(VolatilityStop), "ToVolatilityStopHub")
             .Build();
 }

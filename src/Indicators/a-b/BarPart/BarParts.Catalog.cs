@@ -20,7 +20,7 @@ public static partial class BarParts
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToBarPart")
+            .WithMethodName(typeof(BarParts), "ToBarPart")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class BarParts
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToBarPartHub")
+            .WithMethodName(typeof(BarParts), "ToBarPartHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class BarParts
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToBarPartList")
+            .WithMethodName(typeof(BarParts), "ToBarPartList")
             .Build();
 }

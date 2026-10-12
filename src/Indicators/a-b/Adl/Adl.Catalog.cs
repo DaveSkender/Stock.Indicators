@@ -19,7 +19,7 @@ public static partial class Adl
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToAdl")
+            .WithMethodName(typeof(Adl), "ToAdl")
             .Build();
 
     /// <summary>
@@ -28,7 +28,7 @@ public static partial class Adl
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToAdlHub")
+            .WithMethodName(typeof(Adl), "ToAdlHub")
             .Build();
 
     /// <summary>
@@ -37,6 +37,6 @@ public static partial class Adl
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToAdlList")
+            .WithMethodName(typeof(Adl), "ToAdlList")
             .Build();
 }

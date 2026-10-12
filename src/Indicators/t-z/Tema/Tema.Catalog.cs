@@ -20,7 +20,7 @@ public static partial class Tema
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToTema")
+            .WithMethodName(typeof(Tema), "ToTema")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Tema
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToTemaHub")
+            .WithMethodName(typeof(Tema), "ToTemaHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Tema
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToTemaList")
+            .WithMethodName(typeof(Tema), "ToTemaList")
             .Build();
 }

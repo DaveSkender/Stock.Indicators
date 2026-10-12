@@ -26,7 +26,7 @@ public static partial class BollingerBands
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToBollingerBands")
+            .WithMethodName(typeof(BollingerBands), "ToBollingerBands")
             .Build();
 
     /// <summary>
@@ -35,7 +35,7 @@ public static partial class BollingerBands
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToBollingerBandsHub")
+            .WithMethodName(typeof(BollingerBands), "ToBollingerBandsHub")
             .Build();
 
     /// <summary>
@@ -44,6 +44,6 @@ public static partial class BollingerBands
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToBollingerBandsList")
+            .WithMethodName(typeof(BollingerBands), "ToBollingerBandsList")
             .Build();
 }

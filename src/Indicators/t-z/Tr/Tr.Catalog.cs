@@ -19,7 +19,7 @@ public static partial class Tr
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToTr")
+            .WithMethodName(typeof(Tr), "ToTr")
             .Build();
 
     /// <summary>
@@ -28,7 +28,7 @@ public static partial class Tr
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToTrHub")
+            .WithMethodName(typeof(Tr), "ToTrHub")
             .Build();
 
     /// <summary>
@@ -37,6 +37,6 @@ public static partial class Tr
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToTrList")
+            .WithMethodName(typeof(Tr), "ToTrList")
             .Build();
 }

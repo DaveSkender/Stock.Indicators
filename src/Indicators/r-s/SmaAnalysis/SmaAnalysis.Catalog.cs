@@ -23,7 +23,7 @@ public static partial class SmaAnalysis
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToSmaAnalysis")
+            .WithMethodName(typeof(SmaAnalysis), "ToSmaAnalysis")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class SmaAnalysis
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToSmaAnalysisHub")
+            .WithMethodName(typeof(SmaAnalysis), "ToSmaAnalysisHub")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class SmaAnalysis
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToSmaAnalysisList")
+            .WithMethodName(typeof(SmaAnalysis), "ToSmaAnalysisList")
             .Build();
 }

@@ -45,6 +45,8 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
+    <IsAotCompatible>true</IsAotCompatible>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -67,6 +69,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- explicit, so the trim analyzer version comes from the lock file, not the SDK patch -->
+    <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" />
     <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>

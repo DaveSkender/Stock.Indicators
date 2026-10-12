@@ -27,7 +27,7 @@ public static partial class Alligator
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToAlligator")
+            .WithMethodName(typeof(Alligator), "ToAlligator")
             .Build();
 
     /// <summary>
@@ -36,7 +36,7 @@ public static partial class Alligator
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToAlligatorHub")
+            .WithMethodName(typeof(Alligator), "ToAlligatorHub")
             .Build();
 
     /// <summary>
@@ -45,6 +45,6 @@ public static partial class Alligator
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToAlligatorList")
+            .WithMethodName(typeof(Alligator), "ToAlligatorList")
             .Build();
 }

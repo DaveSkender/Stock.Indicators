@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FacioQuo.Stock.Indicators;
 
@@ -11,25 +12,29 @@ public record IndicatorListing
     /// <summary>
     /// Gets or sets the unique identifier of the indicator.
     /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+        Justification = "MinLength reads a string's Length directly; only non-string, non-ICollection values reflect for a Count property.")]
     [MinLength(2), UrlSafe]
     public required string Uiid { get; init; }
 
     /// <summary>
     /// Gets or sets the name of the indicator.
     /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode",
+        Justification = "MinLength reads a string's Length directly; only non-string, non-ICollection values reflect for a Count property.")]
     [MinLength(5)]
     public required string Name { get; init; }
 
     /// <summary>
     /// Gets or sets the style of the indicator (Series, Buffer, Stream).
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<Style>))]
     public Style Style { get; init; } = Style.Series;
 
     /// <summary>
     /// Gets or sets the category of the indicator.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<Category>))]
     public required Category Category { get; init; }
 
     /// <summary>
@@ -46,16 +51,15 @@ public record IndicatorListing
     /// Gets the name of the result record type returned by the indicator method.
     /// </summary>
     /// <remarks>
-    /// Derived from <see cref="MethodName"/> when the listing is built, so it cannot
-    /// drift from the method it describes. This is the record type, not the method's
+    /// Derived from <see cref="MethodName"/> when the catalog builds the listing, so a
+    /// catalog listing cannot drift from the method it describes; a <c>with</c> copy that
+    /// changes <see cref="MethodName"/> keeps the original value. This is the record type, not the method's
     /// literal return type: it is <c>EmaResult</c> for <c>ToEma</c>, <c>ToEmaList</c>,
     /// and <c>ToEmaHub</c> alike, even though those return
     /// <c>IReadOnlyList&lt;EmaResult&gt;</c>, <c>EmaList</c>, and <c>EmaHub</c>
     /// respectively. It is the record whose properties
     /// <see cref="IndicatorResult.DataName"/> names. It is <c>null</c> when
-    /// <see cref="MethodName"/> is unset, and can also be <c>null</c> if the method
-    /// cannot be resolved — which trimming or NativeAOT publishing may cause, since
-    /// the derivation reflects over the assembly. Check for <c>null</c> before use.
+    /// <see cref="MethodName"/> is unset.
     /// </remarks>
     public string? ResultRecordType { get; init; }
 

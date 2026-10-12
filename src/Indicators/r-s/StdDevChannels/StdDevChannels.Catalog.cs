@@ -23,6 +23,6 @@ public static partial class StdDevChannels
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToStdDevChannels")
+            .WithMethodName(typeof(StdDevChannels), "ToStdDevChannels")
             .Build();
 }

@@ -24,7 +24,7 @@ public static partial class Smi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToSmi")
+            .WithMethodName(typeof(Smi), "ToSmi")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class Smi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToSmiHub")
+            .WithMethodName(typeof(Smi), "ToSmiHub")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class Smi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToSmiList")
+            .WithMethodName(typeof(Smi), "ToSmiList")
             .Build();
 }

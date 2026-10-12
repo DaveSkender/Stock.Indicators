@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 
@@ -48,7 +49,7 @@ public static partial class StringOutExtensions
     /// <param name="source">List of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>Fixed-width formatted string representation of the list.</returns>
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IReadOnlyList<T> source,
         IDictionary<string, string>? args = null)
         where T : ISeries => source.ToConsole(filter: static _ => true, args: args);
@@ -60,7 +61,7 @@ public static partial class StringOutExtensions
     /// <param name="source">Read-only list of series elements to be written to the console.</param>
     /// <param name="args">Optional key-value pairs that provide additional formatting or output options.</param>
     /// <returns>A string containing the console output generated from the series.</returns>
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IReadOnlyList<T> source,
         params (string key, string value)[] args)
     where T : ISeries => source.ToConsole(filter: static _ => true, args: args);
@@ -73,7 +74,7 @@ public static partial class StringOutExtensions
     /// <param name="filter">A predicate to filter the elements.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         IDictionary<string, string>? args = null)
@@ -96,7 +97,7 @@ public static partial class StringOutExtensions
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
     /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         params (string key, string value)[] args)
@@ -122,7 +123,7 @@ public static partial class StringOutExtensions
     /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         int limitQty = int.MaxValue,
@@ -154,7 +155,7 @@ public static partial class StringOutExtensions
     /// <returns>Fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
-    public static string ToConsole<T>(
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         int limitQty,
@@ -210,7 +211,7 @@ public static partial class StringOutExtensions
     /// a numeric or date format string.
     /// </para>
     /// </remarks>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source, IDictionary<string, string>? args = null)
         where T : ISeries => source.ToList().ToStringOut(0, int.MaxValue, args);
 
@@ -240,7 +241,7 @@ public static partial class StringOutExtensions
     /// a numeric or date format string.
     /// </para>
     /// </remarks>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source, int limitQty, IDictionary<string, string>? args = null)
         where T : ISeries
     {
@@ -269,7 +270,7 @@ public static partial class StringOutExtensions
     /// };
     /// </code>
     /// </remarks>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source, int startIndex, int endIndex, IDictionary<string, string>? args = null)
         where T : ISeries => source.ToList().ToStringOut(startIndex, endIndex, args);
 
@@ -282,7 +283,7 @@ public static partial class StringOutExtensions
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         IDictionary<string, string>? args = null)
@@ -312,7 +313,7 @@ public static partial class StringOutExtensions
     /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         int limitQty,
@@ -356,7 +357,7 @@ public static partial class StringOutExtensions
     /// };
     /// </code>
     /// </remarks>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IReadOnlyList<T> source,
         IDictionary<string, string>? args = null)
         where T : ISeries => source.ToStringOut(0, int.MaxValue, args);
@@ -380,7 +381,7 @@ public static partial class StringOutExtensions
     /// };
     /// </code>
     /// </remarks>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IReadOnlyList<T> source,
         int limitQty,
         IDictionary<string, string>? args = null)
@@ -406,7 +407,7 @@ public static partial class StringOutExtensions
     /// };
     /// </code>
     /// </remarks>
-    public static string ToStringOut<T>(
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         this IReadOnlyList<T> source,
         int startIndex,
         int endIndex,
@@ -529,7 +530,7 @@ public static partial class StringOutExtensions
     /// <param name="property">Array of PropertyInfo objects representing the properties of the type.</param>
     /// <param name="list">List of ISeries elements to analyze.</param>
     /// <returns>Format to be used in ToString()</returns>
-    private static string AutoFormat<T>(
+    private static string AutoFormat<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         PropertyInfo property,
         IReadOnlyList<T> list)
         where T : ISeries
@@ -626,7 +627,7 @@ public static partial class StringOutExtensions
     /// <param name="indices">Array of indices to include in the output.</param>
     /// <param name="args">Optional format arguments for specific properties or types.</param>
     /// <returns>Formatted string representation of the specified items.</returns>
-    private static string ToStringOutPreserveIndices<T>(
+    private static string ToStringOutPreserveIndices<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(
         IReadOnlyList<T> source,
         int[] indices,
         IDictionary<string, string>? args = null)

@@ -67,7 +67,7 @@ Each `IndicatorListing` describes one indicator-and-style combination. This is t
 | `Category` | `Category` | Indicator category (see below) |
 | `Parameters` | `IReadOnlyList<IndicatorParam>?` | Input parameters (`null` when there are none) |
 | `Results` | `IReadOnlyList<IndicatorResult>` | Output fields the indicator produces |
-| `ResultRecordType` | `string?` | Name of the result record the method returns (e.g. `"EmaResult"`), the same for all three styles — the record type, not the method's literal return type (`EmaList` for Buffer, `EmaHub` for Stream). `null` when `MethodName` is unset, or when the method cannot be resolved (possible under trimming or NativeAOT publishing) — check before use |
+| `ResultRecordType` | `string?` | Name of the result record the method returns (e.g. `"EmaResult"`), the same for all three styles — the record type, not the method's literal return type (`EmaList` for Buffer, `EmaHub` for Stream). `null` when `MethodName` is unset. Derived when the catalog builds the listing, so a `with` copy that changes `MethodName` keeps the original value |
 | `MethodName` | `string?` | Method name, for automation use cases |
 | `LegendTemplate` | `string` | Legend template for charting |
 
@@ -158,7 +158,7 @@ IReadOnlyList<EmaResult> emaWithParams = indicatorListing
   .Execute<EmaResult>();
 ```
 
-The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `WithoutParam(name)`, `FromSource(bars)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata.
+The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `WithoutParam(name)`, `FromSource(bars)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata. A series value must be assignable to `IReadOnlyList<IReusable>`, so its elements are reference types; a list of `IReusable` structs is rejected.
 
 ### Leave a parameter out
 
@@ -207,6 +207,14 @@ IReadOnlyList<EmaResult> results = config.Execute<EmaResult>(bars);
 ```
 
 Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluent configuration, or `IndicatorConfig.FromBuilder(builder)` to capture an existing builder's settings back into a config for storage.
+
+## Trimming and NativeAOT
+
+The package is marked trimmable, so a trimmed app keeps only the library members it uses. Catalog lookup works in trimmed and NativeAOT apps, and so does executing Series and Buffer listings; `ToJson` does not (see below). Stream listings do not execute through the catalog under any runtime, since the executor passes bars where a Stream method takes a hub provider. A listing's `MethodName` must name a catalog indicator method: a listing you build yourself, or a `with` copy, cannot name any other library method.
+
+::: warning Reflection-based helpers
+`ToJson` serializes with reflection, so it carries `[RequiresUnreferencedCode]` and `[RequiresDynamicCode]` and raises IL2026 and IL3050 in a trimmed or NativeAOT build; export the catalog from an untrimmed app instead. `ToStringOut` and `ToConsole` require the public properties of `T` to be preserved, which an unannotated generic caller sees as IL2091; annotate the caller's own type parameter with `[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]`, or call them with a concrete result type. In a NativeAOT app they print no property descriptions: they read descriptions from the XML documentation file beside the assembly, and a native executable has no assembly file to sit beside.
+:::
 
 ## See also
 

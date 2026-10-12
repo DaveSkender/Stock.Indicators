@@ -20,7 +20,7 @@ public static partial class Dema
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToDema")
+            .WithMethodName(typeof(Dema), "ToDema")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Dema
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToDemaHub")
+            .WithMethodName(typeof(Dema), "ToDemaHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Dema
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToDemaList")
+            .WithMethodName(typeof(Dema), "ToDemaList")
             .Build();
 }

@@ -42,7 +42,7 @@ public class CatalogResultRecordTypeTests : TestBase
         foreach (IndicatorListing listing in Catalog.Get())
         {
             IReadOnlyList<MethodInfo> overloads
-                = CatalogReflection.GetOverloads(listing.MethodName);
+                = CatalogReflection.GetOverloads(listing);
 
             List<string> resultTypeNames = overloads
                 .Select(CatalogReflection.GetResultType)

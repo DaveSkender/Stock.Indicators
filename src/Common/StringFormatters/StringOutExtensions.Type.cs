@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -18,7 +19,7 @@ public static partial class StringOutExtensions
     /// <typeparam name="T">Type of the ISeries instance.</typeparam>
     /// <param name="obj">ISeries instance to write to the console.</param>
     /// <returns>String representation of the ISeries instance.</returns>
-    public static string ToConsole<T>(this T obj) where T : ISeries
+    public static string ToConsole<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(this T obj) where T : ISeries
     {
         string? output = obj.ToStringOut();
         Console.WriteLine(output);
@@ -31,7 +32,7 @@ public static partial class StringOutExtensions
     /// <typeparam name="T">Type of the ISeries instance.</typeparam>
     /// <param name="obj">ISeries instance to convert.</param>
     /// <returns>A formatted string representation of the ISeries instance.</returns>
-    public static string ToStringOut<T>(this T obj) where T : ISeries
+    public static string ToStringOut<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(this T obj) where T : ISeries
     {
         ArgumentNullException.ThrowIfNull(obj);
         StringBuilder sb = new();
@@ -152,6 +153,8 @@ public static partial class StringOutExtensions
     /// </summary>
     /// <param name="type">Type whose property descriptions are to be retrieved.</param>
     /// <returns>A dictionary containing property names and their descriptions.</returns>
+    [UnconditionalSuppressMessage("SingleFile", "IL3000:Avoid accessing Assembly file path when publishing as a single file",
+        Justification = "An empty Location names no file, so descriptions degrade to empty, as when the XML file is absent.")]
     private static Dictionary<string, string> GetPropertyDescriptionsFromXml(Type type)
     {
         Dictionary<string, string> descriptions = [];
@@ -227,7 +230,8 @@ public static partial class StringOutExtensions
     /// </summary>
     /// <param name="type">Type whose properties are to be retrieved.</param>
     /// <returns>An array of <see cref="PropertyInfo"/> objects representing the properties of the type.</returns>
-    private static PropertyInfo[] GetStringOutProperties(Type type)
+    private static PropertyInfo[] GetStringOutProperties(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type type)
         => type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(static p
                 => p.GetCustomAttribute<JsonIgnoreAttribute>() == null

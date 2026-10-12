@@ -23,7 +23,7 @@ public static partial class Kama
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToKama")
+            .WithMethodName(typeof(Kama), "ToKama")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class Kama
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToKamaHub")
+            .WithMethodName(typeof(Kama), "ToKamaHub")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class Kama
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToKamaList")
+            .WithMethodName(typeof(Kama), "ToKamaList")
             .Build();
 }

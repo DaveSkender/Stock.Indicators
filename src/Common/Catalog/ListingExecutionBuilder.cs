@@ -215,6 +215,16 @@ public class ListingExecutionBuilder
             : ListingExecutor.Execute<TResult>(_bars, BaseListing, _parameterOverrides, _omittedParameters);
 
     /// <summary>
+    /// Formats a type name with its generic arguments, such as <c>HashSet&lt;Bar&gt;</c>.
+    /// </summary>
+    /// <param name="type">Type to name.</param>
+    /// <returns>Readable type name.</returns>
+    private static string DisplayName(Type type)
+        => type.IsGenericType && type.Name.IndexOf('`', StringComparison.Ordinal) is int tick and >= 0
+            ? $"{type.Name[..tick]}<{string.Join(", ", type.GetGenericArguments().Select(DisplayName))}>"
+            : type.Name; // a type nested in a generic, such as ValueCollection, has no arity suffix
+
+    /// <summary>
     /// Validates that a parameter value is compatible with the expected parameter type.
     /// </summary>
     /// <param name="parameterName">Name of the parameter.</param>
@@ -228,27 +238,12 @@ public class ListingExecutionBuilder
         // Validate series parameters
         if (param.DataType == IndicatorParam.SeriesDataType)
         {
-            if (value is not System.Collections.IEnumerable)
+            // Indicator methods take IReadOnlyList<IReusable>, which by covariance accepts
+            // only reference-type elements; a list of IReusable structs cannot bind.
+            if (value is not IReadOnlyList<IReusable>)
             {
                 throw new ArgumentException(
-                    $"Parameter '{parameterName}' expects a series (IReadOnlyList<T> where T : IReusable), but received {value.GetType().Name}", nameof(value));
-            }
-
-            // Check if the series elements implement IReusable
-            Type valueType = value.GetType();
-
-            if ((valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(List<>))
-              || valueType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IReadOnlyList<>)))
-            {
-                Type? elementType = valueType.GetGenericArguments().FirstOrDefault()
-                    ?? valueType.GetInterfaces()
-                        .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IReadOnlyList<>))?.GetGenericArguments().FirstOrDefault();
-
-                if (elementType != null && !typeof(IReusable).IsAssignableFrom(elementType))
-                {
-                    throw new ArgumentException(
-                        $"Parameter '{parameterName}' expects series elements to implement IReusable, but received {elementType.Name}", nameof(value));
-                }
+                    $"Parameter '{parameterName}' expects a series assignable to IReadOnlyList<IReusable> (reference-type elements implementing IReusable), but received {DisplayName(value.GetType())}", nameof(value));
             }
         }
         // Validate basic parameter types

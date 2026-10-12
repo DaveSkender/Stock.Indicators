@@ -23,7 +23,7 @@ public static partial class Stoch
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToStoch")
+            .WithMethodName(typeof(Stoch), "ToStoch")
             .Build();
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class Stoch
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToStochHub")
+            .WithMethodName(typeof(Stoch), "ToStochHub")
             .Build();
 
     /// <summary>
@@ -41,6 +41,6 @@ public static partial class Stoch
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToStochList")
+            .WithMethodName(typeof(Stoch), "ToStochList")
             .Build();
 }

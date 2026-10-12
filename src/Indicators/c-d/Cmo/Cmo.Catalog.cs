@@ -20,7 +20,7 @@ public static partial class Cmo
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToCmo")
+            .WithMethodName(typeof(Cmo), "ToCmo")
             .Build();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Cmo
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToCmoHub")
+            .WithMethodName(typeof(Cmo), "ToCmoHub")
             .Build();
 
     /// <summary>
@@ -38,6 +38,6 @@ public static partial class Cmo
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToCmoList")
+            .WithMethodName(typeof(Cmo), "ToCmoList")
             .Build();
 }

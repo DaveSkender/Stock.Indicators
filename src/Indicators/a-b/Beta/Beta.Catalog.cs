@@ -29,6 +29,6 @@ public static partial class Beta
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToBeta")
+            .WithMethodName(typeof(Beta), "ToBeta")
             .Build();
 }

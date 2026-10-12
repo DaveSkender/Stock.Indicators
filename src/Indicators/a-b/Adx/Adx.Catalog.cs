@@ -24,7 +24,7 @@ public static partial class Adx
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToAdx")
+            .WithMethodName(typeof(Adx), "ToAdx")
             .Build();
 
     /// <summary>
@@ -33,7 +33,7 @@ public static partial class Adx
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToAdxHub")
+            .WithMethodName(typeof(Adx), "ToAdxHub")
             .Build();
 
     /// <summary>
@@ -42,6 +42,6 @@ public static partial class Adx
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToAdxList")
+            .WithMethodName(typeof(Adx), "ToAdxList")
             .Build();
 }

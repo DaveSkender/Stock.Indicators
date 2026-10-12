@@ -21,7 +21,7 @@ public static partial class HtTrendline
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToHtTrendline")
+            .WithMethodName(typeof(HtTrendline), "ToHtTrendline")
             .Build();
 
     /// <summary>
@@ -30,7 +30,7 @@ public static partial class HtTrendline
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToHtTrendlineList")
+            .WithMethodName(typeof(HtTrendline), "ToHtTrendlineList")
             .Build();
 
     /// <summary>
@@ -39,6 +39,6 @@ public static partial class HtTrendline
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToHtTrendlineHub")
+            .WithMethodName(typeof(HtTrendline), "ToHtTrendlineHub")
             .Build();
 }

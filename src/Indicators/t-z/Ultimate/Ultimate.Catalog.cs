@@ -22,7 +22,7 @@ public static partial class Ultimate
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
-            .WithMethodName("ToUltimate")
+            .WithMethodName(typeof(Ultimate), "ToUltimate")
             .Build();
 
     /// <summary>
@@ -31,7 +31,7 @@ public static partial class Ultimate
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
-            .WithMethodName("ToUltimateHub")
+            .WithMethodName(typeof(Ultimate), "ToUltimateHub")
             .Build();
 
     /// <summary>
@@ -40,6 +40,6 @@ public static partial class Ultimate
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToUltimateList")
+            .WithMethodName(typeof(Ultimate), "ToUltimateList")
             .Build();
 }
