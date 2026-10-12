@@ -10,6 +10,8 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 
 <StockIndicatorChart indicator="Keltner" />
 
+<ChartKey indicator="Keltner" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<KeltnerResult> results =

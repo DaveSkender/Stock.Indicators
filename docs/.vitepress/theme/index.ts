@@ -4,6 +4,7 @@ import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './custom.scss'
 import Contributors from '../components/Contributors.vue'
+import ChartKey from '../components/ChartKey.vue'
 import NuGetBadge from '../components/NuGetBadge.vue'
 import CopyOrDownloadAsMarkdownButtons from 'vitepress-plugin-llms/vitepress-components/CopyOrDownloadAsMarkdownButtons.vue'
 import { setupIndyChartsForVue } from '@facioquo/indy-charts/vue'
@@ -85,6 +86,7 @@ export default {
     })
 
     app.component('Contributors', Contributors)
+    app.component('ChartKey', ChartKey)
     app.component('CopyOrDownloadAsMarkdownButtons', CopyOrDownloadAsMarkdownButtons)
   }
 } satisfies Theme

@@ -10,6 +10,8 @@ Created by Oliver Seban, the SuperTrend indicator attempts to determine the prim
 
 <StockIndicatorChart indicator="SuperTrend" />
 
+<ChartKey indicator="SuperTrend" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<SuperTrendResult> results =

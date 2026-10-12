@@ -10,6 +10,8 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 
 <StockIndicatorChart indicator="Donchian" />
 
+<ChartKey indicator="Donchian" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<DonchianResult> results =

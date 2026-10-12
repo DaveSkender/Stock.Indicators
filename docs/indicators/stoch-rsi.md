@@ -9,6 +9,8 @@ Created by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://chartschool
 
 <StockIndicatorChart indicator="StochRsi" withOverlay />
 
+<ChartKey indicator="StochRsi" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<StochRsiResult> results =

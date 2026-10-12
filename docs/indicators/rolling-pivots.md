@@ -10,6 +10,8 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 
 <StockIndicatorChart indicator="RollingPivots" />
 
+<ChartKey indicator="RollingPivots" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<RollingPivotsResult> results =
