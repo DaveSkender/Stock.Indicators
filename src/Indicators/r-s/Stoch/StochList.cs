@@ -121,9 +121,17 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
         {
             double highHigh = double.MinValue;
             double lowLow = double.MaxValue;
+            bool isViable = true;
 
             foreach ((double High, double Low, double Close) in _hlcBuffer)
             {
+                // a NaN anywhere in the window voids it, as in Series
+                if (double.IsNaN(High) || double.IsNaN(Low) || double.IsNaN(Close))
+                {
+                    isViable = false;
+                    break;
+                }
+
                 if (High > highHigh)
                 {
                     highHigh = High;
@@ -136,7 +144,11 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
             }
 
             // Boundary detection to avoid floating-point precision errors at 0 and 100
-            if (highHigh == lowLow)
+            if (!isViable)
+            {
+                rawK = double.NaN;
+            }
+            else if (highHigh == lowLow)
             {
                 rawK = 0d;
             }

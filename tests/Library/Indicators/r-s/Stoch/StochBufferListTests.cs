@@ -112,6 +112,26 @@ public class StochBufferListTests : BufferListTestBase, ITestBarBufferList
     }
 
     [TestMethod]
+    public void NaNInWindow_MatchesSeries()
+    {
+        // a NaN bar voids every window holding it, then smoothing resumes as in Series
+        List<BarD> bars = Bars
+            .Select(static (b, i) => i == 30
+                ? new BarD(b.Timestamp, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN)
+                : new BarD(b.Timestamp, (double)b.Open, (double)b.High, (double)b.Low, (double)b.Close, (double)b.Volume))
+            .ToList();
+
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
+
+        foreach (BarD bar in bars)
+        {
+            sut.Add(bar.Timestamp, bar.High, bar.Low, bar.Close);
+        }
+
+        sut.IsExactly(bars.CalcStoch(lookbackPeriods, signalPeriods, smoothPeriods, 3, 2, MaType.SMA));
+    }
+
+    [TestMethod]
     public void Results_AreAlwaysBounded()
     {
         StochList sut = new(14, 3, 3, 1, 1, MaType.SMA, Bars);
