@@ -164,12 +164,6 @@ public class CatalogParameterRangeTests : TestBase
 
         try
         {
-            if (listing.Style == Style.Stream)
-            {
-                _ = CatalogReflection.ExecuteHub(listing, args, Bars);
-                return null;
-            }
-
             foreach (IndicatorParam series in (listing.Parameters ?? [])
                 .Where(static p => p.DataType == IndicatorParam.SeriesDataType))
             {
