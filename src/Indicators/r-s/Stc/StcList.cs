@@ -82,9 +82,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
             double highHigh = _macdBuffer.GetMax();
             double lowLow = _macdBuffer.GetMin();
 
-            rawK = (highHigh - lowLow) != 0
-                 ? 100 * (macd - lowLow) / (highHigh - lowLow)
-                 : 0;
+            rawK = Stc.RawK(macd, highHigh, lowLow);
         }
 
         _rawKBuffer.Enqueue(rawK);
