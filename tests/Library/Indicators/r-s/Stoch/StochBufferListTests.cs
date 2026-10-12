@@ -97,6 +97,21 @@ public class StochBufferListTests : BufferListTestBase, ITestBarBufferList
     }
 
     [TestMethod]
+    public void ShortLookback_MatchesSeries()
+    {
+        // a lookback shorter than the smoothing window starts smoothing before the default warmup does
+        foreach (MaType movingAverageType in (MaType[])[MaType.SMA, MaType.SMMA])
+        {
+            for (int lookback = 1; lookback <= 3; lookback++)
+            {
+                StochList sut = new(lookback, signalPeriods, smoothPeriods, 3, 2, movingAverageType) { Bars };
+
+                sut.IsExactly(Bars.ToStoch(lookback, signalPeriods, smoothPeriods, 3, 2, movingAverageType));
+            }
+        }
+    }
+
+    [TestMethod]
     public void Results_AreAlwaysBounded()
     {
         StochList sut = new(14, 3, 3, 1, 1, MaType.SMA, Bars);

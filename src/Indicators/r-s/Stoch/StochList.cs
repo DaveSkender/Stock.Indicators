@@ -163,11 +163,14 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
             // No smoothing needed - keep original
             smoothK = rawK;
         }
-        else if (Count >= SmoothPeriods && !double.IsNaN(rawK)) // This matches StaticSeries: i >= smoothPeriods
+        else
         {
-            // Update raw K buffer for smoothing using BufferListUtilities
+            // buffer every value, NaN included, so a window holding a warmup NaN yields NaN as in Series
             _rawKBuffer.Update(SmoothPeriods, rawK);
+        }
 
+        if (SmoothPeriods > 1 && Count >= SmoothPeriods) // Series: i >= smoothPeriods
+        {
             switch (MovingAverageType)
             {
                 case MaType.SMA:
@@ -220,11 +223,13 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
         {
             signal = smoothK;
         }
-        else if (Count >= SignalPeriods && !double.IsNaN(smoothK)) // This matches StaticSeries: i >= signalPeriods
+        else
         {
-            // Update smooth K buffer for signal calculation using BufferListUtilities
             _smoothKBuffer.Update(SignalPeriods, smoothK);
+        }
 
+        if (SignalPeriods > 1 && Count >= SignalPeriods) // Series: i >= signalPeriods
+        {
             switch (MovingAverageType)
             {
                 case MaType.SMA:
