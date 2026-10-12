@@ -77,10 +77,7 @@ public class RollingPivotsHub
 
         if (i < WindowPeriods + OffsetPeriods)
         {
-            // During warmup, add to windows and buffer
-            _highWindow.Add((double)item.High);
-            _lowWindow.Add((double)item.Low);
-            _offsetBuffer.Update(OffsetPeriods + 1, item);
+            Advance(item);
             return (new RollingPivotsResult { Timestamp = item.Timestamp }, i);
         }
 
@@ -89,7 +86,7 @@ public class RollingPivotsHub
         // We want the close from OffsetPeriods bars ago (the first item in buffer)
         double windowClose = (double)_offsetBuffer.Peek().Close;
 
-        // Get high/low from rolling windows (these track the prior WindowPeriods bars)
+        // the windows hold the WindowPeriods bars ending OffsetPeriods + 1 bars back, as in Series
         double windowHigh = _highWindow.GetMax();
         double windowLow = _lowWindow.GetMin();
 
@@ -97,10 +94,7 @@ public class RollingPivotsHub
         WindowPoint wp = PivotPoints.GetPivotPoint(
             PointType, (double)item.Open, windowHigh, windowLow, windowClose);
 
-        // Update windows and offset buffer with current item AFTER calculation
-        _highWindow.Add((double)item.High);
-        _lowWindow.Add((double)item.Low);
-        _offsetBuffer.Update(OffsetPeriods + 1, item);
+        Advance(item);
 
         RollingPivotsResult r = new() {
             Timestamp = item.Timestamp,
@@ -110,6 +104,19 @@ public class RollingPivotsHub
         };
 
         return (r, i);
+    }
+
+    // The bar leaving the offset lag joins the windows, so they trail the current bar by OffsetPeriods.
+    private void Advance(IBar item)
+    {
+        _offsetBuffer.Update(OffsetPeriods + 1, item);
+
+        if (_offsetBuffer.Count == OffsetPeriods + 1)
+        {
+            IBar lagged = _offsetBuffer.Peek();
+            _highWindow.Add((double)lagged.High);
+            _lowWindow.Add((double)lagged.Low);
+        }
     }
 
     /// <summary>
@@ -129,21 +136,20 @@ public class RollingPivotsHub
             return;
         }
 
-        // Rebuild rolling windows and offset buffer from ProviderCache
-        int totalNeeded = WindowPeriods + OffsetPeriods;
-        int startIdx = Math.Max(0, restoreIndex + 1 - totalNeeded);
+        // Rebuild the state Advance leaves after restoreIndex: the windows end at
+        // restoreIndex - OffsetPeriods, and the offset buffer holds the bars after it
+        int windowEnd = restoreIndex - OffsetPeriods;
 
-        for (int p = startIdx; p <= restoreIndex; p++)
+        for (int p = Math.Max(0, windowEnd - WindowPeriods + 1); p <= windowEnd; p++)
         {
             IBar bar = ProviderCache[p];
             _highWindow.Add((double)bar.High);
             _lowWindow.Add((double)bar.Low);
+        }
 
-            // Only add to offset buffer for the last (OffsetPeriods + 1) bars
-            if (p > restoreIndex - OffsetPeriods - 1)
-            {
-                _offsetBuffer.Enqueue(bar);
-            }
+        for (int p = Math.Max(0, windowEnd); p <= restoreIndex; p++)
+        {
+            _offsetBuffer.Enqueue(ProviderCache[p]);
         }
     }
 }

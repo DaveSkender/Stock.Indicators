@@ -4,6 +4,57 @@ namespace StreamHubs;
 public class RollingPivotsHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
+    public void WithOffset_MatchesSeries()
+    {
+        // the high/low window trails the current bar by the offset, as the close does
+        for (int offsetPeriods = 1; offsetPeriods <= 2; offsetPeriods++)
+        {
+            BarHub barHub = new();
+            RollingPivotsHub observer = barHub.ToRollingPivotsHub(11, offsetPeriods, PivotPointType.Standard);
+
+            foreach (Bar bar in Bars)
+            {
+                barHub.Add(bar);
+            }
+
+            // a removal rebuilds the windows from the provider cache
+            barHub.RemoveAt(removeAtIndex);
+
+            observer.Results.IsExactly(RevisedBars.ToRollingPivots(11, offsetPeriods, PivotPointType.Standard));
+
+            observer.Unsubscribe();
+            barHub.EndTransmission();
+        }
+    }
+
+    [TestMethod]
+    public void WithOffset_EarlyRemoval_MatchesSeries()
+    {
+        // removals before the window and offset fill clamp the rollback to the series start
+        const int windowPeriods = 11;
+
+        for (int offsetPeriods = 1; offsetPeriods <= 2; offsetPeriods++)
+        {
+            foreach (int removeIndex in new[] { 1, offsetPeriods, windowPeriods + offsetPeriods })
+            {
+                BarHub barHub = new();
+                RollingPivotsHub observer = barHub.ToRollingPivotsHub(windowPeriods, offsetPeriods, PivotPointType.Standard);
+
+                barHub.Add(Bars);
+                barHub.RemoveAt(removeIndex);
+
+                observer.Results.IsExactly(
+                    Bars.Where((_, idx) => idx != removeIndex)
+                        .ToList()
+                        .ToRollingPivots(windowPeriods, offsetPeriods, PivotPointType.Standard));
+
+                observer.Unsubscribe();
+                barHub.EndTransmission();
+            }
+        }
+    }
+
+    [TestMethod]
     public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup bar provider hub
