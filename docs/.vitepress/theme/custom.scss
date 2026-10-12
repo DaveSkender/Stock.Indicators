@@ -423,3 +423,28 @@ html:not(.dark) body {
     border-left: 0;
   }
 }
+
+// Line names for a multi-line chart (ChartKey.vue).
+.vp-doc .chart-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 8px 0 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+
+  li,
+  li + li {
+    margin: 0;
+  }
+}
+
+.chart-key__swatch {
+  display: inline-block;
+  width: 18px;
+  margin-right: 6px;
+  border-top: 3px solid;
+  vertical-align: 3px;
+}

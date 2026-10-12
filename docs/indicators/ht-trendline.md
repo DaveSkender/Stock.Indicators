@@ -10,6 +10,8 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 
 <StockIndicatorChart indicator="HtTrendline" with="DcPeriods" />
 
+<ChartKey indicator="HtTrendline" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<HtlResult> results =

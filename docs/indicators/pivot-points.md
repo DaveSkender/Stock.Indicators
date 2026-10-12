@@ -10,6 +10,8 @@ description: Pivot Points depict classic support and resistance levels, based on
 
 <StockIndicatorChart indicator="PivotPoints" />
 
+<ChartKey indicator="PivotPoints" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotPointsResult> results =

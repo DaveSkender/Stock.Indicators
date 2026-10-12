@@ -10,6 +10,8 @@ Standard Deviation Channels are prices ranges based on an linear regression cent
 
 <StockIndicatorChart indicator="StdDevChannels" />
 
+<ChartKey indicator="StdDevChannels" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<StdDevChannelsResult> results =

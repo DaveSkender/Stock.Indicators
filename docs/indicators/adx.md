@@ -10,6 +10,8 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 
 <StockIndicatorChart indicator="Adx" withOverlay />
 
+<ChartKey indicator="Adx" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<AdxResult> results =

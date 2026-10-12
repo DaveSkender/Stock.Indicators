@@ -10,6 +10,8 @@ Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) ind
 
 <StockIndicatorChart indicator="Mama" />
 
+<ChartKey indicator="Mama" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<MamaResult> results =
