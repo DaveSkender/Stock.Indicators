@@ -71,6 +71,8 @@ Each `IndicatorListing` describes one indicator-and-style combination. This is t
 | `MethodName` | `string?` | Method name, for automation use cases |
 | `LegendTemplate` | `string` | Legend template for charting |
 
+`GetMethodOverloads()` returns the public static overloads of `MethodName` as `IReadOnlyList<MethodInfo>`, for a caller that reads their parameters or invokes them directly. The list is empty when `MethodName` is unset or no catalog listing names the method. The methods survive trimming and NativeAOT publishing, so no assembly scan is needed.
+
 `IndicatorParam` (each input parameter):
 
 | Property | Type | Description |

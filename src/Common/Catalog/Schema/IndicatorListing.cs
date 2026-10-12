@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace FacioQuo.Stock.Indicators;
 
@@ -85,6 +86,20 @@ public record IndicatorListing
     /// Gets or sets the method name for automation use cases.
     /// </summary>
     public string? MethodName { get; init; }
+
+    /// <summary>
+    /// Gets every public static overload of the indicator method this listing executes.
+    /// </summary>
+    /// <remarks>
+    /// The methods are preserved through trimming and NativeAOT publishing, so a caller
+    /// can read their parameters or invoke them without scanning the assembly. Any listing,
+    /// including one built outside the catalog, resolves a method some catalog listing names.
+    /// </remarks>
+    /// <returns>
+    /// The overloads of <see cref="MethodName"/>; empty when it is unset or no catalog listing names the method.
+    /// </returns>
+    public IReadOnlyList<MethodInfo> GetMethodOverloads()
+        => Array.AsReadOnly(CatalogMethodResolver.GetOverloads(MethodName));
 
     /// <summary>
     /// Gets or sets the legend template for the indicator.

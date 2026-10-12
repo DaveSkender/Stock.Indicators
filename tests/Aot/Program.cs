@@ -34,13 +34,15 @@ foreach (IndicatorListing listing in Catalog.Get()
     .OrderBy(static l => l.Uiid, StringComparer.Ordinal)
     .ThenBy(static l => l.Style))
 {
-    if (listing.ResultRecordType is null)
+    bool noOverloads = listing.GetMethodOverloads().Count == 0;
+
+    if (listing.ResultRecordType is null || noOverloads)
     {
         failures++;
     }
 
     Report(
-        $"{listing.Uiid}/{listing.Style}: {listing.ResultRecordType ?? "NO-RESULT-RECORD-TYPE"}",
+        $"{listing.Uiid}/{listing.Style}: {listing.ResultRecordType ?? "NO-RESULT-RECORD-TYPE"}{(noOverloads ? " NO-OVERLOADS" : "")}",
         () => listing.Execute<object>(source));
 }
 
