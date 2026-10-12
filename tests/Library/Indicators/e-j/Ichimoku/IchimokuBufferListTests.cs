@@ -27,6 +27,16 @@ public class IchimokuBufferListTests : BufferListTestBase, ITestBarBufferList, I
     }
 
     [TestMethod]
+    public void ShorterOverloads_MatchSeries()
+    {
+        // a kijunPeriods other than 26 shows the offsets follow it, as in Series
+        Bars.ToIchimokuList(9, 3, 52).IsExactly(Bars.ToIchimoku(9, 3, 52));
+        new IchimokuList(9, 3, 52) { Bars }.IsExactly(Bars.ToIchimoku(9, 3, 52));
+        Bars.ToIchimokuList(9, 3, 52, 5).IsExactly(Bars.ToIchimoku(9, 3, 52, 5));
+        new IchimokuList(9, 3, 52, 5) { Bars }.IsExactly(Bars.ToIchimoku(9, 3, 52, 5));
+    }
+
+    [TestMethod]
     public void AddBarsBatch_IncrementsResults()
     {
         IchimokuList sut = Bars.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
