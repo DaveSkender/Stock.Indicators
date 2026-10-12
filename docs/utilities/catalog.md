@@ -213,7 +213,7 @@ Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluen
 Catalog lookup and execution work in trimmed and NativeAOT apps. A listing's method resolves by `MethodName` among the methods catalog listings name, so a listing you build yourself can name any catalog indicator method, but not another library method.
 
 ::: warning Reflection-based helpers
-`ToJson` serializes with reflection, so it carries `[RequiresUnreferencedCode]` and `[RequiresDynamicCode]` and raises IL2026 and IL3050 in a trimmed or NativeAOT build. `ToStringOut` and `ToConsole` require the public properties of `T` to be preserved, which an unannotated generic caller sees as IL2091.
+`ToJson` serializes with reflection, so it carries `[RequiresUnreferencedCode]` and `[RequiresDynamicCode]` and raises IL2026 and IL3050 in a trimmed or NativeAOT build. `ToStringOut` and `ToConsole` require the public properties of `T` to be preserved, which an unannotated generic caller sees as IL2091. In a NativeAOT app they print no property descriptions: they read descriptions from the XML documentation file beside the assembly, and a native executable has no assembly file to sit beside.
 :::
 
 ## See also
