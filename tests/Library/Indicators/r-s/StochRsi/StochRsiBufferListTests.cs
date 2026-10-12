@@ -17,6 +17,17 @@ public class StochRsiBufferListTests : BufferListTestBase, ITestChainBufferList
        = Bars.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
     [TestMethod]
+    public void ShortStochPeriods_MatchesSeries()
+    {
+        // the signal window reaches back into rows Series computes but leaves empty
+        for (int stoch = 1; stoch <= 3; stoch++)
+        {
+            Bars.ToStochRsiList(rsiPeriods, stoch, signalPeriods, smoothPeriods)
+                .IsExactly(Bars.ToStochRsi(rsiPeriods, stoch, signalPeriods, smoothPeriods));
+        }
+    }
+
+    [TestMethod]
     public void AddBar_IncrementsResults()
     {
         StochRsiList sut = new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
