@@ -25,8 +25,10 @@ IReadOnlyList<IchimokuResult> results =
 IReadOnlyList<IchimokuResult> results =
   bars.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
-// buffered usage (incremental)
+// buffered usage (incremental), with the same offset overloads
 IchimokuList buffer = bars.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IchimokuList buffer = bars.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
+IchimokuList buffer = bars.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 IReadOnlyList<IchimokuResult> results = buffer;
 
 // streaming usage (real-time)

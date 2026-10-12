@@ -16,6 +16,35 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
     private readonly Queue<(double High, double Low)> _kijunBuffer;
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="IchimokuList"/> class, offsetting both
+    /// spans by <paramref name="kijunPeriods"/> as the matching Series and hub do.
+    /// </summary>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line), and for both offsets.</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
+    public IchimokuList(
+        int tenkanPeriods = 9,
+        int kijunPeriods = 26,
+        int senkouBPeriods = 52)
+        : this(tenkanPeriods, kijunPeriods, senkouBPeriods, kijunPeriods, kijunPeriods) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="IchimokuList"/> class with one offset for both spans.
+    /// </summary>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="offsetPeriods">Number of periods for both the Senkou and Chikou offsets.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
+    public IchimokuList(
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int offsetPeriods)
+        : this(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods, offsetPeriods) { }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="IchimokuList"/> class.
     /// </summary>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
@@ -23,13 +52,13 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
     /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
     /// <param name="chikouOffset">Number of periods for the Chikou offset.</param>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="chikouOffset"/> is invalid.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
     public IchimokuList(
-        int tenkanPeriods = 9,
-        int kijunPeriods = 26,
-        int senkouBPeriods = 52,
-        int senkouOffset = 26,
-        int chikouOffset = 26)
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int senkouOffset,
+        int chikouOffset)
     {
         Ichimoku.Validate(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
@@ -370,14 +399,13 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
 public static partial class Ichimoku
 {
     /// <summary>
-    /// Creates a buffer list for Ichimoku Cloud calculations.
+    /// Creates a buffer list for Ichimoku Cloud calculations, offsetting both spans by
+    /// <paramref name="kijunPeriods"/> as <see cref="ToIchimoku(IReadOnlyList{IBar}, int, int, int)"/> does.
     /// </summary>
     /// <param name="bars">Historical price bars.</param>
     /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
-    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line). Default is 26.</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line), and for both offsets. Default is 26.</param>
     /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B). Default is 52.</param>
-    /// <param name="senkouOffset">Number of periods for the Senkou offset. Default is 26.</param>
-    /// <param name="chikouOffset">Number of periods for the Chikou offset. Default is 26.</param>
     /// <returns>An IchimokuList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
@@ -385,8 +413,46 @@ public static partial class Ichimoku
         this IReadOnlyList<IBar> bars,
         int tenkanPeriods = 9,
         int kijunPeriods = 26,
-        int senkouBPeriods = 52,
-        int senkouOffset = 26,
-        int chikouOffset = 26)
+        int senkouBPeriods = 52)
+        => new(tenkanPeriods, kijunPeriods, senkouBPeriods) { bars };
+
+    /// <summary>
+    /// Creates a buffer list for Ichimoku Cloud calculations with one offset for both spans.
+    /// </summary>
+    /// <param name="bars">Historical price bars.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="offsetPeriods">Number of periods for both the Senkou and Chikou offsets.</param>
+    /// <returns>An IchimokuList instance pre-populated with historical data.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
+    public static IchimokuList ToIchimokuList(
+        this IReadOnlyList<IBar> bars,
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int offsetPeriods)
+        => new(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods) { bars };
+
+    /// <summary>
+    /// Creates a buffer list for Ichimoku Cloud calculations.
+    /// </summary>
+    /// <param name="bars">Historical price bars.</param>
+    /// <param name="tenkanPeriods">Number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">Number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">Number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">Number of periods for the Senkou offset.</param>
+    /// <param name="chikouOffset">Number of periods for the Chikou offset.</param>
+    /// <returns>An IchimokuList instance pre-populated with historical data.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when bars is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
+    public static IchimokuList ToIchimokuList(
+        this IReadOnlyList<IBar> bars,
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int senkouOffset,
+        int chikouOffset)
         => new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset) { bars };
 }
