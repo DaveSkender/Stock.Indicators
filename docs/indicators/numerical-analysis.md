@@ -60,7 +60,7 @@ features:
 - [Balance of Power (BOP)](/indicators/bop)
 - [Bull and Bear Power](/indicators/elder-ray)
 - [Choppiness Index (CHOP)](/indicators/chop)
-- [Comparative Relative Strength](/indicators/pmo)
+- [Comparative Relative Strength](/indicators/prs)
 - [Dominant Cycle Period](/indicators/ht-trendline)
 - [Historical Volatility (HV)](/indicators/std-dev)
 - [Hurst Exponent](/indicators/hurst)
