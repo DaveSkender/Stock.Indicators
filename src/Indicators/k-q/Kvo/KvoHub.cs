@@ -182,14 +182,13 @@ public class KvoHub
             }
             else if (i == _slowPeriods + _signalPeriods)
             {
-                // Sum of KVO values for signal initialization
-                double sum = 0;
+                // current value first, then the earlier ones: Series' order, so the sum rounds the same
+                double sum = kvo ?? 0;
                 for (int p = _slowPeriods + 1; p < i; p++)
                 {
                     sum += Cache[p].Oscillator ?? 0;
                 }
 
-                sum += kvo ?? 0;
                 sig = sum / _signalPeriods;
             }
         }

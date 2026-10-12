@@ -4,6 +4,23 @@ namespace StreamHubs;
 public class KvoHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvider
 {
     [TestMethod]
+    public void ShortPeriods_MatchesSeries()
+    {
+        // a sum taken in a different order can differ in its last digit
+        for (int fast = 3; fast <= 5; fast++)
+        {
+            BarHub barHub = new();
+            KvoHub observer = barHub.ToKvoHub(fast, 55, 3);
+            barHub.Add(Bars);
+
+            observer.Results.IsExactly(Bars.ToKvo(fast, 55, 3));
+
+            observer.Unsubscribe();
+            barHub.EndTransmission();
+        }
+    }
+
+    [TestMethod]
     public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup bar provider hub

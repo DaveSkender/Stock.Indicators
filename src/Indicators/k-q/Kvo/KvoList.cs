@@ -166,14 +166,13 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromBar, IKvo
             }
             else if (Count == _slowPeriods + SignalPeriods)
             {
-                // Sum of KVO values for signal initialization
-                double sum = 0;
+                // current value first, then the earlier ones: Series' order, so the sum rounds the same
+                double sum = kvo ?? 0;
                 for (int p = _slowPeriods + 1; p < Count; p++)
                 {
                     sum += this[p].Oscillator ?? 0;
                 }
 
-                sum += kvo ?? 0;
                 sig = sum / SignalPeriods;
             }
         }
