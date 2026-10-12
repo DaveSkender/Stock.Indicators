@@ -6,6 +6,11 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int lookbackPeriods = 5;
 
     [TestMethod]
+    public void SinglePeriod_MatchesSeries() =>
+        // one period turns an unchanged close into 0/0 averages, which Series scores 100
+        Bars.ToRsiHub(1).Results.IsExactly(Bars.ToRsi(1));
+
+    [TestMethod]
     public void Results_WithAnyInput_AreAlwaysBounded()
     {
         IReadOnlyList<RsiResult> sut = Bars.ToRsiHub(14).Results;
