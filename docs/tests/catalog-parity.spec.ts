@@ -243,7 +243,7 @@ for (const file of pages) {
     }
 
     lines.forEach((line, i) => {
-      const heading = /^###\s+`(\w+Result)`/.exec(line)
+      const heading = /^###\s+`?(\w+Result)\b`?/.exec(line)
       if (!heading) return
       const record = records.get(heading[1])
       if (!record) {
