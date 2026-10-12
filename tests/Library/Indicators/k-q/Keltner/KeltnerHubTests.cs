@@ -4,6 +4,30 @@ namespace StreamHubs;
 public class KeltnerHubTests : StreamHubTestBase, ITestBarObserver
 {
     [TestMethod]
+    public void EmaShorterThanAtr_MatchesSeries()
+    {
+        // the EMA starts before the bands do, so the hub must carry it through the blank rows
+        for (int emaPeriods = 2; emaPeriods <= 4; emaPeriods++)
+        {
+            BarHub barHub = new();
+            KeltnerHub observer = barHub.ToKeltnerHub(emaPeriods, 2, 10);
+
+            foreach (Bar bar in Bars)
+            {
+                barHub.Add(bar);
+            }
+
+            // a late arrival rebuilds state from the provider cache
+            barHub.RemoveAt(removeAtIndex);
+
+            observer.Results.IsExactly(RevisedBars.ToKeltner(emaPeriods, 2, 10));
+
+            observer.Unsubscribe();
+            barHub.EndTransmission();
+        }
+    }
+
+    [TestMethod]
     public void BarObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         // setup bar provider hub
