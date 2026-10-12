@@ -12,6 +12,7 @@ public static partial class WilliamsR
             .WithCategory(Category.Oscillator)
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the Williams %R calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult(nameof(WilliamsResult.WilliamsR), "Williams %R", "WilliamsR", ResultType.Default, isReusable: true)
+            .WithPane("WilliamsR", -100, 0, -20, -80)
             .Build();
 
     /// <summary>

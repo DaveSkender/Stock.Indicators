@@ -61,6 +61,14 @@ public static partial class Ema
 - `isReusable: true` marks exactly one result on an `IReusable` model, the property that `Value` returns. An `ISeries` model marks none. `Build()` throws when more than one is marked.
 - `ResultType` sets the chart form: `Default`, `Centerline`, `Channel`, `Bar`, `BarStacked`, or `Point`.
 
+## Panes
+
+`WithPane(name, minimum, maximum, params thresholds)` records a fixed axis range and reference lines for a chart pane.
+
+- The pane `name` equals the `chartPane` of at least one result on the listing and cannot be `IndicatorResult.PricePane`; `Build()` throws otherwise, and also for a duplicate pane, a pane with no range and no thresholds, a non-finite value, a minimum not below the maximum, or a threshold outside the range.
+- List a pane for an oscillator whose chart has a fixed range or conventional levels, such as RSI (0 to 100, lines at 70 and 30). Leave a pane out when the chart autoscales without reference lines.
+- Pane values are hand-kept; match the indicator's `chartConfig` in `docs/.vitepress/public/data/chart-api/indicators.json`.
+
 ## Registration and shape snapshot
 
 Register each listing inside `PopulateCatalog()` in `src/Common/Catalog/Catalog.Listings.cs`. Blocks sort alphabetically by indicator ID, are separated by a blank line, and open with a `// {ID} ({Full Name})` comment, or `// {Full Name}` when no abbreviation is conventional. Within a block the order is Buffer, Series, Stream:

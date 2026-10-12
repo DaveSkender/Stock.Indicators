@@ -29,6 +29,7 @@ Results:
   - Dx : Default : reusable=false : pane=Adx
   - Adx : Default : reusable=true : pane=Adx
   - Adxr : Default : reusable=false : pane=Adx
+Pane: Adx : range=auto..auto : lines=40,20
 
 ### ADX / Buffer
 Method: ToAdxList
@@ -40,6 +41,7 @@ Results:
   - Dx : Default : reusable=false : pane=Adx
   - Adx : Default : reusable=true : pane=Adx
   - Adxr : Default : reusable=false : pane=Adx
+Pane: Adx : range=auto..auto : lines=40,20
 
 ### ADX / Stream
 Method: ToAdxHub
@@ -51,6 +53,7 @@ Results:
   - Dx : Default : reusable=false : pane=Adx
   - Adx : Default : reusable=true : pane=Adx
   - Adxr : Default : reusable=false : pane=Adx
+Pane: Adx : range=auto..auto : lines=40,20
 
 ### ALLIGATOR / Series
 Method: ToAlligator
@@ -129,6 +132,8 @@ Results:
   - AroonUp : Default : reusable=false : pane=Aroon
   - AroonDown : Default : reusable=false : pane=Aroon
   - Oscillator : Default : reusable=true : pane=Oscillator
+Pane: Aroon : range=0..100 : lines=70,50,30
+Pane: Oscillator : range=-100..100 : lines=0
 
 ### AROON / Buffer
 Method: ToAroonList
@@ -138,6 +143,8 @@ Results:
   - AroonUp : Default : reusable=false : pane=Aroon
   - AroonDown : Default : reusable=false : pane=Aroon
   - Oscillator : Default : reusable=true : pane=Oscillator
+Pane: Aroon : range=0..100 : lines=70,50,30
+Pane: Oscillator : range=-100..100 : lines=0
 
 ### AROON / Stream
 Method: ToAroonHub
@@ -147,6 +154,8 @@ Results:
   - AroonUp : Default : reusable=false : pane=Aroon
   - AroonDown : Default : reusable=false : pane=Aroon
   - Oscillator : Default : reusable=true : pane=Oscillator
+Pane: Aroon : range=0..100 : lines=70,50,30
+Pane: Oscillator : range=-100..100 : lines=0
 
 ### ATR / Series
 Method: ToAtr
@@ -510,6 +519,7 @@ Results:
   - RsiStreak : Default : reusable=false : pane=ConnorsRsi
   - PercentRank : Default : reusable=false : pane=ConnorsRsi
   - ConnorsRsi : Default : reusable=true : pane=ConnorsRsi
+Pane: ConnorsRsi : range=0..100 : lines=90,10
 
 ### CRSI / Buffer
 Method: ToConnorsRsiList
@@ -523,6 +533,7 @@ Results:
   - RsiStreak : Default : reusable=false : pane=ConnorsRsi
   - PercentRank : Default : reusable=false : pane=ConnorsRsi
   - ConnorsRsi : Default : reusable=true : pane=ConnorsRsi
+Pane: ConnorsRsi : range=0..100 : lines=90,10
 
 ### CRSI / Stream
 Method: ToConnorsRsiHub
@@ -536,6 +547,7 @@ Results:
   - RsiStreak : Default : reusable=false : pane=ConnorsRsi
   - PercentRank : Default : reusable=false : pane=ConnorsRsi
   - ConnorsRsi : Default : reusable=true : pane=ConnorsRsi
+Pane: ConnorsRsi : range=0..100 : lines=90,10
 
 ### DEMA / Series
 Method: ToDema
@@ -1215,6 +1227,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - Mfi : Default : reusable=true : pane=Mfi
+Pane: Mfi : range=0..100 : lines=80,20
 
 ### MFI / Buffer
 Method: ToMfiList
@@ -1222,6 +1235,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - Mfi : Default : reusable=true : pane=Mfi
+Pane: Mfi : range=0..100 : lines=80,20
 
 ### MFI / Stream
 Method: ToMfiHub
@@ -1229,6 +1243,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - Mfi : Default : reusable=true : pane=Mfi
+Pane: Mfi : range=0..100 : lines=80,20
 
 ### OBV / Series
 Method: ToObv
@@ -1598,6 +1613,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - Rsi : Default : reusable=true : pane=Rsi
+Pane: Rsi : range=0..100 : lines=70,30
 
 ### RSI / Buffer
 Method: ToRsiList
@@ -1605,6 +1621,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - Rsi : Default : reusable=true : pane=Rsi
+Pane: Rsi : range=0..100 : lines=70,30
 
 ### RSI / Stream
 Method: ToRsiHub
@@ -1612,6 +1629,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - Rsi : Default : reusable=true : pane=Rsi
+Pane: Rsi : range=0..100 : lines=70,30
 
 ### SLOPE / Series
 Method: ToSlope
@@ -1851,6 +1869,7 @@ Parameters:
 Results:
   - Oscillator : Default : reusable=true : pane=Stoch
   - Signal : Default : reusable=false : pane=Stoch
+Pane: Stoch : range=auto..auto : lines=80,20
 
 ### STOCH / Buffer
 Method: ToStochList
@@ -1861,6 +1880,7 @@ Parameters:
 Results:
   - Oscillator : Default : reusable=true : pane=Stoch
   - Signal : Default : reusable=false : pane=Stoch
+Pane: Stoch : range=auto..auto : lines=80,20
 
 ### STOCH / Stream
 Method: ToStochHub
@@ -1871,6 +1891,7 @@ Parameters:
 Results:
   - Oscillator : Default : reusable=true : pane=Stoch
   - Signal : Default : reusable=false : pane=Stoch
+Pane: Stoch : range=auto..auto : lines=80,20
 
 ### STOCH-RSI / Series
 Method: ToStochRsi
@@ -1882,6 +1903,7 @@ Parameters:
 Results:
   - StochRsi : Default : reusable=true : pane=StochRsi
   - Signal : Default : reusable=false : pane=StochRsi
+Pane: StochRsi : range=auto..auto : lines=80,20
 
 ### STOCH-RSI / Buffer
 Method: ToStochRsiList
@@ -1893,6 +1915,7 @@ Parameters:
 Results:
   - StochRsi : Default : reusable=true : pane=StochRsi
   - Signal : Default : reusable=false : pane=StochRsi
+Pane: StochRsi : range=auto..auto : lines=80,20
 
 ### STOCH-RSI / Stream
 Method: ToStochRsiHub
@@ -1904,6 +1927,7 @@ Parameters:
 Results:
   - StochRsi : Default : reusable=true : pane=StochRsi
   - Signal : Default : reusable=false : pane=StochRsi
+Pane: StochRsi : range=auto..auto : lines=80,20
 
 ### SUPERTREND / Series
 Method: ToSuperTrend
@@ -2081,6 +2105,7 @@ Parameters:
   - longPeriods : Int32 : optional
 Results:
   - Ultimate : Default : reusable=true : pane=Ultimate
+Pane: Ultimate : range=0..100 : lines=70,30
 
 ### UO / Buffer
 Method: ToUltimateList
@@ -2090,6 +2115,7 @@ Parameters:
   - longPeriods : Int32 : optional
 Results:
   - Ultimate : Default : reusable=true : pane=Ultimate
+Pane: Ultimate : range=0..100 : lines=70,30
 
 ### UO / Stream
 Method: ToUltimateHub
@@ -2099,6 +2125,7 @@ Parameters:
   - longPeriods : Int32 : optional
 Results:
   - Ultimate : Default : reusable=true : pane=Ultimate
+Pane: Ultimate : range=0..100 : lines=70,30
 
 ### VOL-STOP / Series
 Method: ToVolatilityStop
@@ -2199,6 +2226,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - WilliamsR : Default : reusable=true : pane=WilliamsR
+Pane: WilliamsR : range=-100..0 : lines=-20,-80
 
 ### WILLR / Buffer
 Method: ToWilliamsRList
@@ -2206,6 +2234,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - WilliamsR : Default : reusable=true : pane=WilliamsR
+Pane: WilliamsR : range=-100..0 : lines=-20,-80
 
 ### WILLR / Stream
 Method: ToWilliamsRHub
@@ -2213,6 +2242,7 @@ Parameters:
   - lookbackPeriods : Int32 : optional
 Results:
   - WilliamsR : Default : reusable=true : pane=WilliamsR
+Pane: WilliamsR : range=-100..0 : lines=-20,-80
 
 ### WMA / Series
 Method: ToWma

@@ -35,6 +35,14 @@ internal static readonly IndicatorListing SeriesListing =
   - the listing declares no `defaultValue` and so promises nothing (VWAP's `startDate`, omittable via `ToVwap(bars)`).
 - When the argument can only be dropped by choosing a shorter overload that behaves differently — `ToPrs(sourceEval, sourceBase)` computes no `PrsPercent` — mark it `isRequired: true` and reach that overload with `WithoutParam(name)`, so a catalog-driven caller never silently gets a different indicator. `EveryParameterIsRequiredMatchesCallability` enforces these rules.
 
+### Panes
+
+`WithPane(name, minimum, maximum, params thresholds)` records a fixed axis range and reference lines for a chart pane.
+
+- The pane `name` equals the `chartPane` of a result on the listing and cannot be `IndicatorResult.PricePane`.
+- `Build()` also rejects a duplicate pane, a pane with neither range nor thresholds, a non-finite value, a minimum not below the maximum, and a threshold outside the range.
+- List a pane for an oscillator whose chart has a fixed range or conventional levels, such as RSI (0 to 100, lines at 70 and 30).
+
 ## Querying and executing
 
 The public API — `Catalog.Get(...)`, `Catalog.Search(...)`, the `ListingExecutionBuilder` fluent execution, `IndicatorConfig`, and the JSON and Markdown exports — is documented for library users at [docs/utilities/catalog.md](../../../docs/utilities/catalog.md).

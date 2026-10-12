@@ -35,4 +35,33 @@ public class CatalogChartPaneTests
         panes["Sar"].GetString().Should().Be(IndicatorResult.PricePane);
         panes["IsReversal"].ValueKind.Should().Be(JsonValueKind.Null);
     }
+
+    [TestMethod]
+    public void BoundedOscillator_ListsItsPaneRangeAndLines()
+    {
+        IndicatorListing listing = Catalog.Get("RSI", Style.Stream)!;
+
+        IndicatorPane pane = listing.Panes.Should().ContainSingle().Subject;
+        pane.Name.Should().Be(listing.Results.Single().ChartPane);
+        pane.Minimum.Should().Be(0);
+        pane.Maximum.Should().Be(100);
+        pane.Thresholds.Should().Equal(70, 30);
+
+        Catalog.Get("EMA", Style.Series)!.Panes.Should().BeNull();
+    }
+
+    [TestMethod]
+    public void JsonExport_CarriesPanes()
+    {
+        using JsonDocument json = JsonDocument.Parse(
+            new[] { Catalog.Get("WILLR", Style.Series)! }.ToJson());
+
+        JsonElement pane = json.RootElement[0].GetProperty("panes")[0];
+
+        pane.GetProperty("name").GetString().Should().Be("WilliamsR");
+        pane.GetProperty("minimum").GetDouble().Should().Be(-100);
+        pane.GetProperty("maximum").GetDouble().Should().Be(0);
+        pane.GetProperty("thresholds").EnumerateArray().Select(static t => t.GetDouble())
+            .Should().Equal(-20, -80);
+    }
 }

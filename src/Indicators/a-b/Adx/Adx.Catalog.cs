@@ -16,6 +16,7 @@ public static partial class Adx
             .AddResult(nameof(AdxResult.Dx), "DX", "Adx", ResultType.Default)
             .AddResult(nameof(AdxResult.Adx), "ADX", "Adx", ResultType.Default, isReusable: true)
             .AddResult(nameof(AdxResult.Adxr), "ADXR", "Adx", ResultType.Default)
+            .WithPane("Adx", null, null, 40, 20)
             .Build();
 
     /// <summary>

@@ -49,6 +49,17 @@ public record IndicatorListing
     public required IReadOnlyList<IndicatorResult> Results { get; init; }
 
     /// <summary>
+    /// Gets the chart panes that have a fixed axis range or reference lines.
+    /// </summary>
+    /// <remarks>
+    /// Each pane's <see cref="IndicatorPane.Name"/> matches the <see cref="IndicatorResult.ChartPane"/>
+    /// of the results it draws. Panes are listed for only some indicators; a pane that is not listed
+    /// carries no range or reference line data, which does not mean it has none.
+    /// The price pane is never listed. <c>null</c> when no pane is listed.
+    /// </remarks>
+    public IReadOnlyList<IndicatorPane>? Panes { get; init; }
+
+    /// <summary>
     /// Gets the name of the result record type returned by the indicator method.
     /// </summary>
     /// <remarks>

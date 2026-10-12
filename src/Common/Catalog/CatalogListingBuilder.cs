@@ -19,6 +19,7 @@ internal class CatalogListingBuilder
     private readonly string? _inheritedResultRecordType;
     private readonly List<IndicatorParam> _parameters = [];
     private readonly List<IndicatorResult> _results = [];
+    private readonly List<IndicatorPane> _panes = [];
 
     /// <summary>
     /// Gets the current style setting for the builder.
@@ -61,6 +62,11 @@ internal class CatalogListingBuilder
         }
 
         _results.AddRange(baseListing.Results);
+
+        if (baseListing.Panes != null)
+        {
+            _panes.AddRange(baseListing.Panes);
+        }
     }
 
     /// <summary>
@@ -286,6 +292,30 @@ internal class CatalogListingBuilder
     }
 
     /// <summary>
+    /// Sets the fixed axis range and reference lines of a chart pane.
+    /// </summary>
+    /// <param name="name">Pane name; must match the <c>chartPane</c> of a result on this listing.</param>
+    /// <param name="minimum">Fixed lower axis bound, or <c>null</c> to autoscale.</param>
+    /// <param name="maximum">Fixed upper axis bound, or <c>null</c> to autoscale.</param>
+    /// <param name="thresholds">Reference line values, in drawing order.</param>
+    /// <returns>Builder instance for method chaining.</returns>
+    internal CatalogListingBuilder WithPane(
+        string name,
+        double? minimum,
+        double? maximum,
+        params double[] thresholds)
+    {
+        _panes.Add(new IndicatorPane {
+            Name = name,
+            Minimum = minimum,
+            Maximum = maximum,
+            Thresholds = thresholds.Length > 0 ? [.. thresholds] : null
+        });
+
+        return this;
+    }
+
+    /// <summary>
     /// Adds common price High, Low, Close results to the indicator.
     /// </summary>
     /// <returns>Builder instance for method chaining.</returns>
@@ -311,6 +341,7 @@ internal class CatalogListingBuilder
             Category = _category,
             Parameters = _parameters.Count > 0 ? _parameters : null,
             Results = _results,
+            Panes = _panes.Count > 0 ? _panes : null,
             MethodName = _methodName,
             // a listing inheriting its method keeps the result record already derived for it
             ResultRecordType = _methodDeclaringType is null
@@ -323,6 +354,57 @@ internal class CatalogListingBuilder
     private string GenerateLegendTemplate() =>
         // A simple legend template based on the indicator name
         $"{_name} ({_id})";
+
+    /// <summary>
+    /// Rejects a pane that draws no result or describes an impossible axis, so pane
+    /// data cannot drift from the results it applies to.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">A pane is unmatched, duplicated, empty, non-finite, or out of range.</exception>
+    private void ValidatePanes()
+    {
+        HashSet<string> seen = new(StringComparer.Ordinal);
+
+        foreach (IndicatorPane pane in _panes)
+        {
+            if (pane.Name == IndicatorResult.PricePane
+                || !_results.Exists(r => r.ChartPane == pane.Name))
+            {
+                throw new InvalidOperationException(
+                    $"Pane '{pane.Name}' must match a non-price chart pane of this listing's results.");
+            }
+
+            if (!seen.Add(pane.Name))
+            {
+                throw new InvalidOperationException($"Duplicate pane '{pane.Name}' is not allowed.");
+            }
+
+            if (pane.Minimum is null && pane.Maximum is null && pane.Thresholds is null)
+            {
+                throw new InvalidOperationException(
+                    $"Pane '{pane.Name}' sets no range or thresholds; leave it out to autoscale.");
+            }
+
+            if (!double.IsFinite(pane.Minimum ?? 0)
+                || !double.IsFinite(pane.Maximum ?? 0)
+                || pane.Thresholds?.Any(static t => !double.IsFinite(t)) == true)
+            {
+                throw new InvalidOperationException(
+                    $"Pane '{pane.Name}' range and thresholds must be finite.");
+            }
+
+            if (pane.Minimum >= pane.Maximum)
+            {
+                throw new InvalidOperationException(
+                    $"Pane '{pane.Name}' minimum must be less than its maximum.");
+            }
+
+            if (pane.Thresholds?.Any(t => t < pane.Minimum || t > pane.Maximum) == true)
+            {
+                throw new InvalidOperationException(
+                    $"Pane '{pane.Name}' thresholds must lie within its range.");
+            }
+        }
+    }
 
     private void ValidateBeforeBuild()
     {
@@ -354,6 +436,8 @@ internal class CatalogListingBuilder
         {
             throw new InvalidOperationException("Duplicate result names are not allowed.");
         }
+
+        ValidatePanes();
 
         // Validate reusable result rules:
         // - For IReusable models: exactly one result must be marked as reusable

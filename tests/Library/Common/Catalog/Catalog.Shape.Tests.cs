@@ -88,10 +88,22 @@ public class CatalogShapeTests : TestBase
                     .Append('\n');
             }
 
+            // pane values are data, not prose: a changed range or line is a shape change
+            foreach (IndicatorPane pane in listing.Panes ?? [])
+            {
+                sb.Append("Pane: ").Append(pane.Name)
+                    .Append(" : range=").Append(Format(pane.Minimum)).Append("..").Append(Format(pane.Maximum))
+                    .Append(" : lines=").Append(pane.Thresholds is null ? "(none)" : string.Join(",", pane.Thresholds.Select(static t => Format(t))))
+                    .Append('\n');
+            }
+
             sb.Append('\n');
         }
 
         return sb.ToString();
+
+        static string Format(double? value)
+            => value?.ToString(CultureInfo.InvariantCulture) ?? "auto";
     }
 
     /// <summary>

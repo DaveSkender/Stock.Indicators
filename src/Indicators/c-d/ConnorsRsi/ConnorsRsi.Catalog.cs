@@ -18,6 +18,7 @@ public static partial class ConnorsRsi
             .AddResult(nameof(ConnorsRsiResult.RsiStreak), "RSI of Streak", "ConnorsRsi", ResultType.Default)
             .AddResult(nameof(ConnorsRsiResult.PercentRank), "Percent Rank", "ConnorsRsi", ResultType.Default)
             .AddResult(nameof(ConnorsRsiResult.ConnorsRsi), "ConnorsRSI", "ConnorsRsi", ResultType.Default, isReusable: true)
+            .WithPane("ConnorsRsi", 0, 100, 90, 10)
             .Build();
 
     /// <summary>

@@ -14,6 +14,7 @@ public static partial class Ultimate
             .AddParameter<int>("middlePeriods", "Middle Periods", description: "Number of middle periods for the Ultimate Oscillator calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 50)
             .AddParameter<int>("longPeriods", "Long Periods", description: "Number of long periods for the Ultimate Oscillator calculation", isRequired: false, defaultValue: 28, minimum: 1, maximum: 250)
             .AddResult(nameof(UltimateResult.Ultimate), "Ultimate Oscillator", "Ultimate", ResultType.Default, isReusable: true)
+            .WithPane("Ultimate", 0, 100, 70, 30)
             .Build();
 
     /// <summary>

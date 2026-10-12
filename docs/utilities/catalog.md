@@ -67,6 +67,7 @@ Each `IndicatorListing` describes one indicator-and-style combination. This is t
 | `Category`<br>`Category` | Indicator category (see below) |
 | `Parameters`<br>`IReadOnlyList<IndicatorParam>?` | Input parameters (`null` when there are none) |
 | `Results`<br>`IReadOnlyList<IndicatorResult>` | Output fields the indicator produces |
+| `Panes`<br>`IReadOnlyList<IndicatorPane>?` | Chart panes with a fixed axis range or reference lines (`null` when none) |
 | `ResultRecordType`<br>`string?` | Name of the result record the method returns (e.g. `"EmaResult"`), the same for all three styles — the record type, not the method's literal return type (`EmaList` for Buffer, `EmaHub` for Stream). `null` when `MethodName` is unset. Derived when the catalog builds the listing, so a `with` copy that changes `MethodName` keeps the original value |
 | `MethodName`<br>`string?` | Method name, for automation use cases |
 | `LegendTemplate`<br>`string` | Legend template for charting |
@@ -97,6 +98,16 @@ Each `IndicatorListing` describes one indicator-and-style combination. This is t
 | `ChartPane`<br>`string?` | Chart pane the result draws in: `"Price"` (`IndicatorResult.PricePane`) for the price axis, another name for a separate pane, `null` when not charted |
 
 Results with the same `ChartPane` share units, so group a listing's results by it and draw each group as one chart. Bollinger Bands, for example, puts its bands on `"Price"` and `PercentB`, `ZScore` and `Width` each in a pane of its own. A `null` pane marks a flag or pattern code, such as a PSAR reversal, which has no axis to draw on.
+
+`IndicatorPane` (each pane with a fixed range or reference lines):
+
+| Property | Description |
+| ----- | ----------- |
+| `Name`<br>`string` | Pane name, matching the `ChartPane` of the results it draws |
+| `Minimum` / `Maximum`<br>`double?` | Fixed axis bounds; `null` means autoscale |
+| `Thresholds`<br>`IReadOnlyList<double>?` | Reference line values, such as overbought and oversold levels, in drawing order |
+
+Nine indicators list a pane today: RSI, Stochastic, Stochastic RSI, MFI, Williams %R, Ultimate Oscillator, ConnorsRSI, ADX and Aroon. RSI, for example, draws on 0 to 100 with lines at 70 and 30. A pane that is not listed has no data here, which is not the same as autoscaling with no reference lines. Colours and line styles are left to the chart.
 
 Example — inspect an indicator's inputs:
 

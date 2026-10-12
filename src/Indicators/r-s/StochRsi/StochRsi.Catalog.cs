@@ -16,6 +16,7 @@ public static partial class StochRsi
             .AddParameter<int>("smoothPeriods", "Smooth Periods", description: "Number of periods for smoothing", isRequired: false, defaultValue: 1, minimum: 1, maximum: 50)
             .AddResult(nameof(StochRsiResult.StochRsi), "%K", "StochRsi", ResultType.Default, isReusable: true)
             .AddResult(nameof(StochRsiResult.Signal), "%D", "StochRsi", ResultType.Default)
+            .WithPane("StochRsi", null, null, 80, 20)
             .Build();
 
     /// <summary>

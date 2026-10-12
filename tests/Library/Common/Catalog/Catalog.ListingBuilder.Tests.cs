@@ -8,6 +8,7 @@ namespace Catalogging;
 /// - duplicate parameters/results handling
 /// - multiple non-reusable results support
 /// - inheriting a base listing copies every member, without sharing it
+/// - chart panes must match a result pane and describe a possible axis
 /// </summary>
 [TestClass]
 public class CatalogListingBuilderTests : TestBase
@@ -173,4 +174,96 @@ public class CatalogListingBuilderTests : TestBase
         series.Parameters[1].EnumOptions.Should()
             .NotBeSameAs(common.Parameters[1].EnumOptions);
     }
+
+    [TestMethod]
+    public void PaneIsBuiltAndInherited()
+    {
+        IndicatorListing common = BuildWithPane(static b => b.WithPane("Osc", 0, 100, 70, 30));
+
+        IndicatorListing series = new CatalogListingBuilder(common)
+            .WithStyle(Style.Series)
+            .Build();
+
+        IndicatorPane pane = series.Panes.Should().ContainSingle().Subject;
+        pane.Name.Should().Be("Osc");
+        pane.Minimum.Should().Be(0);
+        pane.Maximum.Should().Be(100);
+        pane.Thresholds.Should().Equal(70, 30);
+    }
+
+    [TestMethod]
+    public void PaneWithOnlyThresholds_AutoscalesItsAxis()
+    {
+        IndicatorPane pane = BuildWithPane(static b => b.WithPane("Osc", null, null, 0)).Panes![0];
+
+        pane.Minimum.Should().BeNull();
+        pane.Maximum.Should().BeNull();
+        pane.Thresholds.Should().Equal(0);
+    }
+
+    [TestMethod]
+    public void OneSidedRange_ChecksOnlyTheSetBound()
+    {
+        BuildWithPane(static b => b.WithPane("Osc", 0, null, 150)).Panes![0].Maximum.Should().BeNull();
+
+        Assert.ThrowsExactly<InvalidOperationException>(
+            static () => BuildWithPane(static b => b.WithPane("Osc", 0, null, -1)));
+    }
+
+    [TestMethod]
+    public void ThresholdOnBound_IsAccepted()
+    {
+        IndicatorPane pane = BuildWithPane(static b => b.WithPane("Osc", 0, 100, 0, 100)).Panes![0];
+        pane.Thresholds.Should().Equal(0d, 100d);
+    }
+
+    [TestMethod]
+    public void NoPanes_LeavesPanesNull()
+        => BuildWithPane(static b => b).Panes.Should().BeNull();
+
+    public static IEnumerable<object[]> InvalidPanes =>
+    [
+        ["name matches no result pane", "Unknown", 0d, 100d, 50d],
+        ["price pane", IndicatorResult.PricePane, 0d, 100d, 50d],
+        ["minimum above maximum", "Osc", 100d, 0d, 50d],
+        ["minimum equals maximum", "Osc", 50d, 50d, 50d],
+        ["threshold above range", "Osc", 0d, 100d, 150d],
+        ["threshold below range", "Osc", 0d, 100d, -1d],
+        ["NaN minimum", "Osc", double.NaN, 100d, 50d],
+        ["NaN maximum", "Osc", 0d, double.NaN, 50d],
+        ["NaN threshold", "Osc", 0d, 100d, double.NaN],
+        ["infinite maximum", "Osc", 0d, double.PositiveInfinity, 50d],
+        ["infinite minimum", "Osc", double.NegativeInfinity, 100d, 50d],
+        ["infinite threshold", "Osc", 0d, 100d, double.PositiveInfinity],
+    ];
+
+    [TestMethod]
+    [DynamicData(nameof(InvalidPanes))]
+    public void InvalidPane_Throws(string because, string name, double minimum, double maximum, double threshold)
+    {
+        Action act = () => BuildWithPane(b => b.WithPane(name, minimum, maximum, threshold));
+        act.Should().ThrowExactly<InvalidOperationException>(because);
+    }
+
+    [TestMethod]
+    public void DuplicatePane_Throws()
+        => Assert.ThrowsExactly<InvalidOperationException>(
+            static () => BuildWithPane(static b => b
+                .WithPane("Osc", 0, 100)
+                .WithPane("Osc", 0, 100)));
+
+    [TestMethod]
+    public void EmptyPane_Throws()
+        => Assert.ThrowsExactly<InvalidOperationException>(
+            static () => BuildWithPane(static b => b.WithPane("Osc", null, null)));
+
+    private static IndicatorListing BuildWithPane(
+        Func<CatalogListingBuilder, CatalogListingBuilder> addPanes)
+        => addPanes(new CatalogListingBuilder()
+                .WithName("Test Indicator")
+                .WithId("TEST")
+                .WithCategory(Category.Oscillator)
+                .AddResult("Line", "Line", IndicatorResult.PricePane)
+                .AddResult("Osc", "Oscillator", "Osc", ResultType.Default, isReusable: true))
+            .Build();
 }
