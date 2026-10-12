@@ -29,6 +29,7 @@ internal static class ListingExecutor
     /// </param>
     /// <returns>Indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
+    /// <exception cref="ArgumentException">Thrown when a parameter value cannot bind to the method.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bars"/> is <c>null</c>.</exception>
     internal static IReadOnlyList<TResult> Execute<TResult>(
         IEnumerable<IBar> bars,
@@ -107,6 +108,15 @@ internal static class ListingExecutor
                 // Check if user provided an override
                 if (parameters?.TryGetValue(param.ParameterName, out object? value) == true)
                 {
+                    // the builder checked its own values; JSON and by-ID callers reach here unchecked
+                    if (value is null)
+                    {
+                        throw new ArgumentException(
+                            $"Parameter '{param.ParameterName}' of indicator '{listing.Uiid}' cannot be null; "
+                          + "leave it out to use its default.", nameof(parameters));
+                    }
+
+                    ListingExecutionBuilder.ValidateValue(param, value);
                     parameterList.Add(value);
                 }
                 else if (param.DataType == IndicatorParam.SeriesDataType)
@@ -180,8 +190,25 @@ internal static class ListingExecutor
         }
 
         // Execute the method via reflection
-        object? result = targetMethod.Invoke(null, parameterList.ToArray())
-            ?? throw new InvalidOperationException("Method execution returned null");
+        object? result;
+
+        try
+        {
+            result = targetMethod.Invoke(null, parameterList.ToArray());
+        }
+        catch (ArgumentException ex)
+        {
+            // Invoke itself rejected an argument, as distinct from the indicator's own
+            // validation, which arrives wrapped in a TargetInvocationException
+            throw new ArgumentException(
+                $"Arguments assembled for indicator '{listing.Uiid}' ({listing.Style}) do not bind to "
+              + $"'{methodName}': {ex.Message}", nameof(parameters), ex);
+        }
+
+        if (result is null)
+        {
+            throw new InvalidOperationException("Method execution returned null");
+        }
 
         // Cast to expected type
         return result switch {

@@ -302,6 +302,26 @@ public static partial class Catalog
         // Convert JsonElement values to proper types in Parameters
         Dictionary<string, object>? convertedParameters = ConvertJsonElementsInParameters(config.Parameters);
 
+        // JSON has a single number type, so a fractional value for a double parameter
+        // arrives as a decimal and a whole value for a decimal parameter as an int
+        IndicatorListing? listing = Get(config.Id, config.Style);
+        if (listing?.Parameters is not null && convertedParameters is not null)
+        {
+            foreach (IndicatorParam param in listing.Parameters)
+            {
+                if (!convertedParameters.TryGetValue(param.ParameterName, out object? value))
+                {
+                    continue;
+                }
+
+                convertedParameters[param.ParameterName] = (param.DataType, value) switch {
+                    ("Double", decimal fraction) => (double)fraction,
+                    ("Decimal", int whole) => (decimal)whole,
+                    _ => value
+                };
+            }
+        }
+
         // Execute using the parsed configuration
         return bars.ExecuteById<TResult>(config.Id, config.Style, convertedParameters);
     }
@@ -321,18 +341,14 @@ public static partial class Catalog
         Dictionary<string, object> converted = new();
         foreach (KeyValuePair<string, object> kvp in parameters)
         {
-            if (kvp.Value is JsonElement jsonElement)
+            object? value = kvp.Value is JsonElement jsonElement
+                ? ConvertJsonElement(jsonElement)
+                : kvp.Value;
+
+            // a JSON null leaves the parameter out, so its default applies
+            if (value is not null)
             {
-                object? convertedValue = ConvertJsonElement(jsonElement);
-                // Skip null values to maintain Dictionary<string, object> compatibility
-                if (convertedValue != null)
-                {
-                    converted[kvp.Key] = convertedValue;
-                }
-            }
-            else
-            {
-                converted[kvp.Key] = kvp.Value;
+                converted[kvp.Key] = value;
             }
         }
 
@@ -344,11 +360,7 @@ public static partial class Catalog
     /// </summary>
     /// <param name="element">JsonElement to convert.</param>
     /// <returns>Converted value, or null for null JsonElements.</returns>
-    /// <exception cref="NotImplementedException">Thrown when the feature is not yet implemented</exception>
     private static object? ConvertJsonElement(JsonElement element)
-
-        // TODO: find alternative without using NotImplementedException
-        // due to it triggering IDE3000 code analysis findings
         => element.ValueKind switch {
             JsonValueKind.String => element.GetString() ?? string.Empty,
             JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,
@@ -356,8 +368,7 @@ public static partial class Catalog
             JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
             JsonValueKind.True => true,
             JsonValueKind.False => false,
-            JsonValueKind.Null => null,
-            JsonValueKind.Undefined => throw new NotImplementedException(),
+            JsonValueKind.Null or JsonValueKind.Undefined => null,
             JsonValueKind.Object => element.ToString(),
             JsonValueKind.Array => element.ToString(),
             _ => element.ToString()
