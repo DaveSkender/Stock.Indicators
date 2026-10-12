@@ -210,10 +210,10 @@ Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluen
 
 ## Trimming and NativeAOT
 
-Catalog lookup works in trimmed and NativeAOT apps, and so does executing Series and Buffer listings. Stream listings do not execute through the catalog under any runtime, since the executor passes bars where a Stream method takes a hub provider. A listing's method resolves by `MethodName` among the methods catalog listings name, so a listing you build yourself can name any catalog indicator method, but not another library method.
+The package is marked trimmable, so a trimmed app keeps only the library members it uses. Catalog lookup works in trimmed and NativeAOT apps, and so does executing Series and Buffer listings; `ToJson` does not (see below). Stream listings do not execute through the catalog under any runtime, since the executor passes bars where a Stream method takes a hub provider. A listing's `MethodName` must name a catalog indicator method: a listing you build yourself, or a `with` copy, cannot name any other library method.
 
 ::: warning Reflection-based helpers
-`ToJson` serializes with reflection, so it carries `[RequiresUnreferencedCode]` and `[RequiresDynamicCode]` and raises IL2026 and IL3050 in a trimmed or NativeAOT build. `ToStringOut` and `ToConsole` require the public properties of `T` to be preserved, which an unannotated generic caller sees as IL2091. In a NativeAOT app they print no property descriptions: they read descriptions from the XML documentation file beside the assembly, and a native executable has no assembly file to sit beside.
+`ToJson` serializes with reflection, so it carries `[RequiresUnreferencedCode]` and `[RequiresDynamicCode]` and raises IL2026 and IL3050 in a trimmed or NativeAOT build; export the catalog from an untrimmed app instead. `ToStringOut` and `ToConsole` require the public properties of `T` to be preserved, which an unannotated generic caller sees as IL2091; annotate the caller's own type parameter with `[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]`, or call them with a concrete result type. In a NativeAOT app they print no property descriptions: they read descriptions from the XML documentation file beside the assembly, and a native executable has no assembly file to sit beside.
 :::
 
 ## See also

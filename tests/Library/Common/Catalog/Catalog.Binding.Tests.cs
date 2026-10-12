@@ -110,6 +110,9 @@ public class CatalogBindingTests : TestBase
 
         copy.Execute<SmaResult>(Bars)
             .Should().BeEquivalentTo(Bars.ToSma(20));
+
+        // derived when the catalog builds a listing, so a copy keeps the original's
+        copy.ResultRecordType.Should().Be(ema.ResultRecordType);
     }
 
     [TestMethod]

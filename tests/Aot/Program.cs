@@ -28,7 +28,7 @@ IndicatorListing handBuilt = new() {
     Results = [new() { DisplayName = "EMA", DataName = "Ema", DataType = ResultType.Default }]
 };
 
-Require("cold-start/EMA", () => handBuilt.WithParamValue("lookbackPeriods", 20).FromSource(source).Execute<object>().Count);
+Require("cold-start/EMA", () => handBuilt.WithParamValue("lookbackPeriods", 20).FromSource(source).Execute<object>());
 
 foreach (IndicatorListing listing in Catalog.Get()
     .OrderBy(static l => l.Uiid, StringComparer.Ordinal)
@@ -41,8 +41,12 @@ foreach (IndicatorListing listing in Catalog.Get()
 
     Report(
         $"{listing.Uiid}/{listing.Style}: {listing.ResultRecordType ?? "NO-RESULT-RECORD-TYPE"}",
-        () => listing.Execute<object>(source).Count);
+        () => listing.Execute<object>(source));
 }
+
+// ToStringOut reads property descriptions from XML beside the assembly, which NativeAOT lacks,
+// so the line count is compared rather than the text
+Console.WriteLine($"ToStringOut/EMA lines {bars.ToEma(20).ToStringOut().Split('\n').Length}");
 
 // Builder paths the loop never takes: a second series, and an omitted parameter.
 IReadOnlyList<IReusable> closes = bars.Use(CandlePart.Close);
@@ -52,17 +56,17 @@ Require("two-series/CORR", () => Catalog.Get("CORR", Style.Series)!
     .FromSource(closes, "sourceA")
     .WithParamValue("sourceB", opens)
     .FromSource(source)
-    .Execute<object>().Count);
+    .Execute<object>());
 
 Require("omitted/ALMA", () => Catalog.Get("ALMA", Style.Series)!
     .WithoutParam("sigma")
     .FromSource(source)
-    .Execute<object>().Count);
+    .Execute<object>());
 
 return failures;
 
 // a case that must execute; a regression rejects it under both runtimes, so the diff alone misses it
-void Require(string label, Func<int> run)
+void Require(string label, Func<IReadOnlyList<object>> run)
 {
     if (!Report(label, run))
     {
@@ -70,14 +74,15 @@ void Require(string label, Func<int> run)
     }
 }
 
-static bool Report(string label, Func<int> run)
+static bool Report(string label, Func<IReadOnlyList<object>> run)
 {
     string outcome;
     bool ok = false;
 
     try
     {
-        outcome = $"ok {run()}";
+        IReadOnlyList<object> results = run();
+        outcome = $"ok {results.Count} {(results.Count > 0 ? results[^1] : null)}";
         ok = true;
     }
     catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
