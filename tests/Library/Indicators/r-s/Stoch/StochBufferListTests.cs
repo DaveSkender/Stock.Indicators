@@ -121,14 +121,17 @@ public class StochBufferListTests : BufferListTestBase, ITestBarBufferList
                 : new BarD(b.Timestamp, (double)b.Open, (double)b.High, (double)b.Low, (double)b.Close, (double)b.Volume))
             .ToList();
 
-        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
-
-        foreach (BarD bar in bars)
+        foreach (MaType movingAverageType in (MaType[])[MaType.SMA, MaType.SMMA])
         {
-            sut.Add(bar.Timestamp, bar.High, bar.Low, bar.Close);
-        }
+            StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, 3, 2, movingAverageType);
 
-        sut.IsExactly(bars.CalcStoch(lookbackPeriods, signalPeriods, smoothPeriods, 3, 2, MaType.SMA));
+            foreach (BarD bar in bars)
+            {
+                sut.Add(bar.Timestamp, bar.High, bar.Low, bar.Close);
+            }
+
+            sut.IsExactly(bars.CalcStoch(lookbackPeriods, signalPeriods, smoothPeriods, 3, 2, movingAverageType));
+        }
     }
 
     [TestMethod]
