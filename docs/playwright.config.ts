@@ -10,6 +10,7 @@ import { defineConfig, devices } from '@playwright/test'
  *   agent-features - llms.txt, Markdown page actions, and WebMCP tools
  *   analytics      - controls that keep test runs out of production analytics
  *   layout         - page layout behavior (theme flash, landing hero)
+ *   parity         - indicator page tables against the library source
  *
  * Run via the package scripts, or drive Playwright directly:
  *   pnpm run test          # all projects
@@ -22,7 +23,7 @@ import { defineConfig, devices } from '@playwright/test'
  * than previewing stale output. Playwright starts `webServer` before it loads
  * spec files, so the build is also what puts `.vitepress/dist/sitemap.xml` in
  * place for the a11y project, which enumerates its pages from it at
- * collection time.
+ * collection time. `test:parity` sets PARITY_ONLY to skip it.
  */
 export default defineConfig({
   testDir: './tests',
@@ -72,6 +73,12 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
+      // Source-only drift check of indicator pages against the library source.
+      name: 'parity',
+      testMatch: /catalog-parity\.spec\.ts/,
+      fullyParallel: true,
+    },
+    {
       // Verifies the controls that keep automated runs out of the production
       // analytics property. Runs alongside `a11y`, which is the suite that
       // loads every page and so carries the risk these controls cover.
@@ -82,10 +89,13 @@ export default defineConfig({
     },
   ],
 
-  webServer: {
-    command: 'pnpm run docs:build && pnpm run docs:preview',
-    url: 'http://localhost:4173',
-    reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
-  },
+  // The parity project reads source files only and needs no server.
+  webServer: process.env.PARITY_ONLY
+    ? undefined
+    : {
+        command: 'pnpm run docs:build && pnpm run docs:preview',
+        url: 'http://localhost:4173',
+        reuseExistingServer: !process.env.CI,
+        timeout: 180_000,
+      },
 })

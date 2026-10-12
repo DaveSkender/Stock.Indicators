@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - docs/**
+      - src/**
       - .github/workflows/test-website-a11y.yml
     types: [opened, synchronize, reopened, ready_for_review]
 
@@ -63,6 +64,12 @@ jobs:
       - name: Test agent features
         if: ${{ !cancelled() }}
         run: pnpm run test:agents
+
+      # Checks each indicator page's parameters, defaults, minimums, and result
+      # tables against the library source it documents.
+      - name: Test docs parity
+        if: ${{ !cancelled() }}
+        run: pnpm run test:parity
 
       # Blocks the chart API and asserts every chart still renders with data
       # from the snapshot committed under docs/.vitepress/public/data/chart-api.
