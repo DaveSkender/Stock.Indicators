@@ -81,8 +81,13 @@ public class KeltnerHub
         }
         else if (i >= EmaPeriods - 1)
         {
-            // Initialize as SMA of Close prices
-            ema = CalculateSmaOfClose(i, EmaPeriods);
+            // Series' EMA runs through warmup rows this hub leaves blank, so replay it from its SMA seed
+            ema = CalculateSmaOfClose(EmaPeriods - 1, EmaPeriods);
+
+            for (int p = EmaPeriods; p <= i; p++)
+            {
+                ema = Ema.Increment(EmaK, ema, (double)ProviderCache[p].Close);
+            }
         }
         else
         {
