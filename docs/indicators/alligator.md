@@ -10,6 +10,8 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 
 <StockIndicatorChart indicator="Alligator" />
 
+<ChartKey indicator="Alligator" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<AlligatorResult> results =
