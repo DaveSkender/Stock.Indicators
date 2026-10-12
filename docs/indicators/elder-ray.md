@@ -10,6 +10,8 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 
 <StockIndicatorChart indicator="ElderRay" withOverlay />
 
+<ChartKey indicator="ElderRay" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<ElderRayResult> results =

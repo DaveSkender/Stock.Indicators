@@ -50,7 +50,7 @@ export default defineConfig({
     },
     {
       name: 'offline',
-      testMatch: /offline-snapshot\.spec\.ts/,
+      testMatch: /(offline-snapshot|chart-key)\.spec\.ts/,
       fullyParallel: true,
       use: { ...devices['Desktop Chrome'] },
     },

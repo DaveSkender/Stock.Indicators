@@ -10,6 +10,8 @@ Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](ht
 
 <StockIndicatorChart indicator="StarcBands" />
 
+<ChartKey indicator="StarcBands" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<StarcBandsResult> results =

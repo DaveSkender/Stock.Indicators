@@ -10,6 +10,8 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 
 <StockIndicatorChart indicator="Ichimoku" />
 
+<ChartKey indicator="Ichimoku" />
+
 ```csharp
 // C# usage syntax (batch)
 IReadOnlyList<IchimokuResult> results =
