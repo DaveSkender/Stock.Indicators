@@ -17,7 +17,6 @@ public class PivotsRegressionTests : RegressionTestBase<PivotsResult>
         BarHub barHub = new();
         barHub.Add(Bars);
         PivotsHub hub = barHub.ToPivotsHub();
-        hub.Rebuild(0);  // Calculate trend lines after all pivot points identified
         hub.Results.IsExactly(Expected);
     }
 }

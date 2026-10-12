@@ -48,9 +48,6 @@ public class PivotsHubTests : StreamHubTestBase, ITestBarObserver
         // delete
         barHub.RemoveAt(removeAtIndex);
 
-        // Ensure all pivots are calculated with full context
-        observer.Rebuild(0);
-
         // time-series, for comparison
         IReadOnlyList<PivotsResult> expected = RevisedBars.ToPivots();
 
@@ -109,9 +106,6 @@ public class PivotsHubTests : StreamHubTestBase, ITestBarObserver
         // add bars to barHub
         barHub.Add(Bars);
 
-        // Trigger rebuild to calculate all pivots with complete future context
-        observer.Rebuild(0);
-
         // stream results
         IReadOnlyList<PivotsResult> streamList
             = observer.Results;
@@ -145,9 +139,6 @@ public class PivotsHubTests : StreamHubTestBase, ITestBarObserver
         // add bars to barHub
         barHub.Add(Bars);
 
-        // Trigger rebuild to calculate all pivots with complete future context
-        observer.Rebuild(0);
-
         // stream results
         IReadOnlyList<PivotsResult> streamList
             = observer.Results;
@@ -164,6 +155,61 @@ public class PivotsHubTests : StreamHubTestBase, ITestBarObserver
         // cleanup
         observer.Unsubscribe();
         barHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void RemovalAnywhere_MatchesSeriesExactly()
+    {
+        // a removal moves pivots up to RightSpan bars back and repaints their trend segments
+        for (int removeAt = 10; removeAt < 200; removeAt += 7)
+        {
+            BarHub barHub = new();
+            PivotsHub observer = barHub.ToPivotsHub(leftSpan: 2, rightSpan: 3, maxTrendPeriods: 15);
+
+            barHub.Add(Bars.Take(200));
+            barHub.RemoveAt(removeAt);
+
+            List<Bar> revised = Bars.Take(200).Where((_, i) => i != removeAt).ToList();
+
+            observer.Results.IsExactly(revised.ToPivots(leftSpan: 2, rightSpan: 3, maxTrendPeriods: 15));
+
+            observer.Unsubscribe();
+            barHub.EndTransmission();
+        }
+    }
+
+    [TestMethod]
+    public void LateArrivalAndRemoval_CloseEndTypeAndShortTrend_MatchSeriesExactly()
+    {
+        // MaxTrendPeriods below the span total puts the rebuild start at its tightest
+        for (int at = 9; at < 120; at += 11)
+        {
+            List<Bar> all = Bars.Take(120).ToList();
+
+            // a bar that arrives after its successors
+            BarHub lateHub = new();
+            PivotsHub late = lateHub.ToPivotsHub(leftSpan: 3, rightSpan: 2, maxTrendPeriods: 4, EndType.Close);
+            lateHub.Add(all.Where((_, i) => i != at));
+            lateHub.Add(all[at]);
+
+            late.Results.IsExactly(all.ToPivots(leftSpan: 3, rightSpan: 2, maxTrendPeriods: 4, EndType.Close));
+
+            late.Unsubscribe();
+            lateHub.EndTransmission();
+
+            // a bar removed after the trend lines were drawn
+            BarHub removeHub = new();
+            PivotsHub removed = removeHub.ToPivotsHub(leftSpan: 3, rightSpan: 2, maxTrendPeriods: 4, EndType.Close);
+            removeHub.Add(all);
+            removeHub.RemoveAt(at);
+
+            removed.Results.IsExactly(
+                all.Where((_, i) => i != at).ToList()
+                   .ToPivots(leftSpan: 3, rightSpan: 2, maxTrendPeriods: 4, EndType.Close));
+
+            removed.Unsubscribe();
+            removeHub.EndTransmission();
+        }
     }
 
     [TestMethod]
