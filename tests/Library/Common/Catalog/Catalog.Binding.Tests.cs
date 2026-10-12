@@ -411,14 +411,14 @@ public class CatalogBindingTests : TestBase
         string.Join(Environment.NewLine, violations).Should().BeEmpty(
             "a listing must bind to a method of its own style; all three styles share a result record, so the record alone cannot reveal a cross-style mistake");
     }
-}
 
-internal static class FirstDeclarer
-{
-    public static int ToDuplicateName() => 1;
-}
+    private static class FirstDeclarer
+    {
+        public static int ToDuplicateName() => 1;
+    }
 
-internal static class SecondDeclarer
-{
-    public static int ToDuplicateName() => 2;
+    private static class SecondDeclarer
+    {
+        public static int ToDuplicateName() => 2;
+    }
 }

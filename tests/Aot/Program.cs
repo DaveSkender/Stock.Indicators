@@ -28,7 +28,7 @@ IndicatorListing handBuilt = new() {
     Results = [new() { DisplayName = "EMA", DataName = "Ema", DataType = ResultType.Default }]
 };
 
-Report("cold-start/EMA", () => handBuilt.WithParamValue("lookbackPeriods", 20).FromSource(source).Execute<object>().Count);
+Require("cold-start/EMA", () => handBuilt.WithParamValue("lookbackPeriods", 20).FromSource(source).Execute<object>().Count);
 
 foreach (IndicatorListing listing in Catalog.Get()
     .OrderBy(static l => l.Uiid, StringComparer.Ordinal)
@@ -50,26 +50,37 @@ foreach (IndicatorListing listing in Catalog.Get()
 IReadOnlyList<IReusable> closes = bars.Use(CandlePart.Close);
 IReadOnlyList<IReusable> opens = bars.Use(CandlePart.Open);
 
-Report("two-series/CORR", () => Catalog.Get("CORR", Style.Series)!
+Require("two-series/CORR", () => Catalog.Get("CORR", Style.Series)!
     .FromSource(closes, "sourceA")
     .WithParamValue("sourceB", opens)
     .FromSource(source)
     .Execute<object>().Count);
 
-Report("omitted/ALMA", () => Catalog.Get("ALMA", Style.Series)!
+Require("omitted/ALMA", () => Catalog.Get("ALMA", Style.Series)!
     .WithoutParam("sigma")
     .FromSource(source)
     .Execute<object>().Count);
 
 return failures;
 
-static void Report(string label, Func<int> run)
+// a case that must execute; a regression rejects it under both runtimes, so the diff alone misses it
+void Require(string label, Func<int> run)
+{
+    if (!Report(label, run))
+    {
+        failures++;
+    }
+}
+
+static bool Report(string label, Func<int> run)
 {
     string outcome;
+    bool ok = false;
 
     try
     {
         outcome = $"ok {run()}";
+        ok = true;
     }
     catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
     {
@@ -77,4 +88,5 @@ static void Report(string label, Func<int> run)
     }
 
     Console.WriteLine($"{label} {outcome}");
+    return ok;
 }

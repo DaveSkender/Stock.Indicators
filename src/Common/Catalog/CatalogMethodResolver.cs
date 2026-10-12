@@ -51,7 +51,9 @@ internal static class CatalogMethodResolver
         {
             MethodInfo[] registered = OverloadsByName.GetOrAdd(methodName, overloads);
 
-            // lookups are by name alone, so one name must map to one declaring class
+            // lookups are by name alone, so one name must map to one declaring class; this runs in
+            // static initializers, so a duplicate breaks the second class for good, and the binding
+            // tests exist to catch one before release
             if (registered[0].DeclaringType != overloads[0].DeclaringType)
             {
                 throw new InvalidOperationException(
