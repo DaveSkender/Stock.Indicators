@@ -138,11 +138,6 @@ public class CatalogStyleParityTests : TestBase
     {
         Dictionary<string, object> args = new(overrides, StringComparer.Ordinal);
 
-        if (listing.Style == Style.Stream)
-        {
-            return CatalogReflection.ExecuteHub(listing, args, Bars);
-        }
-
         foreach (IndicatorParam series in (listing.Parameters ?? [])
             .Where(static p => p.DataType == IndicatorParam.SeriesDataType))
         {

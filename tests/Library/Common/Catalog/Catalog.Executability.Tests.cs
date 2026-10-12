@@ -52,6 +52,27 @@ public class CatalogExecutabilityTests : TestBase
     }
 
     [TestMethod]
+    [DataRow(0)]
+    [DataRow(100_000)]
+    [DataRow(100_001)]
+    public void Execute_StreamListingAtHubCacheBoundary_ReturnsOneResultPerBar(int barCount)
+    {
+        // BarHub prunes past 100,000 bars by default; a Stream listing must still
+        // return one result per input bar like the Series style does.
+        List<Bar> history = [.. Enumerable
+            .Range(0, barCount)
+            .Select(static i => new Bar(
+                new DateTime(2000, 1, 1).AddMinutes(i),
+                100m + (i % 7), 101m + (i % 7), 99m + (i % 7), 100m + (i % 5), 1000m))];
+
+        IndicatorListing listing = Catalog.Get("EMA", Style.Stream);
+
+        IReadOnlyList<EmaResult> results = listing.Execute<EmaResult>(history);
+
+        results.Should().HaveCount(barCount);
+    }
+
+    [TestMethod]
     public void DecimalParameterRejectsDoubleOverride()
     {
         IndicatorListing renko = Catalog.Get("RENKO", Style.Series);
@@ -91,7 +112,7 @@ public class CatalogExecutabilityTests : TestBase
         = new(StringComparer.Ordinal) { "BETA", "CORR", "PRS" };
 
     [TestMethod]
-    public void EverySeriesAndBufferListingExecutes()
+    public void EveryListingExecutes()
     {
         MethodInfo executeDefinition = typeof(ListingExecutionBuilderExtensions)
             .GetMethods(BindingFlags.Public | BindingFlags.Static)
@@ -101,7 +122,7 @@ public class CatalogExecutabilityTests : TestBase
                              && m.GetParameters()[0].ParameterType == typeof(IndicatorListing));
 
         List<IndicatorListing> executable = Catalog.Get()
-            .Where(static l => l.Style is Style.Series or Style.Buffer && !TwoSeriesIndicators.Contains(l.Uiid))
+            .Where(static l => !TwoSeriesIndicators.Contains(l.Uiid))
             .ToList();
 
         List<string> failures = [];
@@ -138,14 +159,13 @@ public class CatalogExecutabilityTests : TestBase
         }
 
         string.Join(Environment.NewLine, failures).Should().BeEmpty(
-            "every Series and Buffer listing must be executable from its own catalog metadata; "
+            "every listing must be executable from its own catalog metadata; "
           + "a listing that cannot run is metadata describing something a consumer cannot invoke");
 
         // guard the exclusion list itself: if the executor gains multi-series support,
         // this count changes and the exclusion should be revisited rather than kept
         executable.Should().HaveCount(
-            Catalog.Get().Count(static l => l.Style is Style.Series or Style.Buffer)
-          - TwoSeriesIndicators.Count,
+            Catalog.Get().Count - TwoSeriesIndicators.Count,
             "exactly the known two-series indicators are excluded");
     }
 }

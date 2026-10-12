@@ -82,7 +82,12 @@ internal static class ListingExecutor
         bool declaresSeries = listing.Parameters?.Any(
             static p => p.DataType == IndicatorParam.SeriesDataType) == true;
 
-        List<object?> parameterList = declaresSeries ? [] : [bars];
+        // a Stream method takes a hub provider rather than a list, so the bars feed one;
+        // built once, at first use, and shared by every parameter the bars fill
+        object? source = null;
+        object Source() => source ??= listing.Style == Style.Stream ? ToBarHub(bars) : bars;
+
+        List<object?> parameterList = declaresSeries ? [] : [Source()];
         bool barsBound = !declaresSeries;
 
         // Add parameters based on catalog metadata
@@ -118,7 +123,7 @@ internal static class ListingExecutor
                           + $"with WithParamValue(\"{param.ParameterName}\", series) or FromSource(series, \"{param.ParameterName}\").");
                     }
 
-                    parameterList.Add(bars);
+                    parameterList.Add(Source());
                     barsBound = true;
                 }
                 else if (param.IsRequired)
@@ -179,9 +184,26 @@ internal static class ListingExecutor
             ?? throw new InvalidOperationException("Method execution returned null");
 
         // Cast to expected type
-        return result is IReadOnlyList<TResult> typedResult
-            ? typedResult
-            : throw new InvalidOperationException($"Result is not of expected type {typeof(IReadOnlyList<TResult>).Name}");
+        return result switch {
+            IReadOnlyList<TResult> typedResult => typedResult,
+            IStreamObservable<TResult> hub => hub.Results,
+            _ => throw new InvalidOperationException($"Result is not of expected type {typeof(IReadOnlyList<TResult>).Name}")
+        };
+    }
+
+    private const int BarHubDefaultCacheSize = 100_000;
+
+    private static BarHub ToBarHub(IEnumerable<IBar> bars)
+    {
+        IReadOnlyList<IBar> history = bars as IReadOnlyList<IBar> ?? [.. bars];
+
+        // the hub's default cache prunes the oldest bars past 100,000, which would
+        // leave a Stream result shorter than the Series result for the same input;
+        // a smaller input keeps the default, since a hub rejects a warmup that
+        // exceeds its provider's cache
+        BarHub hub = new(history.Count > BarHubDefaultCacheSize ? history.Count : null);
+        hub.Add(history);
+        return hub;
     }
 
     /// <summary>
@@ -336,7 +358,11 @@ internal static class ListingExecutor
     /// <returns>The candidates in a stable, declaration-independent order.</returns>
     private static IEnumerable<MethodInfo> Reproducible(IEnumerable<MethodInfo> methods)
         => methods
-            .OrderBy(static m => m.DeclaringType?.FullName, StringComparer.Ordinal)
+            // a bar source satisfies both a bar and a chain overload; the bar one reads the bars as Series does
+            .OrderByDescending(static m => m.GetParameters() is [ParameterInfo first, ..]
+                && first.ParameterType.IsGenericType
+                && first.ParameterType.GetGenericArguments()[0] == typeof(IBar))
+            .ThenBy(static m => m.DeclaringType?.FullName, StringComparer.Ordinal)
             .ThenBy(static m => string.Join(
                 ",", m.GetParameters().Select(static p => p.ParameterType.FullName)), StringComparer.Ordinal);
 

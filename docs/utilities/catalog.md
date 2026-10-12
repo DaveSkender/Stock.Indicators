@@ -171,6 +171,8 @@ IReadOnlyList<EmaResult> emaWithParams = indicatorListing
   .Execute<EmaResult>();
 ```
 
+A Stream listing runs from bars the same way: the bars feed a `BarHub`, and `Execute` returns the indicator hub's results.
+
 The fluent `ListingExecutionBuilder` supports `WithParamValue(name, value)`, `WithParams(dictionary)`, `WithoutParam(name)`, `FromSource(bars)`, `FromSource(series, parameterName?)` for chaining off another indicator's results, and `Execute<TResult>()`. Parameter values are type-checked against the listing's `IndicatorParam` metadata. A series value must be assignable to `IReadOnlyList<IReusable>`, so its elements are reference types; a list of `IReusable` structs is rejected.
 
 ### Leave a parameter out
@@ -225,7 +227,7 @@ Use `config.ToBuilder()` to obtain a `ListingExecutionBuilder` for further fluen
 
 ## Trimming and NativeAOT
 
-The package is marked trimmable, so a trimmed app keeps only the library members it uses. Catalog lookup works in trimmed and NativeAOT apps, and so does executing Series and Buffer listings; `ToJson` does not (see below). Stream listings do not execute through the catalog under any runtime, since the executor passes bars where a Stream method takes a hub provider. A listing's `MethodName` must name a catalog indicator method: a listing you build yourself, or a `with` copy, cannot name any other library method.
+The package is marked trimmable, so a trimmed app keeps only the library members it uses. Catalog lookup and execution work in trimmed and NativeAOT apps; `ToJson` does not (see below). A listing's `MethodName` must name a catalog indicator method: a listing you build yourself, or a `with` copy, cannot name any other library method.
 
 ::: warning Reflection-based helpers
 `ToJson` serializes with reflection, so it carries `[RequiresUnreferencedCode]` and `[RequiresDynamicCode]` and raises IL2026 and IL3050 in a trimmed or NativeAOT build; export the catalog from an untrimmed app instead. `ToStringOut` and `ToConsole` require the public properties of `T` to be preserved, which an unannotated generic caller sees as IL2091; annotate the caller's own type parameter with `[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]`, or call them with a concrete result type. In a NativeAOT app they print no property descriptions: they read descriptions from the XML documentation file beside the assembly, and a native executable has no assembly file to sit beside.
