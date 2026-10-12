@@ -38,7 +38,7 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromBar, IRenko
             Volume: default,
             IsUp: false);
 
-        Name = $"RENKO({brickSize}, {EndType.Close})";
+        Name = FormattableString.Invariant($"RENKO({brickSize}, {endType})");
     }
 
     /// <summary>

@@ -35,7 +35,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromBar, IAtrSto
         _lowerBand = double.MinValue;
         _isInitialized = false;
 
-        Name = $"ATRSTOP({21}, {3}, {EndType.Close})";
+        Name = FormattableString.Invariant($"ATRSTOP({lookbackPeriods}, {multiplier}, {endType})");
     }
 
     /// <summary>

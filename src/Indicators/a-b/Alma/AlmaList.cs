@@ -41,11 +41,10 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
             double wt = Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
             _weight[i] = wt;
             norm += wt;
-
-            Name = $"ALMA({lookbackPeriods}, {0.85}, {6})";
         }
 
         _norm = norm;
+        Name = FormattableString.Invariant($"ALMA({lookbackPeriods}, {offset}, {sigma})");
     }
 
     /// <summary>
