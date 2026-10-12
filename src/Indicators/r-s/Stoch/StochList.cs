@@ -121,9 +121,17 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
         {
             double highHigh = double.MinValue;
             double lowLow = double.MaxValue;
+            bool isViable = true;
 
             foreach ((double High, double Low, double Close) in _hlcBuffer)
             {
+                // a NaN anywhere in the window voids it, as in Series
+                if (double.IsNaN(High) || double.IsNaN(Low) || double.IsNaN(Close))
+                {
+                    isViable = false;
+                    break;
+                }
+
                 if (High > highHigh)
                 {
                     highHigh = High;
@@ -136,7 +144,11 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
             }
 
             // Boundary detection to avoid floating-point precision errors at 0 and 100
-            if (highHigh == lowLow)
+            if (!isViable)
+            {
+                rawK = double.NaN;
+            }
+            else if (highHigh == lowLow)
             {
                 rawK = 0d;
             }
@@ -163,11 +175,14 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
             // No smoothing needed - keep original
             smoothK = rawK;
         }
-        else if (Count >= SmoothPeriods && !double.IsNaN(rawK)) // This matches StaticSeries: i >= smoothPeriods
+        else
         {
-            // Update raw K buffer for smoothing using BufferListUtilities
+            // buffer every value, NaN included, so a window holding a warmup NaN yields NaN as in Series
             _rawKBuffer.Update(SmoothPeriods, rawK);
+        }
 
+        if (SmoothPeriods > 1 && Count >= SmoothPeriods) // Series: i >= smoothPeriods
+        {
             switch (MovingAverageType)
             {
                 case MaType.SMA:
@@ -220,11 +235,13 @@ public class StochList : BufferList<StochResult>, IIncrementFromBar, IStoch
         {
             signal = smoothK;
         }
-        else if (Count >= SignalPeriods && !double.IsNaN(smoothK)) // This matches StaticSeries: i >= signalPeriods
+        else
         {
-            // Update smooth K buffer for signal calculation using BufferListUtilities
             _smoothKBuffer.Update(SignalPeriods, smoothK);
+        }
 
+        if (SignalPeriods > 1 && Count >= SignalPeriods) // Series: i >= signalPeriods
+        {
             switch (MovingAverageType)
             {
                 case MaType.SMA:
