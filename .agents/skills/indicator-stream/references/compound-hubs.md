@@ -20,7 +20,7 @@ internal StochRsiHub(
         stochPeriods,
         signalPeriods,
         smoothPeriods)
-{ }
+    => OwnProvider();
 
 internal StochRsiHub(
     RsiHub rsiHub,
@@ -37,6 +37,10 @@ internal StochRsiHub(
     Reinitialize();
 }
 ```
+
+The provider constructor ends with `OwnProvider()`, because only it built the inner hub. `Unsubscribe()` then releases that inner hub once it has no other observers, instead of leaving it subscribed and computing every update. The hub constructor never calls it: a caller-supplied hub may still be in use. A factory that builds the inner hub outside a constructor marks the returned hub the same way (`ToPvoHub` over bars).
+
+Validate in the `To…Hub` factory before the provider constructor builds the inner hub, so an invalid argument throws with nothing subscribed; the hub constructor still validates for direct callers.
 
 Read inner-hub parameters (`rsiHub.LookbackPeriods`, `macdHub.FastPeriods`) from the hub rather than taking them again.
 
@@ -77,4 +81,5 @@ Route both `ToIndicator` and the replay through one shared update method (`Updat
 
 - Do not create the inner hub inside `ToIndicator`. Build it once, in the provider constructor.
 - Do not pass the original provider to `base` in the hub constructor. The compound hub then never receives the inner hub's results.
+- Do not call `OwnProvider()` from the hub constructor. It would release an inner hub the caller supplied and still holds.
 - Do not keep state that duplicates the inner hub's calculation. Keep only what processing its results requires.

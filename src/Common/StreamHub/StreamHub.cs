@@ -406,7 +406,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             ThrowIfNotRootHub();
         }
 
-        Unsubscribe();
+        Detach();
         ResetFault();
         Rebuild();
 

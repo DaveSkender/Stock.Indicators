@@ -2,7 +2,7 @@ namespace FacioQuo.Stock.Indicators;
 
 // STREAM HUB (OBSERVER)
 
-public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
+public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>, IReleasableHub
 {
     // PROPERTIES
 
@@ -29,10 +29,41 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// </summary>
     private readonly object _unsubscribeLock = new();
 
+    /// <summary>
+    /// Set when this hub built its own provider, so no caller holds a reference to it.
+    /// </summary>
+    private bool _ownsProvider;
+
     // METHODS
+
+    /// <summary>
+    /// Marks the provider as built by this hub, so <see cref="Unsubscribe()"/> releases it too.
+    /// </summary>
+    /// <remarks>
+    /// Call this only from a constructor or factory that created the provider itself.
+    /// A hub the caller supplied stays subscribed, because the caller may still be using it.
+    /// </remarks>
+    internal void OwnProvider() => _ownsProvider = true;
 
     /// <inheritdoc/>
     public void Unsubscribe()
+    {
+        Detach();
+
+        // an owned provider left with no observers would keep computing every update
+        // for nothing; outside the lock so no two hubs' locks are ever held together
+        if (_ownsProvider
+            && Provider is IReleasableHub owned
+            && !Provider.HasObservers)
+        {
+            owned.Unsubscribe();
+        }
+    }
+
+    /// <summary>
+    /// Leaves the provider without releasing an owned one, so a reset can resubscribe.
+    /// </summary>
+    private protected void Detach()
     {
         // Ensure thread-safety for EndTransmission > OnCompleted-type race conditions
         // see https://learn.microsoft.com/en-us/dotnet/standard/events/observer-design-pattern-best-practices
@@ -158,4 +189,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     public void OnCompleted()
         => Unsubscribe();
 
+}
+
+/// <summary>
+/// A hub another hub can release without knowing its input type.
+/// </summary>
+internal interface IReleasableHub
+{
+    /// <summary>
+    /// Unsubscribes the hub from its provider.
+    /// </summary>
+    void Unsubscribe();
 }

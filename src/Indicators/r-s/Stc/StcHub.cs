@@ -17,7 +17,7 @@ public class StcHub
         : this(
             provider.ToMacdHub(fastPeriods, slowPeriods, 0),
             cyclePeriods)
-    { }
+        => OwnProvider();
 
     internal StcHub(
         MacdHub macdHub,
@@ -179,7 +179,11 @@ public static partial class Stc
         int cyclePeriods = 10,
         int fastPeriods = 23,
         int slowPeriods = 50)
-        => new(chainProvider, cyclePeriods, fastPeriods, slowPeriods);
+    {
+        // validate before the inner hub subscribes, so a bad argument cannot strand it
+        Stc.Validate(cyclePeriods, fastPeriods, slowPeriods);
+        return new(chainProvider, cyclePeriods, fastPeriods, slowPeriods);
+    }
 
     /// <summary>
     /// Creates a new STC hub, using values from an existing MACD hub.
