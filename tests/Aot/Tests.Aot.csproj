@@ -20,6 +20,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
+
+    <!-- analyze every library member, not only those Program reaches -->
+    <TrimmerRootAssembly Include="FacioQuo.Stock.Indicators" />
   </ItemGroup>
 
 </Project>

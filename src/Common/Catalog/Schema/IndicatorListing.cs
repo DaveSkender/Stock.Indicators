@@ -29,13 +29,13 @@ public record IndicatorListing
     /// <summary>
     /// Gets or sets the style of the indicator (Series, Buffer, Stream).
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<Style>))]
     public Style Style { get; init; } = Style.Series;
 
     /// <summary>
     /// Gets or sets the category of the indicator.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<Category>))]
     public required Category Category { get; init; }
 
     /// <summary>
