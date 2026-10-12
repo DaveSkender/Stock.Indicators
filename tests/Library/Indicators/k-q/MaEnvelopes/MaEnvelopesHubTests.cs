@@ -149,6 +149,219 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
         barHub.EndTransmission();
     }
 
+    [TestMethod]
+    [DataRow(MaType.ALMA)]
+    [DataRow(MaType.DEMA)]
+    [DataRow(MaType.EMA)]
+    [DataRow(MaType.EPMA)]
+    [DataRow(MaType.HMA)]
+    [DataRow(MaType.SMA)]
+    [DataRow(MaType.SMMA)]
+    [DataRow(MaType.TEMA)]
+    [DataRow(MaType.WMA)]
+    public void EveryMaType_WithLateArrivalAndRemoval_MatchesSeriesExactly(MaType maType)
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(20));
+
+        MaEnvelopesHub observer = barHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, maType);
+
+        for (int i = 20; i < Bars.Count; i++)
+        {
+            if (i == 80) { continue; }
+
+            barHub.Add(Bars[i]);
+
+            if (i is > 100 and < 105) { barHub.Add(Bars[i]); }
+        }
+
+        barHub.Add(Bars[80]);
+        observer.Results.IsExactly(Bars.ToMaEnvelopes(lookbackPeriods, percentOffset, maType));
+
+        barHub.RemoveAt(removeAtIndex);
+        observer.Results.Should().HaveCount(501);
+        observer.Results.IsExactly(RevisedBars.ToMaEnvelopes(lookbackPeriods, percentOffset, maType));
+
+        // same public surface for every type
+        observer.Should().BeOfType<MaEnvelopesHub>();
+        observer.MovingAverageType.Should().Be(maType);
+        observer.IsSubscribed.Should().BeTrue();
+
+        observer.Unsubscribe();
+        barHub.ObserverCount.Should().Be(0);
+        barHub.EndTransmission();
+    }
+
+    [TestMethod]
+    [DataRow(MaType.ALMA)]
+    [DataRow(MaType.DEMA)]
+    [DataRow(MaType.EMA)]
+    [DataRow(MaType.EPMA)]
+    [DataRow(MaType.HMA)]
+    [DataRow(MaType.SMA)]
+    [DataRow(MaType.SMMA)]
+    [DataRow(MaType.TEMA)]
+    [DataRow(MaType.WMA)]
+    public void EveryMaType_WithCachePruning_MatchesSeriesExactly(MaType maType)
+    {
+        const int maxCacheSize = 80;  // TEMA warms up over 3 × lookback
+
+        IReadOnlyList<Bar> bars = Bars.Take(150).ToList();
+        IReadOnlyList<MaEnvelopeResult> expected = bars
+            .ToMaEnvelopes(lookbackPeriods, percentOffset, maType)
+            .TakeLast(maxCacheSize)
+            .ToList();
+
+        BarHub barHub = new(maxCacheSize);
+        MaEnvelopesHub observer = barHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, maType);
+
+        barHub.Add(bars);
+
+        observer.Results.Should().HaveCount(maxCacheSize);
+        observer.Results.IsExactly(expected);
+
+        observer.Unsubscribe();
+        barHub.EndTransmission();
+    }
+
+    [TestMethod]
+    [DataRow(MaType.ALMA)]
+    [DataRow(MaType.DEMA)]
+    [DataRow(MaType.EMA)]
+    [DataRow(MaType.EPMA)]
+    [DataRow(MaType.HMA)]
+    [DataRow(MaType.SMA)]
+    [DataRow(MaType.SMMA)]
+    [DataRow(MaType.TEMA)]
+    [DataRow(MaType.WMA)]
+    public void EveryMaType_AfterProviderRebuild_MatchesSeriesExactly(MaType maType)
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars);
+
+        MaEnvelopesHub observer = barHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, maType);
+        IReadOnlyList<MaEnvelopeResult> expected = Bars.ToMaEnvelopes(lookbackPeriods, percentOffset, maType);
+
+        // rebuild from the provider re-seeds the inner hub, then this hub
+        barHub.Rebuild(Bars[200].Timestamp);
+        observer.Results.IsExactly(expected);
+
+        barHub.Rebuild();
+        observer.Results.IsExactly(expected);
+
+        observer.Rebuild();
+        observer.Results.IsExactly(expected);
+
+        observer.Unsubscribe();
+        barHub.EndTransmission();
+    }
+
+    [TestMethod]
+    [DataRow(MaType.ALMA)]
+    [DataRow(MaType.DEMA)]
+    [DataRow(MaType.EMA)]
+    [DataRow(MaType.EPMA)]
+    [DataRow(MaType.HMA)]
+    [DataRow(MaType.SMA)]
+    [DataRow(MaType.SMMA)]
+    [DataRow(MaType.TEMA)]
+    [DataRow(MaType.WMA)]
+    public void EveryMaType_Unsubscribe_ReleasesInnerHub(MaType maType)
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+        SmaHub other = barHub.ToSmaHub(5);
+
+        MaEnvelopesHub observer = barHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, maType);
+
+        // the provider sees the inner hub, not this one
+        barHub.ObserverCount.Should().Be(2);
+        barHub.HasSubscriber(observer).Should().BeFalse();
+
+        observer.Unsubscribe();
+
+        // EPMA releases two levels: its EpmaHub and that hub's SlopeHub
+        barHub.ObserverCount.Should().Be(1);
+        other.IsSubscribed.Should().BeTrue();
+
+        barHub.EndTransmission();
+    }
+
+    [TestMethod]
+    [DataRow(MaType.ALMA)]
+    [DataRow(MaType.DEMA)]
+    [DataRow(MaType.EMA)]
+    [DataRow(MaType.EPMA)]
+    [DataRow(MaType.HMA)]
+    [DataRow(MaType.SMA)]
+    [DataRow(MaType.SMMA)]
+    [DataRow(MaType.TEMA)]
+    [DataRow(MaType.WMA)]
+    public void InvalidLookbackPeriods_LeavesNoInnerHubSubscribed(MaType maType)
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+
+        Action act = () => barHub.ToMaEnvelopesHub(0, percentOffset, maType);
+
+        act.Should().Throw<ArgumentOutOfRangeException>();
+        barHub.ObserverCount.Should().Be(0);
+    }
+
+    [TestMethod]
+    public void InvalidPercentOffset_LeavesNoInnerHubSubscribed()
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+
+        Action act = () => barHub.ToMaEnvelopesHub(lookbackPeriods, 0, MaType.SMA);
+
+        act.Should().Throw<ArgumentOutOfRangeException>();
+        barHub.ObserverCount.Should().Be(0);
+    }
+
+    [TestMethod]
+    public void UnsupportedMaType_LeavesNoInnerHubSubscribed()
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+
+        Action act = () => barHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, (MaType)999);
+
+        act.Should().Throw<ArgumentOutOfRangeException>();
+        barHub.ObserverCount.Should().Be(0);
+    }
+
+    [TestMethod]
+    public void InsufficientCacheSize_LeavesNoInnerHubSubscribed()
+    {
+        BarHub barHub = new(50);  // TEMA(20) needs 60
+        barHub.Add(Bars.Take(50));
+
+        Action act = () => barHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, MaType.TEMA);
+
+        act.Should().Throw<ArgumentOutOfRangeException>();
+        barHub.ObserverCount.Should().Be(0);
+    }
+
+    [TestMethod]
+    public void Unsubscribe_KeepsCallerSuppliedProvider()
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50));
+
+        SmaHub smaHub = barHub.ToSmaHub(5);
+        MaEnvelopesHub observer = smaHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, MaType.HMA);
+
+        observer.Unsubscribe();
+
+        // only the inner HmaHub is released; the caller's SmaHub keeps running
+        smaHub.ObserverCount.Should().Be(0);
+        smaHub.IsSubscribed.Should().BeTrue();
+
+        barHub.EndTransmission();
+    }
+
     public override void ToStringOverride_ReturnsExpectedName()
     {
         MaEnvelopesHub hub = new(new BarHub(), lookbackPeriods, percentOffset, MaType.SMA);

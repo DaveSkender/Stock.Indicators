@@ -128,8 +128,4 @@ void OnBarReceived(IBar bar) => barHub.Add(bar);
 IReadOnlyList<MaEnvelopeResult> results = observer.Results;
 ```
 
-::: warning 🚩 Streaming support
-In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
-:::
-
 See [Buffer lists](/guide/styles/buffer) and [Stream hubs](/guide/styles/stream) for full usage guides.
