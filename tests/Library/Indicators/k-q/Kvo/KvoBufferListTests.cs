@@ -11,6 +11,16 @@ public class KvoBufferListTests : BufferListTestBase, ITestBarBufferList
        = Bars.ToKvo(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
+    public void ShortPeriods_MatchesSeries()
+    {
+        // a sum taken in a different order can differ in its last digit
+        for (int fast = 3; fast <= 5; fast++)
+        {
+            Bars.ToKvoList(fast, 55, 3).IsExactly(Bars.ToKvo(fast, 55, 3));
+        }
+    }
+
+    [TestMethod]
     public void AddBar_IncrementsResults()
     {
         KvoList sut = new(fastPeriods, slowPeriods, signalPeriods);
