@@ -40,12 +40,12 @@ The first `100` periods will have decreasing magnitude, convergence-related prec
 
 ### `HtlResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `DcPeriods` | _`int`_ | Dominant cycle periods (smoothed) |
-| `Trendline` | _`double`_ | HT Trendline |
-| `SmoothPrice` | _`double`_ | Weighted moving average of `(H+L)/2` price |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `DcPeriods`<br>_`int`_ | Dominant cycle periods (smoothed) |
+| `Trendline`<br>_`double`_ | HT Trendline |
+| `SmoothPrice`<br>_`double`_ | Weighted moving average of `(H+L)/2` price |
 
 ### Utilities
 

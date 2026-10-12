@@ -22,10 +22,10 @@ VolatilityStopHub observer = barHub.ToVolatilityStopHub(lookbackPeriods, multipl
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7. |
-| `multiplier` | _`double`_ | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7. |
+| `multiplier`<br>_`double`_ | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0. |
 
 ### Historical price bars requirements
 
@@ -50,13 +50,13 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `VolatilityStopResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Sar` | _`double`_ | Stop and Reverse value contains both Upper and Lower segments |
-| `IsStop` | _`bool`_ | Indicates a trend reversal |
-| `UpperBand` | _`double`_ | Upper band only (bearish/red) |
-| `LowerBand` | _`double`_ | Lower band only (bullish/green) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Sar`<br>_`double`_ | Stop and Reverse value contains both Upper and Lower segments |
+| `IsStop`<br>_`bool`_ | Indicates a trend reversal |
+| `UpperBand`<br>_`double`_ | Upper band only (bearish/red) |
+| `LowerBand`<br>_`double`_ | Lower band only (bullish/green) |
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `Sar` is the contiguous combination of both upper and lower line data.
 

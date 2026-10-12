@@ -18,9 +18,9 @@ IReadOnlyList<CmfResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20. |
 
 ### Historical price bars requirements
 
@@ -41,12 +41,12 @@ IReadOnlyList<CmfResult>
 
 ### `CmfResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `MoneyFlowMultiplier` | _`double`_ | Money Flow Multiplier |
-| `MoneyFlowVolume` | _`double`_ | Money Flow Volume |
-| `Cmf` | _`double`_ | Chaikin Money Flow = SMA of MFV |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `MoneyFlowMultiplier`<br>_`double`_ | Money Flow Multiplier |
+| `MoneyFlowVolume`<br>_`double`_ | Money Flow Volume |
+| `Cmf`<br>_`double`_ | Chaikin Money Flow = SMA of MFV |
 
 ::: warning 🚩 Relative values only
 Absolute values in MFV and CMF are somewhat meaningless.  Use with caution.

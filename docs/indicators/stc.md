@@ -18,11 +18,11 @@ IReadOnlyList<StcResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `cyclePeriods` | _`int`_ | Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10. |
-| `fastPeriods` | _`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
-| `slowPeriods` | _`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
+| param | description |
+| ----- | ----------- |
+| `cyclePeriods`<br>_`int`_ | Number of periods (`C`) for the Trend Cycle.  Must be greater than or equal to 0.  Default is 10. |
+| `fastPeriods`<br>_`int`_ | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 23. |
+| `slowPeriods`<br>_`int`_ | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 50. |
 
 ### Historical price bars requirements
 
@@ -47,10 +47,10 @@ The first `S+C+250` periods will have decreasing magnitude, convergence-related 
 
 ### `StcResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Stc` | _`double`_ | Schaff Trend Cycle |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Stc`<br>_`double`_ | Schaff Trend Cycle |
 
 ### Utilities
 

@@ -18,11 +18,11 @@ IReadOnlyList<RocWbResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20. |
-| `emaPeriods` | _`int`_ | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3. |
-| `stdDevPeriods` | _`int`_ | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20. |
+| `emaPeriods`<br>_`int`_ | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3. |
+| `stdDevPeriods`<br>_`int`_ | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`. |
 
 ### Historical price bars requirements
 
@@ -38,13 +38,13 @@ IReadOnlyList<RocWbResult>
 
 ### `RocWbResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Roc` | _`double`_ | Rate of Change over `N` lookback periods (%, not decimal) |
-| `RocEma` | _`double`_ | Exponential moving average (EMA) of `Roc` |
-| `UpperBand` | _`double`_ | Upper band of ROC (overbought indicator) |
-| `LowerBand` | _`double`_ | Lower band of ROC (oversold indicator) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Roc`<br>_`double`_ | Rate of Change over `N` lookback periods (%, not decimal) |
+| `RocEma`<br>_`double`_ | Exponential moving average (EMA) of `Roc` |
+| `UpperBand`<br>_`double`_ | Upper band of ROC (overbought indicator) |
+| `LowerBand`<br>_`double`_ | Lower band of ROC (oversold indicator) |
 
 ### Utilities
 

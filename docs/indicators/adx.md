@@ -18,9 +18,9 @@ IReadOnlyList<AdxResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14. |
 
 ### Historical price bars requirements
 
@@ -45,14 +45,14 @@ The first `2×N+100` periods will have decreasing magnitude, convergence-related
 
 ### `AdxResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Pdi` | _`double`_ | Plus Directional Index (+DI) |
-| `Mdi` | _`double`_ | Minus Directional Index (-DI) |
-| `Dx` | _`double`_ | Directional Index (DX) |
-| `Adx` | _`double`_ | Average Directional Index (ADX) |
-| `Adxr` | _`double`_ | Average Directional Index Rating (ADXR) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Pdi`<br>_`double`_ | Plus Directional Index (+DI) |
+| `Mdi`<br>_`double`_ | Minus Directional Index (-DI) |
+| `Dx`<br>_`double`_ | Directional Index (DX) |
+| `Adx`<br>_`double`_ | Average Directional Index (ADX) |
+| `Adxr`<br>_`double`_ | Average Directional Index Rating (ADXR) |
 
 ### Utilities
 

@@ -18,9 +18,9 @@ IReadOnlyList<MfiResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14. |
 
 ### Historical price bars requirements
 
@@ -41,10 +41,10 @@ IReadOnlyList<MfiResult>
 
 ### `MfiResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Mfi` | _`double`_ | Money Flow Index |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Mfi`<br>_`double`_ | Money Flow Index |
 
 ### Utilities
 

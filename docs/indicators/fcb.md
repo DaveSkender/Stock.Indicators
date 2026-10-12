@@ -18,9 +18,9 @@ IReadOnlyList<FcbResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `windowSpan` | _`int`_ | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
+| param | description |
+| ----- | ----------- |
+| `windowSpan`<br>_`int`_ | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/fractal) for more information about Fractals and `windowSpan`.
 
@@ -47,11 +47,11 @@ Fractal Chaos Bands are based on [Williams Fractal](/indicators/fractal), which 
 
 ### `FcbResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `UpperBand` | _`decimal`_ | FCB upper band |
-| `LowerBand` | _`decimal`_ | FCB lower band |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `UpperBand`<br>_`decimal`_ | FCB upper band |
+| `LowerBand`<br>_`decimal`_ | FCB lower band |
 
 ### Utilities
 

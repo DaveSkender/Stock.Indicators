@@ -18,9 +18,9 @@ IReadOnlyList<ElderRayResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13. |
 
 ### Historical price bars requirements
 
@@ -45,12 +45,12 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `ElderRayResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Ema` | _`double`_ | Exponential moving average |
-| `BullPower` | _`double`_ | Bull Power |
-| `BearPower` | _`double`_ | Bear Power |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Ema`<br>_`double`_ | Exponential moving average |
+| `BullPower`<br>_`double`_ | Bull Power |
+| `BearPower`<br>_`double`_ | Bear Power |
 
 ### Utilities
 

@@ -17,9 +17,9 @@ IReadOnlyList<ChopResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14. |
 
 ### Historical price bars requirements
 
@@ -40,10 +40,10 @@ IReadOnlyList<ChopResult>
 
 ### `ChopResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Chop` | _`double`_ | Choppiness Index |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Chop`<br>_`double`_ | Choppiness Index |
 
 ### Utilities
 

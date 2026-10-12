@@ -19,12 +19,12 @@ IReadOnlyList<SmiResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Lookback period (`N`) for the stochastic.  Must be greater than 0.  Default is 13. |
-| `firstSmoothPeriods` | _`int`_ | First smoothing factor lookback.  Must be greater than 0.  Default is 25. |
-| `secondSmoothPeriods` | _`int`_ | Second smoothing factor lookback.  Must be greater than 0.  Default is 2. |
-| `signalPeriods` | _`int`_ | EMA of SMI lookback periods.  Must be greater than 0. Default is 3. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Lookback period (`N`) for the stochastic.  Must be greater than 0.  Default is 13. |
+| `firstSmoothPeriods`<br>_`int`_ | First smoothing factor lookback.  Must be greater than 0.  Default is 25. |
+| `secondSmoothPeriods`<br>_`int`_ | Second smoothing factor lookback.  Must be greater than 0.  Default is 2. |
+| `signalPeriods`<br>_`int`_ | EMA of SMI lookback periods.  Must be greater than 0. Default is 3. |
 
 ### Historical price bars requirements
 
@@ -49,11 +49,11 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### `SmiResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Smi` | _`double`_ | Stochastic Momentum Index (SMI) |
-| `Signal` | _`double`_ | Signal line: an Exponential Moving Average (EMA) of SMI |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Smi`<br>_`double`_ | Stochastic Momentum Index (SMI) |
+| `Signal`<br>_`double`_ | Signal line: an Exponential Moving Average (EMA) of SMI |
 
 ### Utilities
 

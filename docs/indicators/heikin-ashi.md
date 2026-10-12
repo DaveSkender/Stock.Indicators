@@ -35,14 +35,14 @@ IReadOnlyList<HeikinAshiResult>
 
 ### `HeikinAshiResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Open` | _`decimal`_ | Modified open price |
-| `High` | _`decimal`_ | Modified high price |
-| `Low` | _`decimal`_ | Modified low price |
-| `Close` | _`decimal`_ | Modified close price |
-| `Volume` | _`decimal`_ | Volume (same as `bars`) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Open`<br>_`decimal`_ | Modified open price |
+| `High`<br>_`decimal`_ | Modified high price |
+| `Low`<br>_`decimal`_ | Modified low price |
+| `Close`<br>_`decimal`_ | Modified close price |
+| `Volume`<br>_`decimal`_ | Volume (same as `bars`) |
 
 ### Utilities
 

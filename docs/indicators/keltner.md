@@ -18,11 +18,11 @@ IReadOnlyList<KeltnerResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `emaPeriods` | _`int`_ | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20. |
-| `multiplier` | _`double`_ | ATR Multiplier. Must be greater than 0.  Default is 2. |
-| `atrPeriods` | _`int`_ | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10. |
+| param | description |
+| ----- | ----------- |
+| `emaPeriods`<br>_`int`_ | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20. |
+| `multiplier`<br>_`double`_ | ATR Multiplier. Must be greater than 0.  Default is 2. |
+| `atrPeriods`<br>_`int`_ | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10. |
 
 ### Historical price bars requirements
 
@@ -47,13 +47,13 @@ The first `N+250` periods will have decreasing magnitude, convergence-related pr
 
 ### `KeltnerResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `UpperBand` | _`double`_ | Upper band of Keltner Channel |
-| `Centerline` | _`double`_ | EMA of price |
-| `LowerBand` | _`double`_ | Lower band of Keltner Channel |
-| `Width` | _`double`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `UpperBand`<br>_`double`_ | Upper band of Keltner Channel |
+| `Centerline`<br>_`double`_ | EMA of price |
+| `LowerBand`<br>_`double`_ | Lower band of Keltner Channel |
+| `Width`<br>_`double`_ | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline` |
 
 ### Utilities
 

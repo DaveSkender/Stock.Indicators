@@ -18,9 +18,9 @@ IReadOnlyList<HmaResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in the moving average.  Must be greater than 1. |
 
 ### Historical price bars requirements
 
@@ -41,10 +41,10 @@ IReadOnlyList<HmaResult>
 
 ### `HmaResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Hma` | _`double`_ | Hull moving average |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Hma`<br>_`double`_ | Hull moving average |
 
 ### Utilities
 

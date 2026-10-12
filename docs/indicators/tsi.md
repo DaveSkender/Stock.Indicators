@@ -18,11 +18,11 @@ IReadOnlyList<TsiResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25. |
-| `smoothPeriods` | _`int`_ | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13. |
-| `signalPeriods` | _`int`_ | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25. |
+| `smoothPeriods`<br>_`int`_ | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13. |
+| `signalPeriods`<br>_`int`_ | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7. |
 
 ### Historical price bars requirements
 
@@ -48,11 +48,11 @@ The first `N+M+250` periods will have decreasing magnitude, convergence-related 
 
 ### `TsiResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Tsi` | _`double`_ | True Strength Index |
-| `Signal` | _`double`_ | Signal line (EMA of TSI) |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Tsi`<br>_`double`_ | True Strength Index |
+| `Signal`<br>_`double`_ | Signal line (EMA of TSI) |
 
 ### Utilities
 

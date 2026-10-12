@@ -18,9 +18,9 @@ IReadOnlyList<TrixResult> results =
 
 ## Parameters
 
-| param | type | description |
-| ----- | ---- | ----------- |
-| `lookbackPeriods` | _`int`_ | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0. |
+| param | description |
+| ----- | ----------- |
+| `lookbackPeriods`<br>_`int`_ | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0. |
 
 ### Historical price bars requirements
 
@@ -45,11 +45,11 @@ The first `3×N+250` periods will have decreasing magnitude, convergence-related
 
 ### `TrixResult`
 
-| property | type | description |
-| -------- | ---- | ----------- |
-| `Timestamp` | _`DateTime`_ | Date from evaluated `TBar` |
-| `Ema3` | _`double`_ | 3 EMAs of the price |
-| `Trix` | _`double`_ | Rate of Change of 3 EMAs |
+| property | description |
+| ----- | ----------- |
+| `Timestamp`<br>_`DateTime`_ | Date from evaluated `TBar` |
+| `Ema3`<br>_`double`_ | 3 EMAs of the price |
+| `Trix`<br>_`double`_ | Rate of Change of 3 EMAs |
 
 ### Utilities
 
