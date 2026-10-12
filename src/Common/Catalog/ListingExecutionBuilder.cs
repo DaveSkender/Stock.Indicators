@@ -235,6 +235,19 @@ public class ListingExecutionBuilder
         IndicatorParam? param = (BaseListing.Parameters?.FirstOrDefault(p => p.ParameterName == parameterName))
             ?? throw new ArgumentException($"Parameter '{parameterName}' not found in indicator '{BaseListing.Uiid}'", nameof(parameterName));
 
+        ValidateValue(param, value);
+    }
+
+    /// <summary>
+    /// Validates that a value can bind to a catalog parameter of its declared data type.
+    /// </summary>
+    /// <param name="param">Parameter the value is for.</param>
+    /// <param name="value">Value to validate.</param>
+    /// <exception cref="ArgumentException">Thrown when the value cannot bind to the parameter.</exception>
+    internal static void ValidateValue(IndicatorParam param, object value)
+    {
+        string parameterName = param.ParameterName;
+
         // Validate series parameters
         if (param.DataType == IndicatorParam.SeriesDataType)
         {

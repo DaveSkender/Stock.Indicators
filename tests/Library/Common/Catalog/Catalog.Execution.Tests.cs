@@ -175,6 +175,39 @@ public class CatalogExecutionTests : TestBase
     }
 
     [TestMethod]
+    public void ExecuteFromJsonBindsFractionalNumberToDoubleParameter()
+    {
+        // JSON has one number type; a fractional value must still bind to a double.
+        IndicatorConfig config = new() {
+            Id = "CHEXIT",
+            Style = Style.Series,
+            Parameters = new Dictionary<string, object> { { "multiplier", 2.5 } }
+        };
+        string json = JsonSerializer.Serialize(config);
+        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
+
+        IReadOnlyList<ChandelierResult> sut = bars.ExecuteFromJson<ChandelierResult>(json);
+
+        sut.Should().BeEquivalentTo(bars.ToChandelier(22, 2.5));
+    }
+
+    [TestMethod]
+    public void ExecuteFromJsonBindsWholeNumberToDecimalParameter()
+    {
+        IndicatorConfig config = new() {
+            Id = "RENKO",
+            Style = Style.Series,
+            Parameters = new Dictionary<string, object> { { "brickSize", 2 } }
+        };
+        string json = JsonSerializer.Serialize(config);
+        IReadOnlyList<Bar> bars = Bars.Take(120).ToList();
+
+        IReadOnlyList<RenkoResult> sut = bars.ExecuteFromJson<RenkoResult>(json);
+
+        sut.Should().BeEquivalentTo(bars.ToRenko(2m));
+    }
+
+    [TestMethod]
     public void ExecuteFromJsonMinimalConfigWorks()
     {
         IndicatorConfig config = new() { Id = "EMA", Style = Style.Series };
@@ -222,6 +255,56 @@ public class CatalogExecutionTests : TestBase
         IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
         Action act = () => bars.ExecuteFromJson<RsiResult>(json);
         act.Should().Throw<ArgumentException>();
+    }
+
+    [TestMethod]
+    public void ExecuteFromJsonWrongValueTypeNamesParameter()
+    {
+        (string value, string received)[] cases = [
+            ("\"20\"", "String"), ("[1,2]", "String"), ("{\"a\":1}", "String"),
+            ("20.5", "Decimal"), ("true", "Boolean")];
+
+        foreach ((string value, string received) in cases)
+        {
+            string json = $$"""{ "Id": "EMA", "Style": "Series", "Parameters": { "lookbackPeriods": {{value}} } }""";
+
+            Action act = () => Bars.ExecuteFromJson<EmaResult>(json);
+
+            act.Should().Throw<ArgumentException>(value)
+                .WithMessage($"Parameter 'lookbackPeriods' expects an integer value, but received {received}*");
+        }
+    }
+
+    [TestMethod]
+    public void ExecuteFromJsonNullValueUsesDefault()
+    {
+        const string json = /*lang=json,strict*/ """{ "Id": "EMA", "Style": "Series", "Parameters": { "lookbackPeriods": null } }""";
+
+        Bars.ExecuteFromJson<EmaResult>(json).IsExactly(Bars.ToEma(20));
+    }
+
+    [TestMethod]
+    public void ExecuteByIdNullValueThrows()
+    {
+        Dictionary<string, object> parameters = new() { ["lookbackPeriods"] = null! };
+
+        Action act = () => Bars.ExecuteById<EmaResult>("EMA", Style.Series, parameters);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("Parameter 'lookbackPeriods' of indicator 'EMA' cannot be null*");
+    }
+
+    [TestMethod]
+    public void ExecuteFromJsonUnbindableValueNamesIndicatorAndMethod()
+    {
+        // enum parameters take their underlying integer; a name fails at the reflection call
+        const string json = /*lang=json,strict*/ """{ "Id": "PIVOTS", "Style": "Series", "Parameters": { "endType": "Close" } }""";
+
+        Action act = () => Bars.ExecuteFromJson<PivotsResult>(json);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("Arguments assembled for indicator 'PIVOTS' (Series) do not bind to 'ToPivots': *")
+            .WithInnerException<ArgumentException>();
     }
 
     [TestMethod]
