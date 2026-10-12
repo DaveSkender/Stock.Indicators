@@ -86,6 +86,17 @@ public class CatalogBindingTests : TestBase
     }
 
     [TestMethod]
+    public void RegisteringOneMethodNameFromTwoClassesThrows()
+    {
+        CatalogMethodResolver.Register(typeof(FirstDeclarer), nameof(FirstDeclarer.ToDuplicateName));
+
+        Action second = () => CatalogMethodResolver.Register(typeof(SecondDeclarer), nameof(SecondDeclarer.ToDuplicateName));
+
+        second.Should().Throw<InvalidOperationException>()
+            .WithMessage("*ToDuplicateName*FirstDeclarer*SecondDeclarer*");
+    }
+
+    [TestMethod]
     public void CopiedListingResolvesTheMethodItNames()
     {
         IndicatorListing ema = Catalog.Get("EMA", Style.Series);
@@ -400,4 +411,14 @@ public class CatalogBindingTests : TestBase
         string.Join(Environment.NewLine, violations).Should().BeEmpty(
             "a listing must bind to a method of its own style; all three styles share a result record, so the record alone cannot reveal a cross-style mistake");
     }
+}
+
+internal static class FirstDeclarer
+{
+    public static int ToDuplicateName() => 1;
+}
+
+internal static class SecondDeclarer
+{
+    public static int ToDuplicateName() => 2;
 }

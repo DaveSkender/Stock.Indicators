@@ -30,6 +30,9 @@ internal static class CatalogMethodResolver
     /// Result record type name, or <c>null</c> when the method does not exist or its
     /// result record cannot be determined.
     /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Another class already registered a method by this name.
+    /// </exception>
     internal static string? Register(
         [DynamicallyAccessedMembers(MethodMembers)] Type? declaringType,
         string? methodName)
@@ -46,7 +49,14 @@ internal static class CatalogMethodResolver
         // only names that resolve are kept, so a mistyped name stays unresolvable
         if (overloads.Length > 0)
         {
-            OverloadsByName[methodName] = overloads;
+            MethodInfo[] registered = OverloadsByName.GetOrAdd(methodName, overloads);
+
+            // lookups are by name alone, so one name must map to one declaring class
+            if (registered[0].DeclaringType != overloads[0].DeclaringType)
+            {
+                throw new InvalidOperationException(
+                    $"Catalog method '{methodName}' is declared by both {registered[0].DeclaringType?.Name} and {declaringType.Name}.");
+            }
         }
 
         return overloads

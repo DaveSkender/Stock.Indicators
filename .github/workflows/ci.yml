@@ -149,15 +149,19 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Install NativeAOT prerequisites
-        run: sudo apt-get install -y --no-install-recommends clang zlib1g-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends clang zlib1g-dev
 
       - name: Publish NativeAOT smoke app
         # TreatWarningsAsErrors in the project fails the publish on any IL2xxx/IL3xxx
         run: dotnet publish tests/Aot --configuration Release --output aot-out
 
       - name: Compare NativeAOT and JIT catalog runs
+        # build first so jit.txt holds only the app's output, never build messages
         run: |
-          dotnet run --project tests/Aot --configuration Release > jit.txt
+          dotnet build tests/Aot --configuration Release
+          dotnet run --project tests/Aot --configuration Release --no-build > jit.txt
           ./aot-out/Tests.Aot > aot.txt
           diff jit.txt aot.txt
 

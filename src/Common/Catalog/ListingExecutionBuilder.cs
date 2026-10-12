@@ -238,12 +238,6 @@ public class ListingExecutionBuilder
         // Validate series parameters
         if (param.DataType == IndicatorParam.SeriesDataType)
         {
-            if (value is not System.Collections.IEnumerable)
-            {
-                throw new ArgumentException(
-                    $"Parameter '{parameterName}' expects a series (IReadOnlyList<T> where T : IReusable), but received {DisplayName(value.GetType())}", nameof(value));
-            }
-
             // Indicator methods take IReadOnlyList<IReusable>, which by covariance accepts
             // only reference-type elements; a list of IReusable structs cannot bind.
             if (value is not IReadOnlyList<IReusable>)
