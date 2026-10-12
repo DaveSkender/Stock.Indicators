@@ -4,6 +4,11 @@ namespace StreamHubs;
 public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
+    public void SingleRsiPeriod_MatchesSeries() =>
+        // the inner RSI hub must score a later 0/0 as 100, as Series does
+        Bars.ToStochRsiHub(1, 14, 3, 1).Results.IsExactly(Bars.ToStochRsi(1, 14, 3, 1));
+
+    [TestMethod]
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochRsiResult> sut = Bars.ToStochRsiHub(14, 14, 3, 1).Results;

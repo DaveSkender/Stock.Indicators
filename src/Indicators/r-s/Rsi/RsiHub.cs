@@ -74,7 +74,8 @@ public class RsiHub
             _avgGain = sumGain / LookbackPeriods;
             _avgLoss = sumLoss / LookbackPeriods;
 
-            rsi = CalculateRsi(_avgGain, _avgLoss);
+            // Series leaves a 0/0 start null, but scores a later 0/0 as 100
+            rsi = double.IsNaN(_avgGain / _avgLoss) ? null : CalculateRsi(_avgGain, _avgLoss);
         }
         // Incremental update using Wilder's smoothing - O(1)
         else if (i > LookbackPeriods)
@@ -196,17 +197,9 @@ public class RsiHub
         return (sumGain, sumLoss);
     }
 
-    // Calculates RSI from average gain and loss.
-    // Matches Series parity by checking division result for NaN.
-    private static double? CalculateRsi(double avgGain, double avgLoss)
+    // Calculates RSI from average gain and loss; no loss scores 100.
+    private static double CalculateRsi(double avgGain, double avgLoss)
     {
-        // Check if division would produce NaN (e.g., 0/0 case)
-        // This matches Series parity which checks !double.IsNaN(avgGain / avgLoss)
-        if (double.IsNaN(avgGain / avgLoss))
-        {
-            return null;
-        }
-
         if (avgLoss > 0)
         {
             double rs = avgGain / avgLoss;
