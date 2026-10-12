@@ -68,8 +68,7 @@ features:
 
 - [Aroon](/indicators/aroon)
 - [ATR Trailing Stop](/indicators/atr-stop)
-- [Average Directional Index (ADX)](/indicators/adx)
-- [Directional Movement Index (DMI)](/indicators/adx)
+- [Average Directional Index (ADX / DMI)](/indicators/adx)
 - [Elder-ray Index](/indicators/elder-ray)
 - [Gator Oscillator](/indicators/gator)
 - [Hurst Exponent](/indicators/hurst)
