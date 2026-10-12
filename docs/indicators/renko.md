@@ -33,7 +33,7 @@ IReadOnlyList<RenkoResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `atrPeriods`<br>_`int`_ | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.  Default is 14. |
+| `atrPeriods`<br>_`int`_ | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 1.  Default is 14. |
 
 ### Historical price bars requirements
 

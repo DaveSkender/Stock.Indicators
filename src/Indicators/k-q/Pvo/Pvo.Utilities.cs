@@ -35,10 +35,10 @@ public static partial class Pvo
                 "Fast periods must be greater than 0 for PVO.");
         }
 
-        if (signalPeriods < 0)
+        if (signalPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal periods must be greater than or equal to 0 for PVO.");
+                "Signal periods must be greater than 0 for PVO.");
         }
 
         if (slowPeriods <= fastPeriods)

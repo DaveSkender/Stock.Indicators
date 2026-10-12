@@ -150,34 +150,13 @@ const IGNORED_PARAMS = new Set<string>([
   'ToRenko.brickSize', // overload for decimal brick size; the table documents the ATR-based form
 ])
 
-// Documented minimums that differ from the catalog today, as `documented/catalog`;
-// each is a catalog fix tracked in #2320. The test fails when an entry stops
-// drifting or either side moves, so the change that aligns a minimum also edits
-// this map.
+// Documented minimums that intentionally differ from the catalog, as `documented/catalog`.
+// ToMaEnvelopes.lookbackPeriods: the true minimum depends on the selected moving-average
+// type, so the catalog advertises the smallest (1) and the page documents 2.
+// The test fails when an entry stops drifting or either side moves, so the change that
+// aligns a minimum also edits this map.
 const KNOWN_MINIMUM_DRIFT = new Map<string, string>([
-  ['ToAlligator.lipsPeriods', '1/2'],
-  ['ToAtrStop.lookbackPeriods', '2/1'],
-  ['ToChop.lookbackPeriods', '2/1'],
-  ['ToDema.lookbackPeriods', '1/2'],
-  ['ToDpo.lookbackPeriods', '1/2'],
-  ['ToEma.lookbackPeriods', '1/2'],
-  ['ToFractal.windowSpan', '2/1'],
-  ['ToIchimoku.kijunPeriods', '1/2'],
-  ['ToKama.erPeriods', '1/2'],
   ['ToMaEnvelopes.lookbackPeriods', '2/1'],
-  ['ToMacd.signalPeriods', '0/1'],
-  ['ToMfi.lookbackPeriods', '2/1'],
-  ['ToPmo.timePeriods', '2/1'],
-  ['ToPvo.signalPeriods', '0/1'],
-  ['ToStarcBands.atrPeriods', '2/1'],
-  ['ToStarcBands.smaPeriods', '2/1'],
-  ['ToStc.cyclePeriods', '0/1'],
-  ['ToStdDev.lookbackPeriods', '2/1'],
-  ['ToStdDevChannels.lookbackPeriods', '2/1'],
-  ['ToSuperTrend.lookbackPeriods', '2/1'],
-  ['ToTema.lookbackPeriods', '1/2'],
-  ['ToTsi.signalPeriods', '0/1'],
-  ['ToVolatilityStop.lookbackPeriods', '2/1'],
 ])
 
 function minimumDrift(method: string, row: Row, type: string) {

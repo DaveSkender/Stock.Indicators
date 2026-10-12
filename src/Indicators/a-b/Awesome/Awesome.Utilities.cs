@@ -15,7 +15,7 @@ public static partial class Awesome
         // check parameter arguments
         if (fastPeriods <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
                 "Fast periods must be greater than 0 for Awesome Oscillator.");
         }
 

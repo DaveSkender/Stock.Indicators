@@ -51,8 +51,8 @@ public static partial class Pivots
 
         if (maxTrendPeriods <= leftSpan)
         {
-            throw new ArgumentOutOfRangeException(nameof(leftSpan), leftSpan,
-                $"Lookback periods must be greater than the Left window span for {caller}.");
+            throw new ArgumentOutOfRangeException(nameof(maxTrendPeriods), maxTrendPeriods,
+                $"Max trend periods must be greater than the left span for {caller}.");
         }
     }
 }

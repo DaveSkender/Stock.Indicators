@@ -142,4 +142,19 @@ public class EmaSeriesTests : StaticSeriesTestBase
             .Invoking(static () => Bars.ToEma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
+
+    [TestMethod]
+    public void ToEma_LookbackOne_ReturnsPriceInEveryStyle()
+    {
+        // a 1-period EMA is the price, and every style seeds its first bar from it
+        IReadOnlyList<EmaResult> series = Bars.ToEma(1);
+
+        for (int i = 0; i < Bars.Count; i++)
+        {
+            series[i].Ema.Should().Be((double)Bars[i].Close);
+        }
+
+        Bars.ToEmaList(1).IsExactly(series);
+        Bars.ToEmaHub(1).Results.IsExactly(series);
+    }
 }

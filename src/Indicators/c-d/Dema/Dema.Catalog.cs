@@ -10,7 +10,7 @@ public static partial class Dema
             .WithName("Double Exponential Moving Average")
             .WithId("DEMA")
             .WithCategory(Category.MovingAverage)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the DEMA calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the DEMA calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult(nameof(DemaResult.Dema), "DEMA", IndicatorResult.PricePane, ResultType.Default, isReusable: true)
             .Build();
 

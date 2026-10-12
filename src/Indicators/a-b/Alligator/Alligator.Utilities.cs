@@ -80,13 +80,13 @@ public static partial class Alligator
         if (teethOffset <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(teethOffset), teethOffset,
-                "Jaw offset periods must be greater than 0 for Alligator.");
+                "Teeth offset periods must be greater than 0 for Alligator.");
         }
 
         if (lipsOffset <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lipsOffset), lipsOffset,
-                "Jaw offset periods must be greater than 0 for Alligator.");
+                "Lips offset periods must be greater than 0 for Alligator.");
         }
 
         if (jawPeriods + jawOffset <= teethPeriods + teethOffset)

@@ -10,7 +10,7 @@ public static partial class Chop
             .WithName("Choppiness Index")
             .WithId("CHOP")
             .WithCategory(Category.Oscillator)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 1, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult(nameof(ChopResult.Chop), "CHOP", "Chop", ResultType.Default, isReusable: true)
             .Build();
 

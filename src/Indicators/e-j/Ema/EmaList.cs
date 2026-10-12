@@ -65,7 +65,7 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
             return;
         }
 
-        double? lastEma = this[^1].Ema;
+        double? lastEma = Count == 0 ? null : this[^1].Ema;
 
         // re/initialize as SMA
         if (lastEma is null)

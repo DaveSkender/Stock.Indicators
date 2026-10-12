@@ -10,7 +10,7 @@ public static partial class Kama
             .WithName("Kaufman's Adaptive Moving Average")
             .WithId("KAMA")
             .WithCategory(Category.MovingAverage)
-            .AddParameter<int>("erPeriods", "ER Periods", defaultValue: 10, minimum: 2, maximum: 250)
+            .AddParameter<int>("erPeriods", "ER Periods", defaultValue: 10, minimum: 1, maximum: 250)
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 2, minimum: 1, maximum: 50)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 30, minimum: 1, maximum: 250)
             .AddResult(nameof(KamaResult.Er), "ER", "Er", ResultType.Default)

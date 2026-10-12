@@ -110,4 +110,17 @@ public class EpmaSeriesTests : StaticSeriesTestBase
             .Invoking(static () => Bars.ToEpma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
+
+    [TestMethod]
+    public void ToEpma_LookbackOne_ThrowsInEveryStyle()
+    {
+        // the slope needs at least 2 periods, so every style rejects 1
+        Action series = static () => Bars.ToEpma(1);
+        Action list = static () => Bars.ToEpmaList(1);
+        Action hub = static () => new BarHub().ToEpmaHub(1);
+
+        series.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("lookbackPeriods");
+        list.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("lookbackPeriods");
+        hub.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("lookbackPeriods");
+    }
 }

@@ -146,4 +146,15 @@ public class KamaSeriesTests : StaticSeriesTestBase
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToKama(10, 5, 5));
     }
+
+    [TestMethod]
+    public void ToKama_ErPeriodsOne_MatchesInEveryStyle()
+    {
+        // the first bar has no previous result in any style
+        IReadOnlyList<KamaResult> series = Bars.ToKama(1, 2, 30);
+
+        series.Should().HaveCount(Bars.Count);
+        Bars.ToKamaList(1, 2, 30).IsExactly(series);
+        Bars.ToKamaHub(1, 2, 30).Results.IsExactly(series);
+    }
 }

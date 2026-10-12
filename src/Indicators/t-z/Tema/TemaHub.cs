@@ -47,7 +47,7 @@ public class TemaHub
         }
 
         double tema = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Tema is not null
+            ? i > 0 && Cache[i - 1].Tema is not null
 
                 // normal
                 ? CalculateIncrement(item.Value)

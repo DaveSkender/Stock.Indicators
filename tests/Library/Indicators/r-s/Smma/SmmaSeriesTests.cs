@@ -103,4 +103,14 @@ public class SmmaSeriesTests : StaticSeriesTestBase
             .Invoking(static () => Bars.ToSmma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
+
+    [TestMethod]
+    public void ToSmma_LookbackOne_MatchesInEveryStyle()
+    {
+        // the first bar has no previous result in any style
+        IReadOnlyList<SmmaResult> series = Bars.ToSmma(1);
+
+        Bars.ToSmmaList(1).IsExactly(series);
+        Bars.ToSmmaHub(1).Results.IsExactly(series);
+    }
 }

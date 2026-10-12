@@ -146,4 +146,12 @@ public class PivotsSeriesTests : StaticSeriesTestBase
         r.Where(static x => x.HighPoint is not null).Should().HaveCount(194);
         r.Where(static x => x.LowPoint is not null).Should().HaveCount(193);
     }
+
+    [TestMethod]
+    public void ToPivots_MaxTrendNotAboveLeftSpan_NamesMaxTrendPeriods()
+    {
+        Action act = static () => Bars.ToPivots(leftSpan: 5, maxTrendPeriods: 5);
+
+        act.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("maxTrendPeriods");
+    }
 }

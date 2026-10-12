@@ -10,7 +10,7 @@ public static partial class Chandelier
             .WithName("Chandelier Exit")
             .WithId("CHEXIT")
             .WithCategory(Category.StopAndReverse)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 22, minimum: 1, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 22, minimum: 2, maximum: 250)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 1.0, maximum: 10.0)
             .AddEnumParameter<Direction>("type", "Direction", defaultValue: Direction.Long)
             .AddResult(nameof(ChandelierResult.ChandelierExit), "Chandelier Exit", IndicatorResult.PricePane, ResultType.Default, isReusable: true)

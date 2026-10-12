@@ -99,7 +99,8 @@ public class UltimateSeriesTests : StaticSeriesTestBase
 
         // bad middle period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Bars.ToUltimate(7, 6));
+            static () => Bars.ToUltimate(7, 6))
+            .ParamName.Should().Be("middlePeriods");
 
         // bad long period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

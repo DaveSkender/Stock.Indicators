@@ -116,4 +116,17 @@ public class PvoSeriesTests : StaticSeriesTestBase
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToPvo(12, 26, -1));
     }
+
+    [TestMethod]
+    public void ToPvo_SignalPeriodsZero_ThrowsInEveryStyle()
+    {
+        // a zero signal period is rejected rather than dividing the signal average by 0
+        Action series = static () => Bars.ToPvo(12, 26, 0);
+        Action list = static () => Bars.ToPvoList(12, 26, 0);
+        Action hub = static () => new BarHub().ToPvoHub(12, 26, 0);
+
+        series.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("signalPeriods");
+        list.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("signalPeriods");
+        hub.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("signalPeriods");
+    }
 }

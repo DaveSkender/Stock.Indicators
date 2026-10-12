@@ -42,13 +42,13 @@ public static partial class Macd
         {
             // Fast EMA
             double emaFast
-                = i >= fastPeriods - 1 && results[i - 1].FastEma is null
+                = i >= fastPeriods - 1 && (i == 0 || results[i - 1].FastEma is null)
                 ? Sma.Increment(source, fastPeriods, i)
                 : Ema.Increment(kFast, lastEmaFast, source[i].Value);
 
             // Slow EMA
             double emaSlow
-                = i >= slowPeriods - 1 && results[i - 1].SlowEma is null
+                = i >= slowPeriods - 1 && (i == 0 || results[i - 1].SlowEma is null)
                 ? Sma.Increment(source, slowPeriods, i)
                 : Ema.Increment(kSlow, lastEmaSlow, source[i].Value);
 

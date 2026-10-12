@@ -134,4 +134,33 @@ public class MacdSeriesTests : StaticSeriesTestBase
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToMacd(12, 26, -1));
     }
+
+    [TestMethod]
+    public void ToMacd_FastPeriodsOne_FastEmaEqualsPrice()
+    {
+        // a 1-period EMA is the value itself, including on the first bar
+        IReadOnlyList<MacdResult> sut = Bars.ToMacd(1, 26, 9);
+
+        sut.Should().HaveCount(Bars.Count);
+        for (int i = 0; i < Bars.Count; i++)
+        {
+            sut[i].FastEma.Should().Be((double)Bars[i].Close);
+        }
+
+        sut.IsExactly(Bars.ToMacdHub(1, 26, 9).Results);
+        sut.IsExactly(Bars.ToMacdList(1, 26, 9));
+    }
+
+    [TestMethod]
+    public void ToMacd_SignalPeriodsZero_ThrowsInEveryStyle()
+    {
+        // a zero signal period is rejected rather than dividing the signal average by 0
+        Action series = static () => Bars.ToMacd(12, 26, 0);
+        Action list = static () => Bars.ToMacdList(12, 26, 0);
+        Action hub = static () => new BarHub().ToMacdHub(12, 26, 0);
+
+        series.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("signalPeriods");
+        list.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("signalPeriods");
+        hub.Should().ThrowExactly<ArgumentOutOfRangeException>().WithParameterName("signalPeriods");
+    }
 }
