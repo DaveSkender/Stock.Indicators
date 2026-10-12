@@ -1,4 +1,5 @@
 #nullable enable
+using System.Collections;
 using System.Globalization;
 using System.Reflection;
 
@@ -289,4 +290,62 @@ internal static class CatalogReflection
     /// <returns>Identity in the form <c>UIID/Style</c>.</returns>
     internal static string Describe(IndicatorListing listing)
         => $"{listing.Uiid}/{listing.Style}";
+
+    /// <summary>
+    /// Runs a stream listing on a prefilled <see cref="BarHub"/>, which the catalog executor
+    /// cannot do: every provider argument gets the bar hub, every other argument its catalog
+    /// default unless overridden.
+    /// </summary>
+    /// <remarks>
+    /// A bar-input overload wins over a chain overload the bar hub also satisfies, so the hub
+    /// reads the same bar values the Series listing does.
+    /// </remarks>
+    /// <param name="listing">Stream listing.</param>
+    /// <param name="args">Argument overrides by parameter name.</param>
+    /// <param name="bars">Bars to stream.</param>
+    /// <returns>The hub's results.</returns>
+    internal static List<object> ExecuteHub(
+        IndicatorListing listing, IReadOnlyDictionary<string, object> args, IReadOnlyList<IBar> bars)
+    {
+        BarHub provider = new();
+        provider.Add(bars);
+
+        MethodInfo method = GetOverloads(listing)
+            .Where(m => m.GetParameters() is [ParameterInfo first, ..]
+                && first.ParameterType.IsInstanceOfType(provider))
+            .OrderByDescending(static m => m.GetParameters()[0].ParameterType.GetGenericArguments() is [Type t] && t == typeof(IBar))
+            .ThenByDescending(m => m.GetParameters()
+                .Count(p => listing.Parameters?.Any(lp => lp.ParameterName == p.Name) == true))
+            .First();
+
+        object?[] arguments = method.GetParameters()
+            .Select(p => p.ParameterType.IsInstanceOfType(provider)
+                ? provider
+                : Coerce(args.TryGetValue(p.Name!, out object? v)
+                    ? v
+                    : listing.Parameters?.FirstOrDefault(lp => lp.ParameterName == p.Name)?.DefaultValue
+                        ?? (p.HasDefaultValue ? p.DefaultValue : null), p.ParameterType))
+            .ToArray();
+
+        try
+        {
+            object hub = method.Invoke(null, arguments)!;
+            return ((IEnumerable)hub.GetType().GetProperty(nameof(StreamHub<,>.Results))!.GetValue(hub)!)
+                .Cast<object>()
+                .ToList();
+        }
+        finally
+        {
+            provider.EndTransmission();
+        }
+    }
+
+    private static object? Coerce(object? value, Type type)
+    {
+        Type target = Nullable.GetUnderlyingType(type) ?? type;
+
+        return value is null || target.IsInstanceOfType(value) ? value
+            : target.IsEnum ? Enum.ToObject(target, value)
+            : Convert.ChangeType(value, target, CultureInfo.InvariantCulture);
+    }
 }
