@@ -150,4 +150,16 @@ public class ConnorsRsiSeriesTests : StaticSeriesTestBase
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             static () => Bars.ToConnorsRsi(3, 2, 1));
     }
+
+    [TestMethod]
+    public void RankPeriodsNotDividing100_MatchesEveryStyle()
+    {
+        // Series used integer division, truncating 66.67 to 66 when 100 * qty / rankPeriods had a fraction
+        IReadOnlyList<ConnorsRsiResult> series = Bars.ToConnorsRsi(3, 2, 3);
+
+        series[3].PercentRank.Should().BeApproximately(200d / 3, 1e-12);
+
+        Bars.ToConnorsRsiList(3, 2, 3).IsExactly(series);
+        Bars.ToConnorsRsiHub(3, 2, 3).Results.IsExactly(series);
+    }
 }

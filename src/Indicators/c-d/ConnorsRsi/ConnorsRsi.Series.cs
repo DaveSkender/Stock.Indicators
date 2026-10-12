@@ -163,7 +163,7 @@ public static partial class ConnorsRsi
                     }
                 }
 
-                percentRank = isViableRank ? 100 * qty / rankPeriods : null;
+                percentRank = isViableRank ? 100d * qty / rankPeriods : null;
             }
 
             results.Add(new ConnorsRsiResult(
