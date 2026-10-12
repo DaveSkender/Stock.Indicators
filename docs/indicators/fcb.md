@@ -10,6 +10,8 @@ Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price
 
 <StockIndicatorChart indicator="Fcb" />
 
+<ChartKey indicator="Fcb" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<FcbResult> results =

@@ -10,6 +10,8 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 
 <StockIndicatorChart indicator="VolatilityStop" />
 
+<ChartKey indicator="VolatilityStop" />
+
 ```csharp
 // C# usage syntax (Series)
 IReadOnlyList<VolatilityStopResult> results =

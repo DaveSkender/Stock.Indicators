@@ -10,6 +10,8 @@ Created by Bill Williams in _Trading Chaos_ (1995), [Fractal](https://www.invest
 
 <StockIndicatorChart indicator="Fractal" />
 
+<ChartKey indicator="Fractal" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<FractalResult> results =

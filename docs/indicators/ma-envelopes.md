@@ -10,6 +10,8 @@ description:  Moving Average Envelopes is a price band channel overlay that is o
 
 <StockIndicatorChart indicator="MaEnvelopes" />
 
+<ChartKey indicator="MaEnvelopes" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<MaEnvelopeResult> results =

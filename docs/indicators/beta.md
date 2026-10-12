@@ -9,6 +9,8 @@ description: Beta coefficient with Beta+/Beta- shows how strongly one asset's pr
 
 <StockIndicatorChart indicator="Beta" withOverlay />
 
+<ChartKey indicator="Beta" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<BetaResult> results = barsEval

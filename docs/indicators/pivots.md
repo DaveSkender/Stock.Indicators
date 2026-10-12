@@ -10,6 +10,8 @@ Pivots is an extended customizable version of [Williams Fractal](/indicators/fra
 
 <StockIndicatorChart indicator="Pivots" />
 
+<ChartKey indicator="Pivots" />
+
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotsResult> results =
