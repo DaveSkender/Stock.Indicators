@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Stock Indicators for .NET documentation",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24"
   },
@@ -34,7 +34,7 @@
     "wrangler": "^4.149.0"
   },
   "dependencies": {
-    "@facioquo/indy-charts": "^0.14.0",
+    "@facioquo/indy-charts": "^0.14.1",
     "chart.js": "^4.5.1",
     "chartjs-plugin-annotation": "^3.1.0"
   }
