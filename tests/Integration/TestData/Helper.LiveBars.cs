@@ -10,8 +10,8 @@ internal static class FeedData
 
     internal static async Task<IEnumerable<Bar>> GetBars(string symbol, int days)
     {
-        /* This won't run if environment variables not set.
-           Use FeedData.InconclusiveIfNotSetup() in tests.
+        /* Calling tests are skipped (inconclusive) when
+           these environment variables are not set.
 
            (1) get your API keys
            https://alpaca.markets/docs/market-data/getting-started/
