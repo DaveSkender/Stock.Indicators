@@ -184,7 +184,7 @@
       "label": "Update: .NET packages",
       "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
-      "command": "dotnet tool run dotnet-outdated --upgrade --exclude FluentAssertions && dotnet tool run dotnet-outdated --upgrade docs/examples",
+      "command": "dotnet tool run dotnet-outdated --upgrade --exclude FluentAssertions && dotnet tool run dotnet-outdated --upgrade --exclude FacioQuo.Stock.Indicators docs/examples",
       "dependsOn": "Install: .NET tools"
     },
     {
