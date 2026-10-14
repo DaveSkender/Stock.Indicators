@@ -74,7 +74,7 @@ export default {
       defaults: {
         barCount: 250,
         quoteCount: 250,
-        showTooltips: true,
+        showTooltips: false,
         showRightAxisLabels: true
       },
       theme: {
