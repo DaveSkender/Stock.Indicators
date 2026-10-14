@@ -5,8 +5,8 @@ import { fileURLToPath } from 'url'
 
 // Drift check between each indicator page and the library source it documents:
 // parameter names and defaults against the `To*` series signatures, parameter
-// minimums against the `.Catalog.cs` listings, and result tables against the
-// result records. Reads source files only, so it needs no browser.
+// minimums against the `.Catalog.cs` listings, result tables against the result
+// records, and catalog chart panes against the docs `chartConfig`. Reads source files only, so it needs no browser.
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '../..')
@@ -113,6 +113,44 @@ for (const file of walk(join(ROOT, 'src'), '.cs')) {
     records.set(m[1], props)
   }
 }
+
+// ---- Catalog chart panes ---------------------------------------------------
+
+interface Pane { range: [number | null, number | null]; thresholds: number[] }
+
+// Catalog `WithPane` calls by `<listing id>/<pane name>`.
+const catalogPanes = new Map<string, Pane>()
+for (const file of walk(join(ROOT, 'src/Indicators'), '.Catalog.cs')) {
+  const src = stripComments(readFileSync(file, 'utf8'))
+  const id = /\.WithId\("([^"]+)"\)/.exec(src)?.[1]
+  const num = (v: string): number | null => (v.trim() === 'null' ? null : Number(v))
+  for (const m of src.matchAll(/\.WithPane\(\s*"(\w+)"\s*,\s*([^,]+),\s*([^,)]+)((?:,\s*-?[\d.]+)*)\s*\)/g)) {
+    if (!id) throw new Error(`${file}: WithPane without a WithId`)
+    const thresholds = m[4].split(',').filter((t) => t.trim()).map(Number)
+    catalogPanes.set(`${id}/${m[1]}`, { range: [num(m[2]), num(m[3])], thresholds })
+  }
+}
+
+// The docs `chartConfig` entry (by `uiid`) each catalog pane is a copy of. The ids
+// differ between the two sources for some indicators, and Aroon's two panes are
+// separate entries on the docs side.
+const PANE_UIIDS = new Map<string, string>([
+  ['WILLR/WilliamsR', 'WILLIAMSR'],
+  ['UO/Ultimate', 'ULTIMATE'],
+  ['RSI/Rsi', 'RSI'],
+  ['STOCH-RSI/StochRsi', 'STOCHRSI'],
+  ['STOCH/Stoch', 'STO'],
+  ['ADX/Adx', 'ADX'],
+  ['AROON/Aroon', 'AROON UP/DOWN'],
+  ['AROON/Oscillator', 'AROON OSC'],
+  ['MFI/Mfi', 'MFI'],
+  ['CRSI/ConnorsRsi', 'CRSI'],
+])
+
+interface ChartConfig { minimumYAxis: number | null; maximumYAxis: number | null; thresholds: { value: number }[] | null }
+const docsListings = JSON.parse(
+  readFileSync(join(ROOT, 'docs/.vitepress/public/data/chart-api/indicators.json'), 'utf8')
+) as { uiid: string; chartConfig: ChartConfig | null }[]
 
 // ---- Page tables -----------------------------------------------------------
 
@@ -273,4 +311,29 @@ test('every indicator page names a Series method the source defines', () => {
     return OVERVIEW_PAGES.has(file) ? false : !method || !methods.has(method)
   })
   expect(uncovered, `no checked Series method: ${uncovered.join(', ')}`).toEqual([])
+})
+
+test('catalog chart panes match the docs chart config', () => {
+  const problems: string[] = []
+  for (const [key, pane] of catalogPanes) {
+    const uiid = PANE_UIIDS.get(key)
+    if (!uiid) {
+      problems.push(`${key}: no docs chartConfig mapped in PANE_UIIDS`)
+      continue
+    }
+    const config = docsListings.find((l) => l.uiid === uiid)?.chartConfig
+    if (!config) {
+      problems.push(`${key}: docs listing ${uiid} has no chartConfig`)
+      continue
+    }
+    const docs: Pane = {
+      range: [config.minimumYAxis, config.maximumYAxis],
+      thresholds: (config.thresholds ?? []).map((t) => t.value)
+    }
+    if (JSON.stringify(docs) !== JSON.stringify(pane)) {
+      problems.push(`${key}: catalog ${JSON.stringify(pane)}, docs ${uiid} ${JSON.stringify(docs)}`)
+    }
+  }
+  for (const key of PANE_UIIDS.keys()) if (!catalogPanes.has(key)) problems.push(`${key}: mapped in PANE_UIIDS but not a catalog WithPane`)
+  expect(problems, problems.join('\n')).toEqual([])
 })
