@@ -79,34 +79,6 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
 
-    /// <summary>
-    /// Gets or sets the maximum number of results to retain in the list.
-    /// When the list exceeds this value, the oldest items are pruned.
-    /// Also propagates to the inner MA buffer list.
-    /// </summary>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
-    public new int MaxListSize
-    {
-        get => base.MaxListSize;
-        set {
-            base.MaxListSize = value;
-
-            // Propagate MaxListSize to the inner MA buffer list
-            _ = _movingAverageType switch {
-                MaType.ALMA => ((AlmaList)_maList).MaxListSize = value,
-                MaType.DEMA => ((DemaList)_maList).MaxListSize = value,
-                MaType.EMA => ((EmaList)_maList).MaxListSize = value,
-                MaType.EPMA => ((EpmaList)_maList).MaxListSize = value,
-                MaType.HMA => ((HmaList)_maList).MaxListSize = value,
-                MaType.SMA => ((SmaList)_maList).MaxListSize = value,
-                MaType.SMMA => ((SmmaList)_maList).MaxListSize = value,
-                MaType.TEMA => ((TemaList)_maList).MaxListSize = value,
-                MaType.WMA => ((WmaList)_maList).MaxListSize = value,
-                _ => throw new ArgumentOutOfRangeException(nameof(value))
-            };
-        }
-    }
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -185,6 +157,28 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
         };
 
         clearAction();
+    }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // the inner MA list keeps its lookback plus the newest rows of the outer list
+        int size = Math.Max(LookbackPeriods + 1, MaxListSize + 1);
+
+        _ = _movingAverageType switch {
+            MaType.ALMA => ((AlmaList)_maList).MaxListSize = size,
+            MaType.DEMA => ((DemaList)_maList).MaxListSize = size,
+            MaType.EMA => ((EmaList)_maList).MaxListSize = size,
+            MaType.EPMA => ((EpmaList)_maList).MaxListSize = size,
+            MaType.HMA => ((HmaList)_maList).MaxListSize = size,
+            MaType.SMA => ((SmaList)_maList).MaxListSize = size,
+            MaType.SMMA => ((SmmaList)_maList).MaxListSize = size,
+            MaType.TEMA => ((TemaList)_maList).MaxListSize = size,
+            MaType.WMA => ((WmaList)_maList).MaxListSize = size,
+            _ => throw new InvalidOperationException("Unsupported moving average type.")
+        };
+
+        base.PruneList();
     }
 }
 

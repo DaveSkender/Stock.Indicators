@@ -19,6 +19,9 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     private bool _isLong;
     private bool _firstStopFound;
 
+    // rows seen since construction or Clear; Count shrinks when the list prunes
+    private int _rowsSeen;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="VolatilityStopList"/> class.
     /// </summary>
@@ -66,13 +69,16 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
         _atrList.Add(bar);
 
         // Track close prices during initialization
-        _closePrices.Add(close);
+        if (_rowsSeen < _lookbackPeriods)
+        {
+            _closePrices.Add(close);
+        }
 
         // During initialization period (first lookbackPeriods bars)
-        if (Count < _lookbackPeriods)
+        if (_rowsSeen++ < _lookbackPeriods)
         {
             // On the last initialization period, determine trend direction
-            if (Count == _lookbackPeriods - 1)
+            if (_rowsSeen == _lookbackPeriods)
             {
                 _sic = _closePrices[0];
                 _isLong = close > _sic;
@@ -89,8 +95,8 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
             return;
         }
 
-        // Calculate SAR using previous ATR (at Count - 1, which is index i - 1 in series)
-        AtrResult atr = _atrList[Count - 1];
+        // Calculate SAR using the previous bar's ATR
+        AtrResult atr = _atrList[^2];
         double? arc = atr.Atr * _multiplier;
         double? sar = _isLong ? _sic - arc : _sic + arc;
 
@@ -160,7 +166,9 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
         _sic = 0;
         _isLong = false;
         _firstStopFound = false;
+        _rowsSeen = 0;
     }
+
     /// <summary>
     /// Overrides list pruning to synchronize the nested ATR list.
     /// </summary>
@@ -178,7 +186,8 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     private void NullifyResultsBeforeFirstStop()
     {
         // Update all results from lookbackPeriods to current (inclusive of the stop we just added)
-        for (int i = _lookbackPeriods; i < Count; i++)
+        // rows pruned off the front shift the index of the first row to nullify
+        for (int i = Math.Max(0, _lookbackPeriods - (_rowsSeen - Count)); i < Count; i++)
         {
             VolatilityStopResult existing = this[i];
             VolatilityStopResult updated = existing with {

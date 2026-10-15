@@ -95,6 +95,12 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
             rocEma = _prevRocEma + (_smoothingConstant2 * (roc - _prevRocEma));
         }
 
+        // the histories only seed the first average of each stage; keep the newest period
+        if (_rocHistory.Count > TimePeriods)
+        {
+            _rocHistory.RemoveAt(0);
+        }
+
         double rocEmaScaled = rocEma * 10;
         _rocEmaHistory.Add(rocEmaScaled);
         _prevRocEma = rocEma;
@@ -116,6 +122,11 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
             pmo = _prevPmo + (_smoothingConstant1 * (rocEmaScaled - _prevPmo));
         }
 
+        if (_rocEmaHistory.Count > SmoothPeriods)
+        {
+            _rocEmaHistory.RemoveAt(0);
+        }
+
         _pmoHistory.Add(pmo);
         _prevPmo = pmo;
 
@@ -134,6 +145,11 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         else
         {
             signal = Ema.Increment(_smoothingConstant3, _prevSignal, pmo);
+        }
+
+        if (_pmoHistory.Count > SignalPeriods)
+        {
+            _pmoHistory.RemoveAt(0);
         }
 
         _prevSignal = signal;
