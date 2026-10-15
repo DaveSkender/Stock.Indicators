@@ -129,7 +129,7 @@ public class BufferListInnerListsTests : TestBase
 
     private static bool IsBufferList(Type type)
     {
-        for (Type? t = type; t is not null; t = t.BaseType)
+        for (Type t = type; t != null; t = t.BaseType)
         {
             if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(BufferList<>))
             {
