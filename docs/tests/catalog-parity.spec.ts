@@ -124,7 +124,10 @@ for (const file of walk(join(ROOT, 'src/Indicators'), '.Catalog.cs')) {
   const src = stripComments(readFileSync(file, 'utf8'))
   const id = /\.WithId\("([^"]+)"\)/.exec(src)?.[1]
   const num = (v: string): number | null => (v.trim() === 'null' ? null : Number(v))
-  for (const m of src.matchAll(/\.WithPane\(\s*"(\w+)"\s*,\s*([^,]+),\s*([^,)]+)((?:,\s*-?[\d.]+)*)\s*\)/g)) {
+  const calls = src.match(/\.WithPane\(/g)?.length ?? 0
+  const matches = [...src.matchAll(/\.WithPane\(\s*"(\w+)"\s*,\s*([^,]+),\s*([^,)]+)((?:,\s*-?[\d.]+)*)\s*\)/g)]
+  if (calls !== matches.length) throw new Error(`${file}: ${calls - matches.length} WithPane call(s) the parity regex cannot parse`)
+  for (const m of matches) {
     if (!id) throw new Error(`${file}: WithPane without a WithId`)
     const thresholds = m[4].split(',').filter((t) => t.trim()).map(Number)
     catalogPanes.set(`${id}/${m[1]}`, { range: [num(m[2]), num(m[3])], thresholds })
