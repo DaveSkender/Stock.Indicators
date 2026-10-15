@@ -13,6 +13,9 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromBar
     private double? _prevClose;
     private bool _isInitialized;
 
+    // rows seen since construction or Clear; Count shrinks when the list prunes
+    private int _rowsSeen;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SuperTrendList"/> class.
     /// </summary>
@@ -59,7 +62,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromBar
         double? lowerOnly;
 
         // Calculate when we have enough data
-        if (Count >= LookbackPeriods)
+        if (_rowsSeen++ >= LookbackPeriods)
         {
             double? mid = ((double)bar.High + (double)bar.Low) / 2;
             double? atr = _atrList[^1].Atr;
@@ -138,12 +141,22 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromBar
     public override void Clear()
     {
         base.Clear();
+        _rowsSeen = 0;
         _atrList.Clear();
         _isBullish = true;
         _upperBand = null;
         _lowerBand = null;
         _prevClose = null;
         _isInitialized = false;
+    }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _atrList.MaxListSize = Math.Max(LookbackPeriods + 1, MaxListSize + 1);
+
+        base.PruneList();
     }
 }
 

@@ -93,6 +93,17 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromBar, I
         _fastEmaList.Clear();
         _slowEmaList.Clear();
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _adlList.MaxListSize = MaxListSize + 1;
+        _fastEmaList.MaxListSize = Math.Max(FastPeriods + 1, MaxListSize + 1);
+        _slowEmaList.MaxListSize = Math.Max(SlowPeriods + 1, MaxListSize + 1);
+
+        base.PruneList();
+    }
 }
 
 public static partial class ChaikinOsc

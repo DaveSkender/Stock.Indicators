@@ -99,6 +99,15 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromBar, ICmf
         _adlList.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _adlList.MaxListSize = MaxListSize + 1;
+
+        base.PruneList();
+    }
 }
 
 public static partial class Cmf
