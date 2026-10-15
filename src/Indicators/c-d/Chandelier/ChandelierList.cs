@@ -124,6 +124,15 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromBar, I
         _atrList.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _atrList.MaxListSize = Math.Max(LookbackPeriods + 1, MaxListSize + 1);
+
+        base.PruneList();
+    }
 }
 
 public static partial class Chandelier

@@ -72,6 +72,15 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromBar, IElde
         base.Clear();
         _emaList.Clear();
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _emaList.MaxListSize = Math.Max(LookbackPeriods + 1, MaxListSize + 1);
+
+        base.PruneList();
+    }
 }
 
 public static partial class ElderRay

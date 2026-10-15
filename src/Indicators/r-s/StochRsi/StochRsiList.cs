@@ -112,6 +112,16 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
         _stochList.Clear();
         _rowsSeen = 0;
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _rsiList.MaxListSize = Math.Max(RsiPeriods + 1, MaxListSize + 1);
+        _stochList.MaxListSize = Math.Max(Math.Max(StochPeriods, Math.Max(SmoothPeriods, SignalPeriods)) + 1, MaxListSize + 1);
+
+        base.PruneList();
+    }
 }
 
 public static partial class StochRsi

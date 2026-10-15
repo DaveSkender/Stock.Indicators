@@ -105,6 +105,16 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromBar, I
         _smaList.Clear();
         _atrList.Clear();
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _smaList.MaxListSize = MaxListSize + 1;
+        _atrList.MaxListSize = Math.Max(AtrPeriods + 1, MaxListSize + 1);
+
+        base.PruneList();
+    }
 }
 
 public static partial class StarcBands

@@ -5,6 +5,9 @@ namespace FacioQuo.Stock.Indicators;
 /// </summary>
 public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromBar
 {
+    // rows seen since construction or Clear; Count shrinks when the list prunes
+    private int _rowsSeen;
+
     private readonly EmaList _emaList;
     private readonly AtrList _atrList;
     private readonly int _lookbackPeriods;
@@ -64,7 +67,7 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromBar
         _emaList.Add(bar);
         _atrList.Add(bar);
 
-        if (Count >= _lookbackPeriods - 1)
+        if (_rowsSeen++ >= _lookbackPeriods - 1)
         {
             EmaResult ema = _emaList[^1];
             AtrResult atr = _atrList[^1];
@@ -100,8 +103,19 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromBar
     public override void Clear()
     {
         base.Clear();
+        _rowsSeen = 0;
         _emaList.Clear();
         _atrList.Clear();
+    }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // inner lists only need the newest rows; bound them with the outer list
+        _emaList.MaxListSize = Math.Max(EmaPeriods + 1, MaxListSize + 1);
+        _atrList.MaxListSize = Math.Max(AtrPeriods + 1, MaxListSize + 1);
+
+        base.PruneList();
     }
 }
 
