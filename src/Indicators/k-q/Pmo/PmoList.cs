@@ -108,6 +108,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         {
             _rocEmaHistory.Dequeue();
         }
+
         _prevRocEma = rocEma;
 
         // Calculate price momentum oscillator
@@ -133,6 +134,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         {
             _pmoHistory.Dequeue();
         }
+
         _prevPmo = pmo;
 
         // Calculate signal (EMA of PMO)
