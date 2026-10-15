@@ -2,7 +2,7 @@
 // theme (every <StockIndicatorChart> instance) and the landing overlay talk to
 // the same endpoint with identical resilience — mirrors chart-theme.ts.
 //
-// A failed request resolves in this order (indy-charts 0.13):
+// A failed request resolves in this order:
 //   • retry — transient network / 5xx / 429 failures are retried with backoff.
 //     On by default (3 attempts, 500 ms base), so it is intentionally unset here.
 //   • staleCache — each successful response is cached in sessionStorage and
