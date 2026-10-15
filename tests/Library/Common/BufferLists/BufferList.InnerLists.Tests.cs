@@ -18,6 +18,8 @@ public class BufferListInnerListsTests : TestBase
     private static readonly Dictionary<string, (Dictionary<string, int> Floors, Action<int> Run)> Cases = new() {
         ["StochRsi"] = Case(new() { ["_rsiList"] = 15, ["_stochList"] = 15 },
             () => new StochRsiList(14, 14, 3, 1), (l, b) => l.Add(b), Bars.ToStochRsi(14, 14, 3, 1)),
+        ["StochRsiSignal20"] = Case(new() { ["_rsiList"] = 15, ["_stochList"] = 21 },
+            () => new StochRsiList(14, 3, 20, 3), (l, b) => l.Add(b), Bars.ToStochRsi(14, 3, 20, 3)),
         ["StochRsiSmooth3"] = Case(new() { ["_rsiList"] = 15, ["_stochList"] = 15 },
             () => new StochRsiList(14, 14, 3, 3), (l, b) => l.Add(b), Bars.ToStochRsi(14, 14, 3, 3)),
         ["Stc"] = Case(new() { ["_macdList"] = 51 },
