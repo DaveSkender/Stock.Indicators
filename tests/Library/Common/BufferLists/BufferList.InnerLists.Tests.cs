@@ -46,7 +46,7 @@ public class BufferListInnerListsTests : TestBase
             () => new GatorList(), (l, b) => l.Add(b), Bars.ToGator()),
         ["Pmo"] = Case(new() { ["_rocHistory"] = 35, ["_rocEmaHistory"] = 20, ["_pmoHistory"] = 10 },
             () => new PmoList(35, 20, 10), (l, b) => l.Add(b), Bars.ToPmo(35, 20, 10)),
-        ["ConnorsRsi"] = Case(new() { ["_rsiClose"] = 4, ["_rsiStreak"] = 3 },
+        ["ConnorsRsi"] = Case(new() { ["_rsiClose"] = 4, ["_rsiStreak"] = 3, ["_gainBuffer"] = 101 },
             () => new ConnorsRsiList(3, 2, 100), (l, b) => l.Add(b), Bars.ToConnorsRsi(3, 2, 100)),
         ["VolatilityStopStepwise"] = Case(new() { ["_atrList"] = 8, ["_closePrices"] = 7 },
             () => new VolatilityStopList(7, 3), (l, b) => l.Add(b), Bars.ToVolatilityStop(7, 3),
@@ -116,7 +116,7 @@ public class BufferListInnerListsTests : TestBase
             Dictionary<string, int> counts = typeof(TList)
                 .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
                 .Select(f => (f.Name, Value: f.GetValue(sut)))
-                .Where(f => f.Value is List<double> || (f.Value is not null && IsBufferList(f.Value.GetType())))
+                .Where(f => f.Value is List<double> || (f.Value is Queue<double> && floors.ContainsKey(f.Name)) || (f.Value is not null && IsBufferList(f.Value.GetType())))
                 .ToDictionary(
                     f => f.Name,
                     f => f.Value is System.Collections.ICollection c
