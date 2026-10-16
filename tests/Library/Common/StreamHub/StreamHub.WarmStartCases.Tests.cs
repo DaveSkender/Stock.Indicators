@@ -93,6 +93,35 @@ public abstract class WarmStartCases<TResult> : TestBase
         }
 
         restored.Results.IsExactly(uninterrupted.Results);
+        restoredBars.Cache.Should().Equal(uninterruptedBars.Cache);
+        restored.CaptureSnapshot().State.Should().Equal(uninterrupted.CaptureSnapshot().State);
+    }
+
+    [TestMethod]
+    public void Capture_AfterMidTailCorrection_RestoresAndContinues()
+    {
+        // a correction behind the newest bar replays later bars, so the ring is no longer ascending
+        List<Bar> bars = [.. Bars.Take(200)];
+
+        (BarHub source, StreamHub<IBar, TResult> sourceHub) = Chain(bars.Take(Split));
+        bars[Split - 5] = Revise(bars[Split - 5]);
+        source.Add(bars[Split - 5]);
+
+        HubSnapshot<TResult> snapshot = sourceHub.CaptureSnapshot();
+
+        BarHub barHub = new();
+        StreamHub<IBar, TResult> hub = Subscribe(barHub);
+        barHub.RestoreSnapshot(source.CaptureSnapshot());
+        hub.RestoreSnapshot(snapshot);
+
+        hub.CaptureSnapshot().State.Should().Equal(snapshot.State);
+
+        // a newest-bar correction now resolves from the restored, non-ascending ring
+        bars[Split - 1] = Revise(bars[Split - 1]);
+        barHub.Add(bars[Split - 1]);
+        barHub.Add(bars.Skip(Split).ToList());
+
+        hub.Results.IsExactly(Series(bars));
     }
 
     [TestMethod]

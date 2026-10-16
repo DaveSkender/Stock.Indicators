@@ -555,6 +555,54 @@ public class WarmStart : TestBase
     }
 
     [TestMethod]
+    public void Restore_GoldenVersionTwoState_DecodesEachField()
+    {
+        // distinct values in every field, so a reordered layout reads different averages
+        List<Bar> bars = [.. Bars.Take(61)];
+        (BarHub source, RsiHub sourceRsi) = Chain(bars.Take(60));
+        HubSnapshot<RsiResult> snapshot = sourceRsi.CaptureSnapshot();
+
+        const double avgGain = 2.0, avgLoss = 0.5, ringGain = 3.0, ringLoss = 0.25;
+        using MemoryStream stream = new();
+        using (BinaryWriter w = new(stream))
+        {
+            w.Write((byte)2);
+            w.Write(avgGain);
+            w.Write(avgLoss);
+            w.Write(1);
+            w.Write(bars[59].Timestamp.Ticks);
+            w.Write(ringGain);
+            w.Write(ringLoss);
+        }
+
+        byte[] golden = stream.ToArray();
+
+        BarHub barHub = new();
+        RsiHub rsi = barHub.ToRsiHub(Lookback);
+        barHub.RestoreSnapshot(source.CaptureSnapshot());
+        rsi.RestoreSnapshot(snapshot with { State = golden });
+
+        rsi.CaptureSnapshot().State.Should().Equal(golden);
+
+        // the next bar continues from the top-level averages
+        barHub.Add(bars[60]);
+        rsi.Results[^1].Rsi.Should().Be(NextRsi(avgGain, avgLoss, bars[59], bars[60]));
+
+        // correcting it rolls back to the ring entry
+        Bar revised = Revise(bars[60]);
+        barHub.Add(revised);
+        rsi.Results[^1].Rsi.Should().Be(NextRsi(ringGain, ringLoss, bars[59], revised));
+
+        static double NextRsi(double gain, double loss, Bar prior, Bar bar)
+        {
+            double change = (double)bar.Close - (double)prior.Close;
+            double g = ((gain * (Lookback - 1)) + Math.Max(change, 0)) / Lookback;
+            double l = ((loss * (Lookback - 1)) + Math.Max(-change, 0)) / Lookback;
+            return 100 - (100 / (1 + (g / l)));
+        }
+    }
+
+    [TestMethod]
     public void Capture_AfterMidTailCorrection_RestoresAndContinues()
     {
         // a correction behind the newest bar replays later bars, so the ring is no longer ascending
