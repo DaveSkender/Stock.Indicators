@@ -528,4 +528,20 @@ public class WarmStart : TestBase
 
         rsi.Results.IsExactly(bars.ToRsi(Lookback));
     }
+
+    [TestMethod]
+    public void Capture_RsiState_IsVersionTwo_AndOlderShapeIsRejected()
+    {
+        (_, RsiHub rsi) = Chain(Bars.Take(60));
+        HubSnapshot<RsiResult> snapshot = rsi.CaptureSnapshot();
+
+        snapshot.State[0].Should().Be(2);
+
+        // version 1 held only the two averages
+        byte[] v1 = [1, .. BitConverter.GetBytes(1.0), .. BitConverter.GetBytes(1.0)];
+
+        Action restore = () => rsi.RestoreSnapshot(snapshot with { State = v1 });
+
+        restore.Should().Throw<InvalidDataException>().WithMessage("*State version 1*");
+    }
 }
