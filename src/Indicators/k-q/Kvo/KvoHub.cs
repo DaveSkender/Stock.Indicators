@@ -50,6 +50,8 @@ public class KvoHub
     // recent state snapshots for O(1) near-tail rollback
     private readonly RollbackRing<KvoState> _rollback = new();
 
+    private const byte SnapshotStateVersion = 1;
+
     internal KvoHub(
         IBarProvider<IBar> provider,
         int fastPeriods,
@@ -239,13 +241,7 @@ public class KvoHub
             ProviderCache[restoreIndex].Timestamp,
             out KvoState snapshot))
         {
-            _prevHlc = snapshot.PrevHlc;
-            _prevTrend = snapshot.PrevTrend;
-            _prevDm = snapshot.PrevDm;
-            _prevCm = snapshot.PrevCm;
-            _prevVfFastEma = snapshot.PrevVfFastEma;
-            _prevVfSlowEma = snapshot.PrevVfSlowEma;
-            _sumVf = snapshot.SumVf;
+            RestoreState(snapshot);
             return;
         }
 
@@ -340,6 +336,64 @@ public class KvoHub
             _prevVfFastEma,
             _prevVfSlowEma,
             _sumVf);
+
+    // Restores the scalar state from a rollback snapshot.
+    private void RestoreState(in KvoState snapshot)
+    {
+        _prevHlc = snapshot.PrevHlc;
+        _prevTrend = snapshot.PrevTrend;
+        _prevDm = snapshot.PrevDm;
+        _prevCm = snapshot.PrevCm;
+        _prevVfFastEma = snapshot.PrevVfFastEma;
+        _prevVfSlowEma = snapshot.PrevVfSlowEma;
+        _sumVf = snapshot.SumVf;
+    }
+
+    /// <inheritdoc/>
+    private protected override byte[]? CaptureSnapshotState()
+        => SnapshotCodec.Write(SnapshotStateVersion, w => {
+            WriteState(w, CaptureState());
+
+            // the rollback ring travels with the state, so corrections right after
+            // a restore take the same path they would have without one
+            SnapshotCodec.WriteRing(w, _rollback, WriteState);
+        });
+
+    /// <inheritdoc/>
+    private protected override void RestoreSnapshotState(ReadOnlySpan<byte> state)
+    {
+        KvoState current = default;
+        List<(DateTime Timestamp, KvoState State)> ring = [];
+
+        SnapshotCodec.Read(state, SnapshotStateVersion, r => {
+            current = ReadState(r);
+            ring = SnapshotCodec.ReadRing(r, _rollback.Capacity, ReadState);
+        });
+
+        RestoreState(current);
+        SnapshotCodec.LoadRing(_rollback, ring);
+    }
+
+    private static void WriteState(BinaryWriter w, KvoState s)
+    {
+        w.Write(s.PrevHlc);
+        w.Write(s.PrevTrend);
+        w.Write(s.PrevDm);
+        w.Write(s.PrevCm);
+        w.Write(s.PrevVfFastEma);
+        w.Write(s.PrevVfSlowEma);
+        w.Write(s.SumVf);
+    }
+
+    private static KvoState ReadState(BinaryReader r)
+        => new(
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble());
 
     // Scalar state snapshot for O(1) near-tail rollback.
     private readonly record struct KvoState(

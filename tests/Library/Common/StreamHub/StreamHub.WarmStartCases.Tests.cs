@@ -341,3 +341,18 @@ public class AdxWarmStart : WarmStartCases<IBar, AdxResult>
     // first bar, smoothing seed, first ADX, first ADXR
     private protected override int[] WarmupSplits => [0, 1, Lookback, (2 * Lookback) - 1, (3 * Lookback) - 1];
 }
+
+[TestClass]
+public class KvoWarmStart : WarmStartCases<KvoResult>
+{
+    private const int Fast = 34;
+    private const int Slow = 55;
+    private const int Signal = 13;
+
+    private protected override StreamHub<IBar, KvoResult> Subscribe(BarHub barHub) => barHub.ToKvoHub(Fast, Slow, Signal);
+
+    private protected override IReadOnlyList<KvoResult> Series(IReadOnlyList<Bar> bars) => bars.ToKvo(Fast, Slow, Signal);
+
+    // trend seed, first volume force, fast seed, slow seed, signal seed
+    private protected override int[] WarmupSplits => [0, 1, 2, Fast + 1, Slow + 1, Slow + Signal];
+}
