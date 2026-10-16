@@ -86,7 +86,8 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     /// Waiting for the queue to drain cannot be canceled, and takes as long as the hub needs
     /// to apply what is queued.  If the hub threw on an item, this throws its original
     /// exception and does not end the transmission, so subscribers are not completed.
-    /// Every call, including an overlapping one, returns the same disposal and waits for it.
+    /// Every call, including an overlapping one, returns the same disposal and waits for it,
+    /// so a faulted feed throws on every call.
     /// Do not dispose the feed from an observer callback: callbacks run on the consumer
     /// task, which would then wait for itself.
     /// </remarks>

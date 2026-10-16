@@ -158,7 +158,7 @@ await feed.WriteAsync(bar, cancellationToken);  // safe from any thread
 - Observer callbacks run on the feed's consumer task, not on the thread that wrote the item. Read results from another thread with `Snapshot()`, and never dispose the feed from a callback, which would wait on itself.
 - Disposing the feed stops new writes and applies what is queued first; that wait cannot be canceled. With `endTransmissionOnDispose`, it then calls `EndTransmission()`.
 - If the hub throws while applying an item, the feed stops. `Completion`, the next `WriteAsync`, and `DisposeAsync` throw the hub's exception, and `DisposeAsync` does not end the transmission. Bars the hub refuses by raising `BarRejected` do not stop the feed.
-- `DisposeAsync` throws the hub's exception when the feed faulted, which can replace an exception already in flight in an `await using` block. Catch around the block if you need both.
+- `DisposeAsync` throws the hub's exception when the feed faulted, and every later call throws it again. In an `await using` block it replaces an exception already in flight, so catch and record the original inside the block if you need both.
 
 ### What's safe, and what to avoid
 
