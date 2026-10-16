@@ -147,8 +147,6 @@ public class RsiHub
                 throw new InvalidDataException($"Rollback entry count {count} is out of range.");
             }
 
-            DateTime previous = DateTime.MinValue;
-
             for (int i = 0; i < count; i++)
             {
                 long ticks = r.ReadInt64();
@@ -160,12 +158,6 @@ public class RsiHub
 
                 DateTime timestamp = new(ticks, DateTimeKind.Unspecified);
 
-                if (timestamp <= previous && i > 0)
-                {
-                    throw new InvalidDataException("Rollback entries are not in ascending order.");
-                }
-
-                previous = timestamp;
                 ring.Add((timestamp, (r.ReadDouble(), r.ReadDouble())));
             }
         });

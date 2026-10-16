@@ -96,7 +96,12 @@ public abstract partial class StreamHub<TIn, TOut>
             }
 
             LastItem = Cache.Count > 0 ? Cache[^1] : default;
-            PrunedThrough = snapshot.PrunedThrough;
+            // pruning is irreversible, so a restore can only widen the refused span
+            if (snapshot.PrunedThrough is DateTime prunedThrough)
+            {
+                MarkPruned(prunedThrough);
+            }
+
             ResetFault();
         }
     }

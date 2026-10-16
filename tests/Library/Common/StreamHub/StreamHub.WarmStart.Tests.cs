@@ -409,8 +409,9 @@ public class WarmStart : TestBase
     {
         (_, RsiHub rsi) = Chain(Bars.Take(60));
         HubSnapshot<RsiResult> snapshot = rsi.CaptureSnapshot();
+        int capacity = new RollbackRing<int>().Capacity;
 
-        static byte[] Edit(Action<BinaryWriter> tail)
+        byte[] Edit(Action<BinaryWriter> tail)
         {
             // version, avgGain, avgLoss, then the ring
             using MemoryStream stream = new();
@@ -425,28 +426,36 @@ public class WarmStart : TestBase
             return stream.ToArray();
         }
 
-        byte[] negativeCount = Edit(static w => w.Write(-1));
-        byte[] tooMany = Edit(static w => w.Write(40));
-        byte[] badTicks = Edit(static w => {
-            w.Write(1);
-            w.Write(-1L);
+        void Entry(BinaryWriter w, long ticks)
+        {
+            w.Write(ticks);
             w.Write(1.0);
             w.Write(1.0);
-        });
-        byte[] unordered = Edit(static w => {
-            w.Write(2);
-            w.Write(DateTime.UnixEpoch.Ticks + 10);
-            w.Write(1.0);
-            w.Write(1.0);
-            w.Write(DateTime.UnixEpoch.Ticks + 5);
-            w.Write(1.0);
-            w.Write(1.0);
-        });
+        }
 
-        foreach (byte[] state in new[] { negativeCount, tooMany, badTicks, unordered })
+        (string Case, byte[] State, string Message)[] cases = [
+            ("negative count", Edit(static w => w.Write(-1)), "*count -1 is out of range*"),
+            ("count over capacity, complete payload", Edit(w => {
+                w.Write(capacity + 1);
+                for (int i = 0; i <= capacity; i++)
+                {
+                    Entry(w, DateTime.UnixEpoch.Ticks + i);
+                }
+            }), "*count*out of range*"),
+            ("ticks below range", Edit(w => {
+                w.Write(1);
+                Entry(w, -1L);
+            }), "*timestamp is out of range*"),
+            ("ticks above range", Edit(w => {
+                w.Write(1);
+                Entry(w, long.MaxValue);
+            }), "*timestamp is out of range*"),
+        ];
+
+        foreach ((string label, byte[] state, string message) in cases)
         {
             Action restore = () => rsi.RestoreSnapshot(snapshot with { State = state });
-            restore.Should().ThrowExactly<InvalidDataException>();
+            restore.Should().ThrowExactly<InvalidDataException>(label).WithMessage(message, label);
         }
     }
 
@@ -543,5 +552,82 @@ public class WarmStart : TestBase
         Action restore = () => rsi.RestoreSnapshot(snapshot with { State = v1 });
 
         restore.Should().Throw<InvalidDataException>().WithMessage("*State version 1*");
+    }
+
+    [TestMethod]
+    public void Capture_AfterMidTailCorrection_RestoresAndContinues()
+    {
+        // a correction behind the newest bar replays later bars, so the ring is no longer ascending
+        List<Bar> bars = [.. Bars.Take(200)];
+        const int split = 150;
+
+        (BarHub barHub, RsiHub rsi) = Chain(bars.Take(split));
+        Bar revised = Revise(bars[split - 5]);
+        barHub.Add(revised);
+        bars[split - 5] = revised;
+
+        HubSnapshot<IBar> barSnapshot = barHub.CaptureSnapshot();
+        HubSnapshot<RsiResult> rsiSnapshot = rsi.CaptureSnapshot();
+
+        BarHub barHub2 = new();
+        RsiHub rsi2 = barHub2.ToRsiHub(Lookback);
+        barHub2.RestoreSnapshot(barSnapshot);
+        rsi2.RestoreSnapshot(rsiSnapshot);
+
+        rsi2.CaptureSnapshot().State.Should().Equal(rsiSnapshot.State);
+
+        barHub2.Add(bars.Skip(split).ToList());
+
+        rsi2.Results.IsExactly(bars.ToRsi(Lookback));
+    }
+
+    [TestMethod]
+    public void Restore_IntoUsedHub_ReplacesRingEntriesNotJustOverwritesThem()
+    {
+        // a short snapshot ring leaves slots a restore must not inherit from the used hub
+        List<Bar> bars = [.. Bars.Take(60)];
+        (_, RsiHub source) = Chain(bars.Take(20));
+        HubSnapshot<RsiResult> sourceSnapshot = source.CaptureSnapshot();
+
+        // same timestamps, different prices, and more bars than the ring holds
+        (BarHub used, RsiHub usedRsi) = Chain(bars.Take(50).Select(static b => new Bar(
+            b.Timestamp, b.Open, b.High, b.Low, b.Close * b.Close / 100m, b.Volume)));
+        HubSnapshot<IBar> sourceBars = Chain(bars.Take(20)).Bars.CaptureSnapshot();
+
+        used.RestoreSnapshot(sourceBars);
+        usedRsi.RestoreSnapshot(sourceSnapshot);
+
+        usedRsi.CaptureSnapshot().State.Should().Equal(sourceSnapshot.State);
+    }
+
+    [TestMethod]
+    public void Restore_NeverPrunedSnapshot_DoesNotReopenAPrunedSpan()
+    {
+        List<Bar> bars = [.. Bars.Take(260)];
+        BarHub pruned = new(150);
+        pruned.Add(bars);
+
+        BarHub fresh = new(150);
+        fresh.Add(bars.Skip(200).Take(20).ToList());
+        HubSnapshot<IBar> neverPruned = fresh.CaptureSnapshot();
+        neverPruned.PrunedThrough.Should().BeNull();
+
+        pruned.RestoreSnapshot(neverPruned);
+
+        List<BarRejectionReason> reasons = [];
+        pruned.BarRejected += (_, e) => reasons.Add(e.Reason);
+        pruned.Add(bars[10]);
+
+        reasons.Should().Equal(BarRejectionReason.PrunedHistory);
+    }
+
+    [TestMethod]
+    public void Capture_ChainedBarHub_IsNamedLikeARootOne()
+    {
+        BarHub root = new();
+        BarHub chained = new(root);
+
+        chained.Name.Should().Be("BARS");
+        chained.CaptureSnapshot().HubName.Should().Be("BARS");
     }
 }

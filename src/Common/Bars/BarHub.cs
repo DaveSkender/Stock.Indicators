@@ -49,7 +49,11 @@ public class BarHub
     /// <param name="provider">Bar provider.</param>
     public BarHub(
         IBarProvider<IBar> provider)
-        : base(provider) => Reinitialize();
+        : base(provider)
+    {
+        Name = "BARS";
+        Reinitialize();
+    }
 
     /// <summary>
     /// Raised when the hub refuses a bar timestamped before its oldest cached
