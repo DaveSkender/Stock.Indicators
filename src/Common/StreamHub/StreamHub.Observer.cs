@@ -186,8 +186,15 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>, IRele
         => NotifyObserversOnError(exception);
 
     /// <inheritdoc/>
+    /// <remarks>
+    /// Completes this hub's own subscribers after leaving the provider, so
+    /// the end of a transmission reaches every hub chained below it.
+    /// </remarks>
     public void OnCompleted()
-        => Unsubscribe();
+    {
+        Unsubscribe();
+        EndTransmission();
+    }
 
 }
 

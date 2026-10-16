@@ -109,4 +109,23 @@ public class StreamObservables : TestBase, ITestChainProvider
         observer.Unsubscribe();
         barHub.EndTransmission();
     }
+
+    [TestMethod]
+    public void EndTransmissionCompletesChainedHubs()
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50).ToList());
+
+        SmaHub sma = barHub.ToSmaHub(10);
+        EmaHub ema = sma.ToEmaHub(5);
+        EpmaHub epma = barHub.ToEpmaHub(10);
+        MaEnvelopesHub env = barHub.ToMaEnvelopesHub(10, 2.5);
+
+        barHub.EndTransmission();
+
+        sma.IsSubscribed.Should().BeFalse();
+        ema.IsSubscribed.Should().BeFalse();
+        epma.IsSubscribed.Should().BeFalse();
+        env.IsSubscribed.Should().BeFalse();
+    }
 }
