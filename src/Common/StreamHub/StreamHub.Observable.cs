@@ -154,11 +154,21 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
             MinCacheSize = _minCacheSizeBaseline;
         }
 
-        // notify outside the lock; each subscriber removes itself (now a no-op)
+        // notify outside the lock; each subscriber removes itself (now a no-op);
+        // a faulting subscriber is isolated so completion still reaches its siblings
+#pragma warning disable CA1031, RCS1075 // intentional catch-all at an observer-isolation boundary
         foreach (IStreamObserver<TOut> o in snapshot)
         {
-            o.OnCompleted();
+            try
+            {
+                o.OnCompleted();
+            }
+            catch (Exception ex)
+            {
+                IsolateObserverFault(o, ex);
+            }
         }
+#pragma warning restore CA1031, RCS1075
     }
 
     /// <summary>

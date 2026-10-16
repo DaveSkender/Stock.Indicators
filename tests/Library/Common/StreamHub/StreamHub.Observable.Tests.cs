@@ -121,11 +121,63 @@ public class StreamObservables : TestBase, ITestChainProvider
         EpmaHub epma = barHub.ToEpmaHub(10);
         MaEnvelopesHub env = barHub.ToMaEnvelopesHub(10, 2.5);
 
+        CompletionSpy emaSpy = new();
+        CompletionSpy epmaSpy = new();
+        ema.Subscribe(emaSpy);
+        epma.Subscribe(epmaSpy);
+
+        barHub.EndTransmission();
         barHub.EndTransmission();
 
-        sma.IsSubscribed.Should().BeFalse();
-        ema.IsSubscribed.Should().BeFalse();
-        epma.IsSubscribed.Should().BeFalse();
-        env.IsSubscribed.Should().BeFalse();
+        foreach (bool subscribed in new[] { sma.IsSubscribed, ema.IsSubscribed, epma.IsSubscribed, env.IsSubscribed })
+        {
+            subscribed.Should().BeFalse();
+        }
+
+        foreach (int count in new[] { barHub.ObserverCount, sma.ObserverCount, ema.ObserverCount, epma.ObserverCount })
+        {
+            count.Should().Be(0);
+        }
+
+        emaSpy.Completed.Should().Be(1);
+        epmaSpy.Completed.Should().Be(1);
+    }
+
+    [TestMethod]
+    public void EndTransmissionIsolatesFaultingObserver()
+    {
+        BarHub barHub = new();
+        SmaHub sma = barHub.ToSmaHub(10);
+        EmaHub ema = sma.ToEmaHub(5);
+        CompletionSpy emaSpy = new();
+        ema.Subscribe(emaSpy);
+
+        barHub.Subscribe(new CompletionSpy { Throws = true });
+
+        Action end = barHub.EndTransmission;
+
+        end.Should().NotThrow();
+        emaSpy.Completed.Should().Be(1);
+    }
+
+    private sealed class CompletionSpy : IStreamObserver<IReusable>
+    {
+        public int Completed { get; private set; }
+        public bool Throws { get; init; }
+        public bool IsSubscribed => true;
+        public void Unsubscribe() { }
+        public void OnAdd(IReusable item, bool notify, int? indexHint) { }
+        public void OnRebuild(DateTime fromTimestamp) { }
+        public void OnPrune(DateTime toTimestamp) { }
+        public void OnError(Exception exception) { }
+
+        public void OnCompleted()
+        {
+            Completed++;
+            if (Throws)
+            {
+                throw new InvalidOperationException("boom");
+            }
+        }
     }
 }
