@@ -40,6 +40,8 @@ public class SuperTrendHub
     // recent state snapshots for O(1) near-tail rollback
     private readonly RollbackRing<(bool IsBullish, double UpperBand, double LowerBand, double PrevAtr)> _rollback = new();
 
+    private const byte SnapshotStateVersion = 1;
+
     /// <inheritdoc/>
     protected override (SuperTrendResult result, int index)
         ToIndicator(IBar item, int? indexHint)
@@ -174,10 +176,7 @@ public class SuperTrendHub
             ProviderCache[restoreIndex].Timestamp,
             out (bool IsBullish, double UpperBand, double LowerBand, double PrevAtr) snapshot))
         {
-            IsBullish = snapshot.IsBullish;
-            UpperBand = snapshot.UpperBand;
-            LowerBand = snapshot.LowerBand;
-            PrevAtr = snapshot.PrevAtr;
+            RestoreState(snapshot);
             return;
         }
 
@@ -255,6 +254,51 @@ public class SuperTrendHub
             IsBullish = !(close <= (IsBullish ? LowerBand : UpperBand));
         }
     }
+
+    private void RestoreState((bool IsBullish, double UpperBand, double LowerBand, double PrevAtr) snapshot)
+    {
+        IsBullish = snapshot.IsBullish;
+        UpperBand = snapshot.UpperBand;
+        LowerBand = snapshot.LowerBand;
+        PrevAtr = snapshot.PrevAtr;
+    }
+
+    /// <inheritdoc/>
+    private protected override byte[]? CaptureSnapshotState()
+        => SnapshotCodec.Write(SnapshotStateVersion, w => {
+            WriteState(w, (IsBullish, UpperBand, LowerBand, PrevAtr));
+
+            // the rollback ring travels with the state, so corrections right after
+            // a restore take the same path they would have without one
+            SnapshotCodec.WriteRing(w, _rollback, WriteState);
+        });
+
+    /// <inheritdoc/>
+    private protected override void RestoreSnapshotState(ReadOnlySpan<byte> state)
+    {
+        (bool, double, double, double) current = default;
+        List<(DateTime Timestamp, (bool IsBullish, double UpperBand, double LowerBand, double PrevAtr) State)> ring = [];
+
+        SnapshotCodec.Read(state, SnapshotStateVersion, r => {
+            current = ReadState(r);
+            ring = SnapshotCodec.ReadRing(r, _rollback.Capacity, ReadState);
+        });
+
+        RestoreState(current);
+        SnapshotCodec.LoadRing(_rollback, ring);
+    }
+
+    private static void WriteState(
+        BinaryWriter w, (bool IsBullish, double UpperBand, double LowerBand, double PrevAtr) s)
+    {
+        w.Write(s.IsBullish);
+        w.Write(s.UpperBand);
+        w.Write(s.LowerBand);
+        w.Write(s.PrevAtr);
+    }
+
+    private static (bool IsBullish, double UpperBand, double LowerBand, double PrevAtr) ReadState(BinaryReader r)
+        => (r.ReadBoolean(), r.ReadDouble(), r.ReadDouble(), r.ReadDouble());
 }
 
 public static partial class SuperTrend
