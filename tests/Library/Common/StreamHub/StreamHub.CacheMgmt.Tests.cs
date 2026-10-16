@@ -35,9 +35,11 @@ public class CacheManagement : TestBase
     }
 
     [TestMethod]
-    public void RemoveAt_Newest_ThenReAdd_RestoresTheItem()
+    [DataRow(100)]
+    [DataRow(1)] // removing the only item empties the cache
+    public void RemoveAt_Newest_ThenReAdd_RestoresTheItem(int barCount)
     {
-        List<Bar> bars = Bars.Take(100).ToList();
+        List<Bar> bars = Bars.Take(barCount).ToList();
 
         BarHub barHub = new();
         barHub.Add(bars);
