@@ -445,9 +445,10 @@ public class SuperTrendWarmStart : WarmStartCases<SuperTrendResult>
 
     private protected override IReadOnlyList<SuperTrendResult> Series(IReadOnlyList<Bar> bars) => bars.ToSuperTrend(Lookback);
 
-    // before the first band, the ATR seed, the first smoothed ATR, then the first bearish trend,
-    // which a lost direction flag would continue as bullish
-    private protected override int[] WarmupSplits => [0, Lookback, Lookback + 1, Lookback + 2, FirstBearishSplit()];
+    // warmup with no band yet, the ATR seed, the first smoothed ATR, the last bullish bar before the
+    // first flip, then the first bearish trend, which a lost direction flag would continue as bullish
+    private protected override int[] WarmupSplits
+        => [Lookback, Lookback + 1, Lookback + 2, FirstBearishSplit() - 1, FirstBearishSplit()];
 
     private static int FirstBearishSplit()
     {
