@@ -19,6 +19,8 @@ public class ParabolicSarHub
     // recent state snapshots for O(1) near-tail rollback
     private readonly RollbackRing<SarState> _rollback = new();
 
+    private const byte SnapshotStateVersion = 1;
+
     // snapshot of mutable scalar/flag state recorded after each processed item
     private readonly record struct SarState(
         double AccelerationFactor,
@@ -218,6 +220,94 @@ public class ParabolicSarHub
         return (result, i);
     }
 
+    private void RestoreState(in SarState snapshot)
+    {
+        _accelerationFactor = snapshot.AccelerationFactor;
+        _extremePoint = snapshot.ExtremePoint;
+        _priorSar = snapshot.PriorSar;
+        _isRising = snapshot.IsRising;
+        _isInitialized = snapshot.IsInitialized;
+        _firstReversalFound = snapshot.FirstReversalFound;
+    }
+
+    /// <inheritdoc/>
+    private protected override byte[]? CaptureSnapshotState()
+        => SnapshotCodec.Write(SnapshotStateVersion, w => {
+            WriteState(w, new SarState(
+                _accelerationFactor, _extremePoint, _priorSar,
+                _isRising, _isInitialized, _firstReversalFound));
+
+            w.Write(_buffer.Count);
+
+            foreach ((double high, double low) in _buffer)
+            {
+                w.Write(high);
+                w.Write(low);
+            }
+
+            // the rollback ring travels with the state, so corrections right after
+            // a restore take the same path they would have without one
+            SnapshotCodec.WriteRing(w, _rollback, WriteState);
+        });
+
+    /// <inheritdoc/>
+    private protected override void RestoreSnapshotState(ReadOnlySpan<byte> state)
+    {
+        SarState current = default;
+        (double High, double Low)[] buffer = [];
+        List<(DateTime Timestamp, SarState State)> ring = [];
+
+        SnapshotCodec.Read(state, SnapshotStateVersion, r => {
+            current = ReadState(r);
+
+            int count = r.ReadInt32();
+
+            if (count is < 0 or > 2)
+            {
+                throw new InvalidDataException($"Prior-bar count {count} is out of range.");
+            }
+
+            buffer = new (double High, double Low)[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                buffer[i] = (r.ReadDouble(), r.ReadDouble());
+            }
+
+            ring = SnapshotCodec.ReadRing(r, _rollback.Capacity, ReadState);
+        });
+
+        RestoreState(current);
+
+        _buffer.Clear();
+
+        foreach ((double High, double Low) bar in buffer)
+        {
+            _buffer.Enqueue(bar);
+        }
+
+        SnapshotCodec.LoadRing(_rollback, ring);
+    }
+
+    private static void WriteState(BinaryWriter w, SarState s)
+    {
+        w.Write(s.AccelerationFactor);
+        w.Write(s.ExtremePoint);
+        w.Write(s.PriorSar);
+        w.Write(s.IsRising);
+        w.Write(s.IsInitialized);
+        w.Write(s.FirstReversalFound);
+    }
+
+    private static SarState ReadState(BinaryReader r)
+        => new(
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadBoolean(),
+            r.ReadBoolean(),
+            r.ReadBoolean());
+
     /// <summary>
     /// Gets the two buffered prior bars (oldest first) without
     /// boxing the queue enumerator, unlike LINQ <c>ElementAt</c>.
@@ -249,12 +339,7 @@ public class ParabolicSarHub
         // case for live corrections and forming-bar updates)
         if (_rollback.TryGet(ProviderCache[restoreIndex].Timestamp, out SarState snapshot))
         {
-            _accelerationFactor = snapshot.AccelerationFactor;
-            _extremePoint = snapshot.ExtremePoint;
-            _priorSar = snapshot.PriorSar;
-            _isRising = snapshot.IsRising;
-            _isInitialized = snapshot.IsInitialized;
-            _firstReversalFound = snapshot.FirstReversalFound;
+            RestoreState(snapshot);
 
             // Rebuild the prior-bar buffer exactly as sequential processing
             // would leave it: the last two bars up to restoreIndex (only the

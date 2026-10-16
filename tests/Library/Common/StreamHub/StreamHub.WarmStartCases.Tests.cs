@@ -33,6 +33,12 @@ public abstract class WarmStartCases<TIn, TResult> : TestBase
     /// </summary>
     private protected abstract string[] StateMembers { get; }
 
+    /// <summary>
+    /// Gets a provider cache limit short enough that a replay from the pruned provider
+    /// reaches a different state than the restored rollback ring.
+    /// </summary>
+    private protected virtual int PrunedCacheSize => 150;
+
     private (BarHub Bars, StreamHub<TIn, TResult> Hub) Chain(IEnumerable<Bar> bars, int? maxCacheSize = null)
     {
         BarHub barHub = new(maxCacheSize);
@@ -87,12 +93,12 @@ public abstract class WarmStartCases<TIn, TResult> : TestBase
     }
 
     [TestMethod]
-    [DataRow(0)]
-    [DataRow(150)]
-    public void Restore_ThenCorrectNewest_MatchesAnUninterruptedChain(int cacheLimit)
+    [DataRow(false)]
+    [DataRow(true)]
+    public void Restore_ThenCorrectNewest_MatchesAnUninterruptedChain(bool pruned)
     {
         // a pruned provider is where a replay from the provider differs from the restored ring
-        int? maxCacheSize = cacheLimit == 0 ? null : cacheLimit;
+        int? maxCacheSize = pruned ? PrunedCacheSize : null;
         List<Bar> bars = [.. Bars.Take(300)];
         const int split = 220;
 
@@ -100,11 +106,15 @@ public abstract class WarmStartCases<TIn, TResult> : TestBase
         (BarHub restoredBars, StreamHub<TIn, TResult> restored, _) = StartFromSnapshot(bars, split, maxCacheSize);
 
         Bar revised = Revise(bars[split - 1]);
-        foreach (BarHub hub in new[] { uninterruptedBars, restoredBars })
-        {
-            hub.Add(revised);
-            hub.Add(bars.Skip(split).ToList());
-        }
+        uninterruptedBars.Add(revised);
+        restoredBars.Add(revised);
+
+        // compared before more bars arrive: a hub whose state resets on reversal can
+        // converge again and prune the difference away
+        restored.Results.IsExactly(uninterrupted.Results);
+
+        uninterruptedBars.Add(bars.Skip(split).ToList());
+        restoredBars.Add(bars.Skip(split).ToList());
 
         restored.Results.IsExactly(uninterrupted.Results);
         restoredBars.Cache.Should().Equal(uninterruptedBars.Cache);
@@ -360,4 +370,59 @@ public class KvoWarmStart : WarmStartCases<IBar, KvoResult>
 
     // empty hub, HLC basis, trend seed, first volume force, then just after the fast, slow and signal seeds
     private protected override int[] WarmupSplits => [0, 1, 2, 3, Fast + 2, Slow + 2, Slow + Signal + 1];
+}
+
+[TestClass]
+public class ParabolicSarWarmStart : WarmStartCases<ParabolicSarResult>
+{
+    private protected override StreamHub<IBar, ParabolicSarResult> Subscribe(BarHub barHub) => barHub.ToParabolicSarHub();
+
+    private protected override IReadOnlyList<ParabolicSarResult> Series(IReadOnlyList<Bar> bars) => bars.ToParabolicSar();
+
+    // first bar, one prior bar buffered, both prior bars buffered, then the first falling trend,
+    // which a lost direction flag would continue as rising
+    private protected override int[] WarmupSplits => [0, 1, 2, 3, FirstFallingSplit()];
+
+    // a reversal resets the state, so the replay window must not reach one
+    private protected override int PrunedCacheSize => 5;
+
+    private static int FirstFallingSplit()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(100).ToList();
+        IReadOnlyList<ParabolicSarResult> series = bars.ToParabolicSar();
+
+        for (int i = 2; i < series.Count; i++)
+        {
+            if (series[i].Sar > (double)bars[i].High)
+            {
+                return i + 1;
+            }
+        }
+
+        throw new InvalidOperationException("Test data has no falling trend.");
+    }
+
+    [TestMethod]
+    [DataRow(-1)]
+    [DataRow(3)]
+    public void Restore_PriorBarCountOutOfRange_Throws(int count)
+    {
+        BarHub barHub = new();
+        ParabolicSarHub hub = barHub.ToParabolicSarHub();
+        barHub.Add(Bars.Take(50).ToList());
+        HubSnapshot<ParabolicSarResult> snapshot = hub.CaptureSnapshot();
+
+        // version, three doubles and three flags precede the prior-bar count
+        const int countOffset = 1 + (3 * sizeof(double)) + 3;
+        byte[] state = [.. snapshot.State];
+        BitConverter.ToInt32(state, countOffset).Should().Be(2);
+        BitConverter.GetBytes(count).CopyTo(state, countOffset);
+
+        // one more well-formed pair, so only the count bound can reject it
+        const int ringOffset = countOffset + sizeof(int) + (2 * 2 * sizeof(double));
+        byte[] bad = [.. state[..ringOffset], .. new byte[2 * sizeof(double)], .. state[ringOffset..]];
+
+        Action act = () => hub.RestoreSnapshot(snapshot with { State = bad });
+        act.Should().ThrowExactly<InvalidDataException>();
+    }
 }
