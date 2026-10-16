@@ -24,7 +24,7 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     private readonly Action? _endTransmission;
     private readonly Action? _closed;
     private volatile ExceptionDispatchInfo? _fault;
-    private int _disposed;
+    private readonly Lazy<Task> _disposal;
 
     internal StreamFeed(
         Action<TIn> add,
@@ -35,6 +35,7 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     {
         _endTransmission = endTransmission;
         _closed = closed;
+        _disposal = new Lazy<Task>(DisposeCore);
 
         _channel = Channel.CreateBounded<TIn>(
             new BoundedChannelOptions(capacity) {
@@ -85,30 +86,21 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     /// Waiting for the queue to drain cannot be canceled, and takes as long as the hub needs
     /// to apply what is queued.  If the hub rejected an item, this throws its original
     /// exception and does not end the transmission, so subscribers are not completed.
+    /// Every call, including an overlapping one, returns the same disposal and waits for it.
     /// Do not dispose the feed from an observer callback: callbacks run on the consumer
     /// task, which would then wait for itself.
     /// </remarks>
-    public async ValueTask DisposeAsync()
-    {
-        if (Interlocked.Exchange(ref _disposed, 1) == 1)
-        {
-            return;
-        }
+    public ValueTask DisposeAsync() => new(_disposal.Value);
 
+    private async Task DisposeCore()
+    {
         try
         {
             _channel.Writer.TryComplete();
 
-            try
-            {
-                await Completion.ConfigureAwait(false);
-            }
-#pragma warning disable CA1031, RCS1075 // the consumer's fault is rethrown below with its original stack
-            catch (Exception)
-            {
-                // observed here; _fault carries it
-            }
-#pragma warning restore CA1031, RCS1075
+            // a wait that does not throw, so the hub's original exception is rethrown below
+            await Task.WhenAny(Completion).ConfigureAwait(false);
+            _ = Completion.Exception; // observed here; _fault carries it
 
             _fault?.Throw();
             _endTransmission?.Invoke();
@@ -120,7 +112,6 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     }
 
     // an item that throws stops the loop; later writers see the fault rather than a stalled queue
-#pragma warning disable CA1031, RCS1075 // intentional catch-all at the consumer boundary
     private async Task Drain(Action<TIn> add)
     {
         try
@@ -137,5 +128,4 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
             throw;
         }
     }
-#pragma warning restore CA1031, RCS1075
 }

@@ -109,7 +109,7 @@ public class Feed : TestBase
             blocked.IsCompleted.Should().BeFalse();
 
             gate.Release();
-            await blocked.ConfigureAwait(true);
+            await blocked.AsTask().WaitAsync(Budget, TestContext.CancellationToken).ConfigureAwait(true);
         }
         finally
         {
@@ -191,7 +191,7 @@ public class Feed : TestBase
 
         Func<Task> write = async () => await feed.WriteAsync(Bars[0], TestContext.CancellationToken).ConfigureAwait(false);
 
-        await write.Should().ThrowAsync<InvalidOperationException>().ConfigureAwait(true);
+        await write.Should().ThrowExactlyAsync<InvalidOperationException>().ConfigureAwait(true);
         await feed.DisposeAsync().ConfigureAwait(false); // second dispose is a no-op
     }
 
@@ -432,5 +432,68 @@ public class Feed : TestBase
 
         StreamFeed<IBar> next = hub.CreateFeed();
         await next.DisposeAsync().ConfigureAwait(true);
+    }
+
+    [TestMethod]
+    public async Task Feed_Completion_PendingUntilDisposed_ThenRanToCompletion()
+    {
+        BarHub hub = new();
+        StreamFeed<IBar> feed = hub.CreateFeed();
+
+        feed.Completion.IsCompleted.Should().BeFalse();
+
+        await feed.DisposeAsync().ConfigureAwait(true);
+
+        feed.Completion.Status.Should().Be(TaskStatus.RanToCompletion);
+    }
+
+    [TestMethod]
+    public async Task Feed_OverlappingDispose_BothWaitForTheDrain()
+    {
+        BarHub hub = new();
+        using GateObserver gate = new();
+        hub.Subscribe(gate);
+
+        StreamFeed<IBar> feed = hub.CreateFeed();
+        Task first = Task.CompletedTask;
+        Task second = Task.CompletedTask;
+
+        try
+        {
+            await feed.WriteAsync(Bars[0], TestContext.CancellationToken).ConfigureAwait(true);
+            gate.WaitEntered();
+
+            first = feed.DisposeAsync().AsTask();
+            second = feed.DisposeAsync().AsTask();
+
+            second.IsCompleted.Should().BeFalse("the second caller waits for the drain too");
+        }
+        finally
+        {
+            gate.Release();
+            await Task.WhenAll(first, second).ConfigureAwait(true);
+        }
+
+        hub.Cache.Should().HaveCount(1);
+    }
+
+    [TestMethod]
+    public async Task Feed_EndTransmissionThrows_StillReleasesHub()
+    {
+        int closedCalls = 0;
+
+#pragma warning disable CA2000 // disposed below, where the exception is asserted
+        StreamFeed<int> feed = new(
+            static _ => { },
+            capacity: 1,
+            StreamFeedFullMode.Wait,
+            endTransmission: static () => throw new InvalidOperationException("end"),
+            closed: () => closedCalls++);
+#pragma warning restore CA2000
+
+        Func<Task> dispose = async () => await feed.DisposeAsync().ConfigureAwait(true);
+
+        await dispose.Should().ThrowAsync<InvalidOperationException>().WithMessage("end").ConfigureAwait(true);
+        closedCalls.Should().Be(1);
     }
 }

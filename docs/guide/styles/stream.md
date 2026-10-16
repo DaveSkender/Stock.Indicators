@@ -135,7 +135,7 @@ The event fires while the hub holds its lock, so keep handlers fast and non-thro
 Stream hubs follow a **single-writer** model. Internal locking protects cache *integrity* during the rebuild and rollback that out-of-order data triggers — but it does **not** make concurrent mutation safe. Two threads calling mutating methods at the same time can still interleave incorrectly.
 
 - **Internal locking** guards the cache so a rebuild never exposes a half-updated state to readers.
-- **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock or a [feed](#feeding-from-many-threads)).
+- **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock). A [feed](#feeding-from-many-threads) serializes `Add` only.
 - **Single-threaded usage** requires no additional synchronization.
 - **Multi-threaded usage** must serialize every external call that mutates the hub; reads of `Results` should also be coordinated with the writer (see the example below).
 
@@ -157,7 +157,8 @@ await feed.WriteAsync(bar, cancellationToken);  // safe from any thread
 - While a feed is open, send every mutation through it. `RemoveAt`, `RemoveRange`, `Rebuild`, and `Reinitialize` cannot be queued behind its items, so call them only after the feed is disposed.
 - Observer callbacks run on the feed's consumer task, not on the thread that wrote the item. Read results from another thread with `Snapshot()`, and never dispose the feed from a callback, which would wait on itself.
 - Disposing the feed stops new writes and applies what is queued first; that wait cannot be canceled. With `endTransmissionOnDispose`, it then calls `EndTransmission()`.
-- If the hub rejects an item, the feed stops. `Completion`, the next `WriteAsync`, and `DisposeAsync` throw the hub's exception, and `DisposeAsync` does not end the transmission.
+- If the hub throws while applying an item, the feed stops. `Completion`, the next `WriteAsync`, and `DisposeAsync` throw the hub's exception, and `DisposeAsync` does not end the transmission. Bars the hub refuses by raising `BarRejected` do not stop the feed.
+- `DisposeAsync` throws the hub's exception when the feed faulted, which can replace an exception already in flight in an `await using` block. Catch around the block if you need both.
 
 ### What's safe, and what to avoid
 
