@@ -181,6 +181,9 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
     /// Calculates the result for one bar from the rolling buffers and the bounded history,
     /// indexed by rows seen so a pruned result list does not shift the lookbacks.
     /// </summary>
+    /// <param name="bar">Bar to calculate from.</param>
+    /// <param name="chikouSpan">Lagging span for this row when it is known up front.</param>
+    /// <returns>The result for the bar.</returns>
     private IchimokuResult Calculate(IBar bar, double? chikouSpan)
     {
         int index = _rowsSeen++;
