@@ -45,6 +45,8 @@ public abstract partial class StreamHub<TIn, TOut>
     /// inputs its restored results were computed from. Subscribers are not told, so
     /// restore each of them the same way; one that does not support snapshots keeps its
     /// old cache, and needs <c>Rebuild()</c> after its provider is restored.
+    /// A hub keeps the later of its own and the snapshot's pruned boundary, so restore into
+    /// a fresh hub: a used hub that pruned further refuses bars the snapshot's hub accepted.
     /// </remarks>
     /// <param name="snapshot">Snapshot captured from a hub with the same name.</param>
     /// <exception cref="InvalidDataException">
