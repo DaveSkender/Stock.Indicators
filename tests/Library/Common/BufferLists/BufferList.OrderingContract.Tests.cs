@@ -114,14 +114,18 @@ public class OrderingContract : TestBase
     [TestMethod]
     public void Strict_AfterPruning_ComparesAgainstNewestRetained()
     {
-        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
+        IReadOnlyList<Bar> bars = Bars.Take(61).ToList();
 
         SmaList sut = new(5) { MaxListSize = 3, ThrowOnOutOfOrder = true };
-        sut.Add(bars);
+        sut.Add(bars.Take(60).ToList());
 
         sut.Should().HaveCount(3);
         Action stale = () => sut.Add(bars[10]);
         stale.Should().Throw<InvalidOperationException>();
+
+        // the next bar is newer than every retained row, so pruning never rejects it
+        Action next = () => sut.Add(bars[60]);
+        next.Should().NotThrow();
     }
 
     [TestMethod]
@@ -189,5 +193,34 @@ public class OrderingContract : TestBase
         Action add = () => sut.Add(bars[^1]);
 
         add.Should().Throw<InvalidOperationException>().WithMessage("ObvList*");
+    }
+
+    [TestMethod]
+    public void Strict_Renko_EarlierBrickTimestamp_Throws()
+    {
+        Bar last = Bars[^1];
+        decimal jump = last.Close + 50m;
+
+        // an earlier bar with a large move completes bricks stamped before the last one
+        Bar earlier = new(
+            Timestamp: Bars[10].Timestamp,
+            Open: last.Close,
+            High: jump,
+            Low: last.Close,
+            Close: jump,
+            Volume: 1000m);
+
+        RenkoList control = new(1m);
+        control.Add(Bars);
+        int before = control.Count;
+        control.Add(earlier);
+        control.Count.Should().BeGreaterThan(before, "the probe bar must complete a brick");
+
+        RenkoList sut = new(1m) { ThrowOnOutOfOrder = true };
+        sut.Add(Bars);
+
+        Action add = () => sut.Add(earlier);
+
+        add.Should().Throw<InvalidOperationException>();
     }
 }
