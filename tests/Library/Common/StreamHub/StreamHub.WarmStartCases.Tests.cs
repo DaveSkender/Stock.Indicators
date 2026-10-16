@@ -379,9 +379,10 @@ public class ParabolicSarWarmStart : WarmStartCases<ParabolicSarResult>
 
     private protected override IReadOnlyList<ParabolicSarResult> Series(IReadOnlyList<Bar> bars) => bars.ToParabolicSar();
 
-    // first bar, one prior bar buffered, both prior bars buffered, then the first falling trend,
-    // which a lost direction flag would continue as rising
-    private protected override int[] WarmupSplits => [0, 1, 2, 3, FirstFallingSplit()];
+    // empty hub, first bar, two bars buffered, the buffer rolling, the last bar before the first
+    // reversal (AF at its maximum in this data), then the first falling trend, which a lost
+    // direction flag would continue as rising
+    private protected override int[] WarmupSplits => [0, 1, 2, 3, FirstFallingSplit() - 1, FirstFallingSplit()];
 
     // a reversal resets the state, so the replay window must not reach one
     private protected override int PrunedCacheSize => 5;
