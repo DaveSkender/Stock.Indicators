@@ -386,17 +386,80 @@ public class WarmStart : TestBase
     {
         (BarHub barHub, RsiHub rsi) = Chain(Bars.Take(60));
         HubSnapshot<RsiResult> good = rsi.CaptureSnapshot();
-        (_, RsiHub other) = Chain(Bars.Take(60).Select(Revise));
-        HubSnapshot<RsiResult> bad = other.CaptureSnapshot() with { State = [1] };
+
+        // other results (scaled closes change the differences), under a state that cannot decode
+        (_, RsiHub other) = Chain(Bars.Take(60).Select(static b => new Bar(
+            b.Timestamp, b.Open, b.High, b.Low, b.Close * b.Close / 100m, b.Volume)));
+        HubSnapshot<RsiResult> bad = other.CaptureSnapshot() with { State = [2] };
+        bad.Results.Should().NotEqual(good.Results);
 
         Action restore = () => rsi.RestoreSnapshot(bad);
 
         restore.Should().Throw<InvalidDataException>();
         rsi.Cache.Should().Equal(good.Results);
+        rsi.CaptureSnapshot().State.Should().Equal(good.State);
 
         // and it still computes correctly afterwards
         barHub.Add(Bars.Skip(60).Take(20).ToList());
         rsi.Results.IsExactly(Bars.Take(80).ToList().ToRsi(Lookback));
+    }
+
+    [TestMethod]
+    public void Restore_BadRingEntries_ThrowInvalidData()
+    {
+        (_, RsiHub rsi) = Chain(Bars.Take(60));
+        HubSnapshot<RsiResult> snapshot = rsi.CaptureSnapshot();
+
+        static byte[] Edit(Action<BinaryWriter> tail)
+        {
+            // version, avgGain, avgLoss, then the ring
+            using MemoryStream stream = new();
+            using (BinaryWriter w = new(stream))
+            {
+                w.Write((byte)2);
+                w.Write(1.0);
+                w.Write(1.0);
+                tail(w);
+            }
+
+            return stream.ToArray();
+        }
+
+        byte[] negativeCount = Edit(static w => w.Write(-1));
+        byte[] tooMany = Edit(static w => w.Write(40));
+        byte[] badTicks = Edit(static w => {
+            w.Write(1);
+            w.Write(-1L);
+            w.Write(1.0);
+            w.Write(1.0);
+        });
+        byte[] unordered = Edit(static w => {
+            w.Write(2);
+            w.Write(DateTime.UnixEpoch.Ticks + 10);
+            w.Write(1.0);
+            w.Write(1.0);
+            w.Write(DateTime.UnixEpoch.Ticks + 5);
+            w.Write(1.0);
+            w.Write(1.0);
+        });
+
+        foreach (byte[] state in new[] { negativeCount, tooMany, badTicks, unordered })
+        {
+            Action restore = () => rsi.RestoreSnapshot(snapshot with { State = state });
+            restore.Should().ThrowExactly<InvalidDataException>();
+        }
+    }
+
+    [TestMethod]
+    public void Capture_ResultsAreReadOnly_AndRootHubIsNamed()
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(10).ToList());
+
+        HubSnapshot<IBar> snapshot = barHub.CaptureSnapshot();
+
+        snapshot.Results.Should().NotBeAssignableTo<IBar[]>();
+        snapshot.HubName.Should().Be("BARS");
     }
 
     [TestMethod]

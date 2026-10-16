@@ -14,7 +14,7 @@ public class RsiHub
     private double _avgGain = double.NaN;
     private double _avgLoss = double.NaN;
 
-    private const byte SnapshotStateVersion = 1;
+    private const byte SnapshotStateVersion = 2;
 
     // recent state snapshots for O(1) near-tail rollback
     private readonly RollbackRing<(double AvgGain, double AvgLoss)> _rollback = new();
@@ -142,9 +142,30 @@ public class RsiHub
 
             int count = r.ReadInt32();
 
+            if (count < 0 || count > _rollback.Capacity)
+            {
+                throw new InvalidDataException($"Rollback entry count {count} is out of range.");
+            }
+
+            DateTime previous = DateTime.MinValue;
+
             for (int i = 0; i < count; i++)
             {
-                DateTime timestamp = new(r.ReadInt64(), DateTimeKind.Unspecified);
+                long ticks = r.ReadInt64();
+
+                if (ticks < DateTime.MinValue.Ticks || ticks > DateTime.MaxValue.Ticks)
+                {
+                    throw new InvalidDataException("Rollback entry timestamp is out of range.");
+                }
+
+                DateTime timestamp = new(ticks, DateTimeKind.Unspecified);
+
+                if (timestamp <= previous && i > 0)
+                {
+                    throw new InvalidDataException("Rollback entries are not in ascending order.");
+                }
+
+                previous = timestamp;
                 ring.Add((timestamp, (r.ReadDouble(), r.ReadDouble())));
             }
         });
