@@ -41,7 +41,12 @@ internal static class SnapshotCodec
         using MemoryStream stream = new(state.ToArray());
         using BinaryReader reader = new(stream);
 
-        byte found = stream.Length > 0 ? reader.ReadByte() : (byte)0;
+        if (stream.Length == 0)
+        {
+            throw new InvalidDataException("State is empty.");
+        }
+
+        byte found = reader.ReadByte();
 
         if (found != version)
         {

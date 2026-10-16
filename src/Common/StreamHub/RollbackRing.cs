@@ -102,6 +102,19 @@ internal sealed class RollbackRing<TState>
     }
 
     /// <summary>
+    /// Gets the retained snapshots, oldest first.
+    /// </summary>
+    /// <returns>Each snapshot's timestamp and state.</returns>
+    internal IEnumerable<(DateTime Timestamp, TState State)> Entries()
+    {
+        for (int back = _count; back >= 1; back--)
+        {
+            int index = (_next - back + _capacity) % _capacity;
+            yield return (_timestamps[index], _states[index]);
+        }
+    }
+
+    /// <summary>
     /// Removes all snapshots.
     /// </summary>
     internal void Clear()

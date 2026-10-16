@@ -28,7 +28,12 @@ public abstract partial class StreamHub<TIn, TOut>
             byte[] state = CaptureSnapshotState()
                 ?? throw new NotSupportedException($"{Name} does not support state snapshots.");
 
-            return new HubSnapshot<TOut>(HubSnapshot.FormatVersion, Name, Cache.ToArray(), state);
+            return new HubSnapshot<TOut>(
+                HubSnapshot.FormatVersion,
+                Name,
+                PrunedThrough,
+                Cache.ToArray().AsReadOnly(),
+                state);
         }
     }
 
@@ -38,7 +43,8 @@ public abstract partial class StreamHub<TIn, TOut>
     /// <remarks>
     /// Restore from the root hub outward: a chained hub's provider must already hold the
     /// inputs its restored results were computed from. Subscribers are not told, so
-    /// restore each of them the same way.
+    /// restore each of them the same way; one that does not support snapshots keeps its
+    /// old cache, and needs <c>Rebuild()</c> after its provider is restored.
     /// </remarks>
     /// <param name="snapshot">Snapshot captured from a hub with the same name.</param>
     /// <exception cref="InvalidDataException">
@@ -73,7 +79,8 @@ public abstract partial class StreamHub<TIn, TOut>
             if (!IsRootHub
                 && (snapshot.Results.Count != ProviderCache.Count
                     || (snapshot.Results.Count > 0
-                        && snapshot.Results[^1].Timestamp != ProviderCache[^1].Timestamp)))
+                        && (snapshot.Results[0].Timestamp != ProviderCache[0].Timestamp
+                            || snapshot.Results[^1].Timestamp != ProviderCache[^1].Timestamp))))
             {
                 throw new InvalidDataException(
                     $"{Name} results do not line up with its provider; restore the provider first.");
@@ -89,6 +96,8 @@ public abstract partial class StreamHub<TIn, TOut>
             }
 
             LastItem = Cache.Count > 0 ? Cache[^1] : default;
+            PrunedThrough = snapshot.PrunedThrough;
+            ResetFault();
         }
     }
 }

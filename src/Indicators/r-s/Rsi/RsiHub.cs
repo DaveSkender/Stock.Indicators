@@ -14,6 +14,8 @@ public class RsiHub
     private double _avgGain = double.NaN;
     private double _avgLoss = double.NaN;
 
+    private const byte SnapshotStateVersion = 1;
+
     // recent state snapshots for O(1) near-tail rollback
     private readonly RollbackRing<(double AvgGain, double AvgLoss)> _rollback = new();
 
@@ -108,13 +110,23 @@ public class RsiHub
         return (r, i);
     }
 
-    private const byte SnapshotStateVersion = 1;
-
     /// <inheritdoc/>
     private protected override byte[]? CaptureSnapshotState()
         => SnapshotCodec.Write(SnapshotStateVersion, w => {
             w.Write(_avgGain);
             w.Write(_avgLoss);
+
+            // the rollback ring travels with the state, so corrections right after
+            // a restore take the same path they would have without one
+            (DateTime Timestamp, (double AvgGain, double AvgLoss) State)[] ring = [.. _rollback.Entries()];
+            w.Write(ring.Length);
+
+            foreach ((DateTime timestamp, (double avgGain, double avgLoss)) in ring)
+            {
+                w.Write(timestamp.Ticks);
+                w.Write(avgGain);
+                w.Write(avgLoss);
+            }
         });
 
     /// <inheritdoc/>
@@ -122,17 +134,30 @@ public class RsiHub
     {
         double avgGain = 0;
         double avgLoss = 0;
+        List<(DateTime Timestamp, (double AvgGain, double AvgLoss) State)> ring = [];
 
         SnapshotCodec.Read(state, SnapshotStateVersion, r => {
             avgGain = r.ReadDouble();
             avgLoss = r.ReadDouble();
+
+            int count = r.ReadInt32();
+
+            for (int i = 0; i < count; i++)
+            {
+                DateTime timestamp = new(r.ReadInt64(), DateTimeKind.Unspecified);
+                ring.Add((timestamp, (r.ReadDouble(), r.ReadDouble())));
+            }
         });
 
         _avgGain = avgGain;
         _avgLoss = avgLoss;
 
-        // snapshots recorded before the restore describe items that are gone
         _rollback.Clear();
+
+        foreach ((DateTime timestamp, (double, double) snapshot) in ring)
+        {
+            _rollback.Add(timestamp, snapshot);
+        }
     }
 
     /// <summary>

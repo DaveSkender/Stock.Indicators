@@ -6,25 +6,26 @@ public class WarmStart : TestBase
     private const int Lookback = 14;
     private const int Split = 120;
 
-    private static (BarHub Bars, RsiHub Rsi) Chain(IEnumerable<Bar> bars, int lookback = Lookback)
+    private static (BarHub Bars, RsiHub Rsi) Chain(IEnumerable<Bar> bars, int lookback = Lookback, int? maxCacheSize = null)
     {
-        BarHub barHub = new();
+        BarHub barHub = new(maxCacheSize);
         RsiHub rsi = barHub.ToRsiHub(lookback);
         barHub.Add(bars.ToList());
         return (barHub, rsi);
     }
 
     /// <summary>
-    /// Builds a warm-started chain: restored from the first <see cref="Split"/> bars' snapshots,
+    /// Builds a warm-started chain: restored from snapshots of the first <paramref name="split"/> bars,
     /// with no history replay through the indicator.
     /// </summary>
-    private static (BarHub Bars, RsiHub Rsi, HubSnapshot<RsiResult> RsiSnapshot) StartFromSnapshot(IReadOnlyList<Bar> bars)
+    private static (BarHub Bars, RsiHub Rsi, HubSnapshot<RsiResult> RsiSnapshot) StartFromSnapshot(
+        IReadOnlyList<Bar> bars, int split = Split, int? maxCacheSize = null)
     {
-        (BarHub source, RsiHub sourceRsi) = Chain(bars.Take(Split));
+        (BarHub source, RsiHub sourceRsi) = Chain(bars.Take(split), maxCacheSize: maxCacheSize);
         HubSnapshot<IBar> barSnapshot = source.CaptureSnapshot();
         HubSnapshot<RsiResult> rsiSnapshot = sourceRsi.CaptureSnapshot();
 
-        BarHub barHub = new();
+        BarHub barHub = new(maxCacheSize);
         RsiHub rsi = barHub.ToRsiHub(Lookback);
 
         barHub.RestoreSnapshot(barSnapshot);
@@ -32,6 +33,9 @@ public class WarmStart : TestBase
 
         return (barHub, rsi, rsiSnapshot);
     }
+
+    private static Bar Revise(Bar bar)
+        => new(bar.Timestamp, bar.Open, bar.High + 1m, bar.Low, bar.Close + 0.5m, bar.Volume);
 
     [TestMethod]
     public void Restore_ResumesBitExact_WithoutReplayingHistory()
@@ -166,25 +170,6 @@ public class WarmStart : TestBase
     }
 
     [TestMethod]
-    public void Restore_PreservesNaNState()
-    {
-        // a NaN input contaminates the averages; restore must keep the exact bits
-        List<Bar> bars = [.. Bars.Take(60)];
-        (BarHub barHub, RsiHub rsi) = Chain(bars);
-
-        Bar last = bars[^1];
-        barHub.Add(new Bar(last.Timestamp.AddDays(1), 0m, 0m, 0m, 0m, 0m));
-        HubSnapshot<RsiResult> snapshot = rsi.CaptureSnapshot();
-
-        BarHub barHub2 = new();
-        RsiHub rsi2 = barHub2.ToRsiHub(Lookback);
-        barHub2.RestoreSnapshot(barHub.CaptureSnapshot());
-        rsi2.RestoreSnapshot(snapshot);
-
-        rsi2.CaptureSnapshot().State.Should().Equal(snapshot.State);
-    }
-
-    [TestMethod]
     public void Capture_UnsupportedHub_Throws()
     {
         BarHub barHub = new();
@@ -248,6 +233,234 @@ public class WarmStart : TestBase
             last.Timestamp, last.Open, last.High + 1m, last.Low, last.Close + 0.5m, last.Volume);
         barHub.Add(revised);
         bars[Split - 1] = revised;
+        barHub.Add(bars.Skip(Split).ToList());
+
+        rsi.Results.IsExactly(bars.ToRsi(Lookback));
+    }
+
+    [TestMethod]
+    [DataRow(0)]
+    [DataRow(10)]
+    [DataRow(13)]
+    [DataRow(14)]
+    public void Restore_DuringWarmup_ContinuesBitExact(int split)
+    {
+        // before the first calculable position the averages are NaN, and must survive as NaN
+        IReadOnlyList<Bar> bars = Bars.Take(100).ToList();
+
+        (BarHub barHub, RsiHub rsi, HubSnapshot<RsiResult> snapshot) = StartFromSnapshot(bars, split);
+
+        rsi.CaptureSnapshot().State.Should().Equal(snapshot.State);
+
+        barHub.Add(bars.Skip(split).ToList());
+
+        rsi.Results.IsExactly(bars.ToRsi(Lookback));
+    }
+
+    [TestMethod]
+    [DataRow(0)]
+    [DataRow(150)]
+    public void Restore_ThenCorrectNewest_MatchesAnUninterruptedChain(int cacheLimit)
+    {
+        int? maxCacheSize = cacheLimit == 0 ? null : cacheLimit;
+        // a pruned provider is where a replay from the provider differs from the live path
+        List<Bar> bars = [.. Bars.Take(300)];
+        const int split = 220;
+
+        (BarHub uninterruptedBars, RsiHub uninterrupted) = Chain(bars.Take(split), maxCacheSize: maxCacheSize);
+        (BarHub restoredBars, RsiHub restored, _) = StartFromSnapshot(bars, split, maxCacheSize);
+
+        Bar revised = Revise(bars[split - 1]);
+        foreach (BarHub hub in new[] { uninterruptedBars, restoredBars })
+        {
+            hub.Add(revised);
+            hub.Add(bars.Skip(split).ToList());
+        }
+
+        restored.Results.IsExactly(uninterrupted.Results);
+        restoredBars.Cache.Should().Equal(uninterruptedBars.Cache);
+    }
+
+    [TestMethod]
+    public void Restore_RepeatedNewestUpdates_KeepRollingBack()
+    {
+        // a forming bar is revised on every tick; each revision must resolve from the restored ring
+        List<Bar> bars = [.. Bars.Take(200)];
+
+        (BarHub barHub, RsiHub rsi, _) = StartFromSnapshot(bars);
+
+        for (int tick = 1; tick <= 5; tick++)
+        {
+            Bar last = bars[Split - 1];
+            bars[Split - 1] = new Bar(
+                last.Timestamp, last.Open, last.High + tick, last.Low, last.Close + (tick * 0.1m), last.Volume);
+            barHub.Add(bars[Split - 1]);
+        }
+
+        barHub.Add(bars.Skip(Split).ToList());
+
+        rsi.Results.IsExactly(bars.ToRsi(Lookback));
+    }
+
+    [TestMethod]
+    public void Restore_SameCountOtherLastTimestamp_Throws()
+    {
+        List<Bar> bars = [.. Bars.Take(61)];
+        (_, RsiHub source) = Chain(bars.Take(60));
+        HubSnapshot<RsiResult> snapshot = source.CaptureSnapshot();
+
+        // same count, but the newest bar is a different day
+        (_, RsiHub target) = Chain(bars.Take(59).Append(bars[60]));
+
+        Action restore = () => target.RestoreSnapshot(snapshot);
+
+        restore.Should().Throw<InvalidDataException>().WithMessage("*line up*");
+    }
+
+    [TestMethod]
+    public void Restore_SameCountOtherFirstTimestamp_Throws()
+    {
+        List<Bar> bars = [.. Bars.Take(60)];
+        (_, RsiHub source) = Chain(bars);
+        HubSnapshot<RsiResult> snapshot = source.CaptureSnapshot();
+
+        Bar shifted = new(bars[0].Timestamp.AddHours(1), bars[0].Open, bars[0].High, bars[0].Low, bars[0].Close, bars[0].Volume);
+        (_, RsiHub target) = Chain(bars.Skip(1).Prepend(shifted));
+
+        Action restore = () => target.RestoreSnapshot(snapshot);
+
+        restore.Should().Throw<InvalidDataException>().WithMessage("*line up*");
+    }
+
+    [TestMethod]
+    public void Restore_PrunedHistory_StillRefusesOlderBars()
+    {
+        List<Bar> bars = [.. Bars.Take(260)];
+        BarHub source = new(150);
+        source.Add(bars);
+
+        BarHub target = new(150);
+        target.RestoreSnapshot(source.CaptureSnapshot());
+
+        List<BarRejectionReason> reasons = [];
+        target.BarRejected += (_, e) => reasons.Add(e.Reason);
+
+        // older than the restored head, and inside the pruned span
+        target.Add(bars[10]);
+
+        reasons.Should().Equal(BarRejectionReason.PrunedHistory);
+    }
+
+    [TestMethod]
+    public void Restore_ClearsAStaleFault()
+    {
+        BarHub source = new();
+        source.Add(Bars.Take(10).ToList());
+
+        BarHub target = new();
+        Bar bar = Bars[0];
+        target.Add(bar);
+
+        // repeat one bar until the hub faults
+        for (int i = 0; i < 150 && !target.IsFaulted; i++)
+        {
+            try
+            {
+                target.Add(bar);
+            }
+            catch (OverflowException)
+            {
+                break;
+            }
+        }
+
+        target.IsFaulted.Should().BeTrue("the setup must fault the hub");
+
+        target.RestoreSnapshot(source.CaptureSnapshot());
+
+        target.IsFaulted.Should().BeFalse();
+    }
+
+    [TestMethod]
+    public void Restore_FailedDecode_LeavesTheHubUntouched()
+    {
+        (BarHub barHub, RsiHub rsi) = Chain(Bars.Take(60));
+        HubSnapshot<RsiResult> good = rsi.CaptureSnapshot();
+        (_, RsiHub other) = Chain(Bars.Take(60).Select(Revise));
+        HubSnapshot<RsiResult> bad = other.CaptureSnapshot() with { State = [1] };
+
+        Action restore = () => rsi.RestoreSnapshot(bad);
+
+        restore.Should().Throw<InvalidDataException>();
+        rsi.Cache.Should().Equal(good.Results);
+
+        // and it still computes correctly afterwards
+        barHub.Add(Bars.Skip(60).Take(20).ToList());
+        rsi.Results.IsExactly(Bars.Take(80).ToList().ToRsi(Lookback));
+    }
+
+    [TestMethod]
+    public void Restore_NullSnapshot_Throws()
+    {
+        BarHub barHub = new();
+
+        Action restore = () => barHub.RestoreSnapshot(null!);
+
+        restore.Should().Throw<ArgumentNullException>();
+    }
+
+    [TestMethod]
+    public void Restore_EmptyState_Throws()
+    {
+        (_, RsiHub rsi) = Chain(Bars.Take(60));
+        HubSnapshot<RsiResult> snapshot = rsi.CaptureSnapshot();
+
+        Action restore = () => rsi.RestoreSnapshot(snapshot with { State = [] });
+
+        restore.Should().Throw<InvalidDataException>().WithMessage("*empty*");
+    }
+
+    [TestMethod]
+    public void Restore_RootHubWithOtherStateVersion_Throws()
+    {
+        BarHub source = new();
+        source.Add(Bars.Take(10).ToList());
+        HubSnapshot<IBar> snapshot = source.CaptureSnapshot();
+        byte[] state = [.. snapshot.State];
+        state[0] = 9;
+
+        BarHub target = new();
+
+        Action restore = () => target.RestoreSnapshot(snapshot with { State = state });
+
+        restore.Should().Throw<InvalidDataException>().WithMessage("*State version 9*");
+    }
+
+    [TestMethod]
+    public void Restore_AfterProviderRestore_UnsupportedSubscriberNeedsRebuild()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(100).ToList();
+        (BarHub source, _) = Chain(bars.Take(60));
+
+        BarHub barHub = new();
+        SmaHub sma = barHub.ToSmaHub(10);
+        barHub.RestoreSnapshot(source.CaptureSnapshot());
+
+        // the subscriber was not told; it rebuilds from the restored provider
+        sma.Cache.Should().BeEmpty();
+        sma.Rebuild();
+        barHub.Add(bars.Skip(60).ToList());
+
+        sma.Results.IsExactly(bars.ToSma(10));
+    }
+
+    [TestMethod]
+    public void Restore_ThenRebuild_StillMatchesSeries()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(200).ToList();
+        (BarHub barHub, RsiHub rsi, _) = StartFromSnapshot(bars);
+
+        rsi.Rebuild();
         barHub.Add(bars.Skip(Split).ToList());
 
         rsi.Results.IsExactly(bars.ToRsi(Lookback));
