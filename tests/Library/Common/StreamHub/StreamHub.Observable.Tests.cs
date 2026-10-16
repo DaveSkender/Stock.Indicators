@@ -134,7 +134,7 @@ public class StreamObservables : TestBase, ITestChainProvider
             subscribed.Should().BeFalse();
         }
 
-        foreach (int count in new[] { barHub.ObserverCount, sma.ObserverCount, ema.ObserverCount, epma.ObserverCount })
+        foreach (int count in new[] { barHub.ObserverCount, sma.ObserverCount, ema.ObserverCount, epma.ObserverCount, env.ObserverCount })
         {
             count.Should().Be(0);
         }
@@ -147,17 +147,30 @@ public class StreamObservables : TestBase, ITestChainProvider
     public void EndTransmissionIsolatesFaultingObserver()
     {
         BarHub barHub = new();
-        SmaHub sma = barHub.ToSmaHub(10);
-        EmaHub ema = sma.ToEmaHub(5);
-        CompletionSpy emaSpy = new();
-        ema.Subscribe(emaSpy);
 
-        barHub.Subscribe(new CompletionSpy { Throws = true });
+        // observer order is undefined, so a throwing observer sits among plain ones
+        CompletionSpy[] spies =
+        [
+            new() { Throws = true },
+            new(),
+            new() { Throws = true },
+            new(),
+        ];
+
+        foreach (CompletionSpy spy in spies)
+        {
+            barHub.Subscribe(spy);
+        }
 
         Action end = barHub.EndTransmission;
 
         end.Should().NotThrow();
-        emaSpy.Completed.Should().Be(1);
+
+        foreach (CompletionSpy spy in spies)
+        {
+            spy.Completed.Should().Be(1);
+            spy.Errors.Should().HaveCount(spy.Throws ? 1 : 0);
+        }
     }
 
     private sealed class CompletionSpy : IStreamObserver<IReusable>
@@ -169,7 +182,8 @@ public class StreamObservables : TestBase, ITestChainProvider
         public void OnAdd(IReusable item, bool notify, int? indexHint) { }
         public void OnRebuild(DateTime fromTimestamp) { }
         public void OnPrune(DateTime toTimestamp) { }
-        public void OnError(Exception exception) { }
+        public List<Exception> Errors { get; } = [];
+        public void OnError(Exception exception) => Errors.Add(exception);
 
         public void OnCompleted()
         {
