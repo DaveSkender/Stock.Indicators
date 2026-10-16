@@ -20,7 +20,7 @@ IReadOnlyList<CandleResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `minBodyPercent`<br>_`double`_ | Optional.  Minimum body size as a percent of total candle size.  Example: 85% would be entered as 85 (not 0.85).  Must be between 80 and 100, if specified.  Default is 95 (95%). |
+| `minBodyPercent`<br>_`double`_ | Optional.  Minimum body size as a percent of total candle size.  Example: 85% would be entered as 85 (not 0.85).  Must be between 80 and 100, if specified.  Default is 95. |
 
 ### Historical price bars requirements
 
