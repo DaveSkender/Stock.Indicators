@@ -76,6 +76,15 @@ public class GatorList : BufferList<GatorResult>, IIncrementFromChain
         _alligatorList.Clear();
         _previousResult = null;
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        // the alligator reads only its own buffers, so its list needs the newest row
+        _alligatorList.MaxListSize = MaxListSize + 1;
+
+        base.PruneList();
+    }
 }
 
 public static partial class Gator

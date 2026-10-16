@@ -39,8 +39,36 @@ public class BufferListInnerListsTests : TestBase
         ["StarcBands"] = Case(new() { ["_smaList"] = 2, ["_atrList"] = 11 },
             () => new StarcBandsList(5, 2, 10), (l, b) => l.Add(b), Bars.ToStarcBands(5, 2, 10)),
         ["SuperTrend"] = Case(new() { ["_atrList"] = 11 },
-            () => new SuperTrendList(10, 3), (l, b) => l.Add(b), Bars.ToSuperTrend(10, 3))
+            () => new SuperTrendList(10, 3), (l, b) => l.Add(b), Bars.ToSuperTrend(10, 3)),
+        ["VolatilityStop"] = Case(new() { ["_atrList"] = 8, ["_closePrices"] = 7 },
+            () => new VolatilityStopList(7, 3), (l, b) => l.Add(b), Bars.ToVolatilityStop(7, 3)),
+        ["Gator"] = Case(new() { ["_alligatorList"] = 2 },
+            () => new GatorList(), (l, b) => l.Add(b), Bars.ToGator()),
+        ["Pmo"] = Case(new() { ["_rocHistory"] = 35, ["_rocEmaHistory"] = 20, ["_pmoHistory"] = 10 },
+            () => new PmoList(35, 20, 10), (l, b) => l.Add(b), Bars.ToPmo(35, 20, 10)),
+        ["ConnorsRsi"] = Case(new() { ["_rsiClose"] = 4, ["_rsiStreak"] = 3, ["_gainBuffer"] = 101 },
+            () => new ConnorsRsiList(3, 2, 100), (l, b) => l.Add(b), Bars.ToConnorsRsi(3, 2, 100)),
+        ["VolatilityStopStepwise"] = Case(new() { ["_atrList"] = 8, ["_closePrices"] = 7 },
+            () => new VolatilityStopList(7, 3), (l, b) => l.Add(b), Bars.ToVolatilityStop(7, 3),
+            stepCheckFrom: Bars.ToVolatilityStop(7, 3).ToList().FindIndex(r => r.Sar is not null) - 1)
     };
+
+    static BufferListInnerListsTests()
+    {
+        // the inner MA list's floor holds for every moving average type
+        foreach (MaType type in new[] {
+            MaType.ALMA, MaType.DEMA, MaType.EMA, MaType.EPMA, MaType.HMA,
+            MaType.SMA, MaType.SMMA, MaType.TEMA, MaType.WMA })
+        {
+            MaType t = type;
+
+            Cases[$"MaEnvelopes{t}"] = Case(
+                new() { ["_maList"] = 21 },
+                () => new MaEnvelopesList(20, 2.5, t),
+                (l, b) => l.Add(b),
+                Bars.ToMaEnvelopes(20, 2.5, t));
+        }
+    }
 
     public static IEnumerable<object[]> Sizes =>
         Cases.SelectMany(c => new[] { 1, 2, Math.Max(3, c.Value.Floors.Values.Max() - 2), roomy }
@@ -56,20 +84,27 @@ public class BufferListInnerListsTests : TestBase
         Dictionary<string, int> floors,
         Func<TList> make,
         Action<TList, Bar> add,
-        IReadOnlyList<TResult> series)
+        IReadOnlyList<TResult> series,
+        int stepCheckFrom = int.MaxValue)
         where TList : BufferList<TResult>
         where TResult : ISeries
-        => (floors, m => Verify(m, floors, make, add, series));
+        => (floors, m => Verify(m, floors, make, add, series, stepCheckFrom));
 
     private static void Verify<TList, TResult>(
         int maxListSize,
         Dictionary<string, int> floors,
         Func<TList> make,
         Action<TList, Bar> add,
-        IReadOnlyList<TResult> series)
+        IReadOnlyList<TResult> series,
+        int stepCheckFrom)
         where TList : BufferList<TResult>
         where TResult : ISeries
     {
+        if (stepCheckFrom != int.MaxValue)
+        {
+            stepCheckFrom.Should().BeInRange(0, Bars.Count - 1);
+        }
+
         int expectedCount = Math.Min(maxListSize, Bars.Count);
 
         void AssertTail(TList sut, string path)
@@ -77,22 +112,24 @@ public class BufferListInnerListsTests : TestBase
             sut.Should().HaveCount(expectedCount, path);
             sut.IsExactly(series.Skip(Bars.Count - expectedCount).ToList());
 
-            // every inner buffer list is listed with its floor, and held to the larger of that and the outer bound
-            List<FieldInfo> inner = typeof(TList)
+            // every inner list is listed with its floor, and held to the larger of that and the outer bound
+            Dictionary<string, int> counts = typeof(TList)
                 .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(f => IsBufferList(f.FieldType))
-                .ToList();
+                .Select(f => (f.Name, Value: f.GetValue(sut)))
+                .Where(f => f.Value is List<double> || (f.Value is Queue<double> && floors.ContainsKey(f.Name)) || (f.Value is not null && IsBufferList(f.Value.GetType())))
+                .ToDictionary(
+                    f => f.Name,
+                    f => f.Value is System.Collections.ICollection c
+                        ? c.Count
+                        : (int)f.Value!.GetType().GetProperty("Count")!.GetValue(f.Value)!);
 
-            inner.Select(f => f.Name).Should().BeEquivalentTo(floors.Keys, $"{path} inner lists");
+            counts.Keys.Should().BeEquivalentTo(floors.Keys, $"{path} inner lists");
 
-            foreach (FieldInfo field in inner)
+            foreach ((string field, int count) in counts)
             {
-                object list = field.GetValue(sut)!;
-                int count = (int)list.GetType().GetProperty("Count")!.GetValue(list)!;
-
                 count.Should().BeLessThanOrEqualTo(
-                    Math.Max(maxListSize + 1, floors[field.Name]),
-                    $"{path} {field.Name}");
+                    Math.Max(maxListSize + 1, floors[field]),
+                    $"{path} {field}");
             }
         }
 
@@ -100,9 +137,16 @@ public class BufferListInnerListsTests : TestBase
         TList sut = make();
         sut.MaxListSize = maxListSize;
 
-        foreach (Bar bar in Bars)
+        for (int i = 0; i < Bars.Count; i++)
         {
-            add(sut, bar);
+            add(sut, Bars[i]);
+
+            // a list that repaints earlier rows matches the series only once it has stopped repainting;
+            // the first non-null row follows the one where the repaint happens
+            if (i >= stepCheckFrom)
+            {
+                sut.IsExactly(series.Skip(i + 1 - sut.Count).Take(sut.Count).ToList());
+            }
         }
 
         AssertTail(sut, "incremental");
