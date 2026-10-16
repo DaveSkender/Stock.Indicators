@@ -229,9 +229,7 @@ public abstract class WarmStartCases<TIn, TResult> : TestBase
 
         // distinct doubles, and one capture per flag set alone, so swapping any two members shows
         string[] flags = [.. StateMembers.Where(n => ReadMember(hub, n) is bool)];
-        string[] patterns = flags.Length == 0 ? [string.Empty] : flags;
-
-        foreach (string setFlag in patterns)
+        foreach (string setFlag in flags.Length == 0 ? [string.Empty] : flags)
         {
             using MemoryStream stream = new();
             using (BinaryWriter w = new(stream))
