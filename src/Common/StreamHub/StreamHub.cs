@@ -347,6 +347,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         DateTime timestamp = cachedItem.Timestamp;
         Cache.RemoveAt(cacheIndex);
 
+        // a removed newest item left as LastItem would make its re-add read as a duplicate
+        LastItem = Cache.Count > 0 ? Cache[^1] : default;
+
         // notify observers (inside lock to ensure cache consistency)
         NotifyObserversOnRebuild(timestamp);
     }

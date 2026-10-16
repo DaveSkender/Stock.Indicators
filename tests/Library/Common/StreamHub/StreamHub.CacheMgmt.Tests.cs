@@ -34,6 +34,22 @@ public class CacheManagement : TestBase
         observer.Results[19].Sma.Should().Be(seriesAfterRemove[19].Sma);
     }
 
+    [TestMethod]
+    public void RemoveAt_Newest_ThenReAdd_RestoresTheItem()
+    {
+        List<Bar> bars = Bars.Take(100).ToList();
+
+        BarHub barHub = new();
+        barHub.Add(bars);
+        RsiHub observer = barHub.ToRsiHub(14);
+
+        barHub.RemoveAt(barHub.Cache.Count - 1);
+        barHub.Add(bars[^1]);
+
+        barHub.Cache.Should().HaveCount(bars.Count);
+        observer.Results.IsExactly(bars.ToRsi(14));
+    }
+
     /// <summary>
     /// late arrival
     /// </summary>
