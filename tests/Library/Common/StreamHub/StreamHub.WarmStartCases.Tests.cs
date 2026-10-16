@@ -353,6 +353,6 @@ public class KvoWarmStart : WarmStartCases<KvoResult>
 
     private protected override IReadOnlyList<KvoResult> Series(IReadOnlyList<Bar> bars) => bars.ToKvo(Fast, Slow, Signal);
 
-    // trend seed, first volume force, fast seed, slow seed, signal seed
-    private protected override int[] WarmupSplits => [0, 1, 2, Fast + 1, Slow + 1, Slow + Signal];
+    // empty hub, HLC basis, trend seed, first volume force, then just after the fast, slow and signal seeds
+    private protected override int[] WarmupSplits => [0, 1, 2, 3, Fast + 2, Slow + 2, Slow + Signal + 1];
 }
