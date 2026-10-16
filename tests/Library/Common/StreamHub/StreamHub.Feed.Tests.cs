@@ -86,8 +86,7 @@ public class Feed : TestBase
         }
 
         // out-of-order arrival across producers heals to the sorted timeline
-        hub.Cache.Select(static b => b.Timestamp)
-            .Should().Equal(bars.Select(static b => b.Timestamp));
+        hub.Cache.Should().Equal(bars);
     }
 
     [TestMethod]
@@ -100,18 +99,25 @@ public class Feed : TestBase
 
         StreamFeed<IBar> feed = hub.CreateFeed(capacity: 1);
 
-        await feed.WriteAsync(bars[0], TestContext.CancellationToken).ConfigureAwait(true);
-        gate.WaitEntered();          // consumer holds bars[0]
-        await feed.WriteAsync(bars[1], TestContext.CancellationToken).ConfigureAwait(false); // fills the queue
+        try
+        {
+            await feed.WriteAsync(bars[0], TestContext.CancellationToken).ConfigureAwait(true);
+            gate.WaitEntered();          // consumer holds bars[0]
+            await feed.WriteAsync(bars[1], TestContext.CancellationToken).ConfigureAwait(true); // fills the queue
 
-        ValueTask blocked = feed.WriteAsync(bars[2], TestContext.CancellationToken);
-        blocked.IsCompleted.Should().BeFalse();
+            ValueTask blocked = feed.WriteAsync(bars[2], TestContext.CancellationToken);
+            blocked.IsCompleted.Should().BeFalse();
 
-        gate.Release();
-        await blocked.ConfigureAwait(true);
-        await feed.DisposeAsync().ConfigureAwait(true);
+            gate.Release();
+            await blocked.ConfigureAwait(true);
+        }
+        finally
+        {
+            gate.Release();
+            await feed.DisposeAsync().ConfigureAwait(true);
+        }
 
-        hub.Cache.Should().HaveCount(3);
+        hub.Cache.Should().Equal(bars.Take(3));
     }
 
     [TestMethod]
@@ -203,5 +209,166 @@ public class Feed : TestBase
         Action create = () => hub.CreateFeed(capacity: 0);
 
         create.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [TestMethod]
+    public async Task Feed_ManyProducers_ApplyOneItemAtATime_InProducerOrder()
+    {
+        const int producers = 8;
+        const int perProducer = 100;
+
+        int active = 0;
+        int maxActive = 0;
+        List<(int Producer, int Seq)> applied = [];
+
+        StreamFeed<(int Producer, int Seq)> feed = new(
+            item => {
+                int now = Interlocked.Increment(ref active);
+                int seen;
+                while (now > (seen = Volatile.Read(ref maxActive)))
+                {
+                    Interlocked.CompareExchange(ref maxActive, now, seen);
+                }
+
+                // hold the call open long enough for a second, unserialized caller to enter
+                SpinWait.SpinUntil(() => Volatile.Read(ref active) > 1, 1);
+                applied.Add(item);
+                Interlocked.Decrement(ref active);
+            },
+            capacity: 16,
+            StreamFeedFullMode.Wait,
+            endTransmission: null);
+
+        try
+        {
+            await Task.WhenAll(Enumerable.Range(0, producers).Select(p => Task.Run(async () => {
+                for (int i = 0; i < perProducer; i++)
+                {
+                    await feed.WriteAsync((p, i), TestContext.CancellationToken).ConfigureAwait(false);
+                }
+            }, TestContext.CancellationToken))).ConfigureAwait(true);
+        }
+        finally
+        {
+            await feed.DisposeAsync().ConfigureAwait(true);
+        }
+
+        maxActive.Should().Be(1);
+        applied.Should().HaveCount(producers * perProducer);
+
+        for (int p = 0; p < producers; p++)
+        {
+            applied.Where(a => a.Producer == p).Select(static a => a.Seq)
+                .Should().Equal(Enumerable.Range(0, perProducer));
+        }
+    }
+
+    [TestMethod]
+    public async Task Feed_RejectedItem_ReleasesWriterBlockedOnFullQueue()
+    {
+        using ManualResetEventSlim gate = new(false);
+        using ManualResetEventSlim entered = new(false);
+
+#pragma warning disable CA2000 // disposed below, where the rejection is asserted
+        StreamFeed<int> feed = new(
+            i => {
+                if (i == 0)
+                {
+                    entered.Set();
+                    gate.Wait(Budget, TestContext.CancellationToken);
+                    throw new OverflowException("rejected");
+                }
+            },
+            capacity: 1,
+            StreamFeedFullMode.Wait,
+            endTransmission: null);
+#pragma warning restore CA2000
+
+        await feed.WriteAsync(0, TestContext.CancellationToken).ConfigureAwait(true);
+        entered.Wait(Budget, TestContext.CancellationToken).Should().BeTrue();
+        await feed.WriteAsync(1, TestContext.CancellationToken).ConfigureAwait(true); // fills the queue
+
+        ValueTask blocked = feed.WriteAsync(2, TestContext.CancellationToken);
+        blocked.IsCompleted.Should().BeFalse();
+
+        gate.Set();
+
+        Func<Task> wait = async () => await blocked.AsTask().WaitAsync(Budget, TestContext.CancellationToken)
+            .ConfigureAwait(true);
+
+        // the blocked writer gets the hub's own exception, not a hang or a generic closed error
+        await wait.Should().ThrowAsync<OverflowException>().ConfigureAwait(true);
+
+        Func<Task> completion = () => feed.Completion;
+        await completion.Should().ThrowAsync<OverflowException>().ConfigureAwait(true);
+
+        Func<Task> dispose = async () => await feed.DisposeAsync().ConfigureAwait(true);
+        await dispose.Should().ThrowAsync<OverflowException>().ConfigureAwait(true);
+    }
+
+    [TestMethod]
+    public async Task Feed_WriteCanceledWhileWaitingForSpace_Throws()
+    {
+        using GateObserver gate = new();
+        BarHub hub = new();
+        hub.Subscribe(gate);
+
+        StreamFeed<IBar> feed = hub.CreateFeed(capacity: 1);
+
+        try
+        {
+            await feed.WriteAsync(Bars[0], TestContext.CancellationToken).ConfigureAwait(true);
+            gate.WaitEntered();
+            await feed.WriteAsync(Bars[1], TestContext.CancellationToken).ConfigureAwait(true);
+
+            using CancellationTokenSource cts = new();
+            ValueTask blocked = feed.WriteAsync(Bars[2], cts.Token);
+            blocked.IsCompleted.Should().BeFalse();
+
+            await cts.CancelAsync().ConfigureAwait(true);
+
+            Func<Task> wait = async () => await blocked.AsTask().ConfigureAwait(true);
+            await wait.Should().ThrowAsync<OperationCanceledException>().ConfigureAwait(true);
+        }
+        finally
+        {
+            gate.Release();
+            await feed.DisposeAsync().ConfigureAwait(true);
+        }
+    }
+
+    [TestMethod]
+    public async Task Feed_DefaultDispose_LeavesChainedHubsSubscribed()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(50).ToList();
+        BarHub hub = new();
+        SmaHub sma = hub.ToSmaHub(10);
+
+        StreamFeed<IBar> feed = hub.CreateFeed();
+
+        foreach (Bar bar in bars)
+        {
+            await feed.WriteAsync(bar, TestContext.CancellationToken).ConfigureAwait(true);
+        }
+
+        await feed.DisposeAsync().ConfigureAwait(true);
+
+        sma.IsSubscribed.Should().BeTrue("ending the transmission is opt-in");
+        sma.Results.IsExactly(bars.ToSma(10));
+    }
+
+    [TestMethod]
+    public async Task CreateFeed_WhileAnotherIsOpen_Throws_UntilItIsDisposed()
+    {
+        BarHub hub = new();
+        StreamFeed<IBar> first = hub.CreateFeed();
+
+        Action second = () => hub.CreateFeed();
+        second.Should().Throw<InvalidOperationException>().WithMessage("*still open*");
+
+        await first.DisposeAsync().ConfigureAwait(true);
+
+        StreamFeed<IBar> next = hub.CreateFeed();
+        await next.DisposeAsync().ConfigureAwait(true);
     }
 }

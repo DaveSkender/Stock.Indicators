@@ -227,6 +227,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
     }
 
+    private int _activeFeed;
+
     /// <summary>
     /// Creates a feed that applies items written from any thread to this hub in order.
     /// </summary>
@@ -238,8 +240,12 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <returns>A feed to write to and dispose.</returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 1.</exception>
     /// <exception cref="InvalidOperationException">
-    /// Called on a subscribed (non-root) hub. Feed the root hub instead.
+    /// Called on a subscribed (non-root) hub, or a feed for this hub is still open.
     /// </exception>
+    /// <remarks>
+    /// One feed at a time: dispose the open feed before creating the next, so two
+    /// consumers never call <c>Add</c> concurrently.
+    /// </remarks>
     public StreamFeed<TIn> CreateFeed(
         int capacity = 1024,
         StreamFeedFullMode fullMode = StreamFeedFullMode.Wait,
@@ -248,11 +254,18 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         ThrowIfNotRootHub();
         ArgumentOutOfRangeException.ThrowIfLessThan(capacity, 1);
 
+        if (Interlocked.CompareExchange(ref _activeFeed, 1, 0) != 0)
+        {
+            throw new InvalidOperationException(
+                "A feed for this hub is still open. Dispose it before creating another.");
+        }
+
         return new StreamFeed<TIn>(
             Add,
             capacity,
             fullMode,
-            endTransmissionOnDispose ? EndTransmission : null);
+            endTransmissionOnDispose ? EndTransmission : null,
+            () => Volatile.Write(ref _activeFeed, 0));
     }
 
     /// <inheritdoc/>

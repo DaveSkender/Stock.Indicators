@@ -10,15 +10,19 @@ namespace FacioQuo.Stock.Indicators;
 /// Hubs are single-writer, so concurrent producers (a WebSocket or SSE callback,
 /// several tasks) write here instead of calling <c>Add</c> themselves.
 /// One consumer task drains the queue into the hub in arrival order.
-/// If the hub rejects an item, the failure surfaces on the next
-/// <see cref="WriteAsync(TIn, CancellationToken)"/> and on <see cref="DisposeAsync"/>.
+/// While a feed is open, every mutation of the hub goes through it; corrections
+/// such as <c>RemoveAt</c> or <c>Rebuild</c> cannot be queued behind its items.
+/// Observer callbacks run on the feed's consumer task, not on the writing thread.
+/// If the hub rejects an item, the consumer stops and the original exception surfaces on
+/// <see cref="Completion"/>, on the next <see cref="WriteAsync(TIn, CancellationToken)"/>,
+/// and on <see cref="DisposeAsync"/>.
 /// </remarks>
 /// <typeparam name="TIn">Type of the items the hub accepts.</typeparam>
 public sealed class StreamFeed<TIn> : IAsyncDisposable
 {
     private readonly Channel<TIn> _channel;
-    private readonly Task _consumer;
     private readonly Action? _endTransmission;
+    private readonly Action? _closed;
     private volatile ExceptionDispatchInfo? _fault;
     private int _disposed;
 
@@ -26,9 +30,11 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
         Action<TIn> add,
         int capacity,
         StreamFeedFullMode fullMode,
-        Action? endTransmission)
+        Action? endTransmission,
+        Action? closed = null)
     {
         _endTransmission = endTransmission;
+        _closed = closed;
 
         _channel = Channel.CreateBounded<TIn>(
             new BoundedChannelOptions(capacity) {
@@ -39,8 +45,14 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
                 SingleWriter = false
             });
 
-        _consumer = Task.Run(() => Drain(add));
+        Completion = Task.Run(() => Drain(add));
     }
+
+    /// <summary>
+    /// Gets a task that completes when the queue has drained after disposal,
+    /// or faults with the exception the hub raised for a rejected item.
+    /// </summary>
+    public Task Completion { get; }
 
     /// <summary>
     /// Queues an item for the hub; safe to call from any thread.
@@ -48,9 +60,9 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     /// <param name="item">Item to add to the hub.</param>
     /// <param name="cancellationToken">Cancels the wait for queue space.</param>
     /// <returns>A task that completes when the item is queued, not when the hub has applied it.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// The feed is disposed, or the hub rejected an earlier item.
-    /// </exception>
+    /// <exception cref="InvalidOperationException">The feed is disposed.</exception>
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was canceled.</exception>
+    /// <remarks>If the hub rejected an earlier item, this throws that item's original exception.</remarks>
     public async ValueTask WriteAsync(TIn item, CancellationToken cancellationToken = default)
     {
         _fault?.Throw();
@@ -69,7 +81,11 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     /// <summary>
     /// Stops accepting items, applies those already queued, then optionally ends the transmission.
     /// </summary>
-    /// <exception cref="InvalidOperationException">The hub rejected an item.</exception>
+    /// <remarks>
+    /// Waiting for the queue to drain cannot be canceled, and takes as long as the hub needs
+    /// to apply what is queued.  If the hub rejected an item, this throws its original
+    /// exception and does not end the transmission, so subscribers are not completed.
+    /// </remarks>
     public async ValueTask DisposeAsync()
     {
         if (Interlocked.Exchange(ref _disposed, 1) == 1)
@@ -77,11 +93,28 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
             return;
         }
 
-        _channel.Writer.TryComplete();
-        await _consumer.ConfigureAwait(false);
+        try
+        {
+            _channel.Writer.TryComplete();
 
-        _fault?.Throw();
-        _endTransmission?.Invoke();
+            try
+            {
+                await Completion.ConfigureAwait(false);
+            }
+#pragma warning disable CA1031, RCS1075 // the consumer's fault is rethrown below with its original stack
+            catch (Exception)
+            {
+                // observed here; _fault carries it
+            }
+#pragma warning restore CA1031, RCS1075
+
+            _fault?.Throw();
+            _endTransmission?.Invoke();
+        }
+        finally
+        {
+            _closed?.Invoke();
+        }
     }
 
     // an item that throws stops the loop; later writers see the fault rather than a stalled queue
@@ -99,23 +132,8 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
         {
             _fault = ExceptionDispatchInfo.Capture(ex);
             _channel.Writer.TryComplete(ex);
+            throw;
         }
     }
 #pragma warning restore CA1031, RCS1075
-}
-
-/// <summary>
-/// What a <see cref="StreamFeed{TIn}"/> does with a new item when its queue is full.
-/// </summary>
-public enum StreamFeedFullMode
-{
-    /// <summary>
-    /// The writer waits for space, so no item is lost.
-    /// </summary>
-    Wait = 0,
-
-    /// <summary>
-    /// The oldest queued item is discarded to make room; items are lost under load.
-    /// </summary>
-    DropOldest = 1
 }

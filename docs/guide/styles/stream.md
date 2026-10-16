@@ -151,11 +151,13 @@ await using StreamFeed<IBar> feed = barHub.CreateFeed(endTransmissionOnDispose: 
 await feed.WriteAsync(bar, cancellationToken);  // safe from any thread
 ```
 
-- The queue is bounded (`capacity`, default 1024).  When it is full, a write waits for space (`StreamFeedFullMode.Wait`) or the oldest queued item is discarded (`StreamFeedFullMode.DropOldest`, which loses data under load).
-- `WriteAsync` completes when the item is queued, not when the hub has applied it.
-- Disposing the feed stops new writes and applies what is queued first.  With `endTransmissionOnDispose`, it then calls `EndTransmission()`.
-- If the hub rejects an item, the feed stops; the next `WriteAsync` and `DisposeAsync` throw that error.
-- The feed serializes writes only.  Coordinate reads of `Results` with the feed's consumer yourself, as above.
+- The queue is bounded (`capacity`, default 1024). When it is full, a write waits for space (`StreamFeedFullMode.Wait`) or the oldest queued item is discarded (`StreamFeedFullMode.DropOldest`, which loses data under load).
+- `WriteAsync` completes when the item is queued, not when the hub has applied it, and honors its cancellation token while waiting for space.
+- Only one feed can be open per hub. Dispose it before creating the next, for example when a connection resets.
+- While a feed is open, send every mutation through it. `RemoveAt`, `RemoveRange`, `Rebuild`, and `Reinitialize` cannot be queued behind its items, so call them only after the feed is disposed.
+- Observer callbacks run on the feed's consumer task, not on the thread that wrote the item. Read results from another thread with `Snapshot()`.
+- Disposing the feed stops new writes and applies what is queued first; that wait cannot be canceled. With `endTransmissionOnDispose`, it then calls `EndTransmission()`.
+- If the hub rejects an item, the feed stops. `Completion`, the next `WriteAsync`, and `DisposeAsync` throw the hub's exception, and `DisposeAsync` does not end the transmission.
 
 ### What's safe, and what to avoid
 
