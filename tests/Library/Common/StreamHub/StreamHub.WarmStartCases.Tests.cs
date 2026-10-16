@@ -1,16 +1,20 @@
+using System.Reflection;
+
 namespace Observables;
 
 /// <summary>
 /// Warm-start behaviour every snapshot-capable bar hub must keep. The snapshot contract itself
 /// is covered once, in <see cref="WarmStart"/>; this checks each hub's own state encoding.
 /// </summary>
+/// <typeparam name="TIn">Hub input type.</typeparam>
 /// <typeparam name="TResult">Hub result type.</typeparam>
-public abstract class WarmStartCases<TResult> : TestBase
+public abstract class WarmStartCases<TIn, TResult> : TestBase
+    where TIn : ISeries
     where TResult : ISeries
 {
     private const int Split = 120;
 
-    private protected abstract StreamHub<IBar, TResult> Subscribe(BarHub barHub);
+    private protected abstract StreamHub<TIn, TResult> Subscribe(BarHub barHub);
 
     private protected abstract IReadOnlyList<TResult> Series(IReadOnlyList<Bar> bars);
 
@@ -19,23 +23,33 @@ public abstract class WarmStartCases<TResult> : TestBase
     /// </summary>
     private protected abstract int[] WarmupSplits { get; }
 
-    private (BarHub Bars, StreamHub<IBar, TResult> Hub) Chain(IEnumerable<Bar> bars, int? maxCacheSize = null)
+    /// <summary>
+    /// Gets the hub's state version, the first byte of its encoded state.
+    /// </summary>
+    private protected abstract byte StateVersion { get; }
+
+    /// <summary>
+    /// Gets the hub's private state members in their encoded order, which pins the byte layout.
+    /// </summary>
+    private protected abstract string[] StateMembers { get; }
+
+    private (BarHub Bars, StreamHub<TIn, TResult> Hub) Chain(IEnumerable<Bar> bars, int? maxCacheSize = null)
     {
         BarHub barHub = new(maxCacheSize);
-        StreamHub<IBar, TResult> hub = Subscribe(barHub);
+        StreamHub<TIn, TResult> hub = Subscribe(barHub);
         barHub.Add(bars.ToList());
         return (barHub, hub);
     }
 
-    private (BarHub Bars, StreamHub<IBar, TResult> Hub, HubSnapshot<TResult> Snapshot) StartFromSnapshot(
+    private (BarHub Bars, StreamHub<TIn, TResult> Hub, HubSnapshot<TResult> Snapshot) StartFromSnapshot(
         IReadOnlyList<Bar> bars, int split = Split, int? maxCacheSize = null)
     {
-        (BarHub source, StreamHub<IBar, TResult> sourceHub) = Chain(bars.Take(split), maxCacheSize);
+        (BarHub source, StreamHub<TIn, TResult> sourceHub) = Chain(bars.Take(split), maxCacheSize);
         HubSnapshot<IBar> barSnapshot = source.CaptureSnapshot();
         HubSnapshot<TResult> snapshot = sourceHub.CaptureSnapshot();
 
         BarHub barHub = new(maxCacheSize);
-        StreamHub<IBar, TResult> hub = Subscribe(barHub);
+        StreamHub<TIn, TResult> hub = Subscribe(barHub);
         barHub.RestoreSnapshot(barSnapshot);
         hub.RestoreSnapshot(snapshot);
 
@@ -50,7 +64,7 @@ public abstract class WarmStartCases<TResult> : TestBase
     {
         IReadOnlyList<Bar> bars = Bars.Take(200).ToList();
 
-        (BarHub barHub, StreamHub<IBar, TResult> hub, _) = StartFromSnapshot(bars);
+        (BarHub barHub, StreamHub<TIn, TResult> hub, _) = StartFromSnapshot(bars);
         barHub.Add(bars.Skip(Split).ToList());
 
         hub.Results.IsExactly(Series(bars));
@@ -63,7 +77,7 @@ public abstract class WarmStartCases<TResult> : TestBase
 
         foreach (int split in WarmupSplits)
         {
-            (BarHub barHub, StreamHub<IBar, TResult> hub, HubSnapshot<TResult> snapshot) = StartFromSnapshot(bars, split);
+            (BarHub barHub, StreamHub<TIn, TResult> hub, HubSnapshot<TResult> snapshot) = StartFromSnapshot(bars, split);
 
             hub.CaptureSnapshot().State.Should().Equal(snapshot.State, "split {0} re-encodes unchanged", split);
 
@@ -82,8 +96,8 @@ public abstract class WarmStartCases<TResult> : TestBase
         List<Bar> bars = [.. Bars.Take(300)];
         const int split = 220;
 
-        (BarHub uninterruptedBars, StreamHub<IBar, TResult> uninterrupted) = Chain(bars.Take(split), maxCacheSize);
-        (BarHub restoredBars, StreamHub<IBar, TResult> restored, _) = StartFromSnapshot(bars, split, maxCacheSize);
+        (BarHub uninterruptedBars, StreamHub<TIn, TResult> uninterrupted) = Chain(bars.Take(split), maxCacheSize);
+        (BarHub restoredBars, StreamHub<TIn, TResult> restored, _) = StartFromSnapshot(bars, split, maxCacheSize);
 
         Bar revised = Revise(bars[split - 1]);
         foreach (BarHub hub in new[] { uninterruptedBars, restoredBars })
@@ -103,14 +117,14 @@ public abstract class WarmStartCases<TResult> : TestBase
         // a correction behind the newest bar replays later bars, so the ring is no longer ascending
         List<Bar> bars = [.. Bars.Take(200)];
 
-        (BarHub source, StreamHub<IBar, TResult> sourceHub) = Chain(bars.Take(Split));
+        (BarHub source, StreamHub<TIn, TResult> sourceHub) = Chain(bars.Take(Split));
         bars[Split - 5] = Revise(bars[Split - 5]);
         source.Add(bars[Split - 5]);
 
         HubSnapshot<TResult> snapshot = sourceHub.CaptureSnapshot();
 
         BarHub barHub = new();
-        StreamHub<IBar, TResult> hub = Subscribe(barHub);
+        StreamHub<TIn, TResult> hub = Subscribe(barHub);
         barHub.RestoreSnapshot(source.CaptureSnapshot());
         hub.RestoreSnapshot(snapshot);
 
@@ -129,7 +143,7 @@ public abstract class WarmStartCases<TResult> : TestBase
     {
         List<Bar> bars = [.. Bars.Take(200)];
 
-        (BarHub barHub, StreamHub<IBar, TResult> hub, _) = StartFromSnapshot(bars);
+        (BarHub barHub, StreamHub<TIn, TResult> hub, _) = StartFromSnapshot(bars);
 
         for (int tick = 1; tick <= 5; tick++)
         {
@@ -147,7 +161,7 @@ public abstract class WarmStartCases<TResult> : TestBase
     {
         List<Bar> bars = [.. Bars.Take(200)];
 
-        (BarHub barHub, StreamHub<IBar, TResult> hub, _) = StartFromSnapshot(bars);
+        (BarHub barHub, StreamHub<TIn, TResult> hub, _) = StartFromSnapshot(bars);
         barHub.Add(bars.Skip(Split).ToList());
 
         bars[Split - 30] = Revise(bars[Split - 30], 2m);
@@ -164,9 +178,9 @@ public abstract class WarmStartCases<TResult> : TestBase
         List<Bar> other = bars.Take(Split)
             .Select(static b => new Bar(b.Timestamp, b.Open + 7m, b.High + 7m, b.Low + 7m, b.Close * 1.3m, b.Volume * 2))
             .ToList();
-        (BarHub barHub, StreamHub<IBar, TResult> hub) = Chain(other);
+        (BarHub barHub, StreamHub<TIn, TResult> hub) = Chain(other);
 
-        (BarHub source, StreamHub<IBar, TResult> sourceHub) = Chain(bars.Take(Split));
+        (BarHub source, StreamHub<TIn, TResult> sourceHub) = Chain(bars.Take(Split));
         barHub.RestoreSnapshot(source.CaptureSnapshot());
         hub.RestoreSnapshot(sourceHub.CaptureSnapshot());
 
@@ -180,30 +194,106 @@ public abstract class WarmStartCases<TResult> : TestBase
     [TestMethod]
     public void Restore_TruncatedOrOtherVersionState_Throws()
     {
-        (_, StreamHub<IBar, TResult> source) = Chain(Bars.Take(Split));
+        (_, StreamHub<TIn, TResult> source) = Chain(Bars.Take(Split));
         HubSnapshot<TResult> snapshot = source.CaptureSnapshot();
         byte[] state = [.. snapshot.State];
 
         byte[] otherVersion = [.. state];
         otherVersion[0]++;
 
+        // the target holds other prices, so a partly applied state would show
+        List<Bar> other = [.. Bars.Take(200)
+            .Select(static b => new Bar(b.Timestamp, b.Open + 7m, b.High + 7m, b.Low + 7m, b.Close * 1.3m, b.Volume * 2))];
+
         foreach (byte[] bad in new[] { state[..^1], [.. state, 0], otherVersion })
         {
-            (_, StreamHub<IBar, TResult> target) = Chain(Bars.Take(Split));
+            (BarHub targetBars, StreamHub<TIn, TResult> target) = Chain(other.Take(Split));
+            byte[] before = target.CaptureSnapshot().State;
+            TResult[] cacheBefore = [.. target.Cache];
+
             Action act = () => target.RestoreSnapshot(snapshot with { State = bad });
             act.Should().ThrowExactly<InvalidDataException>();
+
+            target.CaptureSnapshot().State.Should().Equal(before);
+            target.Cache.Should().Equal(cacheBefore);
+
+            targetBars.Add(other.Skip(Split).ToList());
+            target.Results.IsExactly(Series(other));
         }
+    }
+
+    [TestMethod]
+    public void Capture_State_FollowsTheDocumentedLayout()
+    {
+        (_, StreamHub<TIn, TResult> hub) = Chain(Bars.Take(Split));
+
+        using MemoryStream stream = new();
+        using (BinaryWriter w = new(stream))
+        {
+            w.Write(StateVersion);
+
+            foreach (string name in StateMembers)
+            {
+                switch (ReadMember(hub, name))
+                {
+                    case bool flag: w.Write(flag); break;
+                    case double value: w.Write(value); break;
+                    case object value: throw new InvalidOperationException($"{name} is a {value.GetType().Name}.");
+                }
+            }
+        }
+
+        byte[] expected = stream.ToArray();
+
+        // a reordered layout only shows when the swapped values differ
+        double[] values = [.. StateMembers.Select(n => ReadMember(hub, n)).OfType<double>()];
+        values.Should().OnlyHaveUniqueItems("every double member needs a distinct value at the capture point");
+
+        hub.CaptureSnapshot().State[..expected.Length].Should().Equal(expected);
+    }
+
+    private static object ReadMember(object hub, string name)
+    {
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        Type type = hub.GetType();
+
+        return type.GetField(name, flags)?.GetValue(hub)
+            ?? type.GetProperty(name, flags)?.GetValue(hub)
+            ?? throw new InvalidOperationException($"{type.Name} has no member {name}.");
     }
 }
 
 [TestClass]
-public class AdxWarmStart : WarmStartCases<AdxResult>
+public class RsiWarmStart : WarmStartCases<IReusable, RsiResult>
+{
+    private const int Lookback = 14;
+
+    private protected override StreamHub<IReusable, RsiResult> Subscribe(BarHub barHub) => barHub.ToRsiHub(Lookback);
+
+    private protected override IReadOnlyList<RsiResult> Series(IReadOnlyList<Bar> bars) => bars.ToRsi(Lookback);
+
+    // empty hub, mid-warmup, the last bar before the seed, the seed
+    private protected override int[] WarmupSplits => [0, 10, Lookback - 1, Lookback];
+
+    private protected override byte StateVersion => 2;
+
+    private protected override string[] StateMembers => ["_avgGain", "_avgLoss"];
+}
+
+[TestClass]
+public class AdxWarmStart : WarmStartCases<IBar, AdxResult>
 {
     private const int Lookback = 14;
 
     private protected override StreamHub<IBar, AdxResult> Subscribe(BarHub barHub) => barHub.ToAdxHub(Lookback);
 
     private protected override IReadOnlyList<AdxResult> Series(IReadOnlyList<Bar> bars) => bars.ToAdx(Lookback);
+
+    private protected override byte StateVersion => 1;
+
+    private protected override string[] StateMembers => [
+        "_isFirstPeriod", "_prevHigh", "_prevLow", "_prevClose", "_prevTrs", "_prevPdm", "_prevMdm",
+        "_prevAdx", "_sumTr", "_sumPdm", "_sumMdm", "_sumDx"];
 
     // first bar, smoothing seed, first ADX, first ADXR
     private protected override int[] WarmupSplits => [0, 1, Lookback, (2 * Lookback) - 1, (3 * Lookback) - 1];

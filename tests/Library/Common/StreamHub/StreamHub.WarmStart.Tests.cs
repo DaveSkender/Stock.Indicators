@@ -54,43 +54,6 @@ public class WarmStart : TestBase
     }
 
     [TestMethod]
-    public void Restore_NewestItemCorrection_StillMatchesSeries()
-    {
-        List<Bar> bars = [.. Bars.Take(200)];
-
-        (BarHub barHub, RsiHub rsi, _) = StartFromSnapshot(bars);
-
-        // revise the newest restored bar, then continue
-        Bar last = bars[Split - 1];
-        Bar revised = new(
-            last.Timestamp, last.Open, last.High + 1m, last.Low, last.Close + 0.5m, last.Volume);
-        barHub.Add(revised);
-        bars[Split - 1] = revised;
-
-        barHub.Add(bars.Skip(Split).ToList());
-
-        rsi.Results.IsExactly(bars.ToRsi(Lookback));
-    }
-
-    [TestMethod]
-    public void Restore_DeepCorrection_FallsBackToReplayAndMatchesSeries()
-    {
-        List<Bar> bars = [.. Bars.Take(200)];
-
-        (BarHub barHub, RsiHub rsi, _) = StartFromSnapshot(bars);
-        barHub.Add(bars.Skip(Split).ToList());
-
-        // a correction older than the restored point forces a replay from the provider
-        Bar old = bars[Split - 30];
-        Bar revised = new(
-            old.Timestamp, old.Open, old.High + 2m, old.Low, old.Close + 1m, old.Volume);
-        barHub.Add(revised);
-        bars[Split - 30] = revised;
-
-        rsi.Results.IsExactly(bars.ToRsi(Lookback));
-    }
-
-    [TestMethod]
     public void Capture_IsACopy_LaterAddsDoNotChangeIt()
     {
         (BarHub barHub, RsiHub rsi) = Chain(Bars.Take(60));
@@ -211,95 +174,6 @@ public class WarmStart : TestBase
 
         rsi.Results.Should().HaveCount(Split + 1, "the next bar must not be suppressed as a repeat");
         rsi.Results.IsExactly(bars.Take(Split + 1).ToList().ToRsi(Lookback));
-    }
-
-    [TestMethod]
-    public void Restore_IntoUsedHub_DropsItsOldRollbackState()
-    {
-        List<Bar> bars = [.. Bars.Take(200)];
-
-        // same timestamps, different prices: stale rollback entries would restore the wrong averages
-        List<Bar> other = bars.Take(Split)
-            .Select(b => new Bar(b.Timestamp, b.Open + 7m, b.High + 7m, b.Low + 7m, b.Close * 1.3m, b.Volume))
-            .ToList();
-        (BarHub barHub, RsiHub rsi) = Chain(other);
-
-        (BarHub source, RsiHub sourceRsi) = Chain(bars.Take(Split));
-        barHub.RestoreSnapshot(source.CaptureSnapshot());
-        rsi.RestoreSnapshot(sourceRsi.CaptureSnapshot());
-
-        Bar last = bars[Split - 1];
-        Bar revised = new(
-            last.Timestamp, last.Open, last.High + 1m, last.Low, last.Close + 0.5m, last.Volume);
-        barHub.Add(revised);
-        bars[Split - 1] = revised;
-        barHub.Add(bars.Skip(Split).ToList());
-
-        rsi.Results.IsExactly(bars.ToRsi(Lookback));
-    }
-
-    [TestMethod]
-    [DataRow(0)]
-    [DataRow(10)]
-    [DataRow(13)]
-    [DataRow(14)]
-    public void Restore_DuringWarmup_ContinuesBitExact(int split)
-    {
-        // before the first calculable position the averages are NaN, and must survive as NaN
-        IReadOnlyList<Bar> bars = Bars.Take(100).ToList();
-
-        (BarHub barHub, RsiHub rsi, HubSnapshot<RsiResult> snapshot) = StartFromSnapshot(bars, split);
-
-        rsi.CaptureSnapshot().State.Should().Equal(snapshot.State);
-
-        barHub.Add(bars.Skip(split).ToList());
-
-        rsi.Results.IsExactly(bars.ToRsi(Lookback));
-    }
-
-    [TestMethod]
-    [DataRow(0)]
-    [DataRow(150)]
-    public void Restore_ThenCorrectNewest_MatchesAnUninterruptedChain(int cacheLimit)
-    {
-        int? maxCacheSize = cacheLimit == 0 ? null : cacheLimit;
-        // a pruned provider is where a replay from the provider differs from the live path
-        List<Bar> bars = [.. Bars.Take(300)];
-        const int split = 220;
-
-        (BarHub uninterruptedBars, RsiHub uninterrupted) = Chain(bars.Take(split), maxCacheSize: maxCacheSize);
-        (BarHub restoredBars, RsiHub restored, _) = StartFromSnapshot(bars, split, maxCacheSize);
-
-        Bar revised = Revise(bars[split - 1]);
-        foreach (BarHub hub in new[] { uninterruptedBars, restoredBars })
-        {
-            hub.Add(revised);
-            hub.Add(bars.Skip(split).ToList());
-        }
-
-        restored.Results.IsExactly(uninterrupted.Results);
-        restoredBars.Cache.Should().Equal(uninterruptedBars.Cache);
-    }
-
-    [TestMethod]
-    public void Restore_RepeatedNewestUpdates_KeepRollingBack()
-    {
-        // a forming bar is revised on every tick; each revision must resolve from the restored ring
-        List<Bar> bars = [.. Bars.Take(200)];
-
-        (BarHub barHub, RsiHub rsi, _) = StartFromSnapshot(bars);
-
-        for (int tick = 1; tick <= 5; tick++)
-        {
-            Bar last = bars[Split - 1];
-            bars[Split - 1] = new Bar(
-                last.Timestamp, last.Open, last.High + tick, last.Low, last.Close + (tick * 0.1m), last.Volume);
-            barHub.Add(bars[Split - 1]);
-        }
-
-        barHub.Add(bars.Skip(Split).ToList());
-
-        rsi.Results.IsExactly(bars.ToRsi(Lookback));
     }
 
     [TestMethod]
@@ -600,33 +474,6 @@ public class WarmStart : TestBase
             double l = ((loss * (Lookback - 1)) + Math.Max(-change, 0)) / Lookback;
             return 100 - (100 / (1 + (g / l)));
         }
-    }
-
-    [TestMethod]
-    public void Capture_AfterMidTailCorrection_RestoresAndContinues()
-    {
-        // a correction behind the newest bar replays later bars, so the ring is no longer ascending
-        List<Bar> bars = [.. Bars.Take(200)];
-        const int split = 150;
-
-        (BarHub barHub, RsiHub rsi) = Chain(bars.Take(split));
-        Bar revised = Revise(bars[split - 5]);
-        barHub.Add(revised);
-        bars[split - 5] = revised;
-
-        HubSnapshot<IBar> barSnapshot = barHub.CaptureSnapshot();
-        HubSnapshot<RsiResult> rsiSnapshot = rsi.CaptureSnapshot();
-
-        BarHub barHub2 = new();
-        RsiHub rsi2 = barHub2.ToRsiHub(Lookback);
-        barHub2.RestoreSnapshot(barSnapshot);
-        rsi2.RestoreSnapshot(rsiSnapshot);
-
-        rsi2.CaptureSnapshot().State.Should().Equal(rsiSnapshot.State);
-
-        barHub2.Add(bars.Skip(split).ToList());
-
-        rsi2.Results.IsExactly(bars.ToRsi(Lookback));
     }
 
     [TestMethod]
