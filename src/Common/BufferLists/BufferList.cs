@@ -103,8 +103,10 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
             && (item.Timestamp < _internalList[^1].Timestamp
                 || (item.Timestamp == _internalList[^1].Timestamp && !AllowsRepeatedTimestamps)))
         {
+            string listName = string.IsNullOrEmpty(Name) ? GetType().Name : Name;
+
             throw new InvalidOperationException(
-                $"{Name} received timestamp {item.Timestamp:O}, which is not after the last "
+                $"{listName} received timestamp {item.Timestamp:O}, which is not after the last "
                 + $"timestamp {_internalList[^1].Timestamp:O}. A BufferList requires chronological, "
                 + "unique input; use a StreamHub for out-of-order or revised data.");
         }

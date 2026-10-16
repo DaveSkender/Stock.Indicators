@@ -15,7 +15,10 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromBar, IRenko
     private bool _isInitialized;
 
     /// <inheritdoc/>
-    /// <remarks>One bar can complete several bricks, which share its timestamp.</remarks>
+    /// <remarks>
+    /// One bar can complete several bricks, which share its timestamp.
+    /// Strict ordering compares brick timestamps, so out-of-order input that completes no brick is not detected.
+    /// </remarks>
     private protected override bool AllowsRepeatedTimestamps => true;
 
     /// <summary>

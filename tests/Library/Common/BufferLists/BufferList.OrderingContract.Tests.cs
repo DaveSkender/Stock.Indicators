@@ -150,4 +150,44 @@ public class OrderingContract : TestBase
         sut.Select(static r => r.Timestamp).Distinct().Count()
             .Should().BeLessThan(sut.Count);
     }
+
+    [TestMethod]
+    public void Strict_DuplicateOnTimestampValuePath_Throws()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(30).ToList();
+
+        SmaList sut = new(20) { ThrowOnOutOfOrder = true };
+        sut.Add(bars);
+
+        Action add = () => sut.Add(bars[^1].Timestamp, (double)bars[^1].Close);
+
+        add.Should().Throw<InvalidOperationException>();
+    }
+
+    [TestMethod]
+    public void Strict_DisorderInsideBatch_ThrowsAfterEarlierRowsAreKept()
+    {
+        List<Bar> scrambled = [.. Bars.Take(60)];
+        (scrambled[40], scrambled[41]) = (scrambled[41], scrambled[40]);
+
+        SmaList sut = new(20) { ThrowOnOutOfOrder = true };
+
+        Action add = () => sut.Add(scrambled);
+
+        add.Should().Throw<InvalidOperationException>();
+        sut.Should().HaveCount(41);
+    }
+
+    [TestMethod]
+    public void Strict_ListWithoutName_NamesItsType()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(10).ToList();
+
+        ObvList sut = new() { ThrowOnOutOfOrder = true };
+        sut.Add(bars);
+
+        Action add = () => sut.Add(bars[^1]);
+
+        add.Should().Throw<InvalidOperationException>().WithMessage("ObvList*");
+    }
 }
