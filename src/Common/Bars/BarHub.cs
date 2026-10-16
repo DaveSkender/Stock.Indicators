@@ -98,6 +98,15 @@ public class BarHub
     }
 
     /// <inheritdoc/>
+    private protected override byte[]? CaptureSnapshotState() => [];
+
+    /// <inheritdoc/>
+    private protected override void RestoreSnapshotState(ReadOnlySpan<byte> state)
+    {
+        // a root hub's cache is its only state
+    }
+
+    /// <inheritdoc/>
     public override string ToString()
         => $"BARS<{nameof(IBar)}>: {Bars.Count} items";
 

@@ -108,6 +108,33 @@ public class RsiHub
         return (r, i);
     }
 
+    private const byte SnapshotStateVersion = 1;
+
+    /// <inheritdoc/>
+    private protected override byte[]? CaptureSnapshotState()
+        => SnapshotCodec.Write(SnapshotStateVersion, w => {
+            w.Write(_avgGain);
+            w.Write(_avgLoss);
+        });
+
+    /// <inheritdoc/>
+    private protected override void RestoreSnapshotState(ReadOnlySpan<byte> state)
+    {
+        double avgGain = 0;
+        double avgLoss = 0;
+
+        SnapshotCodec.Read(state, SnapshotStateVersion, r => {
+            avgGain = r.ReadDouble();
+            avgLoss = r.ReadDouble();
+        });
+
+        _avgGain = avgGain;
+        _avgLoss = avgLoss;
+
+        // snapshots recorded before the restore describe items that are gone
+        _rollback.Clear();
+    }
+
     /// <summary>
     /// Restores the RSI state (avgGain, avgLoss) up to the specified timestamp.
     /// Called during Add/Remove operations and explicit Rebuild() calls.
