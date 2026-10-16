@@ -118,15 +118,10 @@ public class RsiHub
 
             // the rollback ring travels with the state, so corrections right after
             // a restore take the same path they would have without one
-            (DateTime Timestamp, (double AvgGain, double AvgLoss) State)[] ring = [.. _rollback.Entries()];
-            w.Write(ring.Length);
-
-            foreach ((DateTime timestamp, (double avgGain, double avgLoss)) in ring)
-            {
-                w.Write(timestamp.Ticks);
-                w.Write(avgGain);
-                w.Write(avgLoss);
-            }
+            SnapshotCodec.WriteRing(w, _rollback, static (rw, s) => {
+                rw.Write(s.AvgGain);
+                rw.Write(s.AvgLoss);
+            });
         });
 
     /// <inheritdoc/>
@@ -139,38 +134,12 @@ public class RsiHub
         SnapshotCodec.Read(state, SnapshotStateVersion, r => {
             avgGain = r.ReadDouble();
             avgLoss = r.ReadDouble();
-
-            int count = r.ReadInt32();
-
-            if (count < 0 || count > _rollback.Capacity)
-            {
-                throw new InvalidDataException($"Rollback entry count {count} is out of range.");
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                long ticks = r.ReadInt64();
-
-                if (ticks < DateTime.MinValue.Ticks || ticks > DateTime.MaxValue.Ticks)
-                {
-                    throw new InvalidDataException("Rollback entry timestamp is out of range.");
-                }
-
-                DateTime timestamp = new(ticks, DateTimeKind.Unspecified);
-
-                ring.Add((timestamp, (r.ReadDouble(), r.ReadDouble())));
-            }
+            ring = SnapshotCodec.ReadRing(r, _rollback.Capacity, static rr => (rr.ReadDouble(), rr.ReadDouble()));
         });
 
         _avgGain = avgGain;
         _avgLoss = avgLoss;
-
-        _rollback.Clear();
-
-        foreach ((DateTime timestamp, (double, double) snapshot) in ring)
-        {
-            _rollback.Add(timestamp, snapshot);
-        }
+        SnapshotCodec.LoadRing(_rollback, ring);
     }
 
     /// <summary>
