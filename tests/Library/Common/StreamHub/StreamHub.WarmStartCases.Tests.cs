@@ -343,7 +343,7 @@ public class AdxWarmStart : WarmStartCases<IBar, AdxResult>
 }
 
 [TestClass]
-public class KvoWarmStart : WarmStartCases<KvoResult>
+public class KvoWarmStart : WarmStartCases<IBar, KvoResult>
 {
     private const int Fast = 34;
     private const int Slow = 55;
@@ -352,6 +352,11 @@ public class KvoWarmStart : WarmStartCases<KvoResult>
     private protected override StreamHub<IBar, KvoResult> Subscribe(BarHub barHub) => barHub.ToKvoHub(Fast, Slow, Signal);
 
     private protected override IReadOnlyList<KvoResult> Series(IReadOnlyList<Bar> bars) => bars.ToKvo(Fast, Slow, Signal);
+
+    private protected override byte StateVersion => 1;
+
+    private protected override string[] StateMembers => [
+        "_prevHlc", "_prevTrend", "_prevDm", "_prevCm", "_prevVfFastEma", "_prevVfSlowEma", "_sumVf"];
 
     // empty hub, HLC basis, trend seed, first volume force, then just after the fast, slow and signal seeds
     private protected override int[] WarmupSplits => [0, 1, 2, 3, Fast + 2, Slow + 2, Slow + Signal + 1];
