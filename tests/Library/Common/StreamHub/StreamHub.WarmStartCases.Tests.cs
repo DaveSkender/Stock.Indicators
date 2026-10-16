@@ -384,6 +384,9 @@ public class ParabolicSarWarmStart : WarmStartCases<IBar, ParabolicSarResult>
     private protected override string[] StateMembers => [
         "_accelerationFactor", "_extremePoint", "_priorSar", "_isRising", "_isInitialized", "_firstReversalFound"];
 
+    // the prior-bar buffer count follows the members, ahead of the ring
+    private protected override string CountMemberAfterState => "_buffer";
+
     // empty hub, first bar, two bars buffered, the buffer rolling, the last bar before the first
     // reversal (AF at its maximum in this data), then the first falling trend, which a lost
     // direction flag would continue as rising
