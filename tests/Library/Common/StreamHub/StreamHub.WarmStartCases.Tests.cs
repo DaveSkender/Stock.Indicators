@@ -227,29 +227,74 @@ public abstract class WarmStartCases<TIn, TResult> : TestBase
     {
         (_, StreamHub<TIn, TResult> hub) = Chain(Bars.Take(Split));
 
-        using MemoryStream stream = new();
-        using (BinaryWriter w = new(stream))
-        {
-            w.Write(StateVersion);
+        // distinct doubles, and one capture per flag set alone, so swapping any two members shows
+        string[] flags = [.. StateMembers.Where(n => ReadMember(hub, n) is bool)];
+        string[] patterns = flags.Length == 0 ? [string.Empty] : flags;
 
-            foreach (string name in StateMembers)
+        foreach (string setFlag in patterns)
+        {
+            using MemoryStream stream = new();
+            using (BinaryWriter w = new(stream))
             {
-                switch (ReadMember(hub, name))
+                w.Write(StateVersion);
+
+                for (int i = 0; i < StateMembers.Length; i++)
                 {
-                    case bool flag: w.Write(flag); break;
-                    case double value: w.Write(value); break;
-                    case object value: throw new InvalidOperationException($"{name} is a {value.GetType().Name}.");
+                    string name = StateMembers[i];
+                    object value = ReadMember(hub, name) switch {
+                        bool => name == setFlag,
+                        double => 0.5 + i,
+                        object other => throw new InvalidOperationException($"{name} is a {other.GetType().Name}.")
+                    };
+
+                    WriteMember(hub, name, value);
+
+                    if (value is bool flag)
+                    {
+                        w.Write(flag);
+                    }
+                    else
+                    {
+                        w.Write((double)value);
+                    }
                 }
             }
+
+            byte[] expected = stream.ToArray();
+            byte[] state = hub.CaptureSnapshot().State;
+
+            state[..expected.Length].Should().Equal(expected, "flag {0} set alone", setFlag);
+
+            // the members end where the next count begins, so none is missing from the list
+            BitConverter.ToInt32(state, expected.Length).Should().Be(CountOf(ReadMember(hub, CountMemberAfterState)));
         }
+    }
 
-        byte[] expected = stream.ToArray();
+    /// <summary>
+    /// Gets the member whose entry count the encoding writes right after the state members.
+    /// </summary>
+    private protected virtual string CountMemberAfterState => "_rollback";
 
-        // a reordered layout only shows when the swapped values differ
-        double[] values = [.. StateMembers.Select(n => ReadMember(hub, n)).OfType<double>()];
-        values.Should().OnlyHaveUniqueItems("every double member needs a distinct value at the capture point");
+    private static int CountOf(object collection) => collection switch {
+        System.Collections.ICollection items => items.Count,
+        _ => ((System.Collections.IEnumerable)collection.GetType()
+            .GetMethod("Entries", BindingFlags.Instance | BindingFlags.NonPublic)!
+            .Invoke(collection, null)!).Cast<object>().Count()
+    };
 
-        hub.CaptureSnapshot().State[..expected.Length].Should().Equal(expected);
+    private static void WriteMember(object hub, string name, object value)
+    {
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        Type type = hub.GetType();
+
+        if (type.GetField(name, flags) is FieldInfo field)
+        {
+            field.SetValue(hub, value);
+        }
+        else
+        {
+            type.GetProperty(name, flags)!.SetValue(hub, value);
+        }
     }
 
     private static object ReadMember(object hub, string name)
