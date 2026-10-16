@@ -7,9 +7,10 @@ namespace BufferLists;
 /// must pre-sort, or use a <c>StreamHub</c> for out-of-order handling.
 /// </summary>
 /// <remarks>
-/// These are characterization tests. If a future change adds enforcement
-/// (throwing on out-of-order input) or silent reordering, they will fail and
-/// flag the contract shift for deliberate review. The shipped behavior is
+/// These are characterization tests. If a future change makes enforcement the
+/// default or adds silent reordering, they will fail and flag the contract
+/// shift for deliberate review. Enforcement is opt-in through
+/// <see cref="BufferList{TResult}.ThrowOnOutOfOrder"/>. The shipped behavior is
 /// documented prominently on <c>BufferList{TResult}</c>, the increment
 /// interfaces, and the buffer-list guide.
 /// </remarks>
@@ -70,5 +71,83 @@ public class OrderingContract : TestBase
         sut.Should().HaveCount(countBeforeResend + 1);
         sut[^1].Timestamp.Should().Be(bars[^1].Timestamp);
         sut[^2].Timestamp.Should().Be(bars[^1].Timestamp);
+    }
+
+    [TestMethod]
+    public void Strict_OrderedInput_DoesNotThrow()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
+
+        SmaList sut = new(20) { ThrowOnOutOfOrder = true };
+        sut.Add(bars);
+
+        sut.IsExactly(bars.ToSma(20));
+    }
+
+    [TestMethod]
+    public void Strict_OutOfOrderInput_Throws()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
+
+        SmaList sut = new(20) { ThrowOnOutOfOrder = true };
+        sut.Add(bars);
+
+        Action add = () => sut.Add(bars[^2]);
+
+        add.Should().Throw<InvalidOperationException>()
+            .WithMessage("*not after the last timestamp*StreamHub*");
+    }
+
+    [TestMethod]
+    public void Strict_DuplicateTimestamp_Throws()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(30).ToList();
+
+        SmaList sut = new(20) { ThrowOnOutOfOrder = true };
+        sut.Add(bars);
+
+        Action add = () => sut.Add(bars[^1]);
+
+        add.Should().Throw<InvalidOperationException>();
+    }
+
+    [TestMethod]
+    public void Strict_AfterPruning_ComparesAgainstNewestRetained()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(60).ToList();
+
+        SmaList sut = new(5) { MaxListSize = 3, ThrowOnOutOfOrder = true };
+        sut.Add(bars);
+
+        sut.Should().HaveCount(3);
+        Action stale = () => sut.Add(bars[10]);
+        stale.Should().Throw<InvalidOperationException>();
+    }
+
+    [TestMethod]
+    public void Strict_AfterClear_AcceptsEarlierInput()
+    {
+        IReadOnlyList<Bar> bars = Bars.Take(30).ToList();
+
+        SmaList sut = new(20) { ThrowOnOutOfOrder = true };
+        sut.Add(bars);
+        sut.Clear();
+
+        Action restart = () => sut.Add(bars);
+
+        restart.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void Strict_Renko_AllowsBricksSharingATimestamp()
+    {
+        // one bar can complete several bricks, so repeated timestamps are valid
+        RenkoList sut = new(1m) { ThrowOnOutOfOrder = true };
+
+        Action feed = () => sut.Add(Bars);
+
+        feed.Should().NotThrow();
+        sut.Select(static r => r.Timestamp).Distinct().Count()
+            .Should().BeLessThan(sut.Count);
     }
 }

@@ -14,6 +14,10 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromBar, IRenko
     private decimal _sumV;
     private bool _isInitialized;
 
+    /// <inheritdoc/>
+    /// <remarks>One bar can complete several bricks, which share its timestamp.</remarks>
+    private protected override bool AllowsRepeatedTimestamps => true;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="RenkoList"/> class.
     /// </summary>
