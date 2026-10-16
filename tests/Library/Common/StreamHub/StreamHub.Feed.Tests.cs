@@ -130,14 +130,19 @@ public class Feed : TestBase
 
         StreamFeed<IBar> feed = hub.CreateFeed(capacity: 2, StreamFeedFullMode.DropOldest);
 
-        await feed.WriteAsync(bars[0], TestContext.CancellationToken).ConfigureAwait(true);
-        gate.WaitEntered();
-        await feed.WriteAsync(bars[1], TestContext.CancellationToken).ConfigureAwait(true);
-        await feed.WriteAsync(bars[2], TestContext.CancellationToken).ConfigureAwait(true);
-        await feed.WriteAsync(bars[3], TestContext.CancellationToken).ConfigureAwait(false); // drops bars[1]
-
-        gate.Release();
-        await feed.DisposeAsync().ConfigureAwait(true);
+        try
+        {
+            await feed.WriteAsync(bars[0], TestContext.CancellationToken).ConfigureAwait(true);
+            gate.WaitEntered();
+            await feed.WriteAsync(bars[1], TestContext.CancellationToken).ConfigureAwait(true);
+            await feed.WriteAsync(bars[2], TestContext.CancellationToken).ConfigureAwait(true);
+            await feed.WriteAsync(bars[3], TestContext.CancellationToken).ConfigureAwait(true); // drops bars[1]
+        }
+        finally
+        {
+            gate.Release();
+            await feed.DisposeAsync().ConfigureAwait(true);
+        }
 
         hub.Cache.Select(static b => b.Timestamp).Should().Equal(
             bars[0].Timestamp, bars[2].Timestamp, bars[3].Timestamp);
@@ -363,10 +368,67 @@ public class Feed : TestBase
         BarHub hub = new();
         StreamFeed<IBar> first = hub.CreateFeed();
 
-        Action second = () => hub.CreateFeed();
-        second.Should().Throw<InvalidOperationException>().WithMessage("*still open*");
+        try
+        {
+            Action second = () => hub.CreateFeed();
+            second.Should().Throw<InvalidOperationException>().WithMessage("*still open*");
+        }
+        finally
+        {
+            await first.DisposeAsync().ConfigureAwait(true);
+        }
 
-        await first.DisposeAsync().ConfigureAwait(true);
+        StreamFeed<IBar> next = hub.CreateFeed();
+        await next.DisposeAsync().ConfigureAwait(true);
+    }
+
+    [TestMethod]
+    public async Task Feed_FaultedByHub_RethrowsOriginal_ReleasesHub_AndDoesNotEndTransmission()
+    {
+        BarHub hub = new();
+        SmaHub sma = hub.ToSmaHub(5);
+
+        StreamFeed<IBar> feed = hub.CreateFeed(endTransmissionOnDispose: true);
+
+        // a null item makes the real hub throw ArgumentNullException from its own Add
+        await feed.WriteAsync(null!, TestContext.CancellationToken).ConfigureAwait(true);
+
+        Func<Task> dispose = async () => await feed.DisposeAsync().ConfigureAwait(true);
+        await dispose.Should().ThrowAsync<ArgumentNullException>().ConfigureAwait(true);
+
+        sma.IsSubscribed.Should().BeTrue("a faulted feed does not end the transmission");
+
+        // the failed feed no longer holds the hub
+        StreamFeed<IBar> next = hub.CreateFeed();
+        await next.DisposeAsync().ConfigureAwait(true);
+    }
+
+    [TestMethod]
+    public async Task CreateFeed_WhileDisposeIsDraining_Throws()
+    {
+        BarHub hub = new();
+        using GateObserver gate = new();
+        hub.Subscribe(gate);
+
+        StreamFeed<IBar> feed = hub.CreateFeed();
+        Task disposing = Task.CompletedTask;
+
+        try
+        {
+            await feed.WriteAsync(Bars[0], TestContext.CancellationToken).ConfigureAwait(true);
+            gate.WaitEntered(); // the consumer is still applying an item
+
+            disposing = feed.DisposeAsync().AsTask();
+            disposing.IsCompleted.Should().BeFalse();
+
+            Action second = () => hub.CreateFeed();
+            second.Should().Throw<InvalidOperationException>().WithMessage("*still open*");
+        }
+        finally
+        {
+            gate.Release();
+            await disposing.ConfigureAwait(true);
+        }
 
         StreamFeed<IBar> next = hub.CreateFeed();
         await next.DisposeAsync().ConfigureAwait(true);

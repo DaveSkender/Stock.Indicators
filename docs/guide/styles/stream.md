@@ -155,7 +155,7 @@ await feed.WriteAsync(bar, cancellationToken);  // safe from any thread
 - `WriteAsync` completes when the item is queued, not when the hub has applied it, and honors its cancellation token while waiting for space.
 - Only one feed can be open per hub. Dispose it before creating the next, for example when a connection resets.
 - While a feed is open, send every mutation through it. `RemoveAt`, `RemoveRange`, `Rebuild`, and `Reinitialize` cannot be queued behind its items, so call them only after the feed is disposed.
-- Observer callbacks run on the feed's consumer task, not on the thread that wrote the item. Read results from another thread with `Snapshot()`.
+- Observer callbacks run on the feed's consumer task, not on the thread that wrote the item. Read results from another thread with `Snapshot()`, and never dispose the feed from a callback, which would wait on itself.
 - Disposing the feed stops new writes and applies what is queued first; that wait cannot be canceled. With `endTransmissionOnDispose`, it then calls `EndTransmission()`.
 - If the hub rejects an item, the feed stops. `Completion`, the next `WriteAsync`, and `DisposeAsync` throw the hub's exception, and `DisposeAsync` does not end the transmission.
 

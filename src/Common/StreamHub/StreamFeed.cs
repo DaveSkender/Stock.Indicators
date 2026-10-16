@@ -85,6 +85,8 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     /// Waiting for the queue to drain cannot be canceled, and takes as long as the hub needs
     /// to apply what is queued.  If the hub rejected an item, this throws its original
     /// exception and does not end the transmission, so subscribers are not completed.
+    /// Do not dispose the feed from an observer callback: callbacks run on the consumer
+    /// task, which would then wait for itself.
     /// </remarks>
     public async ValueTask DisposeAsync()
     {
