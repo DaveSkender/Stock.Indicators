@@ -13,7 +13,7 @@ namespace FacioQuo.Stock.Indicators;
 /// While a feed is open, every mutation of the hub goes through it; corrections
 /// such as <c>RemoveAt</c> or <c>Rebuild</c> cannot be queued behind its items.
 /// Observer callbacks run on the feed's consumer task, not on the writing thread.
-/// If the hub rejects an item, the consumer stops and the original exception surfaces on
+/// If the hub throws while applying an item, the consumer stops and the original exception surfaces on
 /// <see cref="Completion"/>, on the next <see cref="WriteAsync(TIn, CancellationToken)"/>,
 /// and on <see cref="DisposeAsync"/>.
 /// </remarks>
@@ -51,7 +51,7 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
 
     /// <summary>
     /// Gets a task that completes when the queue has drained after disposal,
-    /// or faults with the exception the hub raised for a rejected item.
+    /// or faults with the exception the hub raised while applying an item.
     /// </summary>
     public Task Completion { get; }
 
@@ -63,7 +63,7 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     /// <returns>A task that completes when the item is queued, not when the hub has applied it.</returns>
     /// <exception cref="InvalidOperationException">The feed is disposed.</exception>
     /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was canceled.</exception>
-    /// <remarks>If the hub rejected an earlier item, this throws that item's original exception.</remarks>
+    /// <remarks>If the hub threw on an earlier item, this throws that item's original exception.</remarks>
     public async ValueTask WriteAsync(TIn item, CancellationToken cancellationToken = default)
     {
         _fault?.Throw();
@@ -84,7 +84,7 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
     /// </summary>
     /// <remarks>
     /// Waiting for the queue to drain cannot be canceled, and takes as long as the hub needs
-    /// to apply what is queued.  If the hub rejected an item, this throws its original
+    /// to apply what is queued.  If the hub threw on an item, this throws its original
     /// exception and does not end the transmission, so subscribers are not completed.
     /// Every call, including an overlapping one, returns the same disposal and waits for it.
     /// Do not dispose the feed from an observer callback: callbacks run on the consumer
@@ -98,11 +98,8 @@ public sealed class StreamFeed<TIn> : IAsyncDisposable
         {
             _channel.Writer.TryComplete();
 
-            // a wait that does not throw, so the hub's original exception is rethrown below
-            await Task.WhenAny(Completion).ConfigureAwait(false);
-            _ = Completion.Exception; // observed here; _fault carries it
-
-            _fault?.Throw();
+            // rethrows the hub's exception when the consumer faulted
+            await Completion.ConfigureAwait(false);
             _endTransmission?.Invoke();
         }
         finally

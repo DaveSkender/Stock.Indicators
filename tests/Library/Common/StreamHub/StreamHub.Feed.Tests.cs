@@ -179,7 +179,7 @@ public class Feed : TestBase
         await keepWriting.Should().ThrowAsync<InvalidOperationException>().WithMessage("rejected").ConfigureAwait(true);
 
         Func<Task> dispose = async () => await feed.DisposeAsync().ConfigureAwait(false);
-        await dispose.Should().ThrowAsync<InvalidOperationException>().WithMessage("rejected").ConfigureAwait(true);
+        await dispose.Should().ThrowExactlyAsync<InvalidOperationException>().WithMessage("rejected").ConfigureAwait(true);
     }
 
     [TestMethod]
@@ -192,7 +192,7 @@ public class Feed : TestBase
         Func<Task> write = async () => await feed.WriteAsync(Bars[0], TestContext.CancellationToken).ConfigureAwait(false);
 
         await write.Should().ThrowExactlyAsync<InvalidOperationException>().ConfigureAwait(true);
-        await feed.DisposeAsync().ConfigureAwait(false); // second dispose is a no-op
+        await feed.DisposeAsync().ConfigureAwait(false); // a second dispose returns the same disposal
     }
 
     [TestMethod]
@@ -302,13 +302,13 @@ public class Feed : TestBase
             .ConfigureAwait(true);
 
         // the blocked writer gets the hub's own exception, not a hang or a generic closed error
-        await wait.Should().ThrowAsync<OverflowException>().ConfigureAwait(true);
+        await wait.Should().ThrowExactlyAsync<OverflowException>().ConfigureAwait(true);
 
         Func<Task> completion = () => feed.Completion;
-        await completion.Should().ThrowAsync<OverflowException>().ConfigureAwait(true);
+        await completion.Should().ThrowExactlyAsync<OverflowException>().ConfigureAwait(true);
 
         Func<Task> dispose = async () => await feed.DisposeAsync().ConfigureAwait(true);
-        await dispose.Should().ThrowAsync<OverflowException>().ConfigureAwait(true);
+        await dispose.Should().ThrowExactlyAsync<OverflowException>().ConfigureAwait(true);
     }
 
     [TestMethod]
@@ -394,7 +394,10 @@ public class Feed : TestBase
         await feed.WriteAsync(null!, TestContext.CancellationToken).ConfigureAwait(true);
 
         Func<Task> dispose = async () => await feed.DisposeAsync().ConfigureAwait(true);
-        await dispose.Should().ThrowAsync<ArgumentNullException>().ConfigureAwait(true);
+        await dispose.Should().ThrowExactlyAsync<ArgumentNullException>().ConfigureAwait(true);
+
+        // a later caller gets the same disposal, and so the same fault
+        await dispose.Should().ThrowExactlyAsync<ArgumentNullException>().ConfigureAwait(true);
 
         sma.IsSubscribed.Should().BeTrue("a faulted feed does not end the transmission");
 
@@ -495,5 +498,27 @@ public class Feed : TestBase
 
         await dispose.Should().ThrowAsync<InvalidOperationException>().WithMessage("end").ConfigureAwait(true);
         closedCalls.Should().Be(1);
+    }
+
+    [TestMethod]
+    public async Task Feed_DisposeTwice_RunsDisposalOnce()
+    {
+        int closedCalls = 0;
+        int endCalls = 0;
+
+#pragma warning disable CA2000 // disposed below
+        StreamFeed<int> feed = new(
+            static _ => { },
+            capacity: 1,
+            StreamFeedFullMode.Wait,
+            endTransmission: () => endCalls++,
+            closed: () => closedCalls++);
+#pragma warning restore CA2000
+
+        await feed.DisposeAsync().ConfigureAwait(true);
+        await feed.DisposeAsync().ConfigureAwait(true);
+
+        closedCalls.Should().Be(1, "a second disposal must not release a newer feed's slot");
+        endCalls.Should().Be(1);
     }
 }
