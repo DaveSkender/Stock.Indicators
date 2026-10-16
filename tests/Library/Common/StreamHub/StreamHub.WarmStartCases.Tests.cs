@@ -373,11 +373,16 @@ public class KvoWarmStart : WarmStartCases<IBar, KvoResult>
 }
 
 [TestClass]
-public class ParabolicSarWarmStart : WarmStartCases<ParabolicSarResult>
+public class ParabolicSarWarmStart : WarmStartCases<IBar, ParabolicSarResult>
 {
     private protected override StreamHub<IBar, ParabolicSarResult> Subscribe(BarHub barHub) => barHub.ToParabolicSarHub();
 
     private protected override IReadOnlyList<ParabolicSarResult> Series(IReadOnlyList<Bar> bars) => bars.ToParabolicSar();
+
+    private protected override byte StateVersion => 1;
+
+    private protected override string[] StateMembers => [
+        "_accelerationFactor", "_extremePoint", "_priorSar", "_isRising", "_isInitialized", "_firstReversalFound"];
 
     // empty hub, first bar, two bars buffered, the buffer rolling, the last bar before the first
     // reversal (AF at its maximum in this data), then the first falling trend, which a lost
