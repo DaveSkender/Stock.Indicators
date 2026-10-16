@@ -11,6 +11,10 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
     // Historical high/low buffer for Senkou Span B lookback (need to look back by offset)
     private readonly List<(double High, double Low)> _historicalHighLow;
 
+    // rows seen since construction or Clear, and the row index of the first retained history entry
+    private int _rowsSeen;
+    private int _historyBase;
+
     // Rolling window buffers for max/min calculations
     private readonly Queue<(double High, double Low)> _tenkanBuffer;
     private readonly Queue<(double High, double Low)> _kijunBuffer;
@@ -119,69 +123,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
     {
         ArgumentNullException.ThrowIfNull(bar);
 
-        // Update rolling buffers using BufferUtilities
-        _tenkanBuffer.Update(TenkanPeriods, ((double)bar.High, (double)bar.Low));
-        _kijunBuffer.Update(KijunPeriods, ((double)bar.High, (double)bar.Low));
-
-        // Store historical high/low for Senkou B lookback
-        _historicalHighLow.Add(((double)bar.High, (double)bar.Low));
-
-        // Calculate Tenkan-sen (conversion line)
-        double? tenkanSen = null;
-        if (_tenkanBuffer.Count == TenkanPeriods)
-        {
-            tenkanSen = CalculateMidpoint(_tenkanBuffer);
-        }
-
-        // Calculate Kijun-sen (base line)
-        double? kijunSen = null;
-        if (_kijunBuffer.Count == KijunPeriods)
-        {
-            kijunSen = CalculateMidpoint(_kijunBuffer);
-        }
-
-        // Store historical Tenkan and Kijun for offset lookback
-        _historicalResults.Add((bar.Timestamp, tenkanSen, kijunSen));
-
-        // Calculate Senkou Span A (leading span A)
-        double? senkouSpanA = null;
-        int senkouStartPeriod = Math.Max(
-            2 * SenkouOffset,
-            Math.Max(TenkanPeriods, KijunPeriods)) - 1;
-
-        if (Count >= senkouStartPeriod)
-        {
-            if (SenkouOffset == 0)
-            {
-                senkouSpanA = (tenkanSen + kijunSen) / 2d;
-            }
-            else if (Count >= SenkouOffset)
-            {
-                // Look back to get historical Tenkan and Kijun values
-                int lookbackIndex = Count - SenkouOffset;
-                if (lookbackIndex >= 0 && lookbackIndex < _historicalResults.Count)
-                {
-                    (DateTime _, double? historicalTenkan, double? historicalKijun) = _historicalResults[lookbackIndex];
-                    senkouSpanA = (historicalTenkan + historicalKijun) / 2d;
-                }
-            }
-        }
-
-        // Calculate Senkou Span B (leading span B)
-        double? senkouSpanB = CalculateSenkouSpanB(Count);
-
-        // Calculate Chikou Span (lagging span)
-        // ChikouSpan for the current result will be null (can't see future in streaming)
-        // Create and emit the result immediately
-        IchimokuResult result = new(
-            Timestamp: bar.Timestamp,
-            TenkanSen: tenkanSen,
-            KijunSen: kijunSen,
-            SenkouSpanA: senkouSpanA,
-            SenkouSpanB: senkouSpanB,
-            ChikouSpan: null);
-
-        AddInternal(result);
+        AddInternal(Calculate(bar, chikouSpan: null));
 
         // Update ChikouSpan for past result (retroactive update)
         // The result ChikouOffset periods back should have its ChikouSpan set to the current close
@@ -213,77 +155,11 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
 
         for (int i = 0; i < bars.Count; i++)
         {
-            IBar bar = bars[i];
-
-            // Update rolling buffers using BufferUtilities
-            _tenkanBuffer.Update(TenkanPeriods, ((double)bar.High, (double)bar.Low));
-            _kijunBuffer.Update(KijunPeriods, ((double)bar.High, (double)bar.Low));
-
-            // Store historical high/low for Senkou B lookback
-            _historicalHighLow.Add(((double)bar.High, (double)bar.Low));
-
-            // Calculate Tenkan-sen (conversion line)
-            double? tenkanSen = null;
-            if (_tenkanBuffer.Count == TenkanPeriods)
-            {
-                tenkanSen = CalculateMidpoint(_tenkanBuffer);
-            }
-
-            // Calculate Kijun-sen (base line)
-            double? kijunSen = null;
-            if (_kijunBuffer.Count == KijunPeriods)
-            {
-                kijunSen = CalculateMidpoint(_kijunBuffer);
-            }
-
-            // Store historical Tenkan and Kijun for offset lookback
-            _historicalResults.Add((bar.Timestamp, tenkanSen, kijunSen));
-
-            // Calculate Senkou Span A (leading span A)
-            double? senkouSpanA = null;
-            int senkouStartPeriod = Math.Max(
-                2 * SenkouOffset,
-                Math.Max(TenkanPeriods, KijunPeriods)) - 1;
-
-            if (Count >= senkouStartPeriod)
-            {
-                if (SenkouOffset == 0)
-                {
-                    senkouSpanA = (tenkanSen + kijunSen) / 2d;
-                }
-                else if (Count >= SenkouOffset)
-                {
-                    // Look back to get historical Tenkan and Kijun values
-                    int lookbackIndex = Count - SenkouOffset;
-                    if (lookbackIndex >= 0 && lookbackIndex < _historicalResults.Count)
-                    {
-                        (DateTime _, double? historicalTenkan, double? historicalKijun) = _historicalResults[lookbackIndex];
-                        senkouSpanA = (historicalTenkan + historicalKijun) / 2d;
-                    }
-                }
-            }
-
-            // Calculate Senkou Span B (leading span B)
-            double? senkouSpanB = CalculateSenkouSpanB(Count);
-
             // Calculate Chikou Span (lagging span) - look ahead in the pre-populated list
-            double? chikouSpan = null;
             int futureIndex = i + ChikouOffset;
-            if (futureIndex < allCloses.Count)
-            {
-                chikouSpan = allCloses[futureIndex];
-            }
+            double? chikouSpan = futureIndex < allCloses.Count ? allCloses[futureIndex] : null;
 
-            // Create and add the result
-            IchimokuResult result = new(
-                Timestamp: bar.Timestamp,
-                TenkanSen: tenkanSen,
-                KijunSen: kijunSen,
-                SenkouSpanA: senkouSpanA,
-                SenkouSpanB: senkouSpanB,
-                ChikouSpan: chikouSpan);
-
-            AddInternal(result);
+            AddInternal(Calculate(bars[i], chikouSpan));
         }
     }
 
@@ -298,7 +174,98 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
         _historicalHighLow.Clear();
         _tenkanBuffer.Clear();
         _kijunBuffer.Clear();
+        _rowsSeen = 0;
+        _historyBase = 0;
     }
+    /// <summary>
+    /// Calculates the result for one bar from the rolling buffers and the bounded history,
+    /// indexed by rows seen so a pruned result list does not shift the lookbacks.
+    /// </summary>
+    private IchimokuResult Calculate(IBar bar, double? chikouSpan)
+    {
+        int index = _rowsSeen++;
+
+        // Update rolling buffers using BufferUtilities
+        _tenkanBuffer.Update(TenkanPeriods, ((double)bar.High, (double)bar.Low));
+        _kijunBuffer.Update(KijunPeriods, ((double)bar.High, (double)bar.Low));
+
+        // Store historical high/low for Senkou B lookback
+        _historicalHighLow.Add(((double)bar.High, (double)bar.Low));
+
+        // Calculate Tenkan-sen (conversion line)
+        double? tenkanSen = null;
+        if (_tenkanBuffer.Count == TenkanPeriods)
+        {
+            tenkanSen = CalculateMidpoint(_tenkanBuffer);
+        }
+
+        // Calculate Kijun-sen (base line)
+        double? kijunSen = null;
+        if (_kijunBuffer.Count == KijunPeriods)
+        {
+            kijunSen = CalculateMidpoint(_kijunBuffer);
+        }
+
+        // Store historical Tenkan and Kijun for offset lookback
+        _historicalResults.Add((bar.Timestamp, tenkanSen, kijunSen));
+
+        // Calculate Senkou Span A (leading span A)
+        double? senkouSpanA = null;
+        int senkouStartPeriod = Math.Max(
+            2 * SenkouOffset,
+            Math.Max(TenkanPeriods, KijunPeriods)) - 1;
+
+        if (index >= senkouStartPeriod)
+        {
+            if (SenkouOffset == 0)
+            {
+                senkouSpanA = (tenkanSen + kijunSen) / 2d;
+            }
+            else if (index >= SenkouOffset)
+            {
+                // Look back to get historical Tenkan and Kijun values
+                int lookbackIndex = index - SenkouOffset - _historyBase;
+                if (lookbackIndex >= 0 && lookbackIndex < _historicalResults.Count)
+                {
+                    (DateTime _, double? historicalTenkan, double? historicalKijun) = _historicalResults[lookbackIndex];
+                    senkouSpanA = (historicalTenkan + historicalKijun) / 2d;
+                }
+            }
+        }
+
+        // Calculate Senkou Span B (leading span B)
+        double? senkouSpanB = CalculateSenkouSpanB(index);
+
+        TrimHistory();
+
+        return new IchimokuResult(
+            Timestamp: bar.Timestamp,
+            TenkanSen: tenkanSen,
+            KijunSen: kijunSen,
+            SenkouSpanA: senkouSpanA,
+            SenkouSpanB: senkouSpanB,
+            ChikouSpan: chikouSpan);
+    }
+
+    /// <summary>
+    /// Drops history older than the Senkou lookbacks need, in blocks so each add stays O(1) amortized.
+    /// </summary>
+    private void TrimHistory()
+    {
+        // the lookbacks reach back SenkouOffset + SenkouBPeriods - 1 rows; one more is margin
+        int keep = SenkouOffset + SenkouBPeriods + 1;
+
+        if (_historicalHighLow.Count < 2 * keep)
+        {
+            return;
+        }
+
+        int remove = _historicalHighLow.Count - keep;
+        _historicalHighLow.RemoveRange(0, remove);
+        _historicalResults.RemoveRange(0, remove);
+        _historyBase += remove;
+    }
+
     /// <summary>
     /// Calculates the midpoint (average of high and low) for a rolling window.
     /// </summary>
@@ -338,7 +305,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
             return null;
         }
 
-        int endIndex = currentIndex - SenkouOffset;
+        int endIndex = currentIndex - SenkouOffset - _historyBase;
         int startIndex = endIndex - SenkouBPeriods + 1;
 
         if (startIndex < 0 || endIndex >= _historicalHighLow.Count)
@@ -364,32 +331,6 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromBar, IIchi
         }
 
         return (max + min) / 2d;
-    }
-
-    /// <summary>
-    /// Removes oldest results from both the outer list and the nested historical buffers
-    /// when the list exceeds <see cref="BufferList{TResult}.MaxListSize"/>.
-    /// This prevents unbounded growth of the auxiliary historical caches.
-    /// </summary>
-    protected override void PruneList()
-    {
-        // Keep the historical buffers in sync with the main list
-        int itemsToRemove = Count - MaxListSize;
-        if (itemsToRemove > 0)
-        {
-            if (_historicalResults.Count > itemsToRemove)
-            {
-                _historicalResults.RemoveRange(0, itemsToRemove);
-            }
-
-            if (_historicalHighLow.Count > itemsToRemove)
-            {
-                _historicalHighLow.RemoveRange(0, itemsToRemove);
-            }
-        }
-
-        // Call base implementation to prune the outer result list
-        base.PruneList();
     }
 }
 
