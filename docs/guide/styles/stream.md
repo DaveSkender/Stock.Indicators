@@ -135,9 +135,30 @@ The event fires while the hub holds its lock, so keep handlers fast and non-thro
 Stream hubs follow a **single-writer** model. Internal locking protects cache *integrity* during the rebuild and rollback that out-of-order data triggers — but it does **not** make concurrent mutation safe. Two threads calling mutating methods at the same time can still interleave incorrectly.
 
 - **Internal locking** guards the cache so a rebuild never exposes a half-updated state to readers.
-- **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock / `Channel<Bar>`).
+- **Serialize all mutating calls** — `Add`, `RemoveAt`, `RemoveRange`, `Reinitialize`, and `Rebuild` must come from a single writer (one thread, or funneled through a lock). A [feed](#feeding-from-many-threads) serializes `Add` only.
 - **Single-threaded usage** requires no additional synchronization.
 - **Multi-threaded usage** must serialize every external call that mutates the hub; reads of `Results` should also be coordinated with the writer (see the example below).
+
+### Feeding from many threads
+
+`CreateFeed()` on a root hub returns a `StreamFeed` that queues items from any thread and applies them to the hub one at a time, in arrival order.
+
+```csharp
+BarHub barHub = new();
+
+await using StreamFeed<IBar> feed = barHub.CreateFeed(endTransmissionOnDispose: true);
+
+await feed.WriteAsync(bar, cancellationToken);  // safe from any thread
+```
+
+- The queue is bounded (`capacity`, default 1024). When it is full, a write waits for space (`StreamFeedFullMode.Wait`) or the oldest queued item is discarded (`StreamFeedFullMode.DropOldest`, which loses data under load).
+- `WriteAsync` completes when the item is queued, not when the hub has applied it, and honors its cancellation token while waiting for space.
+- Only one feed can be open per hub. Dispose it before creating the next, for example when a connection resets.
+- While a feed is open, send every mutation through it. `RemoveAt`, `RemoveRange`, `Rebuild`, and `Reinitialize` cannot be queued behind its items, so call them only after the feed is disposed.
+- Observer callbacks run on the feed's consumer task, not on the thread that wrote the item. Read results from another thread with `Snapshot()`, and never dispose the feed from a callback, which would wait on itself.
+- Disposing the feed stops new writes and applies what is queued first; that wait cannot be canceled. With `endTransmissionOnDispose`, it then calls `EndTransmission()`.
+- If the hub throws while applying an item, the feed stops. `Completion`, the next `WriteAsync`, and `DisposeAsync` throw the hub's exception, and `DisposeAsync` does not end the transmission. Bars the hub refuses by raising `BarRejected` do not stop the feed.
+- `DisposeAsync` throws the hub's exception when the feed faulted, and every later call throws it again. In an `await using` block it replaces an exception already in flight, so catch and record the original inside the block if you need both.
 
 ### What's safe, and what to avoid
 
@@ -239,7 +260,7 @@ This example demonstrates how to connect stream hubs to a live WebSocket feed. T
 
 If your feed delivers raw trade ticks or finer-grained bars than you want to analyze, quantize them first with a [streaming aggregator hub](/utilities/bars#streaming-aggregator-hubs) — `TradeTickHub` → `TradeTickAggregatorHub` for ticks, or `BarAggregatorHub` for bar-to-bar resampling — then chain your indicator hubs off the aggregated output.
 
-Because socket callbacks can fire concurrently, every `Add` must go through a single writer (see [Thread safety](#thread-safety) above). The handler below serializes with a lock; for higher throughput, post incoming bars onto a single-consumer `Channel<Bar>` and call `Add` from one drain loop instead.
+Because socket callbacks can fire concurrently, every `Add` must go through a single writer (see [Thread safety](#thread-safety) above). The handler below serializes with a lock; for higher throughput, write incoming bars to a [feed](#feeding-from-many-threads), which drains them into the hub from one task.
 
 ```csharp
 // setup hubs
