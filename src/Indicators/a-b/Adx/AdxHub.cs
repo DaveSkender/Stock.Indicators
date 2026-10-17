@@ -79,6 +79,8 @@ public class AdxHub
     // recent state snapshots for O(1) near-tail rollback
     private readonly RollbackRing<AdxState> _rollback = new();
 
+    private const byte SnapshotStateVersion = 1;
+
     /// <inheritdoc/>
     public override string ToString() => Cache.Count > 0
         ? $"{Name}({Cache[0].Timestamp:d})"
@@ -349,6 +351,62 @@ public class AdxHub
             _prevClose = close;
         }
     }
+
+    /// <inheritdoc/>
+    private protected override byte[]? CaptureSnapshotState()
+        => SnapshotCodec.Write(SnapshotStateVersion, w => {
+            WriteState(w, CaptureState());
+
+            // the rollback ring travels with the state, so corrections right after
+            // a restore take the same path they would have without one
+            SnapshotCodec.WriteRing(w, _rollback, WriteState);
+        });
+
+    /// <inheritdoc/>
+    private protected override void RestoreSnapshotState(ReadOnlySpan<byte> state)
+    {
+        AdxState current = default;
+        List<(DateTime Timestamp, AdxState State)> ring = [];
+
+        SnapshotCodec.Read(state, SnapshotStateVersion, r => {
+            current = ReadState(r);
+            ring = SnapshotCodec.ReadRing(r, _rollback.Capacity, ReadState);
+        });
+
+        RestoreState(current);
+        SnapshotCodec.LoadRing(_rollback, ring);
+    }
+
+    private static void WriteState(BinaryWriter w, AdxState s)
+    {
+        w.Write(s.IsFirstPeriod);
+        w.Write(s.PrevHigh);
+        w.Write(s.PrevLow);
+        w.Write(s.PrevClose);
+        w.Write(s.PrevTrs);
+        w.Write(s.PrevPdm);
+        w.Write(s.PrevMdm);
+        w.Write(s.PrevAdx);
+        w.Write(s.SumTr);
+        w.Write(s.SumPdm);
+        w.Write(s.SumMdm);
+        w.Write(s.SumDx);
+    }
+
+    private static AdxState ReadState(BinaryReader r)
+        => new(
+            r.ReadBoolean(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble(),
+            r.ReadDouble());
 
     // Captures all mutable scalar state for rollback snapshots.
     private AdxState CaptureState()

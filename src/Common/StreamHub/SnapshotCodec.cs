@@ -68,4 +68,77 @@ internal static class SnapshotCodec
             throw new InvalidDataException("State is longer than expected.");
         }
     }
+
+    /// <summary>
+    /// Writes a rollback ring as an entry count, then each entry's timestamp ticks and state, oldest first.
+    /// </summary>
+    /// <typeparam name="TState">Rollback state type.</typeparam>
+    /// <param name="writer">State writer.</param>
+    /// <param name="ring">Ring to write.</param>
+    /// <param name="writeState">Writes one entry's state.</param>
+    internal static void WriteRing<TState>(
+        BinaryWriter writer, RollbackRing<TState> ring, Action<BinaryWriter, TState> writeState)
+    {
+        (DateTime Timestamp, TState State)[] entries = [.. ring.Entries()];
+        writer.Write(entries.Length);
+
+        foreach ((DateTime timestamp, TState state) in entries)
+        {
+            writer.Write(timestamp.Ticks);
+            writeState(writer, state);
+        }
+    }
+
+    /// <summary>
+    /// Reads rollback entries written by <see cref="WriteRing"/>.
+    /// </summary>
+    /// <typeparam name="TState">Rollback state type.</typeparam>
+    /// <param name="reader">State reader.</param>
+    /// <param name="capacity">Capacity of the ring the entries are restored into.</param>
+    /// <param name="readState">Reads one entry's state.</param>
+    /// <returns>The entries, oldest first, to load with <see cref="LoadRing"/> once the whole state decodes.</returns>
+    /// <exception cref="InvalidDataException">The entry count or a timestamp is out of range.</exception>
+    internal static List<(DateTime Timestamp, TState State)> ReadRing<TState>(
+        BinaryReader reader, int capacity, Func<BinaryReader, TState> readState)
+    {
+        int count = reader.ReadInt32();
+
+        if (count < 0 || count > capacity)
+        {
+            throw new InvalidDataException($"Rollback entry count {count} is out of range.");
+        }
+
+        List<(DateTime Timestamp, TState State)> entries = new(count);
+
+        for (int i = 0; i < count; i++)
+        {
+            long ticks = reader.ReadInt64();
+
+            if (ticks < DateTime.MinValue.Ticks || ticks > DateTime.MaxValue.Ticks)
+            {
+                throw new InvalidDataException("Rollback entry timestamp is out of range.");
+            }
+
+            entries.Add((new DateTime(ticks, DateTimeKind.Unspecified), readState(reader)));
+        }
+
+        return entries;
+    }
+
+    /// <summary>
+    /// Replaces a ring's entries with decoded ones.
+    /// </summary>
+    /// <typeparam name="TState">Rollback state type.</typeparam>
+    /// <param name="ring">Ring to replace.</param>
+    /// <param name="entries">Entries from <see cref="ReadRing"/>, oldest first.</param>
+    internal static void LoadRing<TState>(
+        RollbackRing<TState> ring, List<(DateTime Timestamp, TState State)> entries)
+    {
+        ring.Clear();
+
+        foreach ((DateTime timestamp, TState state) in entries)
+        {
+            ring.Add(timestamp, state);
+        }
+    }
 }
