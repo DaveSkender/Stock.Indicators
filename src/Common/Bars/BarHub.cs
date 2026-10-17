@@ -11,13 +11,15 @@ public class BarHub
     /// </summary>
     private const int absoluteMaxCacheSize = (int)(0.8 * int.MaxValue);
 
+    private const byte SnapshotStateVersion = 1;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BarHub"/> base, without its own provider.
     /// </summary>
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public BarHub(int? maxCacheSize = null)
         : base(new BaseProvider<IBar>(ValidateAndGetMaxCacheSize(maxCacheSize)))
-    { }
+        => Name = "BARS";
 
     /// <summary>
     /// Validates and returns the max cache size.
@@ -47,7 +49,11 @@ public class BarHub
     /// <param name="provider">Bar provider.</param>
     public BarHub(
         IBarProvider<IBar> provider)
-        : base(provider) => Reinitialize();
+        : base(provider)
+    {
+        Name = "BARS";
+        Reinitialize();
+    }
 
     /// <summary>
     /// Raised when the hub refuses a bar timestamped before its oldest cached
@@ -96,6 +102,14 @@ public class BarHub
 
         return (item, index == -1 ? Cache.Count : index);
     }
+
+    /// <inheritdoc/>
+    private protected override byte[]? CaptureSnapshotState()
+        => SnapshotCodec.Write(SnapshotStateVersion, static _ => { });
+
+    /// <inheritdoc/>
+    private protected override void RestoreSnapshotState(ReadOnlySpan<byte> state)
+        => SnapshotCodec.Read(state, SnapshotStateVersion, static _ => { }); // the cache is a root hub's only state
 
     /// <inheritdoc/>
     public override string ToString()

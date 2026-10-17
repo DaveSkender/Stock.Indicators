@@ -27,8 +27,6 @@ internal sealed class RollbackRing<TState>
 
     private readonly DateTime[] _timestamps;
     private readonly TState[] _states;
-    private readonly int _capacity;
-
     private int _next;  // next write position
     private int _count; // filled entries
 
@@ -44,7 +42,7 @@ internal sealed class RollbackRing<TState>
                 "Capacity must be greater than 0.");
         }
 
-        _capacity = capacity;
+        Capacity = capacity;
         _timestamps = new DateTime[capacity];
         _states = new TState[capacity];
     }
@@ -59,7 +57,7 @@ internal sealed class RollbackRing<TState>
     {
         if (_count > 0)
         {
-            int newest = (_next - 1 + _capacity) % _capacity;
+            int newest = (_next - 1 + Capacity) % Capacity;
 
             if (_timestamps[newest] == timestamp)
             {
@@ -70,9 +68,9 @@ internal sealed class RollbackRing<TState>
 
         _timestamps[_next] = timestamp;
         _states[_next] = state;
-        _next = (_next + 1) % _capacity;
+        _next = (_next + 1) % Capacity;
 
-        if (_count < _capacity)
+        if (_count < Capacity)
         {
             _count++;
         }
@@ -88,7 +86,7 @@ internal sealed class RollbackRing<TState>
     {
         for (int back = 1; back <= _count; back++)
         {
-            int index = (_next - back + _capacity) % _capacity;
+            int index = (_next - back + Capacity) % Capacity;
 
             if (_timestamps[index] == timestamp)
             {
@@ -99,6 +97,24 @@ internal sealed class RollbackRing<TState>
 
         state = default!;
         return false;
+    }
+
+    /// <summary>
+    /// Gets the maximum number of retained snapshots.
+    /// </summary>
+    internal int Capacity { get; }
+
+    /// <summary>
+    /// Gets the retained snapshots, oldest first.
+    /// </summary>
+    /// <returns>Each snapshot's timestamp and state.</returns>
+    internal IEnumerable<(DateTime Timestamp, TState State)> Entries()
+    {
+        for (int back = _count; back >= 1; back--)
+        {
+            int index = (_next - back + Capacity) % Capacity;
+            yield return (_timestamps[index], _states[index]);
+        }
     }
 
     /// <summary>
