@@ -69,12 +69,48 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     } = 100_000;
 
     /// <summary>
+    /// Gets or sets whether adding a result that is not newer than the last one throws.
+    /// Default is <c>false</c>, which leaves out-of-order and duplicate input undetected.
+    /// </summary>
+    /// <remarks>
+    /// Enabling this turns silently incorrect results into a fast failure
+    /// for debugging and test data. The list has already advanced its internal
+    /// state when the exception is thrown, so discard it rather than continuing.
+    /// Use a <c>StreamHub</c> for feeds that legitimately deliver late or
+    /// revised input.
+    /// </remarks>
+    public bool ThrowOnOutOfOrder { get; set; }
+
+    /// <summary>
+    /// Gets whether consecutive results may share a timestamp, as when one input
+    /// produces several results. Strict ordering then rejects only earlier timestamps.
+    /// </summary>
+    private protected virtual bool AllowsRepeatedTimestamps => false;
+
+    /// <summary>
     /// Adds an item to the list using internal buffer logic.
     /// Automatically prunes the list if it exceeds MaxListSize.
     /// </summary>
     /// <param name="item">Item to add.</param>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when <see cref="ThrowOnOutOfOrder"/> is enabled and the item's
+    /// timestamp is not after the last item's.
+    /// </exception>
     protected void AddInternal(TResult item)
     {
+        if (ThrowOnOutOfOrder
+            && _internalList.Count > 0
+            && (item.Timestamp < _internalList[^1].Timestamp
+                || (item.Timestamp == _internalList[^1].Timestamp && !AllowsRepeatedTimestamps)))
+        {
+            string listName = string.IsNullOrEmpty(Name) ? GetType().Name : Name;
+
+            throw new InvalidOperationException(
+                $"{listName} received timestamp {item.Timestamp:O}, which is not after the last "
+                + $"timestamp {_internalList[^1].Timestamp:O}. A BufferList requires chronological, "
+                + "unique input; use a StreamHub for out-of-order or revised data.");
+        }
+
         _internalList.Add(item);
 
         if (_internalList.Count > MaxListSize)
