@@ -109,4 +109,89 @@ public class StreamObservables : TestBase, ITestChainProvider
         observer.Unsubscribe();
         barHub.EndTransmission();
     }
+
+    [TestMethod]
+    public void EndTransmissionCompletesChainedHubs()
+    {
+        BarHub barHub = new();
+        barHub.Add(Bars.Take(50).ToList());
+
+        SmaHub sma = barHub.ToSmaHub(10);
+        EmaHub ema = sma.ToEmaHub(5);
+        EpmaHub epma = barHub.ToEpmaHub(10);
+        MaEnvelopesHub env = barHub.ToMaEnvelopesHub(10, 2.5);
+
+        CompletionSpy emaSpy = new();
+        CompletionSpy epmaSpy = new();
+        ema.Subscribe(emaSpy);
+        epma.Subscribe(epmaSpy);
+
+        barHub.EndTransmission();
+        barHub.EndTransmission();
+
+        foreach (bool subscribed in new[] { sma.IsSubscribed, ema.IsSubscribed, epma.IsSubscribed, env.IsSubscribed })
+        {
+            subscribed.Should().BeFalse();
+        }
+
+        foreach (int count in new[] { barHub.ObserverCount, sma.ObserverCount, ema.ObserverCount, epma.ObserverCount, env.ObserverCount })
+        {
+            count.Should().Be(0);
+        }
+
+        emaSpy.Completed.Should().Be(1);
+        epmaSpy.Completed.Should().Be(1);
+    }
+
+    [TestMethod]
+    public void EndTransmissionIsolatesFaultingObserver()
+    {
+        BarHub barHub = new();
+
+        // observer order is undefined, so a throwing observer sits among plain ones
+        CompletionSpy[] spies =
+        [
+            new() { Throws = true },
+            new(),
+            new() { Throws = true },
+            new(),
+        ];
+
+        foreach (CompletionSpy spy in spies)
+        {
+            barHub.Subscribe(spy);
+        }
+
+        Action end = barHub.EndTransmission;
+
+        end.Should().NotThrow();
+
+        foreach (CompletionSpy spy in spies)
+        {
+            spy.Completed.Should().Be(1);
+            spy.Errors.Should().HaveCount(spy.Throws ? 1 : 0);
+        }
+    }
+
+    private sealed class CompletionSpy : IStreamObserver<IReusable>
+    {
+        public int Completed { get; private set; }
+        public bool Throws { get; init; }
+        public bool IsSubscribed => true;
+        public void Unsubscribe() { }
+        public void OnAdd(IReusable item, bool notify, int? indexHint) { }
+        public void OnRebuild(DateTime fromTimestamp) { }
+        public void OnPrune(DateTime toTimestamp) { }
+        public List<Exception> Errors { get; } = [];
+        public void OnError(Exception exception) => Errors.Add(exception);
+
+        public void OnCompleted()
+        {
+            Completed++;
+            if (Throws)
+            {
+                throw new InvalidOperationException("boom");
+            }
+        }
+    }
 }
