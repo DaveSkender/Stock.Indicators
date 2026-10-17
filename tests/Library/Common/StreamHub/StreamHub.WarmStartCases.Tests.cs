@@ -435,3 +435,37 @@ public class ParabolicSarWarmStart : WarmStartCases<IBar, ParabolicSarResult>
         act.Should().ThrowExactly<InvalidDataException>();
     }
 }
+
+[TestClass]
+public class SuperTrendWarmStart : WarmStartCases<IBar, SuperTrendResult>
+{
+    private const int Lookback = 10;
+
+    private protected override StreamHub<IBar, SuperTrendResult> Subscribe(BarHub barHub) => barHub.ToSuperTrendHub(Lookback);
+
+    private protected override IReadOnlyList<SuperTrendResult> Series(IReadOnlyList<Bar> bars) => bars.ToSuperTrend(Lookback);
+
+    private protected override byte StateVersion => 1;
+
+    private protected override string[] StateMembers => ["IsBullish", "UpperBand", "LowerBand", "PrevAtr"];
+
+    // warmup with no band yet, the ATR seed, the first smoothed ATR, the last bullish bar before the
+    // first flip, then the first bearish trend, which a lost direction flag would continue as bullish
+    private protected override int[] WarmupSplits
+        => [Lookback, Lookback + 1, Lookback + 2, FirstBearishSplit() - 1, FirstBearishSplit()];
+
+    private static int FirstBearishSplit()
+    {
+        IReadOnlyList<SuperTrendResult> series = Bars.Take(100).ToList().ToSuperTrend(Lookback);
+
+        for (int i = Lookback; i < series.Count; i++)
+        {
+            if (series[i].UpperBand is not null)
+            {
+                return i + 1;
+            }
+        }
+
+        throw new InvalidOperationException("Test data has no bearish trend.");
+    }
+}
