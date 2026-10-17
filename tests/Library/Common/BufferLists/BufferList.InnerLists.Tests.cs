@@ -48,6 +48,8 @@ public class BufferListInnerListsTests : TestBase
             () => new PmoList(35, 20, 10), (l, b) => l.Add(b), Bars.ToPmo(35, 20, 10)),
         ["ConnorsRsi"] = Case(new() { ["_rsiClose"] = 4, ["_rsiStreak"] = 3, ["_gainBuffer"] = 101 },
             () => new ConnorsRsiList(3, 2, 100), (l, b) => l.Add(b), Bars.ToConnorsRsi(3, 2, 100)),
+        ["Ichimoku"] = Case(new() { ["_historicalResults"] = 157, ["_historicalHighLow"] = 157 },
+            () => new IchimokuList(9, 26, 52), (l, b) => l.Add(b), Bars.ToIchimoku(9, 26, 52)),
         ["VolatilityStopStepwise"] = Case(new() { ["_atrList"] = 8, ["_closePrices"] = 7 },
             () => new VolatilityStopList(7, 3), (l, b) => l.Add(b), Bars.ToVolatilityStop(7, 3),
             stepCheckFrom: Bars.ToVolatilityStop(7, 3).ToList().FindIndex(r => r.Sar is not null) - 1)
@@ -107,16 +109,13 @@ public class BufferListInnerListsTests : TestBase
 
         int expectedCount = Math.Min(maxListSize, Bars.Count);
 
-        void AssertTail(TList sut, string path)
+        // every inner list is listed with its floor, and held to the larger of that and the outer bound
+        void AssertInnerBounds(TList sut, string path)
         {
-            sut.Should().HaveCount(expectedCount, path);
-            sut.IsExactly(series.Skip(Bars.Count - expectedCount).ToList());
-
-            // every inner list is listed with its floor, and held to the larger of that and the outer bound
             Dictionary<string, int> counts = typeof(TList)
                 .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
                 .Select(f => (f.Name, Value: f.GetValue(sut)))
-                .Where(f => f.Value is List<double> || (f.Value is Queue<double> && floors.ContainsKey(f.Name)) || (f.Value is not null && IsBufferList(f.Value.GetType())))
+                .Where(f => f.Value is List<double> || (f.Value is System.Collections.ICollection && floors.ContainsKey(f.Name)) || (f.Value is not null && IsBufferList(f.Value.GetType())))
                 .ToDictionary(
                     f => f.Name,
                     f => f.Value is System.Collections.ICollection c
@@ -133,6 +132,13 @@ public class BufferListInnerListsTests : TestBase
             }
         }
 
+        void AssertTail(TList sut, string path)
+        {
+            sut.Should().HaveCount(expectedCount, path);
+            sut.IsExactly(series.Skip(Bars.Count - expectedCount).ToList());
+            AssertInnerBounds(sut, path);
+        }
+
         // limit set before any data
         TList sut = make();
         sut.MaxListSize = maxListSize;
@@ -140,6 +146,9 @@ public class BufferListInnerListsTests : TestBase
         for (int i = 0; i < Bars.Count; i++)
         {
             add(sut, Bars[i]);
+
+            // growth past the bound at any step counts, not only the final state
+            AssertInnerBounds(sut, $"incremental step {i}");
 
             // a list that repaints earlier rows matches the series only once it has stopped repainting;
             // the first non-null row follows the one where the repaint happens
