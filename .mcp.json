@@ -10,10 +10,6 @@
       "env": {
         "CODACY_ACCOUNT_TOKEN": "${CODACY_ACCOUNT_TOKEN}"
       }
-    },
-    "microsoft-learn": {
-      "type": "http",
-      "url": "https://learn.microsoft.com/api/mcp"
     }
   }
 }
