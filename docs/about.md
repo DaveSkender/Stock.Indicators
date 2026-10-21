@@ -63,7 +63,7 @@ The `FacioQuo.Stock.Indicators` NuGet library itself does not contain work produ
 This library is maintained by [Dave Skender](https://github.com/DaveSkender) and community contributors. If you'd like to contribute:
 
 - Review the [contributing guidelines](/contributing)
-- Check the [project backlog](https://github.com/orgs/facioquo/projects/27)
+- Check the [open issues](https://github.com/facioquo/stock-indicators-dotnet/issues)
 - Submit pull requests with improvements
 
 Special thanks to all [community contributors](https://github.com/facioquo/stock-indicators-dotnet/graphs/contributors) who have helped improve this library.

@@ -126,7 +126,7 @@ The library directly targets all actively [supported .NET versions](https://dotn
 ## Community and support
 
 - **Need help or have ideas?** [Start a discussion 💬](https://github.com/facioquo/stock-indicators-dotnet/discussions) or [submit an issue](https://github.com/facioquo/stock-indicators-dotnet/issues) if it is publicly relevant. You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
-- **Contribute** bug reports, fixes, new indicators, or features: see our [contributing guidelines](/contributing) and [the backlog](https://github.com/orgs/facioquo/projects/27).
+- **Contribute** bug reports, fixes, new indicators, or features: see our [contributing guidelines](/contributing) and [open issues](https://github.com/facioquo/stock-indicators-dotnet/issues).
 - **Show your support:** this library is crafted by unpaid enthusiasts. Add a ⭐ on [GitHub](https://github.com/facioquo/stock-indicators-dotnet) or [become a sponsor](https://github.com/sponsors/facioquo) 💖.
 
 Special thanks to all of our community code contributors!
