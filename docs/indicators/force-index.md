@@ -20,7 +20,7 @@ IReadOnlyList<ForceIndexResult> results =
 
 | param | description |
 | ----- | ----------- |
-| `lookbackPeriods`<br>_`int`_ | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2. |
+| `lookbackPeriods`<br>_`int`_ | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 13. |
 
 ### Historical price bars requirements
 

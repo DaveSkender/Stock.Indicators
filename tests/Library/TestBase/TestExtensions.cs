@@ -261,7 +261,7 @@ public static class TestExtensions
 
     public static ForceIndexHub ToForceIndexHub(
         this IReadOnlyList<IBar> bars,
-        int lookbackPeriods = 2)
+        int lookbackPeriods = 13)
     {
         ArgumentNullException.ThrowIfNull(bars);
         BarHub barHub = new();
@@ -608,7 +608,7 @@ public static class TestExtensions
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
-        int signalPeriods = 3)
+        int signalPeriods = 9)
     {
         BarHub barHub = new();
         barHub.Add(bars);

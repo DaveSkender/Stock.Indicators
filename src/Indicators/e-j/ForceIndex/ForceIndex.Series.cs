@@ -9,13 +9,13 @@ public static partial class ForceIndex
     /// Converts a list of bars to Force Index results.
     /// </summary>
     /// <param name="bars">Aggregate OHLCV price bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 2.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 13.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the bars list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<ForceIndexResult> ToForceIndex(
         this IReadOnlyList<IBar> bars,
-        int lookbackPeriods = 2)
+        int lookbackPeriods = 13)
         => bars
             .ToBarDList()
             .CalcForceIndex(lookbackPeriods);

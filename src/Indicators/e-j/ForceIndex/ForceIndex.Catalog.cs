@@ -10,7 +10,7 @@ public static partial class ForceIndex
             .WithName("Force Index")
             .WithId("FORCE")
             .WithCategory(Category.VolumeBased)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 2, minimum: 1, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 13, minimum: 1, maximum: 250)
             .AddResult(nameof(ForceIndexResult.ForceIndex), "Force Index", "ForceIndex", ResultType.Default, isReusable: true)
             .Build();
 
