@@ -373,7 +373,7 @@ public class EmaCatalogTests : TestBase
 
         IndicatorParam period = listing.Parameters.FirstOrDefault(static p => p.ParameterName == "lookbackPeriods");
         period.Should().NotBeNull();
-        period?.DisplayName.Should().Be("Lookback Period");
+        period?.DisplayName.Should().Be("Lookback Periods");
         period.Description.Should().Be("Number of periods for the EMA calculation");
         period.IsRequired.Should().BeTrue();
 
@@ -405,7 +405,7 @@ public class EmaCatalogTests : TestBase
 
         IndicatorParam period = listing.Parameters.FirstOrDefault(static p => p.ParameterName == "lookbackPeriods");
         period.Should().NotBeNull();
-        period?.DisplayName.Should().Be("Lookback Period");
+        period?.DisplayName.Should().Be("Lookback Periods");
         period.Description.Should().Be("Number of periods for the EMA calculation");
         period.IsRequired.Should().BeTrue();
 
