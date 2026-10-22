@@ -10,7 +10,7 @@ public static partial class Ema
             .WithName("Exponential Moving Average")
             .WithId("EMA")
             .WithCategory(Category.MovingAverage)
-            .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Number of periods for the EMA calculation", isRequired: true, defaultValue: 20, minimum: 1, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the EMA calculation", isRequired: true, defaultValue: 20, minimum: 1, maximum: 250)
             .AddResult(nameof(EmaResult.Ema), "EMA", IndicatorResult.PricePane, ResultType.Default, isReusable: true)
             .Build();
 
