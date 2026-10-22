@@ -7,7 +7,7 @@ public class SmiSeriesTests : StaticSeriesTestBase
     public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<SmiResult> sut = Bars
-            .ToSmi(14, 20, 5);
+            .ToSmi(14, 20, 5, 3);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -48,7 +48,7 @@ public class SmiSeriesTests : StaticSeriesTestBase
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> sut = Bars
-            .ToSmi(14, 20, 5)
+            .ToSmi(14, 20, 5, 3)
             .ToSma(10);
 
         sut.Should().HaveCount(502);
@@ -117,7 +117,7 @@ public class SmiSeriesTests : StaticSeriesTestBase
     public void Removed_WithWarmupPeriods_TruncatesResults()
     {
         IReadOnlyList<SmiResult> sut = Bars
-            .ToSmi(14, 20, 5)
+            .ToSmi(14, 20, 5, 3)
             .RemoveWarmupPeriods();
 
         // assertions

@@ -26,7 +26,7 @@ IReadOnlyList<SmiResult> results =
 | `lookbackPeriods`<br>_`int`_ | Lookback period (`N`) for the stochastic.  Must be greater than 0.  Default is 13. |
 | `firstSmoothPeriods`<br>_`int`_ | First smoothing factor lookback.  Must be greater than 0.  Default is 25. |
 | `secondSmoothPeriods`<br>_`int`_ | Second smoothing factor lookback.  Must be greater than 0.  Default is 2. |
-| `signalPeriods`<br>_`int`_ | EMA of SMI lookback periods.  Must be greater than 0. Default is 3. |
+| `signalPeriods`<br>_`int`_ | EMA of SMI lookback periods.  Must be greater than 0. Default is 9. |
 
 ### Historical price bars requirements
 

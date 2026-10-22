@@ -19,7 +19,7 @@ public static partial class Smi
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
-        int signalPeriods = 3)
+        int signalPeriods = 9)
         => bars
             .ToBarDList()
             .CalcSmi(

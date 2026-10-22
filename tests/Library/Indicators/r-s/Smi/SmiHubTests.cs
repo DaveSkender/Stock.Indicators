@@ -216,8 +216,8 @@ public class SmiHubTests : StreamHubTestBase, ITestBarObserver, ITestChainProvid
         observer.LookbackPeriods.Should().Be(13);
         observer.FirstSmoothPeriods.Should().Be(25);
         observer.SecondSmoothPeriods.Should().Be(2);
-        observer.SignalPeriods.Should().Be(3);
-        observer.ToString().Should().Be("SMI(13,25,2,3)");
+        observer.SignalPeriods.Should().Be(9);
+        observer.ToString().Should().Be("SMI(13,25,2,9)");
     }
 
     [TestMethod]

@@ -14,10 +14,10 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromBar, I
     /// <summary>
     /// Initializes a new instance of the <see cref="ForceIndexList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 2.</param>
+    /// <param name="lookbackPeriods">Number of periods to look back for the calculation. Default is 13.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public ForceIndexList(
-        int lookbackPeriods = 2
+        int lookbackPeriods = 13
     )
     {
         ForceIndex.Validate(lookbackPeriods);
@@ -132,6 +132,6 @@ public static partial class ForceIndex
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static ForceIndexList ToForceIndexList(
         this IReadOnlyList<IBar> bars,
-        int lookbackPeriods = 2)
+        int lookbackPeriods = 13)
         => new(lookbackPeriods) { bars };
 }

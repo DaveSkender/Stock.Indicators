@@ -119,7 +119,7 @@ public static partial class ForceIndex
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static ForceIndexHub ToForceIndexHub(
         this IBarProvider<IBar> barProvider,
-        int lookbackPeriods = 2)
+        int lookbackPeriods = 13)
     {
         ArgumentNullException.ThrowIfNull(barProvider);
         return new(barProvider, lookbackPeriods);

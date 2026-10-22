@@ -23,7 +23,7 @@ public sealed class SmiHub
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
-        int signalPeriods = 3) : base(provider)
+        int signalPeriods = 9) : base(provider)
     {
         Smi.Validate(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
@@ -199,6 +199,6 @@ public static partial class Smi
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
-        int signalPeriods = 3)
+        int signalPeriods = 9)
         => new(barProvider, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 }
